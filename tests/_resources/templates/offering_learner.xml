@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="offering_learner">
+		<column>offering_id</column>
+		<column>user_id</column>
+		<column>group_id</column>
+		<!-- 
+		<row>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		 -->
+	</table>
+</dataset>

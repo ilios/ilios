@@ -1,0 +1,1073 @@
+/**
+ * This script defines a plethora of utility functions.
+ * Defines the following namespaces
+ *
+ * ilios.utilities
+ *
+ * Dependencies:
+ *
+ * YUI utilities
+ * scripts/ilios_base.js
+ * scripts/ilios_dom.js
+ */
+
+/**
+ * Namespace object to hang utility functions onto.
+ * @class utilities
+ * @static
+ */
+ilios.namespace('utilities');
+
+
+ilios.utilities.USER_NAME_FORMAT_LAST_FIRST = 0;
+ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST = 1;
+ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST = 2;
+
+ilios.utilities.setToolTipForElement = function (element, toolTipText) {
+    element.setAttribute('title', toolTipText);
+};
+
+ilios.utilities.getNodeChildWithLabel = function (parentNode, label) {
+    var len = parentNode.children.length;
+    var child = null;
+
+    for (var i = 0; i < len; i++) {
+        child = parentNode.children[i];
+
+        if (child.label == label) {
+            return child;
+        }
+    }
+
+    return null;
+};
+
+ilios.utilities.getEventTarget = function (e) {
+    var event = (e || window.event);
+
+    return (event.target || event.srcElement);
+};
+
+/*
+ * The response from a file upload is "<pre>useful information we want</pre>" -- this
+ *  method digs out the good stuff, de-json's it, and hands the object back.
+ */
+ilios.utilities.getParsedResponseObjectFromFormUploadResponseText = function (responseText) {
+    var whatWeWant = responseText;
+    var rhett = null;
+
+    if (ilios.lang.startsWith(whatWeWant, '<pre>') || ilios.lang.startsWith(whatWeWant, '<PRE>')) {
+        whatWeWant = whatWeWant.substring(5);
+
+        if (ilios.lang.endsWith(whatWeWant, '</pre>') || ilios.lang.endsWith(whatWeWant, '</PRE>')) {
+            whatWeWant = whatWeWant.substring(0, (whatWeWant.length - 6));
+        }
+    }
+
+    try {
+        rhett = YAHOO.lang.JSON.parse(whatWeWant);
+    } catch (e) {
+        ilios.global.defaultAJAXFailureHandler(null, e);
+        return null;
+    }
+
+    return rhett;
+};
+
+ilios.utilities.dateObjectToMySQLFriendly = function (dateObject, includeTime) {
+    return dateObject.getUTCFullYear()
+                + '-' + ilios.utilities.paddedTimeValue(dateObject.getUTCMonth() + 1)
+                + '-' + ilios.utilities.paddedTimeValue(dateObject.getUTCDate())
+                + (includeTime
+                        ? (' ' + ilios.utilities.paddedTimeValue(dateObject.getUTCHours())
+                                + ':' + ilios.utilities.paddedTimeValue(dateObject.getUTCMinutes())
+                                + ':' + ilios.utilities.paddedTimeValue(dateObject.getUTCSeconds()))
+                        : '');
+};
+
+ilios.utilities.mySQLTimelessDateToDateObject = function (yyyyMMDDStr) {
+    var dateStr = yyyyMMDDStr + " 00:00:00";
+
+    return ilios.utilities.mySQLDateToDateObject(dateStr, false);
+};
+
+/**
+ * @param mySQLDateString must be in the usual format of 2010-06-28 15:26:02
+ * @param valueIsUTC if true, the hours / minutes / seconds represent UTC values
+ */
+ilios.utilities.mySQLDateToDateObject = function (mySQLDateString, valueIsUTC) {
+    var regex
+           = /^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?$/;
+    var parts = mySQLDateString.replace(regex, "$1 $2 $3 $4 $5 $6").split(' ');
+    var rhett = new Date();
+
+    rhett.setFullYear(parts[0], (parts[1] - 1), parts[2]);
+
+    if (valueIsUTC) {
+        var utcHoursOffset = Math.floor(rhett.getTimezoneOffset() / 60);
+        var utcMinutesOffset = rhett.getTimezoneOffset() - (utcHoursOffset * 60);
+
+        rhett.setHours((parts[3] - utcHoursOffset), (parts[4] - utcMinutesOffset), parts[5], 0);
+    }
+    else {
+        rhett.setHours(parts[3], parts[4], parts[5], 0);
+    }
+
+    return rhett;
+};
+
+ilios.utilities.convertMimeTypeToCSSClassName = function (mimeType) {
+    var rhett = mimeType.replace(new RegExp('/', 'g'), '--');
+    return rhett.replace(new RegExp('\\.', 'g'), "__");
+};
+
+ilios.utilities.parseIntIgnoringLeadingZeros = function (str) {
+    var rhett = 0;
+    var len = str.length;
+
+    for (var i = 0; ((i < len) && (rhett == 0)); i++) {
+        if (str.charAt(i) != '0') {
+            rhett = parseInt(str.substr(i));
+        }
+    }
+
+    return rhett;
+};
+
+ilios.utilities.removeAllChildren = function (container) {
+    if (container.hasChildNodes()) {
+        while (container.childNodes.length >= 1) {
+            container.removeChild(container.firstChild);
+        }
+    }
+};
+
+ilios.utilities.modelItemNeedsPublishing = function (model) {
+    return ((model.getPublishEventId() == null)
+                    || (model.getPublishEventId() < 1)
+                    || model.isModelDirty());
+};
+
+ilios.utilities.canPublishModelItem = function (model) {
+    if (ilios.utilities.modelItemNeedsPublishing(model)) {
+        return (model.getPublishability()
+                                    != AbstractJavaScriptModelForm.prototype.CANNOT_BE_PUBLISHED);
+    }
+
+    return false;
+};
+
+/**
+ * Appends a clearing <div> to a given container element.
+ * @method appendClearingDivToContainer
+ * @param {YAHOO.util.Element || HTMLElement} container the container-element
+ * @static
+ */
+ilios.utilities.appendClearingDivToContainer = function (container) {
+    var Dom = YAHOO.util.Dom;
+    var el = document.createElement('div');
+    Dom.addClass(el, 'clear');
+    container.appendChild(el);
+};
+
+ilios.utilities.toggleShowMoreOrLess = function (containerIdToToggle, toggleLinkElement) {
+    var container = new YAHOO.util.Element(document.getElementById(containerIdToToggle));
+    var str = null;
+
+    if (container.getStyle('display') == 'none') {
+        str = ilios_i18nVendor.getI18NString('general.phrases.show_less').toLowerCase();
+
+        container.setStyle('display', 'block');
+    }
+    else {
+        str = ilios_i18nVendor.getI18NString('general.phrases.show_more').toLowerCase();
+
+        container.setStyle('display', 'none');
+    }
+
+    if (toggleLinkElement != null) {
+        toggleLinkElement.innerHTML = str;
+    }
+};
+
+ilios.utilities.toggle = function (containerIdToToggle, toggleLinkElement) {
+    var container = new YAHOO.util.Element(document.getElementById(containerIdToToggle));
+    var icon = YAHOO.util.Dom.getFirstChild(toggleLinkElement);
+    var newClass = null;
+
+    if (container.getStyle('display') == 'none') {
+        newClass = 'icon-minus';
+        container.setStyle('display', 'block');
+    }
+    else {
+        newClass = 'icon-plus';
+        container.setStyle('display', 'none');
+    }
+
+    if (toggleLinkElement != null) {
+        YAHOO.util.Dom.removeClass(icon, 'icon-minus');
+        YAHOO.util.Dom.removeClass(icon, 'icon-plus');
+        YAHOO.util.Dom.addClass(icon, newClass);
+    }
+};
+
+
+/**
+ * It _Really_ seems like this should be a utility function somewhere in the world already
+ *
+ * @param optionValue if null, or value is not in the select options array, the first option
+ *                      is selected
+ */
+ilios.utilities.selectOptionWithValue = function (selectElement, optionValue) {
+    for (i = 0; i < selectElement.options.length; i++) {
+        if ((selectElement.options[i].value == optionValue) || (optionValue == null)) {
+            selectElement.selectedIndex = i;
+
+            return;
+        }
+
+        selectElement.selectedIndex = 0;
+    }
+};
+
+ilios.utilities.getXMLHttpRequest = function () {
+    var xmlHTTPRequest = null;
+
+    if (window.XMLHttpRequest) {
+        xmlHTTPRequest = new XMLHttpRequest();
+
+        if ('undefined' !== typeof xmlHTTPRequest.overrideMimeType) {
+            xmlHTTPRequest.overrideMimeType('text/xml');
+        }
+    }
+    else if (window.ActiveXObject) {
+        xmlHTTPRequest = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    else {
+        ilios.alert.alert('It appears that your browser does not support XMLHTTPRequests. ...?');
+    }
+
+    return xmlHTTPRequest;
+};
+
+// move to indexOf usage -- TODO
+ilios.utilities.arrayContains = function (arr, value) {
+    var size = ilios.utilities.arraySize(arr);
+
+    for (var i = 0; i < size; i++) {
+        if (value == arr[i]) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+/**
+ * Removes duplicates from a given array of strings or numbers.
+ * ACHTUNG! this will not work for arrays containing non-spatial elements, such as objects.
+ * @method makeUniqueArray
+ * @param {Array} a an array of strings or numbers.
+ * @return {Array} the de-duped array.
+ * @static
+ */
+ilios.utilities.makeUniqueArray = function (a) {
+    var map = {};
+    var rhett = [];
+    var i, n;
+
+    for (i = 0, n = a.length; i < n; i++) {
+        if (map[a[i]]) {
+            continue;
+        }
+        map[a[i]] = true;
+        rhett.push(a[i]);
+    }
+    return rhett;
+};
+
+ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
+    var size = ilios.utilities.arraySize(arr1);
+    var element = null;
+    var found = false;
+
+    if (size != ilios.utilities.arraySize(arr2)) {
+        return false;
+    }
+
+    for (var i = 0; i < size; i++) {
+        element = arr1[i];
+
+        found = false;
+        for (var j = 0; ((j < size) && (! found)); j++) {
+            if (element == arr2[j]) {
+                found = true;
+            }
+        }
+
+        if (! found) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+ilios.utilities.associativeArrayEquality = function (arr1, arr2) {
+    var element = null;
+
+    if (ilios.utilities.arraySize(arr1) != ilios.utilities.arraySize(arr2)) {
+        return false;
+    }
+
+    for (var key in arr1) {
+        element = arr1[key];
+
+        if ((arr2[key] == null) || (arr2[key] != element)) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+ilios.utilities.arraySize = function (arr) {
+    var rhett = 0;
+
+    for (var key in arr) {
+        rhett++;
+    }
+
+    return rhett;
+};
+
+ilios.utilities.removeElementWithValue = function (anArray, value) {
+    var index = -1;
+    var len = anArray.length;
+
+    for (var i = 0; i < len; i++) {
+        if (anArray[i] == value) {
+            index = i;
+
+            break;
+        }
+    }
+
+    if (index != -1) {
+        anArray.splice(index, 1);
+    }
+};
+
+/**
+ * Written because slice() is dysfunctional with associative arrays.
+ *
+ * @return a shallow copy of the associative array (the returned array is its own unique
+ *              Array instance, but the objects it contains are the same instances as in
+ *              the original array). If originalArray is null, null is returned.
+ * ACHTUNG:
+ *   going forward, DO NOT USE THIS FUNCTION!
+ *   There are no associative arrays in JavaScript, use objects instead.
+ *   [ST 2012/07/14]
+ * @todo find and replace all function calls to this nonsense
+ */
+ilios.utilities.cloneAssociativeArray = function (originalArray) {
+    var rhett = null;
+
+    if (originalArray != null) {
+        rhett = new Array();
+
+        for (var key in originalArray) {
+            rhett[key] = originalArray[key];
+
+            rhett.length++;
+        }
+    }
+
+    return rhett;
+};
+
+/**
+ * Written because slice() is dysfunctional with associative arrays.
+ *
+ * @return a deep copy of the associative array (the returned array is its own unique
+ *              Array instance, and the objects in the array have clone() called on them -
+ *              so they must implement that). If originalArray is null, null is returned.
+ * ACHTUNG:
+ *   going forward, DO NOT USE THIS FUNCTION!
+ *   There are no associative arrays in JavaScript, use objects instead.
+ *   [ST 2012/07/14]
+ * @todo find and replace all function calls to this nonsense
+ */
+ilios.utilities.deepCloneAssociativeArray = function (originalArray) {
+    var rhett = null;
+
+    if (originalArray != null) {
+        rhett = new Array();
+
+        for (var key in originalArray) {
+            rhett[key] = originalArray[key].clone();
+
+            rhett.length++;
+        }
+    }
+
+    return rhett;
+};
+
+ilios.utilities.arrayHasElementsMissingInArray = function (referenceArray, possiblyAlteredArray) {
+    var object = null;
+    var found = false;
+
+    for (var key in referenceArray) {
+        object = referenceArray[key];
+
+        found = false;
+        for (var key2 in possiblyAlteredArray) {
+            if (object == possiblyAlteredArray[key2]) {
+                found = true;
+
+                break;
+            }
+        }
+
+        if (! found) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+ilios.utilities.titledNaturalComparator = function (a, b) {
+    return a.getTitle().localeCompare(b.getTitle());
+};
+
+/**
+ * Wrapper around <code>YAHOO.lang.JSON.stringify()</code>.
+ * Converts a given object by assigning object properties as array elements,
+ * before stringifying that array.
+ *
+ * @param {Object} o any arbitrary object to convert to JSON string
+ * @param  {Array|Function} w whitelist of acceptable object keys
+ *     to include OR a function(value,key) to alter values
+ *     before serialization (optional)
+ * @param {Number|String} s indentation character(s) or
+ *     depthy of spaces to format the output (optional)
+ * @return {String} JSON string representation of the input
+ * @static
+ * @todo change terrible name to something that does not contain the term "Associative Array"
+ */
+ilios.utilities.yahooJSONStringForAssociativeArray = function (o, w, s) {
+    var a = [],
+        stringify = YAHOO.lang.JSON.stringify,
+        rhett;
+    for (var key in o) {
+        a.push(o[key]);
+    }
+    try {
+        rhett = stringify(a, w, s);
+    } catch (e) {
+        console.error(e);
+        throw e;
+    }
+    return rhett;
+};
+
+ilios.utilities.isNumber = function (str) {
+    return ((! isNaN(parseFloat(str))) && isFinite(str));
+};
+
+/**
+ * Given an array (arr) of objects which each have the method 'getTitle()' or attribute 'title',
+ *  generate a delimited (plus a space after the delimiter) string of all of those array
+ *  elements' titles.
+ */
+ilios.utilities.delimitedStringOfTitledObjects = function (arr, delimiter) {
+    var rhett = '';
+
+    for (var key in arr) {
+        if (rhett.length > 0) {
+            rhett += delimiter + ' ';
+        }
+
+        if (! arr[key].getTitle) {
+            rhett += arr[key].title;
+        }
+        else {
+            rhett += arr[key].getTitle();
+        }
+    }
+
+    return rhett;
+};
+
+/**
+ * Given an array (arr) of objects, generate a delimited (plus a space after the delimiter)
+ *  string of all of those array elements.
+ */
+ilios.utilities.delimitedStringOfObjects = function (arr, delimiter) {
+    var rhett = '';
+
+    for (var key in arr) {
+        if (rhett.length > 0) {
+            rhett += delimiter + ' ';
+        }
+
+        rhett += arr[key];
+    }
+
+    return rhett;
+};
+
+/*
+ * Assuming that the LI elements contained within the listElement obey the Ilios-standard of
+ *  having an attribute 'iliosModel' being some sort of the Ilios javascript model class that
+ *  implements compareTo (and will perform it on the candidateModel without throwing an error).
+ */
+ilios.utilities.searchListElementForModel = function (listElement, candidateModel) {
+    var liElements = listElement.childNodes;
+    var len = (liElements != null) ? liElements.length : -1;
+    var i = 0;
+    var liModel = null;
+
+    for (; i < len; i++) {
+        liModel = liElements[i].iliosModel;
+
+        if (liModel != null) {
+            if (liModel.compareTo(candidateModel) == 0) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+// @private
+ilios.utilities.scratchTextArea = document.createElement('textarea');
+
+ilios.utilities.percentUnicodeToHTML = function (str) {
+    return str.replace(/\%u/g, "&#x");
+};
+
+ilios.utilities.htmlEntitiesDecode = function (str) {
+    ilios.utilities.scratchTextArea.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+    return ilios.utilities.scratchTextArea.value;
+};
+
+/**
+ * @todo get rid of this.
+ */
+ilios.utilities.htmlEntities = function (string, quote_style) {
+    // http://kevin.vanzonneveld.net
+    // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   improved by: nobbler
+    // +    tweaked by: Jack
+    // +   bugfixed by: Onno Marsman
+    // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +    bugfixed by: Brett Zamir (http://brett-zamir.me)
+    // +      input by: Ratheous
+    // -    depends on: get_html_translation_table
+    // *     example 1: htmlentities('Kevin & van Zonneveld');
+    // *     returns 1: 'Kevin &amp; van Zonneveld'
+    // *     example 2: htmlentities("foo'bar","ENT_QUOTES");
+    // *     returns 2: 'foo&#039;bar'
+
+    var hash_map = {}, symbol = '', tmp_str = '', entity = '';
+    tmp_str = string.toString();
+
+    if (false === (hash_map = ilios.utilities.getHTMLTranslationTable('HTML_ENTITIES', quote_style))) {
+        return false;
+    }
+    hash_map["'"] = '&#039;';
+    for (symbol in hash_map) {
+        entity = hash_map[symbol];
+        tmp_str = tmp_str.split(symbol).join(entity);
+    }
+
+    return tmp_str;
+};
+
+// TODO this is super memory wasteful
+ilios.utilities.getHTMLTranslationTable = function (table, quote_style) {
+    // http://kevin.vanzonneveld.net
+    // +   original by: Philip Peterson
+    // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   bugfixed by: noname
+    // +   bugfixed by: Alex
+    // +   bugfixed by: Marco
+    // +   bugfixed by: madipta
+    // +   improved by: KELAN
+    // +   improved by: Brett Zamir (http://brett-zamir.me)
+    // +   bugfixed by: Brett Zamir (http://brett-zamir.me)
+    // +      input by: Frank Forte
+    // +   bugfixed by: T.Wild
+    // +      input by: Ratheous
+    // %          note: It has been decided that we're not going to add global
+    // %          note: dependencies to php.js, meaning the constants are not
+    // %          note: real constants, but strings instead. Integers are also supported if someone
+    // %          note: chooses to create the constants themselves.
+    // *     example 1: get_html_translation_table('HTML_SPECIALCHARS');
+    // *     returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
+
+    var entities = {}, hash_map = {}, decimal = 0, symbol = '';
+    var constMappingTable = {}, constMappingQuoteStyle = {};
+    var useTable = {}, useQuoteStyle = {};
+
+    // Translate arguments
+    constMappingTable[0]      = 'HTML_SPECIALCHARS';
+    constMappingTable[1]      = 'HTML_ENTITIES';
+    constMappingQuoteStyle[0] = 'ENT_NOQUOTES';
+    constMappingQuoteStyle[2] = 'ENT_COMPAT';
+    constMappingQuoteStyle[3] = 'ENT_QUOTES';
+
+    useTable = !isNaN(table) ? constMappingTable[table]
+                             : table ? table.toUpperCase() : 'HTML_SPECIALCHARS';
+    useQuoteStyle = !isNaN(quote_style) ? constMappingQuoteStyle[quote_style]
+                                        : quote_style ? quote_style.toUpperCase()
+                                                      : 'ENT_COMPAT';
+
+    if (useTable !== 'HTML_SPECIALCHARS' && useTable !== 'HTML_ENTITIES') {
+        throw new Error("Table: "+useTable+' not supported');
+        // return false;
+    }
+
+    entities['38'] = '&amp;';
+    if (useTable === 'HTML_ENTITIES') {
+        entities['160'] = '&nbsp;';
+        entities['161'] = '&iexcl;';
+        entities['162'] = '&cent;';
+        entities['163'] = '&pound;';
+        entities['164'] = '&curren;';
+        entities['165'] = '&yen;';
+        entities['166'] = '&brvbar;';
+        entities['167'] = '&sect;';
+        entities['168'] = '&uml;';
+        entities['169'] = '&copy;';
+        entities['170'] = '&ordf;';
+        entities['171'] = '&laquo;';
+        entities['172'] = '&not;';
+        entities['173'] = '&shy;';
+        entities['174'] = '&reg;';
+        entities['175'] = '&macr;';
+        entities['176'] = '&deg;';
+        entities['177'] = '&plusmn;';
+        entities['178'] = '&sup2;';
+        entities['179'] = '&sup3;';
+        entities['180'] = '&acute;';
+        entities['181'] = '&micro;';
+        entities['182'] = '&para;';
+        entities['183'] = '&middot;';
+        entities['184'] = '&cedil;';
+        entities['185'] = '&sup1;';
+        entities['186'] = '&ordm;';
+        entities['187'] = '&raquo;';
+        entities['188'] = '&frac14;';
+        entities['189'] = '&frac12;';
+        entities['190'] = '&frac34;';
+        entities['191'] = '&iquest;';
+        entities['192'] = '&Agrave;';
+        entities['193'] = '&Aacute;';
+        entities['194'] = '&Acirc;';
+        entities['195'] = '&Atilde;';
+        entities['196'] = '&Auml;';
+        entities['197'] = '&Aring;';
+        entities['198'] = '&AElig;';
+        entities['199'] = '&Ccedil;';
+        entities['200'] = '&Egrave;';
+        entities['201'] = '&Eacute;';
+        entities['202'] = '&Ecirc;';
+        entities['203'] = '&Euml;';
+        entities['204'] = '&Igrave;';
+        entities['205'] = '&Iacute;';
+        entities['206'] = '&Icirc;';
+        entities['207'] = '&Iuml;';
+        entities['208'] = '&ETH;';
+        entities['209'] = '&Ntilde;';
+        entities['210'] = '&Ograve;';
+        entities['211'] = '&Oacute;';
+        entities['212'] = '&Ocirc;';
+        entities['213'] = '&Otilde;';
+        entities['214'] = '&Ouml;';
+        entities['215'] = '&times;';
+        entities['216'] = '&Oslash;';
+        entities['217'] = '&Ugrave;';
+        entities['218'] = '&Uacute;';
+        entities['219'] = '&Ucirc;';
+        entities['220'] = '&Uuml;';
+        entities['221'] = '&Yacute;';
+        entities['222'] = '&THORN;';
+        entities['223'] = '&szlig;';
+        entities['224'] = '&agrave;';
+        entities['225'] = '&aacute;';
+        entities['226'] = '&acirc;';
+        entities['227'] = '&atilde;';
+        entities['228'] = '&auml;';
+        entities['229'] = '&aring;';
+        entities['230'] = '&aelig;';
+        entities['231'] = '&ccedil;';
+        entities['232'] = '&egrave;';
+        entities['233'] = '&eacute;';
+        entities['234'] = '&ecirc;';
+        entities['235'] = '&euml;';
+        entities['236'] = '&igrave;';
+        entities['237'] = '&iacute;';
+        entities['238'] = '&icirc;';
+        entities['239'] = '&iuml;';
+        entities['240'] = '&eth;';
+        entities['241'] = '&ntilde;';
+        entities['242'] = '&ograve;';
+        entities['243'] = '&oacute;';
+        entities['244'] = '&ocirc;';
+        entities['245'] = '&otilde;';
+        entities['246'] = '&ouml;';
+        entities['247'] = '&divide;';
+        entities['248'] = '&oslash;';
+        entities['249'] = '&ugrave;';
+        entities['250'] = '&uacute;';
+        entities['251'] = '&ucirc;';
+        entities['252'] = '&uuml;';
+        entities['253'] = '&yacute;';
+        entities['254'] = '&thorn;';
+        entities['255'] = '&yuml;';
+    }
+
+    if (useQuoteStyle !== 'ENT_NOQUOTES') {
+        entities['34'] = '&quot;';
+    }
+    if (useQuoteStyle === 'ENT_QUOTES') {
+        entities['39'] = '&#39;';
+    }
+    entities['60'] = '&lt;';
+    entities['62'] = '&gt;';
+
+
+    // ascii decimals to real symbols
+    for (decimal in entities) {
+        symbol = String.fromCharCode(decimal);
+        hash_map[symbol] = entities[decimal];
+    }
+
+    return hash_map;
+};
+
+/**
+ * Formats a given first, middle and last name according to a given format.
+ * @method {createFormattedUserName}
+ * @static
+ * @param {String} firstName the first name
+ * @param {String} middleName the middle name
+ * @param {String} lastName the last name
+ * @param {Number} userFormatType the format id, either one of
+ *     ilios.utilities.USER_NAME_FORMAT_LAST_FIRST (Format: "<last name>, <first name> <middle name>")
+ *     ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST (Format: "<first name> <middle name> <last name>"")
+ *     ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST (Format: "<inital of first name>. <last name>")
+ * @return {String} the formatted name, or an empty string if no/invalid format was given
+ * @todo provide a default format
+ */
+ilios.utilities.createFormattedUserName = function (firstName, middleName, lastName, userNameFormatType) {
+    var rhett = '';
+    if (ilios.utilities.USER_NAME_FORMAT_LAST_FIRST == userNameFormatType) {
+        rhett = lastName + ', ' + firstName;
+        if ((middleName != '') && (middleName != null))  {
+            rhett += ' ' + middleName;
+        }
+    } else if (ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST == userNameFormatType) {
+        rhett = firstName;
+        if ((middleName != '') && (middleName != null)) {
+            rhett += ' ' + middleName;
+        }
+        rhett += ' ' + lastName;
+    } else if (ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST == userNameFormatType) {
+        rhett = firstName.substr(0, 1) + '. ' + lastName;
+    }
+    return rhett;
+};
+
+ilios.utilities.getCSSRule = function (ruleName, deleteRule) {
+    ruleName = ruleName.toLowerCase();
+
+    if (document.styleSheets) {
+        var styleSheet = null;
+        var j = 0;
+        var cssRule = false;
+
+        for (var i = 0; i < document.styleSheets.length; i++) {
+            styleSheet = document.styleSheets[i];
+            j = 0;
+            cssRule = false;
+
+            do {
+                if (styleSheet.cssRules) {
+                    // Mozilla
+                    cssRule = styleSheet.cssRules[j];
+                }
+                else {
+                    // IE
+                    cssRule = styleSheet.rules[j];
+                }
+
+                if (cssRule && cssRule.type === cssRule.STYLE_RULE) {
+                    if (cssRule.selectorText.toLowerCase() == ruleName) {
+                        if (deleteRule) {
+                            if (styleSheet.cssRules) {
+                                // Mozilla
+                                styleSheet.deleteRule(j);
+                            }
+                            else {
+                                // IE
+                                styleSheet.removeRule(j);
+                            }
+
+                            return true;
+                        }
+                        else {
+                            return cssRule;
+                        }
+                    }
+                }
+
+                j++;
+            }
+            while (cssRule)
+        }
+    }
+
+    return false;
+};
+
+ilios.utilities.deleteCSSRule = function (ruleName) {
+    return ilios.utilities.getCSSRule(ruleName, true);
+};
+
+ilios.utilities.addCSSRule = function (ruleName) {
+    if (document.styleSheets) {
+        if (! ilios.utilities.getCSSRule(ruleName)) {
+            // insert to the last style sheet so that this rule has most precedence
+            var index = document.styleSheets.length - 1;
+
+            if (document.styleSheets[index].addRule) {
+                // IE
+                document.styleSheets[index].addRule(ruleName, null, 0);
+            }
+            else {
+                // Mozilla
+                document.styleSheets[index].insertRule((ruleName + ' { }'), 0);
+            }
+        }
+    }
+
+    return ilios.utilities.getCSSRule(ruleName);
+};
+
+ilios.utilities.getDomainFromURL = function (url) {
+    var index = url.indexOf('//');
+
+    if (index != -1) {
+        var substring = url.substring((index + 2));
+
+        index = substring.indexOf('/');
+
+        if (index != -1) {
+            return substring.substring(0, index);
+        }
+
+        return substring;
+    }
+
+    return url;
+};
+
+ilios.utilities.getTimeRangeString = function (beginning, end) {
+    return ilios.utilities.paddedTimeValue(beginning.getHours())
+                + ':' + ilios.utilities.paddedTimeValue(beginning.getMinutes())
+                + ' - ' + ilios.utilities.paddedTimeValue(end.getHours())
+                + ':' + ilios.utilities.paddedTimeValue(end.getMinutes());
+};
+
+// Prepends a 0 if the value is a single digit
+ilios.utilities.paddedTimeValue = function (value) {
+    var intVal = parseInt(value);
+
+    if (intVal < 10) {
+        return '0' + intVal;
+    }
+
+    return value;
+};
+
+/**
+ * Replacer-function that can be passed to <code>YUI.lang.JSON.stringify()</code>
+ *
+ * It replaces any given value with NULL when the given key is "stateChangeListenerArguments"
+ * during stringification.
+ *
+ * The idea is to prevent exceptions from being raised due to circular references
+ * when stringifying Ilios model objects by omitting state change listener arguments.
+ *
+ * See Redmine Ticket #926
+ *
+ * @method yahooJSONStringifyStateChangeListenerArgumentsReplacer
+ * @param k {String} the property key
+ * @param v {MIXED} the property value
+ * @return {MIXED|null} the given value, or NULL on key match.
+ * @link http://developer.yahoo.com/yui/json/
+ * @static
+ * @public
+ */
+ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer = function (k, v) {
+    if ('stateChangeListenerArguments' == k) {
+        return null;
+    }
+    return v;
+}
+/**
+* simple utility to scroll the window to a specific element - not smooth, but functional
+*/
+ilios.utilities.scrollElementIntoView = function(element){
+    if(element != null){
+        element.scrollIntoView();
+    }
+}
+/* perform a blind open style animation of an element*/
+ilios.utilities.blindOpen = function(elem) {
+	// create animation instance when element becomes available
+	YAHOO.util.Event.onAvailable(elem, function() {
+		//determine if an elem is already open
+		isOpen = function(){
+			var region = YAHOO.util.Dom.getRegion(elem);
+			if((region.bottom-region.top) > 0){
+				return true;
+				}else{
+				return false;
+			};
+		};
+	    if(elem.isOpen) {
+	    		return false;
+		} else {
+	    		var blindOpenAnim = new YAHOO.util.Anim(elem, { height: { to: this.scrollHeight } }, 0.5, YAHOO.util.Easing.easeOut);
+		}
+		blindOpenAnim.animate();
+    });
+}
+
+/* perform a blind close style animation of an element*/
+ilios.utilities.blindClose = function(elem) {
+    var blindCloseAnim = new YAHOO.util.Anim(elem, { height: { to: 0 } }, 0.5, YAHOO.util.Easing.easeIn);
+    blindCloseAnim.animate();
+}
+
+
+ilios.utilities.hide = function(elem) {
+    YAHOO.util.Dom.setStyle(elem, "display", "none");
+}
+
+ilios.utilities.show = function(elem) {
+    YAHOO.util.Dom.setStyle(elem, "display", "");
+}
+
+
+/* fade and hide */
+ilios.utilities.fadeOut = function(elem) {
+	var hideElem = function() {
+			var el = this.getEl();
+			YAHOO.util.Dom.setStyle(el, "display", "none");
+	}
+
+    var fadeOutAnim = new YAHOO.util.Anim(elem, { opacity: { to: 0 } }, 0.8);
+    fadeOutAnim.onComplete.subscribe(hideElem);
+    fadeOutAnim.animate();
+}
+
+ilios.utilities.fadeIn = function(elem){
+	YAHOO.util.Dom.setStyle(elem, "opacity", 0);
+	YAHOO.util.Dom.setStyle(elem, "display", "");
+    var fadeInAnim = new YAHOO.util.Anim(elem, { opacity: { to: 1 } }, 0.8);
+	fadeInAnim.animate();
+}
+
+
+// password checker
+
+// "constants"
+ilios.utilities.MIN_PASSWORD_LENGTH = 8;
+ilios.utilities.MAX_PASSWORD_LENGTH = 12;
+
+// password-strength-check bitmask values
+ilios.utilities.PASSWORD_STRENGTH_CHECK_OK = 0;
+ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_SHORT = 1;
+ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_LONG = 2;
+ilios.utilities.PASSWORD_STRENGTH_CHECK_INVALID_CHARS = 4;
+ilios.utilities.PASSWORD_STRENGTH_CHECK_DIGIT_MISSING = 8;
+ilios.utilities.PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING = 16;
+ilios.utilities.PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING = 32;
+ilios.utilities.PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING = 64;
+
+/**
+ * Checks the strength of a given password.
+ * @method checkPasswordStrength
+ * @param {String} password
+ * @return {Number} 0 on success, or a bitmap composed of the various ilios.utilities.PASSWORD_STRENGTH_CHECK_* values on failure
+ */
+ilios.utilities.checkPasswordStrength = function (pwd) {
+    var rhett = ilios.utilities.PASSWORD_STRENGTH_CHECK_OK;
+    var len = pwd.length;
+
+    if (ilios.utilities.MIN_PASSWORD_LENGTH > len) {
+        rhett = rhett ^ ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_SHORT;
+    } else if (ilios.utilities.MAX_PASSWORD_LENGTH < len) {
+        rhett = rhett ^ ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_LONG;
+    }
+
+    if (! pwd.match(/^[0-9a-zA-Z$*_-]+$/)) {
+        rhett = rhett ^ ilios.utilities.PASSWORD_STRENGTH_CHECK_INVALID_CHARS;
+    }
+
+    if (! pwd.match(/[0-9]/)) {
+        rhett = rhett ^ ilios.utilities.PASSWORD_STRENGTH_CHECK_DIGIT_MISSING;
+    }
+
+    if (! pwd.match(/[a-z]/)) {
+        rhett = rhett ^ ilios.utilities.PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING;
+    }
+    if (! pwd.match(/[A-Z]/)) {
+        rhett = rhett ^ ilios.utilities.PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING;
+    }
+    if (! pwd.match(/[$*_-]/)) {
+        rhett = rhett ^ ilios.utilities.PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING;
+    }
+    return rhett;
+};
+
+/**
+ * Returns a list of warning messages for a given password strength checker return value.
+ * @param {Number} passwordStrength the bitmask value
+ * @return {Array} an array with warning messages.
+ */
+ilios.utilities.getPasswordStrengthCheckWarnings = function (passwordStrength) {
+    var msg = [];
+    if (ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_SHORT & passwordStrength) {
+        msg.push('The given password is too short.');
+    }
+    if (ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_LONG & passwordStrength) {
+        msg.push('The given password is too long.');
+    }
+    if (ilios.utilities.PASSWORD_STRENGTH_CHECK_INVALID_CHARS & passwordStrength) {
+        msg.push('The given password contains invalid characters.');
+    }
+    if (ilios.utilities.PASSWORD_STRENGTH_CHECK_DIGIT_MISSING & passwordStrength) {
+        msg.push('The given password does not contain any digits.');
+    }
+    if (ilios.utilities.PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING & passwordStrength) {
+        msg.push('The given password does not contain any lower-case characters.');
+    }
+    if (ilios.utilities.PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING & passwordStrength) {
+        msg.push('The given password does not contain any upper-case characters.');
+    }
+    if (ilios.utilities.PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING & passwordStrength) {
+        msg.push('The given password does not contain any special characters.');
+    }
+    return msg;
+}

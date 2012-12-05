@@ -1,0 +1,696 @@
+<?php
+include_once "abstract_ilios_controller.php";
+
+/**
+ * @package Ilios2
+ *
+ * Program Management Controller.
+ */
+class Program_Management extends Abstract_Ilios_Controller
+{
+
+    /**
+     * Constructor
+     */
+    public function __construct ()
+    {
+        parent::__construct();
+        $this->load->model('Program', 'program', TRUE);
+        $this->load->model('Publish_Event', 'publishEvent', TRUE);
+        $this->load->model('School', 'school', TRUE);
+    }
+
+    /**
+     * Default controller action.
+     * Loads and populates the program manager view.
+     */
+    public function index ()
+    {
+        if ($this->divertedForAuthentication) {
+            return;
+        }
+
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
+
+        $this->output->set_header('Expires: 0');
+
+        $user = $this->user->getRowForPrimaryKeyId($data['user_id']);
+
+        $programId = $this->input->get_post('program_id');
+
+        $data['viewbar_title'] = $data['institution_name'];
+
+        $schoolId =  $this->session->userdata('school_id');
+        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
+
+        if ($schoolRow != null) {
+            $data['school_id'] = $schoolId;
+            $data['school_name'] = $schoolRow->title;
+            if ($schoolRow->title != null) {
+                $key = 'general.phrases.school_of';
+                $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+                $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
+            }
+        } else {
+            // not sure how to proceed if user is not tied to a particular school.
+            // for now, we just proceed.
+        }
+
+
+        if ($programId != '') {
+            $data['program_row'] = $this->convertStdObjToArray($this->program->getRowForPrimaryKeyId($programId));
+            $data['disabled'] = false;
+        } else {
+            $dummyRow = array();
+            $dummyRow['program_id'] = '';
+            $dummyRow['title'] = '';
+            $dummyRow['short_title'] = '';
+            $dummyRow['duration'] = '';
+            $dummyRow['publish_event_id'] = '';
+
+            $data['program_row'] = $dummyRow;
+            $data['disabled'] = true;
+        }
+
+        // get school competencies
+        $schoolCompetencies = $this->_getSchoolCompetencies();
+        $data['school_competencies'] = Ilios2_Json::encodeForJavascriptEmbedding($schoolCompetencies,
+            Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+
+        $key = 'program_management.title_bar';
+        $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.search.title';
+        $data['program_search_title'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.select_associated_competency';
+        $data['select_competency'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.page_header';
+        $data['page_header_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.objective_edit_title';
+        $data['edit_objective_dialog_title'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.duration';
+        $data['duration_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.phrases.collapse_all';
+        $data['collapse_program_years_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.add_program';
+        $data['add_program_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.add_new_program';
+        $data['add_new_program_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'program_management.add_program_year';
+        $data['add_program_year_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'mesh.dialog.search_mesh';
+        $data['mesh_search_mesh'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'mesh.dialog.title';
+        $data['mesh_dialog_title'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.phrases.program_title_full';
+        $data['program_title_full_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.phrases.program_title_short';
+        $data['program_title_short_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.phrases.search.clear';
+        $data['generic_search_clear'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.phrases.search.hint';
+        $data['generic_search_hint'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.terms.help';
+        $data['word_help_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.terms.search';
+        $data['word_search_string'] = $this->i18nVendor->getI18NString($key, $lang);
+
+        $key = 'general.phrases.show_less';
+        $data['phrase_show_less_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+
+        $key = 'general.phrases.show_more';
+        $data['phrase_show_more_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+
+        $this->populateI18NStringsForContentContainerGenerator($data, $lang);
+
+        $institution = $this->config->item('ilios_institution_name');
+        $data['viewbar_title'] = $institution;
+        if ($schoolRow->title != null) {
+            $key = 'general.phrases.school_of';
+            $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+            $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
+        }
+
+        $data['preference_array'] = $this->getPreferencesArrayForUser();
+
+        $this->load->view('program/program_manager', $data);
+    }
+
+    /**
+     * XHR handler.
+     * Searches for a given (partial) program title.
+     * Prints out a JSON-formatted list of matching programs.
+     * Expects the following values to be POSTed:
+     * - 'query' ... a title/title-fragment to search programs by
+     */
+    public function getProgramListForQuery ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $title = $this->input->get_post('query');
+        $schoolId = $this->session->userdata('school_id');
+        $uid = $this->session->userdata('uid');
+        $queryResults = $this->program->getProgramsFilteredOnTitleMatch($title, $schoolId, $uid);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            array_push($rhett, $row);
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * XHR handler.
+     * Prints out a JSON-formatted list of programs-years
+     * associated with a given program id.
+     */
+    public function getProgramYears ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $programId = $this->input->get_post('program_id');
+        $row = $this->program->getRowForPrimaryKeyId($programId);
+        $schoolOwnsProgram = ($this->session->userdata('school_id') == $row->owning_school_id);
+        $yearArray = $this->programYear->getProgramYearsForProgram($programId);
+
+        $rhett = array();
+        $rhett['school_owns_program'] = $schoolOwnsProgram ? 'true' : false;
+        $rhett['years'] = $yearArray;
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * XHR handler.
+     *
+     * This takes no arguments presently and returns a tree of all non-deleted schools and
+     * departments in the database.
+     *
+     * Prints out a JSON'd non-associative array of school objects, each object being an
+     * associative array with keys 'school_id', 'title', and 'departments'.
+     * The value for the 'departments' key is a non-associative array of department objects,
+     * each object being an associative array with keys 'department_id' and 'title'.
+     * Schools or departments which have their deleted bit set will not be returned.
+     */
+    public function getSchoolTree ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($this->school->getSchoolTree());
+    }
+
+    /**
+     * XHR handler.
+     *
+     * Called from the program main entity container via AJAX.
+     *
+     * Echos out a JSON'd map;
+     * on failure cases it will contain one entry with the key being 'error';
+     * on success cases - it will contain 5 entires with the keys of 'pid',
+     * 'title', 'short_title', 'duration', and 'publish'.
+     */
+    public function saveProgram ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        // TODO this is one of the few places we do server side validation.. this meme was
+        // abandoned early on and so this code should probably go for the sake
+        // of uniformity
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('program_title', 'Program Title (Full)', 'trim|required');
+        $this->form_validation->set_rules('short_title', 'Program Title (Short)', 'trim|required|max_length[10]');
+
+        if (! $this->form_validation->run()) {
+            $lang = $this->getLangToUse();
+            $msg = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+
+            $rhett['error'] = $msg . ": " . validation_errors();
+        } else {
+            $title = urldecode($this->input->get_post('program_title'));
+            $short = urldecode($this->input->get_post('short_title'));
+            $duration = $this->input->get_post('duration');
+            $programId = $this->input->get_post('program_id');
+
+            $publish = $this->input->get_post('publish');
+
+            $failedTransaction = true;
+            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            do {
+                $auditAtoms = array();
+
+                unset($rhett['error']);
+                $publishId = - 1;
+
+                $this->program->startTransaction();
+
+                $failed = false;
+
+                if ($publish == "true") {
+                    $publishId = $this->publishEvent->addPublishEvent("program", $programId, $this->getClientIPAddress(), $auditAtoms);
+
+                    $failed = $this->publishEvent->transactionAtomFailed();
+                }
+
+                if (! $failed) {
+                    $this->program->updateProgramWithId($programId, $title, $short, $duration, $publishId, $auditAtoms);
+                }
+
+                if ($failed || $this->program->transactionAtomFailed()) {
+                    $lang = $this->getLangToUse();
+                    $rhett['error'] = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+
+                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->program);
+                } else {
+                    $this->program->commitTransaction();
+
+                    $this->auditEvent->saveAuditEvent($auditAtoms);
+
+                    $failedTransaction = false;
+
+                    $rhett['pid'] = $programId;
+                    $rhett['duration'] = $duration;
+                    $rhett['title'] = $title;
+                    $rhett['short_title'] = $short;
+                    $rhett['publish'] = $publishId;
+                }
+            } while ($failedTransaction && ($transactionRetryCount > 0));
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * XHR handler.
+     * Called from the program add dialog on the program_manager.php generated page via AJAX.
+     *
+     * Echos out a JSON'd map;
+     * on failure cases it will contain one entry with the key being 'error';
+     * on success cases - the map will have 4 entries of keys 'pid', 'title',
+     * 'short', and 'duration'.
+     */
+    public function addNewProgram ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $this->load->library('form_validation');
+
+        // TODO i18n error message text
+        $this->form_validation->set_rules('new_program_title', 'Program Title (Full)', 'trim|required');
+        $this->form_validation->set_rules('new_short_title', 'Program Title (Short)', 'trim|required|max_length[10]');
+
+        $title = $this->input->get_post('new_program_title');
+        $short = $this->input->get_post('new_short_title');
+
+        if (! $this->form_validation->run()) {
+            $lang = $this->getLangToUse();
+            $msg = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+
+            $rhett['error'] = $msg . ": " . validation_errors();
+        } else {
+            $duration = $this->input->get_post('duration');
+
+            $failedTransaction = true;
+            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            do {
+                $auditAtoms = array();
+
+                unset($rhett['error']);
+
+                $this->program->startTransaction();
+
+                $newId = $this->program->addNewProgram($title, $short, $duration, $auditAtoms);
+
+                if (($newId <= 0) || $this->program->transactionAtomFailed()) {
+                    $lang = $this->getLangToUse();
+                    $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+
+                    $rhett['error'] = $msg;
+
+                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->program);
+                } else {
+                    $this->program->commitTransaction();
+
+                    $this->auditEvent->saveAuditEvent($auditAtoms);
+
+                    $failedTransaction = false;
+
+                    $rhett['pid'] = $newId;
+                    $rhett['duration'] = $duration;
+                    $rhett['title'] = $title;
+                    $rhett['short_title'] = $short;
+                }
+            } while ($failedTransaction && ($transactionRetryCount > 0));
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * XHR handler.
+     * Called from a program year entity container via AJAX.
+     *
+     * Echos out a JSON'd map;
+     * on failure cases it will contain 2 entries with the keys being 'error' and 'container';
+     * on success cases - it will contain 2 entries with the keys being 'success' and 'container'.
+     * 'container' is a passback of what's been    passed in as 'cnumber'
+     */
+    public function deleteProgramYear ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $programYearId = $this->input->get_post('program_year_id');
+
+        $containerNumber = $this->input->get_post('cnumber');
+        $rhett['container'] = $containerNumber;
+
+        if ((! isset($programYearId)) || ($programYearId == '')) {
+            $lang = $this->getLangToUse();
+            $msg = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+
+            $rhett['error'] = $msg;
+        } else {
+            $failedTransaction = true;
+            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            do {
+                $auditAtoms = array();
+
+                unset($rhett['error']);
+
+                $this->programYear->startTransaction();
+
+                if ($this->programYear->deleteProgramYear($programYearId, $auditAtoms)) {
+                    $this->programYear->commitTransaction();
+
+                    $this->auditEvent->saveAuditEvent($auditAtoms);
+
+                    $failedTransaction = false;
+
+                    $rhett['success'] = "ya";
+                } else {
+                    $lang = $this->getLangToUse();
+                    $msg = $this->i18nVendor->getI18NString('general.error.db_delete', $lang);
+
+                    $rhett['error'] = $msg;
+
+                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
+                }
+            } while ($failedTransaction && ($transactionRetryCount > 0));
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * XHR handler.
+     * Locks (and optionally archives) a given program year.
+     *
+     * Prints out an JSON-formatted array containing 'success' on success,
+     * otherwise 'error' with an error msg. on failure.
+     */
+    public function lockProgramYear ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $programYearId = $this->input->get_post('program_year_id');
+        $archiveAlso = ($this->input->get_post('archive') == 'true');
+
+        $failedTransaction = true;
+        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        do {
+            $auditAtoms = array();
+
+            unset($rhett['error']);
+
+            $this->programYear->startTransaction();
+
+            $this->programYear->lockOrArchiveProgramYear($programYearId, true, $archiveAlso, $auditAtoms);
+            if ($this->programYear->transactionAtomFailed()) {
+                $lang = $this->getLangToUse();
+                $rhett['error'] = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+
+                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
+            } else {
+                $this->programYear->commitTransaction();
+
+                $this->auditEvent->saveAuditEvent($auditAtoms);
+
+                $failedTransaction = false;
+
+                $rhett['success'] = 'ya';
+            }
+        } while ($failedTransaction && ($transactionRetryCount > 0));
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * XHR handler.
+     * Called from a program year entity container via AJAX.
+     *
+     * Echos out a JSON'd map; on failure cases it will contain 2 entries with the keys being
+     * 'error' and 'container'; on success cases - it will contain 4 entires 'pyid',
+     * 'start_year', 'publish', and 'container'. 'container' is a passback of what's
+     * been passed in as 'cnumber'
+     */
+    public function saveProgramYear ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        // sanitize input
+        $clean = array();
+        $names = array('competency', 'objective', 'discipline', 'director', 'steward');
+        foreach ($names as $name) {
+            $input = $this->input->post($name);
+            $input = Ilios2_CharEncoding::convertToUtf8($input);
+            $input = Ilios2_CharEncoding::utf8UrlDecode($input);
+            $clean[$name] = $input;
+        }
+
+        // decode JSONified user input
+        $competencies = null;
+        $objectives = null;
+        $disciplines = null;
+        $directors = null;
+        $stewards = null;
+        try {
+            $competencies = Ilios2_Json::decode($clean['competency'], true);
+            $objectives = Ilios2_Json::decode($clean['objective'], true);
+            $disciplines = Ilios2_Json::decode($clean['discipline'], true);
+            $directors = Ilios2_Json::decode($clean['director'], true);
+            $stewards = Ilios2_Json::decode($clean['steward'], true);
+        } catch (Ilios2_Exception $e) { // reject junky input
+            $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+            header("Content-Type: text/plain");
+            echo json_encode($rhett);
+            return;
+        }
+
+        $containerNumber = $this->input->post('cnumber');
+        $rhett['container'] = $containerNumber;
+        $startYear = $this->input->post('start_year');
+        $programYearId = $this->input->post('program_year_id');
+        $programId = $this->input->post('program_id');
+        $publish = $this->input->post('publish');
+
+        $publishNeedsUpdating = false;
+        $newProgramYear = ($programYearId == - 1);
+
+        $failedTransaction = true;
+        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        do {
+            $auditAtoms = array();
+
+            unset($rhett['error']);
+            $publishId = - 1;
+
+            $this->programYear->startTransaction();
+
+            $failed = false;
+
+            if ($publish == "true") {
+                $publishNeedsUpdating = $newProgramYear;
+
+                $publishId = $this->publishEvent->addPublishEvent("program_year", $programYearId, $this->getClientIPAddress(), $auditAtoms);
+
+                $failed = $this->publishEvent->transactionAtomFailed();
+            }
+
+            $returningObjectives = array();
+
+            if ($newProgramYear && (! $failed)) {
+                $programYearId = $this->programYear->addProgramYear($startYear, $competencies, $objectives, $disciplines, $directors, $stewards, $programId, (($publishId == - 1) ? null : $publishId), $auditAtoms, $returningObjectives);
+            } else if (! $failed) {
+                $returningObjectives = $this->programYear->updateProgramYearWithId($programYearId, $startYear, $competencies, $objectives, $disciplines, $directors, $stewards, $publishId, $programId, $auditAtoms);
+            }
+
+            if (! $failed) {
+                $failed = $this->programYear->transactionAtomFailed();
+            }
+
+            if ($publishNeedsUpdating && (! $failed)) {
+                $this->publishEvent->updatePublishEventTableRowIdColumn($publishId, $programYearId);
+
+                $failed = $this->publishEvent->transactionAtomFailed();
+            }
+            if ($failed) {
+                $rhett['error'] = 'There was a Database Deadlock error.';
+
+                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
+            } else {
+                $rhett['pyid'] = $programYearId;
+                $rhett['start_year'] = $startYear;
+                $rhett['publish'] = $publishId;
+                $rhett['objectives'] = $returningObjectives;
+
+                $failedTransaction = false;
+
+                $this->programYear->commitTransaction();
+
+                $this->auditEvent->saveAuditEvent($auditAtoms);
+
+            }
+        } while ($failedTransaction && ($transactionRetryCount > 0));
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+}

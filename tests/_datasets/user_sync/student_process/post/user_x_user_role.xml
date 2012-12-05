@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="user_x_user_role">
+		<column>user_id</column>
+		<column>user_role_id</column>
+		<!--  Nina Nonstudent (user_id = 10) -->
+		<row>
+			<value>10</value>
+			<value>1</value> <!-- course director -->
+		</row>
+		<!--  Igor Ignored (user_id = 30) -->
+		<row>
+			<value>30</value>
+			<value>4</value> <!--  student -->
+		</row>
+		<!--  Uwe G. Unexamined (user_id = 70) -->
+		<row>
+			<value>70</value>
+			<value>2</value> <!-- developer -->
+		</row>
+		<row>
+			<value>70</value>
+			<value>4</value> <!-- student -->
+		</row>
+		<!--  Ulf U. Unexamined (user_id = 71) -->
+				<row>
+			<value>71</value>
+			<value>4</value> <!-- student -->
+		</row>
+		<!--  Mike S. Mismatch (user_id = 90) -->
+		<row>
+			<value>90</value>
+			<value>3</value> <!-- faculty -->
+		</row>
+		<!--  Miriam E. Student (user_id = 91) -->
+		<row>
+			<value>91</value>
+			<value>4</value> <!-- student -->
+		</row>
+		<!--  Niles Nonstudent (user_id = 92) -->
+		<row>
+			<value>92</value>
+			<value>4</value> <!-- student -->
+		</row>
+		<!--  Stuart Der Student (user_id = 100) -->
+		<row>
+			<value>100</value>
+			<value>4</value> <!-- student -->
+		</row>
+		<!--  Leah von Learnling, student (user_id = 101) -->
+		<row>
+			<value>101</value>
+			<value>4</value> <!-- student -->
+		</row>
+	</table>
+</dataset>

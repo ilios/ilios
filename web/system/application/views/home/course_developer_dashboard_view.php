@@ -1,0 +1,663 @@
+<?php
+/**
+ * Instructor dashboard page template.
+ */
+$siteUrl = site_url();
+$baseUrl = base_url();
+$controllerURL = site_url() . '/dashboard_controller'; // TODO: consider how to avoid this coupling
+$courseManagementURL = site_url() . '/course_management';
+$learningMaterialsControllerURL = site_url() . '/learning_materials';
+$programManagementURL = site_url() . '/program_management';
+$managementConsoleURL = site_url() . '/management_console';
+$viewsUrlRoot = getViewsURLRoot();
+$viewsPath = getServerFilePath('views');
+
+?><!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+        More info: h5bp.com/i/378 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title><?php echo $title_bar_string; ?></title>
+    <meta name="description" content="">
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+    <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/ilios-styles.css"); ?>" media="all">
+    <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/session-types.css"); ?>" media="all">
+    <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
+
+    <!-- this is an empty style tag AFTER all the external CSS scripts
+        to latch dynamically created rules onto.
+        DO NOT DELETE! -->
+    <style type="text/css"></style>
+    <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+
+    <!-- Modernizr enables HTML5 elements & feature detects for optimal performance.
+         Create your own custom Modernizr build: www.modernizr.com/download/ -->
+    <script type="text/javascript" src="<?php echo $viewsUrlRoot; ?>scripts/third_party/modernizr-2.5.3.min.js"></script>
+
+    <!-- Third party JS -->
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/yui_kitchensink.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/date_formatter.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/md5-min.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx/dhtmlxscheduler.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx/ext/dhtmlxscheduler_recurring.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx/ext/dhtmlxscheduler_agenda_view.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/idle-timer.js"); ?>"></script>
+
+    <!-- Ilios JS -->
+    <script type="text/javascript" src="<?php echo $controllerURL . "/getI18NJavascriptVendor?lang=" . $lang; ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_base.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/preferences_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
+    <script type="text/javascript">
+        var baseURL = "<?php echo $siteUrl; ?>/";
+        var controllerURL = "<?php echo $controllerURL; ?>/";    // expose this to our javascript land
+        var courseManagementURL = "<?php echo $courseManagementURL; ?>/";       // similarly...
+        var learningMaterialsControllerURL = "<?php echo $learningMaterialsControllerURL; ?>/";    // ...
+        var programManagementURL = "<?php echo $programManagementURL; ?>/";     // similarly...
+        var pageLoadedForStudent = false;
+        var isCalendarView = false;
+        ilios.namespace('home');        // assure the existence of this page's namespace
+    </script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/abstract_js_model_form.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/preferences_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/competency_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/school_competency_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/discipline_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/course_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/simplified_group_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/independent_learning_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/learning_material_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/mesh_item_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/objective_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/offering_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/program_cohort_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/session_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/user_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/competency_base_framework.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/course_model_support_framework.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/learner_view_base_framework.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/public_course_summary_base_framework.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/mesh_base_framework.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/calendar_item_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/dashboard_calendar_support.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/dashboard_dom.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/dashboard_transaction.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/reminder_model.js"); ?>"></script>
+
+</head>
+
+<body class="home yui-skin-sam">
+    <div id="wrapper">
+        <header id="masthead" class="clearfix">
+            <div class="inner">
+
+<?php
+    include_once $viewsPath . 'common/masthead_logo.inc.php';
+    include_once $viewsPath . 'common/masthead_toolbar.inc.php';
+    include_once $viewsPath . 'common/masthead_nav.inc.php';
+?>
+           </div>
+<?php include_once $viewsPath . 'common/masthead_viewbar.inc.php'; ?>
+        </header>
+
+        <div id="main" role="main">
+            <div id="content" class="dashboard clearfix">
+                <h2 class="page-header"><?php echo $page_title_course_developer_string; ?> <span id="page_title"></span></h2>
+
+                <div class="content_container">
+                    <div class="column primary clearfix">
+                        <h3><?php echo $my_calendar_string; ?></h3>
+<?php
+    if ($show_view_switch) :
+?>
+                                    <a href="<?php echo $controllerURL; ?>/switchView?preferred_view=student" id="role_switch" class="tiny secondary radius button">
+                                                <?php echo $switch_to_student_view_string; ?>
+                                    </a>
+<?php
+    endif;
+?>
+                        <div class="calendar_tools clearfix">
+                           <?php include $viewsPath . 'common/progress_div.php';
+                                echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;');
+                           ?>
+                            <ul class="buttons right">
+                                <li>
+                                    <span id="calendar_filters_btn" title="<?php echo $calendar_filters_title; ?>" class="medium radius button">
+                                        <span class="icon-search icon-alone"></span>
+                                        <span class="screen-reader-text"><?php echo $calendar_filters_btn; ?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $siteUrl; ?>/calendar_exporter/exportICalendar/instructor" class="medium radius button" title="<?php echo $ical_download_title; ?>">
+                                        <span class="icon-download icon-alone"></span>
+                                        <span class="screen-reader-text"><?php echo $ical_download_button; ?></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="calendar_filters_breadcrumb_block">
+                            <div class="calendar_filter_titlebar">
+                                <span id="calendar_filters_clear_search_link" class="icon-cancel" title="<?php echo $calendar_clear_search_filters; ?>"></span>
+                                <span class="calendar_filters_breadcrumb_title"> <?php echo $calendar_search_mode_title; ?> : </span>
+                            </div>
+                            <span id="calendar_filters_breadcrumb_content"></span>
+                        </div>
+                        <div id="dhtmlx_scheduler_container" class="dhx_cal_container" style="position: absolute; top: 8em; bottom: 0; width: 99.8%; height: auto; float: none;">
+                            <div class="dhx_cal_navline">
+                                <div class="dhx_cal_prev_button">&nbsp;</div>
+                                <div class="dhx_cal_next_button">&nbsp;</div>
+                                <div class="dhx_cal_today_button"></div>
+                                <div class="dhx_cal_date"></div>
+                                <div class="dhx_cal_tab" name="day_tab" style="right:209px;"></div>
+                                <div class="dhx_cal_tab" name="week_tab" style="right:145px;"></div>
+                                <div class="dhx_cal_tab" name="month_tab" style="right:81px;"></div>
+                                <div class="dhx_cal_tab" name="agenda_tab" style="right:17px;"></div>
+                            </div>
+                            <div class="dhx_cal_header"></div>
+                            <div class="dhx_cal_data" id="dhx_cal_data"></div>
+                        </div>
+                        <!-- <div id="offering_summary_table_div" class="offering_summary_calendar_table"></div> -->
+                    </div><!--end .primary.column -->
+
+                    <div class="column secondary">
+
+                        <div class="dashboard_widget">
+                            <div class="hd toggle collapse" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $recent_activities_string; ?></h3>
+                            </div>
+                            <div class="widget_collapse_content bd" id="recent_widget_content"></div>
+                        </div>
+
+                        <div class="dashboard_widget">
+                            <div class="hd toggle expand" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $my_courses_string; ?></h3>
+                            </div>
+                            <div class="widget_collapse_content bd" id="course_widget_content" style="display: none;"></div>
+                        </div>
+
+                        <div class="dashboard_widget">
+                            <div class="hd toggle expand" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $my_programs_string; ?></h3>
+                            </div>
+                            <div class="widget_collapse_content bd" id="program_widget_content"></div>
+                        </div>
+
+                        <div class="dashboard_widget">
+                            <div class="hd toggle expand" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $my_reports_string; ?></h3>
+                            </div>
+                            <div class="widget_collapse_content bd" id="reports_widget_content" style="display:none;">
+                                <div class="buttons">
+                                    <a href="" class="tiny button" id="report_widget_add_new_div" onclick="IEvent.fire({action: 'report_dialog_open', report_model: null}); return false;">
+                                        <?php echo $phrase_add_new_string; ?></a>
+                                </div>
+                                <ul id="reports_widget_list_container"></ul>
+                            </div>
+                        </div>
+
+                        <div class="dashboard_widget" style="display: none;">
+                            <div class="hd toggle expand" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $competency_mapping_string ?></h3>
+                            </div>
+                            <div class="widget_collapse_content" id="competency_widget_content"></div>
+                        </div>
+
+                        <div class="dashboard_widget">
+                            <div class="hd toggle expand" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $word_administration_string; ?>
+<?php
+    if ($has_non_student_sync_exceptions || $has_student_sync_exceptions) :
+?>
+                                    <span id="administration_widget_alert" class="icon-warning"></span>
+<?php
+    endif;
+?>
+                                </h3>
+                            </div>
+                            <div class="widget_collapse_content bd" id="administration_widget_content" style="display: none;">
+                                <ul>
+                                    <li>
+                                        <a href="" onclick="IEvent.fire({action: 'ap_dialog_open'}); return false;">
+                                            <?php echo $word_archiving_string; ?>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" onclick="IEvent.fire({action: 'rp_dialog_open'}); return false;">
+                                            <?php echo $course_rollover_string; ?>
+                                        </a>
+                                    </li>
+<?php
+    if ($show_console) :
+?>
+                                    <li>
+                                        <a href="<?php echo $managementConsoleURL; ?>/"><?php echo $management_console_string; ?></a>
+<?php
+        if ($has_non_student_sync_exceptions || $has_student_sync_exceptions) :
+?>
+                                         <span style="font-size: 8pt; font-weight: bold; color: #ee0a0a;">
+                                             (<?php echo implode(', ', $sync_exceptions_indicators); ?>)
+                                         </span>
+                                    </li>
+<?php
+        endif;
+    endif;
+?>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="dashboard_widget" style="display: none;">
+                            <div class="hd toggle expand" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $account_management_string; ?></h3>
+                            </div>
+                            <div class="widget_collapse_content bd" id="account_widget_content"></div>
+                        </div>
+
+                        <div class="dashboard_widget">
+                            <div class="hd toggle expand" onclick="ilios.dom.toggleWidget(this);">
+                                <h3 class="dashboard_widget_title"><?php echo $my_alerts_string; ?>
+                                    <span id="alerts_overdue_warning"></span>
+                                </h3>
+
+                            </div>
+                            <div class="widget_collapse_content bd" id="alerts_widget_content"  style="display: none;">
+                                <div class="buttons">
+                                    <a href="" class="tiny button" id="alert_widget_add_new" onclick="IEvent.fire({action: 'ur_dialog_open', reminder_model: null }); return false;"><?php echo $phrase_add_new_string; ?></a>
+                                </div>
+                                <ul id="alerts_widget_list_container">
+                                    <li><?php echo $word_none_string; ?></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- end .secondary -->
+                </div> <!-- end .dashboard -->
+
+        </div>
+    </div>
+    <footer>
+    <!-- reserve for later use -->
+    </footer>
+
+    <!-- overlays at the bottom - avoid z-index issues -->
+    <div id="view-menu"></div>
+
+<!-- start dialog tabs -->
+    <div class="tabdialog" id="archiving_permissions_dialog">
+        <div class="hd" id="archiving_permissions_dialog_title"></div>
+        <div class="bd" style="position: relative;">
+            <div class="dialog_wrap" id="ap_dialog_wrap" style="height: 216px;">
+                <form action="of no matter">
+                    <div style="padding: 9px; font-weight: bold; position: relative;">
+                        <?php echo $i18n->t('preferences.archiving.text', $lang); ?>
+                        <div style="margin-top: 24px;">
+                            <div style="margin-bottom: 9px;">
+                                <div style="width: 49%; text-align: right; float: left; padding-top: 3px;">
+                                    <?php echo $i18n->t('preferences.archiving.program_year', $lang); ?>
+                                </div>
+                                <div style="width: 49%; float: right;">
+                                    <input type="radio" name="py_radio" id="ap_py_radio_inactive" checked
+                                        onclick="ilios.ui.radioButtonSelected(this);"/>
+                                    <label for="ap_py_radio_inactive" id="ap_py_radio_inactive_label">
+                                        <?php echo $i18n->t('general.terms.inactive', $lang); ?>
+                                    </label>
+                                    <br/>
+                                    <input type="radio" name="py_radio" id="ap_py_radio_active"
+                                        onclick="ilios.ui.radioButtonSelected(this);"/>
+                                    <label for="ap_py_radio_active" id="ap_py_radio_active_label"
+                                        style="font-weight: normal;">
+                                        <?php echo $i18n->t('general.terms.active', $lang); ?>
+                                    </label>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+                            <div style="width: 49%; text-align: right; float: left; padding-top: 3px;">
+                                <?php echo $i18n->t('preferences.archiving.course', $lang); ?>
+                            </div>
+                            <div style="width: 49%; float: right;">
+                                <input type="radio" name="course_radio" id="ap_course_radio_inactive" checked
+                                    onclick="ilios.ui.radioButtonSelected(this);"/>
+                                <label for="ap_course_radio_inactive" id="ap_course_radio_inactive_label">
+                                    <?php echo $i18n->t('general.terms.inactive', $lang); ?>
+                                </label>
+                                <br/>
+                                <input type="radio" name="course_radio" id="ap_course_radio_active"
+                                    onclick="ilios.ui.radioButtonSelected(this);"/>
+                                <label for="ap_course_radio_active" id="ap_course_radio_active_label"
+                                    style="font-weight: normal;">
+                                    <?php echo $i18n->t('general.terms.active', $lang); ?>
+                                </label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div><!-- end archiving_permissions_dialog -->
+<?php
+    include $viewsPath . 'common/course_summary_view_include.php';
+    include $viewsPath . 'common/calendar_filters_include.php';
+?>
+    <div class="tabdialog" id="calendar_filters_dialog">
+        <?php echo generateCalendarFiltersFormContent($calendar_filters_data, true); ?>
+    </div>
+
+    <div class="tabdialog" id="report_competency_pick_dialog"></div>
+
+    <div class="tabdialog" id="calendar_event_details_dialog">
+        <div class="hd"></div>
+        <div class="bd">
+            <div class="dialog_wrap">
+                <form method="get" action="#">
+                    <div id="learner_view_content_div">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div> <!-- end #calendar_event_details_dialog -->
+
+    <div class="tabdialog" id="report_results_dialog">
+        <div class="hd" id="report_results_dialog_title">
+            <?php echo $i18n->t('dashboard.report.result.dialog_title', $lang); ?>
+        </div>
+        <div class="bd">
+            <div class="dialog_wrap" id="report_results_dialog_wrap">
+                <form>
+                    <div id="report_results_content"></div>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div> <!-- end #report_results_dialog -->
+
+    <div class="tabdialog" id="report_dialog">
+        <div class="hd" id="report_dialog_title"><?php echo $report_title_string; ?></div>
+        <div class="bd" style="position: relative;">
+            <div class="dialog_wrap" id="report_dialog_wrap" style="height: 158px;">
+                <form>
+                    <div style="padding: 9px; position: relative;">
+                        <div style="position: absolute; top: 1px; right: 1px; display: none;"
+                            id="report_indeterminate_div">
+                            <div class="indeterminate_progress"></div>
+                        </div>
+                        <?php echo $report_header_string; ?>:<br/><br/>
+                        <?php echo $report_title_optional_string; ?>
+                        <input type="text" id="title" size="50"> <br/><br/>
+                        <?php echo $word_all_string; ?>
+                        <select id='report_noun_1'>
+                            <option value="course"><?php echo $i18n->t('general.terms.courses', $lang); ?></option>
+                            <option value="session"><?php echo $i18n->t('general.terms.sessions', $lang); ?></option>
+                            <option value="program"><?php echo $i18n->t('general.terms.programs', $lang); ?></option>
+                            <option value="program year"><?php echo $i18n->t('general.terms.program_years', $lang); ?></option>
+                            <option value="instructor"><?php echo $i18n->t('general.terms.instructors', $lang); ?></option>
+                            <option value="instructor group"><?php echo $i18n->t('general.phrases.instructor_groups', $lang); ?></option>
+                            <option value="learning material"><?php echo $i18n->t('general.phrases.learning_materials', $lang); ?></option>
+                            <option value="competency"><?php echo $i18n->t('general.terms.competencies', $lang); ?></option>
+                            <option value="topic"><?php echo $i18n->t('general.terms.topics', $lang); ?></option>
+                            <option value="mesh term"><?php echo $i18n->t('general.phrases.mesh_terms', $lang); ?></option>
+                        </select>
+
+                        <input type="checkbox" checked="checked"
+                            id='report_support_noun_2_checkbox'>
+                        <?php echo $report_association_string; ?>
+                        <select id='report_noun_2' style='width: 125px;'></select>
+                        <?php echo $phrase_which_is_string; ?>
+                        <div id='report_noun_2_value_div' style='display: inline-block;'>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div> <!-- end #report_dialog -->
+
+    <div class="tabdialog" id="report_instructor_pick_dialog" style="display: none;">
+        <div class="hd" id="report_instructor_dialog_title"></div>
+        <div class="bd">
+            <div id="ilios_instructor_lightbox_wrap" style="padding-left: 24px;">
+                <form method='get' action='#'>
+                    <div id="instructors_lightbox_textfield"
+                        style="width: 100%; height: 20px; padding-left: 3px; overflow: auto;"
+                        class="read_only_data">
+                    </div>
+                    <div id="instructors_selector_div" style="height: 350px;">
+                        <div class="autocomplete_tab" id="instructor_ac_div"
+                            style="width: 89%; margin-top: 12px;">
+                            <?php echo $word_filter_string; ?>:
+                            <input id="instructor_ac_input"
+                                name="instructor_ac_input" type="text"
+                                style="margin-left: 9px; width: 83%;">
+                            <div class="autolist" id="instructor_autolist" style="margin-top: 15px;">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div> <!-- end #report_instructor_pick_dialog -->
+
+    <div class="tabdialog" id="report_learning_materials_dialog">
+        <div class="hd"><?php echo $learning_materials_dialog_title ?></div>
+        <div class="bd">
+            <div class="dialog_wrap" style="height: 376px;">
+                <form>
+                    <div style="padding: 9px;">
+                        <div style="margin-bottom: 20px; margin-right: 6px; position: relative; padding: 24px 0px 0px;">
+                            <div style="padding: 12px 6px; border: 1px solid #AAAAAA; height: 266px;">
+                                <?php echo $i18n->t('learning_material.search.title', $lang); ?>
+                                <input type="text" name="alm_search" id="rlm_search_textfield"
+                                    style="width: 482px;">
+                                <div style="width: 780px; height: 230px; overflow: auto; margin: 6px 0px 15px;">
+                                    <ul id="rlm_search_results_ul" class="learning_material_list"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div><!-- end #report_learning_materials_dialog -->
+
+    <div class="tabdialog" id="ilios_report_mesh_picker">
+        <div class="hd"><?php echo $mesh_dialog_title; ?></div>
+        <div class="bd">
+            <div class="dialog_wrap">
+                <form method="get" action="#">
+                    <div class="yui-navset yui-navset-top" id="tabbed_view_mesh">
+                        <ul class="yui-nav">
+                            <li class="selected" title="active">
+                                <a href="#mesh_results_tab"><em><?php echo $mesh_search_mesh; ?></em></a>
+                            </li>
+                        </ul>
+                        <div class="yui-content">
+                            <div id="mesh_results_tab">
+                                <input type="text" name="mesh_search_terms" id="mesh_search_terms" style="width: 100%"
+                                    onkeypress="return ilios.home.report.handleReportMeSHSearchFieldInput(this, event);">
+                                <div id="mesh_search_results"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="mesh_search_status" style="position: absolute; left: 12px; bottom: 10px; font-size: 9pt; color: #aa3241;">
+            </div>
+
+        </div>
+        <div class="ft">
+        </div>
+    </div> <!-- end #ilios_report_mesh_picker -->
+
+    <div class="tabdialog" id="rollover_permissions_dialog">
+        <div class="hd" id="rollover_permissions_dialog_title"></div>
+        <div class="bd" style="position: relative;">
+            <div class="dialog_wrap" id="ap_dialog_wrap">
+                <form action="of no matter">
+                    <p>
+                    <?php echo $i18n->t('preferences.rollover.text', $lang); ?>
+                    </p>
+                    <ul class="no-bullets margin-l">
+                        <li>
+                            <input type="radio" name="rp_radio" id="rp_radio_inactive" checked
+                                onclick="ilios.ui.radioButtonSelected(this);"/>
+                            <label for="rp_radio_inactive" id="rp_radio_inactive_label">
+                                <?php echo $i18n->t('general.terms.inactive', $lang); ?>
+                            </label>
+                        </li>
+                        <li>
+                            <input type="radio" name="rp_radio" id="rp_radio_active"
+                                onclick="ilios.ui.radioButtonSelected(this);"/>
+                            <label for="rp_radio_active" id="rp_radio_active_label"
+                                style="font-weight: normal;">
+                                <?php echo $i18n->t('general.terms.active', $lang); ?>
+                            </label>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div> <!-- end #rollover_permissions_dialog -->
+
+
+    <div class="tabdialog" id="user_reminder_dialog">
+        <div class="hd" id="user_reminder_dialog_title">xxx</div>
+        <div class="bd">
+            <div class="dialog_wrap" id="ur_dialog_wrap" style="height: 196px;">
+                <form>
+                    <!-- <div style="padding: 9px; font-weight: bold; position: relative;"> -->
+                        <div class="small align-r note" id="ur_creation_div">
+                            <?php echo $word_created_string; ?>
+                            <span id="ur_creation_date"></span>
+                        </div>
+
+                        <div class="small">
+                            <?php echo $your_alert_string; ?> (150 <?php echo $max_char_string; ?>)
+                        </div>
+
+                        <textarea id="ur_textarea" style="width: 99%; height: 90px;" ></textarea>
+
+                        <div style="font-size: 9pt; margin-top: 9px; padding-left: 24px;
+                            padding-top: 2px; position: relative;">
+                            <div id="due_date_calendar_button" class="calendar_button"
+                                style="position: absolute; top: 0px; left: 1px;"></div>
+                            <?php echo $phrase_due_date_string; ?>:
+                            <span id="ur_due_date" class="read_only_data"></span>
+                            <div style="position: absolute; right: 1px; top: 0px;" id="ur_complete_div">
+                                <?php echo $mark_complete_string; ?>
+                                <input type="checkbox" id="ur_complete_checkbox">
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div> <!-- end #user_reminder_dialog -->
+<!-- end dialog tabs -->
+
+    <!-- date picker container for user reminder dialog -->
+    <div id="date_picking_calendar_container" style="z-index: 10999; position: absolute;"></div>
+
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/report_model.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/report_dialogs_include.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/course_developer_dashboard_dialogs_include.js"); ?>"></script>
+    <script type="text/javascript">
+        // register alert/inform overrides on window load
+        YAHOO.util.Event.on(window, 'load', function() {
+            window.alert = ilios.alert.alert;
+            window.inform = ilios.alert.inform;
+        });
+<?php
+    generateJavascriptRepresentationCodeOfPHPArray($preference_array, 'dbObjectRepresentation', false);
+?>
+        ilios.global.installPreferencesModel();
+        ilios.global.preferencesModel.updateWithServerDispatchedObject(dbObjectRepresentation);
+
+<?php
+    include_once $viewsPath . 'common/load_school_competencies.inc.php';
+    include_once $viewsPath . 'common/start_idle_page_timer.inc.php';
+?>
+
+        YAHOO.util.Event.onDOMReady(ilios.dom.generateTreeSelectionDialogMarkupAndWireContent, {
+            trigger: 'competency_picker_show_dialog',
+            single_selection: 'yup',
+            remote_data: new YAHOO.util.FunctionDataSource(ilios.competencies.getActiveSchoolCompetenciesList),
+            display_handler: ilios.home.report.resetCompetencyTree,
+            submit_override: ilios.home.report.competencySubmitMethod,
+            filter_results_handler:
+            ilios.home.report.competencyTreeFilterResults,
+            format_results_handler:
+            ilios.home.report.competencyTreeHandleResults,
+            selected_div_dom_generator:
+            ilios.home.report.competencyTreeSelectedDOMContentGenerator,
+            unselected_div_dom_generator: ilios.home.report.competencyTreeDOMContentGenerator,
+            tab_title: ilios_i18nVendor.getI18NString('program_management.competency_dialog.tab_title'),
+            id_uniquer: 'csdpe_',
+            panel_title_text: ilios_i18nVendor.getI18NString('program_management.competency_dialog.panel_title'),
+            dom_root: 'report_competency_pick_dialog',
+            max_displayed_results: 500,
+            load_finish_listener: ilios.home.report.competencyTreeFinishedPopulation
+        });
+
+        YAHOO.util.Event.onDOMReady(ilios.home.calendar.initCalendar);
+        YAHOO.util.Event.onDOMReady(ilios.home.preferences.assembleArchivingPermissionsDialog,
+            {display_handler: ilios.home.populateArchivingPermissionsDialog}
+        );
+        YAHOO.util.Event.onDOMReady(ilios.home.preferences.assembleRolloverPermissionsDialog,
+            {display_handler: ilios.home.populateRolloverPermissionsDialog}
+        );
+        YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadAllOfferings);
+        YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadRecentActivity);
+        YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadReminderAlerts);
+        YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadReports);
+
+        YAHOO.util.Event.onDOMReady(ilios.home.calendar.assembleCalendarEventDetailsDialog);
+
+        YAHOO.util.Event.onDOMReady(ilios.home.calendar.initFilterHooks);
+
+        YAHOO.util.Event.onDOMReady(ilios.home.report.assembleReportDialog,
+            {display_handler: ilios.home.report.resetReportDialog}
+        );
+        YAHOO.util.Event.onDOMReady(ilios.home.report.assembleReportResultsDialog, {});
+
+
+        YAHOO.util.Event.onDOMReady(ilios.home.reminder.assembleUserReminderDialog,
+            {display_handler: ilios.home.resetUserReminderDialog }
+        );
+        YAHOO.util.Event.onDOMReady(ilios.home.registerReminderUIListeners);
+        YAHOO.util.Event.onDOMReady(ilios.home.report.registerReportDialogListeners,
+            {display_handler: ilios.home.report.resetReportDialog}
+        );
+
+        YAHOO.util.Event.onDOMReady(ilios.home.report.setupInstructorUIElements);
+        YAHOO.util.Event.onDOMReady(ilios.home.report.buildReportInstructorDialogDOM);
+
+        YAHOO.util.Event.onDOMReady(ilios.home.report.assembleAddLearningMaterialsDialog,
+            {display_handler: ilios.home.report.resetAddLearningMaterialsDialog});
+
+        YAHOO.util.Event.onDOMReady(ilios.home.report.registerReportLearningMaterialUI);
+
+        YAHOO.util.Event.onDOMReady(ilios.home.report.buildReportMeSHPickerDialogDOM);
+    </script>
+</body>
+</html>

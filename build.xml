@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Phing buildfile for Ilios -->
+<!--
+    Usage:
+
+    1. Copy the /build.properties.sample file and configure the copied file accordingly.
+    2. Execute phing by providing the path to the property file (mandatory) and the name of the build target (optional).
+       If no build target is provided, the default "build-and-deploy" target willbe assumed and executed.
+
+        Example:
+            $ cp build.properties.sample ~/ilios-stage.properties
+            $ phing -propertyfile ~/iios-stage.properties build
+
+    Hints:
+
+    1. You may want to keep multiple property files around, one for each environment (dev/stage/prod).
+    2. Run the "deploy" and "build-and-deploy" targets with elevated privileges ('sudo') if your deployment directory is owned by 'root'
+
+        Example:
+            $ sudo phing -propertyfile build.properties build-and-deploy
+
+    3. You can directly provide the package bundle as command line argument "packagefilepath" to the "deploy" target
+
+        Example:
+            $ phing -propertyfile build.properties -Dpackagefilepath=/path/to/your/ilios/package.tar.gz deploy
+
+    Todo:
+        SCM integration (git checkout)
+        Database integration (installation/migration/backup)
+        PHPUnit integration
+        PHPDoc integration
+
+    See:
+        http://www.phing.info/docs/guide/stable/
+-->
+<project name="ilios" basedir="." default="build-and-deploy">
+
+    <property name="webdir" value="${project.basedir}/web" override="true" />
+
+    <!-- Fileset for all source files -->
+    <fileset dir="${webdir}" id="webfiles">
+        <exclude name="tmp_uploads/" />
+        <exclude name="learning_materials/" />
+        <exclude name="system/logs/" />
+    </fileset>
+
+    <!-- ============================================ -->
+    <!-- Target: build-and-deploy (DEFAULT)           -->
+    <!-- ============================================ -->
+    <target name="build-and-deploy" depends="build,deploy"
+            description="builds and deploys the application">
+    </target>
+
+
+    <!-- ============================================ -->
+    <!-- Target: build                                -->
+    <!-- ============================================ -->
+    <target name="build" depends="init,copy,configure,package"
+            description="configures and bundles the code base for deployment">
+    </target>
+
+
+    <!-- ============================================ -->
+    <!-- Target: init                                 -->
+    <!-- ============================================ -->
+    <target name="init"
+            description="initializes the build process by setting up some properties needed further downstream">
+        <!-- capture the current timestamp -->
+        <php function="time" returnProperty="now" />
+        <tstamp>
+            <format property="DSTAMP" pattern="%F" />
+            <format property="TSTAMP" pattern="%H-%M-%S" />
+            <format property="TODAY" pattern="%c" locale="en_US" />
+        </tstamp>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: copy                                 -->
+    <!-- ============================================ -->
+    <target name="copy" depends="init"
+        description="copies the files from the /web directory to the build directory">
+        <!-- sanity check: verify that build dir has been specified -->
+        <if>
+            <not>
+                <isset property="builddir" />
+            </not>
+            <then>
+                <fail message="No build directory was specified." />
+            </then>
+        </if>
+        <!-- delete old build directory -->
+        <delete dir="${builddir}" includeemptydirs="true" failonerror="true" />
+        <!-- re-create build directory -->
+        <mkdir dir="${builddir}" />
+        <!-- copy codebase to build directory -->
+        <copy todir="${builddir}">
+            <fileset refid="webfiles" />
+        </copy>
+        <!-- create log and upload directories -->
+        <mkdir dir="${builddir}/tmp_uploads" />
+        <mkdir dir="${builddir}/system/logs" />
+        <mkdir dir="${builddir}/learning_materials" />
+        <!-- drop .htaccess files into the upload dirs -->
+        <touch file="${builddir}/tmp_uploads/.htaccess" />
+        <append destFile="${builddir}/tmp_uploads/.htaccess"
+                text="Options -Indexes" />
+        <touch file="${builddir}/learning_materials/.htaccess" />
+        <append destFile="${builddir}/learning_materials/.htaccess"
+                text="Options -Indexes" />
+        <!-- explicity set file and directory permissions -->
+        <exec command="find ${builddir} -type d -exec chmod 755 {} \;" escape="false" />
+        <exec command="find ${builddir} -type f -exec chmod 644 {} \;" escape="false" />
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: configure                            -->
+    <!-- ============================================ -->
+    <target name="configure" depends="init"
+        description="(over)writes configuration parameters to various files of the application">
+        <!-- copy/rename default.config.php to config.php and substitute placeholder token -->
+        <copy file="${builddir}/system/application/config/default.config.php"
+              tofile="${builddir}/system/application/config/config.php"
+              overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%%" endtoken="%%">
+                    <token key="DEPLOY_URL" value="${baseurl}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <!-- copy/rename default.database.php to database.php and substitute placeholder token -->
+        <copy file="${builddir}/system/application/config/default.database.php"
+              tofile="${builddir}/system/application/config/database.php"
+              overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%%" endtoken="%%">
+                    <token key="DBGROUP" value="${db.group}" />
+                    <token key="DBHOSTNAME" value="${db.hostname}" />
+                    <token key="DBUSERNAME" value="${db.username}" />
+                    <token key="DBNAME" value="${db.name}" />
+                    <token key="DBPASSWORD" value="${db.password}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <!-- copy/rename default.ilios.php to ilios.php and substitute placeholder token -->
+        <copy file="${builddir}/system/application/config/default.ilios.php"
+              tofile="${builddir}/system/application/config/ilios.php"
+              overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%%" endtoken="%%">
+                    <token key="ILIOS_INSTITUTION_NAME" value="${institution_name}" />
+                    <token key="ILIOS_REVISION" value="${now}" />
+                    <token key="USERSYNC_LDAP_HOSTNAME" value="${tasks.user_sync.ldap.hostname}" />
+                    <token key="USERSYNC_LDAP_BINDDN" value="${tasks.user_sync.ldap.binddn}" />
+                    <token key="USERSYNC_LDAP_PASSWORD" value="${tasks.user_sync.ldap.password}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <!-- copy/rename default.index.php to index.php and substitute placeholder token -->
+        <copy file="${builddir}/default.index.php"
+              tofile="${builddir}/index.php"
+              overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%%" endtoken="%%">
+                    <token key="DEPLOY_URL" value="${baseurl}" />
+                    <token key="ILIOS_REVISION" value="${now}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <!-- append configuration overwites to system/application/config/ilios.php -->
+        <append destFile="${builddir}/system/application/config/ilios.php"
+                text="${line.separator}//${line.separator}// Configuration overwrites below were added by the automated build process on ${TODAY} ${line.separator}//${line.separator}"/>
+        <if>
+            <isset property="ilios_idle_page_timeout" />
+            <then>
+                <append destFile="${builddir}/system/application/config/ilios.php"
+                        text="$config['ilios_idle_page_timeout'] = ${ilios_idle_page_timeout};${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="ilios_authentication" />
+            <then>
+                <append destFile="${builddir}/system/application/config/ilios.php"
+                        text="$config['ilios_authentication'] = '${ilios_authentication}';${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="visual_alert_threshold_in_days" />
+            <then>
+                <append destFile="${builddir}/system/application/config/ilios.php"
+                        text="$config['visual_alert_threshold_in_days'] = ${visual_alert_threshold_in_days};${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="tasks.change_alerts.enabled" />
+            <then>
+                <append destFile="${builddir}/system/application/config/ilios.php"
+                        text="$config['tasks']['change_alerts']['enabled'] = ${tasks.change_alerts.enabled};${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="tasks.teaching_reminders.enabled" />
+            <then>
+                <append destFile="${builddir}/system/application/config/ilios.php"
+                        text="$config['tasks']['teaching_reminders']['enabled'] = ${tasks.teaching_reminders.enabled};${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="tasks.user_sync.enabled" />
+            <then>
+                <append destFile="${builddir}/system/application/config/ilios.php"
+                        text="$config['tasks']['user_sync']['enabled'] = ${tasks.user_sync.enabled};${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="tasks.enrollment_export.enabled" />
+            <then>
+                <append destFile="${builddir}/system/application/config/ilios.php"
+                        text="$config['tasks']['enrollment_export']['enabled'] = ${tasks.enrollment_export.enabled};${line.separator}" />
+            </then>
+        </if>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: package                              -->
+    <!-- ============================================ -->
+    <target name="package" depends="configure"
+            description="tars up the build directory for deployment">
+        <!-- sanity check: verify that package dir has been specified -->
+        <if>
+            <not>
+                <isset property="packagedir" />
+            </not>
+            <then>
+                <fail message="No package directory was specified." />
+            </then>
+        </if>
+        <!-- capture the file name and full file path of the deployment bundle for later use -->
+        <property name="packagefile" value="${phing.project.name}_${DSTAMP}_${TSTAMP}.tar.gz" />
+        <property name="packagefilepath" value="${packagedir}/${packagefile}" />
+        <mkdir dir="${packagedir}" />
+        <tar destfile="${packagefilepath}" includeemptydirs="true" compression="gzip">
+             <fileset dir="${builddir}">
+                <!-- do not include the config file templates -->
+                <exclude name="system/application/config/default.config.php" />
+                <exclude name="system/application/config/default.database.php" />
+                <exclude name="system/application/config/default.ilios.php" />
+                <exclude name="default.index.php" />
+            </fileset>
+        </tar>
+        <echo>Deployment URL: https://${baseurl}</echo>
+        <echo>Deployment DB: ${db.name}</echo>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: cleanup                              -->
+    <!-- ============================================ -->
+    <target name="cleanup"
+            description="removes the build and package directory">
+        <delete dir="${builddir}" includeemptydirs="true" failonerror="true" />
+        <delete dir="${packagedir}" includeemptydirs="true" failonerror="true" />
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: deploy-prepare                       -->
+    <!-- ============================================ -->
+    <target name="deploy-prepare" depends="init"
+            description="pre-deployment input validation and user confirmation">
+        <!-- sanity check: verify that deployment dir has been specified -->
+        <if>
+            <not>
+                <isset property="deploydir" />
+            </not>
+            <then>
+                <fail message="No deployment directory was specified." />
+            </then>
+        </if>
+        <!-- verify that the given deployment bundle exists. if not abort mission -->
+        <if>
+            <not>
+                <available file="${packagefilepath}" type="file" />
+            </not>
+            <then>
+                <fail message="Deployment bundle ${packagefilepath} not found." />
+            </then>
+        </if>
+
+        <!-- ask user to reconfirm before proceeding -->
+        <input propertyname="proceed" defaultValue="n" promptChar="?" validArgs="Y,n">
+            Deploy Ilios bundle ${packagefilepath} to ${deploydir}
+        </input>
+        <if>
+            <not>
+                <equals arg1="${proceed}" arg2="Y" />
+            </not>
+            <then>
+                <fail message="Aborting deployment." />
+            </then>
+        </if>
+    </target>
+    <!-- ============================================ -->
+    <!-- Target: deploy                               -->
+    <!-- ============================================ -->
+    <target name="deploy" depends="init,deploy-prepare,backup"
+            description="(re)deploys the code to a given destination directory">
+        <!-- either create a deployment directory (if non-existent), or gut the existing one -->
+        <if>
+            <available file="${deploydir}" type="dir" />
+            <then>
+                <delete includeemptydirs="true" failonerror="true">
+                    <fileset dir="${deploydir}">
+                        <!-- keep log files and user uploads -->
+                        <exclude name="tmp_uploads/**" />
+                        <exclude name="learning_materials/**" />
+                        <exclude name="system/logs/**" />
+                    </fileset>
+                </delete>
+            </then>
+            <else>
+                <mkdir dir="${deploydir}" />
+            </else>
+        </if>
+        <!-- extract the deployment bundle into the deployment directory -->
+        <untar file="${packagefilepath}" todir="${deploydir}" forceExtract="false" />
+        <!-- change file ownership on upload and log directories -->
+        <chown file="${deploydir}/tmp_uploads" user="${webuser}" group="${webgroup}" />
+        <chown file="${deploydir}/learning_materials" user="${webuser}" group="${webgroup}" />
+        <chown file="${deploydir}/system/logs" user="${webuser}" group="${webgroup}" />
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: backup                               -->
+    <!-- ============================================ -->
+    <target name="backup" depends="init"
+            description="backs-up the deployment directory (if existent)">
+        <if>
+            <available file="${deploydir}" type="dir" />
+            <then>
+                <!-- sanity check: verify that backup dir has been specified -->
+                <if>
+                    <not>
+                        <isset property="backupdir" />
+                    </not>
+                    <then>
+                        <fail message="No backupdir directory was specified." />
+                    </then>
+                </if>
+                <property name="backupfile"
+                          value="${backupdir}/${phing.project.name}_backup_${DSTAMP}_${TSTAMP}.tar.gz" />
+                <mkdir dir="${backupdir}" />
+                <tar destfile="${backupfile}" includeemptydirs="true" compression="gzip">
+                    <fileset dir="${deploydir}">
+                    <!-- exclude log files and user uploads -->
+                        <exclude name="tmp_uploads/" />
+                        <exclude name="learning_materials/" />
+                        <exclude name="system/logs/" />
+                    </fileset>
+                </tar>
+            </then>
+            <else>
+                <echo>No pre-existing deployment dir "${deploydir}" found, skipping backup.</echo>
+            </else>
+        </if>
+    </target>
+</project>

@@ -1,0 +1,120 @@
+#================================================
+# Ilios build configuration
+#================================================
+
+#
+# Full path to the build directory.
+#
+builddir=/tmp/ilios/build
+#
+# Full path to the package directory.
+# The "build" target will create a tarball in this directory.
+#
+packagedir=/tmp/ilios/bundles
+#
+# Full path to backup directory.
+# The "backup" target (part of the "deploy" task) may create
+# a tarball of the given deployment directory in there.
+#
+backupdir=/web/ilios/backups
+#
+# Full path to the deployment directory.
+#
+deploydir=/web/ilios/htdocs
+
+#
+# User account name that owns the deployment directory.
+# Since this directory is usually the webroot, that user will most likely be the user account
+# that runs the web server.
+# Depending on your *nix distro, this may be "www-data", "apache" or something else.
+#
+webuser=apache
+#
+# User group that owns the deployment directory.
+#
+webgroup=apache
+
+#================================================
+# Ilios configuration (mandatory)
+#================================================
+
+#
+# Domain name (+ basepath) under which the application is accessible online.
+# ACHTUNG! Do not provide the protocol.
+# And no trailing slashes!
+#
+baseurl=localhost
+#
+# The name of your institution/school/university.
+#
+institution_name=UCSF
+
+#------------------------------------------------
+# Database Configuration
+#------------------------------------------------
+#
+# DB configuration group
+#
+db.group=ilios
+#
+# DB server hostname
+#
+db.hostname=localhost
+#
+# DB name
+#
+db.name=ilios
+#
+# DB user name
+#
+db.username=XXXXXX
+#
+# DB user password
+#
+db.password=XXXXXX
+
+#------------------------------------------------
+# UCSF user synchronization process configuration
+#------------------------------------------------
+#
+# LDAP hostname
+#
+tasks.user_sync.ldap.hostname=localhost
+#
+# LDAP bind DN
+#
+tasks.user_sync.ldap.binddn=XXXXXX
+#
+# LDAP password
+#
+tasks.user_sync.ldap.password=XXXXXX
+
+#================================================
+# Ilios configuration overwrites (optional)
+#================================================
+
+#
+# Idle-page timeout (in ms)
+#
+#ilios_idle_page_timeout=7200000
+
+#
+# Authentication method.
+# Allowed values are "default" and "shibboleth"
+#
+#ilios_authentication=shibboleth
+
+#
+# Threshold (in days) for the visual change alerts in the calendar dashboard.
+#
+#visual_alert_threshold_in_days=3
+
+#------------------------------------------------
+# On/off switches for the various cron tasks.
+# Allowed values are "true" and "false"
+#------------------------------------------------
+#
+#tasks.change_alerts.enabled=true
+#tasks.enrollment_export.enabled=true
+#tasks.teaching_reminders.enabled=true
+#tasks.user_sync.enabled=true

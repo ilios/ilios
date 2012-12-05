@@ -1,0 +1,2458 @@
+@import url(normalize.css);
+@import url(yui-widgets.css);
+@import url(dhtmlxscheduler.css);
+
+/*
+ * Ilios 2 Styles - based in part on HTML5 Boilerplate h5bp.com/css
+ *
+ * This file pulls in the following framework stylesheets first:
+ *  --normalize.css:        *sets baseline styles for most html tags
+ *  --yui-widgets.css:      *a rollup of yui2 widget styles used by Ilios 2
+ *  --dhtmlsxscheduler.css: *styles for the calendar/scheduler widget
+ *
+ * Followed by styles unique to Ilios 2, media queries,
+ * helper classes, and print css
+ *
+ */
+
+/* ==|== primary styles =====================================================
+   Author:
+   ========================================================================== */
+* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+/* based on foundation.zurb.com styles */
+/*  --------------------------------------------------
+    :: Links
+    -------------------------------------------------- */
+a {
+    color:#2a85e8;
+    text-decoration:none;
+    line-height:inherit;
+}
+
+a:hover {
+    color:#11639d;
+}
+
+a:focus {
+    outline:none;
+}
+
+p a,p a:visited {
+    line-height:inherit;
+}
+
+
+/*  --------------------------------------------------
+    :: Lists
+    -------------------------------------------------- */
+ul,ol {
+    margin-bottom:18px;
+}
+
+ul {
+    list-style-position:outside;
+}
+
+ol {
+    list-style:decimal;
+}
+
+ol,ul.square,ul.circle,ul.disc {
+    margin-left:30px;
+}
+
+ul.square {
+    list-style:square outside;
+}
+
+ul.circle {
+    list-style:circle outside;
+}
+
+ul.disc {
+    list-style:disc outside;
+}
+
+li {
+    margin-bottom:.5em;
+}
+
+ul.large li {
+    line-height:21px;
+}
+
+/*  --------------------------------------------------
+    Buttons
+    -------------------------------------------------- */
+/* Normal Buttons ---------------------- */
+.button { position: relative; display: inline-block; padding: .5em 1em .6em; border: 1px solid #1e728c; width: auto; background: #2ba6cb; -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; color: white; cursor: pointer; font-size: 14px; font-weight: bold; line-height: 1; margin: 0; outline: none; text-align: center; text-decoration: none; -webkit-transition: background-color 0.15s ease-in-out; -moz-transition: background-color 0.15s ease-in-out; -o-transition: background-color 0.15s ease-in-out; transition: background-color 0.15s ease-in-out; /* Hovers */ /* Sizes */ /* Colors */ /* Radii */ /* Layout */ /* Disabled ---------- */ }
+.button:hover { color: white; background-color: #2284a1; }
+.button:active { -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset; }
+.button:focus { -webkit-box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; color: white; }
+.button.large { font-size: 17px;}
+.button.medium { font-size: 14px; }
+.button.small { font-size: 11px; }
+.button.tiny { font-size: 10px;}
+.button.expand { width: 100%; text-align: center; }
+.button.primary { background-color: #2ba6cb; border: 1px solid #1e728c; }
+.button.primary:hover { background-color: #2284a1; }
+.button.primary:focus { -webkit-box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 0 4px #2ba6cb, 0 1px 0 rgba(255, 255, 255, 0.5) inset; }
+.button.primary.disabled:hover, .button.primary[disabled]:hover {background-color: #2ba6cb;}
+.button.success { background-color: #5da423; border: 1px solid #396516; }
+.button.success:hover { background-color: #457a1a; }
+.button.success:focus { -webkit-box-shadow: 0 0 5px #5da423, 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 0 5px #5da423, 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 0 5px #5da423, 0 1px 0 rgba(255, 255, 255, 0.5) inset; }
+.button.success.disabled:hover, .button.success[disabled]:hover {background-color: #5da423;}
+.button.alert { background-color: #c60f13; border: 1px solid #7f0a0c; }
+.button.alert:hover { background-color: #970b0e; }
+.button.alert:focus { -webkit-box-shadow: 0 0 4px #c60f13, 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 0 4px #c60f13, 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 0 4px #c60f13, 0 1px 0 rgba(255, 255, 255, 0.5) inset; }
+.button.alert.disabled:hover, .button.alert[disabled]:hover {background-color: #c60f13;}
+.button.secondary { background-color: #e9e9e9; color:#2284a1; border: 1px solid #c3c3c3; }
+.button.secondary:hover { background-color: #d0d0d0; }
+.button.secondary:focus { -webkit-box-shadow: 0 0 5px #e9e9e9, 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 0 5px #e9e9e9, 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 0 5px #e9e9e9, 0 1px 0 rgba(255, 255, 255, 0.5) inset; }
+.button.secondary.disabled, .button.secondary.disabled:hover, .button.secondary[disabled]:hover {background-color: #e9e9e9; color: #999;}
+.button.radius { -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px; }
+.button.round { -webkit-border-radius: 1000px; -moz-border-radius: 1000px; -ms-border-radius: 1000px; -o-border-radius: 1000px; border-radius: 1000px; }
+.button.full-width { width: 100%; text-align: center; padding-left: 0 !important; padding-right: !important; }
+.button.left-align { text-align: left; text-indent: 12px; }
+.button.disabled, .button[disabled] { opacity: 0.6; cursor: default; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
+.button:not(.secondary):visited {color:#FFF;}
+
+/* Don't use native buttons on iOS */
+input[type=submit].button, button.button { -webkit-appearance: none; }
+
+@media only screen and (max-width: 767px) { .button { display: block; }
+  button.button, input[type="submit"].button { width: 100%; padding-left: 0; padding-right: 0; } }
+/* Correct FF button padding */
+@-moz-document url-prefix() { button::-moz-focus-inner, input[type="reset"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="file"] > input[type="button"]::-moz-focus-inner { border: none; padding: 0; }
+  input[type="submit"].tiny.button { padding: 3px 10px 4px; }
+  input[type="submit"].small.button { padding: 5px 14px 6px; }
+  input[type="submit"].button, input[type=submit].medium.button { padding: 8px 20px 9px; }
+  input[type="submit"].large.button { padding: 13px 30px 14px; } }
+
+input[type=checkbox], input[type=radio]
+{
+    margin-right: .5em;
+}
+
+/*  --------------------------------------------------
+    :: Other form elements
+    -------------------------------------------------- */
+
+textarea {
+    resize: none;
+}
+/*workaround for FF bug in which initial whitespace is added when copying a span*/
+input.readonly-text {
+    border: 0;
+    width: auto !important;
+    background-color: transparent;
+}
+
+/********************************/
+/* icons via ilios-icons font   */
+/* http://css-tricks.com/html-for-icon-font-usage/ */
+@font-face {
+	font-family: 'ilios-icons';
+	src: url('../fonts/ilios-icons/ilios-icons.eot?#') format('eot'),
+		url('../fonts/ilios-icons/ilios-icons.svg#ilios-icons') format('svg'),
+		url('../fonts/ilios-icons/ilios-icons.woff') format('woff'),
+		url('../fonts/ilios-icons/ilios-icons.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+    font-family: 'ilios-icons';
+    content: attr(data-icon);
+    speak: none;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before, [class*=" icon-"]:before, .status:before {
+    font-family: 'ilios-icons';
+    font-style: normal;
+    speak: none;
+}
+.icon-home:before {
+    content: "\e00f";
+}
+.icon-edit:before {
+    content: "\270e";
+}
+.icon-search:before {
+    content: "\26b2";
+}
+.icon-locked:before {
+    content: "\e018";
+}
+.icon-actions:before {
+    content: "\e015";
+}
+.icon-remove:before {
+    content: "\e016";
+}
+.icon-download:before {
+    content: "\2193";
+}
+.icon-upload:before {
+    content: "\2191";
+}
+.icon-link:before {
+    content: "\26ad";
+}
+.icon-unlink:before {
+    content: "\26ae";
+}
+.icon-attach:before {
+    content: "\e013";
+}
+.icon-star:before {
+    content: "\e011";
+}
+.icon-plus:before {
+    content: "\e001";
+}
+.icon-minus:before {
+    content: "\e01e";
+}
+.icon-help:before {
+    content: "\e000";
+    margin-right: .5em;
+}
+.icon-info:before {
+    content: "\2014";
+}
+.icon-blocked:before {
+    content: "\26d4";
+}
+.icon-cancel:before {
+    content: "\2715";
+}
+.icon-cancel-2:before {
+    content: "\78";
+    font-size: .9em;
+    margin-right: .5em;
+}
+.icon-checkmark:before {
+    content: "\2714";
+    font-size: .9em;
+    margin-right: .5em;
+}
+.icon-plus-2:before {
+    content: "\2b";
+}
+.icon-minus-2:before {
+    content: "\2013";
+}
+.icon-document:before {
+    content: "\e006";
+}
+.icon-file-pdf:before {
+    content: "\e005";
+}
+.icon-file-word:before {
+    content: "\e003";
+}
+.icon-file-excel:before {
+    content: "\e004";
+}
+.icon-file-powerpoint:before {
+    content: "\e007";
+}
+.icon-file-zip:before {
+    content: "\e00b";
+}
+.icon-picture:before {
+    content: "\e00c";
+}
+.icon-film:before {
+    content: "\e00d";
+}
+.icon-graph:before {
+    content: "\e00e";
+}
+.icon-music:before {
+    content: "\266b";
+}
+.icon-microphone:before {
+    content: "\e019";
+}
+.icon-arrow-down:before {
+    content: "\25bc";
+}
+.icon-arrow-up:before {
+    content: "\25b2";
+}
+.icon-arrow-left:before {
+    content: "\25c0";
+}
+.icon-arrow-right:before {
+    content: "\25b6";
+}
+.icon-expand:before {
+    content: "\e01a";
+}
+.icon-location:before {
+    content: "\e01b";
+}
+.icon-clock:before {
+    content: "\e01c";
+}
+.icon-warning:before {
+    content: "\2757";
+    margin-right: .5em;
+    color: #f6b600;
+    font-size: .9em;
+}
+.icon-question:before {
+    content: "\3f";
+}
+.icon-printer:before {
+    content: "\e020";
+}
+.icon-camera:before {
+    content: "\e012";
+}
+.icon-user:before {
+    content: "\e014";
+}
+.icon-users:before {
+    content: "\e01d";
+}
+.icon-add-user:before {
+    content: "\e01f";
+}
+
+.collapsed_widget, .expanded_widget {
+    position:absolute;
+    height:14px;
+    width:14px;
+    padding:0;
+    cursor:pointer;
+    z-index:2;
+}
+.collapsed_widget::before, .expanded_widget::before {
+    display: block;
+    position: absolute;
+    top: -.2em;
+    font-family: 'ilios-icons';
+    font-size: 1.4em;
+    font-style: normal;
+    speak: none;
+    color:#999;
+}
+.collapsed_widget:hover:before, .expanded_widget:hover:before {
+    color:#2284a1;
+}
+.collapsed_widget::before {
+    content: "\25b6";
+}
+.expanded_widget::before {
+    content: "\25bc";
+    top: 0;
+}
+
+.icon-alone {
+  display: inline-block; /* Fix for clickability issue in WebKit */
+}
+.screen-reader-text {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+.warning {color: #C00;}
+.fail {color: #C00;}
+.pass {color:#090;}
+.override {
+    font-weight: bold;
+}
+
+.toggle {
+    position: absolute;
+    color: #666;
+}
+.toggle:hover {color: #444;}
+.level-1 .toggle {
+    padding: 3px;
+    width: 2.5em;
+    line-height: 2.5em;
+    font-size: .9em;
+}
+.level-1 .toggle a,
+.level-1 .toggle span {
+    color: #666;
+    display:block;
+    margin-left: .25em;
+}
+.level-1 .toggle a:hover {
+    color: #444;
+}
+.expanded .toggle:before,
+.collapsed .toggle:before {
+    font-family: 'ilios-icons';
+    font-style: normal;
+    speak: none;
+    float: left;
+    font-size: .9em;
+    line-height: 2.5em;
+    margin-left: .5em;
+}
+.collapsed .toggle:before {
+        content: "\e001";
+
+}
+.expanded .toggle:before {
+    content: "\e01e";
+}
+/*ideally we would do this programmatically, but...*/
+#cohort_form .level-1 .toggle {
+    display:none;
+}
+/********************************/
+/*Publish status markers        */
+/*uses ilios icon font          */
+.status {
+    white-space: nowrap;
+}
+.status:before {
+    margin: 0 .5em;
+    padding: .25em;
+    font-size: 1.2em;
+    color: #FFF;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+         -o-border-radius: 4px;
+            border-radius: 4px;
+}
+.is-published:before {
+    content: "\2714";
+    background-color: #618B0F;
+}
+.is-published-tbd:before, .is-scheduled:before {
+    content: "\e01c";
+    background-color: #618B0F;
+}
+.is-draft:before {
+    content: "\2757";
+    background-color: #FF9C00;
+}
+.is-locked:before {
+    content: "\e018";
+    background-color: #666;
+}
+
+
+/********************************/
+/*Some useful global styles     */
+
+h3 span, h4 span {font-weight: normal;}
+
+fieldset {
+    border: 1px solid #CCC;
+    padding:.5em .5em 1em;
+    position: relative;
+}
+
+legend {
+    padding: .25em .5em;
+    font-weight: bold;
+    font-size: .9em;
+}
+
+.shadow {
+    -webkit-box-shadow:0 .1em .3em rgba(0,0,0,.3);
+    -moz-box-shadow:0 .1em .3em rgba(0,0,0,.3);
+    -o-box-shadow:0 .1em .3em rgba(0,0,0,.3);
+    box-shadow:0 .1em .3em rgba(0,0,0,.3);
+}
+
+/* simple tabs based on UL */
+.tabs {
+    display:block;
+    margin:0 auto;
+}
+
+.tabs > li {
+    display:block;
+    float:left;
+    overflow:hidden;
+    background-color:#DDD;
+    margin-right:2px;
+}
+
+.tabs > li {
+    -webkit-border-top-right-radius:5px;
+    -webkit-border-top-left-radius:5px;
+    -moz-border-radius-topright:5px;
+    -moz-border-radius-topleft:5px;
+    border-top-right-radius:5px;
+    border-top-left-radius:5px;
+    -webkit-box-shadow:.1em -.1em .1em rgba(0,0,0,.3);
+    -moz-box-shadow:.1em -.1em .1em rgba(0,0,0,.3);
+    -o-box-shadow:.1em -.1em .1em rgba(0,0,0,.3);
+    box-shadow:.1em -.1em .1em rgba(0,0,0,.3);
+}
+
+.tabs > li a {
+    display:block;
+    padding:.3em 1em;
+    text-decoration:none;
+}
+
+.tabs > li a:hover {
+}
+
+.success {
+    background-color: #5da423;
+    color: #FFF;
+    padding: .25em;
+}
+
+/*
+ *
+ * TODO clean and better organize this file
+ */
+/********************************/
+/* main structure               */
+html,body {
+    width:100%;
+    height:100%;
+}
+
+#wrapper {
+    position: relative;
+    min-height:100%;
+    min-width:820px;
+    _height: 100%;
+}
+
+#masthead {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height: 4em;
+    min-width:820px;
+    z-index:2;
+}
+
+#main {
+    position:relative;
+    top:5.7em;
+    padding: 1em;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+.home #main,
+.admin #main {
+    position: absolute;
+    bottom: 0em;
+    height: auto;
+}
+
+#main.headless {
+    top:1.7em;
+    padding: 1em 0 0 0;
+}
+
+#content {
+}
+
+.dashboard { /*variant of #content*/
+    position: absolute;
+    top:1em;
+    bottom:1em;
+    right: 1em;
+    left: 1em;
+}
+.headless .dashboard {
+    top: 0;
+}
+
+#footer {
+}
+
+/********************************/
+/*  masthead                    */
+#masthead {
+    background:#C60;
+}
+
+#masthead.headless {
+    height: 0;
+}
+
+#masthead .inner {
+    position:relative;
+    margin:0 auto;
+    height:4em;
+}
+
+#masthead .main-logo {
+    position:relative;
+    top:20px;
+    left:20px;
+    width:10em;
+}
+
+.main-logo span {
+    position:absolute;
+    bottom:-4px;
+    left:12px;
+    font-size:10px;
+    color:#FFF;
+    display:none;
+}
+
+.main-logo:hover span {
+    display:block;
+}
+
+#utility {
+    position:absolute;
+    right:1em;
+    top:.2em;
+}
+
+#utility ul
+{
+    font-size:.8em;
+    line-height:1em;
+}
+
+#utility li {
+    display:inline-block;
+    margin-right:1em;
+    color: #FFF;
+}
+.last-login {
+    font-style:italic;
+}
+
+.username {
+    font-weight:bold;
+}
+
+#topnav {
+    position:absolute;
+    bottom:0;
+    left:11em;
+}
+
+#topnav li {
+    margin-bottom:0;
+}
+
+#topnav li > a {
+    color:#04677E;
+}
+
+#topnav li:hover {
+    background:#FFF;
+}
+
+.home #t-home,.program #t-program,.instructor #t-instructor,.learner #t-learner,.course #t-course {
+    position:relative;
+    z-index:1;
+    background-color:#FFF;
+}
+
+.home #t-home a,.program #t-program a,.instructor #t-instructor a,.learner #t-learner a,.course #t-course a {
+    color:#C60;
+}
+/*View Menu*/
+#viewbar {
+    position:relative;
+    border-bottom:1px solid #EEE;
+    height:1.7em;
+    background-color:#FFF;
+    font-size:.9em;
+}
+
+#viewbar {
+    -webkit-box-shadow:0 -.2em .1em -.1em rgba(0,0,0,.3);
+    -moz-box-shadow:0 -.2em .1em -.1em rgba(0,0,0,.3);
+    -o-box-shadow:0 -.2em .1em -.1em rgba(0,0,0,.3);
+    box-shadow:0 0 .2em rgba(0,0,0,.3);
+}
+
+#viewbar h1 {
+    color:#C60;
+    line-height:25px;
+    margin:0 20px;
+    font-size:.9em;
+}
+
+#viewbar h1 span {
+    color:#999;
+    font-weight:normal;
+}
+
+#view-switch {
+    position:absolute;
+    right:20px;
+    top:50%;
+    margin-top:-9px;
+}
+
+#view-switch option {
+    color:#04677E;
+    text-indent:12px;
+    text-decoration:none;
+    width:auto;
+    line-height:1.4em;
+    min-height:inherit;
+}
+#view-switch option.selected {
+    color:black;
+}
+
+#view-switch option.checked {
+    color:#999;
+    font-weight: bold;
+}
+
+/********************************/
+/*  Main Content Area           */
+
+
+.lt-ie9 #main {
+    border-top:1px solid #999;
+}
+
+.page-header {
+    padding:0;
+    margin:0;
+    line-height:1em;
+    color:#C60;
+}
+
+.page-header span {
+    margin-left: .25em;
+    font-weight: normal;
+}
+
+/********************************/
+/* for starters, let's just try grouping these rules by rough categories:
+/*Global Modules, Dashboard Modules, Program Modules, Instructor Modules, Groups Modules, Courses Modules, Admin Modules
+/*
+
+
+/********************************/
+/*     Global Modules           */
+/*  used in 2 or more sections  */
+button {
+    margin: .25em;
+}
+
+.tree_group_name {
+    font-weight:bold;
+}
+
+/* This is the content block (title, if applicable, entity, the entity's save and reset buttons) */
+.content_container {
+    margin:1em auto;
+    position:relative;
+    max-width: 100em;
+}
+
+.dashboard .content_container {
+    position: absolute;
+    top: 2em;
+    bottom: 0em;
+    left: 0;
+    right: 0;
+    margin-bottom: 0;
+}
+
+.headless .dashboard .content_container {
+    top: 0;
+}
+
+.master_button_container {
+    position:relative;
+    margin: 1em 0;
+    width: 100%;
+}
+
+/*used with a ul in the .master_button_container
+* or with a div at the bottom of an entity_container
+*/
+.buttons {
+    margin:0;
+    padding:0;
+}
+
+.buttons li {
+    display:inline-block;
+    margin: 0 .25em 0 0;
+    padding: 0;
+}
+
+.buttons.left {
+    float:left;
+}
+
+.buttons.right {
+    float:right;
+}
+
+.buttons.right li {
+    margin: 0 0 0 .25em;
+}
+.buttons.bottom {
+    padding: .5em;
+    border-top: 1px solid #FFF;
+}
+.buttons.top {
+    margin-top: -1em;
+    padding: .5em;
+    border-top: 1px solid #FFF;
+    text-align:right;
+}
+.buttons.top .button {
+    margin-left: .5em;
+}
+.content_title {
+    font-weight:bold;
+    padding-left:3px;
+    margin-bottom:12px;
+}
+
+/* This is the generic rectangle of presentation (like in course manager, or group manager, ...) */
+.entity_container {
+    position:relative;
+    margin-bottom:3px;
+    padding: 0;
+    border:1pt solid #DDD;
+    background-color:#EEEEEE;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.entity_container.level-1 {
+    margin: 1em 0;
+}
+
+.entity_container > h4 {
+    font-size: .9em;
+}
+
+.entity_widget_title {
+    margin-top:9px;
+}
+
+.entity_container > .hd,
+.summary-header {
+    position: relative;
+    padding: 0;
+    min-height: 2em;
+    background-color: #CCC;
+}
+.entity_container > .hd {
+    cursor: pointer;
+}
+.collapsed > .hd:hover,
+.expanded  > .hd:hover {
+    background-color: lightBlue;
+}
+.level-1 > .hd {
+    cursor: default;
+    min-height: 3em;
+}
+
+.entity_container > .hd ul,
+.summary-header > ul {
+    display: table;
+    margin:0;
+    padding:0;
+    width: 100%;
+}
+.level-1 > .hd ul {
+    padding:0 1em 0 3em;
+}
+
+.entity_container > .hd li,
+.summary-header > ul li {
+    display:table-cell;
+    margin:0 2em 0 0;
+    padding: 0.25em;
+    vertical-align: top;
+}
+
+.entity_container > .hd .data-type,
+.summary-header li > .data-type {
+    display:block;
+    font-size: .7em;
+    white-space: nowrap;
+}
+
+.entity_container > .hd .data,
+.summary-header li > .data {
+    display:block;
+    font-weight: bold;
+    font-size: 1em;
+    white-space: nowrap;
+}
+.entity_container > .hd .title {
+    width: 50%;
+    line-height: 1em;
+}
+.summary-header li > .data {white-space: nowrap;}
+.summary-header li:first-child > .data {white-space: normal;}
+.hd > .course_id {}
+.hd > .course_level {}
+.hd > .course_year {}
+.entity_container > .hd .publish-status {
+    text-align:left;
+    width: 11em;
+    margin: 0 2em;
+}
+.entity_container .publish-status .data-type {margin-left: 4em;}
+.entity_container > .hd .enrollment {
+    text-align:right;
+    margin: 0 2em;
+}
+.entity_container > .hd > h3 {
+    margin: 0 2em;
+    font-size: 1.1em;
+    line-height: 2em;
+}
+.dirty_state > .hd {
+    background-color: rgba(255, 206, 62, 0.7000);
+    background-image: -webkit-repeating-linear-gradient(45deg, rgba(255, 206, 62, 0.8000), rgba(255, 206, 62, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 70px);
+    background-image:    -moz-repeating-linear-gradient(45deg, rgba(255, 206, 62, 0.8000), rgba(255, 206, 62, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 70px);
+    background-image:     -ms-repeating-linear-gradient(45deg, rgba(255, 206, 62, 0.8000), rgba(255, 206, 62, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 70px);
+    background-image:      -o-repeating-linear-gradient(45deg, rgba(255, 206, 62, 0.8000), rgba(255, 206, 62, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 35px, rgba(255, 230, 86, 0.8000) 70px);
+    background-image:         repeating-linear-gradient(45deg, rgba(255, 206, 62, 0.7000), rgba(255, 206, 62, 0.7000) 35px, rgba(255, 230, 86, 0.7000) 35px, rgba(255, 230, 86, 0.7000) 70px);
+}
+
+/* create a visual row within the entity_container */
+/* replaces program_year_input_row_div */
+.row {
+    position:relative;
+    clear:both;
+    margin: 0;
+    padding: 0.5em 1em;
+    border-top: 1px solid #FFF;
+    zoom: 1;
+}
+legend + .row {
+    border:none;
+}
+fieldset > .row {
+    padding: .5em 0;
+}
+.column {
+    position: relative;
+    float: left;
+    margin-left: 4.4%;
+    min-height: 1px;
+}
+.scroll_list > .row {
+    border-top: 1px dotted #CCC;
+}
+.column.label {
+    width: 25%;
+    margin-left: 0;
+    text-align:right;
+}
+
+.column.data {
+    width: 56.2%;
+}
+.no-action .column.data {
+    width: 70%;
+}
+
+.column.actions
+{
+    width: 10%;
+}
+
+.column.actions .button {
+    clear:both;
+    margin-bottom: 0.25em;
+}
+
+.column.data input[type=text] {
+    width:100%;
+}
+
+.row:hover {
+    background-color: #F1F1F1;
+}
+
+.row:before,
+.row:after {
+    content:"";
+    display:table;
+}
+
+.row:after {
+    clear:both;
+}
+
+.row h4 {
+    float:left;
+    margin: 0 2em;
+    padding: 0;
+    width: 35%;
+    line-height: 1em;
+}
+
+.row .button {
+    float: right;
+}
+.row .button:not(.secondary) {
+    color: #FFF; /*override a firefox bug?*/
+}
+
+.row .academic_year
+{
+    margin-left: 2em;
+    font-weight: bold;
+}
+
+/*may rename this class*/
+.scroll_list {
+    max-height: 10em;
+    overflow: auto;
+    background: #FDFDFD;
+}
+/*search results list - <ul class="search-results"> */
+.search-results {
+    margin: .25em;
+    padding: 0;
+    min-height: 1em;
+}
+.search-results > li {
+    display: block;
+    margin: 0;
+    padding: .25em;
+    border-top: 1px dotted #CCC;
+    width: 100%;
+    color:#2a85e8;
+    cursor: pointer;
+    font-size: .9em;
+}
+.search-results > li:first-child {
+    border:none;
+}
+.search-results > li:hover {
+    background-color: lightblue;
+}
+.search-results > li > span {
+    margin-right: .5em;
+}
+/*try these as generic*/
+.search-results > li > .title {font-weight: bold;}
+.search-results > li > .year {color: #999; font-size:.8em;}
+.search-results > li > .date {color: #999; font-size:.8em;}
+
+
+/* These are in the collapsible children - like the program year of programs **/
+.collapsible_container {
+    position:relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-top: 1px solid #CCC;
+    background-color: #EEE;
+}
+
+.collapsed_summary_text_div {
+    margin:0;
+    padding:0;
+    line-height: 2em;
+    margin-left: 3em;
+}
+
+.collapsed_summary_text_div .membercount {
+    position: absolute;
+    right: 4em;
+    width: 12em;
+    font-size: .8em;
+}
+
+.indeterminate_progress {
+    background:url("../images/loading.gif") no-repeat;
+    height:20px;
+    width:20px;
+    margin:0 9px 0 0;
+    padding:0;
+    vertical-align: middle;
+}
+
+.indeterminate_progress_text {
+    margin: 0;
+    padding: 0;
+    color:#666;
+    font-size: .8em;
+    vertical-align: middle;}
+
+.print_widget {
+    background:url("../images/print_icon.png") no-repeat;
+    height:32px;
+    width:32px;
+    margin:0;
+    padding:0;
+    display:inline-block;
+    float:left;
+    cursor:pointer;
+}
+
+.search_widget {
+    background:url("../images/search_icon.gif") no-repeat;
+    height:16px;
+    width:16px;
+    margin:0;
+    padding:0;
+    display:inline-block;
+    float:right;
+    cursor:pointer;
+}
+
+/** presently used with learning materials **/
+.add_widget {
+    background:url("../images/plus-icon_16.png") no-repeat;
+    height:16px;
+    width:16px;
+    margin:0 10px;
+    padding:0;
+    display:inline-block;
+    cursor:pointer;
+    vertical-align: middle;
+}
+
+.remove_widget {
+    display:inline-block;
+    margin:0 10px;
+    padding:0;
+    height:16px;
+    width:16px;
+    background:url("../images/delete-icon_16.png") no-repeat;
+    cursor:pointer;
+    vertical-align: middle;
+}
+
+.download_widget {
+    background:url("../images/down-icon_16.png") no-repeat;
+    height:16px;
+    width:16px;
+    margin:0 10px;
+    padding:0;
+    display:inline-block;
+    cursor:pointer;
+    vertical-align: middle;
+}
+
+/** used with deletable container divs **/
+.delete_widget {
+    position:absolute;
+    top:.5em;
+    right:.5em;
+    height:14px;
+    width:14px;
+    color: #666;
+    cursor:pointer;
+    font-size: .9em;
+    z-index:3;
+}
+.objective_container .delete_widget {
+    right: auto;
+    left: .5em;
+}
+.delete_widget:hover {
+    color: #C00;
+}
+
+.up_arrow_widget {
+    float:right;
+    background:url("../images/up_arrow_button.gif") no-repeat;
+    height:15px;
+    width:33px;
+    margin:0 9px 0 0;
+    padding:0;
+    cursor:pointer;
+}
+
+.yellow_warning_icon
+{
+    background:url("../images/yellow_warning_triangle_20x18.png") no-repeat;
+    display:inline-block;
+    height:18px;
+    width:20px;
+    margin-right:3px;
+    vertical-align:middle;
+    padding:0;
+}
+
+.child_expand_collapse {
+    position:absolute;
+    top:.5em;
+    right:.5em;
+    margin:0;
+    padding:0;
+    cursor:pointer;
+    z-index:3;
+}
+/*temp - revise as class*/
+#eso_parent_objectives_div {
+    max-height: 100px;
+    overflow: auto;
+}
+
+.objective_container {
+    position:relative;
+    margin:0.2em 0;
+    padding: 0 8em 0 2em;
+    border:1pt solid #DDD;
+    background-color:#FFF;
+    overflow:hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.objective_container .mesh_btn {
+    position: absolute;
+    right: 1em;
+    top: .5em;
+}
+
+.objective_description_container {
+    border: none;
+    padding: 5px;
+    max-height: 50px;
+    min-height: 32px;
+    overflow: auto;
+    cursor: pointer;
+    border-left: 1px solid #EEE;
+    border-right: 1px solid #EEE;
+}
+.objective_description_container:hover {
+    background-color: lightBlue;
+}
+
+.display_hide {
+    display:none;
+}
+
+.display_show {
+    display:block;
+}
+
+/* Used to reset element positioning */
+.clear {
+    clear:both;
+}
+
+.add_new_entity {
+    position:absolute;
+    top:9px;
+    left:33%;
+}
+
+.add_primary_child_link {
+    float:right;
+}
+
+.collapse_children_toggle_link {
+    float:right;
+}
+
+.read_only_data {
+    color:#800000;
+}
+.parent_publish_status {
+    position:absolute;
+    top:38px;
+    right:18px;
+    font-weight:bold;
+}
+
+.child_publish_status {
+    position:absolute;
+    top:0.5em;
+    right:4em;
+    width: 10em;
+    font-size: .8em;
+}
+
+.reset_button {
+    float:right;
+}
+
+#program_title {
+    width:45%;
+}
+
+#short_title {
+    width: 10%;
+}
+
+.calendar_tools {
+    margin: 0;
+    padding: .5em;
+    border-bottom: 1px solid #CCC;
+}
+
+.calendar_tools .icon-alone {font-size: 1.2em; line-height: 1em; }
+.calendar_tools > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#calendar_filters_breadcrumb_block {
+    display:none;
+    position: relative;
+    height: 3em;
+    width: 99.9%;
+    color: #999;
+    font-size: .7em;
+    white-space:nowrap;
+}
+.calendar_filter_titlebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin-top: .25em;
+    height: 1.3em;
+    width: 10em;
+    background-color: #EEE;
+    z-index: 1;
+}
+.calendar_filters_breadcrumb_title {
+    padding: 0 .5em;
+    font-weight: bold;
+}
+
+#calendar_filters_clear_search_link {
+    display:none;
+    margin-left: .5em;
+    cursor: pointer;
+    color: #C00;
+}
+#calendar_filters_clear_search_link:hover {color: #F00;}
+
+#calendar_filters_breadcrumb_content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: .25em;
+    padding-left: 10em;
+    line-height: 1.5em;
+    overflow: auto;
+}
+
+.calendar_filters_checkbox_list {
+    padding:5px;
+    border:thin solid grey;
+    max-height: 16em;
+    overflow:auto;
+    background-color:white;
+    white-space:nowrap;
+}
+
+.search_icon_button
+{
+    background:url("../images/orange_search_button.png") no-repeat;
+    display: inline-block;
+    margin:0;
+    padding:0;
+    height:25px;
+    width:25px;
+    cursor:pointer;
+    vertical-align: middle;
+}
+
+.search-status {
+    margin-bottom: 1em;
+    font-size: .8em;
+    color: #F00;
+}
+
+/*************************************/
+/*     YUI Overrides                 */
+/*  don't edit yui-widget.css rules  */
+.yui-overlay-hidden {
+    position: absolute;
+    left: -10000px !important;
+    top: -10000px !important;
+    visibility:hidden;
+}
+.yui-skin-sam .yui-navset .yui-content {
+    margin-bottom: 1em;
+    height:302px;
+    background: #FFF;
+    padding: 0;
+}
+.yui-skin-sam .yui-dialog .ft {
+    border-top: 1px solid #FFF;
+    padding: .25em;
+    background: #DDD;
+}
+.yui-skin-sam .yui-panel .bd {min-height: 5em;}
+.yui-skin-sam .ygtvlabel { background-color: transparent; }
+.tabdialog {background-color:#F2F2F2; visibility:hidden;}
+.yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav {
+    border: 1px solid #2ba6cb;
+    border-width: 0 0 1px;
+}
+.yui-dt {font-size: .9em;}
+.yui-dt table {width: 100%;}
+.yui-dt th {text-align: left;}
+
+/** hackery to get DataTables to render in a contained area.. :-/ TODO **/
+.yui-dt-data {
+    height:100px;
+    overflow:auto;
+    overflow-x:hidden;
+}
+
+.yui-skin-sam .yui-panel-container .tabdialog .yui-panel {
+    border:2px solid grey;
+}
+
+.yui-skin-sam .yui-ac-content {
+    height: 276px;
+    overflow: auto;
+    overflow-x: hidden;
+    border-color: #EEE;
+}
+
+.yui-skin-sam #calendar_instructor_autolist .yui-ac-content {
+    max-height:140px;
+    _height:140px;
+}
+.yui-skin-sam .yui-ac-content li {cursor: pointer;}
+.yui-skin-sam .yui-ac-content li.yui-ac-highlight {/*TODO sync hightlight colors*/}
+
+/*************************************/
+/*     DHTMLX Overrides              */
+/*                                   */
+#dhtmlx_scheduler_container * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.dhx_cal_container {
+    float: left;
+    width: 60%;
+    height: 100%;
+    border: 1px solid #CCC;
+}
+/*center the current date range between buttons & tabs*/
+.dhx_cal_navline .dhx_cal_date {
+    left: 135px;
+    right: 275px;
+    text-align: center;
+}
+
+.dhx_cal_prev_button {left: 5px;}
+.dhx_cal_next_button {left: 35px;}
+.dhx_cal_today_button {left: 65px;}
+
+.dhx_scale_bar {
+    background-image:url("../images/dhtmlx/top-separator.gif");
+}
+
+.dhx_cal_event {
+    background-color:#FFE4AB;
+}
+
+/*
+ * "read-only" events in the offering mngmt. calendar
+ */
+.dhx_cal_event.read-only-event .dhx_body {
+    color: #7d7d7d;
+    font-style: italic;
+}
+
+/**
+ * adds visual indicator to recently updated offering/ilm in calendar.
+ */
+.recently_updated_calendar_event .dhx_body {
+    padding-top:15px;
+    background-image:url("../images/recently_updated_event_cal.png");
+    background-repeat:no-repeat;
+    background-position:top left;
+}
+
+
+/**
+ * adds visual indicator to recently updated offering/ilm in offerings table.
+ */
+.recently_updated_calendar_event.yui-dt-liner {
+    padding-left:15px;
+    background-image:url("../images/recently_updated_event_table.png");
+    background-repeat:no-repeat;
+    background-position:top left;
+}
+
+/*************************************/
+/*     Dialog styles                 */
+/*                                   */
+
+/*used with yui treeview*/
+.default_tree_div {
+    padding-left: .25em;
+    max-height: 297px;
+    overflow: auto;
+}
+/*makes room for ac_input above*/
+.input_tree_div {
+    padding-left: .25em;
+    padding-top: 2em;
+    max-height: 297px;
+    overflow: auto;
+}
+
+/** elements of the standard auto complete dialog - TODO name better **/
+.dialog_wrap {
+    position:relative;
+    margin:0;
+    padding:0;
+    min-height: 5em;
+    width:100%;
+    overflow-y:auto;
+}
+
+.dialog_single_content {
+    position:relative;
+    width:98%;
+    height:360px;
+}
+
+.dialog_left, .dialog_right {
+    position:relative;
+    margin:0;
+    padding:0;
+    height: 350px;
+    width: 49.9%;
+    font-size: .9em;
+}
+.dialog_left {
+    float:left;
+}
+
+.dialog_right {
+    float:right;
+}
+
+.picked_label {
+    position:relative;
+    margin-left:10px;
+    height:30px;
+    background-color:#efefef;
+}
+
+.picked {
+    width:90%;
+    margin-left:10px;
+    padding:0;
+    height:300px;
+    border:1px solid #9393a3;
+    background-color:#f3f6ff;
+    overflow:auto;
+}
+
+.picked li {
+    margin: 0;
+    border-bottom: 1px dotted #CCC;
+    padding: .25em .25em .25em 1.75em;
+    text-indent: -1.5em;
+    cursor: pointer;
+}
+.picked li:before {
+    font-family: 'ilios-icons';
+    font-style: normal;
+    speak: none;
+    content: "\2715";
+    color: #999;
+    margin-right: .5em;
+}
+.picked li:hover::before {
+    color: #C00;
+}
+.autocomplete_tab {}
+
+.single_selector_tab {
+    margin-top:.2em;
+}
+
+#ilios_mesh_picker .picked {
+    margin-top: 32px;
+}
+
+#mesh_search_results {
+    max-height: 275px;
+    overflow: auto;
+    padding: .25em;
+}
+
+/*nested competencies lists*/
+.competency-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.competency-list > ul {
+    margin: 0;
+    font-size: .9em;
+}
+
+
+/********************************/
+/*     Dashboard Modules        */
+
+.dashboard h3 {
+    float:left;
+    margin: 0;
+    padding:0;
+    margin-left: .5em;
+    line-height: 2em;
+    font-size: 1em;
+}
+
+.dashboard .primary h3 {
+    margin-top: .25em;
+    font-size: 1.2em;
+}
+
+.column.primary {
+    margin: 0;
+    width: 64%;
+    height: 100%;
+    background: #EFEFEF;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+}
+.column.secondary {
+    margin-left: 1%;
+    min-height: 100%;
+    width:33%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+}
+.dashboard .column.secondary {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 64%;
+    right: 0;
+    margin: 0 0 0 1em;
+    width: auto;
+    overflow:auto;
+    background: #EEE;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+}
+.dashboard_widget
+{
+    position: relative;
+    margin:.25em;
+    padding:0;
+    background-color:#EEE;
+    font-size: .9em;
+}
+.dashboard_widget > .hd {
+    margin: 0;
+    padding: 0;
+    background-color:#CCC;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
+}
+.dashboard_widget > .bd {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    background-color: #FFF;
+}
+.dashboard_widget .buttons {
+    padding: .1em;
+    border-bottom: 1px solid #CCC;
+    text-align: right;
+}
+.dashboard_widget .toggle {
+    position: static;
+    cursor: pointer;
+}
+.dashboard_widget .toggle:hover {
+    background-color: lightBlue;
+}
+.dashboard_widget .toggle:before {
+    float: left;
+    margin-left: .25em;
+    font-family: 'ilios-icons';
+    font-style: normal;
+    speak: none;
+    font-size: .8em;
+    line-height: 1.7em;
+}
+.dashboard_widget .toggle.expand:before {
+        content: "\e001";
+
+}
+.dashboard_widget .toggle.collapse:before {
+    content: "\e01e";
+}
+
+.dashboard_widget > .hd h3 {
+    float: none;
+    margin:0 0 0 1.2em;
+    line-height: 1.4em;
+}
+.dashboard_widget > .bd > ul {
+    margin: 0;
+    padding:0;
+    list-style-type: none;
+}
+.dashboard_widget > .bd li {
+    margin:0;
+    padding: .25em .5em .25em 1.25em;
+    border-top: 1px solid #CCC;
+}
+.dashboard_widget > .bd li:first-child {
+    border: none;
+}
+.dashboard_widget > .bd li a {
+    display: inline-block;
+}
+.dashboard #role_switch {
+    position: absolute;
+    right: 0;
+    top: -4em;
+    white-space: nowrap;
+}
+
+.headless #role_switch {
+    top: 1.5em;
+    right: 12em;
+}
+
+#alerts_overdue_warning:before,
+#administration_widget_alert:before {
+    float: right;
+    display: inline-block;
+    color: #C00;
+}
+.dashboard_widget li.dashboard_report_item {
+    padding-left:1.5em;
+}
+.dashboard_report_item .icon-cancel {cursor: pointer;}
+.dashboard_report_item .icon-cancel:before {
+    position: absolute;
+    display:block;
+    height: 1em;
+    width: 1em;
+    left: .4em;
+    cursor: pointer;
+    font-size: .8em;
+}
+.dashboard_report_item .icon-cancel:hover::before {
+    color: #C00;
+}
+#dashboard_calendar_filters_content {
+    display: none;
+    margin: .5em;
+    padding: 5px;
+    border: 1px solid #CCC;
+    background-color: #FFF;
+}
+#dashboard_calendar_filters_content .bd,
+#calendar_filters_dialog .bd {
+    font-size: 0.8em;
+}
+
+#dashboard_inspector_content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1em .5em;
+    overflow: auto;
+    font-size: .9em;
+}
+#report_results_dialog .bd {
+    background-color: #FFF;
+}
+#report_results_content .report-header {
+    border-bottom: 1px solid #CCC;
+    font-size: 1em;
+}
+#report_results_content > ul {
+    margin: 0;
+    padding: .5em 0;
+    border-bottom: 1px solid #CCC;
+    max-height: 400px;
+    font-size: .9em;
+    overflow: auto;
+}
+#report_results_content li {
+    padding: .25em 0;
+    margin: .25em;
+    border-top: 1px dotted #CCC;
+}
+#report_results_content li:first-child {
+    margin-top: 0;
+    border: none;
+}
+#report_results_content li.linked-item:hover {
+    background-color:lightBlue;
+}
+#report_results_content li a {
+    display: block;
+}
+
+#calendar-container {
+    position: relative;
+    margin-bottom: 20px;
+    height: 600px;
+    width: 100%;
+    background: #EEE;
+}
+
+.calendar-filters {
+    border: 1px solid #CCC;
+    width: 60%;
+    background: #EEE;
+}
+
+.calendar-filters > ul {
+    display:table;
+    margin: .5em;
+    padding: 0;
+}
+
+.calendar-filters > ul > li {
+    display: table-cell;
+    padding-left: 1em;
+}
+
+.calendar-filters > ul label {
+    display:block;
+    font-size: .8em;
+}
+
+#calendar_show_attributes_div {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 60.31%;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    background: #EEE;
+}
+
+#inspector_pane {
+    border: 1px solid #CCC;
+    min-height: 100%;
+}
+
+#offering_calendar_color_legend_div {
+    margin: 12px 0 0 0;
+    padding: 0px;
+    width: 60%;
+    border: 1px solid;
+    font-size: .7em;
+}
+
+/********************************/
+/*     Program Modules          */
+
+#program_year_container {
+    margin: 1em 0;
+}
+
+.py_summary_shpeel {
+    font-size: .8em;
+}
+
+.academic_year select {margin-left: 1em;}
+
+.py_total_text_div {
+    clear: both;
+}
+
+/********************************/
+/*     Instructor Modules       */
+
+
+/********************************/
+/*     Groups Modules           */
+
+#group_container {
+    margin: 1em 0;
+    padding-bottom: 2em;
+}
+#breadcrumb_group_trail,
+#breadcrumbed_suffixed_group_trail {
+    margin: 1em 0;
+}
+.sub_group_title {
+    font-weight:bold;
+}
+
+.group_split_div {
+    position:absolute;
+    left:-49px;
+    top:-15px;
+}
+/* style for inactive users listed in a group selection widget */
+.group_selection_dialog_inactive_user {
+    color:#999;
+}
+
+
+/********************************/
+/*     Courses Modules          */
+
+#course_session_header_div {
+    position: relative;
+    margin-top: 1em;
+}
+
+#session_container{
+    margin-top: 1em;
+}
+#sessions_summary {
+    position: absolute;
+    left: 3em;
+}
+
+#session_ordering_selector {
+    margin-right: 1em;
+}
+
+#edit_course_objective_dialog .dialog_wrap {
+    max-height: 500px;
+}
+
+#eco_textarea {
+    height: 5em;
+    width: 99%;
+}
+
+.obscuring_shade {
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:12121;
+    background:url("../images/pale_rose_25-24x24.png") repeat;
+}
+
+.attire_needed_badge {
+    background:url("../images/attire_needed.png") no-repeat;
+    height:22px;
+    width:22px;
+    display:inline-block;
+    margin:0 0 0 6px;
+    padding:0;
+    vertical-align: middle;
+}
+
+.equipment_needed_badge {
+    display:inline-block;
+    width:22px;
+    height:22px;
+    margin:0 0 0 6px;
+    padding:0;
+    background:url("../images/equipment_needed.png") no-repeat;
+    vertical-align: middle;
+}
+
+#course_more_or_less_div {
+    margin-top:36px;
+}
+
+#date_picking_calendar_container {
+    position:absolute;
+    top:300px;
+    left:275px;
+}
+
+#external_course_id {
+    width: 6em;
+}
+
+#course_unique_id {
+    margin-left: 1em;
+}
+/*course review dialog*/
+#review_dialog {font-size: .9em;}
+#review_dialog .bd { background-color: #FFF;}
+#review_dialog .dialog_wrap {max-height: 600px;}
+#review_dialog .pass {color: #000;}
+#review_dialog .fail.icon-warning:before {color: #C00;margin-right: 1em;}
+#review_dialog .pass.icon-checkmark:before {color: #090;margin-right: 1em;}
+#review_dialog label {font-weight: bold; display:inline-block; width: 45%;}
+#review_dialog .data {display: inline-block; max-width: 45%; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+#review_heading {margin-bottom: 0;}
+#course_level   {margin: 0;}
+.sessionsList {margin: 0; padding: 0;}
+.sessionsList > li {border-bottom: 1px solid #CCC; border-top: 1px solid #EEE; margin-bottom: 1em;}
+.sessionsList > li:first-child {border: none;}
+.auditList {margin: 0; padding: 1em; border: 1px solid #CCC;list-style: none;}
+.auditList > li {margin: 0; border-bottom: 1px dotted #CCC;}
+#full_review_course_div .auditList {margin-bottom: 1.5em; border: none;}
+
+.calendar_button {
+    display: inline-block;
+    margin: 0 .25em;
+    height:18px;
+    width:18px;
+    background:url("../images/dhtmlx/calendar.gif");
+    cursor:pointer;
+    vertical-align: middle;
+}
+
+#learner_view_dialog .dialog_wrap,
+#calendar_event_details_dialog .dialog_wrap {
+    max-height: 600px;
+}
+
+.lv-title {
+    font-size:1em;
+    margin: 0 0 1em 0;
+}
+.lv-overview, .lv-type, .lv-description, .lv-attire, .lv-equipment, .lv-objectives {
+    position: relative;
+    font-size: .9em;
+    border-top: 1px solid #FFF;
+    margin: .25em 0;
+    padding: .25em 0;
+}
+#course_summary_view_dialog .dialog_wrap {
+    max-height: 640px;
+}
+#course_summary_view_content_div {
+    font-size: .9em;
+}
+#course_summary_view_content_div .summary {
+    margin: 0;
+    padding: 0;
+}
+#course_summary_view_content_div #summary_title_div {
+    margin-right: 2em;
+    font-weight: bold;}
+#course_summary_view_content_div .summary > li {
+    margin: 0;
+}
+#course_summary_view_content_div fieldset {
+    margin: .25em 0;
+}
+#course_summary_view_content_div .row {}
+#course_summary_view_content_div .row .collapsed_widget,
+#course_summary_view_content_div .row .expanded_widget {
+    margin-left: -1.25em;
+}
+
+
+/********************************/
+/*     Offering Management      */
+
+.om_inspector_title_bar {
+    padding:3px 4px 2px 3px;
+    font-size:12pt;
+    font-weight:bold;
+}
+ul.week_list {
+    display:inline;
+    padding:0;
+    color:#121212;
+    font-size:11pt;
+    font-weight:bold;
+}
+
+ul.week_list li {
+    display:inline;
+    padding:3px;
+    border:1px solid;
+    background-color:#FFFFFF;
+    cursor:pointer;
+    list-style:none;
+}
+
+ul.week_list li.selected_day {
+    background-color:#B3D4FF;
+}
+
+.selected_calendar_event {
+    border:2px dotted #EF3834;
+}
+
+div.icon_dhtmlx_spacer {
+    width:12px;
+    height:18px;
+    background:url("../images/empty_pixel.png");
+}
+
+.busy_time_calendar_div {
+    position:absolute;
+    padding:3px;
+    background-color:#D8C7CE;
+    z-index:23;
+}
+
+/* ILM calendar events */
+.dhx_cal_event_clear.ilm,
+.dhx_cal_event.ilm .dhx_body,
+.session-type-legend.ilm {
+    background-color: #ffffff;
+    color:#222212;
+}
+
+/* used on offering mngmt. page */
+.offering_summary_management_table {
+    width: 60%;
+    max-height: 170px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+/* used on dashboard and calendar pages */
+.offering_summary_calendar_table {
+    width: 100%;
+    max-height: 170px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+/********************************/
+/*     Learning Materials       */
+/*TODO: sync styles with other pickers */
+#alm_tab_pane {
+    padding: .25em;
+    border: 1px solid #CCC;
+}
+#alm_search_results_div {
+    margin-right: -.25em;
+    height: 468px;
+    overflow: auto;
+}
+
+.learning_material_list {
+    margin:0;
+    padding:0;
+}
+
+.learning_material_list li {
+    position: relative;
+    list-style-type:none;
+    list-style-position:inside;
+    margin: 0;
+    padding:.5em .5em .5em 30px;
+    border-bottom: 1px dotted #CCC;
+}
+.learning_material_list > li > .title {
+    display: inline-block;
+    margin-right: 8em;
+}
+.learning_material_list > li > .description {
+    font-size: .8em;
+    margin-top: .5em;
+}
+.learning_material_list .icon-star {
+    margin-right: .25em;
+}
+
+.learning_material_list li a {
+    display:inline-block;
+    max-width: 70%;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow:ellipsis;
+    text-overflow: ellipsis;
+    overflow:hidden;
+}
+
+.learning_material_list .buttonset {
+    position: absolute;
+    right: 0;
+    top: .5em;
+}
+
+.learning_material_list .filesize {
+    position: absolute;
+    right: 6em;
+    font-size:.8em;
+    color: #999;
+}
+/* consider replacing these with icon font - and perhaps simplifying */
+.learning_material_list li.application--gzip {
+    background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--msword {
+    background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--vnd__openxmlformats-officedocument__wordprocessingml__document {
+    background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--octet-stream m{
+    background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--pdf {
+    background: url("../images/mime_type_icons/pdf.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--vnd__ms-excel {
+    background: url("../images/mime_type_icons/x-office-spreadsheet.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--vnd__openxmlformats-officedocument__spreadsheetml__sheet {
+    background: url("../images/mime_type_icons/x-office-spreadsheet.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--powerpoint {
+    background: url("../images/mime_type_icons/x-office-presentation.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--vnd__ms-powerpoint {
+    background: url("../images/mime_type_icons/x-office-presentation.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__presentation {
+    background: url("../images/mime_type_icons/x-office-presentation.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--zip {
+    background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.audio--mpeg {
+    background: url("../images/mime_type_icons/audio-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.audio--wav {
+    background: url("../images/mime_type_icons/audio-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.citation {
+    background: url("../images/mime_type_icons/citation.png") no-repeat 2px .5em;
+}
+.learning_material_list li.image--gif {
+    background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.image--jpeg {
+    background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.image--png {
+    background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.link {
+    background: url("../images/mime_type_icons/link.png") no-repeat 2px .5em;
+}
+.learning_material_list li.text--html {
+    background: url("../images/mime_type_icons/text-html.png") no-repeat 2px .5em;
+}
+.learning_material_list li.text--plain {
+    background: url("../images/mime_type_icons/text-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.video--x-ms-wmv {
+    background: url("../images/mime_type_icons/video-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.application--x-download {
+    background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
+}
+.learning_material_list li.video--quicktime {
+    background: url("../images/mime_type_icons/video-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.audio--mpg {
+    background: url("../images/mime_type_icons/audio-x-generic.png") no-repeat 2px .5em;
+}
+.learning_material_list li.image--jpg {
+    background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
+}
+
+/********************************/
+/*     Admin Modules            */
+
+.disabled_a:hover {
+    text-decoration:none;
+}
+.alert_triangle {
+    float:left;
+    margin:0;
+    padding:0;
+    height:24px;
+    width:24px;
+    background:url("../images/orange_alert_triangle.png") no-repeat;
+}
+
+.action_taken {
+    float:left;
+    margin:0;
+    padding:0;
+    height:24px;
+    width:24px;
+    background:url("../images/checkbox_full.png") no-repeat;
+}
+
+/*******************************/
+/* Print Course Summary        */
+.print .row {border:none; padding: .25em 0;}
+.print .row:hover {background: none;}
+.print .expanded_widget,
+.print .collapsed_widget {display:none;}
+.print .column.label {font-weight: bold;}
+.print fieldset {margin: 1em;}
+.print .buttons {display:none;}
+
+
+/* ==|== media queries ======================================================
+   EXAMPLE Media Query for Responsive Design.
+   This example overrides the primary ('mobile first') styles
+   Modify as content requires.
+   ========================================================================== */
+/*
+@media only screen and min-width 35em {
+
+}
+*/
+
+/* ==|== non-semantic helper classes ========================================
+   Please define your styles before this section.
+   ========================================================================== */
+
+/* Hide from both screenreaders and browsers: h5bp.com/u */
+.hidden {
+    display:none!important;
+    visibility:hidden;
+}
+
+/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
+.visuallyhidden {
+    border:0;
+    clip:rect(0 0 0 0);
+    height:1px;
+    margin:-1px;
+    overflow:hidden;
+    padding:0;
+    position:absolute;
+    width:1px;
+}
+
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
+.visuallyhidden.focusable:active,.visuallyhidden.focusable:focus {
+    clip:auto;
+    height:auto;
+    margin:0;
+    overflow:visible;
+    position:static;
+    width:auto;
+}
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible {
+    visibility:hidden;
+}
+
+/* Contain floats: h5bp.com/q */
+.clearfix:before,
+.clearfix:after {
+    content:"";
+    display:table;
+}
+
+.clearfix:after {clear:both;}
+
+.clearfix {zoom:1;}
+
+/*useful*/
+.float-l {float:left;}
+.float-r {float:right;}
+.align-r {text-align:right;}
+.align-c {text-align:center;}
+.align-l {text-align:left;}
+.margin-t {margin-top:2em !important;}
+.margin-b {margin-bottom:2em !important;}
+.margin-l {margin-left:2em !important;}
+.margin-r {margin-right:2em !important;}
+.margin-t0 {margin-top:0!important;}
+.margin-b0 {margin-bottom:0!important;}
+.margin-0 {margin:0!important;}
+.scroll-v {overflow-y: auto; overflow-x: hidden;}
+.scroll-h {overflow-y: hidden; overflow-x: auto;}
+.scroll-auto {overflow: auto;}
+.hide {display:none!important;}
+.alt {background-color:#F1F5FA;}
+.centered {margin:0 auto;}
+.nowrap {white-space:nowrap;}
+.small {font-size:.8em;}
+.tiny {font-size: .6em;}
+.no-bullets {list-style-type:none; margin:0;padding:0;}
+.stack {display:block; clear:both;}
+.note {color: #999; font-size: 0.8em;}
+
+
+/* ==|== print styles =======================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+@media print {
+    *
+    {
+        background:transparent!important;
+        color:black!important;
+        box-shadow:none!important;
+        text-shadow:none!important;
+        filter:none!important;
+        -ms-filter:none!important;
+    }
+
+    /* Black prints faster: h5bp.com/s */
+    a,a:visited {
+        text-decoration:underline;
+    }
+
+    a[href]:after {
+        content:" (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content:" (" attr(title) ")";
+    }
+
+    /* Don't show links for images, or javascript/internal links */
+    pre,blockquote {
+        border:1px solid #999;
+        page-break-inside:avoid;
+    }
+
+    thead {
+        display:table-header-group;
+    }
+
+    tr,img {
+        page-break-inside:avoid;
+    }
+
+    img {
+        max-width:100%!important;
+    }
+
+    @page {
+        margin:.5cm;
+    }
+
+    p,h2,h3 {
+        orphans:3;
+        widows:3;
+    }
+
+    h2,h3 {
+        page-break-after:avoid;
+    }
+}

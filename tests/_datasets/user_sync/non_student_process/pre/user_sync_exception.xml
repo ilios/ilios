@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="user_sync_exception">
+		<column>exception_id</column>
+		<column>process_id</column>
+		<column>process_name</column>
+		<column>user_id</column>
+		<column>exception_code</column>
+		<column>mismatched_property_name</column>
+		<column>mismatched_property_value</column>
+		<!-- no data! -->
+	</table>
+</dataset>

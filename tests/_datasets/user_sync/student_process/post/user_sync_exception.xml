@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="user_sync_exception">
+		<column>exception_id</column>
+		<column>process_id</column>
+		<column>process_name</column>
+		<column>user_id</column>
+		<column>exception_code</column>
+		<column>mismatched_property_name</column>
+		<column>mismatched_property_value</column>
+		<row>
+			<value>1</value>
+			<value>1082703600</value>
+			<value>Ilios2_UserSync_Process_StudentProcess</value>
+			<value>90</value>
+			<value>204</value> <!--  STUDENT_SYNC_STATUS_MISMATCH_IN_ILIOS -->
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>2</value>
+			<value>1082703600</value>
+			<value>Ilios2_UserSync_Process_StudentProcess</value>
+			<value>91</value>
+			<value>201</value> <!--  STUDENT_SYNC_EMAIL_MISMATCH -->
+			<value>email</value>
+			<value>miriam.e.mismatch@test.com</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>1082703600</value>
+			<value>Ilios2_UserSync_Process_StudentProcess</value>
+			<value>70</value>
+			<value>203</value> <!--  STUDENT_SYNC_NOT_IN_EXTERNAL_USER_SOURCE -->
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>4</value>
+			<value>1082703600</value>
+			<value>Ilios2_UserSync_Process_StudentProcess</value>
+			<value>71</value>
+			<value>299</value> <!--  STUDENT_SYNC_EMAIL_MISMATCH -->
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>5</value>
+			<value>1082703600</value>
+			<value>Ilios2_UserSync_Process_StudentProcess</value>
+			<value>92</value>
+			<value>202</value> <!--  STUDENT_SYNC_STATUS_MISMATCH_IN_EXTERNAL_USER_STORE -->
+			<null />
+			<null />
+		</row>
+	</table>
+</dataset>

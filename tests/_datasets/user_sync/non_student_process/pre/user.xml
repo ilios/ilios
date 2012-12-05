@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <table name="user">
+        <column>user_id</column>
+        <column>last_name</column>
+        <column>first_name</column>
+        <column>middle_name</column>
+        <column>phone</column>
+        <column>email</column>
+        <column>added_via_ilios</column>
+        <column>enabled</column>
+        <column>uc_uid</column>
+        <column>other_id</column>
+        <column>primary_school_id</column>
+        <column>examined</column>
+        <column>user_sync_ignore</column>
+        
+        <!--  TEST CASE: user is student -->
+        <row>
+            <value>1</value>
+            <value>Student</value>
+            <value>Stu</value>
+            <value></value>
+            <value>111-111-1111</value>
+            <value>stu.student@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111111</value>
+            <null />
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: user is student, but also faculty -->
+        <row>
+            <value>2</value>
+            <value>Student</value>
+            <value>Susie</value>
+            <value>Faculty</value>
+            <value>111-111-1112</value>
+            <value>susie.f.student@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111112</value>
+            <null />
+            <value>1</value>
+            <value>1</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: user has no role assigment -->
+        <row>
+            <value>3</value>
+            <value>Role</value>
+            <value>Rudy</value>
+            <value>No</value>
+            <value>111-111-1113</value>
+            <value>rudy.no.role@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111113</value>
+            <null />
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: duplicates in ext. user store on UID -->
+        <row>
+            <value>4</value>
+            <value>Duplicate</value>
+            <value>Uid</value>
+            <value>Dave</value>
+            <value>111-111-1114</value>
+            <value>dave.u.duplicate@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111114</value>
+            <null />
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: duplicates in ext. user store on email -->
+        <row>
+            <value>5</value>
+            <value>Duplicate</value>
+            <value>Email</value>
+            <value>Danielle</value>
+            <value>111-111-1115</value>
+            <value>danielle.e.duplicate@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value></value>
+            <null />
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+        </row>        
+        <!--  TEST CASE: flagged to be ignored/ no update -->
+        <row>
+            <value>6</value>
+            <value>Ignorant</value>
+            <value>Steve</value>
+            <value></value>
+            <value>111-111-1116</value>
+            <value>steve.ignorant@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111116</value>
+            <null />
+            <value>2</value>
+            <value>0</value>
+            <value>1</value> <!-- flagged to be ignored -->
+        </row>
+        <!--  TEST CASE: disabled / no update -->
+        <row>
+            <value>7</value>
+            <value>Disabled</value>
+            <value>Derrick</value>
+            <value></value>
+            <value>111-111-1117</value>
+            <value>derrick.disabled@test.com</value>
+            <value>1</value>
+            <value>0</value> <!-- disabled -->
+            <value>xxxx111117</value>
+            <null />
+            <value>2</value>
+            <value>0</value> <!-- disabled -->
+            <value>0</value> 
+        </row>
+        <!--  TEST CASE: uid match but email mismatch   -->
+        <row>
+            <value>8</value>
+            <value>Mismatch</value>
+            <value>Michael</value>
+            <value>E</value>
+            <value>111-111-1118</value>
+            <value>michael.e.mismatch@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111118</value>
+            <null />
+            <value>3</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+        <!--  TEST CASE: email match but uid mismatch   -->
+        <row>
+            <value>9</value>
+            <value>Mismatch</value>
+            <value>Martha</value>
+            <value>U</value>
+            <value>111-111-1118</value>
+            <value>martha.u.mismatch@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111119</value>
+            <null />
+            <value>3</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+        <!--  TEST CASE: duplicates on Email in Ilios  -->
+        <row>
+            <value>10</value>
+            <value>Dupe</value>
+            <value>David</value>
+            <value>E</value>
+            <value>555-555-5551</value>
+            <value>david.e.dupe@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx555551</value>
+            <null />
+            <value>3</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+        <row>
+            <value>11</value>
+            <value>Dupe</value>
+            <value>Dave</value>
+            <value>E</value>
+            <value>555-555-5551</value>
+            <value>david.e.dupe@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <null />
+            <null />
+            <value>3</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+        <!--  TEST CASE: duplicates on Uid in Ilios  -->
+        <row>
+            <value>12</value>
+            <value>Dupe</value>
+            <value>Doris</value>
+            <value>U</value>
+            <value>555-555-5555</value>
+            <value>doris.u.dupe@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value></value>
+            <null />
+            <value>3</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+        <row>
+            <value>13</value>
+            <value>Dupe</value>
+            <value>Doris</value>
+            <value>U</value>
+            <value>555-555-5555</value>
+            <value>doris.u.dupe@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx555555</value>
+            <null />
+            <value>3</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+        <row>
+            <value>14</value>
+            <value>Dupe</value>
+            <value>Doris</value>
+            <value>U</value>
+            <value>555-555-5555</value>
+            <value>doris.u.dupe@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx555555</value>
+            <null />
+            <value>3</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+        <!--  TEST CASE: successful non-student match / update  -->
+        <row>
+            <value>15</value>
+            <value>Guy</value>
+            <value>Greg</value>
+            <value>G</value>
+            <value>999-999-9999</value>
+            <value>greg.g.guy@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx999999</value>
+            <null />
+            <value>1</value>
+            <value>0</value> 
+            <value>0</value> 
+        </row>
+    </table>
+</dataset>

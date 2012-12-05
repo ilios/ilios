@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <table name="user">
+        <column>user_id</column>
+        <column>last_name</column>
+        <column>first_name</column>
+        <column>middle_name</column>
+        <column>phone</column>
+        <column>email</column>
+        <column>added_via_ilios</column>
+        <column>enabled</column>
+        <column>uc_uid</column>
+        <column>other_id</column>
+        <column>primary_school_id</column>
+        <column>examined</column>
+        <column>user_sync_ignore</column>
+        <!--  TEST CASE: non-student user/ no update -->
+        <row>
+            <value>10</value>
+            <value>Nonstudent</value>
+            <value>Nina</value>
+            <null />
+            <null />
+            <value>nina.nonstudent@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <null />
+            <null />
+            <value>4</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: student flagged to be ignored / no update -->
+        <row>
+            <value>30</value>
+            <value>Ignored</value>
+            <value>Igor</value>
+            <null />
+            <null />
+            <value>Igor.Ignored@Test.Com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx333333</value>
+            <null />
+            <value>4</value>
+            <value>0</value>
+            <value>1</value> <!-- flagged to be ignored -->
+        </row>
+        <row>
+            <value>31</value>
+            <value>Ignoramus</value>
+            <value>Igor</value>
+            <null />
+            <null />
+            <value>Igor.Ignoramus@Test.Com</value>
+            <value>1</value>
+            <value>0</value> <!--  disabled -->
+            <value>xxxx333333</value>
+            <null />
+            <value>4</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: unexamined user - not found in ext. user store -->
+        <row>
+            <value>70</value>
+            <value>Unexamined</value>
+            <value>Uwe</value>
+            <value>Gone</value>
+            <value>444-444-4444</value>
+            <value>uwe.g.unexamined@test.com</value>
+            <value>1</value> 
+            <value>1</value>
+            <value>xxxx444444</value>
+            <null />
+            <value>2</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: unexamined user - unknown error -->
+        <row>
+            <value>71</value>
+            <value>Unexamined</value>
+            <value>Ulf</value>
+            <value>Unknown</value>
+            <value>444-444-4445</value>
+            <value>ulf.u.unexamined@test.com</value>
+            <value>1</value> 
+            <value>1</value>
+            <value>xxxx444445</value>
+            <null />
+            <value>2</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: user mismatch on student status -->
+        <row>
+            <value>90</value>
+            <value>Mismatch</value>
+            <value>Mike</value>
+            <value>Status</value>
+            <value>111-111-1113</value>
+            <value>mike.s.mismatch@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111113</value>
+            <null />
+            <value>2</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: user mismatch on email -->
+        <row>
+            <value>91</value>
+            <value>Mismatch</value>
+            <value>Miriam</value>
+            <value>Email</value>
+            <value>111-111-1114</value>
+            <value>miriam.mismatch@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111114</value>
+            <null />
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: user mismatch on student status -->
+        <row>
+            <value>92</value>
+            <value>Nonstudent</value>
+            <value>Niles</value>
+            <value></value>
+            <value>111-111-1115</value>
+            <value>niles.nonstudent@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111115</value>
+            <null />
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+        </row>
+        <!--  TEST CASE: successful user update -->
+        <row>
+            <value>100</value>
+            <value>Stuart</value>
+            <value>Student</value>
+            <value></value>
+            <value></value>
+            <value>stuart.student@test.com</value>
+            <value>1</value>
+            <value>1</value>
+            <value>xxxx111111</value>
+            <null />
+            <value>1</value> <!--  SOM -->
+            <value>0</value>
+            <value>0</value>
+        </row>
+
+    </table>
+</dataset>

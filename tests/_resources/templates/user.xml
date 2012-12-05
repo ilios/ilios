@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <table name="user">
+        <column>user_id</column>
+        <column>last_name</column>
+        <column>first_name</column>
+        <column>middle_name</column>
+        <column>phone</column>
+        <column>email</column>
+        <column>added_via_ilios</column>
+        <column>enabled</column>
+        <column>uc_uid</column>
+        <column>other_id</column>
+        <column>primary_school_id></column>
+        <column>examined</column>
+        <column>user_sync_ignore</column>
+        <!-- 
+        <row>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+        </row>
+         -->
+    </table>
+</dataset>

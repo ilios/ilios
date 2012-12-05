@@ -1,0 +1,27 @@
+Copyright (c) 2010-2012 The Regents of the University of California.
+    All Rights Reserved.
+
+Permission to use this software for educational and non-profit purposes, without fee, and without
+    a written agreement is hereby granted.
+
+Permission to incorporate this software into commercial products may be obtained by contacting
+    the University of California San Francisco through its
+        Office of Technology Management
+        185 Berry Street, Suite 4603,
+        San Francisco, California 94107
+    http://otm.ucsf.edu.
+
+This software program and documentation are copyrighted by The Regents of the University of
+    California ("The Regents"). The software program and documentation are supplied "as is",
+    without any accompanying services from The Regents. The Regents does not warrant that the
+    operation of the program will be uninterrupted or error-free. The end-user understands that
+    the program was developed for research purposes and is advised not to rely exclusively on the
+    program for any reason.
+
+IN NO EVENT SHALL THE REGENTS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
+    OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND
+    ITS DOCUMENTATION, EVEN IF THE REGENTS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. THE
+    REGENTS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE AND ANY STATUTORY WARRANTY
+    OF NON-INFRINGEMENT. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS IS" BASIS, AND THE REGENTS
+    HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.

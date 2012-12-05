@@ -1,0 +1,332 @@
+------- VERSION CHANGES --------
+Version 2.1.1
+
+Feature Changes:
+
+Feature #2943: Replace iRocket Help/contact info on front page
+Feature #2926: provide override mechanism for css
+Feature #2837: add tag line to reminder alert template
+Feature #2801: sort sessions in course summary by date
+Feature #2715: Update session type tables
+Feature #2644: rework the color coding of session types
+Feature #2505: Create attributes for Course to identify Clerkship & type of Clerkship
+Feature #908: modify the display string order for text in calendar events
+Feature #854: create better build/deployment scripts
+
+Bug Fixes:
+
+Bug #3018: ILMS should display due date in course summary view
+Bug #2990: offering management page does not honor selected school
+Bug #2940: Regression: MD5 fix causes course summary view to hang
+Bug #2934: IE erroneously shows dialog on page unload
+Bug #2933: IE caches course tree, causing stale data on course management page
+Bug #2898: ILMs show as "draft" in Offerings Management table view
+Bug #2717: learner group student picker should list selected students in alpha order
+
+---
+
+Version 2.1
+
+Feature Changes:
+
+Feature #939: Allow for the ADMIN ACCESS to other schools and their curricula
+Feature #561: Provide users with the ability to see the curricula of other schools in their deployment.
+Feature #2689: Constrain time range of loaded calendar events on pageload
+Feature #905: reconfigure calendar transaction loads and add agenda view tab
+Feature #2728: separate ilios configuration from CI config
+Feature #572: Add new session - start date default
+Feature #895: modify dashboard navigation bar to be frameless
+Feature #718: Allow formatting of textarea inputs
+Feature #2597: cache buster for update
+Feature #632: Allow for learners to be associated with multiple programs / cohorts
+Feature #2819: Change "TBD" label to "Scheduled"
+Feature #2676: change label "Discipline" to "Topic"
+Feature #2822: apply access modifiers to all methods of server-side "model" classes
+Feature #2841: school switcher not available to calendar embed
+
+Bug fixes:
+
+Bug #2757: Move school switcher control out of the header text and align it to the right
+Bug #621: Joint Program stewardship throws error
+Bug #2693: user accounts not displaying first name
+Bug #2836: topics list in calendar search /filter not alpha order
+Bug #2721: Course Summary Session Titles rendering in the wrong div
+Bug #991: Calendar search defaults to incorrect academic year
+Bug #2679: "Loading Details" wait icon continues indefinitely.
+Bug #2646: ical download for multi-role users only downloads instructor role
+Bug #2645: Search filters not functioning
+Bug #2706: course summary in dashboard/calendar not showing in IE9
+Bug #2756: add a redirect to course creation
+Bug #2725: "Locked" Course still allows deletion of learning materials
+Bug #555: editing a course not from your parent school throws exceptions if it has competency associations
+Bug #2660: "save draft" and "publish" buttons in for sessions not working, again
+Bug #2651: "Publish All" not functioning.
+Bug #2595: unable to rollover courses
+Bug #2661: locked courses still allow changes
+Bug #2594: Unable to activate archive links for any course or program.
+Bug #553: text entry for objectives is failing when text contains special character of umlaut, accent, or other extended character
+Bug #2751: create offering from group may generate duplicate offerings for students
+Bug #704: recurring events are displaced by one day after course rollover
+Bug #2743: auto-complete in instructor picker for independent learning sessions is case sensitive.
+Bug #2723: shifting to ILM does not clear display of offering dates until page refresh
+Bug #2692: cannot remove topics from existing session
+Bug #2650: text entry field for session description requires resizing
+Bug #2630: session title disappears when returning from offering manager
+Bug #2604: session sort choices do not function
+Bug #2591: Some course sessions are being tagged with 'dirty state' on initial load
+Bug #2727: course summary shows incorrect label for session
+Bug #940: refactor course summary view
+Bug #2707: rich text descriptions with unordered lists (ul) are rendered without bullets.
+Bug #2686: topic (discipline) display cuts off at 60 chars
+Bug #2631: error messages overrun buttons on search dialog
+Bug #2435: Model dialog box does not resize accordingly as its contained textarea is being resized.
+Bug #2703: My Programs dashboard list broken
+Bug #2573: special characters input to "My Alerts" dashboard control cause insertion error.
+Bug #720: optimize SQL queries
+Bug #2740: unable to add instructor group(s) to ILM session
+Bug #551: partial transaction failures cause "multiple accounts" error but traps that error in the transaction, providing no feedback to the user
+Bug #2535: update install_user_zero.sh script
+Bug #2733: Instructor Group delete fails
+Bug #2738: instructor group deletion fails server side
+Bug #2674: upload csv to instructor groups fails (DEV/STAGE ONLY)
+Bug #2601: adding a new instructor group does not shift page focus to newly created group.
+Bug #963: instructor autocomplete is case sensitive
+Bug #2675: upload csv to learner groups fails (DEV/STAGE ONLY)
+Bug #2585: learner group names failing to escape ampersand
+Bug #2546: Adding students to a sub-group deletes them from the parent group
+Bug #2647: no means of returning to top level (cohort) in learner groups
+Bug #2634: Group Management page fails to (re)load correctly
+Bug #835: On deletion of learner groups, group associations not recursively removed from all sessions
+Bug #2657: learning materials no longer display "required" icon when tagged as required
+Bug #2434: Filename for attachment seems to be truncated when download, if it is too longer than certain limit.  Maybe 60 chars?
+Bug #2737: vertical scroll of learning materials "notes" popup hides visibility choice
+Bug #2485: learning materials search returns incorrect results
+Bug #2734: "no upload" alert appears after adding link or citation to learning materials
+Bug #2449: system appending "C:\fakepath\" to filenames of uploaded learning materials
+Bug #2669: "All Competency" report may fail
+Bug #2466: my reports naming convention
+Bug #594: My Reports request opens endless loop query
+Bug #2687: deletion of objectives does not provide a user check
+Bug #2678: course objective parentage busted on dev
+Bug #2771: Publish status inconsistency among sessions and offerings
+Bug #2719: "edit offering" dialog broken
+Bug #2633: offering manager shows 'home' tab highlighted
+Bug #2596: page load experiencing significant deterioration and latency
+Bug #2575: new de-framed model opens potential permissions errors on bookmarkable urls
+Bug #2798: Competency selector display error
+Bug #2818: SQL query in Cohort::getCohortProgramTreeContent() buggy
+Bug #2702: IE8, IE9: MeSH search button renders on initial Program Management screen
+Bug #2799: publish icons do not load on program years
+Bug #2758: Program Stewarding school pick list not showing all schools
+Bug #2732: dirty state alert not appearing for changes to parent program container
+Bug #820: calling stored procedure "programs_with_title_restricted_by_school_for_user" generates SQL error
+Bug #2668: Program requires an edit button
+Bug #2667: Duration field missing from program display
+Bug #2655: "save draft"/"publish" buttons for program years not working
+Bug #2690: cleanup of Course Publish tools
+Bug #2697: dashboard reports unable to deal with missing data
+Bug #838: Course Rollover not adjusting for offerings falling in/out of DST
+Bug #2480: Possible security holes in some APIs from abstract_ilios_controller
+Bug #2691: unable to delete all topics
+Bug #2652: session publish not functioning
+Bug #2658: editing a newly added objective generates additional duplicate objective
+Bug #2589: unit tests are breaking with mysql 5.5.7 and above
+Bug #542: non-student users ingested via csv upload or UI creation are appearing as students requiring cohort assignment in the management console
+Bug #2726: LDAP iterator generates warning in destructor function
+Bug #2684: Event Detail panel has horizontal scrolling
+Bug #2683: ILM Event Details Panel date format
+Bug #2673: admin console data remains cached after switching schools
+Bug #2672: report data remains cached after school switch
+Bug #2638: updating reminders fails
+Bug #2628: In calendar offerings screen, the school view bar shows page title
+Bug #2603: course lists "start date" label twice, rather than "Start Date" and "End Date"
+Bug #2600: no focus on objective entry textbox for program objectives
+Bug #2599: programs retrieved from search do not show title information
+Bug #2593: Expand subgroups throws an error, reloads empty page
+Bug #2471: special characters cause error - SESSION DESCRIPTION
+Bug #2470: special characters cause error - LEARNING MATERIALS
+Bug #2469: special characters cause error - OBJECTIVES
+
+---
+
+Version 2.0.7b
+
+Major Features:
+
+Feature #574: improved positioning of offering details edit form
+Feature #1009: Added appliction-level config option for Visual Change Alert threshold
+Feature #1010: Added Visual Change Alert indicators to calendars
+
+
+Major Bug Fixes
+
+Bug #667: user search constrained by 3-char limit will fail for certain cases
+Bug #2411: Instructor-group association with Student-group fails
+Bug #2414: check for SQL injection vulnerability with various reporting-related stored procedures
+Bug #2436: Ilios database installer script fails on school data insertion.
+Bug #2438: Session description cannot be cleared out
+Bug #2442: audit_atom table columns too short
+Bug #2446: Unsuccessful user login generates PHP warning
+
+---
+
+Version 2.0.6b
+
+This interim beta release provides a wide range of UI tweaks and process corrections covering more than 50 distinct issues, and includes the following major changes:
+
+* Extended Calendar search and display capability for a given school curriculum
+* Significant upgrades to code frameworks and infrastructure
+* refactoring and enhancement of the "course summary" view
+* refactoring and enhancement of the EDS/Ilios user account synchronization process
+* addition of moodle enrollment automation process
+* enhancement of numerous list displays
+* addition of flash movie files to allowed learning materials for upload
+
+Major Features:
+
+Feature #669:	Calendar Filters and Views - Extended search capability for a given school curriculum
+Feature #897:	Combine offerings from the same session with the same timeslots on calendar's week and month views.
+Feature #1003:	upgrade codeigniter to latest point release
+Feature #869:	upgrade to YUI 2.9.0
+Feature #1021:	Allow for deployment with IIS7 in Windows environment
+Feature #721:   create export feed to moodle for student & instructor > course assignments. enrollment feed provided via new tracking ID for courses
+Feature #722:	build unit test harness for ilios
+Feature #913:	augment user management console with capabilities to in/exclude user from sync process
+Feature #626:	Status of user accounts noted in search returns
+Feature #1058:  Add Shibboleth user id attribute configuration option
+
+
+Major Bug fixes:
+
+Bug #920:	deployment scripts omit /scripts directory
+Bug #921:	broken layout of tree select dialogues in YUI 2.9.0
+Bug #567:	drop down select lists should be alpha order
+Bug #548:	ilms for deleted sessions still appearing on calendar
+Bug #723, #768:	database setup script incomplete/incorrect
+Bug #1022:  ilios deployment script does not replace "deploy date" token in present_actual.php
+Bug #711:   disabled students show up as available for group association in cohort and group listings. now identifying disabled accounts as greyed out in student select lists
+Bug #965:	unable to upload .swf file to learning materials
+Bug #929:   saving program year after removing MeSH terms from objective fails
+Bug #855:	administration console should default to User Management / notification screen
+Bug #710:	unassigned student list should only include enabled accounts
+Bug #864, #866, #964, #879, #654:	completely refactored LDAP/EDS integration: student and non-student records now imported and synchronized correctly. Also adds additional controls to handling, tracking, and logging.
+Bug #894:   Patched security hole in authentication mechanism
+
+---
+
+Vrsion 2.0.5b
+
+The following new features have been added to Ilios:
+
+Feature #560: Provide method for downloading/synchronizing Ilios calendar with google calendar, iCal, Outlook.
+	Dashboard and embedded calendar displays are now provided with a direct calendar download.
+        The download file (.ics) provides an iCal format set of all events for the user in a span beginning 5 days
+        prior to today's date through 60 days in the future.
+        NB: for students who also have admin  or instructor roles, this calendar will provide the combined set
+	of all associated activity for both roles when downloaded from the embedded view in Moodle;
+	if downloaded from the Ilios dashboard, however, they will get a filtered calendar showing
+	only those activities from the role which they are currently viewing.
+Feature #576: timeout setting increase.
+	The default Ilios timeout has been increased to 45 minutes.
+Feature #622/648: further separate dashboard from calendar functionality.
+	Ilios now has a completely separate controller to allow for the embed of the calendar display into
+	any authenticated 3rd party system (such as moodle or another LMS).
+Feature #674 All task in the cron_tasks controller have been commented in to prevent them from running by default.
+
+In addition, the following bugs have been corrected:
+
+Bug #537: Students assigned to admin or faculty roles as well as student role cannot access editorial pages.
+	Ilios now provides the ability to easily toggle between student and non-student access roles for authorized users.
+Bug #538: Students cannot view ILM details.
+	In certain situations, ILM details were not being displayed in the student user view.
+Bug #541: email alerts do not appear to be going out when appropriate changes to state occur.
+Bug #544: student validation is failing to act correctly: student accounts are being disabled.
+Bug #545: user accounts are allowing duplicate emails, causing login issues
+Bug #557: "undefined" error in calendar event display boxes
+	In certain situations, the location and/or additional header information of an offering would display as "undefined"
+Bug #615: course summary popup for ILM not loading
+	The course summary is inaccessible from within the detail window of an ILM offering.
+Bug #619: location of student/instructor dashboard toggle
+	Related to bug #537, a toggle is now provided above the main calendar display.
+Bug #620: deny web access to certain directories/files
+Bug #645: de-duping function for ILMs broken.
+	In certain situations, loading ILM offerings into the dashboard calendar would generate an error.
+Bug #646: switching dashboards cause administrative pages to break.
+	Related to bug #537, navigation has been enhanced and strengthened.
+Bug #637: update opensaml for shibboleth
+Bug #666: Calendar Display consistency (1)
+	In certain instances, after 4pm local time on a Saturday (last displayed day in week view)
+	the initial load of the calendar is incorrect in week view mode.
+	Any navigation from day to day, week to week or month to month clears the error.
+        In certain instances, after 4pm local time on the final day of a month,
+	the initial load of the calendar is incorrect in month view mode.
+	Any navigation from day to day, week to week or month to month clears the error.
+Bug #668: Calendar Display consistency (2)
+	In certain situations, navigating in the calendar via the date links in the list box below the calendar
+	will causes events displayed to disappear from the calendar display;
+	refreshing the page via the navigation tab at the top of the page clears the error.
+Bug #689: Instructor search results are not displayed in full.
+Bug #691: Corrected datetime values in email alerts to server's local timezone
+by adjusting the datetime values with the timezone offset
+Bug #692: Location field is empty when downloading iCalendar as director.
+	Fixed.
+Bug #703: Ilios' MIME type mapping for learing materials has been updated.
+Bug #712: The SQL query for retrieving student offerings has been optimized for performance.
+Bug #714: The SQL query powering the session report associated with a given MeSH term has been optimized for performance.
+
+Other changes:
+
+Issue #686: Remove SVN keyword expansion placeholders
+Author-, timestamp- and script-URL information in the doc-block
+has been removed.
+
+---
+
+Version 2.0.3b
+
+This release of Ilios 2 provides significant enhancements and fixes to the previous release code. Among the items included in this release are a numerous modifications, UI tweaks, and the following major system fixes and enhancements:
+
+
+*New Feature: Course Rollover, allowing the cloning of a course from one time block to another.
+*New Feature: Added new Student View for Independent Learning Modules.
+*New Feature: Added identification of required vs. supplemental learning materials in student view.
+
+
+fixes:
+
+#2.0.2b-11  Corrects an issue where MeSH search is exceedingly slow in certain circumstances
+#2.0.2b-12  Corrects a bug where a MeSH search term including apostrophe throws 500 internal server error
+#2.0.2b-12a Corrects a bug where MeSH in-process queries were not being cancelled correctly
+#2.0.2b-13  Corrects an error where creating groups in a populated cohort throws error
+#2.0.2b-14  Corrects the accepted mime type dictionary for new learning materials
+#2.0.2b-23  Corrects a bug in the Archive file function
+#2.0.2b-25 Corrects a bug in the calendar display where an ILM due on a weekend would not display correctly in month/week view.
+#2.0.2b-27 Adds a missing label for Learning Materials status in search returns
+
+---
+
+Version 2.0.1b
+
+Among the items included in this release are a numerous minor UI modifications, including date standardization across the application, style tweaks and revisions, as well as the following major system fixes and enhancements:
+
+New Features:
+
+•	Management Console to allow for permissions assignment.
+•	Provide granular control over the publishing workflow for courses and sessions with pre-publishing checklists.
+•	Provide archiving controls to allow for the locking and filing of past curriculum.
+•	Provide controls to allow for multi-school lists such as competency domains.
+
+Major fixes:
+
+•	#2.0.0b-16: Corrects a display issue where on initial page load after a calendar transaction, the session would display an incorrect number of associated offerings.
+•	#2.0.0b-17: Corrects a bug where not all session learning objectives were visible if there were gaps in the competency/objective  structure.
+•	#2.0.0b-18: Corrects an error where changes in the course level were not saved.
+•	#2.0.0b-19: Provides for the automatic rollover of program objective from one program year to the next.
+•	#2.0.0b-20: Provides for the same one-click workflow of program objectives as exists for course/session.
+•	#2.0.0b-30/36: Fix for an issue where learning materials failed to load to the server or associate with curricular data.
+•	#2.0.0b-35: Corrects a display error for quotes encoding when copied from MS Word.
+•	#2.0.0b-39: Corrects a labeling error on calendar display panel
+•	#2.0.0b-40: Corrects an issue where in certain circumstances when using the recurring events tool, the system would generate an unresolved deadlock.
+•	#2.0.0b-43: modify group selector tree to allow for multiple year selection.
+•	#2.0.0b-xxx: increase in allowable course name length.
+•	#2.0.0b-xxx: address a timezone-related bug where, although the server data was correct, the client side was showing dates for events as the following day if the client machine's local clock was not in UTC

@@ -1,0 +1,22 @@
+Options +FollowSymLinks
+
+# redirect all request to HTTPS
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTPS} !=on
+RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+# deny web access to shell scripts
+<Files ~ "\.sh$">
+  deny from all
+</Files>
+
+# deny web access to tarballs
+<Files ~ "\.tar\.gz$">
+  deny from all
+</Files>
+
+# deny web access to web.config file
+<Files "web.config">
+ deny from all
+</Files>

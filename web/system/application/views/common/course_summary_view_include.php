@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * DEPENDENCIES:
+ *      YUI toolkit
+ *      scripts/ilios_dom.js
+ *      scripts/ilios_utilities.js
+ *      scripts/public_course_summary_base_framework.js
+ */
+?>
+<div class="tabdialog" id="course_summary_view_dialog">
+    <div class="hd">&nbsp;</div>
+    <div class="bd">
+        <div class="dialog_wrap">
+            <form method="get" action="#">
+                <div id="course_summary_view_content_div"></div>
+            </form>
+        </div>
+    </div>
+    <div class="ft"></div>
+</div>
+
+<script type="text/javascript">
+    ilios.course_summary.courseSummaryViewDialog = null;
+
+    ilios.course_summary.assembleCourseSummaryViewDialog = function (use, less, args) {
+        var handleCancel = function () {
+            this.cancel();
+        };
+        var doneStr = ilios_i18nVendor.getI18NString('general.terms.done');
+        var buttonArray = [
+            {text: doneStr, handler: handleCancel, isDefault: true}
+        ];
+        var panelWidth = "538px";
+        var dialog = new YAHOO.widget.Dialog('course_summary_view_dialog', {
+            width: panelWidth,
+            modal: true,
+            visible: false,
+            constraintoviewport: false,
+            buttons: buttonArray,
+            zIndex: 5
+        });
+
+        dialog.showDialogPane = function () {
+            dialog.center();
+            dialog.show();
+        };
+
+        // Render the Dialog
+        dialog.render();
+
+        ilios.course_summary.courseSummaryViewDialog = dialog;
+    };
+
+    YAHOO.util.Event.onDOMReady(ilios.course_summary.assembleCourseSummaryViewDialog, {});
+</script>

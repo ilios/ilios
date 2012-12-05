@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="group">
+		<column>group_id</column>
+		<column>title</column>
+		<column>instructors</column>
+		<column>location</column>
+		<column>parent_group_id</column>
+		<!-- 
+		<row>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		 -->
+	</table>
+</dataset>
