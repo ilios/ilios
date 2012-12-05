@@ -14,10 +14,10 @@ Ilios leverages the power of existing online learning technologies supported at 
 
 For more information on Ilios please contact:
 
-Technology Enhanced Learning
-School of Medicine
-University of California, San Francisco
-Box 0410
+Technology Enhanced Learning  
+School of Medicine  
+University of California, San Francisco  
+Box 0410  
 San Francisco, CA 94143
 
 Email: irocket@ucsf.edu
