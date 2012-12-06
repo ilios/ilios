@@ -5,9 +5,7 @@
 .project
 .settings
 index.php
-build/
 database/install/data_population/mesh_tables_and_data.sql
-packages/
 web/learning_materials
 web/system/logs
 web/tmp_uploads
