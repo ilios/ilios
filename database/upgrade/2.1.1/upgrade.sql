@@ -21,6 +21,20 @@ ALTER TABLE `session_type`
     ADD `assessment` BOOL NOT NULL DEFAULT 0,
     ADD `session_type_css_class` VARCHAR(64) NULL AFTER `owning_school_id`;
 
+-- add indeces and foreign key restraints to the alert_instigator and alert_change tables
+
+-- alert_instigator
+ALTER TABLE  `alert_instigator` ADD INDEX (`alert_id`);
+ALTER TABLE  `alert_instigator` ADD INDEX (`user_id`);
+ALTER TABLE  `alert_instigator` ADD INDEX  `alert_id_user_id` (`alert_id`,`user_id`);
+ALTER TABLE  `alert_instigator` ADD CONSTRAINT FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE;
+ALTER TABLE  `alert_instigator` ADD CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;
+
+-- alert_change
+ALTER TABLE  `alert_change` ADD INDEX (`alert_id`);
+ALTER TABLE  `alert_change` ADD INDEX `alert_id_alert_change_type_id` (`alert_id`,`alert_change_type_id`);
+ALTER TABLE  `alert_change` ADD CONSTRAINT FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE;
+
 -- update existing session-types, see supplementary update script for session type remapping.
 UPDATE `session_type` SET `session_type_css_class` = 'clerkship' WHERE `title` = 'Clerkship';
 UPDATE `session_type` SET `session_type_css_class` = 'exam' WHERE `title` = 'Exam';
