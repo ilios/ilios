@@ -26,9 +26,9 @@ INSERT INTO `competency` VALUES
     (23,'Work Habits, Appearance, and Etiquette',5,1),
     (24,'Ethical Principles',5,1),
     (25,'Institutional, Regulatory, and Professional Society Standards',5,1),
-    (26,'Healthcare Delivery Systems',6,1);
-    (50, 'Systems Improvement',6,1);
-    (51, 'Treatment',2,1);
+    (26,'Healthcare Delivery Systems',6,1),
+    (50, 'Systems Improvement',6,1),
+    (51, 'Treatment',2,1),
     (52, 'Inquiry and Discovery',2,1);
 /*!40000 ALTER TABLE `competency` ENABLE KEYS */;
 UNLOCK TABLES;
