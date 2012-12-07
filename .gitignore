@@ -4,6 +4,7 @@
 .buildpath
 .project
 .settings
+.vagrant
 index.php
 database/install/data_population/mesh_tables_and_data.sql
 web/learning_materials
