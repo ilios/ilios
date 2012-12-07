@@ -39,7 +39,7 @@
         <header id="masthead" class="clearfix">
             <div class="inner">
 <div class="main-logo">
-    <img src="system/application/views/images/ilios-logo.png" alt="Ilios" width="113" height="42" />
+    <img src="system/application/views/images/ilios-logo.png" alt="Ilios" width="84" height="42" />
     <span>Version <?php include_once dirname(__FILE__) . '/version.php'; ?></span>
 </div>                 <nav id="utility">
                     <ul>
