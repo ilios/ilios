@@ -1216,7 +1216,12 @@
 	SET character_set_client = utf8;
 	CREATE TABLE `alert_instigator` (
 	  `alert_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED NOT NULL
+	  `user_id` INT(14) UNSIGNED NOT NULL,
+	  INDEX `alert_id` (`alert_id`),
+	  INDEX `user_id` (`user_id`),
+	  INDEX `alert_id_user_id` (`alert_id`,`user_id`),
+	  CONSTRAINT FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE,
+	  CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -1229,7 +1234,10 @@
 	SET character_set_client = utf8;
 	CREATE TABLE `alert_change` (
 	  `alert_id` INT(14) UNSIGNED NOT NULL,
-	  `alert_change_type_id` INT(14) UNSIGNED NOT NULL
+	  `alert_change_type_id` INT(14) UNSIGNED NOT NULL,
+	  INDEX `alert_id` (`alert_id`),
+	  INDEX `alert_id_alert_change_type_id` (`alert_id`,`alert_change_type_id`),
+	  CONSTRAINT FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
