@@ -2,7 +2,7 @@ class ilios2 (
   $docroot=$params::docroot,
   $apacheuser=$params::apacheuser,
   $repodir=$params::repodir,
-  $dbuser=$params::dbuser, 
+  $dbuser=$params::dbuser,
   $dbpass=$params::dbpass,
   $dbname=$params::dbname,
   $adminemail=$params::adminemail,
@@ -63,11 +63,11 @@ class ilios2 (
     notify => Service["apache2"],
     require => Package["apache2"],
   }
- 
+
   exec {"create-db":
     cwd => "${repodir}/database/install",
     unless => "/usr/bin/sudo /bin/ls /var/lib/mysql/${dbname}/mesh_concept_x_term.MYI",
-    command => "/bin/zcat data_population/mesh_tables_and_data.sql.gz > data_population/mesh_tables_and_data.sql && /bin/sed 's/XXXXXX/${dbname}/g' make_new_i2_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/mysql -uroot -e \"GRANT ALL ON ${dbname}.* TO '${dbuser}'@'localhost' identified by '${dbpass}';\" && /usr/bin/expect user_zero.exp ${dbname} ${dbuser} ${dbpass} ${adminemail}",
+    command => "/bin/sed 's/XXXXXX/${dbname}/g' make_new_i2_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/mysql -uroot -e \"GRANT ALL ON ${dbname}.* TO '${dbuser}'@'localhost' identified by '${dbpass}';\" && /usr/bin/expect user_zero.exp ${dbname} ${dbuser} ${dbpass} ${adminemail}",
     require => [Service["mysql"],Package["expect"]],
   }
 
