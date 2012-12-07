@@ -1,0 +1,19 @@
+#!/usr/bin/expect -f
+
+# Expect script used by Puppet installation to navigate password dialogue
+
+set ilios_db [lindex $argv 0]
+set ilios_user [lindex $argv 1]
+set ilios_pass [lindex $argv 2]
+set ilios_admin_email [lindex $argv 3]
+
+spawn $env(SHELL)
+expect "\$ "
+send "cd /vagrant/database/install\r"
+expect "vagrant@lucid32:/vagrant/database/install\$ "
+send "./install_user_zero.sh localhost $ilios_db $ilios_user $ilios_admin_email 1\r"
+expect "Enter password: "
+send "$ilios_pass\r"
+expect "vagrant@lucid32:/vagrant/database/install\$ "
+send "exit\r"
+expect eof

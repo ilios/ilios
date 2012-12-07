@@ -2,9 +2,7 @@
 /**
  * The is the default landing page for the Ilios2 application.
  *
- * Deployment tasks:
- * - Substitute the "%%DEPLOY_URL%%" placeholder with the full base-URL of your Ilios instance.
- * - Customize the page's main content to suit the needs of your organization/institution.
+ * Customize the page's main content to suit the needs of your organization/institution.
  */
 ?><!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
@@ -27,25 +25,25 @@
     <meta name="viewport" content="width=device-width">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-    <link rel="stylesheet" href="https://%%DEPLOY_URL%%/system/application/views/css/ilios-styles.css?iref=%%ILIOS_REVISION%%" media="all">
-    <link rel="stylesheet" href="https://%%DEPLOY_URL%%/system/application/views/css/custom.css?iref=%%ILIOS_REVISION%%" media="all">
+    <link rel="stylesheet" href="system/application/views/css/ilios-styles.css?iref=%%ILIOS_REVISION%%" media="all">
+    <link rel="stylesheet" href="system/application/views/css/custom.css?iref=%%ILIOS_REVISION%%" media="all">
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
     <!-- All JavaScript at the bottom, except this Modernizr build.
          Modernizr enables HTML5 elements & feature detects for optimal performance.
          Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script type="text/javascript" src="https://%%DEPLOY_URL%%/system/application/views/scripts/third_party/modernizr-2.5.3.min.js"></script>
+    <script type="text/javascript" src="system/application/views/scripts/third_party/modernizr-2.5.3.min.js"></script>
 </head>
 <body class="welcome yui-skin-sam">
     <div id="wrapper">
         <header id="masthead" class="clearfix">
             <div class="inner">
 <div class="main-logo">
-    <img src="https://%%DEPLOY_URL%%/system/application/views/images/ilios-logo.png" alt="Ilios 2" width="113" height="42" />
+    <img src="system/application/views/images/ilios-logo.png" alt="Ilios 2" width="113" height="42" />
     <span>Version <?php include_once dirname(__FILE__) . '/version.php'; ?></span>
 </div>                 <nav id="utility">
                     <ul>
-                        <li id="logout_link"><a class="tiny radius button" href="https://%%DEPLOY_URL%%/ilios2.php/dashboard_controller">Login</a></li>
+                        <li id="logout_link"><a class="tiny radius button" href="ilios2.php/dashboard_controller">Login</a></li>
                     </ul>
                 </nav>
             </div>
@@ -56,7 +54,7 @@
         <div id="main" role="main">
             <div id="content">
                 <div style="margin-top: 50px;">
-                    <center><a href="https://%%DEPLOY_URL%%/ilios2.php/dashboard_controller">Enter the UCSF Ilios 2 Application (log in required)</a></center>
+                    <center><a href="ilios2.php/dashboard_controller">Enter the UCSF Ilios 2 Application (log in required)</a></center>
                 </div>
 
                 <div style="margin-top: 96px;">
@@ -79,7 +77,7 @@
                 <center>
                     <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/" >About us</a></span>
                     <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/about" >Learn More</a></span>
-                    <span style="margin-right: 18px;"><a href="http://sourceforge.net/projects/ilios2/" >Collaborate</a></span>
+                    <span style="margin-right: 18px;"><a href="http://github.com/ilios/ilios" >Collaborate</a></span>
                 </center>
             </div>
             <div style="margin-top: 66px; font-size: 8pt;">
