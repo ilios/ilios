@@ -77,7 +77,7 @@
                 <center>
                     <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/" >About us</a></span>
                     <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/about" >Learn More</a></span>
-                    <span style="margin-right: 18px;"><a href="http://sourceforge.net/projects/ilios2/" >Collaborate</a></span>
+                    <span style="margin-right: 18px;"><a href="http://github.com/ilios/ilios" >Collaborate</a></span>
                 </center>
             </div>
             <div style="margin-top: 66px; font-size: 8pt;">
