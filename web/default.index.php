@@ -1,6 +1,6 @@
 <?php
 /**
- * The is the default landing page for the Ilios2 application.
+ * The is the default landing page for the Ilios application.
  *
  * Customize the page's main content to suit the needs of your organization/institution.
  */
@@ -18,7 +18,7 @@
         More info: h5bp.com/i/378 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>Ilios2</title>
+    <title>Ilios</title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -39,7 +39,7 @@
         <header id="masthead" class="clearfix">
             <div class="inner">
 <div class="main-logo">
-    <img src="system/application/views/images/ilios-logo.png" alt="Ilios 2" width="113" height="42" />
+    <img src="system/application/views/images/ilios-logo.png" alt="Ilios" width="113" height="42" />
     <span>Version <?php include_once dirname(__FILE__) . '/version.php'; ?></span>
 </div>                 <nav id="utility">
                     <ul>
@@ -54,11 +54,11 @@
         <div id="main" role="main">
             <div id="content">
                 <div style="margin-top: 50px;">
-                    <center><a href="ilios2.php/dashboard_controller">Enter the UCSF Ilios 2 Application (log in required)</a></center>
+                    <center><a href="ilios2.php/dashboard_controller">Enter the UCSF Ilios Application (log in required)</a></center>
                 </div>
 
                 <div style="margin-top: 96px;">
-                    <center><a href="http://www.iliosproject.org/">Go to the Ilios 2 Project Website</a></center>
+                    <center><a href="http://www.iliosproject.org/">Go to the Ilios Project Website</a></center>
                 </div>
 
                 <div style="margin-top: 128px;">
