@@ -155,7 +155,7 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $cohortId = trim($this->input->get_post('cohort_id'));
+        $cohortId = $this->input->get_post('cohort_id');
 
         $userArray = $this->user->getUsersForCohortAsArray($cohortId);
 
@@ -229,9 +229,9 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $cohortId = (int) trim($this->input->get_post('cohort_id'));
-        $groupToDivide = (int) trim($this->input->get_post('group_id'));
-        $numberOfSubgroupsToCreate = (int) trim($this->input->get_post('num_groups'));
+        $cohortId = (int) $this->input->get_post('cohort_id');
+        $groupToDivide = (int) $this->input->get_post('group_id');
+        $numberOfSubgroupsToCreate = (int) $this->input->get_post('num_groups');
 
         if (-1 == $groupToDivide) {
 
@@ -352,7 +352,7 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $cohortId = trim($this->input->get_post('cohort_id'));
+        $cohortId = $this->input->get_post('cohort_id');
 
         $groupIds = $this->cohort->getGroupIdsForCohortWithId($cohortId);
         $groups = $this->_getGroupsForGroupIds($groupIds);
@@ -400,8 +400,8 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $groupId = trim($this->input->get_post('group_id'));
-        $containerNumber = trim($this->input->get_post('container_number'));
+        $groupId = $this->input->get_post('group_id');
+        $containerNumber = $this->input->get_post('container_number');
 
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
@@ -570,7 +570,7 @@ class Group_Management extends Abstract_Ilios_Controller
                                 . $uploadData['file_type'];
         } else {
             $uploadData = $this->upload->data();
-            $cohortId = trim($this->input->get_post('cohort_id'));
+            $cohortId = $this->input->get_post('cohort_id');
             $newUsers = array();
 
             $this->load->library('csvreader');
@@ -687,8 +687,8 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $cohortId = trim($this->input->get_post('cohort_id'));
-        $containerNumber = trim($this->input->get_post('container_number'));
+        $cohortId = $this->input->get_post('cohort_id');
+        $containerNumber = $this->input->get_post('container_number');
         $lastName = trim($this->input->get_post('last_name'));
         $firstName = trim($this->input->get_post('first_name'));
         $middleName = trim($this->input->get_post('middle_name'));
@@ -778,9 +778,9 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $cohortId = trim($this->input->get_post('cohort_id'));
-        $groupId = trim($this->input->get_post('group_id'));
-        $containerNumber = trim($this->input->get_post('next_container'));
+        $cohortId = $this->input->get_post('cohort_id');
+        $groupId = $this->input->get_post('group_id');
+        $containerNumber = $this->input->get_post('next_container');
 
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
