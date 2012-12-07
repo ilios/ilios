@@ -523,8 +523,8 @@ class Group_Management extends Abstract_Ilios_Controller
      *              Last name
      *              First name
      *              Middle name
-     *              EMail address
      *              Phone
+     *              EMail address
      *              UC id
      *              GALEN id
      *              Other id
