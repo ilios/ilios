@@ -94,7 +94,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $igId = trim($this->input->get_post('instructor_group_id'));
+        $igId = $this->input->get_post('instructor_group_id');
 
         $rhett['courses'] = $this->queries->getAssociatedCoursesForInstructorGroup($igId);
 
@@ -158,8 +158,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             $rhett['error'] = $msg . ': ' . $this->upload->display_errors() . '. ' . $msg2 . ': ' . $uploadData['file_type'];
         } else {
             $uploadData = $this->upload->data();
-            $groupId = trim($this->input->post('instructor_group_id'));
-            $containerNumber = trim($this->input->post('container_number'));
+            $groupId = $this->input->post('instructor_group_id');
+            $containerNumber = $this->input->post('container_number');
 
             $newIds = array();
             $newUsers = array();
@@ -206,13 +206,13 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
                 $this->instructorGroup->startTransaction();
 
                 foreach ($csvData as $row) {
-                    $lastName = $row[0];
-                    $firstName = $row[1];
-                    $middleName = $row[2];
-                    $phone = $row[3];
-                    $email = $row[4];
-                    $ucUID = $row[5];
-                    $otherId = $row[7];
+                    $lastName = trim($row[0]);
+                    $firstName = trim($row[1]);
+                    $middleName = trim($row[2]);
+                    $phone = trim($row[3]);
+                    $email = trim($row[4]);
+                    $ucUID = trim($row[5]);
+                    $otherId = trim($row[7]);
 
                     $primarySchoolId = $this->session->userdata('school_id');
 
@@ -283,8 +283,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $groupId = trim($this->input->get_post('instructor_group_id'));
-        $containerNumber = trim($this->input->get_post('container_number'));
+        $groupId = $this->input->get_post('instructor_group_id');
+        $containerNumber = $this->input->get_post('container_number');
         $lastName = trim($this->input->get_post('last_name'));
         $firstName = trim($this->input->get_post('first_name'));
         $middleName = trim($this->input->get_post('middle_name'));
@@ -386,7 +386,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         }
 
         $schoolId = $this->session->userdata('school_id');
-        $containerNumber = trim($this->input->get_post('next_container'));
+        $containerNumber = $this->input->get_post('next_container');
 
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
@@ -442,8 +442,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $groupId = trim($this->input->get_post('instructor_group_id'));
-        $containerNumber = trim($this->input->get_post('container_number'));
+        $groupId = $this->input->get_post('instructor_group_id');
+        $containerNumber = $this->input->get_post('container_number');
 
         // check if the given instructor group is associated with a locked or archived course in
         // any way (e.g. via an offering or independent learning session)
@@ -515,10 +515,10 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $groupId = trim($this->input->get_post('instructor_group_id'));
-        $schoolId = trim($this->session->userdata('school_id'));
-        $containerNumber = trim($this->input->get_post('container_number'));
-        $title = trim(urldecode($this->input->get_post('title')));
+        $groupId = $this->input->get_post('instructor_group_id');
+        $schoolId = $this->session->userdata('school_id');
+        $containerNumber = $this->input->get_post('container_number');
+        $title = urldecode($this->input->get_post('title'));
         $users = json_decode($this->input->get_post('users'), true);
 
         $failedTransaction = true;
@@ -565,7 +565,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
 
         if ($schoolId == null) {
-            $schoolId = trim($this->input->get_post('school_id'));
+            $schoolId = $this->input->get_post('school_id');
         }
 
         $groups = $this->instructorGroup->getModelArrayForSchoolId($schoolId);
