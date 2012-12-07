@@ -215,6 +215,18 @@
 	  CONSTRAINT `fkey_cohort_program_year_id` FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+	--
+	-- Table course_clerkship_type
+	--
+
+	DROP TABLE IF EXISTS `course_clerkship_type`;
+	CREATE TABLE `course_clerkship_type` (
+		`course_clerkship_type_id` INT(10) NOT NULL AUTO_INCREMENT,
+		`title` VARCHAR(20) NOT NULL,
+		PRIMARY KEY (`course_clerkship_type_id`)
+	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 	--
 	-- Table course
 	--
@@ -235,20 +247,12 @@
 	  `archived` TINYINT(1) NOT NULL,		-- marked as archived prevents it (and its children (sessions, offerings, ...) from being found in searches - but is different semantically from 'deleted'
 	  `owning_school_id` INT(10) UNSIGNED NOT NULL,
 	  `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
+	  `clerkship_type_id` INT(10) NULL DEFAULT NULL,
 	  PRIMARY KEY (`course_id`) USING BTREE,
 	  KEY `title_course_k` USING BTREE (`course_id`,`title`),
-	  KEY `external_id_k` USING BTREE (`external_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-	--
-	-- Table course_clerkship_type
-	--
-
-	DROP TABLE IF EXISTS `course_clerkship_type`;
-	CREATE TABLE `course_clerkship_type` (
-		`course_clerkship_type_id` INT(10) NOT NULL AUTO_INCREMENT,
-		`title` VARCHAR(20) NOT NULL,
-		PRIMARY KEY (`course_clerkship_type_id`)
+	  KEY `external_id_k` USING BTREE (`external_id`),
+	  INDEX `clerkship_type_id` (`clerkship_type_id`),
+	  CONSTRAINT `clerkship_type_id` FOREIGN KEY (`clerkship_type_id`) REFERENCES `course_clerkship_type` (`course_clerkship_type_id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 	--

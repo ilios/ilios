@@ -39,7 +39,7 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
 
 5. In your deployment directory, configure the following files to reflect your institution's name, appropriate URLs, and database attributes:
 
-        index.php                               ... substitute placeholder token with your URL
+        index.php                               ... substitute placeholder tokens with a version string
         system/application/config/config.php    ... substitute placeholder token with your URL
         system/application/config/ilios.php     ... set your institution's name and authentication method
         system/application/config/database.php  ... fill in your database connection settings
