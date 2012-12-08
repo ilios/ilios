@@ -6,7 +6,6 @@
 .settings
 .vagrant
 index.php
-database/install/data_population/mesh_tables_and_data.sql
 web/system/application/config/config.php
 web/system/application/config/database.php
 web/system/application/config/ilios.php
