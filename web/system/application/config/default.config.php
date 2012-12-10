@@ -28,7 +28,7 @@ $config['base_url'] = "https://%%DEPLOY_URL%%/";
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "ilios2.php";
+$config['index_page'] = "ilios.php";
 
 /*
 |--------------------------------------------------------------------------

@@ -691,7 +691,7 @@ class Report extends Abstract_Ilios_Model
                             . ' ' . $year . ' - ' . $year1
                             . '  (' . $start_date->format('m/d/Y') . ' - '. $end_date->format('m/d/Y') . ')';
                     }
-                    $linkObject['link'] = base_url() . 'ilios2.php/course_management'
+                    $linkObject['link'] = base_url() . 'ilios.php/course_management'
                         . '?course_id=' . $row['course_id'];
 
                     array_push($rhett, $linkObject);
@@ -1105,7 +1105,7 @@ EOL;
                 $endDate = date_format($endDate, 'm/d/Y');
 
                 $linkObject['text'] = $row['course_title'] . ' (' . $startDate . ' - ' . $endDate.') ' .' - ' . $row['session_title'];
-                $linkObject['link'] = base_url() . 'ilios2.php/course_management'
+                $linkObject['link'] = base_url() . 'ilios.php/course_management'
                     . '?course_id=' . $row['course_id']
                     . '&session_id=' . $row['session_id'];
 
@@ -1204,7 +1204,7 @@ EOL;
                 $linkObject = array();
 
                 $linkObject['text'] = $row['title'];
-                $linkObject['link'] = base_url() . 'ilios2.php/program_management'
+                $linkObject['link'] = base_url() . 'ilios.php/program_management'
                     . '?program_id=' . $row['program_id'];
 
                 array_push($rhett, $linkObject);
@@ -1308,7 +1308,7 @@ EOL;
                 $programYearTitle = $this->_getDisplayForProgramYear($row['program_year_id']);
                 if (false !== $programYearTitle) {
                     $linkObject['text'] = $programYearTitle;
-                    $linkObject['link'] = base_url() . 'ilios2.php/program_management' . '?program_id=' . $row['program_id'];
+                    $linkObject['link'] = base_url() . 'ilios.php/program_management' . '?program_id=' . $row['program_id'];
                 }
                 array_push($rhett, $linkObject);
             }

@@ -8,13 +8,13 @@
 This section is used to get a cron job going, using standard
 CodeIgniter controllers and functions.
 
-1) Set the path of your ilios web root - the directory that contains the ilios2.php file.
+1) Set the path of your ilios web root - the directory that contains the ilios.php file.
 2) Make this file executable (chmod a+x cron.php)
 3) You can then use this file to call any controller function:
 
    ./cron.php --webroot=/path/to/ilios/webroot --run=/controller/method [--show-output] [--log-file=logfile] [--time-limit=N]
 
-GOTCHA: 
+GOTCHA:
 Do not load any authentication or session libraries in
 controllers you want to run via cron. If you do, they probably
 won't run right.
@@ -66,7 +66,7 @@ foreach($argv as $arg) {
             define('CRON_TIME_LIMIT', $splitArg[1]);
             break;
         case '--webroot':
-            define('CRON_CI_INDEX', $splitArg[1] . '/ilios2.php');   // Your CodeIgniter main file
+            define('CRON_CI_INDEX', $splitArg[1] . '/ilios.php');   // Your CodeIgniter main file
             $required['--webroot'] = TRUE;
             break;
         default:

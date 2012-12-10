@@ -234,7 +234,7 @@ class Authentication_Controller extends Abstract_Ilios_Controller
                         $this->output->set_header("Location: " . $this->session->userdata('last_url'));
                         $this->session->unset_userdata('last_url');
                     } else {
-                        $this->output->set_header("Location: " . base_url() . "ilios2.php/dashboard_controller");
+                        $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
                     }
                 }
             }

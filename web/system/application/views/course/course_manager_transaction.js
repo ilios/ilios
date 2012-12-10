@@ -534,7 +534,7 @@ ilios.cm.transaction.revertChanges = function () {
 ilios.cm.transaction.returnToDashboard = function () {
     this.cancel();
 
-    window.location.href = '/ilios2.php/dashboard_controller';
+    window.location.href = '/ilios.php/dashboard_controller';
 };
 
 /**

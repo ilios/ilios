@@ -43,7 +43,7 @@
     <span>Version <?php include_once dirname(__FILE__) . '/version.php'; ?></span>
 </div>                 <nav id="utility">
                     <ul>
-                        <li id="logout_link"><a class="tiny radius button" href="ilios2.php/dashboard_controller">Login</a></li>
+                        <li id="logout_link"><a class="tiny radius button" href="ilios.php/dashboard_controller">Login</a></li>
                     </ul>
                 </nav>
             </div>
@@ -54,7 +54,7 @@
         <div id="main" role="main">
             <div id="content">
                 <div style="margin-top: 50px;">
-                    <center><a href="ilios2.php/dashboard_controller">Enter the UCSF Ilios Application (log in required)</a></center>
+                    <center><a href="ilios.php/dashboard_controller">Enter the UCSF Ilios Application (log in required)</a></center>
                 </div>
 
                 <div style="margin-top: 96px;">
