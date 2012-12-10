@@ -523,8 +523,8 @@ class Group_Management extends Abstract_Ilios_Controller
      *              Last name
      *              First name
      *              Middle name
-     *              EMail address
      *              Phone
+     *              EMail address
      *              UC id
      *              GALEN id
      *              Other id
@@ -617,13 +617,13 @@ class Group_Management extends Abstract_Ilios_Controller
                 $this->user->startTransaction();
 
                 foreach ($csvData as $row) {
-                    $lastName = $row[0];
-                    $firstName = $row[1];
-                    $middleName = $row[2];
-                    $phone = $row[3];
-                    $email = $row[4];
-                    $ucUID = $row[5];
-                    $otherId = $row[7];
+                    $lastName = trim($row[0]);
+                    $firstName = trim($row[1]);
+                    $middleName = trim($row[2]);
+                    $phone = trim($row[3]);
+                    $email = trim($row[4]);
+                    $ucUID = trim($row[5]);
+                    $otherId = trim($row[7]);
 
                     $primarySchoolId = $this->session->userdata('school_id');
 
@@ -689,12 +689,12 @@ class Group_Management extends Abstract_Ilios_Controller
 
         $cohortId = $this->input->get_post('cohort_id');
         $containerNumber = $this->input->get_post('container_number');
-        $lastName = $this->input->get_post('last_name');
-        $firstName = $this->input->get_post('first_name');
-        $middleName = $this->input->get_post('middle_name');
-        $phone = $this->input->get_post('phone');
-        $email = $this->input->get_post('email');
-        $ucUID = $this->input->get_post('uc_uid');
+        $lastName = trim($this->input->get_post('last_name'));
+        $firstName = trim($this->input->get_post('first_name'));
+        $middleName = trim($this->input->get_post('middle_name'));
+        $phone = trim($this->input->get_post('phone'));
+        $email = trim($this->input->get_post('email'));
+        $ucUID = trim($this->input->get_post('uc_uid'));
 
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
