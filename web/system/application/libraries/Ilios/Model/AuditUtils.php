@@ -2,7 +2,7 @@
 /**
  * Static class providing auditing utilities and constants.
  */
-class Ilios2_Model_AuditUtils
+class Ilios_Model_AuditUtils
 {
     /**
      * Used to indicate a create-event in the audit trail.

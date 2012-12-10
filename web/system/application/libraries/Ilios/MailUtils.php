@@ -5,7 +5,7 @@
  * @author stopfstedt
  *
  */
-class Ilios2_MailUtils
+class Ilios_MailUtils
 {
     /**
      * max. line length limit
@@ -32,7 +32,7 @@ class Ilios2_MailUtils
      * @return string the text
      */
     public static function implodeListForMail (array $list, $separator = ', ',
-        $maxLineLength = Ilios2_MailUtils::RFC2822_RECOMMENDED_LINE_LENGTH)
+        $maxLineLength = Ilios_MailUtils::RFC2822_RECOMMENDED_LINE_LENGTH)
     {
     	$lines = array();
     	$line = '';

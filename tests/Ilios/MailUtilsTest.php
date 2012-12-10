@@ -3,12 +3,12 @@ require_once dirname(__FILE__) . '/TestCase.php';
 
 /**
  * Test case for the mail utils.
- * @see Ilios2_MailUtils
+ * @see Ilios_MailUtils
  */
-class Ilios2_MailUtilsTest extends Ilios2_TestCase
+class Ilios_MailUtilsTest extends Ilios_TestCase
 {
     /**
-     * Data provider function for <code>Ilios2_MailUtilsTest::testImplodeListForMail()</code>.
+     * Data provider function for <code>Ilios_MailUtilsTest::testImplodeListForMail()</code>.
      * Returns a nested array of arrays, where in each sub-array
      * - the first, second and third elements hold input to the function under test.
      * - the fourth element holds the expected output from the function under test.
@@ -29,18 +29,18 @@ class Ilios2_MailUtilsTest extends Ilios2_TestCase
 
     /**
      * @test
-     * @covers Ilios2_MailUtils::implodeListForMail()
+     * @covers Ilios_MailUtils::implodeListForMail()
      * @dataProvider providerTestImplodeListForMail
      * @param array $list test input to function under test
      * @param string $separator test input to function under test
      * @param $lineLengthLimit test input to function under test
      * @param $expected expected output from function under test
-     * @see Ilios2_MailUtils::implodeListForMail()
+     * @see Ilios_MailUtils::implodeListForMail()
      * @group ilios2
      * @group mail
      */
     public function testImplodeListForMail (array $list, $separator, $lineLengthLimit, $expected)
     {
-        $this->assertEquals($expected, Ilios2_MailUtils::implodeListForMail($list, $separator, $lineLengthLimit));
+        $this->assertEquals($expected, Ilios_MailUtils::implodeListForMail($list, $separator, $lineLengthLimit));
     }
 }

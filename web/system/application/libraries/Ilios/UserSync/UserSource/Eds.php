@@ -5,7 +5,7 @@
  * Implements the external user source interface.
  * Used for synchronizing the Ilios-internal user store against the EDS.
  */
-class Ilios2_UserSync_UserSource_Eds implements Ilios2_UserSync_UserSource
+class Ilios_UserSync_UserSource_Eds implements Ilios_UserSync_UserSource
 {
 
     /**
@@ -22,7 +22,7 @@ class Ilios2_UserSync_UserSource_Eds implements Ilios2_UserSync_UserSource
 
     /**
      * Internal LDAP client which is used to connect to EDS
-     * @var Ilios2_Ldap
+     * @var Ilios_Ldap
      */
 
     protected $_ldap;
@@ -30,7 +30,7 @@ class Ilios2_UserSync_UserSource_Eds implements Ilios2_UserSync_UserSource
     /**
      * Constructor
      * @param array $config
-     * @see Ilios2_UserSync_UserSource::__construct()
+     * @see Ilios_UserSync_UserSource::__construct()
      */
     public function __construct(array $config = array())
     {
@@ -39,9 +39,9 @@ class Ilios2_UserSync_UserSource_Eds implements Ilios2_UserSync_UserSource
 
 	/**
 	 * Retrieves a list containing all students records from EDS.
-	 * @return Ilios2_UserSync_ExternalUser_Iterator_Ldap
-	 * @see Ilios2_UserSync_UserSource::getAllStudentRecords()
-	 * @throws Ilios2_UserSync_Exception
+	 * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
+	 * @see Ilios_UserSync_UserSource::getAllStudentRecords()
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getAllStudentRecords ()
 	{
@@ -51,7 +51,7 @@ class Ilios2_UserSync_UserSource_Eds implements Ilios2_UserSync_UserSource
 	/**
 	 * Retrieves a list of students from EDS.
 	 * @param int $limit
-	 * @return Ilios2_UserSync_ExternalUser_Iterator_Ldap
+	 * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
 	 */
 	public function getStudentRecords ($limit = 0)
 	{
@@ -71,9 +71,9 @@ EOL;
 
 	/**
 	 * @param string $email
-	 * @return Ilios2_UserSync_ExternalUser_Iterator_Ldap
-	 * @see Ilios2_UserSync_UserSource::getUserByEmail()
-	 * @throws Ilios2_UserSync_Exception
+	 * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
+	 * @see Ilios_UserSync_UserSource::getUserByEmail()
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getUserByEmail ($email)
 	{
@@ -87,9 +87,9 @@ EOL;
 
 	/**
 	 * @param string $uid
-	 * @return Ilios2_UserSync_ExternalUser_Iterator_Ldap
-	 * @see Ilios2_UserSync_UserSource::getUserByUid()
-	 * @throws Ilios2_UserSync_Exception
+	 * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
+	 * @see Ilios_UserSync_UserSource::getUserByUid()
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getUserByUid ($uid)
 	{
@@ -104,7 +104,7 @@ EOL;
 	/**
 	 * @param string $uid
 	 * @return boolean
-     * @see Ilios2_UserSync_UserSource::hasStudent()
+     * @see Ilios_UserSync_UserSource::hasStudent()
      */
     public function hasStudent ($uid)
     {
@@ -122,7 +122,7 @@ EOL;
 	/**
 	 * @param string $uid
 	 * @return boolean
-     * @see Ilios2_UserSync_UserSource::hasUser()
+     * @see Ilios_UserSync_UserSource::hasUser()
      */
     public function hasUser ($uid)
     {
@@ -140,32 +140,32 @@ EOL;
 	 * Performs an LDAP search against EDS.
 	 * @param string $filter
 	 * @param int $limit number of records to return, 0 indicates 'unlimited' (this is the default)
-	 * @return Ilios2_UserSync_ExternalUser_Iterator_Ldap
-	 * @throws Ilios2_UserSync_Exception
+	 * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
+	 * @throws Ilios_UserSync_Exception
 	 */
 	protected function _search ($filter, $limit = 0)
 	{
 		try {
 		   $ldap = $this->getLdap();
 		   $result = $ldap->search(self::EDS_BASE_DN, trim($filter), null, array(), 0, $limit);
-		   $ldapIterator = new Ilios2_Ldap_Iterator($ldap, $result);
-		   return new Ilios2_UserSync_ExternalUser_Iterator_Ldap($ldapIterator, new Ilios2_UserSync_ExternalUser_Factory_Eds());
-		} catch (Ilios2_Ldap_Exception $e) {
+		   $ldapIterator = new Ilios_Ldap_Iterator($ldap, $result);
+		   return new Ilios_UserSync_ExternalUser_Iterator_Ldap($ldapIterator, new Ilios_UserSync_ExternalUser_Factory_Eds());
+		} catch (Ilios_Ldap_Exception $e) {
 		    // re-throw ldap exception
-		    throw new Ilios2_UserSync_Exception("Failed to search external user source: {$e->getMessage()}",
-		                Ilios2_UserSync_Exception::USER_SOURCE_ERROR);
+		    throw new Ilios_UserSync_Exception("Failed to search external user source: {$e->getMessage()}",
+		                Ilios_UserSync_Exception::USER_SOURCE_ERROR);
 		}
 	}
 
 	/**
 	 * Returns the internal LDAP client.
-	 * @return Ilios2_Ldap
-	 * @throws Ilios2_Ldap_Exception
+	 * @return Ilios_Ldap
+	 * @throws Ilios_Ldap_Exception
 	 */
 	public function getLdap ()
 	{
 	    if (is_null($this->_ldap)) { // lazy initialization
-	        $this->_ldap = new Ilios2_Ldap($this->_config['ldap']);
+	        $this->_ldap = new Ilios_Ldap($this->_config['ldap']);
 	    }
 	    return $this->_ldap;
 

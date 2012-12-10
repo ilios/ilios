@@ -84,8 +84,8 @@ class Program_Management extends Abstract_Ilios_Controller
 
         // get school competencies
         $schoolCompetencies = $this->_getSchoolCompetencies();
-        $data['school_competencies'] = Ilios2_Json::encodeForJavascriptEmbedding($schoolCompetencies,
-            Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+        $data['school_competencies'] = Ilios_Json::encodeForJavascriptEmbedding($schoolCompetencies,
+            Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'program_management.title_bar';
         $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
@@ -600,8 +600,8 @@ class Program_Management extends Abstract_Ilios_Controller
         $names = array('competency', 'objective', 'discipline', 'director', 'steward');
         foreach ($names as $name) {
             $input = $this->input->post($name);
-            $input = Ilios2_CharEncoding::convertToUtf8($input);
-            $input = Ilios2_CharEncoding::utf8UrlDecode($input);
+            $input = Ilios_CharEncoding::convertToUtf8($input);
+            $input = Ilios_CharEncoding::utf8UrlDecode($input);
             $clean[$name] = $input;
         }
 
@@ -612,12 +612,12 @@ class Program_Management extends Abstract_Ilios_Controller
         $directors = null;
         $stewards = null;
         try {
-            $competencies = Ilios2_Json::decode($clean['competency'], true);
-            $objectives = Ilios2_Json::decode($clean['objective'], true);
-            $disciplines = Ilios2_Json::decode($clean['discipline'], true);
-            $directors = Ilios2_Json::decode($clean['director'], true);
-            $stewards = Ilios2_Json::decode($clean['steward'], true);
-        } catch (Ilios2_Exception $e) { // reject junky input
+            $competencies = Ilios_Json::decode($clean['competency'], true);
+            $objectives = Ilios_Json::decode($clean['objective'], true);
+            $disciplines = Ilios_Json::decode($clean['discipline'], true);
+            $directors = Ilios_Json::decode($clean['director'], true);
+            $stewards = Ilios_Json::decode($clean['steward'], true);
+        } catch (Ilios_Exception $e) { // reject junky input
             $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
             header("Content-Type: text/plain");
             echo json_encode($rhett);

@@ -17,7 +17,7 @@
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
  * @license http://www.iliosproject.org/license GNU GPL v3
  */
-class Ilios2_CharEncoding
+class Ilios_CharEncoding
 {
     /**
      * Converts a given text to UTF-8 character encoding.

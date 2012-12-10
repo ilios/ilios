@@ -12,7 +12,7 @@
 		<row>
 			<value>1</value>
 			<value>1319576361</value>
-			<value>Ilios2_UserSync_Process_NonStudentProcess</value>
+			<value>Ilios_UserSync_Process_NonStudentProcess</value>
 			<value>8</value>
 			<value>301</value>
 			<value>email</value>
@@ -22,7 +22,7 @@
 		<row>
 			<value>2</value>
 			<value>1319576361</value>
-			<value>Ilios2_UserSync_Process_NonStudentProcess</value>
+			<value>Ilios_UserSync_Process_NonStudentProcess</value>
 			<value>9</value>
 			<value>302</value>
 			<value>uid</value>
@@ -32,9 +32,9 @@
 		<row>
 			<value>3</value>
 			<value>1319576361</value>
-			<value>Ilios2_UserSync_Process_NonStudentProcess</value>
+			<value>Ilios_UserSync_Process_NonStudentProcess</value>
 			<value>10</value>
-			<!--  Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
 			<value>303</value>
 			<null />
 			<null />
@@ -42,9 +42,9 @@
 		<row>
 			<value>4</value>
 			<value>1319576361</value>
-			<value>Ilios2_UserSync_Process_NonStudentProcess</value>
+			<value>Ilios_UserSync_Process_NonStudentProcess</value>
 			<value>11</value>
-			<!--  Ilios2_UserSync_Process_UserException::PARTIAL_MISMATCH -->
+			<!--  Ilios_UserSync_Process_UserException::PARTIAL_MISMATCH -->
 			<value>304</value>
 			<null />
 			<null />
@@ -53,9 +53,9 @@
 		<row>
 			<value>5</value>
 			<value>1319576361</value>
-			<value>Ilios2_UserSync_Process_NonStudentProcess</value>
+			<value>Ilios_UserSync_Process_NonStudentProcess</value>
 			<value>12</value>
-			<!--  Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
 			<value>303</value>
 			<null />
 			<null />
@@ -63,9 +63,9 @@
 		<row>
 			<value>6</value>
 			<value>1319576361</value>
-			<value>Ilios2_UserSync_Process_NonStudentProcess</value>
+			<value>Ilios_UserSync_Process_NonStudentProcess</value>
 			<value>13</value>
-			<!--  Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
 			<value>303</value>
 			<null />
 			<null />
@@ -73,9 +73,9 @@
 		<row>
 			<value>7</value>
 			<value>1319576361</value>
-			<value>Ilios2_UserSync_Process_NonStudentProcess</value>
+			<value>Ilios_UserSync_Process_NonStudentProcess</value>
 			<value>14</value>
-			<!--  Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
 			<value>303</value>
 			<null />
 			<null />

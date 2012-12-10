@@ -3,7 +3,7 @@
 /**
  * Constant-interface providing application wide database configuration defaults.
  */
-interface Ilios2_Database_Constants
+interface Ilios_Database_Constants
 {
     /**
      * @var int number of attempts to retry a failed database transaction

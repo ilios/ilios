@@ -8,7 +8,7 @@
  *
  * @see Abstract_Ilios_Model
  */
-class Ilios2_Database_TransactionHelper
+class Ilios_Database_TransactionHelper
 {
     /**
      * Triggers a transaction rollback on the given model and decrements
@@ -28,7 +28,7 @@ class Ilios2_Database_TransactionHelper
         $transactionRetryCount--;
 
         // send the script to sleep for a random (and hopefully short amount of time)
-        $deadlockSleeper = new Ilios2_Database_DeadlockSleeper($transactionRetryCount, $model->getTableName());
+        $deadlockSleeper = new Ilios_Database_DeadlockSleeper($transactionRetryCount, $model->getTableName());
         $deadlockSleeper->sleep();
     }
 }

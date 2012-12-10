@@ -3,7 +3,7 @@
 /**
  * Wrapper class around LDAP connection/bind.
  */
-class Ilios2_Ldap
+class Ilios_Ldap
 {
     /**
      * Flag, indicates a search scope of the base entry and entries one level below
@@ -49,8 +49,8 @@ class Ilios2_Ldap
 
     /**
      * Connects to LDAP server.
-     * @return Ilios2_Ldap itself
-     * @throws Ilios2_Ldap_Exception
+     * @return Ilios_Ldap itself
+     * @throws Ilios_Ldap_Exception
      */
     public function connect ()
     {
@@ -62,7 +62,7 @@ class Ilios2_Ldap
         $host = array_key_exists('host', $this->_options) ? trim($this->_options['host']) : '';
 
         if ('' == $host) {
-            throw new Ilios2_Ldap_Exception("Couldn't connect  - LDAP server hostname missing.");
+            throw new Ilios_Ldap_Exception("Couldn't connect  - LDAP server hostname missing.");
         }
 
         $connectionUrl = false;
@@ -92,10 +92,10 @@ class Ilios2_Ldap
         $errorNumber = @ldap_errno($ldap);
         $errorMsg = "Failed to connect to {$host}:{$port}";
         $this->disconnect();
-        throw new Ilios2_Ldap_Exception($errorMsg, $errorNumber);
+        throw new Ilios_Ldap_Exception($errorMsg, $errorNumber);
     }
     /**
-     * @throws Ilios2_Ldap_Exception
+     * @throws Ilios_Ldap_Exception
      */
     public function bind ()
     {
@@ -112,7 +112,7 @@ class Ilios2_Ldap
         $errorNumber = @ldap_errno($this->_ldap);
         $errorMsg = "Failed to bind to connection, LDAP Error Message";
         $this->disconnect();
-        throw new Ilios2_Ldap_Exception($errorMsg, $errorNumber);
+        throw new Ilios_Ldap_Exception($errorMsg, $errorNumber);
     }
 
     /**
@@ -144,7 +144,7 @@ class Ilios2_Ldap
      * @param int $limit
      * @param int $timeout
      * @return resource
-     * @throws Ilios2_Ldap_Exception
+     * @throws Ilios_Ldap_Exception
      */
     public function search ($baseDn, $filter, $scope = self::LDAP_SCOPE_SUBTREE, array $attributes = array(),
                     $attrOnly = false, $limit = 0, $timeout = 0)
@@ -163,7 +163,7 @@ class Ilios2_Ldap
         }
         if (false === $result) {
             $errorNumber = @ldap_errno($this->_ldap);
-            throw new Ilios2_Ldap_Exception('LDAP search failed.', $errorNumber);
+            throw new Ilios_Ldap_Exception('LDAP search failed.', $errorNumber);
         }
         return $result;
     }

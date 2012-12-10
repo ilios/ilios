@@ -3,13 +3,13 @@ require_once dirname(dirname(__FILE__)) . '/ProcessTest.php';
 
 /**
  * Test case for the student-user synchronization process.
- * @see Ilios2_UserSync_Process_StudentProcess
+ * @see Ilios_UserSync_Process_StudentProcess
  */
-class Ilios2_UserSync_Process_StudentProcessTest extends Ilios2_UserSync_ProcessTest
+class Ilios_UserSync_Process_StudentProcessTest extends Ilios_UserSync_ProcessTest
 {
 	/**
 	 * @test
-	 * @covers Ilios2_UserSync_Process_StudentProcess
+	 * @covers Ilios_UserSync_Process_StudentProcess
 	 * @group ilios2
      * @group user_sync
 	 */
@@ -22,8 +22,8 @@ class Ilios2_UserSync_Process_StudentProcessTest extends Ilios2_UserSync_Process
 
 	    // instantiate a external user source
 	    // we use the "Array" source
-	    $userSource = new Ilios2_UserSync_UserSource_Array($this->_config);
-	    $process = new Ilios2_UserSync_Process_StudentProcess($userSource,
+	    $userSource = new Ilios_UserSync_UserSource_Array($this->_config);
+	    $process = new Ilios_UserSync_Process_StudentProcess($userSource,
 	    $this->_userDao, $this->_schoolDao, $this->_syncExceptionDao);
 
 	    // -------------------------------
@@ -90,10 +90,10 @@ EOL;
 
 	/**
 	 * (non-PHPdoc)
-	 * @see Ilios2_UserSync_ProcessTest::_getResourcePath()
+	 * @see Ilios_UserSync_ProcessTest::_getResourcePath()
 	 */
 	protected function _getResourcePath ()
 	{
-	    return ILIOS2_TEST_ROOT_DIR . '/_datasets/user_sync/student_process';
+	    return ILIOS_TEST_ROOT_DIR . '/_datasets/user_sync/student_process';
 	}
 }

@@ -5,7 +5,7 @@
  * Operates on user data which is passed directly to the source object
  * as nested array during instantiation.
  */
-class Ilios2_UserSync_UserSource_Array implements Ilios2_UserSync_UserSource
+class Ilios_UserSync_UserSource_Array implements Ilios_UserSync_UserSource
 {
     /**
      * @var array the internal data store of user records.
@@ -15,8 +15,8 @@ class Ilios2_UserSync_UserSource_Array implements Ilios2_UserSync_UserSource
     /**
      * Constructor.
      * @param array $config
-     * @see Ilios2_UserSync_UserSource::__construct()
-     * @throws Ilios2_UserSync_Exception if user data input is missing.
+     * @see Ilios_UserSync_UserSource::__construct()
+     * @throws Ilios_UserSync_Exception if user data input is missing.
      *
      * The user data is expected to be passed in as nested array alongside the configuration.
      * It is assumed that it can be found under <code>$config['array']['users']</code>.
@@ -24,15 +24,15 @@ class Ilios2_UserSync_UserSource_Array implements Ilios2_UserSync_UserSource
     public function __construct (array $config = array())
     {
         if (! @is_array($config['array']['users'])) {
-            throw new Ilios2_UserSync_Exception('No user data provided to test user source during instantiation.');
+            throw new Ilios_UserSync_Exception('No user data provided to test user source during instantiation.');
         }
         $this->_users = $config['array']['users'];
     }
 
     /**
      * Returns a list of student records.
-     * @return Ilios2_UserSync_ExternalUser_Iterator_Array
-     * @see Ilios2_UserSync_UserSource::getAllStudentRecords()
+     * @return Ilios_UserSync_ExternalUser_Iterator_Array
+     * @see Ilios_UserSync_UserSource::getAllStudentRecords()
      */
     public function getAllStudentRecords ()
     {
@@ -42,13 +42,13 @@ class Ilios2_UserSync_UserSource_Array implements Ilios2_UserSync_UserSource
                 $students[] = $user;
             }
         }
-        return new Ilios2_UserSync_ExternalUser_Iterator_Array(
-                    new Ilios2_UserSync_ExternalUser_Factory_Array(), $students);
+        return new Ilios_UserSync_ExternalUser_Iterator_Array(
+                    new Ilios_UserSync_ExternalUser_Factory_Array(), $students);
     }
     /**
      * @param string $email
-     * @return Ilios2_UserSync_ExternalUser_Iterator_Array
-     * @see Ilios2_UserSync_UserSource::getUserByEmail()
+     * @return Ilios_UserSync_ExternalUser_Iterator_Array
+     * @see Ilios_UserSync_UserSource::getUserByEmail()
      */
 	public function getUserByEmail ($email)
 	{
@@ -58,14 +58,14 @@ class Ilios2_UserSync_UserSource_Array implements Ilios2_UserSync_UserSource
 	            $users[] = $user;
 	        }
 	    }
-	    return new Ilios2_UserSync_ExternalUser_Iterator_Array(
-                    new Ilios2_UserSync_ExternalUser_Factory_Array(), $users);
+	    return new Ilios_UserSync_ExternalUser_Iterator_Array(
+                    new Ilios_UserSync_ExternalUser_Factory_Array(), $users);
 	}
 
 	/**
      * @param string $uid
-     * @return Ilios2_UserSync_ExternalUser_Iterator_Array
-	 * @see Ilios2_UserSync_UserSource::getUserByUid()
+     * @return Ilios_UserSync_ExternalUser_Iterator_Array
+	 * @see Ilios_UserSync_UserSource::getUserByUid()
 	 */
 	public function getUserByUid ($uid)
 	{
@@ -75,14 +75,14 @@ class Ilios2_UserSync_UserSource_Array implements Ilios2_UserSync_UserSource
 	            $users[] = $user;
 	        }
 	    }
-	    return new Ilios2_UserSync_ExternalUser_Iterator_Array(
-                    new Ilios2_UserSync_ExternalUser_Factory_Array(), $users);
+	    return new Ilios_UserSync_ExternalUser_Iterator_Array(
+                    new Ilios_UserSync_ExternalUser_Factory_Array(), $users);
 	}
 
 	/**
 	 * @param string $uid
 	 * @return boolean
-	 * @see Ilios2_UserSync_UserSource::hasStudent()
+	 * @see Ilios_UserSync_UserSource::hasStudent()
 	 */
 	public function hasStudent ($uid)
 	{
@@ -97,7 +97,7 @@ class Ilios2_UserSync_UserSource_Array implements Ilios2_UserSync_UserSource
 	/**
 	 * @param string $uid
 	 * @return boolean
-	 * @see Ilios2_UserSync_UserSource::hasUser()
+	 * @see Ilios_UserSync_UserSource::hasUser()
 	 */
 	public function hasUser ($uid)
 	{

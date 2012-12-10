@@ -4,7 +4,7 @@
  * Interface for adapters to external user sources.
  * Defines functions as interfaces to query these user sources.
  */
-interface Ilios2_UserSync_UserSource
+interface Ilios_UserSync_UserSource
 {
 	/**
 	 * Constructor.
@@ -14,7 +14,7 @@ interface Ilios2_UserSync_UserSource
 
 	/**
 	 * Returns student records from the external user source.
-	 * @return Ilios2_UserSync_ExternalUser_Iterator
+	 * @return Ilios_UserSync_ExternalUser_Iterator
 	 */
 	public function getAllStudentRecords ();
 
@@ -22,7 +22,7 @@ interface Ilios2_UserSync_UserSource
 	 * Finds and returns user record(s) by a given email address
 	 * from the external user source.
 	 * @param string $email
-	 * @return Ilios2_UserSync_ExternalUser_Iterator
+	 * @return Ilios_UserSync_ExternalUser_Iterator
 	 */
 	public function getUserByEmail ($email);
 
@@ -30,7 +30,7 @@ interface Ilios2_UserSync_UserSource
 	 * Finds and returns user record(s) by a given unique id (UID)
 	 * from the external user source.
 	 * @param string $uid
-	 * @return Ilios2_UserSync_ExternalUser_Iterator
+	 * @return Ilios_UserSync_ExternalUser_Iterator
 	 */
 	public function getUserByUid ($uid);
 

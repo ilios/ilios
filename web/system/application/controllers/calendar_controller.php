@@ -102,8 +102,8 @@ class Calendar_Controller extends Abstract_Ilios_Controller
 
         // get school competencies
         $schoolCompetencies = $this->_getSchoolCompetencies();
-        $data['school_competencies'] = Ilios2_Json::encodeForJavascriptEmbedding($schoolCompetencies,
-            Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+        $data['school_competencies'] = Ilios_Json::encodeForJavascriptEmbedding($schoolCompetencies,
+            Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'dashboard.account_mgmt';
         $data['account_management_string'] = $this->i18nVendor->getI18NString($key, $lang);
@@ -403,7 +403,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
 
         $visualAlertThreshold = $this->config->item('visual_alert_threshold_in_days');
         if (empty($visualAlertThreshold)) { // apply default
-            $visualAlertThreshold = Ilios2_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
+            $visualAlertThreshold = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
         }
 
         $offerings = $this->queries->getOfferingsForCalendar($schoolId, $userId,
@@ -461,7 +461,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
 
         $visualAlertThreshold = $this->config->item('visual_alert_threshold_in_days');
         if (empty($visualAlertThreshold)) { // apply default
-            $visualAlertThreshold = Ilios2_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
+            $visualAlertThreshold = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
         }
 
         //$silms = $this->queries->getSILMsForUserAsLearner($userId);
@@ -525,7 +525,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
 
         $visualAlertThreshold = $this->config->item('visual_alert_threshold_in_days');
         if (empty($visualAlertThreshold)) { // apply default
-            $visualAlertThreshold = Ilios2_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
+            $visualAlertThreshold = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
         }
 
         $offeringArray = $this->queries->getOfferingsForCalendar($schoolId,
@@ -591,7 +591,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
 
         $visualAlertThreshold = $this->config->item('visual_alert_threshold_in_days');
         if (empty($visualAlertThreshold)) { // apply default
-            $visualAlertThreshold = Ilios2_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
+            $visualAlertThreshold = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS;
         }
 
         $silms = $this->queries->getSILMsForCalendar($schoolId, $userId,

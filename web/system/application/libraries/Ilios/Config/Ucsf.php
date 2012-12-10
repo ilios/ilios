@@ -4,7 +4,7 @@
  * Constants interface holding read-only configuration-defaults
  * specific to the Ilios instance at University of California, San Francisco (UCSF).
  */
-interface Ilios2_Config_Ucsf
+interface Ilios_Config_Ucsf
 {
 	/**
 	 * @var int Ilios-internal identifier for School of Medicine

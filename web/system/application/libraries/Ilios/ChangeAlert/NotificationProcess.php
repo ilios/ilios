@@ -3,7 +3,7 @@
 /**
  * Implementation of the change alert notification process.
  */
-class Ilios2_ChangeAlert_NotificationProcess
+class Ilios_ChangeAlert_NotificationProcess
 {
     /* constants */
     /**
@@ -88,7 +88,7 @@ class Ilios2_ChangeAlert_NotificationProcess
      * @param Session $sessionDao
      * @param Session_Type $sessionTypeDao
      * @param Course $courseDao
-     * @throws Ilios2_ChangeAlert_Exception
+     * @throws Ilios_ChangeAlert_Exception
      */
     public function __construct (array $config, Alert $alertDao, School $schoolDao,
             Offering $offeringDao, Session $sessionDao, Session_Type $sessionTypeDao, Course $courseDao)
@@ -109,24 +109,24 @@ class Ilios2_ChangeAlert_NotificationProcess
     /**
      * Returns the path to the notification templates directory.
      * @return string the path to the templates directory
-     * @throws Ilios2_ChangeAlert_Exception if no directory can be found
+     * @throws Ilios_ChangeAlert_Exception if no directory can be found
      */
     protected function _getTemplatesDirPath ()
     {
         if (! isset($this->_templatesDirPath)) {
             $path = null;
             if (! array_key_exists('templates_dir_path', $this->_config)) {
-                 throw new Ilios2_ChangeAlert_Exception(
+                 throw new Ilios_ChangeAlert_Exception(
                      'Configuration Error: Templates directory missing.',
-                     Ilios2_ChangeAlert_Exception::TEMPLATES_DIR_MISSING);
+                     Ilios_ChangeAlert_Exception::TEMPLATES_DIR_MISSING);
 
             }
             $path = $this->_config['templates_dir_path'];
 
             if (! isset($path) || ! is_dir($path)) {
-                throw new Ilios2_ChangeAlert_Exception(
+                throw new Ilios_ChangeAlert_Exception(
                     "Templates directory '{$path}' not found.",
-                    Ilios2_ChangeAlert_Exception::TEMPLATES_DIR_NOT_FOUND);
+                    Ilios_ChangeAlert_Exception::TEMPLATES_DIR_NOT_FOUND);
             }
             $this->_templatesDirPath = $path;
 
@@ -138,46 +138,46 @@ class Ilios2_ChangeAlert_NotificationProcess
      * Retrieves the content of a given message template file.
      * @param string $filename name of the template file
      * @return string the template file content
-     * @throws Ilios2_ChangeAlert_Exception if template cannot be found or read.
+     * @throws Ilios_ChangeAlert_Exception if template cannot be found or read.
      */
     protected function _getMessageTemplateContent($filename)
     {
         $filePath = $this->_getTemplatesDirPath() . basename($filename);
         if (! file_exists($filePath) || ! is_file($filePath)) {
-            throw new Ilios2_ChangeAlert_Exception("Template file '{$filePath}' not found.",
-                Ilios2_ChangeAlert_Exception::TEMPLATE_FILE_NOT_FOUND);
+            throw new Ilios_ChangeAlert_Exception("Template file '{$filePath}' not found.",
+                Ilios_ChangeAlert_Exception::TEMPLATE_FILE_NOT_FOUND);
         }
 
         $content = @file_get_contents($filePath);
         if (false === $content) {
-            throw new Ilios2_ChangeAlert_Exception("Template file '{$filePath}' not read.",
-                Ilios2_ChangeAlert_Exception::TEMPLATE_FILE_UNREADABLE);
+            throw new Ilios_ChangeAlert_Exception("Template file '{$filePath}' not read.",
+                Ilios_ChangeAlert_Exception::TEMPLATE_FILE_UNREADABLE);
         }
         return $content;
     }
     /**
      * Runs the change alert notification process.
-     * @param Ilios2_Logger $logger file logger
+     * @param Ilios_Logger $logger file logger
      */
-    public function run (Ilios2_Logger $logger, $debug = false)
+    public function run (Ilios_Logger $logger, $debug = false)
     {
         $processId = time();
         $this->_clearAllCaches(); // reset the cache registry
         $logger->info('Kicking off the offering change alert notification process, here we go...', $processId);
         $this->_processOfferingChangeAlerts($processId, $logger, $debug);
         $logger->info('Completed offering change alert notification process.', $processId);
-        $logger->info(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
-        $logger->info(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+        $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+        $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
     }
 
 
     /**
      * Processes undispatched change alerts.
      * @param int $processId the id of the currently running process
-     * @param Ilios2_Logger $logger file logger
+     * @param Ilios_Logger $logger file logger
      * @param boolean $debug debug flag, set to TRUE to turn debugging on
      */
-    protected function _processOfferingChangeAlerts ($processId, Ilios2_Logger $logger, $debug = false)
+    protected function _processOfferingChangeAlerts ($processId, Ilios_Logger $logger, $debug = false)
     {
     	// process undispatched change alerts on a per-school basis
     	$schools = $this->_schoolDao->getSchoolsMap();
@@ -189,11 +189,11 @@ class Ilios2_ChangeAlert_NotificationProcess
     /**
      * Processes offering change alerts for a given school.
      * @param int $processId the id of the currently running process
-     * @param Ilios2_Logger $logger file logger
+     * @param Ilios_Logger $logger file logger
      * @param array $school array representing a school record
      * @param boolean $debug set to TRUE to turn debugging on
      */
-    protected function _processOfferingChangeAlertsBySchool($processId, Ilios2_Logger $logger, array $school, $debug = false)
+    protected function _processOfferingChangeAlertsBySchool($processId, Ilios_Logger $logger, array $school, $debug = false)
     {
         $logger->info("Started processing offering change alerts for School of {$school['title']}.", $processId);
         // load unprocessed offering change alerts
@@ -202,7 +202,7 @@ class Ilios2_ChangeAlert_NotificationProcess
     	$alertCount = count($changeAlerts);
     	if (! $alertCount) {
     	    $logger->info("There are no offering change alerts queued for processing.", $processId);
-    	    $logger->info(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+    	    $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
     	    return;
     	}
     	$mailTo = $school['change_alert_recipients'];
@@ -234,7 +234,7 @@ class Ilios2_ChangeAlert_NotificationProcess
 
     			if ($debug) {
     			    // log message
-    			    $logger->debug(Ilios2_Logger::LOG_SEPARATION_LINE, $processId, 1);
+    			    $logger->debug(Ilios_Logger::LOG_SEPARATION_LINE, $processId, 1);
     			    $logger->debug("FROM: {$mailFrom}", $processId, 1);
     			    $logger->debug("TO: {$mailTo}", $processId, 1);
     			    $logger->debug("SUBJECT: {$mailSubject}", $processId, 1);
@@ -255,7 +255,7 @@ class Ilios2_ChangeAlert_NotificationProcess
         $this->_alertDao->markAlertsAsDisplatched($changeAlertIds);
 
         $logger->info("Completed processing offering change alerts.", $processId);
-        $logger->info(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+        $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
     }
 
     /**
@@ -359,7 +359,7 @@ class Ilios2_ChangeAlert_NotificationProcess
         	}
         }
         if (! empty($rows)) {
-        	$rhett['%%STUDENT_GROUP_LIST%%'] = Ilios2_MailUtils::implodeListForMail($rows, '; ');
+        	$rhett['%%STUDENT_GROUP_LIST%%'] = Ilios_MailUtils::implodeListForMail($rows, '; ');
         }
 
         // session
@@ -386,7 +386,7 @@ class Ilios2_ChangeAlert_NotificationProcess
         	}
         }
         if (! empty($rows)) {
-        	$rhett['%%INSTRUCTOR_LIST%%']  = Ilios2_MailUtils::implodeListForMail($rows, '; ');
+        	$rhett['%%INSTRUCTOR_LIST%%']  = Ilios_MailUtils::implodeListForMail($rows, '; ');
         }
 
         // learning materials list

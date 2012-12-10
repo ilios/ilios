@@ -6,16 +6,16 @@
  *
  * @link http://codeigniter.com/user_guide/general/hooks.html
  */
-class Ilios2_Hooks
+class Ilios_Hooks
 {
     /**
      * Implements a pre-system hook.
      * Registers a class autoloader.
-     * @see Ilios2_Hooks::autoload()
+     * @see Ilios_Hooks::autoload()
      */
     public function registerAutoloader ()
     {
-        spl_autoload_register(array('Ilios2_Hooks', 'autoload'));
+        spl_autoload_register(array('Ilios_Hooks', 'autoload'));
     }
 
     /**
@@ -33,7 +33,7 @@ class Ilios2_Hooks
         // convert the class name to a path
         // by replacing underscores with path separators
         // and by appending it with the '.php' file suffix
-        // e.g. a class name "Ilios2_Database_Constant"
+        // e.g. a class name "Ilios_Database_Constant"
         // will be converted to a corresponding file path
         // "Ilios2/Database/Constant.php"
         $filePath = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';

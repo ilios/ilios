@@ -7,16 +7,16 @@
  * Use it in combination with the corresponding EDS user source class and the
  * LDAP external user iterator.
  *
- * @see Ilios2_UserSync_ExternalUser_Iterator_Ldap
- * @see Ilios2_UserSync_UserSource_Eds
+ * @see Ilios_UserSync_ExternalUser_Iterator_Ldap
+ * @see Ilios_UserSync_UserSource_Eds
  */
-class Ilios2_UserSync_ExternalUser_Factory_Eds implements Ilios2_UserSync_ExternalUser_Factory
+class Ilios_UserSync_ExternalUser_Factory_Eds implements Ilios_UserSync_ExternalUser_Factory
 {
 	/**
 	 * Creates an external user object from a given nested array of LDAP search result entry attributes.
 	 * @param array $properties LDAP entry attributes
-	 * @return Ilios2_UserSync_ExternalUser
-     * @see Ilios2_UserSync_ExternalUser_Factory::createUser()
+	 * @return Ilios_UserSync_ExternalUser
+     * @see Ilios_UserSync_ExternalUser_Factory::createUser()
      */
     public function createUser (array $properties)
     {
@@ -84,7 +84,7 @@ class Ilios2_UserSync_ExternalUser_Factory_Eds implements Ilios2_UserSync_Extern
         }
 
         // at last, create the user object and return it
-        return new Ilios2_UserSync_ExternalUser($firstName, $lastName, $middleName, $email, $phone, $isStudent, $iliosSchoolId, $graduationYear, $uid);
+        return new Ilios_UserSync_ExternalUser($firstName, $lastName, $middleName, $email, $phone, $isStudent, $iliosSchoolId, $graduationYear, $uid);
     }
 
     /**
@@ -114,25 +114,25 @@ class Ilios2_UserSync_ExternalUser_Factory_Eds implements Ilios2_UserSync_Extern
      * Maps the given school code from Eds to its Ilios-internal equivalent.
      * @param int $edsSchoolCode the school code as provided by EDS
      * @return int the corresponding Ilios-internal school id, or -1 if no mapping could be achieved
-     * @see Ilios2_Config_Eds
-     * @see Ilios2_Config_Ucsf
+     * @see Ilios_Config_Eds
+     * @see Ilios_Config_Ucsf
      */
     public static function translateEdsSchoolCodeToIliosSchoolCode ($edsSchoolCode)
     {
         $iliosSchoolCode = -1;
 
         switch ($edsSchoolCode) { // school mapping
-            case Ilios2_Config_Eds::SCHOOL_OF_DENTISTRY_ID :
-            	$iliosSchoolCode = Ilios2_Config_Ucsf::SCHOOL_OF_DENTISTRY_ID;
+            case Ilios_Config_Eds::SCHOOL_OF_DENTISTRY_ID :
+            	$iliosSchoolCode = Ilios_Config_Ucsf::SCHOOL_OF_DENTISTRY_ID;
             	break;
-            case Ilios2_Config_Eds::SCHOOL_OF_MEDICINE_ID :
-            	$iliosSchoolCode = Ilios2_Config_Ucsf::SCHOOL_OF_MEDICINE_ID;
+            case Ilios_Config_Eds::SCHOOL_OF_MEDICINE_ID :
+            	$iliosSchoolCode = Ilios_Config_Ucsf::SCHOOL_OF_MEDICINE_ID;
             	break;
-            case Ilios2_Config_Eds::SCHOOL_OF_PHARMACY_ID :
-            	$iliosSchoolCode = Ilios2_Config_Ucsf::SCHOOL_OF_PHARMACY_ID;
+            case Ilios_Config_Eds::SCHOOL_OF_PHARMACY_ID :
+            	$iliosSchoolCode = Ilios_Config_Ucsf::SCHOOL_OF_PHARMACY_ID;
             	break;
-            case Ilios2_Config_Eds::SCHOOL_OF_NURSING_ID :
-            	$iliosSchoolCode = Ilios2_Config_Ucsf::SCHOOL_OF_NURSING_ID;
+            case Ilios_Config_Eds::SCHOOL_OF_NURSING_ID :
+            	$iliosSchoolCode = Ilios_Config_Ucsf::SCHOOL_OF_NURSING_ID;
             	break;
             default :
                 // do nothing

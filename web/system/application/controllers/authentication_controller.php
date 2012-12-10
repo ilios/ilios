@@ -135,7 +135,7 @@ class Authentication_Controller extends Abstract_Ilios_Controller
 
         if ($authenticationRow) {
             if ('' !== trim($authenticationRow->password_sha256) // ensure that we have a password on file
-                && $authenticationRow->password_sha256 === Ilios2_PasswordUtils::hashPassword($password, $salt)) { // password comparison
+                && $authenticationRow->password_sha256 === Ilios_PasswordUtils::hashPassword($password, $salt)) { // password comparison
 
                 // load the user record
                 $user = $this->user->getEnabledUsersById($authenticationRow->person_id);

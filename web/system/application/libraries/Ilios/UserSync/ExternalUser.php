@@ -7,9 +7,9 @@
  * Do not directly instantiate objects of this class,
  * instead use an external-user factory.
  *
- * @see Ilios2_UserSync_ExternalUser_Factory
+ * @see Ilios_UserSync_ExternalUser_Factory
  */
-class Ilios2_UserSync_ExternalUser
+class Ilios_UserSync_ExternalUser
 {
     /**
      * @var string

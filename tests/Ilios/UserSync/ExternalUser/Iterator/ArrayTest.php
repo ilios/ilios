@@ -4,9 +4,9 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/TestCase.php';
 /**
  * Test Case for the external user array iterator.
  *
- * @see Ilios2_UserSync_ExternalUser_Iterator_Array
+ * @see Ilios_UserSync_ExternalUser_Iterator_Array
  */
-class Ilios2_UserSync_UserSource_Iterator_ArrayTest extends Ilios2_TestCase
+class Ilios_UserSync_UserSource_Iterator_ArrayTest extends Ilios_TestCase
 {
 
     /**
@@ -58,13 +58,13 @@ class Ilios2_UserSync_UserSource_Iterator_ArrayTest extends Ilios2_TestCase
      * @dataProvider provider
      * @group ilios2
      * @group user_sync
-     * @covers Ilios2_UserSync_ExternalUser_Iterator_Array
+     * @covers Ilios_UserSync_ExternalUser_Iterator_Array
      * @param array list of user records
      */
     public function testIterator ($users)
     {
-        $factory = new Ilios2_UserSync_ExternalUser_Factory_Array();
-        $externalUsers = new Ilios2_UserSync_ExternalUser_Iterator_Array($factory, $users);
+        $factory = new Ilios_UserSync_ExternalUser_Factory_Array();
+        $externalUsers = new Ilios_UserSync_ExternalUser_Iterator_Array($factory, $users);
 
         // check size of user list
         $this->assertEquals(count($users), count($externalUsers));
@@ -72,7 +72,7 @@ class Ilios2_UserSync_UserSource_Iterator_ArrayTest extends Ilios2_TestCase
         // see if we can iterate and check data type
         $i = 0; // loop counter
         foreach ($externalUsers as $externalUser) {
-            $this->assertTrue($externalUser instanceof Ilios2_UserSync_ExternalUser);
+            $this->assertTrue($externalUser instanceof Ilios_UserSync_ExternalUser);
             $i++;
         }
 
@@ -82,7 +82,7 @@ class Ilios2_UserSync_UserSource_Iterator_ArrayTest extends Ilios2_TestCase
         // run through the loop again just to prove that iteration is repeatable
         $j = 0;
         foreach ($externalUsers as $externalUser) {
-            $this->assertTrue($externalUser instanceof Ilios2_UserSync_ExternalUser);
+            $this->assertTrue($externalUser instanceof Ilios_UserSync_ExternalUser);
             $j++;
         }
         $this->assertEquals(count($users), $j);

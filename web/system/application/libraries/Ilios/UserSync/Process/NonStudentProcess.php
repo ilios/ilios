@@ -3,7 +3,7 @@
 /**
  * Represents the Non-student-user synchronization process.
  */
-class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
+class Ilios_UserSync_Process_NonStudentProcess extends Ilios_UserSync_Process
 {
     /* constants */
     /**
@@ -22,10 +22,10 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
      * The name of this process, should be unique within the system.
      * @var string
      */
-    const SIGNATURE = 'Ilios2_UserSync_Process_NonStudentProcess';
+    const SIGNATURE = 'Ilios_UserSync_Process_NonStudentProcess';
 
     /**
-     * @var Ilios2_UserSync_UserSource
+     * @var Ilios_UserSync_UserSource
      */
     protected $_userSource;
 
@@ -36,12 +36,12 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
 
     /**
      * Constructor.
-     * @param Ilios2_UserSync_UserSource $source
+     * @param Ilios_UserSync_UserSource $source
      * @param User $userModel
      * @param User_Sync_Exception $syncExceptionDao
      * @param array $config process configuration
      */
-    public function __construct (Ilios2_UserSync_UserSource $userSource, User $userDao,
+    public function __construct (Ilios_UserSync_UserSource $userSource, User $userDao,
                                      User_Sync_Exception $syncExceptionDao)
     {
         parent::__construct($syncExceptionDao, self::SIGNATURE);
@@ -53,12 +53,12 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
     /**
      * Process implementation.
      * @param int $processId
-     * @param Ilios2_Logger $logger
+     * @param Ilios_Logger $logger
      * @return boolean TRUE on success, FALSE on error
      */
-    protected function _run($processId, Ilios2_Logger $logger)
+    protected function _run($processId, Ilios_Logger $logger)
     {
-        $logger->log(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         $msg = "Kicking off the Non-student-user synchronization process, here we go ....";
         $logger->log($msg , $processId);
         $nonStudentUserCount = 0;
@@ -112,7 +112,7 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
                     default : // more than one
                         $message = 'Multiple matches on UID for Ilios user in external user store';
                         $message .= " (Ilios user id: {$nonStudent['user_id']}, UID: {$nonStudent['uc_uid']})";
-                        throw new Ilios2_UserSync_Process_ExternalUserException($message);
+                        throw new Ilios_UserSync_Process_ExternalUserException($message);
                 }
                 if ($userMatch) {
                     $extUser = $extUsers->current();
@@ -150,7 +150,7 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
                         default : // more than one
                             $message = 'Multiple matches on Email for Ilios user in external user store';
                             $message .= " (Ilios user id: {$nonStudent['user_id']}, Email: {$nonStudent['email']})";
-                            throw new Ilios2_UserSync_Process_ExternalUserException($message);
+                            throw new Ilios_UserSync_Process_ExternalUserException($message);
                     }
                     if ($userMatch) {
                         $extUser = $extUsers->current();
@@ -182,24 +182,24 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
                         continue;
                     }
                 }
-            } catch  (Ilios2_UserSync_Process_ExternalUserException $e)  {
+            } catch  (Ilios_UserSync_Process_ExternalUserException $e)  {
                 // catch external user validation exceptions here.
                 // log them and move on to the next record.
-                $logger->log($e->getMessage(), $processId, 1, Ilios2_Logger::LOG_LEVEL_ERROR);
-            } catch (Ilios2_UserSync_Exception $e) {
+                $logger->log($e->getMessage(), $processId, 1, Ilios_Logger::LOG_LEVEL_ERROR);
+            } catch (Ilios_UserSync_Exception $e) {
                 // Catch any other exception thrown by the process
                 // this should only occur if something within the process itself
                 // blew up, e.g. the external user store went down or the likes.
                 // We log the incident and abort mission here.
-                $logger->log($e->getMessage(), $processId, 0, Ilios2_Logger::LOG_LEVEL_ERROR);
-                $logger->log(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+                $logger->log($e->getMessage(), $processId, 0, Ilios_Logger::LOG_LEVEL_ERROR);
+                $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
                 $msg = "Aborting non-student sync process prematurely.";
                 $logger->log($msg, $processId);
                 $msg  = "# of non-students processed: {$processedUsersCount}";
                 $logger->log($msg, $processId);
                 $msg = "# of non-students updated: {$updatedUsersCount}";
                 $logger->log($msg, $processId);
-                $logger->log(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+                $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
                 return false;
             }
         }
@@ -207,14 +207,14 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
         // ----------------------------------
         // 3. Post-run Processing
         // ----------------------------------
-        $logger->log(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         $msg  = "Completed non-student sync process.";
         $logger->log($msg, $processId);
         $msg  = "# of non-students processed: {$processedUsersCount}";
         $logger->log($msg, $processId);
         $msg = "# of non-students updated: {$updatedUsersCount}";
         $logger->log($msg, $processId);
-        $logger->log(Ilios2_Logger::LOG_SEPARATION_LINE, $processId);
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         return true;
     }
 
@@ -226,14 +226,14 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
      * - an Ilios user record gets updated with the properties of the external user (exactly one match)
      * - Ilios user records get disabled and flagged for manual review (multiple matches/"duplicates")
      * @param int $processId
-     * @param Ilios2_Logger $logger
-     * @param Ilios2_UserSync_ExternalUser $extUser an external user record
+     * @param Ilios_Logger $logger
+     * @param Ilios_UserSync_ExternalUser $extUser an external user record
      * @param array $nonStudent a non-student ilios record that was used to identify the external user record
      * @param array $iliosUsers a nested array of Ilios user record(s) identified by matching
      * @param string $matchCriterium indicates what criterium was used to match the given ext. user against Ilios users (default is UID)
      * @return boolean TRUE if user record got updated, FALSE otherwise.
      */
-    protected function _processMatchingUsers ($processId, Ilios2_Logger $logger, Ilios2_UserSync_ExternalUser $extUser,
+    protected function _processMatchingUsers ($processId, Ilios_Logger $logger, Ilios_UserSync_ExternalUser $extUser,
         array $nonStudent, array $iliosUsers, $matchCriterium = self::MATCH_ILIOS_USERS_BY_UID)
     {
         // tally up the matching user and proceed accordingly
@@ -252,16 +252,16 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
                             $message = 'Mismatch Error: External user record matched Ilios user on UID, but not on email.';
                             $message .= " (Ilios user id : {$nonStudent['user_id']}, ";
                             $message .= " matching UID: {$extUser->getUid()}, email mismatch: {$extUser->getEmail()}/{$nonStudent['email']})";
-                            throw new Ilios2_UserSync_Process_UserException($message,
-                                        Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_EMAIL_MISMATCH, 'email', $extUser->getEmail());
+                            throw new Ilios_UserSync_Process_UserException($message,
+                                        Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_EMAIL_MISMATCH, 'email', $extUser->getEmail());
                             break;
                         case self::MATCH_ILIOS_USERS_BY_UID :
                         default :
                             $message = 'Mismatch Error: External user record matched Ilios user on email, but not on UID.';
                             $message .= " (Ilios user id : {$nonStudent['user_id']}, ";
                             $message .= " matching email: {$extUser->getEmail()}, UID mismatch: {$extUser->getUid()}/{$nonStudent['uc_uid']})";
-                            throw new Ilios2_UserSync_Process_UserException($message,
-                                        Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_UID_MISMATCH, 'uid', $extUser->getUid());
+                            throw new Ilios_UserSync_Process_UserException($message,
+                                        Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_UID_MISMATCH, 'uid', $extUser->getUid());
 
                     }
                 case 1 :
@@ -298,8 +298,8 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
                                 $message .=" (Ilios user id : {$nonStudent['user_id']}, ";
                                 $message .= " matching email: {$extUser->getEmail()}, UID mismatch: {$extUser->getUid()}/{$nonStudent['uc_uid']})";
                         }
-                        throw new Ilios2_UserSync_Process_UserException($message,
-                                    Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_PARTIAL_MISMATCH);
+                        throw new Ilios_UserSync_Process_UserException($message,
+                                    Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_PARTIAL_MISMATCH);
                     }
                     break;
                 default :
@@ -316,13 +316,13 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
                             $uid = $extUser->getUid();
                             $msg .= " by UID (uid = {$uid})";
                     }
-                    throw new Ilios2_UserSync_Process_UserException($msg,
-                                Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES);
+                    throw new Ilios_UserSync_Process_UserException($msg,
+                                Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES);
 
                     }
-        } catch (Ilios2_UserSync_Process_UserException $e) {
+        } catch (Ilios_UserSync_Process_UserException $e) {
             $this->_saveUserSyncException($processId, $nonStudent['user_id'], $e);
-            $logger->log($e->getMessage(), $processId, 1, Ilios2_Logger::LOG_LEVEL_WARN);
+            $logger->log($e->getMessage(), $processId, 1, Ilios_Logger::LOG_LEVEL_WARN);
         }
         return false;
     }
@@ -331,10 +331,10 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
      * Update a given user's properties with the properties
      * of a given corresponding external user record.
      * Then flag this user as 'examined'.
-     * @param Ilios2_UserSync_ExternalUser $externalUser
+     * @param Ilios_UserSync_ExternalUser $externalUser
      * @param array $user the existing ilios user record
      */
-    protected function _updateUser (Ilios2_UserSync_ExternalUser $externalUser, array $user)
+    protected function _updateUser (Ilios_UserSync_ExternalUser $externalUser, array $user)
     {
         // update user record
         $this->_userDao->updateUser($user['user_id'],
@@ -350,21 +350,21 @@ class Ilios2_UserSync_Process_NonStudentProcess extends Ilios2_UserSync_Process
     /**
      * Validates a given external user record.
      * Throws an exception if validations fails.
-     * @throws Ilios2_UserSync_Process_ExternalUserException
+     * @throws Ilios_UserSync_Process_ExternalUserException
      */
-    protected function _validateIncomingUserRecord (Ilios2_UserSync_ExternalUser $user)
+    protected function _validateIncomingUserRecord (Ilios_UserSync_ExternalUser $user)
     {
         $uid = $user->getUid();
         if (empty($uid)) {
-            throw new Ilios2_UserSync_Process_ExternalUserException(
+            throw new Ilios_UserSync_Process_ExternalUserException(
             			'Missing UID for inbound user: ' . $user,
-                        Ilios2_UserSync_Process_ExternalUserException::INVALID_UID);
+                        Ilios_UserSync_Process_ExternalUserException::INVALID_UID);
         }
         $email = $user->getEmail();
         if (empty($email) || false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Ilios2_UserSync_Process_ExternalUserException(
+            throw new Ilios_UserSync_Process_ExternalUserException(
             			'Missing or invalid email for inbound user: ' . $user,
-                        Ilios2_UserSync_Process_ExternalUserException::INVALID_EMAIL);
+                        Ilios_UserSync_Process_ExternalUserException::INVALID_EMAIL);
         }
     }
 

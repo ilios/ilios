@@ -3,12 +3,12 @@ require_once dirname(dirname(__FILE__)) . '/TestCase.php';
 
 /**
  * Test case for the LDAP search result iterator.
- * @see Ilios2_Ldap_Iterator
+ * @see Ilios_Ldap_Iterator
  */
-class Ilios2_Ldap_IteratorTest extends Ilios2_TestCase
+class Ilios_Ldap_IteratorTest extends Ilios_TestCase
 {
     /**
-     * @var Ilios2_Ldap
+     * @var Ilios_Ldap
      */
     protected $_ldap;
 
@@ -17,7 +17,7 @@ class Ilios2_Ldap_IteratorTest extends Ilios2_TestCase
      */
     protected function setUp() {
         // instantiate an LDAP client, then connect and bind to the server
-        $this->_ldap = new Ilios2_Ldap(Ilios2_TestUtils::getLdapTestConfiguration());
+        $this->_ldap = new Ilios_Ldap(Ilios_TestUtils::getLdapTestConfiguration());
         $this->_ldap->bind();
 
     }
@@ -33,7 +33,7 @@ class Ilios2_Ldap_IteratorTest extends Ilios2_TestCase
 
     /**
      * @test
-     * @covers Ilios2_Ldap_Iterator
+     * @covers Ilios_Ldap_Iterator
      * @group ilios2
      * @group ldap
      * @group user_sync
@@ -43,10 +43,10 @@ class Ilios2_Ldap_IteratorTest extends Ilios2_TestCase
         $filter = '(objectClass=*)';
 
         $limit = 10;
-        $result = $this->_ldap->search(Ilios2_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
-                                Ilios2_Ldap::LDAP_SCOPE_ONELEVEL,array(), false, $limit);
+        $result = $this->_ldap->search(Ilios_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
+                                Ilios_Ldap::LDAP_SCOPE_ONELEVEL,array(), false, $limit);
         // instantiate the iterator
-        $records = new Ilios2_Ldap_Iterator($this->_ldap, $result);
+        $records = new Ilios_Ldap_Iterator($this->_ldap, $result);
 
         // test if Countable interface is implemented correctly
         $this->assertEquals($limit, count($records));

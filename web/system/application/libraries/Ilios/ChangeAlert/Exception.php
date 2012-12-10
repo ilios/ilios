@@ -2,7 +2,7 @@
 /**
  * Ilios Change Alerts Exception.
  */
-class Ilios2_ChangeAlert_Exception extends Ilios2_Exception
+class Ilios_ChangeAlert_Exception extends Ilios_Exception
 {
     /* error codes */
 

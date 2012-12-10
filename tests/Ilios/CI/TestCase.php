@@ -4,26 +4,26 @@
  * These can be overwritten in the PHPUnit configuration file.
  * @see tests/phpunit.xml
  */
-if (!defined('ILIOS2_TEST_ROOT_DIR')) {
-	define('ILIOS2_TEST_ROOT_DIR', '/web/ilios/htdocs/tests');
+if (!defined('ILIOS_TEST_ROOT_DIR')) {
+	define('ILIOS_TEST_ROOT_DIR', '/web/ilios/htdocs/tests');
 }
-if (!defined('ILIOS2_TEST_DB_ACTIVE_GROUP')) {
-	define('ILIOS2_TEST_DB_ACTIVE_GROUP', 'ilios_test');
+if (!defined('ILIOS_TEST_DB_ACTIVE_GROUP')) {
+	define('ILIOS_TEST_DB_ACTIVE_GROUP', 'ilios_test');
 }
 
 
 // instantiate the CI environment
-require_once ILIOS2_TEST_ROOT_DIR . '/ci_bootstrap.php';
+require_once ILIOS_TEST_ROOT_DIR . '/ci_bootstrap.php';
 
 // require PHP Unit classes.
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/CompositeDataSet.php';
 
 // require test utils
-require_once ILIOS2_TEST_ROOT_DIR . '/Ilios2/TestUtils.php';
+require_once ILIOS_TEST_ROOT_DIR . '/Ilios/TestUtils.php';
 
 // require DbUnit extension
-require_once ILIOS2_TEST_ROOT_DIR . '/Ilios2/PHPUnit/Extensions/Database/Operation/ResetAutoincrement.php';
+require_once ILIOS_TEST_ROOT_DIR . '/Ilios/PHPUnit/Extensions/Database/Operation/ResetAutoincrement.php';
 /**
  * Base class for Ilios/CodeIgniter unit test cases.
  * Use this as a base for testing CI components, such as Model classes, within the Ilios application.
@@ -31,7 +31,7 @@ require_once ILIOS2_TEST_ROOT_DIR . '/Ilios2/PHPUnit/Extensions/Database/Operati
  * Provided boilerplate code for dealing with populating the test database and cleaning it up
  * afterwards again.
  */
-abstract class Ilios2_CI_TestCase extends PHPUnit_Extensions_Database_TestCase
+abstract class Ilios_CI_TestCase extends PHPUnit_Extensions_Database_TestCase
 {
 
 	/**
@@ -96,7 +96,7 @@ abstract class Ilios2_CI_TestCase extends PHPUnit_Extensions_Database_TestCase
     	 * Sanity check:
     	 * Ensure that CI and PHPUnit are configured to use the same test database.
     	 */
-    	if ($active_group !== ILIOS2_TEST_DB_ACTIVE_GROUP) {
+    	if ($active_group !== ILIOS_TEST_DB_ACTIVE_GROUP) {
     		throw new Exception ("Test environment misconfiguration:\nThe application's configured active database group does not match the specified unit-test database.");
     	}
     	return $db[$active_group];
@@ -143,7 +143,7 @@ abstract class Ilios2_CI_TestCase extends PHPUnit_Extensions_Database_TestCase
     	}
 
     	$dataSets = array();
-    	$dataSetsDirBasePath = ILIOS2_TEST_ROOT_DIR . '/_datasets';
+    	$dataSetsDirBasePath = ILIOS_TEST_ROOT_DIR . '/_datasets';
     	foreach ($dataSetFilePaths as $filePath) {
     	    if (0 !== strpos($filePath, '/')) {
     	        // prepend relative paths as described above.
@@ -164,7 +164,7 @@ abstract class Ilios2_CI_TestCase extends PHPUnit_Extensions_Database_TestCase
 		// Clean up after ourselves
 		return new PHPUnit_Extensions_Database_Operation_Composite(array(
 			PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(), // 1. delete all records from table
-			new Ilios2_PHPUnit_Extensions_Database_Operation_ResetAutoincrement() // 2. reset auto increment value
+			new Ilios_PHPUnit_Extensions_Database_Operation_ResetAutoincrement() // 2. reset auto increment value
 		));
 	}
 
@@ -176,7 +176,7 @@ abstract class Ilios2_CI_TestCase extends PHPUnit_Extensions_Database_TestCase
 	{
 		return new PHPUnit_Extensions_Database_Operation_Composite(array(
 				PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(), // 1. delete all records from table
-				new Ilios2_PHPUnit_Extensions_Database_Operation_ResetAutoincrement(), // 2. reset auto increment value
+				new Ilios_PHPUnit_Extensions_Database_Operation_ResetAutoincrement(), // 2. reset auto increment value
 				PHPUnit_Extensions_Database_Operation_Factory::INSERT() // 3. insert new records
 		));
 	}

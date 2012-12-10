@@ -100,8 +100,8 @@ class Dashboard_Controller extends Calendar_Controller
 
         // get school competencies
         $schoolCompetencies = $this->_getSchoolCompetencies();
-        $data['school_competencies'] = Ilios2_Json::encodeForJavascriptEmbedding($schoolCompetencies,
-            Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+        $data['school_competencies'] = Ilios_Json::encodeForJavascriptEmbedding($schoolCompetencies,
+            Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'dashboard.account_mgmt';
         $data['account_management_string'] = $this->i18nVendor->getI18NString($key, $lang);
@@ -409,8 +409,8 @@ class Dashboard_Controller extends Calendar_Controller
         $reminderId = $this->input->get_post('reminder_id');
         $noteText = $this->input->get_post('note');
         // scrub the note text
-        $noteText = Ilios2_CharEncoding::convertToUtf8($noteText);
-        $noteText = Ilios2_CharEncoding::utf8UrlDecode($noteText);
+        $noteText = Ilios_CharEncoding::convertToUtf8($noteText);
+        $noteText = Ilios_CharEncoding::utf8UrlDecode($noteText);
         $dueDate = $this->input->get_post('due');
         $closed = ($this->input->get_post('closed') == 'true');
 

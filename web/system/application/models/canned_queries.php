@@ -80,7 +80,7 @@ class Canned_Queries extends Abstract_Ilios_Model
      */
     public function getOfferingsForCalendar ($schoolId, $userId = null,
             $roles = array(), $year = null, $includeArchived = false,
-            $lastUpdatedOffset = Ilios2_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS)
+            $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS)
     {
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
@@ -241,7 +241,7 @@ EOL;
      */
     public function getSILMsForCalendar ($schoolId, $userId = null, $roles = null,
             $year = null, $includeArchived = false,
-            $lastUpdatedOffset = Ilios2_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS)
+            $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS)
     {
 
         $clean = array();

@@ -8,7 +8,7 @@
  */
 abstract class Abstract_Ilios_Controller extends Controller
 {
-    static public $DB_TRANSACTION_RETRY_COUNT = Ilios2_Database_Constants::TRANSACTION_RETRY_COUNT;
+    static public $DB_TRANSACTION_RETRY_COUNT = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
 
     protected $dbHandle;
     protected $divertedForAuthentication;
@@ -33,8 +33,8 @@ abstract class Abstract_Ilios_Controller extends Controller
             && ($method != 'getI18NJavascriptVendor')
             && (! $this->session->userdata('username'))
             && (! (defined('CRON') && CRON))
-            && (! (array_key_exists('ILIOS2_ENVIRONMENT', $_ENV)
-            && 'test' == $_ENV['ILIOS2_ENVIRONMENT']))) {
+            && (! (array_key_exists('ILIOS_ENVIRONMENT', $_ENV)
+            && 'test' == $_ENV['ILIOS_ENVIRONMENT']))) {
 
             $this->divertedForAuthentication = true;
             if ($this->uri->total_segments() > 1) {
@@ -81,14 +81,14 @@ abstract class Abstract_Ilios_Controller extends Controller
     }
 
     /**
-     * Prints a the JSON-formatted language pack object. 
-     * 
+     * Prints a the JSON-formatted language pack object.
+     *
      * This function will be called from each view through its controller; it expects to
      * receive a single parameter, 'lang', which specifies the language. Returned
      * is a populated JS data structure and an object 'ilios_i18nVendor' which
      * contains a single method getI18NString(key) to access to the included language-pack
      * in the requested language.
-     * If no language preference is provided in the request, the application-wide default language 
+     * If no language preference is provided in the request, the application-wide default language
      * (defined as $config['ilios_default_lang_locale'] in system/application/config/config.php)
      * is used.
      */
@@ -309,7 +309,7 @@ abstract class Abstract_Ilios_Controller extends Controller
 
         $matchString = $this->input->get_post('query');
         $rhett = $this->mesh->searchMeSHUniverseForIlios($matchString);
-        
+
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
@@ -338,16 +338,16 @@ abstract class Abstract_Ilios_Controller extends Controller
         }
 
         $pairs = json_decode(urldecode($this->input->get_post('selection_pairs')), true);
-        
+
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
         do {
             unset($rhett['error']);
-            
+
             $this->mesh->startTransaction();
-            
+
             $this->mesh->saveMeSHSearchSelection($pairs);
-            
+
             if ($this->mesh->saveMeSHSearchSelection($pairs)
                 && (! $this->mesh->transactionAtomFailed())) {
                 $this->mesh->commitTransaction();
@@ -462,7 +462,7 @@ abstract class Abstract_Ilios_Controller extends Controller
             $this->_printAuthenticationFailedXhrResponse($lang);
             return;
         }
-        
+
         // no authorization check, this info is needs to be available to all logged in users.
         $schoolId = $this->session->userdata('school_id');
         $rhett = $this->competency->getCompetencyTree($schoolId);
@@ -732,12 +732,12 @@ abstract class Abstract_Ilios_Controller extends Controller
 
     /**
      * @deprecated
-     * Use Ilios2_Database_TransactionHelper::failTransaction() instead.
-     * @see Ilios2_Database_TransactionHelper::failTransaction()
+     * Use Ilios_Database_TransactionHelper::failTransaction() instead.
+     * @see Ilios_Database_TransactionHelper::failTransaction()
      */
     protected function failTransaction (&$transactionRetryCount, &$failedTransaction, $model)
     {
-        Ilios2_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $model);
+        Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $model);
     }
 
     /**
@@ -936,7 +936,7 @@ abstract class Abstract_Ilios_Controller extends Controller
         $rhett['locked'] = $courseRow->locked;
         $rhett['published_as_tbd'] = $courseRow->published_as_tbd;
         $rhett['clerkship_type_id'] = $courseRow->clerkship_type_id;
-        
+
 
         $results = $this->course->getProgramCohortDetailsForCourse($courseId);
         if (is_null($results)) {
@@ -1019,13 +1019,13 @@ abstract class Abstract_Ilios_Controller extends Controller
 
     /**
      * Returns all competencies and their subdomains, grouped by their owning schools.
-     * The currently "active" school (that's the school currently active in the user session) is indicated as such. 
+     * The currently "active" school (that's the school currently active in the user session) is indicated as such.
      * @return array a nested associative array of school -> competency -> subcompetency data
      */
     protected function _getSchoolCompetencies ()
     {
         $rhett = array();
-        
+
         $activeSchoolId = $this->session->userdata('school_id');
         $schoolIds = $this->school->getAllSchools();
 
@@ -1035,7 +1035,7 @@ abstract class Abstract_Ilios_Controller extends Controller
                 'school_id' => $schoolId,
                 'competencies' => $competencies,
                 // indicate which school is the currently active one
-                'is_active_school' => ($schoolId === $activeSchoolId) ? true : false 
+                'is_active_school' => ($schoolId === $activeSchoolId) ? true : false
             );
         }
         return $rhett;
@@ -1097,7 +1097,7 @@ abstract class Abstract_Ilios_Controller extends Controller
         $this->load->view('common/forbidden', $data);
         return;
     }
-    
+
     /**
      * Toggles the "active" school in the user session to the given school.
      * @param int $schoolId the school id
@@ -1116,7 +1116,7 @@ abstract class Abstract_Ilios_Controller extends Controller
 
     /**
      * Retrieves a list of school identifiers that the current user has read permissions for.
-     * Note: this will always include the user's "primary school", regardless of read permissions (or lack thereof) 
+     * Note: this will always include the user's "primary school", regardless of read permissions (or lack thereof)
      * set for that school.
      * @return array a list of school ids.
      */

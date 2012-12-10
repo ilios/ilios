@@ -5,7 +5,7 @@
  * specific to Enterprise Directory Services (EDS),
  * the campus directory at UCSF.
  */
-interface Ilios2_Config_Eds
+interface Ilios_Config_Eds
 {
 	/**
 	 * school code for SOM

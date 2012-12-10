@@ -112,7 +112,7 @@ class Management_Console extends Abstract_Ilios_Controller
 
         $cohorts = $this->cohort->getProgramCohortsGroupedBySchool();
 
-        $data['cohorts_json'] = Ilios2_Json::encodeForJavascriptEmbedding($cohorts, Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+        $data['cohorts_json'] = Ilios_Json::encodeForJavascriptEmbedding($cohorts, Ilios_Json::JSON_ENC_SINGLE_QUOTES);
         $key = 'administration.title';
         $data['page_title'] = $this->i18nVendor->getI18NString($key, $lang);
         $data['title_bar_string'] = $data['page_title'];
@@ -324,7 +324,7 @@ class Management_Console extends Abstract_Ilios_Controller
         	} else {
         		// hash the given password
         		$salt = $this->config->item('ilios_authentication_internal_auth_salt');
-        		$hash = Ilios2_PasswordUtils::hashPassword($password, $salt);
+        		$hash = Ilios_PasswordUtils::hashPassword($password, $salt);
 
         		// check if the given password needs to be updated
         		if (! array_key_exists('error', $rhett)) {
@@ -450,7 +450,7 @@ class Management_Console extends Abstract_Ilios_Controller
 
         // hash the given password
         $salt = $this->config->item('ilios_authentication_internal_auth_salt');
-        $hash = Ilios2_PasswordUtils::hashPassword($password, $salt);
+        $hash = Ilios_PasswordUtils::hashPassword($password, $salt);
 
         // add login credentials
         if (! array_key_exists('error', $rhett)) {
@@ -957,7 +957,7 @@ class Management_Console extends Abstract_Ilios_Controller
         $actionItems = json_decode(urldecode($this->input->get_post('users')), true);
 
         if (is_array($actionItems) && count($actionItems)) {
-            $transactionRetryCount = Ilios2_Database_Constants::TRANSACTION_RETRY_COUNT;
+            $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
             do {
                 $failedTransaction = true;
                 $updateError = false;
@@ -1000,7 +1000,7 @@ class Management_Console extends Abstract_Ilios_Controller
                     $lang =  $this->getLangToUse();
                     $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
                     $rhett['error'] = $msg;
-                    Ilios2_Database_TransactionHelper::failTransaction(
+                    Ilios_Database_TransactionHelper::failTransaction(
                         $transactionRetryCount, $failedTransaction, $this->user);
                 } else {
                     $rhett['result'] = "success";
@@ -1153,9 +1153,9 @@ class Management_Console extends Abstract_Ilios_Controller
         // can be resolved by updating the Ilios internal user
         // record with the user data provided from the external user store
         $exceptionsResolvableBySyncingAttributes = array(
-                Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_EMAIL_MISMATCH,
-                Ilios2_UserSync_Process_UserException::NON_STUDENT_SYNC_UID_MISMATCH,
-                Ilios2_UserSync_Process_UserException::STUDENT_SYNC_EMAIL_MISMATCH);
+                Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_EMAIL_MISMATCH,
+                Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_UID_MISMATCH,
+                Ilios_UserSync_Process_UserException::STUDENT_SYNC_EMAIL_MISMATCH);
 
         $schoolsMap = $this->school->getSchoolsMap(false);
         $rolesMap = $this->roles->getUserRolesMap();
@@ -1262,37 +1262,37 @@ class Management_Console extends Abstract_Ilios_Controller
     protected function _validatePassword ($password)
     {
         $rhett = array();
-        $result = Ilios2_PasswordUtils::checkPasswordStrength($password);
+        $result = Ilios_PasswordUtils::checkPasswordStrength($password);
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_OK === $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_OK === $result) {
             return true;
         }
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_SHORT & $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_SHORT & $result) {
             $rhett[] = 'The given password is too short.';
         }
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_LONG & $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_LONG & $result) {
             $rhett[] = 'The given password is too long.';
         }
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_INVALID_CHARS & $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_INVALID_CHARS & $result) {
             $rhett[] = 'The given password contains invalid characters.';
         }
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_DIGIT_MISSING & $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_DIGIT_MISSING & $result) {
             $rhett[] = 'The given password does not contain any digits.';
         }
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING & $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING & $result) {
             $rhett[] = 'The given password does not contain any lower-case characters.';
         }
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING & $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING & $result) {
             $rhett[] = 'The given password does not contain any upper-case characters.';
         }
 
-        if (Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING & $result) {
+        if (Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING & $result) {
             $rhett[] = 'The given password does not contain any special characters.';
         }
         return $rhett;
@@ -1340,7 +1340,7 @@ class Management_Console extends Abstract_Ilios_Controller
         if (! count($errors)) {
             // hash the given password
             $salt = $this->config->item('ilios_authentication_internal_auth_salt');
-            $hash = Ilios2_PasswordUtils::hashPassword($password, $salt);
+            $hash = Ilios_PasswordUtils::hashPassword($password, $salt);
 
             $this->user->startTransaction();
 
@@ -1358,7 +1358,7 @@ class Management_Console extends Abstract_Ilios_Controller
                 $this->user->commitTransaction();
 
                 $atoms[] = $this->auditEvent->wrapAtom($newUserId, 'user_id', 'user',
-                    Ilios2_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
+                    Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
                 $this->auditEvent->saveAuditEvent($atoms);
             }
         }
@@ -1399,7 +1399,7 @@ class Management_Console extends Abstract_Ilios_Controller
             $this->user->commitTransaction();
 
              $atoms[] = $this->auditEvent->wrapAtom($newUserId, 'user_id', 'user',
-                 Ilios2_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
+                 Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
              $this->auditEvent->saveAuditEvent($atoms);
         }
 

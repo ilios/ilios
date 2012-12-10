@@ -4,28 +4,28 @@
  * Iterator implementation that wraps around and operates on a given LDAP iterator and
  * creates/returns external user objects using a given external user factory.
  *
- * @see Ilios2_Ldap_Iterator
- * @see Ilios2_UserSync_ExternalUser_Factory
+ * @see Ilios_Ldap_Iterator
+ * @see Ilios_UserSync_ExternalUser_Factory
  */
-class Ilios2_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
+class Ilios_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
 {
     /**
-     * @var Ilios2_Ldap_Iterator
+     * @var Ilios_Ldap_Iterator
      */
     protected $_innerIterator;
 
     /**
-     * @var Ilios2_UserSync_ExternalUser_Factory
+     * @var Ilios_UserSync_ExternalUser_Factory
      */
     protected $_userFactory;
 
 
     /**
      * Constructor.
-     * @param Ilios2_Ldap_Iterator $innerIterator
-     * @param Ilios2_UserSync_ExternalUser_Factory $userFactory
+     * @param Ilios_Ldap_Iterator $innerIterator
+     * @param Ilios_UserSync_ExternalUser_Factory $userFactory
      */
-    public function __construct (Ilios2_Ldap_Iterator $innerIterator, Ilios2_UserSync_ExternalUser_Factory $userFactory)
+    public function __construct (Ilios_Ldap_Iterator $innerIterator, Ilios_UserSync_ExternalUser_Factory $userFactory)
 	{
 	    $this->_innerIterator = $innerIterator;
 	    $this->_userFactory = $userFactory;
@@ -34,10 +34,10 @@ class Ilios2_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
 
 	/**
 	 * Converts and returns the current LDAP result set entry as external user object.
-	 * @return Ilios2_UserSync_ExternalUser|null
-     * @see Ilios2_Ldap_Iterator::current()
-     * @throws Ilios2_Ldap_Exception
-     * @throws Ilios2_UserSync_Exception
+	 * @return Ilios_UserSync_ExternalUser|null
+     * @see Ilios_Ldap_Iterator::current()
+     * @throws Ilios_Ldap_Exception
+     * @throws Ilios_UserSync_Exception
      */
     public function current ()
     {
@@ -45,8 +45,8 @@ class Ilios2_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
     }
 
 	/**
-     * @see Ilios2_Ldap_Iterator::next()
-     * @throws Ilios2_Ldap_Exception
+     * @see Ilios_Ldap_Iterator::next()
+     * @throws Ilios_Ldap_Exception
      */
     public function next ()
     {
@@ -55,8 +55,8 @@ class Ilios2_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
 
     /**
      * @return string|null
-     * @see Ilios2_Ldap_Iterator::key()
-     * @throws Ilios2_Ldap_Exception
+     * @see Ilios_Ldap_Iterator::key()
+     * @throws Ilios_Ldap_Exception
      */
     public function key()
     {
@@ -65,8 +65,8 @@ class Ilios2_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
 
 	/**
 	 * @return boolean
-     * @see Ilios2_Ldap_Iterator::key()
-     * @throws Ilios2_Ldap_Exception
+     * @see Ilios_Ldap_Iterator::key()
+     * @throws Ilios_Ldap_Exception
      */
     public function valid ()
     {
@@ -74,8 +74,8 @@ class Ilios2_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
     }
 
 	/**
-     * @throws Ilios2_Ldap_Exception
-     * @see Ilios2_Ldap_Iterator::rewind()
+     * @throws Ilios_Ldap_Exception
+     * @see Ilios_Ldap_Iterator::rewind()
      */
     public function rewind ()
     {
@@ -84,7 +84,7 @@ class Ilios2_UserSync_ExternalUser_Iterator_Ldap implements Iterator, Countable
 
 	/**
 	 * @return int
-     * @see Ilios2_Ldap_Iterator::count()
+     * @see Ilios_Ldap_Iterator::count()
      */
     public function count ()
     {

@@ -3,6 +3,6 @@
 /**
  * Ilios LDAP exception class.
  */
-class Ilios2_Ldap_Exception extends Ilios2_Exception
+class Ilios_Ldap_Exception extends Ilios_Exception
 {
 }

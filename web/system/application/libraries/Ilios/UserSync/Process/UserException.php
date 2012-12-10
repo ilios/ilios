@@ -7,7 +7,7 @@
  * E.g. a student is found in Ilios that does not exist in the external user store.
  * This defines a process violation, and a corresponding user exception must be raised.
  */
-class Ilios2_UserSync_Process_UserException extends Ilios2_UserSync_Exception
+class Ilios_UserSync_Process_UserException extends Ilios_UserSync_Exception
 {
     /**
      * @var string the name of a mismatched attribute

@@ -3,9 +3,9 @@ require_once dirname(dirname(dirname(__FILE__))) . '/TestCase.php';
 
 /**
  * Test case for the external user source client using arrays as data source.
- * @see Ilios2_UserSync_UserSource_Array
+ * @see Ilios_UserSync_UserSource_Array
  */
-class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
+class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
 {
     /**
      * user data
@@ -93,7 +93,7 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
 
     /**
      * @test
-     * @expectedException Ilios2_UserSync_Exception
+     * @expectedException Ilios_UserSync_Exception
      * @covers Canned_Queries::__construct
      * @group ilios2
      * @group user_sync
@@ -101,12 +101,12 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
     public function testConstructorWithMissingUserData ()
     {
         // this should throw an exception
-        $userSource = new Ilios2_UserSync_UserSource_Array(array());
+        $userSource = new Ilios_UserSync_UserSource_Array(array());
     }
 
     /**
      * @test
-	 * @covers Ilios2_UserSync_UserSource_Array::getAllStudentRecords
+	 * @covers Ilios_UserSync_UserSource_Array::getAllStudentRecords
 	 * @dataProvider providerGetAllStudentRecords
 	 * @group ilios2
      * @group user_sync
@@ -115,14 +115,14 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
     {
         $config = array();
         $config['array']['users'] = $users;
-        $userSource = new Ilios2_UserSync_UserSource_Array($config);
+        $userSource = new Ilios_UserSync_UserSource_Array($config);
         $students = $userSource->getAllStudentRecords();
         $this->assertEquals($studentCount, count($students));
     }
 
     /**
      * @test
-	 * @covers Ilios2_UserSync_UserSource_Array::getUserByEmail
+	 * @covers Ilios_UserSync_UserSource_Array::getUserByEmail
 	 * @group ilios2
      * @group user_sync
 	 */
@@ -130,33 +130,33 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
     {
         $config = array();
         $config['array']['users'] = $this->_fixtures['students'];
-        $userSource = new Ilios2_UserSync_UserSource_Array($config);
+        $userSource = new Ilios_UserSync_UserSource_Array($config);
 
         // user not found
         $users = $userSource->getUserByEmail('doesnotexist@test.com');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(0, count($users));
 
         // user exists - check email
         $users = $userSource->getUserByEmail('a.student@test.com');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(1, count($users));
 
         // check again with different case
         $users = $userSource->getUserByEmail('A.Student@Test.Com');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(1, count($users));
 
         // check duplicate user - multiple records should be returned
         $users = $userSource->getUserByEmail('duplicate.student@test.com');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(2, count($users));
     }
 
 
 	/**
      * @test
-	 * @covers Ilios2_UserSync_UserSource_Array::getUserByUid
+	 * @covers Ilios_UserSync_UserSource_Array::getUserByUid
 	 * @group ilios2
      * @group user_sync
 	 */
@@ -164,33 +164,33 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
     {
         $config = array();
         $config['array']['users'] = $this->_fixtures['students'];
-        $userSource = new Ilios2_UserSync_UserSource_Array($config);
+        $userSource = new Ilios_UserSync_UserSource_Array($config);
 
         // user not found
         $users = $userSource->getUserByUid('XXXXXXXXX');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(0, count($users));
 
         // user exists
         $users = $userSource->getUserByUid('test111111');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(1, count($users));
 
 
         // check again with different case
         $users = $userSource->getUserByUid('Test111111');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(1, count($users));
 
         // check duplicate user - multiple records should be returned
         $users = $userSource->getUserByUid('test111333');
-        $this->assertTrue($users instanceof Ilios2_UserSync_ExternalUser_Iterator_Array);
+        $this->assertTrue($users instanceof Ilios_UserSync_ExternalUser_Iterator_Array);
         $this->assertEquals(2, count($users));
     }
 
 	/**
      * @test
-	 * @covers Ilios2_UserSync_UserSource_Array::hasStudent
+	 * @covers Ilios_UserSync_UserSource_Array::hasStudent
 	 * @group ilios2
      * @group user_sync
 	 */
@@ -198,7 +198,7 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
     {
         $config = array();
         $config['array']['users'] = array_merge($this->_fixtures['students'], $this->_fixtures['non_students']);
-        $userSource = new Ilios2_UserSync_UserSource_Array($config);
+        $userSource = new Ilios_UserSync_UserSource_Array($config);
 
         // user exists and is student
         $hasStudent = $userSource->hasStudent('test111111');
@@ -215,7 +215,7 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
 
 	/**
      * @test
-	 * @covers Ilios2_UserSync_UserSource_Array::hasUser
+	 * @covers Ilios_UserSync_UserSource_Array::hasUser
 	 * @group ilios2
      * @group user_sync
 	 */
@@ -223,7 +223,7 @@ class Ilios2_UserSync_UserSource_ArrayTest extends Ilios2_TestCase
     {
         $config = array();
         $config['array']['users'] = array_merge($this->_fixtures['students'], $this->_fixtures['non_students']);
-        $userSource = new Ilios2_UserSync_UserSource_Array($config);
+        $userSource = new Ilios_UserSync_UserSource_Array($config);
 
         // user exists and is student
         $hasUser = $userSource->hasUser('test111111');

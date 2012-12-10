@@ -7,7 +7,7 @@ require_once 'PHPUnit/Extensions/Database/Operation/Exception.php';
  * Resets all AUTO_INCREMENT counters on all tables in a dataset.
  * @see PHPUnit_Extensions_Database_Operation_IDatabaseOperation
  */
-class Ilios2_PHPUnit_Extensions_Database_Operation_ResetAutoincrement 
+class Ilios_PHPUnit_Extensions_Database_Operation_ResetAutoincrement 
     implements PHPUnit_Extensions_Database_Operation_IDatabaseOperation
 {
 

@@ -4,7 +4,7 @@
  * File logger implementation.
  * Provides functionality to format and output messages to a given log file.
  */
-class Ilios2_Logger
+class Ilios_Logger
 {
     /**
      * Dashed line, used for formatting log output.
@@ -56,13 +56,13 @@ class Ilios2_Logger
     /**
      * Returns a logger object bound to a given log file path.
      * @param string $logFilePath path to the log file
-     * @return Ilios2_Logger
-     * @throws Ilios2_Log_Exception
+     * @return Ilios_Logger
+     * @throws Ilios_Log_Exception
      */
     static public function getInstance ($logFilePath)
     {
     	if (! array_key_exists($logFilePath, self::$_registry)) {
-    		$logger = new Ilios2_Logger($logFilePath);
+    		$logger = new Ilios_Logger($logFilePath);
     		self::$_registry[$logFilePath] = $logger;
     	}
     	return self::$_registry[$logFilePath];
@@ -73,7 +73,7 @@ class Ilios2_Logger
     /**
      * Constructor.
      * @param string $logFilePath path to the log file
-     * @throws Ilios2_Log_Exception
+     * @throws Ilios_Log_Exception
      */
     protected function __construct ($logFilePath)
     {
@@ -117,14 +117,14 @@ class Ilios2_Logger
     /**
      * Opens a log file located at a given path for appending and returns the file handle.
      * @param string $logFilePath path to the log file
-     * @throws Ilios2_Log_Exception if the log file could not be opened for writing
+     * @throws Ilios_Log_Exception if the log file could not be opened for writing
      * @return resource the log file handle
      */
     protected function _getLogFileHandle ($logFilePath)
     {
     	$fh = @fopen($logFilePath, 'a');
     	if (false === $fh) {
-    		throw new Ilios2_Log_Exception('Could not open cron tasks log file ' . $logFilePath, Ilios2_Log_Exception::OPENING_FILE_FAILED);
+    		throw new Ilios_Log_Exception('Could not open cron tasks log file ' . $logFilePath, Ilios_Log_Exception::OPENING_FILE_FAILED);
     	}
     	return $fh;
     }

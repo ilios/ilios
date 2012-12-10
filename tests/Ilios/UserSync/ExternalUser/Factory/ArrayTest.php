@@ -4,9 +4,9 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/TestCase.php';
 /**
  * Test Case for the external user array factory.
  *
- * @see Ilios2_UserSync_ExternalUser_Factory_Array
+ * @see Ilios_UserSync_ExternalUser_Factory_Array
  */
-class Ilios2_UserSync_UserSource_Factory_ArrayTest extends Ilios2_TestCase
+class Ilios_UserSync_UserSource_Factory_ArrayTest extends Ilios_TestCase
 {
 
     /**
@@ -59,7 +59,7 @@ class Ilios2_UserSync_UserSource_Factory_ArrayTest extends Ilios2_TestCase
 
     /**
      * @test
-     * @covers Ilios2_UserSync_ExternalUser_Factory_ArrayTest::createUser
+     * @covers Ilios_UserSync_ExternalUser_Factory_ArrayTest::createUser
      * @dataProvider provider
      * @group ilios2
      * @group user_sync
@@ -67,10 +67,10 @@ class Ilios2_UserSync_UserSource_Factory_ArrayTest extends Ilios2_TestCase
      */
     public function testCreateUser ($user)
     {
-        $factory = new Ilios2_UserSync_ExternalUser_Factory_Array();
+        $factory = new Ilios_UserSync_ExternalUser_Factory_Array();
         $externalUser = $factory->createUser($user);
         // 1. check the type of the returned object
-        $this->assertTrue($externalUser instanceof Ilios2_UserSync_ExternalUser);
+        $this->assertTrue($externalUser instanceof Ilios_UserSync_ExternalUser);
         // 2. check user attributes
         $attributeNameToGetterFunctionNameMap = array( // ham-fisted mapping
         	'first_name' => 'getFirstName',

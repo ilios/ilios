@@ -2,11 +2,11 @@
 /**
  * Implementation of an iterator operating on a given LDAP result set.
  */
-class Ilios2_Ldap_Iterator implements Iterator, Countable
+class Ilios_Ldap_Iterator implements Iterator, Countable
 {
     /**
      * LDAP client
-     * @var Ilios2_Ldap
+     * @var Ilios_Ldap
      */
     protected $_ldap;
 
@@ -33,14 +33,14 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
      * @param resource $ldap LDAP bind handle
      * @param resource $currentResult LDAP result-set handle
      */
-    public function __construct (Ilios2_Ldap $ldap, $currentResult)
+    public function __construct (Ilios_Ldap $ldap, $currentResult)
 	{
 	    $this->_ldap = $ldap;
 	    $this->_currentResult = $currentResult;
 	    $this->_count = @ldap_count_entries($this->_ldap->getResource(), $this->_currentResult); // count the results
 	    // throw an error if we couldn't get a proper count
 	    if (false === $this->_count) {
-	        throw new Ilios2_Ldap_Exception('Failed counting entries in LDAP search result set.', @ldap_errno($this->_ldap->getResource()));
+	        throw new Ilios_Ldap_Exception('Failed counting entries in LDAP search result set.', @ldap_errno($this->_ldap->getResource()));
 	    }
 	}
 
@@ -62,7 +62,7 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
 	 * Returns the attributes of a given LDAP result set entry.
 	 * @return array
      * @see Iterator::current()
-     * @throws Ilios2_Ldap_Exception
+     * @throws Ilios_Ldap_Exception
      */
     public function current ()
     {
@@ -74,7 +74,7 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
         }
         $attributes = @ldap_get_attributes($this->_ldap->getResource(), $this->_currentEntry);
         if (false === $attributes) {
-            throw new Ilios2_Ldap_Exception('Failed to retrieve attributes from current LDAP search result entry.', @ldap_errno($this->_ldap->getResource()));
+            throw new Ilios_Ldap_Exception('Failed to retrieve attributes from current LDAP search result entry.', @ldap_errno($this->_ldap->getResource()));
         }
         return $attributes;
     }
@@ -82,7 +82,7 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
 	/**
 	 * Move on to the next search result item.
      * @see Iterator::next()
-     * @throws Ilios2_Ldap_Exception
+     * @throws Ilios_Ldap_Exception
      */
     public function next ()
     {
@@ -94,7 +94,7 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
                 if (0x04 == @ldap_errno($this->_ldap->getResource())) {
                     return;
                 } else if (0x00 < @ldap_errno($this->_ldap->getResource())) {
-                    throw new Ilios2_Ldap_Exception('Failed to get next entry from LDAP result set ', @ldap_errno($this->_ldap->getResource()));
+                    throw new Ilios_Ldap_Exception('Failed to get next entry from LDAP result set ', @ldap_errno($this->_ldap->getResource()));
                 }
             }
         }
@@ -113,7 +113,7 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
         if (is_resource($this->_currentEntry)) {
             $dn = @ldap_get_dn($this->_ldap->getResource(), $this->_currentEntry);
             if (false === $dn) {
-                throw new Ilios2_Ldap_Exception('Failed to get DN for LDAP search result entry.', @ldap_errno($this->_ldap->getResource()));
+                throw new Ilios_Ldap_Exception('Failed to get DN for LDAP search result entry.', @ldap_errno($this->_ldap->getResource()));
             }
             return $dn;
         } else {
@@ -133,7 +133,7 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
 
 	/**
 	 * Rewinds the Iterator to the first result item.
-     * @throws Ilios2_Ldap_Exception
+     * @throws Ilios_Ldap_Exception
      * @see Iterator::rewind()
      */
     public function rewind ()
@@ -141,7 +141,7 @@ class Ilios2_Ldap_Iterator implements Iterator, Countable
         if ($this->_currentResult) {
             $this->_currentEntry = @ldap_first_entry($this->_ldap->getResource(), $this->_currentResult);
             if (false === $this->_currentEntry && 0x00 < @ldap_errno($this->_ldap->getResource)) {
-                throw new Ilios2_Ldap_Exception('Failed to get first entry from LDAP result set.', @ldap_errno($this->_ldap->getResource()));
+                throw new Ilios_Ldap_Exception('Failed to get first entry from LDAP result set.', @ldap_errno($this->_ldap->getResource()));
             }
         }
     }

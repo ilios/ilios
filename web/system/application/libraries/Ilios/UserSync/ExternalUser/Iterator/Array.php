@@ -3,7 +3,7 @@
 /**
  * Implementation of an iterator operating on a given nested array, returning external user objects.
  */
-class Ilios2_UserSync_ExternalUser_Iterator_Array implements Iterator, Countable
+class Ilios_UserSync_ExternalUser_Iterator_Array implements Iterator, Countable
 {
     /**
      * @var int internal array counter
@@ -26,16 +26,16 @@ class Ilios2_UserSync_ExternalUser_Iterator_Array implements Iterator, Countable
 	protected $_userData;
 
 	/**
-	 * @var Ilios2_UserSync_ExternalUser_Factory
+	 * @var Ilios_UserSync_ExternalUser_Factory
 	 */
 	protected $_userFactory;
 
 	/**
 	 * Constructor.
-	 * @param Ilios2_UserSync_ExternalUser_Factory $userFactory
+	 * @param Ilios_UserSync_ExternalUser_Factory $userFactory
 	 * @param array $userData
 	 */
-	public function __construct (Ilios2_UserSync_ExternalUser_Factory $userFactory, array $userData)
+	public function __construct (Ilios_UserSync_ExternalUser_Factory $userFactory, array $userData)
 	{
 	    $this->_userFactory = $userFactory;
 	    $this->_userData = $userData;
@@ -44,7 +44,7 @@ class Ilios2_UserSync_ExternalUser_Iterator_Array implements Iterator, Countable
 	}
 
 	/**
-	 * @return Ilios2_UserSync_ExternalUser
+	 * @return Ilios_UserSync_ExternalUser
      * @see Iterator::current()
      */
     public function current()

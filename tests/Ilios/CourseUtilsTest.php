@@ -3,12 +3,12 @@ require_once dirname(__FILE__) . '/TestCase.php';
 
 /**
  * Test case for the course utils.
- * @see Ilios2_CourseUtils
+ * @see Ilios_CourseUtils
  */
-class Ilios2_CourseUtilsTest extends Ilios2_TestCase
+class Ilios_CourseUtilsTest extends Ilios_TestCase
 {
     /**
-     * Data provider function for <code>Ilios2_CourseUtilsTest::testGenerateHashFromCourseId</code>.
+     * Data provider function for <code>Ilios_CourseUtilsTest::testGenerateHashFromCourseId</code>.
      * Returns a nested array of arrays, where in each sub-array
      * - the first element holds the course id as test input.
      * - the second element hold the expected generated hash.
@@ -28,7 +28,7 @@ class Ilios2_CourseUtilsTest extends Ilios2_TestCase
 
 
     /**
-     * Data provider function for <code>Ilios2_CourseUtilsTest::testExtractCourseIdFromHash</code>.
+     * Data provider function for <code>Ilios_CourseUtilsTest::testExtractCourseIdFromHash</code>.
      * Returns a nested array of arrays, where in each sub-array
      * - the first element holds expected extracted course id
      * - the second element hold the hash as test input
@@ -41,31 +41,31 @@ class Ilios2_CourseUtilsTest extends Ilios2_TestCase
 
     /**
      * @test
-     * @covers Ilios2_CourseUtils::generateHashFromCourseId()
+     * @covers Ilios_CourseUtils::generateHashFromCourseId()
      * @dataProvider providerTestGenerateHashFromCourseId
      * @param int $courseId test input to function under test
      * @param $expected expected output from function under test
-     * @see Ilios2_CourseUtils::generateHashFromCourseId()
+     * @see Ilios_CourseUtils::generateHashFromCourseId()
      * @group ilios2
      * @group course
      */
     public function testGenerateHashFromCourseId ($courseId, $expected)
     {
-        $this->assertEquals($expected, Ilios2_CourseUtils::generateHashFromCourseId($courseId));
+        $this->assertEquals($expected, Ilios_CourseUtils::generateHashFromCourseId($courseId));
     }
 
     /**
      * @test
-     * @covers Ilios2_CourseUtils::extractCourseIdFromHash()
+     * @covers Ilios_CourseUtils::extractCourseIdFromHash()
      * @dataProvider providerTestExtractCourseIdFromHash
      * @param $expected expected output from function under test
      * @param string $hash test input to function under test
-     * @see Ilios2_CourseUtils::extractCourseIdFromHash()
+     * @see Ilios_CourseUtils::extractCourseIdFromHash()
      * @group ilios2
      * @group course
      */
     public function testExtractCourseIdFromHash ($expected, $hash)
     {
-    	$this->assertEquals($expected, Ilios2_CourseUtils::extractCourseIdFromHash($hash));
+    	$this->assertEquals($expected, Ilios_CourseUtils::extractCourseIdFromHash($hash));
     }
 }

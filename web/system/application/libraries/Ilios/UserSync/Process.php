@@ -10,7 +10,7 @@
  * @todo evaluate whether this can be even further generalized into a base class that goes beyond the scope of user sync.
  * @todo flesh out code docs
  */
-abstract class Ilios2_UserSync_Process
+abstract class Ilios_UserSync_Process
 {
     /**
      * @var User_Sync_Exception
@@ -38,10 +38,10 @@ abstract class Ilios2_UserSync_Process
     /**
      * Runs the user synchronization processes.
      * @param int $timestamp Unix timestamp of when the process gets kicked off
-     * @param Ilios2_Logger $logger
+     * @param Ilios_Logger $logger
      * @return boolean TRUE on success, FALSE otherwise
      */
-    public function run ($timestamp, Ilios2_Logger $logger)
+    public function run ($timestamp, Ilios_Logger $logger)
     {
         // run the actual process
         $rhett = $this->_run($timestamp, $logger);
@@ -53,10 +53,10 @@ abstract class Ilios2_UserSync_Process
      * Saves a given user sync exception for a given user to the database.
      * @param int $processId
      * @param int $userId user
-     * @param Ilios2_UserSync_Process_UserException $e
+     * @param Ilios_UserSync_Process_UserException $e
      * @see User_Sync_Exception::addException()
      */
-    protected function _saveUserSyncException($processId, $userId, Ilios2_UserSync_Process_UserException $e)
+    protected function _saveUserSyncException($processId, $userId, Ilios_UserSync_Process_UserException $e)
     {
         $this->_syncExceptionDao->addException($processId, $this->_processName, $userId, $e->getCode(),
             $e->getMismatchedAttributeName(), $e->getMismatchedAttributeValue());
@@ -75,8 +75,8 @@ abstract class Ilios2_UserSync_Process
      * Implements the actual sync process in sub-classes.
      * @abstract
      * @param int $processId
-     * @param Ilios2_Logger $logger
+     * @param Ilios_Logger $logger
      * @return boolean TRUE on success, FALSE on failure
      */
-    abstract protected function _run ($processId, Ilios2_Logger $logger);
+    abstract protected function _run ($processId, Ilios_Logger $logger);
 }

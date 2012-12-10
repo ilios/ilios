@@ -3,9 +3,9 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/TestCase.php';
 
 /**
  * Test Case for the EDS user factory.
- * @see Ilios2_UserSync_ExternalUser_Factory_Eds
+ * @see Ilios_UserSync_ExternalUser_Factory_Eds
  */
-class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
+class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
 {
 
     /**
@@ -51,20 +51,20 @@ class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
     	return array(
     		/* good input, 1-to-1 mapping of schools */
     		array(
-    			Ilios2_Config_Eds::SCHOOL_OF_DENTISTRY_ID,
-    			Ilios2_Config_Ucsf::SCHOOL_OF_DENTISTRY_ID
+    			Ilios_Config_Eds::SCHOOL_OF_DENTISTRY_ID,
+    			Ilios_Config_Ucsf::SCHOOL_OF_DENTISTRY_ID
     		),
     		array(
-    			Ilios2_Config_Eds::SCHOOL_OF_MEDICINE_ID,
-    			Ilios2_Config_Ucsf::SCHOOL_OF_MEDICINE_ID
+    			Ilios_Config_Eds::SCHOOL_OF_MEDICINE_ID,
+    			Ilios_Config_Ucsf::SCHOOL_OF_MEDICINE_ID
     		),
     		array(
-    			Ilios2_Config_Eds::SCHOOL_OF_NURSING_ID,
-    			Ilios2_Config_Ucsf::SCHOOL_OF_NURSING_ID
+    			Ilios_Config_Eds::SCHOOL_OF_NURSING_ID,
+    			Ilios_Config_Ucsf::SCHOOL_OF_NURSING_ID
     		),
     		array(
-    			Ilios2_Config_Eds::SCHOOL_OF_PHARMACY_ID,
-    			Ilios2_Config_Ucsf::SCHOOL_OF_PHARMACY_ID
+    			Ilios_Config_Eds::SCHOOL_OF_PHARMACY_ID,
+    			Ilios_Config_Ucsf::SCHOOL_OF_PHARMACY_ID
     		),
 
     		/* bad/missing input mapping, expected map to -1 */
@@ -103,7 +103,7 @@ class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
         	array(
         		// empty input
         		array(),
-        		new Ilios2_UserSync_ExternalUser('', '', '', '', '', false, -1, -1, '')
+        		new Ilios_UserSync_ExternalUser('', '', '', '', '', false, -1, -1, '')
         	),
         	array(
         		// full user data input
@@ -113,14 +113,14 @@ class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
         			'sn' => array('McDerp'),
         			'initials' => array('H'),
         			'mail' => array('Herp.McDerp@test.com'),
-        			'ucsfEduStuSchoolCode' => array((string) Ilios2_Config_Eds::SCHOOL_OF_MEDICINE_ID),
+        			'ucsfEduStuSchoolCode' => array((string) Ilios_Config_Eds::SCHOOL_OF_MEDICINE_ID),
         			'ucsfEduIDNumber' => array('xxxx111111'),
         			'telephoneNumber' => array('111-111-1111'),
         			'eduPersonAffiliation' => array('count' => 2, 'something', 'student'),
 					'ucsfEduStuGraduationTermExpected' => array('FA15'),
         		),
-        		new Ilios2_UserSync_ExternalUser('Herp', 'McDerp', 'H', 'Herp.McDerp@test.com',
-        			'111-111-1111', true, Ilios2_Config_Ucsf::SCHOOL_OF_MEDICINE_ID, 2016, 'xxxx111111')
+        		new Ilios_UserSync_ExternalUser('Herp', 'McDerp', 'H', 'Herp.McDerp@test.com',
+        			'111-111-1111', true, Ilios_Config_Ucsf::SCHOOL_OF_MEDICINE_ID, 2016, 'xxxx111111')
         	),
         	array(
         		// non-student, no exp. graduation year
@@ -129,13 +129,13 @@ class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
         			'sn' => array('Teacher'),
         			'initials' => array('G'),
         			'mail' => array('Trevor.Teacher@test.com'),
-        			'ucsfEduStuSchoolCode' => array((string) Ilios2_Config_Eds::SCHOOL_OF_PHARMACY_ID),
+        			'ucsfEduStuSchoolCode' => array((string) Ilios_Config_Eds::SCHOOL_OF_PHARMACY_ID),
         			'ucsfEduIDNumber' => array('xxxx111112'),
         			'telephoneNumber' => array('111-111-1112'),
         			'eduPersonAffiliation' => array('count' => 2, 'something', 'else'),
         		),
-        		new Ilios2_UserSync_ExternalUser('Trevor', 'Teacher', 'G', 'Trevor.Teacher@test.com',
-        			'111-111-1112', false, Ilios2_Config_Ucsf::SCHOOL_OF_PHARMACY_ID, -1, 'xxxx111112')
+        		new Ilios_UserSync_ExternalUser('Trevor', 'Teacher', 'G', 'Trevor.Teacher@test.com',
+        			'111-111-1112', false, Ilios_Config_Ucsf::SCHOOL_OF_PHARMACY_ID, -1, 'xxxx111112')
         	)
         );
 
@@ -144,25 +144,25 @@ class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
 
     /**
      * @test
-     * @covers Ilios2_UserSync_ExternalUser_Factory_EdsTest::createUser
+     * @covers Ilios_UserSync_ExternalUser_Factory_EdsTest::createUser
      * @dataProvider userProvider
      * @group ilios2
      * @group user_sync
      * @param array $userData nested array of user data as returned from EDS
-     * @param Ilios2_UserSync_ExternalUser $expectedUser expected external user object a generated from $edsData
+     * @param Ilios_UserSync_ExternalUser $expectedUser expected external user object a generated from $edsData
      */
-    public function testCreateUser (array $userData, Ilios2_UserSync_ExternalUser $expectedUser)
+    public function testCreateUser (array $userData, Ilios_UserSync_ExternalUser $expectedUser)
     {
-    	$factory = new Ilios2_UserSync_ExternalUser_Factory_Eds();
+    	$factory = new Ilios_UserSync_ExternalUser_Factory_Eds();
         $actualUser = $factory->createUser($userData);
         // 1. check the type of the returned object
-        $this->assertTrue($actualUser instanceof Ilios2_UserSync_ExternalUser);
+        $this->assertTrue($actualUser instanceof Ilios_UserSync_ExternalUser);
         $this->assertEquals($expectedUser, $actualUser);
     }
 
     /**
      * @test
-     * @covers Ilios2_UserSync_ExternalUser_Factory_EdsTest::determineGraduationYear
+     * @covers Ilios_UserSync_ExternalUser_Factory_EdsTest::determineGraduationYear
      * @dataProvider graduationYearProvider
      * @group ilios2
      * @group user_sync
@@ -171,13 +171,13 @@ class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
      */
     public function testDetermineGraduationYear ($text, $expectedGraduationYear)
     {
-    	$actualGraduationYear = Ilios2_UserSync_ExternalUser_Factory_Eds::determineGraduationYear($text);
+    	$actualGraduationYear = Ilios_UserSync_ExternalUser_Factory_Eds::determineGraduationYear($text);
     	$this->assertEquals($expectedGraduationYear, $actualGraduationYear);
     }
 
     /**
      * @test
-     * @covers Ilios2_UserSync_ExternalUser_Factory_EdsTest::translateEdsSchoolCodeToIliosSchoolCode
+     * @covers Ilios_UserSync_ExternalUser_Factory_EdsTest::translateEdsSchoolCodeToIliosSchoolCode
      * @dataProvider schoolIdProvider
      * @group ilios2
      * @group user_sync
@@ -186,7 +186,7 @@ class Ilios2_UserSync_UserSource_Factory_EdsTest extends Ilios2_TestCase
      */
     public function translateEdsSchoolCodeToIliosSchoolCode ($edsSchoolId, $expectedIliosSchoolId)
     {
-    	$actualIliosSchoolId = Ilios2_UserSync_ExternalUser_Factory_Eds::translateEdsSchoolCodeToIliosSchoolCode($edsSchoolId);
+    	$actualIliosSchoolId = Ilios_UserSync_ExternalUser_Factory_Eds::translateEdsSchoolCodeToIliosSchoolCode($edsSchoolId);
     	$this->assertEquals($expectedIliosSchoolId, $actualIliosSchoolId);
     }
 }

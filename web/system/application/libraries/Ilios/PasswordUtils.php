@@ -17,7 +17,7 @@
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
  * @license http://www.iliosproject.org/license GNU GPL v3
  */
-class Ilios2_PasswordUtils
+class Ilios_PasswordUtils
 {
     /**
      * Minimum password length.
@@ -115,7 +115,7 @@ class Ilios2_PasswordUtils
         }
 
         // further randomize the remainder.
-        for ($i = 0, $n = Ilios2_PasswordUtils::MAX_PASSWORD_LENGTH - $charGroupCount; $i < $n; $i++) {
+        for ($i = 0, $n = Ilios_PasswordUtils::MAX_PASSWORD_LENGTH - $charGroupCount; $i < $n; $i++) {
             $randGroup = mt_rand(0, $charGroupCount - 1); // random char group
             $randPos = mt_rand(0, strlen($chars[$randGroup]) - 1); // random char position
             $rhett .= substr($chars[$randGroup], $randPos, 1);
@@ -131,36 +131,36 @@ class Ilios2_PasswordUtils
      */
     public static function checkPasswordStrength ($password)
     {
-        $rhett = Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_OK;
+        $rhett = Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_OK;
         $len = strlen($password);
         // check password length
-        if (Ilios2_PasswordUtils::MIN_PASSWORD_LENGTH > $len) {
-            $rhett = $rhett ^ Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_SHORT;
-        } elseif (Ilios2_PasswordUtils::MAX_PASSWORD_LENGTH < $len) {
-            $rhett = $rhett ^ Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_LONG;
+        if (Ilios_PasswordUtils::MIN_PASSWORD_LENGTH > $len) {
+            $rhett = $rhett ^ Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_SHORT;
+        } elseif (Ilios_PasswordUtils::MAX_PASSWORD_LENGTH < $len) {
+            $rhett = $rhett ^ Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_TOO_LONG;
         }
 
         // check for invalid chars
         if (! preg_match('/^[0-9a-zA-Z$*_-]+$/', $password)) {
-            $rhett = $rhett ^ Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_INVALID_CHARS;
+            $rhett = $rhett ^ Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_INVALID_CHARS;
         }
 
         // check for at least one number
         if (! preg_match('/[0-9]/', $password)) {
-            $rhett = $rhett ^ Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_DIGIT_MISSING;
+            $rhett = $rhett ^ Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_DIGIT_MISSING;
         }
 
         // check for at least one lowercase character
         if (! preg_match('/[a-z]/', $password)) {
-            $rhett = $rhett ^ Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING;
+            $rhett = $rhett ^ Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING;
         }
         // check for at least one lowercase character
         if (! preg_match('/[A-Z]/', $password)) {
-            $rhett = $rhett ^ Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING;
+            $rhett = $rhett ^ Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING;
         }
         // check for at least one special character
         if (! preg_match('/[$*_-]/', $password)) {
-            $rhett = $rhett ^ Ilios2_PasswordUtils::PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING;
+            $rhett = $rhett ^ Ilios_PasswordUtils::PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING;
         }
         return $rhett;
     }

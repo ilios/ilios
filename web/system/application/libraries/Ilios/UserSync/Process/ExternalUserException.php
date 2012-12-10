@@ -5,7 +5,7 @@
  *
  * E.g. the extnernal user's email address is missing or invalid.
  */
-class Ilios2_UserSync_Process_ExternalUserException extends Ilios2_UserSync_Exception
+class Ilios_UserSync_Process_ExternalUserException extends Ilios_UserSync_Exception
 {
     /* error codes */
     const INVALID_PRIMARY_SCHOOL_ID = 101;

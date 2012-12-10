@@ -2,7 +2,7 @@
 /**
  * Ilios Log Exception.
  */
-class Ilios2_Log_Exception extends Ilios2_Exception
+class Ilios_Log_Exception extends Ilios_Exception
 {
     /* error codes */
 

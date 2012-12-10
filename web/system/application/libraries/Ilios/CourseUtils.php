@@ -3,7 +3,7 @@
 /**
  * Static class providing course-related utilities.
  */
-class Ilios2_CourseUtils
+class Ilios_CourseUtils
 {
     /**
      * Course id hash postfix.

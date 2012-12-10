@@ -10,7 +10,7 @@
  *
  * @todo add more code docs/clarify purpose of this class
  */
-class Ilios2_Database_DeadlockSleeper
+class Ilios_Database_DeadlockSleeper
 {
     /**
      * @var int
@@ -47,7 +47,7 @@ class Ilios2_Database_DeadlockSleeper
     {
         $this->_instanceNumber = self::$_instancesCounter++;
         $this->_displayString = $displayText;
-        $this->_retryNumber = Ilios2_Database_Constants::TRANSACTION_RETRY_COUNT - $currentRetryCount;
+        $this->_retryNumber = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT - $currentRetryCount;
 
         usleep(mt_rand(20, 973) * 1000); // stop script execution for a random amount of time
 

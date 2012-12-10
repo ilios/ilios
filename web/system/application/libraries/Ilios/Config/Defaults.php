@@ -4,7 +4,7 @@
  * Just a place to throw in Ilios-related default/fallback values.
  * Check the <code>config.php</code> file for (possible) overrides.
  */
-interface Ilios2_Config_Defaults
+interface Ilios_Config_Defaults
 {
     /**
      * Default number of days that an offering or an Independent Learning Session

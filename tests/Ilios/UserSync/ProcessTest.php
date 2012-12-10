@@ -3,12 +3,12 @@ require_once dirname(dirname(__FILE__)) . '/CI/TestCase.php';
 
 /**
  * Base class for user synchronization test cases.
- * @see Ilios2_UserSync_Process
+ * @see Ilios_UserSync_Process
  */
-abstract class Ilios2_UserSync_ProcessTest extends Ilios2_CI_TestCase
+abstract class Ilios_UserSync_ProcessTest extends Ilios_CI_TestCase
 {
     /**
-     * @var Ilios2_Logger
+     * @var Ilios_Logger
      */
     protected $_logger;
 	/**
@@ -33,7 +33,7 @@ abstract class Ilios2_UserSync_ProcessTest extends Ilios2_CI_TestCase
 	{
 	    parent::setUp();
 
-	    $this->_logger = Ilios2_Logger::getInstance(ILIOS2_TEST_USER_SYNC_LOG_FILE_PATH); // @see tests/phpunit.xml
+	    $this->_logger = Ilios_Logger::getInstance(ILIOS_TEST_USER_SYNC_LOG_FILE_PATH); // @see tests/phpunit.xml
 	    $this->_controller->load->model('User_Sync_Exception', 'user_sync_exception', true);
 	    $this->_userDao = $this->_controller->user;
 	    $this->_schoolDao = $this->_controller->school;
@@ -58,7 +58,7 @@ abstract class Ilios2_UserSync_ProcessTest extends Ilios2_CI_TestCase
 	 * Returns configuration parameters for the "Array" implementation of an external data source.
 	 * The external user records are return in the array under ['array']['users']
 	 * @return array a nested array of config params.
-	 * @see Ilios2_UserSync_UserSource_Array
+	 * @see Ilios_UserSync_UserSource_Array
 	 */
 	protected function _getConfig()
 	{
@@ -70,7 +70,7 @@ abstract class Ilios2_UserSync_ProcessTest extends Ilios2_CI_TestCase
 	/**
 	 * Returns an list of external user records, which can be fed into an array data source.
 	 * @return array a nested array representing external user data
-	 * @see Ilios2_UserSync_UserSource_Array
+	 * @see Ilios_UserSync_UserSource_Array
 	 */
 	protected function _getTestUserData ()
 	{

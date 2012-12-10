@@ -3,10 +3,10 @@ require_once dirname(dirname(dirname(__FILE__))) . '/TestCase.php';
 
 /**
  * Test-case for the EDS/LDAP user source client.
- * @see Ilios2_UserSync_UserSource_Eds
+ * @see Ilios_UserSync_UserSource_Eds
  */
 
-class Ilios2_UserSync_UserSource_EdsTest extends Ilios2_TestCase
+class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
 {
     /**
      * Returns a nested array of EDS user source config params.
@@ -16,12 +16,12 @@ class Ilios2_UserSync_UserSource_EdsTest extends Ilios2_TestCase
      * ['ldap']['bind_dn']
      * ['ldap']['password']
      * @return array
-     * @see Ilios2_TestUtils::getEdsTestConfiguration()
+     * @see Ilios_TestUtils::getEdsTestConfiguration()
      */
     protected function _getUserSourceConfiguration ()
     {
         $config = array();
-        $config['ldap'] = Ilios2_TestUtils::getEdsTestConfiguration();
+        $config['ldap'] = Ilios_TestUtils::getEdsTestConfiguration();
         return $config;
     }
 
@@ -29,12 +29,12 @@ class Ilios2_UserSync_UserSource_EdsTest extends Ilios2_TestCase
      * @test
      * @group ilios2
      * @group user_sync
-	 * @covers Ilios2_UserSync_UserSource_Eds::getStudentRecords
+	 * @covers Ilios_UserSync_UserSource_Eds::getStudentRecords
 	 */
     public function testGetStudentRecords ()
     {
         $config = $this->_getUserSourceConfiguration();
-        $userSource = new Ilios2_UserSync_UserSource_Eds($config);
+        $userSource = new Ilios_UserSync_UserSource_Eds($config);
         // retrieve 10 students from EDS
         $students = $userSource->getStudentRecords(10); // check correct count
         $this->assertEquals(10, count($students));
@@ -50,12 +50,12 @@ class Ilios2_UserSync_UserSource_EdsTest extends Ilios2_TestCase
      * @test
      * @group ilios2
      * @group user_sync
-     * @covers Ilios2_UserSync_UserSource_Eds::hasStudent
+     * @covers Ilios_UserSync_UserSource_Eds::hasStudent
      */
     public function testHasStudent ()
     {
         $config = $this->_getUserSourceConfiguration();
-        $userSource = new Ilios2_UserSync_UserSource_Eds($config);
+        $userSource = new Ilios_UserSync_UserSource_Eds($config);
         $students = $userSource->getStudentRecords(10); // retrieve a bunch of students
         // for each retrieved student, check back in EDS by UID
         $tested = false;
@@ -80,12 +80,12 @@ class Ilios2_UserSync_UserSource_EdsTest extends Ilios2_TestCase
      * @test
      * @group ilios2
      * @group user_sync
-     * @covers Ilios2_UserSync_UserSource_Eds::hasUser
+     * @covers Ilios_UserSync_UserSource_Eds::hasUser
      */
     public function testHasUser ()
     {
         $config = $this->_getUserSourceConfiguration();
-        $userSource = new Ilios2_UserSync_UserSource_Eds($config);
+        $userSource = new Ilios_UserSync_UserSource_Eds($config);
         $students = $userSource->getStudentRecords(10); // retrieve a bunch of students
         // for each retrieved student, check back in EDS by UID
         $tested = false;
@@ -112,21 +112,21 @@ class Ilios2_UserSync_UserSource_EdsTest extends Ilios2_TestCase
      * @test
      * @group ilios2
      * @group user_sync
-     * @covers Ilios2_UserSync_UserSource_Eds::getUserByUid
+     * @covers Ilios_UserSync_UserSource_Eds::getUserByUid
      */
     public function testGetUserByUid ()
     {
 
         $config = $this->_getUserSourceConfiguration();
-        $userSource = new Ilios2_UserSync_UserSource_Eds($config);
+        $userSource = new Ilios_UserSync_UserSource_Eds($config);
 
         // get some user that have uids
         $filter = '(&(objectClass=person)(ucsfEduIDNumber=*))';
         $ldap = $userSource->getLdap();
-        $results = $ldap->search(Ilios2_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
-                            Ilios2_Ldap::LDAP_SCOPE_SUBTREE, array(), false, 10);
-        $resultIterator = new Ilios2_Ldap_Iterator($ldap, $results);
-        $factory = new Ilios2_UserSync_ExternalUser_Factory_Eds();
+        $results = $ldap->search(Ilios_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
+                            Ilios_Ldap::LDAP_SCOPE_SUBTREE, array(), false, 10);
+        $resultIterator = new Ilios_Ldap_Iterator($ldap, $results);
+        $factory = new Ilios_UserSync_ExternalUser_Factory_Eds();
         foreach ($resultIterator as $result) {
             $user = $factory->createUser($result);
             // check EDS for user by Eds
@@ -142,21 +142,21 @@ class Ilios2_UserSync_UserSource_EdsTest extends Ilios2_TestCase
      * @test
      * @group ilios2
      * @group user_sync
-     * @covers Ilios2_UserSync_UserSource_Eds::getUserByEmail
+     * @covers Ilios_UserSync_UserSource_Eds::getUserByEmail
      */
     public function testGetUserByEmail ()
     {
 
         $config = $this->_getUserSourceConfiguration();
-        $userSource = new Ilios2_UserSync_UserSource_Eds($config);
+        $userSource = new Ilios_UserSync_UserSource_Eds($config);
 
         // get some user that have uids
         $filter = '(&(objectClass=person)(mail=*))';
         $ldap = $userSource->getLdap();
-        $results = $ldap->search(Ilios2_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
-                            Ilios2_Ldap::LDAP_SCOPE_SUBTREE, array(), false, 10);
-        $resultIterator = new Ilios2_Ldap_Iterator($ldap, $results);
-        $factory = new Ilios2_UserSync_ExternalUser_Factory_Eds();
+        $results = $ldap->search(Ilios_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
+                            Ilios_Ldap::LDAP_SCOPE_SUBTREE, array(), false, 10);
+        $resultIterator = new Ilios_Ldap_Iterator($ldap, $results);
+        $factory = new Ilios_UserSync_ExternalUser_Factory_Eds();
         foreach ($resultIterator as $result) {
             $user = $factory->createUser($result);
             // check EDS for user by Eds

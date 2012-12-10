@@ -17,7 +17,7 @@
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
  * @license http://www.iliosproject.org/license GNU GPL v3
  */
-class Ilios2_Json
+class Ilios_Json
 {
     /**
      * Escape all single quotes with slashes.
@@ -38,7 +38,7 @@ class Ilios2_Json
      * @return mixed the decoded input
      * @see json_decode()
      * @see json_last_error()
-     * @throws Ilios2_Exception when decoding failed
+     * @throws Ilios_Exception when decoding failed
      */
     public static function decode ($json, $assoc = false)
     {
@@ -73,14 +73,14 @@ class Ilios2_Json
                 $msg = 'Unknown error';
                 break;
         }
-        throw new Ilios2_Exception('JSON decoding error: ' . $msg, $error);
+        throw new Ilios_Exception('JSON decoding error: ' . $msg, $error);
     }
 
     /**
      * Returns the JSON representation of a given value that is safe for directly embedding into JavaScript.
      * This function is essentially wrapper around <code>json_encode()</code> with extra escaping-options added.
      * @param mixed $value e value being encoded.
-     * @param int $options a bitmask consisting of <code>Ilios2_Json::JSON_ENC_SINGLE_QUOTES, Ilios2_Json::JSON_ENC_DOUBLE_QUOTES</code>
+     * @param int $options a bitmask consisting of <code>Ilios_Json::JSON_ENC_SINGLE_QUOTES, Ilios_Json::JSON_ENC_DOUBLE_QUOTES</code>
      * @param int $jsonEncodeOptions a bitmask passed as second param to json_encode()
      * @return string|boolean a JSON encoded string on success of FALSE on failure
      * @see json_encode()
@@ -96,12 +96,12 @@ class Ilios2_Json
         $rhett = str_replace('\\', '\\\\', $rhett);
 
         // escape single quotes
-        if (Ilios2_Json::JSON_ENC_SINGLE_QUOTES & $options) {
+        if (Ilios_Json::JSON_ENC_SINGLE_QUOTES & $options) {
             $rhett = str_replace("'", "\\'", $rhett);
         }
 
         // escape double quotes
-        if (Ilios2_Json::JSON_ENC_DOUBLE_QUOTES & $options) {
+        if (Ilios_Json::JSON_ENC_DOUBLE_QUOTES & $options) {
             $rhett = str_replace('"', '\\"', $rhett);
         }
 
