@@ -11,15 +11,15 @@
 
   Instructions:
 
-    sed -i 's/XXXXXX/ilios_database_name/g' make_new_i2_database.sql
-    mysql -u ilios -p <  make_new_i2_database.sql
+    sed -i 's/XXXXXX/ilios_database_name/g' make_new_ilios_database.sql
+    mysql -u ilios -p <  make_new_ilios_database.sql
 */
 
 CREATE DATABASE XXXXXX DEFAULT CHARACTER SET = latin1 DEFAULT COLLATE = latin1_swedish_ci;
 USE XXXXXX;
-SOURCE ilios2_tables.sql;
-SOURCE ilios2_stored.sql;
-SOURCE ilios2_triggers.sql;
+SOURCE ilios_tables.sql;
+SOURCE ilios_stored.sql;
+SOURCE ilios_triggers.sql;
 SOURCE data_population/alert_change_type_data.sql;
 SOURCE data_population/SOM_competency_data.sql;
 SOURCE data_population/SOM_discipline_data.sql;
