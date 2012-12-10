@@ -11,7 +11,7 @@ spawn $env(SHELL)
 expect "\$ "
 send "cd /vagrant/database/install\r"
 expect "vagrant@lucid32:/vagrant/database/install\$ "
-send "./install_user_zero.sh localhost $ilios_db $ilios_user $ilios_admin_email 1\r"
+send "/bin/sh install_user_zero.sh localhost $ilios_db $ilios_user $ilios_admin_email 1\r"
 expect "Enter password: "
 send "$ilios_pass\r"
 expect "vagrant@lucid32:/vagrant/database/install\$ "
