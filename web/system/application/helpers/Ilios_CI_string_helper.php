@@ -1,9 +1,9 @@
 <?php
 
 function fullyEscapedText ($text) {
-	return preg_replace('/\'/', '\\\'',
-			 			preg_replace('/"/', '\\"',
-			 				preg_replace('/\n/', ' ', $text)));
+    return preg_replace('/\'/', '\\\'',
+        preg_replace('/"/', '\\"',
+            preg_replace('/\n/', ' ', $text)));
 }
 
 function generateJavascriptRepresentationCodeOfPHPArray ($anArray, $variableName,
@@ -14,6 +14,3 @@ function generateJavascriptRepresentationCodeOfPHPArray ($anArray, $variableName
         echo $variableName . "." . $key . " = '" . fullyEscapedText($val) . "'; \n";
     }
 }
-
-/* End of file I2_string_helper.php */
-/* Location: /helpers/I2_string_helper.php */
