@@ -2,7 +2,7 @@
 
 /*
 |====================================
-| Ilios2 custom configuration options
+| Ilios custom configuration options
 |====================================
 */
 /*
@@ -59,7 +59,7 @@ $config['visual_alert_threshold_in_days'] = 7;
 | Default Language/Locale
 |--------------------------------------------------------------------------
 |
-| There must exist an ilios2_strings_XXXXXX.properties file for the below
+| There must exist an ilios_strings_XXXXXX.properties file for the below
 |       setting of $config['ilios_default_lang_locale'] = "XXXXXX"
 |
 */
