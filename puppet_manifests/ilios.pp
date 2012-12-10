@@ -1,4 +1,4 @@
-class ilios2 (
+class ilios (
   $docroot=$params::docroot,
   $apacheuser=$params::apacheuser,
   $repodir=$params::repodir,
@@ -136,4 +136,4 @@ class ilios2 (
 
 }
 
-include ilios2
+include ilios
