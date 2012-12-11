@@ -30,7 +30,7 @@
         More info: h5bp.com/i/378 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>Ilios 2 Logout Stepping Stone</title>
+    <title>Ilios Logout Stepping Stone</title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
