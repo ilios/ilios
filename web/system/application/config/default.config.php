@@ -28,7 +28,7 @@ $config['base_url'] = "https://%%DEPLOY_URL%%/";
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "ilios2.php";
+$config['index_page'] = "ilios.php";
 
 /*
 |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ $config['enable_hooks'] = true;
 | http://codeigniter.com/user_guide/general/creating_libraries.html
 |
 */
-$config['subclass_prefix'] = 'I2_';
+$config['subclass_prefix'] = 'Ilios_CI_';
 
 
 /*

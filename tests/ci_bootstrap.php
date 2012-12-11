@@ -1,25 +1,25 @@
-<?php 
+<?php
 
 /**
  * ci_bootstrap.php
- * 
+ *
  * Instantiate and start up CodeIgniter environment so we can use and test the existing Model.
- * 
+ *
  * @see system/codeigniter/CodeIgniter.php
  */
-if (! defined('ILIOS2_WEB_ROOT')) {
-    define('ILIOS2_WEB_ROOT',  dirname(ILIOS2_TEST_ROOT_DIR) . DIRECTORY_SEPARATOR . 'src');
+if (! defined('ILIOS_WEB_ROOT')) {
+    define('ILIOS_WEB_ROOT',  dirname(ILIOS_TEST_ROOT_DIR) . DIRECTORY_SEPARATOR . 'web');
 }
 
 // fake a request
-$_SERVER['DOCUMENT_ROOT'] = ILIOS2_WEB_ROOT . '/system/application/helpers';	// needed for getServerFilePath in I2_url_helper
+$_SERVER['DOCUMENT_ROOT'] = ILIOS_WEB_ROOT . '/system/application/helpers';	// needed for getServerFilePath in I2_url_helper
 // Simulate an HTTP request
 $_SERVER['PATH_INFO'] = '/test_controller/index';
 $_SERVER['REQUEST_URI'] = '/test_controller/index';
 $_SERVER['SERVER_NAME'] = 'ilios-test.library.ucsf.edu'; // it doesnt matter...
 $_SERVER['QUERY_STRING'] = '';
 
-$_ENV['ILIOS2_ENVIRONMENT'] = 'test';  // indicate test environment
+$_ENV['ILIOS_ENVIRONMENT'] = 'test';  // indicate test environment
 /*
 |---------------------------------------------------------------
 | PHP ERROR REPORTING LEVEL
@@ -44,7 +44,7 @@ $_ENV['ILIOS2_ENVIRONMENT'] = 'test';  // indicate test environment
 | NO TRAILING SLASH!
 |
 */
-	$system_folder = ILIOS2_WEB_ROOT . "/system";
+	$system_folder = ILIOS_WEB_ROOT . "/system";
 
 /*
 |---------------------------------------------------------------
@@ -52,7 +52,7 @@ $_ENV['ILIOS2_ENVIRONMENT'] = 'test';  // indicate test environment
 |---------------------------------------------------------------
 |
 | If you want this front controller to use a different "application"
-| folder then the default one you can set its name here. The folder 
+| folder then the default one you can set its name here. The folder
 | can also be renamed or relocated anywhere on your server.
 | For more info please see the user guide:
 | http://codeigniter.com/user_guide/general/managing_apps.html
@@ -61,7 +61,7 @@ $_ENV['ILIOS2_ENVIRONMENT'] = 'test';  // indicate test environment
 | NO TRAILING SLASH!
 |
 */
-	$application_folder =  ILIOS2_WEB_ROOT .  "/system/application";
+	$application_folder =  ILIOS_WEB_ROOT .  "/system/application";
 
 /*
 |===============================================================
@@ -77,7 +77,7 @@ $_ENV['ILIOS2_ENVIRONMENT'] = 'test';  // indicate test environment
 |
 | Let's attempt to determine the full-server path to the "system"
 | folder in order to reduce the possibility of path problems.
-| Note: We only attempt this if the user hasn't specified a 
+| Note: We only attempt this if the user hasn't specified a
 | full server path.
 |
 */
@@ -91,7 +91,7 @@ if (strpos($system_folder, '/') === FALSE)
 else
 {
 	// Swap directory separators to Unix style for consistency
-	$system_folder = str_replace("\\", "/", $system_folder); 
+	$system_folder = str_replace("\\", "/", $system_folder);
 }
 
 /*
@@ -237,7 +237,7 @@ else
 load_class('Controller', FALSE);
 
 // Load the local application controller
-// Note: The Router class automatically validates the controller path.  If this include fails it 
+// Note: The Router class automatically validates the controller path.  If this include fails it
 // means that the default controller in the Routes.php file is not resolving to something valid.
 if ( ! file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().EXT))
 {

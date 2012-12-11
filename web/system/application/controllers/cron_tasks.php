@@ -114,7 +114,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
      * Kicks off the change alert notification process.
      * @param array $config process configuration
      * @return boolean TRUE if the process ran, FALSE if not
-     * @throws Ilios2_ChangeAlert_Exception
+     * @throws Ilios_ChangeAlert_Exception
      */
     protected function _triggerChangeAlertsProcess (array $config)
     {
@@ -127,8 +127,8 @@ class Cron_Tasks extends Abstract_Ilios_Controller
         $logger = null;
         $logFilePath = $this->config->item('cron_log_file');
         try {
-            $logger = Ilios2_Logger::getInstance($logFilePath);
-        } catch (Ilios2_Log_Exception $e) {
+            $logger = Ilios_Logger::getInstance($logFilePath);
+        } catch (Ilios_Log_Exception $e) {
             // fail! make a note about this in the error log
             error_log($e->getMessage());
             return false;
@@ -142,7 +142,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
         $conf = array_merge($config, array('templates_dir_path' => getServerFilePath('alert_templates')));
         
         // instantiate and invoke notification process
-        $process = new Ilios2_ChangeAlert_NotificationProcess($conf, $this->alert, 
+        $process = new Ilios_ChangeAlert_NotificationProcess($conf, $this->alert, 
             $this->school, $this->offering, $this->iliosSession, $this->sessionType,
             $this->course);
         $process->run($logger, $debug);
@@ -179,15 +179,15 @@ class Cron_Tasks extends Abstract_Ilios_Controller
         // instantiate logger
         $logger = null;
         try {
-            $logger = Ilios2_Logger::getInstance($logFilePath);
-        } catch (Ilios2_Log_Exception $e) {
+            $logger = Ilios_Logger::getInstance($logFilePath);
+        } catch (Ilios_Log_Exception $e) {
             // fail! make a note about this in the error log
             error_log($e->getMessage());
             return false;
         }        
 
         // instantiate and run the student sync
-        $studentSyncProcess = new Ilios2_UserSync_Process_StudentProcess($userSource,
+        $studentSyncProcess = new Ilios_UserSync_Process_StudentProcess($userSource,
             $this->user, $this->school, $this->userSyncException);
         $processId = time();
         $studentSyncProcess->run($processId, $logger);
@@ -195,7 +195,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
 
         // instantiate and run the non-student sync
         $processId = time();
-        $nonStudentSyncProcess = new Ilios2_UserSync_Process_NonStudentProcess($userSource,
+        $nonStudentSyncProcess = new Ilios_UserSync_Process_NonStudentProcess($userSource,
             $this->user, $this->userSyncException);
         $nonStudentSyncProcess->run($processId, $logger);
         unset($studentSyncProcess);

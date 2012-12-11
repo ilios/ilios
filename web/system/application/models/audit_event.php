@@ -10,24 +10,24 @@ class Audit_Event extends Abstract_Ilios_Model
 
     /**
      * @deprecated
-     * @see Ilios2_Model_AuditUtils::CREATE_EVENT_TYPE
+     * @see Ilios_Model_AuditUtils::CREATE_EVENT_TYPE
      * @var int
      */
-    static public $CREATE_EVENT_TYPE = Ilios2_Model_AuditUtils::CREATE_EVENT_TYPE;
+    static public $CREATE_EVENT_TYPE = Ilios_Model_AuditUtils::CREATE_EVENT_TYPE;
 
     /**
      * @deprecated
-     * @see Ilios2_Model_AuditUtils::UPDATE_EVENT_TYPE
+     * @see Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE
      * @var int
      */
-    static public $UPDATE_EVENT_TYPE = Ilios2_Model_AuditUtils::UPDATE_EVENT_TYPE;
+    static public $UPDATE_EVENT_TYPE = Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE;
 
     /**
      * @deprecated
-     * @see Ilios2_Model_AuditUtils::DELETE_EVENT_TYPE
+     * @see Ilios_Model_AuditUtils::DELETE_EVENT_TYPE
      * @var int
      */
-    static public $DELETE_EVENT_TYPE = Ilios2_Model_AuditUtils::DELETE_EVENT_TYPE;
+    static public $DELETE_EVENT_TYPE = Ilios_Model_AuditUtils::DELETE_EVENT_TYPE;
 
     /**
      * Constructor.
@@ -41,8 +41,8 @@ class Audit_Event extends Abstract_Ilios_Model
 
     /**
      * @deprecated
-     * Use <code>Ilios2_Model_AuditUtils::wrapAtom() instead.
-     * @see Ilios2_Model_AuditUtils::wrapAtom()
+     * Use <code>Ilios_Model_AuditUtils::wrapAtom() instead.
+     * @see Ilios_Model_AuditUtils::wrapAtom()
      */
     public function wrapAtom ($tableId, $tableColumn, $tableName, $type, $rootAtom = 0,
                        $serializedBlob = null) {
@@ -63,7 +63,7 @@ class Audit_Event extends Abstract_Ilios_Model
      * Transactions are handled within this method.
      *
      * @param array $wrappedAtomArray an array of assoc. arrays, each sub-array
-     *     as returned by the Ilios2_Model_AuditUtils::wrapAtom() method.
+     *     as returned by the Ilios_Model_AuditUtils::wrapAtom() method.
      * @param int $userId
      * @return boolean
      * @todo refactor user session related code out of this function

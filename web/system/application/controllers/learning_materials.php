@@ -207,7 +207,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
         $rhett['learning_material_id'] = $learningMaterialId;
 
         $failedTransaction = true;
-        $transactionRetryCount = Ilios2_Database_Constants::TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -306,7 +306,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
         $rhett['learning_material_id'] = $learningMaterialId;
 
         $failedTransaction = true;
-        $transactionRetryCount = Ilios2_Database_Constants::TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -445,8 +445,8 @@ class Learning_Materials extends Abstract_Ilios_Controller
             $names = array('title', 'description', 'content_creator', 'copyright_rationale');
             foreach ($names as $name) {
                 $input = $this->input->post($name);
-                $input = Ilios2_CharEncoding::convertToUtf8($input);
-                $input = Ilios2_CharEncoding::utf8UrlDecode($input);
+                $input = Ilios_CharEncoding::convertToUtf8($input);
+                $input = Ilios_CharEncoding::utf8UrlDecode($input);
                 $clean[$name] = $input;
             }
 

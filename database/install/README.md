@@ -6,9 +6,9 @@ The database may be constructed by `source`-ing the table schemas, stored proced
 
 To create the needed tables, stored procedures/functions and triggers, run the following the SQL files against your database:
 
-    ilios2_tables.sql
-    ilios2_stored.sql
-    ilios2_triggers.sql
+    ilios_tables.sql
+    ilios_stored.sql
+    ilios_triggers.sql
 
 ## Import default data
 
@@ -30,4 +30,4 @@ Once you've created the database, you should populate the database with the defa
 
 ## Shortcut Alternative
 
-You may source the utility script `database/make_new_i2_database.sql` to create the database, set its schema and to ingest the default data population in one step. _Please read the code comments within the file and replace the placeholder for the database name accordingly before sourcing the script!_
+You may source the utility script `database/make_new_ilios_database.sql` to create the database, set its schema and to ingest the default data population in one step. _Please read the code comments within the file and replace the placeholder for the database name accordingly before sourcing the script!_

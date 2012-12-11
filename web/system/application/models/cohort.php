@@ -492,7 +492,7 @@ EOL;
 
         if ($rhett) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($cohortId, 'cohort_id', $this->databaseTableName,
-                Ilios2_Model_AuditUtils::DELETE_EVENT_TYPE);
+                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
 
             $updateRow = array();
             $updateRow['cohort_id'] = null;
