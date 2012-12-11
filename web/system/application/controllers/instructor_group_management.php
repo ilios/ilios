@@ -60,8 +60,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             }
 
             $groups = $this->_getGroups($schoolId);
-            $data['groups_json'] = Ilios2_Json::encodeForJavascriptEmbedding($groups['groups'],
-                Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+            $data['groups_json'] = Ilios_Json::encodeForJavascriptEmbedding($groups['groups'],
+                Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
             $key = 'instructor_groups.page_header';
             $data['page_header_string'] = $this->i18nVendor->getI18NString($key, $lang);

@@ -4,9 +4,9 @@
  * which can be fed into an "Array" user source
  * for the student-user sync process unit-test.
  *
- * @see Ilios2_UserSync_UserSource_Array
- * @see Ilios2_UserSync_Process_StudentProcess
- * @see Ilios2_UserSync_Process_StudentProcessTest
+ * @see Ilios_UserSync_UserSource_Array
+ * @see Ilios_UserSync_Process_StudentProcess
+ * @see Ilios_UserSync_Process_StudentProcessTest
  */
 
 /**

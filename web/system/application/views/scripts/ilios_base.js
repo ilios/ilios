@@ -390,7 +390,7 @@ ilios.global.userHasGoneIdle = function () {
  * @todo redirect-path has hardwired assumption that Ilios is deployed in the webroot. fix this.
  */
 ilios.global.logout = function () {
-    window.location.href = '/ilios2.php/authentication_controller?logout=yes';
+    window.location.href = '/ilios.php/authentication_controller?logout=yes';
 };
 
 /**

@@ -62,7 +62,7 @@ In `system/application/config/ilios.php`, change the authentication method to "s
 
     $config['ilios_authentication'] = 'shibboleth';
 
-We recommend the following exposure scheme; this is assuming Ilios2 is installed at the web-root:
+We recommend the following exposure scheme; this is assuming Ilios is installed at the web-root:
 
     <Location />
       AuthType shibboleth
@@ -75,7 +75,7 @@ We recommend the following exposure scheme; this is assuming Ilios2 is installed
       Allow from all
     </LocationMatch>
 
-    <LocationMatch "/ilios2.php/([^/]+)/getI18NJavascriptVendor">
+    <LocationMatch "/ilios.php/([^/]+)/getI18NJavascriptVendor">
       Satisfy Any
       Allow from all
     </LocationMatch>

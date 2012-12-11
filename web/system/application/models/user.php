@@ -106,7 +106,7 @@ class User extends Abstract_Ilios_Model
 
         if (is_array($auditAtoms)) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($newId, 'user_id', $this->databaseTableName,
-                Ilios2_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
+                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
         }
 
         //  assign primary role, if applicable
@@ -118,7 +118,7 @@ class User extends Abstract_Ilios_Model
 
             if (is_array($auditAtoms)) {
                 $auditAtoms[] = $this->auditEvent->wrapAtom($newId, 'user_id', 'user_x_user_role',
-                   Ilios2_Model_AuditUtils::CREATE_EVENT_TYPE);
+                   Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
             }
         }
 

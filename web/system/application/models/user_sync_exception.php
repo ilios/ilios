@@ -25,7 +25,7 @@ class User_Sync_Exception extends Abstract_Ilios_Model
      * @param string $mismatchedPropertyName
      * @param mixed $mismatchedPropertyValue
      * @return int|bool the new record id or FALSE on failure
-     * @see Ilios2_UserSync_Process_UserException
+     * @see Ilios_UserSync_Process_UserException
      */
     public function addException ($processId, $processName, $userId, $exceptionCode,
                         $mismatchedPropertyName = null, $mismatchedPropertyValue = null) {
@@ -97,7 +97,7 @@ EOL;
      */
     public function hasNonStudentSyncExceptions ($schoolId)
     {
-        return $this->_hasSyncExceptions($schoolId, Ilios2_UserSync_Process_StudentProcess::SIGNATURE);
+        return $this->_hasSyncExceptions($schoolId, Ilios_UserSync_Process_StudentProcess::SIGNATURE);
     }
 
     /**
@@ -108,7 +108,7 @@ EOL;
      */
     public function hasStudentSyncExceptions ($schoolId)
     {
-        return $this->_hasSyncExceptions($schoolId, Ilios2_UserSync_Process_NonStudentProcess::SIGNATURE);
+        return $this->_hasSyncExceptions($schoolId, Ilios_UserSync_Process_NonStudentProcess::SIGNATURE);
     }
 
     /**

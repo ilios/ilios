@@ -5,7 +5,7 @@
  */
 class I18N_Vendor extends Model
 {
-    protected $I18N_FILE_BASE_NAME = 'system/application/language/ilios2_strings_';
+    protected $I18N_FILE_BASE_NAME = 'system/application/language/ilios_strings_';
     protected $I18N_FILE_SUFFIX = '.properties';
     protected $I18N_DEFAULT_LOCALE = 'en_US';
 

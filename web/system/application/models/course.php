@@ -700,25 +700,25 @@ EOL;
 
     /**
      * @deprecated
-     * Use <code>Ilios2_CourseUtils::generateHashFromCourseId()</code> instead.
+     * Use <code>Ilios_CourseUtils::generateHashFromCourseId()</code> instead.
      * @param int $courseId
      * @return string
-     * @see Ilios2_CourseUtils::generateHashFromCourseId()
+     * @see Ilios_CourseUtils::generateHashFromCourseId()
      */
     public function getUniqueId ($courseId)
     {
-        return Ilios2_CourseUtils::generateHashFromCourseId($courseId);
+        return Ilios_CourseUtils::generateHashFromCourseId($courseId);
     }
 
     /**
      * @deprecated
-     * Use <code>Ilios2_CourseUtils::extractCourseIdFromHash()</code> instead.
+     * Use <code>Ilios_CourseUtils::extractCourseIdFromHash()</code> instead.
      * @param string $uniqueId
      * @return int
-     * @see Ilios2_CourseUtils::extractCourseIdFromHash()
+     * @see Ilios_CourseUtils::extractCourseIdFromHash()
      */
     public function getCourseIdFromUniqueId ($uniqueId)
     {
-        return Ilios2_CourseUtils::extractCourseIdFromHash($uniqueId);
+        return Ilios_CourseUtils::extractCourseIdFromHash($uniqueId);
     }
 }

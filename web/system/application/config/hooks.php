@@ -13,10 +13,10 @@ $hook['pre_system'] = array();
 
 // register a class autoloader as pre-system hook
 $hook['pre_system'][] = array(
-    'class' => 'Ilios2_Hooks',
+    'class' => 'Ilios_Hooks',
     'function' => 'registerAutoloader',
     'filename' => 'Hooks.php',
-    'filepath' => 'hooks/Ilios2'
+    'filepath' => 'hooks/Ilios'
 );
 
 /* End of file hooks.php */

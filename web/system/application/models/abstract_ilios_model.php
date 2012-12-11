@@ -316,8 +316,8 @@ abstract class Abstract_Ilios_Model extends Model
         		$row[$refColName] = $id;
         		$DB->insert($joinTblName, $row);
         	}
-        	$auditAtoms[] = Ilios2_Model_AuditUtils::wrapAuditAtom($joinId,
-        			$joinColName, $joinTblName, Ilios2_Model_AuditUtils::CREATE_EVENT_TYPE);
+        	$auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId,
+        			$joinColName, $joinTblName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
     }
 
@@ -341,8 +341,8 @@ abstract class Abstract_Ilios_Model extends Model
         	$DB->where($joinColName, $joinId);
         	$DB->where_in($refColName, $refIds);
         	$DB->delete($joinTblName);
-        	$auditAtoms[] = Ilios2_Model_AuditUtils::wrapAuditAtom($joinId,
-        	        $joinColName, $joinTblName, Ilios2_Model_AuditUtils::DELETE_EVENT_TYPE);
+        	$auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId,
+        	        $joinColName, $joinTblName, Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
     }
 

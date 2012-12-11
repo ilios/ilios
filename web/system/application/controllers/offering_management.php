@@ -72,8 +72,8 @@ class Offering_Management extends Abstract_Ilios_Controller
 
         // get school competencies
         $schoolCompetencies = $this->_getSchoolCompetencies();
-        $data['school_competencies'] = Ilios2_Json::encodeForJavascriptEmbedding($schoolCompetencies,
-            Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+        $data['school_competencies'] = Ilios_Json::encodeForJavascriptEmbedding($schoolCompetencies,
+            Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'offering_management.calendar.lightbox.recurs_on_days';
         $data['repeat_weekday_selector_string'] = $this->i18nVendor->getI18NString($key,

@@ -113,8 +113,8 @@ class Course_Management extends Abstract_Ilios_Controller
 
         // get school competencies
         $schoolCompetencies = $this->_getSchoolCompetencies();
-        $data['school_competencies'] = Ilios2_Json::encodeForJavascriptEmbedding($schoolCompetencies,
-            Ilios2_Json::JSON_ENC_SINGLE_QUOTES);
+        $data['school_competencies'] = Ilios_Json::encodeForJavascriptEmbedding($schoolCompetencies,
+            Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'offering_management.calendar.lightbox.recurs_on_days';
         $data['repeat_weekday_selector_string'] = $this->i18nVendor->getI18NString($key,
@@ -828,8 +828,8 @@ class Course_Management extends Abstract_Ilios_Controller
         foreach ($names as $name) {
         	$input = $this->input->post($name);
         	// sanitize input
-        	$input = Ilios2_CharEncoding::convertToUtf8($input);
-        	$input = Ilios2_CharEncoding::utf8UrlDecode($input);
+        	$input = Ilios_CharEncoding::convertToUtf8($input);
+        	$input = Ilios_CharEncoding::utf8UrlDecode($input);
         	$clean[$name] = $input;
         }
 
@@ -843,13 +843,13 @@ class Course_Management extends Abstract_Ilios_Controller
         $learningMaterials = null;
         $objectives = null;
         try {
-            $cohorts = Ilios2_Json::decode($clean['cohort'], true);
-            $disciplines = Ilios2_Json::decode($clean['discipline'], true);
-            $directors = Ilios2_Json::decode($clean['director'], true);
-            $meshTerms = Ilios2_Json::decode($clean['mesh_term'], true);
-            $learningMaterials = Ilios2_Json::decode($clean['learning_materials'], true);
-            $objectives = Ilios2_Json::decode($clean['objective'], true);
-        } catch (Ilios2_Exception $e) {
+            $cohorts = Ilios_Json::decode($clean['cohort'], true);
+            $disciplines = Ilios_Json::decode($clean['discipline'], true);
+            $directors = Ilios_Json::decode($clean['director'], true);
+            $meshTerms = Ilios_Json::decode($clean['mesh_term'], true);
+            $learningMaterials = Ilios_Json::decode($clean['learning_materials'], true);
+            $objectives = Ilios_Json::decode($clean['objective'], true);
+        } catch (Ilios_Exception $e) {
         	$rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
         	header("Content-Type: text/plain");
         	echo json_encode($rhett);
@@ -1063,8 +1063,8 @@ class Course_Management extends Abstract_Ilios_Controller
         foreach ($names as $name) {
         	$input = $this->input->post($name);
         	// sanitize input
-        	$input = Ilios2_CharEncoding::convertToUtf8($input);
-        	$input = Ilios2_CharEncoding::utf8UrlDecode($input);
+        	$input = Ilios_CharEncoding::convertToUtf8($input);
+        	$input = Ilios_CharEncoding::utf8UrlDecode($input);
         	$clean[$name] = $input;
         }
         $title = $clean['title'];
@@ -1076,15 +1076,15 @@ class Course_Management extends Abstract_Ilios_Controller
         $objectives = null;
         $ilmInstructors = null;
         try {
-            $disciplines = Ilios2_Json::decode($clean['discipline'], true);
-            $meshTerms = Ilios2_Json::decode($clean['mesh_term'], true);
-            $learningMaterials = Ilios2_Json::decode($clean['learning_materials'], true);
+            $disciplines = Ilios_Json::decode($clean['discipline'], true);
+            $meshTerms = Ilios_Json::decode($clean['mesh_term'], true);
+            $learningMaterials = Ilios_Json::decode($clean['learning_materials'], true);
             $learningMaterials = $this->_formatSessionLearningMaterialsFromInput($learningMaterials);
-            $objectives = Ilios2_Json::decode($clean['objective'], true);
+            $objectives = Ilios_Json::decode($clean['objective'], true);
             if (array_key_exists('ilm_instructors', $clean)) {
-                $ilmInstructors = Ilios2_Json::decode($clean['ilm_instructors'], true);
+                $ilmInstructors = Ilios_Json::decode($clean['ilm_instructors'], true);
             }
-        } catch (Ilios2_Exception $e) {
+        } catch (Ilios_Exception $e) {
             $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -1353,11 +1353,11 @@ class Course_Management extends Abstract_Ilios_Controller
         $recurringEvent = null;
         if ('true' == $this->input->post('is_recurring')) {
             $recurringEvent = $this->input->post('recurring_event');
-            $recurringEvent = Ilios2_CharEncoding::convertToUtf8($recurringEvent);
-            $recurringEvent = Ilios2_CharEncoding::utf8UrlDecode($recurringEvent);
+            $recurringEvent = Ilios_CharEncoding::convertToUtf8($recurringEvent);
+            $recurringEvent = Ilios_CharEncoding::utf8UrlDecode($recurringEvent);
             try {
-                $recurringEvent = Ilios2_Json::decode($recurringEvent, true);
-            } catch (Ilios2_Exception $e) {
+                $recurringEvent = Ilios_Json::decode($recurringEvent, true);
+            } catch (Ilios_Exception $e) {
                 $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
                 header("Content-Type: text/plain");
                 echo json_encode($rhett);
@@ -1366,7 +1366,7 @@ class Course_Management extends Abstract_Ilios_Controller
         }
 
         $failedTransaction = true;
-        $transactionRetryCount = Ilios2_Database_Constants::TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
 
         $alertChangeTypes = array(Alert::CHANGE_TYPE_NEW_OFFERING);
 
