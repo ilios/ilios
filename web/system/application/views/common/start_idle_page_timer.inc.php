@@ -13,5 +13,5 @@
 
 // register and start the idle timer on page load
 YAHOO.util.Event.onDOMReady(function () {
-    ilios.global.startIdleTimer(<?php echo $this->config->item('ilios_idle_page_timeout'); ?>);
+    ilios.global.startIdleTimer(<?php echo $this->config->item('ilios_idle_page_timeout'); ?>, '<?php echo base_url(); ?>ilios.php/authentication_controller?logout=yes');
 });
