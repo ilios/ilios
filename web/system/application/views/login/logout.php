@@ -12,7 +12,7 @@
  * @license http://www.iliosproject.org/license GNU GPL v3
  */
 
-    $redirectLocation = base_url() . "Shibboleth.sso/Logout";
+    $redirectLocation = $this->config->item("ilios_authentication_shibboleth_logout_path");
     $viewsUrlRoot = getViewsURLRoot();
     $viewsPath = getServerFilePath('views');
 

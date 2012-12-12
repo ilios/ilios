@@ -113,8 +113,12 @@ $config['ilios_authentication_internal_auth_salt'] = null;
 |     The name of an attribute passed by the Shibboleth IdP which is used to
 |     authenticate users in Ilios. Since Ilios looks up users by email address,
 |     this attribute is assumed to contain an email address as well.
+|
+| ['ilios_authentication_shibboleth_logout_path']
+|     Absolute path to the Shibboleth Logout Service location.
 */
 $config['ilios_authentication_shibboleth_user_id_attribute'] = 'mail';
+$config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout';
 
 /*
  |--------------------------------------------------------------------------
