@@ -356,41 +356,23 @@ ilios.global.installPreferencesModel = function () {
 /**
  * Instantiates and starts the idle timer, subscribes a timeout-handler function to it.
  * @method startIdleTimer
- * @param {int} Timeout period in milliseconds
- * @param {Function} handler Event-handler function for the "idle" event
+ * @param {Number} Timeout period in milliseconds
+ * @param {String} logoutUrl logout action URL to redirect to on timeout
  */
-ilios.global.startIdleTimer = function (timeout, handler) {
+ilios.global.startIdleTimer = function (timeout, logoutUrl) {
     var idleTimer = YAHOO.util.IdleTimer;
     var timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
-    var handler = YAHOO.lang.isFunction(handler) ? handler : ilios.global.userHasGoneIdle;
-    idleTimer.subscribe("idle", handler);
+    idleTimer.subscribe("idle", function () {
+        if (! YAHOO.util.IdleTimer.isIdle()) {
+            return;
+        }
+        ilios.alert.alert(
+            ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
+            ilios_i18nVendor.getI18NString('general.terms.ok'),
+            function () { window.location.href = logoutUrl; }
+        );
+    });
     idleTimer.start(timeout, document);
-};
-
-/**
- * Timeout handler function.
- * Shows a message and logs user out.
- * @method userHasGoneIdle
- */
-ilios.global.userHasGoneIdle = function () {
-    if (! YAHOO.util.IdleTimer.isIdle()) {
-        return;
-    }
-    ilios.alert.alert(
-        ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
-        ilios_i18nVendor.getI18NString('general.terms.ok'),
-        ilios.global.logout
-    );
-};
-
-/**
- * Logout function.
- * Redirects user to auth controller while invoking logout action.
- * @method logout
- * @todo redirect-path has hardwired assumption that Ilios is deployed in the webroot. fix this.
- */
-ilios.global.logout = function () {
-    window.location.href = '/ilios.php/authentication_controller?logout=yes';
 };
 
 /**
