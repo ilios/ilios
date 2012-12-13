@@ -278,6 +278,7 @@ ilios.home.report.subjectNounChanged = function () {
     } else if (noun1 === 'session') {
         noun2List = {
             "course": defaultNounList.course,
+            "session": defaultNounList.session,
             "program": defaultNounList.program,
             "program year": defaultNounList["program year"],
             "instructor": defaultNounList.instructor,
