@@ -10,6 +10,10 @@ Ilios manages and tracks both learners and instructors and their relationships t
 
 Ilios leverages the power of existing online learning technologies supported at most health professions institutions. Built on open-source, loosely coupled components, Ilios  is a modular system meant to integrate with external data sources and systems. For schools already using (or considering the implementation of) online learning systems such as Moodle, Blackboard or Sakai, Ilios provides a backbone of curricular information to make that deployment more robust and to complement the rich online tools, activities and materials already in use.
 
+# Get Ilios
+
+Dowload the [distribution](http://bit.ly/U0okjm) or clone the [codebase](https://github.com/ilios/ilios).
+
 # Contact
 
 For more information on Ilios please contact:
@@ -18,6 +22,6 @@ Technology Enhanced Learning
 School of Medicine  
 University of California, San Francisco  
 Box 0410  
-San Francisco, CA 94143
+San Francisco, CA 94143  
 
 Email: irocket@ucsf.edu
