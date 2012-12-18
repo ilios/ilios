@@ -1122,13 +1122,20 @@ ilios.pm.resetEditObjectiveTextDialog = function (dialog) {
     }
 };
 
-// @private
+/**
+ * Populates a dropdown box with options for the available competencies associated with the given program year.
+ * @method buildObjectiveTextDialogPulldownOptions
+ * @param {HTMLElement} pulldown the "select" element to append options to.
+ * @param {Number} containerNumber the program year id
+ */
 ilios.pm.buildObjectiveTextDialogPulldownOptions = function (pulldown, containerNumber) {
     var model = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(containerNumber);
     var competencies = model.getCompetencyArray();
     var option = document.createElement('option');
-    var parentCompetencyModel = null;
+    var competencyModel, parentCompetencyModel;
     var optionTitle = null;
+    var tmpObjs = [];
+    var i, n, tmpObj;
 
     ilios.utilities.removeAllChildren(pulldown);
 
@@ -1136,17 +1143,38 @@ ilios.pm.buildObjectiveTextDialogPulldownOptions = function (pulldown, container
     option.innerHTML = '(' + ilios_i18nVendor.getI18NString('general.terms.none') + ')';
     pulldown.appendChild(option);
 
+    // create a list of temporary competency objects that can be sorted and converted into DOM nodes.
     for (var key in competencies) {
         competencyModel = competencies[key];
-
-        option = document.createElement('option');
-        option.value = competencyModel.getDBId();
-        optionTitle = competencyModel.getCompetencyTitle();
+        tmpObj = {};
+        tmpObj.title = competencyModel.getCompetencyTitle() || '';
+        tmpObj.dbId =  competencyModel.getDBId();
         if (competencyModel.isSubDomain()) {
             parentCompetencyModel = ilios.competencies.getCompetency(competencyModel.getParentCompetencyId());
-            optionTitle += ' (' + parentCompetencyModel.getCompetencyTitle() + ')';
+            tmpObj.parentTitle = parentCompetencyModel.getCompetencyTitle() || '';
         }
-        option.innerHTML = optionTitle;
+        tmpObjs.push(tmpObj);
+    }
+
+    // sort by parent comp. title and comp.title
+    tmpObjs.sort(function (a, b) {
+        var rhett = a.parentTitle.localeCompare(b.parentTitle);
+        if (! rhett) {
+            rhett = a.title.localeCompare(b.title);
+        }
+        return rhett;
+    });
+
+    // create option nodes
+    for (i = 0, n = tmpObjs.length; i < n; i++) {
+        tmpObj = tmpObjs[i];
+        option = document.createElement('option');
+        option.value = tmpObj.dbId;
+        if (tmpObj.parentTitle) {
+             option.innerHTML = tmpObj.title + ' (' + tmpObj.parentTitle + ')';
+        } else {
+            option.innerHTML = tmpObj.title;
+        }
         pulldown.appendChild(option);
     }
 };
