@@ -3,7 +3,7 @@ include_once "abstract_ilios_controller.php";
 
 /**
  * @package Ilios2
- * 
+ *
  * Scheduled Tasks controller.
  * Provides functionality to run recurring tasks within the application,
  * such as synchronizing the Ilios user store against an external user store.
@@ -133,16 +133,16 @@ class Cron_Tasks extends Abstract_Ilios_Controller
             error_log($e->getMessage());
             return false;
         }
-        
+
         // (somewhat) HACKETY HACK!
         // in order to keep the coupling between CI components and Ilios Code Library
         // components to the absolut minimum, we must pass the path to the alerts templates
         // to the notification component via the configuration array (rather than invoking
         // our custom CI helper functions from within the process object).
         $conf = array_merge($config, array('templates_dir_path' => getServerFilePath('alert_templates')));
-        
+
         // instantiate and invoke notification process
-        $process = new Ilios2_ChangeAlert_NotificationProcess($conf, $this->alert, 
+        $process = new Ilios2_ChangeAlert_NotificationProcess($conf, $this->alert,
             $this->school, $this->offering, $this->iliosSession, $this->sessionType,
             $this->course);
         $process->run($logger, $debug);
@@ -175,7 +175,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
         if (! $userSource  || ! $logFilePath) {
             return false;
         }
-        
+
         // instantiate logger
         $logger = null;
         try {
@@ -184,7 +184,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
             // fail! make a note about this in the error log
             error_log($e->getMessage());
             return false;
-        }        
+        }
 
         // instantiate and run the student sync
         $studentSyncProcess = new Ilios2_UserSync_Process_StudentProcess($userSource,
@@ -199,9 +199,9 @@ class Cron_Tasks extends Abstract_Ilios_Controller
             $this->user, $this->userSyncException);
         $nonStudentSyncProcess->run($processId, $logger);
         unset($studentSyncProcess);
-        
+
         // cleanup
-        unset($logger); 
+        unset($logger);
         return true;
     }
 
@@ -209,14 +209,14 @@ class Cron_Tasks extends Abstract_Ilios_Controller
      * Exports enrollment information to file for ingestion into CLEAE through
      * an external process.
      * @param array $exportConfig export process configuration
-     * @return int|boolean returns the # of bytes that were written to the file, or FALSE on failure. 
+     * @return int|boolean returns the # of bytes that were written to the file, or FALSE on failure.
      */
     protected function _exportEnrollmentData (array $exportConfig) {
         $this->load->model('canned_queries', '', true);
         $export_list = array();
 
         // Get the file path where the output would go
-        $outputFilePath = array_key_exists('output_file_path', $exportConfig) ? 
+        $outputFilePath = array_key_exists('output_file_path', $exportConfig) ?
             $exportConfig['output_file_path'] : false;
 
         if (empty($outputFilePath)) {
@@ -241,7 +241,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
                 }
             }
         }
-        
+
         // Export learner list
         $learnerSchools = array_key_exists('learner_schools', $exportConfig) ? $exportConfig['learner_schools'] : false;
         $learnerRole = array_key_exists('learner_role', $exportConfig) ? $exportConfig['learner_role'] : false;
@@ -293,7 +293,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
                         $participants[$ucsfid] = $ucsfid;
                     }
                 }
-        
+
                 // Find all SOM courses and add the entire participants to $export_list
                 $rows = $this->course->getCoursesWithPrimarySchoolId( $schoolId );
 
@@ -309,9 +309,9 @@ class Cron_Tasks extends Abstract_Ilios_Controller
 
         return file_put_contents($outputFilePath, implode( "\n", $export_list ));
     }
-    
-    
-    
+
+
+
     /**
      * @deprecated
      * @todo reimplement according to new rules, see ticket #1009
@@ -339,21 +339,21 @@ class Cron_Tasks extends Abstract_Ilios_Controller
      * @deprecated
      * @todo reimplement according to new rules, see ticket #1009
      */
-    protected function handleOfferingReminder($offering) {
-    	
+    protected function handleOfferingReminder($offering)
+    {
 		// get instructors as recipients
     	$recipients = $this->offering->getIndividualInstructorsForOffering( $offering->offering_id );
-    
+
     	$offeringLocation = $offering->room;
     	$dtStartPHPTime = new DateTime($offering->start_date, new DateTimeZone('UTC'));
     	$dtEndPHPTime   = new DateTime($offering->end_date, new DateTimeZone('UTC'));
     	$dtStartPHPTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
     	$dtEndPHPTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
-    
+
     	$offeringStartDate = $dtStartPHPTime->format('D M d, Y');
     	$offeringStartTime = $dtStartPHPTime->format('h:i a');
     	$offeringEndTime = $dtEndPHPTime->format('h:i a');
-    
+
     	$studentList = '';
     	$students = $this->offering->getLearnerGroupsForOffering($offering->offering_id);
     	foreach ($students as $student) {
@@ -363,54 +363,34 @@ class Cron_Tasks extends Abstract_Ilios_Controller
     		else {
     			$learnerName = $student['title'];
     		}
-    
+
     		if ($studentList != '') {
     			$studentList .= '; ';
     		}
-    
+
     		$studentList .= $learnerName;
     	}
-    
+
     	$session = $this->iliosSession->getRowForPrimaryKeyId($offering->session_id);
     	$sessionTitle = $session->title;
     	$sessionType = $this->sessionType->getRowForPrimaryKeyId($session->session_type_id);
     	$sessionTypeName = $sessionType->title;
-    
-    	$course = $this->course->getRowForPrimaryKeyId($session->course_id);
-    	$courseTitle = $course->title;
-    
-    	$programYears = $this->course->getProgramCohortDetailsForCourse($course->course_id);
-    	$schoolName = "NO STEWARDS FOUND";
-    	$schoolAdminEmail = "no_admin@defin.ed";
-    	foreach ($programYears as $programYear) {
-    		$stewards
-    		= $this->programYear->getStewardsForProgramYear($programYear['program_year_id']);
-    
-    		if (! is_null($stewards)) {
-    			foreach ($stewards as $steward) {
-    				if ($steward['steward_is_school'] == 1) {
-    					$schoolId = $steward['row_id'];
-    				}
-    				else {
-    					$schoolId = $steward['parent_school_id'];
-    				}
-    
-    				$school = $this->school->getRowForPrimaryKeyId($schoolId);
-    				$schoolName = $school->title;
-                    $schoolTemplatePrefix = $school->template_prefix;
-    				$schoolAdminEmail = $school->ilios_administrator_email;
-    
-    				// for now, we just grab the first school - due to template verbiage - TODO
-    				break;
-    			}
-    
-    			// for now, we just grab the first school - due to template verbiage - TODO
-    			break;
-    		}
-    	}
-    	
+
+        $course = $this->course->getRowForPrimaryKeyId($session->course_id);
+        $courseTitle = $course->title;
+        $school = $this->school->getRowForPrimaryKeyId($course->owning_school_id);
+        if (! $school) {
+            // no owning school? borked course - no email goes out.
+            // log the incident and move on.
+            log_message('error', "Failed to identify owning school for course (id = {$session->course_id}). No offering reminder was sent.");
+            return;
+        }
+        $schoolName = $school->title;
+        $schoolTemplatePrefix = $school->template_prefix;
+        $schoolAdminEmail = $school->ilios_administrator_email;
+
     	/*** SET UP FOR THE EMAIL TEMPLATE ***/
-    	
+
     	//get/set the custom template location based on the school's respective template prefix
   	    $filepath_parent = getServerFilePath('alert_templates');
   	    //if the school's template prefix exists, add the 'custom' subfolder and the template prefix + underscore
@@ -419,13 +399,13 @@ class Cron_Tasks extends Abstract_Ilios_Controller
   	    } else {
   	      $filepath_custom_prefix = '';
   	    }
-  	    
+
   	    // use upcoming_teaching_session_template.txt as the base template name...
   	    $template_name = 'upcoming_teaching_session_template.txt';
-  	    $filepath_custom = $filepath_parent . $filepath_custom_prefix . $template_name;	
+  	    $filepath_custom = $filepath_parent . $filepath_custom_prefix . $template_name;
       	if(file_exists($filepath_custom) && is_readable($filepath_custom)) {
   	      $filepath = $filepath_custom;
-  	    } else { 
+  	    } else {
       	  $filepath = $filepath_parent . $template_name;
       	}
   	    $templateContent = file_get_contents($filepath);
@@ -437,59 +417,59 @@ class Cron_Tasks extends Abstract_Ilios_Controller
     			'%%OFFERING_START_TIME%%', '%%OFFERING_END_TIME%%',
     			'%%STUDENT_GROUP_LIST%%', '%%LEARNING_OBJECTIVE_LIST%%',
     	        '%%COURSE_OBJECTIVE_LIST%%');
-    	    
+
     	// This course session url does not point to the right place yet.  Replace it with the base URL.
     	//
     	//$courseSessionURL = site_url() . '/course_management?course_id=' . $course->course_id
     	//                    . '&session_id=' . $session->session_id;
     	$courseSessionURL = base_url();
-    
+
     	// find out how to get learning object list
     	$sessionObjectivesList = '';
     	$objectives = $this->iliosSession->getObjectivesForSession($offering->session_id);
     	foreach ($objectives as $objective) {
     		$sessionObjectivesList .= "\n    - ".strip_tags($objective['title']);
     	}
-    	
+
         // get the course objectives list
     	$courseObjectivesList = '';
     	$objectives = $this->course->getObjectivesForCourse($course->course_id);
     	foreach ($objectives as $objective) {
     		$courseObjectivesList .= "\n    - ".strip_tags($objective['title']);
     	}
-    
+
     	$replaceValueBaseArray = array($schoolName, $schoolAdminEmail, $courseTitle,
     			$courseSessionURL, $sessionTitle, $sessionTypeName,
     			$offeringLocation, $offeringStartDate, $offeringStartTime,
     			$offeringEndTime, $studentList, $sessionObjectivesList, $courseObjectivesList);
-    
+
     	$sentTotal = $this->mergeTemplateAndMailGroup($recipients, 'Upcoming Teaching Session',
     			$templateContent, $tokenArray, $replaceValueBaseArray,
     			$schoolAdminEmail);
-    
+
     	log_message('info', "Sent email to $sentTotal users for offering id " . $offering->offering_id);
     }
-    
+
     /**
      * @deprecated
      * @todo rewrite from scratch
      */
     protected function mergeTemplateAndMailGroup($recipients, $subject, $template, $tokens, $values, $sender) {
-      
+
     	$count = 0;
-    
+
     	foreach ($recipients as $recipient) {
-    
+
     		// Will skip email address 'nobody@example.com', which is used for testing only.
     		if ($recipient['email'] == 'nobody@example.com')
     			continue;
-    
+
     		$fromHeaders = 'From: Teaching Session Notification <' . $sender . '>';
     		$fullName = $recipient['first_name'] . ' ' . $recipient['last_name'];
     		$tokenArray = array_merge($tokens, array('%%RECIPIENT_NAME%%'));
     		$replaceArray = array_merge($values, array($fullName));
     		$substitutedEmail = str_replace($tokenArray, $replaceArray, $template);
-    
+
     		if (isset($this->debug)) {
     			echo '<pre>';
     			echo 'These are the email headers:'."\n";
@@ -507,10 +487,10 @@ class Cron_Tasks extends Abstract_Ilios_Controller
     		} else {
     			mail($recipient['email'], $subject, $substitutedEmail, $fromHeaders);
     		}
-    
+
     		$count++;
     	}
-    
+
     	if ($count && isset($this->debug)) {
     		echo "<pre>Total email(s) that would have been sent: $count \n\n</pre>";
     	}
