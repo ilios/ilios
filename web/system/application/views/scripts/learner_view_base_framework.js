@@ -456,7 +456,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
     var courseObjectives = parsedObject.course_objectives; // the given course objectives
 
     var courseObjective, sessionObjective = null;
-    var competencyId, competencyTitle, competencyMap = null;
+    var id, competencyTitles, competencyMap, competency = null;
     var courseObjectiveId, sessionObjectiveId = null;
     var hasCompetencyAssociation = false;
     var i, j, m, n = 0;
@@ -474,10 +474,11 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
         competencyMap = {}; // competency map
         // iterate over each course objective's competency and store it in the map
         for (j = 0, n = courseObjective.parent_objectives.length; j < n; j++) {
-            competencyId = courseObjective.parent_objectives[j];
-            competencyTitle = courseObjective.parent_competency_titles[j];
-            competencyMap[competencyId] = {
-                'title' : competencyTitle
+            id = courseObjective.parent_objectives[j];
+            competencyTitles = courseObjective.parent_competency_titles[j];
+            competencyMap[id] = {
+                'title' : (competencyTitles.length ? competencyTitles[0] : ''),
+                'parentTitle' : (2 == competencyTitles.length ? competencyTitles[1] : '')
             };
         }
         // add the course objective map to the lookup table
@@ -494,16 +495,17 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
             // look up the course objective in the mapping estabished above
             if (courseObjectiveCompetencyMap.hasOwnProperty(courseObjectiveId)) {
                 competencyMap = courseObjectiveCompetencyMap[courseObjectiveId];
-                for (competencyId in competencyMap) { // iterate over the course objective's competencies
-                    if (! competencySessionObjectiveMap.hasOwnProperty(competencyId)) { // check if competency already exists
+                for (id in competencyMap) { // iterate over the course objective's competencies
+                    if (! competencySessionObjectiveMap.hasOwnProperty(id)) { // check if competency already exists
                         // create an new competency in the map
-                        competencySessionObjectiveMap[competencyId] = {
-                            'title' : competencyMap[competencyId].title,
+                        competencySessionObjectiveMap[id] = {
+                            'title' : competencyMap[id].title,
+                            'parentTitle' : competencyMap[id].parentTitle,
                             'sessionObjectives' : []
                         };
                     }
                     // assign the session objective to the parent course objective's competency group
-                    competencySessionObjectiveMap[competencyId].sessionObjectives.push({
+                    competencySessionObjectiveMap[id].sessionObjectives.push({
                         "title" : sessionObjective.title
                     });
                     // mark the session as having a competency association
@@ -531,8 +533,11 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
             element.setAttribute('style',
                                  'font-style: italic; font-size: 8pt; padding-left: 16px;');
             // Must be innerHTML to correctly render the HTML markup
-            element.innerHTML = ilios.utilities.percentUnicodeToHTML(competency.title);
-
+            str = ilios.utilities.percentUnicodeToHTML(competency.title);
+            if (competency.parentTitle) {
+                str += ' (' + ilios.utilities.percentUnicodeToHTML(competency.parentTitle) + ')';
+            }
+            element.innerHTML = str;
             container.appendChild(element);
 
             ulElement = document.createElement('ul');
