@@ -1,4 +1,22 @@
 ------- VERSION CHANGES --------
+
+Version 2.1.2
+
+Feature Changes:
+
+Feature #3024: Display parent competency domain in learner course summary view
+
+Bug Fixes:
+
+Bug #2921: Reminder alert message do not accurately capture primary owning school for course
+Bug #2959: Incorrect sort order of competencies in program objective dialog
+
+Support Issues:
+
+Support #3024: Update UCSF/SOM teaching reminder template
+
+---
+
 Version 2.1.1
 
 Feature Changes:
