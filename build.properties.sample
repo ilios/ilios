@@ -46,6 +46,7 @@ webgroup=apache
 baseurl=localhost
 #
 # The name of your institution/school/university.
+# Do not put quotes, e.g. institution_name=University of California
 #
 institution_name=UCSF
 
