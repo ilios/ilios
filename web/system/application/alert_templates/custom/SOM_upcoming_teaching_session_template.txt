@@ -3,7 +3,7 @@ Dear %%RECIPIENT_NAME%%:
 This message is a reminder for your upcoming %%SESSION_TYPE%% in this School of Medicine course, %%COURSE_TITLE%%.
 
 
-Thank you for contributing to the School of Medicine teaching mission. Your efforts are helping our students attain the knowledge, skills and attitudes necessary for a successful graduate of the MD program. To review the graduation competencies for this program please visit: http://meded.ucsf.edu/ume/md-competencies.
+Thank you for contributing to the School of Medicine teaching mission. Your efforts are helping our students attain the knowledge, skills and attitudes necessary for a successful graduate of the MD program. To review the graduation competencies for this program (also known as MD Program Objectives), please visit: http://meded.ucsf.edu/ume/md-program-objectives.To review the milestones leading to these graduation competencies, please visit http://meded.ucsf.edu/ume/md-competencies.
  
 Course:   %%COURSE_TITLE%%
 Session:  %%SESSION_TITLE%%
@@ -15,13 +15,9 @@ Student Designation: %%STUDENT_GROUP_LIST%%
 The Learning Objectives listed for this session are:
  
 %%LEARNING_OBJECTIVE_LIST%%
-  
-
-In addition to your session's learning objectives, The School of Medicine requires that all instructors are familiar with the overall course objectives and the MD program objectives. Program Objectives are listed in detail here: http://meded.ucsf.edu/ume/md-program-objectives.
 
 
 The Course Objectives listed for this course are: 
-
 
 %%COURSE_OBJECTIVE_LIST%%
  
