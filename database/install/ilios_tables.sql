@@ -726,7 +726,12 @@
 	SET character_set_client = utf8;
 	CREATE TABLE `user_x_user_role` (
 	  `user_id` INT(14) UNSIGNED NOT NULL,
-	  `user_role_id` INT(3) UNSIGNED NOT NULL
+	  `user_role_id` INT(3) UNSIGNED NOT NULL,
+	  PRIMARY KEY (`user_id`,`user_role_id`) USING BTREE,
+	  INDEX `user_x_user_role_user_id` (`user_id`),
+	  INDEX `user_x_user_role_user_role_id` (`user_role_id`),
+	  CONSTRAINT `fkey_user_x_user_role_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+	  CONSTRAINT `fkey_user_x_user_role_user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`user_role_id`) ON DELETE CASCADE ON UPDATE RESTRICT
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -1220,8 +1225,8 @@
 	  INDEX `alert_id` (`alert_id`),
 	  INDEX `user_id` (`user_id`),
 	  INDEX `alert_id_user_id` (`alert_id`,`user_id`),
-	  CONSTRAINT FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE,
-	  CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+	  CONSTRAINT `fkey_alert_instigator_alert_id` FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE,
+	  CONSTRAINT `fkey_alert_instigator_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -1237,7 +1242,7 @@
 	  `alert_change_type_id` INT(14) UNSIGNED NOT NULL,
 	  INDEX `alert_id` (`alert_id`),
 	  INDEX `alert_id_alert_change_type_id` (`alert_id`,`alert_change_type_id`),
-	  CONSTRAINT FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE
+	  CONSTRAINT `fkey_alert_change_alert_id` FOREIGN KEY (`alert_id`) REFERENCES `alert` (`alert_id`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
