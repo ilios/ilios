@@ -1149,6 +1149,7 @@ ilios.pm.buildObjectiveTextDialogPulldownOptions = function (pulldown, container
         tmpObj = {};
         tmpObj.title = competencyModel.getCompetencyTitle() || '';
         tmpObj.dbId =  competencyModel.getDBId();
+        tmpObj.parentTitle = '';
         if (competencyModel.isSubDomain()) {
             parentCompetencyModel = ilios.competencies.getCompetency(competencyModel.getParentCompetencyId());
             tmpObj.parentTitle = parentCompetencyModel.getCompetencyTitle() || '';
