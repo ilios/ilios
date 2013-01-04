@@ -2,7 +2,7 @@
 include_once "abstract_ilios_controller.php";
 
 /**
- * @package Ilios2
+ * @package Ilios
  *
  * User authentication controller.
  * It provides login/logout interfaces.

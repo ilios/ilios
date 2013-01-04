@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Ilios2
+ * @package Ilios
  *
  * This abstract superclass houses common functionality which seemingly will be needed by
  * a plethora of concrete controllers. The majority of this could be handled just as well
