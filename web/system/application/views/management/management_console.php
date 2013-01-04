@@ -32,7 +32,7 @@ $viewsPath = getServerFilePath('views');
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/ilios-styles.css"); ?>" media="all">
-    <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/ilios2_management.css"); ?>" media="screen">
+    <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/management_console.css"); ?>" media="screen">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
 
     <style type="text/css">
