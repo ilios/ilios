@@ -1,8 +1,8 @@
 
 --
 --
--- This creates a fresh table structure for the Ilios 2 product; this does not populate any of the
---		newly created tables with actual data
+-- This creates a fresh table structure for the Ilios application; this does not populate any of the
+-- newly created tables with actual data.
 --
 --
 --

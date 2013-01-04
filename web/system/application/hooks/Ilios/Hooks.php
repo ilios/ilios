@@ -35,7 +35,7 @@ class Ilios_Hooks
         // and by appending it with the '.php' file suffix
         // e.g. a class name "Ilios_Database_Constant"
         // will be converted to a corresponding file path
-        // "Ilios2/Database/Constant.php"
+        // "Ilios/Database/Constant.php"
         $filePath = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
         // complete the file path construction

@@ -2,7 +2,7 @@
 /**
  * Data Access Object (DAO) to the "user_made_reminder" table.
  *
- * @category Ilios2
+ * @category Ilios
  * @package CI
  * @subpackage Model
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
@@ -13,7 +13,7 @@ include_once "abstract_ilios_model.php";
 /**
  * Data Access Object (DAO) to the "user_made_reminder" table.
  *
- * @category Ilios2
+ * @category Ilios
  * @package CI
  * @subpackage Model
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.

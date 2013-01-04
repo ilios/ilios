@@ -36,7 +36,7 @@ class Ilios_MailUtilsTest extends Ilios_TestCase
      * @param $lineLengthLimit test input to function under test
      * @param $expected expected output from function under test
      * @see Ilios_MailUtils::implodeListForMail()
-     * @group ilios2
+     * @group ilios
      * @group mail
      */
     public function testImplodeListForMail (array $list, $separator, $lineLengthLimit, $expected)

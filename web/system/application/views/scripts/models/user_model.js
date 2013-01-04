@@ -272,7 +272,7 @@ UserModel.prototype.compareTo = function (otherModel) {
 
 /**
  * @return {Object} a representation of this instance as a hodge podge object whose properties are the User
- *     column names for the Ilios 2 schema.
+ *     column names for the Ilios schema.
  * @todo replace with better serialization mechanism
  */
 UserModel.prototype.getAsHodgePodgeObject = function () {

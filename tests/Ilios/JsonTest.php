@@ -37,7 +37,7 @@ class Ilios_JsonTest extends Ilios_TestCase
      * @param mixed $value
      * @param int $options
      * @param string $expected
-     * @group ilios2
+     * @group ilios
      * @group json
      */
     public function testEncodeForJavascriptEmbedding ($value, $options, $expected)

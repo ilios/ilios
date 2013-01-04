@@ -2,7 +2,7 @@
 include_once "abstract_ilios_controller.php";
 
 /**
- * @package Ilios2
+ * @package Ilios
  * Calendar exporter controller.
  */
 class Calendar_Exporter extends Abstract_Ilios_Controller

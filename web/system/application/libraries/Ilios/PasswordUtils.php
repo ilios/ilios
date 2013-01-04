@@ -3,8 +3,8 @@
 /**
  * User-password utility class.
  *
- * @category Ilios2
- * @package Ilios2
+ * @category Ilios
+ * @package Ilios
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
  * @license http://www.iliosproject.org/license GNU GPL v3
  */
@@ -12,8 +12,8 @@
 /**
  * User-password utility class.
  *
- * @category Ilios2
- * @package Ilios2
+ * @category Ilios
+ * @package Ilios
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
  * @license http://www.iliosproject.org/license GNU GPL v3
  */

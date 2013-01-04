@@ -56,7 +56,7 @@ class Ilios_UserSync_UserSource_Iterator_ArrayTest extends Ilios_TestCase
      * Tests the array iterator.
      * @test
      * @dataProvider provider
-     * @group ilios2
+     * @group ilios
      * @group user_sync
      * @covers Ilios_UserSync_ExternalUser_Iterator_Array
      * @param array list of user records
