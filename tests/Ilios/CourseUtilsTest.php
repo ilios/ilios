@@ -46,7 +46,7 @@ class Ilios_CourseUtilsTest extends Ilios_TestCase
      * @param int $courseId test input to function under test
      * @param $expected expected output from function under test
      * @see Ilios_CourseUtils::generateHashFromCourseId()
-     * @group ilios2
+     * @group ilios
      * @group course
      */
     public function testGenerateHashFromCourseId ($courseId, $expected)
@@ -61,7 +61,7 @@ class Ilios_CourseUtilsTest extends Ilios_TestCase
      * @param $expected expected output from function under test
      * @param string $hash test input to function under test
      * @see Ilios_CourseUtils::extractCourseIdFromHash()
-     * @group ilios2
+     * @group ilios
      * @group course
      */
     public function testExtractCourseIdFromHash ($expected, $hash)

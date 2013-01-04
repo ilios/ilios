@@ -51,7 +51,7 @@ class Ilios_PasswordUtilsTest extends Ilios_TestCase
      * @dataProvider providerTestCheckPasswordStrength
      * @param string $password
      * @param int $expected
-     * @group ilios2
+     * @group ilios
      * @group authn
      */
     public function testCheckPasswordStrength ($password, $expected)
@@ -63,7 +63,7 @@ class Ilios_PasswordUtilsTest extends Ilios_TestCase
     /**
      * @test
      * @covers Ilios_PasswordUtils::generateRandomPassword
-     * @group ilios2
+     * @group ilios
      * @group authn
      */
     public function testGenerateRandomPassword ()
@@ -83,7 +83,7 @@ class Ilios_PasswordUtilsTest extends Ilios_TestCase
      * @param string $password
      * @param string|null $salt
      * @param string $expected
-     * @group ilios2
+     * @group ilios
      * @group authn
      */
     public function testHashPassword ($password, $salt, $expected)

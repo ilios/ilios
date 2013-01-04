@@ -61,7 +61,7 @@ class Ilios_UserSync_UserSource_Factory_ArrayTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_ExternalUser_Factory_ArrayTest::createUser
      * @dataProvider provider
-     * @group ilios2
+     * @group ilios
      * @group user_sync
      * @param array $user a nested array representing a user record
      */

@@ -34,7 +34,7 @@ class Ilios_Ldap_IteratorTest extends Ilios_TestCase
     /**
      * @test
      * @covers Ilios_Ldap_Iterator
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */
