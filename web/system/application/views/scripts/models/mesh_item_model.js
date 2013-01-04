@@ -1,5 +1,5 @@
 /**
- * This file contains the model repesentation of a MeSH item within the Ilios 2 Javascript land;
+ * This file contains the model repesentation of a MeSH item within the Ilios Javascript land;
  *  a MeSH "item", for us, consists of a descriptor UID (retrievable through getDBId()), the
  *  descriptor name (retrievable through getTitle()), the scope notes for all concepts associated to
  *  the descriptor, and a MeSH tree for the descriptor. Note, that since a descriptor can sit in

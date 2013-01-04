@@ -1,5 +1,5 @@
 
-The Ilios2 source code is distributed under GNU GPL v3
+The Ilios source code is distributed under GNU GPL v3
 
 ---------------------------------- 1. -----------------------------------------
 GNU GENERAL PUBLIC LICENSE
@@ -679,7 +679,7 @@ Public License instead of this License.  But first, please read
 
 -------------------------------------------------------------------------------
 
-The third party frameworks, libraries and data upon which Ilios2 is dependent
+The third party frameworks, libraries and data upon which Ilios is dependent
 are governed by the licenses listed below.
 
 ---------------------------------- 2. -----------------------------------------

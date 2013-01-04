@@ -2,7 +2,7 @@
 include_once "abstract_ilios_controller.php";
 
 /**
- * @package Ilios2
+ * @package Ilios
  *
  * Scheduled Tasks controller.
  * Provides functionality to run recurring tasks within the application,

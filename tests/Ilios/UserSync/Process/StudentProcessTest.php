@@ -10,7 +10,7 @@ class Ilios_UserSync_Process_StudentProcessTest extends Ilios_UserSync_ProcessTe
 	/**
 	 * @test
 	 * @covers Ilios_UserSync_Process_StudentProcess
-	 * @group ilios2
+	 * @group ilios
      * @group user_sync
 	 */
 	public function testRun ()

@@ -146,7 +146,7 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_ExternalUser_Factory_EdsTest::createUser
      * @dataProvider userProvider
-     * @group ilios2
+     * @group ilios
      * @group user_sync
      * @param array $userData nested array of user data as returned from EDS
      * @param Ilios_UserSync_ExternalUser $expectedUser expected external user object a generated from $edsData
@@ -164,7 +164,7 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_ExternalUser_Factory_EdsTest::determineGraduationYear
      * @dataProvider graduationYearProvider
-     * @group ilios2
+     * @group ilios
      * @group user_sync
      * @param string $text text containing the expected graduation year, as provided from EDS
      * @param int $expectedGraduationYear the expected corresponding graduation year as determined from the former input
@@ -179,7 +179,7 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_ExternalUser_Factory_EdsTest::translateEdsSchoolCodeToIliosSchoolCode
      * @dataProvider schoolIdProvider
-     * @group ilios2
+     * @group ilios
      * @group user_sync
      * @param int $edsSchoolId the id/code of a UCSF school, as provided by EDS
      * @param int $expectedIliosSchoolId the expected Ilios-internal corresponding school id

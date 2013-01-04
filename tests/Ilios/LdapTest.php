@@ -25,7 +25,7 @@ class Ilios_LdapTest extends Ilios_TestCase
     /**
      * @test
      * @covers Ilios_Ldap::connect
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */
@@ -42,7 +42,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Ldap::connect
      * @expectedException Ilios_Ldap_Exception
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */
@@ -60,7 +60,7 @@ class Ilios_LdapTest extends Ilios_TestCase
     /**
      * @test
      * @covers Ilios_Ldap::bind
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */
@@ -77,7 +77,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Ldap::connect
      * @expectedException Ilios_Ldap_Exception
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */
@@ -95,7 +95,7 @@ class Ilios_LdapTest extends Ilios_TestCase
     /**
      * @test
      * @covers Ilios_Ldap::disconnect
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */
@@ -111,7 +111,7 @@ class Ilios_LdapTest extends Ilios_TestCase
     /**
      * @test
      * @covers Ilios_Ldap::search
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */
@@ -132,7 +132,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Ldap::search
      * @expectedException Ilios_Ldap_Exception
-     * @group ilios2
+     * @group ilios
      * @group ldap
      * @group user_sync
      */

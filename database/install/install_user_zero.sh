@@ -19,7 +19,7 @@ if [ $# -ne 5 ]
 then
     echo \
 "Usage: `basename $0` db_host db_name db_username user_email_address primary_school_id
-  for example: `basename $0` oursqlserver.ucsf.edu ilios2 ilios_db bob.dobb@ucsf.edu 1"
+  for example: `basename $0` localhost ilios_db ilios foo@bar.com 1"
     exit
 fi
 

@@ -2,7 +2,7 @@
 include_once "calendar_controller.php";
 
 /**
- * @package Ilios2
+ * @package Ilios
  *
  * This is the user dashboard controller.
  * It extends the user calendar controller.

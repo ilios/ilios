@@ -3,14 +3,14 @@
 @import url(dhtmlxscheduler.css);
 
 /*
- * Ilios 2 Styles - based in part on HTML5 Boilerplate h5bp.com/css
+ * Ilios Styles - based in part on HTML5 Boilerplate h5bp.com/css
  *
  * This file pulls in the following framework stylesheets first:
  *  --normalize.css:        *sets baseline styles for most html tags
- *  --yui-widgets.css:      *a rollup of yui2 widget styles used by Ilios 2
+ *  --yui-widgets.css:      *a rollup of yui2 widget styles used by Ilios
  *  --dhtmlsxscheduler.css: *styles for the calendar/scheduler widget
  *
- * Followed by styles unique to Ilios 2, media queries,
+ * Followed by styles unique to Ilios, media queries,
  * helper classes, and print css
  *
  */
