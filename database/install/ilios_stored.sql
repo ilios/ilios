@@ -1,7 +1,7 @@
 
 --
 --
--- This creates the stored functions and procedures used by the Ilios 2 product.
+-- This creates the stored functions and procedures used by the Ilios application.
 --
 --
 --

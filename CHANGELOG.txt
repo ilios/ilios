@@ -302,7 +302,7 @@ has been removed.
 
 Version 2.0.3b
 
-This release of Ilios 2 provides significant enhancements and fixes to the previous release code. Among the items included in this release are a numerous modifications, UI tweaks, and the following major system fixes and enhancements:
+This release of Ilios provides significant enhancements and fixes to the previous release code. Among the items included in this release are a numerous modifications, UI tweaks, and the following major system fixes and enhancements:
 
 
 *New Feature: Course Rollover, allowing the cloning of a course from one time block to another.

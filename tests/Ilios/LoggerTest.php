@@ -34,7 +34,7 @@ class Ilios_LoggerTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Logger::getInstance()
      * @see Ilios_Logger::getInstance()
-     * @group ilios2
+     * @group ilios
      * @group log
      */
     public function testGetInstance ()
@@ -55,7 +55,7 @@ class Ilios_LoggerTest extends Ilios_TestCase
      * @covers Ilios_Logger::getInstance()
      * @see Ilios_Logger::getInstance()
      * @expectedException Ilios_Log_Exception
-     * @group ilios2
+     * @group ilios
      * @group log
      */
     public function testGetInstanceFailure ()
@@ -67,7 +67,7 @@ class Ilios_LoggerTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Logger::info()
      * @see Ilios_Logger::info()
-     * @group ilios2
+     * @group ilios
      * @group log
      */
     public function testInfo ()
@@ -84,7 +84,7 @@ class Ilios_LoggerTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Logger::debug()
      * @see Ilios_Logger::debug()
-     * @group ilios2
+     * @group ilios
      * @group log
      */
     public function testDebug ()
@@ -100,7 +100,7 @@ class Ilios_LoggerTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Logger::warn()
      * @see Ilios_Logger::warn()
-     * @group ilios2
+     * @group ilios
      * @group log
      */
     public function testWarn ()
@@ -116,7 +116,7 @@ class Ilios_LoggerTest extends Ilios_TestCase
      * @test
      * @covers Ilios_Logger::error()
      * @see Ilios_Logger::error()
-     * @group ilios2
+     * @group ilios
      * @group log
      */
     public function testError ()
@@ -138,7 +138,7 @@ class Ilios_LoggerTest extends Ilios_TestCase
      * @param string $logLevel test input to function under test
      * @param $expectedOutputPattern expected pattern to match the output from function under test
      * @see Ilios_Logger::log()
-     * @group ilios2
+     * @group ilios
      * @group log
      */
     public function testLog ($message, $processId, $indentationLevel, $logLevel, $expectedOutputPattern)

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Ilios2
+ * @package Ilios
  * 
  * This is the PrettyFeckinStupid_Status page; our health monitoring system here basically parses
  *  the <title> element of a returned HTML page for any text, in no agreed upon universal

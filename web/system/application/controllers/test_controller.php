@@ -2,7 +2,7 @@
 include_once "abstract_ilios_controller.php";
 
 /**
- * @package Ilios2
+ * @package Ilios
  * "Test" Controller.
  * While this controller does not provide any functionality itself, it is used to instantiate
  * a full CI environment for unit testing purposes.

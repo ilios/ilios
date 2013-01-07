@@ -600,18 +600,28 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     //Learning Material
     rowElement = ilios.dom.createEntityContainerInputRow();
     i18nStr = ilios_i18nVendor.getI18NString('course_management.learning_materials.title');
+
     //label column
+    subContainer = document.createElement('div');
+    subContainer.setAttribute('class', 'collapsed_widget');
+    subContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialExpandWidget(containerNumber));
+    Event.addListener(subContainer, 'click', function () {
+        ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, this, true);
+    });
+    labelCol = ilios.dom.createLabelCol(rowElement, subContainer);
+
     text = document.createTextNode(i18nStr);
     scratchLabel = document.createElement('label');
     scratchLabel.appendChild(text);
     count = document.createElement('span');
     count.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialCount(containerNumber));
     scratchLabel.appendChild(count);
-    ilios.dom.createLabelCol(rowElement, scratchLabel);
+    labelCol.appendChild(scratchLabel);
 
     //data column
     subContainer = document.createElement('div');
     subContainer.setAttribute('class', 'scroll_list');
+    subContainer.setAttribute('style', 'display: none;');
     subSubContainer = document.createElement('ul');
     subSubContainer.setAttribute('class', 'learning_material_list');
     subSubContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialList(containerNumber));
