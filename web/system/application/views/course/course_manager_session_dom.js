@@ -630,8 +630,12 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
 
     //action column
     i18nStr = ilios_i18nVendor.getI18NString('general.terms.add');
-    scratchInput = new Element(document.createElement('a'), {href: ''});
+    scratchInput = new Element(document.createElement('a'), {
+            href: '',
+            id : ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber)
+        });
     scratchInput.get('element').setAttribute('onclick', 'return false;');
+    scratchInput.get('element').setAttribute('style', 'display: none;'); // not displayed by default
     scratchInput.addClass('tiny radius button');
     scratchInput.addListener('click', function (e) {
         IEvent.fire({
@@ -851,6 +855,13 @@ ilios.cm.session.buildAndPopulateSession = function (containerNumber, model, ses
     ilios.cm.session.updatePublishButtonForSession(sessionModel, containerNumber);
 
     ilios.cm.lm.populateLearningMaterialList(containerNumber);
+    // only display the learning materials search link if the corresponding session model has been saved yet
+    if (-1 !== sessionModel.getDBId()) { // check db record id
+        element = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber));
+        if (element) {
+            element.setAttribute('style', 'display:inline');
+        }
+    }
     ilios.cm.updateObjectiveCountText(containerNumber);
 };
 

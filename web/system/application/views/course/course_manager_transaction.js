@@ -303,6 +303,12 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
                 element = document.getElementById('' + containerNumber + '_child_draft_text');
                 ilios.cm.setPublishIdAndUpdateText(model, element, parsedObject.publish_event_id);
 
+                // display the learning materials search link
+                element = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber));
+                if (element) {
+                    element.setAttribute('style', 'display:inline');
+                }
+
                 model.clearDirtyState();
 
                 // updated loaded model so any revert correctly features current server state

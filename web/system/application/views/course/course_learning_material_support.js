@@ -21,6 +21,16 @@ ilios.cm.lm.generateIdStringForLearningMaterialList = function (containerNumber)
     return '' + containerNumber + '_learning_material_list';
 };
 
+/**
+ * Generates a unique element id for learning material search links, based on the given container element id.
+ * @method generateIdStringForLearningMaterialSearchLink
+ * @param {Number} containerNumber the container element id
+ * @return {String}
+ */
+ilios.cm.lm.generateIdStringForLearningMaterialSearchLink = function (containerNumber) {
+    return '' + containerNumber + '_session_learning_material_search_link';
+}
+
 // @private
 ilios.cm.lm.setLearningMaterialLightboxDirty = function () {
     if (! ilios.cm.lm.learningMaterialLightboxIsDirty) {
