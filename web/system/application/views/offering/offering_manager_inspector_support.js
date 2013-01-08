@@ -117,17 +117,18 @@ ilios.om.inspector.generateGroupMarkup = function (groupArray) {
 
 /*
  * This is a helper method to get the human display text for a session type given the session type's
- * 	database id.
- *
- * Should be considered @private
+ * database id.
+ * @method getSessionTypeTitleForId
+ * @param {Number} sessionTypeId the session type record id
+ * @return {String} the session type title, or a blank string if none could be found.
+ * @private
  */
 ilios.om.inspector.getSessionTypeTitleForId = function (sessionTypeId) {
-	var model = ilios.om.loadedSessionTypes[sessionTypeId];
-
-	if (model) {
-		return model.title;
-	}
-	return null;
+    var model = ilios.om.loadedSessionTypes[sessionTypeId];
+    if (model) {
+        return (model.title || '');
+    }
+    return '';
 };
 
 /**
