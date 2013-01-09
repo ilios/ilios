@@ -215,24 +215,33 @@ ilios.mesh.populateMeSHPickerDialog = function () {
     }
 };
 
-// @private
+/**
+ * Generates markup for displaying a given search result from the MeSH universe.
+ * @method meshDetailDivForModel
+ * @param {MeSHItemModel} meshItemModel the MeSH item
+ * @param {String} [previousSearchTerm] an previously used search term
+ * @return {HTMLElement} the generated markup
+ * @private
+ */
 ilios.mesh.meshDetailDivForModel = function (meshItemModel, previousSearchTerm) {
     var rhett = document.createElement('div');
     var html = "<b>" + meshItemModel.getTitle() + "</b> ";
     var scopeNotes = meshItemModel.getScopeNotes();
-    var scopeNote = null;
+    var i, n, scopeNote;
+
+    previousSearchTerm = YAHOO.lang.isString(previousSearchTerm) ? previousSearchTerm : '';
 
     rhett.setAttribute('style',
                        'float: left; width: 100%; background-color: transparent; '
                             + 'text-align: justify; margin: 3px 18px 0px 0px;');
 
-    if (typeof previousSearchTerm != 'undefined') {
+    if (previousSearchTerm.length) {
         html += '<span style="font-size: 8pt; color: #48a746; font-weight: bold;">("'
                     + previousSearchTerm + '")</span>';
     }
 
-    for (var key in scopeNotes) {
-        scopeNote = scopeNotes[key];
+    for (i = 0, n =  scopeNotes.length; i < n; i++) {
+        scopeNote = scopeNotes[i];
 
         if (scopeNote.length > 150) {
             scopeNote = scopeNote.substring(0, 150) + "&hellip;";
