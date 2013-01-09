@@ -216,7 +216,7 @@ ilios.mesh.populateMeSHPickerDialog = function () {
 };
 
 /**
- * Generates markup for displaying a given search result from the MeSH universe.
+ * Generates markup for displaying a given search result details from the MeSH universe.
  * @method meshDetailDivForModel
  * @param {MeSHItemModel} meshItemModel the MeSH item
  * @param {String} [previousSearchTerm] an previously used search term
@@ -224,22 +224,26 @@ ilios.mesh.populateMeSHPickerDialog = function () {
  * @private
  */
 ilios.mesh.meshDetailDivForModel = function (meshItemModel, previousSearchTerm) {
-    var rhett = document.createElement('div');
-    var html = "<b>" + meshItemModel.getTitle() + "</b> ";
-    var scopeNotes = meshItemModel.getScopeNotes();
-    var i, n, scopeNote;
+    var rhett, elem, subElem;
+    var scopeNotes, scopeNote, i, n;
+
+    rhett = document.createElement('div');
+    rhett.setAttribute('class', 'mesh_search_result_item');
+
+    elem = document.createElement('span');
+    elem.setAttribute('class', 'title');
+    elem.innerHTML = meshItemModel.getTitle();
+    rhett.appendChild(elem);
 
     previousSearchTerm = YAHOO.lang.isString(previousSearchTerm) ? previousSearchTerm : '';
-
-    rhett.setAttribute('style',
-                       'float: left; width: 100%; background-color: transparent; '
-                            + 'text-align: justify; margin: 3px 18px 0px 0px;');
-
     if (previousSearchTerm.length) {
-        html += '<span style="font-size: 8pt; color: #48a746; font-weight: bold;">("'
-                    + previousSearchTerm + '")</span>';
+        elem = document.createElement('span');
+        elem.setAttribute('class', 'prev_search');
+        elem.innerHTML = "(" + previousSearchTerm + ")";
+        rhett.appendChild(elem);
     }
 
+    scopeNotes = meshItemModel.getScopeNotes();
     for (i = 0, n =  scopeNotes.length; i < n; i++) {
         scopeNote = scopeNotes[i];
 
@@ -247,31 +251,39 @@ ilios.mesh.meshDetailDivForModel = function (meshItemModel, previousSearchTerm) 
             scopeNote = scopeNote.substring(0, 150) + "&hellip;";
         }
 
-        html += '<div style="font-size: 8pt; color: #7e7a7e; margin-left: 18px; width: 93%;"> <b>&middot;</b> '
-                    + scopeNote + '</div>';
+        elem = document.createElement('div');
+        elem.setAttribute('class', 'scope_note');
+        elem.innerHTML = "<strong>&middot;</strong> " + scopeNote;
+        rhett.appendChild(elem);
     }
-
-    rhett.innerHTML = html;
 
     return rhett;
 };
 
-// @private
+/**
+ * Generates markup for displaying a given search result item from the MeSH universe.
+ * @method searchResultDivForMeSHModel
+ * @param {MeSHItemModel} meshItemModel the MeSH item
+ * @param {String} [previousSearchTerm] an previously used search term
+ * @return {HTMLElement} the generated markup
+ * @private
+ */
 ilios.mesh.searchResultDivForMeSHModel = function (meshItemModel, previousSearchTerm) {
     var Event = YAHOO.util.Event;
-    var rhett = document.createElement('div');
+    var rhett, elem;
 
-    rhett.setAttribute('style',
-                       'margin-top: 3px; font-size: 10pt; position: relative; cursor: pointer;');
-    rhett.appendChild(ilios.mesh.meshDetailDivForModel(meshItemModel, previousSearchTerm));
-
+    rhett = document.createElement('div');
+    rhett.setAttribute('class', 'mesh_search_result_item_wrapper');
+    elem = ilios.mesh.meshDetailDivForModel(meshItemModel, previousSearchTerm);
+    rhett.appendChild(elem);
     rhett.iliosModel = meshItemModel;
 
+    // @todo delegate event handling to parent elem
     Event.addListener(rhett, 'mouseover', function (e) {
         (new YAHOO.util.Element(this)).setStyle('background-color','#EBE9ED');
     });
     Event.addListener(rhett, 'mouseout', function (e) {
-        (new YAHOO.util.Element(this)).setStyle('background-color', null);
+        (new YAHOO.util.Element(this)).setStyle('background-color', '#fff');
     });
     Event.addListener(rhett, 'click', function (e) {
         ilios.mesh.meshSearchResultSelectionHandler(this);
