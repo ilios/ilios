@@ -71,8 +71,8 @@
                         <div id="learner_assignment_strategy_div" class="clear">
                             <label for="learner_assignment_strategy_select"><?php echo $term_strategy; ?>: </label>
                             <select id="learner_assignment_strategy_select" name="learner_assignment_strategy_select">
-                                <option value="roots"><?php echo $phrase_parent_group_strategy; ?></option>
                                 <option value="leaves"><?php echo $phrase_sub_group_strategy; ?></option>
+                                <option value="roots"><?php echo $phrase_parent_group_strategy; ?></option>
                             </select>
                         </div>
 
