@@ -309,10 +309,28 @@ ilios.mesh.searchResultDivForMeSHModel = function (meshItemModel, previousSearch
 
 // @private
 ilios.mesh.selectionLIForMeSHItemModel = function (meshItemModel) {
-    var rhett = document.createElement('li');
+    var rhett, elem, str;
+    var treeNodes, treeNode;
 
-    rhett.setAttribute('style', 'cursor: pointer;');
-    rhett.innerHTML = meshItemModel.getTitle();
+    rhett = document.createElement('li');
+    rhett.setAttribute('class', 'mesh_search_picked');
+
+    elem = document.createElement('span');
+    elem.innerHTML = meshItemModel.getTitle();
+    elem.setAttribute('class', 'title');
+    rhett.appendChild(elem);
+
+    elem = document.createElement('div');
+    elem.setAttribute('class', 'identifiers');
+    str = meshItemModel.getDBId();
+
+    treeNodes = meshItemModel.getTree();
+    if (treeNodes.length) {
+        treeNode = treeNodes[treeNodes.length - 1]; // get the last node in the list
+        str += ' - ' + treeNode.tree_number;
+    }
+    elem.innerHTML = str;
+    rhett.appendChild(elem);
 
     rhett.iliosModel = meshItemModel;
 

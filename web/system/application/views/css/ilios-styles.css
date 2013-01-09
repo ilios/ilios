@@ -2141,6 +2141,16 @@ div.icon_dhtmlx_spacer {
 
 /********************************/
 /* MeSH picker dialog           */
+.mesh_search_picked {
+    cursor: pointer;
+}
+
+.mesh_search_picked .identifiers {
+    margin-left: 2em;
+    font-size: 8pt;
+    color: #7e7a7e;
+    font-weight: bold;
+}
 
 .mesh_search_result_item_wrapper {
     margin-top: 3px;
