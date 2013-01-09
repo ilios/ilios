@@ -250,7 +250,7 @@ ilios.mesh.meshDetailDivForModel = function (meshItemModel, previousSearchTerm) 
     treeNodes = meshItemModel.getTree();
     if (treeNodes.length) {
         treeNode = treeNodes[treeNodes.length - 1]; // get the last node in the list
-        str += ' :: ' + treeNode.tree_number;
+        str += ' - ' + treeNode.tree_number;
     }
     elem.innerHTML = str;
     rhett.appendChild(elem);
