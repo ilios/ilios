@@ -460,6 +460,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
     var courseObjectiveId, sessionObjectiveId = null;
     var hasCompetencyAssociation = false;
     var i, j, m, n = 0;
+    var objectiveIds;
 
     // create the catch-all "unassociated" competency
     competencySessionObjectiveMap['unassociated'] = {
@@ -506,6 +507,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
                     }
                     // assign the session objective to the parent course objective's competency group
                     competencySessionObjectiveMap[id].sessionObjectives.push({
+                        "id" : sessionObjective.objective_id,
                         "title" : sessionObjective.title
                     });
                     // mark the session as having a competency association
@@ -518,6 +520,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
         // to the "unassociated" competency group
         if (! hasCompetencyAssociation) {
             competencySessionObjectiveMap['unassociated'].sessionObjectives.push({
+                "id" : sessionObjective.objective_id,
                 "title" : sessionObjective.title
             });
         }
@@ -542,10 +545,17 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
 
             ulElement = document.createElement('ul');
             ulElement.setAttribute('style', 'margin-top: 2px;');
+
             // create a list item for each
+            objectiveIds = {};
             for (i = 0, n = competency.sessionObjectives.length; i < n; i++) {
+                sessionObjective = competency.sessionObjectives[i];
+                if (objectiveIds.hasOwnProperty(sessionObjective.id)) { // prevent duplicate display
+                    continue;
+                }
+                objectiveIds[sessionObjective.id] = true;
                 element = document.createElement('li');
-                str = ilios.utilities.percentUnicodeToHTML(competency.sessionObjectives[i].title);
+                str = ilios.utilities.percentUnicodeToHTML(sessionObjective.title);
                 // Must be innerHTML to correctly render the HTML markup
                 element.innerHTML = str;
                 ulElement.appendChild(element);
