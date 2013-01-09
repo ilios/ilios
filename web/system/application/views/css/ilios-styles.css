@@ -2175,6 +2175,13 @@ div.icon_dhtmlx_spacer {
     width: 93%;
 }
 
+.mesh_search_result_item .identifiers {
+    font-size: 8pt;
+    color: #7e7a7e;
+    font-weight: bold;
+    width: 93%;
+}
+
 /********************************/
 /*     Learning Materials       */
 /*TODO: sync styles with other pickers */

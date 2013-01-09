@@ -224,8 +224,9 @@ ilios.mesh.populateMeSHPickerDialog = function () {
  * @private
  */
 ilios.mesh.meshDetailDivForModel = function (meshItemModel, previousSearchTerm) {
-    var rhett, elem, subElem;
+    var rhett, elem, str;
     var scopeNotes, scopeNote, i, n;
+    var treeNodes, treeNode;
 
     rhett = document.createElement('div');
     rhett.setAttribute('class', 'mesh_search_result_item');
@@ -243,6 +244,17 @@ ilios.mesh.meshDetailDivForModel = function (meshItemModel, previousSearchTerm) 
         rhett.appendChild(elem);
     }
 
+    elem = document.createElement('div');
+    elem.setAttribute('class', 'identifiers');
+    str = meshItemModel.getDBId();
+    treeNodes = meshItemModel.getTree();
+    if (treeNodes.length) {
+        treeNode = treeNodes[treeNodes.length - 1]; // get the last node in the list
+        str += ' :: ' + treeNode.tree_number;
+    }
+    elem.innerHTML = str;
+    rhett.appendChild(elem);
+
     scopeNotes = meshItemModel.getScopeNotes();
     for (i = 0, n =  scopeNotes.length; i < n; i++) {
         scopeNote = scopeNotes[i];
@@ -256,6 +268,7 @@ ilios.mesh.meshDetailDivForModel = function (meshItemModel, previousSearchTerm) 
         elem.innerHTML = "<strong>&middot;</strong> " + scopeNote;
         rhett.appendChild(elem);
     }
+
 
     return rhett;
 };
