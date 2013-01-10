@@ -447,7 +447,14 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
     }
 };
 
-// @private
+/**
+ * Generates markup for displaying given session objectives grouped by competencies via their course- and program-objectives parentage.
+ * The markup gets attached to a given container element in the DOM
+ * @method ilios.learner_view.buildCollatedSessionObjectives
+ * @param {Object} parsedObject data object containing session- and course-objectives
+ * @param {HTMLElement} container the DOM element to attach the generated markup to
+ * @private
+ */
 ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, container) {
     var competencySessionObjectiveMap = {}; // competency-to-session-objectives lookup table
     var courseObjectiveCompetencyMap = {}; // course-objectives-to-competency lookup table
@@ -460,6 +467,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
     var courseObjectiveId, sessionObjectiveId = null;
     var hasCompetencyAssociation = false;
     var i, j, m, n = 0;
+    var objectiveIds;
 
     // create the catch-all "unassociated" competency
     competencySessionObjectiveMap['unassociated'] = {
@@ -475,11 +483,13 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
         // iterate over each course objective's competency and store it in the map
         for (j = 0, n = courseObjective.parent_objectives.length; j < n; j++) {
             id = courseObjective.parent_objectives[j];
-            competencyTitles = courseObjective.parent_competency_titles[j];
-            competencyMap[id] = {
-                'title' : (competencyTitles.length ? competencyTitles[0] : ''),
-                'parentTitle' : (2 == competencyTitles.length ? competencyTitles[1] : '')
-            };
+            competencies = courseObjective.parent_competencies[j];
+            if (competencies.length) {
+                competencyMap[competencies[0].competency_id] = {
+                    'title' : competencies[0].title,
+                    'parentTitle' : (2 == competencies.length ? competencies[1].title : '')
+                }
+            }
         }
         // add the course objective map to the lookup table
         courseObjectiveCompetencyMap[courseObjective.objective_id] = competencyMap;
@@ -506,6 +516,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
                     }
                     // assign the session objective to the parent course objective's competency group
                     competencySessionObjectiveMap[id].sessionObjectives.push({
+                        "id" : sessionObjective.objective_id,
                         "title" : sessionObjective.title
                     });
                     // mark the session as having a competency association
@@ -518,6 +529,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
         // to the "unassociated" competency group
         if (! hasCompetencyAssociation) {
             competencySessionObjectiveMap['unassociated'].sessionObjectives.push({
+                "id" : sessionObjective.objective_id,
                 "title" : sessionObjective.title
             });
         }
@@ -525,7 +537,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
 
 
     // generate markup for output:
-    // build nested lists of competencies and their associated sessions
+    // build nested lists of competencies and their associated session objectives
     for (competencyKey in competencySessionObjectiveMap) {
         competency = competencySessionObjectiveMap[competencyKey];
         if (0 < competency.sessionObjectives.length) {
@@ -542,10 +554,17 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
 
             ulElement = document.createElement('ul');
             ulElement.setAttribute('style', 'margin-top: 2px;');
+
             // create a list item for each
+            objectiveIds = {};
             for (i = 0, n = competency.sessionObjectives.length; i < n; i++) {
+                sessionObjective = competency.sessionObjectives[i];
+                if (objectiveIds.hasOwnProperty(sessionObjective.id)) { // prevent duplicate display
+                    continue;
+                }
+                objectiveIds[sessionObjective.id] = true;
                 element = document.createElement('li');
-                str = ilios.utilities.percentUnicodeToHTML(competency.sessionObjectives[i].title);
+                str = ilios.utilities.percentUnicodeToHTML(sessionObjective.title);
                 // Must be innerHTML to correctly render the HTML markup
                 element.innerHTML = str;
                 ulElement.appendChild(element);
