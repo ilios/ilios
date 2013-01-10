@@ -447,7 +447,14 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
     }
 };
 
-// @private
+/**
+ * Generates markup for displaying given session objectives grouped by competencies via their course- and program-objectives parentage.
+ * The markup gets attached to a given container element in the DOM
+ * @method ilios.learner_view.buildCollatedSessionObjectives
+ * @param {Object} parsedObject data object containing session- and course-objectives
+ * @param {HTMLElement} container the DOM element to attach the generated markup to
+ * @private
+ */
 ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, container) {
     var competencySessionObjectiveMap = {}; // competency-to-session-objectives lookup table
     var courseObjectiveCompetencyMap = {}; // course-objectives-to-competency lookup table
@@ -528,7 +535,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
 
 
     // generate markup for output:
-    // build nested lists of competencies and their associated sessions
+    // build nested lists of competencies and their associated session objectives
     for (competencyKey in competencySessionObjectiveMap) {
         competency = competencySessionObjectiveMap[competencyKey];
         if (0 < competency.sessionObjectives.length) {
