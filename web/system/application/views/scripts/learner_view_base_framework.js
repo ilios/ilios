@@ -483,11 +483,13 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
         // iterate over each course objective's competency and store it in the map
         for (j = 0, n = courseObjective.parent_objectives.length; j < n; j++) {
             id = courseObjective.parent_objectives[j];
-            competencyTitles = courseObjective.parent_competency_titles[j];
-            competencyMap[id] = {
-                'title' : (competencyTitles.length ? competencyTitles[0] : ''),
-                'parentTitle' : (2 == competencyTitles.length ? competencyTitles[1] : '')
-            };
+            competencies = courseObjective.parent_competencies[j];
+            if (competencies.length) {
+                competencyMap[competencies[0].competency_id] = {
+                    'title' : competencies[0].title,
+                    'parentTitle' : (2 == competencies.length ? competencies[1].title : '')
+                }
+            }
         }
         // add the course objective map to the lookup table
         courseObjectiveCompetencyMap[courseObjective.objective_id] = competencyMap;
