@@ -35,13 +35,6 @@ $viewsPath = getServerFilePath('views');
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/ilios-styles.css"); ?>" media="all">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/session-types.css"); ?>" media="all">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
-    <style type="text/css">
-        .yui-skin-sam .yui-dt table { width: 100%; }
-        .ygtvlabel { background-color: transparent; }
-        .dhx_body { cursor: default; }
-        .yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav { border-color:#EA5001; }
-        .yui-skin-sam .yui-ac-content li { cursor: pointer; }
-    </style>
 
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
