@@ -604,7 +604,13 @@ EOL;
         return $rhett;
     }
 
-    public function getObjectivesForCourse ($courseId, $includeCompetencyTitles = false)
+    /**
+     * Retrieves course-objectives for a given course.
+     * @param int $courseId the course id
+     * @param boolean $includeCompetencies set to TRUE to include parent competency information for objectives
+     * @return array
+     */
+    public function getObjectivesForCourse ($courseId, $includeCompetencies = false)
     {
         $rhett = array();
 
@@ -612,7 +618,7 @@ EOL;
                                                         'course_id', $courseId);
         if ($crossIdArray != null) {
             foreach ($crossIdArray as $id) {
-                $objective = $this->objective->getObjective($id, $includeCompetencyTitles);
+                $objective = $this->objective->getObjective($id, $includeCompetencies);
 
                 if ($objective != null) {
                     array_push($rhett, $objective);
