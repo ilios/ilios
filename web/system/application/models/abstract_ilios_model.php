@@ -6,7 +6,7 @@
  * TODO nead a serialize and unserialized methods for the audit event functionality to work; make
  *          sure we're not re-inventing the wheel
  */
-abstract class Abstract_Ilios_Model extends Model
+abstract class Abstract_Ilios_Model extends CI_Model
 {
 
     /**
@@ -27,7 +27,7 @@ abstract class Abstract_Ilios_Model extends Model
      */
     public function __construct ($tableName = 'none', $primaryKeyArray = array())
     {
-        parent::Model();
+        parent::__construct();
 
         $this->dbHandle = null;
 
@@ -44,7 +44,7 @@ abstract class Abstract_Ilios_Model extends Model
     {
         return $this->databaseTableName;
     }
-    
+
     /**
      * @todo add code docs
      */

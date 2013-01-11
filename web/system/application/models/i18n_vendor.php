@@ -3,7 +3,7 @@
 /**
  * i18n utility class, provides functionality to read from language files.
  */
-class I18N_Vendor extends Model
+class I18N_Vendor extends CI_Model
 {
     protected $I18N_FILE_BASE_NAME = 'system/application/language/ilios_strings_';
     protected $I18N_FILE_SUFFIX = '.properties';
@@ -22,7 +22,7 @@ class I18N_Vendor extends Model
      */
     public function __construct ()
     {
-        parent::Model();
+        parent::__construct();
 
         $this->_cachedLanguageMaps = array();
     }
