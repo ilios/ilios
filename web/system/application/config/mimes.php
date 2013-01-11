@@ -10,19 +10,19 @@
 
 $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 				'cpt'	=>	'application/mac-compactpro',
-				'csv'	=>	array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.ms-excel', 'text/anytext'),
+				'csv'	=>	array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.ms-excel', 'text/anytext'),
 				'bin'	=>	'application/macbinary',
 				'dms'	=>	'application/octet-stream',
 				'lha'	=>	'application/octet-stream',
 				'lzh'	=>	'application/octet-stream',
-				'exe'	=>	'application/octet-stream',
+				'exe'	=>	array('application/octet-stream', 'application/x-msdownload'),
 				'class'	=>	'application/octet-stream',
 				'psd'	=>	'application/x-photoshop',
 				'so'	=>	'application/octet-stream',
 				'sea'	=>	'application/octet-stream',
 				'dll'	=>	'application/octet-stream',
 				'oda'	=>	'application/oda',
-				'pdf'	=>	array('application/pdf', 'application/x-pdf', 'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 'text/x-pdf', 'application/x-download'),
+				'pdf'	=>	array('application/pdf', 'application/x-download'),
 				'ai'	=>	'application/postscript',
 				'eps'	=>	'application/postscript',
 				'ps'	=>	'application/postscript',
@@ -56,7 +56,7 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 				'midi'	=>	'audio/midi',
 				'mpga'	=>	'audio/mpeg',
 				'mp2'	=>	'audio/mpeg',
-				'mp3'	=>	array('audio/mpeg', 'audio/mpg'),
+				'mp3'	=>	array('audio/mpeg', 'audio/mpg', 'audio/mpeg3'),
 				'aif'	=>	'audio/x-aiff',
 				'aiff'	=>	'audio/x-aiff',
 				'aifc'	=>	'audio/x-aiff',
@@ -104,4 +104,4 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 
 
 /* End of file mimes.php */
-/* Location: ./system/application/config/mimes.php */
+/* Location: ./application/config/mimes.php */
