@@ -24,6 +24,7 @@ ilios.home.report.inEditReportModel = null;
 ilios.home.report.defaultNounList = {
     "course": ilios_i18nVendor.getI18NString("general.terms.course"),
     "session": ilios_i18nVendor.getI18NString("general.terms.session"),
+    "session type": ilios_i18nVendor.getI18NString("general.terms.session_type"),
     "program": ilios_i18nVendor.getI18NString("general.terms.program"),
     "program year": ilios_i18nVendor.getI18NString("general.terms.program_year"),
     "instructor": ilios_i18nVendor.getI18NString("general.terms.instructor"),
@@ -266,6 +267,7 @@ ilios.home.report.subjectNounChanged = function () {
     } else if (noun1 ===  'course') {
         noun2List = {
             "session": defaultNounList.session,
+            "session_type": defaultNounList["session type"],
             "program": defaultNounList.program,
             "program year": defaultNounList["program year"],
             "instructor": defaultNounList.instructor,
@@ -278,7 +280,7 @@ ilios.home.report.subjectNounChanged = function () {
     } else if (noun1 === 'session') {
         noun2List = {
             "course": defaultNounList.course,
-            "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "program": defaultNounList.program,
             "program year": defaultNounList["program year"],
             "instructor": defaultNounList.instructor,
@@ -386,6 +388,8 @@ ilios.home.report.populateRestrictiveNounValueDiv = function () {
         ilios.home.report.populatePopup('getAllCoursesForReportSelection');
     } else if (noun === 'session') {
         ilios.home.report.populatePopup('getAllSessionsForReportSelection');
+    } else if (noun === 'session type') {
+        ilios.home.report.populatePopup('getAllSessionTypesForReportSelection');
     } else if (noun === 'program') {
         ilios.home.report.populatePopup('getAllProgramsForReportSelection');
     } else if (noun === 'program year') {

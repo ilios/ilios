@@ -11,6 +11,7 @@ class Report extends Abstract_Ilios_Model
 {
     const REPORT_NOUN_COURSE = 'course';
     const REPORT_NOUN_SESSION = 'session';
+    const REPORT_NOUN_SESSION_TYPE = 'session type';
     const REPORT_NOUN_PROGRAM = 'program';
     const REPORT_NOUN_PROGRAM_YEAR = 'program year';
     const REPORT_NOUN_INSTRUCTOR = 'instructor';
@@ -181,6 +182,12 @@ class Report extends Abstract_Ilios_Model
                         $poDisplayValue = $sessionRow->title;
                     }
                     break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValue);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
+                    }
+                    break;
                 case self::REPORT_NOUN_PROGRAM :
                     $programRow = $this->program->getRowForPrimaryKeyId($poValue);
                     if ($programRow) {
@@ -270,6 +277,10 @@ class Report extends Abstract_Ilios_Model
                     $rhett['list_type'] = 'link';
                     $rhett['link_items'] = $this->handleReportForSession($reportRow, $poValues, $rhett['po_display_value'], $schoolId);
                     break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $rhett['list_type'] = 'link';
+                    $rhett['link_items'] = $this->handleReportForSessionTypes($reportRow, $poValues, $rhett['po_display_value'], $schoolId);
+                    break;
                 case self::REPORT_NOUN_PROGRAM :
                     $rhett['list_type'] = 'link';
                     $rhett['link_items'] = $this->handleReportForProgram($reportRow, $poValues, $rhett['po_display_value'], $schoolId);
@@ -353,6 +364,18 @@ class Report extends Abstract_Ilios_Model
                     $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
                     if ($sessionRow) {
                         $poDisplayValue = $sessionRow->title;
+                    }
+                    break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT `session_type`.`session_type_id`,`session_type`.`title`
+                                     FROM `session_type`
+                                    WHERE `session`.`session_type_id` = ' . $clean['id'] . '
+                                      AND `course`.`deleted` = 0
+                                      AND `course`.`owning_school_id` = ' . $schoolId . '
+                                 ORDER BY `session_type`.`title`';
+                    $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
                     }
                     break;
                 case self::REPORT_NOUN_PROGRAM :
@@ -750,6 +773,27 @@ class Report extends Abstract_Ilios_Model
                     $courseRow = $this->course->getRowForPrimaryKeyId($poValues[0]);
                     if ($courseRow) {
                         $poDisplayValue = $courseRow->title;
+                    }
+                    break;
+                case self::REPORT_NOUN_SESSION :
+                    $queryString = 'SELECT `session`.`session_id`, `session`.`title` AS `session_title`
+                                      FROM `session`
+                                     WHERE `session`.`session_id` = ' . $clean['id'] .'
+                                  ORDER BY `session`.`title`';
+                    $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionRow) {
+                        $poDisplayValue = $sessionRow->title;
+                    }
+                    break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT `session`.`session_id`, `session`.`title` AS `session_title`, `session`.`session_type_id`,`session_type`.`title` AS `session_type_title`
+                                      FROM `session`,`session_type`
+                                     WHERE `session`.`session_type_id` = ' . $clean['id'] .'
+                                     RIGHT JOIN session_type ON session.session_type_id = session_type.session_type_id;
+                                  ORDER BY `session`.`title`';
+                    $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionRow) {
+                        $poDisplayValue = $sessionRow->title;
                     }
                     break;
                 case self::REPORT_NOUN_PROGRAM :
