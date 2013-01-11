@@ -766,7 +766,7 @@ No license is required to obtain the data via FTP. Use of this data is subject t
 
 
 ---------------------------------- 8. -----------------------------------------
-Copyright (c) 2008 - 2010, EllisLab, Inc.
+Copyright (c) 2008 - 2011, EllisLab, Inc.
 All rights reserved.
 
 This license is a legal agreement between you and EllisLab Inc. for the use
@@ -796,7 +796,6 @@ the following conditions are met:
 6. Products derived from the Software may not be called "CodeIgniter",
    nor may "CodeIgniter" appear in their name, without prior written
    permission from EllisLab, Inc.
-
 
 INDEMNITY
 You agree to indemnify and hold harmless the authors of the Software and
