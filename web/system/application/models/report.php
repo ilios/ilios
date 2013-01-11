@@ -775,25 +775,15 @@ class Report extends Abstract_Ilios_Model
                         $poDisplayValue = $courseRow->title;
                     }
                     break;
-                case self::REPORT_NOUN_SESSION :
-                    $queryString = 'SELECT `session`.`session_id`, `session`.`title` AS `session_title`
-                                      FROM `session`
-                                     WHERE `session`.`session_id` = ' . $clean['id'] .'
-                                  ORDER BY `session`.`title`';
-                    $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
-                    if ($sessionRow) {
-                        $poDisplayValue = $sessionRow->title;
-                    }
-                    break;
                 case self::REPORT_NOUN_SESSION_TYPE :
-                    $queryString = 'SELECT `session`.`session_id`, `session`.`title` AS `session_title`, `session`.`session_type_id`,`session_type`.`title` AS `session_type_title`
-                                      FROM `session`,`session_type`
-                                     WHERE `session`.`session_type_id` = ' . $clean['id'] .'
-                                     RIGHT JOIN session_type ON session.session_type_id = session_type.session_type_id;
-                                  ORDER BY `session`.`title`';
-                    $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
-                    if ($sessionRow) {
-                        $poDisplayValue = $sessionRow->title;
+                    $queryString = 'SELECT `session`.`session_id`, `session`.`title` AS `session_title`, `session`.`session_type_id`,
+                    				  `session_type`.`title` AS `session_type_title`
+                                      FROM `session`
+                                      RIGHT JOIN `session_type` ON `session`.`session_type_id` = `session_type`.`session_type_id` 
+                                      WHERE session_type.session_type_id = ' . $clean['id'];
+                    $sessionTypeRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
                     }
                     break;
                 case self::REPORT_NOUN_PROGRAM :
