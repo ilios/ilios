@@ -138,7 +138,7 @@ EOL;
 
         $DB->where('cohort_master_group.cohort_id', $cohortId);
         $DB->join('group', 'cohort_master_group.group_id = group.group_id');
-        $DB->orderby('group.title');
+        $DB->order_by('group.title');
 
         $queryResults = $DB->get('cohort_master_group');
 
@@ -339,7 +339,7 @@ EOL;
         $clean = array();
 
         $sql =<<<EOL
-SELECT 
+SELECT
 `cohort`.`cohort_id`,
 `cohort`.`title` AS `cohort_title`,
 `program_year`.`program_year_id` AS `py_id`,
@@ -397,7 +397,7 @@ EOL;
         $clean['user_id'] = (int) $userId;
 
         $sql =<<<EOL
-SELECT 
+SELECT
 `cohort`.`cohort_id`,
 `cohort`.`title` AS `cohort_title`,
 `program_year`.`program_year_id` AS `py_id`,

@@ -442,7 +442,7 @@ class Session extends Abstract_Ilios_Model
         $DB->join('ilm_session_facet', 'ilm_session_facet.ilm_session_facet_id = session.ilm_session_facet_id', 'left');
         $DB->where('session.course_id', $courseId);
         $DB->where('session.deleted', 0);
-        $DB->orderby('session.session_id');
+        $DB->order_by('session.session_id');
         if ($excludeUnpublishedSessions) {
             $DB->where('session.publish_event_id IS NOT NULL');
         }

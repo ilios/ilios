@@ -180,7 +180,7 @@ EOL;
         $DB = $this->dbHandle;
 
         $DB->where('school_id', $schoolId);
-        $DB->orderby('title');
+        $DB->order_by('title');
         $queryResults = $DB->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
@@ -210,7 +210,7 @@ EOL;
             }
         };
         $DB->where('school_id', $schoolId);
-        $DB->orderby('title');
+        $DB->order_by('title');
         $queryResults = $DB->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
         	$rhett[] = $row;

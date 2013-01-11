@@ -329,9 +329,9 @@ class Report extends Abstract_Ilios_Model
         if (is_null($poValues)) {
             $DB->where('deleted', 0);
             $DB->where('owning_school_id', $schoolId);
-            $DB->orderby('title');
-            $DB->orderby('start_date');
-            $DB->orderby('end_date');
+            $DB->order_by('title');
+            $DB->order_by('start_date');
+            $DB->order_by('end_date');
 
             $queryResults = $DB->get($this->course->getTableName());
         } else {
@@ -1134,7 +1134,7 @@ EOL;
         if (is_null($poValues)) {
             $DB->where('deleted', 0);
             $DB->where('owning_school_id', $schoolId);
-            $DB->orderby('title');
+            $DB->order_by('title');
 
             $queryResults = $DB->get($this->program->getTableName());
         }  else {
