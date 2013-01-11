@@ -6,12 +6,12 @@
  *  the <title> element of a returned HTML page for any text, in no agreed upon universal
  *  vocabulary.. what a great design
  */
-class PFS_Status extends Controller
+class PFS_Status extends CI_Controller
 {
 
     public function __construct ()
     {
-        parent::Controller();
+        parent::__construct();
         $this->load->helper(array('string', 'form', 'url'));
         $this->load->database();
     }

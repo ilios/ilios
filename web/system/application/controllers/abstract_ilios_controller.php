@@ -6,7 +6,7 @@
  * a plethora of concrete controllers. The majority of this could be handled just as well
  * through a utilities class, but this seems more architecturally beautiful.
  */
-abstract class Abstract_Ilios_Controller extends Controller
+abstract class Abstract_Ilios_Controller extends CI_Controller
 {
     static public $DB_TRANSACTION_RETRY_COUNT = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
 
@@ -15,7 +15,7 @@ abstract class Abstract_Ilios_Controller extends Controller
 
     public function __construct ()
     {
-        parent::Controller();
+        parent::__construct();
         $this->load->library('session');
 
         $this->load->helper(array('string', 'form', 'url'));
