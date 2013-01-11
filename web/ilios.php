@@ -1,10 +1,4 @@
 <?php
-/**
- * This is the single entry point into the web application.
- * It has been renamed from "index.php" to free that filename up for our landing page.
- * Other than the name change, it is as-shipped with CodeIgniter.
- */
-
 /*
 |---------------------------------------------------------------
 | PHP ERROR REPORTING LEVEL
@@ -37,7 +31,7 @@
 |---------------------------------------------------------------
 |
 | If you want this front controller to use a different "application"
-| folder then the default one you can set its name here. The folder
+| folder then the default one you can set its name here. The folder 
 | can also be renamed or relocated anywhere on your server.
 | For more info please see the user guide:
 | http://codeigniter.com/user_guide/general/managing_apps.html
@@ -62,7 +56,7 @@
 |
 | Let's attempt to determine the full-server path to the "system"
 | folder in order to reduce the possibility of path problems.
-| Note: We only attempt this if the user hasn't specified a
+| Note: We only attempt this if the user hasn't specified a 
 | full server path.
 |
 */
@@ -76,7 +70,7 @@ if (strpos($system_folder, '/') === FALSE)
 else
 {
 	// Swap directory separators to Unix style for consistency
-	$system_folder = str_replace("\\", "/", $system_folder);
+	$system_folder = str_replace("\\", "/", $system_folder); 
 }
 
 /*
@@ -85,15 +79,15 @@ else
 |---------------------------------------------------------------
 |
 | EXT		- The file extension.  Typically ".php"
-| FCPATH	- The full server path to THIS file
 | SELF		- The name of THIS file (typically "index.php")
+| FCPATH	- The full server path to THIS file
 | BASEPATH	- The full server path to the "system" folder
 | APPPATH	- The full server path to the "application" folder
 |
 */
-define('EXT', '.'.pathinfo(__FILE__, PATHINFO_EXTENSION));
-define('FCPATH', __FILE__);
+define('EXT', '.php');
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+define('FCPATH', str_replace(SELF, '', __FILE__));
 define('BASEPATH', $system_folder.'/');
 
 if (is_dir($application_folder))
@@ -119,3 +113,6 @@ else
 |
 */
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
+
+/* End of file index.php */
+/* Location: ./index.php */
