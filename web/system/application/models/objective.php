@@ -21,11 +21,11 @@ class Objective extends Abstract_Ilios_Model
     /**
      * Retrieves an objective and associated data (MeSH terms, parent objectives, competency titles) by its given id.
      * @param int $objectiveId the objective id
-     * @param boolean $includeCompetencyTitles pass TRUE to include competency titles
+     * @param boolean $includeCompetencies pass TRUE to include parent competency information
      * @return array an associated array representing the objective and related data
      * @todo clean up this hideous mess
      */
-    public function getObjective ($objectiveId, $includeCompetencyTitles = false)
+    public function getObjective ($objectiveId, $includeCompetencies = false)
     {
         $rhett = $this->convertStdObjToArray($this->getRowForPrimaryKeyId($objectiveId));
 
@@ -42,25 +42,25 @@ class Objective extends Abstract_Ilios_Model
         $crossIdArray = $this->getIdArrayFromCrossTable('objective_x_objective',
             'parent_objective_id', 'objective_id', $objectiveId);
 
-        if ($includeCompetencyTitles) {
-            $rhett['parent_competency_titles'] = array();
+        if ($includeCompetencies) {
+            $rhett['parent_competencies'] = array();
         }
 
         $competencyCache = array();
 
         if ($crossIdArray != null) {
             foreach ($crossIdArray as $id) {
-                if ($includeCompetencyTitles) {
+                if ($includeCompetencies) {
                     $objectiveRow = $this->getRowForPrimaryKeyId($id);
                     if (0 < (int) $objectiveRow->competency_id) {
-                        $competencyTitles = array();
+                        $competencies = array();
                         // associated competency
                         if (! array_key_exists($objectiveRow->competency_id, $competencyCache)) {
                             $competencyRow = $this->competency->getRowForPrimaryKeyId($objectiveRow->competency_id);
                             $competencyCache[$competencyRow->competency_id] = $competencyRow;
                         }
                         $competency = $competencyCache[$objectiveRow->competency_id];
-                        $competencyTitles[] = $competency->title;
+                        $competencies[] = $competency;
                         // parent-competency
                         if (0 < (int) $competency->parent_competency_id) {
                           if (! array_key_exists($competency->parent_competency_id, $competencyCache)) {
@@ -68,11 +68,11 @@ class Objective extends Abstract_Ilios_Model
                               $competencyCache[$competencyRow->competency_id] = $competencyRow;
                           }
                           $competency = $competencyCache[$competency->parent_competency_id];
-                          $competencyTitles[] = $competency->title;
+                          $competencies[] = $competency;
                         }
-                        $rhett['parent_competency_titles'][] = $competencyTitles;
+                        $rhett['parent_competencies'][] = $competencies;
                     } else {
-                        $rhett['parent_competency_titles'][] = array();
+                        $rhett['parent_competencies'][] = array();
                     }
                 }
                 $rhett['parent_objectives'][] = $id;
