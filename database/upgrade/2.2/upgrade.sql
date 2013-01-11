@@ -41,3 +41,21 @@ ALTER TABLE  `user_x_user_role` ADD INDEX `user_x_user_role_user_id` (`user_id`)
 ALTER TABLE  `user_x_user_role` ADD INDEX `user_x_user_role_user_role_id` (`user_role_id`);
 ALTER TABLE  `user_x_user_role` ADD CONSTRAINT `fkey_user_x_user_role_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 ALTER TABLE  `user_x_user_role` ADD CONSTRAINT `fkey_user_x_user_role_user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`user_role_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- re-create ci_sessions table as part of the CodeIgniter 2.x upgrade
+--
+DROP TABLE `ci_sessions`;
+
+CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+    session_id varchar(40) DEFAULT '0' NOT NULL,
+    ip_address varchar(45) DEFAULT '0' NOT NULL,
+    user_agent varchar(120) NOT NULL,
+    last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+    user_data text NOT NULL,
+    PRIMARY KEY (session_id),
+    KEY `last_activity_idx` (`last_activity`)
+)
+DEFAULT CHARSET=utf8
+ENGINE=MyISAM
+;
