@@ -776,12 +776,15 @@ class Report extends Abstract_Ilios_Model
                     }
                     break;
                 case self::REPORT_NOUN_SESSION_TYPE :
-                    $queryString = 'SELECT `session`.`session_id`, `session`.`title` AS `session_title`, `session`.`session_type_id`,
-                    				  `session_type`.`title` AS `session_type_title`
-                                      FROM `session`
-                                      RIGHT JOIN `session_type` ON `session`.`session_type_id` = `session_type`.`session_type_id` 
-                                      WHERE session_type.session_type_id = ' . $clean['id'];
-                    $sessionTypeRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
+                    $queryString = 'SELECT `course`.`course_id`, `course`.`title` AS `course_title`,
+                                           `course`.`start_date`, `course`.`end_date`, 
+                                           `session`.`title` AS  `session_title`, `session`.`session_id`, `session`.`session_type_id`
+                                      FROM `course` RIGHT JOIN `session` ON `course`.`course_id` = `session`.`course_id`
+                    				  WHERE session.session_type_id = ' . $clean['id'] .'
+                    				  	AND `course`.`deleted` = 0
+                                        AND `course`.`owning_school_id` = ' . $schoolId . '
+                                      ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`';
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
                     if ($sessionTypeRow) {
                         $poDisplayValue = $sessionTypeRow->title;
                     }
