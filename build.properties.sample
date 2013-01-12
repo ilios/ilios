@@ -38,12 +38,28 @@ webgroup=apache
 # Ilios configuration (mandatory)
 #================================================
 
+#------------------------------------------------
+# CodeIgniter settings
+#------------------------------------------------
+
 #
 # Domain name (+ basepath) under which the application is accessible online.
 # ACHTUNG! Do not provide the protocol.
 # And no trailing slashes!
 #
 baseurl=localhost
+
+#
+# Encryption key, must be provided to ensure session security.
+# see http://ellislab.com/codeigniter/user-guide/libraries/sessions.html
+# see http://ellislab.com/codeigniter/user-guide/libraries/encryption.html
+# Do not use quotes!
+#
+encryption_key=
+
+#------------------------------------------------
+# Ilios-specific settings
+#------------------------------------------------
 #
 # The name of your institution/school/university.
 # Do not put quotes, e.g. institution_name=University of California
@@ -51,7 +67,7 @@ baseurl=localhost
 institution_name=UCSF
 
 #------------------------------------------------
-# Database Configuration
+# Database settings
 #------------------------------------------------
 #
 # DB configuration group
@@ -75,7 +91,7 @@ db.username=XXXXXX
 db.password=XXXXXX
 
 #------------------------------------------------
-# UCSF user synchronization process configuration
+# UCSF user synchronization process settings
 #------------------------------------------------
 #
 # LDAP hostname
