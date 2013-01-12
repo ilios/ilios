@@ -124,6 +124,7 @@
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
                     <token key="DEPLOY_URL" value="${baseurl}" />
+                    <token key="ENCRYPTION_KEY" value="${encryption_key}" />
                 </replacetokens>
             </filterchain>
         </copy>
