@@ -2681,6 +2681,16 @@ EOL;
                         $poDisplayValue = $sessionRow->title;
                     }
                     break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT `session_learning_material`.`learning_material_id`
+                                    FROM `session_learning_material`
+                                    JOIN `session` ON `session`.`session_id` = `session_learning_material`.`session_id`
+                                    AND session_type_id = ' . $clean['id'];
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
+                    }
+                    break;
                 case self::REPORT_NOUN_INSTRUCTOR :
                     $queryString = 'SELECT DISTINCT `slm`.`learning_material_id`
                                       FROM `offering`, `offering_instructor`, `session`,
