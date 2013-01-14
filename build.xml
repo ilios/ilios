@@ -41,7 +41,8 @@
     <fileset dir="${webdir}" id="webfiles">
         <exclude name="tmp_uploads/" />
         <exclude name="learning_materials/" />
-        <exclude name="system/logs/" />
+        <exclude name="application/logs/" />
+        <exclude name="application/cache/" />
     </fileset>
 
     <!-- ============================================ -->
@@ -96,9 +97,10 @@
         <copy todir="${builddir}">
             <fileset refid="webfiles" />
         </copy>
-        <!-- create log and upload directories -->
+        <!-- create log, cache and upload directories -->
         <mkdir dir="${builddir}/tmp_uploads" />
-        <mkdir dir="${builddir}/system/logs" />
+        <mkdir dir="${builddir}/application/logs" />
+        <mkdir dir="${builddir}/application/cache" />
         <mkdir dir="${builddir}/learning_materials" />
         <!-- drop .htaccess files into the upload dirs -->
         <touch file="${builddir}/tmp_uploads/.htaccess" />
@@ -118,8 +120,8 @@
     <target name="configure" depends="init"
         description="(over)writes configuration parameters to various files of the application">
         <!-- copy/rename default.config.php to config.php and substitute placeholder token -->
-        <copy file="${builddir}/system/application/config/default.config.php"
-              tofile="${builddir}/system/application/config/config.php"
+        <copy file="${builddir}/application/config/default.config.php"
+              tofile="${builddir}/application/config/config.php"
               overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
@@ -129,8 +131,8 @@
             </filterchain>
         </copy>
         <!-- copy/rename default.database.php to database.php and substitute placeholder token -->
-        <copy file="${builddir}/system/application/config/default.database.php"
-              tofile="${builddir}/system/application/config/database.php"
+        <copy file="${builddir}/application/config/default.database.php"
+              tofile="${builddir}/application/config/database.php"
               overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
@@ -143,8 +145,8 @@
             </filterchain>
         </copy>
         <!-- copy/rename default.ilios.php to ilios.php and substitute placeholder token -->
-        <copy file="${builddir}/system/application/config/default.ilios.php"
-              tofile="${builddir}/system/application/config/ilios.php"
+        <copy file="${builddir}/application/config/default.ilios.php"
+              tofile="${builddir}/application/config/ilios.php"
               overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
@@ -167,55 +169,55 @@
                 </replacetokens>
             </filterchain>
         </copy>
-        <!-- append configuration overwites to system/application/config/ilios.php -->
-        <append destFile="${builddir}/system/application/config/ilios.php"
+        <!-- append configuration overwites to application/config/ilios.php -->
+        <append destFile="${builddir}/application/config/ilios.php"
                 text="${line.separator}//${line.separator}// Configuration overwrites below were added by the automated build process on ${TODAY} ${line.separator}//${line.separator}"/>
         <if>
             <isset property="ilios_idle_page_timeout" />
             <then>
-                <append destFile="${builddir}/system/application/config/ilios.php"
+                <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['ilios_idle_page_timeout'] = ${ilios_idle_page_timeout};${line.separator}" />
             </then>
         </if>
         <if>
             <isset property="ilios_authentication" />
             <then>
-                <append destFile="${builddir}/system/application/config/ilios.php"
+                <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['ilios_authentication'] = '${ilios_authentication}';${line.separator}" />
             </then>
         </if>
         <if>
             <isset property="visual_alert_threshold_in_days" />
             <then>
-                <append destFile="${builddir}/system/application/config/ilios.php"
+                <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['visual_alert_threshold_in_days'] = ${visual_alert_threshold_in_days};${line.separator}" />
             </then>
         </if>
         <if>
             <isset property="tasks.change_alerts.enabled" />
             <then>
-                <append destFile="${builddir}/system/application/config/ilios.php"
+                <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['tasks']['change_alerts']['enabled'] = ${tasks.change_alerts.enabled};${line.separator}" />
             </then>
         </if>
         <if>
             <isset property="tasks.teaching_reminders.enabled" />
             <then>
-                <append destFile="${builddir}/system/application/config/ilios.php"
+                <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['tasks']['teaching_reminders']['enabled'] = ${tasks.teaching_reminders.enabled};${line.separator}" />
             </then>
         </if>
         <if>
             <isset property="tasks.user_sync.enabled" />
             <then>
-                <append destFile="${builddir}/system/application/config/ilios.php"
+                <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['tasks']['user_sync']['enabled'] = ${tasks.user_sync.enabled};${line.separator}" />
             </then>
         </if>
         <if>
             <isset property="tasks.enrollment_export.enabled" />
             <then>
-                <append destFile="${builddir}/system/application/config/ilios.php"
+                <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['tasks']['enrollment_export']['enabled'] = ${tasks.enrollment_export.enabled};${line.separator}" />
             </then>
         </if>
@@ -242,9 +244,9 @@
         <tar destfile="${packagefilepath}" includeemptydirs="true" compression="gzip">
              <fileset dir="${builddir}">
                 <!-- do not include the config file templates -->
-                <exclude name="system/application/config/default.config.php" />
-                <exclude name="system/application/config/default.database.php" />
-                <exclude name="system/application/config/default.ilios.php" />
+                <exclude name="application/config/default.config.php" />
+                <exclude name="application/config/default.database.php" />
+                <exclude name="application/config/default.ilios.php" />
                 <exclude name="default.index.php" />
             </fileset>
         </tar>
@@ -312,7 +314,7 @@
                         <!-- keep log files and user uploads -->
                         <exclude name="tmp_uploads/**" />
                         <exclude name="learning_materials/**" />
-                        <exclude name="system/logs/**" />
+                        <exclude name="application/logs/**" />
                     </fileset>
                 </delete>
             </then>
@@ -322,10 +324,11 @@
         </if>
         <!-- extract the deployment bundle into the deployment directory -->
         <untar file="${packagefilepath}" todir="${deploydir}" forceExtract="false" />
-        <!-- change file ownership on upload and log directories -->
+        <!-- change file ownership on upload-, log- and cache-directories -->
         <chown file="${deploydir}/tmp_uploads" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/learning_materials" user="${webuser}" group="${webgroup}" />
-        <chown file="${deploydir}/system/logs" user="${webuser}" group="${webgroup}" />
+        <chown file="${deploydir}/application/logs" user="${webuser}" group="${webgroup}" />
+        <chown file="${deploydir}/application/cache" user="${webuser}" group="${webgroup}" />
     </target>
 
     <!-- ============================================ -->
@@ -350,10 +353,11 @@
                 <mkdir dir="${backupdir}" />
                 <tar destfile="${backupfile}" includeemptydirs="true" compression="gzip">
                     <fileset dir="${deploydir}">
-                    <!-- exclude log files and user uploads -->
+                    <!-- exclude log-, cache- and user-upload-files from backup -->
                         <exclude name="tmp_uploads/" />
                         <exclude name="learning_materials/" />
-                        <exclude name="system/logs/" />
+                        <exclude name="application/logs/" />
+                        <exclude name="application/cache/" />
                     </fileset>
                 </tar>
             </then>

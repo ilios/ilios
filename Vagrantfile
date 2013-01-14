@@ -35,5 +35,6 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "docroot", "/var/www", "web"
   config.vm.share_folder "learning_materials", "/var/www/learning_materials", "web/learning_materials", :extra => "uid=33,gid=33"
   config.vm.share_folder "tmp_uploads", "/var/www/tmp_uploads", "web/tmp_uploads", :extra => "uid=33,gid=33"
-  config.vm.share_folder "system/logs", "/var/www/system/logs", "web/system/logs", :extra => "uid=33,gid=33"  
+  config.vm.share_folder "application/logs", "/var/www/application/logs", "web/application/logs", :extra => "uid=33,gid=33"
+  config.vm.share_folder "application/cache", "/var/www/application/cache", "web/application/cache", :extra => "uid=33,gid=33"
 end
