@@ -4,7 +4,7 @@
  *
  * Renders the program search dialog.
  *
- * @see system/application/views/program/program_manager.php
+ * @see application/views/program/program_manager.php
  *
  * DEPENDENCIES:
  *     YUI toolkit

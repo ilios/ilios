@@ -4,7 +4,7 @@
  *
  * Renders the course search dialog.
  *
- * @see system/application/views/course/course_manager.php
+ * @see application/views/course/course_manager.php
  * @todo: consolidate with program search widget
  *
  * DEPENDENCIES:

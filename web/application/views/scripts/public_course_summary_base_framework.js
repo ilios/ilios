@@ -304,7 +304,7 @@ ilios.course_summary.printCourseSummary = function () {
     }
 
     newWindow.document.writeln('<html><head><link rel="stylesheet" type="text/css" '
-                                + 'href="/system/application/views/css/ilios-styles.css" '
+                                + 'href="/application/views/css/ilios-styles.css" '
                                 + 'media="screen,print" charset="utf-8"></head><body class="print">');
     newWindow.document.writeln(summaryDiv.innerHTML);
     newWindow.document.writeln('</body></html>');

@@ -89,7 +89,7 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
      * contains a single method getI18NString(key) to access to the included language-pack
      * in the requested language.
      * If no language preference is provided in the request, the application-wide default language
-     * (defined as $config['ilios_default_lang_locale'] in system/application/config/config.php)
+     * (defined as $config['ilios_default_lang_locale'] in application/config/config.php)
      * is used.
      */
     public function getI18NJavascriptVendor ()

@@ -1,6 +1,6 @@
 /**
  * "Add New Program" dialog support functions.
- * @see system/application/views/program/program_manager.php
+ * @see application/views/program/program_manager.php
  *
  * DEPENDENCIES
  *     YAHOO Global Object

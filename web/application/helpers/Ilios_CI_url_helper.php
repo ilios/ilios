@@ -15,12 +15,12 @@ function getYUILibrariesURL ()
  */
 function getViewsURLRoot ()
 {
-    return base_url() . "system/application/views/";
+    return base_url() . "application/views/";
 }
 
 /**
  * Returns the fully qualified filesystem path for a given subdirectory
- * within the <code>/system/application</code> directory
+ * within the <code>application</code> directory
  * @param string $subdirectory the name of the subdirectory
  * @return string
  */

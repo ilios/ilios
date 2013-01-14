@@ -89,7 +89,7 @@
                                 <select id="lightbox_start_time_select" style="float: right;">
 <?php
 // @todo refactor this out and into a CI helper function
-// @see system/application/course/multipurpose_session_lightbox_include.php
+// @see application/course/multipurpose_session_lightbox_include.php
 //     - same codeblock there
 // [ST 06/13/2012]
 $index = 0;
