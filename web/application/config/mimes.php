@@ -48,7 +48,7 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 				'swf'	=>	'application/x-shockwave-flash',
 				'sit'	=>	'application/x-stuffit',
 				'tar'	=>	'application/x-tar',
-				'tgz'	=>	'application/x-tar',
+				'tgz'	=>	array('application/x-tar', 'application/x-gzip-compressed'),
 				'xhtml'	=>	'application/xhtml+xml',
 				'xht'	=>	'application/xhtml+xml',
 				'zip'	=>  array('application/x-zip', 'application/zip', 'application/x-zip-compressed'),
@@ -56,7 +56,7 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 				'midi'	=>	'audio/midi',
 				'mpga'	=>	'audio/mpeg',
 				'mp2'	=>	'audio/mpeg',
-				'mp3'	=>	array('audio/mpeg', 'audio/mpg', 'audio/mpeg3'),
+				'mp3'	=>	array('audio/mpeg', 'audio/mpg', 'audio/mpeg3', 'audio/mp3'),
 				'aif'	=>	'audio/x-aiff',
 				'aiff'	=>	'audio/x-aiff',
 				'aifc'	=>	'audio/x-aiff',
@@ -99,7 +99,8 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 				'xlsx'	=>	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 				'word'	=>	array('application/msword', 'application/octet-stream', 'application/vnd.ms-word'),
 				'xl'	=>	'application/excel',
-				'eml'	=>	'message/rfc822'
+				'eml'	=>	'message/rfc822',
+				'json' => array('application/json', 'text/json')
 			);
 
 
