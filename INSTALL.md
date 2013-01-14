@@ -33,16 +33,16 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
 4. In your deployment directory, rename the following files:
 
         default.index.php ->  index.php
-        system/application/config/default.config.php -> system/application/config/config.php
-        system/application/config/default.ilios.php -> system/application/config/ilios.php
-        system/application/config/default.database.php -> system/application/config/database.php
+        application/config/default.config.php -> application/config/config.php
+        application/config/default.ilios.php -> application/config/ilios.php
+        application/config/default.database.php -> application/config/database.php
 
 5. In your deployment directory, configure the following files to reflect your institution's name, appropriate URLs, and database attributes:
 
         index.php                               ... substitute placeholder tokens with a version string
-        system/application/config/config.php    ... substitute placeholder token with your URL
-        system/application/config/ilios.php     ... set your institution's name and authentication method
-        system/application/config/database.php  ... fill in your database connection settings
+        application/config/config.php    ... substitute placeholder token with your URL
+        application/config/ilios.php     ... set your institution's name and authentication method
+        application/config/database.php  ... fill in your database connection settings
 
 6. Construct and populate your database as described in `database/install/README.md`.
 
@@ -53,12 +53,12 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
 ## Ilios-internal Authentication
 
 If you are setting up an Ilios instance from scratch, it is highly recommended that you provide a salt to increase the security of user passwords.
-You may do so by assigning a value to the  `$config['ilios_authentication_internal_auth_salt']` setting in `system/application/config/ilios.php`.
+You may do so by assigning a value to the  `$config['ilios_authentication_internal_auth_salt']` setting in `application/config/ilios.php`.
 
 
 ## Shibboleth Authentication
 
-In `system/application/config/ilios.php`, change the authentication method to "shibboleth".
+In `application/config/ilios.php`, change the authentication method to "shibboleth".
 
     $config['ilios_authentication'] = 'shibboleth';
 
@@ -90,17 +90,17 @@ We recommend the following exposure scheme; this is assuming Ilios is installed 
       Allow from all
     </Location>
 
-    <Location /system/application/views/scripts>
+    <Location /application/views/scripts>
       Satisfy Any
       Allow from all
     </Location>
 
-    <Location /system/application/views/images>
+    <Location /application/views/images>
       Satisfy Any
       Allow from all
     </Location>
 
-    <Location /system/application/views/css>
+    <Location /application/views/css>
       Satisfy Any
       Allow from all
     </Location>
