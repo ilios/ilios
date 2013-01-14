@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url'] = '';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------
@@ -170,11 +170,11 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
 |
-|   0 = Disables logging, Error logging TURNED OFF
-|   1 = Error Messages (including PHP errors)
-|   2 = Debug Messages
-|   3 = Informational Messages
-|   4 = All Messages
+|	0 = Disables logging, Error logging TURNED OFF
+|	1 = Error Messages (including PHP errors)
+|	2 = Debug Messages
+|	3 = Informational Messages
+|	4 = All Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
@@ -245,7 +245,7 @@ $config['encryption_key'] = '%%ENCRYPTION_KEY%%';
 |
 */
 $config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']      = 14400; // four hours
+$config['sess_expiration']      = 14400;
 $config['sess_expire_on_close']	= FALSE;
 $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']    = TRUE;
@@ -264,11 +264,13 @@ $config['sess_time_to_update']  = 14400;
 | 'cookie_prefix' = Set a prefix if you need to avoid collisions
 | 'cookie_domain' = Set to .your-domain.com for site-wide cookies
 | 'cookie_path'   =  Typically will be a forward slash
+| 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
-$config['cookie_path']		= '/';
+$config['cookie_prefix']	= "";
+$config['cookie_domain']	= "";
+$config['cookie_path']		= "/";
+$config['cookie_secure']	= FALSE;
 
 /*
 |--------------------------------------------------------------------------
