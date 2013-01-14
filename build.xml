@@ -125,7 +125,6 @@
               overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
-                    <token key="DEPLOY_URL" value="${baseurl}" />
                     <token key="ENCRYPTION_KEY" value="${encryption_key}" />
                 </replacetokens>
             </filterchain>
@@ -164,7 +163,6 @@
               overwrite="true">
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
-                    <token key="DEPLOY_URL" value="${baseurl}" />
                     <token key="ILIOS_REVISION" value="${now}" />
                 </replacetokens>
             </filterchain>
@@ -250,7 +248,6 @@
                 <exclude name="default.index.php" />
             </fileset>
         </tar>
-        <echo>Deployment URL: https://${baseurl}</echo>
         <echo>Deployment DB: ${db.name}</echo>
     </target>
 

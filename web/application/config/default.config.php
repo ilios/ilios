@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url'] = 'https://%%DEPLOY_URL%%/';
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------

@@ -43,13 +43,6 @@ webgroup=apache
 #------------------------------------------------
 
 #
-# Domain name (+ basepath) under which the application is accessible online.
-# ACHTUNG! Do not provide the protocol.
-# And no trailing slashes!
-#
-baseurl=localhost
-
-#
 # Encryption key, must be provided to ensure session security.
 # see http://ellislab.com/codeigniter/user-guide/libraries/sessions.html
 # see http://ellislab.com/codeigniter/user-guide/libraries/encryption.html

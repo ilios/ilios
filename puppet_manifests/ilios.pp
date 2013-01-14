@@ -124,11 +124,6 @@ class ilios (
     command => '/bin/sed "s/%%ILIOS_INSTITUTION_NAME%%/Sweet Valley University/; s/%%ILIOS_REVISION%%/`cat /tmp/ilios_version.txt`/" default.ilios.php > ilios.php',
   }
 
-  exec {"edit-config.php":
-    cwd => "${docroot}/application/config/",
-    command => '/bin/sed "s#https://%%DEPLOY_URL%%/#/#" default.config.php > config.php',
-  }
-
   exec {"edit-database.php":
     cwd => "${docroot}/application/config/",
     command => "/bin/sed 's/%%DBGROUP%%/default/;  s/%%DBHOSTNAME%%/localhost/; s/%%DBUSERNAME%%/${dbuser}/; s/%%DBPASSWORD%%/${dbpass}/; s/%%DBNAME%%/${dbname}/' default.database.php > database.php",
