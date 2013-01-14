@@ -25,21 +25,21 @@
     <meta name="viewport" content="width=device-width">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
-    <link rel="stylesheet" href="system/application/views/css/ilios-styles.css?iref=%%ILIOS_REVISION%%" media="all">
-    <link rel="stylesheet" href="system/application/views/css/custom.css?iref=%%ILIOS_REVISION%%" media="all">
+    <link rel="stylesheet" href="application/views/css/ilios-styles.css?iref=%%ILIOS_REVISION%%" media="all">
+    <link rel="stylesheet" href="application/views/css/custom.css?iref=%%ILIOS_REVISION%%" media="all">
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
     <!-- All JavaScript at the bottom, except this Modernizr build.
          Modernizr enables HTML5 elements & feature detects for optimal performance.
          Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script type="text/javascript" src="system/application/views/scripts/third_party/modernizr-2.5.3.min.js"></script>
+    <script type="text/javascript" src="application/views/scripts/third_party/modernizr-2.5.3.min.js"></script>
 </head>
 <body class="welcome yui-skin-sam">
     <div id="wrapper">
         <header id="masthead" class="clearfix">
             <div class="inner">
 <div class="main-logo">
-    <img src="system/application/views/images/ilios-logo.png" alt="Ilios" width="84" height="42" />
+    <img src="application/views/images/ilios-logo.png" alt="Ilios" width="84" height="42" />
     <span>Version <?php include_once dirname(__FILE__) . '/version.php'; ?></span>
 </div>                 <nav id="utility">
                     <ul>
