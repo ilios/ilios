@@ -220,12 +220,14 @@ ilios.home.report.subjectNounChanged = function () {
     if (noun1 == 'competency') {
         noun2List = {
             "course": defaultNounList.course,
-            "session": defaultNounList.session
+            "session": defaultNounList.session,
+            "session type": defaultNounList["session type"]
         };
     } else if (noun1 === 'instructor') {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "instructor group": defaultNounList["instructor group"],
             "learning material": defaultNounList["learning material"],
             "topic": defaultNounList.topic
@@ -236,6 +238,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "instructor": defaultNounList["instructor"],
             "learning material": defaultNounList["learning material"],
             "topic": defaultNounList.topic
@@ -244,6 +247,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "instructor": defaultNounList.instructor,
             "instructor group": defaultNounList["instructor group"],
             "mesh term": defaultNounList["mesh term"]
@@ -253,6 +257,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "learning material": defaultNounList["learning material"]
         };
 
@@ -267,7 +272,6 @@ ilios.home.report.subjectNounChanged = function () {
     } else if (noun1 ===  'course') {
         noun2List = {
             "session": defaultNounList.session,
-            "session_type": defaultNounList["session type"],
             "program": defaultNounList.program,
             "program year": defaultNounList["program year"],
             "instructor": defaultNounList.instructor,
@@ -294,6 +298,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "program": defaultNounList.program,
             "program year": defaultNounList["program year"],
             "instructor": defaultNounList.instructor,
