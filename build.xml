@@ -102,6 +102,13 @@
         <mkdir dir="${builddir}/application/logs" />
         <mkdir dir="${builddir}/application/cache" />
         <mkdir dir="${builddir}/learning_materials" />
+        <!-- copy index files and .htaccess files to log and cache directories -->
+        <copy todir="${builddir}/application/cache">
+            <filelist dir="${webdir}/application/cache" files="index.html,.htaccess"/>
+        </copy>
+        <copy todir="${builddir}/application/logs">
+            <filelist dir="${webdir}/application/logs" files="index.html" />
+        </copy>
         <!-- drop .htaccess files into the upload dirs -->
         <touch file="${builddir}/tmp_uploads/.htaccess" />
         <append destFile="${builddir}/tmp_uploads/.htaccess"
