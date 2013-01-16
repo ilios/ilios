@@ -270,7 +270,7 @@ $viewsPath = getServerFilePath('views');
         });
 
 
-<? endif; ?>
+<?php endif; ?>
 
     </script>
 </body>
