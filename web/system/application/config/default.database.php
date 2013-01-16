@@ -5,8 +5,8 @@
 | -------------------------------------------------------------------
 | This file will contain the settings needed to access your database.
 |
-| For complete instructions please consult the "Database Connection"
-| page of the User Guide.
+| For further information please consult the Ilios wiki on GitHub:
+| https://www.github.com/ilios/ilios/wiki
 |
 | -------------------------------------------------------------------
 | EXPLANATION OF VARIABLES
@@ -16,8 +16,7 @@
 |   ['username'] The username used to connect to the database
 |   ['password'] The password used to connect to the database
 |   ['database'] The name of the database you want to connect to
-|   ['dbdriver'] The database type. ie: mysql.  Currently supported:
-                 mysql, mysqli, postgre, odbc, mssql, sqlite, oci8
+|   ['dbdriver'] The database type. ie: mysql.  Currently supported: mysqli
 |   ['dbprefix'] You can add an optional prefix, which will be added
 |                to the table name when using the  Active Record class
 |   ['pconnect'] TRUE/FALSE - Whether to use a persistent connection
@@ -30,7 +29,7 @@
 | The $active_group variable lets you choose which connection group to
 | make active.  By default there is only one group (the "default" group).
 |
-| The $active_record variables lets you determine whether or not to load
+| The $active_record variable lets you determine whether or not to load
 | the active record class
 */
 
