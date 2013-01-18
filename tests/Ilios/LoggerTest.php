@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/TestCase.php';
+require_once  'Ilios/TestCase.php';
 
 /**
  * Test case for the logger class.

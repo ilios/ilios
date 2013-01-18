@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(dirname(__FILE__))) . '/TestCase.php';
+require_once 'Ilios/TestCase.php';
 
 /**
  * Test-case for the EDS/LDAP user source client.

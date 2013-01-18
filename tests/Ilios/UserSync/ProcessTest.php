@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(__FILE__)) . '/CI/TestCase.php';
+require_once 'Ilios/CI/TestCase.php';
 
 /**
  * Base class for user synchronization test cases.

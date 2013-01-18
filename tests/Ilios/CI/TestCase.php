@@ -1,31 +1,16 @@
 <?php
-/*
- * Test environment defaults.
- * These can be overwritten in the PHPUnit configuration file.
- * @see tests/phpunit.xml
- */
-if (!defined('ILIOS_TEST_ROOT_DIR')) {
-	define('ILIOS_TEST_ROOT_DIR', '/web/ilios/htdocs/tests');
-}
-if (!defined('ILIOS_TEST_DB_ACTIVE_GROUP')) {
-	define('ILIOS_TEST_DB_ACTIVE_GROUP', 'ilios_test');
-}
-
-
-// instantiate the CI environment
-require_once ILIOS_TEST_ROOT_DIR . '/ci_bootstrap.php';
 
 // require PHP Unit classes.
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/CompositeDataSet.php';
 
-// require test utils
-require_once ILIOS_TEST_ROOT_DIR . '/Ilios/TestUtils.php';
+
 
 // require DbUnit extension
-require_once ILIOS_TEST_ROOT_DIR . '/Ilios/PHPUnit/Extensions/Database/Operation/ResetAutoincrement.php';
+require_once dirname(dirname(__FILE__)) . '/PHPUnit/Extensions/Database/Operation/ResetAutoincrement.php';
 /**
  * Base class for Ilios/CodeIgniter unit test cases.
+ *
  * Use this as a base for testing CI components, such as Model classes, within the Ilios application.
  *
  * Provided boilerplate code for dealing with populating the test database and cleaning it up
@@ -143,7 +128,7 @@ abstract class Ilios_CI_TestCase extends PHPUnit_Extensions_Database_TestCase
     	}
 
     	$dataSets = array();
-    	$dataSetsDirBasePath = ILIOS_TEST_ROOT_DIR . '/_datasets';
+    	$dataSetsDirBasePath =  '_datasets';
     	foreach ($dataSetFilePaths as $filePath) {
     	    if (0 !== strpos($filePath, '/')) {
     	        // prepend relative paths as described above.

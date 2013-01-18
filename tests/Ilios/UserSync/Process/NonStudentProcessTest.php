@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(__FILE__)) . '/ProcessTest.php';
+require_once 'Ilios/UserSync/ProcessTest.php';
 
 /**
  * Test case for the non-student-user synchronization process.
@@ -93,6 +93,6 @@ EOL;
 	 */
 	protected function _getResourcePath ()
 	{
-	    return ILIOS_TEST_ROOT_DIR . '/_datasets/user_sync/non_student_process';
+	    return dirname(__FILE__) . '/_datasets/non_student_process';
 	}
 }
