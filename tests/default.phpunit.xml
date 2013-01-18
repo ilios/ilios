@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpunit color="true">
+<phpunit bootstrap="bootstrap.php" color="true">
     <php>
         <!--  name of the CI db group configuration which should be used for testing -->
         <const name="ILIOS_TEST_DB_ACTIVE_GROUP" value="ilios_test" />
