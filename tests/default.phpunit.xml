@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpunit>
+<phpunit color="true">
     <php>
         <!--  name of the CI db group configuration which should be used for testing -->
         <const name="ILIOS_TEST_DB_ACTIVE_GROUP" value="ilios_test" />
-
-        <!--  unit-tests root directory -->
-        <const name="ILIOS_TEST_ROOT_DIR" value="/web/ilios/tests" />
 
         <!--  path to user sync log file -->
         <const name="ILIOS_TEST_USER_SYNC_LOG_FILE_PATH" value="/tmp/ilios_user_sync.log" />
@@ -13,7 +10,7 @@
         <!--  LDAP/EDS configuration for user sync process tests -->
         <const name="ILIOS_TEST_USER_SYNC_EDS_BIND_DN" value="XXXXX" />
         <const name="ILIOS_TEST_USER_SYNC_EDS_PASSWORD" value="XXXXX" />
-        <const name="ILIOS_TEST_USER_SYNC_EDS_HOST" value="XXXXX" />
+        <const name="ILIOS_TEST_USER_SYNC_EDS_HOST" value="ldaps://XXXXX" />
         <const name="ILIOS_TEST_USER_SYNC_EDS_PORT" value="XXXXX" />
     </php>
 </phpunit>
