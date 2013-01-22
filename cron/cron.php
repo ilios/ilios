@@ -49,6 +49,7 @@ foreach($argv as $arg) {
             $_SERVER['PATH_INFO'] = $splitArg[1];
             $_SERVER['REQUEST_URI'] = $splitArg[1];
             $_SERVER['SERVER_NAME'] = 'localhost'; // does not matter
+            $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
             $required['--run'] = TRUE;
             break;
         case '-S':
