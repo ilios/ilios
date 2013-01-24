@@ -8,8 +8,6 @@ The Ilios has the following minimal technical requirements
 
 * `PHP 5.3.3+`, with `mysqli` support.
 
-    **Note**: short tags must be turned on in the PHP configuration (`short_open_tag = On`).
-
     It is recommended that you allocate at least 128 MB of memory to PHP for script execution (`memory_limit = 128M`)
 
 * `MySQL 5.0.77` or later, with support for `InnoDB` and `MyISAM`
