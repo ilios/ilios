@@ -2290,6 +2290,17 @@ EOL;
                         $poDisplayValue = $sessionRow->title;
                     }
                     break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT DISTINCT(`sxd`.`discipline_id`)
+                                    FROM `session_x_discipline` `sxd`
+                                    JOIN `session` `s` ON `s`.`session_id` = sxd.`session_id`
+                                     AND `s`.`deleted` = false
+                                     AND `s`.`session_type_id` = ' . $clean['id'];
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
+                    }
+                    break;
                 case self::REPORT_NOUN_PROGRAM :
                     $queryString = 'SELECT DISTINCT `program_year_x_discipline`.`discipline_id`
                                       FROM `program_year`, `program_year_x_discipline`
