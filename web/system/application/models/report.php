@@ -2200,6 +2200,41 @@ EOL;
                         $poDisplayValue = $sessionRow->title;
                     }
                     break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = '(SELECT distinct `com`.`competency_id`, `com`.`parent_competency_id`
+                                      FROM `competency` `com`
+                                      JOIN `objective` `po` ON `po`.`competency_id` = `com`.`competency_id`
+                                      JOIN `objective` `o` ON `o`.`objective_id` = `po`.`objective_id`
+                                      JOIN `objective_x_objective` `oxo` ON `oxo`.`objective_id` = `o`.`objective_id`
+                                      JOIN `objective_x_objective` `coxo` ON `coxo`.`parent_objective_id` = `o`.`objective_id`
+                                      JOIN `objective` `co` ON `co`.`objective_id` = `coxo`.`objective_id`
+                                      JOIN `session_x_objective` `sxo` ON `sxo`.`objective_id` = `co`.`objective_id`
+                                      JOIN `session` `s` ON `s`.`session_id` = `sxo`.`session_id`
+                                       AND `oxo`.`parent_objective_id` = `po`.`objective_id`
+                                       AND `s`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `com`.`owning_school_id` = ' . $schoolId . '
+                                       AND `com`.`parent_competency_id` IS NULL
+                                  ORDER BY `com`.`title`) ';
+                    $queryString .= 'UNION ';
+                    $queryString .= '(SELECT distinct `com`.`competency_id`, `com`.`parent_competency_id`
+                                      FROM `competency` `com`
+                                      JOIN `competency` `parent_com` ON `parent_com`.`competency_id` = `com`.`competency_id`
+                                      JOIN `objective` `po` ON `po`.`competency_id` = `com`.`competency_id`
+                                      JOIN `objective` `o` ON `o`.`objective_id` = `po`.`objective_id`
+                                      JOIN `objective_x_objective` `oxo` ON `oxo`.`objective_id` = `o`.`objective_id`
+                                      JOIN `objective_x_objective` `coxo` ON `coxo`.`parent_objective_id` = `o`.`objective_id`
+                                      JOIN `objective` `co` ON `co`.`objective_id` = `coxo`.`objective_id`
+                                      JOIN `session_x_objective` `sxo` ON `sxo`.`objective_id` = `co`.`objective_id`
+                                      JOIN `session` `s` ON `s`.`session_id` = `sxo`.`session_id`
+                                       AND `s`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `com`.`owning_school_id` = ' . $schoolId . '
+                                       AND `com`.`parent_competency_id` = `parent_com`.`competency_id`
+                                  ORDER BY `parent_com`.`title`, `com`.`title`)';
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
+                    }
+                    break;
                 default :
                     $poDisplayValue = "Error: Cannot match prepositional object - " . $po . ", contact developer.";
             }
