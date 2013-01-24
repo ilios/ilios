@@ -366,18 +366,6 @@ class Report extends Abstract_Ilios_Model
                         $poDisplayValue = $sessionRow->title;
                     }
                     break;
-                case self::REPORT_NOUN_SESSION_TYPE :
-                    $queryString = 'SELECT `session_type`.`session_type_id`,`session_type`.`title`
-                                     FROM `session_type`
-                                    WHERE `session`.`session_type_id` = ' . $clean['id'] . '
-                                      AND `course`.`deleted` = 0
-                                      AND `course`.`owning_school_id` = ' . $schoolId . '
-                                 ORDER BY `session_type`.`title`';
-                    $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
-                    if ($sessionTypeRow) {
-                        $poDisplayValue = $sessionTypeRow->title;
-                    }
-                    break;
                 case self::REPORT_NOUN_PROGRAM :
                     $queryString = 'SELECT DISTINCT `course`.`course_id`
                                       FROM `course_x_cohort`, `cohort`, `program_year`, `course`
@@ -1538,6 +1526,80 @@ EOL;
                         $poDisplayValue = $sessionRow->title;
                     }
                     break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT DISTINCT `offering_instructor`.`user_id`
+                                      FROM `offering_instructor` 
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false
+                                       AND `offering_instructor`.`user_id` IS NOT NULL
+                                  UNION
+                                    SELECT DISTINCT `instructor_group_x_user`.`user_id`
+                                      FROM `instructor_group_x_user`
+                                      JOIN `offering_instructor` ON`offering_instructor`.`instructor_group_id`
+                                                                       = `instructor_group_x_user`.`instructor_group_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false
+                                  UNION
+                                    SELECT DISTINCT `group_default_instructor`.`user_id`
+                                      FROM `group_default_instructor`
+                                      JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_default_instructor`.`group_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id` 
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false
+                                       AND `group_default_instructor`.`user_id` IS NOT NULL
+                                  UNION
+                                    SELECT DISTINCT `instructor_group_x_user`.`user_id`
+                                      FROM `instructor_group_x_user`
+                                      JOIN `group_default_instructor` ON `group_default_instructor`.`instructor_group_id`
+                                                                       					= `instructor_group_x_user`.`instructor_group_id`
+                                      JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_default_instructor`.`group_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id` 
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false
+                                  UNION
+                                    SELECT DISTINCT `ilm_session_facet_instructor`.`user_id`
+                                      FROM `ilm_session_facet_instructor`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false
+                                       AND `ilm_session_facet_instructor`.`user_id` IS NOT NULL
+                                  UNION
+                                    SELECT DISTINCT `instructor_group_x_user`.`user_id`
+                                      FROM `instructor_group_x_user`
+                                      JOIN `ilm_session_facet_instructor` ON `ilm_session_facet_instructor`.`instructor_group_id`
+                                                                       						= `instructor_group_x_user`.`instructor_group_id`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false
+                                  UNION
+                                    SELECT DISTINCT `group_default_instructor`.`user_id`
+                                      FROM `group_default_instructor`
+                                      JOIN `ilm_session_facet_learner` ON `ilm_session_facet_learner`.`group_id` = `group_default_instructor`.`group_id`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_learner`.`ilm_session_facet_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false
+                                       AND `group_default_instructor`.`user_id` IS NOT NULL
+                                  UNION
+                                    SELECT DISTINCT `instructor_group_x_user`.`user_id`
+                                      FROM `instructor_group_x_user`
+                                      JOIN `group_default_instructor` ON `group_default_instructor`.`instructor_group_id`
+                                                                       						= `instructor_group_x_user`.`instructor_group_id`
+                                      JOIN `ilm_session_facet_learner` ON `ilm_session_facet_learner`.`group_id`
+                                                                       								= `group_default_instructor`.`group_id`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_learner`.`ilm_session_facet_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] . '
+                                       AND `session`.`deleted` = false';
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
+                    }
+                    break;    
                 case self::REPORT_NOUN_INSTRUCTOR_GROUP :
                     $queryString = 'SELECT `user_id`
                                     FROM `instructor_group_x_user`
@@ -1862,6 +1924,44 @@ EOL;
                     $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
                     if ($sessionRow) {
                         $poDisplayValue = $sessionRow->title;
+                    }
+                    break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT DISTINCT `offering_instructor`.`instructor_group_id`
+                                      FROM `offering_instructor`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id']  . '
+                                       AND `offering_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `session`.`deleted` = false
+                                  UNION
+                                    SELECT DISTINCT `group_default_instructor`.`instructor_group_id`
+                                      FROM `group_default_instructor`
+                                      JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_default_instructor`.`group_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id']  . '
+                                       AND `group_default_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `session`.`deleted` = false
+                                  UNION
+                                    SELECT DISTINCT `ilm_session_facet_instructor`.`instructor_group_id`
+                                      FROM `ilm_session_facet_instructor`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id']  . '
+                                       AND `ilm_session_facet_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `session`.`deleted` = false
+                                  UNION
+                                    SELECT DISTINCT `group_default_instructor`.`instructor_group_id`
+                                      FROM `group_default_instructor`
+                                      JOIN `ilm_session_facet_learner` ON `ilm_session_facet_learner`.`group_id`
+                                                                       				= `group_default_instructor`.`group_id`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_learner`.`ilm_session_facet_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id']  . '
+                                       AND `group_default_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `session`.`deleted` = false';
+                    $sessionTypeRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
                     }
                     break;
                 case self::REPORT_NOUN_INSTRUCTOR :
@@ -2579,6 +2679,16 @@ EOL;
                     $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
                     if ($sessionRow) {
                         $poDisplayValue = $sessionRow->title;
+                    }
+                    break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT `session_learning_material`.`learning_material_id`
+                                    FROM `session_learning_material`
+                                    JOIN `session` ON `session`.`session_id` = `session_learning_material`.`session_id`
+                                    AND session_type_id = ' . $clean['id'];
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
                     }
                     break;
                 case self::REPORT_NOUN_INSTRUCTOR :
