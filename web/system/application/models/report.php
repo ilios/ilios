@@ -2966,6 +2966,32 @@ EOL;
                         $poDisplayValue = $sessionRow->title;
                     }
                     break;
+                case self::REPORT_NOUN_SESSION_TYPE :
+                    $queryString = 'SELECT `session_x_mesh`.`mesh_descriptor_uid`
+                                      FROM `session_x_mesh`
+                                      JOIN `session` ON `session`.`session_id` = `session_x_mesh`.`session_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] .'
+                                       AND `session`.`deleted` = FALSE
+                                    UNION
+                                    SELECT `session_learning_material_x_mesh`.`mesh_descriptor_uid`
+                                      FROM `session_learning_material_x_mesh`
+                                      JOIN `session_learning_material` ON `session_learning_material_x_mesh`.`session_learning_material_id`
+                                                            						= `session_learning_material`.`session_learning_material_id`
+                                      JOIN `session` ON `session`.`session_id` = `session_learning_material`.`session_id`                      						
+                                     WHERE `session`.`session_type_id` = ' . $clean['id'] .'
+                                       AND `session`.`deleted` = FALSE
+                                  UNION
+                                    SELECT `objective_x_mesh`.`mesh_descriptor_uid`
+                                      FROM `objective_x_mesh`
+                                      JOIN `session_x_objective` ON `session_x_objective`.`objective_id` = `objective_x_mesh`.`objective_id`
+                                      JOIN `session` ON `session`.`session_id` = `session_x_objective`.`session_id`
+                                       AND `session`.`session_type_id` = ' . $clean['id'] .'
+                                       AND `session`.`deleted` = FALSE';
+                    $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
+                    if ($sessionTypeRow) {
+                        $poDisplayValue = $sessionTypeRow->title;
+                    }
+                    break;
                 case self::REPORT_NOUN_LEARNING_MATERIAL :
                     $queryString = 'SELECT `cxm`.`mesh_descriptor_uid`
                                     FROM `course_learning_material` `c`, `course_learning_material_x_mesh` `cxm`
