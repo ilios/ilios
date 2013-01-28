@@ -2726,7 +2726,7 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_SESSION_TYPE :
-                    $queryString = 'SELECT `session_learning_material`.`learning_material_id`
+                    $queryString = 'SELECT DISTINCT `session_learning_material`.`learning_material_id`
                                     FROM `session_learning_material`
                                     JOIN `session` ON `session`.`session_id` = `session_learning_material`.`session_id`
                                     AND session_type_id = ' . $clean['id'];
