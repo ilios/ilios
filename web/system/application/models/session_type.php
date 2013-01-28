@@ -27,7 +27,7 @@ class Session_Type extends Abstract_Ilios_Model
         $rhett = array();
 
         $DB = $this->dbHandle;
-        if($schoolId) $DB->where('owning_school_id', $schoolId);
+        $DB->where('owning_school_id', $schoolId);
         $DB->order_by('title');
 
         $result = $DB->get($this->databaseTableName);
