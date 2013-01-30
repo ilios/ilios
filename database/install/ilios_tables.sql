@@ -1301,16 +1301,18 @@ ENGINE=InnoDB;
 --
 --
 --
+DROP TABLE IF EXISTS `ci_sessions`;
+SET character_set_client = utf8;
 
-
-
-        DROP TABLE IF EXISTS `ci_sessions`;
-        SET character_set_client = utf8;
-        CREATE TABLE `ci_sessions` (
-                session_id VARCHAR(40) DEFAULT '0' NOT NULL,
-                ip_address VARCHAR(16) DEFAULT '0' NOT NULL,
-                user_agent VARCHAR(50) NOT NULL,
-                last_activity INT(10) unsigned DEFAULT 0 NOT NULL,
-                user_data TEXT NOT NULL,
-                PRIMARY KEY (session_id)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+    session_id varchar(40) DEFAULT '0' NOT NULL,
+    ip_address varchar(45) DEFAULT '0' NOT NULL,
+    user_agent varchar(120) NOT NULL,
+    last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+    user_data text NOT NULL,
+    PRIMARY KEY (session_id),
+    KEY `last_activity_idx` (`last_activity`)
+)
+DEFAULT CHARSET=utf8
+ENGINE=MyISAM
+;

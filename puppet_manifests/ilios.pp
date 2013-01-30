@@ -90,16 +90,16 @@ class ilios (
     require => Exec["enable-mod-ssl"],
   }
 
-  file {"${docroot}/system/application/config/config.php":
-    source => "${docroot}/system/application/config/default.config.php",
+  file {"${docroot}/application/config/config.php":
+    source => "${docroot}/application/config/default.config.php",
   }
 
-  file {"${docroot}/system/application/config/ilios.php":
-    source => "${docroot}/system/application/config/default.ilios.php"
+  file {"${docroot}/application/config/ilios.php":
+    source => "${docroot}/application/config/default.ilios.php"
   }
 
-  file {"${docroot}/system/application/config/database.php":
-    source => "${docroot}/system/application/config/default.database.php"
+  file {"${docroot}/application/config/database.php":
+    source => "${docroot}/application/config/default.database.php"
   }
 
   file {"${docroot}/index.html":
@@ -119,18 +119,13 @@ class ilios (
   }
 
   exec {"edit-ilios.php":
-    cwd => "${docroot}/system/application/config/",
+    cwd => "${docroot}/application/config/",
     require => Exec["set-version"],
     command => '/bin/sed "s/%%ILIOS_INSTITUTION_NAME%%/Sweet Valley University/; s/%%ILIOS_REVISION%%/`cat /tmp/ilios_version.txt`/" default.ilios.php > ilios.php',
   }
 
-  exec {"edit-config.php":
-    cwd => "${docroot}/system/application/config/",
-    command => '/bin/sed "s#https://%%DEPLOY_URL%%/#/#" default.config.php > config.php',
-  }
-
   exec {"edit-database.php":
-    cwd => "${docroot}/system/application/config/",
+    cwd => "${docroot}/application/config/",
     command => "/bin/sed 's/%%DBGROUP%%/default/;  s/%%DBHOSTNAME%%/localhost/; s/%%DBUSERNAME%%/${dbuser}/; s/%%DBPASSWORD%%/${dbpass}/; s/%%DBNAME%%/${dbname}/' default.database.php > database.php",
   }
 
