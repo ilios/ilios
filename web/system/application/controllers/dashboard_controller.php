@@ -1010,6 +1010,46 @@ class Dashboard_Controller extends Calendar_Controller
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
+    
+	/**
+     * @todo add code docs.
+     */
+    public function getAllSessionTypesForReportSelection ()
+    {
+        $rhett = array();
+        $lang =  $this->getLangToUse();
+
+        // authentication check
+        if ($this->divertedForAuthentication) {
+            $this->_printAuthenticationFailedXhrResponse($lang);
+            return;
+        }
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+        
+        // get the school id
+        $schoolId = $this->session->userdata('school_id');
+        
+        $sessionTypes = $this->sessionType->getList ($schoolId);
+        
+        $items = array();
+        foreach ($sessionTypes as $row) {
+            $item = array();
+            $item['value'] = $row['session_type_id'];
+            $item['display_title'] = $row['title'];
+
+            array_push($items, $item);
+        }
+
+        $rhett['items'] = $items;
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
 
     public function getProgramsForCourses ()
     {

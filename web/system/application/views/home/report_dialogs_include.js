@@ -24,6 +24,7 @@ ilios.home.report.inEditReportModel = null;
 ilios.home.report.defaultNounList = {
     "course": ilios_i18nVendor.getI18NString("general.terms.course"),
     "session": ilios_i18nVendor.getI18NString("general.terms.session"),
+    "session type": ilios_i18nVendor.getI18NString("general.terms.session_type"),
     "program": ilios_i18nVendor.getI18NString("general.terms.program"),
     "program year": ilios_i18nVendor.getI18NString("general.terms.program_year"),
     "instructor": ilios_i18nVendor.getI18NString("general.terms.instructor"),
@@ -219,12 +220,14 @@ ilios.home.report.subjectNounChanged = function () {
     if (noun1 == 'competency') {
         noun2List = {
             "course": defaultNounList.course,
-            "session": defaultNounList.session
+            "session": defaultNounList.session,
+            "session type": defaultNounList["session type"]
         };
     } else if (noun1 === 'instructor') {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "instructor group": defaultNounList["instructor group"],
             "learning material": defaultNounList["learning material"],
             "topic": defaultNounList.topic
@@ -235,6 +238,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "instructor": defaultNounList["instructor"],
             "learning material": defaultNounList["learning material"],
             "topic": defaultNounList.topic
@@ -243,6 +247,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "instructor": defaultNounList.instructor,
             "instructor group": defaultNounList["instructor group"],
             "mesh term": defaultNounList["mesh term"]
@@ -252,6 +257,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "learning material": defaultNounList["learning material"]
         };
 
@@ -278,6 +284,7 @@ ilios.home.report.subjectNounChanged = function () {
     } else if (noun1 === 'session') {
         noun2List = {
             "course": defaultNounList.course,
+            "session type": defaultNounList["session type"],
             "program": defaultNounList.program,
             "program year": defaultNounList["program year"],
             "instructor": defaultNounList.instructor,
@@ -291,6 +298,7 @@ ilios.home.report.subjectNounChanged = function () {
         noun2List = {
             "course": defaultNounList.course,
             "session": defaultNounList.session,
+            "session type": defaultNounList["session type"],
             "program": defaultNounList.program,
             "program year": defaultNounList["program year"],
             "instructor": defaultNounList.instructor,
@@ -385,6 +393,8 @@ ilios.home.report.populateRestrictiveNounValueDiv = function () {
         ilios.home.report.populatePopup('getAllCoursesForReportSelection');
     } else if (noun === 'session') {
         ilios.home.report.populatePopup('getAllSessionsForReportSelection');
+    } else if (noun === 'session type') {
+        ilios.home.report.populatePopup('getAllSessionTypesForReportSelection');
     } else if (noun === 'program') {
         ilios.home.report.populatePopup('getAllProgramsForReportSelection');
     } else if (noun === 'program year') {
