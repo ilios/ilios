@@ -493,13 +493,6 @@ EOL;
         if ($rhett) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($cohortId, 'cohort_id', $this->databaseTableName,
                 Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-
-            $updateRow = array();
-            $updateRow['cohort_id'] = null;
-            $DB->where('cohort_id', $cohortId);
-            $DB->update('user', $updateRow);
-
-            $rhett = (! $this->transactionAtomFailed());
         }
         return $rhett;
     }
