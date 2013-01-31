@@ -6,7 +6,8 @@
 .settings
 .vagrant
 index.php
-web/application/config/config.php
-web/application/config/database.php
-web/application/config/ilios.php
+web/system/application/config/config.php
+web/system/application/config/database.php
+web/system/application/config/ilios.php
+web/system/logs/*
 tests/phpunit.xml
