@@ -160,7 +160,6 @@ ilios.cm.session.ilm.showInstructors = function (showSelectorDiv) {
 
     if (showSelectorDiv) {
         (new YAHOO.util.Element(element)).setStyle('display', 'none');
-
         ilios.cm.session.ilm.instructorGroupAutoCompleter.sendQuery('');
     } else {
         (new YAHOO.util.Element(element)).setStyle('display', 'inline');
@@ -173,6 +172,7 @@ ilios.cm.session.ilm.showILMLightbox = function (containerNumber) {
     var now = null;
     var sessionModel = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
     var dueDate = null;
+    var displayString, tmpArray, tmpModel, key;
 
     // MAY RETURN THIS BLOCK
     if (ilios.cm.currentCourseModel.isModelDirty()) {
@@ -220,6 +220,22 @@ ilios.cm.session.ilm.showILMLightbox = function (containerNumber) {
     ilios.lg.picker.updateLearnerTextField();
 
     ilios.cm.session.ilm.updateInstructorGroupTextField();
+
+    // populate left-hand side ("selected instructors") of instructor picker
+    element = document.getElementById('calendar_instructor_selected');
+    ilios.utilities.removeAllChildren(element);
+    tmpArray = ilios.cm.session.ilm.inEditIndependentLearningModel.getInstructors();
+    for (key in tmpArray) {
+        tmpModel = tmpArray[key];
+
+        if (tmpModel instanceof UserModel) {
+            displayString = tmpModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+        } else {
+            displayString = tmpModel.title;
+        }
+
+        ilios.dom.addNewLIElementWithIliosModel(element, tmpModel, displayString);
+    }
 
     dueDate = ilios.cm.session.ilm.inEditIndependentLearningModel.getDueDate();
     if (dueDate != null) {
