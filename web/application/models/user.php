@@ -832,7 +832,7 @@ EOL;
     	$DB->where('user.enabled', 1);
 
     	$len = strlen($name);
-    	if (! $name) {
+    	if ('' === trim($name)) {
     		// search all
     	} elseif (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
     	    // trailing wildcard search
