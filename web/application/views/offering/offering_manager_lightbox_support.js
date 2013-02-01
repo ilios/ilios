@@ -152,6 +152,14 @@ ilios.om.lightbox.buildLightboxDOM = function () {
         dialog.show();
     };
 
+    dialog.showEvent.subscribe(function() {
+        // check if the instructor picker container is expanded
+        // if and ONLY so, refresh the autocomplete list
+        if ('none' !== YAHOO.util.Dom.getStyle('ilios_calendar_instructors_selector_div', 'display')) {
+            ilios.om.lightbox.instructorGroupAutoCompleter.sendQuery('');
+        }
+    });
+
     // Render the Dialog
     dialog.render();
 
@@ -505,7 +513,6 @@ ilios.om.lightbox.showInstructors = function (showSelectorDiv) {
 
     if (showSelectorDiv) {
         (new Element(element)).setStyle('display', 'none');
-
         ilios.om.lightbox.instructorGroupAutoCompleter.sendQuery('');
     }
     else {
@@ -702,14 +709,11 @@ ilios.om.lightbox.filterInstructors = function (queryString, fullResponse, parse
     var filteredResults = [];
     var i = 0;
     for (; i < len; i++) {
-        if (! ilios.dom.iliosModeledLIElementsContainMatchingModel(selectedList,
-                                                                   parsedResponse.results[i])) {
+        if (! ilios.dom.iliosModeledLIElementsContainMatchingModel(selectedList, parsedResponse.results[i])) {
             filteredResults.push(parsedResponse.results[i]);
         }
     }
-
     parsedResponse.results = filteredResults;
-
     return parsedResponse;
 };
 
