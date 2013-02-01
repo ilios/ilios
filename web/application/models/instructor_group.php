@@ -191,17 +191,17 @@ EOL;
     }
 
     /**
-     * Searches instructor groups by a given title in the context of a given school.
-     * @param string $search the search term
+     * Retrieves a list of instructor groups associated with a given school,
+     * and optionally further filtered by a given group title(-fragment).
      * @param int $schoolId
+     * @param string $search the title/title-fragment.
      * @return array a nested array of assoc. arrays, each sub-array representing an instructor group
      */
-    public function searchByTitle ($search = '', $schoolId) {
+    public function getList ($schoolId, $search = '')
+    {
         $rhett = array();
-
         $DB = $this->dbHandle;
-
-        if ($search) {
+        if ('' !== trim($search)) {
             $len = strlen($search);
             if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
                 $DB->like('title', $search);
