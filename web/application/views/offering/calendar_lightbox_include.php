@@ -25,7 +25,7 @@
                         style="width: 100%; height: 45px; padding-left: 3px; overflow: auto;"
                         class="read_only_data"></div>
                     <div id="ilios_calendar_instructors_selector_div"
-                        style="display: none; height: 150px; margin-bottom: 36px;">
+                        style="display: none; height: 160px; margin-bottom: 36px;">
                         <div style="float: left; width: 39%; overflow: auto;">
                             <ul class="picked" id="calendar_instructor_selected"
                                 style="height: 140px; margin-top: 25px;"></ul>
@@ -37,7 +37,11 @@
                                     name="calendar_instructor_ac_input" type="text">
                             </div>
                             <div class="autolist" id="calendar_instructor_autolist"></div>
+                            <div id="calendar_instructor_progress_indicator">
+                                <img src="<?php echo $viewsUrlRoot . 'images/loading.gif' ?>" border="0" />
+                            </div>
                         </div>
+
                         <div class="clear"></div>
                         <div id="calendar_instructor_collapse_selector" class="up_arrow_widget"></div>
                         <div class="clear"></div>

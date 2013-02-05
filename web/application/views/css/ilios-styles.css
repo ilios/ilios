@@ -2139,6 +2139,14 @@ div.icon_dhtmlx_spacer {
     overflow-x: hidden;
 }
 
+/* instructor picker */
+#calendar_instructor_progress_indicator {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    top: 168px;
+}
+
 /********************************/
 /* MeSH picker dialog           */
 .mesh_search_picked {
