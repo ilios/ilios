@@ -33,7 +33,7 @@ abstract class Ilios_UserSync_ProcessTest extends Ilios_CI_TestCase
 	{
 	    parent::setUp();
 
-	    $this->_logger = Ilios_Logger::getInstance(ILIOS_TEST_USER_SYNC_LOG_FILE_PATH); // @see tests/phpunit.xml
+	    $this->_logger = Ilios_Logger::getInstance(ILIOS_TEST_USER_SYNC_LOG_FILE_PATH); // @see tests/phpunit/phpunit.xml
 	    $this->_controller->load->model('User_Sync_Exception', 'user_sync_exception', true);
 	    $this->_userDao = $this->_controller->user;
 	    $this->_schoolDao = $this->_controller->school;
