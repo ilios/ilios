@@ -152,6 +152,15 @@ ilios.om.lightbox.buildLightboxDOM = function () {
         dialog.show();
     };
 
+    dialog.showEvent.subscribe(function() {
+        // check if the instructor picker container is expanded
+        // if and ONLY so, refresh the autocomplete list
+        if ('none' !== YAHOO.util.Dom.getStyle('ilios_calendar_instructors_selector_div', 'display')) {
+            document.getElementById('calendar_instructor_ac_input').value = '';
+            ilios.om.lightbox.instructorGroupAutoCompleter.sendQuery('');
+        }
+    });
+
     // Render the Dialog
     dialog.render();
 
@@ -271,6 +280,16 @@ ilios.om.lightbox.registerLightboxUIListeners = function () {
 
         return resultDataObject.title;
     };
+
+    ilios.om.lightbox.instructorGroupAutoCompleter.dataReturnEvent.subscribe(function (sType, aArgs) {
+        YAHOO.util.Dom.setStyle('calendar_instructor_ac_progress', 'visibility', 'hidden');
+    });
+
+    ilios.om.lightbox.instructorGroupAutoCompleter.dataRequestEvent.subscribe(function (sType, aArgs) {
+        YAHOO.util.Dom.setStyle('calendar_instructor_ac_progress', 'visibility', 'visible');
+        var myAC = aArgs[0];
+        myAC.clearList();
+    });
 
     itemSelectHandler = function (selectionType, selectionArgs) {
         ilios.om.lightbox.handleInstructorGroupSelection(selectionArgs[2]);
@@ -505,7 +524,7 @@ ilios.om.lightbox.showInstructors = function (showSelectorDiv) {
 
     if (showSelectorDiv) {
         (new Element(element)).setStyle('display', 'none');
-
+        document.getElementById('calendar_instructor_ac_input').value = '';
         ilios.om.lightbox.instructorGroupAutoCompleter.sendQuery('');
     }
     else {
@@ -620,6 +639,7 @@ ilios.om.lightbox.handleInstructorGroupDeselection = function (event) {
         target.parentNode.removeChild(target);
         ilios.om.lightbox.inEditOfferingModel.removeInstructor(model);
         ilios.om.lightbox.updateInstructorGroupTextField();
+        document.getElementById('calendar_instructor_ac_input').value = '';
         ilios.om.lightbox.instructorGroupAutoCompleter.sendQuery('');
         return false;
     }
@@ -702,14 +722,11 @@ ilios.om.lightbox.filterInstructors = function (queryString, fullResponse, parse
     var filteredResults = [];
     var i = 0;
     for (; i < len; i++) {
-        if (! ilios.dom.iliosModeledLIElementsContainMatchingModel(selectedList,
-                                                                   parsedResponse.results[i])) {
+        if (! ilios.dom.iliosModeledLIElementsContainMatchingModel(selectedList, parsedResponse.results[i])) {
             filteredResults.push(parsedResponse.results[i]);
         }
     }
-
     parsedResponse.results = filteredResults;
-
     return parsedResponse;
 };
 

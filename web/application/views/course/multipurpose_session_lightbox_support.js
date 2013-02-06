@@ -30,7 +30,6 @@ ilios.cm.session.buildMultipurposeLightboxDOM = function () {
 
     var handleCancel = function () {
         ilios.cm.session.userCanceledMultipurposeLightboxChanges(this);
-
         this.cancel();
     };
 
@@ -40,15 +39,28 @@ ilios.cm.session.buildMultipurposeLightboxDOM = function () {
                        {text: cancelStr, handler: handleCancel}];
 
     var panelWidth = "530px";
-    var dialog = new YAHOO.widget.Dialog('multipurpose_session_lightbox',
-                                         {width: panelWidth, modal: true, visible: false,
-                                          constraintoviewport: false, buttons: buttonArray});
+    var dialog = new YAHOO.widget.Dialog('multipurpose_session_lightbox', {
+        width: panelWidth,
+        modal: true,
+        visible: false,
+        constraintoviewport: false,
+        buttons: buttonArray
+    });
+
     var titleStr = ilios_i18nVendor.getI18NString('general.phrases.choose_date') + ':';
 
     dialog.showDialogPane = function () {
         this.center();
         this.show();
     };
+
+    dialog.showEvent.subscribe(function() {
+        // check if the instructor picker container is expanded
+        // if and ONLY so, refresh the autocomplete list
+        if ('none' !== YAHOO.util.Dom.getStyle('ilios_calendar_instructors_selector_div', 'display')) {
+            ilios.cm.session.ilm.instructorGroupAutoCompleter.sendQuery('');
+        }
+    });
 
     // Render the Dialog
     dialog.render();

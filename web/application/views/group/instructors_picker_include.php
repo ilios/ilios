@@ -21,6 +21,10 @@
                         <label for="instructor_picker_ac_input"><?php echo $word_filter_string; ?></label>:<br />
                         <input id="instructor_picker_ac_input" name="instructor_picker_ac_input" type="text">
                         <div class="autolist" id="instructor_picker_autolist"></div>
+                        <div id="instructor_picker_ac_progress" class="invisible"
+                            style="position:absolute; left: 0; top: 326px;">
+                            <img src="<?php echo $viewsUrlRoot . 'images/loading.gif' ?>" border="0" />
+                        </div>
                     </div>
                 </div>
             </form>
@@ -187,6 +191,12 @@
             dialog.show();
         };
 
+        dialog.showEvent.subscribe(function() {
+            // refresh the autocomplete list
+            document.getElementById('instructor_picker_ac_input').value = '';
+            instructorGroupAutoCompleter.sendQuery('');
+        });
+
         dialog.render();
 
         instructorPickerDialog = dialog;
@@ -224,11 +234,20 @@
             return resultDataObject.title;
         };
 
+        instructorGroupAutoCompleter.dataReturnEvent.subscribe(function (sType, aArgs) {
+            YAHOO.util.Dom.setStyle('instructor_picker_ac_progress', 'visibility', 'hidden');
+        });
+
+        instructorGroupAutoCompleter.dataRequestEvent.subscribe(function (sType, aArgs) {
+            YAHOO.util.Dom.setStyle('instructor_picker_ac_progress', 'visibility', 'visible');
+            var myAC = aArgs[0];
+            myAC.clearList();
+        });
+
+
         itemSelectHandler = function (selectionType, selectionArgs) {
             ilios.gm.handleInstructorGroupSelection(selectionArgs[2]);
-
             selectionArgs[1].parentNode.removeChild(selectionArgs[1]);
-
             document.getElementById('instructor_picker_ac_input').value = '';
         };
         instructorGroupAutoCompleter.itemSelectEvent.subscribe(itemSelectHandler);
