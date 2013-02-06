@@ -113,11 +113,11 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
 
     /**
      * XHR handler.
-     * Searches instructors and instructor groups by a given search term
+     * Retrieves instructors and instructor groups, optionally filtered by a given search term.
      * and prints out the search results as JSON-formatted string.
      *
      * Expects the following request query parameters:
-     *     'query' ... the search term.
+     *     'query' ... the search term. if none is provided then all available instructors/instructor-groups are returned.
      *
      * Prints out a JSON formatted object, the actual results array is keyed off by "results"
      * <pre>
@@ -156,23 +156,19 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
 
         $rhett['results'] = array();
 
-        $search = $this->input->get('query');
+        $search = ltrim($this->input->get('query'));
 
-        if (! empty($search)) {
-            $user = $this->user->getRowForPrimaryKeyId($this->session->userdata('uid'));
-            $schoolId =  $user->primary_school_id;
+        $user = $this->user->getRowForPrimaryKeyId($this->session->userdata('uid'));
+        $schoolId =  $user->primary_school_id;
 
-            $instructors = array();
-
-            $queryResult = $this->getFacultyFilteredOnNameMatch($search); // get instructors
-            foreach ($queryResult->result_array() as $row) {
-                $instructors[] = $this->convertStdObjToArray($row);
-            }
-
-            $groups = $this->instructorGroup->searchByTitle($search, $schoolId); // get instructor groups
-
-            $rhett['results'] = array_merge($groups, $instructors); // merge groups and instructor
+        $instructors = array();
+        $queryResult = $this->getFacultyFilteredOnNameMatch($search); // search instructors
+        foreach ($queryResult->result_array() as $row) {
+            $instructors[] = $this->convertStdObjToArray($row);
         }
+        $groups = $this->instructorGroup->getList($schoolId, $search); // search instructor groups
+        $rhett['results'] = array_merge($groups, $instructors); // merge groups and instructor
+
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
