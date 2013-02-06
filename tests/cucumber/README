@@ -1,0 +1,15 @@
+To install necessary components to run Cucumber tests:
+
+* Make sure you have Firefox, Ruby, Vagrant, and VirtualBox installed.
+* Make sure you have RubyGems installed. http://docs.rubygems.org/read/chapter/3
+* Make sure you have the Bundler gem install. http://gembundler.com/
+* From this directory, type `bundle install`
+
+To run Cucumber tests:
+
+* From this directory, type `cucumber`
+
+If your Vagrant-ized instance of Ilios is not already running on your local machine
+then it may take a few minutes before the tests start.
+
+For more information, see http://cukes.info/
