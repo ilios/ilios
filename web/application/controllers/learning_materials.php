@@ -420,8 +420,9 @@ class Learning_Materials extends Abstract_Ilios_Controller
 
         $config['upload_path'] = '.' . $uploadPath;
         // nightmarish
-        $config['allowed_types'] = 'aiff|avi|csv|doc|docx|gif|gz|html|jpeg|jpg|mov|mp3|mp4|mpg|pdf|png|ppt|pptx|'
-            . 'rtf|swf|tar|tiff|txt|wav|word|wmv|xls|xlsx|xml|zip';
+        $config['allowed_types'] = 'aiff|avi|csv|doc|docm|docx|dot|dotm|dotx|gif|gz|html|jpeg'
+            . '|jpg|mov|mp3|mp4|mpg|pdf|png|pot|potm|potx|ppa|ppam|pps|ppsm|ppsx|ppt|pptm|pptx'
+            . '|rtf|swf|tar|tiff|txt|wav|word|wmv|xla|xlam|xls|xlsb|xlsm|xlsx|xlt|xltm|xltx|xml|zip';
         $config['max_size'] = '107520'; // 105 MB -- todo this also need php.ini to say such a big thing is ok
 
         $this->load->library('upload', $config);
