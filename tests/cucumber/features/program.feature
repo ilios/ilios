@@ -1,6 +1,7 @@
 Feature: Access, program creation, cohort creation, course creation (independent of those other two)
-    In order to ????
-    Admins must be able to ???
+    In order to create the best possible curriculum for students
+    Admins should be able engage in evidence-based curriculum management
+    Which requires adding and interacting curricular content
 
 Scenario: Add program
     Given I am on the Ilios home page
