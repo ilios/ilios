@@ -282,11 +282,11 @@ ilios.om.lightbox.registerLightboxUIListeners = function () {
     };
 
     ilios.om.lightbox.instructorGroupAutoCompleter.dataReturnEvent.subscribe(function (sType, aArgs) {
-        YAHOO.util.Dom.setStyle('calendar_instructor_progress_indicator', 'visibility', 'hidden');
+        YAHOO.util.Dom.setStyle('calendar_instructor_ac_progress', 'visibility', 'hidden');
     });
 
     ilios.om.lightbox.instructorGroupAutoCompleter.dataRequestEvent.subscribe(function (sType, aArgs) {
-        YAHOO.util.Dom.setStyle('calendar_instructor_progress_indicator', 'visibility', 'visible');
+        YAHOO.util.Dom.setStyle('calendar_instructor_ac_progress', 'visibility', 'visible');
         var myAC = aArgs[0];
         myAC.clearList();
     });
@@ -639,6 +639,7 @@ ilios.om.lightbox.handleInstructorGroupDeselection = function (event) {
         target.parentNode.removeChild(target);
         ilios.om.lightbox.inEditOfferingModel.removeInstructor(model);
         ilios.om.lightbox.updateInstructorGroupTextField();
+        document.getElementById('calendar_instructor_ac_input').value = '';
         ilios.om.lightbox.instructorGroupAutoCompleter.sendQuery('');
         return false;
     }

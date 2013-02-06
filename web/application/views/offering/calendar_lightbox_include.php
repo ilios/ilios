@@ -37,7 +37,8 @@
                                     name="calendar_instructor_ac_input" type="text">
                             </div>
                             <div class="autolist" id="calendar_instructor_autolist"></div>
-                            <div id="calendar_instructor_progress_indicator">
+                            <div id="calendar_instructor_ac_progress" class="invisible"
+                                style="position: absolute; left: 0; top: 168px;">
                                 <img src="<?php echo $viewsUrlRoot . 'images/loading.gif' ?>" border="0" />
                             </div>
                         </div>
