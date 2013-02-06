@@ -119,15 +119,11 @@ ilios.cm.session.ilm.handleInstructorGroupDeselection = function (event) {
 
     if (target.tagName.toLowerCase() === 'li') {
         var model = target.iliosModel;
-
         target.parentNode.removeChild(target);
-
         ilios.cm.session.ilm.inEditIndependentLearningModel.removeInstructor(model);
-
         ilios.cm.session.ilm.updateInstructorGroupTextField();
-
+        document.getElementById('calendar_instructor_ac_input').value = '';
         ilios.cm.session.ilm.instructorGroupAutoCompleter.sendQuery('');
-
         return false;
     }
 
@@ -160,6 +156,7 @@ ilios.cm.session.ilm.showInstructors = function (showSelectorDiv) {
 
     if (showSelectorDiv) {
         (new YAHOO.util.Element(element)).setStyle('display', 'none');
+        document.getElementById('calendar_instructor_ac_input').value = '';
         ilios.cm.session.ilm.instructorGroupAutoCompleter.sendQuery('');
     } else {
         (new YAHOO.util.Element(element)).setStyle('display', 'inline');
@@ -441,6 +438,17 @@ ilios.cm.session.registerILMLightboxUIListeners = function () {
         document.getElementById('calendar_instructor_ac_input').value = '';
     };
     ilios.cm.session.ilm.instructorGroupAutoCompleter.itemSelectEvent.subscribe(itemSelectHandler);
+
+    ilios.cm.session.ilm.instructorGroupAutoCompleter.dataReturnEvent.subscribe(function (sType, aArgs) {
+        YAHOO.util.Dom.setStyle('calendar_instructor_ac_progress', 'visibility', 'hidden');
+    });
+
+    ilios.cm.session.ilm.instructorGroupAutoCompleter.dataRequestEvent.subscribe(function (sType, aArgs) {
+        YAHOO.util.Dom.setStyle('calendar_instructor_ac_progress', 'visibility', 'visible');
+        var myAC = aArgs[0];
+        myAC.clearList();
+    });
+
 };
 
 ilios.cm.session.buildILMLightboxDOM = function () {
