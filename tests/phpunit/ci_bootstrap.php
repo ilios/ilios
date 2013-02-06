@@ -164,7 +164,7 @@ if (defined('ENVIRONMENT'))
     // Set the current directory correctly for CLI requests
     if (defined('STDIN'))
     {
-        chdir(dirname(dirname(__FILE__)) . '/web');
+        chdir(dirname(dirname(__DIR__)) . '/web');
     }
 
     if (realpath($system_path) !== FALSE)
@@ -187,7 +187,7 @@ if (defined('ENVIRONMENT'))
  * -------------------------------------------------------------------
  */
     // The name of THIS file
-    define('SELF', pathinfo(dirname(dirname(__FILE__)) . '/web/ilios.php', PATHINFO_BASENAME)); // fake it
+    define('SELF', pathinfo(dirname(dirname(__DIR__)) . '/web/ilios.php', PATHINFO_BASENAME)); // fake it
 
     // The PHP file extension
     // this global constant is deprecated.
