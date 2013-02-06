@@ -559,16 +559,12 @@ ilios.gm.handleInstructorGroupDeselection = function (event) {
 
 	if (target.tagName.toLowerCase() === 'li') {
 		var model = target.iliosModel;
-
 		target.parentNode.removeChild(target);
-
 		ilios.utilities.removeElementWithValue(ilios.gm.inEditInstructorArray, model);
-
+		document.getElementById('instructor_picker_ac_input').value = '';
 		instructorGroupAutoCompleter.sendQuery('');
-
 		return false;
 	}
-
     return true;
 };
 
