@@ -13,12 +13,3 @@ before_script:
   - cp web/application/config/default.database.php web/application/config/database.php
 
 script: "cd tests/phpunit && cp default.phpunit.xml phpunit.xml && phpunit --exclude-group ldap,user_sync Ilios"
-
-# notifications:
-#   irc:
-#     channels:
-#       - "irc.freenode.org##ilios"
-#     template:
-#       - "%{repository} Branch %{branch} (%{commit} by %{author}) : %{message}"
-#       - "Build details: %{build_url}"
-#       - "Diff: %{compare_url}"
