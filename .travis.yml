@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - "5.4"
+  - "5.3"
+
+before_script: 
+  - pear channel-discover pear.phpunit.de
+  - pear install phpunit/DbUnit
+  - phpenv rehash
+  - cp web/application/config/default.config.php web/application/config/config.php
+  - cp web/application/config/default.ilios.php web/application/config/ilios.php
+  - cp web/application/config/default.database.php web/application/config/database.php
+
+script: "cd tests/phpunit && cp default.phpunit.xml phpunit.xml && phpunit --exclude-group ldap,user_sync Ilios"
+
+# notifications:
+#   irc:
+#     channels:
+#       - "irc.freenode.org##ilios"
+#     template:
+#       - "%{repository} Branch %{branch} (%{commit} by %{author}) : %{message}"
+#       - "Build details: %{build_url}"
+#       - "Diff: %{compare_url}"
