@@ -12,7 +12,7 @@ See the [official manual](http://www.phpunit.de/manual/current/en/installation.h
  
 # Configuring the test environment
  
-1. In the `tests/phpunit` directory, copy `sample.phpunit.xml` to `phpunit.xml`. 
+1. In the `tests/phpunit` directory, copy `default.phpunit.xml` to `phpunit.xml`. 
 2. Set up a new Ilios database `ilios_test` using the scripts in the `/database/install` directory.
 3. Edit `phpunit.xml` to customize it for your environment.   
 Note that the value for `ILIOS2_TEST_DB_ACTIVE_GROUP` will be the name of a new DB group that you will create in the next step.
