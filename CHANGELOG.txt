@@ -1,4 +1,38 @@
 ------- VERSION CHANGES --------
+Version 2.2
+
+Feature Changes:
+
+Feature #1050: add indices to alert_* tables
+Feature #2530: expose descriptor IDs (and tree node IDs) in MeSH search results
+Feature #2709: disable "edit" button for learning materials in new, un-saved sessions/courses
+Feature #2795: change default selection for group picker strategy option
+Feature #2874: add primary key and foreign keys to user/user_role join table
+Feature #2902: add object syntax to Session search
+Feature #2938: dissolve internal CSS declaration on offering management page
+Feature #3044: change project name from Ilios2 to Ilios - everywhere
+Feature #3051: replace MeSH tarball with extracted SQL script
+Feature #3052: drop Ilios version number from class- and file-names
+Feature #3055: drop Ilios version number from page titles
+Feature #3059: add Apache/mod_rewrite rule for ilios2.php to ilios.php
+Feature #3061: add IIS/URL Rewrite rule for ilios2.php to ilios.php
+Feature #3108: upgrade to CodeIgniter 2
+Feature #3166: update file-extension and MIME-type lists
+
+Bug Fixes:
+
+Bug #605: form field entries not trimmed
+Bug #850: instructor pick list does not refresh on save
+Bug #2445: instructors cannot be un-assigned from ILMs
+Bug #2608: session objectives display incorrectly in student calendar detail view
+Bug #2937: IE9 displays session type of "NULL" for ILMs
+Bug #3052: logout button broken if Ilios is deployed into a subdirectory of webroot
+Bug #3064: shibboleth logout redirect broken if Ilios basedir is not webroot
+Bug #3096: learning material upload throws error
+Bug #3136: replace all short open PHP tags
+Bug #3158: unable to delete program year
+
+---
 
 Version 2.1.2
 
