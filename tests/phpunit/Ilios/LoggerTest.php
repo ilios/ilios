@@ -185,7 +185,8 @@ class Ilios_LoggerTest extends Ilios_TestCase
         // read last line
         do {
             $line = $c . $line;
-        	fseek($fp, $pos--);
+        	if (fseek($fp, $pos--) == -1)
+                break;
         	$c = fgetc($fp);
         } while (PHP_EOL != $c);
 
