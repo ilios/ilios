@@ -12,7 +12,7 @@ The Ilios has the following minimal technical requirements
 
 * `MySQL 5.0.77` or later, with support for `InnoDB` and `MyISAM`
 
-    **Note:** MySQL must NOT run in `strict` SQL mode.
+    **Note:** Your MySQL server must NOT run in `strict` SQL mode. More information on detecting and setting server SQL-modes can be found in the [MySQL online documentation](http://dev.mysql.com/doc/refman/5.1/en/server-sql-mode.html).
 
 ## Deployment
 
@@ -24,9 +24,10 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
 
 3. In your deployment directory, change file permissions on the following directories to make them writeable by the process that runs your web server:
 
-        learning_materials/
-        tmp_uploads/
-        system/logs
+        learning_materials
+        tmp_uploads
+        application/cache
+        application/logs
 
 4. In your deployment directory, rename the following files:
 
@@ -37,7 +38,7 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
 
 5. In your deployment directory, configure the following files to reflect your institution's name, appropriate URLs, and database attributes:
 
-        index.php                               ... substitute placeholder tokens with a version string
+        index.php                        ... substitute placeholder tokens with a version string
         application/config/config.php    ... substitute placeholder token with your URL
         application/config/ilios.php     ... set your institution's name and authentication method
         application/config/database.php  ... fill in your database connection settings
@@ -48,11 +49,15 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
 
 # Security and Authentication
 
+## Session Encryption
+
+It is recommended to change the default value of the `$config['encryption_key']` setting in `application/config/config.php`.
+Read the "Setting your Key" section in the [CodeIgniter User Guide](http://ellislab.com/codeigniter/user-guide/libraries/encryption.html) for a further discussion on best-practices for choosing a secure encryption key value.
+
 ## Ilios-internal Authentication
 
-If you are setting up an Ilios instance from scratch, it is highly recommended that you provide a salt to increase the security of user passwords.
+If you are setting up an Ilios instance from scratch, it is highly recommended that you provide a salt to increase the security of user passwords.  
 You may do so by assigning a value to the  `$config['ilios_authentication_internal_auth_salt']` setting in `application/config/ilios.php`.
-
 
 ## Shibboleth Authentication
 
