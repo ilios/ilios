@@ -11,5 +11,6 @@ before_script:
   - cp web/application/config/default.config.php web/application/config/config.php
   - cp web/application/config/default.ilios.php web/application/config/ilios.php
   - cp web/application/config/default.database.php web/application/config/database.php
+  - mysql -e 'create database ilios_test;'
 
 script: "cd tests/phpunit && cp default.phpunit.xml phpunit.xml && phpunit --exclude-group ldap,user_sync Ilios"
