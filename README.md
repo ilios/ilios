@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/Trott/ilios.png?branch=ilios-tests)](https://travis-ci.org/Trott/ilios)
-
 # About
 
 The Ilios Curriculum Management System addresses the needs of the Health Professions educational community by providing a user-friendly, flexible, and robust web application to collect, manage, analyze and deliver curricular information.
@@ -14,7 +12,7 @@ Ilios leverages the power of existing online learning technologies supported at 
 
 # Get Ilios
 
-Dowload the [distribution](http://bit.ly/U0okjm) or clone the [codebase](https://github.com/ilios/ilios).
+Download the [distribution](http://bit.ly/U0okjm) or clone the [codebase](https://github.com/ilios/ilios).
 
 # Contact
 
