@@ -28,7 +28,7 @@ Then rename the following three configuration files in `application/config` and 
 *Note:* Please do not re-deploy the previous versions of these config files _as-is_ since additional (re)configuration steps may
 be necessary.
 
-Post-deployment, please ensure that the data-, cache- and log-directories are writeable by your webserver.
+Post-deployment, please ensure that the data-, cache-, and log-directories are writeable by your webserver.
 
     learning_materials
     tmp_uploads
