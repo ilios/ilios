@@ -21,6 +21,7 @@ class Migrate extends CI_Controller
         if ($this->input->is_cli_request()) {
             exit('Access Denied.');
         }
+        $this->load->library('migration');
     }
 
     /**
@@ -32,18 +33,6 @@ class Migrate extends CI_Controller
     }
 
     /**
-     * Runs the latest migration found in the filesystem.
-     * Prints an error message on failure.
-     * @see CI_Migration::latest()
-     */
-    public function latest ()
-    {
-        if (! $this->migration->latest()) {
-            show_error($this->migration->error_string());
-        }
-    }
-
-    /**
      * Runs the current migration as configured in <code>application/config/migration.php</code>.
      * Prints an error message on failure.
      * @see CI_Migration::current()
@@ -51,6 +40,18 @@ class Migrate extends CI_Controller
     public function current ()
     {
         if (! $this->migration->current()) {
+            show_error($this->migration->error_string());
+        }
+    }
+
+    /**
+     * Runs the latest migration found in the filesystem.
+     * Prints an error message on failure.
+     * @see CI_Migration::latest()
+     */
+    public function latest ()
+    {
+        if (! $this->migration->latest()) {
             show_error($this->migration->error_string());
         }
     }
