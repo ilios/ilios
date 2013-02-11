@@ -10,10 +10,9 @@ before_script:
   - pear channel-discover pear.phing.info
   - pear install phing/phing
   - phpenv rehash
-  - cp web/application/config/default.config.php web/application/config/config.php
-  - cp web/application/config/default.ilios.php web/application/config/ilios.php
-  - cp web/application/config/default.database.php web/application/config/database.php
+  - phing -propertyfile build.properties.sample -Ddb.username=root -Ddb.password='' init copy configure package
+  - tar xzf /tmp/ilios/bundles/* -C web/
   - cp tests/phpunit/default.phpunit.xml tests/phpunit/phpunit.xml
-  - mysql -e 'create database ilios_test;'
+  - mysql -e 'create database ilios;'
 
 script: "phpunit --include-path ${PWD}/tests/phpunit --exclude-group ldap,user_sync tests/phpunit/Ilios"
