@@ -90,7 +90,7 @@
             </then>
         </if>
         <!-- delete old build directory -->
-        <delete dir="${builddir}" includeemptydirs="true" failonerror="true" />
+        <delete dir="${builddir}" includeemptydirs="true" />
         <!-- re-create build directory -->
         <mkdir dir="${builddir}" />
         <!-- copy codebase to build directory -->
