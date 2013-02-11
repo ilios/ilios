@@ -89,8 +89,13 @@
                 <fail message="No build directory was specified." />
             </then>
         </if>
-        <!-- delete old build directory -->
-        <delete dir="${builddir}" includeemptydirs="true" failonerror="true" />
+        <!-- delete old build directory if it already exists-->
+        <if>
+            <available file="${builddir}" type="dir" />
+            <then>
+                <delete dir="${builddir}" includeemptydirs="true" failonerror="true" />
+            </then>
+        </if>
         <!-- re-create build directory -->
         <mkdir dir="${builddir}" />
         <!-- copy codebase to build directory -->
