@@ -16,4 +16,4 @@ before_script:
   - cp tests/phpunit/default.phpunit.xml tests/phpunit/phpunit.xml
   - mysql -e 'create database ilios_test;'
 
-script: "cd tests/phpunit && phpunit --exclude-group ldap,user_sync Ilios"
+script: "phpunit --include-path ${PWD}/tests/phpunit --exclude-group ldap,user_sync tests/phpunit/Ilios"
