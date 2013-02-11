@@ -298,7 +298,7 @@
 
         <!-- ask user to reconfirm before proceeding -->
         <input propertyname="proceed" defaultValue="n" promptChar="?" validArgs="Y,n">
-            Deploy Ilios bundle ${packagefilepath} to ${deploydir}
+            Deploy Ilios-bundle ${packagefilepath} to "${deploydir}" directory and "${db.name}" database
         </input>
         <if>
             <not>
@@ -313,8 +313,9 @@
     <!-- Target: deploy                               -->
     <!-- ============================================ -->
     <target name="deploy" depends="init,deploy-prepare,backup"
-            description="(re)deploys the code to a given destination directory">
+            description="(re)deploys the code to a given destination directory and installs/updates the database.">
         <!-- either create a deployment directory (if non-existent), or gut the existing one -->
+        <property name="db-exists" value="false" />
         <if>
             <available file="${deploydir}" type="dir" />
             <then>
@@ -338,6 +339,39 @@
         <chown file="${deploydir}/learning_materials" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/logs" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/cache" user="${webuser}" group="${webgroup}" />
+        <!-- hokey way of checking if the database already exists or not -->
+        <trycatch property="db-error">
+            <try>
+                <pdosqlexec url="mysql:host=${db.hostname};dbname=${db.name}"
+                    userid="${db.username}" password="${db.password}">
+                    SELECT true AS 'database_exists';
+                </pdosqlexec>
+                <!--
+                    No DB error.
+                    Assume the specified database exists.
+                    Set the "db-exists" flag to TRUE.
+                -->
+                <property name="db-exists" value="true" override="true" />
+            </try>
+            <catch>
+                <!--
+                    DB error.
+                    Assume that the specified database does not exist.
+                    Do nothing here besides erroring out the db error.
+                -->
+                <echo msg="${db-error}" />
+            </catch>
+        </trycatch>
+        <!-- install or update db -->
+        <if>
+            <isfalse value="${db-exits}"/>
+            <then>
+                <phingcall target="db-install" />
+            </then>
+            <else>
+                <phingcall target="db-update" />
+            </else>
+        </if>
     </target>
 
     <!-- ============================================ -->
@@ -374,5 +408,20 @@
                 <echo>No pre-existing deployment dir "${deploydir}" found, skipping backup.</echo>
             </else>
         </if>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: db-migrate                           -->
+    <!-- ============================================ -->
+    <target name="db-update" description="Updates the Ilios database.">
+        <exec command="php ilios.php migrate" dir="${deploydir}" logoutput="true"/>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: db-install                           -->
+    <!-- ============================================ -->
+    <target name="db-install" description="Installs the Ilios database.">
+        <property name="dbinstalldir" value="${project.basedir}/database/install" />
+        <!-- todo -->
     </target>
 </project>
