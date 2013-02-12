@@ -14,4 +14,4 @@ before_script:
   - tar xzf /tmp/ilios/bundles/* -C web/
   - mysql -e 'create database ilios;'
 
-script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
+script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group user_sync tests/phpunit/Ilios"
