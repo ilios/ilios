@@ -298,7 +298,7 @@
 
         <!-- ask user to reconfirm before proceeding -->
         <input propertyname="proceed" defaultValue="n" promptChar="?" validArgs="Y,n">
-            Deploy Ilios bundle ${packagefilepath} to ${deploydir}
+            Deploy Ilios-bundle ${packagefilepath} to "${deploydir}" directory and "${db.name}" database
         </input>
         <if>
             <not>
@@ -313,7 +313,8 @@
     <!-- Target: deploy                               -->
     <!-- ============================================ -->
     <target name="deploy" depends="init,deploy-prepare,backup"
-            description="(re)deploys the code to a given destination directory">
+            description="(re)deploys the code to a given destination directory and installs/updates the database.">
+        <property name="db-exists" value="true" />
         <!-- either create a deployment directory (if non-existent), or gut the existing one -->
         <if>
             <available file="${deploydir}" type="dir" />
@@ -338,6 +339,38 @@
         <chown file="${deploydir}/learning_materials" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/logs" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/cache" user="${webuser}" group="${webgroup}" />
+        <!-- hokey way of checking if the database already exists or not -->
+        <trycatch property="db-error">
+            <try>
+                <!-- attempt to connect and run a query against the given database -->
+                <pdosqlexec url="mysql:host=${db.hostname};dbname=${db.name}"
+                    userid="${db.username}" password="${db.password}">
+                    SELECT true;
+                </pdosqlexec>
+            </try>
+            <catch>
+                <!--
+                    DB error.
+                    Assume that the specified database does not exist.
+                    Toggle the "db-exists" flag to FALSE.
+                    TODO:
+                    parse the db error message if it indeed contains "Unknown Database"
+                    or perhaps a specific error code that indicates the same failure.
+                -->
+                <echo msg="${db-error}" />
+                <property name="db-exists" value="false" override="true" />
+            </catch>
+        </trycatch>
+        <!-- update or install db -->
+        <if>
+            <istrue value="${db-exists}" />
+            <then>
+                 <phingcall target="db-update" />
+            </then>
+            <else>
+                <phingcall target="db-install" />
+            </else>
+        </if>
     </target>
 
     <!-- ============================================ -->
@@ -374,5 +407,43 @@
                 <echo>No pre-existing deployment dir "${deploydir}" found, skipping backup.</echo>
             </else>
         </if>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: db-migrate                           -->
+    <!-- ============================================ -->
+    <target name="db-update" description="Updates the Ilios database.">
+        <exec command="php ilios.php migrate" dir="${deploydir}" logoutput="true"/>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: db-install                           -->
+    <!-- ============================================ -->
+    <target name="db-install" description="Installs the Ilios database.">
+        <property name="db-install-dir" value="${project.basedir}/database/install" />
+        <property name="db-install-file-template" value="${db-install-dir}/make_new_ilios_database.sql" />
+        <property name="db-install-file" value="${db-install-dir}/tmp.make_new_ilios_database.sql" />
+        <copy file="${db-install-file-template}"
+              tofile="${db-install-file}"
+              overwrite="true">
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="XXXXXX" replace="${db.name}" />
+                </replaceregexp>
+            </filterchain>
+        </copy>
+        <!-- create db schema and import default data -->
+        <exec command="mysql -u ${db.username} -p${db.password} -h ${db.hostname} &lt; ${db-install-file}"
+            dir="${db-install-dir}" checkreturn="true" logoutput="true" />
+        <delete file="${db-install-file}" />
+        <!-- invoke zero user setup -->
+        <phingcall target="setup-zero-user" />
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: setup-zero-user                      -->
+    <!-- ============================================ -->
+    <target name="setup-zero-user" description="Creates a default user account (the 'zero-user') in the database.">
+        <!-- TODO -->
     </target>
 </project>

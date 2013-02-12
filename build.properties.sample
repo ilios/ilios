@@ -128,3 +128,39 @@ tasks.user_sync.ldap.password=XXXXXX
 #tasks.enrollment_export.enabled=true
 #tasks.teaching_reminders.enabled=true
 #tasks.user_sync.enabled=true
+
+#================================================
+# DB installation
+#
+# The following section only pertains
+# to the database-installation-part
+# of new deployments.
+#================================================
+
+#------------------------------------------------
+# Default user ("zero-user") installation settings
+#------------------------------------------------
+#
+# ID of the the school that the user will be primarily associated with.
+#
+db_install.zero_user.school_id=1
+#
+# First name
+#
+db_install.zero_user.first_name=Admin
+#
+# Last name
+#
+db_install.zero_user.lastname=User
+#
+# Email address
+#
+db_install.zero_user.email=root@example.com
+#
+# Account login
+#
+db_install.zero_user.password=zero_user
+#
+# Account password
+#
+db_install.zero_user.password=
