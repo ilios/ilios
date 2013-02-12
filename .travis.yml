@@ -12,7 +12,6 @@ before_script:
   - phpenv rehash
   - phing -propertyfile build.properties.sample -Ddb.username=root -Ddb.password='' -Dencryption_key=lorem_ipsum build
   - tar xzf /tmp/ilios/bundles/* -C web/
-  - cp tests/phpunit/default.phpunit.xml tests/phpunit/phpunit.xml
   - mysql -e 'create database ilios;'
 
-script: "phpunit --include-path ${PWD}/tests/phpunit --exclude-group user_sync tests/phpunit/Ilios"
+script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
