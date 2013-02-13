@@ -533,11 +533,6 @@
             <param value="${db_install.zero_user.school_id}" />
             <param value="10" />
         </php>
-            <echo>
-                INSERT INTO user (user_id, first_name, middle_name, last_name, email, primary_school_id, added_via_ilios, enabled, examined, user_sync_ignore) VALUES (1, '${escaped_last_name}', '', '${escaped_first_name}', '${escaped_email}', ${escaped_school_id}, 1, 1, 0, 0);
-                INSERT INTO user_x_user_role (user_id, user_role_id) VALUES (1, 1);
-                INSERT INTO authentication (person_id, password_sha256, username) VALUES (1, '${password_hash}', '${escaped_login}');
-            </echo>
         <!-- run the SQL transaction that creates the zero user -->
         <pdosqlexec url="mysql:host=${db.hostname};dbname=${db.name}"
             userid="${db.username}" password="${db.password}">
