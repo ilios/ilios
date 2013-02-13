@@ -147,11 +147,11 @@ db_install.zero_user.school_id=1
 #
 # First name
 #
-db_install.zero_user.first_name=Admin
+db_install.zero_user.first_name=User
 #
 # Last name
 #
-db_install.zero_user.lastname=User
+db_install.zero_user.last_name=Zero
 #
 # Email address
 #
@@ -159,8 +159,8 @@ db_install.zero_user.email=root@example.com
 #
 # Account login
 #
-db_install.zero_user.password=zero_user
+db_install.zero_user.login=zero_user
 #
 # Account password
 #
-db_install.zero_user.password=
+db_install.zero_user.password=Ch4nge_m3
