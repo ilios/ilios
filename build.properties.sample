@@ -21,7 +21,10 @@ backupdir=/web/ilios/backups
 # Full path to the deployment directory.
 #
 deploydir=/web/ilios/htdocs
-
+#
+# Full path to the database backup directory.
+#
+db_backupdir=/web/ilios/backups
 #
 # User account name that owns the deployment directory.
 # Since this directory is usually the webroot, that user will most likely be the user account
@@ -128,3 +131,39 @@ tasks.user_sync.ldap.password=XXXXXX
 #tasks.enrollment_export.enabled=true
 #tasks.teaching_reminders.enabled=true
 #tasks.user_sync.enabled=true
+
+#================================================
+# DB installation
+#
+# The following section only pertains
+# to the database-installation-part
+# of new deployments.
+#================================================
+
+#------------------------------------------------
+# Default user ("zero-user") installation settings
+#------------------------------------------------
+#
+# ID of the the school that the user will be primarily associated with.
+#
+db_install.zero_user.school_id=1
+#
+# First name
+#
+db_install.zero_user.first_name=User
+#
+# Last name
+#
+db_install.zero_user.last_name=Zero
+#
+# Email address
+#
+db_install.zero_user.email=root@example.com
+#
+# Account login
+#
+db_install.zero_user.login=zero_user
+#
+# Account password
+#
+db_install.zero_user.password=Ch4nge_m3
