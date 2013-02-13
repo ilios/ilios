@@ -134,7 +134,8 @@ ilios.utilities.convertMimeTypeToCSSClassName = function (mimeType, fileName) {
     // fix some of them up here.
     suffix = fileName.substring(fileName.lastIndexOf(".")).toLowerCase(); // get file suffix
     // deal with incorrectly identified PowerPoint variants
-    if (suffix.length && "application/msword" == mimeType && -1 < ".pot|.pps|.ppt".indexOf(suffix)) {
+    if (suffix.length && ("application/msword" === mimeType)
+        && (-1 < ".pot|.pps|.ppt|.ppa".indexOf(suffix))) {
         mimeType = "application/vnd.ms-powerpoint";
     }
     rhett = mimeType.replace(new RegExp('/', 'g'), '--');
