@@ -455,7 +455,7 @@
             </filterchain>
         </copy>
         <!-- create db schema and import default data -->
-        <exec command="mysql -u ${db.username} -p${db.password} -h ${db.hostname} &lt; ${db-install-file}"
+        <exec command="mysql -u ${db.username} -password=${db.password} -h ${db.hostname} &lt; ${db-install-file}"
             dir="${db-install-dir}" checkreturn="true" logoutput="true" />
         <delete file="${db-install-file}" />
         <!-- invoke zero user setup -->
