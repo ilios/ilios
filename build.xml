@@ -15,7 +15,7 @@
 
         'skip-prompt' ... if set to "true" then the user will not be prompted for comfirmation before code is deployed.
         'skip-setup-zero-user' ... if set to "true" then no "zero-user" account will be created during db installation.
-        'skip-db-backup' ... 'if set to "true" then no db backup is perform prior to a db update. (TBD)
+        'skip-db-backup' ... 'if set to "true" then no db backup is perform prior to a db update.
 
 
     Tips:
@@ -32,9 +32,6 @@
             $ phing -propertyfile build.properties -Dpackagefilepath=/path/to/your/ilios/package.tar.gz deploy
 
     Todo:
-        "skip-db-backup" toggle
-        Database backup target
-        SCM integration (git checkout)
         PHPDoc integration
 
     See:
@@ -43,6 +40,14 @@
 <project name="ilios" basedir="." default="build-and-deploy">
 
     <property name="webdir" value="${project.basedir}/web" override="true" />
+
+    <!-- capture current date/time info -->
+    <php function="time" returnProperty="now" />
+    <tstamp>
+        <format property="DSTAMP" pattern="%F" />
+        <format property="TSTAMP" pattern="%H-%M-%S" />
+        <format property="TODAY" pattern="%c" locale="en_US" />
+    </tstamp>
 
     <!-- Fileset for all source files -->
     <fileset dir="${webdir}" id="webfiles">
@@ -63,29 +68,15 @@
     <!-- ============================================ -->
     <!-- Target: build                                -->
     <!-- ============================================ -->
-    <target name="build" depends="init,copy,configure,package"
+    <target name="build" depends="copy,configure,package"
             description="configures and bundles the code base for deployment">
     </target>
 
 
     <!-- ============================================ -->
-    <!-- Target: init                                 -->
-    <!-- ============================================ -->
-    <target name="init"
-            description="initializes the build process by setting up some properties needed further downstream">
-        <!-- capture the current timestamp -->
-        <php function="time" returnProperty="now" />
-        <tstamp>
-            <format property="DSTAMP" pattern="%F" />
-            <format property="TSTAMP" pattern="%H-%M-%S" />
-            <format property="TODAY" pattern="%c" locale="en_US" />
-        </tstamp>
-    </target>
-
-    <!-- ============================================ -->
     <!-- Target: copy                                 -->
     <!-- ============================================ -->
-    <target name="copy" depends="init"
+    <target name="copy"
         description="copies the files from the /web directory to the build directory">
         <!-- sanity check: verify that build dir has been specified -->
         <if>
@@ -136,7 +127,7 @@
     <!-- ============================================ -->
     <!-- Target: configure                            -->
     <!-- ============================================ -->
-    <target name="configure" depends="init"
+    <target name="configure"
         description="(over)writes configuration parameters to various files of the application">
         <!-- copy/rename default.config.php to config.php and substitute placeholder token -->
         <copy file="${builddir}/application/config/default.config.php"
@@ -282,7 +273,7 @@
     <!-- ============================================ -->
     <!-- Target: deploy-prepare                       -->
     <!-- ============================================ -->
-    <target name="deploy-prepare" depends="init"
+    <target name="deploy-prepare"
             description="pre-deployment input validation and user confirmation">
         <!-- sanity check: verify that deployment dir has been specified -->
         <if>
@@ -333,9 +324,9 @@
     <!-- ============================================ -->
     <!-- Target: deploy                               -->
     <!-- ============================================ -->
-    <target name="deploy" depends="init,deploy-prepare,backup"
+    <target name="deploy" depends="deploy-prepare,backup"
             description="(re)deploys the code to a given destination directory and installs/updates the database.">
-        <property name="db-exists" value="true" />
+        <property name="db_exists" value="true" />
         <!-- either create a deployment directory (if non-existent), or gut the existing one -->
         <if>
             <available file="${deploydir}" type="dir" />
@@ -361,7 +352,7 @@
         <chown file="${deploydir}/application/logs" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/cache" user="${webuser}" group="${webgroup}" />
         <!-- hokey way of checking if the database already exists or not -->
-        <trycatch property="db-error">
+        <trycatch property="db_error">
             <try>
                 <!-- attempt to connect and run a query against the given database -->
                 <pdosqlexec url="mysql:host=${db.hostname};dbname=${db.name}"
@@ -378,13 +369,13 @@
                     parse the db error message if it indeed contains "Unknown Database"
                     or perhaps a specific error code that indicates the same failure.
                 -->
-                <echo msg="${db-error}" />
-                <property name="db-exists" value="false" override="true" />
+                <echo msg="${db_error}" />
+                <property name="db_exists" value="false" override="true" />
             </catch>
         </trycatch>
         <!-- update or install db -->
         <if>
-            <istrue value="${db-exists}" />
+            <istrue value="${db_exists}" />
             <then>
                  <phingcall target="db-update" />
             </then>
@@ -397,7 +388,7 @@
     <!-- ============================================ -->
     <!-- Target: backup                               -->
     <!-- ============================================ -->
-    <target name="backup" depends="init"
+    <target name="backup"
             description="backs-up the deployment directory (if existent)">
         <if>
             <available file="${deploydir}" type="dir" />
@@ -434,6 +425,18 @@
     <!-- Target: db-update                            -->
     <!-- ============================================ -->
     <target name="db-update" description="Updates the Ilios database.">
+        <!-- back up database unless indicated otherwise -->
+        <if>
+            <not>
+                <and>
+                    <isset property="skip-db-backup" />
+                    <istrue value="${skip-db-backup}" />
+                </and>
+            </not>
+            <then>
+                <phingcall target="db-backup" />
+            </then>
+        </if>
         <exec command="php ilios.php migrate" dir="${deploydir}" logoutput="true"/>
     </target>
 
@@ -441,12 +444,13 @@
     <!-- Target: db-install                           -->
     <!-- ============================================ -->
     <target name="db-install" description="Installs the Ilios database.">
-        <property name="db-install-dir" value="${project.basedir}/database/install" />
-        <property name="db-install-file-template" value="${db-install-dir}/make_new_ilios_database.sql" />
-        <property name="db-install-file" value="${db-install-dir}/tmp.make_new_ilios_database.sql" />
-        <property name="mysql-conf-file" value="${db-install-dir}/tmp.my.cnf" />
-        <copy file="${db-install-file-template}"
-              tofile="${db-install-file}"
+        <property name="db_install_dir" value="${project.basedir}/database/install" />
+        <property name="db_install_file_template" value="${db_install_dir}/make_new_ilios_database.sql" />
+        <property name="db_install_file" value="${db_install_dir}/tmp.make_new_ilios_database.sql" />
+        <property name="mysql_conf_file" value="${db_install_dir}/tmp.my.cnf" />
+
+        <copy file="${db_install_file_template}"
+              tofile="${db_install_file}"
               overwrite="true">
             <filterchain>
                 <replaceregexp>
@@ -454,34 +458,21 @@
                 </replaceregexp>
             </filterchain>
         </copy>
-        <!--
-            Stick the db password into a config file and use it later when invoking the mysql client from the command line.
-            See:
-            http://dev.mysql.com/doc/refman/5.5/en/password-security-user.htm
-            http://dev.mysql.com/doc/refman/5.5/en/option-files.html
-        -->
-        <if>
-            <available file="${mysql-conf-file}" />
-            <then>
-                <delete file="${mysql-conf-file}" />
-            </then>
-        </if>
-        <touch file="${mysql-conf-file}" />
-        <chmod file="${mysql-conf-file}" mode="0600" />
-        <append destFile="${mysql-conf-file}">
-            [client]
-            password="${db.password}"
-        </append>
+
+        <!-- create a temp config file to store the db password in. -->
+        <phingcall target="create-mysql-conf-file">
+            <property name="mysql_conf_file" value="${mysql_conf_file}" />
+        </phingcall>
         <!-- create db schema and import default data -->
         <trycatch>
             <try>
-                <exec command="mysql --defaults-file=${mysql-conf-file}  -u ${db.username} -h ${db.hostname} &lt; ${db-install-file}"
-                    dir="${db-install-dir}" checkreturn="true" logoutput="true" />
+                <exec command="mysql --defaults-extra-file=${mysql_conf_file}  -u ${db.username} -h ${db.hostname} &lt; ${db_install_file}"
+                    dir="${db_install_dir}" checkreturn="true" logoutput="true" />
             </try>
             <finally>
                 <!-- clean up -->
-                <delete file="${mysql-conf-file}" />
-                <delete file="${db-install-file}" />
+                <delete file="${mysql_conf_file}" />
+                <delete file="${db_install_file}" />
             </finally>
         </trycatch>
         <!-- invoke zero user setup target unless indicated otherwise -->
@@ -496,6 +487,61 @@
                 <phingcall target="setup-zero-user" />
             </then>
         </if>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: db-backup                            -->
+    <!-- ============================================ -->
+    <target name="db-backup" description="Backs up the database.">
+        <property name="mysql_conf_file" value="${db_backupdir}/tmp.my.cnf" />
+        <property name="db_backup_file" value="${db_backupdir}/${phing.project.name}_db_backup_${DSTAMP}_${TSTAMP}.sql.gz" />
+
+        <!-- create the backup dir on demand -->
+        <if>
+            <not>
+                <available file="${db_backupdir}" type="dir" />
+            </not>
+            <then>
+                <mkdir dir="${db_backupdir}" />
+            </then>
+        </if>
+        <!-- create a temp config file to store the db password in. -->
+        <phingcall target="create-mysql-conf-file">
+            <property name="mysql_conf_file" value="${mysql_conf_file}" />
+        </phingcall>
+        <!-- dump out the database and compress the output -->
+        <trycatch>
+            <try>
+                <exec command="mysqldump --defaults-extra-file=${mysql_conf_file}  -u ${db.username} -h ${db.hostname} --default-character-set=latin1 -R ${db.name} | gzip -c | cat &gt; ${db_backup_file}" checkreturn="true" logoutput="true" />
+            </try>
+            <finally>
+                <delete file="${mysql_conf_file}" />
+            </finally>
+        </trycatch>
+    </target>
+
+    <!-- ============================================ -->
+    <!-- Target: create-mysql-conf-file               -->
+    <!-- ============================================ -->
+    <target name="create-mysql-conf-file"
+        description="Creates a temporary config file that can be used to store credentials for mysql/mysqldump calls.">
+        <!--
+            How and why to use a temp. conf file instead of passing the password as command line argument.
+            @link http://dev.mysql.com/doc/refman/5.5/en/password-security-user.htm
+            @link http://dev.mysql.com/doc/refman/5.5/en/option-files.html
+        -->
+        <if>
+            <available file="${mysql_conf_file}" />
+            <then>
+                <delete file="${mysql_conf_file}" />
+            </then>
+        </if>
+        <touch file="${mysql_conf_file}" />
+        <chmod file="${mysql_conf_file}" mode="0600" />
+        <append destFile="${mysql_conf_file}">
+            [client]
+            password="${db.password}"
+        </append>
     </target>
 
     <!-- ============================================ -->
