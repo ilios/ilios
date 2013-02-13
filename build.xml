@@ -5,13 +5,20 @@
 
     1. Copy the /build.properties.sample file and configure the copied file accordingly.
     2. Execute phing by providing the path to the property file (mandatory) and the name of the build target (optional).
-       If no build target is provided, the default "build-and-deploy" target willbe assumed and executed.
+       If no build target is provided, the default "build-and-deploy" target will be assumed and executed.
 
         Example:
             $ cp build.properties.sample ~/ilios-stage.properties
             $ phing -propertyfile ~/iios-stage.properties build
 
-    Hints:
+    3. Certain sub-targets may be omitted by setting "skip" properties.
+
+        'skip-prompt' ... if set to "true" then the user will not be prompted for comfirmation before code is deployed.
+        'skip-zero-user' ... if set to "true" then no "zero-user" account will be created during db installation (TBD).
+        'skip-db-backup' ... 'if set to "true" then no db backup is perform prior to a db update. (TBD)
+
+
+    Tips:
 
     1. You may want to keep multiple property files around, one for each environment (dev/stage/prod).
     2. Run the "deploy" and "build-and-deploy" targets with elevated privileges ('sudo') if your deployment directory is owned by 'root'
@@ -25,9 +32,10 @@
             $ phing -propertyfile build.properties -Dpackagefilepath=/path/to/your/ilios/package.tar.gz deploy
 
     Todo:
+        "skip-zero-user" and "skip-db-backup" toggles
+        "setup-zero-user" target
+        Database backup target
         SCM integration (git checkout)
-        Database integration (installation/migration/backup)
-        PHPUnit integration
         PHPDoc integration
 
     See:
@@ -296,16 +304,30 @@
             </then>
         </if>
 
-        <!-- ask user to reconfirm before proceeding -->
-        <input propertyname="proceed" defaultValue="n" promptChar="?" validArgs="Y,n">
-            Deploy Ilios-bundle ${packagefilepath} to "${deploydir}" directory and "${db.name}" database
-        </input>
+        <!--
+            Check if build property "skip-prompt" exists and equals "true".
+            If so, then skip user prompt.
+            Otherwise, solicit confirmation from the user before proceeding.
+        -->
         <if>
             <not>
-                <equals arg1="${proceed}" arg2="Y" />
+                <and>
+                    <isset property="skip-prompt" />
+                    <istrue value="${skip-prompt}" />
+                </and>
             </not>
             <then>
-                <fail message="Aborting deployment." />
+                <input propertyname="proceed" defaultValue="n" promptChar="?" validArgs="Y,n">
+                    Deploy Ilios-bundle ${packagefilepath} to "${deploydir}" directory and "${db.name}" database
+                </input>
+                <if>
+                    <not>
+                        <equals arg1="${proceed}" arg2="Y" />
+                    </not>
+                    <then>
+                        <fail message="Aborting deployment." />
+                    </then>
+                </if>
             </then>
         </if>
     </target>
@@ -410,7 +432,7 @@
     </target>
 
     <!-- ============================================ -->
-    <!-- Target: db-migrate                           -->
+    <!-- Target: db-update                            -->
     <!-- ============================================ -->
     <target name="db-update" description="Updates the Ilios database.">
         <exec command="php ilios.php migrate" dir="${deploydir}" logoutput="true"/>
@@ -444,6 +466,6 @@
     <!-- Target: setup-zero-user                      -->
     <!-- ============================================ -->
     <target name="setup-zero-user" description="Creates a default user account (the 'zero-user') in the database.">
-        <!-- TODO -->
+
     </target>
 </project>
