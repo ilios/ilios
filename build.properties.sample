@@ -21,7 +21,10 @@ backupdir=/web/ilios/backups
 # Full path to the deployment directory.
 #
 deploydir=/web/ilios/htdocs
-
+#
+# Full path to the database backup directory.
+#
+db_backupdir=/web/ilios/backups
 #
 # User account name that owns the deployment directory.
 # Since this directory is usually the webroot, that user will most likely be the user account
