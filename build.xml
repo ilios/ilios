@@ -484,7 +484,6 @@
                 <delete file="${db-install-file}" />
             </finally>
         </trycatch>
-        <delete file="${db-install-file}" />
         <!-- invoke zero user setup target unless indicated otherwise -->
         <if>
             <not>
