@@ -12,8 +12,8 @@
  */
 
 //
-// fake a HTTP request.
-// @todo CI 2.x has better CLI mode support, check into ditching this kludge.
+// Fake a HTTP request, even though CI 2.x has better tools for running the application in CLI-mode.
+// However, we can't leverage that feature without trampling all over PHPUnit's command line arguments.
 //
 
 $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
@@ -148,8 +148,7 @@ if (defined('ENVIRONMENT'))
  *
  */
     // $assign_to_config['name_of_config_item'] = 'value of config item';
-
-
+$assign_to_config['uri_protocol'] = 'PATH_INFO'; // pretend to come in via HTTP request ALL THE WAY!
 
 // --------------------------------------------------------------------
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
