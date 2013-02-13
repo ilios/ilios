@@ -10,6 +10,6 @@ before_script:
   - pear channel-discover pear.phing.info
   - pear install phing/phing
   - phpenv rehash
-  - phing -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password='' -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=/dev/null -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+  - phing -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password='' -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
