@@ -10,8 +10,6 @@ before_script:
   - pear channel-discover pear.phing.info
   - pear install phing/phing
   - phpenv rehash
-  - phing -propertyfile build.properties.sample -Ddb.username=root -Ddb.password='' -Dencryption_key=lorem_ipsum build
-  - tar xzf /tmp/ilios/bundles/* -C web/
-  - mysql -e 'create database ilios;'
+  - phing -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password='' -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
-script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group user_sync tests/phpunit/Ilios"
+script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"

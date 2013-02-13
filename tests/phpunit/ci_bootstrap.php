@@ -148,6 +148,7 @@ if (defined('ENVIRONMENT'))
  *
  */
     // $assign_to_config['name_of_config_item'] = 'value of config item';
+    $assign_to_config['uri_protocol'] = 'PATH_INFO';
 
 
 
