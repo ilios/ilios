@@ -32,7 +32,7 @@ class Ilios_UserSync_UserSource_Eds implements Ilios_UserSync_UserSource
      * @param array $config
      * @see Ilios_UserSync_UserSource::__construct()
      */
-    public function __construct(array $config = array())
+    public function __construct (array $config = array())
     {
         $this->_config = $config;
     }
@@ -52,6 +52,7 @@ class Ilios_UserSync_UserSource_Eds implements Ilios_UserSync_UserSource
 	 * Retrieves a list of students from EDS.
 	 * @param int $limit
 	 * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getStudentRecords ($limit = 0)
 	{
@@ -105,6 +106,7 @@ EOL;
 	 * @param string $uid
 	 * @return boolean
      * @see Ilios_UserSync_UserSource::hasStudent()
+     * @throws Ilios_UserSync_Exception
      */
     public function hasStudent ($uid)
     {
@@ -123,6 +125,7 @@ EOL;
 	 * @param string $uid
 	 * @return boolean
      * @see Ilios_UserSync_UserSource::hasUser()
+     * @throws Ilios_UserSync_Exception
      */
     public function hasUser ($uid)
     {

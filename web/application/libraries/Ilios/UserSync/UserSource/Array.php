@@ -20,6 +20,7 @@ class Ilios_UserSync_UserSource_Array implements Ilios_UserSync_UserSource
      *
      * The user data is expected to be passed in as nested array alongside the configuration.
      * It is assumed that it can be found under <code>$config['array']['users']</code>.
+     * @throws Ilios_UserSync_Exception
      */
     public function __construct (array $config = array())
     {
