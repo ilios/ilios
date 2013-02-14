@@ -349,6 +349,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             } catch (Ilios_UserSync_Exception $e) {
                 $msg = "Failed to verify existence of unexamined student in external user store.";
                 $msg .= " (Ilios user id: {$student['user_id']}, UID: {$student['uc_uid']})";
+                $msg .= " | Cause: " . $e->getMessage();
                 $logger->log($msg, $processId, 1, Ilios_Logger::LOG_LEVEL_ERROR);
                 continue; // move on to the next user
             }
