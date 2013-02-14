@@ -9,12 +9,14 @@ interface Ilios_UserSync_UserSource
 	/**
 	 * Constructor.
 	 * @param array $config user source configuration
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function __construct(array $config = array());
 
 	/**
 	 * Returns student records from the external user source.
 	 * @return Ilios_UserSync_ExternalUser_Iterator
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getAllStudentRecords ();
 
@@ -23,6 +25,7 @@ interface Ilios_UserSync_UserSource
 	 * from the external user source.
 	 * @param string $email
 	 * @return Ilios_UserSync_ExternalUser_Iterator
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getUserByEmail ($email);
 
@@ -31,6 +34,7 @@ interface Ilios_UserSync_UserSource
 	 * from the external user source.
 	 * @param string $uid
 	 * @return Ilios_UserSync_ExternalUser_Iterator
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getUserByUid ($uid);
 
@@ -38,6 +42,7 @@ interface Ilios_UserSync_UserSource
 	 * Checks the user store for a student by a given UID.
 	 * @param string $uid
 	 * @return boolean TRUE if a student can be found, FALSE otherwise
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function hasStudent ($uid);
 
@@ -45,6 +50,7 @@ interface Ilios_UserSync_UserSource
 	 * Checks the user store for a user by a given UID.
 	 * @param string $uid
 	 * @return boolean TRUE if a user can be found, FALSE otherwise
+	 * @throws Ilios_UserSync_Exception
 	 */
 	public function hasUser ($uid);
 
