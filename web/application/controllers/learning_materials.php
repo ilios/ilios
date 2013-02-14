@@ -44,14 +44,19 @@ class Learning_Materials extends Abstract_Ilios_Controller
         }
 
         // not extra authorization check here, learning materials are readable by all logged in users.
-
         $learningMaterialId = $this->input->get_post('learning_material_id');
         $rhett = $this->learningMaterial->getAssetPathAndFilenameAndType($learningMaterialId);
-
-        header("Content-Type: " . $rhett[0]);
-        header('Content-Disposition: attachment; filename="' . $rhett[1] . '"');
-
-        $this->streamFileContentsChunked($rhett[2], false);
+        
+        //we have the filepath at this point ($rhett[2]), so let's make sure it's there...
+        if(is_file($rhett[2])){
+          //if the file exists, start streaming!
+          header("Content-Type: " . $rhett[0]);
+          header('Content-Disposition: attachment; filename="' . $rhett[1] . '"');
+          $this->streamFileContentsChunked($rhett[2], false);
+        } else {
+          //otherwise, the file isn't where is should be, so throw a 404 with the filename ($rhett[1])
+          show_error("Learning Material '" . $rhett[1] . "' was not found.", 404);
+        }
     }
 
     /**
