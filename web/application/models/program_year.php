@@ -500,7 +500,7 @@ class Program_Year extends Abstract_Ilios_Model
         array_push($auditAtoms, $this->auditEvent->wrapAtom($cohortId, 'cohort_id', 'cohort',
                                                             Audit_Event::$UPDATE_EVENT_TYPE));
 
-        $rhett = $this->saveObjectives($objectivesArray, 'program_year_x_objective',
+        $rhett = $this->_saveObjectives($objectivesArray, 'program_year_x_objective',
                                        'program_year_id', $programYearId, $auditAtoms);
 
         // TODO audit events for the cross table transactions?
@@ -707,7 +707,7 @@ class Program_Year extends Abstract_Ilios_Model
     protected function getObjectivesForProgramYear ($programYearId)
     {
         $rhett = array();
-    
+
         $crossIdArray = $this->getIdArrayFromCrossTable('program_year_x_objective',
                 'objective_id', 'program_year_id',
                 $programYearId);
@@ -743,7 +743,7 @@ class Program_Year extends Abstract_Ilios_Model
 
         $DB = $this->dbHandle;
         $queryResults = $DB->query($sql);
-    
+
         if ($queryResults->num_rows() > 0) {
             $firstRow = $queryResults->first_row();
             return ($firstRow->flag == '1');

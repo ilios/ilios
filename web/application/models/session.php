@@ -745,7 +745,7 @@ class Session extends Abstract_Ilios_Model
        $this->_saveMeshTermAssociations($newSessionId, $meshTermArray);
 
         // @todo refactor
-        $objectives = $this->saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $newSessionId, $auditAtoms);
+        $objectives = $this->_saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $newSessionId, $auditAtoms);
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
@@ -828,7 +828,7 @@ class Session extends Abstract_Ilios_Model
         $this->_saveMeshTermAssociations($sessionId, $meshTermArray, $associatedMeshTermIds);
 
         // @todo refactor
-        $objectives = $this->saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $sessionId, $auditAtoms);
+        $objectives = $this->_saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $sessionId, $auditAtoms);
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
