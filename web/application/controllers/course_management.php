@@ -1086,13 +1086,14 @@ class Course_Management extends Abstract_Ilios_Controller
         $learningMaterials = null;
         $objectives = null;
         $ilmInstructors = null;
+        $hasIlmInstructors = false;
         try {
             $disciplines = Ilios_Json::decode($clean['discipline'], true);
             $meshTerms = Ilios_Json::decode($clean['mesh_term'], true);
             $learningMaterials = Ilios_Json::decode($clean['learning_materials'], true);
-            $learningMaterials = $this->_formatSessionLearningMaterialsFromInput($learningMaterials);
             $objectives = Ilios_Json::decode($clean['objective'], true);
             if (array_key_exists('ilm_instructors', $clean)) {
+                $hasIlmInstructors = true;
                 $ilmInstructors = Ilios_Json::decode($clean['ilm_instructors'], true);
             }
         } catch (Ilios_Exception $e) {
@@ -1101,6 +1102,22 @@ class Course_Management extends Abstract_Ilios_Controller
             echo json_encode($rhett);
             return;
         }
+
+        // type-check input
+        // all of user input below MUST be arrays after de-serializations
+        // reject the whole request as "bad" data if it ain't so.
+        if (! is_array($disciplines) || ! is_array($meshTerms)
+            || ! is_array($learningMaterials) || ! is_array($objectives)
+            || ($hasIlmInstructors && ! is_array($ilmInstructors)))
+        {
+          $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+          header("Content-Type: text/plain");
+          echo json_encode($rhett);
+          return;
+        }
+
+        $learningMaterials = $this->_formatSessionLearningMaterialsFromInput($learningMaterials);
+
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
         do {
@@ -1483,7 +1500,7 @@ class Course_Management extends Abstract_Ilios_Controller
      * 'notesArePubliclyViewable' ... flag indicating whether the given notes are publ. visible (boolean)
      * 'notes' ... note text (string|NULL)
      */
-    protected function _formatSessionLearningMaterialsFromInput ($raw = array())
+    protected function _formatSessionLearningMaterialsFromInput (array $raw)
     {
         $rhett = array();
         foreach ($raw as $item) {
