@@ -850,10 +850,23 @@ class Course_Management extends Abstract_Ilios_Controller
             $learningMaterials = Ilios_Json::decode($clean['learning_materials'], true);
             $objectives = Ilios_Json::decode($clean['objective'], true);
         } catch (Ilios_Exception $e) {
-        	$rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
-        	header("Content-Type: text/plain");
-        	echo json_encode($rhett);
-        	return;
+            $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+            header("Content-Type: text/plain");
+            echo json_encode($rhett);
+            return;
+        }
+
+        // type-check input
+        // all of user input below MUST be arrays after de-serializations
+        // reject the whole request as "bad" data if it ain't so.
+        if (! is_array($cohorts) || ! is_array($disciplines) || ! is_array($directors)
+            || ! is_array($meshTerms) || ! is_array($learningMaterials)
+            || ! is_array($objectives))
+        {
+          $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+          header("Content-Type: text/plain");
+          echo json_encode($rhett);
+          return;
         }
 
         $failedTransaction = true;
