@@ -1039,20 +1039,18 @@ class Course_Management extends Abstract_Ilios_Controller
         // if this is not the case then echo out an error message
         // and be done with it.
         if (empty($school)) {
-        	$msg = $this->i18nVendor->getI18NString('course_management.error.session_save', $lang);
-        	$rhett = array();
-        	$rhett['error'] = $msg;
-        	header("Content-Type: text/plain");
-        	echo json_encode($rhett);
-        	return;
+            $msg = $this->i18nVendor->getI18NString('course_management.error.session_save', $lang);
+            $rhett = array();
+            $rhett['error'] = $msg;
+            header("Content-Type: text/plain");
+            echo json_encode($rhett);
+            return;
         }
 
         $names = array(
             'title', 'description','discipline', 'mesh_term',
             'learning_materials', 'objective'
         );
-
-
 
         $sessionId = $this->input->post('session_id');
         $sessionTypeId = $this->input->post('session_type_id');
@@ -1067,18 +1065,18 @@ class Course_Management extends Abstract_Ilios_Controller
         $ilmDueDate = null;
         $ilmLearners = null;
         if ($ilmHours) {
-   		    $ilmId = $this->input->post('ilm_db_id');
-   		    $ilmDueDate = $this->input->post('due_date');
-   		    $ilmLearners = explode(',', $this->input->post('ilm_learners'));
-   		    $names[] = 'ilm_instructors';
+            $ilmId = $this->input->post('ilm_db_id');
+           $ilmDueDate = $this->input->post('due_date');
+           $ilmLearners = explode(',', $this->input->post('ilm_learners'));
+           $names[] = 'ilm_instructors';
         }
         $clean = array();
         foreach ($names as $name) {
-        	$input = $this->input->post($name);
-        	// sanitize input
-        	$input = Ilios_CharEncoding::convertToUtf8($input);
-        	$input = Ilios_CharEncoding::utf8UrlDecode($input);
-        	$clean[$name] = $input;
+            $input = $this->input->post($name);
+            // sanitize input
+            $input = Ilios_CharEncoding::convertToUtf8($input);
+            $input = Ilios_CharEncoding::utf8UrlDecode($input);
+            $clean[$name] = $input;
         }
         $title = $clean['title'];
         $description = $clean['description'];
