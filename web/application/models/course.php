@@ -310,8 +310,8 @@ class Course extends Abstract_Ilios_Model
      */
     public function saveCourseWithId ($courseId, $title,
         $externalId, $startDate, $endDate, $courseLevel,
-        $cohortArray, $disciplinesArray, $directorsArray,
-        $meshTermArray, $objectiveArray, $learningMaterialArray,
+        array $cohortArray, array $disciplinesArray, array $directorsArray,
+        array $meshTermArray, array $objectiveArray, array $learningMaterialArray,
         $publishId, $publishAsTBD, $clerkshipTypeId, &$auditAtoms)
     {
         $rhett = array();

@@ -366,9 +366,8 @@ abstract class Abstract_Ilios_Model extends CI_Model
      * @param string $idColumnName
      * @see Abstract_Ilios_Model::_saveJoinTableAssociations()
      */
-    protected function performCrossTableInserts ($modelArray, $tableName, $columnName,
-    		$uniquingColumn, $uniquingId,
-    		$idColumnName = 'dbId') {
+    protected function performCrossTableInserts (array $modelArray, $tableName, $columnName,
+    		$uniquingColumn, $uniquingId, $idColumnName = 'dbId') {
     	$DB = $this->dbHandle;
 
     	$DB->where($uniquingColumn, $uniquingId);
