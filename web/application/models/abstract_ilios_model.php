@@ -385,17 +385,6 @@ abstract class Abstract_Ilios_Model extends CI_Model
     }
 
     /**
-     * Deprecated, use _saveObjectives() instead.
-     * @deprecated
-     * @see _saveObjectives()
-     */
-    protected function saveObjectives (array $objectiveArray, $crossTableName, $crossTableColumn, $columnValue, &$auditAtoms)
-    {
-        return $this->_saveObjectives($objectiveArray, $crossTableName, $crossTableColumn, $columnValue, $auditAtoms);
-    }
-
-
-    /**
      * Adds or updates given objectives in the database.
      *
      * @param array $objectiveArray
