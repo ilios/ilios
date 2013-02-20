@@ -389,7 +389,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
      * @deprecated
      * @see _saveObjectives()
      */
-    protected function saveObjectives ($objectiveArray, $crossTableName, $crossTableColumn, $columnValue, &$auditAtoms)
+    protected function saveObjectives (array $objectiveArray, $crossTableName, $crossTableColumn, $columnValue, &$auditAtoms)
     {
         return $this->_saveObjectives($objectiveArray, $crossTableName, $crossTableColumn, $columnValue, $auditAtoms);
     }
@@ -405,7 +405,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
      * @param array $auditAtoms
      * @return array
      */
-    protected function _saveObjectives ($objectiveArray, $crossTableName, $crossTableColumn,
+    protected function _saveObjectives (array $objectiveArray, $crossTableName, $crossTableColumn,
                                        $columnValue, &$auditAtoms) {
         $rhett = array();
 
