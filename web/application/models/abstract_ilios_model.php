@@ -387,15 +387,16 @@ abstract class Abstract_Ilios_Model extends CI_Model
     /**
      * Adds or updates given objectives in the database.
      *
-     * @param array $objectiveArray
+     * @param array $objectives
      * @param string $crossTableName
      * @param string $crossTableColumn
      * @param mixed $columnValue
      * @param array $auditAtoms
      * @return array
      */
-    protected function _saveObjectives (array $objectiveArray, $crossTableName, $crossTableColumn,
-                                       $columnValue, &$auditAtoms) {
+    protected function _saveObjectives (array $objectives, $crossTableName, $crossTableColumn,
+        $columnValue, &$auditAtoms)
+    {
         $rhett = array();
 
         // get the ids of currently associated objectives from the JOIN table
@@ -411,7 +412,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
          * give $objectiveIdArray to the cross table insert method
          */
 
-        foreach ($objectiveArray as $key => $val) {
+        foreach ($objectives as $key => $val) {
             $dbId = $val['dbId'];
 
             if ($dbId == -1) {
