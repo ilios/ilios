@@ -107,4 +107,42 @@ class Ilios_Json
 
         return $rhett;
     }
+    
+
+    /**
+     * Deserializes a given JSON-formatted text into the appropriate PHP type.
+     * @param string $json JSON-formatted text
+     * @param boolean $assoc when TRUE then given objects will be converted to assoc. arrays
+     * @param boolean $convertToUtf8 when TRUE then then an attempt is made to convert the given input to UTF8 prior to decoding 
+     * @param boolean $utf8urlDecode when TRUE then the given input will be URL-decoded in an UTF8-safe manner
+     * @return mixed the de-serialized data
+     * @throws Ilios_Exception on decoding failure
+     */
+    public static function deserializeJson ($json, $assoc = false, $convertToUtf8 = true, $utf8urlDecode = true)
+    {
+        if ($convertToUtf8) {
+            $json = Ilios_CharEncoding::convertToUtf8($json);
+        }
+        if ($utf8urlDecode) {
+            $json = Ilios_CharEncoding::utf8UrlDecode($json);
+        }
+        return self::decode($json, $assoc);
+    }
+
+    /**
+     * Deserializes a given JSON-formatted text into a PHP array
+     * @param string $json
+     * @param boolean $assoc when TRUE then given objects will be converted to assoc. arrays
+     * @param boolean $convertToUtf8 when TRUE then then an attempt is made to convert the given input to UTF8 prior to decoding 
+     * @param boolean $utf8urlDecode when TRUE then the given input will be URL-decoded in an UTF8-safe manner
+     * @return array the de-serialized array
+     * @throws Ilios_Exception on decoding failure and on type mismatch
+     */
+    public static function deserializeJsonArray ($json, $assoc = false, $convertToUtf8 = true, $utf8urlDecode = true)
+    {
+        $rhett = self::decode($json, $assoc, $convertToUtf8, $utf8urlDecode);
+        if (! is_array($rhett)) {
+            throw new Ilios_Exception("Failed to deserialize given text into a PHP array.");
+        } 
+    }
 }
