@@ -352,7 +352,7 @@ DELIMITER //
         CLOSE uid_cursor;
 
 
-        SELECT * FROM tt_subgroup;
+        SELECT * FROM tt_subgroup ORDER BY RAND();
         DROP TABLE tt_subgroup;
     END;
     //
