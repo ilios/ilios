@@ -29,11 +29,16 @@ class Ilios_CharEncoding
     {
         // check encoding and convert to UTF-8 on demand
         if (! mb_check_encoding($str, 'UTF-8')) {
-        	$order = mb_detect_order(); // set the detect order in your PHP configuration!
-        	$encoding = mb_detect_encoding($str, $order);
-        	if (false !== $encoding) { // SOL if encoding couldn't be detected. move on.
-        		$str = mb_convert_encoding($str, 'UTF-8', $encoding);
-        	}
+            $order = mb_detect_order(); // set the detect order in your PHP configuration!
+            $encoding = mb_detect_encoding($str, $order);
+            if (false !== $encoding) { // encoding detected! use it.
+                $str = mb_convert_encoding($str, 'UTF-8', $encoding);
+            } else {
+                // SOL if encoding couldn't be detected.
+                // force convertion to UTF-8 and accept garbled output as a consequence.
+                // assume the internal encoding as source encoding.
+                $str = mb_convert_encoding($str, 'UTF-8');
+            }
         }
         return $str;
     }
