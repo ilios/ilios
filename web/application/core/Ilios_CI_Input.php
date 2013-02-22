@@ -1,10 +1,9 @@
 <?php 
 
 /**
- * Extends CodeIgniter's core Input component with the aim to un-fuck
+ * Extends CodeIgniter's core Input component with the aim to undo
  * some of the text garbling caused by CI's overreaching attempt
  * to auto-sanitize user input.
- * Still - WTF?!
  * [ST 02/22/2013]
  */
 class Ilios_CI_Input extends CI_Input
