@@ -1019,21 +1019,28 @@ class Course_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
+        $isIlm = false;
 
+        //
         // authentication check
+        //
         if ($this->divertedForAuthentication) {
             $this->_printAuthenticationFailedXhrResponse($lang);
             return;
         }
 
+        //
         // authorization check
+        //
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
 
+        //
+        // input validation and sanitation
+        //
         $courseId = $this->input->post('course_id');
-
         $school = $this->school->getSchoolByCourseId($courseId);
         // check if course is linked to a school
         // if this is not the case then echo out an error message
@@ -1047,10 +1054,41 @@ class Course_Management extends Abstract_Ilios_Controller
             return;
         }
 
-        $names = array(
-            'title', 'description','discipline', 'mesh_term',
-            'learning_materials', 'objective'
-        );
+        // deserialize arrays of associated data such as learning materials, objectives etc.
+        // fail on first bad input.
+        try {
+            $disciplines = Ilios_Json::deserializeJsonArray($this->input->post('discipline'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.disciplines', $lang);
+            return;
+        }
+        try {
+            $meshTerms = Ilios_Json::deserializeJsonArray($this->input->post('mesh_term'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.mesh_terms', $lang);
+            return;
+        }
+        try {
+            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.learning_materials', $lang);
+            return;
+        }
+        try {
+            $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.objectives', $lang);
+            return;
+        }
+
+        if ($isIlm) {
+            try {
+                $ilmInstructors = Ilios_Json::deserializeJsonArray($this->input->post('ilm_instructors'), true);
+            } catch (Ilios_Exception $e) {
+                $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.ilm_instructors', $lang);
+                return;
+            }
+        }
 
         $sessionId = $this->input->post('session_id');
         $sessionTypeId = $this->input->post('session_type_id');
@@ -1066,58 +1104,22 @@ class Course_Management extends Abstract_Ilios_Controller
         $ilmLearners = null;
         if ($ilmHours) {
             $ilmId = $this->input->post('ilm_db_id');
-           $ilmDueDate = $this->input->post('due_date');
-           $ilmLearners = explode(',', $this->input->post('ilm_learners'));
-           $names[] = 'ilm_instructors';
-        }
-        $clean = array();
-        foreach ($names as $name) {
-            $input = $this->input->post($name);
-            // sanitize input
-            $input = Ilios_CharEncoding::convertToUtf8($input);
-            $input = Ilios_CharEncoding::utf8UrlDecode($input);
-            $clean[$name] = $input;
-        }
-        $title = $clean['title'];
-        $description = $clean['description'];
-
-        $disciplines = null;
-        $meshTerms = null;
-        $learningMaterials = null;
-        $objectives = null;
-        $ilmInstructors = null;
-        $hasIlmInstructors = false;
-        try {
-            $disciplines = Ilios_Json::decode($clean['discipline'], true);
-            $meshTerms = Ilios_Json::decode($clean['mesh_term'], true);
-            $learningMaterials = Ilios_Json::decode($clean['learning_materials'], true);
-            $objectives = Ilios_Json::decode($clean['objective'], true);
-            if (array_key_exists('ilm_instructors', $clean)) {
-                $hasIlmInstructors = true;
-                $ilmInstructors = Ilios_Json::decode($clean['ilm_instructors'], true);
-            }
-        } catch (Ilios_Exception $e) {
-            $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
-            header("Content-Type: text/plain");
-            echo json_encode($rhett);
-            return;
+            $ilmDueDate = $this->input->post('due_date');
+            $ilmLearners = explode(',', $this->input->post('ilm_learners'));
+            $isIlm = true;
         }
 
-        // type-check input
-        // all of user input below MUST be arrays after de-serializations
-        // reject the whole request as "bad" data if it ain't so.
-        if (! is_array($disciplines) || ! is_array($meshTerms)
-            || ! is_array($learningMaterials) || ! is_array($objectives)
-            || ($hasIlmInstructors && ! is_array($ilmInstructors)))
-        {
-          $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
-          header("Content-Type: text/plain");
-          echo json_encode($rhett);
-          return;
-        }
+        $title = Ilios_CharEncoding::convertToUtf8($this->input->post('title'));
+        $title = Ilios_CharEncoding::utf8UrlDecode($title);
+
+        $description = Ilios_CharEncoding::convertToUtf8($this->input->post('description'));
+        $description = Ilios_CharEncoding::utf8UrlDecode($description);
 
         $learningMaterials = $this->_formatSessionLearningMaterialsFromInput($learningMaterials);
 
+        //
+        // input processing
+        //
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
         do {
@@ -1146,7 +1148,7 @@ class Course_Management extends Abstract_Ilios_Controller
 
             $deleteOfferings = false;
 
-            if ($ilmHours) {
+            if ($isIlm) {
                 $deleteOfferings = true;
 
                 if (! $this->iliosSession->saveIndependentLearningFacet($ilmId, $ilmHours,
