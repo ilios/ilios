@@ -451,7 +451,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
             $names = array('title', 'description', 'content_creator', 'copyright_rationale');
             foreach ($names as $name) {
                 $input = $this->input->post($name);
-                $input = Ilios_CharEncoding::convertToUtf8($input);
                 $input = Ilios_CharEncoding::utf8UrlDecode($input);
                 $clean[$name] = $input;
             }
