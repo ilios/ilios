@@ -136,13 +136,15 @@ class Ilios_Json
      * @param boolean $convertToUtf8 when TRUE then then an attempt is made to convert the given input to UTF8 prior to decoding 
      * @param boolean $utf8urlDecode when TRUE then the given input will be URL-decoded in an UTF8-safe manner
      * @return array the de-serialized array
-     * @throws Ilios_Exception on decoding failure and on type mismatch
+     * @throws Ilios_Exception on decoding failure and on$input = Ilios_CharEncoding::convertToUtf8($input);
+        	$input = Ilios_CharEncoding::utf8UrlDecode($input); type mismatch
      */
     public static function deserializeJsonArray ($json, $assoc = false, $convertToUtf8 = true, $utf8urlDecode = true)
     {
-        $rhett = self::decode($json, $assoc, $convertToUtf8, $utf8urlDecode);
+        $rhett = self::deserializeJson($json, $assoc, $convertToUtf8, $utf8urlDecode);
         if (! is_array($rhett)) {
             throw new Ilios_Exception("Failed to deserialize given text into a PHP array.");
-        } 
+        }
+        return $rhett;
     }
 }

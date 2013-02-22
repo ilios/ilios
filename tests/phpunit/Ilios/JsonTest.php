@@ -76,7 +76,8 @@ class Ilios_JsonTest extends Ilios_TestCase
      */
     public function testDeserializeJsonArray ($json, $assoc, $convertToUtf8, $utf8urlDecode, $expected)
     {
-        $this->assertEquals(Ilios_Json::deserializeJson($json, $assoc, $convertToUtf8, $utf8urlDecode), $expected);
+        $actual = Ilios_Json::deserializeJsonArray($json, $assoc, $convertToUtf8, $utf8urlDecode);
+        $this->assertEquals($actual, $expected);
     }
 
     /**
