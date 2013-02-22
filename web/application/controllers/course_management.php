@@ -828,7 +828,6 @@ class Course_Management extends Abstract_Ilios_Controller
         foreach ($names as $name) {
         	$input = $this->input->post($name);
         	// sanitize input
-        	$input = Ilios_CharEncoding::convertToUtf8($input);
         	$input = Ilios_CharEncoding::utf8UrlDecode($input);
         	$clean[$name] = $input;
         }
@@ -1063,7 +1062,6 @@ class Course_Management extends Abstract_Ilios_Controller
         foreach ($names as $name) {
         	$input = $this->input->post($name);
         	// sanitize input
-        	$input = Ilios_CharEncoding::convertToUtf8($input);
         	$input = Ilios_CharEncoding::utf8UrlDecode($input);
         	$clean[$name] = $input;
         }
@@ -1353,7 +1351,6 @@ class Course_Management extends Abstract_Ilios_Controller
         $recurringEvent = null;
         if ('true' == $this->input->post('is_recurring')) {
             $recurringEvent = $this->input->post('recurring_event');
-            $recurringEvent = Ilios_CharEncoding::convertToUtf8($recurringEvent);
             $recurringEvent = Ilios_CharEncoding::utf8UrlDecode($recurringEvent);
             try {
                 $recurringEvent = Ilios_Json::decode($recurringEvent, true);

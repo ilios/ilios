@@ -600,7 +600,6 @@ class Program_Management extends Abstract_Ilios_Controller
         $names = array('competency', 'objective', 'discipline', 'director', 'steward');
         foreach ($names as $name) {
             $input = $this->input->post($name);
-            $input = Ilios_CharEncoding::convertToUtf8($input);
             $input = Ilios_CharEncoding::utf8UrlDecode($input);
             $clean[$name] = $input;
         }
