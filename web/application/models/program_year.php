@@ -389,8 +389,8 @@ class Program_Year extends Abstract_Ilios_Model
      *
      * @todo The code calling this method should be responsible for transactionality; to that extent, this method should some sort of success / failure indication.
      */
-    public function addProgramYear ($startYear, $compentenciesArray, $objectivesArray, $disciplinesArray,
-        $directorsArray, $stewardsArray, $programId, $publishId, &$auditAtoms, &$returningObjectives)
+    public function addProgramYear ($startYear, $compentenciesArray, array $objectivesArray, array $disciplinesArray,
+        array $directorsArray, array $stewardsArray, $programId, $publishId, array &$auditAtoms, array &$returningObjectives)
     {
         $DB = $this->dbHandle;
 
