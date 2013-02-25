@@ -34,15 +34,15 @@ class Ilios_JsonTest extends Ilios_TestCase
      * Data provider function for <code>Ilios_JsonTest::testDeserializeJsonArray()</code>.
      * Returns a nested array of arrays, where in each sub-array
      * - the first element holds the JSON-serialized test value
-     * - the second, third and fourth arguments hold function arguments 2-4 for Ilios_Json::deserializeJsonArray()
-     * - the fifth element hold the expected deserialized array.
+     * - the second and third arguments hold function arguments 2-4 for Ilios_Json::deserializeJsonArray()
+     * - the fourth element hold the expected deserialized array.
      * @return array
      */
     public function providerTestDeserializeJsonArray ()
     {
         return array(
-            array('[]', false, true, true, array()),
-            array('["foo", "bar"]', false, true, true, array("foo", "bar")),
+            array('[]', false, true, array()),
+            array('["foo", "bar"]', false, true, array("foo", "bar")),
         );
     }
 
@@ -74,9 +74,9 @@ class Ilios_JsonTest extends Ilios_TestCase
      * @group ilios
      * @group json
      */
-    public function testDeserializeJsonArray ($json, $assoc, $convertToUtf8, $utf8urlDecode, $expected)
+    public function testDeserializeJsonArray ($json, $assoc, $utf8urlDecode, $expected)
     {
-        $actual = Ilios_Json::deserializeJsonArray($json, $assoc, $convertToUtf8, $utf8urlDecode);
+        $actual = Ilios_Json::deserializeJsonArray($json, $assoc, $utf8urlDecode);
         $this->assertEquals($actual, $expected);
     }
 
