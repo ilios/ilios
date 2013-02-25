@@ -2262,7 +2262,7 @@ div.icon_dhtmlx_spacer {
 .learning_material_list li.application--vnd__openxmlformats-officedocument__wordprocessingml__document {
     background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--octet-stream m{
+.learning_material_list li.application--octet-stream {
     background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
 }
 .learning_material_list li.application--pdf {
