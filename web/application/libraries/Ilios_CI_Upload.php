@@ -1,8 +1,23 @@
 <?php
 
-
+/**
+ * Ilios extension to CodeIgniter's default Upload class.
+ *
+ * Since CI2 is cramming mime-"magic" down our throat, which does very poorly
+ * in identifying mime-types of modern MS Office files, we need to provide means
+ * to correct mismatched mime-types.
+ * We do this here, its rather ham-handed but it works for our needs right now.
+ * [ST 02/25/2013]
+ *
+ */
 class Ilios_CI_Upload extends CI_Upload
 {
+    /**
+     * The mime-type correction map.
+     * Takes a file suffix/"wrong" mimetype map as key and the correct mime-type as value.
+     * Treat this as read-only.
+     * @var array
+     */
     protected $_correctedMimeTypesMap = array(
         '.docm|application/msword' => 'application/vnd.ms-word.document.macroEnabled.12',
         '.docx|application/msword' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -27,6 +42,13 @@ class Ilios_CI_Upload extends CI_Upload
         '.xltx|application/vnd.ms-excel' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template'
     );
 
+    /**
+     * Performs a map lookup on a given file suffix and mime-type.
+     * Returns the corrected mimetype if a match was found in the map, or the given mime-type on no-match.
+     * @param string $fileExtension the file extension (including the leading dot)
+     * @param string $mimeType the mime-type
+     * @return string the (corrected) mime-type
+     */
     public function getCorrectedMimeType ($fileExtension, $mimeType)
     {
         $key = strtolower($fileExtension . '|' . $mimeType);
