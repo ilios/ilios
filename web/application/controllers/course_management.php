@@ -1049,6 +1049,12 @@ class Course_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        // check if we're dealing with an ILM
+        $ilmHours = $this->input->post('ilm_hours');
+        if ($ilmHours) {
+            $isIlm = true;
+        }
+
         // deserialize arrays of associated data such as learning materials, objectives etc.
         // fail on first bad input.
         try {
@@ -1097,7 +1103,7 @@ class Course_Management extends Abstract_Ilios_Controller
         $ilmId = null;
         $ilmDueDate = null;
         $ilmLearners = null;
-        if ($ilmHours) {
+        if ($isIlm) {
             $ilmId = $this->input->post('ilm_db_id');
             $ilmDueDate = $this->input->post('due_date');
             $ilmLearners = explode(',', $this->input->post('ilm_learners'));
