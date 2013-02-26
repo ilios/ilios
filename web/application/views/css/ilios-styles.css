@@ -2256,31 +2256,38 @@ div.icon_dhtmlx_spacer {
 .learning_material_list li.application--gzip {
     background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--msword {
+.learning_material_list li.application--msword,
+.learning_material_list li.application--vnd__ms-word__document__macroEnabled__12,
+.learning_material_list li.application--vnd__openxmlformats-officedocument__wordprocessingml__document,
+.learning_material_list li.application--vnd__ms-word__template__macroEnabled__12,
+.learning_material_list li.application--vnd__openxmlformats-officedocument__wordprocessingml__template {
     background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--vnd__openxmlformats-officedocument__wordprocessingml__document {
-    background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
-}
-.learning_material_list li.application--octet-stream m{
+
+.learning_material_list li.application--octet-stream {
     background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
 }
 .learning_material_list li.application--pdf {
     background: url("../images/mime_type_icons/pdf.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--vnd__ms-excel {
+.learning_material_list li.application--vnd__ms-excel,
+.learning_material_list li.application--vnd__openxmlformats-officedocument__spreadsheetml__sheet,
+.learning_material_list li.application--vnd__openxmlformats-officedocument__spreadsheetml__template,
+.learning_material_list li.application--vnd__ms-excel__sheet__macroEnabled__12,
+.learning_material_list li.application--vnd__ms-excel__template__macroEnabled__12,
+.learning_material_list li.application--vnd__ms-excel__addin__macroEnabled__12,
+.learning_material_list li.application--vnd__ms-excel__sheet__binary__macroEnabled__12 {
     background: url("../images/mime_type_icons/x-office-spreadsheet.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--vnd__openxmlformats-officedocument__spreadsheetml__sheet {
-    background: url("../images/mime_type_icons/x-office-spreadsheet.png") no-repeat 2px .5em;
-}
-.learning_material_list li.application--powerpoint {
-    background: url("../images/mime_type_icons/x-office-presentation.png") no-repeat 2px .5em;
-}
-.learning_material_list li.application--vnd__ms-powerpoint {
-    background: url("../images/mime_type_icons/x-office-presentation.png") no-repeat 2px .5em;
-}
-.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__presentation {
+.learning_material_list li.application--powerpoint,
+.learning_material_list li.application--vnd__ms-powerpoint,
+.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__presentation,
+.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__template,
+.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__slideshow,
+.learning_material_list li.application--vnd__ms-powerpoint__addin__macroEnabled__12,
+.learning_material_list li.application--vnd__ms-powerpoint__presentation__macroEnabled__12,
+.learning_material_list li.application--vnd__ms-powerpoint__template__macroEnabled__12,
+.learning_material_list li.application--vnd__ms-powerpoint__slideshow__macroEnabled__12 {
     background: url("../images/mime_type_icons/x-office-presentation.png") no-repeat 2px .5em;
 }
 .learning_material_list li.application--zip {
