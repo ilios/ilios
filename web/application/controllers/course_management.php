@@ -1107,7 +1107,6 @@ class Course_Management extends Abstract_Ilios_Controller
             $ilmId = $this->input->post('ilm_db_id');
             $ilmDueDate = $this->input->post('due_date');
             $ilmLearners = explode(',', $this->input->post('ilm_learners'));
-            $isIlm = true;
         }
 
         $title = Ilios_CharEncoding::utf8UrlDecode($this->input->post('title'));
