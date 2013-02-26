@@ -466,9 +466,9 @@ class Program_Year extends Abstract_Ilios_Model
      * @param array $auditAtoms
      * @return array
      */
-    public function updateProgramYearWithId ($programYearId, $startYear, $compentenciesArray,
-        $objectivesArray, $disciplinesArray, $directorsArray, $stewardsArray,
-        $publishId, $programId, &$auditAtoms)
+    public function updateProgramYearWithId ($programYearId, $startYear, array $compentenciesArray,
+        array $objectivesArray, array $disciplinesArray, array $directorsArray, array $stewardsArray,
+        $publishId, $programId, array &$auditAtoms)
     {
         $DB = $this->dbHandle;
 
