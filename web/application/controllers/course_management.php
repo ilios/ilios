@@ -797,18 +797,25 @@ class Course_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
+        //
         // authentication check
+        //
         if ($this->divertedForAuthentication) {
             $this->_printAuthenticationFailedXhrResponse($lang);
             return;
         }
 
+        //
         // authorization check
+        //
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
 
+        //
+        // input processing
+        //
         $courseId = $this->input->post('course_id');
         $externalId = $this->input->post('external_id');
         $shouldPublish = $this->input->post('should_publish');
@@ -818,55 +825,44 @@ class Course_Management extends Abstract_Ilios_Controller
         $courseLevel = (int) $this->input->post('course_level');
         $clerkshipTypeId = (int) $this->input->post('clerkship_type_id');
 
-
-        // utf8-convert and url-decode input
-        $clean = array();
-        $names = array(
-            'objective', 'discipline', 'director', 'mesh_term',
-            'learning_materials', 'cohort', 'title'
-        );
-        foreach ($names as $name) {
-        	$input = $this->input->post($name);
-        	// sanitize input
-        	$input = Ilios_CharEncoding::utf8UrlDecode($input);
-        	$clean[$name] = $input;
-        }
-
-        $title = $clean['title'];
-
-        // decode JSONified user input
-        $cohorts = null;
-        $disciplines = null;
-        $directors = null;
-        $meshTerms = null;
-        $learningMaterials = null;
-        $objectives = null;
         try {
-            $cohorts = Ilios_Json::decode($clean['cohort'], true);
-            $disciplines = Ilios_Json::decode($clean['discipline'], true);
-            $directors = Ilios_Json::decode($clean['director'], true);
-            $meshTerms = Ilios_Json::decode($clean['mesh_term'], true);
-            $learningMaterials = Ilios_Json::decode($clean['learning_materials'], true);
-            $objectives = Ilios_Json::decode($clean['objective'], true);
+            $cohorts = Ilios_Json::deserializeJsonArray($this->input->post('cohort'), true);
         } catch (Ilios_Exception $e) {
-            $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
-            header("Content-Type: text/plain");
-            echo json_encode($rhett);
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.cohorts', $lang);
+            return;
+        }
+        try {
+            $disciplines = Ilios_Json::deserializeJsonArray($this->input->post('discipline'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.disciplines', $lang);
+            return;
+        }
+        try {
+            $directors = Ilios_Json::deserializeJsonArray($this->input->post('director'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.directors', $lang);
+            return;
+        }
+        try {
+            $meshTerms = Ilios_Json::deserializeJsonArray($this->input->post('mesh_term'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.mesh_terms', $lang);
+            return;
+        }
+        try {
+            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.learning_materials', $lang);
+            return;
+        }
+        try {
+            $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.objectives', $lang);
             return;
         }
 
-        // type-check input
-        // all of user input below MUST be arrays after de-serializations
-        // reject the whole request as "bad" data if it ain't so.
-        if (! is_array($cohorts) || ! is_array($disciplines) || ! is_array($directors)
-            || ! is_array($meshTerms) || ! is_array($learningMaterials)
-            || ! is_array($objectives))
-        {
-          $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
-          header("Content-Type: text/plain");
-          echo json_encode($rhett);
-          return;
-        }
+        $title = Ilios_CharEncoding::utf8UrlDecode($this->input->post('title'));
 
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
@@ -1108,11 +1104,9 @@ class Course_Management extends Abstract_Ilios_Controller
             $isIlm = true;
         }
 
-        $title = Ilios_CharEncoding::convertToUtf8($this->input->post('title'));
-        $title = Ilios_CharEncoding::utf8UrlDecode($title);
+        $title = Ilios_CharEncoding::utf8UrlDecode($this->input->post('title'));
 
-        $description = Ilios_CharEncoding::convertToUtf8($this->input->post('description'));
-        $description = Ilios_CharEncoding::utf8UrlDecode($description);
+        $description = Ilios_CharEncoding::utf8UrlDecode($this->input->post('description'));
 
         $learningMaterials = $this->_formatSessionLearningMaterialsFromInput($learningMaterials);
 
