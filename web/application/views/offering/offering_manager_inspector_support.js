@@ -241,8 +241,7 @@ ilios.om.inspector.populateInspectorForModel = function (offeringModel) {
 						li = document.createElement('li');
 						li.setAttribute('style', 'margin-bottom: 12px;');
 
-						textNode = document.createTextNode(model);
-						li.appendChild(textNode);
+						li.innerHTML = model;
 
 						el.appendChild(li);
 					}
@@ -321,8 +320,7 @@ ilios.om.inspector.populateInspectorForModel = function (offeringModel) {
 			li = document.createElement('li');
 			li.setAttribute('style', 'margin-bottom: 12px;');
 
-			textNode = document.createTextNode(model.getDescription());
-			li.appendChild(textNode);
+			li.innerHTML = model;
 
 			element.appendChild(li);
 		}
