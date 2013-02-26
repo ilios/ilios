@@ -6,7 +6,8 @@
  * Since CI2 is cramming mime-"magic" down our throat, which does very poorly
  * in identifying mime-types of modern MS Office files, we need to provide means
  * to correct mismatched mime-types.
- * We do this here, its rather ham-handed but it works for our needs right now.
+ * We do this here.
+ * It's a rather ham-handed solution but it works for our needs right now.
  * [ST 02/25/2013]
  *
  */
@@ -14,7 +15,7 @@ class Ilios_CI_Upload extends CI_Upload
 {
     /**
      * The mime-type correction map.
-     * Takes a file suffix/"wrong" mimetype map as key and the correct mime-type as value.
+     * Takes a file suffix/"wrong" mime-type as key and the correct mime-type as value.
      * Treat this as read-only.
      * @var array
      */
