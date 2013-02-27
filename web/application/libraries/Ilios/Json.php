@@ -88,7 +88,7 @@ class Ilios_Json
     public static function encodeForJavascriptEmbedding ($value, $options = 0, $jsonEncodeOptions = 0)
     {
         $rhett = json_encode($value, $jsonEncodeOptions);
-        
+
         if ($rhett === false) {
             return false;
         }
@@ -105,6 +105,40 @@ class Ilios_Json
             $rhett = str_replace('"', '\\"', $rhett);
         }
 
+        return $rhett;
+    }
+
+
+    /**
+     * Deserializes a given JSON-formatted text into the appropriate PHP type.
+     * @param string $json JSON-formatted text
+     * @param boolean $assoc when TRUE then given objects will be converted to assoc. arrays
+     * @param boolean $utf8urlDecode when TRUE then the given input will be URL-decoded in an UTF8-safe manner
+     * @return mixed the de-serialized data
+     * @throws Ilios_Exception on decoding failure
+     */
+    public static function deserializeJson ($json, $assoc = false, $utf8urlDecode = true)
+    {
+        if ($utf8urlDecode) {
+            $json = Ilios_CharEncoding::utf8UrlDecode($json);
+        }
+        return self::decode($json, $assoc);
+    }
+
+    /**
+     * Deserializes a given JSON-formatted text into a PHP array
+     * @param string $json
+     * @param boolean $assoc when TRUE then given objects will be converted to assoc. arrays
+     * @param boolean $utf8urlDecode when TRUE then the given input will be URL-decoded in an UTF8-safe manner
+     * @return array the de-serialized array
+     * @throws Ilios_Exception on decoding failure and on type mismatch
+     */
+    public static function deserializeJsonArray ($json, $assoc = false, $utf8urlDecode = true)
+    {
+        $rhett = self::deserializeJson($json, $assoc, $utf8urlDecode);
+        if (! is_array($rhett)) {
+            throw new Ilios_Exception("Failed to deserialize given text into a PHP array.");
+        }
         return $rhett;
     }
 }
