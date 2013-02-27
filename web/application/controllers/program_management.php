@@ -583,43 +583,53 @@ class Program_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
+        //
         // authentication check
+        //
         if ($this->divertedForAuthentication) {
             $this->_printAuthenticationFailedXhrResponse($lang);
             return;
         }
 
+        //
         // authorization check
+        //
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
 
-        // sanitize input
-        $clean = array();
-        $names = array('competency', 'objective', 'discipline', 'director', 'steward');
-        foreach ($names as $name) {
-            $input = $this->input->post($name);
-            $input = Ilios_CharEncoding::utf8UrlDecode($input);
-            $clean[$name] = $input;
-        }
-
-        // decode JSONified user input
-        $competencies = null;
-        $objectives = null;
-        $disciplines = null;
-        $directors = null;
-        $stewards = null;
+        //
+        // input validation and sanitation
+        //
         try {
-            $competencies = Ilios_Json::decode($clean['competency'], true);
-            $objectives = Ilios_Json::decode($clean['objective'], true);
-            $disciplines = Ilios_Json::decode($clean['discipline'], true);
-            $directors = Ilios_Json::decode($clean['director'], true);
-            $stewards = Ilios_Json::decode($clean['steward'], true);
-        } catch (Ilios_Exception $e) { // reject junky input
-            $rhett['error'] = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
-            header("Content-Type: text/plain");
-            echo json_encode($rhett);
+            $competencies = Ilios_Json::deserializeJsonArray($this->input->post('competency'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.competencies', $lang);
+            return;
+        }
+        try {
+            $directors = Ilios_Json::deserializeJsonArray($this->input->post('director'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.directors', $lang);
+            return;
+        }
+        try {
+            $disciplines = Ilios_Json::deserializeJsonArray($this->input->post('discipline'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.disciplines', $lang);
+            return;
+        }
+        try {
+            $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.objectives', $lang);
+            return;
+        }
+        try {
+            $stewards = Ilios_Json::deserializeJsonArray($this->input->post('steward'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.stewards', $lang);
             return;
         }
 

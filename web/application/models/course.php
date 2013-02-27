@@ -300,19 +300,34 @@ class Course extends Abstract_Ilios_Model
     }
 
     /**
-     * Transactionality is expected to be handled outside of this method.
+     * Updates a given course and its associated data, such as objectives, learning materials etc.
+     * Note: Transactionality is expected to be handled outside of this method.
      *
-     * @param $startDate must be in the format of Y-m-d
-     * @param $endDate must be in the format of Y-m-d
-     * @return an array with one key 'error' (TODO) or one key 'objectives' which has a value of an
-     *                      array with 0-N arrays - each with the keys 'dbId' and 'md5' - the latter
-     *                      being the md5 hash of the descriptive text for the objective.
+     * @param int $courseId
+     * @param string $title
+     * @param string $externalId
+     * @param string $startDate (must be in the format Y-m-d)
+     * @param string $endDate (must be in the format of Y-m-d)
+     * @param int $courseLevel
+     * @param array $cohortArray
+     * @param array $disciplinesArray
+     * @param array $directorsArray
+     * @param array $meshTermArray
+     * @param array $objectiveArray
+     * @param array $learningMaterialArray
+     * @param int $publishId
+     * @param int $publishAsTDB
+     * @param int $clerkshipTypeId
+     * @param array $auditAtoms
+     * @return array ann array with one key one key 'objectives' which has a value of an
+     *    array with 0-N arrays - each with the keys 'dbId' and 'md5' - the latter
+     *    being the md5 hash of the descriptive text for the objective.
+     * @todo add proper error handling and error display
      */
-    public function saveCourseWithId ($courseId, $title,
-        $externalId, $startDate, $endDate, $courseLevel,
-        $cohortArray, $disciplinesArray, $directorsArray,
-        $meshTermArray, $objectiveArray, $learningMaterialArray,
-        $publishId, $publishAsTBD, $clerkshipTypeId, &$auditAtoms)
+    public function saveCourseWithId ($courseId, $title, $externalId, $startDate, $endDate, $courseLevel,
+        array $cohortArray, array $disciplinesArray, array $directorsArray, array $meshTermArray,
+        array $objectiveArray, array $learningMaterialArray, $publishId, $publishAsTBD,
+        $clerkshipTypeId, array &$auditAtoms)
     {
         $rhett = array();
 
@@ -362,7 +377,7 @@ class Course extends Abstract_Ilios_Model
                                                                $notesArePubliclyViewable);
         }
 
-        $rhett['objectives'] = $this->saveObjectives($objectiveArray, 'course_x_objective',
+        $rhett['objectives'] = $this->_saveObjectives($objectiveArray, 'course_x_objective',
                                                      'course_id', $courseId, $auditAtoms);
 
         return $rhett;
