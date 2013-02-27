@@ -696,9 +696,10 @@ class Session extends Abstract_Ilios_Model
     /**
      * Transactionality is assumed to be handled outside of this method.
      */
-    public function addSession ($courseId, $title, $sessionTypeId, $disciplinesArray, $meshTermArray,
-                         $objectiveArray, $supplemental, $attireRequired, $equipmentRequired,
-                         $publishId, $description, $learningMaterialArray, $ilmId, &$auditAtoms)
+    public function addSession ($courseId, $title, $sessionTypeId, array $disciplinesArray,
+        array $meshTermArray, array $objectiveArray, $supplemental, $attireRequired,
+        $equipmentRequired, $publishId, $description, array $learningMaterialArray,
+        $ilmId, array &$auditAtoms)
     {
         $rhett = array();
 
@@ -745,7 +746,7 @@ class Session extends Abstract_Ilios_Model
        $this->_saveMeshTermAssociations($newSessionId, $meshTermArray);
 
         // @todo refactor
-        $objectives = $this->saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $newSessionId, $auditAtoms);
+        $objectives = $this->_saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $newSessionId, $auditAtoms);
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
@@ -779,10 +780,11 @@ class Session extends Abstract_Ilios_Model
     /**
      * Transactionality is assumed to be handled outside of this method.
      */
-    public function updateSession ($sessionId, $courseId, $title, $sessionTypeId, $disciplinesArray,
-                            $meshTermArray, $objectiveArray, $supplemental, $attireRequired,
-                            $equipmentRequired, $publishId, $publishAsTBD, $description,
-                            $learningMaterialArray, $ilmId, &$auditAtoms)
+    public function updateSession ($sessionId, $courseId, $title, $sessionTypeId,
+        array $disciplinesArray, array $meshTermArray, array $objectiveArray,
+        $supplemental, $attireRequired, $equipmentRequired, $publishId,
+        $publishAsTBD, $description, array $learningMaterialArray,
+        $ilmId, array &$auditAtoms)
     {
         $rhett = array();
 
@@ -828,7 +830,7 @@ class Session extends Abstract_Ilios_Model
         $this->_saveMeshTermAssociations($sessionId, $meshTermArray, $associatedMeshTermIds);
 
         // @todo refactor
-        $objectives = $this->saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $sessionId, $auditAtoms);
+        $objectives = $this->_saveObjectives($objectiveArray, 'session_x_objective', 'session_id', $sessionId, $auditAtoms);
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
