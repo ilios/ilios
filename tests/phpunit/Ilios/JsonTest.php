@@ -68,7 +68,6 @@ class Ilios_JsonTest extends Ilios_TestCase
      * @dataProvider providerTestDeserializeJsonArray
      * @param string $json
      * @param boolean $assoc
-     * @param boolean $convertToUtf8
      * @param boolean $utf8urlDecode
      * $param array $expected
      * @group ilios
