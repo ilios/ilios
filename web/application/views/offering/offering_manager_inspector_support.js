@@ -241,7 +241,7 @@ ilios.om.inspector.populateInspectorForModel = function (offeringModel) {
 						li = document.createElement('li');
 						li.setAttribute('style', 'margin-bottom: 12px;');
 
-						li.innerHTML = model.getTitle();
+						li.innerHTML = model;
 
 						el.appendChild(li);
 					}
