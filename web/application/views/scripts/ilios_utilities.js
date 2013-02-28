@@ -124,20 +124,9 @@ ilios.utilities.mySQLDateToDateObject = function (mySQLDateString, valueIsUTC) {
  * @return {String} the CSS class name
  */
 ilios.utilities.convertMimeTypeToCSSClassName = function (mimeType, fileName) {
-    var rhett, suffix;
+    var rhett;
     fileName = YAHOO.lang.isString(fileName) ? fileName : '';
     mimeType = YAHOO.lang.isString(mimeType) ? mimeType : '';
-    // KLUDGE!
-    // workaround mime-magic's blatant inability
-    // to correctly identify mime-types for MS Office documents on
-    // upload.
-    // fix some of them up here.
-    suffix = fileName.substring(fileName.lastIndexOf(".")).toLowerCase(); // get file suffix
-    // deal with incorrectly identified PowerPoint variants
-    if (suffix.length && ("application/msword" === mimeType)
-        && (-1 < ".pot|.pps|.ppt|.ppa".indexOf(suffix))) {
-        mimeType = "application/vnd.ms-powerpoint";
-    }
     rhett = mimeType.replace(new RegExp('/', 'g'), '--');
     return rhett.replace(new RegExp('\\.', 'g'), "__");
 };
