@@ -34,3 +34,9 @@ data_population/SOP_discipline_data.sql
 
 You may source the utility script `database/make_new_ilios_database.sql` to create the database, set its schema and to ingest the default data population in one step.  
 _Please read the code comments within the file and replace the placeholder for the database name accordingly before sourcing the script!_
+
+
+## Post-Installation
+
+Run the `install_user_zero.sh` script from the command line to set up a default user account.  
+See the comments within that script for instructions.
