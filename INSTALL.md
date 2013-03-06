@@ -117,3 +117,8 @@ We recommend the following exposure scheme; this is assuming Ilios is installed 
       Satisfy Any
       Allow from all
     </Location>
+
+
+## Troubleshooting
+
+Please see the project's [Wiki](https://github.com/ilios/ilios/wiki/Troubleshooting) for instructions on how to identify and deal with common deployment issues.
