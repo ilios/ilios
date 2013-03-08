@@ -5,6 +5,7 @@
 .project
 .settings
 .vagrant
+.idea
 index.php
 web/application/config/config.php
 web/application/config/database.php

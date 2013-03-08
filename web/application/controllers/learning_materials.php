@@ -451,7 +451,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
             $names = array('title', 'description', 'content_creator', 'copyright_rationale');
             foreach ($names as $name) {
                 $input = $this->input->post($name);
-                $input = Ilios_CharEncoding::convertToUtf8($input);
                 $input = Ilios_CharEncoding::utf8UrlDecode($input);
                 $clean[$name] = $input;
             }
@@ -466,7 +465,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
             switch ($displayedTab) {
                 case 1:
                     $uploadData = $this->upload->data();
-                    $mimeType = $uploadData['file_type'];
+                    $mimeType = $this->upload->getCorrectedMimeType($uploadData['file_ext'], $uploadData['file_type']);
                     $filesize = round($uploadData['file_size']);
                     $uploadedFileName = $uploadData['file_name'];
                     $filename = $uploadData['orig_name'];
@@ -498,6 +497,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
                     $rhett['error'] = $this->i18nVendor->getI18NString('general.error.file_rename', $lang);
                 }
             }
+            
 
             if (! isset($rhett['error'])) {
                 $failedTransaction = true;

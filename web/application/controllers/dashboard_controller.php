@@ -409,7 +409,6 @@ class Dashboard_Controller extends Calendar_Controller
         $reminderId = $this->input->get_post('reminder_id');
         $noteText = $this->input->get_post('note');
         // scrub the note text
-        $noteText = Ilios_CharEncoding::convertToUtf8($noteText);
         $noteText = Ilios_CharEncoding::utf8UrlDecode($noteText);
         $dueDate = $this->input->get_post('due');
         $closed = ($this->input->get_post('closed') == 'true');

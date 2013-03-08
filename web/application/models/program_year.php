@@ -389,8 +389,8 @@ class Program_Year extends Abstract_Ilios_Model
      *
      * @todo The code calling this method should be responsible for transactionality; to that extent, this method should some sort of success / failure indication.
      */
-    public function addProgramYear ($startYear, $compentenciesArray, $objectivesArray, $disciplinesArray,
-        $directorsArray, $stewardsArray, $programId, $publishId, &$auditAtoms, &$returningObjectives)
+    public function addProgramYear ($startYear, $compentenciesArray, array $objectivesArray, array $disciplinesArray,
+        array $directorsArray, array $stewardsArray, $programId, $publishId, array &$auditAtoms, array &$returningObjectives)
     {
         $DB = $this->dbHandle;
 
@@ -466,9 +466,9 @@ class Program_Year extends Abstract_Ilios_Model
      * @param array $auditAtoms
      * @return array
      */
-    public function updateProgramYearWithId ($programYearId, $startYear, $compentenciesArray,
-        $objectivesArray, $disciplinesArray, $directorsArray, $stewardsArray,
-        $publishId, $programId, &$auditAtoms)
+    public function updateProgramYearWithId ($programYearId, $startYear, array $compentenciesArray,
+        array $objectivesArray, array $disciplinesArray, array $directorsArray, array $stewardsArray,
+        $publishId, $programId, array &$auditAtoms)
     {
         $DB = $this->dbHandle;
 
@@ -500,7 +500,7 @@ class Program_Year extends Abstract_Ilios_Model
         array_push($auditAtoms, $this->auditEvent->wrapAtom($cohortId, 'cohort_id', 'cohort',
                                                             Audit_Event::$UPDATE_EVENT_TYPE));
 
-        $rhett = $this->saveObjectives($objectivesArray, 'program_year_x_objective',
+        $rhett = $this->_saveObjectives($objectivesArray, 'program_year_x_objective',
                                        'program_year_id', $programYearId, $auditAtoms);
 
         // TODO audit events for the cross table transactions?
@@ -707,7 +707,7 @@ class Program_Year extends Abstract_Ilios_Model
     protected function getObjectivesForProgramYear ($programYearId)
     {
         $rhett = array();
-    
+
         $crossIdArray = $this->getIdArrayFromCrossTable('program_year_x_objective',
                 'objective_id', 'program_year_id',
                 $programYearId);
@@ -743,7 +743,7 @@ class Program_Year extends Abstract_Ilios_Model
 
         $DB = $this->dbHandle;
         $queryResults = $DB->query($sql);
-    
+
         if ($queryResults->num_rows() > 0) {
             $firstRow = $queryResults->first_row();
             return ($firstRow->flag == '1');

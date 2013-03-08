@@ -81,7 +81,7 @@
                 </center>
             </div>
             <div style="margin-top: 66px; font-size: 8pt;">
-                <center>Copyright &copy; 2012 by the Regents of the University of California. Distributed under the GNU GPL 3.0 license. For more information see <a href="http://opensource.org/licenses/gpl-3.0.html">here.</a></center>
+                <center>Copyright &copy; 2011 - <?php echo date('Y'); ?> by the Regents of the University of California. Distributed under the GNU GPL 3.0 license. For more information see <a href="http://opensource.org/licenses/gpl-3.0.html">here.</a></center>
             </div>
         </div>
     </div> <!--end #wrapper-->
