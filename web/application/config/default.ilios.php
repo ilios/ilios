@@ -128,13 +128,16 @@ $config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout
 | LDAP Authentication
 |--------------------------------------------------------------------------
 |
-| ['ilios_ldap_authentication']['host']             LDAP server URI, e.g. "ldap://directory.university.edu"
-| ['ilios_ldap_authentication']['port']             LDAP server port
+| ['ilios_ldap_authentication']['host']             LDAP server hostname or URL
+                                                    e.g. "directory.university.edu"
+                                                         "ldap://directory.university.edu:389"
+| ['ilios_ldap_authentication']['port']             LDAP server port.
+                                                    Will be ignored if 'host' is an URL.
 | ['ilios_ldap_authentication']['bind_dn_template'] Bind DN template.
-|                                                   use %s as placeholder for username substitution,
+|                                                   use %s as placeholder for username substitution.
 |                                                   e.g. 'cn=%s,ou=directory,dc=university,dc=edu'
 */
-$config['ilios_ldap_authentication']['host'] = 'ldap://directory.university.edu';
+$config['ilios_ldap_authentication']['host'] = 'directory.university.edu';
 $config['ilios_ldap_authentication']['port'] = 389;
 $config['ilios_ldap_authentication']['bind_dn_template'] = 'cn=%s,ou=directory,dc=university,dc=edu';
 
