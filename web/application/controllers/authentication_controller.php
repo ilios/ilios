@@ -32,6 +32,9 @@ class Authentication_Controller extends Abstract_Ilios_Controller
             case 'shibboleth' :
                 $this->_authn = 'shibboleth';
                 break;
+            case 'ldap' :
+                $this->_authn = 'ldap';
+                break;
             case 'default' :
             default :
                 // do nothing
@@ -255,5 +258,96 @@ class Authentication_Controller extends Abstract_Ilios_Controller
     protected function _shibboleth_login ()
     {
         // not implemented
+    }
+
+
+
+    /**
+     * Implements the "login" action for the ldap authn system.
+     */
+    public function _ldap_login ()
+    {
+        $lang = $this->getLangToUse();
+
+        $rhett = array();
+
+        // get login credentials from user input
+        $username = $this->input->get_post('username');
+        $password = $this->input->get_post('password');
+
+        $authenticated = false;
+
+        // do LDAP authentication
+        // by connecting and binding to the given ldap server with the user-provided credentials
+        $ldapConf = $this->config->item('ilios_ldap_authentication');
+        $ldapConn = @ldap_connect($ldapConf['host'], $ldapConf['port']);
+        if ($ldapConn) {
+            $ldapRdn = sprintf($ldapConf['bind_dn_template'], $username);
+            $ldapBind = @ldap_bind($ldapConn, $ldapRdn, $password);
+            if ($ldapBind) {
+                $authenticated = true; // auth. successful
+            }
+        } else {
+            die('couldnt connect to ldap server');
+            // @todo log connectivity failure
+        }
+
+        if ($authenticated) { // login succeeded
+            // get the user record from the database
+            $authenticationRow = $this->authentication->getByUsername($username);
+            $user = false;
+            if ($authenticationRow) {
+                // load the user record
+                $user = $this->user->getEnabledUsersById($authenticationRow->person_id);
+            }
+
+            if ($user) {
+                $now = time();
+
+                $sessionData = array(
+                    'uid' => $user['user_id'],
+                    'username' => $user['email'],
+                    'is_learner' => $this->user->userIsLearner($user['user_id']),
+                    'has_instructor_access' => $this->user->userHasInstructorAccess($user['user_id']),
+                    'has_admin_access' => $this->user->userHasAdminAccess($user['user_id']),
+                    'primary_school_id' => $user['primary_school_id'],
+                    'school_id' => $user['primary_school_id'],
+                    'login' => $now,
+                    'last' => $now,
+                    'lang_locale' => $this->getLangToUse(),
+                    'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
+                    'display_last' => date('F j, Y G:i T', $now)
+                );
+
+                $this->session->set_userdata($sessionData);
+                $rhett['success'] = 'huzzah';
+            } else {
+                //  login was success but we don't have a corresponding user record on file
+                // or the user is disabled
+                $rhett['error']  = 'Your username does not match any active user records in Ilios. If you need further assistance, please contact your Ilios administrator. Thank you.';
+            }
+        } else { // login failed
+            $msg = $this->i18nVendor->getI18NString('login.error.bad_login', $lang);
+            $rhett['error'] = $msg;
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * Implements the "logout" action for the LDAP authn system.
+     */
+    public function _ldap_logout ()
+    {
+        $this->session->sess_destroy(); // nuke the current user session
+    }
+
+    /**
+     * Implements the "index" action for the LDAP authn system.
+     */
+    public function _ldap_index ()
+    {
+        $this->_default_index(); // piggy-back on the default index method for displaying the login form
     }
 }
