@@ -1,0 +1,6 @@
+<data>
+	<event id='1' type="1" text="dblclick me!" start_date="2010-3-2" end_date="2010-3-4"></event>
+	<event id='2' type="2" text="and me!" start_date="2010-3-9" end_date="2010-3-11"></event>
+	<event id='3' type="3" text="and me too!" start_date="2010-3-16" end_date="2010-3-18"></event>
+</data>
+	

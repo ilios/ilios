@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title"
+	      charset="utf-8">
+	<script src='../../codebase/ext/dhtmlxscheduler_timeline.js' type="text/javascript" charset="utf-8"></script>
+	<script src="../../codebase/ext/dhtmlxscheduler_container_autoresize.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript" src="../common/testdata.js"></script>
+	<style type="text/css" media="screen">
+		html, body {
+			margin: 0;
+			padding: 0;
+		}
+
+		.wrapper {
+			padding: 30px;
+			margin: 0 auto;
+			width: 700px;
+			background-color: #b0c4de;
+		}
+
+	</style>
+</head>
+<script type="text/javascript" charset="utf-8">
+	function init() {
+		scheduler.locale.labels.timeline_tab = "Timeline";
+		scheduler.locale.labels.section_custom="Section";
+		scheduler.config.details_on_create=true;
+		scheduler.config.details_on_dblclick=true;
+		scheduler.config.xml_date="%Y-%m-%d %H:%i";
+
+		//===============
+		//Configuration
+		//===============
+		var sections=[
+			{key:1, label:"James Smith"},
+			{key:2, label:"John Williams"},
+			{key:3, label:"David Miller"},
+			{key:4, label:"Linda Brown"}
+		];
+
+		scheduler.createTimelineView({
+			name:	"timeline",
+			x_unit:	"minute",
+			x_date:	"%H:%i",
+			x_step:	30,
+			x_size: 24,
+			x_start: 16,
+			x_length:	48,
+			y_unit:	sections,
+			y_property:	"section_id",
+			dy: 80,
+			render:"bar"
+		});
+
+		//===============
+		//Data loading
+		//===============
+		scheduler.config.lightbox.sections=[
+			{name:"description", height:130, map_to:"text", type:"textarea" , focus:true},
+			{name:"custom", height:23, type:"select", options:sections, map_to:"section_id" },
+			{name:"time", height:72, type:"time", map_to:"auto"}
+		];
+
+		scheduler.init('scheduler_here',new Date(2009,5,30),"day");
+		scheduler.parse(test_data_set_2009,"json");
+	}
+</script>
+
+<body onload="init();">
+		<div class='wrapper'>Some content here</div>
+		<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:400px;'>
+			<div class="dhx_cal_navline">
+				<div class="dhx_cal_prev_button">&nbsp;</div>
+				<div class="dhx_cal_next_button">&nbsp;</div>
+				<div class="dhx_cal_today_button"></div>
+				<div class="dhx_cal_date"></div>
+				<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+				<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+				<div class="dhx_cal_tab" name="timeline_tab" style="right:280px;"></div>
+				<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+			</div>
+			<div class="dhx_cal_header">
+			</div>
+			<div class="dhx_cal_data">
+			</div>
+		</div>
+		<div class='wrapper'>More content here</div>
+</body>

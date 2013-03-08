@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+</head>
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler_glossy.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+
+<style type="text/css" media="screen">
+	html, body{
+		margin:0px;
+		padding:0px;
+		height:100%;
+		overflow:hidden;
+	}
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	function init() {
+		scheduler.config.multi_day = true;
+		scheduler.config.mark_now = true;
+		scheduler.config.xml_date="%Y-%m-%d %H:%i";
+
+		scheduler.locale.labels.section_parent = "Parent section";
+		scheduler.locale.labels.section_child = "Child section";
+
+		var parent_select_options = [
+			{ key: 'p1', label: "Parent option 1"},
+			{ key: 'p2', label: "Parent option 2"},
+			{ key: 'p3', label: "Parent option 3"}
+		];
+		var child_select_options = {
+			p1: [
+				{ key: 1, label: "Child select 1-1" },
+				{ key: 2, label: "Child select 1-2" }
+			],
+			p2: [
+				{ key: 3, label: "Child select 2-1" },
+				{ key: 4, label: "Child select 2-2" },
+				{ key: 5, label: "Child select 2-3" }
+			],
+			p3: [
+				{ key: 6, label: "Child select 3-1" },
+				{ key: 7, label: "Child select 3-2" }
+			]
+		};
+
+		var update_select_options = function(select, options) { // helper function
+			select.options.length = 0;
+			for (var i=0; i<options.length; i++) {
+				var option = options[i];
+				select[i] = new Option(option.label, option.key);
+			}
+		};
+
+		var parent_onchange = function(event) {
+			var new_child_options = child_select_options[this.value];
+			update_select_options(scheduler.formSection('child').control, new_child_options);
+		};
+		scheduler.attachEvent("onBeforeLightbox", function(id){
+			var ev = scheduler.getEvent(id);
+			if (!ev.child_id) {
+				var parent_id = ev.parent_id||parent_select_options[0].key;
+				var new_child_options = child_select_options[parent_id];
+				update_select_options(scheduler.formSection('child').control, new_child_options);
+			}
+			return true;
+		});
+
+		scheduler.config.lightbox.sections=[
+			{name:"description", height:130, map_to:"text", type:"textarea" , focus:true},
+			{name:"parent", height:23, type:"select", options: parent_select_options, map_to:"parent_id", onchange:parent_onchange },
+			{name:"child", height:23, type:"select", options: child_select_options, map_to:"child_id" },
+			{name:"time", height:72, type:"time", map_to:"auto"}
+		];
+
+		scheduler.init('scheduler_here',new Date(2012, 2, 27),"week");
+
+		scheduler.parse([
+			{ id: 1, start_date: "2012-03-27 09:00", end_date: "2012-03-27 12:00", text:"Task A-12458", parent_id: 'p3' },
+			{ id: 2, start_date: "2012-03-28 09:00", end_date: "2012-03-28 12:00", text:"Task C-788", parent_id: 'p1' }
+		],"json");
+
+		scheduler.showLightbox(1);
+
+	}
+</script>
+
+<body onload="init();">
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header">
+		</div>
+		<div class="dhx_cal_data">
+		</div>
+	</div>
+</body>

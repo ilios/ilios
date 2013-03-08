@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title"
+	      charset="utf-8">
+
+	<style type="text/css" media="screen">
+		html, body {
+			margin: 0px;
+			padding: 0px;
+			height: 100%;
+			overflow: hidden;
+		}
+	</style>
+
+	<script type="text/javascript" charset="utf-8">
+		function init() {
+			scheduler.config.multi_day = true;
+
+			scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+			scheduler.locale.labels.section_hidden = "Hidden section";
+
+			var full_lightbox = [
+				{ name: "description", height: 200, map_to: "text", type: "textarea", focus: true},
+				{ name: "hidden", height: 23, map_to: "hidden", type: "textarea"},
+				{ name: "time", height: 72, type: "time", map_to: "auto"}
+			];
+			var restricted_lightbox = [
+				{ name: "description", height: 200, map_to: "text", type: "textarea", focus: true},
+				{ name: "time", height: 72, type: "time", map_to: "auto"}
+			];
+
+			scheduler.config.lightbox.sections = restricted_lightbox;
+
+			scheduler.attachEvent("onBeforeLightbox", function(event_id) {
+				scheduler.resetLightbox();
+				var ev = scheduler.getEvent(event_id);
+				scheduler.config.lightbox.sections = (ev.restricted) ? restricted_lightbox : full_lightbox;
+				return true;
+			});
+
+			scheduler.init('scheduler_here', new Date(2009, 5, 30), "week");
+			scheduler.parse([
+				{ start_date: "2009-06-30 09:00", end_date: "2009-06-30 12:00", text: "Restricted event", hidden: "You won't see me", restricted: true },
+				{ start_date: "2009-06-30 10:00", end_date: "2009-06-30 16:00", text: "Full access", hidden: "Hidden text" }
+			], "json");
+
+		}
+	</script>
+</head>
+<body onload="init();">
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+	<div class="dhx_cal_navline">
+		<div class="dhx_cal_prev_button">&nbsp;</div>
+		<div class="dhx_cal_next_button">&nbsp;</div>
+		<div class="dhx_cal_today_button"></div>
+		<div class="dhx_cal_date"></div>
+		<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+		<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+		<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+	</div>
+	<div class="dhx_cal_header">
+	</div>
+	<div class="dhx_cal_data">
+	</div>
+</div>
+</body>

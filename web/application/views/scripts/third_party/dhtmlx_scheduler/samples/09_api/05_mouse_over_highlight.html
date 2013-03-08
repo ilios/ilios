@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script src="../../codebase/ext/dhtmlxscheduler_limit.js" type="text/javascript" charset="utf-8"></script>
+	
+<style media="screen">
+	html, body{
+		margin:0px;
+		padding:0px;
+		height:100%;
+		overflow:hidden;
+	}
+
+	.highlighted_timespan {
+		transition: background-color 400ms;
+		-moz-transition: background-color 400ms;
+		-webkit-transition: background-color 400ms;
+		-o-transition: background-color 400ms;
+		opacity:0.4;
+		filter:alpha(opacity=40);
+	}
+	.highlighted_timespan:hover {
+		background-color: #90ee90;
+	}
+</style>
+
+<script charset="utf-8">
+	function init() {
+		scheduler.config.multi_day = true;
+		scheduler.config.xml_date="%Y-%m-%d %H:%i";
+		scheduler.config.time_step = 60;
+
+		scheduler.attachEvent("onTemplatesReady", function() {
+			var highlight_step = 60; // we are going to highlight 30 minutes timespan
+
+			var highlight_html = "";
+			var hours = scheduler.config.last_hour - scheduler.config.first_hour; // e.g. 24-8=16
+			var times = hours*60/highlight_step; // number of highlighted section we should add
+			var height = scheduler.config.hour_size_px*(highlight_step/60);
+			for (var i=0; i<times; i++) {
+				highlight_html += "<div class='highlighted_timespan' style='height: "+height+"px;'></div>"
+			}
+			scheduler.addMarkedTimespan({
+				days: "fullweek",
+				zones: "fullday",
+				html: highlight_html
+			});
+		});
+
+		scheduler.init('scheduler_here',new Date(2012,7,1),"week");
+	}
+</script>
+
+</head>
+<body onload="init();">
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header">
+		</div>
+		<div class="dhx_cal_data">
+		</div>
+	</div>
+</body>

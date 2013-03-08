@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>dhtmlxScheduler: Custom event box</title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title"
+	      charset="utf-8">
+
+	<style type="text/css" media="screen">
+		html, body {
+			margin: 0;
+			padding: 0;
+		}
+
+		/* background color for whole container and it's border*/
+		.my_event {
+			background-color: #add8e6;
+			border: 1px solid #778899;
+			overflow: hidden;
+		}
+		/* disabling default color for select menu */
+		.dhx_cal_select_menu.my_event div {
+			border: 0;
+			background-color: transparent;
+			color: black;
+		}
+		/* styles for event content */
+		.dhx_cal_event.my_event .my_event_body {
+
+			padding-top: 3px;
+			padding-left: 5px;
+		}
+		/* event's date information */
+		.my_event .event_date {
+			font-weight: bold;
+			padding-right: 5px;
+		}
+		/* event's resizing section */
+		.my_event_resize {
+			height: 3px;
+			position: absolute;
+			bottom: -1px;
+		}
+		/* event's move section */
+		.my_event_move {
+			position: absolute;
+			top: 0;
+			height: 10px;
+			cursor: pointer;
+		}
+	</style>
+
+	<script type="text/javascript" charset="utf-8">
+		function init() {
+			scheduler.config.multi_day = false;
+			scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+			scheduler.config.first_hour = 4;
+
+			scheduler.config.details_on_create = true;
+			scheduler.config.details_on_dblclick = true;
+			scheduler.config.icons_select = ["icon_details","icon_delete"];
+
+			scheduler.xy.min_event_height = 21; // 30 minutes is the shortest duration to be displayed as is
+
+			scheduler.templates.event_class = function(start, end, event) {
+				return "my_event";
+			};
+
+			scheduler.renderEvent = function(container, ev) {
+				var container_width = container.style.width; // e.g. "105px"
+
+				// move section
+				var html = "<div class='dhx_event_move my_event_move' style='width: " + container_width + "'></div>";
+
+				// container for event contents
+				html+= "<div class='my_event_body'>";
+					html += "<span class='event_date'>";
+					// two options here: show only start date for short events or start+end for long
+					if ((ev.end_date - ev.start_date) / 60000 > 40) { // if event is longer than 40 minutes
+						html += scheduler.templates.event_header(ev.start_date, ev.end_date, ev);
+						html += "</span><br/>";
+					} else {
+						html += scheduler.templates.event_date(ev.start_date) + "</span>";
+					}
+					// displaying event text
+					html += "<span>" + scheduler.templates.event_text(ev.start_date, ev.end_date, ev) + "</span>";
+				html += "</div>";
+
+				// resize section
+				html += "<div class='dhx_event_resize my_event_resize' style='width: " + container_width + "'></div>";
+
+				container.innerHTML = html;
+				return true; // required, true - we've created custom form; false - display default one instead
+			};
+
+			scheduler.init('scheduler_here', new Date(2010, 0, 10), "week");
+
+			scheduler.addEvent({
+				start_date: new Date(2010,0,7,13,0),
+				end_date: new Date(2010,0,7,13,30),
+				text: "30 minutes fit"
+			});
+			scheduler.addEvent({
+				start_date: new Date(2010,0,7,15,0),
+				end_date: new Date(2010,0,7,15,45),
+				text: "45 minutes"
+			});
+			scheduler.addEvent({
+				start_date: new Date(2010,0,8,9,30),
+				end_date: new Date(2010,0,8,11,30),
+				text: "2 hours"
+			});
+		}
+	</script>
+</head>
+<body onload="init();">
+<div id="scheduler_here" class="dhx_cal_container" style='width:1280px; height:768px;'>
+	<div class="dhx_cal_navline">
+		<div class="dhx_cal_prev_button">&nbsp;</div>
+		<div class="dhx_cal_next_button">&nbsp;</div>
+		<div class="dhx_cal_today_button"></div>
+		<div class="dhx_cal_date"></div>
+		<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+		<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+		<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+	</div>
+	<div class="dhx_cal_header">
+	</div>
+	<div class="dhx_cal_data">
+	</div>
+</div>
+</body>

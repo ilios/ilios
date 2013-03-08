@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../codebase/ext/dhtmlxscheduler_units.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler_glossy.css" type="text/css" title="no title" charset="utf-8">
+	<script src="../../codebase/ext/dhtmlxscheduler_limit.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../codebase/ext/dhtmlxscheduler_serialize.js" type="text/javascript" charset="utf-8"></script>
+
+	<script src='../../codebase/ext/dhtmlxscheduler_timeline.js' type="text/javascript" charset="utf-8"></script>
+	<style type="text/css" media="screen">
+		html, body{
+			margin:0px;
+			padding:0px;
+			height:100%;
+			overflow:hidden;
+		}
+	</style>
+
+	<script type="text/javascript" charset="utf-8">
+		function init() {
+			scheduler.config.xml_date="%Y-%m-%d %H:%i";
+			scheduler.config.first_hour = 2;
+			scheduler.config.last_hour = 20;
+			scheduler.config.details_on_create = true;
+			scheduler.locale.labels.timeline_tab = "Timeline";
+			scheduler.locale.labels.unit_tab = "Unit";
+			scheduler.locale.labels.section_custom = "Section";
+
+			var sections=[
+				{key:1, label:"James Smith"},
+				{key:2, label:"John Williams"},
+				{key:3, label:"David Miller"},
+				{key:4, label:"Linda Brown"}
+			];
+			scheduler.createTimelineView({
+				name:	"timeline",
+				x_unit:	"day",
+				x_date:	"%D, %F %j",
+				x_step:	1,
+				x_size: 7,
+				x_start: 0,
+				x_length: 7,
+				y_unit:	sections,
+				y_property:	"section_id",
+				dx: 50,
+				render:"bar"
+			});
+			scheduler.date.timeline_start = scheduler.date.week_start;
+			scheduler.createUnitsView({
+				name:"unit",
+				property:"section_id",
+				list:sections
+			});
+
+			scheduler.config.lightbox.sections=[
+				{name:"description", height:130, map_to:"text", type:"textarea" , focus:true},
+				{name:"custom", height:23, type:"select", options:sections, map_to:"section_id" },
+				{name:"time", height:72, type:"time", map_to:"auto"}
+			];
+
+			// we can block specific dates
+			scheduler.blockTime(new Date(2009,5,30), "fullday");
+			scheduler.blockTime(new Date(2009,6,3), [0,10*60]);
+
+			// or all day based on index (0 - Sunday, 6 - Saturday)
+			scheduler.blockTime({
+				days: 6,
+				zones: [0,8*60,18*60,24*60]
+			});
+			scheduler.blockTime(0, "fullday");
+
+			// or even block specific resources in our views
+			scheduler.blockTime(3, [0,500,800,1000], { unit: [1,4] });
+			scheduler.blockTime({
+				days: 2,
+				zones: "fullday",
+				sections: {
+					timeline: [2,3]
+				}
+			});
+
+			scheduler.init('scheduler_here',new Date(2009,5,30),"week");
+
+			scheduler.parse([
+				{ start_date:"2009-7-1 4:00", end_date:"2009-7-1 6:00", text:"You can't create events on blocked times"}
+			],"json")
+		}
+	</script>
+</head>
+<body onload="init();">
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="unit_tab" style="right:350px;"></div>
+			<div class="dhx_cal_tab" name="timeline_tab" style="right:280px;"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header">
+		</div>
+		<div class="dhx_cal_data">
+		</div>		
+	</div>
+</body>

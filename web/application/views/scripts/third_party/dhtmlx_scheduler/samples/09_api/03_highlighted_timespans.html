@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script src="../../codebase/ext/dhtmlxscheduler_limit.js" type="text/javascript" charset="utf-8"></script>
+	<script src='../../codebase/ext/dhtmlxscheduler_timeline.js' type="text/javascript" charset="utf-8"></script>
+
+	<style media="screen">
+		html, body {
+			margin:0px;
+			padding:0px;
+			height:100%;
+			overflow:hidden;
+		}
+
+
+		.red_section {
+			background-color: red;
+			opacity: 0.25;
+			filter:alpha(opacity=25);
+		}
+		.yellow_section {
+			background-color: #ffa749;
+			opacity: 0.25;
+			filter:alpha(opacity=25);
+		}
+		.green_section {
+			background-color: #12be00;
+			opacity: 0.25;
+			filter:alpha(opacity=25);
+		}
+		.blue_section {
+			background-color: #2babf5;
+			opacity: 0.27;
+			filter:alpha(opacity=27);
+		}
+		.pink_section {
+			background-color: #6a36a5;
+			opacity: 0.30;
+			filter:alpha(opacity=30);
+		}
+		.dark_blue_section {
+			background-color: #2ca5a9;
+			opacity: 0.40;
+			filter:alpha(opacity=40);
+		}
+		.dots_section {
+			background-image: url(data/imgs/dots.png);
+		}
+		.fat_lines_section {
+			background-image: url(data/imgs/fat_lines.png);
+		}
+		.medium_lines_section {
+			background-image: url(data/imgs/medium_lines.png);
+		}
+		.small_lines_section {
+			background-image: url(data/imgs/small_lines.png);
+		}
+	</style>
+
+	<script charset="utf-8">
+		function init() {
+			scheduler.config.multi_day = true;
+			scheduler.config.xml_date="%Y-%m-%d %H:%i";
+			scheduler.locale.labels.timeline_tab = "Timeline";
+			scheduler.locale.labels.section_custom="Section";
+
+			var sections=[
+				{key:1, label:"James Smith"},
+				{key:2, label:"John Williams"},
+				{key:3, label:"David Miller"},
+				{key:4, label:"Linda Brown"}
+			];
+
+			scheduler.createTimelineView({
+				name:	"timeline",
+				x_unit:	"minute",
+				x_date:	"%H:%i",
+				x_step:	30,
+				x_size: 24,
+				x_start: 16,
+				x_length:	48,
+				y_unit:	sections,
+				y_property:	"section_id",
+				render:"bar"
+			});
+
+			scheduler.config.lightbox.sections=[
+				{name:"description", height:130, map_to:"text", type:"textarea" , focus:true},
+				{name:"custom", height:23, type:"select", options:sections, map_to:"section_id" },
+				{name:"time", height:72, type:"time", map_to:"auto"}
+			];
+
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,6), end_date: new Date(2012,7,7), css: "red_section" });
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,7), end_date: new Date(2012,7,8), css: "fat_lines_section" });
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,11), end_date: new Date(2012,7,12), css: "yellow_section" });
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,12), end_date: new Date(2012,7,13), css: "dots_section" });
+
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,13), end_date: new Date(2012,7,14), css: "green_section" });
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,14), end_date: new Date(2012,7,15), css: "medium_lines_section" });
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,18), end_date: new Date(2012,7,19), css: "blue_section" });
+			scheduler.addMarkedTimespan({start_date: new Date(2012,7,19), end_date: new Date(2012,7,20), css: "small_lines_section" });
+
+			scheduler.init('scheduler_here',new Date(2012,7,6),"week");
+			scheduler.addEvent({
+				start_date: new Date(2012,7,9,1),
+				end_date: new Date(2012,7,9,3),
+				text: "Navigate to the next week to check more examples"
+			});
+		}
+	</script>
+
+</head>
+<body onload="init();">
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="timeline_tab" style="right:280px;"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header">
+		</div>
+		<div class="dhx_cal_data">
+		</div>
+	</div>
+</body>

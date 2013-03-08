@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+</head>
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler_glossy.css" type="text/css" title="no title" charset="utf-8">
+	<script src="../../codebase/ext/dhtmlxscheduler_all_timed.js" type="text/javascript" charset="utf-8"></script>
+	
+	
+<style type="text/css" media="screen">
+	html, body{
+		margin:0px;
+		padding:0px;
+		height:100%;
+		overflow:hidden;
+	}	
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	function init() {
+		scheduler.config.xml_date="%Y-%m-%d %H:%i";
+
+		scheduler.config.all_timed = "short"; // only events < 24 hours will be displayed as usual ones
+		scheduler.config.multi_day = true; // rest of multiday events would be displayed at the top
+
+		scheduler.config.first_hour = 2;
+		scheduler.config.last_hour = 20;
+		
+		scheduler.init('scheduler_here',new Date(2009,6,1),"week");
+
+		scheduler.parse([
+			{ start_date:"2009-7-1 5:00", end_date:"2009-7-2 4:00", text:"< 24 hours"},
+			{ start_date:"2009-7-1 6:00", end_date:"2009-7-1 8:00", text:"Timed 1"},
+			{ start_date:"2009-7-2 6:00", end_date:"2009-7-2 8:00", text:"Timed 2"},
+			{ start_date:"2009-7-2 6:00", end_date:"2012-7-2 8:00", text:"Very long event"}
+		],"json");
+
+
+		// helper inputs
+		var html = function(id) {
+			return document.getElementById(id);
+		};
+
+		var all_timed_select = html('all_timed');
+		var multi_day_select = html('multi_day');
+
+		var button = html('apply');
+		button.onclick = function() {
+			var multi_day_value = multi_day_select.value;
+			var all_timed_value = all_timed_select.value;
+			scheduler.config.multi_day = (multi_day_value == "true");
+			scheduler.config.all_timed = (all_timed_value == "short")?all_timed_value:(all_timed_value == "true");
+			scheduler.setCurrentView();
+		};
+	}
+</script>
+
+<body onload="init();">
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<label for="all_timed" style="position: absolute; right: 700px; top: 5px; font-weight: bold;">All timed:</label>
+			<select name="all_timed" id="all_timed" style="position: absolute; right: 600px">
+				<option value=true>On</option>
+				<option value="short" selected="selected">< 24 Hours</option>
+				<option value=false>Off</option>
+			</select>
+			<label for="multi_day" style="position: absolute; right: 530px; top: 5px; font-weight: bold;">Multiday:</label>
+			<select name="multi_day" id="multi_day" style="position: absolute; right: 474px">
+				<option value="true" selected="selected">On</option>
+				<option value="false">Off</option>
+			</select>
+			<input type="button" id="apply" value="Apply" style="position: absolute; right: 400px" />
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header">
+		</div>
+		<div class="dhx_cal_data">
+		</div>		
+	</div>
+</body>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" title="no title" charset="utf-8">
+	<script src="../../codebase/ext/dhtmlxscheduler_key_nav.js" type="text/javascript" charset="utf-8"></script>
+
+
+	<style type="text/css" media="screen">
+		html, body {
+			margin: 0px;
+			padding: 0px;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.copied_event div {
+			color: white !important;
+			background-color: #f08080 !important;
+		}
+	</style>
+
+	<script type="text/javascript" charset="utf-8">
+		function init() {
+			scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+			scheduler.config.first_hour = 8;
+
+
+			var modified_event_id = null;
+			scheduler.templates.event_class = function(start, end, event) {
+				if (event.id == modified_event_id)
+					return "copied_event";
+				return ""; // default
+			};
+
+			scheduler.attachEvent("onEventCopied", function(ev) {
+				dhtmlx.message("You've copied event: <br/><b>"+ev.text+"</b>");
+				modified_event_id = ev.id;
+				scheduler.updateEvent(ev.id);
+			});
+			scheduler.attachEvent("onEventCut", function(ev) {
+				dhtmlx.message("You've cut event: <br/><b>"+ev.text+"</b>");
+				modified_event_id = ev.id;
+				scheduler.updateEvent(ev.id);
+			});
+
+			scheduler.attachEvent("onEventPasted", function(isCopy, modified_ev, original_ev) {
+				modified_event_id = null;
+				scheduler.updateEvent(modified_ev.id);
+
+				var evs = scheduler.getEvents(modified_ev.start_date, modified_ev.end_date);
+				if (evs.length > 1) {
+					dhtmlx.modalbox({
+						text: "There is another event at this time! What do you want to do?",
+						width: "500px",
+						position: "middle",
+						buttons:["Revert changes", "Edit event", "Save changes"],
+						callback: function(index) {
+							switch(+index) {
+								case 0:
+									if (isCopy) {
+										// copy operation, need to delete new event
+										scheduler.deleteEvent(modified_ev.id);
+									} else {
+										// cut operation, need to restore dates
+										modified_ev.start_date = original_ev.start_date;
+										modified_ev.end_date = original_ev.end_date;
+										scheduler.setCurrentView();
+									}
+									break;
+								case 1:
+									scheduler.showLightbox(modified_ev.id);
+									break;
+								case 2:
+									return;
+							}
+						}
+					});
+				}
+			});
+
+			scheduler.init('scheduler_here', new Date(2009, 6, 15), "week");
+			scheduler.parse([
+				{ start_date: "2009-07-15 09:00", end_date: "2009-07-15 12:00", text:"1. Select this event and press Ctrl+X!" },
+				{ start_date: "2009-07-17 10:00", end_date: "2009-07-17 16:00", text:"2. Hover over this event and press Ctrl+V" }
+			], "json");
+		}
+	</script>
+</head>
+<body onload="init();">
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+	<div class="dhx_cal_navline">
+		<div class="dhx_cal_prev_button">&nbsp;</div>
+		<div class="dhx_cal_next_button">&nbsp;</div>
+		<div class="dhx_cal_today_button"></div>
+		<div class="dhx_cal_date"></div>
+		<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+		<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+		<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+	</div>
+	<div class="dhx_cal_header">
+	</div>
+	<div class="dhx_cal_data">
+	</div>
+</div>
+</body>

@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+</head>
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../codebase/ext/dhtmlxscheduler_dhx_terrace.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler_dhx_terrace.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+	<script type="text/javascript" src="../common/dhtmlxLayout/dhtmlxcontainer.js"></script>
+	<script type="text/javascript" src="../common/dhtmlxLayout/dhtmlxlayout.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../common/dhtmlxLayout/skins/dhtmlxlayout_dhx_terrace.css">
+
+<style type="text/css" media="screen">
+	html, body{
+		margin:0px;
+		padding:0px; height:100%;
+	}	
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	function init() {
+
+		var dhxLayout = new dhtmlXLayoutObject(document.body, "2U");
+		
+		scheduler.config.multi_day = true;
+		scheduler.config.xml_date="%Y-%m-%d %H:%i";
+		dhxLayout.cells("a").attachScheduler(new Date(2009,05,30), "week");
+		scheduler.load("./data/events.xml")
+		
+
+		
+	}
+</script>
+
+<body onload="init();">
+
+</body>

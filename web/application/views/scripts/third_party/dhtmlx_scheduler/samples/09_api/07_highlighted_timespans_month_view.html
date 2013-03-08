@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>dhtmxScheduler: Month overview using highlighted timespans</title>
+
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script src="../../codebase/ext/dhtmlxscheduler_active_links.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../codebase/ext/dhtmlxscheduler_editors.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../codebase/ext/dhtmlxscheduler_limit.js" type="text/javascript" charset="utf-8"></script>
+
+	<style media="screen">
+		html, body {
+			margin:0px;
+			padding:0px;
+			height:100%;
+			overflow:hidden;
+		}
+		/* enabling marked timespans for month view */
+		.dhx_scheduler_month .dhx_marked_timespan {
+			display: block;
+		}
+		/* style to display special dates, e.g. holidays */
+		.holiday {
+	        background-color: #fadcd3;
+			text-align: center;
+			font-size: 24px;
+			color: #e2b8ac;
+		}
+		/* if there are still pending tasks for some day */
+		.pending {
+			background: #fdffd3 url('data/imgs/!_yellow.png') no-repeat center center;
+		}
+		/* if all tasks for this day were completed */
+		.completed {
+			background: #d9f5db url('data/imgs/v_green.png') no-repeat center center;
+		}
+		/* we don't want to show that marked timespans on day and week views */
+		.dhx_scheduler_day .pending, .dhx_scheduler_week .pending, .dhx_scheduler_day .completed, .dhx_scheduler_week .completed {
+			display: none;
+		}
+
+	</style>
+
+	<script charset="utf-8">
+		function init() {
+			scheduler.config.xml_date="%Y-%m-%d %H:%i";
+			scheduler.config.first_hour = 8;
+			scheduler.config.active_link_view = "week"; // where we can jump from the month view
+			scheduler.config.details_on_dblclick = true;
+
+			scheduler.locale.labels.section_description = "Task";
+			scheduler.locale.labels.section_status = "Completed";
+
+			// Setting up holidays
+			var holidays = [ new Date(2012, 7, 4), new Date(2012,7,7), new Date(2012,7,30) ];
+			for (var i=0; i<holidays.length; i++) {
+				var date = holidays[i];
+				var options = {
+					start_date: date,
+					end_date: scheduler.date.add(date, 1, "day"),
+					type: "dhx_time_block", /* creating events on those dates will be disabled - dates are blocked */
+					css: "holiday",
+					html: "Holiday"
+				};
+				scheduler.addMarkedTimespan(options);
+			}
+
+			// Filtering events on the month view (as we don't them to be displayed there)
+			scheduler.filter_month = function(id, event) {
+				return scheduler.getState().mode != "month";
+			};
+
+			// function will check statuses of events on particular date and update it's status in month view
+			var updateDayStatus = function(event_id, ev) {
+				var day = scheduler.date.date_part(new Date(ev.start_date));
+				var next_day = scheduler.date.add(day, 1, "day");
+				var events = scheduler.getEvents(day, next_day);
+
+				// remove current status
+				scheduler.deleteMarkedTimespan({ start_date: day, end_date: next_day });
+
+				if (!events.length)
+					return; // no events on that day, nothing to mark
+
+				var status = true; // completed
+				for (var i=0; i<events.length; i++) {
+					if (!events[i].completed) {
+						status = false;
+						break;
+					}
+				}
+
+				var options = {
+					start_date: day,
+					end_date: next_day,
+					css: (status) ? "completed" : "pending"
+				};
+				scheduler.addMarkedTimespan(options);
+
+				return true;
+			};
+
+			scheduler.attachEvent("onEventAdded", updateDayStatus);
+			scheduler.attachEvent("onEventChanged", updateDayStatus);
+			scheduler.attachEvent("onEventDeleted", updateDayStatus);
+
+			scheduler.config.lightbox.sections=[
+				{ name:"description", height:130, map_to:"text", type:"textarea" , focus:true },
+				{ name:"status", map_to:"completed", type:"checkbox", checked_value: true },
+				{ name:"time", height:72, type:"time", map_to:"auto" }
+			];
+
+			scheduler.init('scheduler_here',new Date(2012,7,6),"month");
+			scheduler.addEvent({
+				start_date: new Date(2012,7,8,9),
+				end_date: new Date(2012,7,8,12),
+				text: "This is completed task and day will be highlighted with green on month view",
+				completed: true
+			});
+			scheduler.addEvent({
+				start_date: new Date(2012,7,10,10),
+				end_date: new Date(2012,7,10,13),
+				text: "This day would be displayed as pending on month view",
+				completed: false
+			});
+			scheduler.addEvent({
+				start_date: new Date(2012,7,11,10),
+				end_date: new Date(2012,7,11,13),
+				text: "Try adding more events and see how month view is dynamically updated",
+				completed: true
+			});
+			//repaint view
+			scheduler.setCurrentView();
+		}
+	</script>
+
+</head>
+<body onload="init();">
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header">
+		</div>
+		<div class="dhx_cal_data">
+		</div>
+	</div>
+</body>

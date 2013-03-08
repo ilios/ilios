@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>For demo purpose only :: &1</title>
+
+	<script src='../../codebase/dhtmlxscheduler.js' type="text/javascript" charset="utf-8"></script>
+	<script src='../../codebase/ext/dhtmlxscheduler_timeline.js' type="text/javascript" charset="utf-8"></script>
+
+	<script src="../../codebase/ext/dhtmlxscheduler_editors.js" type="text/javascript" charset="utf-8"></script>
+
+	<link rel='stylesheet' type='text/css' href='../../codebase/dhtmlxscheduler.css'>
+	<script src="../../codebase/ext/dhtmlxscheduler_dhx_terrace.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler_dhx_terrace.css" type="text/css" media="screen"
+	      title="no title" charset="utf-8">
+
+	<style type="text/css" media="screen">
+		html, body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			overflow: hidden;
+		}
+	</style>
+
+	<script type="text/javascript" charset="utf-8">
+		function init() {
+			scheduler.locale.labels.timeline_tab = "Timeline";
+			scheduler.locale.labels.section_custom = "Section";
+			scheduler.locale.labels.section_important = "Important";
+			scheduler.locale.labels.new_event = "Task ";
+			scheduler.config.details_on_create = true;
+			scheduler.config.details_on_dblclick = true;
+			scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+
+			//===============
+			//Configuration
+			//===============
+			scheduler.templates.event_class = function(start, end, event) {
+				event.color = (event.important) ? "red" : "";
+				return "";
+			};
+
+			var sections = [
+				{key: 1, label: "James Smith"},
+				{key: 2, label: "John Williams"},
+				{key: 3, label: "David Miller"},
+				{key: 4, label: "Linda Brown"}
+			];
+
+			var basicSort = function(a, b) {
+				if (+a.start_date == +b.start_date) {
+					return a.id > b.id ? 1 : -1;
+				}
+				return a.start_date > b.start_date ? 1 : -1;
+			};
+			var prioritySort = function(a, b) {
+				// here we can define sorting logic, what event should be displayed at the top
+				if (a.important && !b.important) {
+					// display a before b
+					return -1;
+				} else {
+					if (!a.important && b.important) {
+						// display a after b
+						return 1;
+					} else {
+						return basicSort(a, b);
+					}
+				}
+			};
+
+			// this function is not universal and should be changed depending on your timeline configuration
+			var timeframeSort = function(a, b) {
+				a_timeframe_start = scheduler.date.date_part(new Date(a.start_date));
+				a_timeframe_end = scheduler.date.date_part(new Date(a.end_date));
+				if (+a.end_date != +a_timeframe_end) {
+					a_timeframe_end = scheduler.date.add(a_timeframe_end, 1, "day");
+				}
+
+				b_timeframe_start = scheduler.date.date_part(new Date(b.start_date));
+
+				if (a_timeframe_start < b.end_date && a_timeframe_end > b.start_date && +a_timeframe_start == +b_timeframe_start) {
+					return prioritySort(a, b);
+				} else {
+					return (a_timeframe_start < b_timeframe_start) ? -1 : 1;
+				}
+			};
+
+
+			scheduler.createTimelineView({
+				name: "timeline",
+				x_unit: "day",
+				x_date: "%d %F %Y",
+				x_step: 1,
+				x_size: 5,
+				x_start: 1,
+				x_length: 5,
+				y_unit: sections,
+				y_property: "section_id",
+				render: "bar",
+				round_position: true,
+				sort: timeframeSort
+			});
+			// Working week
+			scheduler.date.timeline_start = scheduler.date.week_start;
+			scheduler.date.add_timeline = function(date, step, something) {
+				return scheduler.date.add(date, step * 7, "day");
+			};
+
+			//===============
+			//Data loading
+			//===============
+			scheduler.config.lightbox.sections = [
+				{ name: "important", map_to: "important", type: "checkbox", checked_value: 1, unchecked_value: 0 },
+				{ name: "description", height: 50, map_to: "text", type: "textarea", focus: true },
+				{ name: "custom", height: 23, type: "select", options: sections, map_to: "section_id" },
+				{ name: "time", height: 72, type: "time", map_to: "auto"}
+			];
+
+			scheduler.init('scheduler_here', new Date(2012, 10, 5), "timeline");
+			scheduler.parse([
+				{ start_date: "2012-11-06 10:00", end_date: "2012-11-06 12:10", text: "Task A-12458", section_id: 1 },
+				{ start_date: "2012-11-06 10:00", end_date: "2012-11-06 16:00", text: "Task A-89411", section_id: 1 },
+				{ start_date: "2012-11-06 10:00", end_date: "2012-11-06 14:00", text: "Task A-64168", section_id: 1 },
+				{ start_date: "2012-11-06 16:05", end_date: "2012-11-06 17:00", text: "Task A-46598", section_id: 1, important: 1 },
+
+				{ start_date: "2012-11-08 12:05", end_date: "2012-11-08 17:45", text: "Try creating important event here", section_id: 2},
+				{ start_date: "2012-11-08 05:05", end_date: "2012-11-08 07:45", text: "Task B-46G10", section_id: 2},
+				{ start_date: "2009-06-30 16:30", end_date: "2009-06-30 18:00", text: "Task B-46558", section_id: 2},
+				{ start_date: "2009-06-30 18:30", end_date: "2009-06-30 20:00", text: "Task B-45564", section_id: 2},
+
+				{ start_date: "2012-11-07 10:00", end_date: "2012-11-07 12:10", text: "Task C-12F458", section_id: 3 },
+				{ start_date: "2012-11-07 10:00", end_date: "2012-11-07 16:00", text: "Task C-89Q411", section_id: 3, important: 1 },
+				{ start_date: "2012-11-07 10:00", end_date: "2012-11-07 14:00", text: "Task C-64T168", section_id: 3 },
+				{ start_date: "2012-11-07 16:05", end_date: "2012-11-07 17:00", text: "Task C-465P98", section_id: 3, important: 1 }
+			], "json");
+		}
+	</script>
+</head>
+<body onload="init();">
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+	<div class="dhx_cal_navline">
+		<div class="dhx_cal_prev_button">&nbsp;</div>
+		<div class="dhx_cal_next_button">&nbsp;</div>
+		<div class="dhx_cal_today_button"></div>
+		<div class="dhx_cal_date"></div>
+		<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+		<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+		<div class="dhx_cal_tab" name="timeline_tab" style="right:280px;"></div>
+		<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+	</div>
+	<div class="dhx_cal_header">
+	</div>
+	<div class="dhx_cal_data">
+	</div>
+</div>
+</body>

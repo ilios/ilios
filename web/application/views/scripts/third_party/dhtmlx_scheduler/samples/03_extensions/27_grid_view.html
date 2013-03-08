@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title></title>
+</head>
+	<script src="../../codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../codebase/ext/dhtmlxscheduler_grid_view.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxscheduler.css" type="text/css" title="no title" charset="utf-8">
+
+<style type="text/css" media="screen">
+	html, body{
+		margin:0;
+		padding:0;
+		height:100%;
+		overflow:hidden;
+	}
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	function init() {
+		scheduler.config.xml_date="%Y-%m-%d %H:%i";
+
+        scheduler.createGridView({
+            fields:[
+                {id:"id"},
+                {id:"text"},
+                {id:"date"}
+            ],
+            select:false,
+            paging:true
+        });
+        scheduler.createGridView({
+            name:"grid1",
+            fields:[
+                {id:"id",       label:'Id', width:80, sort:'int' },
+                {id:"text",     label:'Text', width:'*', valign:'middle'},
+                {id:"start_date", label:'From', align:'left', width:150, valign:'top'},
+                {id:"end_date", label:'To', align:'left', width:150, valign:'bottom'}],
+            rowHeight:42
+        });
+        scheduler.createGridView({
+            name:"grid2",
+            fields:[
+                {id:"id",       label:'Id', align:'right', width:80, sort:'int'},
+                {id:"date",     label:'Date', sort:'date' },
+                {id:"text",     label:'Text', align:'left', width:200,  sort:'str'},
+                {id:"text",     label:"Alternate sorting", align:'left',
+                    sort:function(a,b){return a.text.length > b.text.length ? 1 : -1},
+                    template:function(start,end,ev){return "1# "+ev.text}
+                }],
+            from:new Date(2009, 03, 10),
+            to:new Date(2009, 05,23)
+        });
+
+        scheduler.locale.labels.grid2_tab = "Template";
+        scheduler.locale.labels.grid1_tab = "RowHeight";
+        scheduler.locale.labels.grid_tab = "MinInit";
+
+		scheduler.init('scheduler_here',new Date(2009,5,30),"grid");
+		scheduler.load("./data/events.xml");
+	}
+</script>
+
+<body onload="init();">
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
+			<div class="dhx_cal_today_button"></div>
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="grid_tab" style="right:300px;"></div>
+            <div class="dhx_cal_tab" name="grid1_tab" style="right:365px;"></div>
+            <div class="dhx_cal_tab" name="grid2_tab" style="right:430px;"></div>
+
+		</div>
+		<div class="dhx_cal_header">
+		</div>
+		<div class="dhx_cal_data">
+		</div>		
+	</div>
+</body>
