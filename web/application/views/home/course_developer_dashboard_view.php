@@ -53,7 +53,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/md5-min.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx_scheduler/codebase/dhtmlxscheduler.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_recurring.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_agenda_view.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_week_agenda.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/idle-timer.js"); ?>"></script>
 
     <!-- Ilios JS -->
@@ -166,7 +166,7 @@ $viewsPath = getServerFilePath('views');
                                 <div class="dhx_cal_tab" name="day_tab" style="right:209px;"></div>
                                 <div class="dhx_cal_tab" name="week_tab" style="right:145px;"></div>
                                 <div class="dhx_cal_tab" name="month_tab" style="right:81px;"></div>
-                                <div class="dhx_cal_tab" name="agenda_tab" style="right:17px;"></div>
+                                <div class="dhx_cal_tab" name="week_agenda_tab" style="right:17px;"></div>
                             </div>
                             <div class="dhx_cal_header"></div>
                             <div class="dhx_cal_data" id="dhx_cal_data"></div>
