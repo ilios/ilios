@@ -93,8 +93,6 @@ ilios.home.calendar.initCalendar = function () {
     var today = new Date();
 
     today.setHours(0,0,0,0);
-    scheduler.config.agenda_start = scheduler.date.add(today, -5, "day"); // 5 days prior to current date
-    scheduler.config.agenda_end = scheduler.date.add(today, 2, "month"); // 2 month from current date
 
     scheduler.init('dhtmlx_scheduler_container', new Date(), "week");
 

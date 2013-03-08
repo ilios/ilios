@@ -119,9 +119,6 @@ ilios.om.calendar.resetCurrentCalendarViewToStart = function () {
     }
 
     scheduler.setCurrentView(dateBegin, 'week');
-    scheduler.config.agenda_start = new Date(dateBegin); //course or session start
-    scheduler.config.agenda_end = new Date(dateEnd);
-
 };
 
 /*
@@ -329,12 +326,8 @@ ilios.om.calendar.calendarViewChanged = function (mode, date) {
 
     if (mode == 'week') {
         startDate = ilios.om.calendar.getLastSundayForDate(date);
-    }
-    else if (mode == 'month') {
+    } else if (mode == 'month') {
         startDate = ilios.om.calendar.getFirstOfMonthForDate(date);
-    }
-    else if (mode == 'agenda') {
-        startDate = scheduler.config.agenda_start;
     }
 
     ilios.om.calendar.addEventsFromModelToScheduler(startDate, mode, showSessionsOnly);
@@ -728,14 +721,9 @@ ilios.om.calendar.getCurrentViewEndDate = function (viewStartDate, viewMode) {
 
     if (viewMode == 'week') {
         rhett.setDate(viewStartDate.getDate() + 7);
-    }
-    else if (viewMode == 'day') {
+    } else if (viewMode == 'day') {
         rhett.setDate(viewStartDate.getDate() + 1);
-    }
-    else if (viewMode == 'agenda') {
-	rhett = scheduler.config.agenda_end;
-    }
-    else {
+    } else {
         rhett.setMonth(viewStartDate.getMonth() + 1);
     }
 
