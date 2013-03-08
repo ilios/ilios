@@ -1,5 +1,7 @@
 @import url(normalize.css);
 @import url(yui-widgets.css);
+@import url(../scripts/third_party/dhtmlx_scheduler/codebase/dhtmlxscheduler.css);
+@import url(../scripts/third_party/dhtmlx_scheduler/codebase/dhtmlxscheduler_glossy.css);
 
 /*
  * Ilios Styles - based in part on HTML5 Boilerplate h5bp.com/css
@@ -1460,7 +1462,7 @@ fieldset > .row {
 .dhx_cal_today_button {left: 65px;}
 
 .dhx_scale_bar {
-    background-image:url("../images/dhtmlx/top-separator.gif");
+    background-image:url("../scripts/third_party/dhtmlx_scheduler/codebase/imgs_glossy/top-separator.gif");
 }
 
 .dhx_cal_event {
@@ -2021,7 +2023,7 @@ fieldset > .row {
     margin: 0 .25em;
     height:18px;
     width:18px;
-    background:url("../images/dhtmlx/calendar.gif");
+    background:url("../scripts/third_party/dhtmlx_scheduler/codebase/imgs_glossy/calendar.gif");
     cursor:pointer;
     vertical-align: middle;
 }
