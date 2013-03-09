@@ -260,16 +260,10 @@ ilios.home.calendar.focusCalendarOnStartDateOfOfferingWithId = function (offerin
 ilios.home.calendar.calendarViewChanged = function (mode, date) {
     var startDate = date;
 
-    if (mode == 'week') {
+    if (mode == 'week' || mode == 'week_agenda') {
         startDate = ilios.home.calendar.getLastSundayForDate(date);
-    }
-    else if (mode == 'month') {
+    } else if (mode == 'month') {
         startDate = ilios.home.calendar.getFirstOfMonthForDate(date);
-    }
-    else if (mode == 'agenda') {
-        startDate = new Date();
-        startDate.setHours(0,0,0,0);
-        startDate.setDate(startDate.getDate() - 5);
     }
 
     ilios.home.calendar.addEventsFromModelToScheduler(startDate, mode);
@@ -469,16 +463,12 @@ ilios.home.calendar.getCurrentViewEndDate = function (viewStartDate, viewMode) {
 
     rhett = new Date(viewStartDate.getTime());
     rhett.setHours(0, 0, 0, 0);
-    if (viewMode == 'week') {
+    if (viewMode == 'week' || viewMode == 'week_agenda') {
         rhett.setDate(viewStartDate.getDate() + 7);
     } else if (viewMode == 'day') {
         rhett.setDate(viewStartDate.getDate() + 1);
     } else if (viewMode == 'month') {
         rhett.setMonth(viewStartDate.getMonth() + 1);
-    } else { // agenda
-        var today = new Date();
-        today.setHours(0,0,0,0);
-        rhett.setMonth(today.getMonth() + 2);
     }
     return rhett;
 };
