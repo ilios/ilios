@@ -324,7 +324,7 @@ ilios.om.calendar.calendarViewChanged = function (mode, date) {
     var showSessionsOnly = element.checked;
     var startDate = date;
 
-    if (mode == 'week') {
+    if (mode == 'week' || mode == 'week_agenda') {
         startDate = ilios.om.calendar.getLastSundayForDate(date);
     } else if (mode == 'month') {
         startDate = ilios.om.calendar.getFirstOfMonthForDate(date);
@@ -719,7 +719,7 @@ ilios.om.calendar.getCurrentViewEndDate = function (viewStartDate, viewMode) {
     rhett = new Date(viewStartDate.getTime());
     rhett.setHours(0, 0, 0, 0);
 
-    if (viewMode == 'week') {
+    if (viewMode == 'week' || viewMode == 'week_agenda') {
         rhett.setDate(viewStartDate.getDate() + 7);
     } else if (viewMode == 'day') {
         rhett.setDate(viewStartDate.getDate() + 1);
