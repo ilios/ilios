@@ -591,7 +591,7 @@ EOL;
         array_push($auditAtoms, $this->auditEvent->wrapAtom($learningMaterialId,
                                                             'learning_material_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         if (($this->db->affected_rows() == 0) || $this->transactionAtomFailed()) {
             $lang = $this->getLangToUse();

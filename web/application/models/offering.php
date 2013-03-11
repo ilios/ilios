@@ -258,7 +258,7 @@ class Offering extends Abstract_Ilios_Model
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
             $previousRecurringEventId = $this->getRecurringEventIdForOffering($offeringId);
             if ($previousRecurringEventId != -1) {

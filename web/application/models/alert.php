@@ -261,7 +261,7 @@ EOL;
         if (! is_null($preExisting)) {
             $alertId = $preExisting['alert_id'];
 
-            $eventType = Audit_Event::$UPDATE_EVENT_TYPE;
+            $eventType = Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE;
         } else {
             $newRow = array();
             $newRow['alert_id'] = null;

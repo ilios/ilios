@@ -9,13 +9,6 @@ class Audit_Event extends Abstract_Ilios_Model
 {
     /**
      * @deprecated
-     * @see Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE
-     * @var int
-     */
-    static public $UPDATE_EVENT_TYPE = Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE;
-
-    /**
-     * @deprecated
      * @see Ilios_Model_AuditUtils::DELETE_EVENT_TYPE
      * @var int
      */

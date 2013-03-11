@@ -290,7 +290,7 @@ class Program_Year extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
     }
 
     /**
@@ -469,7 +469,7 @@ class Program_Year extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
 
         $duration = $this->program->getDurationForProgramWithId($programId);
@@ -485,7 +485,7 @@ class Program_Year extends Abstract_Ilios_Model
         $this->db->update('cohort', $updateValues);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($cohortId, 'cohort_id', 'cohort',
-                                                            Audit_Event::$UPDATE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
 
         $rhett = $this->_saveObjectives($objectivesArray, 'program_year_x_objective',
                                        'program_year_id', $programYearId, $auditAtoms);

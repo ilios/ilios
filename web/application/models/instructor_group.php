@@ -278,7 +278,7 @@ EOL;
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'instructor_group_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         if (! $this->_deleteUserAssociationsToGroup($groupId, $auditAtoms)) {
             return "There was a Database Deadlock error.";

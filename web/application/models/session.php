@@ -569,7 +569,7 @@ class Session extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'offering',
-                                                            Audit_Event::$UPDATE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
     }
 
     /**
@@ -781,7 +781,7 @@ class Session extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         // update session/learning material associations
         $this->learningMaterial->saveSessionLearningMaterialAssociations($sessionId, $learningMaterialArray,

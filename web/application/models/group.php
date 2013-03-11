@@ -409,7 +409,7 @@ class Group extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         $this->deleteInstructorsForGroup($groupId, $auditAtoms);
         $this->saveInstructorsForGroup($groupId, $instructors, $auditAtoms);

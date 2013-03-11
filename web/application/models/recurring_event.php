@@ -67,7 +67,7 @@ class Recurring_Event extends Abstract_Ilios_Model {
             array_push($auditAtoms, $this->auditEvent->wrapAtom($recurringEventId,
                                                                 'recurring_event_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$UPDATE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
         }
 
         return $recurringEventId;

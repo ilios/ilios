@@ -135,7 +135,7 @@ class Objective extends Abstract_Ilios_Model
         array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveObject['dbId'],
                                                             'objective_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
 
         $this->performCrossTableInserts($objectiveObject['meshTerms'], 'objective_x_mesh',
                                         'mesh_descriptor_uid', 'objective_id',
