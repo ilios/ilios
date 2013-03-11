@@ -13,12 +13,14 @@ class Migration_Update_sql_sp_user_ids_from_cohort_and_master_group extends CI_M
   
   public function up()
   {
-    //drop the existing stored procedure...
+    //set up for the transaction...
+    $this->db->trans_start();
+    //query to drop the existing stored procedure...
     $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
-    $DB = $this->dbHandle;
-    $queryResults = $DB->query($queryString);
+    //drop the stored procedure...
+    $queryResults = $this->db->query($queryString);
     
-    //create the new one...
+    //query to create the new stored procedure...
     $queryString = <<<EOL
 CREATE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
     READS SQL DATA
@@ -31,7 +33,6 @@ BEGIN
         DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
         CREATE TEMPORARY TABLE IF NOT EXISTS tt_subgroup (uid INT);
-
 
         OPEN uid_cursor;
 
@@ -53,25 +54,28 @@ BEGIN
 
         CLOSE uid_cursor;
 
-
         SELECT * FROM tt_subgroup;
         DROP TABLE tt_subgroup;
     END    
 EOL;
 
-    $DB = $this->dbHandle;
-    $queryResults = $DB->query($queryString);
+    //create the new stored procedure...
+    $queryResults = $this->db->query($queryString);
+    //end the transaction...
+    $this->db->trans_complete();
     
   }// end up() method
   
   public function down()
   {
-    //drop the existing stored procedure...
+    //set up for the transaction...
+    $this->db->trans_start();
+    //query to drop the existing stored procedure...
     $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
-    $DB = $this->dbHandle;
-    $queryResults = $DB->query($queryString);
+    //drop the stored procedure...
+    $queryResults = $this->db->query($queryString);
     
-    //create the new one...
+    //query to create the stored procedure...
     $queryString = <<<EOL
 CREATE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
     READS SQL DATA
@@ -112,8 +116,10 @@ BEGIN
     END    
 EOL;
 
-    $DB = $this->dbHandle;
-    $queryResults = $DB->query($queryString);  
+    //create the new stored procedure...
+    $queryResults = $this->db->query($queryString);
+    //end the transaction...
+    $this->db->trans_complete();
   
   } // end down() method
 }
