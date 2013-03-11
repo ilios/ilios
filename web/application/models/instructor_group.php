@@ -241,7 +241,7 @@ EOL;
         }
         if (0 < $this->db->affected_rows()) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'instructor_group_id',
-                $this->databaseTableName, Audit_Event::$DELETE_EVENT_TYPE, 1);
+                $this->databaseTableName, Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1);
         }
         return true;
     }
@@ -355,7 +355,7 @@ EOL;
 
         if (0 < $this->db->affected_rows()) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'instructor_group_id',
-                'instructor_group_x_user', Audit_Event::$DELETE_EVENT_TYPE);
+                'instructor_group_x_user', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return true;
     }
@@ -377,7 +377,7 @@ EOL;
 
         if (0 < $this->db->affected_rows()) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'instructor_group_id',
-                'offering_instructor', Audit_Event::$DELETE_EVENT_TYPE);
+                'offering_instructor', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return true;
     }

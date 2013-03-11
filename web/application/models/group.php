@@ -139,7 +139,7 @@ class Group extends Abstract_Ilios_Model
                     return false;
                 }
 
-                $auditAtoms[] = $this->auditEvent->wrapAtom($deleteFromId, 'group_id', 'group_x_user', Audit_Event::$DELETE_EVENT_TYPE);
+                $auditAtoms[] = $this->auditEvent->wrapAtom($deleteFromId, 'group_id', 'group_x_user', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
             }
         }
 
@@ -263,7 +263,7 @@ class Group extends Abstract_Ilios_Model
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($groupIdArray[$i], 'group_id',
                                                                 'group_x_user',
-                                                                Audit_Event::$DELETE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         }
 
         $this->db->delete('group_x_user');
@@ -559,7 +559,7 @@ class Group extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
                                                             'group_default_instructor',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
     }
 }
 

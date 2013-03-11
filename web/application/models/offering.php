@@ -354,13 +354,13 @@ class Offering extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                             'offering_instructor',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                             'offering_learner',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$DELETE_EVENT_TYPE,
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE,
                                                             ($deleteIsRootEvent ? 1 : 0)));
 
         return (! $this->transactionAtomFailed());
@@ -392,7 +392,7 @@ class Offering extends Abstract_Ilios_Model
             $this->db->delete('offering_x_recurring_event');
             array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                                 'offering_x_recurring_event',
-                                                                Audit_Event::$DELETE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
 
             $this->db->where('recurring_event_id', $recurringEventId);
             $queryResults = $this->db->get('offering_x_recurring_event');
@@ -403,7 +403,7 @@ class Offering extends Abstract_Ilios_Model
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($recurringEventId, 'recurring_event_id',
                                                        'recurring_event',
-                                                       Audit_Event::$DELETE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
             }
         }
     }

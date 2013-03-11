@@ -8,13 +8,6 @@ include_once "abstract_ilios_model.php";
 class Audit_Event extends Abstract_Ilios_Model
 {
     /**
-     * @deprecated
-     * @see Ilios_Model_AuditUtils::DELETE_EVENT_TYPE
-     * @var int
-     */
-    static public $DELETE_EVENT_TYPE = Ilios_Model_AuditUtils::DELETE_EVENT_TYPE;
-
-    /**
      * Constructor.
      */
     public function __construct ()
@@ -28,7 +21,8 @@ class Audit_Event extends Abstract_Ilios_Model
      * @see Ilios_Model_AuditUtils::wrapAtom()
      */
     public function wrapAtom ($tableId, $tableColumn, $tableName, $type, $rootAtom = 0,
-                       $serializedBlob = null) {
+                       $serializedBlob = null)
+    {
         $rhett = array();
 
         $rhett['table_row_id'] = $tableId;

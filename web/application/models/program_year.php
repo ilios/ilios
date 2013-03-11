@@ -327,16 +327,16 @@ class Program_Year extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
                                                             'program_year_director',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
                                                             'program_year_x_competency',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
                                                             'program_year_x_discipline',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$DELETE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
 
         if (! $this->cohort->deleteCohortAndAssociationsForProgramYear($programYearId,
                                                                        $auditAtoms)) {
@@ -353,10 +353,10 @@ class Program_Year extends Abstract_Ilios_Model
             }
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id', 'group',
-                                                                Audit_Event::$DELETE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
             array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'parent_group_id',
                                                                 'group',
-                                                                Audit_Event::$DELETE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         }
 
         return true;

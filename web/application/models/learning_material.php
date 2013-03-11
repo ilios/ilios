@@ -510,7 +510,7 @@ EOL;
                            $this->auditEvent->wrapAtom($row['course_learning_material_id'],
                                                        'course_learning_material_id',
                                                        'course_learning_material_x_mesh',
-                                                       Audit_Event::$DELETE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
             }
 
             if (! $meshOnly) {
@@ -528,7 +528,7 @@ EOL;
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($dbId, 'course_id',
                                                        'course_learning_material',
-                                                       Audit_Event::$DELETE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
             }
         }
         else {
@@ -546,7 +546,7 @@ EOL;
                            $this->auditEvent->wrapAtom($row['session_learning_material_id'],
                                                        'session_learning_material_id',
                                                        'session_learning_material_x_mesh',
-                                                       Audit_Event::$DELETE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
             }
 
             if (! $meshOnly) {
@@ -564,7 +564,7 @@ EOL;
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($dbId, 'session_id',
                                                        'session_learning_material',
-                                                       Audit_Event::$DELETE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
             }
         }
 

@@ -860,16 +860,16 @@ class Session extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'session_x_discipline',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'session_x_mesh',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'session_x_objective',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$DELETE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
 
         if ($this->db->affected_rows() == 0) {
             $lang = $this->getLangToUse();
