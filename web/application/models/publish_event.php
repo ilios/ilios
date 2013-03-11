@@ -10,8 +10,6 @@ class Publish_Event extends Abstract_Ilios_Model {
     public function __construct ()
     {
         parent::__construct('publish_event', array('publish_event_id'));
-
-        $this->createDBHandle();
     }
 
     /**
@@ -19,8 +17,6 @@ class Publish_Event extends Abstract_Ilios_Model {
      */
     public function addPublishEvent ($tableName, $tableRowId, $machineIP, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['publish_event_id'] = null;
 
@@ -33,13 +29,13 @@ class Publish_Event extends Abstract_Ilios_Model {
         $newRow['table_name'] = $tableName;
         $newRow['table_row_id'] = $tableRowId;
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newId = $DB->insert_id();
+        $newId = $this->db->insert_id();
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'publish_event_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
         return $newId;
     }
@@ -50,13 +46,11 @@ class Publish_Event extends Abstract_Ilios_Model {
      */
     public function updatePublishEventTableRowIdColumn ($publishId, $newColumnValue)
     {
-        $DB = $this->dbHandle;
-
         $updateRow = array();
         $updateRow['table_row_id'] = $newColumnValue;
 
-        $DB->where('publish_event_id', $publishId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('publish_event_id', $publishId);
+        $this->db->update($this->databaseTableName, $updateRow);
     }
 
 }

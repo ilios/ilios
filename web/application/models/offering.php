@@ -14,7 +14,6 @@ class Offering extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('offering', array('offering_id'));
-        $this->createDBHandle();
         $this->load->model('Group', 'group', TRUE);
         $this->load->model('Instructor_Group', 'instructorGroup', TRUE);
         $this->load->model('Recurring_Event', 'recurringEvent', TRUE);
@@ -29,8 +28,6 @@ class Offering extends Abstract_Ilios_Model
      */
     public function rolloverOffering ($offeringId, $newSessionId, $totalOffsetDays)
     {
-        $DB = $this->dbHandle;
-
         $offeringRow = $this->getRowForPrimaryKeyId($offeringId);
 
         $dtStartPHPTime = new DateTime($offeringRow->start_date, new DateTimeZone('UTC'));
@@ -52,8 +49,8 @@ class Offering extends Abstract_Ilios_Model
         $newRow['end_date'] = $dtEndPHPTime->format("Y-m-d H:i:s");
         $newRow['deleted'] = 0;
 
-        $DB->insert($this->databaseTableName, $newRow);
-        $newOfferingId = $DB->insert_id();
+        $this->db->insert($this->databaseTableName, $newRow);
+        $newOfferingId = $this->db->insert_id();
 
         if ($newOfferingId > 0) {
             $recurringEventId = $this->getRecurringEventIdForOffering($offeringId);
@@ -64,13 +61,13 @@ class Offering extends Abstract_Ilios_Model
                 $newRow = array();
                 $newRow['offering_id'] = $newOfferingId;
                 $newRow['recurring_event_id'] = $newRecurringEventId;
-                $DB->insert('offering_x_recurring_event', $newRow);
+                $this->db->insert('offering_x_recurring_event', $newRow);
             }
 
 
             $queryString = 'SELECT copy_offering_attributes_to_offering(' . $offeringId . ', '
                                 . $newOfferingId . ')';
-            $DB->query($queryString);
+            $this->db->query($queryString);
         }
     }
 
@@ -81,8 +78,6 @@ class Offering extends Abstract_Ilios_Model
      */
     protected function cloneRecurringEventChain ($rootRecurringEventId, $totalOffsetDays)
     {
-        $DB = $this->dbHandle;
-
         $reRow = $this->recurringEvent->getRowForPrimaryKeyId($rootRecurringEventId);
 
         $nextRecurringEventId = null;
@@ -100,16 +95,16 @@ class Offering extends Abstract_Ilios_Model
         $dtEndPHPTime->setTimeZone(new DateTimeZone('UTC'));
         $newRow['end_date'] = $dtEndPHPTime->format("Y-m-d H:i:s");
 
-        $DB->insert('recurring_event', $newRow);
+        $this->db->insert('recurring_event', $newRow);
 
-        $newREId = $DB->insert_id();
+        $newREId = $this->db->insert_id();
 
 
         $updateRow = array();
         $updateRow['previous_recurring_event_id'] = $newREId;
 
-        $DB->where('recurring_event_id', $nextRecurringEventId);
-        $DB->update('recurring_event', $updateRow);
+        $this->db->where('recurring_event_id', $nextRecurringEventId);
+        $this->db->update('recurring_event', $updateRow);
 
 
         return $newREId;
@@ -143,8 +138,6 @@ class Offering extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $recurringEventId = -1;
 
         $locationToUse = $location;
@@ -155,14 +148,14 @@ class Offering extends Abstract_Ilios_Model
 
         /*
          * ACHTUNG - BUSINESS LOGIC AHEAD!
-         * 
+         *
          * How to deal with empty location value:
-         * 
+         *
          * If the location value for an offering is null, check to see if there are any associated learner groups.
-         *   If no, insert default "TBD" text. 
+         *   If no, insert default "TBD" text.
          *   If yes, check to see if the first group (first in list, highest level) in the list of associated groups
-         *   has a default location; 
-         *     If so, insert that as the location value. 
+         *   has a default location;
+         *     If so, insert that as the location value.
          *     If not, insert default "TBD" value.
          */
         if ('' === trim($locationToUse)) {
@@ -194,9 +187,9 @@ class Offering extends Abstract_Ilios_Model
             $newRow['end_date'] = $endDate;
             $newRow['publish_event_id'] = ($publishEventId == -1) ? null : $publishEventId;
 
-            $DB->insert($this->databaseTableName, $newRow);
+            $this->db->insert($this->databaseTableName, $newRow);
 
-            $newOfferingId = $DB->insert_id();
+            $newOfferingId = $this->db->insert_id();
 
             if (! $newOfferingId) {
                 return -1;
@@ -204,18 +197,18 @@ class Offering extends Abstract_Ilios_Model
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($newOfferingId, 'offering_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
             if ($recurringEventId != -1) {
                 $newRow = array();
                 $newRow['offering_id'] = $newOfferingId;
                 $newRow['recurring_event_id'] = $recurringEventId;
-                $DB->insert('offering_x_recurring_event', $newRow);
+                $this->db->insert('offering_x_recurring_event', $newRow);
 
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($newOfferingId, 'offering_id',
                                                        'offering_x_recurring_event',
-                                                       Audit_Event::$CREATE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
             }
 
             if (is_null($instructors)) {
@@ -260,12 +253,12 @@ class Offering extends Abstract_Ilios_Model
             $updateRow['end_date'] = $endDate;
             $updateRow['publish_event_id'] = ($publishEventId == -1) ? null : $publishEventId;
 
-            $DB->where('offering_id', $offeringId);
-            $DB->update($this->databaseTableName, $updateRow);
+            $this->db->where('offering_id', $offeringId);
+            $this->db->update($this->databaseTableName, $updateRow);
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
             $previousRecurringEventId = $this->getRecurringEventIdForOffering($offeringId);
             if ($previousRecurringEventId != -1) {
@@ -281,12 +274,12 @@ class Offering extends Abstract_Ilios_Model
                 $newRow = array();
                 $newRow['offering_id'] = $offeringId;
                 $newRow['recurring_event_id'] = $recurringEventId;
-                $DB->insert('offering_x_recurring_event', $newRow);
+                $this->db->insert('offering_x_recurring_event', $newRow);
 
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                        'offering_x_recurring_event',
-                                                       Audit_Event::$CREATE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
             }
 
             $existingInstructorIds = $this->_getInstructorIds($offeringId);
@@ -346,30 +339,28 @@ class Offering extends Abstract_Ilios_Model
      */
     public function deleteOffering ($offeringId, &$auditAtoms, $deleteIsRootEvent)
     {
-        $DB = $this->dbHandle;
-
         $this->deleteAssociatedRecurringEvent($offeringId, $auditAtoms);
 
         $tables = array('offering_instructor', 'offering_learner');
 
-        $DB->where('offering_id', $offeringId);
-        $DB->delete($tables);
+        $this->db->where('offering_id', $offeringId);
+        $this->db->delete($tables);
 
         $updateRow = array();
         $updateRow['deleted'] = 1;
 
-        $DB->where('offering_id', $offeringId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('offering_id', $offeringId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                             'offering_instructor',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                             'offering_learner',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$DELETE_EVENT_TYPE,
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE,
                                                             ($deleteIsRootEvent ? 1 : 0)));
 
         return (! $this->transactionAtomFailed());
@@ -396,25 +387,23 @@ class Offering extends Abstract_Ilios_Model
     protected function deleteRecurringEventForOffering ($offeringId, $recurringEventId,
                                                         &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         if ($recurringEventId != -1) {
-            $DB->where('offering_id', $offeringId);
-            $DB->delete('offering_x_recurring_event');
+            $this->db->where('offering_id', $offeringId);
+            $this->db->delete('offering_x_recurring_event');
             array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                                 'offering_x_recurring_event',
-                                                                Audit_Event::$DELETE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
 
-            $DB->where('recurring_event_id', $recurringEventId);
-            $queryResults = $DB->get('offering_x_recurring_event');
+            $this->db->where('recurring_event_id', $recurringEventId);
+            $queryResults = $this->db->get('offering_x_recurring_event');
             if ($queryResults->num_rows() == 0) {
-                $DB->where('recurring_event_id', $recurringEventId);
-                $DB->delete('recurring_event');
+                $this->db->where('recurring_event_id', $recurringEventId);
+                $this->db->delete('recurring_event');
 
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($recurringEventId, 'recurring_event_id',
                                                        'recurring_event',
-                                                       Audit_Event::$DELETE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
             }
         }
     }
@@ -426,10 +415,8 @@ class Offering extends Abstract_Ilios_Model
      */
     protected function getRecurringEventIdForOffering ($offeringId)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('offering_id', $offeringId);
-        $queryResults = $DB->get('offering_x_recurring_event');
+        $this->db->where('offering_id', $offeringId);
+        $queryResults = $this->db->get('offering_x_recurring_event');
         if ($queryResults->num_rows() > 0) {
             $row = $queryResults->first_row();
 
@@ -450,10 +437,8 @@ class Offering extends Abstract_Ilios_Model
     {
         $offeringsToNuke = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('session_id', $sessionId);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             array_push($offeringsToNuke, $row['offering_id']);
@@ -483,11 +468,9 @@ class Offering extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $DB->where('deleted', 0);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('session_id', $sessionId);
+        $this->db->where('deleted', 0);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             $offering = array();
@@ -564,10 +547,8 @@ class Offering extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('offering_id', $offeringId);
-        $queryResults = $DB->get('offering_instructor');
+        $this->db->where('offering_id', $offeringId);
+        $queryResults = $this->db->get('offering_instructor');
 
         foreach ($queryResults->result_array() as $row) {
             if (($row['user_id'] == null) || ($row['user_id'] == '')) {
@@ -595,10 +576,8 @@ class Offering extends Abstract_Ilios_Model
     {
         $possiblyRedundantArray = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('offering_id', $offeringId);
-        $queryResults = $DB->get('offering_instructor');
+        $this->db->where('offering_id', $offeringId);
+        $queryResults = $this->db->get('offering_instructor');
 
         foreach ($queryResults->result_array() as $row) {
             if (($row['user_id'] == null) || ($row['user_id'] == '')) {
@@ -656,10 +635,8 @@ class Offering extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('offering_id', $offeringId);
-        $queryResults = $DB->get('offering_learner');
+        $this->db->where('offering_id', $offeringId);
+        $queryResults = $this->db->get('offering_learner');
 
         foreach ($queryResults->result_array() as $row) {
             if (isset($row['group_id']) && (! is_null($row['group_id']))) {
@@ -700,8 +677,7 @@ class Offering extends Abstract_Ilios_Model
                             . ' AND `offering_instructor`.`' . $columnName . '` = ' . $columnValue
                             . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         foreach ($queryResults->result_array() as $row) {
             $model = array();
@@ -754,8 +730,7 @@ class Offering extends Abstract_Ilios_Model
                             . ' OR `offering_learner`.`group_id` = ' . $groupId . ') '
                             . ' AND `offering`.`offering_id` = `offering_learner`.`offering_id`';
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         foreach ($queryResults->result_array() as $row) {
             $model = array();
@@ -791,10 +766,9 @@ class Offering extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $DB->where('deleted', 0);
+        $this->db->where('deleted', 0);
 
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         $sessionPublishIds = array(); // session-id/publish-id lookup map
 

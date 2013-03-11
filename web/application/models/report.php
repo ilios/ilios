@@ -26,7 +26,6 @@ class Report extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('report', array('report_id'));
-        $this->createDBHandle();
         $this->load->model('Program', 'program', TRUE);
         $this->load->model('Program_Year', 'programYear', TRUE);
     }
@@ -41,8 +40,6 @@ class Report extends Abstract_Ilios_Model
      */
     public function saveReport ($subjectTable, $prepositionalObjectTable, $poValues, $title)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['report_id'] = null;
 
@@ -64,9 +61,9 @@ class Report extends Abstract_Ilios_Model
             $newRow['title'] = $title;
         }
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newRowId = $DB->insert_id();
+        $newRowId = $this->db->insert_id();
 
         if (($newRowId != -1) && (! is_null($prepositionalObjectTable))) {
             foreach ($poValues as $rowId) {
@@ -76,7 +73,7 @@ class Report extends Abstract_Ilios_Model
                 $newRow['prepositional_object_table_row_id'] = $rowId;
                 $newRow['deleted'] = 0;
 
-                $DB->insert('report_po_value', $newRow);
+                $this->db->insert('report_po_value', $newRow);
             }
         }
 
@@ -90,13 +87,11 @@ class Report extends Abstract_Ilios_Model
      */
     public function deleteReport ($reportId)
     {
-        $DB = $this->dbHandle;
-
         $updateRow = array();
         $updateRow['deleted'] = 1;
 
-        $DB->where('report_id', $reportId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('report_id', $reportId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         $row = $this->getRowForPrimaryKeyId($reportId);
 
@@ -112,11 +107,9 @@ class Report extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('user_id', $userId);
-        $DB->where('deleted', 0);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('user_id', $userId);
+        $this->db->where('deleted', 0);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             $report = array();
@@ -144,9 +137,8 @@ class Report extends Abstract_Ilios_Model
     protected function getReportPrepositionalObjectValuesForReport ($reportId)
     {
         $rhett = array();
-        $DB = $this->dbHandle;
-        $DB->where('report_id', $reportId);
-        $queryResults = $DB->get('report_po_value');
+        $this->db->where('report_id', $reportId);
+        $queryResults = $this->db->get('report_po_value');
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row['prepositional_object_table_row_id']);
         }
@@ -163,9 +155,8 @@ class Report extends Abstract_Ilios_Model
     protected function getReportPrepositionalObjectDisplayValues($po, $reportId)
     {
         $rhett = array();
-        $DB = $this->dbHandle;
-        $DB->where('report_id', $reportId);
-        $queryResults = $DB->get('report_po_value');
+        $this->db->where('report_id', $reportId);
+        $queryResults = $this->db->get('report_po_value');
         foreach ($queryResults->result_array() as $row) {
             $poValue = $row['prepositional_object_table_row_id'];
             $poDisplayValue = 'undefined';
@@ -333,24 +324,22 @@ class Report extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryResults = null;
 
         if (is_null($poValues)) {
-            $DB->where('deleted', 0);
-            $DB->where('owning_school_id', $schoolId);
-            $DB->order_by('title');
-            $DB->order_by('start_date');
-            $DB->order_by('end_date');
+            $this->db->where('deleted', 0);
+            $this->db->where('owning_school_id', $schoolId);
+            $this->db->order_by('title');
+            $this->db->order_by('start_date');
+            $this->db->order_by('end_date');
 
-            $queryResults = $DB->get($this->course->getTableName());
+            $queryResults = $this->db->get($this->course->getTableName());
         } else {
             $queryString = '';
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] = $DB->escape($poValues[0]);
+            $clean['id'] = $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_SESSION :
@@ -677,7 +666,7 @@ class Report extends Abstract_Ilios_Model
             }
 
             if (strlen($queryString) > 0) {
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
             }
         }
 
@@ -724,8 +713,6 @@ class Report extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryString = '';
         $queryResults = null;
 
@@ -744,7 +731,7 @@ class Report extends Abstract_Ilios_Model
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] = $DB->escape($poValues[0]);
+            $clean['id'] = $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -765,7 +752,7 @@ class Report extends Abstract_Ilios_Model
                     break;
                 case self::REPORT_NOUN_SESSION_TYPE :
                     $queryString = 'SELECT `course`.`course_id`, `course`.`title` AS `course_title`,
-                                           `course`.`start_date`, `course`.`end_date`, 
+                                           `course`.`start_date`, `course`.`end_date`,
                                            `session`.`title` AS  `session_title`, `session`.`session_id`, `session`.`session_type_id`
                                       FROM `course` RIGHT JOIN `session` ON `course`.`course_id` = `session`.`course_id`
                     				  WHERE session.session_type_id = ' . $clean['id'] .'
@@ -1116,7 +1103,7 @@ EOL;
             } // end switch
         }
         if (strlen($queryString) > 0) {
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
         }
 
 
@@ -1152,22 +1139,20 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryResults = null;
 
         if (is_null($poValues)) {
-            $DB->where('deleted', 0);
-            $DB->where('owning_school_id', $schoolId);
-            $DB->order_by('title');
+            $this->db->where('deleted', 0);
+            $this->db->where('owning_school_id', $schoolId);
+            $this->db->order_by('title');
 
-            $queryResults = $DB->get($this->program->getTableName());
+            $queryResults = $this->db->get($this->program->getTableName());
         }  else {
             $queryString = '';
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] = $DB->escape($poValues[0]);
+            $clean['id'] = $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -1220,7 +1205,7 @@ EOL;
             }
 
             if (strlen($queryString) > 0) {
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
             }
         }
 
@@ -1251,8 +1236,6 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryString = '';
         $queryResults = null;
 
@@ -1268,7 +1251,7 @@ EOL;
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] = $DB->escape($poValues[0]);
+            $clean['id'] = $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -1324,7 +1307,7 @@ EOL;
             }
         }
         if (strlen($queryString) > 0) {
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
         }
 
         if (! is_null($queryResults)) {
@@ -1353,15 +1336,13 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         if (! is_null($poValues)) {
 
             $queryString = '';
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] = $DB->escape($poValues[0]);
+            $clean['id'] = $this->db->escape($poValues[0]);
 
             $queryResults = null;
 
@@ -1528,7 +1509,7 @@ EOL;
                     break;
                 case self::REPORT_NOUN_SESSION_TYPE :
                     $queryString = 'SELECT DISTINCT `offering_instructor`.`user_id`
-                                      FROM `offering_instructor` 
+                                      FROM `offering_instructor`
                                       JOIN `offering` ON `offering`.`offering_id` = `offering_instructor`.`offering_id`
                                       JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
@@ -1548,7 +1529,7 @@ EOL;
                                       FROM `group_default_instructor`
                                       JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_default_instructor`.`group_id`
                                       JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id` 
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                        AND `group_default_instructor`.`user_id` IS NOT NULL
@@ -1559,7 +1540,7 @@ EOL;
                                                                        					= `instructor_group_x_user`.`instructor_group_id`
                                       JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_default_instructor`.`group_id`
                                       JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id` 
+                                      JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
@@ -1599,7 +1580,7 @@ EOL;
                     if ($sessionTypeRow) {
                         $poDisplayValue = $sessionTypeRow->title;
                     }
-                    break;    
+                    break;
                 case self::REPORT_NOUN_INSTRUCTOR_GROUP :
                     $queryString = 'SELECT `user_id`
                                     FROM `instructor_group_x_user`
@@ -1800,7 +1781,7 @@ EOL;
             }
 
             if (strlen($queryString) > 0) {
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
             }
 
             if (! is_null($queryResults)) {
@@ -1828,18 +1809,16 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryResults = null;
 
         if (is_null($poValues)) {
-            $queryResults = $DB->get($this->instructorGroup->getTableName());
+            $queryResults = $this->db->get($this->instructorGroup->getTableName());
         } else {
             $queryString = '';
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] =  $DB->escape($poValues[0]);
+            $clean['id'] =  $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -2074,7 +2053,7 @@ EOL;
             }
 
             if (strlen($queryString) > 0) {
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
             }
         }
 
@@ -2103,7 +2082,6 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
         $schoolId = $this->session->userdata('school_id');
 
         $queryResults = null;
@@ -2117,7 +2095,7 @@ EOL;
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] =  $DB->escape($poValues[0]);
+            $clean['id'] =  $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -2202,7 +2180,7 @@ EOL;
                     break;
                 case self::REPORT_NOUN_SESSION_TYPE :
                     $queryString = '(SELECT com.`competency_id`, com.`parent_competency_id`
-                                       FROM `session_type` st 
+                                       FROM `session_type` st
                                        JOIN `session` s ON s.`session_type_id` = st.`session_type_id`
                                        JOIN `session_x_objective` sxo ON sxo.`session_id` = s.`session_id`
                                        JOIN `objective_x_objective` oxo ON oxo.`objective_id` = sxo.`objective_id`
@@ -2216,7 +2194,7 @@ EOL;
                                          ORDER BY com.`title`)';
                     $queryString .= 'UNION ';
                     $queryString .= '(SELECT com.`competency_id`, com.`parent_competency_id`
-                                      FROM `session_type` st 
+                                      FROM `session_type` st
                                       JOIN `session` s ON s.`session_type_id` = st.`session_type_id`
                                       JOIN `session_x_objective` sxo ON sxo.`session_id` = s.`session_id`
                                       JOIN `objective_x_objective` oxo ON oxo.`objective_id` = sxo.`objective_id`
@@ -2239,7 +2217,7 @@ EOL;
         }
 
         if (strlen($queryString) > 0) {
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
         }
 
 
@@ -2283,18 +2261,16 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryString = '';
         $queryResults = null;
 
         if (is_null($poValues)) {
-            $queryResults = $DB->get($this->discipline->getTableName());
+            $queryResults = $this->db->get($this->discipline->getTableName());
         } else {
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] =  $DB->escape($poValues[0]);
+            $clean['id'] =  $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -2652,7 +2628,7 @@ EOL;
         }
 
         if (strlen($queryString) > 0) {
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
         }
 
 
@@ -2688,18 +2664,16 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryResults = null;
 
         if (is_null($poValues)) {
-            $queryResults = $DB->get($this->learningMaterial->getTableName());
+            $queryResults = $this->db->get($this->learningMaterial->getTableName());
         } else {
             $queryString = '';
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] =  $DB->escape($poValues[0]);
+            $clean['id'] =  $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -2888,7 +2862,7 @@ EOL;
             }
 
             if (strlen($queryString) > 0) {
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
             }
         }
 
@@ -2923,8 +2897,6 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $queryResults = null;
 
         if (! is_null($poValues)) {
@@ -2932,7 +2904,7 @@ EOL;
             $po = $reportRow->prepositional_object;
 
             $clean = array();
-            $clean['id'] =  $DB->escape($poValues[0]);
+            $clean['id'] =  $this->db->escape($poValues[0]);
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -3021,7 +2993,7 @@ EOL;
                                       FROM `session_learning_material_x_mesh`
                                       JOIN `session_learning_material` ON `session_learning_material_x_mesh`.`session_learning_material_id`
                                                             						= `session_learning_material`.`session_learning_material_id`
-                                      JOIN `session` ON `session`.`session_id` = `session_learning_material`.`session_id`                      						
+                                      JOIN `session` ON `session`.`session_id` = `session_learning_material`.`session_id`
                                      WHERE `session`.`session_type_id` = ' . $clean['id'] .'
                                        AND `session`.`deleted` = FALSE
                                   UNION
@@ -3056,7 +3028,7 @@ EOL;
             }
 
             if (strlen($queryString) > 0) {
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
             }
         }
 

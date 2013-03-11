@@ -580,7 +580,7 @@ class Course_Management extends Abstract_Ilios_Controller
         $endDate = $this->input->get_post('end_date');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -726,7 +726,7 @@ class Course_Management extends Abstract_Ilios_Controller
                 $rhett['error'] = $msg;
             } else {
                 $failedTransaction = true;
-                $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+                $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
                 do {
                     $auditAtoms = array();
 
@@ -865,7 +865,7 @@ class Course_Management extends Abstract_Ilios_Controller
         $title = Ilios_CharEncoding::utf8UrlDecode($this->input->post('title'));
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -928,7 +928,7 @@ class Course_Management extends Abstract_Ilios_Controller
         $archiveAlso = ($this->input->get_post('archive') == 'true');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -1119,7 +1119,7 @@ class Course_Management extends Abstract_Ilios_Controller
         // input processing
         //
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -1280,7 +1280,7 @@ class Course_Management extends Abstract_Ilios_Controller
         $containerNumber = $this->input->get_post('cnumber');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 

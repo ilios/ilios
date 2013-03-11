@@ -197,7 +197,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             }
 
             $failedTransaction = true;
-            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
             do {
                 $auditAtoms = array();
 
@@ -308,7 +308,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $primarySchoolId = $this->session->userdata('school_id');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -389,7 +389,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $containerNumber = $this->input->get_post('next_container');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -458,7 +458,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         }
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -522,7 +522,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $users = json_decode($this->input->get_post('users'), true);
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
