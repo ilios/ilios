@@ -12,8 +12,6 @@ class Cohort extends Abstract_Ilios_Model
     {
         parent::__construct('cohort', array('cohort_id'));
 
-        $this->createDBHandle();
-
         $this->load->model('Group', 'group', TRUE);
         $this->load->model('User', 'user', TRUE);
     }
@@ -39,9 +37,7 @@ WHERE `cohort`.`cohort_id` = {$clean['cohort_id']}
 AND `cohort`.`program_year_id` = `program_year`.`program_year_id`
 AND `program`.`program_id` = `program_year`.`program_id`
 EOL;
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         // there will only ever be at most 1 row
         foreach ($queryResults->result_array() as $row) {
             $rhett['program_title'] = $row['program_title'];
@@ -62,11 +58,9 @@ EOL;
     {
         $rhett = null;
 
-        $DB = $this->dbHandle;
+        $this->db->where('program_year_id', $programYearId);
 
-        $DB->where('program_year_id', $programYearId);
-
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         if ($queryResults->num_rows() > 0) {
             $rhett = $queryResults->first_row();
@@ -82,11 +76,9 @@ EOL;
      */
     public function deleteCohortAndAssociationsForProgramYear ($programYearId, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
-        $DB->select('cohort_id');
-        $DB->where('program_year_id', $programYearId);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->select('cohort_id');
+        $this->db->where('program_year_id', $programYearId);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         if ($queryResults->num_rows() > 0) {
             $row = $queryResults->first_row();
@@ -105,13 +97,11 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
+        $this->db->select('cohort_id');
 
-        $DB->select('cohort_id');
+        $this->db->where('program_year_id', $programYearId);
 
-        $DB->where('program_year_id', $programYearId);
-
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         $cohortId = -1;
         if ($queryResults->num_rows() > 0) {
@@ -134,13 +124,11 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
+        $this->db->where('cohort_master_group.cohort_id', $cohortId);
+        $this->db->join('group', 'cohort_master_group.group_id = group.group_id');
+        $this->db->order_by('group.title');
 
-        $DB->where('cohort_master_group.cohort_id', $cohortId);
-        $DB->join('group', 'cohort_master_group.group_id = group.group_id');
-        $DB->order_by('group.title');
-
-        $queryResults = $DB->get('cohort_master_group');
+        $queryResults = $this->db->get('cohort_master_group');
 
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row['group_id']);
@@ -174,7 +162,6 @@ EOL;
     {
         $clean = array();
         $clean['cohort_id'] = (int) $cohortId;
-        $DB = $this->dbHandle;
 
         $queryString =<<< EOL
 SELECT `cohort`.`title` AS `cohort_title`,
@@ -185,9 +172,7 @@ JOIN `cohort` ON `cohort`.`program_year_id` = `program_year`.`program_year_id`
 WHERE `cohort`.`cohort_id` = {$clean['cohort_id']}
 EOL;
 
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         if ($queryResults->num_rows() == 0) {
             return '';
         }
@@ -281,9 +266,7 @@ FROM (
 ) AS d
 ORDER BY d.program_title, d.cohort_title
 EOL;
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         foreach ($queryResults->result_array() as $row) {
             if (array_key_exists($row['program_title'], $map)) {
@@ -334,8 +317,6 @@ EOL;
      */
     public function getProgramCohortsGroupedBySchool ()
     {
-        $DB = $this->dbHandle;
-
         $clean = array();
 
         $sql =<<<EOL
@@ -355,7 +336,7 @@ WHERE `school`.`deleted` = 0
 ORDER BY `program_title`, `cohort_title`, `start_year`
 EOL;
 
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         if (! $query->num_rows()) {
             return array();
         }
@@ -391,8 +372,6 @@ EOL;
      */
     public function getPrimaryCohortForUser ($userId)
     {
-        $DB = $this->dbHandle;
-
         $clean = array();
         $clean['user_id'] = (int) $userId;
 
@@ -412,7 +391,7 @@ WHERE `user_x_cohort`.`user_id` = {$clean['user_id']}
 AND `user_x_cohort`.`is_primary` = 1
 EOL;
 
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         if (! $query->num_rows()) {
             return false;
         }
@@ -431,8 +410,6 @@ EOL;
      */
     public function getSecondaryCohortsForUser ($userId)
     {
-        $DB = $this->dbHandle;
-
         $clean = array();
         $clean['user_id'] = (int) $userId;
 
@@ -453,7 +430,7 @@ AND `user_x_cohort`.`is_primary` = 0
 ORDER BY `program_title`, `cohort_title`, `start_year`
 EOL;
 
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         if (! $query->num_rows()) {
             return array();
         }
@@ -478,16 +455,14 @@ EOL;
     protected function _deleteCohort ($cohortId, &$auditAtoms)
     {
         // todo audit events
-        $DB = $this->dbHandle;
-
         $tables = array('course_x_cohort', $this->databaseTableName);
 
-        $DB->where('cohort_id', $cohortId);
-        $DB->delete($tables);
+        $this->db->where('cohort_id', $cohortId);
+        $this->db->delete($tables);
 
         $rhett = (! $this->transactionAtomFailed());
         if ($rhett) {
-            $rhett = ($DB->affected_rows() == 0) ? false : true;
+            $rhett = ($this->db->affected_rows() == 0) ? false : true;
         }
 
         if ($rhett) {

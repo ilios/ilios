@@ -317,7 +317,7 @@ class Program_Management extends Abstract_Ilios_Controller
             $publish = $this->input->get_post('publish');
 
             $failedTransaction = true;
-            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
             do {
                 $auditAtoms = array();
 
@@ -407,7 +407,7 @@ class Program_Management extends Abstract_Ilios_Controller
             $duration = $this->input->get_post('duration');
 
             $failedTransaction = true;
-            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
             do {
                 $auditAtoms = array();
 
@@ -481,7 +481,7 @@ class Program_Management extends Abstract_Ilios_Controller
             $rhett['error'] = $msg;
         } else {
             $failedTransaction = true;
-            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
             do {
                 $auditAtoms = array();
 
@@ -540,7 +540,7 @@ class Program_Management extends Abstract_Ilios_Controller
         $archiveAlso = ($this->input->get_post('archive') == 'true');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -644,7 +644,7 @@ class Program_Management extends Abstract_Ilios_Controller
         $newProgramYear = ($programYearId == - 1);
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 

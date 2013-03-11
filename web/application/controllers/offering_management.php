@@ -317,7 +317,7 @@ class Offering_Management extends Abstract_Ilios_Controller
         }
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
             unset($rhett['error']);
@@ -489,7 +489,7 @@ class Offering_Management extends Abstract_Ilios_Controller
         $rhett['calendar_id'] = $calendarId;
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 

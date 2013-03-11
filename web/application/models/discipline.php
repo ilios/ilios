@@ -13,8 +13,6 @@ class Discipline extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('discipline', array('discipline_id'));
-
-        $this->createDBHandle();
     }
 
     /**
@@ -42,11 +40,9 @@ class Discipline extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('owning_school_id', $schoolId);
-        $DB->order_by('title', 'asc');
-        $result = $DB->get($this->databaseTableName);
+        $this->db->where('owning_school_id', $schoolId);
+        $this->db->order_by('title', 'asc');
+        $result = $this->db->get($this->databaseTableName);
 
         foreach ($result->result_array() as $row) {
             $id = $row['discipline_id'];
@@ -67,9 +63,8 @@ class Discipline extends Abstract_Ilios_Model
      */
     protected function _searchDisciplinesByTitle ($title, $schoolId)
     {
-        $DB = $this->dbHandle;
         $clean = array();
-        $clean['title'] = $DB->escape_like_str($title);
+        $clean['title'] = $this->db->escape_like_str($title);
         $clean['school_id'] = (int) $schoolId;
 
         $len = strlen($title);
@@ -83,7 +78,7 @@ class Discipline extends Abstract_Ilios_Model
         	$sql = 'CALL disciplines_for_title_restricted_by_school('
                 . '"%' . $clean['title'] . '%", ' . $clean['school_id']  . ')';
         }
-        return $DB->query($sql);
+        return $this->db->query($sql);
     }
 
     /**
@@ -94,11 +89,10 @@ class Discipline extends Abstract_Ilios_Model
      */
     protected function _getDisciplines ($schoolId)
     {
-        $DB = $this->dbHandle;
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
         $queryString = 'CALL disciplines_for_title_restricted_by_school('
                      . '"%%", ' . $clean['school_id']  . ')';
-        return $DB->query($queryString);
+        return $this->db->query($queryString);
     }
 }

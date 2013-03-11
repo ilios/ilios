@@ -13,7 +13,6 @@ class Course_Clerkship_Type extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('course_clerkship_type', array('course_clerkship_type_id'));
-        $this->createDBHandle();
     }
 
     /**
@@ -24,10 +23,9 @@ class Course_Clerkship_Type extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $DB->order_by('title');
+        $this->db->order_by('title');
 
-        $result = $DB->get($this->databaseTableName);
+        $result = $this->db->get($this->databaseTableName);
 
         foreach ($result->result_array() as $row) {
             $rhett[] = $row;
@@ -43,10 +41,9 @@ class Course_Clerkship_Type extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $DB->order_by('title');
+        $this->db->order_by('title');
 
-        $result = $DB->get($this->databaseTableName);
+        $result = $this->db->get($this->databaseTableName);
 
         foreach ($result->result_array() as $row) {
             $rhett[$row['course_clerkship_type_id']] = $row['title'];

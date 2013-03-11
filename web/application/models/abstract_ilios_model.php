@@ -19,8 +19,6 @@ abstract class Abstract_Ilios_Model extends CI_Model
     protected $databaseTableName;
     protected $databaseTablePrimaryKeyArray;
 
-    protected $dbHandle;
-
     /**
      * @param tableName the name of the table within the database which this model represents
      * @param primaryKeyArray an array of 0-N primary keys for the associated table
@@ -28,8 +26,6 @@ abstract class Abstract_Ilios_Model extends CI_Model
     public function __construct ($tableName = 'none', $primaryKeyArray = array())
     {
         parent::__construct();
-
-        $this->dbHandle = null;
 
         $this->databaseTableName = $tableName;
         $this->databaseTablePrimaryKeyArray = $primaryKeyArray;
@@ -50,7 +46,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
      */
     public function startTransaction ()
     {
-        $this->dbHandle->trans_start();
+        $this->db->trans_start();
     }
 
     /**
@@ -58,7 +54,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
      */
     public function transactionAtomFailed ()
     {
-        return ($this->dbHandle->trans_status() === FALSE);
+        return ($this->db->trans_status() === FALSE);
     }
 
     /**
@@ -66,7 +62,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
      */
     public function commitTransaction ()
     {
-        $this->dbHandle->trans_commit();
+        $this->db->trans_commit();
     }
 
     /**
@@ -74,22 +70,20 @@ abstract class Abstract_Ilios_Model extends CI_Model
      */
     public function rollbackTransaction ()
     {
-        $this->dbHandle->trans_rollback();
+        $this->db->trans_rollback();
     }
 
     // many subclasses will want to return entire rows based on title closeness match, so we
     //      provide that functionality here
     public function returnRowsFilteredOnTitleMatch ($match, $checkForDelete = false)
     {
-        $DB = $this->dbHandle;
-
-        $DB->like('title', $match, 'both');
+        $this->db->like('title', $match, 'both');
         if ($checkForDelete) {
-            $DB->where('deleted', 0);
+            $this->db->where('deleted', 0);
         }
-        $DB->order_by('title');
+        $this->db->order_by('title');
 
-        return $DB->get($this->databaseTableName);
+        return $this->db->get($this->databaseTableName);
     }
 
     /**
@@ -121,19 +115,18 @@ abstract class Abstract_Ilios_Model extends CI_Model
      */
     public function getRow ($tableName, $rowName, $id, $checkForDelete = false, $schoolId = null)
     {
-        $DB = $this->dbHandle;
         $queryResults = null;
 
-        $DB->where($rowName, $id);
+        $this->db->where($rowName, $id);
         if ($checkForDelete) {
-            $DB->where('deleted', 0);
+            $this->db->where('deleted', 0);
         }
 
         if ($schoolId != null) {
-            $DB->where('owning_school_id', $schoolId);
+            $this->db->where('owning_school_id', $schoolId);
         }
 
-        $queryResults = $DB->get($tableName);
+        $queryResults = $this->db->get($tableName);
 
         if (is_null($queryResults) || ($queryResults->num_rows() == 0)) {
             return null;
@@ -149,28 +142,16 @@ abstract class Abstract_Ilios_Model extends CI_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         if ($checkForDelete) {
-            $DB->where('deleted', 0);
+            $this->db->where('deleted', 0);
         }
 
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
         }
 
         return $rhett;
-    }
-
-    /**
-     * @todo add code docs
-     */
-    protected function createDBHandle ()
-    {
-        $this->load->database();
-
-        $this->dbHandle = $this->db;
     }
 
     /**
@@ -202,13 +183,12 @@ abstract class Abstract_Ilios_Model extends CI_Model
      * @return array|NULL
      */
     protected function getIdArrayFromCrossTable ($table, $column, $uniquingColumn, $uniquingId) {
-        $DB = $this->dbHandle;
         $queryResults = null;
         $rhett = null;
 
-        $DB->select($column);
-        $DB->where($uniquingColumn, $uniquingId);
-        $queryResults = $DB->get($table);
+        $this->db->select($column);
+        $this->db->where($uniquingColumn, $uniquingId);
+        $queryResults = $this->db->get($table);
 
         if ($queryResults->num_rows() > 0) {
             $rhett = array();
@@ -228,18 +208,16 @@ abstract class Abstract_Ilios_Model extends CI_Model
     protected function insertSingleCrossTablePair ($tableName, $keyA, $valueA, $keyB, $valueB) {
         $rhett = 0;
 
-        $DB = $this->dbHandle;
-
-        $DB->where($keyA, $valueA);
-        $DB->where($keyB, $valueB);
-        $queryResults = $DB->get($tableName);
+        $this->db->where($keyA, $valueA);
+        $this->db->where($keyB, $valueB);
+        $queryResults = $this->db->get($tableName);
         if ($queryResults->num_rows() == 0) {
             $newRow = array();
             $newRow[$keyA] = $valueA;
             $newRow[$keyB] = $valueB;
 
-            $DB->insert($tableName, $newRow);
-            if ($DB->affected_rows() == 1) {
+            $this->db->insert($tableName, $newRow);
+            if ($this->db->affected_rows() == 1) {
                 $rhett = 1;
             }
         }
@@ -255,7 +233,6 @@ abstract class Abstract_Ilios_Model extends CI_Model
      * in a given JOIN table.
      * - new associations will be added
      * - missing associations will be removed
-
      * @param string $joinTblName name of the JOIN table
      * @param string $joinColName name of the column in the JOIN table that references the given record id in table A
      * @param int $joinId the record id from table A
@@ -309,12 +286,11 @@ abstract class Abstract_Ilios_Model extends CI_Model
         $refIds = array_unique($refIds); // de-dupe
         $refIds = array_filter($refIds); // remove falsy values -  this gets rid of NULLs
         if (count($refIds)) {
-        	$DB = $this->dbHandle;
         	foreach ($refIds as $id) {
         		$row = array();
         		$row[$joinColName] = $joinId;
         		$row[$refColName] = $id;
-        		$DB->insert($joinTblName, $row);
+        		$this->db->insert($joinTblName, $row);
         	}
         	$auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId,
         			$joinColName, $joinTblName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
@@ -337,10 +313,9 @@ abstract class Abstract_Ilios_Model extends CI_Model
         $refIds = array_unique($refIds); // de-dupe
         $refIds = array_filter($refIds); // remove falsy values -  this gets rid of NULLs
         if (count($refIds)) {
-        	$DB = $this->dbHandle;
-        	$DB->where($joinColName, $joinId);
-        	$DB->where_in($refColName, $refIds);
-        	$DB->delete($joinTblName);
+        	$this->db->where($joinColName, $joinId);
+        	$this->db->where_in($refColName, $refIds);
+        	$this->db->delete($joinTblName);
         	$auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId,
         	        $joinColName, $joinTblName, Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
@@ -368,10 +343,8 @@ abstract class Abstract_Ilios_Model extends CI_Model
      */
     protected function performCrossTableInserts (array $modelArray, $tableName, $columnName,
     		$uniquingColumn, $uniquingId, $idColumnName = 'dbId') {
-    	$DB = $this->dbHandle;
-
-    	$DB->where($uniquingColumn, $uniquingId);
-    	$DB->delete($tableName);
+    	$this->db->where($uniquingColumn, $uniquingId);
+    	$this->db->delete($tableName);
 
     	foreach ($modelArray as $key => $val) {
     		$newRow = array();
@@ -379,7 +352,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
     		$newRow[$uniquingColumn] = $uniquingId;
     		$newRow[$columnName] = $val[$idColumnName];
 
-    		$DB->insert($tableName, $newRow);
+    		$this->db->insert($tableName, $newRow);
     	}
     }
 
@@ -441,10 +414,8 @@ abstract class Abstract_Ilios_Model extends CI_Model
 
         $shouldCopyParentAttributes = ($rolloverIsSameAcademicYear || ($parentMap != null));
 
-        $DB = $this->dbHandle;
-
-        $DB->where($crossTableRowName, $crossTableId);
-        $queryResults = $DB->get($crossTableName);
+        $this->db->where($crossTableRowName, $crossTableId);
+        $queryResults = $this->db->get($crossTableName);
         $objectiveIds = array();
         foreach ($queryResults->result_array() as $row) {
             array_push($objectiveIds, $row['objective_id']);
@@ -460,9 +431,9 @@ abstract class Abstract_Ilios_Model extends CI_Model
             $newRow['competency_id'] = $rolloverIsSameAcademicYear ? $objectiveRow->competency_id
                                                                    : null;
 
-            $DB->insert($this->objective->getTableName(), $newRow);
+            $this->db->insert($this->objective->getTableName(), $newRow);
             $pair = array();
-            $pair['new'] = $DB->insert_id();
+            $pair['new'] = $this->db->insert_id();
             $pair['original'] = $objectiveId;
 
             array_push($objectiveIdPairs, $pair);
@@ -471,16 +442,16 @@ abstract class Abstract_Ilios_Model extends CI_Model
             $newRow = array();
             $newRow[$crossTableRowName] = $newCrossTableId;
             $newRow['objective_id'] = $objectiveIdPair['new'];
-            $DB->insert($crossTableName, $newRow);
+            $this->db->insert($crossTableName, $newRow);
 
             $queryString = 'SELECT copy_objective_attributes_to_objective('
                             . $objectiveIdPair['original'] . ', ' . $objectiveIdPair['new']
                             . ($shouldCopyParentAttributes ? ', 1' : ', 0') . ')';
-            $DB->query($queryString);
+            $this->db->query($queryString);
 
             if ($parentMap != null) {
-                $DB->where('objective_id', $objectiveIdPair['new']);
-                $queryResults = $DB->get('objective_x_objective');
+                $this->db->where('objective_id', $objectiveIdPair['new']);
+                $queryResults = $this->db->get('objective_x_objective');
 
                 $updateList = array();
                 foreach ($queryResults->result_array() as $row) {
@@ -497,13 +468,13 @@ abstract class Abstract_Ilios_Model extends CI_Model
                 }
 
                 foreach ($updateList as $updateTriplet) {
-                    $DB->where('objective_id', $updateTriplet['oid']);
-                    $DB->where('parent_objective_id', $updateTriplet['original_poid']);
+                    $this->db->where('objective_id', $updateTriplet['oid']);
+                    $this->db->where('parent_objective_id', $updateTriplet['original_poid']);
 
                     $updateRow = array();
                     $updateRow['parent_objective_id'] = $updateTriplet['new_poid'];
 
-                    $DB->update('objective_x_objective', $updateRow);
+                    $this->db->update('objective_x_objective', $updateRow);
                 }
             }
         }

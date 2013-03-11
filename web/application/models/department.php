@@ -11,8 +11,6 @@ class Department extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('department', array('department_id'));
-
-        $this->createDBHandle();
     }
 
     /**
@@ -24,13 +22,11 @@ class Department extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
+        $this->db->where('deleted', 0);
+        $this->db->where('school_id', $schoolId);
+        $this->db->order_by('title', 'desc');
 
-        $DB->where('deleted', 0);
-        $DB->where('school_id', $schoolId);
-        $DB->order_by('title', 'desc');
-
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
             $model = array();
 

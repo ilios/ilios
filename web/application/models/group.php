@@ -12,8 +12,6 @@ class Group extends Abstract_Ilios_Model
     {
         parent::__construct('group', array('group_id'));
 
-        $this->createDBHandle();
-
         $this->load->model('Canned_Queries', 'queries', TRUE);
         $this->load->model('User', 'user', TRUE);
         $this->load->model('Instructor_Group', 'instructorGroup', TRUE);
@@ -40,8 +38,7 @@ class Group extends Abstract_Ilios_Model
                                 .           'AND `group_x_user`.`group_id` = `group`.`group_id` '
                                 .           'AND `group`.`parent_group_id` IS NOT NULL';
 
-            $DB = $this->dbHandle;
-            $guResults = $DB->query($queryString);
+            $guResults = $this->db->query($queryString);
             if ($guResults->num_rows() == 0) {
                 $model['parent_chain'] = $this->getParentChain($rootGroupId);
             }
@@ -88,9 +85,7 @@ class Group extends Abstract_Ilios_Model
 
         $rhett['group_id'] = $this->makeNewRow($rhett['group_title'], $masterGroupId, $auditAtoms);
 
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         $rhett['enrollment'] = $queryResults->num_rows();
 
         // due to trying to perform inserts midst loop of the stored proc return, receiving:
@@ -112,7 +107,7 @@ class Group extends Abstract_Ilios_Model
     /**
      * Associates a given group with a given list of users, and, optionally,
      * disassociates these users from another given group.
-     * 
+     *
      * @param array $userIds a list of user ids
      * @param int $groupId the id of the group to associate users with
      * @param array $auditAtoms the audit trail
@@ -121,32 +116,30 @@ class Group extends Abstract_Ilios_Model
      */
     public function makeUserGroupAssociations ($userIds, $groupId, &$auditAtoms, $deleteFromId = null)
     {
-        $DB = $this->dbHandle;
-
         foreach ($userIds as $uid) {
             $newRow = array();
             $newRow['group_id'] = $groupId;
             $newRow['user_id'] = $uid;
 
-            $DB->insert('group_x_user', $newRow);
+            $this->db->insert('group_x_user', $newRow);
 
-            if ($this->transactionAtomFailed() || ($DB->affected_rows() == 0)) {
+            if ($this->transactionAtomFailed() || ($this->db->affected_rows() == 0)) {
                 return false;
             }
 
-            $auditAtoms[] = $this->auditEvent->wrapAtom($uid, 'user_id', 'group_x_user', Audit_Event::$CREATE_EVENT_TYPE);
+            $auditAtoms[] = $this->auditEvent->wrapAtom($uid, 'user_id', 'group_x_user', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
             if ($deleteFromId != null) {
-                $DB->where('group_id', $deleteFromId);
-                $DB->where('user_id', $uid);
+                $this->db->where('group_id', $deleteFromId);
+                $this->db->where('user_id', $uid);
 
-                $DB->delete('group_x_user');
+                $this->db->delete('group_x_user');
 
                 if ($this->transactionAtomFailed()) {
                     return false;
                 }
 
-                $auditAtoms[] = $this->auditEvent->wrapAtom($deleteFromId, 'group_id', 'group_x_user', Audit_Event::$DELETE_EVENT_TYPE);
+                $auditAtoms[] = $this->auditEvent->wrapAtom($deleteFromId, 'group_id', 'group_x_user', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
             }
         }
 
@@ -173,16 +166,14 @@ class Group extends Abstract_Ilios_Model
         }
         else {
             if ($parentGroupId == -1) {
-                $DB = $this->dbHandle;
-
                 $newRow = array();
                 $newRow['cohort_id'] = $cohortId;
                 $newRow['group_id'] = $newId;
 
-                $DB->insert('cohort_master_group', $newRow);
+                $this->db->insert('cohort_master_group', $newRow);
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($newId, 'group_id', 'cohort_master_group',
-                                                       Audit_Event::$CREATE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
                 $queryResults = $this->user->getUsersForCohort($cohortId);
                 foreach ($queryResults->result_array() as $row) {
@@ -190,10 +181,10 @@ class Group extends Abstract_Ilios_Model
                     $newRow['user_id'] = $row['user_id'];
                     $newRow['group_id'] = $newId;
 
-                    $DB->insert('group_x_user', $newRow);
+                    $this->db->insert('group_x_user', $newRow);
                     array_push($auditAtoms,
                                $this->auditEvent->wrapAtom($newId, 'group_id', 'group_x_user',
-                                                           Audit_Event::$CREATE_EVENT_TYPE));
+                                                           Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
                 }
             }
 
@@ -214,11 +205,10 @@ class Group extends Abstract_Ilios_Model
         $rhett = -1;
 
         if ($this->getRowForPrimaryKeyId($groupId) != null) {
-            $DB = $this->dbHandle;
 
-            $DB->where('group_id', $groupId);
+            $this->db->where('group_id', $groupId);
 
-            $queryResults = $DB->get('group_x_user');
+            $queryResults = $this->db->get('group_x_user');
 
             $rhett = $queryResults->num_rows();
         }
@@ -235,15 +225,14 @@ class Group extends Abstract_Ilios_Model
         $rhett = null;
 
         if ($this->getRowForPrimaryKeyId($groupId) != null) {
-            $DB = $this->dbHandle;
-            $DB->select('user.*');
-            $DB->where('group_x_user.group_id', $groupId);
-            $DB->join('user', 'group_x_user.user_id = user.user_id');
-            $DB->order_by('user.last_name', 'ASC');
-            $DB->order_by('user.first_name', 'ASC');
-            $DB->order_by('user.middle_name', 'ASC');
-            $DB->order_by('user.user_id', 'ASC');
-            $queryResults = $DB->get('group_x_user');
+            $this->db->select('user.*');
+            $this->db->where('group_x_user.group_id', $groupId);
+            $this->db->join('user', 'group_x_user.user_id = user.user_id');
+            $this->db->order_by('user.last_name', 'ASC');
+            $this->db->order_by('user.first_name', 'ASC');
+            $this->db->order_by('user.middle_name', 'ASC');
+            $this->db->order_by('user.user_id', 'ASC');
+            $queryResults = $this->db->get('group_x_user');
 
             $rhett = array();
 
@@ -261,30 +250,28 @@ class Group extends Abstract_Ilios_Model
      */
     public function deleteUserGroupAssociationForGroupIds ($groupIdArray, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $aGID = 0;
         $len = count($groupIdArray);
 
         for ($i = 0; $i < $len; $i++) {
             if ($i == 0) {
-                $DB->where('group_id', $groupIdArray[$i]);
+                $this->db->where('group_id', $groupIdArray[$i]);
             }
             else {
-                $DB->or_where('group_id', $groupIdArray[$i]);
+                $this->db->or_where('group_id', $groupIdArray[$i]);
             }
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($groupIdArray[$i], 'group_id',
                                                                 'group_x_user',
-                                                                Audit_Event::$DELETE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         }
 
-        $DB->delete('group_x_user');
+        $this->db->delete('group_x_user');
 
         $rhett = $this->transactionAtomFailed();
 
         if (! $rhett) {
-            $rhett = ($DB->affected_rows() == 0) ? false : true;
+            $rhett = ($this->db->affected_rows() == 0) ? false : true;
         }
 
         return $rhett;
@@ -309,11 +296,9 @@ class Group extends Abstract_Ilios_Model
         if ($this->getRowForPrimaryKeyId($groupId) != null) {
             $rhett = array();
 
-            $DB = $this->dbHandle;
-
-            $DB->where('parent_group_id', $groupId);
-            $DB->order_by('group_id', 'asc');
-            $queryResults = $DB->get($this->databaseTableName);
+            $this->db->where('parent_group_id', $groupId);
+            $this->db->order_by('group_id', 'asc');
+            $queryResults = $this->db->get($this->databaseTableName);
 
             foreach ($queryResults->result_array() as $row) {
                 $modelArray = $this->getModelArrayForGroupRow($row);
@@ -332,11 +317,9 @@ class Group extends Abstract_Ilios_Model
 
     public function getQueryResultsForInstructorsForGroup ($groupId)
     {
-        $DB = $this->dbHandle;
+        $this->db->where('group_id', $groupId);
 
-        $DB->where('group_id', $groupId);
-
-        return $DB->get('group_default_instructor');
+        return $this->db->get('group_default_instructor');
     }
 
     /**
@@ -344,10 +327,8 @@ class Group extends Abstract_Ilios_Model
      */
     public function getModelArrayForGroupId ($groupId)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('group_id', $groupId);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('group_id', $groupId);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             return $this->getModelArrayForGroupRow($row);
@@ -357,42 +338,40 @@ class Group extends Abstract_Ilios_Model
     }
 
     /**
-     * Deletes a given group, its sub-groups (recursively) 
+     * Deletes a given group, its sub-groups (recursively)
      * and any cohort/session/offering associations to it.
-     * 
+     *
      * Transactions must be handled outside this method.
-     * 
+     *
      * @param $groupId the group id
      * @return boolean currently always TRUE.
      * @todo update code to conditionally return TRUE based on whether an an actual deletion occurred or not.
      */
     public function deleteGroupWithGroupId ($groupId)
     {
-        $DB = $this->dbHandle;
-
         // descend subgroup tree recursively
         // and work our way up to capture the entire user reassign
-        $DB->where('parent_group_id', $groupId);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('parent_group_id', $groupId);
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
             $this->deleteGroupWithGroupId($row['group_id']);
         }
 
         // delete group associations
-        $DB->where('group_id', $groupId);
-        $DB->delete('group_x_user');
+        $this->db->where('group_id', $groupId);
+        $this->db->delete('group_x_user');
 
-        $DB->where('group_id', $groupId);
-        $DB->delete('cohort_master_group');
+        $this->db->where('group_id', $groupId);
+        $this->db->delete('cohort_master_group');
 
-        $DB->where('group_id', $groupId);
-        $DB->delete('offering_learner');
+        $this->db->where('group_id', $groupId);
+        $this->db->delete('offering_learner');
 
-        $DB->where('group_id', $groupId);
-        $DB->delete('ilm_session_facet_learner');
+        $this->db->where('group_id', $groupId);
+        $this->db->delete('ilm_session_facet_learner');
 
-        $DB->where('group_id', $groupId);
-        $DB->delete($this->databaseTableName);
+        $this->db->where('group_id', $groupId);
+        $this->db->delete($this->databaseTableName);
 
         return true;
     }
@@ -407,13 +386,11 @@ class Group extends Abstract_Ilios_Model
     public function saveGroupForGroupId ($groupId, $title, $instructors, $location,
         $parentGroupId, &$auditAtoms, $checkUniqueTitle = true)
     {
-        $DB = $this->dbHandle;
-
         if ($checkUniqueTitle) {
-            $DB->where('parent_group_id', $parentGroupId);
-            $DB->where('title', $title);
-            $DB->where('group_id !=', $groupId);
-            $queryResults = $DB->get($this->databaseTableName);
+            $this->db->where('parent_group_id', $parentGroupId);
+            $this->db->where('title', $title);
+            $this->db->where('group_id !=', $groupId);
+            $queryResults = $this->db->get($this->databaseTableName);
             if ($queryResults->num_rows() > 0) {
                 $lang = $this->getLangToUse();
                 $msg = $this->i18nVendor->getI18NString('groups.error.preexisting_title', $lang);
@@ -427,12 +404,12 @@ class Group extends Abstract_Ilios_Model
         $updatedRow['title'] = $title;
         $updatedRow['location'] = is_null($location) ? '' : $location;
 
-        $DB->where('group_id', $groupId);
-        $DB->update($this->databaseTableName, $updatedRow);
+        $this->db->where('group_id', $groupId);
+        $this->db->update($this->databaseTableName, $updatedRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         $this->deleteInstructorsForGroup($groupId, $auditAtoms);
         $this->saveInstructorsForGroup($groupId, $instructors, $auditAtoms);
@@ -440,9 +417,8 @@ class Group extends Abstract_Ilios_Model
         return null;
     }
 
-    protected function saveInstructorsForGroup ($groupId, $instructors, &$auditAtoms) {
-        $DB = $this->dbHandle;
-
+    protected function saveInstructorsForGroup ($groupId, $instructors, &$auditAtoms)
+    {
         foreach ($instructors as $instructorModel) {
             $newRow = array();
             $newRow['group_id'] = $groupId;
@@ -453,11 +429,11 @@ class Group extends Abstract_Ilios_Model
             }
             $newRow[$columnName] = $instructorModel['dbId'];
 
-            $DB->insert('group_default_instructor', $newRow);
+            $this->db->insert('group_default_instructor', $newRow);
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
                                                                 'group_default_instructor',
-                                                                Audit_Event::$CREATE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
         }
     }
 
@@ -470,15 +446,14 @@ class Group extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
         $row = null;
 
         $groupId = $startingGroupId;
 
         do {
-            $DB->where('group_id', $groupId);
+            $this->db->where('group_id', $groupId);
 
-            $queryResults = $DB->get($this->databaseTableName);
+            $queryResults = $this->db->get($this->databaseTableName);
             $row = $queryResults->first_row();
 
             if ($row != null) {
@@ -504,13 +479,12 @@ class Group extends Abstract_Ilios_Model
         $newRow['title'] = $title;
         $newRow['parent_group_id'] = (($parentGroupId < 1) ? null : $parentGroupId);
 
-        $DB = $this->dbHandle;
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newId = $DB->insert_id();
+        $newId = $this->db->insert_id();
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'group_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         return $newId;
     }
@@ -578,15 +552,14 @@ class Group extends Abstract_Ilios_Model
     /**
      * Transactions must be handled outside this method
      */
-    protected function deleteInstructorsForGroup ($groupId, &$auditAtoms) {
-        $DB = $this->dbHandle;
-
-        $DB->where('group_id', $groupId);
-        $DB->delete('group_default_instructor');
+    protected function deleteInstructorsForGroup ($groupId, &$auditAtoms)
+    {
+        $this->db->where('group_id', $groupId);
+        $this->db->delete('group_default_instructor');
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
                                                             'group_default_instructor',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
     }
 }
 
