@@ -46,7 +46,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
         // not extra authorization check here, learning materials are readable by all logged in users.
         $learningMaterialId = $this->input->get_post('learning_material_id');
         $rhett = $this->learningMaterial->getAssetPathAndFilenameAndType($learningMaterialId);
-        
+
         //we have the filepath at this point ($rhett[2]), so let's make sure it's there...
         if(is_file($rhett[2])){
           //if the file exists, start streaming!
@@ -90,7 +90,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
         $rhett['learning_material_id'] = $learningMaterialId;
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -497,11 +497,11 @@ class Learning_Materials extends Abstract_Ilios_Controller
                     $rhett['error'] = $this->i18nVendor->getI18NString('general.error.file_rename', $lang);
                 }
             }
-            
+
 
             if (! isset($rhett['error'])) {
                 $failedTransaction = true;
-                $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+                $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
                 do {
                     $auditAtoms = array();
 

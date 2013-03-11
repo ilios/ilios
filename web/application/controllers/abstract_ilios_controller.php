@@ -8,8 +8,6 @@
  */
 abstract class Abstract_Ilios_Controller extends CI_Controller
 {
-    static public $DB_TRANSACTION_RETRY_COUNT = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
-
     protected $divertedForAuthentication;
 
     public function __construct ()
@@ -331,7 +329,7 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
         $pairs = json_decode(urldecode($this->input->get_post('selection_pairs')), true);
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             unset($rhett['error']);
 
