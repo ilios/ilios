@@ -14,8 +14,6 @@ class Instructor_Group extends Abstract_Ilios_Model
     {
         parent::__construct('instructor_group', array('instructor_group_id'));
 
-        $this->createDBHandle();
-
         $this->load->model('User', 'user', TRUE);
     }
 
@@ -66,8 +64,7 @@ AND c.`deleted` = 0
 AND s.`deleted` = 0
 
 EOL;
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($sql);
+        $queryResults = $this->db->query($sql);
         return (0 < $queryResults->num_rows() ? true : false);
     }
 
@@ -76,16 +73,14 @@ EOL;
      */
     public function makeUserGroupAssociations ($userIds, $groupId, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         foreach ($userIds as $uid) {
             $newRow = array();
             $newRow['instructor_group_id'] = $groupId;
             $newRow['user_id'] = $uid;
 
-            $DB->insert('instructor_group_x_user', $newRow);
+            $this->db->insert('instructor_group_x_user', $newRow);
 
-            if (($DB->affected_rows() == 0) || $this->transactionAtomFailed()) {
+            if (($this->db->affected_rows() == 0) || $this->transactionAtomFailed()) {
                 return false;
             }
 
@@ -136,11 +131,10 @@ EOL;
         $rhett = -1;
 
         if ($this->getRowForPrimaryKeyId($groupId) != null) {
-            $DB = $this->dbHandle;
 
-            $DB->where('instructor_group_id', $groupId);
+            $this->db->where('instructor_group_id', $groupId);
 
-            $queryResults = $DB->get('instructor_group_x_user');
+            $queryResults = $this->db->get('instructor_group_x_user');
 
             $rhett = $queryResults->num_rows();
         }
@@ -157,13 +151,12 @@ EOL;
         $rhett = null;
 
         if ($this->getRowForPrimaryKeyId($groupId) != null) {
-            $DB = $this->dbHandle;
-            $DB->select('user.*');
-            $DB->from('instructor_group_x_user');
-            $DB->join("user", "instructor_group_x_user.user_id = user.user_id");
-            $DB->where('instructor_group_x_user.instructor_group_id', $groupId);
-            $DB->order_by("user.last_name, user.first_name, user.middle_name");
-            $queryResults = $DB->get();
+            $this->db->select('user.*');
+            $this->db->from('instructor_group_x_user');
+            $this->db->join("user", "instructor_group_x_user.user_id = user.user_id");
+            $this->db->where('instructor_group_x_user.instructor_group_id', $groupId);
+            $this->db->order_by("user.last_name, user.first_name, user.middle_name");
+            $queryResults = $this->db->get();
             $rhett = $queryResults->result_array();
         }
 
@@ -177,11 +170,9 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('school_id', $schoolId);
-        $DB->order_by('title');
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('school_id', $schoolId);
+        $this->db->order_by('title');
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $this->getModelArrayForGroupRow($row));
@@ -200,18 +191,17 @@ EOL;
     public function getList ($schoolId, $search = '')
     {
         $rhett = array();
-        $DB = $this->dbHandle;
         if ('' !== trim($search)) {
             $len = strlen($search);
             if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
-                $DB->like('title', $search);
+                $this->db->like('title', $search);
             } else {
-                $DB->like('title', $search, 'after');
+                $this->db->like('title', $search, 'after');
             }
         };
-        $DB->where('school_id', $schoolId);
-        $DB->order_by('title');
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('school_id', $schoolId);
+        $this->db->order_by('title');
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
         	$rhett[] = $row;
         }
@@ -243,9 +233,8 @@ EOL;
         }
 
         // finally, delete the group itself
-        $DB = $this->dbHandle;
-        $DB->where('instructor_group_id', $groupId);
-        $DB->delete($this->databaseTableName);
+        $this->db->where('instructor_group_id', $groupId);
+        $this->db->delete($this->databaseTableName);
 
         if ($this->transactionAtomFailed()) {
             return false;
@@ -264,12 +253,10 @@ EOL;
      */
     public function saveGroup ($groupId, $schoolId, $title, $users, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('school_id', $schoolId);
-        $DB->where('title', $title);
-        $DB->where('instructor_group_id !=', $groupId);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('school_id', $schoolId);
+        $this->db->where('title', $title);
+        $this->db->where('instructor_group_id !=', $groupId);
+        $queryResults = $this->db->get($this->databaseTableName);
         if ($queryResults->num_rows() > 0) {
             $lang = $this->getLangToUse();
             $msg = $this->i18nVendor->getI18NString('instructor_groups.error.preexisting_title',
@@ -282,8 +269,8 @@ EOL;
 
         $updatedRow['title'] = $title;
 
-        $DB->where('instructor_group_id', $groupId);
-        $DB->update($this->databaseTableName, $updatedRow);
+        $this->db->where('instructor_group_id', $groupId);
+        $this->db->update($this->databaseTableName, $updatedRow);
 
         if ($this->transactionAtomFailed()) {
             return "There was a Database Deadlock error.";
@@ -319,10 +306,9 @@ EOL;
         $newRow['title'] = $title;
         $newRow['school_id'] = $schoolId;
 
-        $DB = $this->dbHandle;
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        return $DB->insert_id();
+        return $this->db->insert_id();
     }
 
     /**
@@ -360,10 +346,8 @@ EOL;
      */
     protected function _deleteUserAssociationsToGroup ($groupId, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('instructor_group_id', $groupId);
-        $DB->delete('instructor_group_x_user');
+        $this->db->where('instructor_group_id', $groupId);
+        $this->db->delete('instructor_group_x_user');
 
         if ($this->transactionAtomFailed()) {
             return false;
@@ -384,10 +368,8 @@ EOL;
      */
     protected function _deleteOfferingAssociationsToGroup ($groupId,  &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('instructor_group_id', $groupId);
-        $DB->delete('offering_instructor');
+        $this->db->where('instructor_group_id', $groupId);
+        $this->db->delete('offering_instructor');
 
         if ($this->transactionAtomFailed()) {
             return false;

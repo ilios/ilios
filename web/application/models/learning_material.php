@@ -33,7 +33,6 @@ class Learning_Material extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('learning_material', array('learning_material_id'));
-        $this->createDBHandle();
         $this->load->model('Mesh', 'mesh', TRUE);
         $this->load->model('User', 'user', TRUE);
     }
@@ -70,9 +69,7 @@ class Learning_Material extends Abstract_Ilios_Model
         $rhett = array();
         $clean = array();
 
-        $DB = $this->dbHandle;
-
-        $clean['search'] = $DB->escape_like_str($matchString);
+        $clean['search'] = $this->db->escape_like_str($matchString);
 
         $len = strlen($matchString);
 
@@ -115,7 +112,7 @@ EOL;
         $sql[] =<<< EOL
 ORDER BY lm.`title` ASC, lm.`learning_material_id`
 EOL;
-        $queryResults = $DB->query(implode(' ', $sql));
+        $queryResults = $this->db->query(implode(' ', $sql));
 
         foreach ($queryResults->result_array() as $row) {
             $rhett[] = $row;
@@ -137,10 +134,8 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $queryResults = $DB->get('session_learning_material');
+        $this->db->where('session_id', $sessionId);
+        $queryResults = $this->db->get('session_learning_material');
         foreach ($queryResults->result_array() as $row) {
             $lmId = $row['learning_material_id'];
             $learningMaterialRow = $this->convertStdObjToArray($this->getRowForPrimaryKeyId($lmId));
@@ -170,12 +165,10 @@ EOL;
     public function getLearningMaterialsForCourse ($courseId, $excludeDrafts = false) {
         $rhett = array();
 
-        $DB = $this->dbHandle;
+        $this->db->where('course_id', $courseId);
+        $this->db->order_by('required', 'desc');
 
-        $DB->where('course_id', $courseId);
-        $DB->order_by('required', 'desc');
-
-        $queryResults = $DB->get('course_learning_material');
+        $queryResults = $this->db->get('course_learning_material');
         foreach ($queryResults->result_array() as $row) {
             $lmId = $row['learning_material_id'];
             $learningMaterialRow = $this->convertStdObjToArray($this->getRowForPrimaryKeyId($lmId));
@@ -230,17 +223,15 @@ EOL;
                 $clmId = $this->getCourseLearningMaterialId($row['learning_material_id'], $tableId, null, false, false);
 
                 if (! is_null($clmId)) {
-                    $DB = $this->dbHandle;
-
-                    $DB->where('course_learning_material_id', $clmId);
-                    $queryResults = $DB->get('course_learning_material');
+                    $this->db->where('course_learning_material_id', $clmId);
+                    $queryResults = $this->db->get('course_learning_material');
                     $model['notes'] = $queryResults->first_row()->notes;
                     $model['required'] = $queryResults->first_row()->required;
                     $model['notes_are_public'] = $queryResults->first_row()->notes_are_public;
 
                     $meshTerms = array();
-                    $DB->where('course_learning_material_id', $clmId);
-                    $queryResults = $DB->get('course_learning_material_x_mesh');
+                    $this->db->where('course_learning_material_id', $clmId);
+                    $queryResults = $this->db->get('course_learning_material_x_mesh');
                     foreach ($queryResults->result_array() as $row) {
                         array_push($meshTerms,
                                    $this->mesh->getMeSHObjectForDescriptor($row['mesh_descriptor_uid']));
@@ -251,16 +242,15 @@ EOL;
                 $slmId = $this->_getSessionLearningMaterialId($tableId, $row['learning_material_id']);
 
                 if (! is_null($slmId)) {
-                    $DB = $this->dbHandle;
-                    $DB->where('session_learning_material_id', $slmId);
-                    $queryResults = $DB->get('session_learning_material');
+                    $this->db->where('session_learning_material_id', $slmId);
+                    $queryResults = $this->db->get('session_learning_material');
                     $model['notes'] = $queryResults->first_row()->notes;
                     $model['required'] = $queryResults->first_row()->required;
                     $model['notes_are_public'] = $queryResults->first_row()->notes_are_public;
 
                     $meshTerms = array();
-                    $DB->where('session_learning_material_id', $slmId);
-                    $queryResults = $DB->get('session_learning_material_x_mesh');
+                    $this->db->where('session_learning_material_id', $slmId);
+                    $queryResults = $this->db->get('session_learning_material_x_mesh');
                     foreach ($queryResults->result_array() as $row) {
                         array_push($meshTerms, $this->mesh->getMeSHObjectForDescriptor($row['mesh_descriptor_uid']));
                     }
@@ -279,9 +269,7 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->get('learning_material_status');
+        $queryResults = $this->db->get('learning_material_status');
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
         }
@@ -297,9 +285,7 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->get('learning_material_user_role');
+        $queryResults = $this->db->get('learning_material_user_role');
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
         }
@@ -323,11 +309,9 @@ EOL;
     {
         $rhett = null;
 
-        $DB = $this->dbHandle;
-
-        $DB->where('course_id', $courseId);
-        $DB->where('learning_material_id', $learningMaterialId);
-        $queryResults = $DB->get('course_learning_material');
+        $this->db->where('course_id', $courseId);
+        $this->db->where('learning_material_id', $learningMaterialId);
+        $queryResults = $this->db->get('course_learning_material');
         if ($queryResults->num_rows() > 0) {
             $rhett = $queryResults->first_row()->course_learning_material_id;
 
@@ -337,8 +321,8 @@ EOL;
                 $updatedRow['required'] = $required ? 1 : 0;
                 $updatedRow['notes_are_public'] = $notesArePublicViewable ? 1 : 0;
 
-                $DB->where('course_learning_material_id', $rhett);
-                $DB->update('course_learning_material', $updatedRow);
+                $this->db->where('course_learning_material_id', $rhett);
+                $this->db->update('course_learning_material', $updatedRow);
             }
         }
         else if ($createUpdateIfNeeded) {
@@ -349,9 +333,9 @@ EOL;
             $newRow['required'] = $required ? 1 : 0;
             $newRow['notes_are_public'] = $notesArePublicViewable ? 1 : 0;
 
-            $DB->insert('course_learning_material', $newRow);
+            $this->db->insert('course_learning_material', $newRow);
 
-            $rhett = $DB->insert_id();
+            $rhett = $this->db->insert_id();
         }
 
         return $rhett;
@@ -366,11 +350,9 @@ EOL;
      */
     public function _getSessionLearningMaterialId ($sessionId, $learningMaterialId)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $DB->where('learning_material_id', $learningMaterialId);
-        $queryResults = $DB->get('session_learning_material');
+        $this->db->where('session_id', $sessionId);
+        $this->db->where('learning_material_id', $learningMaterialId);
+        $queryResults = $this->db->get('session_learning_material');
         if ($queryResults->num_rows() > 0) {
         	return $queryResults->first_row()->session_learning_material_id;
         }
@@ -396,11 +378,9 @@ EOL;
     {
         $rhett = null;
 
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $DB->where('learning_material_id', $learningMaterialId);
-        $queryResults = $DB->get('session_learning_material');
+        $this->db->where('session_id', $sessionId);
+        $this->db->where('learning_material_id', $learningMaterialId);
+        $queryResults = $this->db->get('session_learning_material');
         if ($queryResults->num_rows() > 0) {
             $rhett = $queryResults->first_row()->session_learning_material_id;
 
@@ -410,8 +390,8 @@ EOL;
                 $updatedRow['required'] = $required ? 1 : 0;
                 $updatedRow['notes_are_public'] = $notesArePublicViewable ? 1 : 0;
 
-                $DB->where('session_learning_material_id', $rhett);
-                $DB->update('session_learning_material', $updatedRow);
+                $this->db->where('session_learning_material_id', $rhett);
+                $this->db->update('session_learning_material', $updatedRow);
             }
         }
         else if ($createUpdateIfNeeded) {
@@ -422,9 +402,9 @@ EOL;
             $newRow['required'] = $required ? 1 : 0;
             $newRow['notes_are_public'] = $notesArePublicViewable ? 1 : 0;
 
-            $DB->insert('session_learning_material', $newRow);
+            $this->db->insert('session_learning_material', $newRow);
 
-            $rhett = $DB->insert_id();
+            $rhett = $this->db->insert_id();
         }
 
         return $rhett;
@@ -448,8 +428,6 @@ EOL;
     {
         //$this->disassociateLearningMaterial($learningMaterialId, $dbId, $isCourse, $auditAtoms, true);
 
-        $DB = $this->dbHandle;
-
         if ($isCourse) {
             $clmId = $this->getCourseLearningMaterialId($learningMaterialId, $dbId, $notes,
                                                         $required, true, $notesArePubliclyViewable);
@@ -460,7 +438,7 @@ EOL;
 
                 foreach ($meshTerms as $meshTerm) {
                     $newRow['mesh_descriptor_uid'] = $meshTerm['dbId'];
-                    $DB->insert('course_learning_material_x_mesh', $newRow);
+                    $this->db->insert('course_learning_material_x_mesh', $newRow);
 
                     if ($this->transactionAtomFailed()) {
                         return false;
@@ -484,7 +462,7 @@ EOL;
 
                 foreach ($meshTerms as $meshTerm) {
                     $newRow['mesh_descriptor_uid'] = $meshTerm['dbId'];
-                    $DB->insert('session_learning_material_x_mesh', $newRow);
+                    $this->db->insert('session_learning_material_x_mesh', $newRow);
 
                     if ($this->transactionAtomFailed()) {
                         return false;
@@ -498,7 +476,7 @@ EOL;
             }
         }
 
-        return ($DB->affected_rows() != 0);
+        return ($this->db->affected_rows() != 0);
     }
 
     /**
@@ -513,18 +491,16 @@ EOL;
     public function disassociateLearningMaterial ($learningMaterialId, $dbId, $isCourse, &$auditAtoms,
                                            $meshOnly = false)
     {
-        $DB = $this->dbHandle;
-
         if (! is_null($learningMaterialId)) {
-            $DB->where('learning_material_id', $learningMaterialId);
+            $this->db->where('learning_material_id', $learningMaterialId);
         }
 
         if ($isCourse) {
-            $DB->where('course_id', $dbId);
-            $queryResults = $DB->get('course_learning_material');
+            $this->db->where('course_id', $dbId);
+            $queryResults = $this->db->get('course_learning_material');
             foreach ($queryResults->result_array() as $row) {
-                $DB->where('course_learning_material_id', $row['course_learning_material_id']);
-                $DB->delete('course_learning_material_x_mesh');
+                $this->db->where('course_learning_material_id', $row['course_learning_material_id']);
+                $this->db->delete('course_learning_material_x_mesh');
 
                 if ($this->transactionAtomFailed()) {
                     return false;
@@ -539,11 +515,11 @@ EOL;
 
             if (! $meshOnly) {
                 if (! is_null($learningMaterialId)) {
-                    $DB->where('learning_material_id', $learningMaterialId);
+                    $this->db->where('learning_material_id', $learningMaterialId);
                 }
 
-                $DB->where('course_id', $dbId);
-                $DB->delete('course_learning_material');
+                $this->db->where('course_id', $dbId);
+                $this->db->delete('course_learning_material');
 
                 if ($this->transactionAtomFailed()) {
                     return false;
@@ -556,11 +532,11 @@ EOL;
             }
         }
         else {
-            $DB->where('session_id', $dbId);
-            $queryResults = $DB->get('session_learning_material');
+            $this->db->where('session_id', $dbId);
+            $queryResults = $this->db->get('session_learning_material');
             foreach ($queryResults->result_array() as $row) {
-                $DB->where('session_learning_material_id', $row['session_learning_material_id']);
-                $DB->delete('session_learning_material_x_mesh');
+                $this->db->where('session_learning_material_id', $row['session_learning_material_id']);
+                $this->db->delete('session_learning_material_x_mesh');
 
                 if ($this->transactionAtomFailed()) {
                     return false;
@@ -575,11 +551,11 @@ EOL;
 
             if (! $meshOnly) {
                 if (! is_null($learningMaterialId)) {
-                    $DB->where('learning_material_id', $learningMaterialId);
+                    $this->db->where('learning_material_id', $learningMaterialId);
                 }
 
-                $DB->where('session_id', $dbId);
-                $DB->delete('session_learning_material');
+                $this->db->where('session_id', $dbId);
+                $this->db->delete('session_learning_material');
 
                 if ($this->transactionAtomFailed()) {
                     return false;
@@ -592,7 +568,7 @@ EOL;
             }
         }
 
-        return ($DB->affected_rows() != 0);
+        return ($this->db->affected_rows() != 0);
     }
 
     /**
@@ -606,20 +582,18 @@ EOL;
     {
         $rhett = null;
 
-        $DB = $this->dbHandle;
-
-        $DB->where('learning_material_id', $learningMaterialId);
+        $this->db->where('learning_material_id', $learningMaterialId);
 
         $updatedRow = array();
         $updatedRow['learning_material_status_id'] = $statusId;
-        $DB->update($this->databaseTableName, $updatedRow);
+        $this->db->update($this->databaseTableName, $updatedRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($learningMaterialId,
                                                             'learning_material_id',
                                                             $this->databaseTableName,
                                                             Audit_Event::$UPDATE_EVENT_TYPE, 1));
 
-        if (($DB->affected_rows() == 0) || $this->transactionAtomFailed()) {
+        if (($this->db->affected_rows() == 0) || $this->transactionAtomFailed()) {
             $lang = $this->getLangToUse();
             $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
 
@@ -640,8 +614,6 @@ EOL;
                                                   $creator, $ownerRoleId, $courseId, $sessionId,
                                                   &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['learning_material_id'] = null;
 
@@ -662,8 +634,8 @@ EOL;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
 
-        $DB->insert($this->databaseTableName, $newRow);
-        $newId = $DB->insert_id();
+        $this->db->insert($this->databaseTableName, $newRow);
+        $newId = $this->db->insert_id();
 
         if (($newId > 0) && (! $this->transactionAtomFailed())) {
             if ($sessionId == 0) {
@@ -696,8 +668,6 @@ EOL;
     public function storeLinkLearningMaterialMeta ($title, $link, $description, $statusId, $creator,
                                             $ownerRoleId, $courseId, $sessionId, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['learning_material_id'] = null;
 
@@ -717,8 +687,8 @@ EOL;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
 
-        $DB->insert($this->databaseTableName, $newRow);
-        $newId = $DB->insert_id();
+        $this->db->insert($this->databaseTableName, $newRow);
+        $newId = $this->db->insert_id();
 
         if (($newId > 0) && (! $this->transactionAtomFailed())) {
             if ($sessionId == 0) {
@@ -753,8 +723,6 @@ EOL;
                                                 $creator, $ownerRoleId, $courseId, $sessionId,
                                                 &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['learning_material_id'] = null;
 
@@ -774,8 +742,8 @@ EOL;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
 
-        $DB->insert($this->databaseTableName, $newRow);
-        $newId = $DB->insert_id();
+        $this->db->insert($this->databaseTableName, $newRow);
+        $newId = $this->db->insert_id();
 
         if (($newId > 0) && (! $this->transactionAtomFailed())) {
             if ($sessionId == 0) {
@@ -849,7 +817,6 @@ EOL;
     protected function _addSessionLearningMaterialAssociations ( $sessionId,
     		$sessionLearningMaterials = array(), &$auditAtoms = array())
     {
-    	$DB = $this->dbHandle;
     	$lmiCache = array();
     	foreach ($sessionLearningMaterials as $material) {
     		// SANITY CHECK
@@ -865,10 +832,10 @@ EOL;
     		$row['notes'] = $material['notes'];
     		$row['required'] = (int ) $material['required'];
     		$row['notes_are_public'] = (int) $material['notesArePubliclyViewable'];
-    		$DB->insert('session_learning_material', $row);
+    		$this->db->insert('session_learning_material', $row);
 
     		// @todo add error handling
-    		$sessionLearningMaterialId = $DB->insert_id();
+    		$sessionLearningMaterialId = $this->db->insert_id();
 
     		$lmiCache[] = $material['dbId'];
 
@@ -903,7 +870,6 @@ EOL;
     protected function _updateSessionLearningMaterialAssociations ( $sessionId,
     		$sessionLearningMaterials = array(), &$auditAtoms = array())
     {
-    	$DB = $this->dbHandle;
     	foreach ($sessionLearningMaterials as $material) {
     		// retrieve the identifier of the given session learning material
     		$sessionLearningMaterialId = $this->_getSessionLearningMaterialId($sessionId, $material['dbId']);
@@ -920,8 +886,8 @@ EOL;
     		$row['required'] = $material['required'] ? 1 : 0;
     		$row['notes_are_public'] = $material['notesArePubliclyViewable'] ? 1 : 0;
 
-    		$DB->where('session_learning_material_id', $sessionLearningMaterialId);
-    		$DB->update('session_learning_material', $row);
+    		$this->db->where('session_learning_material_id', $sessionLearningMaterialId);
+    		$this->db->update('session_learning_material', $row);
 
     		// update mesh term associations
     		if (! empty($material['meshTerms'])) {

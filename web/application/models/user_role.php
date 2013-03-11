@@ -42,7 +42,6 @@ class User_Role extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('user_role', array('user_role_id'));
-        $this->createDBHandle();
     }
 
     /**
@@ -54,8 +53,7 @@ class User_Role extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->get('user_role');
+        $queryResults = $this->db->get('user_role');
 
         if (0 < $queryResults->num_rows()) {
             foreach ($queryResults->result_array() as $row) {
@@ -71,10 +69,10 @@ class User_Role extends Abstract_Ilios_Model
      * @param string roleName
      * @return int, a Role Id, or null if not found.
      */
-    public function getRoleId ( $roleName ) {
-        $DB = $this->dbHandle;
-        $DB->where('title', $roleName);
-        $qResults = $DB->get($this->databaseTableName);
+    public function getRoleId ( $roleName )
+    {
+        $this->db->where('title', $roleName);
+        $qResults = $this->db->get($this->databaseTableName);
 
         return ($qResults->num_rows() > 0) ? $qResults->first_row()->user_role_id : null;
     }

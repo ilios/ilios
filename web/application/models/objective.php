@@ -12,8 +12,6 @@ class Objective extends Abstract_Ilios_Model
     {
         parent::__construct('objective', array('objective_id'));
 
-        $this->createDBHandle();
-
         $this->load->model('Competency', 'competency', TRUE);
         $this->load->model('Mesh', 'mesh', TRUE);
     }
@@ -89,17 +87,15 @@ class Objective extends Abstract_Ilios_Model
      */
     public function addNewObjective ($objectiveObject, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['objective_id'] = null;
 
         $newRow['title'] = $objectiveObject['title'];
         $newRow['competency_id'] = $objectiveObject['competencyId'];
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $objectiveId = $DB->insert_id();
+        $objectiveId = $this->db->insert_id();
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveId, 'objective_id',
                                                             $this->databaseTableName,
@@ -129,14 +125,12 @@ class Objective extends Abstract_Ilios_Model
      */
     public function updateObjective ($objectiveObject,  &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $updateRow = array();
         $updateRow['title'] = $objectiveObject['title'];
         $updateRow['competency_id'] = $objectiveObject['competencyId'];
 
-        $DB->where('objective_id', $objectiveObject['dbId']);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('objective_id', $objectiveObject['dbId']);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveObject['dbId'],
                                                             'objective_id',

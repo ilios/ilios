@@ -31,9 +31,6 @@ class Program extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('program', array('program_id'));
-
-        $this->createDBHandle();
-
         $this->load->model('Publish_Event', 'publishEvent', TRUE);
     }
 
@@ -47,8 +44,6 @@ class Program extends Abstract_Ilios_Model
      */
     public function addNewProgram ($title, $shortTitle, $duration, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['program_id'] = null;
 
@@ -58,9 +53,9 @@ class Program extends Abstract_Ilios_Model
         $newRow['owning_school_id'] = $this->session->userdata('school_id');
         $newRow['deleted'] = "0";
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newId = $DB->insert_id();
+        $newId = $this->db->insert_id();
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'program_id',
                                                             $this->databaseTableName,
                                                             Audit_Event::$CREATE_EVENT_TYPE, 1));
@@ -82,8 +77,6 @@ class Program extends Abstract_Ilios_Model
     public function updateProgramWithId ($programId, $title, $shortTitle,
         $duration, $publishId, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $updateValues = array();
 
         $updateValues['title'] = $title;
@@ -91,10 +84,10 @@ class Program extends Abstract_Ilios_Model
         $updateValues['duration'] = $duration;
         $updateValues['publish_event_id'] = (($publishId > 0) ? $publishId : null);
 
-        $DB->where('program_id', $programId);
+        $this->db->where('program_id', $programId);
 
         // todo pick up warnings -- research
-        $rhett = $DB->update($this->databaseTableName, $updateValues);
+        $rhett = $this->db->update($this->databaseTableName, $updateValues);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programId, 'program_id',
                                                             $this->databaseTableName,
@@ -129,13 +122,10 @@ class Program extends Abstract_Ilios_Model
     {
         $rhett = -1;
 
-        $DB = $this->dbHandle;
+        $this->db->select('duration');
+        $this->db->where('program_id', $programId);
 
-        $DB->select('duration');
-
-        $DB->where('program_id', $programId);
-
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         if ($queryResults->num_rows() > 0) {
             $row = $queryResults->first_row();
@@ -157,12 +147,10 @@ class Program extends Abstract_Ilios_Model
         $rhett = array();
 
         if (! empty($schoolId)) {
-            $DB = $this->dbHandle;
-
-            $DB->where('deleted', 0);
-            $DB->where('publish_event_id !=', 'NULL');
-            $DB->where('owning_school_id', $schoolId);
-            $results = $DB->get($this->databaseTableName);
+            $this->db->where('deleted', 0);
+            $this->db->where('publish_event_id !=', 'NULL');
+            $this->db->where('owning_school_id', $schoolId);
+            $results = $this->db->get($this->databaseTableName);
 
             foreach ($results->result_array() as $row) {
                 $id = $row['program_id'];
@@ -184,10 +172,8 @@ class Program extends Abstract_Ilios_Model
      */
     protected function _searchProgramsByTitle ($title, $schoolId, $uid)
     {
-        $DB = $this->dbHandle;
-
         $clean = array();
-        $clean['title'] = $DB->escape_like_str($title);
+        $clean['title'] = $this->db->escape_like_str($title);
         $clean['school_id'] = (int) $schoolId;
         $clean['uid'] = (int) $uid;
 
@@ -204,7 +190,7 @@ class Program extends Abstract_Ilios_Model
         	    . $clean['title'] . '%", ' . $clean['school_id'] . ', '
         	    . $clean['uid'] . ')';
         }
-        return $DB->query($sql);
+        return $this->db->query($sql);
     }
 
     /**
@@ -215,8 +201,6 @@ class Program extends Abstract_Ilios_Model
      */
     protected function _getPrograms ($schoolId, $uid)
     {
-        $DB = $this->dbHandle;
-
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
         $clean['uid'] = (int) $uid;
@@ -224,6 +208,6 @@ class Program extends Abstract_Ilios_Model
         $sql = 'CALL programs_with_title_restricted_by_school_for_user("%%", '
             . $clean['school_id'] . ', ' . $clean['uid'] . ')';
 
-        return $DB->query($sql);
+        return $this->db->query($sql);
     }
 }

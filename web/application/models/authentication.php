@@ -11,45 +11,40 @@ class Authentication extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('authentication', array('person_id'));
-        $this->createDBHandle();
     }
 
     /**
-     * Updates a given hashed password for a given user. 
+     * Updates a given hashed password for a given user.
      * @param int $userId the user id
      * @param string $hash the hashed password
      * @return boolean TRUE on update, FALSE otherwise
      */
     public function changePassword ($userId, $hash)
     {
-        $DB = $this->dbHandle;
-
         $updateRow = array();
         $updateRow['password_sha256'] = $hash;
 
-        $DB->where('person_id', $userId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('person_id', $userId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
-        return ($DB->affected_rows() == 1);
+        return ($this->db->affected_rows() == 1);
     }
 
     /**
-     * Updates a given hashed password for a given user. 
+     * Updates a given hashed password for a given user.
      * @param int $userId the user id
      * @param string $hash the hashed password
      * @return boolean TRUE on update, FALSE otherwise
      */
     public function changeUsername ($userId, $username)
     {
-        $DB = $this->dbHandle;
-
         $updateRow = array();
         $updateRow['username'] = $username;
 
-        $DB->where('person_id', $userId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('person_id', $userId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
-        return ($DB->affected_rows() == 1);
+        return ($this->db->affected_rows() == 1);
     }
 
     /**
@@ -62,16 +57,14 @@ class Authentication extends Abstract_Ilios_Model
      */
     public function addNewAuthentication ($username, $hash, $userId)
     {
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['username'] = $username;
         $newRow['password_sha256'] = $hash;
         $newRow['person_id'] = $userId;
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        return ($DB->affected_rows() == 1);
+        return ($this->db->affected_rows() == 1);
     }
 
     /**
@@ -83,10 +76,8 @@ class Authentication extends Abstract_Ilios_Model
     {
         $rhett = false;
 
-        $DB = $this->dbHandle;
-
-        $DB->where('person_id', $userId);
-        $query = $DB->get($this->databaseTableName);
+        $this->db->where('person_id', $userId);
+        $query = $this->db->get($this->databaseTableName);
 
         if (0 < $query->num_rows()) {
             $rhett = $query->first_row();
@@ -103,10 +94,8 @@ class Authentication extends Abstract_Ilios_Model
     {
         $rhett = false;
 
-        $DB = $this->dbHandle;
-
-        $DB->where('username', $username);
-        $query = $DB->get($this->databaseTableName);
+        $this->db->where('username', $username);
+        $query = $this->db->get($this->databaseTableName);
 
         if (0 < $query->num_rows()) {
             $rhett = $query->first_row();

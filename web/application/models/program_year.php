@@ -20,9 +20,6 @@ class Program_Year extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('program_year', array('program_year_id'));
-
-        $this->createDBHandle();
-
         $this->load->model('Cohort', 'cohort', TRUE);
         $this->load->model('Competency', 'competency', TRUE);
         $this->load->model('Department', 'department', TRUE);
@@ -40,8 +37,8 @@ class Program_Year extends Abstract_Ilios_Model
      * The list is sorted by program title, then start year
      * The list does not return deleted program year, deleted program
      */
-    public function getProgramYears() {
-        $DB = $this->dbHandle;
+    public function getProgramYears()
+    {
         $lang =  $this->getLangToUse();
         $classOfStr = $this->i18nVendor->getI18NString('general.phrases.class_title_prefix', $lang);
 
@@ -54,7 +51,7 @@ class Program_Year extends Abstract_Ilios_Model
                            AND `program`.`owning_school_id` = ' . $this->session->userdata('school_id') . '
                       ORDER BY `program`.`title`, `program_year`.`start_year`';
 
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         $items = array();
         foreach ($queryResults->result_array() as $row) {
             $item = array();
@@ -77,13 +74,12 @@ class Program_Year extends Abstract_Ilios_Model
         $rhett = array();
         $crossIdArray = null;
         $queryResults = null;
-        $DB = $this->dbHandle;
 
-        $DB->where('program_id', $programId);
-        $DB->where('deleted', 0);
-        $DB->where('archived', 0);
-        $DB->order_by('start_year');
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('program_id', $programId);
+        $this->db->where('deleted', 0);
+        $this->db->where('archived', 0);
+        $this->db->order_by('start_year');
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             $pyid = $row['program_year_id'];
@@ -230,12 +226,11 @@ class Program_Year extends Abstract_Ilios_Model
      */
     public function getStewardsForProgramYear ($progamYearId)
     {
-        $DB = $this->dbHandle;
         $queryResults = null;
         $rhett = null;
 
-        $DB->where('program_year_id', $progamYearId);
-        $queryResults = $DB->get('program_year_steward');
+        $this->db->where('program_year_id', $progamYearId);
+        $queryResults = $this->db->get('program_year_steward');
 
         if ($queryResults->num_rows() > 0) {
             $rhett = array();
@@ -276,8 +271,6 @@ class Program_Year extends Abstract_Ilios_Model
      */
     public function lockOrArchiveProgramYear ($programYearId, $shouldLock, $shouldArchive, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $lockValue = ($shouldLock ? 1 : 0);
         if ($shouldArchive) {
             $lockValue = 1;
@@ -291,8 +284,8 @@ class Program_Year extends Abstract_Ilios_Model
         $updateRow['locked'] = $lockValue;
         $updateRow['archived'] = $archiveValue;
 
-        $DB->where('program_year_id', $programYearId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('program_year_id', $programYearId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
@@ -311,14 +304,12 @@ class Program_Year extends Abstract_Ilios_Model
     {
         $groupIds = $this->cohort->getGroupIdsForCohortWithProgramYear($programYearId);
 
-        $DB = $this->dbHandle;
-
         $tables = array('program_year_director', 'program_year_x_competency',
                         'program_year_x_objective', 'program_year_x_discipline',
                         'program_year_steward');
 
-        $DB->where('program_year_id', $programYearId);
-        $DB->delete($tables);
+        $this->db->where('program_year_id', $programYearId);
+        $this->db->delete($tables);
 
         if ($this->transactionAtomFailed()) {
             return false;
@@ -327,8 +318,8 @@ class Program_Year extends Abstract_Ilios_Model
         $updateRow = array();
         $updateRow['deleted'] = 1;
 
-        $DB->where('program_year_id', $programYearId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('program_year_id', $programYearId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         if ($this->transactionAtomFailed()) {
             return false;
@@ -353,9 +344,9 @@ class Program_Year extends Abstract_Ilios_Model
         }
 
         foreach ($groupIds as $groupId) {
-            $DB->where('group_id', $groupId);
-            $DB->or_where('parent_group_id', $groupId);
-            $DB->delete('group');
+            $this->db->where('group_id', $groupId);
+            $this->db->or_where('parent_group_id', $groupId);
+            $this->db->delete('group');
 
             if ($this->transactionAtomFailed()) {
                 return false;
@@ -392,8 +383,6 @@ class Program_Year extends Abstract_Ilios_Model
     public function addProgramYear ($startYear, $compentenciesArray, array $objectivesArray, array $disciplinesArray,
         array $directorsArray, array $stewardsArray, $programId, $publishId, array &$auditAtoms, array &$returningObjectives)
     {
-        $DB = $this->dbHandle;
-
         // First do the program_year table insert (then the cross tables)
         $newRow = array();
         $newRow['program_year_id'] = null;
@@ -406,9 +395,9 @@ class Program_Year extends Abstract_Ilios_Model
         $newRow['publish_event_id'] = ((($publishId != null) && ($publishId > 0)) ? $publishId
                                                                                   : null);
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newId = $DB->insert_id();
+        $newId = $this->db->insert_id();
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'program_year_id',
                                                             $this->databaseTableName,
@@ -422,9 +411,9 @@ class Program_Year extends Abstract_Ilios_Model
         $newRow['cohort_id'] = null;
         $newRow['title'] = $titleString;
         $newRow['program_year_id'] = $newId;
-        $DB->insert('cohort', $newRow);
+        $this->db->insert('cohort', $newRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($DB->insert_id(), 'cohort_id', 'cohort',
+        array_push($auditAtoms, $this->auditEvent->wrapAtom($this->db->insert_id(), 'cohort_id', 'cohort',
                                                             Audit_Event::$CREATE_EVENT_TYPE));
 
         // TODO audit events for the cross table transactions?
@@ -470,15 +459,13 @@ class Program_Year extends Abstract_Ilios_Model
         array $objectivesArray, array $disciplinesArray, array $directorsArray, array $stewardsArray,
         $publishId, $programId, array &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $updateValues = array();
         $updateValues['start_year'] = $startYear;
         $updateValues['program_id'] = $programId;
         $updateValues['publish_event_id'] = (($publishId > 0) ? $publishId : null);
 
-        $DB->where('program_year_id', $programYearId);
-        $DB->update($this->databaseTableName, $updateValues);
+        $this->db->where('program_year_id', $programYearId);
+        $this->db->update($this->databaseTableName, $updateValues);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
                                                             $this->databaseTableName,
@@ -494,8 +481,8 @@ class Program_Year extends Abstract_Ilios_Model
         $updateValues = array();
         $updateValues['title'] = $titleString;
 
-        $DB->where('cohort_id', $cohortId);
-        $DB->update('cohort', $updateValues);
+        $this->db->where('cohort_id', $cohortId);
+        $this->db->update('cohort', $updateValues);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($cohortId, 'cohort_id', 'cohort',
                                                             Audit_Event::$UPDATE_EVENT_TYPE));
@@ -527,15 +514,13 @@ class Program_Year extends Abstract_Ilios_Model
         $rhett = array();
 
         if (!empty($programs)) {
-            $DB = $this->dbHandle;
+            $this->db->where('deleted', 0);
+            $this->db->where('publish_event_id != ', 'NULL');
+            $this->db->where('archived', 0);
+            $this->db->where_in('program_id', array_keys($programs));
+            $this->db->join('cohort', 'cohort.program_year_id = ' . $this->databaseTableName . '.program_year_id');
 
-            $DB->where('deleted', 0);
-            $DB->where('publish_event_id != ', 'NULL');
-            $DB->where('archived', 0);
-            $DB->where_in('program_id', array_keys($programs));
-            $DB->join('cohort', 'cohort.program_year_id = ' . $this->databaseTableName . '.program_year_id');
-
-            $results = $DB->get($this->databaseTableName);
+            $results = $this->db->get($this->databaseTableName);
 
             foreach ($results->result_array() as $row) {
                 $id = $row['program_year_id'];
@@ -564,11 +549,9 @@ class Program_Year extends Abstract_Ilios_Model
     protected function processStewardTableTransactions ($programYearId, $stewardsArray,
         $partOfUpdate)
     {
-        $DB = $this->dbHandle;
-
         if ($partOfUpdate) {
-            $DB->where('program_year_id', $programYearId);
-            $DB->delete('program_year_steward');
+            $this->db->where('program_year_id', $programYearId);
+            $this->db->delete('program_year_steward');
         }
 
         foreach ($stewardsArray as $key => $val) {
@@ -583,7 +566,7 @@ class Program_Year extends Abstract_Ilios_Model
                 $newRow['department_id'] = $val['dbId'];
             }
 
-            $DB->insert('program_year_steward', $newRow);
+            $this->db->insert('program_year_steward', $newRow);
         }
     }
 
@@ -598,8 +581,6 @@ class Program_Year extends Abstract_Ilios_Model
     protected function processCrossTableTransactions ($table, $column, $programYearId, $modelArray,
         $partOfUpdate)
     {
-        $DB = $this->dbHandle;
-
         $models = array();
 
         if ($partOfUpdate) {
@@ -615,7 +596,7 @@ class Program_Year extends Abstract_Ilios_Model
             $newRow['program_year_id'] = $programYearId;
             $newRow[$column] = $val['dbId'];
 
-            $DB->insert($table, $newRow);
+            $this->db->insert($table, $newRow);
         }
     }
 
@@ -640,7 +621,6 @@ class Program_Year extends Abstract_Ilios_Model
         $diffedArray = null;
         $toDelete = array();
         $queryResults = null;
-        $DB = $this->dbHandle;
 
         foreach ($modelArrayArray as $index => $modelArray) {
             $idArray[$modelArray['dbId']] = $modelArray['dbId'];
@@ -648,10 +628,10 @@ class Program_Year extends Abstract_Ilios_Model
             array_push($nonAssociativeArray, $modelArray['dbId']);
         }
 
-        $DB->select($uniqueColumnName);
-        $DB->where('program_year_id', $programYearId);
+        $this->db->select($uniqueColumnName);
+        $this->db->where('program_year_id', $programYearId);
 
-        $queryResults = $DB->get($tableName);
+        $queryResults = $this->db->get($tableName);
 
         foreach ($queryResults->result_array() as $row) {
             $id = $row[$uniqueColumnName];
@@ -665,10 +645,10 @@ class Program_Year extends Abstract_Ilios_Model
         }
 
         foreach ($toDelete as $id) {
-            $DB->where('program_year_id', $programYearId);
-            $DB->where($uniqueColumnName, $id);
+            $this->db->where('program_year_id', $programYearId);
+            $this->db->where($uniqueColumnName, $id);
 
-            $DB->delete($tableName);
+            $this->db->delete($tableName);
         }
 
         $diffedArray = array_diff($nonAssociativeArray, $exists);
@@ -741,8 +721,7 @@ class Program_Year extends Abstract_Ilios_Model
         $clean['school_id'] = (int) $schoolId;
         $sql = "SELECT program_has_year_stewarded_by_school({$clean['py_id']}, {$clean['school_id']}) AS flag";
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($sql);
+        $queryResults = $this->db->query($sql);
 
         if ($queryResults->num_rows() > 0) {
             $firstRow = $queryResults->first_row();

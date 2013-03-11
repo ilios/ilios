@@ -60,7 +60,6 @@ class Alert extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('alert', array('alert_id'));
-        $this->createDBHandle();
         $this->load->model('Audit_Event', 'auditEvent', TRUE);
         $this->load->model('User', 'user', TRUE);
     }
@@ -72,10 +71,8 @@ class Alert extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('dispatched', 0);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('dispatched', 0);
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
         }
@@ -93,15 +90,14 @@ class Alert extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $DB->distinct();
-        $DB->select('alert.*');
-        $DB->join('alert_recipient', 'alert_recipient.alert_id = alert.alert_id');
-        $DB->where('alert.table_name', $tableName);
-        $DB->where('alert_recipient.school_id', $schoolId);
-        $DB->where('alert.dispatched', 0);
+        $this->db->distinct();
+        $this->db->select('alert.*');
+        $this->db->join('alert_recipient', 'alert_recipient.alert_id = alert.alert_id');
+        $this->db->where('alert.table_name', $tableName);
+        $this->db->where('alert_recipient.school_id', $schoolId);
+        $this->db->where('alert.dispatched', 0);
 
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
         	array_push($rhett, $row);
@@ -120,12 +116,10 @@ class Alert extends Abstract_Ilios_Model
     {
         $rhett = null;
 
-        $DB = $this->dbHandle;
-
-        $DB->where('table_row_id', $tableId);
-        $DB->where('table_name', $tableName);
-        $DB->where('dispatched', 0);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('table_row_id', $tableId);
+        $this->db->where('table_name', $tableName);
+        $this->db->where('dispatched', 0);
+        $queryResults = $this->db->get($this->databaseTableName);
         if ($queryResults->num_rows() > 0) {
             $rhett = $this->convertStdObjToArray($queryResults->first_row());
         }
@@ -141,10 +135,8 @@ class Alert extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('alert_id', $alertId);
-        $queryResults = $DB->get('alert_change');
+        $this->db->where('alert_id', $alertId);
+        $queryResults = $this->db->get('alert_change');
         foreach ($queryResults->result_array() as $row) {
             $change_type = $this->getRow('alert_change_type', 'alert_change_type_id',
                                          $row['alert_change_type_id']);
@@ -182,8 +174,7 @@ JOIN user u ON u.user_id = ae.user_id
 WHERE aa.table_name = 'alert'
 AND a.alert_id = {$clean['alert_id']}
 EOL;
-        $DB = $this->dbHandle;
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
                 $rhett[] = $row;
@@ -202,10 +193,8 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('alert_id', $alertId);
-        $queryResults = $DB->get('alert_recipient');
+        $this->db->where('alert_id', $alertId);
+        $queryResults = $this->db->get('alert_recipient');
         foreach ($queryResults->result_array() as $row) {
             $rhett[] = $this->convertStdObjToArray($this->user->getRowForPrimaryKeyId($row['user_id']));
         }
@@ -222,13 +211,11 @@ EOL;
     {
         $this->startTransaction();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('alert_id', $alertId);
+        $this->db->where('alert_id', $alertId);
 
         $updateRow = array();
         $updateRow['dispatched'] = 1;
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         $this->commitTransaction();
     }
@@ -248,9 +235,8 @@ EOL;
         $updateRow = array();
         $updateRow['dispatched'] = 1;
 
-        $DB = $this->dbHandle;
-        $DB->where_in('alert_id', $alertIds);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where_in('alert_id', $alertIds);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         $this->commitTransaction();
     }
@@ -272,8 +258,6 @@ EOL;
 
         $this->startTransaction();
 
-        $DB = $this->dbHandle;
-
         if (! is_null($preExisting)) {
             $alertId = $preExisting['alert_id'];
 
@@ -286,9 +270,9 @@ EOL;
             $newRow['table_name'] = $tableName;
             $newRow['dispatched'] = 0;
 
-            $DB->insert($this->databaseTableName, $newRow);
+            $this->db->insert($this->databaseTableName, $newRow);
 
-            $alertId = $DB->insert_id();
+            $alertId = $this->db->insert_id();
 
             $eventType = Audit_Event::$CREATE_EVENT_TYPE;
         }

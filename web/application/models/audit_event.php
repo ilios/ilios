@@ -35,8 +35,6 @@ class Audit_Event extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('audit_event', array('audit_event_id'));
-
-        $this->createDBHandle();
     }
 
     /**
@@ -73,8 +71,6 @@ class Audit_Event extends Abstract_Ilios_Model
     {
         $this->startTransaction();
 
-        $DB = $this->dbHandle;
-
         if ($userId == null) {
             $userId = $this->session->userdata('uid'); // @todo get this outta here.
         }
@@ -86,9 +82,9 @@ class Audit_Event extends Abstract_Ilios_Model
         $newRow['time_stamp'] = $dtTimeStamp->format('Y-m-d H:i:s');
         $newRow['user_id'] = $userId;
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newEventId = $DB->insert_id();
+        $newEventId = $this->db->insert_id();
         if ((! $newEventId) || ($newEventId == 0)) {
             $this->rollbackTransaction();
 
@@ -106,9 +102,9 @@ class Audit_Event extends Abstract_Ilios_Model
             $newRow['root_atom'] = $wrappedAtom['root_atom'];
             $newRow['audit_event_id'] = $newEventId;
 
-            $DB->insert('audit_atom', $newRow);
+            $this->db->insert('audit_atom', $newRow);
 
-            $newId = $DB->insert_id();
+            $newId = $this->db->insert_id();
             if ((! $newId) || ($newId == 0)) {
                 $this->rollbackTransaction();
 
@@ -119,9 +115,9 @@ class Audit_Event extends Abstract_Ilios_Model
                 $newRow['audit_atom_id'] = $newId;
                 $newRow['serialized_state_event'] = $wrappedAtom['blob'];
 
-                $DB->insert('audit_content', $newRow);
+                $this->db->insert('audit_content', $newRow);
 
-                if ($DB->affected_rows() == 0) {
+                if ($this->db->affected_rows() == 0) {
                     $this->rollbackTransaction();
 
                     return false;

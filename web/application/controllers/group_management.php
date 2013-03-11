@@ -842,8 +842,7 @@ WHERE
 ORDER BY `program_title`, `cohort_title`
 EOL;
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($query);
+        $queryResults = $this->db->query($query);
 
         if ($queryResults->num_rows() > 0) {
             $row = $queryResults->first_row();
@@ -891,8 +890,7 @@ WHERE
   AND `cohort_master_group`.`group_id` = `t1`.`rgid`
 ORDER BY `program_title`, `cohort_title`
 EOL;
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($query);
+        $queryResults = $this->db->query($query);
 
         if ($queryResults->num_rows() > 0) {
 
