@@ -274,7 +274,7 @@ EOL;
 
             $alertId = $this->db->insert_id();
 
-            $eventType = Audit_Event::$CREATE_EVENT_TYPE;
+            $eventType = Ilios_Model_AuditUtils::CREATE_EVENT_TYPE;
         }
 
         if ($alertId == -1) {
@@ -328,7 +328,7 @@ EOL;
 
         $atoms = array();
         array_push($atoms, $this->auditEvent->wrapAtom($alertId, 'alert_id', 'alert',
-                                                       Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
         $this->auditEvent->saveAuditEvent($atoms, $this->session->userdata('uid'));
 
         return null;

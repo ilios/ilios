@@ -700,7 +700,7 @@ class Session extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newSessionId, 'session_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         // associate learning materials with session
         $this->learningMaterial->saveSessionLearningMaterialAssociations($newSessionId, $learningMaterialArray,

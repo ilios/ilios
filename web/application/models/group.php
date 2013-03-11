@@ -127,7 +127,7 @@ class Group extends Abstract_Ilios_Model
                 return false;
             }
 
-            $auditAtoms[] = $this->auditEvent->wrapAtom($uid, 'user_id', 'group_x_user', Audit_Event::$CREATE_EVENT_TYPE);
+            $auditAtoms[] = $this->auditEvent->wrapAtom($uid, 'user_id', 'group_x_user', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
             if ($deleteFromId != null) {
                 $this->db->where('group_id', $deleteFromId);
@@ -173,7 +173,7 @@ class Group extends Abstract_Ilios_Model
                 $this->db->insert('cohort_master_group', $newRow);
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($newId, 'group_id', 'cohort_master_group',
-                                                       Audit_Event::$CREATE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
                 $queryResults = $this->user->getUsersForCohort($cohortId);
                 foreach ($queryResults->result_array() as $row) {
@@ -184,7 +184,7 @@ class Group extends Abstract_Ilios_Model
                     $this->db->insert('group_x_user', $newRow);
                     array_push($auditAtoms,
                                $this->auditEvent->wrapAtom($newId, 'group_id', 'group_x_user',
-                                                           Audit_Event::$CREATE_EVENT_TYPE));
+                                                           Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
                 }
             }
 
@@ -433,7 +433,7 @@ class Group extends Abstract_Ilios_Model
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
                                                                 'group_default_instructor',
-                                                                Audit_Event::$CREATE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
         }
     }
 
@@ -484,7 +484,7 @@ class Group extends Abstract_Ilios_Model
         $newId = $this->db->insert_id();
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'group_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         return $newId;
     }

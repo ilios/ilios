@@ -99,7 +99,7 @@ class Objective extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveId, 'objective_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
         if ($objectiveId != -1) {
             $mockObjectArray = array();

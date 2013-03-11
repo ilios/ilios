@@ -86,7 +86,7 @@ EOL;
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($uid, 'user_id',
                                                                 'instructor_group_x_user',
-                                                                Audit_Event::$CREATE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
         }
 
         return true;
@@ -115,7 +115,7 @@ EOL;
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'instructor_group_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
         }
 
         return $rhett;

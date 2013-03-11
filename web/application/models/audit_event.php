@@ -7,14 +7,6 @@ include_once "abstract_ilios_model.php";
  */
 class Audit_Event extends Abstract_Ilios_Model
 {
-
-    /**
-     * @deprecated
-     * @see Ilios_Model_AuditUtils::CREATE_EVENT_TYPE
-     * @var int
-     */
-    static public $CREATE_EVENT_TYPE = Ilios_Model_AuditUtils::CREATE_EVENT_TYPE;
-
     /**
      * @deprecated
      * @see Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE

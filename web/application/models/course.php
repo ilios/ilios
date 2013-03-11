@@ -97,7 +97,7 @@ class Course extends Abstract_Ilios_Model
             array_push($auditAtoms,
                        $this->auditEvent->wrapAtom($newCourseId, 'course_id',
                                                    $this->databaseTableName,
-                                                   Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                   Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
             $dtOriginalCourseStartTime = new DateTime($courseRow->start_date);
             $dtRolledOverCourseStartTime = new DateTime($newRow['start_date']);
@@ -284,7 +284,7 @@ class Course extends Abstract_Ilios_Model
         $newId = $this->db->insert_id();
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'course_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         return $newId;
     }
@@ -335,7 +335,7 @@ class Course extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($courseId, 'course_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         $this->performCrossTableInserts($cohortArray, 'course_x_cohort', 'cohort_id', 'course_id',
                                         $courseId, 'cohortId');

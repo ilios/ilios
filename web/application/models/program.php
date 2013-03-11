@@ -58,7 +58,7 @@ class Program extends Abstract_Ilios_Model
         $newId = $this->db->insert_id();
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'program_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         return $newId;
     }

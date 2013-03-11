@@ -447,7 +447,7 @@ EOL;
                     array_push($auditAtoms,
                                $this->auditEvent->wrapAtom($clmId, 'course_learning_material_id',
                                                            'course_learning_material_x_mesh',
-                                                           Audit_Event::$CREATE_EVENT_TYPE));
+                                                           Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
                 }
             }
         }
@@ -471,7 +471,7 @@ EOL;
                     array_push($auditAtoms,
                                $this->auditEvent->wrapAtom($slmId, 'session_learning_material_id',
                                                            'session_learning_material_x_mesh',
-                                                           Audit_Event::$CREATE_EVENT_TYPE));
+                                                           Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
                 }
             }
         }
@@ -651,7 +651,7 @@ EOL;
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'learning_material_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
         }
         else {
             $newId = -1;
@@ -704,7 +704,7 @@ EOL;
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'learning_material_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
         }
         else {
             $newId = -1;
@@ -759,7 +759,7 @@ EOL;
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'learning_material_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
         }
         else {
             $newId = -1;

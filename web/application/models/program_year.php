@@ -401,7 +401,7 @@ class Program_Year extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'program_year_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
 
         $duration = $this->program->getDurationForProgramWithId($programId);
@@ -414,7 +414,7 @@ class Program_Year extends Abstract_Ilios_Model
         $this->db->insert('cohort', $newRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($this->db->insert_id(), 'cohort_id', 'cohort',
-                                                            Audit_Event::$CREATE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
         // TODO audit events for the cross table transactions?
         $this->processCrossTableTransactions('program_year_x_competency', 'competency_id', $newId,
