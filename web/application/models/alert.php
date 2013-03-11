@@ -249,7 +249,7 @@ EOL;
      * @param int $tableId the record id of the changed entity
      * @param string $tableName the database table name where the changed entity is stored
      * @param array $school an assoc. array representing a school record
-     * @param array $changeTypes an array containing 1 or more of the static CHANGE_TYPE_* vars defined in this class
+     * @param array $changeTypes an array containing one or more of the CHANGE_TYPE_* constants defined in this class.
      * @return string|NULL an error message of NULL if everything went fine
      */
     public function addOrUpdateAlert ($tableId, $tableName, $school = array(), $changeTypes = array())
