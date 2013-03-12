@@ -93,7 +93,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_transaction.js"); ?>"></script>
 </head>
 
-<body class="course yui-skin-sam">
+<body class="offerings yui-skin-sam">
     <div id="wrapper">
         <header id="masthead" class="clearfix">
             <div class="inner">
@@ -108,72 +108,71 @@ $viewsPath = getServerFilePath('views');
         </header>
 
         <div id="main" role="main">
-            <div id="content" class="clearfix">
-                <h2 class="page-header"><?php echo $title_bar_string; ?> </h2>
+            <div id="content" class="dashboard clearfix">
+                <h2 class="page-header"><?php echo $title_bar_string; ?><span id="page_title"></span></h2>
                 <div class="content_container">
-                    <div class="content_title" id="page_title">
-                        <a href="<?php echo $courseControllerURL; ?>?course_id=<?php echo $course_id; ?>&session_id=<?php echo $session_id; ?>">
-                            <?php echo $word_course_string; ?>:
-                            <?php echo $course_title; ?> -
-                            <?php echo $word_session_string; ?>:
-                            <?php echo $session_model->title; ?></a>
+                    <div class="column primary clearfix">
+                        <h3>
+                            <a href="<?php echo $courseControllerURL; ?>?course_id=<?php echo $course_id; ?>&session_id=<?php echo $session_id; ?>">
+                                <?php echo $word_course_string; ?>:
+                                <?php echo $course_title; ?> -
+                                <?php echo $word_session_string; ?>:
+                                <?php echo $session_model->title; ?>
+                            </a>
+                        </h3>
+                        <div class="calendar_tools clearfix">
 <?php
     include $viewsPath . 'common/progress_div.php';
     echo generateProgressDivMarkup();
 ?>
-                    </div>
-                    <div class="calendar-filters">
-                        <ul>
-                            <li>
-                                <label>
-                                    <input type="radio" id="show_all_events_radio" value="all_events" name="event_type_radio" />
-                                    <?php echo $show_all_events_string; ?>
-                                </label>
-                                <label>
-                                    <input type="radio" id="show_sessions_radio" value="sessions" name="event_type_radio" checked="checked" />
-                                    <?php echo $show_session_events_string; ?>
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" id="show_busy_instructors_checkbox" value="busy_instructors" />
-                                    <?php echo $show_busy_instructors_string; ?>
-                                </label>
-                                <label>
-                                    <input type="checkbox" id="show_busy_students_checkbox" value="busy_students" />
-                                    <?php echo $show_busy_students_string; ?>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div id="calendar-container" class="clearfix">
-                        <div id="dhtmlx_scheduler_container" class="dhx_cal_container">
-                            <div class="dhx_cal_navline">
-                                <div class="dhx_cal_prev_button">&nbsp;</div>
-                                <div class="dhx_cal_next_button">&nbsp;</div>
-                                <div class="dhx_cal_today_button"></div>
-                                <div class="dhx_cal_date"></div>
-                                <div class="dhx_cal_tab" name="day_tab" style="right:209px;"></div>
-                                <div class="dhx_cal_tab" name="week_tab" style="right:145px;"></div>
-                                <div class="dhx_cal_tab" name="month_tab" style="right:81px;"></div>
-                                <div class="dhx_cal_tab" name="week_agenda_tab" style="right:17px;"></div>
-                            </div>
-                            <div class="dhx_cal_header"></div>
-                            <div class="dhx_cal_data" id="dhx_cal_data"></div>
                         </div>
-                        <div id="calendar_show_attributes_div">
+                        <div class="calendar-filters clearfix">
+                            <ul>
+                                <li>
+                                    <label>
+                                        <input type="radio" id="show_all_events_radio" value="all_events" name="event_type_radio" />
+                                        <?php echo $show_all_events_string; ?>
+                                    </label>
+                                    <label>
+                                        <input type="radio" id="show_sessions_radio" value="sessions" name="event_type_radio" checked="checked" />
+                                        <?php echo $show_session_events_string; ?>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" id="show_busy_instructors_checkbox" value="busy_instructors" />
+                                        <?php echo $show_busy_instructors_string; ?>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" id="show_busy_students_checkbox" value="busy_students" />
+                                        <?php echo $show_busy_students_string; ?>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="calendar-container" class="clearfix">
+                            <div id="dhtmlx_scheduler_container" class="dhx_cal_container">
+                                <div class="dhx_cal_navline">
+                                    <div class="dhx_cal_prev_button">&nbsp;</div>
+                                    <div class="dhx_cal_next_button">&nbsp;</div>
+                                    <div class="dhx_cal_today_button"></div>
+                                    <div class="dhx_cal_date"></div>
+                                    <div class="dhx_cal_tab day_tab" name="day_tab"></div>
+                                    <div class="dhx_cal_tab week_tab" name="week_tab"></div>
+                                    <div class="dhx_cal_tab month_tab" name="month_tab"></div>
+                                    <div class="dhx_cal_tab week_agenda_tab" name="week_agenda_tab"></div>
+                                </div>
+                                <div class="dhx_cal_header"></div>
+                                <div class="dhx_cal_data" id="dhx_cal_data"></div>
+                            </div>
+                        </div>
+                        <div id="offering_summary_table_div" class="offering_summary_management_table clearfix"></div>
+                    </div><!-- end .primary.column -->
+                    <div class="column secondary clearfix">
                             <?php
                                 include 'offering_inspector_pane.php';
                             ?>
-                        </div>
                     </div>
-
-                    <div id="offering_summary_table_div" class="offering_summary_management_table"></div>
-<!--
-    <div id="offering_calendar_color_legend_div"></div>
--->
-
                 </div><!-- content_container close -->
             </div>
         </div>
