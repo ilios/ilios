@@ -547,7 +547,8 @@ html,body {
     z-index: 1;
 }
 .home #main,
-.admin #main {
+.admin #main,
+.offerings #main {
     position: absolute;
     bottom: 0em;
     height: auto;
@@ -1864,7 +1865,6 @@ fieldset > .row {
 }
 
 .calendar-filters {
-    border: 1px solid #CCC;
     width: 100%;
     background: #EEE;
 }
@@ -1897,10 +1897,15 @@ fieldset > .row {
 }
 
 #inspector_pane {
-    border: 1px solid #CCC;
-    min-height: 100%;
+    bottom: 0;
+    font-size: 0.9em;
+    left: 0;
+    overflow: auto;
+    padding: 1em 0.5em;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
-
 #offering_calendar_color_legend_div {
     margin: 12px 0 0 0;
     padding: 0px;
