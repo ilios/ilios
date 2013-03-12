@@ -1468,6 +1468,13 @@ fieldset > .row {
     background-color:#FFE4AB;
 }
 
+.dhx_cal_event .dhx_header,
+.dhx_cal_event .dhx_title,
+.dhx_cal_event .dhx_body,
+.dhx_cal_event .dhx_footer {
+   color : #000;
+}
+
 /*
  * "read-only" events in the offering mngmt. calendar
  */
