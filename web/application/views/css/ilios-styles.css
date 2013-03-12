@@ -2122,12 +2122,6 @@ ul.week_list li.selected_day {
     border:2px dotted #EF3834;
 }
 
-div.icon_dhtmlx_spacer {
-    width:12px;
-    height:18px;
-    background:url("../images/empty_pixel.png");
-}
-
 .busy_time_calendar_div {
     position:absolute;
     padding:3px;
