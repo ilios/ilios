@@ -1449,6 +1449,13 @@ fieldset > .row {
     width: 100%;
     height: 100%;
     border: 1px solid #CCC;
+    top: 8em;
+    bottom: 0;
+    position: absolute;
+}
+
+.offerings .dhx_cal_container {
+    top: 0;
 }
 
 /*center the current date range between buttons & tabs*/
