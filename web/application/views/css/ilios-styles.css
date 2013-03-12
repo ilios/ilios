@@ -1456,6 +1456,9 @@ fieldset > .row {
     text-align: center;
 }
 
+/**
+ * position calendar controls.
+ */
 .dhx_cal_prev_button {
     left: 5px;
 }
@@ -1466,11 +1469,23 @@ fieldset > .row {
     left: 65px;
 }
 
+/**
+ * set text color to black
+ */
 .dhx_cal_event .dhx_header,
 .dhx_cal_event .dhx_title,
 .dhx_cal_event .dhx_body,
-.dhx_cal_event .dhx_footer {
-   color : #000;
+.dhx_cal_event .dhx_footer,
+.dhx_cal_event_selected {
+   color: #000;
+}
+
+/**
+ * draw a red dotted border around selected event
+ * in weekly agenda view.
+ */
+.dhx_cal_event_selected {
+    border:2px dotted #EF3834;
 }
 
 /*
