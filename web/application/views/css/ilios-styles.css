@@ -1456,16 +1456,14 @@ fieldset > .row {
     text-align: center;
 }
 
-.dhx_cal_prev_button {left: 5px;}
-.dhx_cal_next_button {left: 35px;}
-.dhx_cal_today_button {left: 65px;}
-
-.dhx_scale_bar {
-    background-image:url("../scripts/third_party/dhtmlx_scheduler/codebase/imgs_glossy/top-separator.gif");
+.dhx_cal_prev_button {
+    left: 5px;
 }
-
-.dhx_cal_event {
-    background-color:#FFE4AB;
+.dhx_cal_next_button {
+    left: 35px;
+}
+.dhx_cal_today_button {
+    left: 65px;
 }
 
 .dhx_cal_event .dhx_header,
