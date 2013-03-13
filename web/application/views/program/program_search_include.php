@@ -81,20 +81,11 @@
     // @private
     ilios.pm.cs.handleProgramSearchFieldInput = function (event) {
         var charCode = event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode);
-        //var element = new YAHOO.util.Element(document.getElementById('search_term_hint_text'));
-
-        //if (element.getStyle('display') != 'none') {
-        //    element.setStyle('display', 'none');
-        //}
-
         if (charCode == 13) {
             var elem = document.getElementById('program_search_terms');
-
             ilios.pm.cs.performProgramSearch(elem.value);
-
             event.cancelBubble = true;
             event.returnValue = false;
-
             return false;
         }
         return true;

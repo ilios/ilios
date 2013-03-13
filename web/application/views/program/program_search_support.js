@@ -108,10 +108,6 @@ ilios.pm.cs.emptySearchDialogForViewing = function () {
 
     element = document.getElementById('program_search_results_list');
     ilios.utilities.removeAllChildren(element);
-
-    //element = new YAHOO.util.Element(document.getElementById('search_term_hint_text'));
-    //element.setStyle('display', 'block');
-
     element = document.getElementById('program_search_terms');
     element.focus();
 };
