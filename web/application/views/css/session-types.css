@@ -4,108 +4,126 @@
 
 .dhx_cal_event_clear.clerkship,
 .dhx_cal_event.clerkship .dhx_body,
+.dhx_wa_ev_body.clerkship,
 .session-type-legend.clerkship {
   background-color: #32edfc;
 }
 
 .dhx_cal_event_clear.exam,
 .dhx_cal_event.exam .dhx_body,
+.dhx_wa_ev_body.exam,
 .session-type-legend.exam {
   background-color: #ceccfe;
 }
 
 .dhx_cal_event_clear.holiday,
 .dhx_cal_event.holiday .dhx_body,
+.dhx_wa_ev_body.holiday,
 .session-type-legend.holiday {
   background-color: #ed81ee;
 }
 
 .dhx_cal_event_clear.hospice,
 .dhx_cal_event.hospice .dhx_body,
+.dhx_wa_ev_body.hospice,
 .session-type-legend.hospice {
   background-color: #ceccfe;
 }
 
 .dhx_cal_event_clear.laboratory,
 .dhx_cal_event.laboratory .dhx_body,
+.dhx_wa_ev_body.laboratory,
 .session-type-legend.laboratory {
   background-color: #ffcc67;
 }
 
 .dhx_cal_event_clear.large-group-presentation,
 .dhx_cal_event.large-group-presentation .dhx_body,
+.dhx_wa_ev_body.large-group-presentation,
 .session-type-legend.large-group-presentation {
   background-color: #99cdff;
 }
 
 .dhx_cal_event_clear.lecture,
 .dhx_cal_event.lecture .dhx_body,
+.dhx_wa_ev_body.lecture,
 .session-type-legend.lecture {
   background-color: #00cc65;
 }
 
 .dhx_cal_event_clear.opt-review-session,
 .dhx_cal_event.opt-review-session .dhx_body,
+.dhx_wa_ev_body.opt-review-session,
 .session-type-legend.opt-review-session {
   background-color: #ffff00;
 }
 
 .dhx_cal_event_clear.osce,
 .dhx_cal_event.osce .dhx_body,
+.dhx_wa_ev_body.osce,
 .session-type-legend.osce {
   background-color: #cdffff;
 }
 
 .dhx_cal_event_clear.physical-exam,
 .dhx_cal_event.physical-exam .dhx_body,
+.dhx_wa_ev_body.physical-exam,
 .session-type-legend.physical-exam {
   background-color: #ffb1b1;
 }
 
 .dhx_cal_event_clear.problem-based-learning,
 .dhx_cal_event.problem-based-learning .dhx_body,
+.dhx_wa_ev_body.problem-based-learning,
 .session-type-legend.problem-based-learning {
   background-color: #fe7a78;
 }
 
 .dhx_cal_event_clear.small-group,
 .dhx_cal_event.small-group .dhx_body,
+.dhx_wa_ev_body.small-group,
 .session-type-legend.small-group {
   background-color: #fe7a78;
 }
 
 .dhx_cal_event_clear.preceptorship,
 .dhx_cal_event.preceptorship .dhx_body,
+.dhx_wa_ev_body.preceptorship,
 .session-type-legend.preceptorship {
   background-color: #dddddd;
 }
 
 .dhx_cal_event_clear.reading-day,
 .dhx_cal_event.reading-day .dhx_body,
+.dhx_wa_ev_body.reading-day,
 .session-type-legend.reading-day {
   background-color: #ed81ee;
 }
 
 .dhx_cal_event_clear.rounds,
 .dhx_cal_event.rounds .dhx_body,
+.dhx_wa_ev_body.rounds,
 .session-type-legend.rounds {
   background-color: #32edfc;
 }
 
 .dhx_cal_event_clear.outpatient-clinic,
 .dhx_cal_event.outpatient-clinic .dhx_body,
+.dhx_wa_ev_body.outpatient-clinic,
 .session-type-legend.outpatient-clinic {
   background-color: #dddddd;
 }
 
 .dhx_cal_event_clear.call,
 .dhx_cal_event.call .dhx_body,
+.dhx_wa_ev_body.call,
 .session-type-legend.call {
   background-color: #32edfc;
 }
 
 .dhx_cal_event_clear.team-based-learning,
 .dhx_cal_event.team-based-learning .dhx_body,
+.dhx_wa_ev_body.team-based-learning,
 .session-type-legend.team-based-learning {
   background-color: #fe7a78;
 }
@@ -117,108 +135,126 @@
  /* "assessment " types */
 .dhx_cal_event_clear.exam-institutional-clinical,
 .dhx_cal_event.exam-institutional-clinical .dhx_body,
+.dhx_wa_ev_body.exam-institutional-clinical,
 .session-type-legend.exam-institutional-clinical {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.exam-institutional-writ-comp,
 .dhx_cal_event.exam-institutional-writ-comp .dhx_body,
+.dhx_wa_ev_body.exam-institutional-writ-comp,
 .session-type-legend.exam-institutional-writ-comp {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.exam-institutional-oral,
 .dhx_cal_event.exam-institutional-oral .dhx_body,
+.dhx_wa_ev_body.exam-institutional-oral,
 .session-type-legend.exam-institutional-oral {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.exam-national-norm-standard-subj,
 .dhx_cal_event.exam-national-norm-standard-subj .dhx_body,
+.dhx_wa_ev_body.exam-national-norm-standard-subj,
 .session-type-legend.exam-national-norm-standard-subj {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.multisource-assessment,
 .dhx_cal_event.multisource-assessment .dhx_body,
+.dhx_wa_ev_body.multisource-assessment,
 .session-type-legend.multisource-assessment {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.narrative-assessment,
 .dhx_cal_event.narrative-assessment .dhx_body,
+.dhx_wa_ev_body.narrative-assessment,
 .session-type-legend.narrative-assessment {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.practical-lab,
 .dhx_cal_event.practical-lab .dhx_body,
+.dhx_wa_ev_body.practical-lab,
 .session-type-legend.practical-lab {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.stimulated-recall,
 .dhx_cal_event.stimulated-recall .dhx_body,
+.dhx_wa_ev_body.stimulated-recall,
 .session-type-legend.stimulated-recall {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.self-assessment,
 .dhx_cal_event.self-assessment .dhx_body,
+.dhx_wa_ev_body.self-assessment,
 .session-type-legend.self-assessment {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.clinical-doc-review,
 .dhx_cal_event.clinical-doc-review .dhx_body,
+.dhx_wa_ev_body.clinical-doc-review,
 .session-type-legend.clinical-doc-review {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.rating-checklist,
 .dhx_cal_event.rating-checklist .dhx_body,
+.dhx_wa_ev_body.rating-checklist,
 .session-type-legend.rating-checklist {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.exam-licensure-clinical,
 .dhx_cal_event.exam-licensure-clinical .dhx_body,
+.dhx_wa_ev_body.exam-licensure-clinical,
 .session-type-legend.exam-licensure-clinical {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.exam-licensure-writ-comp,
 .dhx_cal_event.exam-licensure-writ-comp .dhx_body,
+.dhx_wa_ev_body.exam-licensure-writ-comp,
 .session-type-legend.exam-licensure-writ-comp {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.participation,
 .dhx_cal_event.participation .dhx_body,
+.dhx_wa_ev_body.participation,
 .session-type-legend.participation {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.oral-patient-presentation,
 .dhx_cal_event.oral-patient-presentation .dhx_body,
+.dhx_wa_ev_body.oral-patient-presentation,
 .session-type-legend.oral-patient-presentation {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.peer-assessment,
 .dhx_cal_event.peer-assessment .dhx_body,
+.dhx_wa_ev_body.peer-assessment,
 .session-type-legend.peer-assessment {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.portfolio-assessment,
 .dhx_cal_event.portfolio-assessment .dhx_body,
+.dhx_wa_ev_body.portfolio-assessment,
 .session-type-legend.portfolio-assessment {
   background-color: #c79376;
 }
 
 .dhx_cal_event_clear.research-project-assessment,
 .dhx_cal_event.research-project-assessment .dhx_body,
+.dhx_wa_ev_body.research-project-assessment,
 .session-type-legend.research-project-assessment {
   background-color: #c79376;
 }
@@ -226,6 +262,7 @@
  /* "laboratory" types */
  .dhx_cal_event_clear.laboratory,
 .dhx_cal_event.laboratory .dhx_body,
+.dhx_wa_ev_body.laboratory,
 .session-type-legend.laboratory {
   background-color: #ffcc67;
 }
@@ -233,6 +270,7 @@
 /* "lecture" types */
 .dhx_cal_event_clear.lecture,
 .dhx_cal_event.lecture .dhx_body,
+.dhx_wa_ev_body.lecture,
 .session-type-legend.lecture {
   background-color: #00cc65;
 }
@@ -240,160 +278,189 @@
 /* "other" types */
 .dhx_cal_event_clear.independent-learning,
 .dhx_cal_event.independent-learning .dhx_body,
+.dhx_wa_ev_body.independent-learning,
 .session-type-legend.independent-learning {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.reflection,
 .dhx_cal_event.reflection .dhx_body,
+.dhx_wa_ev_body.reflection,
 .session-type-legend.reflection {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.self-directed-learning,
 .dhx_cal_event.self-directed-learning .dhx_body,
+.dhx_wa_ev_body.self-directed-learning,
 .session-type-legend.self-directed-learning {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.concept-mapping,
 .dhx_cal_event.concept-mapping .dhx_body,
+.dhx_wa_ev_body.concept-mapping,
 .session-type-legend.concept-mapping {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.conference,
 .dhx_cal_event.conference .dhx_body,
+.dhx_wa_ev_body.conference,
 .session-type-legend.conference {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.discussion-large,
 .dhx_cal_event.discussion-large .dhx_body,
+.dhx_wa_ev_body.discussion-large,
 .session-type-legend.discussion-large {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.team-building,
 .dhx_cal_event.team-building .dhx_body,
+.dhx_wa_ev_body.team-building,
 .session-type-legend.team-building {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.simulation,
 .dhx_cal_event.simulation .dhx_body,
+.dhx_wa_ev_body.simulation,
 .session-type-legend.simulation {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.case-based-instruction,
 .dhx_cal_event.case-based-instruction .dhx_body,
+.dhx_wa_ev_body.case-based-instruction,
 .session-type-legend.case-based-instruction {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.demonstration,
 .dhx_cal_event.demonstration .dhx_body,
+.dhx_wa_ev_body.demonstration,
 .session-type-legend.demonstration {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.games,
 .dhx_cal_event.games .dhx_body,
+.dhx_wa_ev_body.games,
 .session-type-legend.games {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.journal-club,
 .dhx_cal_event.journal-club .dhx_body,
+.dhx_wa_ev_body.journal-club,
 .session-type-legend.journal-club {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.mentorship,
 .dhx_cal_event.mentorship .dhx_body,
+.dhx_wa_ev_body.mentorship,
 .session-type-legend.mentorship {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.learner-patient-presentation,
 .dhx_cal_event.learner-patient-presentation .dhx_body,
+.dhx_wa_ev_body.learner-patient-presentation,
 .session-type-legend.learner-patient-presentation {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.faculty-patient-presentation,
 .dhx_cal_event.faculty-patient-presentation .dhx_body,
+.dhx_wa_ev_body.faculty-patient-presentation,
 .session-type-legend.faculty-patient-presentation {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.peer-teaching,
 .dhx_cal_event.peer-teaching .dhx_body,
+.dhx_wa_ev_body.peer-teaching,
 .session-type-legend.peer-teaching {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.research,
 .dhx_cal_event.research .dhx_body,
+.dhx_wa_ev_body.research,
 .session-type-legend.research {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.role-play-drama,
 .dhx_cal_event.role-play-drama .dhx_body,
+.dhx_wa_ev_body.role-play-drama,
 .session-type-legend.role-play-drama {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.performance,
 .dhx_cal_event.performance .dhx_body,
+.dhx_wa_ev_body.performance,
 .session-type-legend.performance {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.tutorial,
 .dhx_cal_event.tutorial .dhx_body,
+.dhx_wa_ev_body.tutorial,
 .session-type-legend.tutorial {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.service-learning-activity,
 .dhx_cal_event.service-learning-activity .dhx_body,
+.dhx_wa_ev_body.service-learning-activity,
 .session-type-legend.service-learning-activity {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.holiday,
 .dhx_cal_event.holiday .dhx_body,
+.dhx_wa_ev_body.holiday,
 .session-type-legend.holiday {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.clinical-performance,
 .dhx_cal_event.clinical-performance .dhx_body,
+.dhx_wa_ev_body.clinical-performance,
 .session-type-legend.clinical-performance {
   background-color: #ffffff;
 }
 
 .dhx_cal_event_clear.panel-presentation,
 .dhx_cal_event.panel-presentation .dhx_body,
+.dhx_wa_ev_body.panel-presentation,
 .session-type-legend.panel-presentation {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.learner-project-presentation,
 .dhx_cal_event.learner-project-presentation .dhx_body,
+.dhx_wa_ev_body.learner-project-presentation,
 .session-type-legend.learner-project-presentation {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.movie,
 .dhx_cal_event.movie .dhx_body,
+.dhx_wa_ev_body.movie,
 .session-type-legend.movie {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.social-event,
 .dhx_cal_event.social-event .dhx_body,
+.dhx_wa_ev_body.social-event,
 .session-type-legend.social-event {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.deadline,
 .dhx_cal_event.deadline .dhx_body,
+.dhx_wa_ev_body.deadline,
 .session-type-legend.deadline {
   background-color: #ffffff;
 }
 .dhx_cal_event_clear.ceremony,
 .dhx_cal_event.ceremony .dhx_body,
+.dhx_wa_ev_body.ceremony,
 .session-type-legend.ceremony {
   background-color: #ffffff;
 }
@@ -401,24 +468,28 @@
 /* "preceptorship" types */
 .dhx_cal_event_clear.ambulatory-clinical-experience,
 .dhx_cal_event.ambulatory-clinical-experience .dhx_body,
+.dhx_wa_ev_body.ambulatory-clinical-experience,
 .session-type-legend.ambulatory-clinical-experience {
   background-color: #dddddd;
 }
 
 .dhx_cal_event_clear.inpatient-clinical-experience,
 .dhx_cal_event.inpatient-clinical-experience .dhx_body,
+.dhx_wa_ev_body.inpatient-clinical-experience,
 .session-type-legend.inpatient-clinical-experience {
   background-color: #dddddd;
 }
 
 .dhx_cal_event_clear.ward-rounds,
 .dhx_cal_event.ward-rounds .dhx_body,
+.dhx_wa_ev_body.ward-rounds,
 .session-type-legend.ward-rounds {
   background-color: #dddddd;
 }
 
 .dhx_cal_event_clear.preceptorship,
 .dhx_cal_event.preceptorship .dhx_body,
+.dhx_wa_ev_body.preceptorship,
 .session-type-legend.preceptorship {
   background-color: #dddddd;
 }
@@ -426,24 +497,28 @@
 /* "small group" types */
 .dhx_cal_event_clear.discussion-small,
 .dhx_cal_event.discussion-small .dhx_body,
+.dhx_wa_ev_body.discussion-small,
 .session-type-legend.discussion-small {
   background-color: #fe7a78;
 }
 
 .dhx_cal_event_clear.workshop,
 .dhx_cal_event.workshop .dhx_body,
+.dhx_wa_ev_body.workshop,
 .session-type-legend.workshop {
   background-color: #fe7a78;
 }
 
 .dhx_cal_event_clear.problem-based-learning,
 .dhx_cal_event.problem-based-learning .dhx_body,
+.dhx_wa_ev_body.problem-based-learning,
 .session-type-legend.problem-based-learning {
   background-color: #fe7a78;
 }
 
 .dhx_cal_event_clear.team-based-learning,
 .dhx_cal_event.team-based-learning .dhx_body,
+.dhx_wa_ev_body.team-based-learning,
 .session-type-legend.team-based-learning {
   background-color: #fe7a78;
 }
