@@ -73,6 +73,9 @@ ilios.home.calendar.forceDataTableRefresh = function () {
 ilios.home.calendar.initCalendar = function () {
     var weekColumnFormat = scheduler.date.date_to_str("%M %j, %D");
 
+    scheduler.config.readonly = true;
+    scheduler.config.use_select_menu_space = false;
+
     scheduler.config.first_hour = 0;
     scheduler.config.last_hour = 24;
     scheduler.config.scroll_hour = 8;
@@ -81,11 +84,10 @@ ilios.home.calendar.initCalendar = function () {
     scheduler.config.time_step = 15;
 
     scheduler.config.edit_on_create = false;
-    scheduler.config.details_on_create = true;
+    scheduler.config.details_on_create = false;
     scheduler.config.details_on_dblclick = true;
 
-    scheduler.config.icons_select = ['icon_dhtmlx_spacer'];
-    scheduler._click.buttons.dhtmlx_spacer = function (eventId) { return false; };
+    scheduler.config.icons_select = [];
     scheduler.config.xml_date = "%Y-%m-%d %H:%i";
 
     scheduler.config.multi_day = true;
@@ -93,8 +95,6 @@ ilios.home.calendar.initCalendar = function () {
     var today = new Date();
 
     today.setHours(0,0,0,0);
-    scheduler.config.agenda_start = scheduler.date.add(today, -5, "day"); // 5 days prior to current date
-    scheduler.config.agenda_end = scheduler.date.add(today, 2, "month"); // 2 month from current date
 
     scheduler.init('dhtmlx_scheduler_container', new Date(), "week");
 
@@ -121,9 +121,6 @@ ilios.home.calendar.initCalendar = function () {
     };
 
     scheduler.templates.week_scale_date = function (date) { return weekColumnFormat(date); };
-
-    ilios.home.calendar.fixDHTMLXDivCSS();
-
 
     scheduler.attachEvent("onClick", ilios.home.calendar.calendarEventSelected);
     scheduler.attachEvent("onBeforeDrag",
@@ -177,9 +174,6 @@ ilios.home.calendar.calendarEventSelected = function (eventId, domEventElement) 
 
         if (ilios.home.calendar.lastModeUsedInAddingEvents != 'month') {
             scheduler.updateEvent(eventId);
-
-            // so awfully hacky
-            setTimeout('ilios.home.calendar.fixDHTMLXDivCSS()', 100);
         } else {
             // known DHTMLX scheduler bug when laying out custom events in month view; was supposed to
             //      be fixed for 2.1, though we're using 2.2 and it's still gefickt
@@ -255,33 +249,6 @@ ilios.home.calendar.focusCalendarOnStartDateOfOfferingWithId = function (offerin
     ilios.home.calendar.focusCalendarOnStartDate(newDate);
 };
 
-/*
- * For whatever reason DHTMLX miscalculates the height of this div making it overlap what would
- *		be the border of its container
- *
- * Should be considered @protected
- */
-ilios.home.calendar.fixDHTMLXDivCSS = function () {
-    var Element = YAHOO.util.Element;
-    var element = new Element(document.getElementById('dhx_cal_data'));
-    var height = element.getStyle('height');
-    var split = height.split("p");
-    var newHeight = parseInt(split[0]) - 1;
-    var allDisplayedCalEvents = element.getElementsByClassName('dhx_cal_event');
-
-    element.setStyle('height', ('' + newHeight + 'px'));
-
-    for (var key in allDisplayedCalEvents) {
-        element = new Element(allDisplayedCalEvents[key]);
-
-        height = element.getStyle('height');
-        split = height.split("p");
-        newHeight = parseInt(split[0]) - 3;
-
-        element.setStyle('height', ('' + newHeight + 'px'));
-    }
-    };
-
 /**
  * This is messaged via the canvas' onViewChange which notifies us that the user's view of the
  * 	calendar has changed; we take this opportunity to populate the calendar view with just the
@@ -293,20 +260,13 @@ ilios.home.calendar.fixDHTMLXDivCSS = function () {
 ilios.home.calendar.calendarViewChanged = function (mode, date) {
     var startDate = date;
 
-    if (mode == 'week') {
+    if (mode == 'week' || mode == 'week_agenda') {
         startDate = ilios.home.calendar.getLastSundayForDate(date);
-    }
-    else if (mode == 'month') {
+    } else if (mode == 'month') {
         startDate = ilios.home.calendar.getFirstOfMonthForDate(date);
-    }
-    else if (mode == 'agenda') {
-        startDate = new Date();
-        startDate.setHours(0,0,0,0);
-        startDate.setDate(startDate.getDate() - 5);
     }
 
     ilios.home.calendar.addEventsFromModelToScheduler(startDate, mode);
-    ilios.home.calendar.fixDHTMLXDivCSS();
 };
 
 /*
@@ -432,8 +392,6 @@ ilios.home.calendar.addEventsFromModelToScheduler = function (viewStartDate, vie
     ilios.home.calendar.lastStartDateUsedInAddingEvents = startDateToUse;
     ilios.home.calendar.lastEndDateUsedInAddingEvents = viewEndDate;
     ilios.home.calendar.lastModeUsedInAddingEvents = viewMode;
-
-    ilios.home.calendar.fixDHTMLXDivCSS();
 };
 
 /*
@@ -505,16 +463,12 @@ ilios.home.calendar.getCurrentViewEndDate = function (viewStartDate, viewMode) {
 
     rhett = new Date(viewStartDate.getTime());
     rhett.setHours(0, 0, 0, 0);
-    if (viewMode == 'week') {
+    if (viewMode == 'week' || viewMode == 'week_agenda') {
         rhett.setDate(viewStartDate.getDate() + 7);
     } else if (viewMode == 'day') {
         rhett.setDate(viewStartDate.getDate() + 1);
     } else if (viewMode == 'month') {
         rhett.setMonth(viewStartDate.getMonth() + 1);
-    } else { // agenda
-        var today = new Date();
-        today.setHours(0,0,0,0);
-        rhett.setMonth(today.getMonth() + 2);
     }
     return rhett;
 };
