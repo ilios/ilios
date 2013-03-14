@@ -61,26 +61,22 @@ class Ilios_Ldap
 
         $host = array_key_exists('host', $this->_options) ? trim($this->_options['host']) : '';
 
-        if ('' == $host) {
+        if ('' === $host) {
             throw new Ilios_Ldap_Exception("Couldn't connect  - LDAP server hostname missing.");
         }
 
-        $connectionUrl = false;
+        $hostIsUrl = false;
         $matches = array();
-        // given host param starts with protocol
+        // check if $host contains an URL.
         if (0 < preg_match_all('/^ldap(?:i|s)?:\/\//', $host, $matches)) {
-            $connectionUrl = $host;
-        } else {
-            // build a connection uri if we connect over LDAPS
-            if ('ldaps' === $this->_options['protocol']) {
-                $connectionUrl = 'ldaps://' . $host . ':' . $port;
-            }
+          $hostIsUrl = true;
         }
         // disconnect before reconnecting
         $this->disconnect();
 
         // connect
-        $ldap = (false === $connectionUrl) ? @ldap_connect($host, $port) : @ldap_connect($connectionUrl);
+        // only pass the port if $host is not an URL
+        $ldap = (false === $hostIsUrl) ? @ldap_connect($host, $port) : @ldap_connect($host);
 
         if (is_resource($ldap)) { // success!
             $this->_ldap = $ldap;
