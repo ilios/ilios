@@ -84,7 +84,7 @@ class Ilios_Ldap
 
         if (is_resource($ldap)) { // success!
             $this->_ldap = $ldap;
-            @ldap_set_option(ldap_set_option($this->_ldap, LDAP_OPT_PROTOCOL_VERSION, 3));
+            @ldap_set_option($this->_ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
             return $this; // return
         }
 
