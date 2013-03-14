@@ -3,16 +3,19 @@
 # Usage:
 #   ./install_user_zero.sh db_host db_name db_username user_email_address primary_school_id
 #
-# This will solicit the executor for the mysql password associated to db_username;
-# it will there after insert a user in the "Course Director" role.
-# priviliged user with the specified email address into the Ilios user table. There after, a user
-# authenticated via Shibboleth will be granted Course Director level access for the school specified.
+# (Note: You will be prompted to enter the password associated with the given db user login.)
 #
 #
-# The generated login credentials are:
+# This script will create a user account with the given email address and linked to the given school
+# in the `user` table.
+# The generated user account will be assigned to the "Course Director" user role and thus grant full privileges
+# to all Ilios features to its user.
+#
+# The generated login credentials for this account are:
 #     username: 'zero_user'
 #     password: 'Ch4nge_m3'
 #
+# ACHTUNG!
 # Please make sure to change this password as soon as possible afterwards.
 
 if [ $# -ne 5 ]

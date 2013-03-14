@@ -13,9 +13,6 @@ class Session extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('session', array('session_id'));
-
-        $this->createDBHandle();
-
         $this->load->model('Group', 'group', TRUE);
         $this->load->model('Instructor_Group', 'instructorGroup', TRUE);
         $this->load->model('Learning_Material', 'learningMaterial', TRUE);
@@ -35,10 +32,8 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('course_id', $courseId);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('course_id', $courseId);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
@@ -51,10 +46,8 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('ilm_session_facet_id', $silmId);
-        $queryResults = $DB->get('ilm_session_facet');
+        $this->db->where('ilm_session_facet_id', $silmId);
+        $queryResults = $this->db->get('ilm_session_facet');
 
         $silm = $queryResults->first_row();
 
@@ -77,10 +70,8 @@ class Session extends Abstract_Ilios_Model
      */
     public function getSILMBySessionId ($sessionId)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $queryResults = $DB->get('session');
+        $this->db->where('session_id', $sessionId);
+        $queryResults = $this->db->get('session');
 
         if ($queryResults->num_rows() > 0) {
             $row = $queryResults->first_row();
@@ -99,9 +90,8 @@ class Session extends Abstract_Ilios_Model
      * The list is shows only non-deleted sessions and courses
      * The list is restricted by owning school of the course
      */
-    public function getSessionsWithCourseTitle() {
-        $DB = $this->dbHandle;
-
+    public function getSessionsWithCourseTitle()
+    {
         $queryString = 'SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
                                `course`.`start_date`, `course`.`end_date`, `session`.`session_id`
                           FROM `course`, `session`
@@ -111,7 +101,7 @@ class Session extends Abstract_Ilios_Model
                            AND `course`.`owning_school_id` = ' . $this->session->userdata('school_id') . '
                       ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`';
 
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         $items = array();
         foreach ($queryResults->result_array() as $row) {
             $item = array();
@@ -170,10 +160,8 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('ilm_session_facet_id', $silmId);
-        $queryResults = $DB->get('ilm_session_facet_instructor');
+        $this->db->where('ilm_session_facet_id', $silmId);
+        $queryResults = $this->db->get('ilm_session_facet_instructor');
 
         foreach ($queryResults->result_array() as $row) {
             if (($row['user_id'] == null) || ($row['user_id'] == '')) {
@@ -193,10 +181,8 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('ilm_session_facet_id', $silmId);
-        $queryResults = $DB->get('ilm_session_facet_learner');
+        $this->db->where('ilm_session_facet_id', $silmId);
+        $queryResults = $this->db->get('ilm_session_facet_learner');
 
         foreach ($queryResults->result_array() as $row) {
             if (isset($row['group_id']) && (! is_null($row['group_id']))) {
@@ -216,12 +202,10 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('course_id', $courseId);
-        $DB->where('deleted', 0);
-        $DB->where('publish_event_id !=', 'NULL');
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('course_id', $courseId);
+        $this->db->where('deleted', 0);
+        $this->db->where('publish_event_id !=', 'NULL');
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row['session_id']);
@@ -233,8 +217,6 @@ class Session extends Abstract_Ilios_Model
     public function rolloverSession ($sessionId, $newCourseId, $rolloverOfferingsToo, $totalOffsetDays,
                                      $rolloverIsSameAcademicYear, $objectiveIdMap)
     {
-        $DB = $this->dbHandle;
-
         $sessionRow = $this->getRowForPrimaryKeyId($sessionId);
 
         $newRow = array();
@@ -258,8 +240,8 @@ class Session extends Abstract_Ilios_Model
             $newRow['ilm_session_facet_id'] = null;
         }
 
-        $DB->insert($this->databaseTableName, $newRow);
-        $newSessionId = $DB->insert_id();
+        $this->db->insert($this->databaseTableName, $newRow);
+        $newSessionId = $this->db->insert_id();
 
         if ($newSessionId > 0) {
             $sessionDescriptionRow = $this->getRow('session_description', 'session_id', $sessionId);
@@ -268,18 +250,18 @@ class Session extends Abstract_Ilios_Model
                 $newRow['session_id'] = $newSessionId;
                 $newRow['description'] = $sessionDescriptionRow->description;
 
-                $DB->insert('session_description', $newRow);
+                $this->db->insert('session_description', $newRow);
             }
 
 
             $queryString = 'SELECT copy_disciplines_from_session_to_session(' . $sessionId . ', '
                                 . $newSessionId . ')';
-            $DB->query($queryString);
+            $this->db->query($queryString);
 
 
             $queryString = 'SELECT copy_mesh_session_to_session(' . $sessionId . ', '
                                 . $newSessionId . ')';
-            $DB->query($queryString);
+            $this->db->query($queryString);
 
 
             if ($newILMSessionFacetId != null) {
@@ -289,8 +271,8 @@ class Session extends Abstract_Ilios_Model
             }
 
 
-            $DB->where('session_id', $sessionId);
-            $queryResults = $DB->get('session_learning_material');
+            $this->db->where('session_id', $sessionId);
+            $queryResults = $this->db->get('session_learning_material');
             $learningMaterials = array();
             foreach ($queryResults->result_array() as $row) {
                 array_push($learningMaterials, $row);
@@ -306,9 +288,9 @@ class Session extends Abstract_Ilios_Model
                 $newRow['required'] = $learningMaterial['required'];
                 $newRow['notes_are_public'] = $learningMaterial['notes_are_public'];
 
-                $DB->insert('session_learning_material', $newRow);
+                $this->db->insert('session_learning_material', $newRow);
                 $pair = array();
-                $pair['new'] = $DB->insert_id();
+                $pair['new'] = $this->db->insert_id();
                 $pair['original'] = $learningMaterial['session_learning_material_id'];
 
                 array_push($lmidPairs, $pair);
@@ -316,7 +298,7 @@ class Session extends Abstract_Ilios_Model
             foreach ($lmidPairs as $lmidPair) {
                 $queryString = 'SELECT copy_learning_material_mesh_from_session_lm_to_session_lm('
                                 . $lmidPair['original'] . ', ' . $lmidPair['new'] . ')';
-                $DB->query($queryString);
+                $this->db->query($queryString);
             }
 
 
@@ -327,9 +309,9 @@ class Session extends Abstract_Ilios_Model
             if ($rolloverOfferingsToo) {
                 $offeringIds = array();
 
-                $DB->where('session_id', $sessionId);
-                $DB->where('deleted', 0);
-                $queryResults = $DB->get($this->offering->getTableName());
+                $this->db->where('session_id', $sessionId);
+                $this->db->where('deleted', 0);
+                $queryResults = $this->db->get($this->offering->getTableName());
                 foreach ($queryResults->result_array() as $row) {
                     array_push($offeringIds, $row['offering_id']);
                 }
@@ -343,10 +325,8 @@ class Session extends Abstract_Ilios_Model
 
     protected function cloneILMSessionFacet ($ilmSessionFacetId, $offsetDays)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('ilm_session_facet_id', $ilmSessionFacetId);
-        $queryResults = $DB->get('ilm_session_facet');
+        $this->db->where('ilm_session_facet_id', $ilmSessionFacetId);
+        $queryResults = $this->db->get('ilm_session_facet');
 
         if (is_null($queryResults) || ($queryResults->num_rows() == 0)) {
             return null;
@@ -364,9 +344,9 @@ class Session extends Abstract_Ilios_Model
 
         $newRow['due_date'] = $dtDueTime->format('Y-m-d');
 
-        $DB->insert('ilm_session_facet', $newRow);
+        $this->db->insert('ilm_session_facet', $newRow);
 
-        return $DB->insert_id();
+        return $this->db->insert_id();
     }
 
     /**
@@ -431,26 +411,24 @@ class Session extends Abstract_Ilios_Model
         //
         // @todo fix the underlying issue in the db schema
         // [ST 11/20/2012]
-
-        $DB = $this->dbHandle;
-        $DB->select('session.*, session_type.title AS session_type_title');
-        $DB->select('offering.start_date AS offering_start_date');
-        $DB->select('ilm_session_facet.due_date AS ilm_due_date');
-        $DB->from($this->databaseTableName);
-        $DB->join('session_type', 'session.session_type_id = session_type.session_type_id', 'left');
-        $DB->join('offering', 'offering.session_id = session.session_id', 'left');
-        $DB->join('ilm_session_facet', 'ilm_session_facet.ilm_session_facet_id = session.ilm_session_facet_id', 'left');
-        $DB->where('session.course_id', $courseId);
-        $DB->where('session.deleted', 0);
-        $DB->order_by('session.session_id');
+        $this->db->select('session.*, session_type.title AS session_type_title');
+        $this->db->select('offering.start_date AS offering_start_date');
+        $this->db->select('ilm_session_facet.due_date AS ilm_due_date');
+        $this->db->from($this->databaseTableName);
+        $this->db->join('session_type', 'session.session_type_id = session_type.session_type_id', 'left');
+        $this->db->join('offering', 'offering.session_id = session.session_id', 'left');
+        $this->db->join('ilm_session_facet', 'ilm_session_facet.ilm_session_facet_id = session.ilm_session_facet_id', 'left');
+        $this->db->where('session.course_id', $courseId);
+        $this->db->where('session.deleted', 0);
+        $this->db->order_by('session.session_id');
         if ($excludeUnpublishedSessions) {
-            $DB->where('session.publish_event_id IS NOT NULL');
+            $this->db->where('session.publish_event_id IS NOT NULL');
         }
         if ($excludeTBDSessions) {
-            $DB->where('session.published_as_tbd', 0);
+            $this->db->where('session.published_as_tbd', 0);
         }
 
-        $queryResults = $DB->get();
+        $queryResults = $this->db->get();
 
         foreach ($queryResults->result_array() as $row) {
             $session = array();
@@ -569,31 +547,29 @@ class Session extends Abstract_Ilios_Model
      *  has a reference to the session model (because it needs to include session type information)
      *  we hand code this.
      */
-    protected function getOfferingCount ($sessionId) {
-        $DB = $this->dbHandle;
+    protected function getOfferingCount ($sessionId)
+    {
+        $this->db->where('session_id', $sessionId);
+        $this->db->where('deleted', 0);
+        $this->db->from('offering');
 
-        $DB->where('session_id', $sessionId);
-        $DB->where('deleted', 0);
-        $DB->from('offering');
-
-        return $DB->count_all_results();
+        return $this->db->count_all_results();
     }
 
     /**
      * See getOfferingCount(...) comments as to why we don't reference the offering model to do this
      */
-    protected function updateOfferingPublishStatus ($sessionId, $publishEventId, &$auditAtoms) {
-        $DB = $this->dbHandle;
-
+    protected function updateOfferingPublishStatus ($sessionId, $publishEventId, &$auditAtoms)
+    {
         $updateRow = array();
         $updateRow['publish_event_id'] = ($publishEventId == -1) ? null : $publishEventId;
 
-        $DB->where('session_id', $sessionId);
-        $DB->update('offering', $updateRow);
+        $this->db->where('session_id', $sessionId);
+        $this->db->update('offering', $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'offering',
-                                                            Audit_Event::$UPDATE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
     }
 
     /**
@@ -603,10 +579,8 @@ class Session extends Abstract_Ilios_Model
      */
     public function getDescription ($sessionId)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $queryResults = $DB->get('session_description');
+        $this->db->where('session_id', $sessionId);
+        $queryResults = $this->db->get('session_description');
 
         if ($queryResults->num_rows() > 0) {
             $row = $queryResults->first_row();
@@ -625,9 +599,8 @@ class Session extends Abstract_Ilios_Model
     protected function _updateDescription ($sessionId, $description)
     {
     	$data = array('description' => $description);
-    	$DB = $this->dbHandle;
-    	$DB->where('session_id', $sessionId);
-    	$DB->update('session_description', $data);
+    	$this->db->where('session_id', $sessionId);
+    	$this->db->update('session_description', $data);
 
     	return true; // no way to check with certainty if update was a success.
     }
@@ -639,10 +612,9 @@ class Session extends Abstract_Ilios_Model
      */
     protected function _deleteDescription ($sessionId)
     {
-    	$DB = $this->dbHandle;
-    	$DB->where('session_id', $sessionId);
-    	$DB->delete('session_description');
-    	return ($DB->affected_rows() != 0);
+    	$this->db->where('session_id', $sessionId);
+    	$this->db->delete('session_description');
+    	return ($this->db->affected_rows() != 0);
     }
 
     /**
@@ -653,14 +625,12 @@ class Session extends Abstract_Ilios_Model
      */
     protected function _addDescription ($sessionId, $description)
     {
-
-        $DB = $this->dbHandle;
         $newRow = array();
         $newRow['description'] = $description;
         $newRow['session_id'] = $sessionId;
-        $DB->insert('session_description', $newRow);
+        $this->db->insert('session_description', $newRow);
 
-        return ($DB->affected_rows() != 0);
+        return ($this->db->affected_rows() != 0);
     }
 
     /**
@@ -703,11 +673,8 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $newRow = array();
         $newRow['session_id'] = null;
-
         $newRow['title'] = $title;
         $newRow['publish_event_id'] = ($publishId == -1) ? null : $publishId;
         $newRow['attire_required'] = $attireRequired;
@@ -718,9 +685,9 @@ class Session extends Abstract_Ilios_Model
         $newRow['ilm_session_facet_id'] = $ilmId;
         $newRow['deleted'] = 0;
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newSessionId = $DB->insert_id();
+        $newSessionId = $this->db->insert_id();
 
         // MAY RETURN THIS BLOCK
         if ((! $newSessionId) || ($newSessionId < 1)) {
@@ -733,7 +700,7 @@ class Session extends Abstract_Ilios_Model
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newSessionId, 'session_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         // associate learning materials with session
         $this->learningMaterial->saveSessionLearningMaterialAssociations($newSessionId, $learningMaterialArray,
@@ -797,10 +764,7 @@ class Session extends Abstract_Ilios_Model
         $associatedLearningMaterialIds = $this->getIdArrayFromCrossTable('session_learning_material',
         		'learning_material_id', 'session_id', $sessionId);
 
-        $DB = $this->dbHandle;
-
         $updateRow = array();
-
         $updateRow['title'] = $title;
         $updateRow['publish_event_id'] = ($publishId == -1) ? null : $publishId;
         $updateRow['attire_required'] = $attireRequired;
@@ -812,12 +776,12 @@ class Session extends Abstract_Ilios_Model
         $updateRow['deleted'] = 0;
         $updateRow['published_as_tbd'] = $publishAsTBD;
 
-        $DB->where('session_id', $sessionId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('session_id', $sessionId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         // update session/learning material associations
         $this->learningMaterial->saveSessionLearningMaterialAssociations($sessionId, $learningMaterialArray,
@@ -882,34 +846,32 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $this->learningMaterial->disassociateLearningMaterial(null, $sessionId, false, $auditAtoms);
         $tables = array('session_x_discipline', 'session_x_mesh', 'session_x_objective');
 
-        $DB->where('session_id', $sessionId);
-        $DB->delete($tables);
+        $this->db->where('session_id', $sessionId);
+        $this->db->delete($tables);
 
         $updateRow = array();
         $updateRow['deleted'] = 1;
 
-        $DB->where('session_id', $sessionId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('session_id', $sessionId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'session_x_discipline',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'session_x_mesh',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             'session_x_objective',
-                                                            Audit_Event::$DELETE_EVENT_TYPE));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$DELETE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
 
-        if ($DB->affected_rows() == 0) {
+        if ($this->db->affected_rows() == 0) {
             $lang = $this->getLangToUse();
 
             $rhett['error']  = $this->i18nVendor->getI18NString('general.error.db_delete', $lang);
@@ -933,10 +895,7 @@ class Session extends Abstract_Ilios_Model
                     . 'WHERE `session`.`session_id` = ' . $sessionId
                             . ' AND `session`.`session_id` = `offering`.`session_id`'
                             . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
-
-        $DB = $this->dbHandle;
-
-        return $DB->query($queryString);
+        return $this->db->query($queryString);
     }
 
     /**
@@ -954,10 +913,7 @@ class Session extends Abstract_Ilios_Model
                     . 'WHERE `session`.`session_id` = ' . $sessionId
                             . ' AND `session`.`session_id` = `offering`.`session_id`'
                             . ' AND `offering`.`offering_id` = `offering_learner`.`offering_id`';
-
-        $DB = $this->dbHandle;
-
-        return $DB->query($queryString);
+        return $this->db->query($queryString);
     }
 
     /**
@@ -969,10 +925,8 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $queryResults = $DB->get('session_x_mesh');
+        $this->db->where('session_id', $sessionId);
+        $queryResults = $this->db->get('session_x_mesh');
 
         foreach ($queryResults->result_array() as $row) {
             $descriptorRow = $this->mesh->getRowForPrimaryKeyId($row['mesh_descriptor_uid']);
@@ -992,10 +946,8 @@ class Session extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('session_id', $sessionId);
-        $queryResults = $DB->get('session_x_objective');
+        $this->db->where('session_id', $sessionId);
+        $queryResults = $this->db->get('session_x_objective');
 
         foreach ($queryResults->result_array() as $row) {
             $objectiveRow = $this->objective->getRowForPrimaryKeyId($row['objective_id']);
@@ -1006,21 +958,20 @@ class Session extends Abstract_Ilios_Model
         return $rhett;
     }
 
-    protected function getIndependentLearningFacet ($ilmId) {
+    protected function getIndependentLearningFacet ($ilmId)
+    {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $DB->get('ilm_session_facet');
+        $this->db->where('ilm_session_facet_id', $ilmId);
+        $queryResults = $this->db->get('ilm_session_facet');
 
         $ilmRow = $queryResults->first_row();
         $rhett['ilm_session_facet_id'] = $ilmId;
         $rhett['hours'] = $ilmRow->hours;
         $rhett['due_date'] = $ilmRow->due_date;
 
-        $DB->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $DB->get('ilm_session_facet_learner');
+        $this->db->where('ilm_session_facet_id', $ilmId);
+        $queryResults = $this->db->get('ilm_session_facet_learner');
         $learnerArray = array();
         foreach ($queryResults->result_array() as $row) {
             if (isset($row['group_id']) && (! is_null($row['group_id']))) {
@@ -1034,8 +985,8 @@ class Session extends Abstract_Ilios_Model
         }
         $rhett['learners'] = $learnerArray;
 
-        $DB->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $DB->get('ilm_session_facet_instructor');
+        $this->db->where('ilm_session_facet_id', $ilmId);
+        $queryResults = $this->db->get('ilm_session_facet_instructor');
         $instructorArray = array();
         foreach ($queryResults->result_array() as $row) {
             if (($row['user_id'] == null) || ($row['user_id'] == '')) {
@@ -1067,8 +1018,6 @@ class Session extends Abstract_Ilios_Model
      */
     public function saveIndependentLearningFacet (&$ilmId, $hours, $dueDate, $learnerGroupIds, $instructors)
     {
-        $DB = $this->dbHandle;
-
         $existingInstructorIds = array();
         $existingInstructorGroupIds = array();
         $existingLearnerGroupIds = array();
@@ -1080,9 +1029,9 @@ class Session extends Abstract_Ilios_Model
             $newRow['hours'] = $hours;
             $newRow['due_date'] = $dueDate;
 
-            $DB->insert('ilm_session_facet', $newRow);
+            $this->db->insert('ilm_session_facet', $newRow);
 
-            $ilmId = $DB->insert_id();
+            $ilmId = $this->db->insert_id();
 
             if ((! $ilmId) || ($ilmId == -1)) {
                 return false;
@@ -1093,8 +1042,8 @@ class Session extends Abstract_Ilios_Model
             $updateRow['hours'] = $hours;
             $updateRow['due_date'] = $dueDate;
 
-            $DB->where('ilm_session_facet_id', $ilmId);
-            $DB->update('ilm_session_facet', $updateRow);
+            $this->db->where('ilm_session_facet_id', $ilmId);
+            $this->db->update('ilm_session_facet', $updateRow);
 
             $existingInstructorIds = $this->_getILMInstructorIds($ilmId);
             $existingLearnerGroupIds = $this->_getILMLearnerGroupIds($ilmId);

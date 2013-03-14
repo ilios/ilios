@@ -415,7 +415,7 @@ class Dashboard_Controller extends Calendar_Controller
 
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $this->reminder->startTransaction();
             $newReminderId = $this->reminder->saveReminder($reminderId, $noteText, $dueDate, $closed);
@@ -490,7 +490,7 @@ class Dashboard_Controller extends Calendar_Controller
         $title = $this->input->get_post('title');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $this->report->startTransaction();
 
@@ -545,7 +545,7 @@ class Dashboard_Controller extends Calendar_Controller
         $reportId = $this->input->get_post('rid');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             unset($rhett['error']);
 
@@ -1009,7 +1009,7 @@ class Dashboard_Controller extends Calendar_Controller
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
-    
+
 	/**
      * @todo add code docs.
      */
@@ -1029,12 +1029,12 @@ class Dashboard_Controller extends Calendar_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
-        
+
         // get the school id
         $schoolId = $this->session->userdata('school_id');
-        
+
         $sessionTypes = $this->sessionType->getList ($schoolId);
-        
+
         $items = array();
         foreach ($sessionTypes as $row) {
             $item = array();

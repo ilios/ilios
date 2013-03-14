@@ -14,7 +14,6 @@ class Competency extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('competency', array('competency_id'));
-        $this->createDBHandle();
     }
 
     /**
@@ -41,12 +40,10 @@ class Competency extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('parent_competency_id', $competencyId);
-        $DB->where('owning_school_id', $owningSchoolId);
-        $DB->order_by('title', 'asc');
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('parent_competency_id', $competencyId);
+        $this->db->where('owning_school_id', $owningSchoolId);
+        $this->db->order_by('title', 'asc');
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
             $competencyObject = array();
             $competencyObject['competency_id'] = $row['competency_id'];

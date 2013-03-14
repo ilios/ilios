@@ -13,7 +13,6 @@ class School extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('school', array('school_id'));
-        $this->createDBHandle();
         $this->load->model('Department', 'department', true);
     }
 
@@ -26,11 +25,10 @@ class School extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
         if ($excludeDeletedSchools) {
-            $DB->where('deleted', 0);
+            $this->db->where('deleted', 0);
         }
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row['school_id']);
         }
@@ -45,11 +43,10 @@ class School extends Abstract_Ilios_Model
     public function getSchoolsMap ($excludeDeletedSchools = true)
     {
         $rhett = array();
-        $DB = $this->dbHandle;
         if ($excludeDeletedSchools) {
-            $DB->where('deleted', 0);
+            $this->db->where('deleted', 0);
         }
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             $rhett[$row['school_id']] = $row;
@@ -71,13 +68,12 @@ class School extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
         if ($excludeDeletedSchools) {
-            $DB->where('deleted', 0);
+            $this->db->where('deleted', 0);
         }
-        $DB->order_by('title', 'desc');
+        $this->db->order_by('title', 'desc');
 
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             $model = array();
@@ -110,8 +106,7 @@ JOIN `course` c ON c.`owning_school_id` = s.`school_id`
 JOIN `session` ss ON ss.`course_id` = c.`course_id`
 WHERE ss.`session_id` = {$clean['session_id']}
 EOL;
-        $DB = $this->dbHandle;
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
         	$rhett = $query->row_array();
         }
@@ -137,8 +132,7 @@ FROM `school` s
 JOIN `course` c ON c.`owning_school_id` = s.`school_id`
 WHERE c.`course_id` = {$clean['course_id']}
 EOL;
-        $DB = $this->dbHandle;
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
         	$rhett = $query->row_array();
         }

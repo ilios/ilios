@@ -994,18 +994,13 @@ ilios.management.user_accounts.showSearchOnlyDOM = function () {
     element.setAttribute('style',
                          'border: 1px solid #808080; padding-top: 6px; background-color: #EDF5FF; '
                             + 'position: relative;');
-//    subElement = document.createElement('div');
-//    subElement.setAttribute('id', 'search_term_hint_text');
-//    subElement.setAttribute('style', 'position: absolute; left: 23px; top: 11px; color: #808080;');
-//    subElement.innerHTML = ilios_i18nVendor.getI18NString('general.phrases.search.hint');
     str = ilios_i18nVendor.getI18NString('general.phrases.search.hint');
-//    element.appendChild(subElement);
     subElement = document.createElement('input');
     subElement.setAttribute('id', 'user_search_terms');
     subElement.setAttribute('type', 'text');
-    subElement.setAttribute('onkeypress', 'return ilios.management.user_accounts.handleSearchFieldInput(event);');
     subElement.setAttribute('style', 'width: 606px; margin: 1px 9px 0px; padding-left: 3px;');
     subElement.setAttribute('placeholder', str);
+    Event.addListener(subElement, 'keypress', ilios.management.user_accounts.handleSearchFieldInput);
     element.appendChild(subElement);
     subElement = document.createElement('div');
     subElement.setAttribute('class', 'search_icon_button');
@@ -1045,9 +1040,6 @@ ilios.management.user_accounts.emptySearchDialog = function () {
     element = document.getElementById('user_search_results_list');
     ilios.utilities.removeAllChildren(element);
 
-    element = new YAHOO.util.Element(document.getElementById('search_term_hint_text'));
-    element.setStyle('display', 'block');
-
     element = document.getElementById('user_search_terms');
     element.focus();
 };
@@ -1057,11 +1049,6 @@ ilios.management.user_accounts.handleSearchFieldInput = function (event) {
                                  : event.which
                                         ? event.which
                                         : event.charCode;
-    var element = new YAHOO.util.Element(document.getElementById('search_term_hint_text'));
-
-    if (element.getStyle('display') != 'none') {
-        element.setStyle('display', 'none');
-    }
 
     if (charCode == 13) {
         var elem = document.getElementById('user_search_terms');

@@ -37,9 +37,7 @@ ilios.om.calendar.initCalendar = function () {
     scheduler.config.details_on_create = true;
     scheduler.config.details_on_dblclick = true;
 
-    scheduler.config.icons_select = ['icon_details', 'icon_dhtmlx_spacer', 'icon_delete'];
-    scheduler._click.buttons.details = ilios.om.lightbox.displayCalendarLightbox;
-    scheduler._click.buttons.dhtmlx_spacer = function (eventId) { return false; };
+    scheduler.config.icons_select = ['icon_details','icon_delete'];
 
     scheduler.config.xml_date = "%Y-%m-%d %H:%i";
 
@@ -77,8 +75,6 @@ ilios.om.calendar.initCalendar = function () {
         = function (date1, date2) {
             return weekHeaderFormat(date1) + " - " + weekHeaderFormat(date2);
         };
-
-    ilios.om.calendar.fixDHTMLXDivCSS();
 
     scheduler.attachEvent("onClick", ilios.om.calendar.offeringSelected);
     scheduler.attachEvent("onEventAdded", ilios.om.calendar.offeringAddedViaCalendar);
@@ -119,9 +115,6 @@ ilios.om.calendar.resetCurrentCalendarViewToStart = function () {
     }
 
     scheduler.setCurrentView(dateBegin, 'week');
-    scheduler.config.agenda_start = new Date(dateBegin); //course or session start
-    scheduler.config.agenda_end = new Date(dateEnd);
-
 };
 
 /*
@@ -159,33 +152,6 @@ ilios.om.calendar.focusCalendarOnStartDateOfOfferingWithId = function (offeringI
     ilios.om.calendar.focusCalendarOnStartDate(newDate);
 };
 
-/*
- * For whatever reason DHTMLX miscalculates the height of this div making it overlap what would
- *      be the border of its container
- *
- * Should be considered @protected
- */
-ilios.om.calendar.fixDHTMLXDivCSS = function () {
-    var Element = YAHOO.util.Element;
-    var element = new Element(document.getElementById('dhx_cal_data'));
-    var height = element.getStyle('height');
-    var split = height.split("p");
-    var newHeight = parseInt(split[0]) - 1;
-    var allDisplayedCalEvents = element.getElementsByClassName('dhx_cal_event');
-
-    element.setStyle('height', ('' + newHeight + 'px'));
-
-    for (var key in allDisplayedCalEvents) {
-        element = new Element(allDisplayedCalEvents[key]);
-
-        height = element.getStyle('height');
-        split = height.split("p");
-        newHeight = parseInt(split[0]) - 3;
-
-        element.setStyle('height', ('' + newHeight + 'px'));
-    }
-};
-
 /**
  * This is messaged via the canvas' onClick which allows us a chance to populate the inspector pane.
  *
@@ -211,11 +177,7 @@ ilios.om.calendar.offeringSelected = function (eventId, domEventElement) {
 
     if (ilios.om.calendar.lastModeUsedInAddingEvents != 'month') {
         scheduler.updateEvent(eventId);
-
-        // so awfully hacky
-        setTimeout('ilios.om.calendar.fixDHTMLXDivCSS()', 100);
-    }
-    else {
+    } else {
         // known DHTMLX scheduler bug when laying out custom events in month view; was supposed to
         //      be fixed for 2.1, though we're using 2.2 and it's still gefickt
         //  http://forum.dhtmlx.com/viewtopic.php?f=6&t=3435&p=10223&hilit=updateEvent#p10223
@@ -327,14 +289,10 @@ ilios.om.calendar.calendarViewChanged = function (mode, date) {
     var showSessionsOnly = element.checked;
     var startDate = date;
 
-    if (mode == 'week') {
+    if (mode == 'week' || mode == 'week_agenda') {
         startDate = ilios.om.calendar.getLastSundayForDate(date);
-    }
-    else if (mode == 'month') {
+    } else if (mode == 'month') {
         startDate = ilios.om.calendar.getFirstOfMonthForDate(date);
-    }
-    else if (mode == 'agenda') {
-        startDate = scheduler.config.agenda_start;
     }
 
     ilios.om.calendar.addEventsFromModelToScheduler(startDate, mode, showSessionsOnly);
@@ -355,7 +313,6 @@ ilios.om.calendar.calendarViewChanged = function (mode, date) {
                                            ilios.om.learnersUniqueClassName);
     }
 
-    ilios.om.calendar.fixDHTMLXDivCSS();
 };
 
 /*
@@ -495,8 +452,6 @@ ilios.om.calendar.addEventsFromModelToScheduler = function (viewStartDate, viewM
     ilios.om.calendar.lastStartDateUsedInAddingEvents = startDateToUse;
     ilios.om.calendar.lastEndDateUsedInAddingEvents = viewEndDate;
     ilios.om.calendar.lastModeUsedInAddingEvents = viewMode;
-
-    ilios.om.calendar.fixDHTMLXDivCSS();
 };
 
 /*
@@ -726,16 +681,11 @@ ilios.om.calendar.getCurrentViewEndDate = function (viewStartDate, viewMode) {
     rhett = new Date(viewStartDate.getTime());
     rhett.setHours(0, 0, 0, 0);
 
-    if (viewMode == 'week') {
+    if (viewMode == 'week' || viewMode == 'week_agenda') {
         rhett.setDate(viewStartDate.getDate() + 7);
-    }
-    else if (viewMode == 'day') {
+    } else if (viewMode == 'day') {
         rhett.setDate(viewStartDate.getDate() + 1);
-    }
-    else if (viewMode == 'agenda') {
-	rhett = scheduler.config.agenda_end;
-    }
-    else {
+    } else {
         rhett.setMonth(viewStartDate.getMonth() + 1);
     }
 

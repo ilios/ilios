@@ -14,8 +14,6 @@ class Course extends Abstract_Ilios_Model
     {
         parent::__construct('course', array('course_id'));
 
-        $this->createDBHandle();
-
         $this->load->model('Cohort', 'cohort', TRUE);
         $this->load->model('Competency', 'competency', TRUE);
         $this->load->model('Discipline', 'discipline', TRUE);
@@ -72,8 +70,6 @@ class Course extends Abstract_Ilios_Model
     public function rolloverCourse ($courseId, $newYear, $startDate, $endDate, $cloneOfferingsToo,
                              &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $newCourseId = -1;
 
         $courseRow = $this->getRowForPrimaryKeyId($courseId);
@@ -94,14 +90,14 @@ class Course extends Abstract_Ilios_Model
         $newRow['published_as_tbd'] = 0;
         $newRow['clerkship_type_id'] = $courseRow->clerkship_type_id;
 
-        $DB->insert($this->databaseTableName, $newRow);
-        $newCourseId = $DB->insert_id();
+        $this->db->insert($this->databaseTableName, $newRow);
+        $newCourseId = $this->db->insert_id();
 
         if ($newCourseId > 0) {
             array_push($auditAtoms,
                        $this->auditEvent->wrapAtom($newCourseId, 'course_id',
                                                    $this->databaseTableName,
-                                                   Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                   Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
             $dtOriginalCourseStartTime = new DateTime($courseRow->start_date);
             $dtRolledOverCourseStartTime = new DateTime($newRow['start_date']);
@@ -113,27 +109,27 @@ class Course extends Abstract_Ilios_Model
                 $queryString = 'SELECT copy_cohorts_from_course_to_course(' . $courseId . ', '
                                 . $newCourseId . ')';
 
-                $DB->query($queryString);
+                $this->db->query($queryString);
             }
 
 
             $queryString = 'SELECT copy_disciplines_from_course_to_course(' . $courseId . ', '
                                 . $newCourseId . ')';
-            $DB->query($queryString);
+            $this->db->query($queryString);
 
 
             $queryString = 'SELECT copy_directors_from_course_to_course(' . $courseId . ', '
                                 . $newCourseId . ')';
-            $DB->query($queryString);
+            $this->db->query($queryString);
 
 
             $queryString = 'SELECT copy_mesh_from_course_to_course(' . $courseId . ', '
                                 . $newCourseId . ')';
-            $DB->query($queryString);
+            $this->db->query($queryString);
 
 
-            $DB->where('course_id', $courseId);
-            $queryResults = $DB->get('course_learning_material');
+            $this->db->where('course_id', $courseId);
+            $queryResults = $this->db->get('course_learning_material');
             $learningMaterials = array();
             foreach ($queryResults->result_array() as $row) {
                 array_push($learningMaterials, $row);
@@ -149,9 +145,9 @@ class Course extends Abstract_Ilios_Model
                 $newRow['required'] = $learningMaterial['required'];
                 $newRow['notes_are_public'] = $learningMaterial['notes_are_public'];
 
-                $DB->insert('course_learning_material', $newRow);
+                $this->db->insert('course_learning_material', $newRow);
                 $pair = array();
-                $pair['new'] = $DB->insert_id();
+                $pair['new'] = $this->db->insert_id();
                 $pair['original'] = $learningMaterial['course_learning_material_id'];
 
                 array_push($lmidPairs, $pair);
@@ -159,7 +155,7 @@ class Course extends Abstract_Ilios_Model
             foreach ($lmidPairs as $lmidPair) {
                 $queryString = 'SELECT copy_learning_material_mesh_from_course_lm_to_course_lm('
                                 . $lmidPair['original'] . ', ' . $lmidPair['new'] . ')';
-                $DB->query($queryString);
+                $this->db->query($queryString);
             }
 
 
@@ -212,7 +208,6 @@ class Course extends Abstract_Ilios_Model
      */
     protected function _getCourses ($schoolId, $uid)
     {
-    	$DB = $this->dbHandle;
     	$clean = array();
     	$clean['school_id'] = (int) $schoolId;
     	$clean['uid'] = (int) $uid;
@@ -221,7 +216,7 @@ class Course extends Abstract_Ilios_Model
     	. '"%%", ' . $clean['school_id'] . ', '
     	. $clean['uid'] . ')';
 
-    	return $DB->query($sql);
+    	return $this->db->query($sql);
     }
 
     /**
@@ -234,11 +229,10 @@ class Course extends Abstract_Ilios_Model
      */
     protected function _searchCoursesByTitle ($title, $schoolId, $uid)
     {
-        $DB = $this->dbHandle;
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
         $clean['uid'] = (int) $uid;
-        $clean['title'] = $DB->escape_like_str($title);
+        $clean['title'] = $this->db->escape_like_str($title);
 
         $len = strlen($title);
 
@@ -254,16 +248,14 @@ class Course extends Abstract_Ilios_Model
                 . $clean['uid'] . ')';
         }
 
-        return $DB->query($sql);
+        return $this->db->query($sql);
     }
 
     public function courseExistsWithTitleAndYear ($title, $year)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('title', $title);
-        $DB->where('year', $year);
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where('title', $title);
+        $this->db->where('year', $year);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         return ($queryResults->num_rows() > 0);
     }
@@ -272,8 +264,6 @@ class Course extends Abstract_Ilios_Model
     {
         $start = mktime(12, 0, 0, 9, 1, $year);
         $end = mktime(12, 0, 0, 12, 14, $year);
-
-        $DB = $this->dbHandle;
 
         $newRow = array();
         $newRow['course_id'] = null;
@@ -289,12 +279,12 @@ class Course extends Abstract_Ilios_Model
         $newRow['archived'] = 0;
         $newRow['published_as_tbd'] = 0;
 
-        $DB->insert($this->databaseTableName, $newRow);
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $newId = $DB->insert_id();
+        $newId = $this->db->insert_id();
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'course_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         return $newId;
     }
@@ -331,8 +321,6 @@ class Course extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $updateRow = array();
         $updateRow['title'] = $title;
         $updateRow['external_id'] = $externalId;
@@ -342,12 +330,12 @@ class Course extends Abstract_Ilios_Model
         $updateRow['course_level'] = $courseLevel;
         $updateRow['published_as_tbd'] = $publishAsTBD;
         $updateRow['clerkship_type_id'] = ($clerkshipTypeId > 0) ? $clerkshipTypeId : null;
-        $DB->where('course_id', $courseId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('course_id', $courseId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($courseId, 'course_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$CREATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         $this->performCrossTableInserts($cohortArray, 'course_x_cohort', 'cohort_id', 'course_id',
                                         $courseId, 'cohortId');
@@ -388,8 +376,6 @@ class Course extends Abstract_Ilios_Model
      */
     public function lockOrArchiveCourse ($courseId, $shouldLock, $shouldArchive, &$auditAtoms)
     {
-        $DB = $this->dbHandle;
-
         $lockValue = ($shouldLock ? 1 : 0);
         if ($shouldArchive) {
             $lockValue = 1;
@@ -403,13 +389,13 @@ class Course extends Abstract_Ilios_Model
         $updateRow['locked'] = $lockValue;
         $updateRow['archived'] = $archiveValue;
 
-        $DB->where('course_id', $courseId);
-        $DB->update($this->databaseTableName, $updateRow);
+        $this->db->where('course_id', $courseId);
+        $this->db->update($this->databaseTableName, $updateRow);
 
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($courseId, 'course_id',
                                                             $this->databaseTableName,
-                                                            Audit_Event::$UPDATE_EVENT_TYPE, 1));
+                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
     }
 
     /**
@@ -495,8 +481,7 @@ JOIN `course_x_cohort` cxc ON cxc.`cohort_id` =  c.`cohort_id`
 WHERE cxc.`course_id` = {$clean['course_id']}
 ORDER BY com.`competency_id`
 EOL;
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
             $rhett[] = $row;
         }
@@ -528,8 +513,7 @@ JOIN `course` c ON c.`course_id` = cxo.`course_id`
 WHERE c.`course_id` = {$clean['course_id']}
 ORDER BY com.`competency_id`
 EOL;
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
         	$rhett[] = $row;
         }
@@ -653,14 +637,12 @@ EOL;
         $retval = array();
 
         if (isset($sid)) {
-            $DB = $this->dbHandle;
+            $this->db->where('deleted', 0);
+            $this->db->where('publish_event_id != ', 'NULL');
+            $this->db->where('archived', 0);
+            $this->db->where('owning_school_id', $sid);
 
-            $DB->where('deleted', 0);
-            $DB->where('publish_event_id != ', 'NULL');
-            $DB->where('archived', 0);
-            $DB->where('owning_school_id', $sid);
-
-            $results = $DB->get($this->databaseTableName);
+            $results = $this->db->get($this->databaseTableName);
 
             foreach ($results->result_array() as $row) {
                 $id = $row['course_id'];
@@ -677,15 +659,13 @@ EOL;
         $retval = array();
 
         if (isset($schoolId)) {
-            $DB = $this->dbHandle;
+            $this->db->where('deleted', 0);
+            $this->db->where('publish_event_id != ', 'NULL');
+            $this->db->where('archived', 0);
+            $this->db->where('owning_school_id', $schoolId);
+            $this->db->where('year', $year);
 
-            $DB->where('deleted', 0);
-            $DB->where('publish_event_id != ', 'NULL');
-            $DB->where('archived', 0);
-            $DB->where('owning_school_id', $schoolId);
-            $DB->where('year', $year);
-
-            $results = $DB->get($this->databaseTableName);
+            $results = $this->db->get($this->databaseTableName);
 
             foreach ($results->result_array() as $row) {
                 $row['unique_id'] = $this->getUniqueId($row['course_id']);
@@ -704,12 +684,11 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $DB->where('owning_school_id', $schoolId);
-        $DB->where('deleted', 0);
-        $DB->where('publish_event_id != ', 'NULL');
+        $this->db->where('owning_school_id', $schoolId);
+        $this->db->where('deleted', 0);
+        $this->db->where('publish_event_id != ', 'NULL');
 
-        $query = $DB->get($this->getTableName());
+        $query = $this->db->get($this->getTableName());
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
                 $rhett[] = $row;

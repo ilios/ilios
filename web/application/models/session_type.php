@@ -13,8 +13,6 @@ class Session_Type extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('session_type', array('session_type_id'));
-
-        $this->createDBHandle();
     }
 
     /**
@@ -26,11 +24,10 @@ class Session_Type extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $DB->where('owning_school_id', $schoolId);
-        $DB->order_by('title');
+        $this->db->where('owning_school_id', $schoolId);
+        $this->db->order_by('title');
 
-        $result = $DB->get($this->databaseTableName);
+        $result = $this->db->get($this->databaseTableName);
 
         foreach ($result->result_array() as $row) {
             $id = $row['session_type_id'];
@@ -51,11 +48,10 @@ class Session_Type extends Abstract_Ilios_Model
     {
     	$rhett = array();
 
-    	$DB = $this->dbHandle;
-        $DB->where('owning_school_id', $schoolId);
-        $DB->order_by('title');
+        $this->db->where('owning_school_id', $schoolId);
+        $this->db->order_by('title');
 
-        $result = $DB->get($this->databaseTableName);
+        $result = $this->db->get($this->databaseTableName);
 
         foreach ($result->result_array() as $row) {
             $rhett[] = $row;

@@ -7,16 +7,12 @@ include_once "abstract_ilios_model.php";
  */
 class Permission extends Abstract_Ilios_Model
 {
-
     /**
      * Constructor
      */
     public function __construct ()
     {
         parent::__construct('permission', array('permission_id'));
-
-        $this->createDBHandle();
-
         $this->load->model('Course', 'course', TRUE);
         $this->load->model('Program', 'program', TRUE);
         $this->load->model('School', 'school', TRUE);
@@ -41,7 +37,7 @@ class Permission extends Abstract_Ilios_Model
 
     /**
      * Retrieves a list of permissions for a given user, user/table or user/table/row combination.
-     * @param int $userId user id 
+     * @param int $userId user id
      * @param string $tableName table name (optional)
      * @param int $tableRowId row id (optional)
      * @return boolean TRUE on success, FALSE on failure
@@ -57,19 +53,17 @@ class Permission extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
-        $DB->where('user_id', $userId);
+        $this->db->where('user_id', $userId);
 
         if (! is_null($tableName)) {
-            $DB->where('table_name', $tableName);
+            $this->db->where('table_name', $tableName);
 
             if (! is_null($tableRowId)) {
-                $DB->where('table_row_id', $tableRowId);
+                $this->db->where('table_row_id', $tableRowId);
             }
         }
 
-        $queryResults = $DB->get($this->databaseTableName);
+        $queryResults = $this->db->get($this->databaseTableName);
 
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $this->_getPermissionObjectForRow($row));
@@ -79,25 +73,23 @@ class Permission extends Abstract_Ilios_Model
 
     /**
      * Remove permissions for a given user or user/table or user/table/row combination.
-     * @param int $userId user id 
+     * @param int $userId user id
      * @param string $tableName table name (optional)
      * @param int $tableRowId row id (optional)
      * @return boolean TRUE on success, FALSE on failure
      */
     public function deletePermissionsForUser ($userId, $tableName = null, $tableRowId = null)
     {
-        $DB = $this->dbHandle;
-
-        $DB->where('user_id', $userId);
+        $this->db->where('user_id', $userId);
 
         if (!is_null($tableName)) {
-            $DB->where('table_name', $tableName);
+            $this->db->where('table_name', $tableName);
 
             if (! is_null($tableRowId)) {
-                $DB->where('table_row_id', $tableRowId);
+                $this->db->where('table_row_id', $tableRowId);
             }
         }
-        $DB->delete($this->databaseTableName);
+        $this->db->delete($this->databaseTableName);
         return $this->transactionAtomFailed();
     }
 
@@ -127,8 +119,8 @@ class Permission extends Abstract_Ilios_Model
                     return $permissionId;
                 }
                 break;
-            default : 
-                // more than one matches? 
+            default :
+                // more than one matches?
                 // something is borked here, this indicates that some input is missing.
                 // do nothing here for now and just return FALSE below.
         }
@@ -146,16 +138,14 @@ class Permission extends Abstract_Ilios_Model
      */
     public function addPermissionForUser ($userId, $tableName, $tableRowId, $canRead, $canWrite)
     {
-        $DB = $this->dbHandle;
-
         $data = array();
         $data['user_id'] = $userId;
         $data['table_name'] = $tableName;
         $data['table_row_id'] = $tableRowId;
         $data['can_read'] = ($canRead ? 1 : 0);
         $data['can_write'] = ($canWrite ? 1 : 0);
-        $DB->insert($this->databaseTableName, $data);
-        $id = $DB->insert_id();
+        $this->db->insert($this->databaseTableName, $data);
+        $id = $this->db->insert_id();
         if ($id) {
             return $id;
         }
@@ -171,12 +161,11 @@ class Permission extends Abstract_Ilios_Model
      */
     public function updatePermission ($permissionId, $canRead, $canWrite)
     {
-        $DB = $this->dbHandle;
         $data = array();
         $data['can_read'] = ($canRead ? 1 : 0);
         $data['can_write'] = ($canWrite ? 1 : 0);
-        $DB->where('permission_id', $permissionId);
-        if ($DB->update($this->databaseTableName, $data)) {
+        $this->db->where('permission_id', $permissionId);
+        if ($this->db->update($this->databaseTableName, $data)) {
             return true;
         }
         return false;
@@ -190,11 +179,11 @@ class Permission extends Abstract_Ilios_Model
     protected function _getPermissionObjectForRow ($row)
     {
         $permissionObject = array();
-    
+
         $permissionObject['permission_id'] = $row['permission_id'];
         $permissionObject['can_read'] = $row['can_read'];
         $permissionObject['can_write'] = $row['can_write'];
-    
+
         $objectRow = null;
         if ($row['table_name'] == 'program') {
             $objectRow = $this->program->getRowForPrimaryKeyId($row['table_row_id']);
@@ -203,7 +192,7 @@ class Permission extends Abstract_Ilios_Model
         } else if ($row['table_name'] == 'school') {
             $objectRow = $this->school->getRowForPrimaryKeyId($row['table_row_id']);
         }
-    
+
         if (! is_null($objectRow)) {
             $shallowObject = $this->convertStdObjToArray($objectRow);
             $shallowObject['object_name'] = $row['table_name'];
@@ -212,7 +201,7 @@ class Permission extends Abstract_Ilios_Model
             $permissionObject['table_name'] = $row['table_name'];
             $permissionObject['table_row_id'] = $row['table_row_id'];
         }
-    
+
         return $permissionObject;
     }
 }
