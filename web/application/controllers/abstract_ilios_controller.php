@@ -13,9 +13,8 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
     public function __construct ()
     {
         parent::__construct();
-        $this->load->library('session');
 
-        $this->load->helper(array('string', 'form', 'url'));
+        $this->load->library('session');
 
         $this->load->model('I18N_Vendor', 'i18nVendor', TRUE);
 
