@@ -75,14 +75,8 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
     /**
      * Prints a the JSON-formatted language pack object.
      *
-     * This function will be called from each view through its controller; it expects to
-     * receive a single parameter, 'lang', which specifies the language. Returned
-     * is a populated JS data structure and an object 'ilios_i18nVendor' which
+     * Returned is a populated JS data structure and an object 'ilios_i18nVendor' which
      * contains a single method getI18NString(key) to access to the included language-pack
-     * in the requested language.
-     * If no language preference is provided in the request, the application-wide default language
-     * (defined as $config['ilios_default_lang_locale'] in application/config/config.php)
-     * is used.
      */
     public function getI18NJavascriptVendor ()
     {
@@ -655,7 +649,7 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
                                                                                       : 'false';
             $rhett['course_rollover'] = $this->session->userdata('course_rollover') ? 'true'
                                                                                     : 'false';
-            $rhett['lang'] = $this->session->userdata('lang_locale');
+            $rhett['lang'] = $this->getLangToUse();
         }
         return $rhett;
     }
@@ -701,21 +695,12 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
     }
 
     /**
-     * @todo add code docs
+     * Returns the language key as specified in the application configuration.
+     * @return string
      */
     protected function getLangToUse ()
     {
-        $lang =  $this->input->get_post('lang');
-
-        if ($lang != '') {
-            $this->session->set_userdata('lang_locale', $lang);
-        } else if ($this->session->userdata('lang_locale')) {
-            $lang = $this->session->userdata('lang_locale');
-        } else {
-            $lang = $this->config->item('ilios_default_lang_locale');
-        }
-
-        return $lang;
+        return $this->config->item('ilios_default_lang_locale');
     }
 
     /**

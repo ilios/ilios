@@ -155,23 +155,13 @@ abstract class Abstract_Ilios_Model extends CI_Model
     }
 
     /**
-     * It would be nice were there a way to hand calls between the controller and the models - since
-     *  this is just a repeat of code in Abstract_Ilios_Controller.. TODO RESEARCH
+     * Returns the language key as specified in the application configuration.
+     * @see Abstract_Ilios_Controller::getLangToUse()
+     * @return string
      */
-    protected function getLangToUse () {
-        $lang =  $this->input->get_post('lang');
-
-        if ($lang != '') {
-            $this->session->set_userdata('lang_locale', $lang);
-        }
-        else if ($this->session->userdata('lang_locale')) {
-            $lang = $this->session->userdata('lang_locale');
-        }
-        else {
-            $lang = $this->config->item('ilios_default_lang_locale');
-        }
-
-        return $lang;
+    protected function getLangToUse ()
+    {
+        return $this->config->item('ilios_default_lang_locale');
     }
 
     /**
