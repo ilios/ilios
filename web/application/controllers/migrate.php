@@ -18,9 +18,9 @@ class Migrate extends CI_Controller
     {
         parent::__construct();
         // deny access if the controller was not called from the command line.
-        if (! $this->input->is_cli_request()) {
-            exit('Access Denied.');
-        }
+        //if (! $this->input->is_cli_request()) {
+        //    exit('Access Denied.');
+        //}
         $this->load->library('migration');
     }
 
@@ -39,7 +39,7 @@ class Migrate extends CI_Controller
      */
     public function current ()
     {
-        if (! $this->migration->current()) {
+        if (false === $this->migration->current()) {
             show_error($this->migration->error_string());
         }
     }
@@ -51,7 +51,7 @@ class Migrate extends CI_Controller
      */
     public function latest ()
     {
-        if (! $this->migration->latest()) {
+        if (false === $this->migration->latest()) {
             show_error($this->migration->error_string());
         }
     }
@@ -64,7 +64,7 @@ class Migrate extends CI_Controller
      */
     public function version ($version)
     {
-        if (! $this->migration->version($version)) {
+        if (false === $this->migration->version($version)) {
             show_error($this->migration->error_string());
         }
     } 
