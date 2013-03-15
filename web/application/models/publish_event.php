@@ -15,12 +15,12 @@ class Publish_Event extends Abstract_Ilios_Model {
     /**
      * @return the id of the newly inserted row or 0 on failure
      */
-    public function addPublishEvent ($tableName, $tableRowId, $machineIP, &$auditAtoms)
+    public function addPublishEvent ($tableName, $tableRowId, $machineIP, $userId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['publish_event_id'] = null;
 
-        $newRow['administrator_id'] = $this->session->userdata('uid');
+        $newRow['administrator_id'] = $userId;
         $newRow['machine_ip'] = $machineIP;
 
         $dtTimeStamp = new DateTime('now', new DateTimeZone('UTC'));

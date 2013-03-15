@@ -32,25 +32,31 @@ class Program_Year extends Abstract_Ilios_Model
     }
 
     /**
-     * Returns a list of program years in this format:
+     * Returns a list of program years, owned by a given school, in this format:
      * Program title, Class of XXXX
      * The list is sorted by program title, then start year
      * The list does not return deleted program year, deleted program
+     * @param int $schoolId
+     * @return array
      */
-    public function getProgramYears()
+    public function getProgramYears ($schoolId)
     {
         $lang =  $this->getLangToUse();
         $classOfStr = $this->i18nVendor->getI18NString('general.phrases.class_title_prefix', $lang);
 
-        $queryString = 'SELECT `program`.`title`, `program_year`.`start_year` + `program`.`duration` as classOfValue,
-                               `program_year`.`program_year_id`
-                          FROM `program_year`, `program`
-                         WHERE `program_year`.`program_id` = `program`.`program_id`
-                           AND `program_year`.`deleted` = 0
-                           AND `program`.`deleted` = 0
-                           AND `program`.`owning_school_id` = ' . $this->session->userdata('school_id') . '
-                      ORDER BY `program`.`title`, `program_year`.`start_year`';
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
 
+        $queryString =<<< EOL
+SELECT `program`.`title`, `program_year`.`start_year` + `program`.`duration` as classOfValue,
+`program_year`.`program_year_id`
+FROM `program_year`, `program`
+WHERE `program_year`.`program_id` = `program`.`program_id`
+AND `program_year`.`deleted` = 0
+AND `program`.`deleted` = 0
+AND `program`.`owning_school_id` = {$clean['school_id']}
+ORDER BY `program`.`title`, `program_year`.`start_year`
+EOL;
         $queryResults = $this->db->query($queryString);
         $items = array();
         foreach ($queryResults->result_array() as $row) {

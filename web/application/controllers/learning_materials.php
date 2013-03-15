@@ -524,21 +524,21 @@ class Learning_Materials extends Abstract_Ilios_Controller
                             $newLearningMaterialId = $this->learningMaterial->storeFileUploadLearningMaterialMeta(
                                 $title, $mimeType, $uploadFilePath, $filename, $filesize, $haveCopyrightOwnership,
                                 $copyrightRationale, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $auditAtoms);
+                                $sessionId, $userId, $auditAtoms);
                             break;
                         case 2:
                             $link = $this->input->get_post('web_link');
 
                             $newLearningMaterialId = $this->learningMaterial->storeLinkLearningMaterialMeta(
                                 $title, $link, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $auditAtoms);
+                                $sessionId, $userId, $auditAtoms);
                             $rhett['web_link'] = $link;
                             break;
                         case 3:
                             $citation = $this->input->get_post('citation');
                             $newLearningMaterialId = $this->learningMaterial->storeCitationLearningMaterialMeta(
                                 $title, $citation, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $auditAtoms);
+                                $sessionId, $userId, $auditAtoms);
                             $rhett['citation'] = $citation;
                             break;
                         default:

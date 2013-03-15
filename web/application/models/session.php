@@ -84,21 +84,26 @@ class Session extends Abstract_Ilios_Model
     }
 
     /**
-     * returns a list of all sessions along with the course title in this format:
-     * course title - session title, also returns session id
+     * Returns a list of all sessions for a given owning school, along with the course title in this format:
+     *   course title - session title,
+     * Also returns session id.
      * The list is sorted by course title, then session title
      * The list is shows only non-deleted sessions and courses
      * The list is restricted by owning school of the course
+     * @param int $schoolId
+     * @return array
      */
-    public function getSessionsWithCourseTitle()
+    public function getSessionsWithCourseTitle ($schoolId)
     {
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
         $queryString = 'SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
                                `course`.`start_date`, `course`.`end_date`, `session`.`session_id`
                           FROM `course`, `session`
                          WHERE `course`.`course_id` = `session`.`course_id`
                            AND `session`.`deleted` = 0
                            AND `course`.`deleted` = 0
-                           AND `course`.`owning_school_id` = ' . $this->session->userdata('school_id') . '
+                           AND `course`.`owning_school_id` = ' . $clean['school_id'] . '
                       ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`';
 
         $queryResults = $this->db->query($queryString);

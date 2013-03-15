@@ -406,6 +406,8 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $reminderId = $this->input->get_post('reminder_id');
         $noteText = $this->input->get_post('note');
         // scrub the note text
@@ -418,7 +420,7 @@ class Dashboard_Controller extends Calendar_Controller
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $this->reminder->startTransaction();
-            $newReminderId = $this->reminder->saveReminder($reminderId, $noteText, $dueDate, $closed);
+            $newReminderId = $this->reminder->saveReminder($reminderId, $noteText, $dueDate, $closed, $userId);
 
             $rhett = array();
 
@@ -458,7 +460,9 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $rhett['reminders'] = $this->reminder->loadAllRemindersForCurrentUserForFollowingDays(7);
+        $userId = $this->session->userdata('uid');
+
+        $rhett['reminders'] = $this->reminder->loadAllRemindersForCurrentUserForFollowingDays(7, $userId);
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -484,6 +488,8 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $subjectTable = $this->input->get_post('noun1');
         $prepositionalObjectTable = $this->input->get_post('noun2');
         $poValues = explode(',', $this->input->get_post('noun2_values'));
@@ -495,7 +501,7 @@ class Dashboard_Controller extends Calendar_Controller
             $this->report->startTransaction();
 
             $newReportId = $this->report->saveReport($subjectTable, $prepositionalObjectTable,
-                                                     $poValues, $title);
+                                                     $poValues, $title, $userId);
 
             $rhett = array();
 
@@ -594,7 +600,9 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $rhett['reports'] = $this->report->getAllReports($this->session->userdata('uid'));
+        $userId = $this->session->userdata('uid');
+
+        $rhett['reports'] = $this->report->getAllReports($userId);
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -929,7 +937,9 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $rhett['items'] = $this->programYear->getProgramYears();
+        $schoolId = $this->session->userdata('school_id');
+
+        $rhett['items'] = $this->programYear->getProgramYears($schoolId);
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -1004,7 +1014,8 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $rhett['items'] = $this->iliosSession->getSessionsWithCourseTitle();
+        $schoolId = $this->session->userdata('session_id');
+        $rhett['items'] = $this->iliosSession->getSessionsWithCourseTitle($schoolId);
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);

@@ -331,7 +331,8 @@ class Program_Management extends Abstract_Ilios_Controller
                 $failed = false;
 
                 if ($publish == "true") {
-                    $publishId = $this->publishEvent->addPublishEvent("program", $programId, $this->getClientIPAddress(), $auditAtoms);
+                    $publishId = $this->publishEvent->addPublishEvent("program", $programId,
+                        $this->getClientIPAddress(), $userId, $auditAtoms);
 
                     $failed = $this->publishEvent->transactionAtomFailed();
                 }
@@ -392,6 +393,7 @@ class Program_Management extends Abstract_Ilios_Controller
         }
 
         $userId = $this->session->userdata('uid');
+        $schoolId = $this->session->userdata('school_id');
 
         $this->load->library('form_validation');
 
@@ -419,7 +421,7 @@ class Program_Management extends Abstract_Ilios_Controller
 
                 $this->program->startTransaction();
 
-                $newId = $this->program->addNewProgram($title, $short, $duration, $auditAtoms);
+                $newId = $this->program->addNewProgram($title, $short, $duration, $schoolId, $auditAtoms);
 
                 if (($newId <= 0) || $this->program->transactionAtomFailed()) {
                     $lang = $this->getLangToUse();
@@ -668,7 +670,8 @@ class Program_Management extends Abstract_Ilios_Controller
             if ($publish == "true") {
                 $publishNeedsUpdating = $newProgramYear;
 
-                $publishId = $this->publishEvent->addPublishEvent("program_year", $programYearId, $this->getClientIPAddress(), $auditAtoms);
+                $publishId = $this->publishEvent->addPublishEvent("program_year", $programYearId,
+                    $this->getClientIPAddress(), $userId, $auditAtoms);
 
                 $failed = $this->publishEvent->transactionAtomFailed();
             }

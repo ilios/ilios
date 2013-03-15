@@ -39,10 +39,11 @@ class Program extends Abstract_Ilios_Model
      * @param string $title
      * @param string $shortTitle
      * @param int $duration
+     * @param int $schoolId
      * @param array $auditAtoms
      * @return int the program.program_id of the just added row, or 0 on failure
      */
-    public function addNewProgram ($title, $shortTitle, $duration, &$auditAtoms)
+    public function addNewProgram ($title, $shortTitle, $duration, $schoolId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['program_id'] = null;
@@ -50,7 +51,7 @@ class Program extends Abstract_Ilios_Model
         $newRow['title'] = $title;
         $newRow['short_title'] = $shortTitle;
         $newRow['duration'] = $duration;
-        $newRow['owning_school_id'] = $this->session->userdata('school_id');
+        $newRow['owning_school_id'] = $schoolId;
         $newRow['deleted'] = "0";
 
         $this->db->insert($this->databaseTableName, $newRow);

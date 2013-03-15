@@ -884,7 +884,7 @@ class Course_Management extends Abstract_Ilios_Controller
 
             if ($shouldPublish == "true") {
                 $publishId = $this->publishEvent->addPublishEvent("course", $courseId,
-                                                                  $this->getClientIPAddress(),
+                                                                  $this->getClientIPAddress(), $userId,
                                                                   $auditAtoms);
             }
 
@@ -1059,6 +1059,7 @@ class Course_Management extends Abstract_Ilios_Controller
         }
 
         $userId = $this->session->userdata('uid');
+
         // check if we're dealing with an ILM
         $ilmHours = $this->input->post('ilm_hours');
         if ($ilmHours) {
@@ -1150,7 +1151,7 @@ class Course_Management extends Abstract_Ilios_Controller
                 $publishNeedsUpdating = $newSession;
 
                 $publishId = $this->publishEvent->addPublishEvent("session", $sessionId,
-                                                                  $this->getClientIPAddress(),
+                                                                  $this->getClientIPAddress(), $userId,
                                                                   $auditAtoms);
             }
 

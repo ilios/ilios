@@ -612,7 +612,7 @@ EOL;
                                                   $filesize, $haveCopyrightOwnership,
                                                   $copyrightRationale, $description, $statusId,
                                                   $creator, $ownerRoleId, $courseId, $sessionId,
-                                                  &$auditAtoms)
+                                                  $userId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -625,7 +625,7 @@ EOL;
 
         $dtUpload = new DateTime('now', new DateTimeZone('UTC'));
         $newRow['upload_date'] = $dtUpload->format('Y-m-d H:i:s');
-        $newRow['owning_user_id'] = $this->session->userdata('uid');
+        $newRow['owning_user_id'] = $userId;
         $newRow['asset_creator'] = $creator;
         $newRow['copyright_ownership'] = $haveCopyrightOwnership;
         $newRow['copyright_rationale'] = $copyrightRationale;
@@ -666,7 +666,7 @@ EOL;
      * @return the learning material id, or -1 on failure
      */
     public function storeLinkLearningMaterialMeta ($title, $link, $description, $statusId, $creator,
-                                            $ownerRoleId, $courseId, $sessionId, &$auditAtoms)
+                                            $ownerRoleId, $courseId, $sessionId, $userId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -678,7 +678,7 @@ EOL;
 
         $dtUpload = new DateTime('now', new DateTimeZone('UTC'));
         $newRow['upload_date'] = $dtUpload->format('Y-m-d H:i:s');
-        $newRow['owning_user_id'] = $this->session->userdata('uid');
+        $newRow['owning_user_id'] = $userId;
         $newRow['asset_creator'] = $creator;
         $newRow['copyright_ownership'] = 2;
         $newRow['copyright_rationale'] = null;
@@ -721,7 +721,7 @@ EOL;
      */
     public function storeCitationLearningMaterialMeta ($title, $citation, $description, $statusId,
                                                 $creator, $ownerRoleId, $courseId, $sessionId,
-                                                &$auditAtoms)
+                                                $userId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -733,7 +733,7 @@ EOL;
 
         $dtUpload = new DateTime('now', new DateTimeZone('UTC'));
         $newRow['upload_date'] = $dtUpload->format('Y-m-d H:i:s');
-        $newRow['owning_user_id'] = $this->session->userdata('uid');
+        $newRow['owning_user_id'] = $userId;
         $newRow['asset_creator'] = $creator;
         $newRow['copyright_ownership'] = 2;
         $newRow['copyright_rationale'] = null;
