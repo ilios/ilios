@@ -13,14 +13,9 @@ class Migration_Update_sql_sp_user_ids_from_cohort_and_master_group extends CI_M
   {
     //set up for the transaction...
     $this->db->trans_start();
-    //query to drop the existing stored procedure...
-    $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
-    //drop the stored procedure...
-    $queryResults = $this->db->query($queryString);
-    
     //query to create the new stored procedure...
     $queryString = <<<EOL
-CREATE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
+CREATE OR REPLACE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
     READS SQL DATA
 BEGIN
         DECLARE out_of_rows INT DEFAULT 0;
@@ -68,14 +63,9 @@ EOL;
   {
     //set up for the transaction...
     $this->db->trans_start();
-    //query to drop the existing stored procedure...
-    $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
-    //drop the stored procedure...
-    $queryResults = $this->db->query($queryString);
-    
     //query to create the stored procedure...
     $queryString = <<<EOL
-CREATE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
+CREATE OR REPLACE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
     READS SQL DATA
 BEGIN
         DECLARE out_of_rows INT DEFAULT 0;
