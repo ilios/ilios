@@ -295,6 +295,8 @@ class Program_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         // TODO this is one of the few places we do server side validation.. this meme was
         // abandoned early on and so this code should probably go for the sake
         // of uniformity
@@ -346,7 +348,7 @@ class Program_Management extends Abstract_Ilios_Controller
                 } else {
                     $this->program->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $failedTransaction = false;
 
@@ -389,6 +391,8 @@ class Program_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $this->load->library('form_validation');
 
         // TODO i18n error message text
@@ -427,7 +431,7 @@ class Program_Management extends Abstract_Ilios_Controller
                 } else {
                     $this->program->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $failedTransaction = false;
 
@@ -469,6 +473,8 @@ class Program_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $programYearId = $this->input->get_post('program_year_id');
 
         $containerNumber = $this->input->get_post('cnumber');
@@ -492,7 +498,7 @@ class Program_Management extends Abstract_Ilios_Controller
                 if ($this->programYear->deleteProgramYear($programYearId, $auditAtoms)) {
                     $this->programYear->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $failedTransaction = false;
 
@@ -536,6 +542,8 @@ class Program_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $programYearId = $this->input->get_post('program_year_id');
         $archiveAlso = ($this->input->get_post('archive') == 'true');
 
@@ -557,7 +565,7 @@ class Program_Management extends Abstract_Ilios_Controller
             } else {
                 $this->programYear->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                 $failedTransaction = false;
 
@@ -598,6 +606,8 @@ class Program_Management extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         //
         // input validation and sanitation
@@ -694,7 +704,7 @@ class Program_Management extends Abstract_Ilios_Controller
 
                 $this->programYear->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));

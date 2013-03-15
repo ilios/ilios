@@ -297,7 +297,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
             $fdata['program_cohort_titles'] = $programcohorts;
         }
 
-        $fdata['course_titles'] = $this->course->getAllCourseTitles();
+        $fdata['course_titles'] = $this->course->getAllCourseTitles($schoolId);
         if (!empty($fdata['course_titles'])) {
             asort($fdata['course_titles']);
         }

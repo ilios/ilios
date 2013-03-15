@@ -276,6 +276,8 @@ class Offering_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $calendarId = $this->input->get_post('calendar_id');
 
         $startDate = $this->input->get_post('start_date');
@@ -389,7 +391,7 @@ class Offering_Management extends Abstract_Ilios_Controller
 
                     // Add or Update alert only if there is one or more identified change type.
                     if (count($alertChangeTypes)) {
-                        $this->alert->addOrUpdateAlert($offeringId, 'offering', $school, $alertChangeTypes);
+                        $this->alert->addOrUpdateAlert($offeringId, 'offering', $userId, $school, $alertChangeTypes);
                     }
                 }
             }
@@ -399,7 +401,7 @@ class Offering_Management extends Abstract_Ilios_Controller
             } else {
                 $failedTransaction = false;
                 $this->offering->commitTransaction();
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -482,6 +484,8 @@ class Offering_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $offeringId = $this->input->get_post('oid');
 
         $calendarId = $this->input->get_post('calendar_id');
@@ -511,7 +515,7 @@ class Offering_Management extends Abstract_Ilios_Controller
 
                 $failedTransaction = false;
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));

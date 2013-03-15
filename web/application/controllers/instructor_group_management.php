@@ -141,6 +141,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $uploadPath = './tmp_uploads/'; // @todo make this configurable
 
         $config['upload_path'] = $uploadPath;
@@ -246,7 +248,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                     $this->instructorGroup->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
                 }
             } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -305,6 +307,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $primarySchoolId = $this->session->userdata('school_id');
 
         $failedTransaction = true;
@@ -348,7 +352,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                     $this->instructorGroup->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $rhett['container_number'] = $containerNumber;
                     $rhett['user'] = $this->user->getRowForPrimaryKeyId($newId);
@@ -385,7 +389,9 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
         $schoolId = $this->session->userdata('school_id');
+
         $containerNumber = $this->input->get_post('next_container');
 
         $failedTransaction = true;
@@ -405,7 +411,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                 $this->instructorGroup->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
             else {
                 $this->failTransaction($transactionRetryCount, $failedTransaction,
@@ -442,6 +448,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $groupId = $this->input->get_post('instructor_group_id');
         $containerNumber = $this->input->get_post('container_number');
 
@@ -476,7 +484,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                 $this->instructorGroup->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
                 $rhett['error'] = $this->i18nVendor->getI18NString('general.error.fatal', $lang);
                 $this->failTransaction($transactionRetryCount, $failedTransaction, $this->instructorGroup);
@@ -515,6 +523,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $groupId = $this->input->get_post('instructor_group_id');
         $schoolId = $this->session->userdata('school_id');
         $containerNumber = $this->input->get_post('container_number');
@@ -541,7 +551,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                 $this->instructorGroup->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
             else {
                 $rhett['error'] = $result;

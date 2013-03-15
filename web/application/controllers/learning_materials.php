@@ -84,6 +84,8 @@ class Learning_Materials extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $learningMaterialId = $this->input->get_post('learning_material_id');
         $statusId = $this->input->get_post('status_id');
 
@@ -107,7 +109,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
 
                 $this->learningMaterial->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
             else {
                 $rhett['error'] = $error;
@@ -208,6 +210,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
 
         $rhett['learning_material_id'] = $learningMaterialId;
 
@@ -237,7 +240,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
             } else {
                 $failedTransaction = false;
                 $this->learningMaterial->commitTransaction();
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                 $alertChangeTypes = array(Alert::CHANGE_TYPE_LEARNING_MATERIAL);
                 if (! $sessionId) {
@@ -284,6 +287,8 @@ class Learning_Materials extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $learningMaterialId = $this->input->get_post('learning_material_id');
         $sessionId = $this->input->get_post('session_id');
@@ -341,7 +346,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
             } else {
                 $failedTransaction = false;
                 $this->learningMaterial->commitTransaction();
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                 $alertChangeTypes = array(Alert::CHANGE_TYPE_LEARNING_MATERIAL);
                 if (! $sessionId) {
@@ -392,6 +397,8 @@ class Learning_Materials extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         /*
          *  uploadPath should be:
@@ -548,7 +555,7 @@ class Learning_Materials extends Abstract_Ilios_Controller
 
                         $this->learningMaterial->commitTransaction();
 
-                        $this->auditEvent->saveAuditEvent($auditAtoms);
+                        $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                         $rhett['learning_material_id'] = $newLearningMaterialId;
                     }
@@ -608,11 +615,13 @@ class Learning_Materials extends Abstract_Ilios_Controller
      */
     protected function _alertAllOfferingsAsAppropriate ($sessionId, $tableId, $tableName, $alertChangeTypes, $school)
     {
+        $userId = $this->session->userdata('uid');
+
         if ($this->iliosSession->isPublished($sessionId)) {
             $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($sessionId);
 
             if ($this->course->isPublished($sessionRow->course_id)) {
-                $this->alert->addOrUpdateAlert($tableId, $tableName, $school, $alertChangeTypes);
+                $this->alert->addOrUpdateAlert($tableId, $tableName, $userId, $school, $alertChangeTypes);
             }
         }
     }

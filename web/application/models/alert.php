@@ -248,11 +248,12 @@ EOL;
      * Saves a change alert for a given application entity.
      * @param int $tableId the record id of the changed entity
      * @param string $tableName the database table name where the changed entity is stored
+     * @param int $userId the current user id
      * @param array $school an assoc. array representing a school record
      * @param array $changeTypes an array containing one or more of the CHANGE_TYPE_* constants defined in this class.
      * @return string|NULL an error message of NULL if everything went fine
      */
-    public function addOrUpdateAlert ($tableId, $tableName, $school = array(), $changeTypes = array())
+    public function addOrUpdateAlert ($tableId, $tableName, $userId, $school = array(), $changeTypes = array())
     {
         $preExisting = $this->getUndispatchedAlertForTable($tableId, $tableName);
 
@@ -291,8 +292,7 @@ EOL;
 
         $count++;
         $affectedCount += $this->insertSingleCrossTablePair('alert_instigator', 'alert_id',
-                                                            $alertId, 'user_id',
-                                                            $this->session->userdata('uid'));
+                                                            $alertId, 'user_id', $userId);
 
         if ($count == $affectedCount) {
             $count++;
@@ -329,7 +329,7 @@ EOL;
         $atoms = array();
         array_push($atoms, $this->auditEvent->wrapAtom($alertId, 'alert_id', 'alert',
                                                        Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
-        $this->auditEvent->saveAuditEvent($atoms, $this->session->userdata('uid'));
+        $this->auditEvent->saveAuditEvent($atoms, $userId);
 
         return null;
     }

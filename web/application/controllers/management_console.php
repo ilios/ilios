@@ -1316,6 +1316,8 @@ class Management_Console extends Abstract_Ilios_Controller
         $errors = array();
         $lang =  $this->getLangToUse();
 
+        $userId = $this->session->userdata('uid');
+
         // check if username was provided
         if (! $username) {
             $errors[] = 'Missing login name.';
@@ -1359,7 +1361,7 @@ class Management_Console extends Abstract_Ilios_Controller
 
                 $atoms[] = $this->auditEvent->wrapAtom($newUserId, 'user_id', 'user',
                     Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
-                $this->auditEvent->saveAuditEvent($atoms);
+                $this->auditEvent->saveAuditEvent($atoms, $userId);
             }
         }
 
@@ -1386,6 +1388,8 @@ class Management_Console extends Abstract_Ilios_Controller
         $errors = array();
         $lang =  $this->getLangToUse();
 
+        $userId = $this->session->userdata('uid');
+
         $this->user->startTransaction();
         $atoms = array();
         $newUserId = $this->user->addUser($lastName, $firstName, $middleName, null,
@@ -1400,7 +1404,7 @@ class Management_Console extends Abstract_Ilios_Controller
 
              $atoms[] = $this->auditEvent->wrapAtom($newUserId, 'user_id', 'user',
                  Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
-             $this->auditEvent->saveAuditEvent($atoms);
+             $this->auditEvent->saveAuditEvent($atoms, $userId);
         }
 
         if (count($errors)) {

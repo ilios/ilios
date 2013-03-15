@@ -229,6 +229,8 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $cohortId = (int) $this->input->get_post('cohort_id');
         $groupToDivide = (int) $this->input->get_post('group_id');
         $numberOfSubgroupsToCreate = (int) $this->input->get_post('num_groups');
@@ -299,7 +301,7 @@ class Group_Management extends Abstract_Ilios_Controller
                     } else {
                         $failedTransaction = false;
                         $this->group->commitTransaction();
-                        $this->auditEvent->saveAuditEvent($auditAtoms);
+                        $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
                     }
                 } while ($failedTransaction && ($transactionRetryCount > 0));
             }
@@ -400,6 +402,8 @@ class Group_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $groupId = $this->input->get_post('group_id');
         $containerNumber = $this->input->get_post('container_number');
 
@@ -421,7 +425,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
                 $lang = $this->getLangToUse();
                 $msg = $this->i18nVendor->getI18NString('groups.error.failed_group_delete', $lang);
@@ -455,6 +459,8 @@ class Group_Management extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         /**
          * game plan:
@@ -507,7 +513,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
                 $this->failTransaction($transactionRetryCount, $failedTransaction, $this->group);
             }
@@ -551,6 +557,8 @@ class Group_Management extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $uploadPath = './tmp_uploads/'; // @todo make this configurable.
 
@@ -649,7 +657,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
                     $failedTransaction = false;
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $rhett['users'] = $newUsers;
                 }
@@ -686,6 +694,8 @@ class Group_Management extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $cohortId = $this->input->get_post('cohort_id');
         $containerNumber = $this->input->get_post('container_number');
@@ -740,7 +750,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->user->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
@@ -763,7 +773,6 @@ class Group_Management extends Abstract_Ilios_Controller
      */
     public function addNewGroup ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
 
         // authentication check
@@ -777,6 +786,8 @@ class Group_Management extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $cohortId = $this->input->get_post('cohort_id');
         $groupId = $this->input->get_post('group_id');
@@ -805,10 +816,9 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
-        }
-        while ($failedTransaction && ($transactionRetryCount > 0));
+        } while ($failedTransaction && ($transactionRetryCount > 0));
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);

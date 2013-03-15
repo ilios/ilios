@@ -573,6 +573,8 @@ class Course_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+        $schoolId = $this->session->userdata('school_id');
         $courseId = $this->input->get_post('course_id');
         $newYear = $this->input->get_post('year');
         $cloneOfferingsToo = ($this->input->get_post('offerings') == 'true');
@@ -589,7 +591,7 @@ class Course_Management extends Abstract_Ilios_Controller
             $this->course->startTransaction();
 
             $rolloverResult = $this->course->rolloverCourse($courseId, $newYear, $startDate,
-                                                            $endDate, $cloneOfferingsToo,
+                                                            $endDate, $cloneOfferingsToo, $schoolId,
                                                             $auditAtoms);
 
             if ($this->course->transactionAtomFailed()) {
@@ -602,7 +604,7 @@ class Course_Management extends Abstract_Ilios_Controller
             else {
                 $this->course->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                 $failedTransaction = false;
 
@@ -707,6 +709,9 @@ class Course_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+        $schoolId = $this->session->userdata('school_id');
+
         $this->load->library('form_validation');
 
         // TODO i18n error message text
@@ -734,14 +739,14 @@ class Course_Management extends Abstract_Ilios_Controller
 
                     $this->course->startTransaction();
 
-                    $newId = $this->course->addNewCourse($title, $year, $auditAtoms);
+                    $newId = $this->course->addNewCourse($title, $year, $schoolId, $auditAtoms);
 
                     if ($this->course->transactionAtomFailed() || ($newId == 0)) {
                         $this->failTransaction($transactionRetryCount, $failedTransaction, $this->course);
                     } else {
                         $this->course->commitTransaction();
 
-                        $this->auditEvent->saveAuditEvent($auditAtoms);
+                        $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                         $failedTransaction = false;
 
@@ -812,6 +817,8 @@ class Course_Management extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         //
         // input processing
@@ -899,7 +906,7 @@ class Course_Management extends Abstract_Ilios_Controller
 
                 $this->course->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -923,6 +930,8 @@ class Course_Management extends Abstract_Ilios_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $courseId = $this->input->get_post('course_id');
         $archiveAlso = ($this->input->get_post('archive') == 'true');
@@ -948,7 +957,7 @@ class Course_Management extends Abstract_Ilios_Controller
             else {
                 $this->course->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                 $failedTransaction = false;
 
@@ -1049,6 +1058,7 @@ class Course_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
         // check if we're dealing with an ILM
         $ilmHours = $this->input->post('ilm_hours');
         if ($ilmHours) {
@@ -1218,7 +1228,7 @@ class Course_Management extends Abstract_Ilios_Controller
                 else {
                     $this->iliosSession->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     /*
                      * what could invoke alert notification here:
@@ -1228,7 +1238,7 @@ class Course_Management extends Abstract_Ilios_Controller
                                               && $this->course->isPublished($courseId)) {
 
 
-                        $this->alert->addOrUpdateAlert($courseId, 'course', $school,
+                        $this->alert->addOrUpdateAlert($courseId, 'course', $userId, $school,
                                                        array(Alert::CHANGE_TYPE_SESSION_PUBLISH));
                     }
 
@@ -1276,6 +1286,8 @@ class Course_Management extends Abstract_Ilios_Controller
             return;
         }
 
+        $userId = $this->session->userdata('uid');
+
         $sessionId = $this->input->get_post('session_id');
         $containerNumber = $this->input->get_post('cnumber');
 
@@ -1310,7 +1322,7 @@ class Course_Management extends Abstract_Ilios_Controller
 
                     $failedTransaction = false;
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $rhett['container'] = $containerNumber;
                 }
@@ -1363,14 +1375,15 @@ class Course_Management extends Abstract_Ilios_Controller
         // if this is not the case then echo out an error message
         // and be done with it.
         if (empty($school)) {
-        	$msg = $this->i18nVendor->getI18NString('offering_management.error.failed_save', $lang);
-        	$rhett = array();
-        	$rhett['error'] = $msg;
-        	header("Content-Type: text/plain");
-        	echo json_encode($rhett);
-        	return;
+            $msg = $this->i18nVendor->getI18NString('offering_management.error.failed_save', $lang);
+            $rhett = array();
+            $rhett['error'] = $msg;
+            header("Content-Type: text/plain");
+            echo json_encode($rhett);
+            return;
         }
 
+        $userId = $this->session->userdata('uid');
 
         $containerNumber = $this->input->post('cnumber');
         $startDate = $this->input->post('start_date');
@@ -1426,7 +1439,7 @@ class Course_Management extends Abstract_Ilios_Controller
                 }
 
                 if ($sessionIsPublished) {
-                    $this->alert->addOrUpdateAlert($offeringId, 'offering', $school, $alertChangeTypes);
+                    $this->alert->addOrUpdateAlert($offeringId, 'offering', $userId, $school, $alertChangeTypes);
                 }
 
                 $counter++;
@@ -1443,7 +1456,7 @@ class Course_Management extends Abstract_Ilios_Controller
 
                 $this->offering->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
@@ -1464,7 +1477,6 @@ class Course_Management extends Abstract_Ilios_Controller
      */
     public function getCourseTree ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
 
         // authentication check
@@ -1510,7 +1522,7 @@ class Course_Management extends Abstract_Ilios_Controller
             $material['notesArePubliclyViewable'] = ($item['notesArePubliclyViewable'] == 'true');
             $material['notes'] = null;
             if ((isset($item['notes'])) && (0 < strlen($item['notes']))) {
-        	    $material['notes'] = $item['notes'];
+                $material['notes'] = $item['notes'];
             }
             $rhett[] = $material;
         }

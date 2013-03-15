@@ -311,7 +311,7 @@ class Dashboard_Controller extends Calendar_Controller
             $fdata['program_cohort_titles'] = $programcohorts;
         }
 
-        $fdata['course_titles'] = $this->course->getAllCourseTitles();
+        $fdata['course_titles'] = $this->course->getAllCourseTitles($schoolId);
         if (!empty($fdata['course_titles'])) {
             asort($fdata['course_titles']);
         }
