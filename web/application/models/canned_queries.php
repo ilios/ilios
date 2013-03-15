@@ -14,7 +14,6 @@ class Canned_Queries extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct();
-        $this->createDBHandle();
     }
 
     public function getCourseIdAndTitleForLearnerGroup ($groupId)
@@ -31,8 +30,7 @@ class Canned_Queries extends Abstract_Ilios_Model
                         .       'AND (`offering_learner`.`offering_id` = `offering`.`offering_id`) '
                         .       'AND (`offering_learner`.`group_id` = ' . $groupId . ')';
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
         }
@@ -51,8 +49,7 @@ class Canned_Queries extends Abstract_Ilios_Model
                         .       'AND (`offering_learner`.`group_id` = `group`.`group_id`) '
                         .       'AND (`session`.`course_id` = ' . $courseId . ')';
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
         }
@@ -75,8 +72,8 @@ class Canned_Queries extends Abstract_Ilios_Model
      * @param bool $includeArchived
      * @param int $lastUpdatedOffset
      * @return array
-     * 
-     * @todo the SQL-construction in this function is a horrendous mess. clean it up.[ST 8/30/2012] 
+     *
+     * @todo the SQL-construction in this function is a horrendous mess. clean it up.[ST 8/30/2012]
      */
     public function getOfferingsForCalendar ($schoolId, $userId = null,
             $roles = array(), $year = null, $includeArchived = false,
@@ -212,9 +209,7 @@ EOL;
                 }
                 $sql .= " ORDER BY d.start_date ASC, d.offering_id ASC";
         }
-
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($sql);
+        $queryResults = $this->db->query($sql);
 
         $rhett = array();
         foreach ($queryResults->result_array() as $row) {
@@ -338,8 +333,7 @@ EOL;
         // ORDER BY clause
         $sql .= "ORDER BY i.due_date ASC, s.session_id ASC";
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($sql);
+        $queryResults = $this->db->query($sql);
 
         $rhett = array();
         foreach ($queryResults->result_array() as $row) {
@@ -354,8 +348,6 @@ EOL;
         $rhett = array();
         $tmpArray = array();
 
-        $DB = $this->dbHandle;
-
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
                         . 'FROM `course`, `ilm_session_facet_instructor`, `session` '
                         . 'WHERE (`ilm_session_facet_instructor`.`instructor_group_id` = ' . $igId . ') '
@@ -365,7 +357,7 @@ EOL;
                         .       'AND (`session`.`deleted` = 0) '
                         .       'AND (`course`.`deleted` = 0) '
                         .       'AND (`course`.`archived` = 0) ';
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
             $tmpArray[$row['course_id']] = $row;
         }
@@ -379,7 +371,7 @@ EOL;
                         .       'AND (`session`.`deleted` = 0) '
                         .       'AND (`course`.`deleted` = 0) '
                         .       'AND (`course`.`archived` = 0) ';
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
             $tmpArray[$row['course_id']] = $row;
         }
@@ -394,7 +386,7 @@ EOL;
                         .       'AND (`session`.`deleted` = 0) '
                         .       'AND (`course`.`deleted` = 0) '
                         .       'AND (`course`.`archived` = 0) ';
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
             $tmpArray[$row['course_id']] = $row;
         }
@@ -432,8 +424,7 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
             $auditEvent = $this->getReturnableAuditEvent($row, $schoolId);
 
@@ -457,8 +448,6 @@ EOL;
             return $rhett;
         }
 
-        $DB = $this->dbHandle;
-
         $tableColumn = $auditRow['table_column'];
         $rowId = $auditRow['table_row_id'];
 
@@ -468,7 +457,7 @@ EOL;
             $tableName = 'session';
             $tableColumn = 'session_id';
 
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
             if ($queryResults->num_rows() == 0) {
                 return $rhett;
             }
@@ -480,7 +469,7 @@ EOL;
             $tableName = 'program';
             $tableColumn = 'program_id';
 
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
             if ($queryResults->num_rows() == 0) {
                 return $rhett;
             }
@@ -490,7 +479,7 @@ EOL;
         $queryString = 'SELECT `title` FROM `' . $tableName . '` '
                         .   'WHERE `' . $tableColumn . '` = ' . $rowId;
 
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
         if ($queryResults->num_rows() > 0) {
             $rhett = array();
 
@@ -515,21 +504,18 @@ EOL;
             $courseId = null;
 
             if ($tableName == 'session') {
-                $DB = $this->dbHandle;
-
                 $sessionId = $rowId;
 
                 $queryString = 'SELECT course_id FROM session WHERE session_id = ' . $rowId;
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
                 $courseId = $queryResults->first_row()->course_id;
             }
             else {
                 $courseId = $rowId;
             }
 
-            $DB = $this->dbHandle;
             $queryString = 'SELECT archived, owning_school_id FROM course WHERE course_id = ' . $courseId;
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
 
             if ($queryResults->first_row()->archived == 1) {
                 $rhett = '';
@@ -548,33 +534,29 @@ EOL;
             $programId = null;
 
             if ($tableName == 'program_year') {
-                $DB = $this->dbHandle;
-
                 $queryString = 'SELECT program_id FROM program_year WHERE program_year_id = '
                                     . $rowId;
-                $queryResults = $DB->query($queryString);
+                $queryResults = $this->db->query($queryString);
                 $programId = $queryResults->first_row()->program_id;
             }
             else {
                 $programId = $rowId;
             }
-            $DB = $this->dbHandle;
             $queryString = 'SELECT owning_school_id FROM program WHERE program_id = ' . $programId;
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
 
             if ($schoolId == $queryResults->first_row()->owning_school_id) {
                 return 'program_management?program_id=' . $programId;
             }
         }
         else if ($tableName == 'group') {
-            $DB = $this->dbHandle;
             $groupId = $rowId;
             $found = false;
 
             do {
-                $DB->where('group_id', $groupId);
+                $this->db->where('group_id', $groupId);
 
-                $queryResults = $DB->get("group");
+                $queryResults = $this->db->get("group");
                 $row = $queryResults->first_row();
 
                 if (($row != null) && ($row->parent_group_id != null)) {
@@ -587,16 +569,15 @@ EOL;
 
 
             $queryString = 'SELECT owning_school_id FROM cohort_master_group JOIN cohort USING(cohort_id) JOIN program_year USING(program_year_id) JOIN program USING(program_id) WHERE group_id = '. $groupId;
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
 
             if ($schoolId == $queryResults->first_row()->owning_school_id) {
                 return 'group_management?group_id=' . $rowId;
             }
         }
         else if ($tableName == 'instructor_group') {
-            $DB = $this->dbHandle;
             $queryString = 'SELECT school_id FROM instructor_group WHERE instructor_group_id = ' . $rowId;
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
             if ($schoolId == $queryResults->first_row()->school_id) {
                 return 'instructor_group_management?instructor_group_id=' . $rowId;
             }
@@ -608,14 +589,12 @@ EOL;
     protected function displayTitleForAuditEvent ($tableName, $rowId, $rowTitleValue)
     {
         if ($tableName == 'session') {
-            $DB = $this->dbHandle;
-
             $queryString = 'SELECT course_id FROM session WHERE session_id = ' . $rowId;
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
             $courseId = $queryResults->first_row()->course_id;
 
             $queryString = 'SELECT title FROM course WHERE course_id = ' . $courseId;
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
 
             return $queryResults->first_row()->title . ' - ' . $rowTitleValue;
         }
@@ -627,8 +606,6 @@ EOL;
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         foreach ($courseIdArray as $courseId) {
             $queryString = 'SELECT `program`.`title`, `program`.`program_id` '
                             .   'FROM `cohort`, `course_x_cohort`, `program_year`, `program` '
@@ -639,7 +616,7 @@ EOL;
                             .           'AND (`program_year`.`deleted` = 0) '
                             .           'AND (`program_year`.`archived` = 0) ';
 
-            $queryResults = $DB->query($queryString);
+            $queryResults = $this->db->query($queryString);
             foreach ($queryResults->result_array() as $row) {
                 $canAdd = true;
 
@@ -672,9 +649,7 @@ EOL;
             . "WHERE offering_learner.offering_id = {$clean['offeringId']} "
             . "AND group_x_user.user_id = {$clean['userId']}";
 
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         return !!$queryResults->num_rows;
     }
@@ -691,9 +666,7 @@ EOL;
             . "WHERE ilm_session_facet_learner.ilm_session_facet_id = {$clean['silmId']} "
             . "AND group_x_user.user_id = {$clean['userId']}";
 
-        $DB = $this->dbHandle;
-
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         return !!$queryResults->num_rows;
     }
@@ -719,8 +692,7 @@ JOIN `user` u ON u.`user_id` = gxu.`user_id`
 WHERE s.`session_id` = {$clean['session_id']}
 AND u.`user_id` = {$clean['user_id']}
 EOL;
-    	$DB = $this->dbHandle;
-    	$queryResults = $DB->query($query);
+    	$queryResults = $this->db->query($query);
     	return $queryResults->num_rows() ? true : false;
     }
 
@@ -781,8 +753,7 @@ AND u.enabled = 1
 
 EOL;
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         return $queryResults->result_array();
     }
@@ -844,8 +815,7 @@ AND u.enabled = 1
 
 EOL;
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         return $queryResults->result_array();
     }
@@ -862,8 +832,7 @@ WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
 AND u.enabled = 1
 
 EOL;
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($queryString);
+        $queryResults = $this->db->query($queryString);
 
         return $queryResults->result_array();
 

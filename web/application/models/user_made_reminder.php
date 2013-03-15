@@ -21,14 +21,12 @@ include_once "abstract_ilios_model.php";
  */
 class User_Made_Reminder extends Abstract_Ilios_Model
 {
-
     /**
      * Constructor
      */
     public function __construct ()
     {
         parent::__construct('user_made_reminder', array('user_made_reminder_id'));
-        $this->createDBHandle();
     }
 
     /**
@@ -41,8 +39,6 @@ class User_Made_Reminder extends Abstract_Ilios_Model
      */
     public function saveReminder ($reminderId, $noteText, $dueDate, $closed)
     {
-        $DB = $this->dbHandle;
-
         if ($reminderId == -1) {
             $newRow = array();
             $newRow['user_made_reminder_id'] = null;
@@ -56,8 +52,8 @@ class User_Made_Reminder extends Abstract_Ilios_Model
             $newRow['closed'] = 0;
             $newRow['user_id'] = $this->session->userdata('uid');
 
-            $DB->insert($this->databaseTableName, $newRow);
-            return $DB->insert_id();
+            $this->db->insert($this->databaseTableName, $newRow);
+            return $this->db->insert_id();
 
         } else {
             $updateRow = array();
@@ -65,8 +61,8 @@ class User_Made_Reminder extends Abstract_Ilios_Model
             $updateRow['due_date'] = $dueDate;
             $updateRow['closed'] = $closed ? 1 : 0;
 
-            $DB->where('user_made_reminder_id', $reminderId);
-            $success = $DB->update($this->databaseTableName, $updateRow);
+            $this->db->where('user_made_reminder_id', $reminderId);
+            $success = $this->db->update($this->databaseTableName, $updateRow);
 
             if (!$success) {
                 return -1;
@@ -84,15 +80,13 @@ class User_Made_Reminder extends Abstract_Ilios_Model
     {
         $rhett = array();
 
-        $DB = $this->dbHandle;
-
         $cutoffTime = time() + ($dayCount * 24 * 60 * 60);
         $dateCutoff = date('Y-m-d H:i:s', $cutoffTime);
         $qualifications = array('user_id = ' => $this->session->userdata('uid'),
                                 'due_date <= ' => $dateCutoff);
-        $DB->where($qualifications);
-        $DB->order_by('due_date', 'asc');
-        $queryResults = $DB->get($this->databaseTableName);
+        $this->db->where($qualifications);
+        $this->db->order_by('due_date', 'asc');
+        $queryResults = $this->db->get($this->databaseTableName);
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row);
         }

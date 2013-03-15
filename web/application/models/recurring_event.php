@@ -10,8 +10,6 @@ class Recurring_Event extends Abstract_Ilios_Model {
     public function __construct ()
     {
         parent::__construct('recurring_event', array('recurring_event_id'));
-
-        $this->createDBHandle();
     }
 
     /**
@@ -26,8 +24,6 @@ class Recurring_Event extends Abstract_Ilios_Model {
     {
         $recurringEventId = $recurringEvent['dbId'];
         $events = $recurringEvent['eventDays'];
-
-        $DB = $this->dbHandle;
 
         $rowData = array();
         $rowData['on_sunday'] = $events['0'];
@@ -50,9 +46,9 @@ class Recurring_Event extends Abstract_Ilios_Model {
         if ($recurringEventId == -1) {
             $rowData['recurring_event_id'] = null;
 
-            $DB->insert($this->databaseTableName, $rowData);
+            $this->db->insert($this->databaseTableName, $rowData);
 
-            $recurringEventId = $DB->insert_id();
+            $recurringEventId = $this->db->insert_id();
 
             if (! $recurringEventId) {
                 return -1;
@@ -61,20 +57,19 @@ class Recurring_Event extends Abstract_Ilios_Model {
                 array_push($auditAtoms,
                            $this->auditEvent->wrapAtom($recurringEventId, 'recurring_event_id',
                                                        $this->databaseTableName,
-                                                       Audit_Event::$CREATE_EVENT_TYPE));
+                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
             }
         }
         else {
-            $DB->where('recurring_event_id', $recurringEventId);
-            $DB->update($this->databaseTableName, $rowData);
+            $this->db->where('recurring_event_id', $recurringEventId);
+            $this->db->update($this->databaseTableName, $rowData);
 
             array_push($auditAtoms, $this->auditEvent->wrapAtom($recurringEventId,
                                                                 'recurring_event_id',
                                                                 $this->databaseTableName,
-                                                                Audit_Event::$UPDATE_EVENT_TYPE));
+                                                                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
         }
 
         return $recurringEventId;
     }
-
 }

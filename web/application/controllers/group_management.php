@@ -269,7 +269,7 @@ class Group_Management extends Abstract_Ilios_Controller
                 }
 
                 $failedTransaction = true;
-                $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+                $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
                 do {
                     $auditAtoms = array();
 
@@ -404,7 +404,7 @@ class Group_Management extends Abstract_Ilios_Controller
         $containerNumber = $this->input->get_post('container_number');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -474,7 +474,7 @@ class Group_Management extends Abstract_Ilios_Controller
         $wholeTree['subgroups'] = $subgroups;
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -608,7 +608,7 @@ class Group_Management extends Abstract_Ilios_Controller
             }
 
             $failedTransaction = true;
-            $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+            $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
             do {
                 $auditAtoms = array();
 
@@ -712,7 +712,7 @@ class Group_Management extends Abstract_Ilios_Controller
         $primarySchoolId = $this->session->userdata('school_id');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -783,7 +783,7 @@ class Group_Management extends Abstract_Ilios_Controller
         $containerNumber = $this->input->get_post('next_container');
 
         $failedTransaction = true;
-        $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             $auditAtoms = array();
 
@@ -842,8 +842,7 @@ WHERE
 ORDER BY `program_title`, `cohort_title`
 EOL;
 
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($query);
+        $queryResults = $this->db->query($query);
 
         if ($queryResults->num_rows() > 0) {
             $row = $queryResults->first_row();
@@ -891,8 +890,7 @@ WHERE
   AND `cohort_master_group`.`group_id` = `t1`.`rgid`
 ORDER BY `program_title`, `cohort_title`
 EOL;
-        $DB = $this->dbHandle;
-        $queryResults = $DB->query($query);
+        $queryResults = $this->db->query($query);
 
         if ($queryResults->num_rows() > 0) {
 

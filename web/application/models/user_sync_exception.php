@@ -13,7 +13,6 @@ class User_Sync_Exception extends Abstract_Ilios_Model
     public function __construct ()
     {
         parent::__construct('user_sync_exception', array('exception_id'));
-        $this->createDBHandle();
     }
 
     /**
@@ -28,9 +27,8 @@ class User_Sync_Exception extends Abstract_Ilios_Model
      * @see Ilios_UserSync_Process_UserException
      */
     public function addException ($processId, $processName, $userId, $exceptionCode,
-                        $mismatchedPropertyName = null, $mismatchedPropertyValue = null) {
-
-
+                        $mismatchedPropertyName = null, $mismatchedPropertyValue = null)
+    {
         $newRow = array();
         $newRow['process_id'] = (int) $processId;
         $newRow['process_name'] = $processName;
@@ -42,11 +40,9 @@ class User_Sync_Exception extends Abstract_Ilios_Model
                 $newRow['mismatched_property_value'] = $mismatchedPropertyValue;
             }
         }
+        $this->db->insert($this->databaseTableName, $newRow);
 
-        $DB = $this->dbHandle;
-        $DB->insert($this->databaseTableName, $newRow);
-
-        return $DB->insert_id();
+        return $this->db->insert_id();
     }
 
     /**
@@ -68,8 +64,7 @@ ON u.`user_id` = ex.`user_id`
 WHERE u.`primary_school_id` = {$clean['school_id']}
 ORDER BY u.`last_name`, u.`first_name`, u.`user_id`
 EOL;
-        $DB = $this->dbHandle;
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         return $query->result_array();
     }
 
@@ -84,9 +79,8 @@ EOL;
         if ('' == $processName) {
             return false;
         }
-        $DB = $this->dbHandle;
-        $DB->where('process_name', $processName);
-        $DB->delete($this->databaseTableName);
+        $this->db->where('process_name', $processName);
+        $this->db->delete($this->databaseTableName);
     }
 
     /**
@@ -122,9 +116,8 @@ EOL;
     {
         $rhett = false;
         $clean = array();
-        $DB = $this->dbHandle;
         $clean['school_id'] = (int) $schoolId;
-        $clean['process_name'] = $DB->escape($processName);
+        $clean['process_name'] = $this->db->escape($processName);
 
         $sql =<<<EOL
 SELECT COUNT(*) AS c
@@ -135,7 +128,7 @@ AND u.user_sync_ignore = 0
 AND u.`primary_school_id` = {$clean['school_id']}
 AND ex.`process_name` = {$clean['process_name']}
 EOL;
-        $query = $DB->query($sql);
+        $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             $row = $query->row_array();
             $rhett = 0 < (int) $row['c'] ? true : false; // check the count
