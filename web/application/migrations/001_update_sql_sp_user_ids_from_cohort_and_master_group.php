@@ -7,19 +7,20 @@
  */
 
 
-class Migration_Update_sql_sp_user_ids_from_cohort_and_master_group extends CI_Migration {
+class Migration_Update_sql_sp_user_ids_from_cohort_and_master_group extends CI_Migration 
+{
   
-  public function up()
-  {
-    //set up for the transaction...
-    $this->db->trans_start();
-    //query to drop the existing stored procedure...
-    $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
-    //drop the stored procedure...
-    $queryResults = $this->db->query($queryString);
+    public function up()
+    {
+        //set up for the transaction...
+        $this->db->trans_start();
+        //query to drop the existing stored procedure...
+        $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
+        //drop the stored procedure...
+        $queryResults = $this->db->query($queryString);
     
-    //query to create the new stored procedure...
-    $queryString = <<<EOL
+        //query to create the new stored procedure...
+        $queryString = <<<EOL
 CREATE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
     READS SQL DATA
 BEGIN
@@ -57,24 +58,24 @@ BEGIN
     END    
 EOL;
 
-    //create the new stored procedure...
-    $queryResults = $this->db->query($queryString);
-    //end the transaction...
-    $this->db->trans_complete();
+        //create the new stored procedure...
+        $queryResults = $this->db->query($queryString);
+        //end the transaction...
+        $this->db->trans_complete();
     
-  }// end up() method
+    }// end up() method
   
-  public function down()
-  {
-    //set up for the transaction...
-    $this->db->trans_start();
-    //query to drop the existing stored procedure...
-    $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
-    //drop the stored procedure...
-    $queryResults = $this->db->query($queryString);
+    public function down()
+    {
+        //set up for the transaction...
+        $this->db->trans_start();
+        //query to drop the existing stored procedure...
+        $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
+        //drop the stored procedure...
+        $queryResults = $this->db->query($queryString);
     
-    //query to create the stored procedure...
-    $queryString = <<<EOL
+        //query to create the stored procedure...
+        $queryString = <<<EOL
 CREATE PROCEDURE `user_ids_from_cohort_and_master_group`(IN `in_user_count` INT, IN `in_cohort_id` INT, IN `in_group_id` INT)
     READS SQL DATA
 BEGIN
@@ -114,10 +115,10 @@ BEGIN
     END    
 EOL;
 
-    //create the new stored procedure...
-    $queryResults = $this->db->query($queryString);
-    //end the transaction...
-    $this->db->trans_complete();
+        //create the new stored procedure...
+        $queryResults = $this->db->query($queryString);
+        //end the transaction...
+        $this->db->trans_complete();
   
-  } // end down() method
+    } // end down() method
 }
