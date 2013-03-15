@@ -24,8 +24,8 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
 
         if (($controller != 'authentication_controller')
             && ($method != 'getI18NJavascriptVendor')
+            && (! $this->input->is_cli_request())
             && (! $this->session->userdata('username'))
-            && (! (defined('CRON') && CRON))
             && (! (array_key_exists('ILIOS_ENVIRONMENT', $_ENV)
             && 'test' == $_ENV['ILIOS_ENVIRONMENT']))) {
 
