@@ -18,9 +18,9 @@ class Migrate extends CI_Controller
     {
         parent::__construct();
         // deny access if the controller was not called from the command line.
-        //if (! $this->input->is_cli_request()) {
-        //    exit('Access Denied.');
-        //}
+        if (! $this->input->is_cli_request()) {
+            exit('Access Denied.');
+        }
         $this->load->library('migration');
     }
 
