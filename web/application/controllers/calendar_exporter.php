@@ -1,11 +1,12 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  * Calendar exporter controller.
  */
-class Calendar_Exporter extends Abstract_Ilios_Controller
+class Calendar_Exporter extends Ilios_Web_Controller
 {
     /**
      * Constructor
@@ -31,12 +32,6 @@ class Calendar_Exporter extends Abstract_Ilios_Controller
     public function exportICalendar ($role='all')
     {
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            header('HTTP/1.1 403 Forbidden'); // VERBOTEN!
-            return;
-        }
 
         $userRoles = array();
 

@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Learner-group management controller.
  */
-class Group_Management extends Abstract_Ilios_Controller
+class Group_Management extends Ilios_Web_Controller
 {
     /**
      * Constructor.
@@ -29,11 +30,6 @@ class Group_Management extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -143,12 +139,6 @@ class Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -170,12 +160,6 @@ class Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang = $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -216,12 +200,6 @@ class Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -342,12 +320,6 @@ class Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -389,12 +361,6 @@ class Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -445,14 +411,7 @@ class Group_Management extends Abstract_Ilios_Controller
      */
     public function saveGroupModelTree ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-            // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -545,12 +504,6 @@ class Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -663,7 +616,7 @@ class Group_Management extends Abstract_Ilios_Controller
                 }
             } while ($failedTransaction && ($transactionRetryCount > 0));
             if (! unlink($uploadData['full_path'])) {
-            	log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
+                log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
             }
         }
 
@@ -682,12 +635,6 @@ class Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -774,12 +721,6 @@ class Group_Management extends Abstract_Ilios_Controller
     public function addNewGroup ()
     {
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -918,9 +859,11 @@ EOL;
     }
 
     /**
-     * @param groupModel assumed to contain an array associated to a key 'users' and have a value
-     *                      associated to a key 'group_id'
-     * @return true if the insert appears to have gone ok, false otherwise
+     * Associates a given list of users with a given group.
+     * @param array $users
+     * @param int $groupId
+     * @param array $auditAtoms
+     * @return boolean true if the insert appears to have gone ok, false otherwise
      */
     protected function _associateUsersToGroup ($users, $groupId, &$auditAtoms)
     {

@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Controller for Ilios' user management module.
  */
-class Management_Console extends Abstract_Ilios_Controller
+class Management_Console extends Ilios_Web_Controller
 {
     /**
      * Constructor.
@@ -29,11 +30,6 @@ class Management_Console extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -174,12 +170,6 @@ class Management_Console extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -257,12 +247,6 @@ class Management_Console extends Abstract_Ilios_Controller
         $lang =  $this->getLangToUse();
         $updateUsername = false;
         $updatePassword = false;
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -382,12 +366,6 @@ class Management_Console extends Abstract_Ilios_Controller
         $lang =  $this->getLangToUse();
         $addCredentials = false;
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -478,12 +456,6 @@ class Management_Console extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -508,12 +480,6 @@ class Management_Console extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -542,12 +508,6 @@ class Management_Console extends Abstract_Ilios_Controller
     {
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -570,12 +530,6 @@ class Management_Console extends Abstract_Ilios_Controller
     {
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -595,12 +549,6 @@ class Management_Console extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -626,12 +574,6 @@ class Management_Console extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -711,12 +653,6 @@ class Management_Console extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -776,12 +712,6 @@ class Management_Console extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -810,12 +740,6 @@ class Management_Console extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -940,12 +864,6 @@ class Management_Console extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -1029,14 +947,7 @@ class Management_Console extends Abstract_Ilios_Controller
      */
     public function searchAllUsers ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -1057,14 +968,7 @@ class Management_Console extends Abstract_Ilios_Controller
      */
     public function searchEnabledUsers ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -1087,14 +991,7 @@ class Management_Console extends Abstract_Ilios_Controller
      */
     public function getCourseList ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -1116,14 +1013,7 @@ class Management_Console extends Abstract_Ilios_Controller
      */
     public function getSchoolList ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -1138,7 +1028,7 @@ class Management_Console extends Abstract_Ilios_Controller
 
     /**
      * Transforms and de-dupes a given list of user data for output.
-     * @param array $userData
+     * @param array $rows
      * @return array
      */
     protected function _transmogrifySyncExceptionUsers (array $rows = array())
@@ -1257,7 +1147,7 @@ class Management_Console extends Abstract_Ilios_Controller
      * Validates a given password and returns error messages if the password
      * fails one or more validation criteria.
      * @param string $password
-     * @param array | boolean an array of error messages, or TRUE on success.
+     * @return array | boolean an array of error messages, or TRUE on success.
      */
     protected function _validatePassword ($password)
     {

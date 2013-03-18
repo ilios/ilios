@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Course management controller.
  */
-class Course_Management extends Abstract_Ilios_Controller
+class Course_Management extends Ilios_Web_Controller
 {
     /**
      * Constructor
@@ -28,11 +29,6 @@ class Course_Management extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -455,12 +451,6 @@ class Course_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -502,12 +492,6 @@ class Course_Management extends Abstract_Ilios_Controller
     {
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -526,12 +510,6 @@ class Course_Management extends Abstract_Ilios_Controller
     public function getRolloverSummaryViewForCourseIdInAcademicYear ()
     {
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -560,12 +538,6 @@ class Course_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -627,14 +599,7 @@ class Course_Management extends Abstract_Ilios_Controller
      */
     public function getCourseListForQuery ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -661,12 +626,6 @@ class Course_Management extends Abstract_Ilios_Controller
     public function getCohortObjectives ()
     {
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -696,12 +655,6 @@ class Course_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -801,14 +754,6 @@ class Course_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        //
-        // authentication check
-        //
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         //
         // authorization check
@@ -919,12 +864,6 @@ class Course_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -974,12 +913,6 @@ class Course_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -1025,17 +958,7 @@ class Course_Management extends Abstract_Ilios_Controller
         $lang =  $this->getLangToUse();
         $isIlm = false;
 
-        //
-        // authentication check
-        //
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
-        //
         // authorization check
-        //
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
@@ -1275,12 +1198,6 @@ class Course_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -1355,12 +1272,6 @@ class Course_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -1479,12 +1390,6 @@ class Course_Management extends Abstract_Ilios_Controller
     public function getCourseTree ()
     {
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {

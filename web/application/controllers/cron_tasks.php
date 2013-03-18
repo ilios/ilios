@@ -1,5 +1,6 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+include_once "ilios_cli_controller.php";
 
 /**
  * @package Ilios
@@ -8,7 +9,7 @@ include_once "abstract_ilios_controller.php";
  * Provides functionality to run recurring tasks within the application,
  * such as synchronizing the Ilios user store against an external user store.
  */
-class Cron_Tasks extends Abstract_Ilios_Controller
+class Cron_Tasks extends Ilios_Cli_Controller
 {
     /**
      * Tasks configuration container.
@@ -22,10 +23,6 @@ class Cron_Tasks extends Abstract_Ilios_Controller
     public function __construct ()
     {
         parent::__construct();
-        // deny access if the controller was not called from the command line.
-        if (! $this->input->is_cli_request()) {
-            exit('Access Denied.');
-        }
 
         // up the memory limit
         ini_set('memory_limit','256M');
@@ -186,7 +183,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
 
         // instantiate the user source
         $userSourceClassName = array_key_exists('user_source_class', $config) ? $config['user_source_class'] : false;
-        $userSource = false;
+        $userSource = null;
 
         if ($userSourceClassName
             && class_exists($userSourceClassName, true)) {

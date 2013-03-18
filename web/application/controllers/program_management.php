@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Program Management Controller.
  */
-class Program_Management extends Abstract_Ilios_Controller
+class Program_Management extends Ilios_Web_Controller
 {
 
     /**
@@ -26,10 +27,6 @@ class Program_Management extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -171,14 +168,7 @@ class Program_Management extends Abstract_Ilios_Controller
      */
     public function getProgramListForQuery ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -207,14 +197,7 @@ class Program_Management extends Abstract_Ilios_Controller
      */
     public function getProgramYears ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -249,14 +232,7 @@ class Program_Management extends Abstract_Ilios_Controller
      */
     public function getSchoolTree ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -282,12 +258,6 @@ class Program_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -380,12 +350,6 @@ class Program_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -463,12 +427,6 @@ class Program_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -532,12 +490,6 @@ class Program_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -592,14 +544,6 @@ class Program_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        //
-        // authentication check
-        //
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         //
         // authorization check

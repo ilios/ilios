@@ -1,14 +1,14 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Offering management controller
  */
-class Offering_Management extends Abstract_Ilios_Controller
+class Offering_Management extends Ilios_Web_Controller
 {
-
     /**
      * Constructor.
      */
@@ -29,10 +29,6 @@ class Offering_Management extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -247,12 +243,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -472,12 +462,6 @@ class Offering_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -537,12 +521,6 @@ class Offering_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -596,12 +574,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -670,12 +642,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -761,12 +727,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {

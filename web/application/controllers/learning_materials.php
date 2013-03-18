@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Learning materials management controller.
  */
-class Learning_Materials extends Abstract_Ilios_Controller
+class Learning_Materials extends Ilios_Web_Controller
 {
     /**
      * Constructor
@@ -37,12 +38,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // not extra authorization check here, learning materials are readable by all logged in users.
         $learningMaterialId = $this->input->get_post('learning_material_id');
         $rhett = $this->learningMaterial->getAssetPathAndFilenameAndType($learningMaterialId);
@@ -71,12 +66,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -139,12 +128,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -174,12 +157,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -275,12 +252,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -385,12 +356,6 @@ class Learning_Materials extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {

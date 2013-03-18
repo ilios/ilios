@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * This is the user calendar controller.
  */
-class Calendar_Controller extends Abstract_Ilios_Controller
+class Calendar_Controller extends Ilios_Web_Controller
 {
     /**
      * Constructor
@@ -28,11 +29,6 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -344,11 +340,6 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function switchView ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $role = $this->input->get('preferred_view', false);
         $this->_setViewPreferenceByRole('calendar_view', $role);
         redirect('/calendar_controller'); // redirect to itself
@@ -366,14 +357,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getOfferingsForLearnerDashboard ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('is_learner')) {
@@ -425,14 +409,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getSessionILMsForLearnerDashboard () {
 
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('is_learner')) {
@@ -488,14 +465,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getOfferingsForNonLearnerDashboard ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -548,14 +518,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getSessionILMsForNonLearnerDashboard ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -607,6 +570,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      * Compares two given UNIX timestamps.
      * @param string $a
      * @param string $b
+     * @return int
      */
     protected function _offeringStartDateComparator ($a, $b) {
         $startDateA = strtotime($a['start_date']);
@@ -639,8 +603,8 @@ class Calendar_Controller extends Abstract_Ilios_Controller
     /**
      * Merges two lists of session-ILMs (silm) while filtering out duplicates.
      *
-     * @param array $silms
-     * @param array $additionalSilms
+     * @param array $sessionILM
+     * @param array $additionalSessionILMs
      * @return array the merged list
      */
     protected function _mergeSessionILMs (array $sessionILM, array $additionalSessionILMs) {
@@ -686,8 +650,10 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      * Apply filters on an Offering array.
      * @param object $filters
      * @param array  $offerings
+     * @param int $overrideSchoolId
+     * @return array
      */
-    protected function _applyFiltersOnOfferings($filters, $offerings, $overrideSchoolId=null)
+    protected function _applyFiltersOnOfferings($filters, $offerings, $overrideSchoolId = null)
     {
         $retarr = array();
         $schoolId = empty($overrideSchoolId) ? $this->session->userdata('school_id') : $overrideSchoolId;
@@ -758,7 +724,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     private function _viewInstructorCalendar (array $data = array())
     {
-    	$this->load->view('home/course_developer_calendar_view', $data);
+        $this->load->view('home/course_developer_calendar_view', $data);
     }
 
     /**
@@ -767,7 +733,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     private function _viewStudentCalendar (array $data = array())
     {
-    	$this->load->view('home/student_calendar_view', $data);
+        $this->load->view('home/student_calendar_view', $data);
     }
 }
 

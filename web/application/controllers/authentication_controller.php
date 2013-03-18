@@ -1,5 +1,6 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
@@ -9,7 +10,7 @@ include_once "abstract_ilios_controller.php";
  *
  * @todo This class should be sensitive to repeated failed authentication attempts.
  */
-class Authentication_Controller extends Abstract_Ilios_Controller
+class Authentication_Controller extends Ilios_Web_Controller
 {
     /**
      * Authentication subsystem name.
