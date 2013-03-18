@@ -10,11 +10,20 @@
 |
 */
 $hook['pre_system'] = array();
+$hook['post_controller_constructor'] = array();
 
 // register a class autoloader as pre-system hook
 $hook['pre_system'][] = array(
     'class' => 'Ilios_Hooks',
     'function' => 'registerAutoloader',
+    'filename' => 'Hooks.php',
+    'filepath' => 'hooks/Ilios'
+);
+
+// register authentication check as pre-controller hook
+$hook['post_controller_constructor'][] = array(
+    'class' => 'Ilios_Hooks',
+    'function' => 'checkAuthentication',
     'filename' => 'Hooks.php',
     'filepath' => 'hooks/Ilios'
 );
