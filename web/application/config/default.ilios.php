@@ -168,8 +168,8 @@ $config['tasks']['teaching_reminders']['enabled'] = false;
  | * LDAP-based exernal user source configuration
  |
  | ['tasks']['user_sync']['ldap']               configuration container for LDAP user source
- | ['tasks']['user_sync']['ldap']['host']       LDAP server URI, may contain protocol
- | ['tasks']['user_sync']['ldap']['port']       LDAP server port
+ | ['tasks']['user_sync']['ldap']['host']       LDAP server host name or an URL
+ | ['tasks']['user_sync']['ldap']['port']       LDAP server port, only needed when 'host' contains a host name and not an URL.
  | ['tasks']['user_sync']['ldap']['bind_dn']    LDAP bind DN
  | ['tasks']['user_sync']['ldap']['password']   LDAP bind password
  |

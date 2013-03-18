@@ -121,7 +121,7 @@ DELIMITER //
 		DECLARE tmp_uid INT DEFAULT 0;
 		DECLARE flag INT DEFAULT 0;
 		DECLARE inserted_count INT DEFAULT 0;
-		DECLARE uid_cursor CURSOR FOR SELECT u.`user_id` FROM `user` u JOIN `user_x_cohort` uxc ON uxc.`user_id` = u.`user_id` WHERE uxc.`cohort_id` = in_cohort_id;
+		DECLARE uid_cursor CURSOR FOR SELECT u.`user_id` FROM `user` u JOIN `user_x_cohort` uxc ON uxc.`user_id` = u.`user_id` WHERE uxc.`cohort_id` = in_cohort_id ORDER BY RAND();
 		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
 		CREATE TEMPORARY TABLE IF NOT EXISTS tt_subgroup (uid INT);
