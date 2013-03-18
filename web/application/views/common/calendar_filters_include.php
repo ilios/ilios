@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 function generateCheckboxElementsFromArray( $element_key_and_value_array, $checkbox_id_prefix="checkbox" ) {
 

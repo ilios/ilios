@@ -1,6 +1,8 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 //class for export sheduler events in icalendar format
-class ICalExporter {
+class ICalExporter
+{
 	private $title; // calendar view title
 	
 	//set name the calendar

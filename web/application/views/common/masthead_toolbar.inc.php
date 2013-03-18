@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Includes-template.
  * Prints out the logout toolbar and user info in the masthead.

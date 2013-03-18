@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * This file is meant to be included from instructor_group_manager.php and is responsible for
  * 	generating the HTML and JavaScript.

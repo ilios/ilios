@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Includes script for rigging the "learning materials picker" dialog up to the course management page.
  *

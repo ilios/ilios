@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 require_once(getServerFilePath('views') . 'common/picker_dialog_generator.php');
 

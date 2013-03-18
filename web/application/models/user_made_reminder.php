@@ -1,23 +1,9 @@
-<?php
-/**
- * Data Access Object (DAO) to the "user_made_reminder" table.
- *
- * @category Ilios
- * @package CI
- * @subpackage Model
- * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
- * @license http://www.iliosproject.org/license GNU GPL v3
- */
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 include_once "abstract_ilios_model.php";
 
 /**
  * Data Access Object (DAO) to the "user_made_reminder" table.
- *
- * @category Ilios
- * @package CI
- * @subpackage Model
- * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
- * @license http://www.iliosproject.org/license GNU GPL v3
  */
 class User_Made_Reminder extends Abstract_Ilios_Model
 {

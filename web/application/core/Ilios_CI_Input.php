@@ -1,5 +1,4 @@
-<?php 
-
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Extends CodeIgniter's core Input component with the aim to undo
  * some of the text garbling caused by CI's overreaching attempt
@@ -23,9 +22,9 @@ class Ilios_CI_Input extends CI_Input
             }
             return $new_array;
         }
-    
+
         /* We strip slashes if magic quotes is on to keep things consistent
-    
+
         NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
         it will probably not exist in future versions at all.
         */
@@ -33,7 +32,7 @@ class Ilios_CI_Input extends CI_Input
         {
             $str = stripslashes($str);
         }
-    
+
         // Clean UTF-8 if supported
         if (UTF8_ENABLED === TRUE)
         {
@@ -45,16 +44,16 @@ class Ilios_CI_Input extends CI_Input
             // our drop-in replacement
             $str = Ilios_CharEncoding::convertToUtf8($str);
         }
-    
+
         // Remove control characters
         $str = remove_invisible_characters($str);
-    
+
         // Should we filter the input data?
         if ($this->_enable_xss === TRUE)
         {
             $str = $this->security->xss_clean($str);
         }
-    
+
         // Standardize newlines if needed
         if ($this->_standardize_newlines == TRUE)
         {
@@ -63,7 +62,7 @@ class Ilios_CI_Input extends CI_Input
                 $str = str_replace(array("\r\n", "\r", "\r\n\n"), PHP_EOL, $str);
             }
         }
-    
+
         return $str;
     }
 }
