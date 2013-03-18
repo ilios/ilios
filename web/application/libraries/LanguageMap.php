@@ -1,18 +1,30 @@
 <?php
 
 /**
- * i18n utility class, provides functionality to read from language files.
+ * Language-map library.
+ * Provides key-based lookup mechanism for translation strings.
+ *
+ * @todo Junk ALL of this in favour of a sane translation component [ST 2013/03/18]
  */
-class I18N_Vendor extends CI_Model
+class LanguageMap
 {
-    protected $I18N_FILE_BASE_NAME = 'application/language/ilios_strings_';
-    protected $I18N_FILE_SUFFIX = '.properties';
-    protected $I18N_DEFAULT_LOCALE = 'en_US';
+    /**
+     * @var string
+     */
+    const I18N_FILE_BASE_NAME = 'application/language/ilios_strings_';
+
+    /**
+     * @var string
+     */
+    const I18N_FILE_SUFFIX = '.properties';
+
+    /**
+     * @var string
+     */
+    const I18N_DEFAULT_LOCALE = 'en_US';
 
 
     /**
-     * TODO determine the PHP-land lifecycle of this class within CI; if it is long, investigate
-     *              the best strategy for already-load-attempted properties files.
      * @var array
      */
     protected $_cachedLanguageMaps;
@@ -22,13 +34,13 @@ class I18N_Vendor extends CI_Model
      */
     public function __construct ()
     {
-        parent::__construct();
-
         $this->_cachedLanguageMaps = array();
     }
 
     /**
-     * @todo add code docs
+     * Returns the absolute file path for a given relative file path.
+     * @param string $relative the relative file path
+     * @return string the absoulute file path
      */
     protected function _getAbsoluteFilePathForRelativeFile ($relative)
     {
@@ -38,7 +50,9 @@ class I18N_Vendor extends CI_Model
     }
 
     /**
-     * @todo add code docs
+     * Loads the language file for a given language key, then parses it into a lookup map.
+     * @param string $lang the language key
+     * @return array lookup map
      */
     protected function _loadPropertiesFile ($lang = null)
     {
@@ -46,7 +60,7 @@ class I18N_Vendor extends CI_Model
         $propertiesFilePath = null;
 
         if ($lang != null) {
-            $propertiesFilePath = $this->I18N_FILE_BASE_NAME . $lang . $this->I18N_FILE_SUFFIX;
+            $propertiesFilePath = self::I18N_FILE_BASE_NAME . $lang . self::I18N_FILE_SUFFIX;
             $propertiesFilePath = $this->_getAbsoluteFilePathForRelativeFile($propertiesFilePath);
 
             if (! file_exists($propertiesFilePath)) {
@@ -55,8 +69,8 @@ class I18N_Vendor extends CI_Model
         }
 
         if ($propertiesFilePath == null) {
-            $propertiesFilePath = $this->I18N_FILE_BASE_NAME . $this->I18N_DEFAULT_LOCALE
-                                                                        . $this->I18N_FILE_SUFFIX;
+            $propertiesFilePath = self::I18N_FILE_BASE_NAME . self::I18N_DEFAULT_LOCALE
+                . self::I18N_FILE_SUFFIX;
             $propertiesFilePath = $this->_getAbsoluteFilePathForRelativeFile($propertiesFilePath);
         }
 
@@ -64,7 +78,9 @@ class I18N_Vendor extends CI_Model
         $backslashStrLen = strlen("\\");
 
         $file = fopen($propertiesFilePath, "r")
-                        or exit('Failed to open properties file:' . $propertiesFilePath);
+            or exit('Failed to open properties file:' . $propertiesFilePath);
+
+        $value = '';
 
         while (! feof($file)) {
             $line = fgets($file);
@@ -76,8 +92,7 @@ class I18N_Vendor extends CI_Model
             if (! $needsMoreLineContent) {
                 $key = substr($line, 0, strpos($line, '='));
                 $value = trim(substr($line, (strpos($line, '=') + 1), strlen($line)), "\r\n");
-            }
-            else {
+            } else {
                 $value .= $line;
             }
 
@@ -85,8 +100,7 @@ class I18N_Vendor extends CI_Model
             if (strrpos($value, "\\") === (strlen($value) - $backslashStrLen)) {
                 $value = substr($value, 0, (strlen($value) - 1)) . "\n";
                 $needsMoreLineContent = true;
-            }
-            else {
+            } else {
                 $needsMoreLineContent = false;
             }
 
@@ -99,25 +113,28 @@ class I18N_Vendor extends CI_Model
     }
 
     /**
-     * @todo add code docs
+     * Returns the lookup map for a given language.
+     * @param string $lang the language key
+     * @return array the language map
      */
-    protected function _getLanguageMapForLocale ($lang) {
+    protected function _getLanguageMapForLocale ($lang)
+    {
         $rhett = null;
 
         if (isset($this->_cachedLanguageMaps[$lang])) {
             $rhett = $this->_cachedLanguageMaps[$lang];
-        }
-        else {
+        } else {
             $rhett = $this->_loadPropertiesFile($lang);
-
             $this->_cachedLanguageMaps[$lang] = $rhett;
         }
-
         return $rhett;
     }
 
     /**
-     * @todo add code docs
+     * Prints the lookup map for a given language as global JavaScript variable.
+     * @param string $lang the language key
+     * @param string $javascriptArrayName the variable name
+     * @param string $contentSeparator line separator
      */
     public function dumpI18NStringsForLanguageAsJavascript ($lang, $javascriptArrayName, $contentSeparator)
     {
@@ -131,7 +148,7 @@ class I18N_Vendor extends CI_Model
     /**
      * Returns the text value for a given key from a language pack.
      * @param string $key the text key
-     * @param string $lang the targetted language
+     * @param string $lang the targeted language
      * @param boolean unescape if TRUE then escaped double quotes in the value will be unescaped
      * @return string the text
      */
@@ -150,12 +167,12 @@ class I18N_Vendor extends CI_Model
      * The only difference is that double quotes in the return-value get unescaped by default.
      * @see I18N_Vendor::getI18nString()
      * @param string $key the text key
-     * @param string $lang the targetted language
+     * @param string $lang the targeted language
      * @param boolean unescape if TRUE then escaped double quotes in the value will be unescaped
      * @return string the text
      */
-    public function t ($key, $lang, $unescaped = true)
+    public function t ($key, $lang, $unescape = true)
     {
-        return $this->getI18NString($key, $lang, $unescaped);
+        return $this->getI18NString($key, $lang, $unescape);
     }
 }
