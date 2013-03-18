@@ -57,6 +57,7 @@ class Authentication_Controller extends Ilios_Web_Controller
      * See http://codeigniter.com/user_guide/general/controllers.html#remapping
      * @param string $method the name of the invoked controller action
      * @param array $params extra url segments
+     * @return mixed
      */
     public function _remap ($method, $params = array())
     {
