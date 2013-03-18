@@ -82,11 +82,11 @@ class Authentication_Controller extends Ilios_Web_Controller
 
         $lang = $this->getLangToUse();
         $data['lang'] = $lang;
-        $data['login_message'] = $this->i18nVendor->getI18NString('login.default_status', $lang);
-        $data['login_title'] = $this->i18nVendor->getI18NString('login.title', $lang);
-        $data['word_login'] = $this->i18nVendor->getI18NString('general.terms.login', $lang);
-        $data['word_password'] = $this->i18nVendor->getI18NString('general.terms.password', $lang);
-        $data['word_username'] = $this->i18nVendor->getI18NString('general.terms.username', $lang);
+        $data['login_message'] = $this->languagemap->getI18NString('login.default_status', $lang);
+        $data['login_title'] = $this->languagemap->getI18NString('login.title', $lang);
+        $data['word_login'] = $this->languagemap->getI18NString('general.terms.login', $lang);
+        $data['word_password'] = $this->languagemap->getI18NString('general.terms.password', $lang);
+        $data['word_username'] = $this->languagemap->getI18NString('general.terms.username', $lang);
         $data['last_url'] = '';
         $data['param_string'] = '';
 
@@ -165,7 +165,7 @@ class Authentication_Controller extends Ilios_Web_Controller
             $this->session->set_userdata($sessionData);
             $rhett['success'] = 'huzzah';
         } else { // login failed
-            $msg = $this->i18nVendor->getI18NString('login.error.bad_login', $lang);
+            $msg = $this->languagemap->getI18NString('login.error.bad_login', $lang);
             $rhett['error'] = $msg;
         }
 
@@ -187,7 +187,7 @@ class Authentication_Controller extends Ilios_Web_Controller
 
         if ($logout == 'yes') {
             $this->_shibboleth_logout();
-            $data['logout_in_progress'] = $this->i18nVendor->getI18NString('logout.logout_in_progress', $lang);
+            $data['logout_in_progress'] = $this->languagemap->getI18NString('logout.logout_in_progress', $lang);
             $this->load->view('login/logout', $data);
         } else {
             $emailAddress = "illegal_em4!l_addr3ss";
@@ -201,17 +201,17 @@ class Authentication_Controller extends Ilios_Web_Controller
             $userCount = count($authenticatedUsers);
 
             if ($userCount == 0) {
-                $data['forbidden_warning_text']  = $this->i18nVendor->getI18NString('login.error.no_match_1', $lang)
-                    . ' (' . $emailAddress . ') ' . $this->i18nVendor->getI18NString('login.error.no_match_2', $lang);
+                $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.no_match_1', $lang)
+                    . ' (' . $emailAddress . ') ' . $this->languagemap->getI18NString('login.error.no_match_2', $lang);
                 $this->load->view('common/forbidden', $data);
             } else if ($userCount > 1) {
-                $data['forbidden_warning_text'] = $this->i18nVendor->getI18NString('login.error.multiple_match', $lang)
+                $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match', $lang)
                     . ' (' . $emailAddress . ' [' . $userCount . '])';
                 $this->load->view('common/forbidden', $data);
             } else {
                 $user = $authenticatedUsers[0];
                 if ($this->user->userAccountIsDisabled($user['user_id'])) {
-                    $data['forbidden_warning_text'] = $this->i18nVendor->getI18NString('login.error.disabled_account', $lang);
+                    $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account', $lang);
                     $this->load->view('common/forbidden', $data);
                 } else {
                     $now = time();

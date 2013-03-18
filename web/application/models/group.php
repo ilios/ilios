@@ -160,7 +160,7 @@ class Group extends Abstract_Ilios_Model
 
         if (($newId == null) || ($newId == -1) || ($newId == 0)) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
             $rhett['error'] = $msg;
         }
@@ -393,7 +393,7 @@ class Group extends Abstract_Ilios_Model
             $queryResults = $this->db->get($this->databaseTableName);
             if ($queryResults->num_rows() > 0) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('groups.error.preexisting_title', $lang);
+                $msg = $this->languagemap->getI18NString('groups.error.preexisting_title', $lang);
 
                 return $msg . " '" . $title . "'";
             }
@@ -502,7 +502,7 @@ class Group extends Abstract_Ilios_Model
 
         if ($parentGroupName == null) {
             $lang = $this->getLangToUse();
-            $groupNamePrefix = $this->i18nVendor->getI18NString('groups.name_prefix', $lang);
+            $groupNamePrefix = $this->languagemap->getI18NString('groups.name_prefix', $lang);
         }
         else {
             $groupNamePrefix = $parentGroupName;

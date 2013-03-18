@@ -282,7 +282,7 @@ EOL;
             $this->rollbackTransaction();
 
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
             return $msg;
         }
@@ -319,7 +319,7 @@ EOL;
             $this->rollbackTransaction();
 
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
             return $msg;
         }

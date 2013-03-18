@@ -42,7 +42,7 @@ class Program_Year extends Abstract_Ilios_Model
     public function getProgramYears ($schoolId)
     {
         $lang =  $this->getLangToUse();
-        $classOfStr = $this->i18nVendor->getI18NString('general.phrases.class_title_prefix', $lang);
+        $classOfStr = $this->languagemap->getI18NString('general.phrases.class_title_prefix', $lang);
 
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
@@ -681,7 +681,7 @@ EOL;
     protected function classTitleForStartYearAndDuration ($startYear, $duration)
     {
         $lang = $this->getLangToUse();
-        $msg = $this->i18nVendor->getI18NString('general.phrases.class_title_prefix', $lang);
+        $msg = $this->languagemap->getI18NString('general.phrases.class_title_prefix', $lang);
         return $msg . " " . ($duration + $startYear);
     }
 

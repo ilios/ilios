@@ -93,14 +93,13 @@ class Ilios_Hooks
         //
         $ci->load->library('session');
         if (! $ci->session->userdata('username')) {
-             // Handle XHR request:
-            // print out a JSON formatted array containing a "not logged in" error message.
+            // Handle XHR request:
+            // Prints a JSON-formatted array with a generic, i18ned "not logged in" error message,
+            // keyed off by "error".
             if ($ci->input->is_ajax_request()) {
-                // terrible mess, clean up.
                 $lang = $ci->config->item('ilios_default_lang_locale');
-                $ci->load->model('I18N_Vendor', 'i18nVendor', true);
+                $msg = $ci->languagemap->getI18NString('login.error.not_logged_in', $lang);
                 $rhett = array();
-                $msg = $ci->i18nVendor->getI18NString('login.error.not_logged_in', $lang);
                 $rhett['error'] = $msg;
                 header("Content-Type: text/plain");
                 echo json_encode($rhett);
@@ -122,7 +121,7 @@ class Ilios_Hooks
                 $_SERVER['QUERY_STRING'] ?
                     current_url() . '?' . $_SERVER['QUERY_STRING'] : current_url());
 
-            log_message('debug', 'Diverting user to the login page');
+            log_message('debug', 'Diverting user to the login page.');
 
             // redirect request to the authentication controller.
             redirect('authentication_controller');

@@ -169,7 +169,7 @@ class Offering extends Abstract_Ilios_Model
 
         if ('' === trim($locationToUse)) {
             $lang =  $this->getLangToUse();
-            $locationToUse = $this->i18nVendor->getI18NString('general.acronyms.to_be_decided', $lang);
+            $locationToUse = $this->languagemap->getI18NString('general.acronyms.to_be_decided', $lang);
         }
 
         if ($offeringId == null) { // add new offering

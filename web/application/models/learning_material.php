@@ -595,7 +595,7 @@ EOL;
 
         if (($this->db->affected_rows() == 0) || $this->transactionAtomFailed()) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
             $rhett = $msg;
         }

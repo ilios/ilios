@@ -20,17 +20,14 @@ abstract class Abstract_Ilios_Model extends CI_Model
     protected $databaseTablePrimaryKeyArray;
 
     /**
-     * @param tableName the name of the table within the database which this model represents
-     * @param primaryKeyArray an array of 0-N primary keys for the associated table
+     * @param string $tableName the name of the table within the database which this model represents
+     * @param array $primaryKeyArray an array of 0-N primary keys for the associated table
      */
     public function __construct ($tableName = 'none', $primaryKeyArray = array())
     {
         parent::__construct();
-
         $this->databaseTableName = $tableName;
         $this->databaseTablePrimaryKeyArray = $primaryKeyArray;
-
-        $this->load->model('I18N_Vendor', 'i18nVendor', TRUE);
     }
 
     /**

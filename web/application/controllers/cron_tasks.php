@@ -163,7 +163,7 @@ class Cron_Tasks extends Ilios_Cli_Controller
         $conf = array_merge($config, array('templates_dir_path' => getServerFilePath('alert_templates')));
 
         // instantiate and invoke notification process
-        $process = new Ilios_ChangeAlert_NotificationProcess($conf, $this->alert, 
+        $process = new Ilios_ChangeAlert_NotificationProcess($conf, $this->alert,
             $this->school, $this->offering, $this->iliosSession, $this->sessionType,
             $this->course);
         $process->run($logger, $debug);

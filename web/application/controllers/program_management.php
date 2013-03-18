@@ -55,7 +55,7 @@ class Program_Management extends Ilios_Web_Controller
             $data['school_name'] = $schoolRow->title;
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
         } else {
@@ -85,64 +85,64 @@ class Program_Management extends Ilios_Web_Controller
             Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'program_management.title_bar';
-        $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.search.title';
-        $data['program_search_title'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['program_search_title'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.select_associated_competency';
-        $data['select_competency'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['select_competency'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.page_header';
-        $data['page_header_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['page_header_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.objective_edit_title';
-        $data['edit_objective_dialog_title'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['edit_objective_dialog_title'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.duration';
-        $data['duration_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['duration_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.collapse_all';
-        $data['collapse_program_years_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['collapse_program_years_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.add_program';
-        $data['add_program_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['add_program_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.add_new_program';
-        $data['add_new_program_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['add_new_program_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'program_management.add_program_year';
-        $data['add_program_year_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['add_program_year_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'mesh.dialog.search_mesh';
-        $data['mesh_search_mesh'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['mesh_search_mesh'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'mesh.dialog.title';
-        $data['mesh_dialog_title'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['mesh_dialog_title'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.program_title_full';
-        $data['program_title_full_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['program_title_full_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.program_title_short';
-        $data['program_title_short_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['program_title_short_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.search.clear';
-        $data['generic_search_clear'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['generic_search_clear'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.search.hint';
-        $data['generic_search_hint'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['generic_search_hint'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.help';
-        $data['word_help_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_help_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.search';
-        $data['word_search_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_search_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.show_less';
-        $data['phrase_show_less_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+        $data['phrase_show_less_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
         $key = 'general.phrases.show_more';
-        $data['phrase_show_more_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+        $data['phrase_show_more_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
         $this->populateI18NStringsForContentContainerGenerator($data, $lang);
 
@@ -150,7 +150,7 @@ class Program_Management extends Ilios_Web_Controller
         $data['viewbar_title'] = $institution;
         if ($schoolRow->title != null) {
             $key = 'general.phrases.school_of';
-            $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+            $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
             $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
         }
 
@@ -277,7 +277,7 @@ class Program_Management extends Ilios_Web_Controller
 
         if (! $this->form_validation->run()) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.data_validation', $lang);
 
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
@@ -313,7 +313,7 @@ class Program_Management extends Ilios_Web_Controller
 
                 if ($failed || $this->program->transactionAtomFailed()) {
                     $lang = $this->getLangToUse();
-                    $rhett['error'] = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                    $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                     $this->failTransaction($transactionRetryCount, $failedTransaction, $this->program);
                 } else {
@@ -370,7 +370,7 @@ class Program_Management extends Ilios_Web_Controller
 
         if (! $this->form_validation->run()) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.data_validation', $lang);
 
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
@@ -389,7 +389,7 @@ class Program_Management extends Ilios_Web_Controller
 
                 if (($newId <= 0) || $this->program->transactionAtomFailed()) {
                     $lang = $this->getLangToUse();
-                    $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                     $rhett['error'] = $msg;
 
@@ -442,7 +442,7 @@ class Program_Management extends Ilios_Web_Controller
 
         if ((! isset($programYearId)) || ($programYearId == '')) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.data_validation', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.data_validation', $lang);
 
             $rhett['error'] = $msg;
         } else {
@@ -465,7 +465,7 @@ class Program_Management extends Ilios_Web_Controller
                     $rhett['success'] = "ya";
                 } else {
                     $lang = $this->getLangToUse();
-                    $msg = $this->i18nVendor->getI18NString('general.error.db_delete', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_delete', $lang);
 
                     $rhett['error'] = $msg;
 
@@ -513,7 +513,7 @@ class Program_Management extends Ilios_Web_Controller
             $this->programYear->lockOrArchiveProgramYear($programYearId, true, $archiveAlso, $auditAtoms);
             if ($this->programYear->transactionAtomFailed()) {
                 $lang = $this->getLangToUse();
-                $rhett['error'] = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                 $this->failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
             } else {

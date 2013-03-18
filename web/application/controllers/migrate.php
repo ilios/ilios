@@ -65,5 +65,5 @@ class Migrate extends Ilios_Cli_Controller
         if (false === $this->migration->version($version)) {
             show_error($this->migration->error_string());
         }
-    } 
+    }
 }

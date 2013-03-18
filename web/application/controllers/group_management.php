@@ -57,7 +57,7 @@ class Group_Management extends Ilios_Web_Controller
             $data['viewbar_title'] = $data['institution_name'];
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
 
@@ -76,50 +76,50 @@ class Group_Management extends Ilios_Web_Controller
             $data['cohort_load_stub'] = $cohortStub;
 
             $key = 'groups.title_bar';
-            $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.select_program';
-            $data['select_program_link_string'] = $this->i18nVendor->getI18NString($key,
+            $data['select_program_link_string'] = $this->languagemap->getI18NString($key,
                                                                                    $lang);
 
             $key = 'groups.page_header';
-            $data['page_header_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['page_header_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.instructor_picker_title';
-            $data['instructor_picker_title'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['instructor_picker_title'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.expand_all';
-            $data['expand_groups_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['expand_groups_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.open_cohort';
-            $data['open_cohort_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['open_cohort_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.default_instructor';
-            $data['default_instructor_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['default_instructor_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.default_location';
-            $data['default_location_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['default_location_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.add_new_to_all_group';
-            $data['add_to_all_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['add_to_all_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.add_new_group';
-            $data['add_group_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['add_group_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.current_enrollment';
-            $data['current_enrollment_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['current_enrollment_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.orphan_members';
-            $data['orphans_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['orphans_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.program_title_short';
-            $data['program_title_short_string'] = $this->i18nVendor->getI18NString($key,
+            $data['program_title_short_string'] = $this->languagemap->getI18NString($key,
                                                                                    $lang);
             $key = 'groups.program_title';
-            $data['program_title_full_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['program_title_full_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.terms.filter';
-            $data['word_filter_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['word_filter_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $this->populateForAddNewMembersDialog($data, $lang);
             $this->populateI18NStringsForContentContainerGenerator($data, $lang);
@@ -215,7 +215,7 @@ class Group_Management extends Ilios_Web_Controller
 
         if (-1 == $groupToDivide) {
 
-            $msg = $this->i18nVendor->getI18NString('groups.error.cohort_association', $lang);
+            $msg = $this->languagemap->getI18NString('groups.error.cohort_association', $lang);
             $rhett['error'] = $msg . ' ' . $groupToDivide;
         } else {
 
@@ -223,7 +223,7 @@ class Group_Management extends Ilios_Web_Controller
 
             if ($enrollment == 0) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('groups.error.cohort_zero_population',
+                $msg = $this->languagemap->getI18NString('groups.error.cohort_zero_population',
                                                         $lang);
 
                 $rhett['error'] = $msg . ' ' . $groupToDivide;
@@ -332,7 +332,7 @@ class Group_Management extends Ilios_Web_Controller
         $groups = $this->_getGroupsForGroupIds($groupIds);
 
         if (false === $groups) {
-            $msg = $this->i18nVendor->getI18NString('groups.error.failed_subgroup_fetch', $lang);
+            $msg = $this->languagemap->getI18NString('groups.error.failed_subgroup_fetch', $lang);
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -394,7 +394,7 @@ class Group_Management extends Ilios_Web_Controller
                 $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('groups.error.failed_group_delete', $lang);
+                $msg = $this->languagemap->getI18NString('groups.error.failed_group_delete', $lang);
 
                 $rhett['error'] = $msg . ': ' . $groupId;
 
@@ -523,8 +523,8 @@ class Group_Management extends Ilios_Web_Controller
 
         if (! $this->upload->do_upload()) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.upload_fail', $lang);
-            $msg2 = $this->i18nVendor->getI18NString('general.phrases.found_mime_type', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
+            $msg2 = $this->languagemap->getI18NString('general.phrases.found_mime_type', $lang);
             $uploadData = $this->upload->data();
 
             $rhett['error'] = $msg . ': ' . $this->upload->display_errors() . '. ' . $msg2 . ': '
@@ -552,7 +552,7 @@ class Group_Management extends Ilios_Web_Controller
             // MAY RETURN THIS BLOCK
             if (count($foundDuplicates) > 0) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('general.error.duplicate_users_found',
+                $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found',
                                                         $lang);
 
                 $rhett['duplicates'] = $foundDuplicates;
@@ -593,7 +593,7 @@ class Group_Management extends Ilios_Web_Controller
 
                     if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                         $lang = $this->getLangToUse();
-                        $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                        $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                         $rhett['error'] = $msg;
 
@@ -656,7 +656,7 @@ class Group_Management extends Ilios_Web_Controller
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.duplicate_user_found', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found', $lang);
 
             $rhett['error'] = $msg;
 
@@ -683,7 +683,7 @@ class Group_Management extends Ilios_Web_Controller
 
             if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                 $rhett['error'] = $msg;
 
