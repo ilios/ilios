@@ -106,7 +106,7 @@ class Ilios_Ldap
         }
 
         $errorNumber = @ldap_errno($this->_ldap);
-        $errorMsg = "Failed to bind to connection, LDAP Error Message";
+        $errorMsg = "LDAP bind failed: " . @ldap_error($this->_ldap);
         $this->disconnect();
         throw new Ilios_Ldap_Exception($errorMsg, $errorNumber);
     }
