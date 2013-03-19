@@ -103,7 +103,7 @@ class Ilios_Hooks
                 $rhett['error'] = $msg;
                 header("Content-Type: text/plain");
                 echo json_encode($rhett);
-                return;
+                exit;
             }
 
             // Do not redirect un-authenticated requests
@@ -112,7 +112,7 @@ class Ilios_Hooks
             if (('learning_materials' === $controller  && 'getLearningMaterialWithId' === $action)
                 || ('calendar_exporter' === $controller)) {
                 header('HTTP/1.1 403 Forbidden');
-                return;
+                exit;
             }
 
             // Save the current url so that we can redirect back to it after authenticated by
