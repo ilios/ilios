@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) for the report table.
  * Provides CRUD functionality for reports in Ilios.
  * @todo optimize report queries
  */
-class Report extends Abstract_Ilios_Model
+class Report extends Ilios_Base_Model
 {
     const REPORT_NOUN_COURSE = 'course';
     const REPORT_NOUN_SESSION = 'session';

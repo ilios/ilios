@@ -15,7 +15,7 @@ class Ilios_Database_TransactionHelper
      * the given transaction retry counter.
      * @param int $transactionRetryCount
      * @param boolean $failedTransaction
-     * @param Abstract_Ilios_Model $model
+     * @param Ilios_Base_Model $model
      */
     public static function failTransaction (&$transactionRetryCount, &$failedTransaction, $model)
     {

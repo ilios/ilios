@@ -1,12 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * This abstract class embodies the common functionality featured across all Ilios model objects
+ * This base class embodies the common functionality featured across all Ilios model objects.
  *
  * TODO nead a serialize and unserialized methods for the audit event functionality to work; make
  *          sure we're not re-inventing the wheel
  */
-abstract class Abstract_Ilios_Model extends CI_Model
+abstract class Ilios_Base_Model extends CI_Model
 {
 
     /**
@@ -317,7 +317,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
      * Motto: "delete all, then re-enter them again."
      *
      * @deprecated
-     * Use Abstract_Ilios_Model::_saveJoinTableAssociations() instead.
+     * Use Ilios_Base_Model::_saveJoinTableAssociations() instead.
      *
      *
      * @param array $modelArray

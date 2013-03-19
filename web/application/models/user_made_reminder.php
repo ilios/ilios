@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) to the "user_made_reminder" table.
  */
-class User_Made_Reminder extends Abstract_Ilios_Model
+class User_Made_Reminder extends Ilios_Base_Model
 {
     /**
      * Constructor

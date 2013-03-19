@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object to the user role table.
  */
-class User_Role extends Abstract_Ilios_Model
+class User_Role extends Ilios_Base_Model
 {
     /**
      * "Course Director" role identifier.

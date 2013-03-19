@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object to the "instructor_group" table in the Ilios database.
  */
-class Instructor_Group extends Abstract_Ilios_Model
+class Instructor_Group extends Ilios_Base_Model
 {
 
     /**
@@ -194,7 +194,7 @@ EOL;
         $rhett = array();
         if ('' !== trim($search)) {
             $len = strlen($search);
-            if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+            if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
                 $this->db->like('title', $search);
             } else {
                 $this->db->like('title', $search, 'after');

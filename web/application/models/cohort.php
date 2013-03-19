@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) to the cohort table.
  */
-class Cohort extends Abstract_Ilios_Model
+class Cohort extends Ilios_Base_Model
 {
 
     public function __construct ()

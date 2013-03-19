@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object for the "alert" and "alert_*" tables in the Ilios database.
  */
-class Alert extends Abstract_Ilios_Model
+class Alert extends Ilios_Base_Model
 {
     /*
      * These constanct should be used to communicate via addOrUpdateAlert what change types

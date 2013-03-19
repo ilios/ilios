@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) for the "course_clerkship_type" table.
  */
-class Course_Clerkship_Type extends Abstract_Ilios_Model
+class Course_Clerkship_Type extends Ilios_Base_Model
 {
     /**
      * Constructor.

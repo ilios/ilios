@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object for the "offering" table.
  */
-class Offering extends Abstract_Ilios_Model
+class Offering extends Ilios_Base_Model
 {
 
     /**

@@ -1,11 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object to the "learning_materials" table in the Ilios database.
  */
-class Learning_Material extends Abstract_Ilios_Model
+class Learning_Material extends Ilios_Base_Model
 {
     static public $LM_REPOSITORY_ROOT = '/learning_materials/'; // @todo make this configurable
 
@@ -97,7 +97,7 @@ FROM `learning_material` lm
 JOIN `user` u ON u.`user_id` = lm.`owning_user_id`
 WHERE
 EOL;
-        if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+        if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
            $sql[] =<<< EOL
 lm.`title` LIKE '{$clean['search']}%'
 OR lm.`filename` LIKE '{$clean['search']}%'

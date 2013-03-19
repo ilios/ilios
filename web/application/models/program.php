@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) for the "program" table.
  *
  * @todo check if class members are used, if not remove them
  */
-class Program extends Abstract_Ilios_Model
+class Program extends Ilios_Base_Model
 {
 
     /**
@@ -180,7 +180,7 @@ class Program extends Abstract_Ilios_Model
 
         $len = strlen($title);
 
-        if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+        if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
         	// trailing wildcard search
         	$sql = 'CALL programs_with_title_restricted_by_school_for_user("'
         	    . $clean['title'] . '%", ' . $clean['school_id'] . ', '
