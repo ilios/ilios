@@ -275,7 +275,7 @@ class Group_Management extends Ilios_Web_Controller
 
                     if (isset($results['error']) || $this->group->transactionAtomFailed()) {
                         $rhett['error'] = "There was a Database Deadlock error.";
-                        $this->failTransaction($transactionRetryCount, $failedTransaction, $this->group);
+                        Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->group);
                     } else {
                         $failedTransaction = false;
                         $this->group->commitTransaction();
@@ -398,7 +398,7 @@ class Group_Management extends Ilios_Web_Controller
 
                 $rhett['error'] = $msg . ': ' . $groupId;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->group);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->group);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -474,7 +474,7 @@ class Group_Management extends Ilios_Web_Controller
 
                 $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->group);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->group);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -604,7 +604,7 @@ class Group_Management extends Ilios_Web_Controller
                 }
 
                 if (isset($rhett['error'])) {
-                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->user);
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->user);
                 } else {
                     $this->user->commitTransaction();
 
@@ -687,7 +687,7 @@ class Group_Management extends Ilios_Web_Controller
 
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->user);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->user);
             }
             else {
                 $rhett['container_number'] = $containerNumber;
@@ -748,7 +748,7 @@ class Group_Management extends Ilios_Web_Controller
                     $rhett['error'] = "There was a database deadlock exception.";
                 }
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->group);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->group);
             } else {
                 $rhett['container_number'] = $containerNumber;
 

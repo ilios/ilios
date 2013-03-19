@@ -625,7 +625,7 @@ class Management_Console extends Ilios_Web_Controller
 
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->permission);
             } else {
                 $permArray = array();
@@ -687,7 +687,7 @@ class Management_Console extends Ilios_Web_Controller
 
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->user);
             } else {
                 $rhett['result'] = "apparent success";
@@ -812,7 +812,7 @@ class Management_Console extends Ilios_Web_Controller
             }
 
             if ($this->user->transactionAtomFailed()) {
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->user);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->user);
             } else {
                 $this->user->commitTransaction();
                 $failedTransaction = false;

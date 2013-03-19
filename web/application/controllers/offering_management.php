@@ -387,7 +387,7 @@ class Offering_Management extends Ilios_Web_Controller
             }
 
             if (isset($rhett['error'])) {
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->offering);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->offering);
             } else {
                 $failedTransaction = false;
                 $this->offering->commitTransaction();
@@ -492,7 +492,7 @@ class Offering_Management extends Ilios_Web_Controller
 
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->offering);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->offering);
             }
             else {
                 $this->offering->commitTransaction();

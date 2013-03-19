@@ -571,7 +571,7 @@ class Course_Management extends Ilios_Web_Controller
                 $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert',
                                                                    $lang);
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->course);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->course);
             }
             else {
                 $this->course->commitTransaction();
@@ -695,7 +695,7 @@ class Course_Management extends Ilios_Web_Controller
                     $newId = $this->course->addNewCourse($title, $year, $schoolId, $auditAtoms);
 
                     if ($this->course->transactionAtomFailed() || ($newId == 0)) {
-                        $this->failTransaction($transactionRetryCount, $failedTransaction, $this->course);
+                        Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->course);
                     } else {
                         $this->course->commitTransaction();
 
@@ -842,7 +842,7 @@ class Course_Management extends Ilios_Web_Controller
             if (isset($results['error']) || $this->course->transactionAtomFailed()) {
                 $rhett['error'] = $results['error'];
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->course);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->course);
             } else {
                 $rhett['publish_event_id'] = $publishId;
                 $rhett['objectives'] = $results['objectives'];
@@ -891,7 +891,7 @@ class Course_Management extends Ilios_Web_Controller
                 $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert',
                                                                    $lang);
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->course);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->course);
             }
             else {
                 $this->course->commitTransaction();
@@ -1130,7 +1130,7 @@ class Course_Management extends Ilios_Web_Controller
             }
 
             if (isset($rhett['error'])) {
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->iliosSession);
             } else {
                 if ($publishNeedsUpdating) {
@@ -1146,7 +1146,7 @@ class Course_Management extends Ilios_Web_Controller
                 }
 
                 if (isset($rhett['error'])) {
-                    $this->failTransaction($transactionRetryCount, $failedTransaction,
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                            $this->iliosSession);
                 }
                 else {
@@ -1223,7 +1223,7 @@ class Course_Management extends Ilios_Web_Controller
             if (isset($rhett['error']) || $this->iliosSession->transactionAtomFailed()) {
                 $rhett['error'] = $results['error'];
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->iliosSession);
             }
             else {
@@ -1232,7 +1232,7 @@ class Course_Management extends Ilios_Web_Controller
                     $rhett['error'] = $this->languagemap->getI18NString('general.error.db_delete',
                                                                        $lang);
 
-                    $this->failTransaction($transactionRetryCount, $failedTransaction,
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                            $this->iliosSession);
                 }
                 else {
@@ -1358,7 +1358,7 @@ class Course_Management extends Ilios_Web_Controller
             }
 
             if (isset($rhett['error'])) {
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->offering);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->offering);
             }
             else {
                 $rhett['added'] = $counter;

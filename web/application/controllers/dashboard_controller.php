@@ -412,7 +412,7 @@ class Dashboard_Controller extends Calendar_Controller
                 $lang =  $this->getLangToUse();
                 $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
                 $rhett['error'] = $msg;
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->reminder);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->reminder);
             } else {
                 $rhett['reminder_id'] = $newReminderId;
                 $failedTransaction = false;
@@ -483,7 +483,7 @@ class Dashboard_Controller extends Calendar_Controller
 
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->report);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->report);
             }
             else {
                 $rhett['report_id'] = $newReportId;
@@ -536,7 +536,7 @@ class Dashboard_Controller extends Calendar_Controller
 
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->report);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->report);
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
