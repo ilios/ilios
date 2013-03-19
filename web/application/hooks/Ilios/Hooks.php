@@ -81,10 +81,16 @@ class Ilios_Hooks
             return;
         }
 
-        // 1c. white-list requests to the authn. and status controllers
-        //     and the i18n object getter action.
-        if (in_array($controller, array('authentication_controller', 'status'))
-            || 'getI18NJavascriptVendor' === $action) {
+        // 1c. white-list certain controller/action combinations.
+        if ('getI18NJavascriptVendor' === $action) { // always, from all controllers
+            return;
+        }
+        if ('status' === $controller
+            && 'index' === $action) {
+            return;
+        };
+        if ('authentication_controller' === $controller
+            && in_array($action, array('index', 'login', 'logout'))) {
             return;
         }
 
