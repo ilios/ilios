@@ -20,7 +20,7 @@ $hook['pre_system'][] = array(
     'filepath' => 'hooks/Ilios'
 );
 
-// register authentication check as post-controller-constuctor hook
+// register authentication check as post-controller-constructor hook
 $hook['post_controller_constructor'][] = array(
     'class' => 'Ilios_Hooks',
     'function' => 'checkAuthentication',
