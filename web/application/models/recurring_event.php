@@ -1,11 +1,11 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) to the "recurring event" table.
  */
-class Recurring_Event extends Abstract_Ilios_Model {
+class Recurring_Event extends Ilios_Base_Model {
 
     public function __construct ()
     {

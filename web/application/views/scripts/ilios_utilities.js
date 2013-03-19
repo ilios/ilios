@@ -240,6 +240,10 @@ ilios.utilities.selectOptionWithValue = function (selectElement, optionValue) {
     }
 };
 
+/**
+ * Creates and returns a XHR object.
+ * @returns {XMLHttpRequest | null}
+ */
 ilios.utilities.getXMLHttpRequest = function () {
     var xmlHTTPRequest = null;
 
@@ -249,14 +253,11 @@ ilios.utilities.getXMLHttpRequest = function () {
         if ('undefined' !== typeof xmlHTTPRequest.overrideMimeType) {
             xmlHTTPRequest.overrideMimeType('text/xml');
         }
-    }
-    else if (window.ActiveXObject) {
+    } else if (window.ActiveXObject) {
         xmlHTTPRequest = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    else {
+    } else {
         ilios.alert.alert('It appears that your browser does not support XMLHTTPRequests. ...?');
     }
-
     return xmlHTTPRequest;
 };
 

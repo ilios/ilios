@@ -1,14 +1,16 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+require_once 'ilios_cli_controller.php';
+
 /**
  * @package Ilios
  *
- * Migration controller.
- * Works in CLI-mode only.
- * 
+ * Migrations controller.
+ *
  * @link http://ellislab.com/codeigniter/user-guide/libraries/migration.html
  * @link http://ellislab.com/codeigniter/user-guide/general/cli.html
  */
-class Migrate extends CI_Controller
+class Migrate extends Ilios_Cli_Controller
 {
 
     /**
@@ -17,10 +19,6 @@ class Migrate extends CI_Controller
     public function __construct ()
     {
         parent::__construct();
-        // deny access if the controller was not called from the command line.
-        if (! $this->input->is_cli_request()) {
-            exit('Access Denied.');
-        }
         $this->load->library('migration');
     }
 
@@ -67,5 +65,5 @@ class Migrate extends CI_Controller
         if (false === $this->migration->version($version)) {
             show_error($this->migration->error_string());
         }
-    } 
+    }
 }

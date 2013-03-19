@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * This is for just the parent level content (i.e 'program' of the program & program years).
  *

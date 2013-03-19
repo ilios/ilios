@@ -1,11 +1,11 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) to the "user" table.
  */
-class User extends Abstract_Ilios_Model
+class User extends Ilios_Base_Model
 {
     /**
      * Constructor.
@@ -358,7 +358,7 @@ EOL;
 
         if (! $name) {
             // search all
-        } elseif (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+        } elseif (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
             // trailing wildcard search
             $this->db->where("(`last_name` LIKE '{$clean['name']}%' OR `first_name` LIKE '{$clean['name']}%' OR `middle_name` LIKE '{$clean['name']}%')");
         } else {
@@ -797,7 +797,7 @@ EOL;
     	$len = strlen($name);
     	if ('' === trim($name)) {
     		// search all
-    	} elseif (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+    	} elseif (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
     	    // trailing wildcard search
     		$this->db->where("(`user`.`last_name` LIKE '{$clean['name']}%'"
     		. " OR `user`.`first_name` LIKE '{$clean['name']}%'"

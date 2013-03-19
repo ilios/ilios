@@ -1,10 +1,11 @@
-<?php
-include_once "abstract_ilios_model.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) to the "discipine" table.
  */
-class Discipline extends Abstract_Ilios_Model
+class Discipline extends Ilios_Base_Model
 {
 
     /**
@@ -69,7 +70,7 @@ class Discipline extends Abstract_Ilios_Model
 
         $len = strlen($title);
 
-        if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+        if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
         	// trailing wildcard search
         	$sql = 'CALL disciplines_for_title_restricted_by_school('
                 . '"' . $clean['title'] . '%", ' . $clean['school_id']  . ')';

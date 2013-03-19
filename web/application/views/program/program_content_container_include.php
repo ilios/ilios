@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 require_once(getServerFilePath('views') . 'common/content_container_generator.php');
 

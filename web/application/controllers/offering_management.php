@@ -1,14 +1,14 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Offering management controller
  */
-class Offering_Management extends Abstract_Ilios_Controller
+class Offering_Management extends Ilios_Web_Controller
 {
-
     /**
      * Constructor.
      */
@@ -29,10 +29,6 @@ class Offering_Management extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -62,7 +58,7 @@ class Offering_Management extends Abstract_Ilios_Controller
             $data['school_name'] = $schoolRow->title;
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
         } else {
@@ -76,111 +72,111 @@ class Offering_Management extends Abstract_Ilios_Controller
             Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'offering_management.calendar.lightbox.recurs_on_days';
-        $data['repeat_weekday_selector_string'] = $this->i18nVendor->getI18NString($key,
+        $data['repeat_weekday_selector_string'] = $this->languagemap->getI18NString($key,
                                                                                    $lang);
 
         $key = 'offering_management.calendar.lightbox.recurs_count';
-        $data['repeat_ends_on_count_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['repeat_ends_on_count_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.lightbox.recurs_date';
-        $data['repeat_ends_on_date_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['repeat_ends_on_date_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.lightbox.select_groups';
-        $data['select_groups_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['select_groups_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.lightbox.select_instructors';
-        $data['select_instructors_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['select_instructors_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.show_busy.cohorts';
-        $data['show_busy_cohorts_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['show_busy_cohorts_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.show_busy.instructors';
-        $data['show_busy_instructors_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['show_busy_instructors_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.show_busy.students';
-        $data['show_busy_students_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['show_busy_students_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.show_entire_events';
-        $data['show_all_events_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['show_all_events_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.calendar.show_session_events';
-        $data['show_session_events_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['show_session_events_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.learner_view';
-        $data['see_learner_view'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['see_learner_view'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'offering_management.title_bar';
-        $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
         //$data['viewbar_title'] = $data['title_bar_string'];
 
         $key = 'general.phrases.end_time';
-        $data['phrase_end_time_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_end_time_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.not_recurring';
-        $data['phrase_not_recurring_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_not_recurring_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.start_time';
-        $data['phrase_start_time_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_start_time_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.student_group';
-        $data['phrase_student_group_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_student_group_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.student_groups';
-        $data['phrase_student_groups_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_student_groups_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.time_range';
-        $data['phrase_time_range_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_time_range_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.course';
-        $data['word_course_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_course_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.date';
-        $data['word_date_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_date_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.filter';
-        $data['word_filter_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_filter_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.instructors';
-        $data['word_instructors_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_instructors_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.instructor_indefinite';
-        $data['word_instructors_indefinite_string'] = $this->i18nVendor->getI18NString($key,
+        $data['word_instructors_indefinite_string'] = $this->languagemap->getI18NString($key,
                                                                                        $lang);
 
         $key = 'general.terms.room';
-        $data['word_room_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_room_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.session';
-        $data['word_session_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_session_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.status';
-        $data['word_status_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_status_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.weeks';
-        $data['word_weeks_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+        $data['word_weeks_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
         $key = 'general.calendar.sunday_short';
-        $data['calendary_short_sunday_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendary_short_sunday_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.calendar.monday_short';
-        $data['calendary_short_monday_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendary_short_monday_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.calendar.tuesday_short';
-        $data['calendary_short_tuesday_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendary_short_tuesday_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.calendar.wednesday_short';
-        $data['calendary_short_wednesday_string'] = $this->i18nVendor->getI18NString($key,
+        $data['calendary_short_wednesday_string'] = $this->languagemap->getI18NString($key,
                                                                                      $lang);
 
         $key = 'general.calendar.thursday_short';
-        $data['calendary_short_thursday_string'] = $this->i18nVendor->getI18NString($key,
+        $data['calendary_short_thursday_string'] = $this->languagemap->getI18NString($key,
                                                                                     $lang);
 
         $key = 'general.calendar.friday_short';
-        $data['calendary_short_friday_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendary_short_friday_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.calendar.saturday_short';
-        $data['calendary_short_saturday_string'] = $this->i18nVendor->getI18NString($key,
+        $data['calendary_short_saturday_string'] = $this->languagemap->getI18NString($key,
                                                                                     $lang);
 
         $titles = $this->course->getSessionAndCourseMetaForSession($data['session_id']);
@@ -248,12 +244,6 @@ class Offering_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -268,13 +258,15 @@ class Offering_Management extends Abstract_Ilios_Controller
         // if this is not the case then echo out an error message
         // and be done with it.
         if (empty($school)) {
-            $msg = $this->i18nVendor->getI18NString('offering_management.error.failed_save', $lang);
+            $msg = $this->languagemap->getI18NString('offering_management.error.failed_save', $lang);
             $rhett = array();
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $calendarId = $this->input->get_post('calendar_id');
 
@@ -337,7 +329,7 @@ class Offering_Management extends Abstract_Ilios_Controller
             $offeringId = $results['offering_id'];
 
             if (($offeringId == -1) || $this->offering->transactionAtomFailed()) {
-                $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
                 $rhett['error'] = $msg;
             }  else {
                 $rhett['offering_id'] = $offeringId;
@@ -389,7 +381,7 @@ class Offering_Management extends Abstract_Ilios_Controller
 
                     // Add or Update alert only if there is one or more identified change type.
                     if (count($alertChangeTypes)) {
-                        $this->alert->addOrUpdateAlert($offeringId, 'offering', $school, $alertChangeTypes);
+                        $this->alert->addOrUpdateAlert($offeringId, 'offering', $userId, $school, $alertChangeTypes);
                     }
                 }
             }
@@ -399,7 +391,7 @@ class Offering_Management extends Abstract_Ilios_Controller
             } else {
                 $failedTransaction = false;
                 $this->offering->commitTransaction();
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -470,17 +462,13 @@ class Offering_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $offeringId = $this->input->get_post('oid');
 
@@ -500,7 +488,7 @@ class Offering_Management extends Abstract_Ilios_Controller
             if (! $this->offering->deleteOffering($offeringId, $auditAtoms, true)
                                                     || $this->offering->transactionAtomFailed()) {
                 $lang =  $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                 $rhett['error'] = $msg;
 
@@ -511,7 +499,7 @@ class Offering_Management extends Abstract_Ilios_Controller
 
                 $failedTransaction = false;
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
@@ -532,12 +520,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -592,12 +574,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -666,12 +642,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -757,12 +727,6 @@ class Offering_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {

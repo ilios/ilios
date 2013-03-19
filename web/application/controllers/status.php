@@ -1,7 +1,7 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * @package Ilios
- * 
+ *
  * Application Status Controller.
  * Its main purpose is to provide information about the general status of the application to
  * health monitoring systems (such as NAGIOS).

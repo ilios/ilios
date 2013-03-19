@@ -1,10 +1,11 @@
-<?php
-include_once "abstract_ilios_model.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object to the "instructor_group" table in the Ilios database.
  */
-class Instructor_Group extends Abstract_Ilios_Model
+class Instructor_Group extends Ilios_Base_Model
 {
 
     /**
@@ -104,7 +105,7 @@ EOL;
 
         if (($newId == null) || ($newId == -1) || ($newId == 0)) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
             $rhett['error'] = $msg;
         }
@@ -193,7 +194,7 @@ EOL;
         $rhett = array();
         if ('' !== trim($search)) {
             $len = strlen($search);
-            if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+            if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
                 $this->db->like('title', $search);
             } else {
                 $this->db->like('title', $search, 'after');
@@ -259,7 +260,7 @@ EOL;
         $queryResults = $this->db->get($this->databaseTableName);
         if ($queryResults->num_rows() > 0) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('instructor_groups.error.preexisting_title',
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.preexisting_title',
                                                     $lang);
 
             return $msg . " '" . $title . "'";
@@ -286,7 +287,7 @@ EOL;
 
         if (! $this->makeUserGroupAssociations($users, $groupId, $auditAtoms)) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('instructor_groups.error.failed_associations',
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.failed_associations',
                                                     $lang);
 
             return $msg;
@@ -317,7 +318,7 @@ EOL;
     protected function makeDefaultGroupTitleForSuffix ($groupNameSuffix)
     {
         $lang = $this->getLangToUse();
-        $groupNamePrefix = $this->i18nVendor->getI18NString('instructor_groups.name_prefix', $lang);
+        $groupNamePrefix = $this->languagemap->getI18NString('instructor_groups.name_prefix', $lang);
 
         return $groupNamePrefix . ' ' . $groupNameSuffix;
     }

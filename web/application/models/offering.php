@@ -1,11 +1,11 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object for the "offering" table.
  */
-class Offering extends Abstract_Ilios_Model
+class Offering extends Ilios_Base_Model
 {
 
     /**
@@ -169,7 +169,7 @@ class Offering extends Abstract_Ilios_Model
 
         if ('' === trim($locationToUse)) {
             $lang =  $this->getLangToUse();
-            $locationToUse = $this->i18nVendor->getI18NString('general.acronyms.to_be_decided', $lang);
+            $locationToUse = $this->languagemap->getI18NString('general.acronyms.to_be_decided', $lang);
         }
 
         if ($offeringId == null) { // add new offering

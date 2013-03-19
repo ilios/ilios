@@ -1,3 +1,4 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 	<div id="inspector_pane" style="display: none;">
 		<div id="inspector_pane_title_bar" class="om_inspector_title_bar">
 				<?php echo $course_title ?> <?php echo $course_year_string ?>: <span id='inspector_pane_title_bar_title'></span>

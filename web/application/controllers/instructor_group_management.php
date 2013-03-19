@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Instructor-group management controller.
  */
-class Instructor_Group_Management extends Abstract_Ilios_Controller
+class Instructor_Group_Management extends Ilios_Web_Controller
 {
     /**
      * Constructor
@@ -25,10 +26,6 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -55,7 +52,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             $data['viewbar_title'] = $data['institution_name'];
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
 
@@ -64,10 +61,10 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
                 Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
             $key = 'instructor_groups.page_header';
-            $data['page_header_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['page_header_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'instructor_groups.title_bar';
-            $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $this->populateForAddNewMembersDialog($data, $lang);
 
@@ -81,12 +78,6 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -129,17 +120,13 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $uploadPath = './tmp_uploads/'; // @todo make this configurable
 
@@ -151,8 +138,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
         if (! $this->upload->do_upload()) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.upload_fail', $lang);
-            $msg2 = $this->i18nVendor->getI18NString('general.phrases.found_mime_type', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
+            $msg2 = $this->languagemap->getI18NString('general.phrases.found_mime_type', $lang);
             $uploadData = $this->upload->data();
 
             $rhett['error'] = $msg . ': ' . $this->upload->display_errors() . '. ' . $msg2 . ': ' . $uploadData['file_type'];
@@ -182,7 +169,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
             // MAY RETURN THIS BLOCK
             if (count($foundDuplicates) > 0) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('general.error.duplicate_users_found', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found', $lang);
 
                 $rhett['duplicates'] = $foundDuplicates;
                 $rhett['error'] = $msg;
@@ -221,7 +208,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                     if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                         $lang = $this->getLangToUse();
-                        $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                        $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
                         $rhett['error'] = $msg;
                         break;
                     }
@@ -246,7 +233,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                     $this->instructorGroup->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
                 }
             } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -271,12 +258,6 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -295,7 +276,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.duplicate_user_found', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found', $lang);
 
             $rhett['error'] = $msg;
 
@@ -304,6 +285,8 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $primarySchoolId = $this->session->userdata('school_id');
 
@@ -322,7 +305,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
             if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                 $rhett['error'] = $msg;
 
@@ -336,7 +319,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
                 if (! $this->instructorGroup->makeUserGroupAssociations($userIds, $groupId,
                                                                         $auditAtoms)) {
                     $lang = $this->getLangToUse();
-                    $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                     $rhett['error'] = $msg;
 
@@ -348,7 +331,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                     $this->instructorGroup->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $rhett['container_number'] = $containerNumber;
                     $rhett['user'] = $this->user->getRowForPrimaryKeyId($newId);
@@ -373,19 +356,15 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
 
+        $userId = $this->session->userdata('uid');
         $schoolId = $this->session->userdata('school_id');
+
         $containerNumber = $this->input->get_post('next_container');
 
         $failedTransaction = true;
@@ -405,7 +384,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                 $this->instructorGroup->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
             else {
                 $this->failTransaction($transactionRetryCount, $failedTransaction,
@@ -430,17 +409,13 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $groupId = $this->input->get_post('instructor_group_id');
         $containerNumber = $this->input->get_post('container_number');
@@ -450,7 +425,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
         // if this is the case then this instructor group must be considered "locked down".
         // we reject the deletion request and return an error message stating just that.
         if ($this->instructorGroup->isAssociatedWithLockedAndArchivedCourses($groupId)) {
-            $msg = $this->i18nVendor->getI18NString('instructor_groups.error.group_deletion.locked_course', $lang);
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.group_deletion.locked_course', $lang);
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -476,9 +451,9 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                 $this->instructorGroup->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
-                $rhett['error'] = $this->i18nVendor->getI18NString('general.error.fatal', $lang);
+                $rhett['error'] = $this->languagemap->getI18NString('general.error.fatal', $lang);
                 $this->failTransaction($transactionRetryCount, $failedTransaction, $this->instructorGroup);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -500,20 +475,15 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
      */
     public function saveGroup ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $groupId = $this->input->get_post('instructor_group_id');
         $schoolId = $this->session->userdata('school_id');
@@ -541,7 +511,7 @@ class Instructor_Group_Management extends Abstract_Ilios_Controller
 
                 $this->instructorGroup->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
             else {
                 $rhett['error'] = $result;

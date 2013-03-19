@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
  * Returns the URL of he YUI library root directory within Ilios.
