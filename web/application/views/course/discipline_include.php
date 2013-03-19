@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Includes-script that rigs the "discipline picker" dialog to the course management page.
  */

@@ -1,12 +1,12 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * This abstract class embodies the common functionality featured across all Ilios model objects
+ * This base class embodies the common functionality featured across all Ilios model objects.
  *
  * TODO nead a serialize and unserialized methods for the audit event functionality to work; make
  *          sure we're not re-inventing the wheel
  */
-abstract class Abstract_Ilios_Model extends CI_Model
+abstract class Ilios_Base_Model extends CI_Model
 {
 
     /**
@@ -20,17 +20,14 @@ abstract class Abstract_Ilios_Model extends CI_Model
     protected $databaseTablePrimaryKeyArray;
 
     /**
-     * @param tableName the name of the table within the database which this model represents
-     * @param primaryKeyArray an array of 0-N primary keys for the associated table
+     * @param string $tableName the name of the table within the database which this model represents
+     * @param array $primaryKeyArray an array of 0-N primary keys for the associated table
      */
     public function __construct ($tableName = 'none', $primaryKeyArray = array())
     {
         parent::__construct();
-
         $this->databaseTableName = $tableName;
         $this->databaseTablePrimaryKeyArray = $primaryKeyArray;
-
-        $this->load->model('I18N_Vendor', 'i18nVendor', TRUE);
     }
 
     /**
@@ -155,23 +152,13 @@ abstract class Abstract_Ilios_Model extends CI_Model
     }
 
     /**
-     * It would be nice were there a way to hand calls between the controller and the models - since
-     *  this is just a repeat of code in Abstract_Ilios_Controller.. TODO RESEARCH
+     * Returns the language key as specified in the application configuration.
+     * @see Abstract_Ilios_Controller::getLangToUse()
+     * @return string
      */
-    protected function getLangToUse () {
-        $lang =  $this->input->get_post('lang');
-
-        if ($lang != '') {
-            $this->session->set_userdata('lang_locale', $lang);
-        }
-        else if ($this->session->userdata('lang_locale')) {
-            $lang = $this->session->userdata('lang_locale');
-        }
-        else {
-            $lang = $this->config->item('ilios_default_lang_locale');
-        }
-
-        return $lang;
+    protected function getLangToUse ()
+    {
+        return $this->config->item('ilios_default_lang_locale');
     }
 
     /**
@@ -330,7 +317,7 @@ abstract class Abstract_Ilios_Model extends CI_Model
      * Motto: "delete all, then re-enter them again."
      *
      * @deprecated
-     * Use Abstract_Ilios_Model::_saveJoinTableAssociations() instead.
+     * Use Ilios_Base_Model::_saveJoinTableAssociations() instead.
      *
      *
      * @param array $modelArray

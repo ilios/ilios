@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 include(getServerFilePath('views') . 'common/director_picker_include.php');
 

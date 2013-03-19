@@ -1,3 +1,4 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <div id="viewbar" class="clearfix">
 <?php
    if (! empty($viewbar_title)) :

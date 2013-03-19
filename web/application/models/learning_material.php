@@ -1,10 +1,11 @@
-<?php
-include_once "abstract_ilios_model.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object to the "learning_materials" table in the Ilios database.
  */
-class Learning_Material extends Abstract_Ilios_Model
+class Learning_Material extends Ilios_Base_Model
 {
     static public $LM_REPOSITORY_ROOT = '/learning_materials/'; // @todo make this configurable
 
@@ -96,7 +97,7 @@ FROM `learning_material` lm
 JOIN `user` u ON u.`user_id` = lm.`owning_user_id`
 WHERE
 EOL;
-        if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+        if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
            $sql[] =<<< EOL
 lm.`title` LIKE '{$clean['search']}%'
 OR lm.`filename` LIKE '{$clean['search']}%'
@@ -595,7 +596,7 @@ EOL;
 
         if (($this->db->affected_rows() == 0) || $this->transactionAtomFailed()) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
             $rhett = $msg;
         }
@@ -612,7 +613,7 @@ EOL;
                                                   $filesize, $haveCopyrightOwnership,
                                                   $copyrightRationale, $description, $statusId,
                                                   $creator, $ownerRoleId, $courseId, $sessionId,
-                                                  &$auditAtoms)
+                                                  $userId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -625,7 +626,7 @@ EOL;
 
         $dtUpload = new DateTime('now', new DateTimeZone('UTC'));
         $newRow['upload_date'] = $dtUpload->format('Y-m-d H:i:s');
-        $newRow['owning_user_id'] = $this->session->userdata('uid');
+        $newRow['owning_user_id'] = $userId;
         $newRow['asset_creator'] = $creator;
         $newRow['copyright_ownership'] = $haveCopyrightOwnership;
         $newRow['copyright_rationale'] = $copyrightRationale;
@@ -666,7 +667,7 @@ EOL;
      * @return the learning material id, or -1 on failure
      */
     public function storeLinkLearningMaterialMeta ($title, $link, $description, $statusId, $creator,
-                                            $ownerRoleId, $courseId, $sessionId, &$auditAtoms)
+                                            $ownerRoleId, $courseId, $sessionId, $userId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -678,7 +679,7 @@ EOL;
 
         $dtUpload = new DateTime('now', new DateTimeZone('UTC'));
         $newRow['upload_date'] = $dtUpload->format('Y-m-d H:i:s');
-        $newRow['owning_user_id'] = $this->session->userdata('uid');
+        $newRow['owning_user_id'] = $userId;
         $newRow['asset_creator'] = $creator;
         $newRow['copyright_ownership'] = 2;
         $newRow['copyright_rationale'] = null;
@@ -721,7 +722,7 @@ EOL;
      */
     public function storeCitationLearningMaterialMeta ($title, $citation, $description, $statusId,
                                                 $creator, $ownerRoleId, $courseId, $sessionId,
-                                                &$auditAtoms)
+                                                $userId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -733,7 +734,7 @@ EOL;
 
         $dtUpload = new DateTime('now', new DateTimeZone('UTC'));
         $newRow['upload_date'] = $dtUpload->format('Y-m-d H:i:s');
-        $newRow['owning_user_id'] = $this->session->userdata('uid');
+        $newRow['owning_user_id'] = $userId;
         $newRow['asset_creator'] = $creator;
         $newRow['copyright_ownership'] = 2;
         $newRow['copyright_rationale'] = null;

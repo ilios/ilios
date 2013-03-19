@@ -1,12 +1,12 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) providing read-only access to various sets of data in the
  * Ilios database.
  */
-class Canned_Queries extends Abstract_Ilios_Model
+class Canned_Queries extends Ilios_Base_Model
 {
     /**
      * Constructor

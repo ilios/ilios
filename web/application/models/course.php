@@ -1,11 +1,11 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) for the "course" table.
  */
-class Course extends Abstract_Ilios_Model
+class Course extends Ilios_Base_Model
 {
     /**
      * Constructor.
@@ -64,11 +64,12 @@ class Course extends Abstract_Ilios_Model
      * @param string $startDate
      * @param string $endDate
      * @param boolean $cloneOfferingsToo
+     * @param int $schoolId
      * @param array $auditAtoms
      * @return array
      */
     public function rolloverCourse ($courseId, $newYear, $startDate, $endDate, $cloneOfferingsToo,
-                             &$auditAtoms)
+                                    $schoolId, &$auditAtoms)
     {
         $newCourseId = -1;
 
@@ -176,7 +177,7 @@ class Course extends Abstract_Ilios_Model
         array_push($rhett, $newCourseId);
         array_push($rhett,
                   ($includeCohorts
-                       || ($courseRow->owning_school_id == $this->session->userdata('school_id'))));
+                       || ($courseRow->owning_school_id == $schoolId)));
 
         return $rhett;
     }
@@ -236,7 +237,7 @@ class Course extends Abstract_Ilios_Model
 
         $len = strlen($title);
 
-        if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+        if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
             // trailing wildcard search
             $sql  = 'CALL courses_with_title_restricted_by_school_for_user('
                 . '"' . $clean['title'] . '%", ' . $clean['school_id'] . ', '
@@ -260,7 +261,7 @@ class Course extends Abstract_Ilios_Model
         return ($queryResults->num_rows() > 0);
     }
 
-    public function addNewCourse ($title, $year, &$auditAtoms)
+    public function addNewCourse ($title, $year, $schoolId, &$auditAtoms)
     {
         $start = mktime(12, 0, 0, 9, 1, $year);
         $end = mktime(12, 0, 0, 12, 14, $year);
@@ -272,7 +273,7 @@ class Course extends Abstract_Ilios_Model
         $newRow['year'] = $year;
         $newRow['start_date'] = date('Y-m-d H:i:s', $start);
         $newRow['end_date'] = date('Y-m-d H:i:s', $end);
-        $newRow['owning_school_id'] = $this->session->userdata('school_id');
+        $newRow['owning_school_id'] = $schoolId;
         $newRow['course_level'] = "1";
         $newRow['deleted'] = 0;
         $newRow['locked'] = 0;
@@ -631,16 +632,15 @@ EOL;
         return $rhett;
     }
 
-    public function getAllCourseTitles ()
+    public function getAllCourseTitles ($schoolId)
     {
-        $sid = $this->session->userdata('school_id');
         $retval = array();
 
-        if (isset($sid)) {
+        if (isset($schoolId)) {
             $this->db->where('deleted', 0);
             $this->db->where('publish_event_id != ', 'NULL');
             $this->db->where('archived', 0);
-            $this->db->where('owning_school_id', $sid);
+            $this->db->where('owning_school_id', $schoolId);
 
             $results = $this->db->get($this->databaseTableName);
 

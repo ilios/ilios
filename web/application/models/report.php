@@ -1,13 +1,13 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) for the report table.
  * Provides CRUD functionality for reports in Ilios.
  * @todo optimize report queries
  */
-class Report extends Abstract_Ilios_Model
+class Report extends Ilios_Base_Model
 {
     const REPORT_NOUN_COURSE = 'course';
     const REPORT_NOUN_SESSION = 'session';
@@ -31,19 +31,21 @@ class Report extends Abstract_Ilios_Model
     }
 
     /**
-     * Saves a new report.
+     * Saves a new report for a given user.
      * @param string $subjectTable
      * @param string $prepositionalObjectTable
      * @param array $poValues
+     * @param string $title
+     * @param int $userId the user id
      * @return int the id of the newly created report record
      * @todo flesh out code docs
      */
-    public function saveReport ($subjectTable, $prepositionalObjectTable, $poValues, $title)
+    public function saveReport ($subjectTable, $prepositionalObjectTable, $poValues, $title, $userId)
     {
         $newRow = array();
         $newRow['report_id'] = null;
 
-        $newRow['user_id'] = $this->session->userdata('uid');
+        $newRow['user_id'] = $userId;
         $dtCreationDate = new DateTime('now', new DateTimeZone('UTC'));
         $newRow['creation_date'] = $dtCreationDate->format('Y-m-d H:i:s');
         $newRow['subject'] = $subjectTable;
@@ -99,8 +101,8 @@ class Report extends Abstract_Ilios_Model
     }
 
     /**
-     * Gets all saved reports for a user.
-     * @todo refactor userdata out into function arguments
+     * Gets all saved reports for a given user.
+     * @param int $userId the user id
      * @return array a nested array of arrays, each sub-array representing a report record.
      */
     public function getAllReports ($userId)
@@ -2082,8 +2084,6 @@ EOL;
     {
         $rhett = array();
 
-        $schoolId = $this->session->userdata('school_id');
-
         $queryResults = null;
         $queryString = '';
 
@@ -2096,6 +2096,7 @@ EOL;
 
             $clean = array();
             $clean['id'] =  $this->db->escape($poValues[0]);
+            $clean['school_id'] = (int) $schoolId;
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
@@ -2110,7 +2111,7 @@ EOL;
                                        AND `o`.`objective_id` = `oxo`.`objective_id`
                                        AND `cxo`.`objective_id` = `o`.`objective_id`
                                        AND `cxo`.`course_id` = ' . $clean['id'] . '
-                                       AND `com`.`owning_school_id` = ' . $schoolId . '
+                                       AND `com`.`owning_school_id` = ' . $clean['school_id'] . '
                                        AND `com`.`parent_competency_id` IS NULL
                                       ORDER BY `com`.`title`) ';
                     $queryString .= 'UNION ';
@@ -2126,7 +2127,7 @@ EOL;
                                        AND `o`.`objective_id` = `oxo`.`objective_id`
                                        AND `cxo`.`objective_id` = `o`.`objective_id`
                                        AND `cxo`.`course_id` = ' . $clean['id'] . '
-                                       AND `com`.`owning_school_id` = ' . $schoolId . '
+                                       AND `com`.`owning_school_id` = ' . $clean['school_id'] . '
                                        AND `com`.`parent_competency_id` = `parent_com`.`competency_id`
                                       ORDER BY `parent_com`.`title`, `com`.`title`)';
                     $courseRow = $this->course->getRowForPrimaryKeyId($poValues[0]);
@@ -2150,7 +2151,7 @@ EOL;
                                        AND `coxo`.`objective_id` = `co`.`objective_id`
                                        AND `co`.`objective_id` = `sxo`.`objective_id`
                                        AND `sxo`.`session_id` = ' . $clean['id'] . '
-                                       AND `com`.`owning_school_id` = ' . $schoolId . '
+                                       AND `com`.`owning_school_id` = ' . $clean['school_id'] . '
                                        AND `com`.`parent_competency_id` IS NULL
                                   ORDER BY `com`.`title`) ';
                     $queryString .= 'UNION ';
@@ -2170,7 +2171,7 @@ EOL;
                                        AND `coxo`.`objective_id` = `co`.`objective_id`
                                        AND `co`.`objective_id` = `sxo`.`objective_id`
                                        AND `sxo`.`session_id` = ' . $clean['id'] . '
-                                       AND `com`.`owning_school_id` = ' . $schoolId . '
+                                       AND `com`.`owning_school_id` = ' . $clean['school_id'] . '
                                        AND `com`.`parent_competency_id` = `parent_com`.`competency_id`
                                   ORDER BY `parent_com`.`title`, `com`.`title`)';
                     $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($poValues[0]);
@@ -2188,7 +2189,7 @@ EOL;
                                        JOIN `objective` co ON co.`objective_id` = oxo2.`parent_objective_id`
                                        JOIN `competency` com ON com.`competency_id` = co.`competency_id`
                                        WHERE st.`session_type_id` = ' . $clean['id'] . '
-                                         AND com.`owning_school_id` = ' . $schoolId . '
+                                         AND com.`owning_school_id` = ' . $clean['school_id'] . '
                                          AND s.`deleted` = FALSE
                                          AND com.`parent_competency_id` IS NULL
                                          ORDER BY com.`title`)';
@@ -2203,7 +2204,7 @@ EOL;
                                       JOIN `competency` com ON com.`competency_id` = co.`competency_id`
                                       JOIN `competency` parent_com ON parent_com.`competency_id` = com.`parent_competency_id`
                                       WHERE st.`session_type_id` = ' . $clean['id'] . '
-                                        AND com.`owning_school_id` = ' . $schoolId . '
+                                        AND com.`owning_school_id` = ' . $clean['school_id'] . '
                                         AND s.`deleted` = FALSE
                                       ORDER BY parent_com.`title`, com.`title`)';
                     $sessionTypeRow = $this->sessionType->getRowForPrimaryKeyId($poValues[0]);
@@ -3068,7 +3069,7 @@ EOL;
             return false;
         }
         $lang =  $this->getLangToUse();
-        $classOfStr = $this->i18nVendor->getI18NString('general.phrases.class_title_prefix', $lang);
+        $classOfStr = $this->languagemap->getI18NString('general.phrases.class_title_prefix', $lang);
         $classYear = $programRow->duration + $programYearRow->start_year;
         return $programRow->title . ' - ' . $classOfStr . ' ' . $classYear;
     }

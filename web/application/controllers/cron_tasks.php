@@ -1,5 +1,6 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+include_once "ilios_cli_controller.php";
 
 /**
  * @package Ilios
@@ -8,7 +9,7 @@ include_once "abstract_ilios_controller.php";
  * Provides functionality to run recurring tasks within the application,
  * such as synchronizing the Ilios user store against an external user store.
  */
-class Cron_Tasks extends Abstract_Ilios_Controller
+class Cron_Tasks extends Ilios_Cli_Controller
 {
     /**
      * Tasks configuration container.
@@ -22,6 +23,13 @@ class Cron_Tasks extends Abstract_Ilios_Controller
     public function __construct ()
     {
         parent::__construct();
+
+        // up the memory limit
+        ini_set('memory_limit','256M');
+
+        // turn off script execution timeout
+        set_time_limit(0);
+
 
         $this->load->model('Alert', 'alert', true);
         $this->load->model('School', 'school', true);
@@ -41,46 +49,43 @@ class Cron_Tasks extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        if (defined('CRON') && CRON) {
-
-            // user sync processing
-            try {
-                $userSyncConfig = array();
-                if (array_key_exists('user_sync', $this->_tasksConfig)
-                    && is_array($this->_tasksConfig['user_sync'])) {
-                        $userSyncConfig = $this->_tasksConfig['user_sync'];
-                }
-                $userSyncEnabled = false;
-                if (array_key_exists('enabled', $userSyncConfig) && $userSyncConfig['enabled']) {
-                    $userSyncEnabled = true;
-                }
-                if ($userSyncEnabled) {
-                    $this->_triggerUserSyncProcesses($userSyncConfig);
-                }
-            } catch (Exception $e){
-                // no exception should bubble up to this point.
-                // however, if it does then catch it here and print it out.
-                echo $e;
+        // user sync processing
+        try {
+            $userSyncConfig = array();
+            if (array_key_exists('user_sync', $this->_tasksConfig)
+                && is_array($this->_tasksConfig['user_sync'])) {
+                    $userSyncConfig = $this->_tasksConfig['user_sync'];
             }
-
-            // change alerts processing
-            try {
-                $changeAlertsConfig = array();
-                if (array_key_exists('change_alerts', $this->_tasksConfig)
-                    && is_array($this->_tasksConfig['change_alerts'])) {
-                        $changeAlertsConfig = $this->_tasksConfig['change_alerts'];
-                }
-                $changeAlertsProcessingEnabled = false;
-                if (array_key_exists('enabled', $changeAlertsConfig) && $changeAlertsConfig['enabled']) {
-                    $changeAlertsProcessingEnabled = true;
-                }
-                if ($changeAlertsProcessingEnabled) {
-                    $this->_triggerChangeAlertsProcess($changeAlertsConfig);
-                }
-            } catch (Exception $e) {
-                // same here, last ditch effort to prevent script execution from failing.
-                echo $e;
+            $userSyncEnabled = false;
+            if (array_key_exists('enabled', $userSyncConfig) && $userSyncConfig['enabled']) {
+                $userSyncEnabled = true;
             }
+            if ($userSyncEnabled) {
+                $this->_triggerUserSyncProcesses($userSyncConfig);
+            }
+        } catch (Exception $e){
+            // no exception should bubble up to this point.
+            // however, if it does then catch it here and print it out.
+            echo $e;
+        }
+
+        // change alerts processing
+        try {
+            $changeAlertsConfig = array();
+            if (array_key_exists('change_alerts', $this->_tasksConfig)
+                && is_array($this->_tasksConfig['change_alerts'])) {
+                    $changeAlertsConfig = $this->_tasksConfig['change_alerts'];
+            }
+            $changeAlertsProcessingEnabled = false;
+            if (array_key_exists('enabled', $changeAlertsConfig) && $changeAlertsConfig['enabled']) {
+                $changeAlertsProcessingEnabled = true;
+            }
+            if ($changeAlertsProcessingEnabled) {
+                $this->_triggerChangeAlertsProcess($changeAlertsConfig);
+            }
+        } catch (Exception $e) {
+            // same here, last ditch effort to prevent script execution from failing.
+            echo $e;
         }
     }
 
@@ -89,43 +94,40 @@ class Cron_Tasks extends Abstract_Ilios_Controller
     //
     public function daily_tasks()
     {
-        if (defined('CRON') && CRON) {
-
-            // export enrollment data
-            try {
-                $exportConfig = array ();
-                if (array_key_exists('enrollment_export', $this->_tasksConfig)
-                    && is_array($this->_tasksConfig['enrollment_export'])) {
-                    $exportConfig = $this->_tasksConfig['enrollment_export'];
-                }
-                $enrollExportEnabled = false;
-                if (array_key_exists('enabled', $exportConfig) && $exportConfig['enabled']) {
-                    $enrollExportEnabled = true;
-                }
-                if ($enrollExportEnabled) {
-                    $this->_exportEnrollmentData($exportConfig);
-                }
-            } catch (Exception $e) {
-                echo $e;
+        // export enrollment data
+        try {
+            $exportConfig = array ();
+            if (array_key_exists('enrollment_export', $this->_tasksConfig)
+                && is_array($this->_tasksConfig['enrollment_export'])) {
+                $exportConfig = $this->_tasksConfig['enrollment_export'];
             }
-
-            // send Teaching Reminder alerts
-            try {
-                $remindersConfig = array();
-                if (array_key_exists('teaching_reminders', $this->_tasksConfig)
-                    && is_array($this->_tasksConfig['teaching_reminders'])) {
-                    $remindersConfig = $this->_tasksConfig['teaching_reminders'];
-                }
-                $teachingRemindersEnabled = false;
-                if (array_key_exists('enabled', $remindersConfig) && $remindersConfig['enabled']) {
-                    $teachingRemindersEnabled = true;
-                }
-                if ($teachingRemindersEnabled) {
-                    $this->processOfferingReminders();
-                }
-            } catch (Exception $e) {
-                echo $e;
+            $enrollExportEnabled = false;
+            if (array_key_exists('enabled', $exportConfig) && $exportConfig['enabled']) {
+                $enrollExportEnabled = true;
             }
+            if ($enrollExportEnabled) {
+                $this->_exportEnrollmentData($exportConfig);
+            }
+        } catch (Exception $e) {
+            echo $e;
+        }
+
+        // send Teaching Reminder alerts
+        try {
+            $remindersConfig = array();
+            if (array_key_exists('teaching_reminders', $this->_tasksConfig)
+                && is_array($this->_tasksConfig['teaching_reminders'])) {
+                $remindersConfig = $this->_tasksConfig['teaching_reminders'];
+            }
+            $teachingRemindersEnabled = false;
+            if (array_key_exists('enabled', $remindersConfig) && $remindersConfig['enabled']) {
+                $teachingRemindersEnabled = true;
+            }
+            if ($teachingRemindersEnabled) {
+                $this->processOfferingReminders();
+            }
+        } catch (Exception $e) {
+            echo $e;
         }
     }
 
@@ -161,7 +163,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
         $conf = array_merge($config, array('templates_dir_path' => getServerFilePath('alert_templates')));
 
         // instantiate and invoke notification process
-        $process = new Ilios_ChangeAlert_NotificationProcess($conf, $this->alert, 
+        $process = new Ilios_ChangeAlert_NotificationProcess($conf, $this->alert,
             $this->school, $this->offering, $this->iliosSession, $this->sessionType,
             $this->course);
         $process->run($logger, $debug);
@@ -181,7 +183,7 @@ class Cron_Tasks extends Abstract_Ilios_Controller
 
         // instantiate the user source
         $userSourceClassName = array_key_exists('user_source_class', $config) ? $config['user_source_class'] : false;
-        $userSource = false;
+        $userSource = null;
 
         if ($userSourceClassName
             && class_exists($userSourceClassName, true)) {

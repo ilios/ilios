@@ -1,11 +1,11 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) to the "session" table.
  */
-class Session extends Abstract_Ilios_Model
+class Session extends Ilios_Base_Model
 {
     /**
      * Constructor.
@@ -84,21 +84,26 @@ class Session extends Abstract_Ilios_Model
     }
 
     /**
-     * returns a list of all sessions along with the course title in this format:
-     * course title - session title, also returns session id
+     * Returns a list of all sessions for a given owning school, along with the course title in this format:
+     *   course title - session title,
+     * Also returns session id.
      * The list is sorted by course title, then session title
      * The list is shows only non-deleted sessions and courses
      * The list is restricted by owning school of the course
+     * @param int $schoolId
+     * @return array
      */
-    public function getSessionsWithCourseTitle()
+    public function getSessionsWithCourseTitle ($schoolId)
     {
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
         $queryString = 'SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
                                `course`.`start_date`, `course`.`end_date`, `session`.`session_id`
                           FROM `course`, `session`
                          WHERE `course`.`course_id` = `session`.`course_id`
                            AND `session`.`deleted` = 0
                            AND `course`.`deleted` = 0
-                           AND `course`.`owning_school_id` = ' . $this->session->userdata('school_id') . '
+                           AND `course`.`owning_school_id` = ' . $clean['school_id'] . '
                       ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`';
 
         $queryResults = $this->db->query($queryString);
@@ -693,7 +698,7 @@ class Session extends Abstract_Ilios_Model
         if ((! $newSessionId) || ($newSessionId < 1)) {
             $lang = $this->getLangToUse();
 
-            $rhett['error'] = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
             return $rhett;
         }
@@ -720,7 +725,7 @@ class Session extends Abstract_Ilios_Model
             $lang = $this->getLangToUse();
 
             $rhett['error']
-                   = $this->i18nVendor->getI18NString('general.error.db_cross_table_insert', $lang);
+                   = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
 
             return $rhett;
         }
@@ -734,7 +739,7 @@ class Session extends Abstract_Ilios_Model
         }
         if (! $success) { // deal with failure
             $lang = $this->getLangToUse();
-            $rhett['error'] = $this->i18nVendor->getI18NString('course_management.error.session_save.description', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description', $lang);
             return $rhett;
         }
 
@@ -801,7 +806,7 @@ class Session extends Abstract_Ilios_Model
             $lang = $this->getLangToUse();
 
             $rhett['error']
-                   = $this->i18nVendor->getI18NString('general.error.db_cross_table_insert', $lang);
+                   = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
 
             return $rhett;
         }
@@ -824,7 +829,7 @@ class Session extends Abstract_Ilios_Model
         }
         if (! $success) { // deal with failure
             $lang = $this->getLangToUse();
-            $rhett['error'] = $this->i18nVendor->getI18NString('course_management.error.session_save.description', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description', $lang);
             return $rhett;
         }
 
@@ -874,7 +879,7 @@ class Session extends Abstract_Ilios_Model
         if ($this->db->affected_rows() == 0) {
             $lang = $this->getLangToUse();
 
-            $rhett['error']  = $this->i18nVendor->getI18NString('general.error.db_delete', $lang);
+            $rhett['error']  = $this->languagemap->getI18NString('general.error.db_delete', $lang);
         }
 
         return $rhett;

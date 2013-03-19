@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * Learner-group management controller.
  */
-class Group_Management extends Abstract_Ilios_Controller
+class Group_Management extends Ilios_Web_Controller
 {
     /**
      * Constructor.
@@ -29,11 +30,6 @@ class Group_Management extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -61,7 +57,7 @@ class Group_Management extends Abstract_Ilios_Controller
             $data['viewbar_title'] = $data['institution_name'];
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
 
@@ -80,50 +76,50 @@ class Group_Management extends Abstract_Ilios_Controller
             $data['cohort_load_stub'] = $cohortStub;
 
             $key = 'groups.title_bar';
-            $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.select_program';
-            $data['select_program_link_string'] = $this->i18nVendor->getI18NString($key,
+            $data['select_program_link_string'] = $this->languagemap->getI18NString($key,
                                                                                    $lang);
 
             $key = 'groups.page_header';
-            $data['page_header_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['page_header_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.instructor_picker_title';
-            $data['instructor_picker_title'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['instructor_picker_title'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.expand_all';
-            $data['expand_groups_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['expand_groups_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.open_cohort';
-            $data['open_cohort_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['open_cohort_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.default_instructor';
-            $data['default_instructor_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['default_instructor_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.default_location';
-            $data['default_location_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['default_location_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.add_new_to_all_group';
-            $data['add_to_all_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['add_to_all_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'groups.add_new_group';
-            $data['add_group_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['add_group_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.current_enrollment';
-            $data['current_enrollment_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['current_enrollment_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.orphan_members';
-            $data['orphans_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['orphans_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.phrases.program_title_short';
-            $data['program_title_short_string'] = $this->i18nVendor->getI18NString($key,
+            $data['program_title_short_string'] = $this->languagemap->getI18NString($key,
                                                                                    $lang);
             $key = 'groups.program_title';
-            $data['program_title_full_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['program_title_full_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $key = 'general.terms.filter';
-            $data['word_filter_string'] = $this->i18nVendor->getI18NString($key, $lang);
+            $data['word_filter_string'] = $this->languagemap->getI18NString($key, $lang);
 
             $this->populateForAddNewMembersDialog($data, $lang);
             $this->populateI18NStringsForContentContainerGenerator($data, $lang);
@@ -142,12 +138,6 @@ class Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -170,12 +160,6 @@ class Group_Management extends Abstract_Ilios_Controller
     {
         $rhett = array();
         $lang = $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -217,17 +201,13 @@ class Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $cohortId = (int) $this->input->get_post('cohort_id');
         $groupToDivide = (int) $this->input->get_post('group_id');
@@ -235,7 +215,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
         if (-1 == $groupToDivide) {
 
-            $msg = $this->i18nVendor->getI18NString('groups.error.cohort_association', $lang);
+            $msg = $this->languagemap->getI18NString('groups.error.cohort_association', $lang);
             $rhett['error'] = $msg . ' ' . $groupToDivide;
         } else {
 
@@ -243,7 +223,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
             if ($enrollment == 0) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('groups.error.cohort_zero_population',
+                $msg = $this->languagemap->getI18NString('groups.error.cohort_zero_population',
                                                         $lang);
 
                 $rhett['error'] = $msg . ' ' . $groupToDivide;
@@ -299,7 +279,7 @@ class Group_Management extends Abstract_Ilios_Controller
                     } else {
                         $failedTransaction = false;
                         $this->group->commitTransaction();
-                        $this->auditEvent->saveAuditEvent($auditAtoms);
+                        $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
                     }
                 } while ($failedTransaction && ($transactionRetryCount > 0));
             }
@@ -340,12 +320,6 @@ class Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
@@ -358,7 +332,7 @@ class Group_Management extends Abstract_Ilios_Controller
         $groups = $this->_getGroupsForGroupIds($groupIds);
 
         if (false === $groups) {
-            $msg = $this->i18nVendor->getI18NString('groups.error.failed_subgroup_fetch', $lang);
+            $msg = $this->languagemap->getI18NString('groups.error.failed_subgroup_fetch', $lang);
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -388,17 +362,13 @@ class Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $groupId = $this->input->get_post('group_id');
         $containerNumber = $this->input->get_post('container_number');
@@ -421,10 +391,10 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('groups.error.failed_group_delete', $lang);
+                $msg = $this->languagemap->getI18NString('groups.error.failed_group_delete', $lang);
 
                 $rhett['error'] = $msg . ': ' . $groupId;
 
@@ -441,20 +411,15 @@ class Group_Management extends Abstract_Ilios_Controller
      */
     public function saveGroupModelTree ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-            // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         /**
          * game plan:
@@ -507,7 +472,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
                 $this->failTransaction($transactionRetryCount, $failedTransaction, $this->group);
             }
@@ -540,17 +505,13 @@ class Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $uploadPath = './tmp_uploads/'; // @todo make this configurable.
 
@@ -562,8 +523,8 @@ class Group_Management extends Abstract_Ilios_Controller
 
         if (! $this->upload->do_upload()) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.upload_fail', $lang);
-            $msg2 = $this->i18nVendor->getI18NString('general.phrases.found_mime_type', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
+            $msg2 = $this->languagemap->getI18NString('general.phrases.found_mime_type', $lang);
             $uploadData = $this->upload->data();
 
             $rhett['error'] = $msg . ': ' . $this->upload->display_errors() . '. ' . $msg2 . ': '
@@ -591,7 +552,7 @@ class Group_Management extends Abstract_Ilios_Controller
             // MAY RETURN THIS BLOCK
             if (count($foundDuplicates) > 0) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('general.error.duplicate_users_found',
+                $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found',
                                                         $lang);
 
                 $rhett['duplicates'] = $foundDuplicates;
@@ -632,7 +593,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
                     if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                         $lang = $this->getLangToUse();
-                        $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                        $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                         $rhett['error'] = $msg;
 
@@ -649,13 +610,13 @@ class Group_Management extends Abstract_Ilios_Controller
 
                     $failedTransaction = false;
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms);
+                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                     $rhett['users'] = $newUsers;
                 }
             } while ($failedTransaction && ($transactionRetryCount > 0));
             if (! unlink($uploadData['full_path'])) {
-            	log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
+                log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
             }
         }
 
@@ -675,17 +636,13 @@ class Group_Management extends Abstract_Ilios_Controller
         $rhett = array();
         $lang =  $this->getLangToUse();
 
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $cohortId = $this->input->get_post('cohort_id');
         $containerNumber = $this->input->get_post('container_number');
@@ -699,7 +656,7 @@ class Group_Management extends Abstract_Ilios_Controller
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
             $lang = $this->getLangToUse();
-            $msg = $this->i18nVendor->getI18NString('general.error.duplicate_user_found', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found', $lang);
 
             $rhett['error'] = $msg;
 
@@ -726,7 +683,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
             if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                 $lang = $this->getLangToUse();
-                $msg = $this->i18nVendor->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
                 $rhett['error'] = $msg;
 
@@ -740,7 +697,7 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->user->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
@@ -763,20 +720,15 @@ class Group_Management extends Abstract_Ilios_Controller
      */
     public function addNewGroup ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
+
+        $userId = $this->session->userdata('uid');
 
         $cohortId = $this->input->get_post('cohort_id');
         $groupId = $this->input->get_post('group_id');
@@ -805,10 +757,9 @@ class Group_Management extends Abstract_Ilios_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms);
+                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
-        }
-        while ($failedTransaction && ($transactionRetryCount > 0));
+        } while ($failedTransaction && ($transactionRetryCount > 0));
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -908,9 +859,11 @@ EOL;
     }
 
     /**
-     * @param groupModel assumed to contain an array associated to a key 'users' and have a value
-     *                      associated to a key 'group_id'
-     * @return true if the insert appears to have gone ok, false otherwise
+     * Associates a given list of users with a given group.
+     * @param array $users
+     * @param int $groupId
+     * @param array $auditAtoms
+     * @return boolean true if the insert appears to have gone ok, false otherwise
      */
     protected function _associateUsersToGroup ($users, $groupId, &$auditAtoms)
     {

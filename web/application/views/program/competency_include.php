@@ -1,3 +1,4 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 <div class="tabdialog" id="competency_pick_dialog"></div>
 
 <script type="text/javascript">

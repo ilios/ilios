@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
  * JAVASCRIPT DEPENDENCIES:
  *         YUI libraries

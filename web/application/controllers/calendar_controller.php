@@ -1,12 +1,13 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
  *
  * This is the user calendar controller.
  */
-class Calendar_Controller extends Abstract_Ilios_Controller
+class Calendar_Controller extends Ilios_Web_Controller
 {
     /**
      * Constructor
@@ -28,11 +29,6 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function index ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $lang = $this->getLangToUse();
 
         $data = array();
@@ -80,7 +76,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
 
         if ($schoolTitle != null) {
             $key = 'general.phrases.school_of';
-            $schoolOfStr = $this->i18nVendor->getI18NString($key, $lang);
+            $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
             $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolTitle;
 
             $availSchools = $this->_getAvailableSchools();
@@ -96,7 +92,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
                 $data['selected_school_id'] = $schoolId;
 
                 $key = 'general.phrases.select_school';
-                $data['select_school_string'] = $this->i18nVendor->getI18NString($key, $lang);
+                $data['select_school_string'] = $this->languagemap->getI18NString($key, $lang);
             }
         }
 
@@ -106,151 +102,151 @@ class Calendar_Controller extends Abstract_Ilios_Controller
             Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'dashboard.account_mgmt';
-        $data['account_management_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['account_management_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.competency';
-        $data['competency_mapping_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['competency_mapping_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.my_alerts';
-        $data['my_alerts_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['my_alerts_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.my_calendar';
-        $data['my_calendar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['my_calendar_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.my_courses';
-        $data['my_courses_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['my_courses_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.my_programs';
-        $data['my_programs_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['my_programs_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.my_reports';
-        $data['my_reports_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['my_reports_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.recent_activities';
-        $data['recent_activities_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['recent_activities_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.title';
-        $data['title_bar_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.view_public';
-        $data['view_public_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['view_public_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.administration.course_rollover';
-        $data['course_rollover_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['course_rollover_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.administration.management_console';
-        $data['management_console_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['management_console_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.reminder.mark_complete';
-        $data['mark_complete_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['mark_complete_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.reminder.max_chars';
-        $data['max_char_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+        $data['max_char_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
         $key = 'dashboard.reminder.your_alert';
-        $data['your_alert_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['your_alert_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.report.association';
-        $data['report_association_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['report_association_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.report.header';
-        $data['report_header_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['report_header_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.report.title';
-        $data['report_title_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['report_title_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.icalendar.download_title';
-        $data['ical_download_title'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['ical_download_title'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.add_new';
-        $data['phrase_add_new_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_add_new_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.advanced_search';
-        $data['phrase_advanced_search_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_advanced_search_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.due_date';
-        $data['phrase_due_date_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_due_date_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.end_time';
-        $data['phrase_end_time_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_end_time_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.search_ilios';
-        $data['phrase_search_ilios_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_search_ilios_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.start_time';
-        $data['phrase_start_time_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_start_time_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.student_group';
-        $data['phrase_student_group_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_student_group_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.time_range';
-        $data['phrase_time_range_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_time_range_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.welcome_back';
-        $data['phrase_welcome_back_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['phrase_welcome_back_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.which_is';
-        $data['phrase_which_is_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+        $data['phrase_which_is_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
         $key = 'general.terms.all';
-        $data['word_all_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_all_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.administration';
-        $data['word_administration_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_administration_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.archiving';
-        $data['word_archiving_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_archiving_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.cancel';
-        $data['word_cancel_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_cancel_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.course';
-        $data['word_course_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_course_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.created';
-        $data['word_created_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+        $data['word_created_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
         $key = 'general.terms.date';
-        $data['word_date_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_date_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.done';
-        $data['word_done_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_done_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.event';
-        $data['word_event_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_event_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.filter';
-        $data['word_filter_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_filter_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.help';
-        $data['word_help_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_help_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.instructors';
-        $data['word_instructors_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_instructors_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.instructor_indefinite';
-        $data['word_instructors_indefinite_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_instructors_indefinite_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.room';
-        $data['word_room_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_room_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.session';
-        $data['word_session_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_session_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.status';
-        $data['word_status_string'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['word_status_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.terms.weeks';
-        $data['word_weeks_string'] = strtolower($this->i18nVendor->getI18NString($key, $lang));
+        $data['word_weeks_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
         $key = 'learning_material.dialog.title';
-        $data['learning_materials_dialog_title'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['learning_materials_dialog_title'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'mesh.dialog.search_mesh';
-        $data['mesh_search_mesh']= $this->i18nVendor->getI18NString($key, $lang);
+        $data['mesh_search_mesh']= $this->languagemap->getI18NString($key, $lang);
 
         $key = 'mesh.dialog.title';
-        $data['mesh_dialog_title']= $this->i18nVendor->getI18NString($key, $lang);
+        $data['mesh_dialog_title']= $this->languagemap->getI18NString($key, $lang);
 
         $data['preference_array'] = $this->getPreferencesArrayForUser();
 
@@ -258,30 +254,30 @@ class Calendar_Controller extends Abstract_Ilios_Controller
         $data['show_view_switch'] = false;
 
         $key = 'calendar.ical';
-        $data['ical_download_button'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['ical_download_button'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'calendar.filters_set_filters';
-        $data['calendar_filters_btn'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendar_filters_btn'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'calendar.filters_title';
-        $data['calendar_filters_title'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendar_filters_title'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'calendar.filters_clear_search';
-        $data['calendar_clear_search_filters'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendar_clear_search_filters'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'calendar.filters_search_mode_title';
-        $data['calendar_search_mode_title'] = $this->i18nVendor->getI18NString($key, $lang);
+        $data['calendar_search_mode_title'] = $this->languagemap->getI18NString($key, $lang);
 
         $fdata = array();   // Data for calendar filter's content
         $fdata['calendar_filters_title'] = $data['calendar_filters_title'];
-        $fdata['search_by_course_text'] = $this->i18nVendor->getI18NString('calendar.filters_search_by_course_text', $lang);
-        $fdata['search_by_topic_text'] = $this->i18nVendor->getI18NString('calendar.filters_search_by_topic_text', $lang);
-        $fdata['academic_year_title'] = $this->i18nVendor->getI18NString('calendar.filters_academic_year_title', $lang);
+        $fdata['search_by_course_text'] = $this->languagemap->getI18NString('calendar.filters_search_by_course_text', $lang);
+        $fdata['search_by_topic_text'] = $this->languagemap->getI18NString('calendar.filters_search_by_topic_text', $lang);
+        $fdata['academic_year_title'] = $this->languagemap->getI18NString('calendar.filters_academic_year_title', $lang);
 
         $fdata['discipline_titles'] = $this->discipline->getAllDisciplineTitles($schoolId);
         $fdata['session_type_titles'] = $this->sessionType->getSessionTypeTitles($schoolId);
         // Currently course levels are hard coded in course_container_include.php
-        $level = $this->i18nVendor->getI18NString('general.terms.level', $lang);
+        $level = $this->languagemap->getI18NString('general.terms.level', $lang);
         $fdata['course_levels'] = array( 1 => "$level I",
                                          2 => "$level II",
                                          3 => "$level III",
@@ -297,7 +293,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
             $fdata['program_cohort_titles'] = $programcohorts;
         }
 
-        $fdata['course_titles'] = $this->course->getAllCourseTitles();
+        $fdata['course_titles'] = $this->course->getAllCourseTitles($schoolId);
         if (!empty($fdata['course_titles'])) {
             asort($fdata['course_titles']);
         }
@@ -314,13 +310,13 @@ class Calendar_Controller extends Abstract_Ilios_Controller
             switch ($dashboardView) {
                 case 'instructor' :
                     $key = 'calendar.switch_to_student_view';
-                    $data['switch_to_student_view_string']= $this->i18nVendor->getI18NString($key, $lang);
+                    $data['switch_to_student_view_string']= $this->languagemap->getI18NString($key, $lang);
                     $this->_viewInstructorCalendar($data);
                     break;
                 case 'student' :
                 default :
                     $key = 'calendar.switch_to_instructor_view';
-                    $data['switch_to_instructor_view_string']= $this->i18nVendor->getI18NString($key, $lang);
+                    $data['switch_to_instructor_view_string']= $this->languagemap->getI18NString($key, $lang);
                     $this->_viewStudentCalendar($data);
             }
             return;
@@ -344,11 +340,6 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function switchView ()
     {
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            return;
-        }
-
         $role = $this->input->get('preferred_view', false);
         $this->_setViewPreferenceByRole('calendar_view', $role);
         redirect('/calendar_controller'); // redirect to itself
@@ -366,14 +357,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getOfferingsForLearnerDashboard ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('is_learner')) {
@@ -425,14 +409,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getSessionILMsForLearnerDashboard () {
 
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('is_learner')) {
@@ -488,14 +465,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getOfferingsForNonLearnerDashboard ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -548,14 +518,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     public function getSessionILMsForNonLearnerDashboard ()
     {
-        $rhett = array();
         $lang =  $this->getLangToUse();
-
-        // authentication check
-        if ($this->divertedForAuthentication) {
-            $this->_printAuthenticationFailedXhrResponse($lang);
-            return;
-        }
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -607,6 +570,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      * Compares two given UNIX timestamps.
      * @param string $a
      * @param string $b
+     * @return int
      */
     protected function _offeringStartDateComparator ($a, $b) {
         $startDateA = strtotime($a['start_date']);
@@ -639,8 +603,8 @@ class Calendar_Controller extends Abstract_Ilios_Controller
     /**
      * Merges two lists of session-ILMs (silm) while filtering out duplicates.
      *
-     * @param array $silms
-     * @param array $additionalSilms
+     * @param array $sessionILM
+     * @param array $additionalSessionILMs
      * @return array the merged list
      */
     protected function _mergeSessionILMs (array $sessionILM, array $additionalSessionILMs) {
@@ -686,8 +650,10 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      * Apply filters on an Offering array.
      * @param object $filters
      * @param array  $offerings
+     * @param int $overrideSchoolId
+     * @return array
      */
-    protected function _applyFiltersOnOfferings($filters, $offerings, $overrideSchoolId=null)
+    protected function _applyFiltersOnOfferings($filters, $offerings, $overrideSchoolId = null)
     {
         $retarr = array();
         $schoolId = empty($overrideSchoolId) ? $this->session->userdata('school_id') : $overrideSchoolId;
@@ -758,7 +724,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     private function _viewInstructorCalendar (array $data = array())
     {
-    	$this->load->view('home/course_developer_calendar_view', $data);
+        $this->load->view('home/course_developer_calendar_view', $data);
     }
 
     /**
@@ -767,7 +733,7 @@ class Calendar_Controller extends Abstract_Ilios_Controller
      */
     private function _viewStudentCalendar (array $data = array())
     {
-    	$this->load->view('home/student_calendar_view', $data);
+        $this->load->view('home/student_calendar_view', $data);
     }
 }
 

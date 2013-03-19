@@ -1,4 +1,4 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Includes template.
  * Churns out the markup and javascript for a "discipline picker" dialog in the most gnarly fashion possible.

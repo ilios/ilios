@@ -1,11 +1,11 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) to the audit tables.
  */
-class Audit_Event extends Abstract_Ilios_Model
+class Audit_Event extends Ilios_Base_Model
 {
     /**
      * Constructor.
@@ -36,23 +36,17 @@ class Audit_Event extends Abstract_Ilios_Model
     }
 
     /**
-     * Saves a given list of audit atoms.
+     * Saves a given list of audit atoms related to actions taken by a given user.
      * Transactions are handled within this method.
      *
      * @param array $wrappedAtomArray an array of assoc. arrays, each sub-array
      *     as returned by the Ilios_Model_AuditUtils::wrapAtom() method.
-     * @param int $userId
-     * @return boolean
-     * @todo refactor user session related code out of this function
-     * @todo improve code docs
+     * @param int $userId the user id
+     * @return boolean TRUE on success, FALSE on failure
      */
-    public function saveAuditEvent ($wrappedAtomArray, $userId = null)
+    public function saveAuditEvent ($wrappedAtomArray, $userId)
     {
         $this->startTransaction();
-
-        if ($userId == null) {
-            $userId = $this->session->userdata('uid'); // @todo get this outta here.
-        }
 
         $newRow = array();
         $newRow['audit_event_id'] = null;

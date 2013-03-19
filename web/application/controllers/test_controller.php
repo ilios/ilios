@@ -1,5 +1,6 @@
-<?php
-include_once "abstract_ilios_controller.php";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
@@ -8,7 +9,7 @@ include_once "abstract_ilios_controller.php";
  * a full CI environment for unit testing purposes.
  * @see tests/ci_bootstrap.php
  */
-class Test_Controller extends Abstract_Ilios_Controller
+class Test_Controller extends Ilios_Web_Controller
 {
     /**
      * Constructor.

@@ -1,13 +1,13 @@
-<?php
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once "abstract_ilios_model.php";
+include_once "ilios_base_model.php";
 
 /**
  * Data Access Object (DAO) for the "program" table.
  *
  * @todo check if class members are used, if not remove them
  */
-class Program extends Abstract_Ilios_Model
+class Program extends Ilios_Base_Model
 {
 
     /**
@@ -39,10 +39,11 @@ class Program extends Abstract_Ilios_Model
      * @param string $title
      * @param string $shortTitle
      * @param int $duration
+     * @param int $schoolId
      * @param array $auditAtoms
      * @return int the program.program_id of the just added row, or 0 on failure
      */
-    public function addNewProgram ($title, $shortTitle, $duration, &$auditAtoms)
+    public function addNewProgram ($title, $shortTitle, $duration, $schoolId, &$auditAtoms)
     {
         $newRow = array();
         $newRow['program_id'] = null;
@@ -50,7 +51,7 @@ class Program extends Abstract_Ilios_Model
         $newRow['title'] = $title;
         $newRow['short_title'] = $shortTitle;
         $newRow['duration'] = $duration;
-        $newRow['owning_school_id'] = $this->session->userdata('school_id');
+        $newRow['owning_school_id'] = $schoolId;
         $newRow['deleted'] = "0";
 
         $this->db->insert($this->databaseTableName, $newRow);
@@ -179,7 +180,7 @@ class Program extends Abstract_Ilios_Model
 
         $len = strlen($title);
 
-        if (Abstract_Ilios_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+        if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
         	// trailing wildcard search
         	$sql = 'CALL programs_with_title_restricted_by_school_for_user("'
         	    . $clean['title'] . '%", ' . $clean['school_id'] . ', '
