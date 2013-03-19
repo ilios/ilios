@@ -78,7 +78,7 @@ class Ilios_UserSync_Process_NonStudentProcess extends Ilios_UserSync_Process
         if (! $nonStudentUserCount) {
             $msg = 'No eligible non-students found for synchronization.';
             $logger->log($msg , $processId);
-            $logger->log(self::LOG_SEPARATION_LINE, $processId);
+            $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
             return true; // we're done
         }
 
