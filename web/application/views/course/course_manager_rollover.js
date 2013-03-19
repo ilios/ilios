@@ -565,6 +565,7 @@ ilios.cm.rollover.populateDOMForCourseSummary = function () {
     if ('undefined' !== typeof xmlHTTPRequest.overrideMimeType) {
         xmlHTTPRequest.overrideMimeType("text/plain");
     }
+    xmlHTTPRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlHTTPRequest.send(null);
 
     try {

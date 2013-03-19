@@ -89,6 +89,7 @@ ilios.course_model.loadCourseTreeSynchronously = function (courseId, returnCours
     if ('undefined' !== typeof xmlHTTPRequest.overrideMimeType) {
         xmlHTTPRequest.overrideMimeType("text/plain");
     }
+    xmlHTTPRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xmlHTTPRequest.send(null);
 
     try {
