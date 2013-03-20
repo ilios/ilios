@@ -36,10 +36,9 @@ class Ilios_UserSync_Process_NonStudentProcess extends Ilios_UserSync_Process
 
     /**
      * Constructor.
-     * @param Ilios_UserSync_UserSource $source
-     * @param User $userModel
+     * @param Ilios_UserSync_UserSource $userSource
+     * @param User $userDao
      * @param User_Sync_Exception $syncExceptionDao
-     * @param array $config process configuration
      */
     public function __construct (Ilios_UserSync_UserSource $userSource, User $userDao,
                                      User_Sync_Exception $syncExceptionDao)
@@ -55,13 +54,13 @@ class Ilios_UserSync_Process_NonStudentProcess extends Ilios_UserSync_Process
      * @param int $processId
      * @param Ilios_Logger $logger
      * @return boolean TRUE on success, FALSE on error
+     * @throws Ilios_UserSync_Process_ExternalUserException
      */
     protected function _run($processId, Ilios_Logger $logger)
     {
         $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         $msg = "Kicking off the Non-student-user synchronization process, here we go ....";
         $logger->log($msg , $processId);
-        $nonStudentUserCount = 0;
         $updatedUsersCount = 0;
         $processedUsersCount = 0;
         // -----------------------------
@@ -232,6 +231,7 @@ class Ilios_UserSync_Process_NonStudentProcess extends Ilios_UserSync_Process
      * @param array $iliosUsers a nested array of Ilios user record(s) identified by matching
      * @param string $matchCriterium indicates what criterium was used to match the given ext. user against Ilios users (default is UID)
      * @return boolean TRUE if user record got updated, FALSE otherwise.
+     * @throws Ilios_UserSync_Process_UserException
      */
     protected function _processMatchingUsers ($processId, Ilios_Logger $logger, Ilios_UserSync_ExternalUser $extUser,
         array $nonStudent, array $iliosUsers, $matchCriterium = self::MATCH_ILIOS_USERS_BY_UID)

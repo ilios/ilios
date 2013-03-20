@@ -15,7 +15,7 @@ interface Ilios_UserSync_UserSource
 
 	/**
 	 * Returns student records from the external user source.
-	 * @return Ilios_UserSync_ExternalUser_Iterator
+	 * @return Iterator
 	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getAllStudentRecords ();
@@ -24,7 +24,7 @@ interface Ilios_UserSync_UserSource
 	 * Finds and returns user record(s) by a given email address
 	 * from the external user source.
 	 * @param string $email
-	 * @return Ilios_UserSync_ExternalUser_Iterator
+	 * @return Iterator
 	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getUserByEmail ($email);
@@ -33,7 +33,7 @@ interface Ilios_UserSync_UserSource
 	 * Finds and returns user record(s) by a given unique id (UID)
 	 * from the external user source.
 	 * @param string $uid
-	 * @return Ilios_UserSync_ExternalUser_Iterator
+	 * @return Iterator
 	 * @throws Ilios_UserSync_Exception
 	 */
 	public function getUserByUid ($uid);
