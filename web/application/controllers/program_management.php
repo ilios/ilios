@@ -315,7 +315,7 @@ class Program_Management extends Ilios_Web_Controller
                     $lang = $this->getLangToUse();
                     $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
-                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->program);
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->program);
                 } else {
                     $this->program->commitTransaction();
 
@@ -393,7 +393,7 @@ class Program_Management extends Ilios_Web_Controller
 
                     $rhett['error'] = $msg;
 
-                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->program);
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->program);
                 } else {
                     $this->program->commitTransaction();
 
@@ -469,7 +469,7 @@ class Program_Management extends Ilios_Web_Controller
 
                     $rhett['error'] = $msg;
 
-                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
                 }
             } while ($failedTransaction && ($transactionRetryCount > 0));
         }
@@ -515,7 +515,7 @@ class Program_Management extends Ilios_Web_Controller
                 $lang = $this->getLangToUse();
                 $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
             } else {
                 $this->programYear->commitTransaction();
 
@@ -640,7 +640,7 @@ class Program_Management extends Ilios_Web_Controller
             if ($failed) {
                 $rhett['error'] = 'There was a Database Deadlock error.';
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
             } else {
                 $rhett['pyid'] = $programYearId;
                 $rhett['start_year'] = $startYear;

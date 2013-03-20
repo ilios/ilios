@@ -228,7 +228,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
                 $rhett['success'] = 'huzzah';
             } else {
                 $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->mesh);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->mesh);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
