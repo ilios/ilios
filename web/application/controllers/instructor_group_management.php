@@ -223,7 +223,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                         $rhett['error'] = "There was a database deadlock exception.";
                     }
 
-                    $this->failTransaction($transactionRetryCount, $failedTransaction, $this->instructorGroup);
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->instructorGroup);
 
                 } else {
                     $rhett['container_number'] = $containerNumber;
@@ -309,7 +309,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->instructorGroup);
             }
             else {
@@ -323,7 +323,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
                     $rhett['error'] = $msg;
 
-                    $this->failTransaction($transactionRetryCount, $failedTransaction,
+                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                            $this->instructorGroup);
                 }
                 else {
@@ -387,7 +387,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                 $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             }
             else {
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->instructorGroup);
             }
         }
@@ -454,7 +454,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                 $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
             } else {
                 $rhett['error'] = $this->languagemap->getI18NString('general.error.fatal', $lang);
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->instructorGroup);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->instructorGroup);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -516,7 +516,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
             else {
                 $rhett['error'] = $result;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->instructorGroup);
             }
         }

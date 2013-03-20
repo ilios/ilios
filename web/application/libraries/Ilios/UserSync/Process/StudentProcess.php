@@ -29,11 +29,10 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
 
     /**
      * Constructor.
-     * @param Ilios_UserSync_UserSource $source
-     * @param User $userModel
-     * @param School $schoolModel
+     * @param Ilios_UserSync_UserSource $userSource
+     * @param User $userDao
+     * @param School $schoolDao
      * @param User_Sync_Exception $syncExceptionDao
-     * @param array $config process configuration
      */
     public function __construct (Ilios_UserSync_UserSource $userSource, User $userDao,
                                     School $schoolDao, User_Sync_Exception $syncExceptionDao)
@@ -74,9 +73,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
         // ----------------------
         try {
             // counters
-            $externalStudentsCount = 0;
             $addedStudentsCount = 0;
-            $disabledStudentsCount = 0;
             $updatedStudentsCount = 0;
 
             // get all student users from the external user source
@@ -198,7 +195,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             $this->_userDao->startTransaction();
             $this->_userDao->clearUsersExaminedBit(true);
             if ($this->_userDao->transactionAtomFailed()) {
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->_userDao);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->_userDao);
             } else {
                 $failedTransaction = false;
                 $this->_userDao->commitTransaction();
@@ -288,6 +285,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * @param int $processId
      * @param Ilios_Logger $logger
      * @return int the total number of students that got disabled
+     * @throws Ilios_UserSync_Process_UserException
      */
     protected function _processUnexaminedStudents ($processId, Ilios_Logger $logger)
     {

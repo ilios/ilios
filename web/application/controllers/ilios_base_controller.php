@@ -189,16 +189,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
     }
 
     /**
-     * @deprecated
-     * Use Ilios_Database_TransactionHelper::failTransaction() instead.
-     * @see Ilios_Database_TransactionHelper::failTransaction()
-     */
-    protected function failTransaction (&$transactionRetryCount, &$failedTransaction, $model)
-    {
-        Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $model);
-    }
-
-    /**
      * @todo add code docs
      */
     protected function populateI18NStringsForContentContainerGenerator (&$data, $lang)

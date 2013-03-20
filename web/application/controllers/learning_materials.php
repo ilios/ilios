@@ -103,7 +103,7 @@ class Learning_Materials extends Ilios_Web_Controller
             else {
                 $rhett['error'] = $error;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->learningMaterial);
             }
         }
@@ -212,7 +212,7 @@ class Learning_Materials extends Ilios_Web_Controller
             if (! $success) {
                 $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
                 $rhett['error'] = $msg;
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->learningMaterial);
             } else {
                 $failedTransaction = false;
@@ -312,7 +312,7 @@ class Learning_Materials extends Ilios_Web_Controller
                 $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
                 $rhett['error'] = $msg;
 
-                $this->failTransaction($transactionRetryCount, $failedTransaction,
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->learningMaterial);
             } else {
                 $failedTransaction = false;
@@ -514,7 +514,7 @@ class Learning_Materials extends Ilios_Web_Controller
                         $lang = $this->getLangToUse();
 
                         $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
-                        $this->failTransaction($transactionRetryCount, $failedTransaction, $this->learningMaterial);
+                        Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->learningMaterial);
                     } else {
                         $failedTransaction = false;
 
