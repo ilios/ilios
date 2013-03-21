@@ -167,14 +167,16 @@ class Ilios_Hooks
         }
 
         // check if the user in the shib session has changed
-        // since login
-        // if so, then we will remove the username from the session.
-        // this will force re-authentication further downstream.
+        // since login.
+        // if so, then destroy the session and redirect to itself.
         $inner = $ci->session->userdata('_shib_attr');
         $outer = $_SERVER[$key];
         if ($inner !== $outer) {
             log_message('debug', 'User in Shibboleth session has changed, invalidating Ilios user session.');
-            $ci->session->unset_userdata('username');
+            $this->session->sess_destroy();
+            $url = $_SERVER['QUERY_STRING'] ? current_url() . '?' . $_SERVER['QUERY_STRING'] : current_url();
+            $this->output->set_header("Location: " . $url);
+            exit;
         }
     }
 }
