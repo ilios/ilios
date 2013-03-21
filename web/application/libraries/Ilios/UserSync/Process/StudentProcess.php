@@ -198,7 +198,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             $this->_userDao->startTransaction();
             $this->_userDao->clearUsersExaminedBit(true);
             if ($this->_userDao->transactionAtomFailed()) {
-                $this->failTransaction($transactionRetryCount, $failedTransaction, $this->_userDao);
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->_userDao);
             } else {
                 $failedTransaction = false;
                 $this->_userDao->commitTransaction();
