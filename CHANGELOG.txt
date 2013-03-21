@@ -1,4 +1,17 @@
 ------- VERSION CHANGES --------
+
+Version 2.2.1
+
+Feature Changes:
+
+Feature #3278: changed application defaults for storing client-side session state from permanent- to session-cookies
+
+Bug Fixes:
+
+Bug #3272: fixed broken code in UCSF user synchronization process
+
+---
+
 Version 2.2
 
 Feature Changes:
@@ -363,22 +376,22 @@ Among the items included in this release are a numerous minor UI modifications, 
 
 New Features:
 
-•	Management Console to allow for permissions assignment.
-•	Provide granular control over the publishing workflow for courses and sessions with pre-publishing checklists.
-•	Provide archiving controls to allow for the locking and filing of past curriculum.
-•	Provide controls to allow for multi-school lists such as competency domains.
+ï¿½	Management Console to allow for permissions assignment.
+ï¿½	Provide granular control over the publishing workflow for courses and sessions with pre-publishing checklists.
+ï¿½	Provide archiving controls to allow for the locking and filing of past curriculum.
+ï¿½	Provide controls to allow for multi-school lists such as competency domains.
 
 Major fixes:
 
-•	#2.0.0b-16: Corrects a display issue where on initial page load after a calendar transaction, the session would display an incorrect number of associated offerings.
-•	#2.0.0b-17: Corrects a bug where not all session learning objectives were visible if there were gaps in the competency/objective  structure.
-•	#2.0.0b-18: Corrects an error where changes in the course level were not saved.
-•	#2.0.0b-19: Provides for the automatic rollover of program objective from one program year to the next.
-•	#2.0.0b-20: Provides for the same one-click workflow of program objectives as exists for course/session.
-•	#2.0.0b-30/36: Fix for an issue where learning materials failed to load to the server or associate with curricular data.
-•	#2.0.0b-35: Corrects a display error for quotes encoding when copied from MS Word.
-•	#2.0.0b-39: Corrects a labeling error on calendar display panel
-•	#2.0.0b-40: Corrects an issue where in certain circumstances when using the recurring events tool, the system would generate an unresolved deadlock.
-•	#2.0.0b-43: modify group selector tree to allow for multiple year selection.
-•	#2.0.0b-xxx: increase in allowable course name length.
-•	#2.0.0b-xxx: address a timezone-related bug where, although the server data was correct, the client side was showing dates for events as the following day if the client machine's local clock was not in UTC
+ï¿½	#2.0.0b-16: Corrects a display issue where on initial page load after a calendar transaction, the session would display an incorrect number of associated offerings.
+ï¿½	#2.0.0b-17: Corrects a bug where not all session learning objectives were visible if there were gaps in the competency/objective  structure.
+ï¿½	#2.0.0b-18: Corrects an error where changes in the course level were not saved.
+ï¿½	#2.0.0b-19: Provides for the automatic rollover of program objective from one program year to the next.
+ï¿½	#2.0.0b-20: Provides for the same one-click workflow of program objectives as exists for course/session.
+ï¿½	#2.0.0b-30/36: Fix for an issue where learning materials failed to load to the server or associate with curricular data.
+ï¿½	#2.0.0b-35: Corrects a display error for quotes encoding when copied from MS Word.
+ï¿½	#2.0.0b-39: Corrects a labeling error on calendar display panel
+ï¿½	#2.0.0b-40: Corrects an issue where in certain circumstances when using the recurring events tool, the system would generate an unresolved deadlock.
+ï¿½	#2.0.0b-43: modify group selector tree to allow for multiple year selection.
+ï¿½	#2.0.0b-xxx: increase in allowable course name length.
+ï¿½	#2.0.0b-xxx: address a timezone-related bug where, although the server data was correct, the client side was showing dates for events as the following day if the client machine's local clock was not in UTC
