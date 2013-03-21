@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once 'ilios_web_controller.php';
+require_once 'ilios_base_controller.php';
 
 /**
  * @package Ilios
@@ -10,7 +10,7 @@ require_once 'ilios_web_controller.php';
  *
  * @todo This class should be sensitive to repeated failed authentication attempts.
  */
-class Authentication_Controller extends Ilios_Web_Controller
+class Authentication_Controller extends Ilios_Base_Controller
 {
     /**
      * Authentication subsystem name.
@@ -23,6 +23,8 @@ class Authentication_Controller extends Ilios_Web_Controller
     public function __construct ()
     {
         parent::__construct();
+
+        $this->load->library('session');
 
         $this->load->model('Authentication', 'authentication', TRUE);
         $this->load->model('User', 'user', TRUE);
@@ -192,10 +194,13 @@ class Authentication_Controller extends Ilios_Web_Controller
         } else {
             $emailAddress = "illegal_em4!l_addr3ss";
             $shibbUserIdAttribute = $this->config->item('ilios_authentication_shibboleth_user_id_attribute');
+            $shibbSessionUserKey = $this->config->item('ilios_authentication_shibboleth_user_session_constant');
             $shibUserId = array_key_exists($shibbUserIdAttribute, $_SERVER) ? $_SERVER[$shibbUserIdAttribute] : null; // passed in by Shibboleth
+            $shibUserKey = array_key_exists($shibbSessionUserKey, $_SERVER) ? $_SERVER[$shibbSessionUserKey] : null; // passed in by Shibboleth
             if (! empty($shibUserId)) {
                 $emailAddress = $shibUserId;
             }
+
 
             $authenticatedUsers = $this->user->getEnabledUsersWithEmailAddress($emailAddress);
             $userCount = count($authenticatedUsers);
@@ -226,7 +231,8 @@ class Authentication_Controller extends Ilios_Web_Controller
                         'login' => $now,
                         'last' => $now,
                         'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
-                        'display_last' => date('F j, Y G:i T', $now)
+                        'display_last' => date('F j, Y G:i T', $now),
+                        '_shib_attr' => $shibUserKey
                     );
                     $this->session->set_userdata($sessionData);
                     $this->session->set_flashdata('logged_in', 'jo');

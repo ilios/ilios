@@ -20,6 +20,15 @@ $hook['pre_system'][] = array(
     'filepath' => 'hooks/Ilios'
 );
 
+
+// detect shib user session change and destroy current ilios user session if neccesary.
+$hook['post_controller_constructor'][] = array(
+    'class' => 'Ilios_Hooks',
+    'function' => 'checkShibbolethSession',
+    'filename' => 'Hooks.php',
+    'filepath' => 'hooks/Ilios'
+);
+
 // register authentication check as post-controller-constructor hook
 $hook['post_controller_constructor'][] = array(
     'class' => 'Ilios_Hooks',

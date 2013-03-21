@@ -98,6 +98,7 @@ class Ilios_Hooks
         // 2. enforce an authenticated user session for all other requests
         //
         $ci->load->library('session');
+
         if (! $ci->session->userdata('username')) {
             // Handle XHR request:
             // Prints a JSON-formatted array with a generic, i18ned "not logged in" error message,
@@ -131,6 +132,47 @@ class Ilios_Hooks
 
             // redirect request to the authentication controller.
             redirect('authentication_controller');
+        }
+    }
+
+    public function checkShibbolethSession ()
+    {
+
+        $ci =& get_instance();
+
+        // cli mode, move on.
+        if ($ci->input->is_cli_request()) {
+            return;
+        }
+
+        // not running on shibboleth authentication.
+        if ('shibboleth' !== $ci->config->item('ilios_authentication')) {
+            return;
+        }
+
+        $key = $ci->config->item('ilios_authentication_shibboleth_user_session_constant');
+
+        // the attribute was not passed.
+        // this may happen if we the requested path is white-listed in the shibd config,
+        // or if there is no shib session.
+        if (! array_key_exists($key, $_SERVER)) {
+            return;
+        }
+
+        // must have a user session in ilios.
+        // if not, move on.
+        if (! isset($ci->session)) {
+            return;
+        }
+
+        // check if the user in the shib session has changed
+        // since login
+        // if so, then we will remove the username from the session.
+        // this will force re-authentication further downstream.
+        $inner = $ci->session->userdata('_shib_attr');
+        $outer = $_SERVER[$key];
+        if ($inner !== $outer) {
+            $ci->session->unset_userdata('username');
         }
     }
 }
