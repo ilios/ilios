@@ -63,12 +63,28 @@ class Authentication_Controller extends Ilios_Base_Controller
      */
     public function _remap ($method, $params = array())
     {
+        // route index/login/lgout actions to the
+        // corresponding authn-specific method and call it.
         if (in_array($method, array('index', 'login', 'logout'))) {
             $fn = '_' . $this->_authn . '_' . $method;
-        } else {
-            $fn = $method;
+            return call_user_func_array(array($this, $fn), $params);
         }
-        return call_user_func_array(array($this, $fn), $params);
+
+        // security stop!
+        // check if the requested method is public
+        // if not then serve up a 403/VERBOTEN!
+        $rm = new ReflectionMethod($this, $method);
+        if (! $rm->isPublic()) {
+            header('HTTP/1.1 403 Forbidden');
+            exit;
+        }
+
+        // public method - this is an "action". invoke it.
+        return call_user_func_array(array($this, $method), $params);
+
+
+
+
     }
 
     /**
