@@ -5,6 +5,7 @@ Version 2.2.1
 Feature Changes:
 
 Feature #3278: changed application defaults for storing client-side session state from permanent- to session-cookies
+Feature #3288: update the color coding of session types
 
 Bug Fixes:
 
