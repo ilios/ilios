@@ -315,21 +315,21 @@
 .dhx_cal_event.discussion-large .dhx_body,
 .dhx_wa_ev_body.discussion-large,
 .session-type-legend.discussion-large {
-  background-color: #ffffff;
+  background-color: #00cc65;
 }
 
 .dhx_cal_event_clear.team-building,
 .dhx_cal_event.team-building .dhx_body,
 .dhx_wa_ev_body.team-building,
 .session-type-legend.team-building {
-  background-color: #ffffff;
+  background-color: #fe7a78;
 }
 
 .dhx_cal_event_clear.simulation,
 .dhx_cal_event.simulation .dhx_body,
 .dhx_wa_ev_body.simulation,
 .session-type-legend.simulation {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 
 .dhx_cal_event_clear.case-based-instruction,
@@ -366,13 +366,13 @@
 .dhx_cal_event.learner-patient-presentation .dhx_body,
 .dhx_wa_ev_body.learner-patient-presentation,
 .session-type-legend.learner-patient-presentation {
-  background-color: #ffffff;
+  background-color: #32edfc;
 }
 .dhx_cal_event_clear.faculty-patient-presentation,
 .dhx_cal_event.faculty-patient-presentation .dhx_body,
 .dhx_wa_ev_body.faculty-patient-presentation,
 .session-type-legend.faculty-patient-presentation {
-  background-color: #ffffff;
+  background-color: #32edfc;
 }
 .dhx_cal_event_clear.peer-teaching,
 .dhx_cal_event.peer-teaching .dhx_body,
@@ -411,7 +411,7 @@
 .dhx_cal_event.service-learning-activity .dhx_body,
 .dhx_wa_ev_body.service-learning-activity,
 .session-type-legend.service-learning-activity {
-  background-color: #ffffff;
+  background-color: #dddddd;
 }
 
 .dhx_cal_event_clear.holiday,
