@@ -212,9 +212,7 @@ class Authentication_Controller extends Ilios_Base_Controller
         } else {
             $emailAddress = "illegal_em4!l_addr3ss";
             $shibbUserIdAttribute = $this->config->item('ilios_authentication_shibboleth_user_id_attribute');
-            $shibbSessionUserKey = $this->config->item('ilios_authentication_shibboleth_user_session_constant');
             $shibUserId = array_key_exists($shibbUserIdAttribute, $_SERVER) ? $_SERVER[$shibbUserIdAttribute] : null; // passed in by Shibboleth
-            $shibUserKey = array_key_exists($shibbSessionUserKey, $_SERVER) ? $_SERVER[$shibbSessionUserKey] : null; // passed in by Shibboleth
             if (! empty($shibUserId)) {
                 $emailAddress = $shibUserId;
             }
@@ -249,8 +247,7 @@ class Authentication_Controller extends Ilios_Base_Controller
                         'login' => $now,
                         'last' => $now,
                         'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
-                        'display_last' => date('F j, Y G:i T', $now),
-                        '_shib_attr' => $shibUserKey
+                        'display_last' => date('F j, Y G:i T', $now)
                     );
                     $this->session->set_userdata($sessionData);
                     $this->session->set_flashdata('logged_in', 'jo');

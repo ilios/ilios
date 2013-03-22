@@ -116,13 +116,9 @@ $config['ilios_authentication_internal_auth_salt'] = null;
 |
 | ['ilios_authentication_shibboleth_logout_path']
 |     Absolute path to the Shibboleth Logout Service location.
-| ['ilios_authentication_shibboleth_user_session_constant']
-|     Name of an attribute in the shibboleth session that is unique to the user.
-|     Will be used to detect a user change in the "outer" shibboleth session.
 */
 $config['ilios_authentication_shibboleth_user_id_attribute'] = 'mail';
 $config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout';
-$config['ilios_authentication_shibboleth_user_session_constant'] = 'eppn';
 /*
  |--------------------------------------------------------------------------
  | Scheduled Task configuration
