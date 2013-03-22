@@ -70,21 +70,23 @@ class Authentication_Controller extends Ilios_Base_Controller
             return call_user_func_array(array($this, $fn), $params);
         }
 
+        // check if method exists
+        if (! method_exists($this, $method)) {
+            show_404();
+            return;
+        }
+
         // security stop!
         // check if the requested method is public
         // if not then serve up a 403/VERBOTEN!
         $rm = new ReflectionMethod($this, $method);
         if (! $rm->isPublic()) {
             header('HTTP/1.1 403 Forbidden');
-            exit;
+            return;
         }
 
         // public method - this is an "action". invoke it.
         return call_user_func_array(array($this, $method), $params);
-
-
-
-
     }
 
     /**
