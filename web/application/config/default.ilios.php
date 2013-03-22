@@ -119,7 +119,6 @@ $config['ilios_authentication_internal_auth_salt'] = null;
 */
 $config['ilios_authentication_shibboleth_user_id_attribute'] = 'mail';
 $config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout';
-
 /*
  |--------------------------------------------------------------------------
  | Scheduled Task configuration

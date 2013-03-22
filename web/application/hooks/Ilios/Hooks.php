@@ -75,13 +75,18 @@ class Ilios_Hooks
             return;
         }
 
-        // 1b. no authentication if Ilios runs in "test" mode.
+        // 1b. pass through requests to controllers that don't support user sessions
+        if (! isset($ci->session)) {
+            return;
+        }
+
+        // 1c. no authentication if Ilios runs in "test" mode.
         if ((array_key_exists('ILIOS_ENVIRONMENT', $_ENV)
             && 'test' == $_ENV['ILIOS_ENVIRONMENT'])) {
             return;
         }
 
-        // 1c. white-list certain controller/action combinations.
+        // 1d. white-list certain controller/action combinations.
         if ('getI18NJavascriptVendor' === $action) { // always, from all controllers
             return;
         }
@@ -94,10 +99,7 @@ class Ilios_Hooks
             return;
         }
 
-        //
-        // 2. enforce an authenticated user session for all other requests
-        //
-        $ci->load->library('session');
+        // 2. handle unauthenticated user sessions
         if (! $ci->session->userdata('username')) {
             // Handle XHR request:
             // Prints a JSON-formatted array with a generic, i18ned "not logged in" error message,

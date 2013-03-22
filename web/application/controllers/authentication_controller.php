@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once 'ilios_web_controller.php';
+require_once 'ilios_base_controller.php';
 
 /**
  * @package Ilios
@@ -10,7 +10,7 @@ require_once 'ilios_web_controller.php';
  *
  * @todo This class should be sensitive to repeated failed authentication attempts.
  */
-class Authentication_Controller extends Ilios_Web_Controller
+class Authentication_Controller extends Ilios_Base_Controller
 {
     /**
      * Authentication subsystem name.
@@ -23,6 +23,8 @@ class Authentication_Controller extends Ilios_Web_Controller
     public function __construct ()
     {
         parent::__construct();
+
+        $this->load->library('session');
 
         $this->load->model('Authentication', 'authentication', TRUE);
         $this->load->model('User', 'user', TRUE);
@@ -61,12 +63,30 @@ class Authentication_Controller extends Ilios_Web_Controller
      */
     public function _remap ($method, $params = array())
     {
+        // route index/login/lgout actions to the
+        // corresponding authn-specific method and call it.
         if (in_array($method, array('index', 'login', 'logout'))) {
             $fn = '_' . $this->_authn . '_' . $method;
-        } else {
-            $fn = $method;
+            return call_user_func_array(array($this, $fn), $params);
         }
-        return call_user_func_array(array($this, $fn), $params);
+
+        // check if method exists
+        if (! method_exists($this, $method)) {
+            show_404();
+            return;
+        }
+
+        // security stop!
+        // check if the requested method is public
+        // if not then serve up a 403/VERBOTEN!
+        $rm = new ReflectionMethod($this, $method);
+        if (! $rm->isPublic()) {
+            header('HTTP/1.1 403 Forbidden');
+            return;
+        }
+
+        // public method - this is an "action". invoke it.
+        return call_user_func_array(array($this, $method), $params);
     }
 
     /**
@@ -196,6 +216,7 @@ class Authentication_Controller extends Ilios_Web_Controller
             if (! empty($shibUserId)) {
                 $emailAddress = $shibUserId;
             }
+
 
             $authenticatedUsers = $this->user->getEnabledUsersWithEmailAddress($emailAddress);
             $userCount = count($authenticatedUsers);
