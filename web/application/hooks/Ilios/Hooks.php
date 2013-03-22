@@ -136,6 +136,11 @@ class Ilios_Hooks
         }
     }
 
+    /**
+     * This post-controller-construct hook detects user change in the global/shibboleth session.
+     * If the user that is logged in globally does not match the user in the application session,
+     * then the application session will be destroyed and a redirect to the requested URL is issued.
+     */
     public function checkShibbolethSession ()
     {
 
@@ -166,16 +171,25 @@ class Ilios_Hooks
             return;
         }
 
+        // get the unique shib-session user attribute
+        // that was stored in the application session
+        // on log-in
+        $inner = $ci->session->userdata('_shib_attr');
+
+        // sanity check
+        if (false === $inner) {
+            return;
+        }
+
         // check if the user in the shib session has changed
         // since login.
-        // if so, then destroy the session and redirect to itself.
-        $inner = $ci->session->userdata('_shib_attr');
+        // if so, then destroy the application session and redirect to request to itself.
         $outer = $_SERVER[$key];
         if ($inner !== $outer) {
             log_message('debug', 'User in Shibboleth session has changed, invalidating Ilios user session.');
-            $this->session->sess_destroy();
+            $ci->session->sess_destroy();
             $url = $_SERVER['QUERY_STRING'] ? current_url() . '?' . $_SERVER['QUERY_STRING'] : current_url();
-            $this->output->set_header("Location: " . $url);
+            redirect($url);
             exit;
         }
     }
