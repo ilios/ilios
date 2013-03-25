@@ -685,18 +685,20 @@ html,body {
     line-height:25px;
     margin:0 20px;
     font-size:.9em;
+    display: inline;
+    float: left;
+}
+
+#viewbar form {
+    display: inline;
+    float: right;
+    margin-right: 20px;
+    padding-top: 1px
 }
 
 #viewbar h1 span {
     color:#999;
     font-weight:normal;
-}
-
-#view-switch {
-    position:absolute;
-    right:20px;
-    top:50%;
-    margin-top:-9px;
 }
 
 #view-switch option {
