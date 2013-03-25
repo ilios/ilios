@@ -299,7 +299,7 @@ $viewsPath = getServerFilePath('views');
         <div class="hd" id="archiving_permissions_dialog_title"></div>
         <div class="bd" style="position: relative;">
             <div class="dialog_wrap" id="ap_dialog_wrap" style="height: 216px;">
-                <form action="of no matter">
+                <form action="#">
                     <div style="padding: 9px; font-weight: bold; position: relative;">
                         <?php echo $i18n->t('preferences.archiving.text', $lang); ?>
                         <div style="margin-top: 24px;">
@@ -508,8 +508,8 @@ $viewsPath = getServerFilePath('views');
     <div class="tabdialog" id="rollover_permissions_dialog">
         <div class="hd" id="rollover_permissions_dialog_title"></div>
         <div class="bd" style="position: relative;">
-            <div class="dialog_wrap" id="ap_dialog_wrap">
-                <form action="of no matter">
+            <div class="dialog_wrap" id="rp_dialog_wrap">
+                <form action="#">
                     <p>
                     <?php echo $i18n->t('preferences.rollover.text', $lang); ?>
                     </p>

@@ -27,7 +27,7 @@ function generateCalendarFiltersFormContent($filtersData, $asDialog = false) {
     $content .= '</div>';
 
     // Body Div
-    $content .= '<div class="bd">' . '<form method="GET" action="">';
+    $content .= '<div class="bd">' . '<form method="GET" action="#">';
 
     $content .= '<div>';
 
