@@ -36,7 +36,7 @@ function generateCalendarFiltersFormContent($filtersData, $asDialog = false) {
     }
 
     // Generate drop down box for academic year
-    $content .= '<span style="float: right; padding-left: 5px;">'.$filtersData['academic_year_title'].'&nbsp';
+    $content .= '<span style="float: right; padding-left: 5px;">'.$filtersData['academic_year_title'].'&nbsp;';
 
     $current_year = date("Y");
     // If current month is before September, set last academic year as default.  We should probably make this
