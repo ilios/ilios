@@ -117,15 +117,13 @@ ilios.utilities.mySQLDateToDateObject = function (mySQLDateString, valueIsUTC) {
 };
 
 /**
- * Generates a CSS class name for a given mime-type and file name.
+ * Generates a CSS class name for a given mime-type.
  * @method ilios.utilities.convertMimeTypeToCSSClassName
  * @param {String} mimeType
- * @param {String} fileName
  * @return {String} the CSS class name
  */
-ilios.utilities.convertMimeTypeToCSSClassName = function (mimeType, fileName) {
+ilios.utilities.convertMimeTypeToCSSClassName = function (mimeType) {
     var rhett;
-    fileName = YAHOO.lang.isString(fileName) ? fileName : '';
     mimeType = YAHOO.lang.isString(mimeType) ? mimeType : '';
     rhett = mimeType.replace(new RegExp('/', 'g'), '--');
     return rhett.replace(new RegExp('\\.', 'g'), "__");

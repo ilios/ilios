@@ -354,7 +354,7 @@ ilios.om.inspector.createLIElementForLearningMaterial = function (model) {
 	var downloadWidget = document.createElement('div');
 	var buttonWidgetDiv = document.createElement('div');
 
-	rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType(), model.getFilename()));
+	rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType()));
 	rhett.setAttribute('style', 'position: relative;');
 
 	titleElement.innerHTML = model.getTitle();
