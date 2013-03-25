@@ -6,9 +6,8 @@ function generateCheckboxElementsFromArray( $element_key_and_value_array, $check
 
     if (!empty($element_key_and_value_array)) {
         foreach ($element_key_and_value_array as $key=>$value) {
-            $checkboxid = $checkbox_id_prefix."-".$value."-".$key;
-            $retval .= '<input type="checkbox" value="'.$key.'" id="'.$checkboxid.'" />';
-            $retval .= '<label for="'.$checkboxid.'">'.$value.'</label><br />';
+            $retval .= '<input type="checkbox" value="'. htmlentities($key, ENT_COMPAT, 'UTF-8').'" />';
+            $retval .= '<label>' . htmlentities($value, ENT_COMPAT, 'UTF-8') . '</label><br />';
         }
     }
 
