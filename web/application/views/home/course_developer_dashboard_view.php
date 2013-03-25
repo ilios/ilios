@@ -118,7 +118,6 @@ $viewsPath = getServerFilePath('views');
         <div id="main" role="main">
             <div id="content" class="dashboard clearfix">
                 <h2 class="page-header"><?php echo $page_title_course_developer_string; ?> <span id="page_title"></span></h2>
-
                 <div class="content_container">
                     <div class="column primary clearfix">
                         <h3><?php echo $my_calendar_string; ?></h3>
@@ -285,7 +284,7 @@ $viewsPath = getServerFilePath('views');
                         </div>
                     </div><!-- end .secondary -->
                 </div> <!-- end .dashboard -->
-
+            </div>
         </div>
     </div>
     <footer>

@@ -114,8 +114,7 @@ $viewsPath = getServerFilePath('views');
         <div id="main" role="main">
             <div id="content" class="dashboard clearfix">
                 <h2 class="page-header"><?php echo $page_title_student_string; ?> <span id="page_title"></span></h2>
-                <div class="content_container">
-                    <div class="column primary clearfix">
+                <div class="content_container full-width">
                         <h3><?php echo $my_calendar_string; ?></h3>
 <?php
     if (!$render_headerless && $show_view_switch) :
@@ -167,10 +166,6 @@ $viewsPath = getServerFilePath('views');
                             <div class="dhx_cal_header"></div>
                             <div class="dhx_cal_data" id="dhx_cal_data"></div>
                         </div>
-                    </div><!--end .primary.column -->
-
-                    <div class="column secondary clearfix">
-                    </div><!--end .secondary.column -->
                 </div><!--end .content_container -->
             </div>
         </div>

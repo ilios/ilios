@@ -107,64 +107,59 @@ $viewsPath = getServerFilePath('views');
         </header>
         <div id="main" class="headless" role="main">
             <div id="content" class="dashboard clearfix">
-                <div class="content_container">
-                    <div class="column primary clearfix">
-                        <h3><?php echo $my_calendar_string; ?></h3>
+                <div class="content_container full-width">
+                    <h3><?php echo $my_calendar_string; ?></h3>
 <?php
-    if (!$render_headerless && $show_view_switch) :
+if (!$render_headerless && $show_view_switch) :
 ?>
-                                    <a href="<?php echo $controllerURL; ?>/switchView?preferred_view=instructor" id="role_switch" class="tiny secondary radius button">
-                                        <?php echo $switch_to_instructor_view_string; ?>
-                                    </a>
+                                <a href="<?php echo $controllerURL; ?>/switchView?preferred_view=instructor" id="role_switch" class="tiny secondary radius button">
+                                    <?php echo $switch_to_instructor_view_string; ?>
+                                </a>
 <?php
-    endif;
+endif;
 ?>
-                        <div class="calendar_tools clearfix">
-                           <?php include $viewsPath . 'common/progress_div.php';
-                                echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;');
-                           ?>
-                            <ul class="buttons right">
-                                <li>
-                                    <span id="calendar_filters_btn" title="<?php echo $calendar_filters_title; ?>" class="medium radius button">
-                                        <span class="icon-search icon-alone"></span>
-                                        <span class="screen-reader-text"><?php echo $calendar_filters_btn; ?></span>
-                                    </span>
-                                </li>
-                                <li>
-                                    <a href="<?php echo $siteUrl; ?>/calendar_exporter/exportICalendar/student" class="medium radius button" title="<?php echo $ical_download_title; ?>">
-                                        <span class="icon-download icon-alone"></span>
-                                        <span class="screen-reader-text"><?php echo $ical_download_button; ?></span>
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="calendar_tools clearfix">
+                       <?php include $viewsPath . 'common/progress_div.php';
+                            echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;');
+                       ?>
+                        <ul class="buttons right">
+                            <li>
+                                <span id="calendar_filters_btn" title="<?php echo $calendar_filters_title; ?>" class="medium radius button">
+                                    <span class="icon-search icon-alone"></span>
+                                    <span class="screen-reader-text"><?php echo $calendar_filters_btn; ?></span>
+                                </span>
+                            </li>
+                            <li>
+                                <a href="<?php echo $siteUrl; ?>/calendar_exporter/exportICalendar/student" class="medium radius button" title="<?php echo $ical_download_title; ?>">
+                                    <span class="icon-download icon-alone"></span>
+                                    <span class="screen-reader-text"><?php echo $ical_download_button; ?></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="calendar_filters_breadcrumb_block">
+                        <div class="calendar_filter_titlebar">
+                            <span id="calendar_filters_clear_search_link" class="icon-cancel" title="<?php echo $calendar_clear_search_filters; ?>"></span>
+                            <span class="calendar_filters_breadcrumb_title"> <?php echo $calendar_search_mode_title; ?> : </span>
                         </div>
-                        <div id="calendar_filters_breadcrumb_block">
-                            <div class="calendar_filter_titlebar">
-                                <span id="calendar_filters_clear_search_link" class="icon-cancel" title="<?php echo $calendar_clear_search_filters; ?>"></span>
-                                <span class="calendar_filters_breadcrumb_title"> <?php echo $calendar_search_mode_title; ?> : </span>
-                            </div>
-                            <span id="calendar_filters_breadcrumb_content"></span>
+                        <span id="calendar_filters_breadcrumb_content"></span>
+                    </div>
+                    <div id="dhtmlx_scheduler_container" class="dhx_cal_container">
+                        <div class="dhx_cal_navline">
+                            <div class="dhx_cal_prev_button">&nbsp;</div>
+                            <div class="dhx_cal_next_button">&nbsp;</div>
+                            <div class="dhx_cal_today_button"></div>
+                            <div class="dhx_cal_date"></div>
+                            <div class="dhx_cal_tab day_tab" name="day_tab"></div>
+                            <div class="dhx_cal_tab week_tab" name="week_tab"></div>
+                            <div class="dhx_cal_tab month_tab" name="month_tab"></div>
+                            <div class="dhx_cal_tab week_agenda_tab" name="week_agenda_tab"></div>
                         </div>
-                        <div id="dhtmlx_scheduler_container" class="dhx_cal_container">
-                            <div class="dhx_cal_navline">
-                                <div class="dhx_cal_prev_button">&nbsp;</div>
-                                <div class="dhx_cal_next_button">&nbsp;</div>
-                                <div class="dhx_cal_today_button"></div>
-                                <div class="dhx_cal_date"></div>
-                                <div class="dhx_cal_tab day_tab" name="day_tab"></div>
-                                <div class="dhx_cal_tab week_tab" name="week_tab"></div>
-                                <div class="dhx_cal_tab month_tab" name="month_tab"></div>
-                                <div class="dhx_cal_tab week_agenda_tab" name="week_agenda_tab"></div>
-                            </div>
-                            <div class="dhx_cal_header"></div>
-                            <div class="dhx_cal_data" id="dhx_cal_data"></div>
-                        </div>
-                    </div><!--end .primary.column -->
-
-                    <div class="column secondary clearfix">
-                    </div><!--end .secondary.column -->
-                </div><!--end .content_container -->
-	     </div>
+                        <div class="dhx_cal_header"></div>
+                        <div class="dhx_cal_data" id="dhx_cal_data"></div>
+                    </div>
+                </div>
+             </div>
         </div>
     </div>
     <footer>
