@@ -143,49 +143,7 @@ ilios.home.calendar.calendarEventSelected = function (eventId, domEventElement) 
         scheduler.setCurrentView(schedulerEvent.iliosModel.getStartDate(), 'day');
         return true;
     }
-
-    if (pageLoadedForStudent || isCalendarView) {
-        if (ilios.home.calendar.currentlySelectedIliosModel != null) {
-            if (ilios.home.calendar.currentlySelectedIliosModel == iliosModel) {
-                ilios.home.calendar.togglePanel('dashboard_inspector_content', true);
-                return true;
-            }
-
-            ilios.home.calendar.currentlySelectedIliosModel.isSelected = false;
-            scheduler.updateEvent(ilios.home.calendar.currentlySelectedIliosModel.calendarEventId);
-        }
-
-        ilios.home.calendar.currentlySelectedIliosModel = iliosModel;
-        ilios.home.calendar.currentlySelectedIliosModel.isSelected = true;
-        ilios.home.calendar.currentlySelectedIliosModel.calendarEventId = eventId;
-
-        if (iliosModel.isIndependentLearningEvent()) {
-            ilios.learner_view.loadSILMDetailsIntoDivContainer(iliosModel.getSessionId(),
-                document.getElementById(
-                'dashboard_inspector_content'),
-                true);
-
-        } else {
-            ilios.learner_view.loadOfferingDetailsIntoDivContainer(iliosModel.getOfferingId(),
-                                           document.getElementById(
-                                           'dashboard_inspector_content'),
-                                           true);
-        }
-
-        if (ilios.home.calendar.lastModeUsedInAddingEvents != 'month') {
-            scheduler.updateEvent(eventId);
-        } else {
-            // known DHTMLX scheduler bug when laying out custom events in month view; was supposed to
-            //      be fixed for 2.1, though we're using 2.2 and it's still gefickt
-            //  http://forum.dhtmlx.com/viewtopic.php?f=6&t=3435&p=10223&hilit=updateEvent#p10223
-            scheduler.render_view_data();
-        }
-        ilios.home.calendar.hideSiblingPanels("dashboard_inspector_content");
-        YAHOO.util.Dom.get("dashboard_inspector_content").style.display = "";
-    } else {
-        IEvent.fire({action: 'lv_dialog_open', model: iliosModel});
-    }
-
+    IEvent.fire({action: 'lv_dialog_open', model: iliosModel});
     return false;
 };
 
@@ -935,4 +893,68 @@ ilios.home.calendar.clearCalendarFilters = function () {
     }
 
     ilios.home.transaction.loadAllOfferings();
+};
+
+/**
+ * ============================================================================
+ * "calendar event details" dialog support
+ * ============================================================================
+ */
+
+/**
+ * Event handler function.
+ * @method assembleCalendarEventDetailsDialog
+ * @param {String} type
+ * @param {Array} args
+ * @param {Object} me
+ * @todo improve code docs
+ */
+ilios.home.calendar.assembleCalendarEventDetailsDialog = function (type, args, me) {
+    var handleCancel = function () {
+        this.cancel();
+    };
+    var doneStr = ilios_i18nVendor.getI18NString("general.terms.done");
+    var buttonArray = [
+        {text: doneStr, handler: handleCancel, isDefault: true}
+    ];
+    var panelWidth = "538px";
+    var displayOnTriggerHandler = null;
+    var dialog = new YAHOO.widget.Dialog('calendar_event_details_dialog', {
+        width: panelWidth,
+        modal: true,
+        visible: false,
+        constraintoviewport: false,
+        buttons: buttonArray
+    });
+
+    dialog.showDialogPane = function () {
+        dialog.center();
+        dialog.show();
+    };
+
+    dialog.setHeader(ilios_i18nVendor.getI18NString("dashboard.event_details"));
+    // Render the Dialog
+    dialog.render();
+
+    // register a listener on some page element to trigger the display of this popup dialog
+    displayOnTriggerHandler = function (type, handlerArgs) {
+        if (handlerArgs[0].action == 'lv_dialog_open') {
+            var model = handlerArgs[0].model;
+            var container = document.getElementById('learner_view_content_div');
+
+            ilios.ui.renderIndeterminateInView(container);
+
+            dialog.showDialogPane();
+
+            if (model.isIndependentLearningEvent()) {
+                ilios.learner_view.loadSILMDetailsIntoDivContainer(model.sessionId, container, false);
+            } else {
+                ilios.learner_view.loadOfferingDetailsIntoDivContainer(model.offeringId, container, false);
+            }
+        }
+    };
+
+    IEvent.subscribe(displayOnTriggerHandler);
+
+    ilios.learner_view.learnerViewDialog = dialog; // overwrite!
 };

@@ -165,16 +165,6 @@ $viewsPath = getServerFilePath('views');
                             <input type="text" name="search_ilios_text" id="search_ilios_text" style="width: 200px; margin-bottom: 6px;" /><br />
                             <a href="" onclick="return false;" style="font-size: 9pt;"><?php echo $phrase_advanced_search_string; ?></a>
                         </div>
-
-                        <div id="dashboard_calendar_filters_content">
-<?php
-    require_once $viewsPath .'common/calendar_filters_include.php';
-    echo generateCalendarFiltersFormContent($calendar_filters_data);
-?>
-                        </div>
-
-                        <div id="dashboard_inspector_content"></div>
-
                     </div><!--end .secondary.column -->
                 </div><!--end .content_container -->
 	     </div>
@@ -186,9 +176,30 @@ $viewsPath = getServerFilePath('views');
 
     <!-- overlays at the bottom - avoid z-index issues -->
     <div id="view-menu"></div>
+    <!-- start dialog tabs -->
 <?php
     include $viewsPath . 'common/course_summary_view_include.php';
+    include $viewsPath . 'common/calendar_filters_include.php';
 ?>
+    <div class="tabdialog" id="calendar_filters_dialog">
+        <?php echo generateCalendarFiltersFormContent($calendar_filters_data, true); ?>
+    </div>
+
+    <div class="tabdialog" id="report_competency_pick_dialog"></div>
+
+    <div class="tabdialog" id="calendar_event_details_dialog">
+        <div class="hd"></div>
+        <div class="bd">
+            <div class="dialog_wrap">
+                <form method="get" action="#">
+                    <div id="learner_view_content_div">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="ft"></div>
+    </div> <!-- end #calendar_event_details_dialog -->
+    <!-- end dialog tabs -->
 
     <script type="text/javascript">
         // register alert/inform overrides on window load
@@ -206,6 +217,7 @@ $viewsPath = getServerFilePath('views');
 
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.initCalendar);
         YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadAllOfferings);
+        YAHOO.util.Event.onDOMReady(ilios.home.calendar.assembleCalendarEventDetailsDialog);
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.initFilterHooks);
 
     </script>
