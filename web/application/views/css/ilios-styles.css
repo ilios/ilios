@@ -769,6 +769,18 @@ button {
     margin-bottom: 0;
 }
 
+.dashboard .content_container.full-width {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #EFEFEF;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
 .headless .dashboard .content_container {
     top: 0;
 }
