@@ -913,7 +913,7 @@ ilios.home.report.createLIElementForLearningMaterial = function (model) {
     var descriptionI18NStr = ilios_i18nVendor.getI18NString('general.terms.description');
     var noneI18NStr = ilios_i18nVendor.getI18NString('general.terms.none');
 
-    rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType(), model.getFilename()));
+    rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType()));
     rhett.setAttribute('style', 'position: relative; margin-bottom: 12px;');
 
     innerHTML += '<br/><span style="font-size: 8pt; font-weight: bold;">' + descriptionI18NStr;

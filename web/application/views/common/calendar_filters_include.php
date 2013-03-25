@@ -1,14 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function generateCheckboxElementsFromArray( $element_key_and_value_array, $checkbox_id_prefix="checkbox" ) {
+function generateCheckboxElementsFromArray( $element_key_and_value_array) {
 
     $retval = "";
 
     if (!empty($element_key_and_value_array)) {
         foreach ($element_key_and_value_array as $key=>$value) {
-            $checkboxid = $checkbox_id_prefix."-".$value."-".$key;
-            $retval .= '<input type="checkbox" value="'.$key.'" id="'.$checkboxid.'" />';
-            $retval .= '<label for="'.$checkboxid.'">'.$value.'</label><br />';
+            $retval .= '<input type="checkbox" value="'. htmlentities($key, ENT_COMPAT, 'UTF-8').'" />';
+            $retval .= '<label>' . htmlentities($value, ENT_COMPAT, 'UTF-8') . '</label><br />';
         }
     }
 
@@ -27,7 +26,7 @@ function generateCalendarFiltersFormContent($filtersData, $asDialog = false) {
     $content .= '</div>';
 
     // Body Div
-    $content .= '<div class="bd">' . '<form method="GET" action="">';
+    $content .= '<div class="bd">' . '<form method="GET" action="#">';
 
     $content .= '<div>';
 
@@ -36,7 +35,7 @@ function generateCalendarFiltersFormContent($filtersData, $asDialog = false) {
     }
 
     // Generate drop down box for academic year
-    $content .= '<span style="float: right; padding-left: 5px;">'.$filtersData['academic_year_title'].'&nbsp';
+    $content .= '<span style="float: right; padding-left: 5px;">'.$filtersData['academic_year_title'].'&nbsp;';
 
     $current_year = date("Y");
     // If current month is before September, set last academic year as default.  We should probably make this

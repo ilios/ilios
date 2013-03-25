@@ -112,7 +112,7 @@ ul.large li {
 .button.secondary.disabled, .button.secondary.disabled:hover, .button.secondary[disabled]:hover {background-color: #e9e9e9; color: #999;}
 .button.radius { -webkit-border-radius: 3px; -moz-border-radius: 3px; -ms-border-radius: 3px; -o-border-radius: 3px; border-radius: 3px; }
 .button.round { -webkit-border-radius: 1000px; -moz-border-radius: 1000px; -ms-border-radius: 1000px; -o-border-radius: 1000px; border-radius: 1000px; }
-.button.full-width { width: 100%; text-align: center; padding-left: 0 !important; padding-right: !important; }
+.button.full-width { width: 100%; text-align: center; padding-left: 0 !important; padding-right: 0 !important; }
 .button.left-align { text-align: left; text-indent: 12px; }
 .button.disabled, .button[disabled] { opacity: 0.6; cursor: default; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
 .button:not(.secondary):visited {color:#FFF;}
@@ -685,18 +685,20 @@ html,body {
     line-height:25px;
     margin:0 20px;
     font-size:.9em;
+    display: inline;
+    float: left;
+}
+
+#viewbar form {
+    display: inline;
+    float: right;
+    margin-right: 20px;
+    padding-top: 1px
 }
 
 #viewbar h1 span {
     color:#999;
     font-weight:normal;
-}
-
-#view-switch {
-    position:absolute;
-    right:20px;
-    top:50%;
-    margin-top:-9px;
 }
 
 #view-switch option {
@@ -767,6 +769,17 @@ button {
     left: 0;
     right: 0;
     margin-bottom: 0;
+}
+
+.dashboard .content_container.full-width {
+    margin: 0;
+    width: 100%;
+    background: #EFEFEF;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    max-width: 100%;
 }
 
 .headless .dashboard .content_container {
@@ -1447,7 +1460,6 @@ fieldset > .row {
 
 .dhx_cal_container {
     width: 100%;
-    height: 100%;
     border: 1px solid #CCC;
     top: 8em;
     bottom: 0;
