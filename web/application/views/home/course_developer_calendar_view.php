@@ -160,11 +160,6 @@ $viewsPath = getServerFilePath('views');
                         </div>
                     </div><!--end .primary.column -->
                     <div class="column secondary clearfix">
-                        <div style="display: none;">
-                            <label for="search_ilios_text"><?php echo $phrase_search_ilios_string; ?>:</label><br />
-                            <input type="text" name="search_ilios_text" id="search_ilios_text" style="width: 200px; margin-bottom: 6px;" /><br />
-                            <a href="" onclick="return false;" style="font-size: 9pt;"><?php echo $phrase_advanced_search_string; ?></a>
-                        </div>
                     </div><!--end .secondary.column -->
                 </div><!--end .content_container -->
 	     </div>
