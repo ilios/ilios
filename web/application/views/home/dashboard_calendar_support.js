@@ -507,12 +507,12 @@ ilios.home.calendar.initFilterHooks = function () {
 
     if (null != btntoggle) {
         if (null != Dom.get(dialogid)) {
-            var panelWidth = "538px";
             var dialog = new YAHOO.widget.Dialog( dialogid, {
-                width: panelWidth,
+                width: "538px",
                 modal: true,
                 visible: false,
                 constraintoviewport: false,
+                y: 0,
                 buttons: [
                     {
                         text: "Search",
@@ -533,8 +533,8 @@ ilios.home.calendar.initFilterHooks = function () {
             });
 
             dialog.showDialogPane = function() {
-                dialog.center();
-                dialog.show();
+                this.cfg.setProperty("x", Math.floor((YAHOO.util.Dom.getViewportWidth() - 538) / 2));
+                this.show();
             };
 
             dialog.render();
