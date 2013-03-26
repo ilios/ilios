@@ -917,10 +917,10 @@ ilios.home.calendar.assembleCalendarEventDetailsDialog = function (type, args, m
     var buttonArray = [
         {text: doneStr, handler: handleCancel, isDefault: true}
     ];
-    var panelWidth = "538px";
     var displayOnTriggerHandler = null;
     var dialog = new YAHOO.widget.Dialog('calendar_event_details_dialog', {
-        width: panelWidth,
+        width: "538px",
+        y: 0,
         modal: true,
         visible: false,
         constraintoviewport: false,
@@ -928,8 +928,8 @@ ilios.home.calendar.assembleCalendarEventDetailsDialog = function (type, args, m
     });
 
     dialog.showDialogPane = function () {
-        dialog.center();
-        dialog.show();
+        this.cfg.setProperty("x", Math.floor((YAHOO.util.Dom.getViewportWidth() - 538) / 2));
+        this.show();
     };
 
     dialog.setHeader(ilios_i18nVendor.getI18NString("dashboard.event_details"));
