@@ -133,7 +133,7 @@ function generateTopicFilters($filtersData) {
     $content .= '<a class="clear_all_toggle" href="javascript:void(0);" style="display: none;">clear all - </a>';
     $content .= '</span>';
     $content .= '<div id="calendar_filters_topic_session_type_list" class="calendar_filters_checkbox_list" style="height:5em;">';
-    $content .= generateCheckboxElementsFromArray($filtersData['session_type_titles'],"topic-session-type-checkbox");
+    $content .= generateCheckboxElementsFromArray($filtersData['session_type_titles']);
     $content .= '</div><br />';
 
     $content .= 'Show Course Level: ';
@@ -182,7 +182,7 @@ function generateCourseFilters($filtersData) {
     $content .= '<a class="clear_all_toggle" href="javascript:void(0);" style="display: none;">clear all - </a>';
     $content .= '</span>';
     $content .= '<div id="calendar_filters_course_session_type_list" class="calendar_filters_checkbox_list" style="height: 10em;">';
-    $content .= generateCheckboxElementsFromArray($filtersData['session_type_titles'],"course-session-type-checkbox");
+    $content .= generateCheckboxElementsFromArray($filtersData['session_type_titles']);
     $content .= '</div><br />';
 
     $content .= '</div><!-- div-search_by_course_panel -->';
