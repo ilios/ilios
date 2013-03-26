@@ -508,7 +508,7 @@ ilios.course_summary.createListElementForLearnerViewLearningMaterial = function 
     var titleElement = document.createElement(elementType);
     var element = null;
 
-    rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType(), model.getFilename()));
+    rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType()));
     rhett.setAttribute('style', 'position: relative;');
 
     if (model.isRequired()) {

@@ -3,7 +3,7 @@
 <?php
    if (! empty($viewbar_title)) :
 ?>
-    <h1 id="view-current"><?php echo "$viewbar_title" ?>
+    <h1 id="view-current"><?php echo "$viewbar_title" ?></h1>
 <?php
      if (isset($available_schools)) {
 ?>
@@ -25,7 +25,6 @@
 <?php
      }
 ?>
-    </h1>
 <?php
    endif;
 ?>

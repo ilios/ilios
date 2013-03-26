@@ -89,7 +89,7 @@ ilios.cm.lm.createListElementForLearningMaterial = function (model, showAddIcon,
     var isLink = (model.getMimeType() == 'link');
     var isCitation = (model.getMimeType() == 'citation');
 
-    rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType(), model.getFilename()));
+    rhett.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType()));
 
     if (showAddIcon) {
         var innerHTML = model.getTitle();
