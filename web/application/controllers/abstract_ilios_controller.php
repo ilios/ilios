@@ -194,7 +194,6 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
             $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
-
         $offeringId = $this->input->get_post('offering_id');
         $offering = $this->offering->getRowForPrimaryKeyId($offeringId);
         $session = $this->iliosSession->getRowForPrimaryKeyId($offering->session_id);
@@ -202,10 +201,15 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
         $course = $this->course->getRowForPrimaryKeyId($session->course_id);
         $userId = $this->session->userdata('uid');
 
+        $tbd = false;
+        if ("1" === $session->published_as_tbd || "1" == $course->published_as_tbd) {
+            $tbd = true;
+        }
+
+        $rhett['is_tbd'] = $tbd;
         $rhett['course'] = $this->convertStdObjToArray($course);
         $rhett['course_objectives'] = $this->course->getObjectivesForCourse($session->course_id, true);
         $rhett['course_learning_materials'] = $this->learningMaterial->getLearningMaterialsForCourse($session->course_id, true);
-        $rhett['is_tbd'] = ($session->published_as_tbd == '1');
         $rhett['session'] = $this->convertStdObjToArray($session);
         $rhett['session_type'] = $this->convertStdObjToArray($sessionType);
         $rhett['session_objectives'] = $this->iliosSession->getObjectivesForSession($offering->session_id);
@@ -248,10 +252,15 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
         $silm = $this->iliosSession->getRow('ilm_session_facet', 'ilm_session_facet_id', $session->ilm_session_facet_id);
         $userId = $this->session->userdata('uid');
 
+        $tbd = false;
+        if ("1" === $session->published_as_tbd || "1" === $course->published_as_tbd) {
+            $tbd = true;
+        }
+
+        $rhett['is_tbd'] = $tbd;
         $rhett['course'] = $this->convertStdObjToArray($course);
         $rhett['course_objectives'] = $this->course->getObjectivesForCourse($session->course_id, true);
         $rhett['course_learning_materials'] = $this->learningMaterial->getLearningMaterialsForCourse($session->course_id, true);
-        $rhett['is_tbd'] = ($session->published_as_tbd == '1');
         $rhett['session'] = $this->convertStdObjToArray($session);
         $rhett['session_type'] = $this->convertStdObjToArray($sessionType);
         $rhett['session_objectives'] = $this->iliosSession->getObjectivesForSession($sessionId);
