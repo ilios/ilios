@@ -44,19 +44,17 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $schoolId = $this->session->userdata('school_id');
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
 
-        if (isset($schoolRow)) {
-            $data['school_id'] = $schoolId;
-            $data['school_name'] = $schoolRow->title;
-            $key = 'general.phrases.school_of';
-            $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
-            $data['viewbar_title'] = $data['institution_name'] . ' - ' . $schoolOfStr . ' ' . $schoolRow->title;
-            $this->load->view('curriculum_inventory/curriculum_inventory_manager', $data);
-        } else {
-            $error = array();
-            $error['heading'] = 'Application error';
-            $error['message'] = 'Failed to load school data for this user session.';
-            $this->load->view('error/error_general', $error);
+        if (! isset($schoolRow)) {
+            show_error('Failed to load school data for this user session.');
+            return;
         }
+
+        $data['school_id'] = $schoolId;
+        $data['school_name'] = $schoolRow->title;
+        $key = 'general.phrases.school_of';
+        $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
+        $data['viewbar_title'] = $data['institution_name'] . ' - ' . $schoolOfStr . ' ' . $schoolRow->title;
+        $this->load->view('curriculum_inventory/curriculum_inventory_manager', $data);
     }
 
     public function add ()
