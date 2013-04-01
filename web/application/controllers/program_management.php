@@ -41,8 +41,6 @@ class Program_Management extends Ilios_Web_Controller
 
         $this->output->set_header('Expires: 0');
 
-        $user = $this->user->getRowForPrimaryKeyId($data['user_id']);
-
         $programId = $this->input->get_post('program_id');
 
         $data['viewbar_title'] = $data['institution_name'];
