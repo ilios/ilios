@@ -61,21 +61,69 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
     public function add ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['i18n'] =  $this->languagemap;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
     }
 
     public function preview ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['i18n'] =  $this->languagemap;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
     }
 
     public function save ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['i18n'] =  $this->languagemap;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
     }
 
     public function export ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['i18n'] =  $this->languagemap;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
     }
 }
