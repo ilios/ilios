@@ -18,11 +18,11 @@ class Curriculum_Inventory_Institution extends Ilios_Base_Model
     /**
      * Retrieves institutional data for a given school.
      * @param $schoolId the school id.
-     * @return array|boolean the institutional data as assoc. array or FALSE if none was found
+     * @return array|null the institutional data as assoc. array or NULL if none was found
      */
     public function getBySchoolId ($schoolId)
     {
-        $rhett = false;
+        $rhett = null;
         $query = $this->db->get_where($this->databaseTableName, array('school_id' => $schoolId), 1);
         if (0 < $query->num_rows())
         {
