@@ -16,9 +16,10 @@ class Program_Management extends Ilios_Web_Controller
     public function __construct ()
     {
         parent::__construct();
-        $this->load->model('Program', 'program', TRUE);
-        $this->load->model('Publish_Event', 'publishEvent', TRUE);
-        $this->load->model('School', 'school', TRUE);
+        $this->load->model('Program', 'program', true);
+        $this->load->model('Publish_Event', 'publishEvent', true);
+        $this->load->model('School', 'school', true);
+        $this->load->model('Curriculum_Inventory_Program', 'invProgram', true);
     }
 
     /**
@@ -81,6 +82,8 @@ class Program_Management extends Ilios_Web_Controller
         $schoolCompetencies = $this->_getSchoolCompetencies();
         $data['school_competencies'] = Ilios_Json::encodeForJavascriptEmbedding($schoolCompetencies,
             Ilios_Json::JSON_ENC_SINGLE_QUOTES);
+
+        $data['has_admin_rights'] = $this->session->userdata('has_admin_access');
 
         $key = 'program_management.title_bar';
         $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
@@ -211,6 +214,19 @@ class Program_Management extends Ilios_Web_Controller
         $rhett = array();
         $rhett['school_owns_program'] = $schoolOwnsProgram ? 'true' : false;
         $rhett['years'] = $yearArray;
+
+
+        if ($this->session->userdata('has_admin_access')) {
+            $map = array();
+            $invPrograms = $this->invProgram->listByProgram($programId);
+            foreach ($invPrograms as $invProgram) {
+                $map[$invProgram['program_year_id']] = true;
+            }
+            if (! empty($hasCurriculumInventoryMap)) {
+                $rhett['has_curriculum_inventory_report'] = $map;
+            }
+
+        }
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
