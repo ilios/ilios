@@ -473,8 +473,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     if (ilios.pm.can_manage_curriculum_inventory) {
                         idString = ilios.pm.generateIdStringForInventoryDiv(containerNumber);
                         scratchElem = document.getElementById(idString);
-                        if (! 'undefined' !== typeof scratchElem) {
-
+                        if (scratchElem) {
                             if (hasCurriculumInventoryReportMap.hasOwnProperty(programYearModel.getDBId())) {
                                 scratchElem.href = inventoryControllerURL + 'view?py_id=' + programYearModel.getDBId();
                             } else {
@@ -486,7 +485,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                     idString = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
                     scratchElem = document.getElementById(idString);
-                    if (! 'undefined' !== typeof scratchElem) {
+                    if (scratchElem) {
                         scratchElem.setAttribute('style', 'display: block');
                     }
                 }
@@ -584,7 +583,7 @@ ilios.pm.transaction.performProgramYearSave = function (containerNumber, shouldP
                 if (ilios.pm.can_manage_curriculum_inventory) {
                     idString = ilios.pm.generateIdStringForInventoryDiv(containerNumber);
                     scratchElem = document.getElementById(idString);
-                    if (! 'undefined' !== typeof scratchElem) {
+                    if (scratchElem) {
                          scratchElem.href = inventoryControllerURL + 'add?py_id=' + programYearModel.getDBId();
                          scratchElem.setAttribute('style', 'display: block');
                     }
@@ -592,7 +591,7 @@ ilios.pm.transaction.performProgramYearSave = function (containerNumber, shouldP
 
                 idString = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
                 scratchElem = document.getElementById(idString);
-                if (! 'undefined' !== typeof scratchElem) {
+                if (scratchElem) {
                     scratchElem.setAttribute('style', 'display: block');
                 }
             },
