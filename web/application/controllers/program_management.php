@@ -222,7 +222,7 @@ class Program_Management extends Ilios_Web_Controller
             foreach ($invPrograms as $invProgram) {
                 $map[$invProgram['program_year_id']] = true;
             }
-            if (! empty($hasCurriculumInventoryMap)) {
+            if (! empty($map)) {
                 $rhett['has_curriculum_inventory_report'] = $map;
             }
 
