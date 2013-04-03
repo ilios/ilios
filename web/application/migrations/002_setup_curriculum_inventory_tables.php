@@ -16,6 +16,7 @@ CREATE TABLE `curriculum_inventory_institution` (
     `school_id` INT(10) UNSIGNED NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `aamc_id` VARCHAR(10) NOT NULL,
+    `address_street` VARCHAR(100) NOT NULL,
     `address_city` VARCHAR(100) NOT NULL,
     `address_state_or_province` VARCHAR(50) NOT NULL,
     `address_country_code` CHAR(2) NOT NULL,
