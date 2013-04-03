@@ -54,13 +54,8 @@ $i18n = $this->languagemap; // shorthand alias
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
-    <script type="text/javascript">
-        var controllerURL = "<?php echo $controllerURL; ?>/"; // expose this to our javascript
-        var programControllerURL = "<?php echo $progamManagerUrl; ?>"; // similarly...
-        ilios.namespace('cim'); // assure the existence of this page's namespace
-    </script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "curriculum_inventory/curriculum_inventory_manager.js"); ?>"></script>
 </head>
-
 <body class="curriculum_inventory yui-skin-sam">
 <div id="wrapper">
     <header id="masthead" class="clearfix">
@@ -112,6 +107,13 @@ $i18n = $this->languagemap; // shorthand alias
         window.inform = ilios.alert.inform;
     });
     ilios.global.installPreferencesModel();
+
+    YAHOO.util.Event.on(window, 'load', function () {
+        var config = {};
+        config.controllerUrl = "<?php echo $controllerURL; ?>/";
+        config.programControllerUrl = "<?php echo $progamManagerUrl; ?>/";
+        ilios.cim.init(config);
+    });
     <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </script>
 </body>
