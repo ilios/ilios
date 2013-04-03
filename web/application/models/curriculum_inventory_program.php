@@ -16,15 +16,50 @@ class Curriculum_Inventory_Program extends Ilios_Base_Model
     }
 
     /**
-     * Creates a new curriculum inventory program record for a given program year id.
-     * @param int $programYearId the ilios program year id.
+     * Creates a new curriculum inventory program.
+     * @param int $programYearId the corresponding Ilios program year id.
+     * @param string $name the program name
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @param string $aamcId the program code as issued by the AAMC
      * @return boolean TRUE on success, FALSE on failure
      */
-    public function create ($programYearId)
+    public function create ($programYearId, $name = '', DateTime $startDate = null, DateTime $endDate = null, $aamcId = '')
     {
         $data = array();
         $data['program_year_id'] = $programYearId;
+        $data['name'] = $name;
+        $data['aamc_id'] = $aamcId;
+        if (isset($startDate)) {
+            $data['start_date'] = $startDate->format('Y-m-d');
+        }
+        if (isset($endDate)) {
+            $data['end_date'] = $endDate->format('Y-m-d');
+        }
         return $this->db->insert($this->databaseTableName, $data);
+    }
+
+    /**
+     * Updates a curriculum inventory program.
+     * @param int $programYearId the corresponding Ilios program year id.
+     * @param string $name the program name
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @param string $aamcId the program code as issued by the AAMC
+     * @return boolean TRUE on success, FALSE on failure
+     */
+    public function update ($programYearId, $name = '', DateTime $startDate = null, DateTime $endDate = null, $aamcId = '') {
+        $data = array();
+        $data['name'] = $name;
+        $data['aamc_id'] = $aamcId;
+        if (isset($startDate)) {
+            $data['start_date'] = $startDate->format('Y-m-d');
+        }
+        if (isset($endDate)) {
+            $data['end_date'] = $endDate->format('Y-m-d');
+        }
+        $this->db->where('program_year_id', $programYearId);
+        return $this->db->update($data);
     }
 
     /**
