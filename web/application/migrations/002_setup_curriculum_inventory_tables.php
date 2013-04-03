@@ -35,6 +35,7 @@ EOL;
 CREATE TABLE `curriculum_inventory_program` (
     `program_year_id` INT(10) UNSIGNED NOT NULL,
     `aamc_id` VARCHAR(10) NULL,
+    `name` VARCHAR(200) NULL DEFAULT NULL,
     `education_program_context_id` INT UNSIGNED NULL,
     `profession_id` INT UNSIGNED NULL,
     `specialty_id` INT UNSIGNED NULL,
