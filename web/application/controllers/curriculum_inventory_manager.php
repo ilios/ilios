@@ -15,6 +15,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     {
         parent::__construct();
         $this->load->model('Curriculum_Inventory_Program', 'invProgram', true);
+        $this->load->model('Curriculum_Inventory_Institution', 'invInstitution', true);
     }
 
     /**
@@ -187,7 +188,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         try {
             $xml = $this->_getXmlReport($progamYearId);
         } catch (Exception $e) {
-            log_message('error',  'CIM export: ' . $e->getMessage);
+            log_message('error',  'CIM export: ' . $e->getMessage());
             show_error('An error occurred while exporting the curriculum inventory.');
             return;
         }
@@ -239,6 +240,49 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:hx', 'http://ns.medbiq.org/lom/extend/v1/');
         $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:m', 'http://ns.medbiq.org/member/v1/');
         $dom->appendChild($rootNode);
+        //
+        // ReportID
+        //
+        $reportIdNode = $dom->createElement('ReportID', $inventory['report']['id']);
+        $reportIdNode->setAttribute('domain', $inventory['report']['domain']);
+        $rootNode->appendChild($reportIdNode);
+
+        // Institution
+        $institutionNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:Institution');
+        $rootNode->appendChild($institutionNode);
+        $institutionNameNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionName');
+        $institutionNameNode->appendChild($dom->createTextNode($inventory['institution']->name));
+        $institutionNode->appendChild($institutionNameNode);
+        $institutionIdNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionID', $inventory['institution']->aamc_id);
+        $institutionIdNode->setAttribute('domain', 'idd:aamc.org:institution');
+        $institutionNode->appendChild($institutionIdNode);
+        $addressNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:Address');
+        $institutionNode->appendChild($addressNode);
+        $streetAddressNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:StreetAddressName');
+        $streetAddressNode->appendChild($dom->createTextNode($inventory['institution']->address_street));
+        $addressNode->appendChild($streetAddressNode);
+        $cityNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:City', $inventory['institution']->address_city);
+        $addressNode->appendChild($cityNode);
+        $stateNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:StateOrProvince', $inventory['institution']->address_state_or_province);
+        $addressNode->appendChild($stateNode);
+        $zipcodeNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:PostalCode', $inventory['institution']->address_zipcode);
+        $addressNode->appendChild($zipcodeNode);
+        $countryNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:Country');
+        $addressNode->appendChild($countryNode);
+        $countryCodeNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:CountryCode', $inventory['institution']->address_country_code);
+        $countryNode->appendChild($countryCodeNode);
+        //
+        // Program
+        //
+        $programNode = $dom->createElement('Program');
+        $rootNode->appendChild($programNode);
+        $programNameNode = $dom->createElement('ProgramName');
+        $programNameNode->appendChild($dom->createTextNode($inventory['program']->name));
+        $programNode->appendChild($programNameNode);
+        $programIdNode = $dom->createElement('ProgramID', $inventory['program']->aamc_id);
+        $programIdNode->setAttribute('domain', 'idd:aamc.org:program');
+        $programNode->appendChild($programIdNode);
+
         return $dom;
     }
 
@@ -251,19 +295,40 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      * Retrieves all the entire curriculum inventory for a given program year.
      * @param int $programYearId the program year
      * @return array an associated array, containing the inventory. Data is keyed off by:
-     *     'institution'
-     *     'program'
+     *     'report' ... an array holding various report-related properties, such as id, domain etc
+     *     'institution' ... an object representing the curriculum inventory program's owning institution
+     *     'program' ... an object representing the curriculum inventory program
      *     'events'
      *     'expectations'
      *     'academic_levels'
      *     'sequence'
      *     'integration'
-     *
      * @throws Exception
+     * @throws Ilios_Exception
      */
     protected function _loadCurriculumInventory ($programYearId)
     {
-        return array();
+        $rhett = array();
+        $programYear = $this->programYear->getRowForPrimaryKeyId($programYearId);
+        if (! isset($programYear)) {
+            throw new Ilios_Exception('Could not load program year for the given id ( ' . $programYearId . ')');
+        }
+        $invProgram = $this->invProgram->getRowForPrimaryKeyId($programYear->program_year_id);
+        if (! isset($invProgram)) {
+            throw new Ilios_Exception('Could not load curriculum inventory program for the given id ( ' . $programYearId . ')');
+        }
+
+        $program = $this->program->getRowForPrimaryKeyId($programYear->program_id);
+        $invInstitution  = $this->invInstitution->getRowForPrimaryKeyId($program->owning_school_id);
+
+        $rhett['report'] = array();
+        $rhett['report']['id'] = time();
+        $rhett['report']['domain'] = 'idd:curriculum.ucsf.edu:cim';  // @todo change hardwired attribute to reflect ... what exactly?
+        $rhett['report']['date'] = date('Y-m-d', $rhett['report']['id']);
+        $rhett['program'] = $invProgram;
+        $rhett['institution'] = $invInstitution;
+
+        return $rhett;
     }
 
 }
