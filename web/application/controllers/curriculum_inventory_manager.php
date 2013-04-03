@@ -175,5 +175,95 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_viewAccessForbiddenPage($lang, $data);
             return;
         }
+
+        // input validation
+        $progamYearId = (int) $this->input->get('py_id');
+
+        if (0 >= $progamYearId) {
+            show_error('Missing or invalid program year id.');
+            return;
+        }
+
+        try {
+            $xml = $this->_getXmlReport($progamYearId);
+        } catch (Exception $e) {
+            log_message('error',  'CIM export: ' . $e->getMessage);
+            show_error('An error occurred while exporting the curriculum inventory.');
+            return;
+        }
+
+        $out = $xml->saveXML();
+        if (false === $out) {
+            log_message('error', 'CIM export: Failed to convert XML to its String representation.');
+            show_error('An error occurred while exporting the curriculum inventory.');
+
+        }
+        // all is good, output the XML
+        header("Content-Type: application/xml");
+        echo $out;
     }
+
+    //
+    // XML export functionality
+    // @todo move this into a "CodeIgniter library" component
+    //
+
+    /**
+     * Retrieves the inventory report as XML for a given program year.
+     * @param int $programYearId program year id
+     * @return boolean|DomDocument the XML report, or FALSE on failure
+     * @throws Exception
+     */
+    protected function _getXmlReport ($programYearId)
+    {
+        // @todo conditionally, load the xml from file
+        return $this->_createXmlReport($programYearId);
+    }
+
+    protected function _createXmlReport ($programYearId)
+    {
+        // @todo load the curriculum inventory
+        $inventory = $this->_loadCurriculumInventory($programYearId);
+        // @todo
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $rootNode = $dom->createElementNS('http://ns.medbiq.org/curriculuminventory/v1/', 'CurriculumInventory');
+        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/' ,'xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+        $rootNode->setAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'schemaLocation',
+            'http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd');
+        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
+        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:a', 'http://ns.medbiq.org/address/v1/');
+        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:cf', 'http://ns.medbiq.org/competencyframework/v1/');
+        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:co', 'http://ns.medbiq.org/competencyobject/v1/');
+        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:hx', 'http://ns.medbiq.org/lom/extend/v1/');
+        $rootNode->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:m', 'http://ns.medbiq.org/member/v1/');
+        $dom->appendChild($rootNode);
+        return $dom;
+    }
+
+    protected function _saveXmlReport ($xml)
+    {
+        // @todo implement
+    }
+
+    /**
+     * Retrieves all the entire curriculum inventory for a given program year.
+     * @param int $programYearId the program year
+     * @return array an associated array, containing the inventory. Data is keyed off by:
+     *     'institution'
+     *     'program'
+     *     'events'
+     *     'expectations'
+     *     'academic_levels'
+     *     'sequence'
+     *     'integration'
+     *
+     * @throws Exception
+     */
+    protected function _loadCurriculumInventory ($programYearId)
+    {
+        return array();
+    }
+
 }
