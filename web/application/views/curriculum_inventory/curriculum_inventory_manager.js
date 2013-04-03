@@ -33,7 +33,7 @@ ilios.cim.config = {};
  */
 ilios.cim.init = function (config) {
     // set module configuration
-    ilios.cm.config = YAHOO.lang.isObject(config) ? config : {};
+    ilios.cim.config = YAHOO.lang.isObject(config) ? config : {};
     // create widgets
 
     // create view
