@@ -39,6 +39,8 @@ CREATE TABLE `curriculum_inventory_program` (
     `education_program_context_id` INT UNSIGNED NULL,
     `profession_id` INT UNSIGNED NULL,
     `specialty_id` INT UNSIGNED NULL,
+    `start_date` DATE NULL DEFAULT NULL,
+    `end_date` DATE NULL DEFAULT NULL,
     PRIMARY KEY (`program_year_id`),
     CONSTRAINT `fkey_curriculum_inventory_program_program_year_id`
         FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
