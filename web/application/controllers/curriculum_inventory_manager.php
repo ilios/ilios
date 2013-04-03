@@ -116,8 +116,21 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        // load program
+        $program = $this->program->getRowForPrimaryKeyId($programYear->program_id, true);
+
+        $startYear = $programYear->start_year;
+        $endYear = $startYear + 1;
+        $name = $program->title;
+        // create default start/end date of program, based on the given program year date
+        // @todo make hardwired start/end-date day/month configurable.
+        $startDate = new DateTime();
+        $startDate->setDate($startYear, 7, 1);
+        $endDate = new DateTime();
+        $endDate->setDate($endYear, 6, 30);
+
         // create the new inventory program record
-        $created = $this->invProgram->create($programYearId);
+        $created = $this->invProgram->create($programYearId, $name, $startDate, $endDate);
         if (false === $created) {
             show_error('Failed to create curriculum inventory report.');
             return;
