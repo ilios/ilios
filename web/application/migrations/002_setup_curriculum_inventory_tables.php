@@ -19,6 +19,7 @@ CREATE TABLE `curriculum_inventory_institution` (
     `address_street` VARCHAR(100) NOT NULL,
     `address_city` VARCHAR(100) NOT NULL,
     `address_state_or_province` VARCHAR(50) NOT NULL,
+    `address_zipcode` VARCHAR(10) NOT NULL,
     `address_country_code` CHAR(2) NOT NULL,
     PRIMARY KEY (`school_id`),
     CONSTRAINT `fkey_curriculum_inventory_institution_school_id`
