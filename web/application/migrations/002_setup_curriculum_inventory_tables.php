@@ -67,7 +67,7 @@ EOL;
         $this->db->query($sql);
         $sql =<<<EOL
 CREATE TABLE `curriculum_inventory_academic_level` (
-    `academic_level_id` INT(10) UNSIGNED NOT NULL,
+    `academic_level_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     `program_year_id` INT(10) UNSIGNED NOT NULL,
     `level` INT(2) UNSIGNED NOT NULL,
     `name` VARCHAR(50) NOT NULL,
