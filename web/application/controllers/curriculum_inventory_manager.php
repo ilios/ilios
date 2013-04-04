@@ -322,6 +322,29 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         //
         // Events
         //
+        $eventsNode = $dom->createElement('Events');
+        $rootNode->appendChild($eventsNode);
+        //
+        // Expectations
+        //
+        $expectationsNode = $dom->createElement('Expectations');
+        $rootNode->appendChild($expectationsNode);
+        //
+        // Academic Levels
+        //
+        $academicLevelsNode = $dom->createElement('AcademicLevels');
+        $rootNode->appendChild($academicLevelsNode);
+        //
+        // Sequence
+        //
+        $sequenceNode = $dom->createElement('Sequence');
+        $rootNode->appendChild($sequenceNode);
+        //
+        // Integration
+        //
+        $integrationNode = $dom->createElement('Integration');
+        $rootNode->appendChild($integrationNode);
+
         return $dom;
     }
 
