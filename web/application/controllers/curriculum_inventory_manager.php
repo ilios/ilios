@@ -296,6 +296,32 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $programIdNode->setAttribute('domain', 'idd:aamc.org:program');
         $programNode->appendChild($programIdNode);
 
+        //
+        // various other report attributes
+        //
+        $titleNode = $dom->createElement('Title');
+        $titleNode->appendChild($dom->createTextNode($inventory['program']->name));
+        $rootNode->appendChild($titleNode);
+        $reportDateNode = $dom->createElement('ReportDate', date('Y-m-d'));
+        $rootNode->appendChild($reportDateNode);
+        $reportingStartDateNode = $dom->createElement('ReportingStartDate', $inventory['program']->start_date);
+        $rootNode->appendChild($reportingStartDateNode);
+        $reportingEndDateNode = $dom->createElement('ReportingEndDate', $inventory['program']->end_date);
+        $rootNode->appendChild($reportingEndDateNode);
+        $languageNode = $dom->createElement('Language', 'en-US'); // @todo make this configurable
+        $rootNode->appendChild($languageNode);
+        // for now, report title = report description = program title
+        // @todo provide means to provide differen values for report title and report description
+        $descriptionNode = $dom->createElement('Description');
+        $descriptionNode->appendChild($dom->createTextNode($inventory['program']->name));
+        $rootNode->appendChild($descriptionNode);
+        // default supporting link url to the site url of this Ilios instance.
+        // @todo make this configurable
+        $supportingLinkNode = $dom->createElement('SupportingLink', base_url());
+        $rootNode->appendChild($supportingLinkNode);
+        //
+        // Events
+        //
         return $dom;
     }
 
@@ -326,6 +352,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         if (! isset($programYear)) {
             throw new Ilios_Exception('Could not load program year for the given id ( ' . $programYearId . ')');
         }
+
         $invProgram = $this->invProgram->getRowForPrimaryKeyId($programYear->program_year_id);
         if (! isset($invProgram)) {
             throw new Ilios_Exception('Could not load curriculum inventory program for the given id ( ' . $programYearId . ')');
@@ -343,5 +370,4 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         return $rhett;
     }
-
 }
