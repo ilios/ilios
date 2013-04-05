@@ -19,6 +19,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $this->load->model('Curriculum_Inventory_Program', 'invProgram', true);
         $this->load->model('Curriculum_Inventory_Academic_Level', 'invAcademicLevel', true);
         $this->load->model('Curriculum_Inventory_Institution', 'invInstitution', true);
+        $this->load->model('Curriculum_Inventory_Sequence', 'invSequence', true);
+        $this->load->model('Curriculum_Inventory_Sequence_Block', 'invSequenceBlock', true);
     }
 
     /**
@@ -132,12 +134,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $endDate = new DateTime();
         $endDate->setDate($endYear, 6, 30);
 
-        // create the new inventory program record
-        // and setup the academic levels
+        // create a new curriculum inventory (program, academic levels, sequence etc.)
         // @todo running db transactions in the controller - BAD! refactor this out.
         $this->db->trans_start();
         $this->invProgram->create($programYearId, $name, $startDate, $endDate);
         $this->invAcademicLevel->createDefaultLevels($programYearId);
+        $this->invSequence->create($programYearId);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
             show_error('Failed to create curriculum inventory.');
