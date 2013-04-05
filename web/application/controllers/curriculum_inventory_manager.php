@@ -5,6 +5,8 @@ require_once 'ilios_web_controller.php';
 /**
  * @package Ilios
  * Curriculum Inventory management controller.
+ *
+ * @todo hideously fat controller, move business logic to helper/workflow/whatever components.
  */
 class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 {
@@ -15,6 +17,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     {
         parent::__construct();
         $this->load->model('Curriculum_Inventory_Program', 'invProgram', true);
+        $this->load->model('Curriculum_Inventory_Academic_Level', 'invAcademicLevel', true);
         $this->load->model('Curriculum_Inventory_Institution', 'invInstitution', true);
     }
 
@@ -67,10 +70,10 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * Creates a new curriculum inventory program for a given program year.
+     * Creates a new curriculum inventory (report) for a given program year.
      * Expects the following input in the request parameter string:
      *    'py_id' ... the program year id.
-     * On successful creation, the user will be redirected to view the new inventory program.
+     * On successful creation, the user will be redirected to view the new inventory.
      * Any failure will cause an error page to be rendered.
      */
     public function add ()
@@ -97,10 +100,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        $programYearId = (int) $this->input->get('py_id');
+
         //
         // create new inventory program for a given ilios program-year
         //
-        $programYearId = (int) $this->input->get('py_id');
 
         // check if ilios program year exists
         $programYear = $this->programYear->getRowForPrimaryKeyId($programYearId, true);
@@ -112,7 +116,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // check if a curriculum inventory program already exists
         $invProgram = $this->invProgram->getRowForPrimaryKeyId($programYearId);
         if (isset($invProgram)) {
-            show_error('A curriculum inventory report already exists for the given program year.');
+            show_error('A curriculum inventory already exists for the given program year.');
             return;
         }
 
@@ -123,16 +127,20 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $endYear = $startYear + 1;
         $name = $program->title;
         // create default start/end date of program, based on the given program year date
-        // @todo make hardwired start/end-date day/month configurable.
         $startDate = new DateTime();
         $startDate->setDate($startYear, 7, 1);
         $endDate = new DateTime();
         $endDate->setDate($endYear, 6, 30);
 
         // create the new inventory program record
-        $created = $this->invProgram->create($programYearId, $name, $startDate, $endDate);
-        if (false === $created) {
-            show_error('Failed to create curriculum inventory report.');
+        // and setup the academic levels
+        // @todo running db transactions in the controller - BAD! refactor this out.
+        $this->db->trans_start();
+        $this->invProgram->create($programYearId, $name, $startDate, $endDate);
+        $this->invAcademicLevel->createDefaultLevels($programYearId);
+        $this->db->trans_complete();
+        if (false === $this->db->trans_status()) {
+            show_error('Failed to create curriculum inventory.');
             return;
         }
 
@@ -140,6 +148,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         redirect('curriculum_inventory_manager/view?py_id=' . $programYearId);
     }
 
+    /**
+     * Prints a curriculum inventory as HTML document.
+     * Expects the following input in the request parameter string:
+     *    'py_id' ... the program year id.
+     */
     public function preview ()
     {
         $lang = $this->getLangToUse();
@@ -155,25 +168,30 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_viewAccessForbiddenPage($lang, $data);
             return;
         }
-    }
-
-    public function save ()
-    {
-        $lang = $this->getLangToUse();
-
-        $data = array();
-        $data['lang'] = $lang;
-        $data['i18n'] =  $this->languagemap;
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
-
-        // authorization check
-        if (! $this->session->userdata('has_admin_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
+        // input validation
+        $progamYearId = (int) $this->input->get('py_id');
+        if (0 >= $progamYearId) {
+            show_error('Missing or invalid program year id.');
             return;
         }
+
+        try {
+            $inventory = $this->_loadCurriculumInventory($progamYearId);
+        } catch (Ilios_Exception $e) {
+            log_message('error',  'CIM export: ' . $e->getMessage());
+            show_error('An error occurred while loading the curriculum inventory.');
+            return;
+        }
+
+        $data['inventory'] = $inventory;
+        $this->load->view('curriculum_inventory/curriculum_inventory_preview', $data);
     }
 
+    /**
+     * Prints a curriculum inventory as XML document.
+     * Expects the following input in the request parameter string:
+     *    'py_id' ... the program year id.
+     */
     public function export ()
     {
         $lang = $this->getLangToUse();
@@ -192,7 +210,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         // input validation
         $progamYearId = (int) $this->input->get('py_id');
-
         if (0 >= $progamYearId) {
             show_error('Missing or invalid program year id.');
             return;
@@ -200,9 +217,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         try {
             $xml = $this->_getXmlReport($progamYearId);
-        } catch (Exception $e) {
+        } catch (DomException $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
-            show_error('An error occurred while exporting the curriculum inventory.');
+            show_error('An error occurred while exporting the curriculum inventory to XML.');
+            return;
+        } catch (Ilios_Exception $e) {
+            log_message('error',  'CIM export: ' . $e->getMessage());
+            show_error('An error occurred while loading the curriculum inventory.');
             return;
         }
 
@@ -225,20 +246,27 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     /**
      * Retrieves the inventory report as XML for a given program year.
      * @param int $programYearId program year id
-     * @return boolean|DomDocument the XML report, or FALSE on failure
-     * @throws Exception
+     * @return DomDocument the XML report, or FALSE on failure
+     * @throws DomException
+     * @throws Ilios_Exception
      */
     protected function _getXmlReport ($programYearId)
     {
-        // @todo conditionally, load the xml from file
-        return $this->_createXmlReport($programYearId);
+        // load the inventory from the db and create xml from it.
+        // @todo conditionally, load the xml from file (or perhaps the database?) for finalized inventories.
+        $inventory = $this->_loadCurriculumInventory($programYearId);
+        return $this->_createXmlReport($inventory);
     }
 
-    protected function _createXmlReport ($programYearId)
+
+    /**
+     * Creates an XML representation of the given curriculum inventory.
+     * @param array $inventory a nested assoc. array structure containing the inventory data to be
+     * @return DOMDocument the generated XML document
+     * @throws DomException
+     */
+    protected function _createXmlReport (array $inventory)
     {
-        // @todo load the curriculum inventory
-        $inventory = $this->_loadCurriculumInventory($programYearId);
-        // @todo
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
@@ -348,11 +376,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         return $dom;
     }
 
-    protected function _saveXmlReport ($xml)
-    {
-        // @todo implement
-    }
-
     /**
      * Retrieves all the entire curriculum inventory for a given program year.
      * @param int $programYearId the program year
@@ -365,7 +388,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *     'academic_levels'
      *     'sequence'
      *     'integration'
-     * @throws Exception
      * @throws Ilios_Exception
      */
     protected function _loadCurriculumInventory ($programYearId)
