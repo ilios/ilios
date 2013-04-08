@@ -16,6 +16,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     public function __construct ()
     {
         parent::__construct();
+        $this->load->model('Curriculum_Inventory', 'inventory', true);
         $this->load->model('Curriculum_Inventory_Program', 'invProgram', true);
         $this->load->model('Curriculum_Inventory_Academic_Level', 'invAcademicLevel', true);
         $this->load->model('Curriculum_Inventory_Institution', 'invInstitution', true);
@@ -341,7 +342,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $languageNode = $dom->createElement('Language', 'en-US'); // @todo make this configurable
         $rootNode->appendChild($languageNode);
         // for now, report title = report description = program title
-        // @todo provide means to provide differen values for report title and report description
+        // @todo provide means to provide different values for report title and report description
         $descriptionNode = $dom->createElement('Description');
         $descriptionNode->appendChild($dom->createTextNode($inventory['program']->name));
         $rootNode->appendChild($descriptionNode);
@@ -354,6 +355,53 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         //
         $eventsNode = $dom->createElement('Events');
         $rootNode->appendChild($eventsNode);
+        foreach ($inventory['events'] as $event) {
+            $eventNode = $dom->createElement('Event');
+            $eventsNode->appendChild($eventNode);
+            $eventNode->setAttribute('id', 'E' . $event['session_id']);
+            $eventTitleNode = $dom->createElement('Title');
+            $eventNode->appendChild($eventTitleNode);
+            $eventTitleNode->appendChild($dom->createTextNode($event['title']));
+            $eventDurationNode = $dom->createElement('EventDuration', 'PT' . $event['duration'] . 'H');
+            $eventNode->appendChild($eventDurationNode);
+            if ('' !== trim($event['description'])) {
+                $descriptionNode = $dom->createElement('Description');
+                $eventNode->appendChild($descriptionNode);
+                $descriptionNode->appendChild($dom->createTextNode($event['description']));
+            }
+            if (array_key_exists('keywords', $event)) {
+                foreach ($event['keywords'] as $keyword) {
+                    $keywordNode = $dom->createElement('Keyword');
+                    $eventNode->appendChild($keywordNode);
+                    $keywordNode->setAttribute('hx:source', 'MeSH');
+                    $keywordNode->setAttribute('hx:id', $keyword['mesh_descriptor_uid']);
+                    $descriptorNode = $dom->createElementNS('hx', 'string');
+                    $keywordNode->appendChild($descriptorNode);
+                    $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
+                }
+            }
+            if ($event['is_assessment_method']) {
+                $assessmentMethodNode = $dom->createElement('AssessmentMethod');
+                $eventNode->appendChild($assessmentMethodNode);
+                // from the spec:
+                // AssessmentMethod has the following attribute
+                //
+                // purpose
+                // Indicates whether the assessment is used for formative or
+                // summative assessment. Use of the purpose attribute is required.
+                // Valid values are Formative and Summative.
+                //
+                // @todo Ilios does not have this info. Map this somehow.
+                $assessmentMethodNode->setAttribute('purpose', 'Summative');
+                $assessmentMethodNode->appendChild($dom->createTextNode($event['method_title']));
+            } else {
+                $instructionalMethodNode = $dom->createElement('InstructionalMethod');
+                $eventNode->appendChild($instructionalMethodNode);
+                $instructionalMethodNode->setAttribute('primary', 'true');
+                $instructionalMethodNode->appendChild($dom->createTextNode($event['method_title']));
+            }
+        }
+
         //
         // Expectations
         //
@@ -369,6 +417,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         //
         $sequenceNode = $dom->createElement('Sequence');
         $rootNode->appendChild($sequenceNode);
+        if ('' !== trim($inventory['sequence']->description)) {
+            $sequenceDescriptionNode = $dom->createElement('Description');
+            $sequenceNode->appendChild($sequenceDescriptionNode);
+            $sequenceDescriptionNode->appendChild($dom->createTextNode($inventory['sequence']->description));
+        }
         //
         // Integration
         //
@@ -388,13 +441,16 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *     'events'
      *     'expectations'
      *     'academic_levels'
-     *     'sequence'
+     *     'sequence'  ... the inventory sequence object
+     *     'sequence_blocks'
      *     'integration'
      * @throws Ilios_Exception
      */
     protected function _loadCurriculumInventory ($programYearId)
     {
-        $rhett = array();
+        //
+        // load inventory from various sources
+        //
         $programYear = $this->programYear->getRowForPrimaryKeyId($programYearId);
         if (! isset($programYear)) {
             throw new Ilios_Exception('Could not load program year for the given id ( ' . $programYearId . ')');
@@ -402,19 +458,68 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         $invProgram = $this->invProgram->getRowForPrimaryKeyId($programYear->program_year_id);
         if (! isset($invProgram)) {
-            throw new Ilios_Exception('Could not load curriculum inventory program for the given id ( ' . $programYearId . ')');
+            throw new Ilios_Exception('Could not load curriculum inventory program for program-year id ( ' . $programYearId . ')');
         }
 
         $program = $this->program->getRowForPrimaryKeyId($programYear->program_id);
         $invInstitution  = $this->invInstitution->getRowForPrimaryKeyId($program->owning_school_id);
+        if (! isset($invInstitution)) {
+            throw new Ilios_Exception('Could not load curriculum institution for school id ( ' . $program->owning_school_id . ')');
+        }
+        $invSequence = $this->invSequence->getRowForPrimaryKeyId($programYearId);
+        if (! isset($invSequence)) {
+            throw new Ilios_Exception('Could not load curriculum sequence for program-year id ( ' . $programYearId . ')');
+        }
 
-        $rhett['report'] = array();
-        $rhett['report']['id'] = time();
-        $rhett['report']['domain'] = 'idd:curriculum.ucsf.edu:cim';  // @todo change hardwired attribute to reflect ... what exactly?
-        $rhett['report']['date'] = date('Y-m-d', $rhett['report']['id']);
+        $events = $this->inventory->getEvents($programYearId);
+        $keywords = $this->inventory->getEventKeywords($programYearId);
+        $levels = $this->invAcademicLevel->getAppliedLevels($programYearId);
+        $sequenceBlocks = $this->invSequenceBlock->getBlocks($programYearId);
+
+        //
+        // transmogrify inventory data for reporting and fill in the blanks
+        //
+
+        // add keywords to event
+        $events = $this->_addKeywordsToEvents($events, $keywords);
+        
+        // transform sequence blocks from a flat list into a nested structure
+        $sequenceBlocks = $this->_buildSequenceBlockHierarchy($sequenceBlocks, $levels, $events);
+
+        // fudge report properties
+        $report = array();
+        $report['id'] = $programYearId . '-' . time(); // report id format: "<program year id>-<current timestamp>"
+        $report['domain'] = 'idd:curriculum.ucsf.edu:cim';  // @todo change hardwired attribute to reflect ... what exactly?
+        $report['date'] = date('Y-m-d');
+
+        //
+        // aggregate inventory into single return-array
+        //
+        $rhett = array();
+        $rhett['report'] = $report;
         $rhett['program'] = $invProgram;
         $rhett['institution'] = $invInstitution;
-
+        $rhett['sequence'] = $invSequence;
+        $rhett['events'] = $events;
+        $rhett['academic_levels'] = $levels;
         return $rhett;
+    }
+
+    protected function _addKeywordsToEvents (array $events, array $keywords)
+    {
+        foreach ($keywords as $keyword) {
+            $eventId = $keyword['session_id'];
+            if (! array_key_exists('keywords', $events[$eventId])) {
+                $events[$eventId]['keywords'] = array();
+            }
+            $events[$eventId]['keywords'][] = $keyword;
+        }
+        return $events;
+    }
+
+    protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, array $academicLevels, array $events)
+    {
+        // @todo implement
+        return $sequenceBlocks;
     }
 }
