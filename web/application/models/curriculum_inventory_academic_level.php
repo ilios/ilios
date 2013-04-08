@@ -61,7 +61,7 @@ class Curriculum_Inventory_Academic_Level extends Ilios_Base_Model
         $this->db->order_by('level', 'asc');
         $query = $this->db->get_where($this->databaseTableName, array('program_year_id' => $programYearId));
         if (0 < $query->num_rows()) {
-            foreach ($query->result_array as $row)
+            foreach ($query->result_array() as $row)
             $rhett[$row['academic_level_id']] = $row;
         }
         $query->free_result();
@@ -86,7 +86,7 @@ ORDER BY al.level ASC
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
-            foreach ($query->result_array as $row)
+            foreach ($query->result_array() as $row)
                 $rhett[$row['academic_level_id']] = $row;
         }
         $query->free_result();
