@@ -412,6 +412,21 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         //
         $academicLevelsNode = $dom->createElement('AcademicLevels');
         $rootNode->appendChild($academicLevelsNode);
+        $levelsInProgramNode = $dom->createElement('LevelsInProgram', count($inventory['academic_levels']));
+        $academicLevelsNode->appendChild($levelsInProgramNode);
+        foreach ($inventory['academic_levels'] as $level) {
+            $levelNode = $dom->createElement('Level');
+            $academicLevelsNode->appendChild($levelNode);
+            $levelNode->setAttribute('number', $level['level']);
+            $labelNode = $dom->createElement('Label');
+            $levelNode->appendChild($labelNode);
+            $labelNode->appendChild($dom->createTextNode($level['name']));
+            if ('' !== trim($level['description'])) {
+                $descriptionNode = $dom->createElement('Description');
+                $levelNode->appendChild($descriptionNode);
+                $descriptionNode->appendChild($dom->createTextNode($level['description']));
+            }
+        }
         //
         // Sequence
         //
@@ -422,6 +437,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $sequenceNode->appendChild($sequenceDescriptionNode);
             $sequenceDescriptionNode->appendChild($dom->createTextNode($inventory['sequence']->description));
         }
+        foreach ($inventory['sequence_blocks'] as $block) {
+            $this->_createSequenceBlockXml($dom, $sequenceNode, $block);
+        }
         //
         // Integration
         //
@@ -429,6 +447,40 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $rootNode->appendChild($integrationNode);
 
         return $dom;
+    }
+
+    protected function _createSequenceBlockXml (DomDocument $dom, DomElement $parentNode, array $block)
+    {
+        $sequenceBlockNode = $dom->createElement('SequenceBlock');
+        $parentNode->appendChild($sequenceBlockNode);
+        $sequenceBlockNode->setAttribute('id', $block['sequence_block_id']);
+        switch ($block['status']) {
+            case Curriculum_Inventory_Sequence_Block::OPTIONAL :
+                $sequenceBlockNode->setAttribute('required', 'Optional');
+                break;
+            case Curriculum_Inventory_Sequence_Block::REQUIRED :
+                $sequenceBlockNode->setAttribute('required', 'Required');
+                break;
+            case Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK :
+                $sequenceBlockNode->setAttribute('required', 'Required in Track');
+                break;
+            default :
+                // SOL!
+                // @todo handle this. e.g. throw an exception.
+        }
+        switch ($block['child_sequence_order']) {
+            case Curriculum_Inventory_Sequence_Block::ORDERED :
+                $sequenceBlockNode->setAttribute('order', 'Optional');
+                break;
+            case Curriculum_Inventory_Sequence_Block::UNORDERED :
+                $sequenceBlockNode->setAttribute('order', 'Required');
+                break;
+            case Curriculum_Inventory_Sequence_Block::PARALLEL :
+                $sequenceBlockNode->setAttribute('order', 'Required in Track');
+                break;
+            default :
+                // @todo handle this. e.g. throw an exception.
+        }
     }
 
     /**
@@ -500,6 +552,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $rhett['program'] = $invProgram;
         $rhett['institution'] = $invInstitution;
         $rhett['sequence'] = $invSequence;
+        $rhett['sequence_blocks'] = $sequenceBlocks;
         $rhett['events'] = $events;
         $rhett['academic_levels'] = $levels;
         return $rhett;
@@ -517,9 +570,35 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         return $events;
     }
 
-    protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, array $academicLevels, array $events)
+    protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, array $academicLevels, array $events, $parentBlockId = null)
     {
-        // @todo implement
-        return $sequenceBlocks;
+        $rhett = array();
+        for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
+            $block = $sequenceBlocks[$i];
+            if ($parentBlockId === $block['parent_sequence_block_id']) {
+                $rhett[] = $block;
+                unset($sequenceBlocks[$i]);
+            }
+        }
+        for ($i = 0, $n = count($rhett); $i < $n; $i++) {
+            // recursion!
+            $children = $this->_buildSequenceBlockHierarchy ($sequenceBlocks, $academicLevels, $events, $rhett[$i]['sequence_block_id']);
+            if (count($children)) {
+                // sort children if the sort order demands it
+                if (Curriculum_Inventory_Sequence_Block::ORDERED === $rhett[$i]['child_sequence_order']) {
+                    usort($children, array($this, '_sortSequenceBlocks'));
+                }
+                $rhett[$i]['children'] = $children;
+            }
+        }
+        return $rhett;
+    }
+
+    protected function _sortSequenceBlocks (array $a, array $b)
+    {
+        if ($a['order_in_sequence'] === $b['order_in_sequence']) {
+            return 0;
+        }
+        return ($a['order_in_sequence'] > $b['order_in_sequence']) ? 1 : -1;
     }
 }
