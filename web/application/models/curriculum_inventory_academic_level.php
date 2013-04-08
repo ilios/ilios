@@ -53,16 +53,41 @@ class Curriculum_Inventory_Academic_Level extends Ilios_Base_Model
     /**
      * Retrieves the academic levels for a given program year.
      * @param int $programYearId the program year id
-     * @return array a nested array of arrays, each sub-array representing an academic level record
+     * @return array an associative array academic levels, keyed off by level id
      */
-    public function getList ($programYearId)
+    public function getLevels ($programYearId)
     {
         $rhett = array();
         $this->db->order_by('level', 'asc');
         $query = $this->db->get_where($this->databaseTableName, array('program_year_id' => $programYearId));
         if (0 < $query->num_rows()) {
             foreach ($query->result_array as $row)
-            $rhett[] = $row;
+            $rhett[$row['academic_level_id']] = $row;
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
+     * Retrieves the academic levels that were applied to the inventory for a given program year.
+     * @param int $programYearId the program year id
+     * @return array an associative array academic levels, keyed off by level id
+     */
+    public function getAppliedLevels ($programYearId)
+    {
+        $rhett = array();
+        $clean['py_id'] = (int) $programYearId;
+        $sql =<<< EOL
+SELECT DISTINCT al.*
+FROM curriculum_inventory_academic_level al
+JOIN curriculum_inventory_sequence_block sb ON sb.academic_level_id = al.academic_level_id
+WHERE sb.program_year_id = {$clean['py_id']}
+ORDER BY al.level ASC
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array as $row)
+                $rhett[$row['academic_level_id']] = $row;
         }
         $query->free_result();
         return $rhett;
