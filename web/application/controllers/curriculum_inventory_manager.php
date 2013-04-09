@@ -16,6 +16,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     public function __construct ()
     {
         parent::__construct();
+        $this->load->model('Course_Clerkship_Type', 'clerkshipType', true);
         $this->load->model('Curriculum_Inventory', 'inventory', true);
         $this->load->model('Curriculum_Inventory_Program', 'invProgram', true);
         $this->load->model('Curriculum_Inventory_Academic_Level', 'invAcademicLevel', true);
@@ -362,12 +363,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $eventTitleNode = $dom->createElement('Title');
             $eventNode->appendChild($eventTitleNode);
             $eventTitleNode->appendChild($dom->createTextNode($event['title']));
-            $eventDurationNode = $dom->createElement('EventDuration', 'PT' . $event['duration'] . 'H');
+            $eventDurationNode = $dom->createElement('EventDuration', 'PT' . $event['duration'] . 'M');
             $eventNode->appendChild($eventDurationNode);
             if ('' !== trim($event['description'])) {
                 $descriptionNode = $dom->createElement('Description');
                 $eventNode->appendChild($descriptionNode);
-                $descriptionNode->appendChild($dom->createTextNode($event['description']));
+                $descriptionNode->appendChild($dom->createTextNode(strip_tags($event['description'])));
             }
             if (array_key_exists('keywords', $event)) {
                 foreach ($event['keywords'] as $keyword) {
@@ -481,6 +482,71 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             default :
                 // @todo handle this. e.g. throw an exception.
         }
+
+        $sequenceBlockNode->setAttribute('minimum', $block['minimum']);
+        $sequenceBlockNode->setAttribute('maximum', $block['maximum']);
+
+        if ($block['track']) {
+            $sequenceBlockNode->setAttribute('track', 'true');
+        } else {
+            $sequenceBlockNode->setAttribute('track', 'false');
+        }
+
+        $titleNode = $dom->createElement('Title');
+        $sequenceBlockNode->appendChild($titleNode);
+        $titleNode->appendChild($dom->createTextNode($block['title']));
+
+        if ('' !== trim($block['description'])) {
+            $descriptionNode = $dom->createElement('Description');
+            $sequenceBlockNode->appendChild($descriptionNode);
+            $descriptionNode->appendChild($dom->createTextNode($block['description']));
+        }
+
+        // currently, only start/end-date are supported for <Timing>
+        // @todo add duration
+        $timingNode = $dom->createElement('Timing');
+        $sequenceBlockNode->appendChild($timingNode);
+        $datesNode = $dom->createElement('Dates');
+        $timingNode->appendChild($datesNode);
+        $startDateNode = $dom->createElement('StartDate', $block['start_date']);
+        $datesNode->appendChild($startDateNode);
+        $endDateNode = $dom->createElement('EndDate', $block['end_date']);
+        $datesNode->appendChild($endDateNode);
+
+        // academic level
+        $levelNode = $dom->createElement('Level', "/CurriculumInventory/AcademicLevels/Level[@number='{$block['academic_level_number']}']");
+        $sequenceBlockNode->appendChild($levelNode);
+
+        // clerkship type
+        if (array_key_exists('clerkship_model', $block)) {
+            $clerkshipModelNode = $dom->createElement('ClerkshipModel', $block['clerkship_model']);
+            $sequenceBlockNode->appendChild($clerkshipModelNode);
+        }
+
+        // event references
+        if (array_key_exists('event_references', $block)) {
+            foreach ($block['event_references'] as $reference) {
+                $sequenceBlockEventNode = $dom->createElement('SequenceBlockEvent');
+                $sequenceBlockNode->appendChild($sequenceBlockEventNode);
+                if ($reference['required']) {
+                    $sequenceBlockEventNode->setAttribute('required', 'true');
+                } else {
+                    $sequenceBlockEventNode->setAttribute('required', 'false');
+                }
+                $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['session_id']}']}";
+                $eventReferenceNode = $dom->createElement('EventReferenceNode', $refUri);
+                $sequenceBlockEventNode->appendChild($eventReferenceNode);
+                // @todo add start/end-date
+            }
+        }
+
+        // recursively generate XML for nested sequence blocks
+        if (array_key_exists('children', $block)) {
+            foreach ($block['children'] as $child) {
+                $this->_createSequenceBlockXml($dom, $sequenceBlockNode, $child);
+            }
+        }
+
     }
 
     /**
@@ -527,6 +593,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $keywords = $this->inventory->getEventKeywords($programYearId);
         $levels = $this->invAcademicLevel->getAppliedLevels($programYearId);
         $sequenceBlocks = $this->invSequenceBlock->getBlocks($programYearId);
+        $eventReferences = $this->inventory->getEventReferences($programYearId);
 
         //
         // transmogrify inventory data for reporting and fill in the blanks
@@ -534,9 +601,10 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         // add keywords to event
         $events = $this->_addKeywordsToEvents($events, $keywords);
-        
+
+        $sequenceBlocks = $this->_prepareBlockEventsForOutput($sequenceBlocks, $eventReferences);
         // transform sequence blocks from a flat list into a nested structure
-        $sequenceBlocks = $this->_buildSequenceBlockHierarchy($sequenceBlocks, $levels, $events);
+        $sequenceBlocks = $this->_buildSequenceBlockHierarchy($sequenceBlocks);
 
         // fudge report properties
         $report = array();
@@ -558,6 +626,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         return $rhett;
     }
 
+    /**
+     * @param array $events
+     * @param array $keywords
+     * @return array
+     */
     protected function _addKeywordsToEvents (array $events, array $keywords)
     {
         foreach ($keywords as $keyword) {
@@ -570,19 +643,59 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         return $events;
     }
 
-    protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, array $academicLevels, array $events, $parentBlockId = null)
+    /**
+     * Iterate over a list of given sequence blocks and link to events, massage data
+     * @param array $sequenceBlocks
+     * @param array $eventReferences
+     * @return array
+     */
+    protected function _prepareBlockEventsForOutput (array $sequenceBlocks, array $eventReferences)
+    {
+        for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
+            // link to events
+            $courseId = $sequenceBlocks[$i]['course_id'];
+            if ($courseId && array_key_exists($courseId, $eventReferences)) {
+                $sequenceBlocks[$i]['event_references'] = $eventReferences[$courseId];
+            } else {
+                $sequenceBlocks[$i]['event_references'] = array();
+            }
+            // map course clerkship type to "Clerkship Model"
+            // @todo review business rules
+            switch ($sequenceBlocks[$i]['course_clerkship_type_id']) {
+                case Course_Clerkship_Type::INTEGRATED :
+                    $sequenceBlocks[$i]['clerkship_model'] = 'integrated';
+                    break;
+                case Course_Clerkship_Type::BLOCK :
+                case Course_Clerkship_Type::LONGITUDINAL :
+                    $sequenceBlocks[$i]['clerkship_model'] = 'rotation';
+                    break;
+                default :
+                    // do nothing
+            }
+        }
+        return $sequenceBlocks;
+    }
+
+    /**
+     * @param array $sequenceBlocks
+     * @param int|null $parentBlockId
+     * @return array
+     */
+    protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, $parentBlockId = null)
     {
         $rhett = array();
+        $remainder = array();
         for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
             $block = $sequenceBlocks[$i];
             if ($parentBlockId === $block['parent_sequence_block_id']) {
                 $rhett[] = $block;
-                unset($sequenceBlocks[$i]);
+            } else {
+                $remainder[] = $block;
             }
         }
         for ($i = 0, $n = count($rhett); $i < $n; $i++) {
             // recursion!
-            $children = $this->_buildSequenceBlockHierarchy ($sequenceBlocks, $academicLevels, $events, $rhett[$i]['sequence_block_id']);
+            $children = $this->_buildSequenceBlockHierarchy ($remainder, $rhett[$i]['sequence_block_id']);
             if (count($children)) {
                 // sort children if the sort order demands it
                 if (Curriculum_Inventory_Sequence_Block::ORDERED === $rhett[$i]['child_sequence_order']) {
