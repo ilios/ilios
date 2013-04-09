@@ -89,7 +89,7 @@ EOL;
 SELECT
 s.session_id, s.title, sd.description, st.title AS method_title,
 st.assessment AS is_assessment_method,
-(TIMESTAMPDIFF(HOUR, o.start_date, o.end_date)) AS duration
+SUM(TIMESTAMPDIFF(HOUR, o.start_date, o.end_date)) AS duration
 FROM offering o
 JOIN `session` s ON s.session_id = o.session_id
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
