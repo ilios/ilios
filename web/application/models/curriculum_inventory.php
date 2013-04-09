@@ -31,8 +31,7 @@ class Curriculum_Inventory extends Ilios_Base_Model
         $sql =<<<EOL
 SELECT c.*
 FROM course c
-JOIN curriculum_inventory_sequence_block sb
-ON sb.course_id = c.course_id
+JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
 WHERE sb.program_year_id = {$clean['py_id']}
 EOL;
         $query = $this->db->query($sql);
@@ -75,7 +74,7 @@ EOL;
     }
 
     /**
-     * Retrieves a list of events (derived from sessions/offerings and independent learning sessions)
+     * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
      * in a curriculum inventory a for a given program year.
      * @param int $programYearId the program year id
      * @return array
@@ -89,16 +88,18 @@ EOL;
 SELECT
 s.session_id, s.title, sd.description, st.title AS method_title,
 st.assessment AS is_assessment_method,
-SUM(TIMESTAMPDIFF(HOUR, o.start_date, o.end_date)) AS duration
-FROM offering o
-JOIN `session` s ON s.session_id = o.session_id
+SUM(COALESCE(TIMESTAMPDIFF(MINUTE, o.start_date, o.end_date), 0)) AS duration
+FROM `session` s
+LEFT JOIN offering o ON o.session_id = s.session_id
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
 JOIN session_type st ON st.session_type_id = s.session_type_id
 JOIN course c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
 WHERE c.deleted = 0
 AND s.deleted = 0
+AND s.publish_event_id IS NOT NULL
 AND s.ilm_session_facet_id IS NULL
+AND o.deleted = 0
 AND sb.program_year_id = {$clean['py_id']}
 GROUP BY s.session_id, s.title, sd.description, method_title, is_assessment_method
 
@@ -107,7 +108,7 @@ UNION
 SELECT
 s.session_id, s.title, sd.description, st.title AS method_title,
 st.assessment AS is_assessment_method,
-FLOOR(sf.hours) AS duration
+FLOOR(sf.hours * 60) AS duration
 FROM `session` s
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
 JOIN session_type st ON st.session_type_id = s.session_type_id
@@ -116,6 +117,7 @@ JOIN ilm_session_facet sf ON sf.ilm_session_facet_id = s.ilm_session_facet_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
 WHERE c.deleted = 0
 AND s.deleted = 0
+AND s.publish_event_id IS NOT NULL
 AND sb.program_year_id = {$clean['py_id']}
 GROUP BY s.session_id, s.title, sd.description, method_title, is_assessment_method
 EOL;
@@ -133,7 +135,7 @@ EOL;
     /**
      * Retrieves keywords (MeSH descriptors) associated with events (sessions) in a given program year.
      * @param int $programYearId the program year id.
-     * @return an array of arrays, each sub-array representing a keyword
+     * @return array of arrays, each sub-array representing a keyword
      */
     public function getEventKeywords ($programYearId)
     {
@@ -150,6 +152,7 @@ JOIN session_x_mesh sxm ON sxm.session_id = s.session_id
 JOIN mesh_descriptor md ON md.mesh_descriptor_uid = sxm.mesh_descriptor_uid
 WHERE c.deleted = 0
 AND s.deleted = 0
+AND s.publish_event_id IS NOT NULL
 AND sb.program_year_id = {$clean['py_id']}
 EOL;
         $query = $this->db->query($sql);
@@ -161,5 +164,37 @@ EOL;
         $query->free_result();
         return $rhett;
 
+    }
+
+    /**
+     * Retrieves a lookup map of events ('sessions'), grouped and keyed off by course id.
+     * @param int $programYearId
+     * @return array of arrays, each sub-array containing 'event' data.
+     */
+    public function getEventReferences ($programYearId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['py_id'] = (int) $programYearId;
+        $sql =<<< EOL
+SELECT s.course_id, s.session_id, s.supplemental AS 'required'
+FROM `session` s
+JOIN `course` c ON c.course_id = s.course_id
+JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
+WHERE c.deleted = 0
+AND s.deleted = 0
+AND sb.program_year_id = {$clean['py_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! array_key_exists($row['course_id'], $rhett)) {
+                    $rhett[$row['course_id']] = array();
+                }
+                $rhett[$row['course_id']][] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
     }
 }

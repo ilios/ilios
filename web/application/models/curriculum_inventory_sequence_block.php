@@ -51,7 +51,18 @@ class Curriculum_Inventory_Sequence_Block extends Ilios_Base_Model
     public function getBlocks ($programYearId)
     {
         $rhett = array();
-        $query = $this->db->get_where($this->databaseTableName, array('program_year_id' => $programYearId));
+        $clean = array();
+        $clean['py_id'] = (int) $programYearId;
+        $sql =<<< EOL
+SELECT sb.*, al.level AS 'academic_level_number',
+c.clerkship_type_id AS 'course_clerkship_type_id'
+FROM {$this->databaseTableName} sb
+JOIN curriculum_inventory_academic_level al ON al.academic_level_id = sb.academic_level_id
+LEFT JOIN course c ON c.course_id = sb.course_id
+WHERE sb.program_year_id = {$clean['py_id']}
+EOL;
+
+        $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
                 $rhett[] = $row;
