@@ -14,7 +14,7 @@ class Migration_populate_curriculum_inventory_institution_from_school_data exten
         $this->db->trans_start();
         $sql =<<<EOL
 INSERT INTO `curriculum_inventory_institution` (
-  `school_id`, `name`, `aamc_id`, `address_street`, `address_city`,
+  `school_id`, `name`, `aamc_code`, `address_street`, `address_city`,
   `address_state_or_province`, `address_zipcode`, `address_country_code`)
 ( SELECT `school_id`, `title`, '00000', '', '', '', '', '' FROM `school`)
 EOL;

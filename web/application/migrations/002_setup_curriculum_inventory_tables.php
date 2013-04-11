@@ -15,7 +15,7 @@ class Migration_Setup_curriculum_inventory_tables extends CI_Migration
 CREATE TABLE `curriculum_inventory_institution` (
     `school_id` INT(10) UNSIGNED NOT NULL,
     `name` VARCHAR(100) NOT NULL,
-    `aamc_id` VARCHAR(10) NOT NULL,
+    `aamc_code` VARCHAR(10) NOT NULL,
     `address_street` VARCHAR(100) NOT NULL,
     `address_city` VARCHAR(100) NOT NULL,
     `address_state_or_province` VARCHAR(50) NOT NULL,
@@ -34,8 +34,8 @@ EOL;
         $sql =<<<EOL
 CREATE TABLE `curriculum_inventory_program` (
     `program_year_id` INT(10) UNSIGNED NOT NULL,
-    `aamc_id` VARCHAR(10) NULL,
-    `name` VARCHAR(200) NULL DEFAULT NULL,
+    `report_name` VARCHAR(200) NULL DEFAULT NULL,
+    `report_description` TEXT NULL,
     `education_program_context_id` INT UNSIGNED NULL,
     `profession_id` INT UNSIGNED NULL,
     `specialty_id` INT UNSIGNED NULL,
