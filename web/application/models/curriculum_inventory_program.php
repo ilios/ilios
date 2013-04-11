@@ -18,18 +18,18 @@ class Curriculum_Inventory_Program extends Ilios_Base_Model
     /**
      * Creates a new curriculum inventory program.
      * @param int $programYearId the corresponding Ilios program year id.
-     * @param string $name the program name
+     * @param string $reportName the program-report name
+     * @param string $reportDescription the program-report description
      * @param DateTime $startDate
      * @param DateTime $endDate
-     * @param string $aamcId the program code as issued by the AAMC
      * @return boolean TRUE on success, FALSE on failure
      */
-    public function create ($programYearId, $name = '', DateTime $startDate = null, DateTime $endDate = null, $aamcId = '')
+    public function create ($programYearId, $reportName = '', $reportDescription = '', DateTime $startDate = null, DateTime $endDate = null)
     {
         $data = array();
         $data['program_year_id'] = $programYearId;
-        $data['name'] = $name;
-        $data['aamc_id'] = $aamcId;
+        $data['report_name'] = $reportName;
+        $data['report_description'] = $reportDescription;
         if (isset($startDate)) {
             $data['start_date'] = $startDate->format('Y-m-d');
         }
@@ -42,16 +42,16 @@ class Curriculum_Inventory_Program extends Ilios_Base_Model
     /**
      * Updates a curriculum inventory program.
      * @param int $programYearId the corresponding Ilios program year id.
-     * @param string $name the program name
+     * @param string $reportName the program-report name
+     * @param string $reportDescription the program-report description
      * @param DateTime $startDate
      * @param DateTime $endDate
-     * @param string $aamcId the program code as issued by the AAMC
      * @return boolean TRUE on success, FALSE on failure
      */
-    public function update ($programYearId, $name = '', DateTime $startDate = null, DateTime $endDate = null, $aamcId = '') {
+    public function update ($programYearId, $reportName = '', $reportDescription = '', DateTime $startDate = null, DateTime $endDate = null) {
         $data = array();
-        $data['name'] = $name;
-        $data['aamc_id'] = $aamcId;
+        $data['report_name'] = $reportName;
+        $data['report_description'] = $reportDescription;
         if (isset($startDate)) {
             $data['start_date'] = $startDate->format('Y-m-d');
         }

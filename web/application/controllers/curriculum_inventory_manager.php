@@ -139,7 +139,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // create a new curriculum inventory (program, academic levels, sequence etc.)
         // @todo running db transactions in the controller - BAD! refactor this out.
         $this->db->trans_start();
-        $this->invProgram->create($programYearId, $name, $startDate, $endDate);
+        $this->invProgram->create($programYearId, $name, $name, $startDate, $endDate);
         $this->invAcademicLevel->createDefaultLevels($programYearId);
         $this->invSequence->create($programYearId);
         $this->db->trans_complete();
@@ -289,7 +289,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // ReportID
         //
         $reportIdNode = $dom->createElement('ReportID', $inventory['report']['id']);
-        $reportIdNode->setAttribute('domain', $inventory['report']['domain']);
+        $reportIdNode->setAttribute('domain', "idd:{$inventory['report']['domain']}:cireport");
         $rootNode->appendChild($reportIdNode);
 
         // Institution
@@ -298,7 +298,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $institutionNameNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionName');
         $institutionNameNode->appendChild($dom->createTextNode($inventory['institution']->name));
         $institutionNode->appendChild($institutionNameNode);
-        $institutionIdNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionID', $inventory['institution']->aamc_id);
+        $institutionIdNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionID', $inventory['institution']->aamc_code);
         $institutionIdNode->setAttribute('domain', 'idd:aamc.org:institution');
         $institutionNode->appendChild($institutionIdNode);
         $addressNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:Address');
@@ -322,17 +322,17 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $programNode = $dom->createElement('Program');
         $rootNode->appendChild($programNode);
         $programNameNode = $dom->createElement('ProgramName');
-        $programNameNode->appendChild($dom->createTextNode($inventory['program']->name));
+        $programNameNode->appendChild($dom->createTextNode($inventory['report']['program_title']));
         $programNode->appendChild($programNameNode);
-        $programIdNode = $dom->createElement('ProgramID', $inventory['program']->aamc_id);
-        $programIdNode->setAttribute('domain', 'idd:aamc.org:program');
+        $programIdNode = $dom->createElement('ProgramID', $inventory['report']['program_id']);
+        $programIdNode->setAttribute('domain', "idd:{$inventory['report']['domain']}:program");
         $programNode->appendChild($programIdNode);
 
         //
         // various other report attributes
         //
         $titleNode = $dom->createElement('Title');
-        $titleNode->appendChild($dom->createTextNode($inventory['program']->name));
+        $titleNode->appendChild($dom->createTextNode($inventory['program']->report_name));
         $rootNode->appendChild($titleNode);
         $reportDateNode = $dom->createElement('ReportDate', date('Y-m-d'));
         $rootNode->appendChild($reportDateNode);
@@ -342,15 +342,14 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $rootNode->appendChild($reportingEndDateNode);
         $languageNode = $dom->createElement('Language', 'en-US'); // @todo make this configurable
         $rootNode->appendChild($languageNode);
-        // for now, report title = report description = program title
-        // @todo provide means to provide different values for report title and report description
         $descriptionNode = $dom->createElement('Description');
-        $descriptionNode->appendChild($dom->createTextNode($inventory['program']->name));
+        $descriptionNode->appendChild($dom->createTextNode($inventory['program']->report_description));
         $rootNode->appendChild($descriptionNode);
         // default supporting link url to the site url of this Ilios instance.
-        // @todo make this configurable
-        $supportingLinkNode = $dom->createElement('SupportingLink', base_url());
-        $rootNode->appendChild($supportingLinkNode);
+        if (array_key_exists('supporting_link', $inventory['report'])) {
+            $supportingLinkNode = $dom->createElement('SupportingLink', $inventory['report']['supporting_link']);
+            $rootNode->appendChild($supportingLinkNode);
+        }
         //
         // Events
         //
@@ -574,6 +573,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             throw new Ilios_Exception('Could not load program year for the given id ( ' . $programYearId . ')');
         }
 
+        $program = $this->program->getRowForPrimaryKeyId($programYear->program_id);
+
+
         $invProgram = $this->invProgram->getRowForPrimaryKeyId($programYear->program_year_id);
         if (! isset($invProgram)) {
             throw new Ilios_Exception('Could not load curriculum inventory program for program-year id ( ' . $programYearId . ')');
@@ -595,6 +597,20 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $sequenceBlocks = $this->invSequenceBlock->getBlocks($programYearId);
         $eventReferences = $this->inventory->getEventReferences($programYearId);
 
+        // report (and some program) properties
+        $report = array();
+        $report['id'] = $programYearId . '-' . time(); // report id format: "<program year id>-<current timestamp>"
+        //$report['domain'] = 'idd:curriculum.ucsf.edu:cim';
+        $report['domain'] = $this->config->item('curriculum_inventory_institution_domain');
+        $report['date'] = date('Y-m-d');
+        $report['program_title'] = $program->title;
+        $report['program_id'] = $program->program_id;
+
+        $supportingLink = $this->config->item('curriculum_inventory_supporting_link');
+        if ($supportingLink) {
+            $report['supporting_link'] = $supportingLink;
+        }
+
         //
         // transmogrify inventory data for reporting and fill in the blanks
         //
@@ -605,12 +621,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $sequenceBlocks = $this->_prepareBlockEventsForOutput($sequenceBlocks, $eventReferences);
         // transform sequence blocks from a flat list into a nested structure
         $sequenceBlocks = $this->_buildSequenceBlockHierarchy($sequenceBlocks);
-
-        // fudge report properties
-        $report = array();
-        $report['id'] = $programYearId . '-' . time(); // report id format: "<program year id>-<current timestamp>"
-        $report['domain'] = 'idd:curriculum.ucsf.edu:cim';  // @todo change hardwired attribute to reflect ... what exactly?
-        $report['date'] = date('Y-m-d');
 
         //
         // aggregate inventory into single return-array
