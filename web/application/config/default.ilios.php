@@ -125,7 +125,7 @@ $config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout
 | Curriculum Inventory Report Management/Export
 |--------------------------------------------------------------------------
 |
-| ['curriculum_inventory_report_id_domain'] ...
+| ['curriculum_inventory_institution_domain'] ...
 |    Part of the "domain" attribute of the <ReportID> element
 |    From the spec:
 |
@@ -135,19 +135,25 @@ $config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout
 |            Where:
 |                domainnameis internet domain name that is a valid URN authority (see RFC 3986 - URI)
 |                and is owned by the organization issuing the unique ID.
+|    Example:
+|        $config['curriculum_inventory_institution_domain'] = 'ucsf.edu';
 |
 | ['curriculum_inventory_report_supporting_link'] ...
-|    value of the optional <SupportingLink> element.
+|    Optional "supporting link" for the curriculum. (<SupportingLink> element).
+|    Leave empty or commented in if this value is to be omitted from reports.
+|
+|    From the spec:
 |
 |        A link to supporting information, such as a pictorial representation of the curriculum
 |        or a document explaining the rationale behind the curriculum structure"
 |
-|    Can be omitted.
+|    Example:
+|        $config['curriculum_inventory_supporting_link_url'] ] = 'http://curriculum.example.edu/inventory'
 |
 | @link http://www.medbiq.org/sites/default/files/files/CurriculumInventorySpecification.pdf
 */
-$config['curriculum_inventory_institutional_domain'] = 'example.edu';
-$config['curriculum_inventory_supporting_link_url'] = 'http://curriculum.example.edu/inventory';
+$config['curriculum_inventory_institution_domain'] = '%%ILIOS_INSTITUTION_DOMAIN%%';
+$config['curriculum_inventory_supporting_link'] = '';
 /*
 |--------------------------------------------------------------------------
 | Scheduled Task configuration
@@ -194,7 +200,7 @@ $config['tasks']['teaching_reminders']['enabled'] = false;
 | ['tasks']['user_sync']['log_file_path']      absolute path to the log file
 | ['tasks']['user_sync']['user_source_class']  classname of the external user source implementation
 |
-| * LDAP-based exernal user source configuration
+| * LDAP-based external user source configuration
 |
 | ['tasks']['user_sync']['ldap']               configuration container for LDAP user source
 | ['tasks']['user_sync']['ldap']['host']       LDAP server host name or an URL
