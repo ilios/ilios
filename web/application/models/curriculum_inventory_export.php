@@ -12,6 +12,6 @@ class Curriculum_Inventory_Export extends Ilios_Base_Model
      */
     public function __construct ()
     {
-        parent::__construct('curriculum_inventory_export', array('curriculum_inventory_export_id'));
+        parent::__construct('curriculum_inventory_export', array('export_id'));
     }
 }

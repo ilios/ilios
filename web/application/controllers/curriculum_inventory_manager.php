@@ -18,7 +18,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         parent::__construct();
         $this->load->model('Course_Clerkship_Type', 'clerkshipType', true);
         $this->load->model('Curriculum_Inventory', 'inventory', true);
-        $this->load->model('Curriculum_Inventory_Program', 'invProgram', true);
+        $this->load->model('Curriculum_Inventory_Report', 'invReport', true);
         $this->load->model('Curriculum_Inventory_Academic_Level', 'invAcademicLevel', true);
         $this->load->model('Curriculum_Inventory_Institution', 'invInstitution', true);
         $this->load->model('Curriculum_Inventory_Sequence', 'invSequence', true);
@@ -26,14 +26,41 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * Default action, alias for "view".
-     * @see Curriculum_Inventory_Manager::view()
+     * Default action.
+     * Lists existing reports for the currently active school.
      */
     public function index ()
     {
-        $this->view();
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['i18n'] =  $this->languagemap;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
+
+        $schoolId = $this->session->userdata('school_id');
+        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
+
+        if (! isset($schoolRow)) {
+            show_error('Failed to load school data for this user session.');
+            return;
+        }
+
+        $this->load->view('curriculum_inventory/index', $data);
     }
 
+    /**
+     * Prints the curriculum inventory manager for a requested report.
+     * Expects the following input in the request parameter string:
+     *    'report_id' ... the report id.
+     */
     public function view ()
     {
         $lang = $this->getLangToUse();
@@ -70,14 +97,17 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         // @todo
 
-        $this->load->view('curriculum_inventory/curriculum_inventory_manager', $data);
+        $this->load->view('curriculum_inventory/view', $data);
     }
 
     /**
-     * Creates a new curriculum inventory (report) for a given program year.
-     * Expects the following input in the request parameter string:
-     *    'py_id' ... the program year id.
-     * On successful creation, the user will be redirected to view the new inventory.
+     * Creates a new curriculum inventory report for a given academic year and program.
+     * Expects the following input to be POSTed:
+     *    'year' ... the academic year
+     *    'name' ... the report name
+     *    'description' ... the report description
+     *    'program_id' ... the program id
+     * On successful creation, the user will be redirected to view the new report.
      * Any failure will cause an error page to be rendered.
      */
     public function add ()
@@ -104,58 +134,50 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
-        $programYearId = (int) $this->input->get('py_id');
-
+        $year = (int) $this->input->post('year');
+        $reportName = $this->input->post('name');
+        $reportDescription = $this->input->post('description');
+        $programId = (int) $this->input->post('program_id');
         //
-        // create new inventory program for a given ilios program-year
+        // create new inventory report for the given academic year
         //
 
-        // check if ilios program year exists
-        $programYear = $this->programYear->getRowForPrimaryKeyId($programYearId, true);
-        if (! isset($programYear)) {
-            show_error('A program year with the given id does not exist.');
+        // check if a curriculum inventory report already exists
+        $invReport = $this->invReport->getByAcademicYearAndProgram($year, $programId);
+        if (isset($invReport)) {
+            show_error('A curriculum inventory report already exists for the given academic year and program.');
             return;
         }
 
-        // check if a curriculum inventory program already exists
-        $invProgram = $this->invProgram->getRowForPrimaryKeyId($programYearId);
-        if (isset($invProgram)) {
-            show_error('A curriculum inventory already exists for the given program year.');
-            return;
-        }
-
-        // load program
-        $program = $this->program->getRowForPrimaryKeyId($programYear->program_id, true);
-
-        $startYear = $programYear->start_year;
+        $startYear = $year;
         $endYear = $startYear + 1;
-        $name = $program->title;
-        // create default start/end date of program, based on the given program year date
+        // create start/end date for the report
+        // @todo make hardwired start/end day/month configurable
         $startDate = new DateTime();
         $startDate->setDate($startYear, 7, 1);
         $endDate = new DateTime();
         $endDate->setDate($endYear, 6, 30);
 
-        // create a new curriculum inventory (program, academic levels, sequence etc.)
+        // create a new curriculum inventory report and associated entities (academic levels, sequence etc.)
         // @todo running db transactions in the controller - BAD! refactor this out.
         $this->db->trans_start();
-        $this->invProgram->create($programYearId, $name, $name, $startDate, $endDate);
-        $this->invAcademicLevel->createDefaultLevels($programYearId);
-        $this->invSequence->create($programYearId);
+        $reportId = $this->invReport->create($year, $schoolId, $reportName, $reportDescription, $startDate, $endDate);
+        $this->invAcademicLevel->createDefaultLevels($reportId);
+        $this->invSequence->create($reportId);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
-            show_error('Failed to create curriculum inventory.');
+            show_error('Failed to create curriculum inventory report.');
             return;
         }
 
         // success! redirect to view the new program
-        redirect('curriculum_inventory_manager/view?py_id=' . $programYearId);
+        redirect('curriculum_inventory_manager/view?report_id=' . $reportId);
     }
 
     /**
-     * Prints a curriculum inventory as HTML document.
+     * Prints a requested curriculum inventory report as HTML document.
      * Expects the following input in the request parameter string:
-     *    'py_id' ... the program year id.
+     *    'report_id' ... the report id.
      */
     public function preview ()
     {
@@ -173,14 +195,14 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
         // input validation
-        $progamYearId = (int) $this->input->get('py_id');
-        if (0 >= $progamYearId) {
-            show_error('Missing or invalid program year id.');
+        $reportId = (int) $this->input->get('report_id');
+        if (0 >= $reportId) {
+            show_error('Missing or invalid report id.');
             return;
         }
 
         try {
-            $inventory = $this->_loadCurriculumInventory($progamYearId);
+            $inventory = $this->_loadCurriculumInventory($reportId);
         } catch (Ilios_Exception $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
             show_error('An error occurred while loading the curriculum inventory.');
@@ -188,13 +210,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         $data['inventory'] = $inventory;
-        $this->load->view('curriculum_inventory/curriculum_inventory_preview', $data);
+        $this->load->view('curriculum_inventory/preview', $data);
     }
 
     /**
-     * Prints a curriculum inventory as XML document.
+     * Prints a requested curriculum inventory report as XML document.
      * Expects the following input in the request parameter string:
-     *    'py_id' ... the program year id.
+     *    'report_id' ... the report id
      */
     public function export ()
     {
@@ -213,17 +235,17 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         // input validation
-        $progamYearId = (int) $this->input->get('py_id');
-        if (0 >= $progamYearId) {
-            show_error('Missing or invalid program year id.');
+        $reportId = (int) $this->input->get('report_id');
+        if (0 >= $reportId) {
+            show_error('Missing or invalid report id.');
             return;
         }
 
         try {
-            $xml = $this->_getXmlReport($progamYearId);
+            $xml = $this->_getXmlReport($reportId);
         } catch (DomException $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
-            show_error('An error occurred while exporting the curriculum inventory to XML.');
+            show_error('An error occurred while exporting the curriculum inventory report to XML.');
             return;
         } catch (Ilios_Exception $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
@@ -234,7 +256,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $out = $xml->saveXML();
         if (false === $out) {
             log_message('error', 'CIM export: Failed to convert XML to its String representation.');
-            show_error('An error occurred while exporting the curriculum inventory.');
+            show_error('An error occurred while exporting the curriculum inventory report.');
 
         }
         // all is good, output the XML
@@ -248,17 +270,17 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     //
 
     /**
-     * Retrieves the inventory report as XML for a given program year.
-     * @param int $programYearId program year id
+     * Retrieves the inventory report as XML for a given report id.
+     * @param int $reportId the report id
      * @return DomDocument the XML report, or FALSE on failure
      * @throws DomException
      * @throws Ilios_Exception
      */
-    protected function _getXmlReport ($programYearId)
+    protected function _getXmlReport ($reportId)
     {
         // load the inventory from the db and create xml from it.
         // @todo conditionally, load the xml from file (or perhaps the database?) for finalized inventories.
-        $inventory = $this->_loadCurriculumInventory($programYearId);
+        $inventory = $this->_loadCurriculumInventory($reportId);
         return $this->_createXmlReport($inventory);
     }
 
@@ -322,9 +344,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $programNode = $dom->createElement('Program');
         $rootNode->appendChild($programNode);
         $programNameNode = $dom->createElement('ProgramName');
-        $programNameNode->appendChild($dom->createTextNode($inventory['report']['program_title']));
+        $programNameNode->appendChild($dom->createTextNode($inventory['program']->title));
         $programNode->appendChild($programNameNode);
-        $programIdNode = $dom->createElement('ProgramID', $inventory['report']['program_id']);
+        $programIdNode = $dom->createElement('ProgramID', $inventory['program']->program_id);
         $programIdNode->setAttribute('domain', "idd:{$inventory['report']['domain']}:program");
         $programNode->appendChild($programIdNode);
 
@@ -332,18 +354,18 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // various other report attributes
         //
         $titleNode = $dom->createElement('Title');
-        $titleNode->appendChild($dom->createTextNode($inventory['program']->report_name));
+        $titleNode->appendChild($dom->createTextNode($inventory['report']['name']));
         $rootNode->appendChild($titleNode);
         $reportDateNode = $dom->createElement('ReportDate', date('Y-m-d'));
         $rootNode->appendChild($reportDateNode);
-        $reportingStartDateNode = $dom->createElement('ReportingStartDate', $inventory['program']->start_date);
+        $reportingStartDateNode = $dom->createElement('ReportingStartDate', $inventory['report']['start_date']);
         $rootNode->appendChild($reportingStartDateNode);
-        $reportingEndDateNode = $dom->createElement('ReportingEndDate', $inventory['program']->end_date);
+        $reportingEndDateNode = $dom->createElement('ReportingEndDate', $inventory['report']['end_date']);
         $rootNode->appendChild($reportingEndDateNode);
         $languageNode = $dom->createElement('Language', 'en-US'); // @todo make this configurable
         $rootNode->appendChild($languageNode);
         $descriptionNode = $dom->createElement('Description');
-        $descriptionNode->appendChild($dom->createTextNode($inventory['program']->report_description));
+        $descriptionNode->appendChild($dom->createTextNode($inventory['report']['description']));
         $rootNode->appendChild($descriptionNode);
         // default supporting link url to the site url of this Ilios instance.
         if (array_key_exists('supporting_link', $inventory['report'])) {
@@ -449,6 +471,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         return $dom;
     }
 
+    /**
+     * Recursively creates and appends sequence block nodes to the XML document
+     * @param DomDocument $dom the document object
+     * @param DomElement $parentNode the node object to append to
+     * @param array $block the current sequence block
+     */
     protected function _createSequenceBlockXml (DomDocument $dom, DomElement $parentNode, array $block)
     {
         $sequenceBlockNode = $dom->createElement('SequenceBlock');
@@ -549,12 +577,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * Retrieves all the entire curriculum inventory for a given program year.
-     * @param int $programYearId the program year
+     * Retrieves curriculum inventory report data.
+     * @param int $reportId the report id
      * @return array an associated array, containing the inventory. Data is keyed off by:
      *     'report' ... an array holding various report-related properties, such as id, domain etc
-     *     'institution' ... an object representing the curriculum inventory program's owning institution
-     *     'program' ... an object representing the curriculum inventory program
+     *     'program' ... an object representing the program associated with the report
+     *     'institution' ... an object representing the curriculum inventory's owning institution
      *     'events'
      *     'expectations'
      *     'academic_levels'
@@ -563,48 +591,45 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *     'integration'
      * @throws Ilios_Exception
      */
-    protected function _loadCurriculumInventory ($programYearId)
+    protected function _loadCurriculumInventory ($reportId)
     {
         //
         // load inventory from various sources
         //
-        $programYear = $this->programYear->getRowForPrimaryKeyId($programYearId);
-        if (! isset($programYear)) {
-            throw new Ilios_Exception('Could not load program year for the given id ( ' . $programYearId . ')');
+        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
+        if (! isset($invReport)) {
+            throw new Ilios_Exception('Could not load the report for the given id ( ' . $reportId . ')');
         }
 
-        $program = $this->program->getRowForPrimaryKeyId($programYear->program_id);
-
-
-        $invProgram = $this->invProgram->getRowForPrimaryKeyId($programYear->program_year_id);
-        if (! isset($invProgram)) {
-            throw new Ilios_Exception('Could not load curriculum inventory program for program-year id ( ' . $programYearId . ')');
+        $program = $this->program->getRowForPrimaryKeyId($invReport->program_id);
+        if (! isset($program)) {
+            throw new Ilios_Exception('Could not load program for program id ( ' . $program->program_id . ')');
         }
 
-        $program = $this->program->getRowForPrimaryKeyId($programYear->program_id);
         $invInstitution  = $this->invInstitution->getRowForPrimaryKeyId($program->owning_school_id);
         if (! isset($invInstitution)) {
             throw new Ilios_Exception('Could not load curriculum institution for school id ( ' . $program->owning_school_id . ')');
         }
-        $invSequence = $this->invSequence->getRowForPrimaryKeyId($programYearId);
+        $invSequence = $this->invSequence->getRowForPrimaryKeyId($reportId);
         if (! isset($invSequence)) {
-            throw new Ilios_Exception('Could not load curriculum sequence for program-year id ( ' . $programYearId . ')');
+            throw new Ilios_Exception('Could not load curriculum sequence for report id ( ' . $reportId . ')');
         }
 
-        $events = $this->inventory->getEvents($programYearId);
-        $keywords = $this->inventory->getEventKeywords($programYearId);
-        $levels = $this->invAcademicLevel->getAppliedLevels($programYearId);
-        $sequenceBlocks = $this->invSequenceBlock->getBlocks($programYearId);
-        $eventReferences = $this->inventory->getEventReferences($programYearId);
+        $events = $this->inventory->getEvents($reportId);
+        $keywords = $this->inventory->getEventKeywords($reportId);
+        $levels = $this->invAcademicLevel->getAppliedLevels($reportId);
+        $sequenceBlocks = $this->invSequenceBlock->getBlocks($reportId);
+        $eventReferences = $this->inventory->getEventReferences($reportId);
 
         // report (and some program) properties
         $report = array();
-        $report['id'] = $programYearId . '-' . time(); // report id format: "<program year id>-<current timestamp>"
-        //$report['domain'] = 'idd:curriculum.ucsf.edu:cim';
+        $report['id'] = $invReport->year . '-' . $program->program_id . '-' . time(); // report id format: "<academic year>-<program id>-<current timestamp>"
         $report['domain'] = $this->config->item('curriculum_inventory_institution_domain');
         $report['date'] = date('Y-m-d');
-        $report['program_title'] = $program->title;
-        $report['program_id'] = $program->program_id;
+        $report['name'] = $invReport->name;
+        $report['description'] = $invReport->description;
+        $report['start_date'] = $invReport->start_date;
+        $report['end_date'] = $invReport->end_date;
 
         $supportingLink = $this->config->item('curriculum_inventory_supporting_link');
         if ($supportingLink) {
@@ -627,7 +652,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         //
         $rhett = array();
         $rhett['report'] = $report;
-        $rhett['program'] = $invProgram;
+        $rhett['program'] = $program;
         $rhett['institution'] = $invInstitution;
         $rhett['sequence'] = $invSequence;
         $rhett['sequence_blocks'] = $sequenceBlocks;
@@ -645,6 +670,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     {
         foreach ($keywords as $keyword) {
             $eventId = $keyword['session_id'];
+            if (! array_key_exists($eventId, $events)) {
+                continue;
+            }
             if (! array_key_exists('keywords', $events[$eventId])) {
                 $events[$eventId]['keywords'] = array();
             }
@@ -687,12 +715,14 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * @param array $sequenceBlocks
-     * @param int|null $parentBlockId
-     * @return array
+     *
+     * @param array $sequenceBlocks a list of sequence blocks
+     * @param int|null $parentBlockId the id of the parent block
+     * @return array the nests
      */
     protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, $parentBlockId = null)
     {
+
         $rhett = array();
         $remainder = array();
         for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
@@ -717,6 +747,14 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         return $rhett;
     }
 
+    /**
+     * Comparison function for sorting sequence block arrays.
+     * @param array $a associative array representing a sequence block
+     * @param array $b associative array representing a sequence block
+     * @return int
+     * @see usort()
+     * @see Curriculum_Inventory_Manager::_buildSequenceBlockHierarchy()
+     */
     protected function _sortSequenceBlocks (array $a, array $b)
     {
         if ($a['order_in_sequence'] === $b['order_in_sequence']) {

@@ -32,18 +32,18 @@ ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
         $sql =<<<EOL
-CREATE TABLE `curriculum_inventory_program` (
-    `program_year_id` INT(10) UNSIGNED NOT NULL,
-    `report_name` VARCHAR(200) NULL DEFAULT NULL,
-    `report_description` TEXT NULL,
-    `education_program_context_id` INT UNSIGNED NULL,
-    `profession_id` INT UNSIGNED NULL,
-    `specialty_id` INT UNSIGNED NULL,
+CREATE TABLE `curriculum_inventory_report` (
+    `report_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `program_id` INT(10) UNSIGNED NOT NULL,
+    `year` SMALLINT(4) UNSIGNED NOT NULL,
+    `name` VARCHAR(200) NULL DEFAULT NULL,
+    `description` TEXT NULL,
     `start_date` DATE NULL DEFAULT NULL,
     `end_date` DATE NULL DEFAULT NULL,
-    PRIMARY KEY (`program_year_id`),
-    CONSTRAINT `fkey_curriculum_inventory_program_program_year_id`
-        FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
+    PRIMARY KEY (`report_id`),
+    UNIQUE INDEX `program_id_year` (`program_id`, `year`),
+    CONSTRAINT `fkey_curriculum_inventory_report_program_id` 
+        FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`) 
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
@@ -53,11 +53,11 @@ EOL;
         $this->db->query($sql);
         $sql =<<<EOL
 CREATE TABLE `curriculum_inventory_sequence` (
-    `program_year_id` INT(10) UNSIGNED NOT NULL,
+    `report_id` INT(10) UNSIGNED NOT NULL,
     `description` TEXT NULL,
-    PRIMARY KEY (`program_year_id`),
-    CONSTRAINT `fkey_curriculum_inventory_sequence_program_year_id`
-        FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
+    PRIMARY KEY (`report_id`),
+    CONSTRAINT `fkey_curriculum_inventory_sequence_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
@@ -68,14 +68,14 @@ EOL;
         $sql =<<<EOL
 CREATE TABLE `curriculum_inventory_academic_level` (
     `academic_level_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `program_year_id` INT(10) UNSIGNED NOT NULL,
+    `report_id` INT(10) UNSIGNED NOT NULL,
     `level` INT(2) UNSIGNED NOT NULL,
     `name` VARCHAR(50) NOT NULL,
     `description` TEXT NULL,
     PRIMARY KEY (`academic_level_id`),
-    UNIQUE INDEX `program_year_id_level` (`program_year_id`, `level`),
-    CONSTRAINT `fkey_curriculum_inventory_academic_level_program_year_id` 
-        FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
+    UNIQUE INDEX `report_id_level` (`report_id`, `level`),
+    CONSTRAINT `fkey_curriculum_inventory_academic_level_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
@@ -86,7 +86,7 @@ EOL;
         $sql =<<<EOL
 CREATE TABLE `curriculum_inventory_sequence_block` (
     `sequence_block_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `program_year_id` INT(10) UNSIGNED NOT NULL,
+    `report_id` INT(10) UNSIGNED NOT NULL,
     `status` TINYINT UNSIGNED NOT NULL DEFAULT '0',
     `child_sequence_order` TINYINT UNSIGNED NOT NULL DEFAULT '0',
     `order_in_sequence` INT(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -102,7 +102,7 @@ CREATE TABLE `curriculum_inventory_sequence_block` (
     `course_id` INT(10) UNSIGNED NULL DEFAULT NULL,
     `parent_sequence_block_id` INT(10) UNSIGNED NULL DEFAULT NULL,
     PRIMARY KEY (`sequence_block_id`),
-    INDEX `fkey_curriculum_inventory_sequence_block_program_year_id` (`program_year_id`),
+    INDEX `fkey_curriculum_inventory_sequence_block_report_id` (`report_id`),
     INDEX `fkey_curriculum_inventory_sequence_block_course_id` (`course_id`),
     INDEX `fkey_curriculum_inventory_sequence_block_parent_id` (`parent_sequence_block_id`),
     INDEX `fkey_curriculum_inventory_sequence_block_academic_level_id` (`academic_level_id`),
@@ -115,8 +115,8 @@ CREATE TABLE `curriculum_inventory_sequence_block` (
     CONSTRAINT `fkey_curriculum_inventory_sequence_block_parent_id`
         FOREIGN KEY (`parent_sequence_block_id`) REFERENCES `curriculum_inventory_sequence_block` (`sequence_block_id`)
         ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT `fkey_curriculum_inventory_sequence_block_program_year_id`
-        FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
+    CONSTRAINT `fkey_curriculum_inventory_sequence_block_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
@@ -137,7 +137,7 @@ EOL;
         $this->db->query("DROP TABLE `curriculum_inventory_sequence_block`");
         $this->db->query("DROP TABLE `curriculum_inventory_academic_level`");
         $this->db->query("DROP TABLE `curriculum_inventory_sequence`");
-        $this->db->query("DROP TABLE `curriculum_inventory_program`");
+        $this->db->query("DROP TABLE `curriculum_inventory_report`");
         $this->db->query("DROP TABLE `curriculum_inventory_institution`");
         $this->db->trans_complete();
     }

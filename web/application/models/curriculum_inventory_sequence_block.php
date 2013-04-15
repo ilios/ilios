@@ -40,26 +40,26 @@ class Curriculum_Inventory_Sequence_Block extends Ilios_Base_Model
      */
     public function __construct ()
     {
-        parent::__construct('curriculum_inventory_sequence_block', array('curriculum_inventory_sequence_block_id'));
+        parent::__construct('curriculum_inventory_sequence_block', array('sequence_block_id'));
     }
 
     /**
-     * Retrieves the sequence blocks associated with a given program year.
-     * @param int $programYearId the program year id.
+     * Retrieves the sequence blocks associated with a given report.
+     * @param int $reportId the report id
      * @return array a nested array of arrays, each sub-array is representing a sequence block record
      */
-    public function getBlocks ($programYearId)
+    public function getBlocks ($reportId)
     {
         $rhett = array();
         $clean = array();
-        $clean['py_id'] = (int) $programYearId;
+        $clean['report_id'] = (int) $reportId;
         $sql =<<< EOL
 SELECT sb.*, al.level AS 'academic_level_number',
 c.clerkship_type_id AS 'course_clerkship_type_id'
 FROM {$this->databaseTableName} sb
 JOIN curriculum_inventory_academic_level al ON al.academic_level_id = sb.academic_level_id
 LEFT JOIN course c ON c.course_id = sb.course_id
-WHERE sb.program_year_id = {$clean['py_id']}
+WHERE sb.report_id = {$clean['report_id']}
 EOL;
 
         $query = $this->db->query($sql);
