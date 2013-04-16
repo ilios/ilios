@@ -248,7 +248,6 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                 var idString = null;
                 var str;
                 var containerNumber;
-                var hasCurriculumInventoryReportMap = {};
 
                 try {
                     parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
@@ -260,10 +259,6 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                 }
 
                 ilios.utilities.removeAllChildren(programYearContainer);
-
-                if (YAHOO.lang.isObject(parsedObject.has_curriculum_inventory_report)) {
-                    hasCurriculumInventoryReportMap = parsedObject.has_curriculum_inventory_report;
-                }
 
                 len = parsedObject.years.length;
                 for (; i < len; i++) {
@@ -285,7 +280,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                                                                null,
                                                                formDOMElement,
                                                                ilios.pm.programYearContentGenerator,
-                                                               ['archiver', 'inventory']);
+                                                               ['archiver']);
 
                     // possible DOM race condition
                     programYearContainer.appendChild(newProgramYearDOMTree.get('element'));
@@ -469,25 +464,6 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     if (programYearModel.isLocked()) {
                         ilios.pm.alterProgramYearUIToReflectLockedState(containerNumber, true);
                     }
-
-                    if (ilios.pm.can_manage_curriculum_inventory) {
-                        idString = ilios.pm.generateIdStringForInventoryDiv(containerNumber);
-                        scratchElem = document.getElementById(idString);
-                        if (scratchElem) {
-                            if (hasCurriculumInventoryReportMap.hasOwnProperty(programYearModel.getDBId())) {
-                                scratchElem.href = inventoryControllerURL + 'view?py_id=' + programYearModel.getDBId();
-                            } else {
-                                scratchElem.href = inventoryControllerURL + 'add?py_id=' + programYearModel.getDBId();
-                            }
-                            scratchElem.setAttribute('style', 'display: block');
-                        }
-                    }
-
-                    idString = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
-                    scratchElem = document.getElementById(idString);
-                    if (scratchElem) {
-                        scratchElem.setAttribute('style', 'display: block');
-                    }
                 }
 
                 ilios.pm.loadedProgramModel.clearDirtyState();
@@ -578,21 +554,6 @@ ilios.pm.transaction.performProgramYearSave = function (containerNumber, shouldP
                 }
                 else {
                     element.innerHTML = '<span class="status is-published">' + ilios_i18nVendor.getI18NString('general.terms.published') + '</span>';
-                }
-
-                if (ilios.pm.can_manage_curriculum_inventory) {
-                    idString = ilios.pm.generateIdStringForInventoryDiv(containerNumber);
-                    scratchElem = document.getElementById(idString);
-                    if (scratchElem) {
-                         scratchElem.href = inventoryControllerURL + 'add?py_id=' + programYearModel.getDBId();
-                         scratchElem.setAttribute('style', 'display: block');
-                    }
-                }
-
-                idString = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
-                scratchElem = document.getElementById(idString);
-                if (scratchElem) {
-                    scratchElem.setAttribute('style', 'display: block');
                 }
             },
 

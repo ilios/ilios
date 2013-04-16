@@ -548,7 +548,7 @@ ilios.pm.appendProgramYearComponentToDOM = function (parentElement, contentId, l
 
 
         if (! parentDOMElement.hideOnLockDivs) {
-            parentDOMElement.hideOnLockDivs = new Array();
+            parentDOMElement.hideOnLockDivs = [];
         }
         parentDOMElement.hideOnLockDivs.push(scratchElement);
     }
@@ -628,10 +628,6 @@ ilios.pm.generateIdStringForArchivingDiv = function (containerNumber) {
     return '' + containerNumber + '_' + 'archiving_link_div';
 };
 
-ilios.pm.generateIdStringForInventoryDiv = function (containerNumber) {
-    return '' + containerNumber + '_' + 'inventory_link_div';
-};
-
 ilios.pm.generateIdStringForCompetencyContent = function (containerNumber) {
     return '' + containerNumber + '_' + 'competency_picker_selected_text_list';
 };
@@ -707,7 +703,6 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
     var titleId = ilios.pm.generateIdStringForProgramYearSelect(containerNumber);
     var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.program_year');
     var elem, rowEl, labelCol, dataCol, actionCol;
-    var model;
 
     // Program Year
     rowEl = ilios.dom.createEntityContainerInputRow();
@@ -792,18 +787,6 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
         elem = YAHOO.util.Dom.getElementsByClassName('archiver', 'li', parentElement)[0]; //works, but could be cleaner
         elem.appendChild(scratchInput);
     }
-
-    if (ilios.pm.can_manage_curriculum_inventory) {
-        scratchInput = document.createElement('a');
-        scratchInput.setAttribute('href', '');
-        i18nStr = ilios_i18nVendor.getI18NString('program_management.manage_curriculum_inventory');
-        scratchInput.innerHTML = i18nStr;
-        scratchInput.setAttribute('class', 'small secondary radius button');
-        scratchInput.setAttribute('style', 'display:none');
-        scratchInput.setAttribute('id', ilios.pm.generateIdStringForInventoryDiv(containerNumber));
-        elem = YAHOO.util.Dom.getElementsByClassName('inventory', 'li', parentElement)[0];
-        elem.appendChild(scratchInput);
-    }
 };
 
 ilios.pm.addNewProgramYear = function () {
@@ -827,7 +810,7 @@ ilios.pm.addNewProgramYear = function () {
         newProgramYearDOMTree = ilios.dom.buildChildContainerDOMTree(containerNumber, null, null,
            ilios.pm.transaction.saveProgramYearAsDraft, null, ilios.pm.transaction.saveProgramYearAndPublish,
            ilios.pm.transaction.deleteProgramYear, ilios.pm.handleProgramYearDivCollapse, null,
-           formDOMElement, ilios.pm.programYearContentGenerator, ['archiver', 'inventory']);
+           formDOMElement, ilios.pm.programYearContentGenerator, ['archiver']);
 
         container.appendChild(newProgramYearDOMTree.get('element'));
 

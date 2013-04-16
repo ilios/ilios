@@ -4,7 +4,6 @@
  */
 
 $controllerURL = site_url() . '/program_management'; // TODO: consider how to avoid this coupling
-$inventoryControllerURL = site_url() . '/curriculum_inventory_manager';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
@@ -53,16 +52,13 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
     <script type="text/javascript">
-        var controllerURL = "<?php echo $controllerURL; ?>/"; // expose this to our program_manager_*.js
-        var inventoryControllerURL = "<?php echo $inventoryControllerURL; ?>/";
+        // expose this to our program_manager_*.js
+        var controllerURL = "<?php echo $controllerURL; ?>/";
         // assure the existence of this page's namespace
+        ilios.namespace('pm');
         // We do this here due to load-time issue; program_manager_dom loaded below, and
         // prior to the include-include of mesh picking php that eventually creates
         // this namespace, implements the custom save handler in this namespace
-        ilios.namespace('pm');
-
-        // kludgy way of indicating whether the current user has curriculum inventory management privileges
-        ilios.pm.can_manage_curriculum_inventory = <?php echo $has_admin_rights ? 'true' : 'false'; ?>;
         ilios.namespace('common.picker.mesh');
     </script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/abstract_js_model_form.js"); ?>"></script>
