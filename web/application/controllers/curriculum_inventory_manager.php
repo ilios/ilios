@@ -389,7 +389,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             if ('' !== trim($event['description'])) {
                 $descriptionNode = $dom->createElement('Description');
                 $eventNode->appendChild($descriptionNode);
-                $descriptionNode->appendChild($dom->createTextNode(strip_tags($event['description'])));
+                $descriptionNode->appendChild($dom->createTextNode(trim(strip_tags($event['description']))));
             }
             if (array_key_exists('keywords', $event)) {
                 foreach ($event['keywords'] as $keyword) {
