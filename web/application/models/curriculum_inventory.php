@@ -249,31 +249,129 @@ EOL;
         return $rhett;
     }
 
-
-    // @todo implement/document
-
-    public function getSessionObjectives ($reportId)
-    {
-        return array();
-    }
-
-    public function getCourseObjectives ($reportId)
-    {
-        return array();
-    }
-
+    /**
+     * @param int $reportId
+     * @return array
+     */
     public function getProgramObjectives ($reportId)
     {
-        return array();
+        $rhett = array();
+        $clean = array();
+        $clean['report_id'] = (int) $reportId;
+        $sql =<<<EOL
+SELECT DISTINCT
+o.objective_id, o.title
+FROM
+curriculum_inventory_report r
+JOIN program p ON p.program_id = r.program_id
+JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+JOIN course c ON c.course_id = sb.course_id
+JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
+JOIN cohort co ON co.cohort_id = cxc.cohort_id
+JOIN program_year py ON py.program_year_id = co.program_year_id
+JOIN program p2 ON p2.program_id = py.program_id AND p2.owning_school_id = p.owning_school_id
+JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
+JOIN objective o ON o.objective_id = pyxo.objective_id
+WHERE
+c.deleted = 0
+AND py.deleted = 0
+AND sb.report_id = {$clean['report_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[$row['objective_id']] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
     }
 
+    /**
+     * @param int $reportId
+     * @return array
+     */
+    public function getCourseObjectives ($reportId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['report_id'] = (int) $reportId;
+        $sql =<<<EOL
+SELECT DISTINCT
+o.objective_id, o.title
+FROM
+curriculum_inventory_report r
+JOIN program p ON p.program_id = r.program_id
+JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+JOIN course c ON c.course_id = sb.course_id
+JOIN course_x_objective cxo ON cxo.course_id = c.course_id
+JOIN objective o ON o.objective_id = cxo.objective_id
+WHERE
+c.deleted = 0
+AND sb.report_id = {$clean['report_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[$row['objective_id']] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
+     * @param int $reportId
+     * @return array
+     */
+    public function getSessionObjectives ($reportId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['report_id'] = (int) $reportId;
+        $sql =<<<EOL
+SELECT DISTINCT
+o.objective_id, o.title
+FROM
+curriculum_inventory_report r
+JOIN program p ON p.program_id = r.program_id
+JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+JOIN course c ON c.course_id = sb.course_id
+JOIN `session` s ON s.course_id = c.course_id
+JOIN session_x_objective sxo ON sxo.session_id = s.session_id
+JOIN objective o ON o.objective_id = sxo.objective_id
+WHERE
+c.deleted = 0
+AND s.deleted = 0
+AND sb.report_id = {$clean['report_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[$row['objective_id']] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
+     * @param int $reportId
+     * @return array
+     */
     public function getCompetencyObjectReferencesForEvents ($reportId)
     {
+        // @todo implement/document
         return array();
     }
 
+    /**
+     * @param int $reportId
+     * @return array
+     */
     public function getCompetencyObjectReferencesForSequenceBlocks ($reportId)
     {
+        // @todo implement/document
         return array();
     }
 }
