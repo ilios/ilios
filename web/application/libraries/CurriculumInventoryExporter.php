@@ -412,13 +412,25 @@ class CurriculumInventoryExporter
         //
         $expectationsNode = $dom->createElement('Expectations');
         $rootNode->appendChild($expectationsNode);
-        foreach ($inventory['expectations']['competencies'] as $courseObjective) {
-            $this->_createCompetencyObjectXml($dom, $expectationsNode, $courseObjective['competency_id'],
-                $courseObjective['title'], $inventory['report']['domain'], 'competency');
+        // competencies
+        foreach ($inventory['expectations']['competencies'] as $competency) {
+            $this->_createCompetencyObjectXml($dom, $expectationsNode, $competency['competency_id'],
+                $competency['title'], $inventory['report']['domain'], 'competency');
         }
+        // program objectives
+        foreach ($inventory['expectations']['program_objectives'] as $programObjective) {
+            $this->_createCompetencyObjectXml($dom, $expectationsNode, $programObjective['objective_id'],
+                $programObjective['title'], $inventory['report']['domain'], 'program_objective');
+        }
+        // course objectives
         foreach ($inventory['expectations']['course_objectives'] as $courseObjective) {
             $this->_createCompetencyObjectXml($dom, $expectationsNode, $courseObjective['objective_id'],
                 $courseObjective['title'], $inventory['report']['domain'], 'course_objective');
+        }
+        // session objectives
+        foreach ($inventory['expectations']['session_objectives'] as $sessionObjective) {
+            $this->_createCompetencyObjectXml($dom, $expectationsNode, $sessionObjective['objective_id'],
+                $sessionObjective['title'], $inventory['report']['domain'], 'session_objective');
         }
         //
         // Academic Levels
@@ -566,6 +578,14 @@ class CurriculumInventoryExporter
         }
     }
 
+    /**
+     * @param DomDocument $dom
+     * @param DomElement $parentNode
+     * @param int $id
+     * @param string $title
+     * @param string $domain
+     * @param string $type
+     */
     protected function _createCompetencyObjectXml(DomDocument $dom, DomElement $parentNode, $id, $title, $domain, $type)
     {
         $competencyObjectNode = $dom->createElement('CompetencyObject');
@@ -586,6 +606,6 @@ class CurriculumInventoryExporter
         $lomGeneralNode->appendChild($lomTitleNode);
         $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
         $lomTitleNode->appendChild($lomStringNode);
-        $lomStringNode->appendChild($dom->createTextNode($title));
+        $lomStringNode->appendChild($dom->createTextNode(trim(strip_tags($title))));
     }
 }
