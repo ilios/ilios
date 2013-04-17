@@ -1,7 +1,7 @@
 <?php
 /**
  * Curriculum Inventory Exporter, implemented as "Library" component.
- * Provides export functionality for generating curriculum inventory reports and for exporting reports to XML.
+ * Provides functionality for generating curriculum inventory reports and for exporting reports to XML.
  *
  * @see Curriculum_Inventory_Manager
  * @link http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html
