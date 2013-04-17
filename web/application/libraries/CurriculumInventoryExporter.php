@@ -97,6 +97,8 @@ class CurriculumInventoryExporter
         $sessionObjectives = $this->_ci->inventory->getSessionObjectives($reportId);
         $courseObjectives = $this->_ci->inventory->getCourseObjectives($reportId);
 
+        $compRefsForSeqBlocks = $this->_ci->inventory->getCompetencyObjectReferencesForSequenceBlocks($reportId);
+
         $expectations = array();
         $expectations['competencies'] = $competencies;
         $expectations['program_objectives'] = $programObjectives;
