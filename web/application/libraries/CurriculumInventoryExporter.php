@@ -155,7 +155,7 @@ class CurriculumInventoryExporter
         // load the inventory from the db and create xml from it.
         // @todo conditionally, load the xml from file (or perhaps the database?) for finalized inventories.
         $inventory = $this->getCurriculumInventory($reportId);
-        return $this->_createXmlReport($inventory);
+        return $this->_createReportXml($inventory);
     }
 
     //
@@ -274,7 +274,7 @@ class CurriculumInventoryExporter
      * @return DOMDocument the generated XML document
      * @throws DomException
      */
-    protected function _createXmlReport (array $inventory)
+    protected function _createReportXml (array $inventory)
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
