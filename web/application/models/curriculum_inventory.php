@@ -371,7 +371,61 @@ EOL;
      */
     public function getCompetencyObjectReferencesForSequenceBlocks ($reportId)
     {
-        // @todo implement/document
-        return array();
+        $rhett = array();
+        $clean = array();
+        $clean['report_id'] = (int) $reportId;
+        $sql =<<<EOL
+SELECT DISTINCT
+sb.sequence_block_id,
+o.objective_id as 'course_objective_id',
+o2.objective_id AS 'program_objective_id',
+cm.competency_id AS 'competency_id',
+cm2.competency_id AS 'parent_competency_id'
+FROM
+curriculum_inventory_report r
+JOIN program p ON p.program_id = r.program_id
+JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+JOIN course c ON c.course_id = sb.course_id
+JOIN course_x_objective cxo ON cxo.course_id = c.course_id
+LEFT JOIN objective o ON o.objective_id = cxo.objective_id
+LEFT JOIN objective_x_objective oxo ON oxo.objective_id = o.objective_id
+LEFT JOIN objective o2 ON o2.objective_id = oxo.parent_objective_id
+LEFT JOIN competency cm ON cm.competency_id = o2.competency_id
+LEFT JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
+WHERE
+c.deleted = 0
+AND r.report_id = 1
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $sequenceBlockId = $row['sequence_block_id'];
+                if (! array_key_exists($sequenceBlockId, $rhett)) {
+                    $rhett[$sequenceBlockId] = array(
+                        'course_objectives' => array(),
+                        'program_objectives' => array(),
+                        'competencies' => array(),
+                    );
+                }
+                if (isset($row['course_objective_id'])
+                    && ! in_array($row['course_objective_id'], $rhett[$sequenceBlockId]['course_objectives'])) {
+                    $rhett[$sequenceBlockId]['course_objectives'][] = $row['course_objective_id'];
+                }
+                if (isset($row['program_objective_id'])
+                    && ! in_array($row['program_objective_id'], $rhett[$sequenceBlockId]['program_objectives'])) {
+                    $rhett[$sequenceBlockId]['program_objectives'][] = $row['program_objective_id'];
+                }
+                if (isset($row['competency_id'])
+                    && ! in_array($row['competency_id'], $rhett[$sequenceBlockId]['competencies'])) {
+                    $rhett[$sequenceBlockId]['competencies'][] = $row['competency_id'];
+                }
+                if (isset($row['parent_competency_id'])
+                    && ! in_array($row['parent_competency_id'], $rhett[$sequenceBlockId]['competencies'])) {
+                    $rhett[$sequenceBlockId]['competencies'][] = $row['parent_competency_id'];
+                }
+            }
+        }
+        $query->free_result();
+        return $rhett;
     }
 }
