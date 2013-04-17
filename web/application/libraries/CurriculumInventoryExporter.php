@@ -382,7 +382,7 @@ class CurriculumInventoryExporter
                     $eventNode->appendChild($keywordNode);
                     $keywordNode->setAttribute('hx:source', 'MeSH');
                     $keywordNode->setAttribute('hx:id', $keyword['mesh_descriptor_uid']);
-                    $descriptorNode = $dom->createElementNS('hx', 'string');
+                    $descriptorNode = $dom->createElementNS('http://ns.medbiq.org/lom/extend/v1/', 'string');
                     $keywordNode->appendChild($descriptorNode);
                     $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
                 }
