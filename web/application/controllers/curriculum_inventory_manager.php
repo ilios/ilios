@@ -14,7 +14,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      * @var CurriculumInventoryExporter
      */
     protected $_exporter;
-    
+
     /**
      * Constructor.
      */
@@ -283,7 +283,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         }
         // all is good, output the XML
-        header("Content-Type: application/xml");
+        header('Content-Type: application/xml; charset="utf8"');
+        header('Content-disposition: attachment; filename="report.xml"');
         echo $out;
     }
 
