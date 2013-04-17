@@ -50,8 +50,12 @@ class CurriculumInventoryExporter
      *     'report' ... an array holding various report-related properties, such as id, domain etc
      *     'program' ... an object representing the program associated with the report
      *     'institution' ... an object representing the curriculum inventory's owning institution
-     *     'events'
-     *     'expectations'
+     *     'events' ... an array of event objects
+     *     'expectations' ... an associative array of arrays, each subarray containing a
+     *         list of a different type of "competency object" within the curriculum.
+     *         These types are competencies, program objectives, course objectives and session objectives.
+     *         The keys for these type-specific sub-arrays are:
+     *             'competencies', 'program_objectives', 'course_objectives', 'session_objectives'
      *     'academic_levels'
      *     'sequence'  ... the inventory sequence object
      *     'sequence_blocks'
@@ -88,6 +92,16 @@ class CurriculumInventoryExporter
         $sequenceBlocks = $this->_ci->invSequenceBlock->getBlocks($reportId);
         $eventReferences = $this->_ci->inventory->getEventReferences($reportId);
 
+        $competencies = $this->_ci->inventory->getCompetencies($reportId);
+        $programObjectives = $this->_ci->inventory->getProgramObjectives($reportId);
+        $sessionObjectives = $this->_ci->inventory->getSessionObjectives($reportId);
+        $courseObjectives = $this->_ci->inventory->getCourseObjectives($reportId);
+
+        $expectations = array();
+        $expectations['competencies'] = $competencies;
+        $expectations['program_objectives'] = $programObjectives;
+        $expectations['session_objectives'] = $sessionObjectives;
+        $expectations['course_objectives'] = $courseObjectives;
         // report (and some program) properties
         $report = array();
         $report['id'] = $invReport->year . '-' . $program->program_id . '-' . time(); // report id format: "<academic year>-<program id>-<current timestamp>"
@@ -120,6 +134,7 @@ class CurriculumInventoryExporter
         $rhett = array();
         $rhett['report'] = $report;
         $rhett['program'] = $program;
+        $rhett['expectations'] = $expectations;
         $rhett['institution'] = $invInstitution;
         $rhett['sequence'] = $invSequence;
         $rhett['sequence_blocks'] = $sequenceBlocks;
@@ -397,6 +412,27 @@ class CurriculumInventoryExporter
         //
         $expectationsNode = $dom->createElement('Expectations');
         $rootNode->appendChild($expectationsNode);
+        foreach ($inventory['expectations']['competencies'] as $compentency) {
+            $competencyObjectNode = $dom->createElement('CompetencyObject');
+            $expectationsNode->appendChild($competencyObjectNode);
+            $lomNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom');
+            $competencyObjectNode->appendChild($lomNode);
+            $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'general');
+            $lomNode->appendChild($lomGeneralNode);
+            $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','identifier');
+            $lomGeneralNode->appendChild($lomIdentifierNode);
+            $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
+            $lomIdentifierNode->appendChild($lomCatalogNode);
+            // bogus URL, but it's unique so that's all that matters for now.
+            $uri = "http://{$inventory['report']['domain']}/curriculum/competency/{$compentency['competency_id']}";
+            $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','title', $uri);
+            $lomIdentifierNode->appendChild($lomEntryNode);
+            $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
+            $lomGeneralNode->appendChild($lomTitleNode);
+            $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
+            $lomTitleNode->appendChild($lomStringNode);
+            $lomStringNode->appendChild($dom->createTextNode($compentency['title']));
+        }
         //
         // Academic Levels
         //
