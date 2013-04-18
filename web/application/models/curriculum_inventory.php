@@ -169,17 +169,17 @@ EOL;
 
     /**
      * Retrieves a lookup map of events ('sessions') in a given curriculum inventory report,
-     * grouped and keyed off by course id.
+     * grouped and keyed off by sequence block id.
      * @param int $reportId the report id
      * @return array of arrays, each sub-array containing 'event' data.
      */
-    public function getEventReferences ($reportId)
+    public function getEventReferencesForSequenceBlocks ($reportId)
     {
         $rhett = array();
         $clean = array();
         $clean['report_id'] = (int) $reportId;
         $sql =<<< EOL
-SELECT s.course_id, s.session_id, s.supplemental AS 'required'
+SELECT sb.sequence_block_id, s.session_id, s.supplemental AS 'required'
 FROM `session` s
 JOIN `course` c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
@@ -190,10 +190,10 @@ EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
-                if (! array_key_exists($row['course_id'], $rhett)) {
-                    $rhett[$row['course_id']] = array();
+                if (! array_key_exists($row['sequence_block_id'], $rhett)) {
+                    $rhett[$row['sequence_block_id']] = array();
                 }
-                $rhett[$row['course_id']][] = $row;
+                $rhett[$row['sequence_block_id']][] = $row;
             }
         }
         $query->free_result();
