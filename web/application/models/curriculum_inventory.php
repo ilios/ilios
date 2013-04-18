@@ -232,7 +232,7 @@ LEFT JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
 WHERE
 c.deleted = 0
 AND py.deleted = 0
-AND sb.report_id = {$clean['report_id']}
+AND r.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
@@ -275,7 +275,7 @@ JOIN objective o ON o.objective_id = pyxo.objective_id
 WHERE
 c.deleted = 0
 AND py.deleted = 0
-AND sb.report_id = {$clean['report_id']}
+AND r.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
@@ -308,7 +308,7 @@ JOIN course_x_objective cxo ON cxo.course_id = c.course_id
 JOIN objective o ON o.objective_id = cxo.objective_id
 WHERE
 c.deleted = 0
-AND sb.report_id = {$clean['report_id']}
+AND r.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
@@ -343,7 +343,7 @@ JOIN objective o ON o.objective_id = sxo.objective_id
 WHERE
 c.deleted = 0
 AND s.deleted = 0
-AND sb.report_id = {$clean['report_id']}
+AND r.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
@@ -361,8 +361,74 @@ EOL;
      */
     public function getCompetencyObjectReferencesForEvents ($reportId)
     {
-        // @todo implement/document
-        return array();
+        $rhett = array();
+        $clean = array();
+        $clean['report_id'] = (int) $reportId;
+        $sql =<<<EOL
+SELECT DISTINCT
+s.session_id,
+so.objective_id AS 'session_objective_id',
+o.objective_id as 'course_objective_id',
+o2.objective_id AS 'program_objective_id',
+cm.competency_id AS 'competency_id',
+cm2.competency_id AS 'parent_competency_id'
+FROM
+curriculum_inventory_report r
+JOIN program p ON p.program_id = r.program_id
+JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+JOIN course c ON c.course_id = sb.course_id
+JOIN `session` s ON s.course_id = c.course_id
+JOIN session_x_objective sxo ON sxo.session_id = s.session_id
+JOIN objective so ON so.objective_id = sxo.objective_id
+LEFT JOIN objective_x_objective oxo ON oxo.objective_id = so.objective_id
+LEFT JOIN course_x_objective cxo ON cxo.objective_id = oxo.parent_objective_id
+LEFT JOIN objective o ON o.objective_id = cxo.objective_id
+LEFT JOIN objective_x_objective oxo2 ON oxo2.objective_id = o.objective_id
+LEFT JOIN objective o2 ON o2.objective_id = oxo2.parent_objective_id
+LEFT JOIN competency cm ON cm.competency_id = o2.competency_id
+LEFT JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
+WHERE
+s.deleted = 0
+AND s.publish_event_id IS NOT NULL
+AND c.deleted = 0
+AND r.report_id = {$clean['report_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $sessionId = $row['session_id'];
+                if (! array_key_exists($sessionId, $rhett)) {
+                    $rhett[$sessionId] = array(
+                        'session_objectives' => array(),
+                        'course_objectives' => array(),
+                        'program_objectives' => array(),
+                        'competencies' => array()
+                    );
+                }
+                if (isset($row['session_objective_id'])
+                    && ! in_array($row['session_objective_id'], $rhett[$sessionId]['session_objectives'])) {
+                    $rhett[$sessionId]['session_objectives'][] = $row['session_objective_id'];
+                }
+                if (isset($row['course_objective_id'])
+                    && ! in_array($row['course_objective_id'], $rhett[$sessionId]['course_objectives'])) {
+                    $rhett[$sessionId]['course_objectives'][] = $row['course_objective_id'];
+                }
+                if (isset($row['program_objective_id'])
+                    && ! in_array($row['program_objective_id'], $rhett[$sessionId]['program_objectives'])) {
+                    $rhett[$sessionId]['program_objectives'][] = $row['program_objective_id'];
+                }
+                if (isset($row['competency_id'])
+                    && ! in_array($row['competency_id'], $rhett[$sessionId]['competencies'])) {
+                    $rhett[$sessionId]['competencies'][] = $row['competency_id'];
+                }
+                if (isset($row['parent_competency_id'])
+                    && ! in_array($row['parent_competency_id'], $rhett[$sessionId]['competencies'])) {
+                    $rhett[$sessionId]['competencies'][] = $row['parent_competency_id'];
+                }
+            }
+        }
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -394,7 +460,7 @@ LEFT JOIN competency cm ON cm.competency_id = o2.competency_id
 LEFT JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
 WHERE
 c.deleted = 0
-AND r.report_id = 1
+AND r.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
