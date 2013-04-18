@@ -78,16 +78,19 @@ EOL;
      * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
      * in a given curriculum inventory report.
      * @param int $reportId the report id
+     * @param array $interprofessionalEventIds contains ids of events that are interprofessional.
+     *     This information is used to flag the retrieved events as interprofessional if applicable.
      * @return array
      */
-    public function getEvents ($reportId)
+    public function getEvents ($reportId, array $interprofessionalEventIds = array())
     {
         $rhett = array();
         $clean = array();
         $clean['report_id'] = (int) $reportId;
         $sql =<<<EOL
 SELECT
-s.session_id, s.title, sd.description, st.title AS method_title,
+s.session_id AS 'event_id',
+s.title, sd.description, st.title AS method_title,
 st.assessment AS is_assessment_method,
 SUM(TIMESTAMPDIFF(MINUTE, o.start_date, o.end_date)) AS duration
 FROM `session` s
@@ -106,7 +109,8 @@ GROUP BY s.session_id, s.title, sd.description, method_title, is_assessment_meth
 UNION
 
 SELECT
-s.session_id, s.title, sd.description, st.title AS method_title,
+s.session_id AS 'event_id',
+s.title, sd.description, st.title AS method_title,
 st.assessment AS is_assessment_method,
 FLOOR(sf.hours * 60) AS duration
 FROM `session` s
@@ -125,7 +129,14 @@ EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
-                $rhett[$row['session_id']] = $row;
+                $isInterprofessional = false;
+
+                // check if this is an interprofessional event
+                if (in_array($row['event_id'], $interprofessionalEventIds)) {
+                    $isInterprofessional = true;
+                }
+                $row['interprofessional'] = $isInterprofessional;
+                $rhett[$row['event_id']] = $row;
             }
         }
         $query->free_result();
@@ -145,7 +156,7 @@ EOL;
         $clean['report_id'] = (int) $reportId;
         $sql =<<< EOL
 SELECT
-s.session_id, md.mesh_descriptor_uid, md.name
+s.session_id AS 'event_id', md.mesh_descriptor_uid, md.name
 FROM `session` s
 JOIN course c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
@@ -179,7 +190,7 @@ EOL;
         $clean = array();
         $clean['report_id'] = (int) $reportId;
         $sql =<<< EOL
-SELECT sb.sequence_block_id, s.session_id, s.supplemental AS 'required'
+SELECT sb.sequence_block_id, s.session_id AS 'event_id', s.supplemental AS 'required'
 FROM `session` s
 JOIN `course` c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
@@ -366,7 +377,7 @@ EOL;
         $clean['report_id'] = (int) $reportId;
         $sql =<<<EOL
 SELECT DISTINCT
-s.session_id,
+s.session_id AS 'event_id',
 so.objective_id AS 'session_objective_id',
 o.objective_id as 'course_objective_id',
 o2.objective_id AS 'program_objective_id',
@@ -396,9 +407,9 @@ EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
-                $sessionId = $row['session_id'];
-                if (! array_key_exists($sessionId, $rhett)) {
-                    $rhett[$sessionId] = array(
+                $eventId = $row['event_id'];
+                if (! array_key_exists($eventId, $rhett)) {
+                    $rhett[$eventId] = array(
                         'session_objectives' => array(),
                         'course_objectives' => array(),
                         'program_objectives' => array(),
@@ -406,24 +417,24 @@ EOL;
                     );
                 }
                 if (isset($row['session_objective_id'])
-                    && ! in_array($row['session_objective_id'], $rhett[$sessionId]['session_objectives'])) {
-                    $rhett[$sessionId]['session_objectives'][] = $row['session_objective_id'];
+                    && ! in_array($row['session_objective_id'], $rhett[$eventId]['session_objectives'])) {
+                    $rhett[$eventId]['session_objectives'][] = $row['session_objective_id'];
                 }
                 if (isset($row['course_objective_id'])
-                    && ! in_array($row['course_objective_id'], $rhett[$sessionId]['course_objectives'])) {
-                    $rhett[$sessionId]['course_objectives'][] = $row['course_objective_id'];
+                    && ! in_array($row['course_objective_id'], $rhett[$eventId]['course_objectives'])) {
+                    $rhett[$eventId]['course_objectives'][] = $row['course_objective_id'];
                 }
                 if (isset($row['program_objective_id'])
-                    && ! in_array($row['program_objective_id'], $rhett[$sessionId]['program_objectives'])) {
-                    $rhett[$sessionId]['program_objectives'][] = $row['program_objective_id'];
+                    && ! in_array($row['program_objective_id'], $rhett[$eventId]['program_objectives'])) {
+                    $rhett[$eventId]['program_objectives'][] = $row['program_objective_id'];
                 }
                 if (isset($row['competency_id'])
-                    && ! in_array($row['competency_id'], $rhett[$sessionId]['competencies'])) {
-                    $rhett[$sessionId]['competencies'][] = $row['competency_id'];
+                    && ! in_array($row['competency_id'], $rhett[$eventId]['competencies'])) {
+                    $rhett[$eventId]['competencies'][] = $row['competency_id'];
                 }
                 if (isset($row['parent_competency_id'])
-                    && ! in_array($row['parent_competency_id'], $rhett[$sessionId]['competencies'])) {
-                    $rhett[$sessionId]['competencies'][] = $row['parent_competency_id'];
+                    && ! in_array($row['parent_competency_id'], $rhett[$eventId]['competencies'])) {
+                    $rhett[$eventId]['competencies'][] = $row['parent_competency_id'];
                 }
             }
         }
@@ -493,5 +504,18 @@ EOL;
         }
         $query->free_result();
         return $rhett;
+    }
+
+    /**
+     * Returns a list of ids of inter-professional events ("sessions") for a given inventory report.
+     * Inter-professional sessions is defined in Ilios as any session that is associated
+     * with learner groups from different programs
+     * @param int $reportId the report id
+     * @return array a list of ids
+     */
+    public function getInterprofessionalEventIds ($reportId)
+    {
+        // @todo implement
+        return array();
     }
 }

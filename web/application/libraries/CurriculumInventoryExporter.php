@@ -86,7 +86,8 @@ class CurriculumInventoryExporter
             throw new Ilios_Exception('Could not load curriculum sequence for report id ( ' . $reportId . ')');
         }
 
-        $events = $this->_ci->inventory->getEvents($reportId);
+        $interprofessionalEventIds = $this->_ci->inventory->getInterprofessionalEventIds($reportId);
+        $events = $this->_ci->inventory->getEvents($reportId, $interprofessionalEventIds);
         $keywords = $this->_ci->inventory->getEventKeywords($reportId);
         $levels = $this->_ci->invAcademicLevel->getAppliedLevels($reportId);
         $sequenceBlocks = $this->_ci->invSequenceBlock->getBlocks($reportId);
@@ -176,7 +177,7 @@ class CurriculumInventoryExporter
     protected function _addKeywordsToEvents (array $events, array $keywords)
     {
         foreach ($keywords as $keyword) {
-            $eventId = $keyword['session_id'];
+            $eventId = $keyword['event_id'];
             if (! array_key_exists($eventId, $events)) {
                 continue;
             }
@@ -380,7 +381,7 @@ class CurriculumInventoryExporter
         foreach ($inventory['events'] as $event) {
             $eventNode = $dom->createElement('Event');
             $eventsNode->appendChild($eventNode);
-            $eventNode->setAttribute('id', 'E' . $event['session_id']);
+            $eventNode->setAttribute('id', 'E' . $event['event_id']);
             $eventTitleNode = $dom->createElement('Title');
             $eventNode->appendChild($eventTitleNode);
             $eventTitleNode->appendChild($dom->createTextNode($event['title']));
@@ -403,11 +404,14 @@ class CurriculumInventoryExporter
                     $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
                 }
             }
-            // @todo interprofessional
+            // interprofessional
+            if ($event['interprofessional']) {
+                $interprofessionalNode = $dom->createElement('Interprofessional', 'true');
+                $eventNode->appendChild($interprofessionalNode);
+            }
 
             // competency object references
             if (array_key_exists('competency_object_references', $event)) {
-
                 foreach ($event['competency_object_references']['competencies'] as $id) {
                     $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'competency');
                 }
@@ -647,7 +651,7 @@ class CurriculumInventoryExporter
                 } else {
                     $sequenceBlockEventNode->setAttribute('required', 'false');
                 }
-                $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['session_id']}']}";
+                $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['event_id']}']}";
                 $eventReferenceNode = $dom->createElement('EventReferenceNode', $refUri);
                 $sequenceBlockEventNode->appendChild($eventReferenceNode);
                 // @todo add start/end-date
