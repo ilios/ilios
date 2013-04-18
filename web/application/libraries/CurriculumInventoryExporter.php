@@ -90,7 +90,7 @@ class CurriculumInventoryExporter
         $keywords = $this->_ci->inventory->getEventKeywords($reportId);
         $levels = $this->_ci->invAcademicLevel->getAppliedLevels($reportId);
         $sequenceBlocks = $this->_ci->invSequenceBlock->getBlocks($reportId);
-        $eventReferences = $this->_ci->inventory->getEventReferences($reportId);
+        $eventReferences = $this->_ci->inventory->getEventReferencesForSequenceBlocks($reportId);
 
         $competencies = $this->_ci->inventory->getCompetencies($reportId);
         $programObjectives = $this->_ci->inventory->getProgramObjectives($reportId);
@@ -126,8 +126,10 @@ class CurriculumInventoryExporter
 
         // add keywords to event
         $events = $this->_addKeywordsToEvents($events, $keywords);
+        $events = $this->_addCompetencyObjectReferencesToEvents($events, $compRefsForEvents);
 
-        $sequenceBlocks = $this->_prepareBlockEventsForOutput($sequenceBlocks, $eventReferences);
+        $sequenceBlocks = $this->_addEventAndCompetencyObjectReferencesToSequenceBlocks($sequenceBlocks,
+            $eventReferences, $compRefsForSeqBlocks);
         // transform sequence blocks from a flat list into a nested structure
         $sequenceBlocks = $this->_buildSequenceBlockHierarchy($sequenceBlocks);
 
@@ -187,33 +189,44 @@ class CurriculumInventoryExporter
     }
 
     /**
-     * Iterate over a list of given sequence blocks and link to events, massage data
-     * @param array $sequenceBlocks
-     * @param array $eventReferences
+     * @param array $events
+     * @param array $references
      * @return array
      */
-    protected function _prepareBlockEventsForOutput (array $sequenceBlocks, array $eventReferences)
+    protected function _addCompetencyObjectReferencesToEvents (array $events, array $references)
+    {
+        $sessionIds = array_keys($events);
+        for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
+            $sessionId = $sessionIds[$i];
+            if (array_key_exists($sessionId, $references)) {
+                $events[$sessionId]['competency_object_references'] = $references[$sessionId];
+            }
+        }
+        return $events;
+    }
+
+    /**
+     * Iterate over a list of given sequence blocks and link to events and competency objects.
+     * @param array $sequenceBlocks
+     * @param array $eventReferences
+     * @param array $competencyObjectReferences
+     * @return array
+     */
+    protected function _addEventAndCompetencyObjectReferencesToSequenceBlocks (array $sequenceBlocks,
+                                                                               array $eventReferences,
+                                                                               array $competencyObjectReferences)
     {
         for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
             // link to events
-            $courseId = $sequenceBlocks[$i]['course_id'];
-            if ($courseId && array_key_exists($courseId, $eventReferences)) {
-                $sequenceBlocks[$i]['event_references'] = $eventReferences[$courseId];
+            $sequenceBlockId = $sequenceBlocks[$i]['sequence_block_id'];
+            if (array_key_exists($sequenceBlockId, $eventReferences)) {
+                $sequenceBlocks[$i]['event_references'] = $eventReferences[$sequenceBlockId];
             } else {
                 $sequenceBlocks[$i]['event_references'] = array();
             }
-            // map course clerkship type to "Clerkship Model"
-            // @todo review business rules
-            switch ($sequenceBlocks[$i]['course_clerkship_type_id']) {
-                case Course_Clerkship_Type::INTEGRATED :
-                    $sequenceBlocks[$i]['clerkship_model'] = 'integrated';
-                    break;
-                case Course_Clerkship_Type::BLOCK :
-                case Course_Clerkship_Type::LONGITUDINAL :
-                    $sequenceBlocks[$i]['clerkship_model'] = 'rotation';
-                    break;
-                default :
-                    // do nothing
+            // link to competency objects
+            if (array_key_exists($sequenceBlockId, $competencyObjectReferences)) {
+                $sequenceBlocks[$i]['competency_object_references'] = $competencyObjectReferences[$sequenceBlockId];
             }
         }
         return $sequenceBlocks;
@@ -230,20 +243,20 @@ class CurriculumInventoryExporter
 
         $rhett = array();
         $remainder = array();
+
         for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
-            $block = $sequenceBlocks[$i];
-            if ($parentBlockId === $block['parent_sequence_block_id']) {
-                $rhett[] = $block;
+            if ($parentBlockId === $sequenceBlocks[$i]['parent_sequence_block_id']) {
+                $rhett[] = $sequenceBlocks[$i];
             } else {
-                $remainder[] = $block;
+                $remainder[] = $sequenceBlocks[$i];
             }
         }
         for ($i = 0, $n = count($rhett); $i < $n; $i++) {
             // recursion!
-            $children = $this->_buildSequenceBlockHierarchy ($remainder, $rhett[$i]['sequence_block_id']);
+            $children = $this->_buildSequenceBlockHierarchy($remainder, $rhett[$i]['sequence_block_id']);
             if (count($children)) {
                 // sort children if the sort order demands it
-                if (Curriculum_Inventory_Sequence_Block::ORDERED === $rhett[$i]['child_sequence_order']) {
+                if (Curriculum_Inventory_Sequence_Block::ORDERED == $rhett[$i]['child_sequence_order']) {
                     usort($children, array($this, '_sortSequenceBlocks'));
                 }
                 $rhett[$i]['children'] = $children;
@@ -361,6 +374,7 @@ class CurriculumInventoryExporter
         //
         // Events
         //
+        $domain = $inventory['report']['domain'];
         $eventsNode = $dom->createElement('Events');
         $rootNode->appendChild($eventsNode);
         foreach ($inventory['events'] as $event) {
@@ -377,6 +391,7 @@ class CurriculumInventoryExporter
                 $eventNode->appendChild($descriptionNode);
                 $descriptionNode->appendChild($dom->createTextNode(trim(strip_tags($event['description']))));
             }
+            // keywords
             if (array_key_exists('keywords', $event)) {
                 foreach ($event['keywords'] as $keyword) {
                     $keywordNode = $dom->createElement('Keyword');
@@ -388,6 +403,28 @@ class CurriculumInventoryExporter
                     $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
                 }
             }
+            // @todo interprofessional
+
+            // competency object references
+            if (array_key_exists('competency_object_references', $event)) {
+
+                foreach ($event['competency_object_references']['competencies'] as $id) {
+                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'competency');
+                }
+                foreach ($event['competency_object_references']['program_objectives'] as $id) {
+                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'program_objective');
+                }
+                foreach ($event['competency_object_references']['course_objectives'] as $id) {
+                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'course_objective');
+                }
+                foreach ($event['competency_object_references']['session_objectives'] as $id) {
+                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'session_objective');
+                }
+            }
+
+            // @todo resource types
+
+            // instructional- or assessment-method
             if ($event['is_assessment_method']) {
                 $assessmentMethodNode = $dom->createElement('AssessmentMethod');
                 $eventNode->appendChild($assessmentMethodNode);
@@ -418,22 +455,22 @@ class CurriculumInventoryExporter
         // competencies
         foreach ($inventory['expectations']['competencies'] as $competency) {
             $this->_createCompetencyObjectXml($dom, $expectationsNode, $competency['competency_id'],
-                $competency['title'], $inventory['report']['domain'], 'competency');
+                $competency['title'], $domain, 'competency');
         }
         // program objectives
         foreach ($inventory['expectations']['program_objectives'] as $programObjective) {
             $this->_createCompetencyObjectXml($dom, $expectationsNode, $programObjective['objective_id'],
-                $programObjective['title'], $inventory['report']['domain'], 'program_objective');
+                $programObjective['title'], $domain, 'program_objective');
         }
         // course objectives
         foreach ($inventory['expectations']['course_objectives'] as $courseObjective) {
             $this->_createCompetencyObjectXml($dom, $expectationsNode, $courseObjective['objective_id'],
-                $courseObjective['title'], $inventory['report']['domain'], 'course_objective');
+                $courseObjective['title'], $domain, 'course_objective');
         }
         // session objectives
         foreach ($inventory['expectations']['session_objectives'] as $sessionObjective) {
             $this->_createCompetencyObjectXml($dom, $expectationsNode, $sessionObjective['objective_id'],
-                $sessionObjective['title'], $inventory['report']['domain'], 'session_objective');
+                $sessionObjective['title'], $domain, 'session_objective');
         }
         //
         // Academic Levels
@@ -466,7 +503,7 @@ class CurriculumInventoryExporter
             $sequenceDescriptionNode->appendChild($dom->createTextNode($inventory['sequence']->description));
         }
         foreach ($inventory['sequence_blocks'] as $block) {
-            $this->_createSequenceBlockXml($dom, $sequenceNode, $block);
+            $this->_createSequenceBlockXml($dom, $sequenceNode, $block, $inventory);
         }
         //
         // Integration
@@ -480,13 +517,27 @@ class CurriculumInventoryExporter
     /**
      * Recursively creates and appends sequence block nodes to the XML document
      * @param DomDocument $dom the document object
-     * @param DomElement $parentNode the node object to append to
+     * @param DomElement $sequenceNode the sequence DOM node to append to
      * @param array $block the current sequence block
+     * @param array $inventory the inventory array
+     * @param DomElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block (NULL if n/a)
+     * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
-    protected function _createSequenceBlockXml (DomDocument $dom, DomElement $parentNode, array $block)
+    protected function _createSequenceBlockXml (DomDocument $dom, DomElement $sequenceNode,
+                                                array $block, array $inventory,
+                                                DomElement $parentSequenceBlockNode = null, $order = 0)
     {
         $sequenceBlockNode = $dom->createElement('SequenceBlock');
-        $parentNode->appendChild($sequenceBlockNode);
+        $sequenceNode->appendChild($sequenceBlockNode);
+        // append a reference to _this_ sequence block to the parent sequence block
+        if (isset($parentSequenceBlockNode)) {
+            $ref = "/CurriculumInventory/Sequence/SequenceBlock[@id='{$block['sequence_block_id']}']";
+            $sequenceBlockReferenceNode = $dom->createElement('SequenceBlockReference', $ref);
+            $parentSequenceBlockNode->appendChild($sequenceBlockReferenceNode);
+            if ($order) {
+                $sequenceBlockReferenceNode->setAttribute('order', $order);
+            }
+        }
         $sequenceBlockNode->setAttribute('id', $block['sequence_block_id']);
         switch ($block['status']) {
             case Curriculum_Inventory_Sequence_Block::OPTIONAL :
@@ -504,13 +555,13 @@ class CurriculumInventoryExporter
         }
         switch ($block['child_sequence_order']) {
             case Curriculum_Inventory_Sequence_Block::ORDERED :
-                $sequenceBlockNode->setAttribute('order', 'Optional');
+                $sequenceBlockNode->setAttribute('order', 'optional');
                 break;
             case Curriculum_Inventory_Sequence_Block::UNORDERED :
-                $sequenceBlockNode->setAttribute('order', 'Required');
+                $sequenceBlockNode->setAttribute('order', 'unordered');
                 break;
             case Curriculum_Inventory_Sequence_Block::PARALLEL :
-                $sequenceBlockNode->setAttribute('order', 'Required in Track');
+                $sequenceBlockNode->setAttribute('order', 'parallel');
                 break;
             default :
                 // @todo handle this. e.g. throw an exception.
@@ -551,10 +602,40 @@ class CurriculumInventoryExporter
         $sequenceBlockNode->appendChild($levelNode);
 
         // clerkship type
-        if (array_key_exists('clerkship_model', $block)) {
-            $clerkshipModelNode = $dom->createElement('ClerkshipModel', $block['clerkship_model']);
-            $sequenceBlockNode->appendChild($clerkshipModelNode);
+        // map course clerkship type to "Clerkship Model"
+        $clerkshipModel = false;
+        // @todo review business rules
+        switch ($block['course_clerkship_type_id']) {
+            case Course_Clerkship_Type::INTEGRATED :
+                $clerkshipModel = 'integrated';
+                break;
+            case Course_Clerkship_Type::BLOCK :
+            case Course_Clerkship_Type::LONGITUDINAL :
+                $clerkshipModel = 'rotation';
+                break;
         }
+        if ($clerkshipModel) {
+            $clerkshipModelNode = $dom->createElement('ClerkshipModel', $clerkshipModel);
+            $sequenceBlockNode->appendChild($clerkshipModelNode);
+        } else {
+            // this should not occur.
+            // @todo add error handling
+        }
+
+        // competency object references
+        if (array_key_exists('competency_object_references', $block)) {
+            $domain = $inventory['report']['domain'];
+            foreach ($block['competency_object_references']['competencies'] as $id) {
+                $this->_createCompetencyObjectReferenceXml($dom, $sequenceBlockNode, $id, $domain, 'competency');
+            }
+            foreach ($block['competency_object_references']['program_objectives'] as $id) {
+                $this->_createCompetencyObjectReferenceXml($dom, $sequenceBlockNode, $id, $domain, 'program_objective');
+            }
+            foreach ($block['competency_object_references']['course_objectives'] as $id) {
+                $this->_createCompetencyObjectReferenceXml($dom, $sequenceBlockNode, $id, $domain, 'course_objective');
+            }
+        }
+        // pre-conditions and post-conditions are n/a
 
         // event references
         if (array_key_exists('event_references', $block)) {
@@ -575,8 +656,14 @@ class CurriculumInventoryExporter
 
         // recursively generate XML for nested sequence blocks
         if (array_key_exists('children', $block)) {
+            $order = 0;
             foreach ($block['children'] as $child) {
-                $this->_createSequenceBlockXml($dom, $sequenceBlockNode, $child);
+                // apply an incremental sort order for "ordered" sequence blocks
+                // it is assumed that blocks already come pre-sorted
+                if (Curriculum_Inventory_Sequence_Block::ORDERED == $block['child_sequence_order']) {
+                    $order++;
+                }
+                $this->_createSequenceBlockXml($dom, $sequenceNode, $child, $inventory, $sequenceBlockNode, $order);
             }
         }
     }
@@ -601,8 +688,9 @@ class CurriculumInventoryExporter
         $lomGeneralNode->appendChild($lomIdentifierNode);
         $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
         $lomIdentifierNode->appendChild($lomCatalogNode);
-        // bogus URL, but it's unique so that's all that matters for now.
-        $uri = "http://{$domain}/{$type}/{$id}";
+
+        $uri = $this->_createCompetencyObjectUri($domain, $type, $id);
+
         $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','title', $uri);
         $lomIdentifierNode->appendChild($lomEntryNode);
         $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
@@ -610,5 +698,38 @@ class CurriculumInventoryExporter
         $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
         $lomTitleNode->appendChild($lomStringNode);
         $lomStringNode->appendChild($dom->createTextNode(trim(strip_tags($title))));
+    }
+
+    /**
+     * @param DomDocument $dom
+     * @param DomElement $parentNode
+     * @param int $id
+     * @param string $domain
+     * @param string $type
+     * @see CurriculumInventoryExporter::_createCompetencyObjectUri
+     */
+    protected function _createCompetencyObjectReferenceXml (DomDocument $dom, DomElement $parentNode, $id, $domain, $type)
+    {
+        $uri = $this->_createCompetencyObjectUri($domain, $type, $id);
+        $ref = "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry=\"{$uri}\"]";
+        $competencyObjectReferenceNode = $dom->createElement('CompetencyObjectReference', $ref);
+        $parentNode->appendChild($competencyObjectReferenceNode);
+    }
+
+    /**
+     * Returns a URL that identifies a given competency object within the curriculum inventory.
+     * Note: The returned URL is bogus, but that's OK (for now).
+     * @param string $domain the domain name used to generate the URL.
+     * @param string $type the type of competency object. May be one of
+     *     "competency"
+     *     "program_objective"
+     *     "course_objective"
+     *     "session_objective"
+     * @param int $id the Ilios record id
+     * @return string the unique URL for the given competency object
+     */
+    protected function _createCompetencyObjectUri ($domain, $type, $id)
+    {
+        return "http://{$domain}/{$type}/{$id}";
     }
 }
