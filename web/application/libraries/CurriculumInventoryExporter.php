@@ -47,19 +47,22 @@ class CurriculumInventoryExporter
      * Retrieves curriculum inventory report data.
      * @param int $reportId the report id
      * @return array an associated array, containing the inventory. Data is keyed off by:
-     *     'report' ... an array holding various report-related properties, such as id, domain etc
-     *     'program' ... an object representing the program associated with the report
-     *     'institution' ... an object representing the curriculum inventory's owning institution
-     *     'events' ... an array of event objects
-     *     'expectations' ... an associative array of arrays, each subarray containing a
+     *     'report' ... An associative array holding various report-related properties, such as id, domain etc
+     *     'program' ... An object representing the program associated with the report
+     *     'institution' ... An object representing the curriculum inventory's owning institution
+     *     'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
+     *     'expectations' ... An associative array of arrays, each sub-array containing a
      *         list of a different type of "competency object" within the curriculum.
      *         These types are competencies, program objectives, course objectives and session objectives.
      *         The keys for these type-specific sub-arrays are:
-     *             'competencies', 'program_objectives', 'course_objectives', 'session_objectives'
-     *     'academic_levels'
+     *             'competencies'
+     *             'program_objectives'
+     *             'course_objectives'
+     *             'session_objectives'
+     *     'academic_levels' ... An array of academic levels used in the curriculum.
+     *         Each academic level is represented by an associative array.
      *     'sequence'  ... the inventory sequence object
-     *     'sequence_blocks'
-     *     'integration'
+     *     'sequence_blocks' An array of sequence block. Each sequence block is represented as associative array.
      * @throws Ilios_Exception
      */
     public function getCurriculumInventory ($reportId)
@@ -101,6 +104,9 @@ class CurriculumInventoryExporter
         $compRefsForSeqBlocks = $this->_ci->inventory->getCompetencyObjectReferencesForSequenceBlocks($reportId);
         $compRefsForEvents = $this->_ci->inventory->getCompetencyObjectReferencesForEvents($reportId);
 
+        // competencies and the various objective type are all "Competency Objects" in the
+        // context of reporting the curriculum inventory.
+        // The are grouped in the "Expectations" section of the report, lump 'em together here.
         $expectations = array();
         $expectations['competencies'] = $competencies;
         $expectations['program_objectives'] = $programObjectives;
@@ -152,7 +158,7 @@ class CurriculumInventoryExporter
     /**
      * Retrieves the inventory report as XML for a given report id.
      * @param int $reportId the report id
-     * @return DomDocument the XML report, or FALSE on failure
+     * @return DomDocument the XML report
      * @throws DomException
      * @throws Ilios_Exception
      */
@@ -169,10 +175,10 @@ class CurriculumInventoryExporter
     //
 
     /**
-     * @todo complete docblock
+     * Adds keywords to events.
      * @param array $events
      * @param array $keywords
-     * @return array
+     * @return array The events with the keywords added.
      */
     protected function _addKeywordsToEvents (array $events, array $keywords)
     {
@@ -190,9 +196,10 @@ class CurriculumInventoryExporter
     }
 
     /**
+     * Adds competency objects references to events.
      * @param array $events
      * @param array $references
-     * @return array
+     * @return array The events with references added.
      */
     protected function _addCompetencyObjectReferencesToEvents (array $events, array $references)
     {
@@ -207,11 +214,11 @@ class CurriculumInventoryExporter
     }
 
     /**
-     * Iterate over a list of given sequence blocks and link to events and competency objects.
+     * Adds event references and competency object references to sequence blocks
      * @param array $sequenceBlocks
      * @param array $eventReferences
      * @param array $competencyObjectReferences
-     * @return array
+     * @return array The sequence blocks with references added.
      */
     protected function _addEventAndCompetencyObjectReferencesToSequenceBlocks (array $sequenceBlocks,
                                                                                array $eventReferences,
@@ -234,10 +241,10 @@ class CurriculumInventoryExporter
     }
 
     /**
-     *
-     * @param array $sequenceBlocks a list of sequence blocks
-     * @param int|null $parentBlockId the id of the parent block
-     * @return array the nests
+     * Recursively builds a hierarchy of nested sequence blocks, based on their parent/child relationships
+     * @param array $sequenceBlocks A flat array of sequence blocks.
+     * @param int|null $parentBlockId The id of the parent sequence block, NULL if for top-level blocks.
+     * @return array The nested sequence blocks.
      */
     protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, $parentBlockId = null)
     {
@@ -287,9 +294,11 @@ class CurriculumInventoryExporter
     //
     /**
      * Creates an XML representation of the given curriculum inventory.
-     * @param array $inventory a nested assoc. array structure containing the inventory data to be
-     * @return DOMDocument the generated XML document
+     * @param array $inventory An associative array representing the entire curriculum inventory.
+     *     The inventory is expected to be structured as the output of <code>getCurriculumInventory()<code>.
+     * @return DOMDocument The generated XML document.
      * @throws DomException
+     * @see CurriculumInventoryExporter::getCurriculumInventory()
      */
     protected function _createReportXml (array $inventory)
     {
@@ -426,7 +435,8 @@ class CurriculumInventoryExporter
                 }
             }
 
-            // @todo resource types
+            // resource types
+            // @todo implement
 
             // instructional- or assessment-method
             if ($event['is_assessment_method']) {
@@ -509,12 +519,10 @@ class CurriculumInventoryExporter
         foreach ($inventory['sequence_blocks'] as $block) {
             $this->_createSequenceBlockXml($dom, $sequenceNode, $block, $inventory);
         }
-        //
-        // Integration
-        //
-        $integrationNode = $dom->createElement('Integration');
-        $rootNode->appendChild($integrationNode);
 
+        //
+        // Integration - currently not supported
+        //
         return $dom;
     }
 
