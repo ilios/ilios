@@ -101,6 +101,7 @@ class Ilios_CurriculumInventory_Exporter
             throw new Ilios_Exception('Could not load curriculum sequence for report id ( ' . $reportId . ')');
         }
 
+
         $interprofessionalEventIds = $this->_ci->inventory->getInterprofessionalEventIds($reportId);
         $events = $this->_ci->inventory->getEvents($reportId, $interprofessionalEventIds);
         $keywords = $this->_ci->inventory->getEventKeywords($reportId);
@@ -289,10 +290,16 @@ class Ilios_CurriculumInventory_Exporter
                 }
             }
             // interprofessional
+            /*
+             * commented in until issue #3366 has been resolved.
+             * [ST 2013/04/19]
+             */
+            /*
             if ($event['interprofessional']) {
                 $interprofessionalNode = $dom->createElement('Interprofessional', 'true');
                 $eventNode->appendChild($interprofessionalNode);
             }
+            */
 
             // competency object references
             if (array_key_exists('competency_object_references', $event)) {
