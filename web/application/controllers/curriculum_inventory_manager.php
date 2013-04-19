@@ -264,8 +264,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        // @todo conditionally load the "finalized" report from the database
+
+        // generate and export the report to XML
         try {
-            $xml = $this->_exporter->getXmlReport($reportId);
+            $xml = $this->_exporter->createXmlReport($reportId);
+
         } catch (DomException $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
             show_error('An error occurred while exporting the curriculum inventory report to XML.');

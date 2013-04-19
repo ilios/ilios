@@ -402,23 +402,19 @@ class CurriculumInventoryExporter
     }
 
     /**
-     * Retrieves the inventory report as XML for a given report id.
+     * Loads the curriculum inventory for a given report and exports it as XML document.
      * @param int $reportId The report id.
      * @return DomDocument The fully populated report.
      * @throws DomException
      * @throws Ilios_Exception
+     * @see CurriculumInventoryExporter::getCurriculumInventory()
+     * @see CurriculumInventoryExporter::createXmlReport()
      */
     public function getXmlReport ($reportId)
     {
-        // load the inventory from the db and create xml from it.
-        // @todo conditionally, load the xml from file (or perhaps the database?) for finalized inventories.
         $inventory = $this->getCurriculumInventory($reportId);
         return $this->createXmlReport($inventory);
     }
-
-    //
-    // report builder utility functions
-    //
 
     /**
      * Adds keywords to events.
