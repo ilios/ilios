@@ -50,7 +50,7 @@ class Cron_Tasks extends Ilios_Base_Controller
 
     /**
      * Default method.
-     * This triggers all enabled scheduled task to run.
+     * This triggers all enabled, non-daily tasks to run.
      */
     public function index ()
     {
@@ -94,9 +94,10 @@ class Cron_Tasks extends Ilios_Base_Controller
         }
     }
 
-    //
-    // Tasks in this function are expected to run only once a day.
-    //
+    /**
+     * Kicks off configured tasks that are expected to run once a day.
+     * However, there are no checks in place enforce this 'once a day' rule.
+     */
     public function daily_tasks()
     {
         // export enrollment data
@@ -138,15 +139,15 @@ class Cron_Tasks extends Ilios_Base_Controller
 
     /**
      * Kicks off the change alert notification process.
-     * @param array $config process configuration
-     * @return boolean TRUE if the process ran, FALSE if not
+     * @param array $config The process configuration.
+     * @return boolean TRUE if the process ran, FALSE if not.
      * @throws Ilios_ChangeAlert_Exception
      */
     protected function _triggerChangeAlertsProcess (array $config)
     {
         $debug = false;
         if (array_key_exists('debug', $config)) {
-        	$debug = $config['debug'];
+            $debug = $config['debug'];
         }
 
         // instantiate logger
@@ -178,8 +179,8 @@ class Cron_Tasks extends Ilios_Base_Controller
 
     /**
      * Kicks off the user synchronization processes.
-     * @param array $config process configuration
-     * @return boolean TRUE if the processes ran, FALSE if not
+     * @param array $config The process configuration.
+     * @return boolean TRUE if the processes ran, FALSE if not.
      */
     protected function _triggerUserSyncProcesses (array $config)
     {
@@ -232,12 +233,12 @@ class Cron_Tasks extends Ilios_Base_Controller
     }
 
     /**
-     * Exports enrollment information to file for ingestion into CLEAE through
-     * an external process.
+     * Exports enrollment information to file for ingestion into CLEAE through an external process.
      * @param array $exportConfig export process configuration
      * @return int|boolean returns the # of bytes that were written to the file, or FALSE on failure.
      */
-    protected function _exportEnrollmentData (array $exportConfig) {
+    protected function _exportEnrollmentData (array $exportConfig)
+    {
         $this->load->model('canned_queries', '', true);
         $export_list = array();
 
@@ -332,75 +333,76 @@ class Cron_Tasks extends Ilios_Base_Controller
                 }
             }
         }
-
         return file_put_contents($outputFilePath, implode( "\n", $export_list ));
     }
 
-
-
     /**
+     * Sends out reminder alerts for upcoming session offerings.
      * @deprecated
      * @todo reimplement according to new rules, see ticket #1009
+
      */
     protected function processOfferingReminders ()
     {
-    	$days_in_advance = $this->config->item('event_reminder_alert_in_days');
-    	if (!$days_in_advance) {
-    		$days_in_advance = 7;
-    	}
+        $days_in_advance = $this->config->item('event_reminder_alert_in_days');
+        if (! $days_in_advance) {
+            $days_in_advance = 7;
+        }
 
-    	$secs_in_advance = $days_in_advance * 24 * 3600;
-    	$todays_date = date('Y-m-d');
-    	$remind_date = date('Y-m-d', strtotime($todays_date) + $secs_in_advance);
+        $secs_in_advance = $days_in_advance * 24 * 3600;
+        $todays_date = date('Y-m-d');
+        $remind_date = date('Y-m-d', strtotime($todays_date) + $secs_in_advance);
 
-    	$offerings = $this->offering->getOfferingsWithStartDate($remind_date);
+        $offerings = $this->offering->getOfferingsWithStartDate($remind_date);
 
-    	foreach ($offerings as $offering) {
-    		$this->handleOfferingReminder($offering);
-    	}
+        foreach ($offerings as $offering) {
+            $this->handleOfferingReminder($offering);
+        }
     }
 
 
     /**
+     * Sends out a reminder email to all instructors and learners participating in a given session offering.
+     * @param stdClass $offering A session offering.
      * @deprecated
      * @todo reimplement according to new rules, see ticket #1009
      */
     protected function handleOfferingReminder($offering)
     {
-		// get instructors as recipients
-    	$recipients = $this->offering->getIndividualInstructorsForOffering( $offering->offering_id );
+        // get instructors as recipients
+        $recipients = $this->offering->getIndividualInstructorsForOffering( $offering->offering_id );
 
-    	$offeringLocation = $offering->room;
-    	$dtStartPHPTime = new DateTime($offering->start_date, new DateTimeZone('UTC'));
-    	$dtEndPHPTime   = new DateTime($offering->end_date, new DateTimeZone('UTC'));
-    	$dtStartPHPTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
-    	$dtEndPHPTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
+        $offeringLocation = $offering->room;
+        $dtStartPHPTime = new DateTime($offering->start_date, new DateTimeZone('UTC'));
+        $dtEndPHPTime   = new DateTime($offering->end_date, new DateTimeZone('UTC'));
+        $dtStartPHPTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
+        $dtEndPHPTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
-    	$offeringStartDate = $dtStartPHPTime->format('D M d, Y');
-    	$offeringStartTime = $dtStartPHPTime->format('h:i a');
-    	$offeringEndTime = $dtEndPHPTime->format('h:i a');
+        $offeringStartDate = $dtStartPHPTime->format('D M d, Y');
+        $offeringStartTime = $dtStartPHPTime->format('h:i a');
+        $offeringEndTime = $dtEndPHPTime->format('h:i a');
 
-    	$studentList = '';
-    	$students = $this->offering->getLearnerGroupsForOffering($offering->offering_id);
-    	foreach ($students as $student) {
-    		if (isset($student['user_id'])) {
-    			$learnerName = $student['first_name'] . ' ' . $student['last_name'];
-    		}
-    		else {
-    			$learnerName = $student['title'];
-    		}
+        $studentList = '';
+        $students = $this->offering->getLearnerGroupsForOffering($offering->offering_id);
+        foreach ($students as $student) {
+            if (isset($student['user_id'])) {
+                $learnerName = $student['first_name'] . ' ' . $student['last_name'];
+            }
+            else {
+                $learnerName = $student['title'];
+            }
 
-    		if ($studentList != '') {
-    			$studentList .= '; ';
-    		}
+            if ($studentList != '') {
+                $studentList .= '; ';
+            }
 
-    		$studentList .= $learnerName;
-    	}
+            $studentList .= $learnerName;
+        }
 
-    	$session = $this->iliosSession->getRowForPrimaryKeyId($offering->session_id);
-    	$sessionTitle = $session->title;
-    	$sessionType = $this->sessionType->getRowForPrimaryKeyId($session->session_type_id);
-    	$sessionTypeName = $sessionType->title;
+        $session = $this->iliosSession->getRowForPrimaryKeyId($offering->session_id);
+        $sessionTitle = $session->title;
+        $sessionType = $this->sessionType->getRowForPrimaryKeyId($session->session_type_id);
+        $sessionTypeName = $sessionType->title;
 
         $course = $this->course->getRowForPrimaryKeyId($session->course_id);
         $courseTitle = $course->title;
@@ -415,111 +417,117 @@ class Cron_Tasks extends Ilios_Base_Controller
         $schoolTemplatePrefix = $school->template_prefix;
         $schoolAdminEmail = $school->ilios_administrator_email;
 
-    	/*** SET UP FOR THE EMAIL TEMPLATE ***/
+        /*** SET UP FOR THE EMAIL TEMPLATE ***/
 
-    	//get/set the custom template location based on the school's respective template prefix
-  	    $filepath_parent = getServerFilePath('alert_templates');
-  	    //if the school's template prefix exists, add the 'custom' subfolder and the template prefix + underscore
-  	    if(isset($schoolTemplatePrefix)) {
-  	      $filepath_custom_prefix = 'custom/'.$schoolTemplatePrefix.'_';
-  	    } else {
-  	      $filepath_custom_prefix = '';
-  	    }
+        //get/set the custom template location based on the school's respective template prefix
+          $filepath_parent = getServerFilePath('alert_templates');
+          //if the school's template prefix exists, add the 'custom' subfolder and the template prefix + underscore
+          if(isset($schoolTemplatePrefix)) {
+            $filepath_custom_prefix = 'custom/'.$schoolTemplatePrefix.'_';
+          } else {
+            $filepath_custom_prefix = '';
+          }
 
-  	    // use upcoming_teaching_session_template.txt as the base template name...
-  	    $template_name = 'upcoming_teaching_session_template.txt';
-  	    $filepath_custom = $filepath_parent . $filepath_custom_prefix . $template_name;
-      	if(file_exists($filepath_custom) && is_readable($filepath_custom)) {
-  	      $filepath = $filepath_custom;
-  	    } else {
-      	  $filepath = $filepath_parent . $template_name;
-      	}
-  	    $templateContent = file_get_contents($filepath);
-    	// define its own token list
-    	$tokenArray = array('%%SCHOOL_NAME%%', '%%SCHOOL_ILIOS_ADMIN_EMAIL%%',
-    			'%%COURSE_TITLE%%', '%%COURSE_SESSION_LINK%%',
-    			'%%SESSION_TITLE%%', '%%SESSION_TYPE%%',
-    			'%%OFFERING_LOCATION%%', '%%OFFERING_DATE%%',
-    			'%%OFFERING_START_TIME%%', '%%OFFERING_END_TIME%%',
-    			'%%STUDENT_GROUP_LIST%%', '%%LEARNING_OBJECTIVE_LIST%%',
-    	        '%%COURSE_OBJECTIVE_LIST%%');
+          // use upcoming_teaching_session_template.txt as the base template name...
+          $template_name = 'upcoming_teaching_session_template.txt';
+          $filepath_custom = $filepath_parent . $filepath_custom_prefix . $template_name;
+          if(file_exists($filepath_custom) && is_readable($filepath_custom)) {
+            $filepath = $filepath_custom;
+          } else {
+            $filepath = $filepath_parent . $template_name;
+          }
+          $templateContent = file_get_contents($filepath);
+        // define its own token list
+        $tokenArray = array('%%SCHOOL_NAME%%', '%%SCHOOL_ILIOS_ADMIN_EMAIL%%',
+                '%%COURSE_TITLE%%', '%%COURSE_SESSION_LINK%%',
+                '%%SESSION_TITLE%%', '%%SESSION_TYPE%%',
+                '%%OFFERING_LOCATION%%', '%%OFFERING_DATE%%',
+                '%%OFFERING_START_TIME%%', '%%OFFERING_END_TIME%%',
+                '%%STUDENT_GROUP_LIST%%', '%%LEARNING_OBJECTIVE_LIST%%',
+                '%%COURSE_OBJECTIVE_LIST%%');
 
-    	// This course session url does not point to the right place yet.  Replace it with the base URL.
-    	//
-    	//$courseSessionURL = site_url() . '/course_management?course_id=' . $course->course_id
-    	//                    . '&session_id=' . $session->session_id;
-    	$courseSessionURL = base_url();
+        // This course session url does not point to the right place yet.  Replace it with the base URL.
+        $courseSessionURL = base_url();
 
-    	// find out how to get learning object list
-    	$sessionObjectivesList = '';
-    	$objectives = $this->iliosSession->getObjectivesForSession($offering->session_id);
-    	foreach ($objectives as $objective) {
-    		$sessionObjectivesList .= "\n    - ".strip_tags($objective['title']);
-    	}
+        // find out how to get learning object list
+        $sessionObjectivesList = '';
+        $objectives = $this->iliosSession->getObjectivesForSession($offering->session_id);
+        foreach ($objectives as $objective) {
+            $sessionObjectivesList .= "\n    - ".strip_tags($objective['title']);
+        }
 
         // get the course objectives list
-    	$courseObjectivesList = '';
-    	$objectives = $this->course->getObjectivesForCourse($course->course_id);
-    	foreach ($objectives as $objective) {
-    		$courseObjectivesList .= "\n    - ".strip_tags($objective['title']);
-    	}
+        $courseObjectivesList = '';
+        $objectives = $this->course->getObjectivesForCourse($course->course_id);
+        foreach ($objectives as $objective) {
+            $courseObjectivesList .= "\n    - ".strip_tags($objective['title']);
+        }
 
-    	$replaceValueBaseArray = array($schoolName, $schoolAdminEmail, $courseTitle,
-    			$courseSessionURL, $sessionTitle, $sessionTypeName,
-    			$offeringLocation, $offeringStartDate, $offeringStartTime,
-    			$offeringEndTime, $studentList, $sessionObjectivesList, $courseObjectivesList);
+        $replaceValueBaseArray = array($schoolName, $schoolAdminEmail, $courseTitle,
+                $courseSessionURL, $sessionTitle, $sessionTypeName,
+                $offeringLocation, $offeringStartDate, $offeringStartTime,
+                $offeringEndTime, $studentList, $sessionObjectivesList, $courseObjectivesList);
 
-    	$sentTotal = $this->mergeTemplateAndMailGroup($recipients, 'Upcoming Teaching Session',
-    			$templateContent, $tokenArray, $replaceValueBaseArray,
-    			$schoolAdminEmail);
+        $sentTotal = $this->mergeTemplateAndMailGroup($recipients, 'Upcoming Teaching Session',
+                $templateContent, $tokenArray, $replaceValueBaseArray,
+                $schoolAdminEmail);
 
-    	log_message('info', "Sent email to $sentTotal users for offering id " . $offering->offering_id);
+        log_message('info', "Sent email to $sentTotal users for offering id " . $offering->offering_id);
     }
 
     /**
+     * Populates the given email template with the given reminder information
+     * and mails it out to a given list of recipients
+     * @param array $recipients A list of email recipients.
+     * @param string $subject The email subject.
+     * @param string $template The email template.
+     * @param array $tokens A list of placeholder tokens in the template.
+     * @param array $values A list of values to populate the template with.
+     * @param string $sender The sender's email address.
+     * @return int The total of emails that were sent out.
      * @deprecated
      * @todo rewrite from scratch
      */
-    protected function mergeTemplateAndMailGroup($recipients, $subject, $template, $tokens, $values, $sender) {
+    protected function mergeTemplateAndMailGroup($recipients, $subject, $template, $tokens, $values, $sender)
+    {
+        $count = 0;
 
-    	$count = 0;
+        foreach ($recipients as $recipient) {
 
-    	foreach ($recipients as $recipient) {
+            // Will skip email address 'nobody@example.com', which is used for testing only.
+            if ($recipient['email'] == 'nobody@example.com')
+                continue;
 
-    		// Will skip email address 'nobody@example.com', which is used for testing only.
-    		if ($recipient['email'] == 'nobody@example.com')
-    			continue;
+            $fromHeaders = 'From: Teaching Session Notification <' . $sender . '>';
+            $fullName = $recipient['first_name'] . ' ' . $recipient['last_name'];
+            $tokenArray = array_merge($tokens, array('%%RECIPIENT_NAME%%'));
+            $replaceArray = array_merge($values, array($fullName));
+            $substitutedEmail = str_replace($tokenArray, $replaceArray, $template);
 
-    		$fromHeaders = 'From: Teaching Session Notification <' . $sender . '>';
-    		$fullName = $recipient['first_name'] . ' ' . $recipient['last_name'];
-    		$tokenArray = array_merge($tokens, array('%%RECIPIENT_NAME%%'));
-    		$replaceArray = array_merge($values, array($fullName));
-    		$substitutedEmail = str_replace($tokenArray, $replaceArray, $template);
+            if (isset($this->debug)) {
+                echo '<pre>';
+                echo 'These are the email headers:'."\n";
+                print_r($fromHeaders);
+                echo "\n\n";
+                echo 'This the recipient\'s email address:'."\n";
+                print_r($recipient['email']);
+                echo "\n\n";
+                echo 'This is the email subject:'."\n";
+                print_r($subject);
+                echo "\n\n";
+                echo 'This is the email (from template):'."\n";
+                print_r($substitutedEmail);
+                echo "\n</pre>";
+            } else {
+                mail($recipient['email'], $subject, $substitutedEmail, $fromHeaders);
+            }
 
-    		if (isset($this->debug)) {
-    			echo '<pre>';
-    			echo 'These are the email headers:'."\n";
-    			print_r($fromHeaders);
-    			echo "\n\n";
-    			echo 'This the recipient\'s email address:'."\n";
-    			print_r($recipient['email']);
-    			echo "\n\n";
-    			echo 'This is the email subject:'."\n";
-    			print_r($subject);
-    			echo "\n\n";
-    			echo 'This is the email (from template):'."\n";
-    			print_r($substitutedEmail);
-    			echo "\n</pre>";
-    		} else {
-    			mail($recipient['email'], $subject, $substitutedEmail, $fromHeaders);
-    		}
+            $count++;
+        }
 
-    		$count++;
-    	}
-
-    	if ($count && isset($this->debug)) {
-    		echo "<pre>Total email(s) that would have been sent: $count \n\n</pre>";
-    	}
-    	return $count;
+        if ($count && isset($this->debug)) {
+            echo "<pre>Total email(s) that would have been sent: $count \n\n</pre>";
+        }
+        return $count;
     }
 }
