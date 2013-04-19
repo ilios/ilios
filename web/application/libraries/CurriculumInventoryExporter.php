@@ -1,10 +1,14 @@
 <?php
 /**
- * Curriculum Inventory Exporter, implemented as "Library" component.
- * Provides functionality for generating curriculum inventory reports and for exporting reports to XML.
+ * Curriculum Inventory Exporter.
+ *
+ * Provides functionality for generating curriculum inventory reports and for exporting reports to XML according
+ * to the MedBiquitous specification.
  *
  * @see Curriculum_Inventory_Manager
- * @link http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html
+ *
+ * @link http://www.medbiq.org/sites/default/files/files/CurriculumInventorySpecification.pdf
+ * @link http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd
  */
 class CurriculumInventoryExporter
 {
@@ -13,9 +17,13 @@ class CurriculumInventoryExporter
      */
     protected $_ci;
 
+    /**
+     * Constructor.
+     */
     public function __construct ()
     {
-        // get the CodeIgniter super object
+        // get the CodeIgniter super object.
+        // @todo this totally breaks encapsuling, refactor this.
         $this->_ci =& get_instance();
 
         // conditionally load all necessary DAOs
@@ -44,26 +52,30 @@ class CurriculumInventoryExporter
 
 
     /**
-     * Retrieves curriculum inventory report data.
-     * @param int $reportId the report id
-     * @return array an associated array, containing the inventory. Data is keyed off by:
-     *     'report' ... An associative array holding various report-related properties, such as id, domain etc
-     *     'program' ... An object representing the program associated with the report
-     *     'institution' ... An object representing the curriculum inventory's owning institution
-     *     'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
-     *     'expectations' ... An associative array of arrays, each sub-array containing a
-     *         list of a different type of "competency object" within the curriculum.
-     *         These types are competencies, program objectives, course objectives and session objectives.
-     *         The keys for these type-specific sub-arrays are:
-     *             'competencies'
-     *             'program_objectives'
-     *             'course_objectives'
-     *             'session_objectives'
-     *     'academic_levels' ... An array of academic levels used in the curriculum.
-     *         Each academic level is represented by an associative array.
-     *     'sequence'  ... the inventory sequence object
-     *     'sequence_blocks' An array of sequence block. Each sequence block is represented as associative array.
+     * Retrieves a curriculum inventory in a data structure that lends itself for an easy transformation into
+     * XML-formatted report.
+     *
+     * @param int $reportId The report id.
+     * @return array An associated array, containing the inventory.
+     *     Data is keyed off by:
+     *         'report' ... An associative array holding various report-related properties, such as id, domain etc
+     *         'program' ... An object representing the program associated with the report
+     *         'institution' ... An object representing the curriculum inventory's owning institution
+     *         'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
+     *         'expectations' ... An associative array of arrays, each sub-array containing a
+     *             list of a different type of "competency object" within the curriculum.
+     *             These types are competencies, program objectives, course objectives and session objectives.
+     *             The keys for these type-specific sub-arrays are:
+     *                 'competencies'
+     *                 'program_objectives'
+     *                 'course_objectives'
+     *                 'session_objectives'
+     *         'academic_levels' ... An array of academic levels used in the curriculum.
+     *             Each academic level is represented by an associative array.
+     *         'sequence'  ... the inventory sequence object
+     *         'sequence_blocks' An array of sequence block. Each sequence block is represented as associative array.
      * @throws Ilios_Exception
+     * @see CurriculumInventoryReporter::createReportXml();
      */
     public function getCurriculumInventory ($reportId)
     {
@@ -156,151 +168,14 @@ class CurriculumInventoryExporter
     }
 
     /**
-     * Retrieves the inventory report as XML for a given report id.
-     * @param int $reportId the report id
-     * @return DomDocument the XML report
-     * @throws DomException
-     * @throws Ilios_Exception
-     */
-    public function getXmlReport ($reportId)
-    {
-        // load the inventory from the db and create xml from it.
-        // @todo conditionally, load the xml from file (or perhaps the database?) for finalized inventories.
-        $inventory = $this->getCurriculumInventory($reportId);
-        return $this->_createReportXml($inventory);
-    }
-
-    //
-    // report builder utility functions
-    //
-
-    /**
-     * Adds keywords to events.
-     * @param array $events
-     * @param array $keywords
-     * @return array The events with the keywords added.
-     */
-    protected function _addKeywordsToEvents (array $events, array $keywords)
-    {
-        foreach ($keywords as $keyword) {
-            $eventId = $keyword['event_id'];
-            if (! array_key_exists($eventId, $events)) {
-                continue;
-            }
-            if (! array_key_exists('keywords', $events[$eventId])) {
-                $events[$eventId]['keywords'] = array();
-            }
-            $events[$eventId]['keywords'][] = $keyword;
-        }
-        return $events;
-    }
-
-    /**
-     * Adds competency objects references to events.
-     * @param array $events
-     * @param array $references
-     * @return array The events with references added.
-     */
-    protected function _addCompetencyObjectReferencesToEvents (array $events, array $references)
-    {
-        $sessionIds = array_keys($events);
-        for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
-            $sessionId = $sessionIds[$i];
-            if (array_key_exists($sessionId, $references)) {
-                $events[$sessionId]['competency_object_references'] = $references[$sessionId];
-            }
-        }
-        return $events;
-    }
-
-    /**
-     * Adds event references and competency object references to sequence blocks
-     * @param array $sequenceBlocks
-     * @param array $eventReferences
-     * @param array $competencyObjectReferences
-     * @return array The sequence blocks with references added.
-     */
-    protected function _addEventAndCompetencyObjectReferencesToSequenceBlocks (array $sequenceBlocks,
-                                                                               array $eventReferences,
-                                                                               array $competencyObjectReferences)
-    {
-        for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
-            // link to events
-            $sequenceBlockId = $sequenceBlocks[$i]['sequence_block_id'];
-            if (array_key_exists($sequenceBlockId, $eventReferences)) {
-                $sequenceBlocks[$i]['event_references'] = $eventReferences[$sequenceBlockId];
-            } else {
-                $sequenceBlocks[$i]['event_references'] = array();
-            }
-            // link to competency objects
-            if (array_key_exists($sequenceBlockId, $competencyObjectReferences)) {
-                $sequenceBlocks[$i]['competency_object_references'] = $competencyObjectReferences[$sequenceBlockId];
-            }
-        }
-        return $sequenceBlocks;
-    }
-
-    /**
-     * Recursively builds a hierarchy of nested sequence blocks, based on their parent/child relationships
-     * @param array $sequenceBlocks A flat array of sequence blocks.
-     * @param int|null $parentBlockId The id of the parent sequence block, NULL if for top-level blocks.
-     * @return array The nested sequence blocks.
-     */
-    protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, $parentBlockId = null)
-    {
-
-        $rhett = array();
-        $remainder = array();
-
-        for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
-            if ($parentBlockId === $sequenceBlocks[$i]['parent_sequence_block_id']) {
-                $rhett[] = $sequenceBlocks[$i];
-            } else {
-                $remainder[] = $sequenceBlocks[$i];
-            }
-        }
-        for ($i = 0, $n = count($rhett); $i < $n; $i++) {
-            // recursion!
-            $children = $this->_buildSequenceBlockHierarchy($remainder, $rhett[$i]['sequence_block_id']);
-            if (count($children)) {
-                // sort children if the sort order demands it
-                if (Curriculum_Inventory_Sequence_Block::ORDERED == $rhett[$i]['child_sequence_order']) {
-                    usort($children, array($this, '_sortSequenceBlocks'));
-                }
-                $rhett[$i]['children'] = $children;
-            }
-        }
-        return $rhett;
-    }
-
-    /**
-     * Comparison function for sorting sequence block arrays.
-     * @param array $a associative array representing a sequence block
-     * @param array $b associative array representing a sequence block
-     * @return int
-     * @see usort()
-     * @see Curriculum_Inventory_Manager::_buildSequenceBlockHierarchy()
-     */
-    protected function _sortSequenceBlocks (array $a, array $b)
-    {
-        if ($a['order_in_sequence'] === $b['order_in_sequence']) {
-            return 0;
-        }
-        return ($a['order_in_sequence'] > $b['order_in_sequence']) ? 1 : -1;
-    }
-
-    //
-    // XML export utility functions
-    //
-    /**
      * Creates an XML representation of the given curriculum inventory.
      * @param array $inventory An associative array representing the entire curriculum inventory.
-     *     The inventory is expected to be structured as the output of <code>getCurriculumInventory()<code>.
+     *     The inventory is expected to be structured like the output of <code>getCurriculumInventory()<code>.
      * @return DOMDocument The generated XML document.
      * @throws DomException
      * @see CurriculumInventoryExporter::getCurriculumInventory()
      */
-    protected function _createReportXml (array $inventory)
+    public function createXmlReport (array $inventory)
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
@@ -422,16 +297,16 @@ class CurriculumInventoryExporter
             // competency object references
             if (array_key_exists('competency_object_references', $event)) {
                 foreach ($event['competency_object_references']['competencies'] as $id) {
-                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'competency');
+                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'competency');
                 }
                 foreach ($event['competency_object_references']['program_objectives'] as $id) {
-                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'program_objective');
+                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'program_objective');
                 }
                 foreach ($event['competency_object_references']['course_objectives'] as $id) {
-                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'course_objective');
+                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'course_objective');
                 }
                 foreach ($event['competency_object_references']['session_objectives'] as $id) {
-                    $this->_createCompetencyObjectReferenceXml($dom, $eventNode, $id, $domain, 'session_objective');
+                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'session_objective');
                 }
             }
 
@@ -468,22 +343,22 @@ class CurriculumInventoryExporter
         $rootNode->appendChild($expectationsNode);
         // competencies
         foreach ($inventory['expectations']['competencies'] as $competency) {
-            $this->_createCompetencyObjectXml($dom, $expectationsNode, $competency['competency_id'],
+            $this->_createCompetencyObjectNode($dom, $expectationsNode, $competency['competency_id'],
                 $competency['title'], $domain, 'competency');
         }
         // program objectives
         foreach ($inventory['expectations']['program_objectives'] as $programObjective) {
-            $this->_createCompetencyObjectXml($dom, $expectationsNode, $programObjective['objective_id'],
+            $this->_createCompetencyObjectNode($dom, $expectationsNode, $programObjective['objective_id'],
                 $programObjective['title'], $domain, 'program_objective');
         }
         // course objectives
         foreach ($inventory['expectations']['course_objectives'] as $courseObjective) {
-            $this->_createCompetencyObjectXml($dom, $expectationsNode, $courseObjective['objective_id'],
+            $this->_createCompetencyObjectNode($dom, $expectationsNode, $courseObjective['objective_id'],
                 $courseObjective['title'], $domain, 'course_objective');
         }
         // session objectives
         foreach ($inventory['expectations']['session_objectives'] as $sessionObjective) {
-            $this->_createCompetencyObjectXml($dom, $expectationsNode, $sessionObjective['objective_id'],
+            $this->_createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['objective_id'],
                 $sessionObjective['title'], $domain, 'session_objective');
         }
         //
@@ -517,7 +392,7 @@ class CurriculumInventoryExporter
             $sequenceDescriptionNode->appendChild($dom->createTextNode($inventory['sequence']->description));
         }
         foreach ($inventory['sequence_blocks'] as $block) {
-            $this->_createSequenceBlockXml($dom, $sequenceNode, $block, $inventory);
+            $this->_createSequenceBlockNode($dom, $sequenceNode, $block, $inventory);
         }
 
         //
@@ -525,6 +400,142 @@ class CurriculumInventoryExporter
         //
         return $dom;
     }
+
+    /**
+     * Retrieves the inventory report as XML for a given report id.
+     * @param int $reportId The report id.
+     * @return DomDocument The fully populated report.
+     * @throws DomException
+     * @throws Ilios_Exception
+     */
+    public function getXmlReport ($reportId)
+    {
+        // load the inventory from the db and create xml from it.
+        // @todo conditionally, load the xml from file (or perhaps the database?) for finalized inventories.
+        $inventory = $this->getCurriculumInventory($reportId);
+        return $this->createXmlReport($inventory);
+    }
+
+    //
+    // report builder utility functions
+    //
+
+    /**
+     * Adds keywords to events.
+     * @param array $events A list of events.
+     * @param array $keywords A list of keywords.
+     * @return array The events with the keywords added.
+     */
+    protected function _addKeywordsToEvents (array $events, array $keywords)
+    {
+        foreach ($keywords as $keyword) {
+            $eventId = $keyword['event_id'];
+            if (! array_key_exists($eventId, $events)) {
+                continue;
+            }
+            if (! array_key_exists('keywords', $events[$eventId])) {
+                $events[$eventId]['keywords'] = array();
+            }
+            $events[$eventId]['keywords'][] = $keyword;
+        }
+        return $events;
+    }
+
+    /**
+     * Adds competency objects references to events.
+     * @param array $events A list of events.
+     * @param array $references A list of competency object references.
+     * @return array The events with references added.
+     */
+    protected function _addCompetencyObjectReferencesToEvents (array $events, array $references)
+    {
+        $sessionIds = array_keys($events);
+        for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
+            $sessionId = $sessionIds[$i];
+            if (array_key_exists($sessionId, $references)) {
+                $events[$sessionId]['competency_object_references'] = $references[$sessionId];
+            }
+        }
+        return $events;
+    }
+
+    /**
+     * Adds event references and competency object references to sequence blocks
+     * @param array $sequenceBlocks A list of sequence blocks.
+     * @param array $eventReferences A list of event references.
+     * @param array $competencyObjectReferences A list of competency object references.
+     * @return array The sequence blocks with references added.
+     */
+    protected function _addEventAndCompetencyObjectReferencesToSequenceBlocks (array $sequenceBlocks,
+                                                                               array $eventReferences,
+                                                                               array $competencyObjectReferences)
+    {
+        for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
+            // link to events
+            $sequenceBlockId = $sequenceBlocks[$i]['sequence_block_id'];
+            if (array_key_exists($sequenceBlockId, $eventReferences)) {
+                $sequenceBlocks[$i]['event_references'] = $eventReferences[$sequenceBlockId];
+            } else {
+                $sequenceBlocks[$i]['event_references'] = array();
+            }
+            // link to competency objects
+            if (array_key_exists($sequenceBlockId, $competencyObjectReferences)) {
+                $sequenceBlocks[$i]['competency_object_references'] = $competencyObjectReferences[$sequenceBlockId];
+            }
+        }
+        return $sequenceBlocks;
+    }
+
+    /**
+     * Recursively builds a hierarchy of nested sequence blocks, based on their parent/child relationships
+     * @param array $sequenceBlocks A flat array of sequence blocks.
+     * @param int|null $parentBlockId The id of the parent sequence block, NULL if for top-level blocks.
+     * @return array The nested sequence blocks.
+     */
+    protected function _buildSequenceBlockHierarchy (array $sequenceBlocks, $parentBlockId = null)
+    {
+
+        $rhett = array();
+        $remainder = array();
+
+        for ($i = 0, $n = count($sequenceBlocks); $i < $n; $i++) {
+            if ($parentBlockId === $sequenceBlocks[$i]['parent_sequence_block_id']) {
+                $rhett[] = $sequenceBlocks[$i];
+            } else {
+                $remainder[] = $sequenceBlocks[$i];
+            }
+        }
+        for ($i = 0, $n = count($rhett); $i < $n; $i++) {
+            // recursion!
+            $children = $this->_buildSequenceBlockHierarchy($remainder, $rhett[$i]['sequence_block_id']);
+            if (count($children)) {
+                // sort children if the sort order demands it
+                if (Curriculum_Inventory_Sequence_Block::ORDERED == $rhett[$i]['child_sequence_order']) {
+                    usort($children, array($this, '_sortSequenceBlocks'));
+                }
+                $rhett[$i]['children'] = $children;
+            }
+        }
+        return $rhett;
+    }
+
+    /**
+     * Comparison function for sorting sequence block arrays.
+     * @param array $a associative array representing a sequence block
+     * @param array $b associative array representing a sequence block
+     * @return int
+     * @see usort()
+     * @see CurriculumInventoryExporter::_buildSequenceBlockHierarchy()
+     */
+    protected function _sortSequenceBlocks (array $a, array $b)
+    {
+        if ($a['order_in_sequence'] === $b['order_in_sequence']) {
+            return 0;
+        }
+        return ($a['order_in_sequence'] > $b['order_in_sequence']) ? 1 : -1;
+    }
+
+
 
     /**
      * Recursively creates and appends sequence block nodes to the XML document
@@ -535,7 +546,7 @@ class CurriculumInventoryExporter
      * @param DomElement|null $parentSequenceBlockNode the DOM node representing the parent sequence block (NULL if n/a)
      * @param int $order of this sequence block in relation to other nested sequence blocks. '0' if n/a.
      */
-    protected function _createSequenceBlockXml (DomDocument $dom, DomElement $sequenceNode,
+    protected function _createSequenceBlockNode (DomDocument $dom, DomElement $sequenceNode,
                                                 array $block, array $inventory,
                                                 DomElement $parentSequenceBlockNode = null, $order = 0)
     {
@@ -638,13 +649,13 @@ class CurriculumInventoryExporter
         if (array_key_exists('competency_object_references', $block)) {
             $domain = $inventory['report']['domain'];
             foreach ($block['competency_object_references']['competencies'] as $id) {
-                $this->_createCompetencyObjectReferenceXml($dom, $sequenceBlockNode, $id, $domain, 'competency');
+                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $id, $domain, 'competency');
             }
             foreach ($block['competency_object_references']['program_objectives'] as $id) {
-                $this->_createCompetencyObjectReferenceXml($dom, $sequenceBlockNode, $id, $domain, 'program_objective');
+                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $id, $domain, 'program_objective');
             }
             foreach ($block['competency_object_references']['course_objectives'] as $id) {
-                $this->_createCompetencyObjectReferenceXml($dom, $sequenceBlockNode, $id, $domain, 'course_objective');
+                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $id, $domain, 'course_objective');
             }
         }
         // pre-conditions and post-conditions are n/a
@@ -675,20 +686,21 @@ class CurriculumInventoryExporter
                 if (Curriculum_Inventory_Sequence_Block::ORDERED == $block['child_sequence_order']) {
                     $order++;
                 }
-                $this->_createSequenceBlockXml($dom, $sequenceNode, $child, $inventory, $sequenceBlockNode, $order);
+                $this->_createSequenceBlockNode($dom, $sequenceNode, $child, $inventory, $sequenceBlockNode, $order);
             }
         }
     }
 
     /**
-     * @param DomDocument $dom
-     * @param DomElement $parentNode
-     * @param int $id
-     * @param string $title
-     * @param string $domain
-     * @param string $type
+     * Creates a "CompetencyObject" DOM node and populates it with given values, then appends it to the given parent node.
+     * @param DomDocument $dom The document object.
+     * @param DomElement $parentNode The parent node.
+     * @param int $id The db record id of the competency object.
+     * @param string $title The competency object's title.
+     * @param string $domain The domain name of competency object's URI.
+     * @param string $type One of "competency", "program objective", "course objective", "session objective".
      */
-    protected function _createCompetencyObjectXml(DomDocument $dom, DomElement $parentNode, $id, $title, $domain, $type)
+    protected function _createCompetencyObjectNode(DomDocument $dom, DomElement $parentNode, $id, $title, $domain, $type)
     {
         $competencyObjectNode = $dom->createElement('CompetencyObject');
         $parentNode->appendChild($competencyObjectNode);
@@ -713,14 +725,16 @@ class CurriculumInventoryExporter
     }
 
     /**
-     * @param DomDocument $dom
-     * @param DomElement $parentNode
-     * @param int $id
-     * @param string $domain
-     * @param string $type
+     *
+     * Creates a "CompetencyObjectReference" DOM node and populates it with given values, then appends it to the given parent node.
+     * @param DomDocument $dom The document object.
+     * @param DomElement $parentNode The parent node.
+     * @param int $id The db record id of the competency object.
+     * @param string $domain The domain name of competency object's URI.
+     * @param string $type One of "competency", "program objective", "course objective", "session objective".
      * @see CurriculumInventoryExporter::_createCompetencyObjectUri
      */
-    protected function _createCompetencyObjectReferenceXml (DomDocument $dom, DomElement $parentNode, $id, $domain, $type)
+    protected function _createCompetencyObjectReferenceNode (DomDocument $dom, DomElement $parentNode, $id, $domain, $type)
     {
         $uri = $this->_createCompetencyObjectUri($domain, $type, $id);
         $ref = "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry=\"{$uri}\"]";
@@ -729,16 +743,16 @@ class CurriculumInventoryExporter
     }
 
     /**
-     * Returns a URL that identifies a given competency object within the curriculum inventory.
-     * Note: The returned URL is bogus, but that's OK (for now).
-     * @param string $domain the domain name used to generate the URL.
-     * @param string $type the type of competency object. May be one of
+     * Returns a URI that identifies a given competency object within the curriculum inventory.
+     * Note: The returned URI is a bogus URL, but that's OK (for now).
+     * @param string $domain The domain name of competency object's URI.
+     * @param string $type the type of competency object. Must be one of
      *     "competency"
      *     "program_objective"
      *     "course_objective"
      *     "session_objective"
-     * @param int $id the Ilios record id
-     * @return string the unique URL for the given competency object
+     * @param int $id The db record id of the competency object.
+     * @return string The unique URI for the given competency object.
      */
     protected function _createCompetencyObjectUri ($domain, $type, $id)
     {
