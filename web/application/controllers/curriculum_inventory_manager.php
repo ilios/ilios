@@ -4,14 +4,15 @@ require_once 'ilios_web_controller.php';
 
 /**
  * @package Ilios
+ *
  * Curriculum Inventory management controller.
  *
- * @todo hideously fat controller, move business logic to helper/workflow/whatever components.
+ * @see Ilios_CurriculumInventory_Exporter
  */
 class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 {
     /**
-     * @var CurriculumInventoryExporter
+     * @var Ilios_CurriculumInventory_Exporter
      */
     protected $_exporter;
 
@@ -43,9 +44,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         if (! property_exists($this, 'invSequenceBlock')) {
             $this->load->model('Curriculum_Inventory_Sequence_Block', 'invSequenceBlock', true);
         }
-        $this->load->library('CurriculumInventoryExporter');
-        // shorthand variable, this makes it easier to work with
-        $this->_exporter = $this->curriculuminventoryexporter;
+
+        $this->_exporter = new Ilios_CurriculumInventory_Exporter($this);
     }
 
     /**
@@ -268,7 +268,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         // generate and export the report to XML
         try {
-            $xml = $this->_exporter->createXmlReport($reportId);
+            $xml = $this->_exporter->getXmlReport($reportId);
 
         } catch (DomException $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
@@ -284,13 +284,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         if (false === $out) {
             log_message('error', 'CIM export: Failed to convert XML to its String representation.');
             show_error('An error occurred while exporting the curriculum inventory report.');
-
         }
+
         // all is good, output the XML
         header('Content-Type: application/xml; charset="utf8"');
         header('Content-disposition: attachment; filename="report.xml"');
         echo $out;
     }
-
-
 }

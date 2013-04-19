@@ -10,21 +10,21 @@
  * @link http://www.medbiq.org/sites/default/files/files/CurriculumInventorySpecification.pdf
  * @link http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd
  */
-class CurriculumInventoryExporter
+class Ilios_CurriculumInventory_Exporter
 {
     /**
+     * The CodeIgniter super object.
      * @var CI_Controller
      */
     protected $_ci;
 
     /**
      * Constructor.
+     * @param CI_Controller $ci The CodeIgniter super object.
      */
-    public function __construct ()
+    public function __construct (CI_Controller &$ci)
     {
-        // get the CodeIgniter super object.
-        // @todo this totally breaks encapsuling, refactor this.
-        $this->_ci =& get_instance();
+        $this->_ci =& $ci;
 
         // conditionally load all necessary DAOs
         if (! property_exists($this->_ci, 'clerkshipType')) {
@@ -173,7 +173,7 @@ class CurriculumInventoryExporter
      *     The inventory is expected to be structured like the output of <code>getCurriculumInventory()<code>.
      * @return DOMDocument The generated XML document.
      * @throws DomException
-     * @see CurriculumInventoryExporter::getCurriculumInventory()
+     * @see Ilios_CurriculumInventory_Exporter::getCurriculumInventory()
      */
     public function createXmlReport (array $inventory)
     {
@@ -407,8 +407,8 @@ class CurriculumInventoryExporter
      * @return DomDocument The fully populated report.
      * @throws DomException
      * @throws Ilios_Exception
-     * @see CurriculumInventoryExporter::getCurriculumInventory()
-     * @see CurriculumInventoryExporter::createXmlReport()
+     * @see Ilios_CurriculumInventory_Exporter::getCurriculumInventory()
+     * @see Ilios_CurriculumInventory_Exporter::createXmlReport()
      */
     public function getXmlReport ($reportId)
     {
@@ -521,7 +521,7 @@ class CurriculumInventoryExporter
      * @param array $b associative array representing a sequence block
      * @return int
      * @see usort()
-     * @see CurriculumInventoryExporter::_buildSequenceBlockHierarchy()
+     * @see Ilios_CurriculumInventory_Exporter::_buildSequenceBlockHierarchy()
      */
     protected function _sortSequenceBlocks (array $a, array $b)
     {
@@ -728,7 +728,7 @@ class CurriculumInventoryExporter
      * @param int $id The db record id of the competency object.
      * @param string $domain The domain name of competency object's URI.
      * @param string $type One of "competency", "program objective", "course objective", "session objective".
-     * @see CurriculumInventoryExporter::_createCompetencyObjectUri
+     * @see Ilios_CurriculumInventory_Exporter::_createCompetencyObjectUri
      */
     protected function _createCompetencyObjectReferenceNode (DomDocument $dom, DomElement $parentNode, $id, $domain, $type)
     {
