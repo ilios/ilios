@@ -20,7 +20,16 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * @todo add code docs
+     * Default action.
+     * Prints the user dashboard.
+     *
+     * Accepts the following request parameters:
+     *     'schoolselect' ... (optional) The id of the currently selected "active" school.
+     *         If provided, then the active school id in the user-session is updated with the given value.
+     *     'stripped_view' ... (optional) If any value is provided then the student-dashboard is printed.
+     *
+     * Prints the full dashboard page.
+     * @todo Remove the "stripped_view" option.
      */
     public function index ()
     {
@@ -56,10 +65,7 @@ class Dashboard_Controller extends Calendar_Controller
             $schoolId = $this->session->userdata('school_id');
         }
 
-        $userRow = $this->user->getRowForPrimaryKeyId($data['user_id']);
-
         $data['show_console'] = $this->session->userdata('has_admin_access');
-
 
         $schoolTitle = null;
 
@@ -297,7 +303,6 @@ class Dashboard_Controller extends Calendar_Controller
                                          4 => "$level IV",
                                          5 => "$level V");
 
-        //$fdata['course_levels'] = array(1 => 'Level I', 2 => 'Level II', 3 => 'Level III', 4 => 'Level IV', 5 => 'Level V');
         $programcohorts = $this->programYear->getAllProgramCohortsWithSchoolId($schoolId);
         if (!empty($programcohorts)) {
             $fdata['program_cohort_titles'] = array_combine(array_keys($programcohorts),
@@ -357,16 +362,17 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * Controller action.
+     * Toggles between the view between the student- and educator-dashboard.
+     * The requested view-selection is persisted in the user-session.
      *
-     * Sets the preferred view on request
-     * and stores this preference in the current user session.
-     *
-     * Expected request parameters:
+     * Accepts the following query string parameters:
      *    "preferred_view" ... either "student or "instructor",
      *        depending on what view the users wants to switch to
      *
+     * Redirects to the user dashboard.
+     *
      * @see Calendar_Controller::switchView()
+     * @see Dashboard_Controller::index()
      */
     public function switchView ()
     {
@@ -376,9 +382,18 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * XHR handler.
      * Adds or updates given user reminders.
-     * @todo flesh out docbloc
+     *
+     * Accepts the following POST parameters:
+     *     "reminder_id" ... The record ID of the reminder that is to be updated.
+     *         If none is given, then a new reminder will be created.
+     *     "note" ... The reminder text.
+     *     "due" ... The reminder's due date.
+     *     "closed" ... A flag indicating whether the reminder is closed. Either "true" or "false".
+     *
+     * Prints out the new or updated reminder as JSON-formatted text.
+     *
+     * @todo this should be two separate actions, one for creating and one for updating reminders.
      */
     public function addOrUpdateReminder ()
     {
@@ -425,7 +440,11 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * @todo add code docs
+     * Retrieves and prints reminders for the current user that a due within seven days from now.
+     *
+     * Prints out an array of reminders as JSON-formatted text.
+     *
+     * @todo Change the hard-wired seven-day threshold to a configurable value in the application settings.
      */
     public function loadReminders ()
     {
@@ -447,7 +466,18 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * @todo add code docs
+     * Adds a new report.
+     *
+     * Accepts the following POST parameters:
+     *     "noun1" ... The name of the subject table.
+     *     "noun2" ... The name of the prepositional object table.
+     *     "noun2_values" ... A comma separated list of prepositional object values.
+     *     "title" ... (optional) The report title.
+     *
+     * Prints out an result-array as JSON-formatted text.
+     * On success, the result-array will contain the record ID of the newly created report, keyed off by "report_id".
+     * On failure, the result-array will contain an error message, keyed off by "error".
+     *
      */
     public function addReport ()
     {
@@ -500,7 +530,14 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * @todo add code docs
+     * Deletes a report.
+     *
+     * Accepts the following POST parameters:
+     *     "rid" ... The id of the report to be deleted.
+     *
+     * Prints out an result-array as JSON-formatted text.
+     * On success, the result-array will contain a success message, keyed off by "success".
+     * On failure, the result-array will contain an error message, keyed off by "error".
      */
     public function deleteReport ()
     {
@@ -519,34 +556,28 @@ class Dashboard_Controller extends Calendar_Controller
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
             unset($rhett['error']);
-
             $this->report->startTransaction();
 
-            if ($this->report->deleteReport($reportId)
-                                                    && (! $this->report->transactionAtomFailed())) {
+            if ($this->report->deleteReport($reportId) && (! $this->report->transactionAtomFailed())) {
                 $this->report->commitTransaction();
-
                 $failedTransaction = false;
-
                 $rhett['success'] = 'hurrah';
-            }
-            else {
+            } else {
                 $lang =  $this->getLangToUse();
                 $msg = $this->languagemap->getI18NString('general.error.db_update', $lang);
-
                 $rhett['error'] = $msg;
-
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->report);
             }
-        }
-        while ($failedTransaction && ($transactionRetryCount > 0));
+        } while ($failedTransaction && ($transactionRetryCount > 0));
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
 
     /**
-     * @todo add code docs
+     * Retrieves and prints a list of reports for the current user.
+     *
+     * Prints out an array of reports as JSON-formatted text.
      */
     public function loadReports ()
     {
@@ -756,7 +787,7 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     *  @todo add code docs.
+     *  Prints out a JSON-formatted array of instructor groups for reporting.
      */
     public function getAllInstructorGroupsForReportSelection ()
     {
@@ -788,8 +819,7 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * XHR Handler
-     * Prints out a JSON-formatted list of available programs for reporting.
+     * Prints out a JSON-formatted array of available programs for reporting.
      */
     public function getAllProgramsForReportSelection ()
     {
@@ -820,8 +850,9 @@ class Dashboard_Controller extends Calendar_Controller
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
+
     /**
-     * @todo add code docs
+     * Prints out a JSON-formatted array of available program years for reporting.
      */
     public function getAllProgramYearsForReportSelection ()
     {
@@ -843,7 +874,6 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * XHR handler.
      * Prints out a JSON-formatted array of available courses for reporting.
      */
     public function getAllCoursesForReportSelection ()
@@ -886,7 +916,7 @@ class Dashboard_Controller extends Calendar_Controller
         echo json_encode($rhett);
     }
     /**
-     * @todo add code docs.
+     * Prints out a JSON-formatted array of available sessions for reporting.
      */
     public function getAllSessionsForReportSelection ()
     {
@@ -906,8 +936,26 @@ class Dashboard_Controller extends Calendar_Controller
         echo json_encode($rhett);
     }
 
-	/**
-     * @todo add code docs.
+    /**
+     * Retrieves and prints a JSON-formatted array of session types for reporting.
+     *
+     * The returned array contains a single item keyed by "items".
+     * The value of "items" is a nested array of assoc. arrays, each sub-array containing the actual
+     * session type properties keyed by "value" and "display_title".
+     *
+     * Example output:
+     * <code>
+     * {"items": [
+     *     {
+     *          "value": "109",
+     *          "display_title": "Case-Based Instruction\/Learning"
+     *     },
+     *     {
+     *          "value": "110",
+     *          "display_title": "Ceremony"
+     *     }
+     * ]}
+     * </code>
      */
     public function getAllSessionTypesForReportSelection ()
     {
@@ -940,6 +988,10 @@ class Dashboard_Controller extends Calendar_Controller
         echo json_encode($rhett);
     }
 
+    /**
+     * @deprecated
+     * @todo not used - remove
+     */
     public function getProgramsForCourses ()
     {
         $rhett = array();
@@ -962,8 +1014,9 @@ class Dashboard_Controller extends Calendar_Controller
 
 
     /**
-     * Loads the instructor dashboard view.
-     * @param array $data
+     * Loads and prints the instructor dashboard view.
+     * Processes the given data array before passing it on to the view for rendering.
+     * @param array $data The data to be passed to the view for rendering.
      */
     private function _viewInstructorDashboard (array $data = array())
     {
@@ -1008,12 +1061,11 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * Loads the student dashboard view.
-     * @param array $data
+     * Loads and prints the student dashboard view.
+     * @param array $data The data to be passed to the view for rendering.
      */
     private function _viewStudentDashboard (array $data = array())
     {
         $this->load->view('home/student_dashboard_view', $data);
     }
-
 }
