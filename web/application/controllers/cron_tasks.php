@@ -432,31 +432,28 @@ class Cron_Tasks extends Ilios_Base_Controller
         /*** SET UP FOR THE EMAIL TEMPLATE ***/
 
         //get/set the custom template location based on the school's respective template prefix
-          $filepath_parent = getServerFilePath('alert_templates');
-          //if the school's template prefix exists, add the 'custom' subfolder and the template prefix + underscore
-          if(isset($schoolTemplatePrefix)) {
+        $filepath_parent = getServerFilePath('alert_templates');
+        //if the school's template prefix exists, add the 'custom' subfolder and the template prefix + underscore
+        if(isset($schoolTemplatePrefix)) {
             $filepath_custom_prefix = 'custom/'.$schoolTemplatePrefix.'_';
-          } else {
+        } else {
             $filepath_custom_prefix = '';
-          }
+        }
 
-          // use upcoming_teaching_session_template.txt as the base template name...
-          $template_name = 'upcoming_teaching_session_template.txt';
-          $filepath_custom = $filepath_parent . $filepath_custom_prefix . $template_name;
-          if(file_exists($filepath_custom) && is_readable($filepath_custom)) {
+        // use upcoming_teaching_session_template.txt as the base template name...
+        $template_name = 'upcoming_teaching_session_template.txt';
+        $filepath_custom = $filepath_parent . $filepath_custom_prefix . $template_name;
+        if(file_exists($filepath_custom) && is_readable($filepath_custom)) {
             $filepath = $filepath_custom;
-          } else {
+        } else {
             $filepath = $filepath_parent . $template_name;
-          }
+        }
           $templateContent = file_get_contents($filepath);
         // define its own token list
-        $tokenArray = array('%%SCHOOL_NAME%%', '%%SCHOOL_ILIOS_ADMIN_EMAIL%%',
-                '%%COURSE_TITLE%%', '%%COURSE_SESSION_LINK%%',
-                '%%SESSION_TITLE%%', '%%SESSION_TYPE%%',
-                '%%OFFERING_LOCATION%%', '%%OFFERING_DATE%%',
-                '%%OFFERING_START_TIME%%', '%%OFFERING_END_TIME%%',
-                '%%STUDENT_GROUP_LIST%%', '%%LEARNING_OBJECTIVE_LIST%%',
-                '%%COURSE_OBJECTIVE_LIST%%');
+        $tokenArray = array('%%SCHOOL_NAME%%', '%%SCHOOL_ILIOS_ADMIN_EMAIL%%', '%%COURSE_TITLE%%',
+            '%%COURSE_SESSION_LINK%%', '%%SESSION_TITLE%%', '%%SESSION_TYPE%%', '%%OFFERING_LOCATION%%',
+            '%%OFFERING_DATE%%', '%%OFFERING_START_TIME%%', '%%OFFERING_END_TIME%%', '%%STUDENT_GROUP_LIST%%',
+            '%%LEARNING_OBJECTIVE_LIST%%', '%%COURSE_OBJECTIVE_LIST%%');
 
         // This course session url does not point to the right place yet.  Replace it with the base URL.
         $courseSessionURL = base_url();
@@ -475,10 +472,9 @@ class Cron_Tasks extends Ilios_Base_Controller
             $courseObjectivesList .= "\n    - ".strip_tags($objective['title']);
         }
 
-        $replaceValueBaseArray = array($schoolName, $schoolAdminEmail, $courseTitle,
-                $courseSessionURL, $sessionTitle, $sessionTypeName,
-                $offeringLocation, $offeringStartDate, $offeringStartTime,
-                $offeringEndTime, $studentList, $sessionObjectivesList, $courseObjectivesList);
+        $replaceValueBaseArray = array($schoolName, $schoolAdminEmail, $courseTitle, $courseSessionURL, $sessionTitle,
+            $sessionTypeName, $offeringLocation, $offeringStartDate, $offeringStartTime, $offeringEndTime, $studentList,
+            $sessionObjectivesList, $courseObjectivesList);
 
         $sentTotal = $this->_mergeTemplateAndMailGroup($recipients, 'Upcoming Teaching Session',
                 $templateContent, $tokenArray, $replaceValueBaseArray,
