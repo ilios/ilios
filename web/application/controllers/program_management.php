@@ -16,9 +16,9 @@ class Program_Management extends Ilios_Web_Controller
     public function __construct ()
     {
         parent::__construct();
-        $this->load->model('Program', 'program', TRUE);
-        $this->load->model('Publish_Event', 'publishEvent', TRUE);
-        $this->load->model('School', 'school', TRUE);
+        $this->load->model('Program', 'program', true);
+        $this->load->model('Publish_Event', 'publishEvent', true);
+        $this->load->model('School', 'school', true);
     }
 
     /**
@@ -40,8 +40,6 @@ class Program_Management extends Ilios_Web_Controller
         }
 
         $this->output->set_header('Expires: 0');
-
-        $user = $this->user->getRowForPrimaryKeyId($data['user_id']);
 
         $programId = $this->input->get_post('program_id');
 

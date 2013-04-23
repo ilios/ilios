@@ -184,7 +184,7 @@ ilios.pm.transaction.loadSchoolDepartmentTree = function () {
                     return;
                 }
 
-                ilios.pm.schoolDepartmentTreeModel = new Array();
+                ilios.pm.schoolDepartmentTreeModel = [];
 
                 for (var key in parsedObject) {
                     tempSchool = parsedObject[key];
@@ -247,6 +247,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                 var collapseTrio = null;
                 var idString = null;
                 var str;
+                var containerNumber;
 
                 try {
                     parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
@@ -266,11 +267,11 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     formDOMElement = new Element(document.createElement('form'),
                                                   {method: 'POST', action: ''});
 
-
-                    formDOMElement.get('element').setAttribute('cnumber', (i + 1));
+                    containerNumber = i + 1;
+                    formDOMElement.get('element').setAttribute('cnumber', containerNumber);
 
                     newProgramYearDOMTree
-                        = ilios.dom.buildChildContainerDOMTree((i + 1), null, null,
+                        = ilios.dom.buildChildContainerDOMTree(containerNumber, null, null,
                                                                ilios.pm.transaction.saveProgramYearAsDraft,
                                                                null,
                                                                ilios.pm.transaction.saveProgramYearAndPublish,
@@ -278,7 +279,8 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                                                                ilios.pm.handleProgramYearDivCollapse,
                                                                null,
                                                                formDOMElement,
-                                                               ilios.pm.programYearContentGenerator);
+                                                               ilios.pm.programYearContentGenerator,
+                                                               ['archiver']);
 
                     // possible DOM race condition
                     programYearContainer.appendChild(newProgramYearDOMTree.get('element'));
@@ -289,7 +291,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     programYearModel.setPublishEventId(modelTree['publish_event_id']);
 
 
-                    titleId = ilios.pm.generateIdStringForProgramYearSelect((i + 1));
+                    titleId = ilios.pm.generateIdStringForProgramYearSelect(containerNumber);
                     scatchElement = document.getElementById(titleId);
                     ilios.utilities.selectOptionWithValue(scatchElement, modelTree['start_year']);
 
@@ -297,7 +299,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     j = 0;
                     if (childArray != null) {
                         childLen = childArray.length;
-                        childModelArray = new Array();
+                        childModelArray = [];
                         for (; j < childLen; j++) {
                             arrayedChildModel = childArray[j];
 
@@ -307,7 +309,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                             childModelArray.push(childModel);
                         }
-                        titleId = ilios.pm.generateIdStringForCompetencyContent((i + 1));
+                        titleId = ilios.pm.generateIdStringForCompetencyContent(containerNumber);
                         scratchElement = document.getElementById(titleId);
                         collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                         str = ilios.competencies.generateSummaryStringForSelectedCompetencies(childModelArray);
@@ -323,11 +325,11 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                         var objectiveNumber = 0;
                         var contentElement = null;
 
-                        idString = ilios.pm.generateIdStringForObjectiveContent(i + 1);
+                        idString = ilios.pm.generateIdStringForObjectiveContent(containerNumber);
                         contentElement = document.getElementById(idString);
 
                         childLen = childArray.length;
-                        childModelArray = new Array();
+                        childModelArray = [];
                         for (; j < childLen; j++) {
                             arrayedChildModel = childArray[j];
 
@@ -335,7 +337,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                             objectiveNumber = programYearModel.getNextObjectiveNumber();
 
-                            ilios.pm.buildAndPopulateObjective((i + 1), objectiveNumber,
+                            ilios.pm.buildAndPopulateObjective(containerNumber, objectiveNumber,
                                                                programYearModel, childModel,
                                                                contentElement);
                         }
@@ -362,7 +364,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                             childModelArray.push(childModel);
                         }
-                        titleId = ilios.pm.generateIdStringForDisciplineContent((i + 1));
+                        titleId = ilios.pm.generateIdStringForDisciplineContent(containerNumber);
                         scratchElement = document.getElementById(titleId);
                         collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                         collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
@@ -374,7 +376,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     j = 0;
                     if (childArray != null) {
                         childLen = childArray.length;
-                        childModelArray = new Array();
+                        childModelArray = [];
                         textListContent = '';
                         for (; j < childLen; j++) {
                             arrayedChildModel = childArray[j];
@@ -390,7 +392,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                             childModelArray[childModel.getUniqueKey()] = childModel;
                             childModelArray.length++;
                         }
-                        titleId = ilios.pm.generateIdStringForDirectorContent((i + 1));
+                        titleId = ilios.pm.generateIdStringForDirectorContent(containerNumber);
                         scratchElement = document.getElementById(titleId);
                         collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                         collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
@@ -403,7 +405,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     j = 0;
                     if (childArray != null) {
                         childLen = childArray.length;
-                        childModelArray = new Array();
+                        childModelArray = [];
                         textListContent = '';
                         for (; j < childLen; j++) {
                             arrayedChildModel = childArray[j];
@@ -420,7 +422,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                             childModelArray[childModel.getStewardTitle()] = childModel;
                             childModelArray.length++;
                         }
-                        titleId = ilios.pm.generateIdStringForStewardContent((i + 1));
+                        titleId = ilios.pm.generateIdStringForStewardContent(containerNumber);
                         scratchElement = document.getElementById(titleId);
                         collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                         collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
@@ -432,7 +434,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                     if (ilios.global.preferencesModel.showProgramYearArchiving()
                                                         && programYearModel.isPublished()) {
-                        idString = ilios.pm.generateIdStringForArchivingDiv(i + 1);
+                        idString = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
 
                         scratchElement = new Element(document.getElementById(idString));
                         scratchElement.setStyle('display', 'block');
@@ -440,14 +442,14 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                     programYearModel.clearDirtyState();
 
-                    ilios.pm.loadedProgramModel.addProgramYear(programYearModel, ('' + (i + 1)));
-                    ilios.pm.currentProgramModel.addProgramYear(programYearModel, ('' + (i + 1)));
+                    ilios.pm.loadedProgramModel.addProgramYear(programYearModel, ('' + containerNumber));
+                    ilios.pm.currentProgramModel.addProgramYear(programYearModel, ('' + containerNumber));
 
-                    scratchElement = document.getElementById('' + (i + 1) + '_child_publish');
+                    scratchElement = document.getElementById('' + containerNumber + '_child_publish');
                     enable = ilios.utilities.canPublishModelItem(programYearModel);
                     ilios.dom.setElementEnabled(scratchElement, enable);
 
-                    scratchElement = document.getElementById('' + (i + 1) + '_child_draft_text');
+                    scratchElement = document.getElementById('' + containerNumber + '_child_draft_text');
                     if (! programYearModel.isPublished()) {
                         scratchElement.innerHTML = '<span class="status is-draft">' + draftStr + '</span>';
                     }
@@ -457,10 +459,10 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                     programYearModel.addStateChangeListener(ilios.pm.dirtyStateListener, null);
 
-                    ilios.pm.updateObjectiveCountText((i + 1));
+                    ilios.pm.updateObjectiveCountText(containerNumber);
 
                     if (programYearModel.isLocked()) {
-                        ilios.pm.alterProgramYearUIToReflectLockedState((i + 1), true);
+                        ilios.pm.alterProgramYearUIToReflectLockedState(containerNumber, true);
                     }
                 }
 

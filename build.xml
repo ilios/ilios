@@ -160,6 +160,7 @@
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
                     <token key="ILIOS_INSTITUTION_NAME" value="${institution_name}" />
+                    <token key="ILIOS_INSTITUTION_DOMAIN" value="${institution_domain}" />
                     <token key="ILIOS_REVISION" value="${now}" />
                     <token key="USERSYNC_LDAP_HOSTNAME" value="${tasks.user_sync.ldap.hostname}" />
                     <token key="USERSYNC_LDAP_BINDDN" value="${tasks.user_sync.ldap.binddn}" />
@@ -192,6 +193,13 @@
             <then>
                 <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['ilios_authentication'] = '${ilios_authentication}';${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="curriculum_inventory_supporting_link" />
+            <then>
+                <append destFile="${builddir}/application/config/ilios.php"
+                        text="$config['curriculum_inventory_supporting_link'] = '${curriculum_inventory_supporting_link}';${line.separator}" />
             </then>
         </if>
         <if>
