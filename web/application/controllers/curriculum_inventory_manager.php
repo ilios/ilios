@@ -12,6 +12,7 @@ require_once 'ilios_web_controller.php';
 class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 {
     /**
+     * The inventory exporter.
      * @var Ilios_CurriculumInventory_Exporter
      */
     protected $_exporter;
@@ -50,7 +51,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
     /**
      * Default action.
-     * Lists existing reports for the currently active school.
+     *
+     * It prints a page with dialogs for searching for and creating new reports.
      */
     public function index ()
     {
@@ -58,7 +60,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         $data = array();
         $data['lang'] = $lang;
-        $data['i18n'] =  $this->languagemap;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
@@ -80,8 +81,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * Prints the curriculum inventory manager for a requested report.
-     * Expects the following input in the request parameter string:
+     * This action prints the curriculum inventory manager for a requested report.
+     *
+     * It accepts the following query string parameters:
      *    'report_id' ... the report id.
      */
     public function view ()
@@ -90,7 +92,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         $data = array();
         $data['lang'] = $lang;
-        $data['i18n'] =  $this->languagemap;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
@@ -124,22 +125,23 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * Creates a new curriculum inventory report for a given academic year and program.
-     * Expects the following input to be POSTed:
+     * This action creates a new curriculum inventory report for a given academic year and program.
+     *
+     * It accepts the following POST parameters:
      *    'year' ... the academic year
      *    'name' ... the report name
      *    'description' ... the report description
      *    'program_id' ... the program id
+     *
      * On successful creation, the user will be redirected to view the new report.
-     * Any failure will cause an error page to be rendered.
+     * Any failure will cause in an error page being rendered.
      */
-    public function add ()
+    public function create ()
     {
         $lang = $this->getLangToUse();
 
         $data = array();
         $data['lang'] = $lang;
-        $data['i18n'] =  $this->languagemap;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
@@ -198,8 +200,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * Prints a requested curriculum inventory report as HTML document.
-     * Expects the following input in the request parameter string:
+     * This action prints a requested curriculum inventory report as HTML document.
+     *
+     * It accepts the following query string parameters:
      *    'report_id' ... the report id.
      */
     public function preview ()
@@ -208,7 +211,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         $data = array();
         $data['lang'] = $lang;
-        $data['i18n'] =  $this->languagemap;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
@@ -237,8 +239,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * Prints a requested curriculum inventory report as XML document.
-     * Expects the following input in the request parameter string:
+     * This action exports a requested curriculum inventory report as XML document.
+     *
+     * It accepts the following query string parameters:
      *    'report_id' ... the report id
      */
     public function export ()
@@ -247,7 +250,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         $data = array();
         $data['lang'] = $lang;
-        $data['i18n'] =  $this->languagemap;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
@@ -290,5 +292,42 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         header('Content-Type: application/xml; charset="utf8"');
         header('Content-disposition: attachment; filename="report.xml"');
         echo $out;
+    }
+
+    /**
+     * This action searches reports in the currently active school by a given search term.
+     *
+     * It accepts the following POST parameters:
+     *   "report_search_term" ... the search term to use.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     * On success, the object contains a property "reports" which contains an array of inventory reports.
+     * If no reports were found for the given search term, then this array is empty.
+     *
+     * On failure, the object contains a property "error", which contains an error message.
+     *
+     * @todo implement
+     */
+    public function searchReports ()
+    {
+        $lang =  $this->getLangToUse();
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $reportId = (int) $this->input->post('report_id');
+
+        // mock data
+        $rhett = array (
+            'reports' => array(
+                array('title' => 'Doctor of Medicine, 2013', 'report_id' => 1),
+                array('title' => 'Doctor of Medicine, 2014', 'report_id' => 2)
+            )
+        );
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
     }
 }

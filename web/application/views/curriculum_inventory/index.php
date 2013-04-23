@@ -3,12 +3,10 @@
  * Curriculum Inventory Management page template.
  */
 $controllerURL = site_url() . '/curriculum_inventory_manager';
-$progamManagerUrl = site_url() . '/program_management';
+$programManagerUrl = site_url() . '/program_management';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
-
-$i18n = $this->languagemap; // shorthand alias
-
+    
 ?><!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -23,7 +21,7 @@ $i18n = $this->languagemap; // shorthand alias
         More info: h5bp.com/i/378 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title><?php echo $i18n->t('curriculum_inventory.title_bar', $lang) ?></title>
+    <title><?php echo $this->languagemap->t('curriculum_inventory.title_bar', $lang) ?></title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -71,25 +69,21 @@ $i18n = $this->languagemap; // shorthand alias
     <div id="main" role="main">
 
         <div id="content" class="clearfix">
-            <h2 class="page-header"><?php echo $i18n->t('curriculum_inventory.page_header', $lang) ?></h2>
-            <div class="content_container">
-                <div class="entity_container">
-                    <div class="hd">
-                        <h3>Lorem Ipsum</h3>
-                    </div>
-                    <?php
-                    include getServerFilePath('views') . 'common/progress_div.php';
-                    echo generateProgressDivMarkup('position: absolute; right: 1em; top: .6em;');
-                    ?>
-                </div>
-                <div class="master_button_container clearfix">
-                    <div class="add_primary_child_link">
-                        <button class="small secondary radius button">Lorem Ipsum</button>
-                    </div>
-                </div>
-                <div id="group_container" class="clearfix"></div>
+            <h2 class="page-header"><?php echo $this->languagemap->t('curriculum_inventory.page_header', $lang) ?></h2>
+            <div class="master_button_container clearfix">
+                <ul class="buttons left">
+                    <li>
+                        <a class="small radius button" href="" id="search_reports_btn">
+                            <?php echo $this->languagemap->t('general.terms.search', $lang); ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="small secondary radius button" href="" id="create_report_btn">
+                            <?php echo $this->languagemap->t('general.phrases.add_report', $lang); ?>
+                         </a>
+                    </li>
+                </ul>
             </div>
-
         </div>
     </div>
 </div>
@@ -99,7 +93,12 @@ $i18n = $this->languagemap; // shorthand alias
 
 <!-- overlays at the bottom - avoid z-index issues -->
 <div id="view-menu"></div>
-
+<!-- start dialog tabs -->
+<?php
+include 'create_report_dialog.inc.php';
+include 'report_search_dialog.inc.php';
+?>
+<!-- end dialog tabs -->
 <script type="text/javascript">
     // register alert/inform overrides on window load
     YAHOO.util.Event.on(window, 'load', function() {
@@ -111,8 +110,8 @@ $i18n = $this->languagemap; // shorthand alias
     YAHOO.util.Event.on(window, 'load', function () {
         var config = {};
         config.controllerUrl = "<?php echo $controllerURL; ?>/";
-        config.programControllerUrl = "<?php echo $progamManagerUrl; ?>/";
-        ilios.cim.init(config);
+        config.programControllerUrl = "<?php echo $programManagerUrl; ?>/";
+        ilios.cim.page.init(config);
     });
     <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </script>
