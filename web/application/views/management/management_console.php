@@ -175,7 +175,7 @@ $viewsPath = getServerFilePath('views');
                 <input id="ua_edit_login_username_tf" name="ua_edit_login_username_tf" type="text" value="" /><br />
                 <label for="ua_edit_login_password_tf">New Password</label>:<br />
                 <input id="ua_edit_login_password_tf" name="ua_edit_login_password_tf" type="password" value="" />
-                <div class="small"><?php echo $i18n->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+                <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
             </form>
         </div>
         <div class="ft"></div>
@@ -189,7 +189,7 @@ $viewsPath = getServerFilePath('views');
                 <input id="ua_add_login_username_tf" name="ua_add_login_username_tf" type="text" value="" /><br />
                 <label for="ua_add_login_password_tf">Password</label>:<br />
                 <input id="ua_add_login_password_tf" name="ua_add_login_password_tf" type="password" value="" />
-                <div class="small"><?php echo $i18n->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+                <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
             </form>
         </div>
         <div class="ft"></div>

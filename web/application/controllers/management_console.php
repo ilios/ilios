@@ -34,7 +34,6 @@ class Management_Console extends Ilios_Web_Controller
 
         $data = array();
         $data['lang'] = $lang;
-        $data['i18n'] =  $this->languagemap;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
