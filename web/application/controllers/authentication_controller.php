@@ -8,7 +8,7 @@ require_once 'ilios_base_controller.php';
  * User authentication controller.
  * It provides login/logout interfaces.
  *
- * @todo This class should be sensitive to repeated failed authentication attempts.
+ * @todo Refactor authentication sub-systems out into their own components.
  */
 class Authentication_Controller extends Ilios_Base_Controller
 {
@@ -17,6 +17,7 @@ class Authentication_Controller extends Ilios_Base_Controller
      * @var string
      */
     protected $_authn = 'default';
+
     /**
      * Constructor.
      */
@@ -26,7 +27,7 @@ class Authentication_Controller extends Ilios_Base_Controller
 
         $this->load->library('session');
 
-        $this->load->model('Authentication', 'authentication', TRUE);
+        $this->load->model('Authentication', 'authentication', true);
         $this->load->model('User', 'user', TRUE);
 
         // set the authentication subsystem to use
@@ -57,9 +58,10 @@ class Authentication_Controller extends Ilios_Base_Controller
      * This will result in the request being forwarded to the <code>Authentication_Controller::_shibboleth_login()</code> method.
      *
      * See http://codeigniter.com/user_guide/general/controllers.html#remapping
+     *
      * @param string $method the name of the invoked controller action
      * @param array $params extra url segments
-     * @return mixed
+     * @return mixed the output of the implementing functions
      */
     public function _remap ($method, $params = array())
     {
@@ -91,8 +93,14 @@ class Authentication_Controller extends Ilios_Base_Controller
 
     /**
      * Implements the "index" action for the default/ilios-internal authn system.
-     * This will load the login screen.
-     * If the request parameter "logout" was passed then the user gets logged out first and then shown the login screen.
+     *
+     * This method will print out the login page.
+     *
+     * Accepts the following POST parameters:
+     *     'logout' ... if the value is 'yes' then the current user session will be terminated before the login page is printed.
+     *
+     * @see Authentication_Controller::index()
+     * @see Authentication_Controller::_default_logout()
      */
     protected function _default_index ()
     {
@@ -123,7 +131,11 @@ class Authentication_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Implements the "logout" action for the default/ilios-internal authn system.
+     * Implements the "logout" action for the default (Ilios-internal) authentication system.
+     *
+     * This method destroys the current user-session.
+     *
+     * @see Authentication_Controller::logout()
      */
     protected function _default_logout ()
     {
@@ -131,13 +143,19 @@ class Authentication_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Implements the "login" action for the default/ilios-internal authn system.
-     * This method will attempt to authenticate a user based on provided credentials.
-     * The result of this authentication will be printed as JSON-formatted array, containing either
-     * a 'success' or 'error' value.
-     * The following user input is expected in the request:
+     * Implements the "login" action for the default (Ilios-internal) authentication system.
+     *
+     * This method will attempt to authenticate and log-in a user based on the provided credentials.
+
+     * Accepts the following POST parameters:
      *     'username' ... the user account login handle
      *     'password' ... the  corresponding password in plain text
+     *
+     * Prints out an result-array as JSON-formatted text.
+     * On success, the result-array will contain a success message, keyed off by "success".
+     * On failure, the result-array will contain an error message, keyed off by "error".
+     *
+     * @see Authentication_Controller::login()
      */
     protected function _default_login ()
     {
@@ -194,7 +212,21 @@ class Authentication_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Implements the "index" action for the shibboleth authn system.
+     * Implements the "index" action for the shibboleth authentication system.
+     *
+     * Unless requested otherwise (see "logout" parameter below), this action attempts to authenticate and log-in the
+     * requesting user based on the attributes passed by the external authentication system.
+     *
+     * Accepts the following query string parameters:
+     *     'logout' ... if 'yes' is provided as value then the user session will be terminated and the user will be
+     *         redirected to the logout page.
+     *
+     * On successful authentication, the user will be redirect to the last visited URL ("post-back URL") within Ilios
+     * if this information is available on login.
+     * If no post-back URL is available, the user will be redirected to the dashboard page.
+     * On authentication failure, the user will be redirected to an "access forbidden" page.
+     *
+     * @see Authentication_Controller::index()
      */
     protected function _shibboleth_index ()
     {
@@ -263,7 +295,11 @@ class Authentication_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Implements the "logout" action for the shibboleth authn system.
+     * Implements the "logout" action for the shibboleth authentication system.
+     *
+     * This method destroys the current user-session.
+     *
+     * @see Authentication_Controller::logout()
      */
     protected function _shibboleth_logout ()
     {
@@ -271,7 +307,11 @@ class Authentication_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Implements the "login" action for the shibboleth authn system.
+     * Implements the "login" action for the shibboleth authentication system.
+     *
+     * This method is does nothing, login is handled in the "_shibboleth_index".
+     *
+     * @see Authentication_Controller::_shibboleth_index()
      */
     protected function _shibboleth_login ()
     {
