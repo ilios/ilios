@@ -12,7 +12,7 @@
  *  Dependencies:
  *     application/views/scripts/ilios_base.js
  *     ilios_i18nVendor
- *     YUI Dom/Event/Element
+ *     YUI Dom/Event/Element libs
  *     YUI Container libs
  */
 ilios.namespace('cim.dom');
@@ -259,7 +259,7 @@ ilios.cim.page.init = function (config, reportId) {
          * @param {Object} resultObject
          */
         this.callback.success = function (resultObject) {
-            var Element = YAHOO.util.Element;
+            var Dom = YAHOO.util.Dom;
             var parsedResponse, searchResultsContainer;
             var i, n;
             var reports;
@@ -288,16 +288,16 @@ ilios.cim.page.init = function (config, reportId) {
                     = ilios_i18nVendor.getI18NString('general.phrases.search.no_match');
             }
             for (i =0, n = reports.length; i < n; i++) {
-                liEl = new Element(document.createElement('li'));
-                wrapperEl = new Element(document.createElement('span'));
-                wrapperEl.addClass(wrapperEl, 'title');
-                linkEl = new Element(document.createElement('a'));
-                linkEl.set('href', window.location.protocol + "//" + window.location.host +
+                liEl = document.createElement('li');
+                wrapperEl = document.createElement('span');
+                Dom.addClass(wrapperEl, 'title');
+                linkEl = document.createElement('a');
+                Dom.setAttribute(linkEl, 'href', window.location.protocol + "//" + window.location.host +
                     window.location.pathname + "?report_id=" + reports[i].report_id);
                 linkEl.appendChild(document.createTextNode(reports[i].name + ' (' + reports[i].year + ')'));
                 wrapperEl.appendChild(linkEl);
                 liEl.appendChild(wrapperEl);
-                liEl.appendTo(searchResultsContainer);
+                searchResultsContainer.appendChild(liEl);
             }
         };
 
@@ -342,6 +342,3 @@ ilios.cim.page.init = function (config, reportId) {
         }
     });
 }());
-
-
-
