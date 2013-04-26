@@ -52,7 +52,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "curriculum_inventory/curriculum_inventory_manager.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "curriculum_inventory/js/ilios.cim.js"); ?>"></script>
 </head>
 <body class="curriculum_inventory yui-skin-sam">
 <div id="wrapper">
