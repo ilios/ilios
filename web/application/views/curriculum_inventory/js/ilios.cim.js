@@ -294,7 +294,7 @@ ilios.cim.page.init = function (config, reportId) {
                 linkEl = new Element(document.createElement('a'));
                 linkEl.set('href', window.location.protocol + "//" + window.location.host +
                     window.location.pathname + "?report_id=" + reports[i].report_id);
-                linkEl.appendChild(document.createTextNode(reports[i].name));
+                linkEl.appendChild(document.createTextNode(reports[i].name + ' (' + reports[i].year + ')'));
                 wrapperEl.appendChild(linkEl);
                 liEl.appendChild(wrapperEl);
                 liEl.appendTo(searchResultsContainer);

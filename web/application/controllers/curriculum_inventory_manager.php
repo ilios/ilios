@@ -301,9 +301,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *   "report_search_term" ... the search term to use.
      *
      * This method prints out a result object as JSON-formatted text.
+     *
      * On success, the object contains a property "reports" which contains an array of inventory reports.
-     * Each report item is an associative array, containing title, report id and description.
-     * Their respective array keys are "name", "description" and "report_id".
      * If no reports were found for the given search term, then this array is empty.
      *
      * On failure, the object contains a property "error", which contains an error message.

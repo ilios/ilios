@@ -104,7 +104,7 @@ class Curriculum_Inventory_Report extends Ilios_Base_Model
         $clean['school_id'] = (int) $schoolId;
         $sql =<<< EOL
 SELECT
-cir.name, cir.description, cir.report_id
+cir.*
 FROM curriculum_inventory_report cir
 JOIN program p ON p.program_id = cir.program_id
 WHERE
