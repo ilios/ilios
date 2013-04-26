@@ -90,4 +90,42 @@ class Curriculum_Inventory_Report extends Ilios_Base_Model
         $query->free_result();
         return $rhett;
     }
+
+    /**
+     * Searches reports by name for a given search term, and returns a list of matching reports.
+     * @param int $schoolId The record ID of the school that owns the report's program.
+     * @param string $term The search term.
+     * @return array An array of search results. Each result item is an associative array representing a report.
+     */
+    public function search ($schoolId, $term = '')
+    {
+        $rhett = array();
+        $len = strlen($term);
+        $clean['school_id'] = (int) $schoolId;
+        $sql =<<< EOL
+SELECT
+cir.name, cir.description, cir.report_id
+FROM curriculum_inventory_report cir
+JOIN program p ON p.program_id = cir.program_id
+WHERE
+p.owning_school_id = {$clean['school_id']}
+EOL;
+        if ($len) {
+            $clean['search_term'] = $this->db->escape_like_str($term);
+            if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+                $sql .= " AND cir.name LIKE '{$clean['search_term']}%'";
+            } else {
+                $sql .= " AND cir.name LIKE '%{$clean['search_term']}%'";
+            }
+        }
+
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
 }
