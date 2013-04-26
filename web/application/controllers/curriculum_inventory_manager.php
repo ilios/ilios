@@ -302,15 +302,16 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *
      * This method prints out a result object as JSON-formatted text.
      * On success, the object contains a property "reports" which contains an array of inventory reports.
+     * Each report item is an associative array, containing title, report id and description.
+     * Their respective array keys are "name", "description" and "report_id".
      * If no reports were found for the given search term, then this array is empty.
      *
      * On failure, the object contains a property "error", which contains an error message.
-     *
-     * @todo implement
      */
     public function searchReports ()
     {
         $lang =  $this->getLangToUse();
+        $rhett = array();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -318,15 +319,18 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
-        $reportId = (int) $this->input->post('report_id');
+        $schoolId = $this->session->userdata('school_id');
+        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
 
-        // mock data
-        $rhett = array (
-            'reports' => array(
-                array('title' => 'Doctor of Medicine, 2013', 'report_id' => 1),
-                array('title' => 'Doctor of Medicine, 2014', 'report_id' => 2)
-            )
-        );
+        if (! isset($schoolRow)) {
+            $this->_printErrorXhrResponse('Failed to load school data for this user session.', $lang);
+            return;
+        }
+
+        $term = trim($this->input->post('report_search_term'));
+
+        $rhett['reports'] = $this->invReport->search($schoolId, $term);
+
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
