@@ -259,9 +259,11 @@ ilios.cim.page.init = function (config, reportId) {
          * @param {Object} resultObject
          */
         this.callback.success = function (resultObject) {
-            var parsedResponse, searchResultsContainer, element;
+            var Element = YAHOO.util.Element;
+            var parsedResponse, searchResultsContainer;
             var i, n;
             var reports;
+            var liEl, wrapperEl, linkEl;
 
             try {
                 parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
@@ -286,10 +288,16 @@ ilios.cim.page.init = function (config, reportId) {
                     = ilios_i18nVendor.getI18NString('general.phrases.search.no_match');
             }
             for (i =0, n = reports.length; i < n; i++) {
-                element = document.createElement('li');
-                // @todo
-                element.innerHTML = '<span class="title"> ' + reports[i].title + '</span>';
-                searchResultsContainer.appendChild(element);
+                liEl = new Element(document.createElement('li'));
+                wrapperEl = new Element(document.createElement('span'));
+                wrapperEl.addClass(wrapperEl, 'title');
+                linkEl = new Element(document.createElement('a'));
+                linkEl.set('href', window.location.protocol + "//" + window.location.host +
+                    window.location.pathname + "?report_id=" + reports[i].report_id);
+                linkEl.appendChild(document.createTextNode(reports[i].name));
+                wrapperEl.appendChild(linkEl);
+                liEl.appendChild(wrapperEl);
+                liEl.appendTo(searchResultsContainer);
             }
         };
 
