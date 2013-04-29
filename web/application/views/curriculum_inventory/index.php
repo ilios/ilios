@@ -107,7 +107,7 @@ include 'report_search_dialog.inc.php';
     });
     ilios.global.installPreferencesModel();
 
-    YAHOO.util.Event.on(window, 'load', function () {
+    YAHOO.util.Event.onDOMReady(function() {
         var config = {};
         config.controllerUrl = "<?php echo $controllerURL; ?>/";
         config.programControllerUrl = "<?php echo $programManagerUrl; ?>/";

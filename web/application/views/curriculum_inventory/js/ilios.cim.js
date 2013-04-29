@@ -44,20 +44,20 @@ ilios.cim.page.init = function (config, reportId) {
     ilios.cim.config = YAHOO.lang.isObject(config) ? config : {};
     reportId = reportId || false;
 
-    // instantiate dialogs
-    ilios.cim.page.reportSearchDialog = new ilios.cim.widget.ReportSearchDialog('report_search_picker');
-    ilios.cim.page.reportSearchDialog.render();
-    ilios.cim.page.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog');
-    ilios.cim.page.createReportDialog.render();
-
     // wire dialogs to buttons
     Event.addListener('search_reports_btn', 'click', function (event) {
+        if (! ilios.cim.page.reportSearchDialog) { // instantiate on demand
+            ilios.cim.page.reportSearchDialog = new ilios.cim.widget.ReportSearchDialog('report_search_picker');;
+        }
         ilios.cim.page.reportSearchDialog.show();
         Event.stopEvent(event);
         return false;
     });
 
     Event.addListener('create_report_btn', 'click', function (event) {
+        if (! ilios.cim.page.createReportDialog) {
+            ilios.cim.page.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog');
+        }
         ilios.cim.page.createReportDialog.show();
         Event.stopEvent(event);
         return false;
@@ -90,6 +90,7 @@ ilios.cim.page.init = function (config, reportId) {
             modal: true,
             fixedcenter: true,
             visible: false,
+            zIndex: 999,
             buttons: [
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.done'),
@@ -118,6 +119,8 @@ ilios.cim.page.init = function (config, reportId) {
 
         // report model
         this.model = null;
+
+        this.render();
     };
 
     // inheritance
@@ -148,6 +151,7 @@ ilios.cim.page.init = function (config, reportId) {
             modal: true,
             fixedcenter: true,
             visible: false,
+            zIndex: 999,
             buttons: [
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.done'),
@@ -176,6 +180,8 @@ ilios.cim.page.init = function (config, reportId) {
 
         // session model
         this.model = null;
+
+        this.render();
     };
 
     // inheritance
@@ -211,6 +217,7 @@ ilios.cim.page.init = function (config, reportId) {
             visible: false,
             constraintoviewport: false,
             hideaftersubmit: false,
+            zIndex: 999,
             buttons: [
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
@@ -327,6 +334,8 @@ ilios.cim.page.init = function (config, reportId) {
             Event.stopEvent(event);
             return false;
         }, this);
+
+        this.render();
     };
 
     // inheritance
