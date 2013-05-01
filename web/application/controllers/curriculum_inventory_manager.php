@@ -136,17 +136,20 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      * This action creates a new curriculum inventory report for a given academic year and program.
      *
      * It accepts the following POST parameters:
-     *    'year' ... the academic year
-     *    'name' ... the report name
-     *    'description' ... the report description
+     *    'report_year' ... the academic year
+     *    'report_name' ... the report name
+     *    'report_description' ... the report description
      *    'program_id' ... the program id
      *
-     * On successful creation, the user will be redirected to view the new report.
-     * Any failure will cause in an error page being rendered.
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "report_id" which contains the id of the newly created report.
+     * On failure, the object contains a property "error", which contains an error message.
      */
     public function create ()
     {
         $lang = $this->getLangToUse();
+        $rhett = array();
 
         $data = array();
         $data['lang'] = $lang;
@@ -155,7 +158,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
+            $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
 
@@ -163,13 +166,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
 
         if (! isset($schoolRow)) {
-            show_error('Failed to load school data for this user session.');
+            $this->_printErrorXhrResponse('general.error.school_not_found', $lang);
             return;
         }
 
-        $year = (int) $this->input->post('year');
-        $reportName = $this->input->post('name');
-        $reportDescription = $this->input->post('description');
+        $year = (int) $this->input->post('report_year');
+        $reportName = $this->input->post('report_name');
+        $reportDescription = $this->input->post('report_description');
         $programId = (int) $this->input->post('program_id');
         //
         // create new inventory report for the given academic year
@@ -178,7 +181,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // check if a curriculum inventory report already exists
         $invReport = $this->invReport->getByAcademicYearAndProgram($year, $programId);
         if (isset($invReport)) {
-            show_error('A curriculum inventory report already exists for the given academic year and program.');
+            $this->_printErrorXhrResponse('curriculum_inventory.create.error.already_exists', $lang);
             return;
         }
 
@@ -194,17 +197,19 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // create a new curriculum inventory report and associated entities (academic levels, sequence etc.)
         // @todo running db transactions in the controller - BAD! refactor this out.
         $this->db->trans_start();
-        $reportId = $this->invReport->create($year, $schoolId, $reportName, $reportDescription, $startDate, $endDate);
+        $reportId = $this->invReport->create($year, $programId, $reportName, $reportDescription, $startDate, $endDate);
         $this->invAcademicLevel->createDefaultLevels($reportId);
         $this->invSequence->create($reportId);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
-            show_error('Failed to create curriculum inventory report.');
+            $this->_printErrorXhrResponse('curriculum_inventory.create.error.general', $lang);
             return;
         }
 
-        // success! redirect to view the new program
-        redirect('curriculum_inventory_manager/view?report_id=' . $reportId);
+        $rhett['report_id'] = $reportId;
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
     }
 
     /**
@@ -330,7 +335,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
 
         if (! isset($schoolRow)) {
-            $this->_printErrorXhrResponse('Failed to load school data for this user session.', $lang);
+            $this->_printErrorXhrResponse('general.error.school_not_found', $lang);
             return;
         }
 
