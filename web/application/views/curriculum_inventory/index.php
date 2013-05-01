@@ -1,12 +1,16 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Curriculum Inventory Management page template.
+ *
+ * Available template variables that were passed from the controller:
+ *
+ *    $programs ... a JSON-formatted string representation of an array of programs available for selection in the report creation dialog.
  */
 $controllerURL = site_url() . '/curriculum_inventory_manager';
 $programManagerUrl = site_url() . '/program_management';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
-    
+
 ?><!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
@@ -108,9 +112,18 @@ include 'report_search_dialog.inc.php';
     ilios.global.installPreferencesModel();
 
     YAHOO.util.Event.onDOMReady(function() {
-        var config = {};
-        config.controllerUrl = "<?php echo $controllerURL; ?>/";
-        config.programControllerUrl = "<?php echo $programManagerUrl; ?>/";
+        var config = {
+            'controllerUrl': "<?php echo $controllerURL; ?>/",
+            'programControllerUrl': "<?php echo $programManagerUrl; ?>/"
+        };
+
+        try {
+            config.programs = YAHOO.lang.JSON.parse('<?php echo $programs; ?>');
+        }  catch (e) {
+            config.programs = {};
+            ilios.global.defaultAJAXFailureHandler(null, e);
+        }
+
         ilios.cim.page.init(config);
     });
     <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>

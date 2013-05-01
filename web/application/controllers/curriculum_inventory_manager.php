@@ -46,6 +46,10 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->load->model('Curriculum_Inventory_Sequence_Block', 'invSequenceBlock', true);
         }
 
+        if (! property_exists($this, 'program')) {
+            $this->load->model('Program', 'program', true);
+        }
+
         $this->_exporter = new Ilios_CurriculumInventory_Exporter($this);
     }
 
@@ -76,6 +80,10 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             show_error('Failed to load school data for this user session.');
             return;
         }
+
+        $programs = $this->program->getAllPublishedProgramsWithSchoolId($schoolId);
+
+        $data['programs'] = Ilios_Json::encodeForJavascriptEmbedding($programs, Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $this->load->view('curriculum_inventory/index', $data);
     }

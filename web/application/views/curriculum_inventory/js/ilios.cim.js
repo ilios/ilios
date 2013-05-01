@@ -56,7 +56,7 @@ ilios.cim.page.init = function (config, reportId) {
 
     Event.addListener('create_report_btn', 'click', function (event) {
         if (! ilios.cim.page.createReportDialog) {
-            ilios.cim.page.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog');
+            ilios.cim.page.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, config.programs);
         }
         ilios.cim.page.createReportDialog.show();
         Event.stopEvent(event);
@@ -83,8 +83,9 @@ ilios.cim.page.init = function (config, reportId) {
      * @param {HTMLElement|String} el The element or element-ID representing the dialog
      * @param {Object} userConfig The configuration object literal containing
      *     the configuration that should be set for this dialog.
+     * @param {Object} programs a lookup object of programs, used to populate the "program" dropdown.
      */
-    ilios.cim.widget.CreateReportDialog = function (el, userConfig){
+    ilios.cim.widget.CreateReportDialog = function (el, userConfig, programs){
         var defaultConfig = {
             width: "640px",
             modal: true,
@@ -93,10 +94,10 @@ ilios.cim.page.init = function (config, reportId) {
             zIndex: 999,
             buttons: [
                 {
-                    text: ilios_i18nVendor.getI18NString('general.terms.done'),
+                    text: ilios_i18nVendor.getI18NString('general.terms.create'),
                     handler: function () {
                         // @todo implement
-                        this.cancel();
+                        this.submit();
                     },
                     isDefault: true
                 },
@@ -110,6 +111,8 @@ ilios.cim.page.init = function (config, reportId) {
             ]
         };
 
+        this.programs = YAHOO.lang.isObject(programs) ? programs : {};
+
         // merge the user config with the default configuration
         userConfig = userConfig || {};
         var config = YAHOO.lang.merge(defaultConfig, userConfig);
@@ -117,23 +120,75 @@ ilios.cim.page.init = function (config, reportId) {
         // call the parent constructor with the merged config
         ilios.cim.widget.CreateReportDialog.superclass.constructor.call(this, el, config);
 
-        // report model
-        this.model = null;
+        // clear out the dialog and center it before showing it.
+        this.beforeShowEvent.subscribe(function () {
+            this.reset();
+            this.center();
+        });
+
+        // append the program as options to the dropdown
+        this.renderEvent.subscribe(function () {
+            var Dom = YAHOO.util.Dom,
+                key, program,
+                el, parentEl;
+
+            var parentEl = document.getElementById('new_report_program');
+            for (key in this.programs) {
+                if (this.programs.hasOwnProperty(key)) {
+                    program = this.programs[key];
+                    el = document.createElement('option');
+                    Dom.setAttribute(el, 'value', program.program_id);
+                    el.innerHTML = program.title;
+                    parentEl.appendChild(el);
+                }
+            }
+        });
+
+        /*
+         * Form submission success handler.
+         * @param {Object} resultObject
+         */
+        this.callback.success = function (resultObject) {
+            var parsedResponse;
+
+            try {
+                parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
+            } catch (e) {
+                document.getElementById('report_search_status').innerHTML
+                    = ilios_i18nVendor.getI18NString('general.error.must_retry');
+                return;
+            }
+
+            document.getElementById('report_creation_status').innerHTML = '';
+
+            if (parsedResponse.hasOwnProperty('error')) {
+                document.getElementById('report_creation_status').innerHTML = parsedResponse.error;
+                return;
+            }
+            // todo on success redirect to report view
+        };
+
+        /*
+         * Form submission error handler.
+         * @param {Object} resultObject
+         */
+        this.callback.failure = function (resultObject) {
+            ilios.global.defaultAJAXFailureHandler(resultObject);
+            document.getElementById('report_creation_status').innerHTML
+                = ilios_i18nVendor.getI18NString('general.error.must_retry');
+        }
+
+        // form validation function
+        this.validate = function () {
+            var data = this.getData();
+            return true;
+        };
 
         this.render();
     };
 
     // inheritance
-    YAHOO.lang.extend(ilios.cim.widget.CreateReportDialog, YAHOO.widget.Dialog, {
-        /**
-         * Sets the internal model for this dialog.
-         * @method setModel
-         * @param {Object} model
-         */
-        setModel : function (model) {
-            this.model = model;
-        }
-    });
+    YAHOO.lang.extend(ilios.cim.widget.CreateReportDialog, YAHOO.widget.Dialog, {});
 
     /**
      * "Edit Report" dialog.

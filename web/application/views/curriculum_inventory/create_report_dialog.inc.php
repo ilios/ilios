@@ -26,9 +26,7 @@
                     <label for="new_report_program" class="entity_widget_title">
                         <?php echo$this->languagemap->t('curriculum_inventory.create.program_name.label', $lang); ?>:
                     </label><br />
-                    <select name="program_id" id="new_report_program">
-                        <option value="1">Doctor of Medicine</option>
-                    </select>
+                    <select name="program_id" id="new_report_program"></select>
                 </div>
                 <div class="dialog-form-row">
                     <label for="new_report_year" class="entity_widget_title">
