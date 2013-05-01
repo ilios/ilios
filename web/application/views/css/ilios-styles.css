@@ -1387,11 +1387,13 @@ fieldset > .row {
     vertical-align: middle;
 }
 
-.search-status {
+.search-status, .dialog-form-status {
     margin-bottom: 1em;
     font-size: .8em;
     color: #F00;
 }
+
+.dialog-wrapper
 
 /*************************************/
 /*     YUI Overrides                 */
@@ -1576,6 +1578,10 @@ fieldset > .row {
     min-height: 5em;
     width:100%;
     overflow-y:auto;
+}
+
+.dialog_wrap .dialog-form-row {
+    margin-bottom: 10px;
 }
 
 .dialog_single_content {
