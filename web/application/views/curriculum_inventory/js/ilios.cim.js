@@ -91,12 +91,12 @@ ilios.cim.page.init = function (config, reportId) {
             modal: true,
             fixedcenter: true,
             visible: false,
+            hideaftersubmit: false,
             zIndex: 999,
             buttons: [
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.create'),
                     handler: function () {
-                        // @todo implement
                         this.submit();
                     },
                     isDefault: true
@@ -104,7 +104,7 @@ ilios.cim.page.init = function (config, reportId) {
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
                     handler: function () {
-                        // @todo implement
+                        this.reset();
                         this.cancel();
                     }
                 }
@@ -144,17 +144,20 @@ ilios.cim.page.init = function (config, reportId) {
             }
         });
 
+        this.beforeSubmitEvent.subscribe(function () {
+            document.getElementById('report_creation_status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.creating') + '...';
+    });
+
         /*
          * Form submission success handler.
          * @param {Object} resultObject
          */
         this.callback.success = function (resultObject) {
             var parsedResponse;
-
             try {
                 parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
             } catch (e) {
-                document.getElementById('report_search_status').innerHTML
+                document.getElementById('report_creation_status').innerHTML
                     = ilios_i18nVendor.getI18NString('general.error.must_retry');
                 return;
             }
@@ -165,7 +168,11 @@ ilios.cim.page.init = function (config, reportId) {
                 document.getElementById('report_creation_status').innerHTML = parsedResponse.error;
                 return;
             }
-            // todo on success redirect to report view
+            // redirect to report details view
+            document.getElementById('report_creation_status').innerHTML
+                = ilios_i18nVendor.getI18NString('general.terms.created') + '.';
+            window.location = window.location.protocol + "//" + window.location.host + window.location.pathname
+                + '?report_id=' + parsedResponse.report_id;
         };
 
         /*
@@ -180,7 +187,26 @@ ilios.cim.page.init = function (config, reportId) {
 
         // form validation function
         this.validate = function () {
+            var Dom = YAHOO.util.Dom;
             var data = this.getData();
+            var msgs = [];
+            if ('' === YAHOO.lang.trim(data.report_name)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_name'));
+                Dom.addClass('new_report_name', 'validation-failed');
+            }
+            if ('' === YAHOO.lang.trim(data.report_description)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_description'));
+                Dom.addClass('new_report_description', 'validation-failed');
+            }
+
+            if (! /^[1-9][0-9]{3}$/.test(data.report_year)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_year'));
+                Dom.addClass('new_report_year', 'validation-failed');
+            }
+            if (msgs.length) {
+                document.getElementById('report_creation_status').innerHTML = msgs.join('<br />') + '<br />';
+                return false;
+            }
             return true;
         };
 
@@ -188,7 +214,21 @@ ilios.cim.page.init = function (config, reportId) {
     };
 
     // inheritance
-    YAHOO.lang.extend(ilios.cim.widget.CreateReportDialog, YAHOO.widget.Dialog, {});
+    YAHOO.lang.extend(ilios.cim.widget.CreateReportDialog, YAHOO.widget.Dialog, {
+        // clear out form, reset status field etc.
+        reset : function () {
+            var Dom = YAHOO.util.Dom;
+            document.getElementById('report_creation_status').innerHTML = '';
+            document.getElementById('new_report_name').value = '';
+            document.getElementById('new_report_description').value = '';
+            document.getElementById('new_report_year').value = '';
+            document.getElementById('new_report_program').selectedIndex = 0;
+            Dom.removeClass('new_report_name', 'validation-failed');
+            Dom.removeClass('new_report_description', 'validation-failed');
+            Dom.removeClass('new_report_year', 'validation-failed');
+
+        }
+    });
 
     /**
      * "Edit Report" dialog.
@@ -303,7 +343,7 @@ ilios.cim.page.init = function (config, reportId) {
         });
 
         this.beforeSubmitEvent.subscribe(function () {
-            document.getElementById('report_search_status').innerHTML = "Searching...";
+            document.getElementById('report_search_status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.searching') + '...';
         });
 
         this.validate = function () {
