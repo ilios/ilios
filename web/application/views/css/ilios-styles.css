@@ -148,6 +148,13 @@ input.readonly-text {
     background-color: transparent;
 }
 
+/* input validation failed */
+input.validation-failed,
+select.validation-failed,
+textarea.validation-failed {
+    border: 1px solid #c00;
+}
+
 /********************************/
 /* icons via ilios-icons font   */
 /* http://css-tricks.com/html-for-icon-font-usage/ */
@@ -1392,8 +1399,6 @@ fieldset > .row {
     font-size: .8em;
     color: #F00;
 }
-
-.dialog-wrapper
 
 /*************************************/
 /*     YUI Overrides                 */
