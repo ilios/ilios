@@ -112,19 +112,20 @@ include 'report_search_dialog.inc.php';
     ilios.global.installPreferencesModel();
 
     YAHOO.util.Event.onDOMReady(function() {
+        var payload = {};
         var config = {
             'controllerUrl': "<?php echo $controllerURL; ?>/",
             'programControllerUrl': "<?php echo $programManagerUrl; ?>/"
         };
 
         try {
-            config.programs = YAHOO.lang.JSON.parse('<?php echo $programs; ?>');
+            payload.programs = YAHOO.lang.JSON.parse('<?php echo $programs; ?>');
         }  catch (e) {
-            config.programs = {};
+            payload.programs = {};
             ilios.global.defaultAJAXFailureHandler(null, e);
         }
 
-        var app = new ilios.cim.App(config);
+        var app = new ilios.cim.App(config, payload);
     });
     <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </script>

@@ -20,20 +20,24 @@ ilios.namespace('cim.widget');
 
 (function () {
 
-    var Event = YAHOO.util.Event;
+    var Lang = YAHOO.lang,
+        Event = YAHOO.util.Event;
     /**
-     * Client-side application object.
-     * Initializes the page, loads the model, widgets etc.
-     * @param {Object} config The module configuration.
-     * @param {Number} [reportId] The Id of the report to display.
+     * Creates a client-side application object.
+     * It sets up data model, instantiates and wires up views and dialogs.
+     * @param {Object} config App. configuration.
+     * @param {Object} [payload] The initial page payload. It may have these data points as properties:
+     *     "programs" ... an object holding the programs available for reporting on.
+     *     "report" ... (optional) the report data object
+     *     "courses" ... (optional) an array of courses
+     *     "sequence_blocks" ... (optional) an array of sequence blocks
+     *     "academic_levels" ... (optional) an array of academic levels
      * @constructor
-     *
      */
-    var App = function (config, reportId) {
+    var App = function (config, payload) {
 
         // set module configuration
-        this.config = YAHOO.lang.isObject(config) ? config : {};
-        reportId = reportId || false;
+        this.config = Lang.isObject(config) ? config : {};
 
         // wire dialogs to buttons
         Event.addListener('search_reports_btn', 'click', function (event) {
@@ -47,16 +51,21 @@ ilios.namespace('cim.widget');
 
         Event.addListener('create_report_btn', 'click', function (event) {
             if (! this.createReportDialog) {
-                this.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, this.config.programs);
+                this.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, this.programs);
             }
             this.createReportDialog.show();
             Event.stopEvent(event);
             return false;
         }, {}, this);
 
-        // wire up report details view
-        if (reportId) {
-            // @todo
+        this.programs = payload.programs;
+
+        if (payload.hasOwnProperty('report')) {
+            this.reportModel = ilios.cim.model.ReportModel(payload.report);
+            this.reportView = ilios.cim.view.ReportView(this.reportModel);
+            this.academicLevels = payload.academic_levels;
+            this.sequence_blocks = payload.sequence_blocks;
+            this.courses = payload.courses;
         }
     };
 
