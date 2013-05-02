@@ -31,9 +31,11 @@
                 </div>
                 <div class="dialog-form-row">
                     <label for="new_report_program" class="entity_widget_title">
-                        <?php echo$this->languagemap->t('curriculum_inventory.create.program_name.label', $lang); ?>:
+                        <?php echo$this->languagemap->t('curriculum_inventory.create.program.label', $lang); ?>:
                     </label><br />
-                    <select name="program_id" id="new_report_program"></select>
+                    <select name="program_id" id="new_report_program">
+                        <option value="">&lt;<?php echo $this->languagemap->t('general.phrases.select_one', $lang); ?>&gt;</option>
+                    </select>
                 </div>
                 <div class="dialog-form-row">
                     <label for="new_report_year" class="entity_widget_title">
