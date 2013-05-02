@@ -124,7 +124,7 @@ include 'report_search_dialog.inc.php';
             ilios.global.defaultAJAXFailureHandler(null, e);
         }
 
-        ilios.cim.page.init(config);
+        var app = new ilios.cim.App(config);
     });
     <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </script>

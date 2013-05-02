@@ -3,10 +3,8 @@
  *
  * Defines the following namespaces:
  *     ilios.cim
- *     ilios.cim.dom
- *     ilios.cim.event
- *     ilios.cim.page
- *     ilios.cim.transaction
+ *     ilios.cim.model
+ *     ilios.cim.view
  *     ilios.cim.widget
  *
  *  Dependencies:
@@ -15,59 +13,160 @@
  *     YUI Dom/Event/Element libs
  *     YUI Container libs
  */
-ilios.namespace('cim.dom');
-ilios.namespace('cim.event');
-ilios.namespace('cim.page');
-ilios.namespace('cim.transaction');
+ilios.namespace('cim.model');
+ilios.namespace('cim.view');
 ilios.namespace('cim.widget');
 
-/**
- * Module-level configuration.
- * @property config
- * @type {Object}
- */
-ilios.cim.config = {};
 
-/**
- * Entry point to the client-side application.
- * Initializes the page, loads the model, widgets etc.
- * @param {Object} config The module configuration.
- * @param {Number} [reportId] The Id of the report to display.
- * @method init
- *
- */
-ilios.cim.page.init = function (config, reportId) {
+(function () {
 
     var Event = YAHOO.util.Event;
+    /**
+     * Client-side application object.
+     * Initializes the page, loads the model, widgets etc.
+     * @param {Object} config The module configuration.
+     * @param {Number} [reportId] The Id of the report to display.
+     * @constructor
+     *
+     */
+    var App = function (config, reportId) {
 
-    // set module configuration
-    ilios.cim.config = YAHOO.lang.isObject(config) ? config : {};
-    reportId = reportId || false;
+        // set module configuration
+        this.config = YAHOO.lang.isObject(config) ? config : {};
+        reportId = reportId || false;
 
-    // wire dialogs to buttons
-    Event.addListener('search_reports_btn', 'click', function (event) {
-        if (! ilios.cim.page.reportSearchDialog) { // instantiate on demand
-            ilios.cim.page.reportSearchDialog = new ilios.cim.widget.ReportSearchDialog('report_search_picker');;
+        // wire dialogs to buttons
+        Event.addListener('search_reports_btn', 'click', function (event) {
+            if (! this.reportSearchDialog) { // instantiate on demand
+                this.reportSearchDialog = new ilios.cim.widget.ReportSearchDialog('report_search_picker');
+            }
+            this.reportSearchDialog.show();
+            Event.stopEvent(event);
+            return false;
+        }, {}, this);
+
+        Event.addListener('create_report_btn', 'click', function (event) {
+            if (! this.createReportDialog) {
+                this.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, this.config.programs);
+            }
+            this.createReportDialog.show();
+            Event.stopEvent(event);
+            return false;
+        }, {}, this);
+
+        // wire up report details view
+        if (reportId) {
+            // @todo
         }
-        ilios.cim.page.reportSearchDialog.show();
-        Event.stopEvent(event);
-        return false;
+    };
+
+    ilios.cim.App = App;
+}());
+
+//
+// model sub-module
+//
+(function () {
+
+    var Lang = YAHOO.lang;
+
+    var Env = {};
+    Env.instanceCounter = 0;
+
+
+    // Base model object.
+    // @todo make this generally available throughout Ilios
+    var BaseModel = function (oData) {
+        var data = oData || {};
+
+        var id = data.hasOwnProperty('id') ? data.id : null;
+
+        this.setAttributeConfig('id', {
+            value: id
+        });
+
+        this.setAttributeConfig('clientId', {
+            writeOnce: true,
+            validator: Lang.isString,
+            value: this.generateClientId()
+        });
+
+        this.createEvent('change');
+    };
+
+    BaseModel.prototype.NAME = 'baseModel';
+
+    BaseModel.prototype.generateClientId = function () {
+        return this.NAME + '_' + (++Env.instanceCounter);
+    };
+
+    BaseModel.prototype.isNew = function () {
+        return Lang.isNull(this.get('id'));
+    };
+
+    BaseModel.prototype.update = function (oData) {
+        var data = oData || {};
+    };
+
+    Lang.augment(BaseModel, YAHOO.util.AttributeProvider);
+
+
+    var ReportModel = function (oData) {
+        ReportModel.superclass.constructor.call(this, arguments);
+
+        var name = oData.name;
+        var description = oData.description;
+        var year = oData.year;
+        var program = oData.program;
+
+        this.setAttributeConfig('name', {
+            value: name,
+            validator: Lang.isString
+        });
+
+        this.setAttributeConfig('description', {
+            value: description,
+            validator: Lang.isString
+        });
+
+        this.setAttributeConfig('year', {
+            writeOnce: true,
+            value: year
+        });
+
+        this.setAttributeConfig('program', {
+            writeOnce: true,
+            value: program
+        });
+    };
+
+    ReportModel.prototype.NAME = 'curriculumInventoryReport';
+
+    Lang.extend(ReportModel, BaseModel);
+
+    ilios.cim.model.ReportModel = ReportModel;
+}());
+
+//
+// views sub-module
+//
+(function () {
+    var Lang = YAHOO.lang,
+        Element = YAHOO.util.Element;
+
+    var ReportView = function (model, oConfig) {
+        ReportView.superclass.constructor.call(this, document.createElement('div'), oConfig);
+        this.model = model;
+    };
+
+    Lang.extend(ReportView, Element, {
+        initAttributes : function (config) {
+            ReportView.superclass.initAttributes.call(this, config);
+        }
     });
 
-    Event.addListener('create_report_btn', 'click', function (event) {
-        if (! ilios.cim.page.createReportDialog) {
-            ilios.cim.page.createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, config.programs);
-        }
-        ilios.cim.page.createReportDialog.show();
-        Event.stopEvent(event);
-        return false;
-    });
-
-    // wire up report details view
-    if (reportId) {
-        // @todo
-    }
-};
+    ilios.cim.view.ReportView = ReportView;
+}());
 
 //
 // widgets sub-module
@@ -83,9 +182,9 @@ ilios.cim.page.init = function (config, reportId) {
      * @param {HTMLElement|String} el The element or element-ID representing the dialog
      * @param {Object} userConfig The configuration object literal containing
      *     the configuration that should be set for this dialog.
-     * @param {Object} programs a lookup object of programs, used to populate the "program" dropdown.
+     * @param {Object} programs a lookup object of programs, used to populate the "program" drop-down.
      */
-    ilios.cim.widget.CreateReportDialog = function (el, userConfig, programs){
+    var CreateReportDialog = function (el, userConfig, programs) {
         var defaultConfig = {
             width: "640px",
             modal: true,
@@ -118,7 +217,7 @@ ilios.cim.page.init = function (config, reportId) {
         var config = YAHOO.lang.merge(defaultConfig, userConfig);
 
         // call the parent constructor with the merged config
-        ilios.cim.widget.CreateReportDialog.superclass.constructor.call(this, el, config);
+        CreateReportDialog.superclass.constructor.call(this, el, config);
 
         // clear out the dialog and center it before showing it.
         this.beforeShowEvent.subscribe(function () {
@@ -146,7 +245,7 @@ ilios.cim.page.init = function (config, reportId) {
 
         this.beforeSubmitEvent.subscribe(function () {
             document.getElementById('report_creation_status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.creating') + '...';
-    });
+        });
 
         /*
          * Form submission success handler.
@@ -203,6 +302,12 @@ ilios.cim.page.init = function (config, reportId) {
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_year'));
                 Dom.addClass('new_report_year', 'validation-failed');
             }
+
+            if (! data.program_id[0]) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.program'));
+                Dom.addClass('new_report_program', 'validation-failed');
+            }
+
             if (msgs.length) {
                 document.getElementById('report_creation_status').innerHTML = msgs.join('<br />') + '<br />';
                 return false;
@@ -213,8 +318,7 @@ ilios.cim.page.init = function (config, reportId) {
         this.render();
     };
 
-    // inheritance
-    YAHOO.lang.extend(ilios.cim.widget.CreateReportDialog, YAHOO.widget.Dialog, {
+    YAHOO.lang.extend(CreateReportDialog, YAHOO.widget.Dialog, {
         // clear out form, reset status field etc.
         reset : function () {
             var Dom = YAHOO.util.Dom;
@@ -226,7 +330,7 @@ ilios.cim.page.init = function (config, reportId) {
             Dom.removeClass('new_report_name', 'validation-failed');
             Dom.removeClass('new_report_description', 'validation-failed');
             Dom.removeClass('new_report_year', 'validation-failed');
-
+            Dom.removeClass('new_report_program', 'validation-failed');
         }
     });
 
@@ -240,7 +344,7 @@ ilios.cim.page.init = function (config, reportId) {
      * @param {Object} userConfig The configuration object literal containing
      *     the configuration that should be set for this dialog.
      */
-    ilios.cim.widget.EditReportDialog = function (el, userConfig){
+    EditReportDialog = function (el, userConfig){
         var defaultConfig = {
             width: "640px",
             modal: true,
@@ -271,7 +375,7 @@ ilios.cim.page.init = function (config, reportId) {
         var config = YAHOO.lang.merge(defaultConfig, userConfig);
 
         // call the parent constructor with the merged config
-        ilios.cim.widget.EditReportDialog.superclass.constructor.call(this, el, config);
+        EditReportDialog.superclass.constructor.call(this, el, config);
 
         // session model
         this.model = null;
@@ -280,7 +384,7 @@ ilios.cim.page.init = function (config, reportId) {
     };
 
     // inheritance
-    YAHOO.lang.extend(ilios.cim.widget.EditReportDialog, YAHOO.widget.Dialog, {
+    YAHOO.lang.extend(EditReportDialog, YAHOO.widget.Dialog, {
         /**
          * Sets the internal model for this dialog.
          * @method setModel
@@ -301,7 +405,7 @@ ilios.cim.page.init = function (config, reportId) {
      * @param {Object} userConfig The configuration object literal containing
      *     the configuration that should be set for this dialog.
      */
-    ilios.cim.widget.ReportSearchDialog = function (el, userConfig) {
+    var ReportSearchDialog = function (el, userConfig) {
 
         var Event = YAHOO.util.Event;
         var KEY = YAHOO.util.KeyListener.KEY;
@@ -334,7 +438,7 @@ ilios.cim.page.init = function (config, reportId) {
         var config = YAHOO.lang.merge(defaultConfig, userConfig);
 
         // call the parent constructor with the merged config
-        ilios.cim.widget.ReportSearchDialog.superclass.constructor.call(this, el, config);
+        ReportSearchDialog.superclass.constructor.call(this, el, config);
 
         // clear out the dialog and center it before showing it.
         this.beforeShowEvent.subscribe(function () {
@@ -434,7 +538,7 @@ ilios.cim.page.init = function (config, reportId) {
     };
 
     // inheritance
-    YAHOO.lang.extend(ilios.cim.widget.ReportSearchDialog, YAHOO.widget.Dialog, {
+    YAHOO.lang.extend(ReportSearchDialog, YAHOO.widget.Dialog, {
         emptySearchDialogForViewing: function () {
             var element = document.getElementById('report_search_results_list');
             ilios.utilities.removeAllChildren(element);
@@ -445,4 +549,8 @@ ilios.cim.page.init = function (config, reportId) {
             element.focus();
         }
     });
+
+    ilios.cim.widget.CreateReportDialog = CreateReportDialog;
+    ilios.cim.widget.ReportSearchDialog = ReportSearchDialog;
+    ilios.cim.widget.EditReportDialog = EditReportDialog;
 }());
