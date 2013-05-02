@@ -56,7 +56,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     /**
      * Default action.
      *
-     * It prints a page with dialogs for searching for and creating new reports.
+     * This action prints the curriculum inventory manager for a requested report.
+     * If no report is requested, then an bare page will be printed with just the controls to create and search reports.
+     *
+     * It accepts the following query string parameters:
+     *    'report_id' ... (optional) the report id.
      */
     public function index ()
     {
@@ -86,50 +90,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $data['programs'] = Ilios_Json::encodeForJavascriptEmbedding($programs, Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $this->load->view('curriculum_inventory/index', $data);
-    }
-
-    /**
-     * This action prints the curriculum inventory manager for a requested report.
-     *
-     * It accepts the following query string parameters:
-     *    'report_id' ... the report id.
-     */
-    public function view ()
-    {
-        $lang = $this->getLangToUse();
-
-        $data = array();
-        $data['lang'] = $lang;
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
-
-        // authorization check
-        if (! $this->session->userdata('has_admin_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
-            return;
-        }
-
-        $schoolId = $this->session->userdata('school_id');
-        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
-
-        if (! isset($schoolRow)) {
-            show_error('Failed to load school data for this user session.');
-            return;
-        }
-
-        $data['school_id'] = $schoolId;
-        $data['school_name'] = $schoolRow->title;
-        $key = 'general.phrases.school_of';
-        $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
-        $data['viewbar_title'] = $data['institution_name'] . ' - ' . $schoolOfStr . ' ' . $schoolRow->title;
-
-        //
-        // load curriculum inventory program for the given program year
-        //
-
-        // @todo
-
-        $this->load->view('curriculum_inventory/view', $data);
     }
 
     /**
