@@ -4,8 +4,12 @@
  *
  * Renders the markup for the report creation dialog.
  *
+ * Available template variables:
+ *    $lang ... The language key.
+ *    $reports ... An array of existing inventory reports.
+ *    $controllerURL ... The page controller URL.
+ *
  * @see application/views/curriculum_inventory/index.php
- * @see application/views/curriculum_inventory/view.php
  * @see application/views/js/ilios.cim.js
  */
 ?>

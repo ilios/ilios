@@ -71,6 +71,7 @@ ilios.namespace('cim.widget');
             this.linkableCourses = payload.linkable_courses;
             this.linkedCourses = payload.linked_courses;
             this.reportView.render();
+            this.reportView.show();
         }
     };
     ilios.cim.App = App;
@@ -88,7 +89,6 @@ ilios.namespace('cim.widget');
 
 
     // Base model object.
-    // @todo make this generally available throughout Ilios
     var BaseModel = function (oData) {
         this.init.apply(this, arguments);
     };
@@ -127,9 +127,7 @@ ilios.namespace('cim.widget');
         }
     };
 
-
     Lang.augment(BaseModel, YAHOO.util.AttributeProvider);
-
 
     var ReportModel = function (oData) {
         ReportModel.superclass.constructor.call(this, oData);
@@ -142,25 +140,33 @@ ilios.namespace('cim.widget');
             var description = oData.description;
             var year = oData.year;
             var program = oData.program;
+            var startDate = oData.start_date;
+            var endDate = oData.end_date;
 
             this.setAttributeConfig('name', {
                 value: name,
                 validator: Lang.isString
             });
-
             this.setAttributeConfig('description', {
                 value: description,
                 validator: Lang.isString
             });
-
-            this.setAttributeConfig('year', {
+            this.setAttributeConfig('academicYear', {
                 writeOnce: true,
                 value: year
             });
-
             this.setAttributeConfig('program', {
                 writeOnce: true,
-                value: program
+                value: program,
+                validator: Lang.isObject
+            });
+            this.setAttributeConfig('startDate', {
+                value: startDate,
+                validator: Lang.isString
+            });
+            this.setAttributeConfig('endDate', {
+                value: endDate,
+                validator: Lang.isString
             });
         },
         NAME: 'curriculumInventoryReport'
@@ -175,19 +181,139 @@ ilios.namespace('cim.widget');
 //
 (function () {
     var Lang = YAHOO.lang,
-        Element = YAHOO.util.Element;
+        Dom = YAHOO.util.Dom,
+        Element = YAHOO.util.Element,
+        Event = YAHOO.util.Event;
 
     var ReportView = function (model, oConfig) {
-        ReportView.superclass.constructor.call(this, document.createElement('div'), oConfig);
+        ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'), oConfig);
         this.model = model;
     };
 
     Lang.extend(ReportView, Element, {
         initAttributes : function (config) {
             ReportView.superclass.initAttributes.call(this, config);
+
+            this.setAttributeConfig('nameEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-name')
+            });
+            this.setAttributeConfig('academicYearEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-academic-year')
+            });
+            this.setAttributeConfig('startDateEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-start-date')
+            });
+            this.setAttributeConfig('endDateEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-end-date')
+            });
+            this.setAttributeConfig('descriptionEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-description')
+            });
+            this.setAttributeConfig('programEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-program')
+            });
+
+            this.setAttributeConfig('name', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('nameEl');
+                    if (el) {
+                        el.innerHTML = value;
+                    }
+                },
+                value: ''
+            });
+            this.setAttributeConfig('academicYear', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('academicYearEl');
+                    if (el) {
+                        el.innerHTML = value;
+                    }
+                },
+                value: ''
+            });
+            this.setAttributeConfig('startDate', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('startDateEl');
+                    if (el) {
+                        el.innerHTML = value;
+                    }
+                },
+                value: ''
+            });
+            this.setAttributeConfig('endDate', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('endDateEl');
+                    if (el) {
+                        el.innerHTML = value;
+                    }
+                },
+                value: ''
+            });
+            this.setAttributeConfig('description', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('descriptionEl');
+                    if (el) {
+                        el.innerHTML = value;
+                    }
+                },
+                value: ''
+            });
+            this.setAttributeConfig('program', {
+                validator: Lang.isObject,
+                method: function (value) {
+                    var el = this.get('programEl');
+                    if (el) {
+                        el.innerHTML = value.title + " (" + value.short_title + ")"
+                    }
+                }
+            });
+        },
+        render: function () {
+            //
+            this.set('name', this.model.get('name'));
+            this.set('description', this.model.get('description'));
+            this.set('academicYear', this.model.get('academicYear'));
+            this.set('startDate', this.model.get('startDate'));
+            this.set('endDate', this.model.get('endDate'));
+            this.set('program', this.model.get('program'));
+            //this.set('exportLink', this.model.get('id'));
+
+            //
+            // wire dialog buttons
+            //
+            Event.addListener('report-details-view-toggle', 'click', function (event) {
+                ilios.utilities.toggle('report-details-view-content-wrapper', this);
+                return false;
+            });
+            Event.addListener('report-details-view-edit-button', 'click', function(event, obj) {
+                if (! this.editReportDialog) {
+                    this.editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog');
+                }
+                this.editReportDialog.setModel(this.model);
+                this.editReportDialog.show();
+                Event.stopEvent(event);
+                return false;
+            },{}, this);
+
+            // enable buttons
+            (new YAHOO.util.Element('report-details-view-edit-button')).set('disabled', false);
+            (new YAHOO.util.Element('report-details-view-export-button')).set('disabled', false);
+         },
+        show: function () {
+            this.setStyle('display', 'block');
         }
     });
-
     ilios.cim.view.ReportView = ReportView;
 }());
 
@@ -446,7 +572,7 @@ ilios.namespace('cim.widget');
                     handler: function () {
                         this.cancel();
                     }
-                },
+                }
             ]
         };
         // merge the user config with the default configuration

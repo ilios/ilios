@@ -3,7 +3,6 @@
  * Curriculum Inventory Management page template.
  *
  * Available template variables:
- *
  *    $lang ... The language key.
  *    $payload ... A JSON-formatted string representation of the entire initial data payload.
  *    $reports ... An array of existing inventory reports.
@@ -90,6 +89,7 @@ $viewsPath = getServerFilePath('views');
                     </li>
                 </ul>
             </div>
+<?php include 'report_details_view.inc.php'; ?>
         </div>
     </div>
 </div>
@@ -103,6 +103,7 @@ $viewsPath = getServerFilePath('views');
 <?php
 include 'create_report_dialog.inc.php';
 include 'report_picker_dialog.inc.php';
+include 'edit_report_dialog.inc.php';
 ?>
 <!-- end dialog tabs -->
 <script type="text/javascript">
