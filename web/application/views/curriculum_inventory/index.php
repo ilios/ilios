@@ -84,7 +84,7 @@ $viewsPath = getServerFilePath('views');
                     </li>
                     <li>
                         <a class="small secondary radius button" href="" id="create_report_btn">
-                            <?php echo $this->languagemap->t('general.phrases.add_report', $lang); ?>
+                            <?php echo $this->languagemap->t('general.phrases.create_report', $lang); ?>
                          </a>
                     </li>
                 </ul>

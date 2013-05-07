@@ -1,3 +1,16 @@
+<?php
+/**
+ * @file report_details_view.inc.php
+ *
+ * Renders the markup for the report details view.
+ *
+ * Available template variables:
+ *    $lang ... The language key.
+ *
+ * @see application/views/curriculum_inventory/index.php
+ * @see application/views/js/ilios.cim.js
+ */
+?>
 <div class="entity_container level-1" id="report-details-view-container" style="display:none">
     <div class="hd clearfix">
         <div class="toggle">
@@ -7,19 +20,19 @@
         </div>
         <ul>
             <li class="title">
-                <span class="data-type">Report Name</span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.report_name', $lang); ?></span>
                 <span class="data" id="report-details-view-name"></span>
             </li>
             <li class="course-id">
-                <span class="data-type">Academic Year</span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.academic_year', $lang); ?></span>
                 <span class="data" id="report-details-view-academic-year"></span>
             </li>
             <li class="start-date">
-                <span class="data-type">Start Date</span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.start_date', $lang); ?></span>
                 <span class="data" id="report-details-view-start-date"></span>
             </li>
             <li class="end-date">
-                <span class="data-type">End Date</span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.end_date', $lang); ?></span>
                 <span class="data" id="report-details-view-end-date"></span>
             </li>
         </ul>
@@ -27,19 +40,30 @@
     <div style="display: none;" class="bd" id="report-details-view-content-wrapper">
         <div class="row">
             <div class="column label">
-                <label for="report-details-description">Description</label>
+                <label for="report-details-description">
+                    <?php echo $this->languagemap->t('general.terms.description', $lang); ?>
+                </label>
             </div>
             <div class="column data" id="report-details-view-description"></div>
         </div>
         <div class="row">
             <div class="column label">
-                <label for="report-details-program">Program</label>
+                <label for="report-details-program">
+                    <?php echo $this->languagemap->t('general.terms.program', $lang); ?>
+                </label>
             </div>
             <div class="column data" id="report-details-view-program"></div>
         </div>
         <div class="buttons bottom">
-            <button disabled="disabled" class="medium radius button" id="report-details-view-export-button">Export</button>
-            <button disabled="disabled" class="medium radius button" id="report-details-view-edit-button">Edit Report</button>
+            <button disabled="disabled" class="medium radius button" id="report-details-view-edit-button">
+                <?php echo $this->languagemap->t('general.terms.edit', $lang); ?>
+            </button>
+            <button disabled="disabled" class="medium radius button" id="report-details-view-export-button">
+                <?php echo $this->languagemap->t('general.terms.export', $lang); ?>
+            </button>
+            <button disabled="disabled" class="medium radius button" id="report-details-view-delete-button">
+                <?php echo $this->languagemap->t('general.phrases.delete', $lang); ?>
+            </button>
         </div>
     </div>
 </div>
