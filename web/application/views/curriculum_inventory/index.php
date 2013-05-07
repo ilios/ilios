@@ -2,9 +2,11 @@
 /**
  * Curriculum Inventory Management page template.
  *
- * Available template variables that were passed from the controller:
+ * Available template variables:
  *
- *    $programs ... a JSON-formatted string representation of an array of programs available for selection in the report creation dialog.
+ *    $lang ... The language key.
+ *    $payload ... A JSON-formatted string representation of the entire initial data payload.
+ *    $reports ... An array of existing inventory reports.
  */
 $controllerURL = site_url() . '/curriculum_inventory_manager';
 $programManagerUrl = site_url() . '/program_management';
@@ -77,8 +79,8 @@ $viewsPath = getServerFilePath('views');
             <div class="master_button_container clearfix">
                 <ul class="buttons left">
                     <li>
-                        <a class="small radius button" href="" id="search_reports_btn">
-                            <?php echo $this->languagemap->t('general.terms.search', $lang); ?>
+                        <a class="small radius button" href="" id="pick_reports_btn">
+                            <?php echo $this->languagemap->t('curriculum_inventory.select_report', $lang); ?>
                         </a>
                     </li>
                     <li>
@@ -100,7 +102,7 @@ $viewsPath = getServerFilePath('views');
 <!-- start dialog tabs -->
 <?php
 include 'create_report_dialog.inc.php';
-include 'report_search_dialog.inc.php';
+include 'report_picker_dialog.inc.php';
 ?>
 <!-- end dialog tabs -->
 <script type="text/javascript">
@@ -112,19 +114,18 @@ include 'report_search_dialog.inc.php';
     ilios.global.installPreferencesModel();
 
     YAHOO.util.Event.onDOMReady(function() {
-        var payload = {};
+        var payload;
         var config = {
             'controllerUrl': "<?php echo $controllerURL; ?>/",
             'programControllerUrl': "<?php echo $programManagerUrl; ?>/"
         };
-
         try {
-            payload.programs = YAHOO.lang.JSON.parse('<?php echo $programs; ?>');
+            payload = YAHOO.lang.JSON.parse('<?php echo $payload; ?>');
         }  catch (e) {
-            payload.programs = {};
+            //crash and burn
             ilios.global.defaultAJAXFailureHandler(null, e);
+            return;
         }
-
         var app = new ilios.cim.App(config, payload);
     });
     <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>

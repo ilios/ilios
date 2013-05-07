@@ -28,10 +28,12 @@ ilios.namespace('cim.widget');
      * @param {Object} config App. configuration.
      * @param {Object} [payload] The initial page payload. It may have these data points as properties:
      *     "programs" ... an object holding the programs available for reporting on.
-     *     "report" ... (optional) the report data object
-     *     "courses" ... (optional) an array of courses
-     *     "sequence_blocks" ... (optional) an array of sequence blocks
-     *     "academic_levels" ... (optional) an array of academic levels
+     *     "report" ... (optional) an object representing the currently selected report.
+     *     "courses" ... (optional) An lookup object (keyed off by course id) holding linked and linkable courses
+     *         with/for sequence blocks in this report.
+     *     "sequence" ... (optional) An object representing the report sequence.
+     *     "sequence_blocks" ... (optional) An array of report sequence blocks.
+     *     "academic_levels" ... (optional) An array of academic levels available in the given report.
      * @constructor
      */
     var App = function (config, payload) {
@@ -40,11 +42,11 @@ ilios.namespace('cim.widget');
         this.config = Lang.isObject(config) ? config : {};
 
         // wire dialogs to buttons
-        Event.addListener('search_reports_btn', 'click', function (event) {
-            if (! this.reportSearchDialog) { // instantiate on demand
-                this.reportSearchDialog = new ilios.cim.widget.ReportSearchDialog('report_search_picker');
+        Event.addListener('pick_reports_btn', 'click', function (event) {
+            if (! this.reportPickerDialog) { // instantiate on demand
+                this.reportPickerDialog = new ilios.cim.widget.ReportPickerDialog('report_picker_dialog');
             }
-            this.reportSearchDialog.show();
+            this.reportPickerDialog.show();
             Event.stopEvent(event);
             return false;
         }, {}, this);
@@ -61,14 +63,16 @@ ilios.namespace('cim.widget');
         this.programs = payload.programs;
 
         if (payload.hasOwnProperty('report')) {
-            this.reportModel = ilios.cim.model.ReportModel(payload.report);
-            this.reportView = ilios.cim.view.ReportView(this.reportModel);
+            this.reportModel = new ilios.cim.model.ReportModel(payload.report);
+            this.reportView = new ilios.cim.view.ReportView(this.reportModel);
             this.academicLevels = payload.academic_levels;
-            this.sequence_blocks = payload.sequence_blocks;
-            this.courses = payload.courses;
+            this.sequenceBlock = payload.sequence_block;
+            this.sequenceBlocks = payload.sequence_blocks;
+            this.linkableCourses = payload.linkable_courses;
+            this.linkedCourses = payload.linked_courses;
+            this.reportView.render();
         }
     };
-
     ilios.cim.App = App;
 }());
 
@@ -86,73 +90,83 @@ ilios.namespace('cim.widget');
     // Base model object.
     // @todo make this generally available throughout Ilios
     var BaseModel = function (oData) {
-        var data = oData || {};
-
-        var id = data.hasOwnProperty('id') ? data.id : null;
-
-        this.setAttributeConfig('id', {
-            value: id
-        });
-
-        this.setAttributeConfig('clientId', {
-            writeOnce: true,
-            validator: Lang.isString,
-            value: this.generateClientId()
-        });
-
-        this.createEvent('change');
+        this.init.apply(this, arguments);
     };
 
-    BaseModel.prototype.NAME = 'baseModel';
+    BaseModel.prototype = {
+        generateClientId: function () {
+            return this.getName() + '_' + (++Env.instanceCounter);
+        },
+        isNew: function () {
+            return Lang.isNull(this.get('id'));
+        },
+        update: function (oData) {
+            var data = oData || {};
+        },
+        init: function (oData) {
+            var data = oData || {};
 
-    BaseModel.prototype.generateClientId = function () {
-        return this.NAME + '_' + (++Env.instanceCounter);
+            var id = data.hasOwnProperty('id') ? data.id : null;
+
+            this.setAttributeConfig('id', {
+                value: id
+            });
+
+            var clientId = this.generateClientId();
+            this.setAttributeConfig('clientId', {
+                writeOnce: true,
+                validator: Lang.isString,
+                value: clientId
+            });
+
+            this.createEvent('change');
+        },
+        NAME: 'baseModel',
+        getName: function () {
+            return this.NAME;
+        }
     };
 
-    BaseModel.prototype.isNew = function () {
-        return Lang.isNull(this.get('id'));
-    };
-
-    BaseModel.prototype.update = function (oData) {
-        var data = oData || {};
-    };
 
     Lang.augment(BaseModel, YAHOO.util.AttributeProvider);
 
 
     var ReportModel = function (oData) {
-        ReportModel.superclass.constructor.call(this, arguments);
-
-        var name = oData.name;
-        var description = oData.description;
-        var year = oData.year;
-        var program = oData.program;
-
-        this.setAttributeConfig('name', {
-            value: name,
-            validator: Lang.isString
-        });
-
-        this.setAttributeConfig('description', {
-            value: description,
-            validator: Lang.isString
-        });
-
-        this.setAttributeConfig('year', {
-            writeOnce: true,
-            value: year
-        });
-
-        this.setAttributeConfig('program', {
-            writeOnce: true,
-            value: program
-        });
+        ReportModel.superclass.constructor.call(this, oData);
     };
 
-    ReportModel.prototype.NAME = 'curriculumInventoryReport';
+    Lang.extend(ReportModel, BaseModel, {
+        init : function (oData) {
+            ReportModel.superclass.init.call(this, oData);
+            var name = oData.name;
+            var description = oData.description;
+            var year = oData.year;
+            var program = oData.program;
 
-    Lang.extend(ReportModel, BaseModel);
+            this.setAttributeConfig('name', {
+                value: name,
+                validator: Lang.isString
+            });
 
+            this.setAttributeConfig('description', {
+                value: description,
+                validator: Lang.isString
+            });
+
+            this.setAttributeConfig('year', {
+                writeOnce: true,
+                value: year
+            });
+
+            this.setAttributeConfig('program', {
+                writeOnce: true,
+                value: program
+            });
+        },
+        NAME: 'curriculumInventoryReport'
+    });
+
+    ilios.cim.model.BaseModel = BaseModel;
     ilios.cim.model.ReportModel = ReportModel;
 }());
 
@@ -407,14 +421,14 @@ ilios.namespace('cim.widget');
     /**
      * "Search Reports" dialog.
      * @namespace ilios.cim.widget
-     * @class ReportSearchDialog
+     * @class ReportPickerDialog
      * @extends YAHOO.widget.Dialog
      * @constructor
      * @param {HTMLElement|String} el The element or element-ID representing the dialog
      * @param {Object} userConfig The configuration object literal containing
      *     the configuration that should be set for this dialog.
      */
-    var ReportSearchDialog = function (el, userConfig) {
+    var ReportPickerDialog = function (el, userConfig) {
 
         var Event = YAHOO.util.Event;
         var KEY = YAHOO.util.KeyListener.KEY;
@@ -433,13 +447,6 @@ ilios.namespace('cim.widget');
                         this.cancel();
                     }
                 },
-                {
-                    text: ilios_i18nVendor.getI18NString('general.phrases.search.clear'),
-                    handler: function () {
-                        this.emptySearchDialogForViewing();
-                        return false;
-                    }
-                }
             ]
         };
         // merge the user config with the default configuration
@@ -447,119 +454,20 @@ ilios.namespace('cim.widget');
         var config = YAHOO.lang.merge(defaultConfig, userConfig);
 
         // call the parent constructor with the merged config
-        ReportSearchDialog.superclass.constructor.call(this, el, config);
+        ReportPickerDialog.superclass.constructor.call(this, el, config);
 
-        // clear out the dialog and center it before showing it.
+        // center dialog before showing it.
         this.beforeShowEvent.subscribe(function () {
-            this.emptySearchDialogForViewing();
             this.center();
         });
-
-        this.beforeSubmitEvent.subscribe(function () {
-            document.getElementById('report_search_status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.searching') + '...';
-        });
-
-        this.validate = function () {
-            var data = this.getData();
-            if (ilios.lang.trim(data.report_search_term).length < 2) {
-                document.getElementById('report_search_status').innerHTML
-                    = ilios_i18nVendor.getI18NString('general.error.query_length');
-                return false;
-            }
-            return true;
-        };
-
-        /*
-         * Form submission success handler.
-         * @param {Object} resultObject
-         */
-        this.callback.success = function (resultObject) {
-            var Dom = YAHOO.util.Dom;
-            var parsedResponse, searchResultsContainer;
-            var i, n;
-            var reports;
-            var liEl, wrapperEl, linkEl;
-
-            try {
-                parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
-            } catch (e) {
-                document.getElementById('report_search_status').innerHTML
-                    = ilios_i18nVendor.getI18NString('general.error.must_retry');
-                return;
-            }
-
-            searchResultsContainer = document.getElementById('report_search_results_list');
-            ilios.utilities.removeAllChildren(searchResultsContainer);
-            document.getElementById('report_search_status').innerHTML = '';
-
-            if (parsedResponse.hasOwnProperty('error')) {
-                document.getElementById('report_search_status').innerHTML = parsedResponse.error;
-                return;
-            }
-
-            reports = parsedResponse.reports;
-            if (! reports.length) {
-                document.getElementById('report_search_status').innerHTML
-                    = ilios_i18nVendor.getI18NString('general.phrases.search.no_match');
-            }
-            for (i =0, n = reports.length; i < n; i++) {
-                liEl = document.createElement('li');
-                wrapperEl = document.createElement('span');
-                Dom.addClass(wrapperEl, 'title');
-                linkEl = document.createElement('a');
-                Dom.setAttribute(linkEl, 'href', window.location.protocol + "//" + window.location.host +
-                    window.location.pathname + "?report_id=" + reports[i].report_id);
-                linkEl.appendChild(document.createTextNode(reports[i].name + ' (' + reports[i].year + ')'));
-                wrapperEl.appendChild(linkEl);
-                liEl.appendChild(wrapperEl);
-                searchResultsContainer.appendChild(liEl);
-            }
-        };
-
-        /*
-         * Form submission error handler.
-         * @param {Object} resultObject
-         */
-        this.callback.failure = function (resultObject) {
-            ilios.global.defaultAJAXFailureHandler(resultObject);
-            document.getElementById('report_search_status').innerHTML
-                = ilios_i18nVendor.getI18NString('general.error.must_retry');
-        }
-
-        // wire event handlers for input field and search button
-        Event.addListener('report_search_term', 'keypress', function (event, dialog) {
-            var charCode = event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode);
-            if (KEY.ENTER === charCode) {
-                dialog.submit();
-                Event.stopEvent(event);
-                return false;
-            }
-            return true;
-        }, this);
-
-        Event.addListener('search_report_submit_btn', 'click', function (event, dialog) {
-            dialog.submit();
-            Event.stopEvent(event);
-            return false;
-        }, this);
 
         this.render();
     };
 
     // inheritance
-    YAHOO.lang.extend(ReportSearchDialog, YAHOO.widget.Dialog, {
-        emptySearchDialogForViewing: function () {
-            var element = document.getElementById('report_search_results_list');
-            ilios.utilities.removeAllChildren(element);
-            element = document.getElementById('report_search_status');
-            element.innerHTML = '';
-            element = document.getElementById('report_search_term');
-            element.value = '';
-            element.focus();
-        }
-    });
+    YAHOO.lang.extend(ReportPickerDialog, YAHOO.widget.Dialog);
 
     ilios.cim.widget.CreateReportDialog = CreateReportDialog;
-    ilios.cim.widget.ReportSearchDialog = ReportSearchDialog;
+    ilios.cim.widget.ReportPickerDialog = ReportPickerDialog;
     ilios.cim.widget.EditReportDialog = EditReportDialog;
 }());

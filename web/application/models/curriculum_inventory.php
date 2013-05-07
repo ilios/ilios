@@ -26,7 +26,7 @@ class Curriculum_Inventory extends Ilios_Base_Model
     {
         $rhett = array();
         $clean =array();
-        $clean['reportId'] = (int) $reportId;
+        $clean['report_id'] = (int) $reportId;
         $sql =<<<EOL
 SELECT c.*
 FROM course c
@@ -44,18 +44,20 @@ EOL;
     }
 
     /**
-     * Retrieves a map of courses that can be linked to sequence blocks in a curriculum inventory report
-     * for a given academic year and school.
+     * Retrieves a map of courses that qualify as linkable to sequence blocks in a given inventory report
+     * by the matching the given year and owning school id, and that are not already linked to a given report that report.
      * @param int $year the academic year
      * @param int $schoolId the owning school id
+     * @param int $reportId the report id
      * @return array an assoc array of course records, keyed off by course id.
      */
-    public function getLinkableCourses ($year, $schoolId)
+    public function getLinkableCourses ($year, $schoolId, $reportId)
     {
         $rhett = array();
         $clean =array();
         $clean['year'] = (int) $year;
         $clean['school_id'] = (int) $schoolId;
+        $clean['report_id'] = (int) $reportId;
         $sql =<<<EOL
 SELECT c.*
 FROM course c
@@ -63,6 +65,12 @@ JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
 WHERE c.deleted = 0
 AND c.year = {$clean['year']}
 AND c.owning_school_id = {$clean['school_id']}
+AND c.course_id NOT IN (
+    SELECT course_id
+    FROM curriculum_inventory_sequence_block
+    WHERE course_id IS NOT NULL
+    AND report_id = {$clean['report_id']}
+)
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {

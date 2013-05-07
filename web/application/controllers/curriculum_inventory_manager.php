@@ -85,10 +85,39 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        $payload = array(); // data container
+
         $programs = $this->program->getAllPublishedProgramsWithSchoolId($schoolId);
+        $payload['programs'] = $programs;
 
-        $data['programs'] = Ilios_Json::encodeForJavascriptEmbedding($programs, Ilios_Json::JSON_ENC_SINGLE_QUOTES);
+        $reports = $this->invReport->getList($schoolId); // existing reports
+        $data['reports'] = $reports;
 
+        $reportId = $this->input->get('report_id');
+
+        if ($reportId) {
+            $report = $this->invReport->getRowForPrimaryKeyId($reportId);
+            if (! $report) {
+                show_error('Failed to load the requested report.');
+                return;
+            }
+            $program = $this->program->getRowForPrimaryKeyId($report->program_id);
+            $report->program = $program;
+            $academicLevels = $this->invAcademicLevel->getLevels($report->report_id);
+            $linkedCourses = $this->inventory->getLinkedCourses($report->report_id);
+            $linkableCourses = $this->inventory->getLinkableCourses($report->year, $schoolId, $report->report_id);
+            $sequence = $this->invSequence->getRowForPrimaryKeyId($report->report_id);
+            $sequenceBlocks = $this->invSequenceBlock->getBlocks($report->report_id);
+
+            $payload['report'] = $report;
+            $payload['academic_levels'] = $academicLevels;
+            $payload['sequence'] = $sequence;
+            $payload['linked_courses'] = $linkedCourses;
+            $payload['linkable_courses'] = $linkableCourses;
+            $payload['sequence_blocks'] = $sequenceBlocks;
+        }
+
+        $data['payload'] = Ilios_Json::encodeForJavascriptEmbedding($payload, Ilios_Json::JSON_ENC_SINGLE_QUOTES);
         $this->load->view('curriculum_inventory/index', $data);
     }
 
@@ -265,45 +294,5 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         header('Content-Type: application/xml; charset="utf8"');
         header('Content-disposition: attachment; filename="report.xml"');
         echo $out;
-    }
-
-    /**
-     * This action searches reports in the currently active school by a given search term.
-     *
-     * It accepts the following POST parameters:
-     *   "report_search_term" ... the search term to use.
-     *
-     * This method prints out a result object as JSON-formatted text.
-     *
-     * On success, the object contains a property "reports" which contains an array of inventory reports.
-     * If no reports were found for the given search term, then this array is empty.
-     *
-     * On failure, the object contains a property "error", which contains an error message.
-     */
-    public function searchReports ()
-    {
-        $lang =  $this->getLangToUse();
-        $rhett = array();
-
-        // authorization check
-        if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
-            return;
-        }
-
-        $schoolId = $this->session->userdata('school_id');
-        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
-
-        if (! isset($schoolRow)) {
-            $this->_printErrorXhrResponse('general.error.school_not_found', $lang);
-            return;
-        }
-
-        $term = trim($this->input->post('report_search_term'));
-
-        $rhett['reports'] = $this->invReport->search($schoolId, $term);
-
-        header("Content-Type: text/plain");
-        echo json_encode($rhett);
     }
 }
