@@ -27,7 +27,7 @@ CREATE TABLE `curriculum_inventory_institution` (
        ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
-COLLATE='utf8_general_ci'
+COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
@@ -47,7 +47,7 @@ CREATE TABLE `curriculum_inventory_report` (
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
-COLLATE='utf8_general_ci'
+COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
@@ -61,7 +61,7 @@ CREATE TABLE `curriculum_inventory_sequence` (
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
-COLLATE='utf8_general_ci'
+COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
@@ -79,7 +79,7 @@ CREATE TABLE `curriculum_inventory_academic_level` (
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
-COLLATE='utf8_general_ci'
+COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
@@ -120,7 +120,7 @@ CREATE TABLE `curriculum_inventory_sequence_block` (
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
-COLLATE='utf8_general_ci'
+COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
 
