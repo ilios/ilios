@@ -81,7 +81,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
 
         if (! isset($schoolRow)) {
-            show_error('Failed to load school data for this user session.');
+            $msg = $this->languagemap->getI18NString('general.error.school_not_found', $lang);
+            show_error($msg);
             return;
         }
 
@@ -98,7 +99,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         if ($reportId) {
             $report = $this->invReport->getRowForPrimaryKeyId($reportId);
             if (! $report) {
-                show_error('Failed to load the requested report.');
+                $msg = $this->languagemap->getI18NString('curriculum_inventory.report.load.general_error', $lang);
+                show_error($msg);
                 return;
             }
             $program = $this->program->getRowForPrimaryKeyId($report->program_id);
@@ -124,7 +126,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     /**
      * This action creates a new curriculum inventory report for a given academic year and program.
      *
-     * It accepts the following POST parameters:
+     * It expects the following POST parameters:
      *    'report_year' ... the academic year
      *    'report_name' ... the report name
      *    'report_description' ... the report description
@@ -196,6 +198,85 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         $rhett['report_id'] = $reportId;
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * This action updates an existing report from user input.
+     *
+     * It expects the following POST parameters:
+     *    'report_id' ... the report id
+     *    'report_name' ... the report name
+     *    'report_description' ... the report description
+     *
+     * After completing the update, this method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "report" which contains the updated report record.
+     * On failure, the object contains a property "error", which contains an error message.
+     */
+    public function update ()
+    {
+        $lang = $this->getLangToUse();
+        $rhett = array();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $schoolId = $this->session->userdata('school_id');
+        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
+
+        if (! isset($schoolRow)) {
+            $this->_printErrorXhrResponse('general.error.school_not_found', $lang);
+            return;
+        }
+
+        $reportId = (int) $this->input->post('report_id');
+        $reportName = $this->input->post('report_name');
+        $reportDescription = $this->input->post('report_description');
+
+
+        // input validation
+        if ('' === trim($reportName)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_name_missing', $lang);
+            return;
+        }
+        if ('' === trim($reportDescription)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_description_missing', $lang);
+            return;
+        }
+
+        // check if a curriculum inventory report already exists
+        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
+        if (! $invReport) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            return;
+        }
+
+        // updates the report record
+        $this->db->trans_start();
+        $this->invReport->update($reportId, $reportName, $reportDescription);
+        $this->db->trans_complete();
+        if (false === $this->db->trans_status()) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.general', $lang);
+            return;
+        }
+
+        // reload update report
+        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
+        $program = $this->program->getRowForPrimaryKeyId($invReport->program_id);
+        $invReport->program = $program;
+
+        $rhett['report'] = $invReport;
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);

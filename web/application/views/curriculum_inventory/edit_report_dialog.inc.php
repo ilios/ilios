@@ -20,6 +20,7 @@
         <div class="dialog_wrap">
             <span id="report_update_status" class="dialog-form-status"></span>
             <form method="POST" action="<?php echo $controllerURL; ?>/update">
+                <input type="hidden" value="" id="edit_report_id" name="report_id" />
                 <div class="dialog-form-row" >
                     <label for="edit_report_name" class="entity_widget_title">
                         <?php echo $this->languagemap->t('curriculum_inventory.create.report_name.label', $lang); ?>:

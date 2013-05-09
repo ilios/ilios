@@ -63,15 +63,15 @@ class Curriculum_Inventory_Report extends Ilios_Base_Model
         if (isset($startDate)) {
             $data['start_date'] = $startDate->format('Y-m-d');
         } else {
-            $data['start_date'] = null;
+            //$data['start_date'] = null;
         }
         if (isset($endDate)) {
             $data['end_date'] = $endDate->format('Y-m-d');
         } else {
-            $data['end_date'] = null;
+            //$data['end_date'] = null;
         }
         $this->db->where('report_id', $reportId);
-        return $this->db->update($data);
+        return $this->db->update($this->databaseTableName, $data);
     }
 
     /**

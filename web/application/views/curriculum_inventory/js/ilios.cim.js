@@ -106,7 +106,7 @@ ilios.namespace('cim.widget');
         init: function (oData) {
             var data = oData || {};
 
-            var id = data.hasOwnProperty('id') ? data.id : null;
+            var id = data.hasOwnProperty(this.ID_ATTRIBUTE_NAME) ? data[this.ID_ATTRIBUTE_NAME] : null;
 
             this.setAttributeConfig('id', {
                 value: id
@@ -122,6 +122,7 @@ ilios.namespace('cim.widget');
             this.createEvent('change');
         },
         NAME: 'baseModel',
+        ID_ATTRIBUTE_NAME: 'dbId',
         getName: function () {
             return this.NAME;
         }
@@ -169,7 +170,8 @@ ilios.namespace('cim.widget');
                 validator: Lang.isString
             });
         },
-        NAME: 'curriculumInventoryReport'
+        NAME: 'curriculumInventoryReport',
+        ID_ATTRIBUTE_NAME: 'report_id'
     });
 
     ilios.cim.model.BaseModel = BaseModel;
@@ -188,6 +190,8 @@ ilios.namespace('cim.widget');
     var ReportView = function (model, oConfig) {
         ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'), oConfig);
         this.model = model;
+        this.model.subscribe('nameChange', this.onNameChange, {}, this);
+        this.model.subscribe('descriptionChange', this.onDescriptionChange, {}, this);
     };
 
     Lang.extend(ReportView, Element, {
@@ -294,13 +298,13 @@ ilios.namespace('cim.widget');
             //
             Event.addListener('report-details-view-toggle', 'click', function (event) {
                 ilios.utilities.toggle('report-details-view-content-wrapper', this);
+                Event.stopEvent(event);
                 return false;
             });
             Event.addListener('report-details-view-edit-button', 'click', function(event, obj) {
                 if (! this.editReportDialog) {
-                    this.editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog');
+                    this.editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog', this.model);
                 }
-                this.editReportDialog.setModel(this.model);
                 this.editReportDialog.show();
                 Event.stopEvent(event);
                 return false;
@@ -312,7 +316,14 @@ ilios.namespace('cim.widget');
          },
         show: function () {
             this.setStyle('display', 'block');
-        }
+        },
+        onNameChange: function (evObj) {
+            this.set('name', evObj.newValue);
+        },
+
+        onDescriptionChange: function (evObj) {
+            this.set('description', evObj.newValue);
+        },
     });
     ilios.cim.view.ReportView = ReportView;
 }());
@@ -352,7 +363,6 @@ ilios.namespace('cim.widget');
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
                     handler: function () {
-                        this.reset();
                         this.cancel();
                     }
                 }
@@ -372,6 +382,11 @@ ilios.namespace('cim.widget');
         this.beforeShowEvent.subscribe(function () {
             this.reset();
             this.center();
+        });
+
+        // clear out the dialog and center it before showing it.
+        this.cancelEvent.subscribe(function () {
+            this.reset();
         });
 
         // append the program as options to the dropdown
@@ -490,29 +505,29 @@ ilios.namespace('cim.widget');
      * @extends YAHOO.widget.Dialog
      * @constructor
      * @param {HTMLElement|String} el The element or element-ID representing the dialog
+     * @param {ilios.cim.model.ReportModel} model The report model.
      * @param {Object} userConfig The configuration object literal containing
      *     the configuration that should be set for this dialog.
      */
-    EditReportDialog = function (el, userConfig){
+    var EditReportDialog = function (el, model, userConfig){
         var defaultConfig = {
             width: "640px",
             modal: true,
             fixedcenter: true,
             visible: false,
+            hideaftersubmit: false,
             zIndex: 999,
             buttons: [
                 {
-                    text: ilios_i18nVendor.getI18NString('general.terms.done'),
+                    text: ilios_i18nVendor.getI18NString('general.terms.save'),
                     handler: function () {
-                        // @todo implement
-                        this.cancel();
+                       this.submit();
                     },
                     isDefault: true
                 },
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
                     handler: function () {
-                       // @todo implement
                         this.cancel();
                     }
                 }
@@ -526,21 +541,88 @@ ilios.namespace('cim.widget');
         // call the parent constructor with the merged config
         EditReportDialog.superclass.constructor.call(this, el, config);
 
-        // session model
-        this.model = null;
+        // report model
+        this.model = model;
+
+        // clear out the dialog and center it before showing it.
+        this.beforeShowEvent.subscribe(function () {
+            this.reset();
+            this.populateForm();
+            this.center();
+        });
+
+        this.beforeSubmitEvent.subscribe(function () {
+            document.getElementById('report_update_status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.updating') + '...';
+        });
+
+        this.cancelEvent.subscribe(function () {
+            this.reset();
+        });
+
+        this.validate = function () {
+            var Dom = YAHOO.util.Dom;
+            var data = this.getData();
+            var msgs = [];
+            if ('' === YAHOO.lang.trim(data.report_name)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_name'));
+                Dom.addClass('edit_report_name', 'validation-failed');
+            }
+            if ('' === YAHOO.lang.trim(data.report_description)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_description'));
+                Dom.addClass('edit_report_description', 'validation-failed');
+            }
+
+            if (msgs.length) {
+                document.getElementById('report_update_status').innerHTML = msgs.join('<br />') + '<br />';
+                return false;
+            }
+            return true;
+        };
+
+        this.callback.success = function (resultObject) {
+            var dialog = resultObject.argument;
+            var model = dialog.model;
+            var parsedResponse;
+            try {
+                parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
+            } catch (e) {
+                document.getElementById('report_update_status').innerHTML
+                    = ilios_i18nVendor.getI18NString('general.error.must_retry');
+                return;
+            }
+
+            document.getElementById('report_update_status').innerHTML = '';
+
+            if (parsedResponse.hasOwnProperty('error')) {
+                document.getElementById('report_update_status').innerHTML = parsedResponse.error;
+                return;
+            }
+            // update the model
+            model.set('name', parsedResponse.report.name);
+            model.set('description', parsedResponse.report.description);
+            dialog.cancel();
+        };
+
+        this.callback.failure = function (resultObject) {
+            ilios.global.defaultAJAXFailureHandler(resultObject);
+            document.getElementById('report_update_status').innerHTML
+                = ilios_i18nVendor.getI18NString('general.error.must_retry');
+        };
+
+        this.callback.argument = this;
 
         this.render();
     };
 
     // inheritance
     YAHOO.lang.extend(EditReportDialog, YAHOO.widget.Dialog, {
-        /**
-         * Sets the internal model for this dialog.
-         * @method setModel
-         * @param {Object} model
-         */
-        setModel : function (model) {
-            this.model = model;
+        populateForm: function () {
+            document.getElementById('edit_report_name').value = this.model.get('name');
+            document.getElementById('edit_report_description').value = this.model.get('description');
+            document.getElementById('edit_report_id').value = this.model.get('id');
+        },
+        reset: function () {
+            document.getElementById('report_update_status').innerHTML = '';
         }
     });
 
