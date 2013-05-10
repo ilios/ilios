@@ -192,6 +192,8 @@ ilios.namespace('cim.widget');
         this.model = model;
         this.model.subscribe('nameChange', this.onNameChange, {}, this);
         this.model.subscribe('descriptionChange', this.onDescriptionChange, {}, this);
+        this.model.subscribe('startDateChange', this.onStartDateChange, {}, this);
+        this.model.subscribe('endDateChange', this.onEndDateChange, {}, this);
     };
 
     Lang.extend(ReportView, Element, {
@@ -324,6 +326,12 @@ ilios.namespace('cim.widget');
         onDescriptionChange: function (evObj) {
             this.set('description', evObj.newValue);
         },
+        onStartDateChange: function (evObj) {
+            this.set('startDate', evObj.newValue);
+        },
+        onEndDateChange: function (evObj) {
+            this.set('endDate', evObj.newValue);
+        }
     });
     ilios.cim.view.ReportView = ReportView;
 }());
@@ -421,7 +429,7 @@ ilios.namespace('cim.widget');
                 parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
             } catch (e) {
                 document.getElementById('report_creation_status').innerHTML
-                    = ilios_i18nVendor.getI18NString('general.error.must_retry');
+                    = ilios_i18nVendor.getI18NString('curriculum_inventory.create.error.general');
                 return;
             }
 
@@ -445,7 +453,7 @@ ilios.namespace('cim.widget');
         this.callback.failure = function (resultObject) {
             ilios.global.defaultAJAXFailureHandler(resultObject);
             document.getElementById('report_creation_status').innerHTML
-                = ilios_i18nVendor.getI18NString('general.error.must_retry');
+                = ilios_i18nVendor.getI18NString('curriculum_inventory.create.error.general');
         }
 
         // form validation function
@@ -587,7 +595,7 @@ ilios.namespace('cim.widget');
                 parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
             } catch (e) {
                 document.getElementById('report_update_status').innerHTML
-                    = ilios_i18nVendor.getI18NString('general.error.must_retry');
+                    = ilios_i18nVendor.getI18NString('curriculum_inventory.update.error.general');
                 return;
             }
 
@@ -600,13 +608,15 @@ ilios.namespace('cim.widget');
             // update the model
             model.set('name', parsedResponse.report.name);
             model.set('description', parsedResponse.report.description);
+            model.set('endDate', parsedResponse.report.endDate);
+            model.set('startDate', parsedResponse.report.startDate);
             dialog.cancel();
         };
 
         this.callback.failure = function (resultObject) {
             ilios.global.defaultAJAXFailureHandler(resultObject);
             document.getElementById('report_update_status').innerHTML
-                = ilios_i18nVendor.getI18NString('general.error.must_retry');
+                = ilios_i18nVendor.getI18NString('curriculum_inventory.update.error.general');
         };
 
         this.callback.argument = this;
@@ -620,6 +630,8 @@ ilios.namespace('cim.widget');
             document.getElementById('edit_report_name').value = this.model.get('name');
             document.getElementById('edit_report_description').value = this.model.get('description');
             document.getElementById('edit_report_id').value = this.model.get('id');
+            document.getElementById('edit_report_start_date').value = this.model.get('startDate');
+            document.getElementById('edit_report_end_date').value = this.model.get('endDate');
         },
         reset: function () {
             document.getElementById('report_update_status').innerHTML = '';

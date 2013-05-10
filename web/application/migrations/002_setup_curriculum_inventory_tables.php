@@ -38,8 +38,8 @@ CREATE TABLE `curriculum_inventory_report` (
     `year` SMALLINT(4) UNSIGNED NOT NULL,
     `name` VARCHAR(200) NULL DEFAULT NULL,
     `description` TEXT NULL,
-    `start_date` DATE NULL DEFAULT NULL,
-    `end_date` DATE NULL DEFAULT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date` DATE NOT NULL,
     PRIMARY KEY (`report_id`),
     UNIQUE INDEX `program_id_year` (`program_id`, `year`),
     CONSTRAINT `fkey_curriculum_inventory_report_program_id` 

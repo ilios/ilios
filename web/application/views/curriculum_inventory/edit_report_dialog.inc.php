@@ -35,6 +35,22 @@
                     <textarea id="edit_report_description" name="report_description" type="text" cols="80" rows="10"
                               placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_description.hint', $lang, false); ?>"></textarea>
                 </div>
+                <div class="dialog-form-row" >
+                    <label for="edit_report_description" class="entity_widget_title">
+                        <?php echo $this->languagemap->t('general.phrases.start_date', $lang); ?>:
+                    </label><br />
+                    <input id="edit_report_start_date" name="start_date" type="text" size="10"
+                           placeholder="YYYY-MM-DD" readonly="readonly"/>
+                    <span class="calendar_button" id="edit_report_start_date_button"></span>
+                </div>
+                <div class="dialog-form-row" >
+                    <label for="edit_report_description" class="entity_widget_title">
+                        <?php echo $this->languagemap->t('general.phrases.end_date', $lang); ?>:
+                    </label><br />
+                    <input id="edit_report_end_date" name="end_date" type="text" size="10"
+                           placeholder="YYYY-MM-DD" readonly="readonly"/>
+                    <span class="calendar_button" id="edit_report_end_date_button"></span>
+                </div>
                 <div class="clear"></div>
             </form>
         </div>

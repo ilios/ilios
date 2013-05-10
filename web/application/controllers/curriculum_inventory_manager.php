@@ -243,7 +243,15 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $reportId = (int) $this->input->post('report_id');
         $reportName = $this->input->post('report_name');
         $reportDescription = $this->input->post('report_description');
+        $startDate = date_create($this->input->post('start_date'));
+        $endDate = date_create($this->input->post('end_date'));
 
+        // check if a curriculum inventory report already exists
+        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
+        if (! $invReport) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            return;
+        }
 
         // input validation
         if ('' === trim($reportName)) {
@@ -254,17 +262,19 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_description_missing', $lang);
             return;
         }
-
-        // check if a curriculum inventory report already exists
-        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
-        if (! $invReport) {
-            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+        if (false === $startDate) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.invalid_start_date', $lang);
+            return;
+        }
+        if (false === $endDate) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.invalid_end_date', $lang);
             return;
         }
 
+
         // updates the report record
         $this->db->trans_start();
-        $this->invReport->update($reportId, $reportName, $reportDescription);
+        $this->invReport->update($reportId, $reportName, $reportDescription, $startDate, $endDate);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
             $this->_printErrorXhrResponse('curriculum_inventory.update.error.general', $lang);
