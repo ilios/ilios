@@ -353,6 +353,7 @@ ilios.namespace('cim.widget');
      * @param {Object} programs a lookup object of programs, used to populate the "program" drop-down.
      */
     var CreateReportDialog = function (el, userConfig, programs) {
+
         var defaultConfig = {
             width: "640px",
             modal: true,
@@ -518,6 +519,9 @@ ilios.namespace('cim.widget');
      *     the configuration that should be set for this dialog.
      */
     var EditReportDialog = function (el, model, userConfig){
+
+        var Event = YAHOO.util.Event;
+
         var defaultConfig = {
             width: "640px",
             modal: true,
@@ -552,6 +556,42 @@ ilios.namespace('cim.widget');
         // report model
         this.model = model;
 
+        // calendar widgets
+        this.cal1 = new YAHOO.widget.Calendar(null, 'edit_report_start_date_calendar_container', {
+            selected: this.model.get('startDate'),
+            iframe: false,
+            close: true,
+            pagedate: new Date(this.model.get('startDate'))
+        });
+        this.cal2 = new YAHOO.widget.Calendar(null, 'edit_report_end_date_calendar_container', {
+            selected: this.model.get('endDate'),
+            iframe: false,
+            close: true,
+            pagedate: new Date(this.model.get('endDate'))
+        });
+
+        this.beforeRenderEvent.subscribe(function () {
+
+            this.cal1.selectEvent.subscribe(this.selectCalendar, {
+                calendar: this.cal1,
+                targetEl: document.getElementById('edit_report_start_date')
+            });
+            this.cal1.render();
+
+            this.cal2.selectEvent.subscribe(this.selectCalendar, {
+                calendar: this.cal2,
+                targetEl: document.getElementById('edit_report_end_date')
+            });
+            this.cal2.render();
+
+            Event.addListener('edit_report_start_date_button', 'click', this.onCalendarButtonClick, {
+                calendar: this.cal1
+            }, this);
+            Event.addListener('edit_report_end_date_button', 'click', this.onCalendarButtonClick, {
+                calendar: this.cal2
+            }, this);
+        });
+
         // clear out the dialog and center it before showing it.
         this.beforeShowEvent.subscribe(function () {
             this.reset();
@@ -564,6 +604,7 @@ ilios.namespace('cim.widget');
         });
 
         this.cancelEvent.subscribe(function () {
+            this.resetCalendars();
             this.reset();
         });
 
@@ -608,8 +649,8 @@ ilios.namespace('cim.widget');
             // update the model
             model.set('name', parsedResponse.report.name);
             model.set('description', parsedResponse.report.description);
-            model.set('endDate', parsedResponse.report.endDate);
-            model.set('startDate', parsedResponse.report.startDate);
+            model.set('endDate', parsedResponse.report.end_date);
+            model.set('startDate', parsedResponse.report.start_date);
             dialog.cancel();
         };
 
@@ -620,6 +661,20 @@ ilios.namespace('cim.widget');
         };
 
         this.callback.argument = this;
+
+        this.selectCalendar = function (type, args, obj) {
+            var cal = obj.calendar;
+            var el = obj.targetEl;
+            if (args[0]) {
+                var dt = new Date(args[0]);
+                el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
+            }
+            cal.hide();
+        };
+
+        this.onCalendarButtonClick = function (event, obj) {
+            obj.calendar.show();
+        };
 
         this.render();
     };
@@ -635,6 +690,17 @@ ilios.namespace('cim.widget');
         },
         reset: function () {
             document.getElementById('report_update_status').innerHTML = '';
+        },
+        resetCalendars: function () {
+            this.cal1.cfg.setProperty('selected', this.model.get('startDate'), false);
+            this.cal1.cfg.setProperty('pagedate', new Date(this.model.get('startDate')), false);
+            this.cal1.render();
+            this.cal1.hide();
+
+            this.cal2.cfg.setProperty('selected', this.model.get('endDate'), false);
+            this.cal2.cfg.setProperty('pagedate', new Date(this.model.get('endDate')), false);
+            this.cal2.render();
+            this.cal2.hide();
         }
     });
 

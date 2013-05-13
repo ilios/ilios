@@ -271,7 +271,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
-
         // updates the report record
         $this->db->trans_start();
         $this->invReport->update($reportId, $reportName, $reportDescription, $startDate, $endDate);
