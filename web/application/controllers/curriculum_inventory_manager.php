@@ -383,7 +383,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         // set the cookie containing the download token
-        setcookie('download-token', $downloadToken);
+        $this->input->set_cookie('download-token', $downloadToken, 0);
 
         // all is good, output the XML
         header('Content-Type: application/xml; charset="utf8"');
