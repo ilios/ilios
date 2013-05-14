@@ -12,6 +12,7 @@
  *     ilios_i18nVendor
  *     YUI Dom/Event/Element libs
  *     YUI Container libs
+ *     YUI Cookie lib
  */
 ilios.namespace('cim.model');
 ilios.namespace('cim.view');
@@ -64,7 +65,7 @@ ilios.namespace('cim.widget');
 
         if (payload.hasOwnProperty('report')) {
             this.reportModel = new ilios.cim.model.ReportModel(payload.report);
-            this.reportView = new ilios.cim.view.ReportView(this.reportModel);
+            this.reportView = new ilios.cim.view.ReportView(this.reportModel, this);
             this.academicLevels = payload.academic_levels;
             this.sequenceBlock = payload.sequence_block;
             this.sequenceBlocks = payload.sequence_blocks;
@@ -185,11 +186,37 @@ ilios.namespace('cim.widget');
     var Lang = YAHOO.lang,
         Dom = YAHOO.util.Dom,
         Element = YAHOO.util.Element,
-        Event = YAHOO.util.Event;
+        Event = YAHOO.util.Event,
+        Cookie = YAHOO.util.Cookie;
 
-    var ReportView = function (model, oConfig) {
+    var ReportView = function (model, app, oConfig) {
         ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'), oConfig);
+
         this.model = model;
+        this.app = app;
+
+        // report export handlers
+        // @link http://geekswithblogs.net/GruffCode/archive/2010/10/28/detecting-the-file-download-dialog-in-the-browser.aspx
+        //
+        this.downloadIntervalTimer;
+        this.blockUIForDownload = function () {
+            var token = (new Date()).getTime();
+            (new Element('report-details-view-export-button')).set('disabled', true);
+            this.set('downloadToken', token);
+            this.downloadIntervalTimer = Lang.later(1000, this, function (data) {
+                var cookieValue = Cookie.get('download-token');
+                if (cookieValue == token) {
+                    this.finishDownload();
+                }
+            }, [], true);
+        };
+        this.finishDownload = function () {
+            this.downloadIntervalTimer.cancel();
+            Cookie.remove('fileDownloadToken');
+            (new Element('report-details-view-export-button')).set('disabled', false);
+        };
+
+        // subscribe to model changes
         this.model.subscribe('nameChange', this.onNameChange, {}, this);
         this.model.subscribe('descriptionChange', this.onDescriptionChange, {}, this);
         this.model.subscribe('startDateChange', this.onStartDateChange, {}, this);
@@ -224,6 +251,15 @@ ilios.namespace('cim.widget');
                 writeOnce: true,
                 value: Dom.get('report-details-view-program')
             });
+            this.setAttributeConfig('reportIdEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-export-report-id')
+            });
+            this.setAttributeConfig('downloadTokenEl', {
+                writeOnce: true,
+                value: Dom.get('report-details-view-export-download-token')
+            });
+
 
             this.setAttributeConfig('name', {
                 validator: Lang.isString,
@@ -284,16 +320,35 @@ ilios.namespace('cim.widget');
                     }
                 }
             });
+            this.setAttributeConfig('reportId', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('reportIdEl');
+                    if (el) {
+                        el.value = value;
+                    }
+                },
+                value: ''
+            });
+            this.setAttributeConfig('downloadToken', {
+                method: function (value) {
+                    var el = this.get('downloadTokenEl');
+                    if (el) {
+                        el.value = value;
+                    }
+                }
+            });
         },
         render: function () {
-            //
+
             this.set('name', this.model.get('name'));
             this.set('description', this.model.get('description'));
             this.set('academicYear', this.model.get('academicYear'));
             this.set('startDate', this.model.get('startDate'));
             this.set('endDate', this.model.get('endDate'));
             this.set('program', this.model.get('program'));
-            //this.set('exportLink', this.model.get('id'));
+            this.set('reportId', this.model.get('id'));
+
 
             //
             // wire dialog buttons
@@ -303,18 +358,20 @@ ilios.namespace('cim.widget');
                 Event.stopEvent(event);
                 return false;
             });
-            Event.addListener('report-details-view-edit-button', 'click', function(event, obj) {
+            Event.addListener('report-details-view-edit-button', 'click', function(event) {
                 if (! this.editReportDialog) {
                     this.editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog', this.model);
                 }
                 this.editReportDialog.show();
                 Event.stopEvent(event);
                 return false;
-            },{}, this);
+            }, {}, this);
+
+            Event.addListener('report-details-view-export-form', 'submit', this.blockUIForDownload, {}, this);
 
             // enable buttons
-            (new YAHOO.util.Element('report-details-view-edit-button')).set('disabled', false);
-            (new YAHOO.util.Element('report-details-view-export-button')).set('disabled', false);
+            (new Element('report-details-view-edit-button')).set('disabled', false);
+            (new Element('report-details-view-export-button')).set('disabled', false);
          },
         show: function () {
             this.setStyle('display', 'block');
@@ -665,8 +722,9 @@ ilios.namespace('cim.widget');
         this.selectCalendar = function (type, args, obj) {
             var cal = obj.calendar;
             var el = obj.targetEl;
+            var dt;
             if (args[0]) {
-                var dt = new Date(args[0]);
+                dt = new Date(args[0]);
                 el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
             }
             cal.hide();

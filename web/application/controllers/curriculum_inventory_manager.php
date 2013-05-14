@@ -333,8 +333,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     /**
      * This action exports a requested curriculum inventory report as XML document.
      *
-     * It accepts the following query string parameters:
+     * It expects the following query string parameters:
      *    'report_id' ... the report id
+     *    'download_token' ... the download token
      */
     public function export ()
     {
@@ -353,6 +354,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         // input validation
         $reportId = (int) $this->input->get('report_id');
+        $downloadToken = filter_var($this->input->get('download_token'), FILTER_SANITIZE_NUMBER_INT);
         if (0 >= $reportId) {
             show_error('Missing or invalid report id.');
             return;
@@ -379,6 +381,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             log_message('error', 'CIM export: Failed to convert XML to its String representation.');
             show_error('An error occurred while exporting the curriculum inventory report.');
         }
+
+        // set the cookie containing the download token
+        setcookie('download-token', $downloadToken);
 
         // all is good, output the XML
         header('Content-Type: application/xml; charset="utf8"');

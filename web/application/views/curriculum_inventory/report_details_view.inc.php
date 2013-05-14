@@ -6,6 +6,7 @@
  *
  * Available template variables:
  *    $lang ... The language key.
+ *    $controllerURL ... The url to "curriculum inventory manager" controller.
  *
  * @see application/views/curriculum_inventory/index.php
  * @see application/views/js/ilios.cim.js
@@ -58,9 +59,15 @@
             <button disabled="disabled" class="medium radius button" id="report-details-view-edit-button">
                 <?php echo $this->languagemap->t('general.terms.edit', $lang); ?>
             </button>
-            <button disabled="disabled" class="medium radius button" id="report-details-view-export-button">
-                <?php echo $this->languagemap->t('general.terms.export', $lang); ?>
-            </button>
+            <form id="report-details-view-export-form"
+                  action="<?php echo $controllerURL; ?>/export"
+                  method="GET" style="display:inline">
+                <button class="medium radius button" id="report-details-view-export-button">
+                    <?php echo $this->languagemap->t('general.terms.export', $lang); ?>
+                </button>
+                <input type="hidden" id="report-details-view-export-download-token" name="download_token" value="" />
+                <input type="hidden" id="report-details-view-export-report-id" name="report_id" value="" />
+            </form>
             <button disabled="disabled" class="medium radius button" id="report-details-view-delete-button">
                 <?php echo $this->languagemap->t('general.phrases.delete', $lang); ?>
             </button>
