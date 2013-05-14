@@ -42,6 +42,9 @@ ilios.namespace('cim.widget');
         // set module configuration
         this.config = Lang.isObject(config) ? config : {};
 
+        this.statusView = new ilios.cim.view.StatusView();
+        this.statusView.render('status-toolbar');
+
         // wire dialogs to buttons
         Event.addListener('pick_reports_btn', 'click', function (event) {
             if (! this.reportPickerDialog) { // instantiate on demand
@@ -65,7 +68,16 @@ ilios.namespace('cim.widget');
 
         if (payload.hasOwnProperty('report')) {
             this.reportModel = new ilios.cim.model.ReportModel(payload.report);
-            this.reportView = new ilios.cim.view.ReportView(this.reportModel, this);
+            this.reportView = new ilios.cim.view.ReportView(this.reportModel);
+            this.reportView.subscribe('exportStarted', function() {
+                this.show('Started Report Export &hellip;', true);
+            }, this.statusView, true);
+            this.reportView.subscribe('exportFinished', function () {
+                this.reset();
+            }, this.statusView, true);
+            this.reportModel.subscribe('afterUpdate', function () {
+                this.show('Report updated.', false);
+            }, this.statusView, true);
             this.academicLevels = payload.academic_levels;
             this.sequenceBlock = payload.sequence_block;
             this.sequenceBlocks = payload.sequence_blocks;
@@ -75,6 +87,15 @@ ilios.namespace('cim.widget');
             this.reportView.show();
         }
     };
+
+    App.getStatusView = function () {
+        return this.statusView;
+    };
+
+    App.getConfig = function () {
+        return this.config;
+    };
+
     ilios.cim.App = App;
 }());
 
@@ -120,7 +141,7 @@ ilios.namespace('cim.widget');
                 value: clientId
             });
 
-            this.createEvent('change');
+            // this.createEvent('change');
         },
         NAME: 'baseModel',
         ID_ATTRIBUTE_NAME: 'dbId',
@@ -170,6 +191,7 @@ ilios.namespace('cim.widget');
                 value: endDate,
                 validator: Lang.isString
             });
+            this.createEvent('afterUpdate');
         },
         NAME: 'curriculumInventoryReport',
         ID_ATTRIBUTE_NAME: 'report_id'
@@ -189,32 +211,76 @@ ilios.namespace('cim.widget');
         Event = YAHOO.util.Event,
         Cookie = YAHOO.util.Cookie;
 
-    var ReportView = function (model, app, oConfig) {
+    var StatusView = function (oConfig) {
+        StatusView.superclass.constructor.call(this, document.createElement('div'), oConfig);
+    };
+
+    Lang.extend(StatusView, Element, {
+        initAttributes: function (config) {
+            StatusView.superclass.initAttributes.call(this, config);
+
+            var container = this.get('element');
+
+            this.setAttributeConfig('progressEl', {
+                writeOnce: true,
+                value: container.appendChild(document.createElement('div'))
+            });
+
+            this.setAttributeConfig('messageEl', {
+                writeOnce: true,
+                value: container.appendChild(document.createElement('span'))
+            });
+
+            this.setAttributeConfig('message', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('messageEl');
+                    if (el) {
+                        el.innerHTML = value;
+                    }
+                },
+                value: ''
+            });
+        },
+        render: function (parentEl) {
+            parentEl = Dom.get(parentEl);
+            var containerEl = this.get('element');
+            this.addClass('status-view-container');
+            this.setStyle('display', 'none');
+            var progressEl = this.get('progressEl');
+            Dom.addClass(progressEl, 'in-progress-indicator');
+            Dom.setStyle(progressEl, 'display', 'none');
+            parentEl.appendChild(containerEl);
+        },
+        reset: function () {
+            this.show('', false)
+        },
+        show: function (message, showProgressIndicator) {
+            showProgressIndicator = showProgressIndicator || false;
+            Dom.setStyle(this.get('progressEl'), 'display', (showProgressIndicator ? 'inline-block' : 'none'));
+            this.set('message', message);
+            this.setStyle('display', 'block');
+        },
+        hide: function () {
+            this.setStyle('display', 'none');
+        }
+    });
+
+    ilios.cim.view.StatusView = StatusView;
+
+    /**
+     * The view for a given report model.
+     * @namespace ilios.cim.view
+     * @class ReportView
+     * @constructor
+     * @extends YAHOO.util.Element
+     * @param {ilios.cim.model.ReportModel} model The report model.
+     * @param {Object} oConfig A configuration object.
+     */
+    var ReportView = function (model, oConfig) {
         ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'), oConfig);
 
         this.model = model;
-        this.app = app;
-
-        // report export handlers
-        // @link http://geekswithblogs.net/GruffCode/archive/2010/10/28/detecting-the-file-download-dialog-in-the-browser.aspx
-        //
-        this.downloadIntervalTimer;
-        this.blockUIForDownload = function () {
-            var token = (new Date()).getTime();
-            (new Element('report-details-view-export-button')).set('disabled', true);
-            this.set('downloadToken', token);
-            this.downloadIntervalTimer = Lang.later(1000, this, function (data) {
-                var cookieValue = Cookie.get('download-token');
-                if (cookieValue == token) {
-                    this.finishDownload();
-                }
-            }, [], true);
-        };
-        this.finishDownload = function () {
-            this.downloadIntervalTimer.cancel();
-            Cookie.remove('fileDownloadToken');
-            (new Element('report-details-view-export-button')).set('disabled', false);
-        };
 
         // subscribe to model changes
         this.model.subscribe('nameChange', this.onNameChange, {}, this);
@@ -224,6 +290,25 @@ ilios.namespace('cim.widget');
     };
 
     Lang.extend(ReportView, Element, {
+        _downloadIntervalTimer: null,
+        _blockUIForDownload: function () {
+            var token = (new Date()).getTime();
+            (new Element('report-details-view-export-button')).set('disabled', true);
+            this.fireEvent('exportStarted');
+            this.set('downloadToken', token);
+            this._downloadIntervalTimer = Lang.later(1000, this, function () {
+                var cookieValue = Cookie.get('download-token');
+                if (cookieValue == token) {
+                    this._finishDownload();
+                }
+            }, [], true);
+        },
+        _finishDownload: function () {
+            this._downloadIntervalTimer.cancel();
+            Cookie.remove('fileDownloadToken');
+            (new Element('report-details-view-export-button')).set('disabled', false);
+            this.fireEvent('exportFinished');
+        },
         initAttributes : function (config) {
             ReportView.superclass.initAttributes.call(this, config);
 
@@ -338,6 +423,9 @@ ilios.namespace('cim.widget');
                     }
                 }
             });
+
+            this.createEvent('exportStarted');
+            this.createEvent('exportFinished');
         },
         render: function () {
 
@@ -367,12 +455,12 @@ ilios.namespace('cim.widget');
                 return false;
             }, {}, this);
 
-            Event.addListener('report-details-view-export-form', 'submit', this.blockUIForDownload, {}, this);
+            Event.addListener('report-details-view-export-form', 'submit', this._blockUIForDownload, {}, this);
 
             // enable buttons
             (new Element('report-details-view-edit-button')).set('disabled', false);
             (new Element('report-details-view-export-button')).set('disabled', false);
-         },
+        },
         show: function () {
             this.setStyle('display', 'block');
         },
@@ -397,6 +485,11 @@ ilios.namespace('cim.widget');
 // widgets sub-module
 //
 (function () {
+
+    var Event = YAHOO.util.Event,
+        CustomEvent = YAHOO.util.CustomEvent,
+        Dom = YAHOO.util.Dom,
+        Lang = YAHOO.lang;
 
     /**
      * "Create Report" dialog.
@@ -435,11 +528,11 @@ ilios.namespace('cim.widget');
             ]
         };
 
-        this.programs = YAHOO.lang.isObject(programs) ? programs : {};
+        this.programs = Lang.isObject(programs) ? programs : {};
 
         // merge the user config with the default configuration
         userConfig = userConfig || {};
-        var config = YAHOO.lang.merge(defaultConfig, userConfig);
+        var config = Lang.merge(defaultConfig, userConfig);
 
         // call the parent constructor with the merged config
         CreateReportDialog.superclass.constructor.call(this, el, config);
@@ -457,8 +550,7 @@ ilios.namespace('cim.widget');
 
         // append the program as options to the dropdown
         this.renderEvent.subscribe(function () {
-            var Dom = YAHOO.util.Dom,
-                key, program,
+            var key, program,
                 el, parentEl;
 
             var parentEl = document.getElementById('new_report_program');
@@ -484,7 +576,7 @@ ilios.namespace('cim.widget');
         this.callback.success = function (resultObject) {
             var parsedResponse;
             try {
-                parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
+                parsedResponse = Lang.JSON.parse(resultObject.responseText);
             } catch (e) {
                 document.getElementById('report_creation_status').innerHTML
                     = ilios_i18nVendor.getI18NString('curriculum_inventory.create.error.general');
@@ -516,14 +608,13 @@ ilios.namespace('cim.widget');
 
         // form validation function
         this.validate = function () {
-            var Dom = YAHOO.util.Dom;
             var data = this.getData();
             var msgs = [];
-            if ('' === YAHOO.lang.trim(data.report_name)) {
+            if ('' === Lang.trim(data.report_name)) {
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_name'));
                 Dom.addClass('new_report_name', 'validation-failed');
             }
-            if ('' === YAHOO.lang.trim(data.report_description)) {
+            if ('' === Lang.trim(data.report_description)) {
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_description'));
                 Dom.addClass('new_report_description', 'validation-failed');
             }
@@ -548,10 +639,9 @@ ilios.namespace('cim.widget');
         this.render();
     };
 
-    YAHOO.lang.extend(CreateReportDialog, YAHOO.widget.Dialog, {
+    Lang.extend(CreateReportDialog, YAHOO.widget.Dialog, {
         // clear out form, reset status field etc.
         reset : function () {
-            var Dom = YAHOO.util.Dom;
             document.getElementById('report_creation_status').innerHTML = '';
             document.getElementById('new_report_name').value = '';
             document.getElementById('new_report_description').value = '';
@@ -576,8 +666,6 @@ ilios.namespace('cim.widget');
      *     the configuration that should be set for this dialog.
      */
     var EditReportDialog = function (el, model, userConfig){
-
-        var Event = YAHOO.util.Event;
 
         var defaultConfig = {
             width: "640px",
@@ -605,7 +693,7 @@ ilios.namespace('cim.widget');
 
         // merge the user config with the default configuration
         userConfig = userConfig || {};
-        var config = YAHOO.lang.merge(defaultConfig, userConfig);
+        var config = Lang.merge(defaultConfig, userConfig);
 
         // call the parent constructor with the merged config
         EditReportDialog.superclass.constructor.call(this, el, config);
@@ -666,14 +754,13 @@ ilios.namespace('cim.widget');
         });
 
         this.validate = function () {
-            var Dom = YAHOO.util.Dom;
             var data = this.getData();
             var msgs = [];
-            if ('' === YAHOO.lang.trim(data.report_name)) {
+            if ('' === Lang.trim(data.report_name)) {
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_name'));
                 Dom.addClass('edit_report_name', 'validation-failed');
             }
-            if ('' === YAHOO.lang.trim(data.report_description)) {
+            if ('' === Lang.trim(data.report_description)) {
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.create.validate.report_description'));
                 Dom.addClass('edit_report_description', 'validation-failed');
             }
@@ -690,7 +777,7 @@ ilios.namespace('cim.widget');
             var model = dialog.model;
             var parsedResponse;
             try {
-                parsedResponse = YAHOO.lang.JSON.parse(resultObject.responseText);
+                parsedResponse = Lang.JSON.parse(resultObject.responseText);
             } catch (e) {
                 document.getElementById('report_update_status').innerHTML
                     = ilios_i18nVendor.getI18NString('curriculum_inventory.update.error.general');
@@ -708,6 +795,7 @@ ilios.namespace('cim.widget');
             model.set('description', parsedResponse.report.description);
             model.set('endDate', parsedResponse.report.end_date);
             model.set('startDate', parsedResponse.report.start_date);
+            model.fireEvent('afterUpdate');
             dialog.cancel();
         };
 
@@ -738,7 +826,7 @@ ilios.namespace('cim.widget');
     };
 
     // inheritance
-    YAHOO.lang.extend(EditReportDialog, YAHOO.widget.Dialog, {
+    Lang.extend(EditReportDialog, YAHOO.widget.Dialog, {
         populateForm: function () {
             document.getElementById('edit_report_name').value = this.model.get('name');
             document.getElementById('edit_report_description').value = this.model.get('description');
@@ -774,9 +862,6 @@ ilios.namespace('cim.widget');
      */
     var ReportPickerDialog = function (el, userConfig) {
 
-        var Event = YAHOO.util.Event;
-        var KEY = YAHOO.util.KeyListener.KEY;
-
         var defaultConfig = {
             width: "600px",
             modal: true,
@@ -795,7 +880,7 @@ ilios.namespace('cim.widget');
         };
         // merge the user config with the default configuration
         userConfig = userConfig || {};
-        var config = YAHOO.lang.merge(defaultConfig, userConfig);
+        var config = Lang.merge(defaultConfig, userConfig);
 
         // call the parent constructor with the merged config
         ReportPickerDialog.superclass.constructor.call(this, el, config);
@@ -809,7 +894,7 @@ ilios.namespace('cim.widget');
     };
 
     // inheritance
-    YAHOO.lang.extend(ReportPickerDialog, YAHOO.widget.Dialog);
+    Lang.extend(ReportPickerDialog, YAHOO.widget.Dialog);
 
     ilios.cim.widget.CreateReportDialog = CreateReportDialog;
     ilios.cim.widget.ReportPickerDialog = ReportPickerDialog;

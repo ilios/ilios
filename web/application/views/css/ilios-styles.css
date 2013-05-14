@@ -1404,6 +1404,25 @@ fieldset > .row {
     color: #F00;
 }
 
+/* page-status view */
+.status-view-container {
+    color: #666;
+    font-size: 0.8em;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.status-view-container .in-progress-indicator {
+    display: inline-block;
+    background: url("../images/loading.gif") no-repeat scroll 0 0 transparent;
+    height: 20px;
+    margin: 0 9px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 20px;
+}
+
 /*************************************/
 /*     YUI Overrides                 */
 /*  don't edit yui-widget.css rules  */

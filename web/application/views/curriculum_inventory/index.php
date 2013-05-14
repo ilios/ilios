@@ -90,6 +90,13 @@ $viewsPath = getServerFilePath('views');
                 </ul>
             </div>
 <?php include 'report_details_view.inc.php'; ?>
+            <div id="status-toolbar"></div>
+            <!--
+            <div id="status-view" class="status-view-container" style="display:none;">
+                <div class="in-progress-indicator" style="display:none;"></div>
+                <span></span>
+            </div>
+            -->
         </div>
     </div>
 </div>
