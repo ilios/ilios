@@ -59,9 +59,7 @@
             <button disabled="disabled" class="medium radius button" id="report-details-view-edit-button">
                 <?php echo $this->languagemap->t('general.terms.edit', $lang); ?>
             </button>
-            <form id="report-details-view-export-form"
-                  action="<?php echo $controllerURL; ?>/export"
-                  method="GET" style="display:inline">
+            <form id="report-details-view-export-form" action="<?php echo $controllerURL; ?>/export" method="GET" class="inline-form">
                 <button class="medium radius button" id="report-details-view-export-button">
                     <?php echo $this->languagemap->t('general.terms.export', $lang); ?>
                 </button>

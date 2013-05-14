@@ -456,6 +456,10 @@ textarea.validation-failed {
 
 h3 span, h4 span {font-weight: normal;}
 
+form.inline-form {
+    display: inline;
+}
+
 fieldset {
     border: 1px solid #CCC;
     padding:.5em .5em 1em;
