@@ -333,9 +333,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     /**
      * This action exports a requested curriculum inventory report as XML document.
      *
-     * It expects the following query string parameters:
+     * It expects the following POST parameters:
      *    'report_id' ... the report id
      *    'download_token' ... the download token
+     *
+     * On success, it set a cookie containing the given download token and then prints out the requested report document.
+     * On failure, an error page will be printed.
      */
     public function export ()
     {
@@ -359,8 +362,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             show_error('Missing or invalid report id.');
             return;
         }
-
-        // @todo conditionally load the "finalized" report from the database
 
         // generate and export the report to XML
         try {
@@ -389,5 +390,110 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         header('Content-Type: application/xml; charset="utf8"');
         header('Content-disposition: attachment; filename="report.xml"');
         echo $out;
+    }
+
+    /**
+     * This action deletes a requested report and all of it's associated inventory-specific data points.
+     *
+     * It expects the following POST parameters::
+     *    'report_id' ... the report id
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "success", which contains the value "true".
+     * On failure, the object contains a property "error", which contains an error message.
+     */
+    public function delete ()
+    {
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
+
+        // input validation
+        $reportId = (int) $this->input->get('report_id');
+        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
+        if (! $invReport) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            return;
+        }
+        // delete the report and associated records
+        $this->db->trans_start();
+        $this->invReport->delete($reportId);
+        $this->invAcademicYear->deleteAll($reportId);
+        $this->invSequence->delete($reportId);
+        $this->invSequenceBlock->deleteAll($reportId);
+        $this->db->trans_complete();
+        if (false === $this->db->trans_status()) {
+            $this->_printErrorXhrResponse('curriculum_inventory.delete.error.general', $lang);
+            return;
+        }
+        $rhett = array('success' => 'true');
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
+    /**
+     * This action retrieves a finalized report document from the database.
+     *
+     * It expects the following POST parameters:
+     *    'report_id' ... the report id
+     *    'download_token' ... the download token
+     *
+     * On success, it set a cookie containing the given download token and then prints out the requested report document.
+     * On failure, an error page will be printed.
+     */
+    public function download ()
+    {
+        // @todo implement
+    }
+
+    /**
+     * This action generates an inventory report, stores it in the database and flags the associated report record
+     * as "finalized".
+     *
+     * It expects the following POST parameters::
+     *    'report_id' ... the report id
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "success", which contains the value "true".
+     * On failure, the object contains a property "error", which contains an error message.
+     */
+    public function finalize ()
+    {
+        // @todo implement
+    }
+
+    /**
+     * @todo add code docs
+     */
+    public function createSequenceBlock ()
+    {
+        // @todo implement
+    }
+
+    /**
+     * @todo add code docs
+     */
+    public function updateSequenceBlock ()
+    {
+        // @todo implement
+    }
+
+    /**
+     * @todo add code docs
+     */
+    public function deleteSequenceBlock ()
+    {
+        // @todo implement
     }
 }

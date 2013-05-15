@@ -107,4 +107,13 @@ EOL;
         $query->free_result();
         return $rhett;
     }
+
+    /**
+     * Deletes a given report.
+     * @param int $reportId The report id.
+     */
+    public function delete ($reportId)
+    {
+        $this->db->delete($this->databaseTableName, array('report_id' => $reportId));
+    }
 }

@@ -42,4 +42,13 @@ class Curriculum_Inventory_Sequence extends Ilios_Base_Model
         $this->db->where('report_id', $reportId);
         return $this->db->update($this->databaseTableName, $data);
     }
+
+    /**
+     * Deletes the sequence for a given report.
+     * @param int $reportId The report id.
+     */
+    public function delete ($reportId)
+    {
+        $this->db->delete($this->databaseTableName, array('report_id' => $reportId));
+    }
 }

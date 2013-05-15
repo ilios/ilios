@@ -92,4 +92,13 @@ EOL;
         $query->free_result();
         return $rhett;
     }
+
+    /**
+     * Deletes all academic levels for a given report.
+     * @param int $reportId The report id.
+     */
+    public function deleteAll ($reportId)
+    {
+        $this->db->delete($this->databaseTableName, array('report_id' => $reportId));
+    }
 }
