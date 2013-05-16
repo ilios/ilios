@@ -26,7 +26,7 @@ $viewsPath = getServerFilePath('views');
         More info: h5bp.com/i/378 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title><?php echo $this->languagemap->t('curriculum_inventory.title_bar', $lang) ?></title>
+    <title><?php echo $this->languagemap->t('curriculum_inventory.title_bar', $lang); ?></title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -74,7 +74,7 @@ $viewsPath = getServerFilePath('views');
     <div id="main" role="main">
 
         <div id="content" class="clearfix">
-            <h2 class="page-header"><?php echo $this->languagemap->t('curriculum_inventory.page_header', $lang) ?></h2>
+            <h2 class="page-header"><?php echo $this->languagemap->t('curriculum_inventory.page_header', $lang); ?></h2>
             <div class="master_button_container clearfix">
                 <ul class="buttons left">
                     <li>
@@ -91,12 +91,6 @@ $viewsPath = getServerFilePath('views');
             </div>
 <?php include 'report_details_view.inc.php'; ?>
             <div id="status-toolbar"></div>
-            <!--
-            <div id="status-view" class="status-view-container" style="display:none;">
-                <div class="in-progress-indicator" style="display:none;"></div>
-                <span></span>
-            </div>
-            -->
         </div>
     </div>
 </div>
