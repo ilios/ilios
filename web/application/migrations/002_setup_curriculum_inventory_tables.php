@@ -42,8 +42,8 @@ CREATE TABLE `curriculum_inventory_report` (
     `end_date` DATE NOT NULL,
     PRIMARY KEY (`report_id`),
     UNIQUE INDEX `program_id_year` (`program_id`, `year`),
-    CONSTRAINT `fkey_curriculum_inventory_report_program_id` 
-        FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`) 
+    CONSTRAINT `fkey_curriculum_inventory_report_program_id`
+        FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
@@ -123,7 +123,25 @@ DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
-
+        $this->db->query($sql);
+        $sql =<<<EOL
+CREATE TABLE `curriculum_inventory_export` (
+    `report_id` INT(10) UNSIGNED NOT NULL,
+    `document` MEDIUMTEXT NOT NULL COLLATE 'utf8_unicode_ci',
+    `created_by` INT(10) UNSIGNED NOT NULL,
+    `created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`report_id`),
+    CONSTRAINT `fkey_curriculum_inventory_export_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `fkey_curriculum_inventory_export_user_id`
+        FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`)
+        ON UPDATE RESTRICT ON DELETE NO ACTION
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB
+EOL;
         $this->db->query($sql);
         $this->db->trans_complete();
     }
@@ -134,6 +152,7 @@ EOL;
     public function down ()
     {
         $this->db->trans_start();
+        $this->db->query("DROP TABLE `curriculum_inventory_export`");
         $this->db->query("DROP TABLE `curriculum_inventory_sequence_block`");
         $this->db->query("DROP TABLE `curriculum_inventory_academic_level`");
         $this->db->query("DROP TABLE `curriculum_inventory_sequence`");

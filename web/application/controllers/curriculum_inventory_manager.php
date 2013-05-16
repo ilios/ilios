@@ -46,6 +46,10 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->load->model('Curriculum_Inventory_Sequence_Block', 'invSequenceBlock', true);
         }
 
+        if (! property_exists($this, 'invExport')) {
+            $this->load->model('Curriculum_Inventory_Export', 'invExport', true);
+        }
+
         if (! property_exists($this, 'program')) {
             $this->load->model('Program', 'program', true);
         }
@@ -104,6 +108,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                 return;
             }
             $program = $this->program->getRowForPrimaryKeyId($report->program_id);
+            $report->finalized = $this->invExport->exists($reportId);
             $report->program = $program;
             $academicLevels = $this->invAcademicLevel->getLevels($report->report_id);
             $linkedCourses = $this->inventory->getLinkedCourses($report->report_id);
@@ -428,9 +433,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // delete the report and associated records
         $this->db->trans_start();
         $this->invReport->delete($reportId);
-        $this->invAcademicYear->deleteAll($reportId);
-        $this->invSequence->delete($reportId);
-        $this->invSequenceBlock->deleteAll($reportId);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
             $this->_printErrorXhrResponse('curriculum_inventory.delete.error.general', $lang);
