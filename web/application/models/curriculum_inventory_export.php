@@ -23,9 +23,8 @@ class Curriculum_Inventory_Export extends Ilios_Base_Model
     public function exists ($reportId)
     {
         $rhett = false;
-        $this->db->where('report_id', $reportId);
-        $this->db->from($this->databaseTableName);
-        if ($this->db->count_all_results()) {
+        $row = $this->getRowForPrimaryKeyId($reportId);
+        if ($row) {
             $rhett = true;
         }
         return $rhett;
