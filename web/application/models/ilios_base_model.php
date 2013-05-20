@@ -189,28 +189,6 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * Retrieves all records from a model's table as an array of associative arrays.
-     *
-     * @param boolean $checkForDelete If TRUE then records marked as 'deleted' will be filtered out.
-     * @return array an array of associative arrays. Each item represents a record in the queried table.
-     */
-    public function getTableContentsAsArray ($checkForDelete = false)
-    {
-        $rhett = array();
-
-        if ($checkForDelete) {
-            $this->db->where('deleted', 0);
-        }
-
-        $queryResults = $this->db->get($this->databaseTableName);
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
-        }
-
-        return $rhett;
-    }
-
-    /**
      * Returns the language key as specified in the application configuration.
      *
      * @see Abstract_Ilios_Controller::getLangToUse()
