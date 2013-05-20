@@ -1,27 +1,42 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * This base class embodies the common functionality featured across all Ilios model objects.
+ * @package Ilios
  *
- * TODO nead a serialize and unserialized methods for the audit event functionality to work; make
- *          sure we're not re-inventing the wheel
+ * Base Data Access Object (DAO).
+ *
+ * Provided functionality for handling transactions and common CRUD-operations used across the entire persistence layer
+ * in Ilios.
+ * All table-specific DAOs in Ilios must inherit from this class.
  */
 abstract class Ilios_Base_Model extends CI_Model
 {
-
     /**
-     * Minimum number of characters that a given search term must possess
-     * in order for wildcard search to take precedence of exact term matching.
+     * Minimum number of characters that a given search term must possess in order for wildcard search to take
+     * precedence of exact term matching.
+     *
      * @var int
      */
     const WILDCARD_SEARCH_CHARACTER_MIN_LIMIT = 3;
 
+    /**
+     * The name of the table within the database which this model represents.
+     *
+     * @var string
+     */
     protected $databaseTableName;
+    /**
+     * The column names comprising the targeted table's primary key.
+     *
+     * @var array
+     */
     protected $databaseTablePrimaryKeyArray;
 
     /**
-     * @param string $tableName the name of the table within the database which this model represents
-     * @param array $primaryKeyArray an array of 0-N primary keys for the associated table
+     * Constructor.
+     *
+     * @param string $tableName The name of the table within the database which this model represents.
+     * @param array $primaryKeyArray The column names comprising the targeted table's primary key.
      */
     public function __construct ($tableName = 'none', $primaryKeyArray = array())
     {
@@ -31,7 +46,8 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @todo add code docs
+     * Retrieves the name of the database table that this model represents.
+     * @return string The table name.
      */
     public function getTableName ()
     {
@@ -39,7 +55,10 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @todo add code docs
+     * Starts a database transaction.
+     *
+     * @see CI_DB_driver::trans_start()
+     * @link http://ellislab.com/codeigniter/user-guide/database/transactions.html
      */
     public function startTransaction ()
     {
@@ -47,7 +66,10 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @todo add code docs
+     * Checks the status of a database transaction.
+     *
+     * @see CI_DB_driver::trans_status()
+     * @link http://ellislab.com/codeigniter/user-guide/database/transactions.html
      */
     public function transactionAtomFailed ()
     {
@@ -55,7 +77,10 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @todo add code docs
+     * Commits a database transaction.
+     *
+     * @see CI_DB_mysqli_driver::trans_commit()
+     * @link http://ellislab.com/codeigniter/user-guide/database/transactions.html
      */
     public function commitTransaction ()
     {
@@ -63,15 +88,25 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @todo add code docs
+     * Rolls back a database transaction.
+     *
+     * @see CI_DB_mysqli_driver::trans_rollback()
+     * @link http://ellislab.com/codeigniter/user-guide/database/transactions.html
      */
     public function rollbackTransaction ()
     {
         $this->db->trans_rollback();
     }
 
-    // many subclasses will want to return entire rows based on title closeness match, so we
-    //      provide that functionality here
+    /**
+     * Retrieves a query result set containing all matching records from the model's table by performing
+     * a double-sided wildcard search on the table's
+     * "title" column.
+     * matching records.
+     * @param string $match The search term.
+     * @param boolean $checkForDelete If TRUE then records marked as 'deleted' will be filtered out.
+     * @return CI_DB_result The query result object.
+     */
     public function returnRowsFilteredOnTitleMatch ($match, $checkForDelete = false)
     {
         $this->db->like('title', $match, 'both');
@@ -84,8 +119,11 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @return null if the $id does not have a row, false if the row is not published (its
-     *              publish_event_id column value is NULL), or true if it is published
+     * Checks whether a given record is flagged as 'published' in the model's table.
+     *
+     * @param mixed $id The record's primary key value.
+     * @return boolean|null NULL if the $id does not have a row, FALSE if the row is not published (its
+     *     publish_event_id column value is NULL), or TRUE if it is published.
      */
     public function isPublished ($id)
     {
@@ -100,15 +138,31 @@ abstract class Ilios_Base_Model extends CI_Model
         return (! is_null($row->publish_event_id));
     }
 
-    // another common subclass method - this uses the $this->databaseTablePrimaryKeyArray[0]
-    //      as the column name. returns null if no row exists for the id
+    /**
+     * Retrieves a record from the model's table by its primary key.
+     *
+     * @param $id mixed The record's primary key.
+     * @param boolean $checkForDelete If TRUE then records marked as 'deleted' will be filtered out.
+     * @param int $schoolId If provided then records are further filtered checking the given value against the value in the
+     *     'owning_school_id' column.
+     * @return null|stdClass The record in the table, or NULL if none was found.
+     * @see Ilios_Base_Model::getRow()
+     */
     public function getRowForPrimaryKeyId ($id, $checkForDelete = false, $schoolId = null)
     {
         return $this->getRow($this->databaseTableName, $this->databaseTablePrimaryKeyArray[0], $id, $checkForDelete, $schoolId);
     }
 
     /**
-     * @todo add code docs
+     * Retrieves the first row from a given table matching a given value in a given column.
+     *
+     * @param string $tableName The table name.
+     * @param string $rowName The column name.
+     * @param string $id The column value.
+     * @param boolean $checkForDelete If TRUE then records marked as 'deleted' will be filtered out.
+     * @param int $schoolId If provided then records are further filtered checking the given value against the value in the
+     *     'owning_school_id' column.
+     * @return null|stdClass The first matching record in the table, or an NULL if none was found.
      */
     public function getRow ($tableName, $rowName, $id, $checkForDelete = false, $schoolId = null)
     {
@@ -133,7 +187,10 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @return an array of rows each of which are the row contents from the database table
+     * Retrieves all records from a model's table as an array of associative arrays.
+     *
+     * @param boolean $checkForDelete If TRUE then records marked as 'deleted' will be filtered out.
+     * @return array an array of associative arrays. Each item represents a record in the queried table.
      */
     public function getTableContentsAsArray ($checkForDelete = false)
     {
@@ -153,8 +210,9 @@ abstract class Ilios_Base_Model extends CI_Model
 
     /**
      * Returns the language key as specified in the application configuration.
+     *
      * @see Abstract_Ilios_Controller::getLangToUse()
-     * @return string
+     * @return string The language key.
      */
     protected function getLangToUse ()
     {
@@ -162,14 +220,15 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @todo add code docs
-     * @param string $table
-     * @param string $column
-     * @param string $uniquingColumn
-     * @param int|string $uniquingId
-     * @return array|NULL
+     * Retrieves a list of ids from a target column in a JOIN table that are matching a given constraining value.
+     * @param string $table The table name.
+     * @param string $column The name of the target column.
+     * @param string $uniquingColumn The name of the constraining column.
+     * @param mixed $uniquingId The value in the constraining column.
+     * @return array|null an array of target ids, or NULL if none were found.
      */
-    protected function getIdArrayFromCrossTable ($table, $column, $uniquingColumn, $uniquingId) {
+    protected function getIdArrayFromCrossTable ($table, $column, $uniquingColumn, $uniquingId)
+    {
         $queryResults = null;
         $rhett = null;
 
@@ -189,10 +248,17 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * @return checks to see if the couplet-exists and inserts it if not; returns 1 if it already
-     *              existed or the insert was successful, 0 on an error
+     * Checks if a given couplet exists in the given JOIN table and inserts it if does not.
+     *
+     * @param string $tableName The name of the JOIN table.
+     * @param string $keyA The left- hand column name.
+     * @param mixed $valueA The left-hand column value.
+     * @param string $keyB The right-hand column name.
+     * @param mixed $valueB The right-hand column value.
+     * @return int 1 if the couplet already existed or the insert was successful, 0 on an error.
      */
-    protected function insertSingleCrossTablePair ($tableName, $keyA, $valueA, $keyB, $valueB) {
+    protected function insertSingleCrossTablePair ($tableName, $keyA, $valueA, $keyB, $valueB)
+    {
         $rhett = 0;
 
         $this->db->where($keyA, $valueA);
@@ -216,104 +282,106 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * Saves associations between a given record in table A and given records in table B
-     * in a given JOIN table.
-     * - new associations will be added
-     * - missing associations will be removed
-     * @param string $joinTblName name of the JOIN table
-     * @param string $joinColName name of the column in the JOIN table that references the given record id in table A
-     * @param int $joinId the record id from table A
-     * @param string $refColName name of the column in the JOIN table that references given record ids in table B
-     * @param array $refData the records in table B
-     * @param array|NULL $existingAssocIds record ids of already associated records in table B
-     * @param string $idName key attribute name of {$refData} elements
-     * @param array $auditAtoms auditing trail
+     * Saves associations between a given record in table A and given records in table B in a given JOIN table.
+     *
+     * Given associations that are non-existent in the database will be added. Pre-existing associations that are not
+     * in the given input will be deleted from the database.
+     *
+     * @param string $joinTblName The name of the JOIN table.
+     * @param string $joinColName The name of the column in the JOIN table that references the given record id in table A.
+     * @param int $joinId The record id from table A.
+     * @param string $refColName The name of the column in the JOIN table that references given record ids in table B.
+     * @param array $refData The records in table B.
+     * @param array|null $existingAssocIds The record ids of already associated records in table B.
+     * @param string $idName The key attribute name of {$refData} elements.
+     * @param array $auditAtoms The auditing trail.
      */
-    protected function _saveJoinTableAssociations ($joinTblName, $joinColName, $joinId,
-            $refColName, $refData = array(), $existingAssocIds = array(), $idName = 'dbId', array &$auditAtoms = array())
+    protected function _saveJoinTableAssociations ($joinTblName, $joinColName, $joinId, $refColName, $refData = array(),
+                                                   $existingAssocIds = array(), $idName = 'dbId',
+                                                   array &$auditAtoms = array())
     {
         // figure out which associations were added, removed and kept.
         $keepAssocIds = array();
         $addAssocIds = array();
         $removeAssocIds = array();
         if (! empty($existingAssocIds)) {
-        	foreach ($refData as $item) {
-        		if (in_array($item[$idName], $existingAssocIds)) { // exists?
-        			$keepAssocIds[] = $item[$idName]; // flag as "to keep"
-        		} else {
-        			$addAssocIds[] = $item[$idName]; // flag as "to add"
-        		}
-        	}
-        	$removeAssocIds = array_diff($existingAssocIds, $keepAssocIds); // find the assoc. to remove
+            foreach ($refData as $item) {
+                if (in_array($item[$idName], $existingAssocIds)) { // exists?
+                    $keepAssocIds[] = $item[$idName]; // flag as "to keep"
+                } else {
+                    $addAssocIds[] = $item[$idName]; // flag as "to add"
+                }
+            }
+            $removeAssocIds = array_diff($existingAssocIds, $keepAssocIds); // find the assoc. to remove
         } else {
-        	foreach ($refData as $item) { // add all
-        		$addAssocIds[] = $item[$idName];
-        	}
+            foreach ($refData as $item) { // add all
+                $addAssocIds[] = $item[$idName];
+            }
         }
         if (count($addAssocIds)) { // add new associations
-        	$this->_associateWithJoinTable($joinTblName, $joinColName, $joinId, $refColName, $addAssocIds, $auditAtoms);
+            $this->_associateWithJoinTable($joinTblName, $joinColName, $joinId, $refColName, $addAssocIds, $auditAtoms);
         }
         if (count($removeAssocIds)) { // remove deleted associations
-        	$this->_unassociateFromJoinTable($joinTblName, $joinColName, $joinId, $refColName, $removeAssocIds, $auditAtoms);
+            $this->_unassociateFromJoinTable($joinTblName, $joinColName, $joinId, $refColName, $removeAssocIds, $auditAtoms);
         }
     }
 
     /**
      * Associates a given record in table A with given records in table B via a JOIN table.
-     * @param string $joinTblName name of the JOIN table
-     * @param string $joinColName name of the column in the JOIN table that references the given record id in table A
-     * @param int $joinId the record id from table A
-     * @param string $refColName name of the column in the JOIN table that references given record ids in table B
-     * @param array $refIds the record ids in table B
-     * @param array $auditAtoms auditing trail
-     */
-    protected function _associateWithJoinTable ($joinTblName, $joinColName,
-            $joinId, $refColName, array $refIds = array(), array &$auditAtoms = array())
-    {
-        $refIds = array_unique($refIds); // de-dupe
-        $refIds = array_filter($refIds); // remove falsy values -  this gets rid of NULLs
-        if (count($refIds)) {
-        	foreach ($refIds as $id) {
-        		$row = array();
-        		$row[$joinColName] = $joinId;
-        		$row[$refColName] = $id;
-        		$this->db->insert($joinTblName, $row);
-        	}
-        	$auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId,
-        			$joinColName, $joinTblName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
-        }
-    }
-
-    /**
-     * Removes any associations between a given record in table A
-     * with given records in table B from a JOIN table.
-     * @param string $joinTblName name of the JOIN table
-     * @param string $joinColName name of the column in the JOIN table that references the given record id in table A
-     * @param int $joinId the record id from table A
-     * @param string $refColName name of the column in the JOIN table that references given record ids in table B
-     * @param array $refIds the record ids in table B
-     * @param array $auditAtoms auditing trail
-     */
-    protected function _unassociateFromJoinTable ($joinTblName, $joinColName,
-            $joinId, $refColName, array $refIds = array(), array &$auditAtoms = array())
-    {
-        $refIds = array_unique($refIds); // de-dupe
-        $refIds = array_filter($refIds); // remove falsy values -  this gets rid of NULLs
-        if (count($refIds)) {
-        	$this->db->where($joinColName, $joinId);
-        	$this->db->where_in($refColName, $refIds);
-        	$this->db->delete($joinTblName);
-        	$auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId,
-        	        $joinColName, $joinTblName, Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        }
-    }
-
-
-    /**
-     * Removes any entries between given tables A and B for a given record in A
-     * from a given JOIN table.
-     * Then (re)associates given records in table B with that record in table A.
      *
+     * @param string $joinTblName The name of the JOIN table.
+     * @param string $joinColName The name of the column in the JOIN table that references the given record id in table A.
+     * @param int $joinId The record id from table A.
+     * @param string $refColName The name of the column in the JOIN table that references given record ids in table B.
+     * @param array $refIds The record ids in table B.
+     * @param array $auditAtoms The auditing trail.
+     */
+    protected function _associateWithJoinTable ($joinTblName, $joinColName, $joinId, $refColName,
+                                                array $refIds = array(), array &$auditAtoms = array())
+    {
+        $refIds = array_unique($refIds); // de-dupe
+        $refIds = array_filter($refIds); // remove falsy values -  this gets rid of NULLs
+        if (count($refIds)) {
+            foreach ($refIds as $id) {
+                $row = array();
+                $row[$joinColName] = $joinId;
+                $row[$refColName] = $id;
+                $this->db->insert($joinTblName, $row);
+            }
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId, $joinColName, $joinTblName,
+                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+        }
+    }
+
+    /**
+     * Removes any associations between a given record in table A with given records in table B from a JOIN table.
+     *
+     * @param string $joinTblName The name of the JOIN table.
+     * @param string $joinColName The name of the column in the JOIN table that references the given record id in table A.
+     * @param int $joinId The record id from table A.
+     * @param string $refColName The name of the column in the JOIN table that references given record ids in table B.
+     * @param array $refIds The record ids in table B.
+     * @param array $auditAtoms The auditing trail.
+     */
+    protected function _unassociateFromJoinTable ($joinTblName, $joinColName, $joinId, $refColName,
+                                                  array $refIds = array(), array &$auditAtoms = array())
+    {
+        $refIds = array_unique($refIds); // de-dupe
+        $refIds = array_filter($refIds); // remove falsy values -  this gets rid of NULLs
+        if (count($refIds)) {
+            $this->db->where($joinColName, $joinId);
+            $this->db->where_in($refColName, $refIds);
+            $this->db->delete($joinTblName);
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId, $joinColName, $joinTblName,
+                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        }
+    }
+
+
+    /**
+     * Removes any entries between given tables A and B for a given record in A from a given JOIN table.
+     *
+     * Then (re)associates given records in table B with that record in table A.
      * Motto: "delete all, then re-enter them again."
      *
      * @deprecated
@@ -328,38 +396,41 @@ abstract class Ilios_Base_Model extends CI_Model
      * @param string $idColumnName
      * @see Abstract_Ilios_Model::_saveJoinTableAssociations()
      */
-    protected function performCrossTableInserts (array $modelArray, $tableName, $columnName,
-    		$uniquingColumn, $uniquingId, $idColumnName = 'dbId') {
-    	$this->db->where($uniquingColumn, $uniquingId);
-    	$this->db->delete($tableName);
+    protected function performCrossTableInserts (array $modelArray, $tableName, $columnName, $uniquingColumn,
+                                                 $uniquingId, $idColumnName = 'dbId')
+    {
+        $this->db->where($uniquingColumn, $uniquingId);
+        $this->db->delete($tableName);
 
-    	foreach ($modelArray as $key => $val) {
-    		$newRow = array();
-
-    		$newRow[$uniquingColumn] = $uniquingId;
-    		$newRow[$columnName] = $val[$idColumnName];
-
-    		$this->db->insert($tableName, $newRow);
-    	}
+        foreach ($modelArray as $key => $val) {
+            $newRow = array();
+            $newRow[$uniquingColumn] = $uniquingId;
+            $newRow[$columnName] = $val[$idColumnName];
+            $this->db->insert($tableName, $newRow);
+        }
     }
 
     /**
      * Adds or updates given objectives in the database.
      *
-     * @param array $objectives
-     * @param string $crossTableName
-     * @param string $crossTableColumn
-     * @param mixed $columnValue
-     * @param array $auditAtoms
-     * @return array
+     * @param array $objectives A list of objectives.
+     * @param string $crossTableName The name of an objectives JOIN table.
+     * @param string $crossTableColumn The column name in the objectives JOIN table that references the entity table
+     *     that the objectives are associated with.
+     * @param mixed $columnValue The id of the entity that the objectives are associated with.
+     * @param array $auditAtoms The auditing trail.
+     * @return array A nested array of associative arrays, containing information about the saved objectives.
+     *     Each array element contains a MD5 hash of the objective's content (key: 'md5') and the objective's
+     *     db record id (key: 'dbId').
      */
-    protected function _saveObjectives (array $objectives, $crossTableName, $crossTableColumn,
-        $columnValue, &$auditAtoms)
+    protected function _saveObjectives (array $objectives, $crossTableName, $crossTableColumn, $columnValue,
+                                        &$auditAtoms)
     {
         $rhett = array();
 
         // get the ids of currently associated objectives from the JOIN table
-        $existingObjectiveIds = $this->getIdArrayFromCrossTable($crossTableName, 'objective_id', $crossTableColumn, $columnValue);
+        $existingObjectiveIds = $this->getIdArrayFromCrossTable($crossTableName, 'objective_id', $crossTableColumn,
+            $columnValue);
 
         /*
          * Objectives:
@@ -394,9 +465,26 @@ abstract class Ilios_Base_Model extends CI_Model
         return $rhett;
     }
 
+    /**
+     * This method copies ("rolls over") objectives for a given associated entity from one academic year into another.
+     *
+     * @param string $crossTableName The name of the objectives JOIN table.
+     * @param string $crossTableRowName The column name in the objectives JOIN table that references the entity table
+     *     that the objectives are associated with.
+     * @param string $crossTableId The id of the source entity that the objectives are associated with.
+     * @param int $newCrossTableId The id of the target entity that the copied objectives should be associated with.
+     * @param boolean $rolloverIsSameAcademicYear Flag indicating whether objective are being copied within the same
+     *     academic year or not. If set to TRUE then objective/competency associations are copied over, otherwise not.
+     * @param array|null $parentMap An array of nested arrays, representing already rolled-over parent objectives
+     *     to the objectives being rolled over. Each item is an associative array containing the rolled-over parent
+     *     objective's original and new record id, keyed off by "original" and "new".
+     * @return array An array of nested arrays, representing the rolled over objectives. Each item is an associative
+     *     array containing the rolled-over objective's original and new record id, keyed off by "original" and "new".
+     */
     protected function rolloverObjectives ($crossTableName, $crossTableRowName, $crossTableId,
                                            $newCrossTableId, $rolloverIsSameAcademicYear,
-                                           $parentMap = null) {
+                                           $parentMap = null)
+    {
         $objectiveIdPairs = array();
 
         $shouldCopyParentAttributes = ($rolloverIsSameAcademicYear || ($parentMap != null));
@@ -470,11 +558,16 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * Of use when we get back a std obj from a db query (like via the first_row() method) and we
-     *  want to ship an array back to the client. Sucks to have this both in this hierarchy and
-     *  the controller hierarchy. Ditch the controller one and change references to this.. TODO
+     * Utility method for converting a given stdClass object an associative array representation.
+     *
+     * Of use when we get back a std obj from a db query (like via the first_row() method) and we want to ship an array
+     * back to the client.
+     *
+     * @param stdClass $stdObj An object.
+     * @return array An associative array.
      */
-    protected function convertStdObjToArray ($stdObj) {
+    protected function convertStdObjToArray ($stdObj)
+    {
         $rhett = $stdObj;
 
         if (is_array($stdObj) || is_object($stdObj)) {
@@ -489,7 +582,16 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * In multiple query results involving a stored procedure call, call this between queries.
+     * Workaround to free query results from stored procedure calls.
+     *
+     * In multiple query results involving a stored procedure call, call this between queries to free query results.
+     * Taken from the CI forums, see:
+     * @link http://ellislab.com/forums/viewthread/71141/P15/#790715
+     *
+     * This should be fixed in CI 3.x, see:
+     * @link https://github.com/EllisLab/CodeIgniter/pull/436
+     *
+     * @param CI_DB_result $queryResults The query result object.
      */
     protected function reallyFreeQueryResults ($queryResults)
     {
