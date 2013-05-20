@@ -470,11 +470,13 @@ abstract class Ilios_Base_Model extends CI_Model
         $shouldCopyParentAttributes = ($rolloverIsSameAcademicYear || ($parentMap != null));
 
         $this->db->where($crossTableRowName, $crossTableId);
-        $queryResults = $this->db->get($crossTableName);
+        $query = $this->db->get($crossTableName);
         $objectiveIds = array();
-        foreach ($queryResults->result_array() as $row) {
-            array_push($objectiveIds, $row['objective_id']);
+        foreach ($query->result_array() as $row) {
+            $objectiveIds[] = $row['objective_id'];
         }
+
+        $query->free_result();
 
         foreach ($objectiveIds as $objectiveId) {
             $objectiveRow = $this->objective->getRowForPrimaryKeyId($objectiveId);
@@ -491,7 +493,7 @@ abstract class Ilios_Base_Model extends CI_Model
             $pair['new'] = $this->db->insert_id();
             $pair['original'] = $objectiveId;
 
-            array_push($objectiveIdPairs, $pair);
+            $objectiveIdPairs[] = $pair;
         }
         foreach ($objectiveIdPairs as $objectiveIdPair) {
             $newRow = array();
@@ -506,10 +508,10 @@ abstract class Ilios_Base_Model extends CI_Model
 
             if ($parentMap != null) {
                 $this->db->where('objective_id', $objectiveIdPair['new']);
-                $queryResults = $this->db->get('objective_x_objective');
+                $query = $this->db->get('objective_x_objective');
 
                 $updateList = array();
-                foreach ($queryResults->result_array() as $row) {
+                foreach ($query->result_array() as $row) {
                     foreach ($parentMap as $parentObjectIdPair) {
                         if ($parentObjectIdPair['original'] == $row['parent_objective_id']) {
                             $updateTriplet = array();
@@ -517,10 +519,12 @@ abstract class Ilios_Base_Model extends CI_Model
                             $updateTriplet['original_poid'] = $parentObjectIdPair['original'];
                             $updateTriplet['new_poid'] = $parentObjectIdPair['new'];
 
-                            array_push($updateList, $updateTriplet);
+                            $updateList[] = $updateTriplet;
                         }
                     }
                 }
+
+                $query->free_result();
 
                 foreach ($updateList as $updateTriplet) {
                     $this->db->where('objective_id', $updateTriplet['oid']);
