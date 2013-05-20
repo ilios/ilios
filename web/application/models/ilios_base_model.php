@@ -209,20 +209,21 @@ abstract class Ilios_Base_Model extends CI_Model
      */
     protected function getIdArrayFromCrossTable ($table, $column, $uniquingColumn, $uniquingId)
     {
-        $queryResults = null;
         $rhett = null;
 
         $this->db->select($column);
         $this->db->where($uniquingColumn, $uniquingId);
-        $queryResults = $this->db->get($table);
+        $query = $this->db->get($table);
 
-        if ($queryResults->num_rows() > 0) {
+        if ($query->num_rows()) {
             $rhett = array();
 
-            foreach ($queryResults->result_array() as $row) {
-                array_push($rhett, $row[$column]);
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row[$column];
             }
         }
+
+        $query->free_result();
 
         return $rhett;
     }
