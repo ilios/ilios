@@ -166,8 +166,6 @@ abstract class Ilios_Base_Model extends CI_Model
      */
     public function getRow ($tableName, $rowName, $id, $checkForDelete = false, $schoolId = null)
     {
-        $queryResults = null;
-
         $this->db->where($rowName, $id);
         if ($checkForDelete) {
             $this->db->where('deleted', 0);
@@ -177,13 +175,17 @@ abstract class Ilios_Base_Model extends CI_Model
             $this->db->where('owning_school_id', $schoolId);
         }
 
-        $queryResults = $this->db->get($tableName);
+        $query = $this->db->get($tableName);
 
-        if (is_null($queryResults) || ($queryResults->num_rows() == 0)) {
+        if (is_null($query) || ($query->num_rows() == 0)) {
             return null;
         }
 
-        return $queryResults->first_row();
+        $rhett =  $query->first_row();
+
+        $query->free_result();
+
+        return $rhett;
     }
 
     /**
