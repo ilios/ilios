@@ -57,7 +57,7 @@ abstract class Ilios_Base_Model extends CI_Model
     /**
      * Starts a database transaction.
      *
-     * @see CI_DB_driver::trans_begin()
+     * @see CI_DB_mysqli_driver::trans_begin()
      * @link http://ellislab.com/codeigniter/user-guide/database/transactions.html
      */
     public function startTransaction ()
