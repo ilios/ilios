@@ -166,8 +166,6 @@ abstract class Ilios_Base_Model extends CI_Model
      */
     public function getRow ($tableName, $rowName, $id, $checkForDelete = false, $schoolId = null)
     {
-        $queryResults = null;
-
         $this->db->where($rowName, $id);
         if ($checkForDelete) {
             $this->db->where('deleted', 0);
@@ -177,33 +175,15 @@ abstract class Ilios_Base_Model extends CI_Model
             $this->db->where('owning_school_id', $schoolId);
         }
 
-        $queryResults = $this->db->get($tableName);
+        $query = $this->db->get($tableName);
 
-        if (is_null($queryResults) || ($queryResults->num_rows() == 0)) {
+        if (is_null($query) || ($query->num_rows() == 0)) {
             return null;
         }
 
-        return $queryResults->first_row();
-    }
+        $rhett =  $query->first_row();
 
-    /**
-     * Retrieves all records from a model's table as an array of associative arrays.
-     *
-     * @param boolean $checkForDelete If TRUE then records marked as 'deleted' will be filtered out.
-     * @return array an array of associative arrays. Each item represents a record in the queried table.
-     */
-    public function getTableContentsAsArray ($checkForDelete = false)
-    {
-        $rhett = array();
-
-        if ($checkForDelete) {
-            $this->db->where('deleted', 0);
-        }
-
-        $queryResults = $this->db->get($this->databaseTableName);
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
-        }
+        $query->free_result();
 
         return $rhett;
     }
@@ -229,20 +209,21 @@ abstract class Ilios_Base_Model extends CI_Model
      */
     protected function getIdArrayFromCrossTable ($table, $column, $uniquingColumn, $uniquingId)
     {
-        $queryResults = null;
         $rhett = null;
 
         $this->db->select($column);
         $this->db->where($uniquingColumn, $uniquingId);
-        $queryResults = $this->db->get($table);
+        $query = $this->db->get($table);
 
-        if ($queryResults->num_rows() > 0) {
+        if ($query->num_rows()) {
             $rhett = array();
 
-            foreach ($queryResults->result_array() as $row) {
-                array_push($rhett, $row[$column]);
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row[$column];
             }
         }
+
+        $query->free_result();
 
         return $rhett;
     }
@@ -490,11 +471,13 @@ abstract class Ilios_Base_Model extends CI_Model
         $shouldCopyParentAttributes = ($rolloverIsSameAcademicYear || ($parentMap != null));
 
         $this->db->where($crossTableRowName, $crossTableId);
-        $queryResults = $this->db->get($crossTableName);
+        $query = $this->db->get($crossTableName);
         $objectiveIds = array();
-        foreach ($queryResults->result_array() as $row) {
-            array_push($objectiveIds, $row['objective_id']);
+        foreach ($query->result_array() as $row) {
+            $objectiveIds[] = $row['objective_id'];
         }
+
+        $query->free_result();
 
         foreach ($objectiveIds as $objectiveId) {
             $objectiveRow = $this->objective->getRowForPrimaryKeyId($objectiveId);
@@ -511,7 +494,7 @@ abstract class Ilios_Base_Model extends CI_Model
             $pair['new'] = $this->db->insert_id();
             $pair['original'] = $objectiveId;
 
-            array_push($objectiveIdPairs, $pair);
+            $objectiveIdPairs[] = $pair;
         }
         foreach ($objectiveIdPairs as $objectiveIdPair) {
             $newRow = array();
@@ -526,10 +509,10 @@ abstract class Ilios_Base_Model extends CI_Model
 
             if ($parentMap != null) {
                 $this->db->where('objective_id', $objectiveIdPair['new']);
-                $queryResults = $this->db->get('objective_x_objective');
+                $query = $this->db->get('objective_x_objective');
 
                 $updateList = array();
-                foreach ($queryResults->result_array() as $row) {
+                foreach ($query->result_array() as $row) {
                     foreach ($parentMap as $parentObjectIdPair) {
                         if ($parentObjectIdPair['original'] == $row['parent_objective_id']) {
                             $updateTriplet = array();
@@ -537,10 +520,12 @@ abstract class Ilios_Base_Model extends CI_Model
                             $updateTriplet['original_poid'] = $parentObjectIdPair['original'];
                             $updateTriplet['new_poid'] = $parentObjectIdPair['new'];
 
-                            array_push($updateList, $updateTriplet);
+                            $updateList[] = $updateTriplet;
                         }
                     }
                 }
+
+                $query->free_result();
 
                 foreach ($updateList as $updateTriplet) {
                     $this->db->where('objective_id', $updateTriplet['oid']);
