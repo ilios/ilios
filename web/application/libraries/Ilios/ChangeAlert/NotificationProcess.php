@@ -252,7 +252,7 @@ class Ilios_ChangeAlert_NotificationProcess
     	foreach ($changeAlerts as $changeAlert) {
     		$changeAlertIds[] = $changeAlert['alert_id'];
     	}
-        $this->_alertDao->markAlertsAsDisplatched($changeAlertIds);
+        $this->_alertDao->markAlertsAsDispatched($changeAlertIds);
 
         $logger->info("Completed processing offering change alerts.", $processId);
         $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);

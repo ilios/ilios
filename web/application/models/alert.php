@@ -205,7 +205,7 @@ EOL;
      * Marks a given list of alerts as "dispatched".
      * @param array $alertIds an array of alert ids.
      */
-    public function markAlertsAsDisplatched(array $alertIds)
+    public function markAlertsAsDispatched (array $alertIds)
     {
         if (empty($alertIds)) {
             return;
