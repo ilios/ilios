@@ -576,7 +576,14 @@ class Course_Management extends Ilios_Web_Controller
             else {
                 $this->course->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
 
                 $failedTransaction = false;
 
@@ -699,7 +706,14 @@ class Course_Management extends Ilios_Web_Controller
                     } else {
                         $this->course->commitTransaction();
 
-                        $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                        // save audit trail
+                        $this->auditEvent->startTransaction();
+                        $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                        if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                            $this->auditEvent->rollbackTransaction();
+                        } else {
+                            $this->auditEvent->commitTransaction();
+                        }
 
                         $failedTransaction = false;
 
@@ -851,7 +865,14 @@ class Course_Management extends Ilios_Web_Controller
 
                 $this->course->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
@@ -896,7 +917,14 @@ class Course_Management extends Ilios_Web_Controller
             else {
                 $this->course->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
 
                 $failedTransaction = false;
 
@@ -1152,7 +1180,14 @@ class Course_Management extends Ilios_Web_Controller
                 else {
                     $this->iliosSession->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    // save audit trail
+                    $this->auditEvent->startTransaction();
+                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                        $this->auditEvent->rollbackTransaction();
+                    } else {
+                        $this->auditEvent->commitTransaction();
+                    }
 
                     /*
                      * what could invoke alert notification here:
@@ -1245,7 +1280,14 @@ class Course_Management extends Ilios_Web_Controller
 
                     $failedTransaction = false;
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    // save audit trail
+                    $this->auditEvent->startTransaction();
+                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                        $this->auditEvent->rollbackTransaction();
+                    } else {
+                        $this->auditEvent->commitTransaction();
+                    }
 
                     $rhett['container'] = $containerNumber;
                 }
@@ -1379,7 +1421,14 @@ class Course_Management extends Ilios_Web_Controller
 
                 $this->offering->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
