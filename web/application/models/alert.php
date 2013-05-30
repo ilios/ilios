@@ -211,15 +211,11 @@ EOL;
             return;
         }
 
-        $this->startTransaction();
-
         $updateRow = array();
         $updateRow['dispatched'] = 1;
 
         $this->db->where_in('alert_id', $alertIds);
         $this->db->update($this->databaseTableName, $updateRow);
-
-        $this->commitTransaction();
     }
 
 
