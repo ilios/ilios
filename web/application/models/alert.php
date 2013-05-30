@@ -220,9 +220,8 @@ EOL;
 
 
     /**
-     * Transactionality will be handled in this method
-     *
      * Saves a change alert for a given application entity.
+     *
      * @param int $tableId the record id of the changed entity
      * @param string $tableName the database table name where the changed entity is stored
      * @param int $userId the current user id
@@ -234,11 +233,8 @@ EOL;
     {
         $preExisting = $this->getUndispatchedAlertForTable($tableId, $tableName);
 
-        $this->startTransaction();
-
         if (! is_null($preExisting)) {
             $alertId = $preExisting['alert_id'];
-
             $eventType = Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE;
         } else {
             $newRow = array();
@@ -256,11 +252,8 @@ EOL;
         }
 
         if ($alertId == -1) {
-            $this->rollbackTransaction();
-
             $lang = $this->getLangToUse();
             $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
-
             return $msg;
         }
 
@@ -293,15 +286,10 @@ EOL;
         }
 
         if ($count != $affectedCount) {
-            $this->rollbackTransaction();
-
             $lang = $this->getLangToUse();
             $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
-
             return $msg;
         }
-
-        $this->commitTransaction();
 
         $atoms = array();
         array_push($atoms, $this->auditEvent->wrapAtom($alertId, 'alert_id', 'alert',
