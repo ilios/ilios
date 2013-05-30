@@ -220,18 +220,26 @@ class Learning_Materials extends Ilios_Web_Controller
                 $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
 
                 $alertChangeTypes = array(Alert::CHANGE_TYPE_LEARNING_MATERIAL);
+                $this->auditEvent->startTransaction();
+                $success = false;
                 if (! $sessionId) {
                     if ($this->course->isPublished($courseId)) {
                         $sessions = $this->iliosSession->getSimplifiedSessionsForCourse($courseId);
                         foreach ($sessions as $session) {
                             $sessionId = $session['session_id'];
-                            $this->_alertAllOfferingsAsAppropriate($sessionId, $courseId, 'course',
-                                                                  $alertChangeTypes, $school);
+                            $success = $this->_alertAllOfferingsAsAppropriate($sessionId, $courseId, 'course', $alertChangeTypes, $school);
+                            if (! $success) {
+                                break;
+                            }
                         }
                     }
                 } else {
-                    $this->_alertAllOfferingsAsAppropriate($sessionId, $sessionId, 'session',
-                                                          $alertChangeTypes, $school);
+                    $success = $this->_alertAllOfferingsAsAppropriate($sessionId, $sessionId, 'session', $alertChangeTypes, $school);
+                }
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
                 }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -577,17 +585,23 @@ class Learning_Materials extends Ilios_Web_Controller
      * @param string $tableName
      * @param array $alertChangeTypes
      * @param array $school
+     * @return boolean TRUE on success, FALSE on failure.
      */
     protected function _alertAllOfferingsAsAppropriate ($sessionId, $tableId, $tableName, $alertChangeTypes, $school)
     {
         $userId = $this->session->userdata('uid');
 
+        $rhett = true;
+
         if ($this->iliosSession->isPublished($sessionId)) {
             $sessionRow = $this->iliosSession->getRowForPrimaryKeyId($sessionId);
 
             if ($this->course->isPublished($sessionRow->course_id)) {
-                $this->alert->addOrUpdateAlert($tableId, $tableName, $userId, $school, $alertChangeTypes);
+                $msg = $this->alert->addOrUpdateAlert($tableId, $tableName, $userId, $school, $alertChangeTypes);
+                $rhett = is_null($msg);
             }
         }
+
+        return $rhett;
     }
 }

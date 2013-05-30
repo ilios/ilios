@@ -381,7 +381,14 @@ class Offering_Management extends Ilios_Web_Controller
 
                     // Add or Update alert only if there is one or more identified change type.
                     if (count($alertChangeTypes)) {
-                        $this->alert->addOrUpdateAlert($offeringId, 'offering', $userId, $school, $alertChangeTypes);
+                        $msg = $this->alert->addOrUpdateAlert($offeringId, 'offering', $userId, $school, $alertChangeTypes);
+                        if (! is_null($msg)) {
+                            $rhett['error'] = $msg;
+                        }
+                        if ($this->offering->transactionAtomFailed()) {
+                            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                            $rhett['error'] = $msg;
+                        }
                     }
                 }
             }
