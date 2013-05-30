@@ -235,7 +235,6 @@ class Learning_Materials extends Ilios_Web_Controller
                 }
 
                 // save change alerts
-
                 $alertChangeTypes = array(Alert::CHANGE_TYPE_LEARNING_MATERIAL);
                 $this->auditEvent->startTransaction();
                 $success = false;
@@ -352,22 +351,32 @@ class Learning_Materials extends Ilios_Web_Controller
                     $this->auditEvent->commitTransaction();
                 }
 
+                // save change alerts
                 $alertChangeTypes = array(Alert::CHANGE_TYPE_LEARNING_MATERIAL);
+                $this->auditEvent->startTransaction();
+                $success = false;
                 if (! $sessionId) {
                     if ($this->course->isPublished($courseId)) {
                         $sessions = $this->iliosSession->getSimplifiedSessionsForCourse($courseId);
                         foreach ($sessions as $session) {
                             $sessionId = $session['session_id'];
 
-                            $this->_alertAllOfferingsAsAppropriate($sessionId, $courseId, 'course',
+                            $success = $this->_alertAllOfferingsAsAppropriate($sessionId, $courseId, 'course',
                                     $alertChangeTypes, $school);
+                            if (! $success) {
+                                break;
+                            }
                         }
                     }
                 } else {
-                    $this->_alertAllOfferingsAsAppropriate($sessionId, $sessionId, 'session',
+                    $success = $this->_alertAllOfferingsAsAppropriate($sessionId, $sessionId, 'session',
                             $alertChangeTypes, $school);
                 }
-
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
