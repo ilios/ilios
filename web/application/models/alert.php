@@ -202,25 +202,6 @@ EOL;
     }
 
     /**
-     * Transactionality will be handled in this method
-     *
-     * @param int $alertId
-     * @todo improve code docs
-     */
-    public function markAlertAsDispatched ($alertId)
-    {
-        $this->startTransaction();
-
-        $this->db->where('alert_id', $alertId);
-
-        $updateRow = array();
-        $updateRow['dispatched'] = 1;
-        $this->db->update($this->databaseTableName, $updateRow);
-
-        $this->commitTransaction();
-    }
-
-    /**
      * Marks a given list of alerts as "dispatched".
      * @param array $alertIds an array of alert ids.
      */
