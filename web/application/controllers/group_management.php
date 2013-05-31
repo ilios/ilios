@@ -279,7 +279,15 @@ class Group_Management extends Ilios_Web_Controller
                     } else {
                         $failedTransaction = false;
                         $this->group->commitTransaction();
-                        $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+
+                        // save audit trail
+                        $this->auditEvent->startTransaction();
+                        $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                        if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                            $this->auditEvent->rollbackTransaction();
+                        } else {
+                            $this->auditEvent->commitTransaction();
+                        }
                     }
                 } while ($failedTransaction && ($transactionRetryCount > 0));
             }
@@ -391,7 +399,14 @@ class Group_Management extends Ilios_Web_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             } else {
                 $lang = $this->getLangToUse();
                 $msg = $this->languagemap->getI18NString('groups.error.failed_group_delete', $lang);
@@ -472,7 +487,14 @@ class Group_Management extends Ilios_Web_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             } else {
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->group);
             }
@@ -610,7 +632,14 @@ class Group_Management extends Ilios_Web_Controller
 
                     $failedTransaction = false;
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    // save audit trail
+                    $this->auditEvent->startTransaction();
+                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                        $this->auditEvent->rollbackTransaction();
+                    } else {
+                        $this->auditEvent->commitTransaction();
+                    }
 
                     $rhett['users'] = $newUsers;
                 }
@@ -697,7 +726,14 @@ class Group_Management extends Ilios_Web_Controller
 
                 $this->user->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             }
         }
         while ($failedTransaction && ($transactionRetryCount > 0));
@@ -757,7 +793,14 @@ class Group_Management extends Ilios_Web_Controller
 
                 $this->group->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
