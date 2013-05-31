@@ -252,7 +252,14 @@ class Ilios_ChangeAlert_NotificationProcess
     	foreach ($changeAlerts as $changeAlert) {
     		$changeAlertIds[] = $changeAlert['alert_id'];
     	}
+        $this->_alertDao->startTransaction();
         $this->_alertDao->markAlertsAsDispatched($changeAlertIds);
+        if ($this->_alertDao->transactionAtomFailed()) {
+            $this->_alertDao->rollbackTransaction();
+            $logger->warn('DB Transaction error: Failed to flag offering change alerts as dispatched.', $processId);
+        } else {
+            $this->_alertDao->commitTransaction();
+        }
 
         $logger->info("Completed processing offering change alerts.", $processId);
         $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
