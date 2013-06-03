@@ -31,3 +31,4 @@ SOURCE data_population/course_clerkship_type_data.sql;
 SOURCE data_population/mesh_tables_and_data.sql;
 SOURCE data_population/SOP_competency_data.sql;
 SOURCE data_population/SOP_discipline_data.sql;
+SOURCE data_population/curriculum_inventory.sql;
