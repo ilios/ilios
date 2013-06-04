@@ -202,50 +202,26 @@ EOL;
     }
 
     /**
-     * Transactionality will be handled in this method
-     *
-     * @param int $alertId
-     * @todo improve code docs
-     */
-    public function markAlertAsDispatched ($alertId)
-    {
-        $this->startTransaction();
-
-        $this->db->where('alert_id', $alertId);
-
-        $updateRow = array();
-        $updateRow['dispatched'] = 1;
-        $this->db->update($this->databaseTableName, $updateRow);
-
-        $this->commitTransaction();
-    }
-
-    /**
      * Marks a given list of alerts as "dispatched".
      * @param array $alertIds an array of alert ids.
      */
-    public function markAlertsAsDisplatched(array $alertIds)
+    public function markAlertsAsDispatched (array $alertIds)
     {
         if (empty($alertIds)) {
             return;
         }
-
-        $this->startTransaction();
 
         $updateRow = array();
         $updateRow['dispatched'] = 1;
 
         $this->db->where_in('alert_id', $alertIds);
         $this->db->update($this->databaseTableName, $updateRow);
-
-        $this->commitTransaction();
     }
 
 
     /**
-     * Transactionality will be handled in this method
-     *
      * Saves a change alert for a given application entity.
+     *
      * @param int $tableId the record id of the changed entity
      * @param string $tableName the database table name where the changed entity is stored
      * @param int $userId the current user id
@@ -257,11 +233,8 @@ EOL;
     {
         $preExisting = $this->getUndispatchedAlertForTable($tableId, $tableName);
 
-        $this->startTransaction();
-
         if (! is_null($preExisting)) {
             $alertId = $preExisting['alert_id'];
-
             $eventType = Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE;
         } else {
             $newRow = array();
@@ -279,11 +252,8 @@ EOL;
         }
 
         if ($alertId == -1) {
-            $this->rollbackTransaction();
-
             $lang = $this->getLangToUse();
             $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
-
             return $msg;
         }
 
@@ -316,15 +286,10 @@ EOL;
         }
 
         if ($count != $affectedCount) {
-            $this->rollbackTransaction();
-
             $lang = $this->getLangToUse();
             $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
-
             return $msg;
         }
-
-        $this->commitTransaction();
 
         $atoms = array();
         array_push($atoms, $this->auditEvent->wrapAtom($alertId, 'alert_id', 'alert',

@@ -317,7 +317,14 @@ class Program_Management extends Ilios_Web_Controller
                 } else {
                     $this->program->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    // save audit trail
+                    $this->auditEvent->startTransaction();
+                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                        $this->auditEvent->rollbackTransaction();
+                    } else {
+                        $this->auditEvent->commitTransaction();
+                    }
 
                     $failedTransaction = false;
 
@@ -395,7 +402,14 @@ class Program_Management extends Ilios_Web_Controller
                 } else {
                     $this->program->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    // save audit trail
+                    $this->auditEvent->startTransaction();
+                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                        $this->auditEvent->rollbackTransaction();
+                    } else {
+                        $this->auditEvent->commitTransaction();
+                    }
 
                     $failedTransaction = false;
 
@@ -456,7 +470,14 @@ class Program_Management extends Ilios_Web_Controller
                 if ($this->programYear->deleteProgramYear($programYearId, $auditAtoms)) {
                     $this->programYear->commitTransaction();
 
-                    $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    // save audit trail
+                    $this->auditEvent->startTransaction();
+                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                        $this->auditEvent->rollbackTransaction();
+                    } else {
+                        $this->auditEvent->commitTransaction();
+                    }
 
                     $failedTransaction = false;
 
@@ -517,7 +538,14 @@ class Program_Management extends Ilios_Web_Controller
             } else {
                 $this->programYear->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
 
                 $failedTransaction = false;
 
@@ -649,8 +677,14 @@ class Program_Management extends Ilios_Web_Controller
 
                 $this->programYear->commitTransaction();
 
-                $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
 

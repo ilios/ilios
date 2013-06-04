@@ -1250,7 +1250,15 @@ class Management_Console extends Ilios_Web_Controller
 
                 $atoms[] = $this->auditEvent->wrapAtom($newUserId, 'user_id', 'user',
                     Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
-                $this->auditEvent->saveAuditEvent($atoms, $userId);
+
+                // save audit trail
+                $this->auditEvent->startTransaction();
+                $success = $this->auditEvent->saveAuditEvent($atoms, $userId);
+                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                    $this->auditEvent->rollbackTransaction();
+                } else {
+                    $this->auditEvent->commitTransaction();
+                }
             }
         }
 
@@ -1293,7 +1301,16 @@ class Management_Console extends Ilios_Web_Controller
 
              $atoms[] = $this->auditEvent->wrapAtom($newUserId, 'user_id', 'user',
                  Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
-             $this->auditEvent->saveAuditEvent($atoms, $userId);
+
+
+            // save audit trail
+            $this->auditEvent->startTransaction();
+            $success = $this->auditEvent->saveAuditEvent($atoms, $userId);
+            if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                $this->auditEvent->rollbackTransaction();
+            } else {
+                $this->auditEvent->commitTransaction();
+            }
         }
 
         if (count($errors)) {

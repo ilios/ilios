@@ -37,17 +37,15 @@ class Audit_Event extends Ilios_Base_Model
 
     /**
      * Saves a given list of audit atoms related to actions taken by a given user.
-     * Transactions are handled within this method.
      *
-     * @param array $wrappedAtomArray an array of assoc. arrays, each sub-array
+     * @param array $wrappedAtomArray An array of assoc. arrays, each sub-array
      *     as returned by the Ilios_Model_AuditUtils::wrapAtom() method.
-     * @param int $userId the user id
-     * @return boolean TRUE on success, FALSE on failure
+     * @param int $userId The user id.
+     * @return boolean TRUE on success, FALSE on failure.
+     * @see Ilios_Model_AuditUtils::wrapAtom()
      */
     public function saveAuditEvent ($wrappedAtomArray, $userId)
     {
-        $this->startTransaction();
-
         $newRow = array();
         $newRow['audit_event_id'] = null;
 
@@ -59,8 +57,6 @@ class Audit_Event extends Ilios_Base_Model
 
         $newEventId = $this->db->insert_id();
         if ((! $newEventId) || ($newEventId == 0)) {
-            $this->rollbackTransaction();
-
             return false;
         }
 
@@ -79,27 +75,18 @@ class Audit_Event extends Ilios_Base_Model
 
             $newId = $this->db->insert_id();
             if ((! $newId) || ($newId == 0)) {
-                $this->rollbackTransaction();
-
                 return false;
             }
             else if (isset($wrappedAtom['blob']) && (! is_null($wrappedAtom['blob']))) {
                 $newRow = array();
                 $newRow['audit_atom_id'] = $newId;
                 $newRow['serialized_state_event'] = $wrappedAtom['blob'];
-
                 $this->db->insert('audit_content', $newRow);
-
                 if ($this->db->affected_rows() == 0) {
-                    $this->rollbackTransaction();
-
                     return false;
                 }
             }
         }
-
-        $this->commitTransaction();
-
         return true;
     }
 }
