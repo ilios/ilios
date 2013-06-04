@@ -1,16 +1,9 @@
-LOCK TABLES `curriculum_inventory_institution` WRITE;
-/*!40000 ALTER TABLE `curriculum_inventory_institution` DISABLE KEYS */;
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (1, 'School of Medicine', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (2, 'School of Dentistry', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (3, 'School of Pharmacy', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (4, 'School of Nursing', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (5, 'Other', '00000', '', '', '', '', '');
-/*!40000 ALTER TABLE `curriculum_inventory_institution` ENABLE KEYS */;
-UNLOCK TABLES;
 
-
-LOCK TABLES `aamc_method` WRITE;
-/*!40000 ALTER TABLE `aamc_method` DISABLE KEYS */;
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM001', 'Case-Based Instruction/Learning');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM002', 'Clinical Experience - Ambulatory');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM003', 'Clinical Experience - Inpatient');
@@ -59,11 +52,7 @@ INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM015', 'Practic
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM016', 'Research or Project Assessment');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM017', 'Self-Assessment');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM018', 'Stimulated Recall');
-/*!40000 ALTER TABLE `aamc_method` ENABLE KEYS */;
-UNLOCK TABLES;
 
-LOCK TABLES `aamc_mecrs` WRITE;
-/*!40000 ALTER TABLE `aamc_mecrs` DISABLE KEYS */;
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0101','Provide patient care that is compassionate, appropriate, and effective for the treatment of health problems and the promotion of health');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0102','Perform all medical, diagnostic, and surgical procedures considered essential for the area of practice');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0103',' Gather essential and accurate information about patients and their condition through history-taking, physical examination, and the use of laboratory data, imaging and other tests');
@@ -90,7 +79,6 @@ INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0309','Use information technology to obtain and utilize information about individual patients, populations of patients being served or communities from which patients are drawn to improve care');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0310','Continually identify, analyze, and implement new knowledge, guidelines, standards, technologies, products, or services that have been demonstrated to improve outcomes');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0401','Communicate effectively with patients, families, and the public, as appropriate, across a broad range of socioeconomic and cultural backgrounds');
-INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0402','Communicate effectively with colleagues within one’s profession or specialty, other health professionals, and health related agencies');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0402','Communicate effectively with colleagues within one’s profession or specialty, other health professionals, and health related agencies');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0403','Work effectively with others as a member or leader of a health care team or other professional group');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0404','Act in a consultative role to other health professionals');
@@ -120,5 +108,39 @@ INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0806','Provide leadership skills that enhance team functioning, the learning environment, and/or the health care delivery system');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0807','Demonstrate self-confidence that puts patients, families, and members of the health care team at ease');
 INSERT INTO `aamc_mecrs` (`mecrs_id`, `description`) VALUES ('aamc-mecrs-comp-c0808','Recognize that ambiguity is part of clinical health care and respond by utilizing appropriate resources in dealing with uncertainty');
-/*!40000 ALTER TABLE `aamc_mecrs` ENABLE KEYS */;
-UNLOCK TABLES;
+
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (7, 'aamc-mecrs-comp-c0102');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (8, 'aamc-mecrs-comp-c0103');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (9, 'aamc-mecrs-comp-c0107');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (10, 'aamc-mecrs-comp-c0405');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (11, 'aamc-mecrs-comp-c0102');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (12, 'aamc-mecrs-comp-c0101');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (12, 'aamc-mecrs-comp-c0108');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (12, 'aamc-mecrs-comp-c0109');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (13, 'aamc-mecrs-comp-c0203');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (14, 'aamc-mecrs-comp-c0201');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (14, 'aamc-mecrs-comp-c0310');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (15, 'aamc-mecrs-comp-c0305');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (15, 'aamc-mecrs-comp-c0309');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (16, 'aamc-mecrs-comp-c0202');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (16, 'aamc-mecrs-comp-c0204');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (16, 'aamc-mecrs-comp-c0306');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (17, 'aamc-mecrs-comp-c0301');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (17, 'aamc-mecrs-comp-c0307');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (18, 'aamc-mecrs-comp-c0105');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (19, 'aamc-mecrs-comp-c0105');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (19, 'aamc-mecrs-comp-c0401');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (19, 'aamc-mecrs-comp-c0406');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (20, 'aamc-mecrs-comp-c0402');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (20, 'aamc-mecrs-comp-c0405');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (21, 'aamc-mecrs-comp-c0501');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (21, 'aamc-mecrs-comp-c0505');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (22, 'aamc-mecrs-comp-c0502');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (23, 'aamc-mecrs-comp-c0504');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (24, 'aamc-mecrs-comp-c0506');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (25, 'aamc-mecrs-comp-c0506');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (26, 'aamc-mecrs-comp-c0403');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (26, 'aamc-mecrs-comp-c0603');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (50, 'aamc-mecrs-comp-c0606');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (51, 'aamc-mecrs-comp-c0203');
+INSERT INTO `competency_x_aamc_mecrs` (`competency_id`, `mecrs_id`) VALUES (52, 'aamc-mecrs-comp-c0206');
