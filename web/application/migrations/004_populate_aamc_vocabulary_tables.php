@@ -123,8 +123,29 @@ class Migration_populate_aamc_vocabulary_tables extends CI_Migration
     public function down ()
     {
         $this->db->trans_start();
-        $this->db->query("DELETE FROM `aamc_method`");
-        $this->db->query("DELETE FROM `aamc_mecrs`");
+        $sql =<<<EOL
+DELETE FROM `aamc_method` WHERE `method_id` IN ('IM001', 'IM002', 'IM003', 'IM004', 'IM005', 'IM006', 'IM007', 'IM008',
+    'IM009', 'IM010', 'IM011', 'IM012', 'IM013', 'IM014', 'IM015', 'IM016', 'IM017', 'IM018', 'IM019', 'IM020', 'IM021',
+    'IM022', 'IM023', 'IM024', 'IM025', 'IM026', 'IM027', 'IM028', 'IM029', 'IM030', 'AM001', 'AM002', 'AM003', 'AM004',
+    'AM005', 'AM006', 'AM007', 'AM008', 'AM009', 'AM010', 'AM011', 'AM012', 'AM013', 'AM014', 'AM015', 'AM016', 'AM017',
+    'AM018')
+EOL;
+        $this->db->query($sql);
+        $sql =<<<EOL
+DELETE FROM `aamc_mecrs` WHERE `mecrs_id` IN ('aamc-mecrs-comp-c0101', 'aamc-mecrs-comp-c0102', 'aamc-mecrs-comp-c0103',
+    'aamc-mecrs-comp-c0104', 'aamc-mecrs-comp-c0105', 'aamc-mecrs-comp-c0106', 'aamc-mecrs-comp-c0107', 'aamc-mecrs-comp-c0108',
+    'aamc-mecrs-comp-c0109', 'aamc-mecrs-comp-c0201', 'aamc-mecrs-comp-c0202', 'aamc-mecrs-comp-c0203', 'aamc-mecrs-comp-c0204',
+    'aamc-mecrs-comp-c0205', 'aamc-mecrs-comp-c0206', 'aamc-mecrs-comp-c0301', 'aamc-mecrs-comp-c0302', 'aamc-mecrs-comp-c0303',
+    'aamc-mecrs-comp-c0304', 'aamc-mecrs-comp-c0305', 'aamc-mecrs-comp-c0306', 'aamc-mecrs-comp-c0307', 'aamc-mecrs-comp-c0308',
+    'aamc-mecrs-comp-c0309', 'aamc-mecrs-comp-c0310', 'aamc-mecrs-comp-c0401', 'aamc-mecrs-comp-c0402', 'aamc-mecrs-comp-c0403',
+    'aamc-mecrs-comp-c0404', 'aamc-mecrs-comp-c0405', 'aamc-mecrs-comp-c0406', 'aamc-mecrs-comp-c0501', 'aamc-mecrs-comp-c0502',
+    'aamc-mecrs-comp-c0503', 'aamc-mecrs-comp-c0504', 'aamc-mecrs-comp-c0505', 'aamc-mecrs-comp-c0506', 'aamc-mecrs-comp-c0601',
+    'aamc-mecrs-comp-c0602', 'aamc-mecrs-comp-c0603', 'aamc-mecrs-comp-c0604', 'aamc-mecrs-comp-c0605', 'aamc-mecrs-comp-c0606',
+    'aamc-mecrs-comp-c0701', 'aamc-mecrs-comp-c0702', 'aamc-mecrs-comp-c0703', 'aamc-mecrs-comp-c0704', 'aamc-mecrs-comp-c0801',
+    'aamc-mecrs-comp-c0802', 'aamc-mecrs-comp-c0803', 'aamc-mecrs-comp-c0804', 'aamc-mecrs-comp-c0805', 'aamc-mecrs-comp-c0806',
+    'aamc-mecrs-comp-c0807', 'aamc-mecrs-comp-c0808')
+EOL;
+        $this->db->query($sql);
         $this->db->trans_complete();
     }
 }
