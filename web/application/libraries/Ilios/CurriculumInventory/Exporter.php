@@ -64,9 +64,8 @@ class Ilios_CurriculumInventory_Exporter
      *         'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
      *         'expectations' ... An associative array of arrays, each sub-array containing a
      *             list of a different type of "competency object" within the curriculum.
-     *             These types are competencies, program objectives, course objectives and session objectives.
+     *             These types are program objectives, course objectives and session objectives.
      *             The keys for these type-specific sub-arrays are:
-     *                 'competencies'
      *                 'program_objectives'
      *                 'course_objectives'
      *                 'session_objectives'
@@ -101,15 +100,12 @@ class Ilios_CurriculumInventory_Exporter
             throw new Ilios_Exception('Could not load curriculum sequence for report id ( ' . $reportId . ')');
         }
 
-
-        $interprofessionalEventIds = $this->_ci->inventory->getInterprofessionalEventIds($reportId);
-        $events = $this->_ci->inventory->getEvents($reportId, $interprofessionalEventIds);
+        $events = $this->_ci->inventory->getEvents($reportId);
         $keywords = $this->_ci->inventory->getEventKeywords($reportId);
         $levels = $this->_ci->invAcademicLevel->getAppliedLevels($reportId);
         $sequenceBlocks = $this->_ci->invSequenceBlock->getBlocks($reportId);
         $eventReferences = $this->_ci->inventory->getEventReferencesForSequenceBlocks($reportId);
 
-        $competencies = $this->_ci->inventory->getCompetencies($reportId);
         $programObjectives = $this->_ci->inventory->getProgramObjectives($reportId);
         $sessionObjectives = $this->_ci->inventory->getSessionObjectives($reportId);
         $courseObjectives = $this->_ci->inventory->getCourseObjectives($reportId);
@@ -117,11 +113,9 @@ class Ilios_CurriculumInventory_Exporter
         $compRefsForSeqBlocks = $this->_ci->inventory->getCompetencyObjectReferencesForSequenceBlocks($reportId);
         $compRefsForEvents = $this->_ci->inventory->getCompetencyObjectReferencesForEvents($reportId);
 
-        // competencies and the various objective type are all "Competency Objects" in the
-        // context of reporting the curriculum inventory.
+        // The various objective type are all "Competency Objects" in the context of reporting the curriculum inventory.
         // The are grouped in the "Expectations" section of the report, lump 'em together here.
         $expectations = array();
-        $expectations['competencies'] = $competencies;
         $expectations['program_objectives'] = $programObjectives;
         $expectations['session_objectives'] = $sessionObjectives;
         $expectations['course_objectives'] = $courseObjectives;
@@ -289,23 +283,9 @@ class Ilios_CurriculumInventory_Exporter
                     $descriptorNode->appendChild($dom->createTextNode($keyword['name']));
                 }
             }
-            // interprofessional
-            /*
-             * commented in until issue #3366 has been resolved.
-             * [ST 2013/04/19]
-             */
-            /*
-            if ($event['interprofessional']) {
-                $interprofessionalNode = $dom->createElement('Interprofessional', 'true');
-                $eventNode->appendChild($interprofessionalNode);
-            }
-            */
 
             // competency object references
             if (array_key_exists('competency_object_references', $event)) {
-                foreach ($event['competency_object_references']['competencies'] as $id) {
-                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'competency');
-                }
                 foreach ($event['competency_object_references']['program_objectives'] as $id) {
                     $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'program_objective');
                 }
@@ -348,11 +328,6 @@ class Ilios_CurriculumInventory_Exporter
         //
         $expectationsNode = $dom->createElement('Expectations');
         $rootNode->appendChild($expectationsNode);
-        // competencies
-        foreach ($inventory['expectations']['competencies'] as $competency) {
-            $this->_createCompetencyObjectNode($dom, $expectationsNode, $competency['competency_id'],
-                $competency['title'], $domain, 'competency');
-        }
         // program objectives
         foreach ($inventory['expectations']['program_objectives'] as $programObjective) {
             $this->_createCompetencyObjectNode($dom, $expectationsNode, $programObjective['objective_id'],
@@ -651,9 +626,6 @@ class Ilios_CurriculumInventory_Exporter
         // competency object references
         if (array_key_exists('competency_object_references', $block)) {
             $domain = $inventory['report']['domain'];
-            foreach ($block['competency_object_references']['competencies'] as $id) {
-                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $id, $domain, 'competency');
-            }
             foreach ($block['competency_object_references']['program_objectives'] as $id) {
                 $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $id, $domain, 'program_objective');
             }
