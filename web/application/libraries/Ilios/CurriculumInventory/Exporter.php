@@ -119,6 +119,43 @@ class Ilios_CurriculumInventory_Exporter
         $expectations['program_objectives'] = $programObjectives;
         $expectations['session_objectives'] = $sessionObjectives;
         $expectations['course_objectives'] = $courseObjectives;
+
+
+        // Build out the competency framework information and added to $expectations.
+        $mecrs = $this->_ci->inventory->getMecrs($reportId);
+
+        $mecrsIds = array_keys($mecrs);
+        $programObjectiveIds = array_keys($programObjectives);
+        $courseObjectiveIds = array_keys($courseObjectives);
+        $sessionObjectiveIds = array_keys($sessionObjectives);
+        $includes = array(
+            'mecrs_ids' => array(),
+            'program_objective_ids' => array(),
+            'course_objective_ids' => array(),
+            'session_objective_ids' => array(),
+        );
+        $relations = array();
+
+        $rel = $this->_ci->inventory->getProgramObjectivesToMecrsRelations($programObjectiveIds, $mecrsIds);
+        $relations = array_merge($relations, $rel['relations']);
+        $includes['mecrs_ids'] = $rel['mecrs_ids'];
+        $includes['program_objective_ids'] = $rel['program_objective_ids'];
+        $rel = $this->_ci->inventory->getCourseObjectivesToProgramOjectivesRelations($courseObjectiveIds,
+            $programObjectiveIds);
+        $relations = array_merge($relations, $rel['relations']);
+        $includes['program_objective_ids'] = array_merge($includes['program_objective_ids'], $rel['program_objective_ids']);
+        $includes['course_objective_ids'] = $rel['course_objective_ids'];
+        $rel = $this->_ci->inventory->getSessionObjectivesToCourseObjectivesRelations($sessionObjectiveIds,
+            $courseObjectiveIds);
+        $relations = array_merge($relations, $rel['relations']);
+        $includes['course_objective_ids'] = array_merge($includes['course_objective_ids'], $rel['course_objective_ids']);
+        $includes['session_objective_ids'] = $rel['session_objective_ids'];
+
+        $expectations['framework'] = array(
+            'includes' => $includes,
+            'relations' => $relations,
+        );
+
         // report (and some program) properties
         $report = array();
         $report['id'] = $invReport->year . '-' . $program->program_id . '-' . time(); // report id format: "<academic year>-<program id>-<current timestamp>"
@@ -343,6 +380,8 @@ class Ilios_CurriculumInventory_Exporter
             $this->_createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['objective_id'],
                 $sessionObjective['title'], $domain, 'session_objective');
         }
+        // competency framework
+        $this->_createCompetencyFrameworkNode($dom, $expectationsNode, $inventory);
         //
         // Academic Levels
         //
@@ -511,6 +550,38 @@ class Ilios_CurriculumInventory_Exporter
             return 0;
         }
         return ($a['order_in_sequence'] > $b['order_in_sequence']) ? 1 : -1;
+    }
+
+    /**
+     * Creates the <CompetencyFramework> and adds it to a given parent node (<Expectations>).
+     * While at it, the LOM information for the competency framework gets added to the created node.
+     * @param DomDocument $dom
+     * @param DomElement $parentNode
+     * @param array $inventory
+     * @return DomElement
+     */
+    protected function _createCompetencyFrameworkNode (DomDocument $dom, DomElement $parentNode, array $inventory)
+    {
+        $competencyFrameworkNode = $dom->createElement('CompetencyFramework');
+        $parentNode->appendChild($competencyFrameworkNode);
+        $lomNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom');
+        $competencyFrameworkNode->appendChild($lomNode);
+        $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'general');
+        $lomNode->appendChild($lomGeneralNode);
+        $lomIdentifierNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','identifier');
+        $lomGeneralNode->appendChild($lomIdentifierNode);
+        $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
+        $lomIdentifierNode->appendChild($lomCatalogNode);
+        $frameworkUri = "http://{$inventory['report']['domain']}/competency_framework/{$inventory['report']['id']}";
+        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','entry', $frameworkUri);
+        $lomIdentifierNode->appendChild($lomEntryNode);
+        $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','title');
+        $lomGeneralNode->appendChild($lomTitleNode);
+        $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
+        $lomTitleNode->appendChild($lomStringNode);
+        $title = 'Competency Framework for ' . $inventory['report']['name'];
+        $lomStringNode->appendChild($dom->createTextNode($title));
+        return $competencyFrameworkNode;
     }
 
 
