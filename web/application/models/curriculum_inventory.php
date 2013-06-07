@@ -86,11 +86,9 @@ EOL;
      * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
      * in a given curriculum inventory report.
      * @param int $reportId the report id
-     * @param array $interprofessionalEventIds contains ids of events that are interprofessional.
-     *     This information is used to flag the retrieved events as interprofessional if applicable.
      * @return array
      */
-    public function getEvents ($reportId, array $interprofessionalEventIds = array())
+    public function getEvents ($reportId)
     {
         $rhett = array();
         $clean = array();
@@ -137,13 +135,6 @@ EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
-                $isInterprofessional = false;
-
-                // check if this is an interprofessional event
-                if (in_array($row['event_id'], $interprofessionalEventIds)) {
-                    $isInterprofessional = true;
-                }
-                $row['interprofessional'] = $isInterprofessional;
                 $rhett[$row['event_id']] = $row;
             }
         }
@@ -202,8 +193,10 @@ SELECT sb.sequence_block_id, s.session_id AS 'event_id', s.supplemental AS 'requ
 FROM `session` s
 JOIN `course` c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
-WHERE c.deleted = 0
-AND s.deleted = 0
+WHERE
+s.deleted = 0
+AND s.publish_event_id IS NOT NULL
+AND c.deleted = 0
 AND sb.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
@@ -493,18 +486,5 @@ EOL;
         }
         $query->free_result();
         return $rhett;
-    }
-
-    /**
-     * Returns a list of ids of inter-professional events ("sessions") for a given inventory report.
-     * Inter-professional sessions is defined in Ilios as any session that is associated
-     * with learner groups from different programs
-     * @param int $reportId the report id
-     * @return array a list of ids
-     */
-    public function getInterprofessionalEventIds ($reportId)
-    {
-        // @todo implement
-        return array();
     }
 }
