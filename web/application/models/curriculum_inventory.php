@@ -213,6 +213,120 @@ EOL;
     }
 
     /**
+     * Retrieves the relations between given course- and program-objectives.
+     * @param array $programObjectivesId
+     * @param array $mecrsIds
+     * @return array
+     */
+    public function getProgramObjectivesToMecrsRelations (array $programObjectivesId, array $mecrsIds)
+    {
+        // @todo implement
+        return array(
+            'relations' => array(),
+            'program_objective_ids' => array(),
+            'mecrs_ids' => array(),
+        );
+    }
+
+    /**
+     * Retrieves the relations between given course- and program-objectives.
+     * @param array $courseObjectiveIds
+     * @param array $programObjectiveIds
+     * @return array
+     */
+    public function getCourseObjectivesToProgramObjectivesRelations (array $courseObjectiveIds, array $programObjectiveIds)
+    {
+        // @todo implement
+        return array(
+            'relations' => array(),
+            'course_objective_ids' => array(),
+            'program_objective_ids' => array(),
+        );
+    }
+
+    /**
+     * Retrieves the relations between given session- and course-objectives.
+     *
+     * @param array $sessionObjectiveIds
+     * @param array $courseObjectiveIds
+     * @return array
+     */
+    public function getSessionObjectivesToCourseObjectivesRelations (array $sessionObjectiveIds, array $courseObjectiveIds)
+    {
+        // @todo implement
+        return array(
+            'relations' => array(),
+            'session_objective_ids' => array(),
+            'course_objective_ids' => array(),
+        );
+    }
+
+    /**
+     * Retrieves all MECRS linked to sequence blocks (via objectives and competencies) in a given inventory report.
+     * @param $reportId The report id.
+     * @return array A nested array of associative arrays, keyed off by 'mecrs_id'. Each sub-array represents a MECRS
+     *      and is itself an associative array with values being keyed off by 'mecrs_id' and 'description'.
+     */
+    public function getMecrs ($reportId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['report_id'] = (int) $reportId;
+        $sql =<<<EOL
+SELECT
+am.mecrs_id, am.description
+FROM
+curriculum_inventory_report r
+JOIN program p ON p.program_id = r.program_id
+JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+JOIN course c ON c.course_id = sb.course_id
+JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
+JOIN cohort co ON co.cohort_id = cxc.cohort_id
+JOIN program_year py ON py.program_year_id = co.program_year_id
+JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
+JOIN objective o ON o.objective_id = pyxo.objective_id
+JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
+JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
+JOIN competency_x_aamc_mecrs cxm ON cxm.competency_id = cm2.competency_id
+JOIN aamc_mecrs am ON am.mecrs_id = cxm.mecrs_id
+WHERE
+c.deleted = 0
+AND py.deleted = 0
+AND r.report_id = {$clean['report_id']}
+
+UNION
+
+SELECT
+am.mecrs_id, am.description
+FROM
+curriculum_inventory_report r
+JOIN program p ON p.program_id = r.program_id
+JOIN curriculum_inventory_sequence_block sb ON sb.report_id = r.report_id
+JOIN course c ON c.course_id = sb.course_id
+JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
+JOIN cohort co ON co.cohort_id = cxc.cohort_id
+JOIN program_year py ON py.program_year_id = co.program_year_id
+JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
+JOIN objective o ON o.objective_id = pyxo.objective_id
+JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
+JOIN competency_x_aamc_mecrs cxm ON cxm.competency_id = cm.competency_id
+JOIN aamc_mecrs am ON am.mecrs_id = cxm.mecrs_id
+WHERE
+c.deleted = 0
+AND py.deleted = 0
+AND r.report_id = {$clean['report_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[$row['mecrs_id']] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
      * Retrieves all competencies (that includes sub-domains) linked to sequence blocks in a given inventory report.
      * A further constraint on owning school is applied to ensure that all retrieved competencies belong to the same
      * school as the program that is being reported on.
