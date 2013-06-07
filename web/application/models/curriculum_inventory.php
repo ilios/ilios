@@ -366,8 +366,9 @@ JOIN `session` s ON s.course_id = c.course_id
 JOIN session_x_objective sxo ON sxo.session_id = s.session_id
 JOIN objective o ON o.objective_id = sxo.objective_id
 WHERE
-c.deleted = 0
-AND s.deleted = 0
+s.deleted = 0
+AND s.publish_event_id IS NOT NULL
+AND c.deleted = 0
 AND r.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
