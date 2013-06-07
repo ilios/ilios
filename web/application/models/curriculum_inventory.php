@@ -223,9 +223,9 @@ EOL;
      * Retrieves all competencies (that includes sub-domains) linked to sequence blocks in a given inventory report.
      * A further constraint on owning school is applied to ensure that all retrieved competencies belong to the same
      * school as the program that is being reported on.
-     * @param $reportId the report id
-     * @return array a nested array of associative arrays, keyed off by 'competency_id'. Each sub-array
-     *     represents a competency and is itself an associative array with values being keyed off by 'competency_id' and 'tittle'.
+     * @param $reportId The report id.
+     * @return array A nested array of associative arrays, keyed off by 'competency_id'. Each sub-array
+     *     represents a competency and is itself an associative array with values being keyed off by 'competency_id' and 'title'.
      */
     public function getCompetencies ($reportId)
     {
@@ -269,8 +269,10 @@ EOL;
     }
 
     /**
-     * @param int $reportId
-     * @return array
+     * Retrieves all program objectives in a given curriculum inventory report.
+     * @param int $reportId The inventory report id.
+     * @return array an associative array of arrays, keyed off by objective id. Each item is an associative array, containing
+     *  the objective's id and title (keys: "objective_id" and "title").
      */
     public function getProgramObjectives ($reportId)
     {
@@ -307,8 +309,10 @@ EOL;
     }
 
     /**
-     * @param int $reportId
-     * @return array
+     * Retrieves all course objectives in a given curriculum inventory report.
+     * @param int $reportId The inventory report id.
+     * @return array an associative array of arrays, keyed off by objective id. Each item is an associative array, containing
+     *  the objective's id and title (keys: "objective_id" and "title").
      */
     public function getCourseObjectives ($reportId)
     {
@@ -340,8 +344,10 @@ EOL;
     }
 
     /**
-     * @param int $reportId
-     * @return array
+     * Retrieves all session objectives in a given curriculum inventory report.
+     * @param int $reportId The inventory report id.
+     * @return array an associative array of arrays, keyed off by objective id. Each item is an associative array, containing
+     *  the objective's id and title (keys: "objective_id" and "title").
      */
     public function getSessionObjectives ($reportId)
     {
@@ -388,9 +394,7 @@ SELECT DISTINCT
 s.session_id AS 'event_id',
 so.objective_id AS 'session_objective_id',
 o.objective_id as 'course_objective_id',
-o2.objective_id AS 'program_objective_id',
-cm.competency_id AS 'competency_id',
-cm2.competency_id AS 'parent_competency_id'
+o2.objective_id AS 'program_objective_id'
 FROM
 curriculum_inventory_report r
 JOIN program p ON p.program_id = r.program_id
@@ -404,8 +408,6 @@ LEFT JOIN course_x_objective cxo ON cxo.objective_id = oxo.parent_objective_id
 LEFT JOIN objective o ON o.objective_id = cxo.objective_id
 LEFT JOIN objective_x_objective oxo2 ON oxo2.objective_id = o.objective_id
 LEFT JOIN objective o2 ON o2.objective_id = oxo2.parent_objective_id
-LEFT JOIN competency cm ON cm.competency_id = o2.competency_id
-LEFT JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
 WHERE
 s.deleted = 0
 AND s.publish_event_id IS NOT NULL
@@ -421,7 +423,6 @@ EOL;
                         'session_objectives' => array(),
                         'course_objectives' => array(),
                         'program_objectives' => array(),
-                        'competencies' => array()
                     );
                 }
                 if (isset($row['session_objective_id'])
@@ -435,14 +436,6 @@ EOL;
                 if (isset($row['program_objective_id'])
                     && ! in_array($row['program_objective_id'], $rhett[$eventId]['program_objectives'])) {
                     $rhett[$eventId]['program_objectives'][] = $row['program_objective_id'];
-                }
-                if (isset($row['competency_id'])
-                    && ! in_array($row['competency_id'], $rhett[$eventId]['competencies'])) {
-                    $rhett[$eventId]['competencies'][] = $row['competency_id'];
-                }
-                if (isset($row['parent_competency_id'])
-                    && ! in_array($row['parent_competency_id'], $rhett[$eventId]['competencies'])) {
-                    $rhett[$eventId]['competencies'][] = $row['parent_competency_id'];
                 }
             }
         }
@@ -463,9 +456,7 @@ EOL;
 SELECT DISTINCT
 sb.sequence_block_id,
 o.objective_id as 'course_objective_id',
-o2.objective_id AS 'program_objective_id',
-cm.competency_id AS 'competency_id',
-cm2.competency_id AS 'parent_competency_id'
+o2.objective_id AS 'program_objective_id'
 FROM
 curriculum_inventory_report r
 JOIN program p ON p.program_id = r.program_id
@@ -475,8 +466,6 @@ JOIN course_x_objective cxo ON cxo.course_id = c.course_id
 LEFT JOIN objective o ON o.objective_id = cxo.objective_id
 LEFT JOIN objective_x_objective oxo ON oxo.objective_id = o.objective_id
 LEFT JOIN objective o2 ON o2.objective_id = oxo.parent_objective_id
-LEFT JOIN competency cm ON cm.competency_id = o2.competency_id
-LEFT JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
 WHERE
 c.deleted = 0
 AND r.report_id = {$clean['report_id']}
@@ -489,7 +478,6 @@ EOL;
                     $rhett[$sequenceBlockId] = array(
                         'course_objectives' => array(),
                         'program_objectives' => array(),
-                        'competencies' => array(),
                     );
                 }
                 if (isset($row['course_objective_id'])
@@ -499,14 +487,6 @@ EOL;
                 if (isset($row['program_objective_id'])
                     && ! in_array($row['program_objective_id'], $rhett[$sequenceBlockId]['program_objectives'])) {
                     $rhett[$sequenceBlockId]['program_objectives'][] = $row['program_objective_id'];
-                }
-                if (isset($row['competency_id'])
-                    && ! in_array($row['competency_id'], $rhett[$sequenceBlockId]['competencies'])) {
-                    $rhett[$sequenceBlockId]['competencies'][] = $row['competency_id'];
-                }
-                if (isset($row['parent_competency_id'])
-                    && ! in_array($row['parent_competency_id'], $rhett[$sequenceBlockId]['competencies'])) {
-                    $rhett[$sequenceBlockId]['competencies'][] = $row['parent_competency_id'];
                 }
             }
         }
