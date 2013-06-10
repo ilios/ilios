@@ -213,19 +213,42 @@ EOL;
     }
 
     /**
-     * Retrieves the relations between given course- and program-objectives.
+     * Retrieves the relations between given program-objectives and MECRS (via competencies).
      * @param array $programObjectivesId
      * @param array $mecrsIds
      * @return array
      */
     public function getProgramObjectivesToMecrsRelations (array $programObjectivesId, array $mecrsIds)
     {
-        // @todo implement
-        return array(
+        $rhett = array(
             'relations' => array(),
             'program_objective_ids' => array(),
             'mecrs_ids' => array(),
         );
+        $this->db->distinct();
+        $this->db->select('o.objective_id, cxam.mecrs_id');
+        $this->db->from('objective o');
+        $this->db->join('competency c', 'o.competency_id = c.competency_id');
+        $this->db->join('competency_x_aamc_mecrs cxam', 'c.competency_id = cxam.competency_id');
+        $this->db->join('aamc_mecrs am', 'am.mecrs_id = cxam.mecrs_id');
+        $this->db->where_in('am.mecrs_id', $mecrsIds);
+        $this->db->where_in('o.objective_id', $programObjectivesId);
+        $query = $this->db->get();
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett['relations'][] = array(
+                    'rel1' => $row['objective_id'],
+                    'rel2' => $row['mecrs_id'],
+                );
+                $rhett['program_objective_ids'][] = $row['objective_id'];
+                $rhett['mecrs_ids'][] = $row['mecrs_id'];
+            }
+            // dedupe
+            $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
+            $rhett['mecrs_ids'] = array_values(array_unique($rhett['mecrs_ids']));
+        }
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -236,12 +259,35 @@ EOL;
      */
     public function getCourseObjectivesToProgramObjectivesRelations (array $courseObjectiveIds, array $programObjectiveIds)
     {
-        // @todo implement
-        return array(
+        $rhett = array(
             'relations' => array(),
             'course_objective_ids' => array(),
             'program_objective_ids' => array(),
         );
+        $this->db->distinct();
+        $this->db->select('oxo.objective_id, oxo.parent_objective_id');
+        $this->db->from('objective_x_objective oxo');
+        $this->db->join('course_x_objective cxo', 'cxo.objective_id = oxo.objective_id');
+        $this->db->join('program_year_x_objective pyxo', 'pyxo.objective_id = oxo.parent_objective_id');
+        $this->db->where_in('oxo.objective_id', $courseObjectiveIds);
+        $this->db->where_in('oxo.parent_objective_id', $programObjectiveIds);
+        $query = $this->db->get();
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett['relations'][] = array(
+                    'rel1' => $row['parent_objective_id'],
+                    'rel2' => $row['objective_id'],
+                );
+                $rhett['course_objective_ids'][] = $row['objective_id'];
+                $rhett['program_objective_ids'][] = $row['parent_objective_id'];
+            }
+            // dedupe
+            $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
+            $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
+        }
+        $query->free_result();
+
+        return $rhett;
     }
 
     /**
@@ -254,11 +300,34 @@ EOL;
     public function getSessionObjectivesToCourseObjectivesRelations (array $sessionObjectiveIds, array $courseObjectiveIds)
     {
         // @todo implement
-        return array(
+        $rhett = array(
             'relations' => array(),
             'session_objective_ids' => array(),
             'course_objective_ids' => array(),
         );
+        $this->db->distinct();
+        $this->db->select('oxo.objective_id, oxo.parent_objective_id');
+        $this->db->from('objective_x_objective oxo');
+        $this->db->join('session_x_objective sxo', 'sxo.objective_id = oxo.objective_id');
+        $this->db->join('course_x_objective cxo', 'cxo.objective_id = oxo.parent_objective_id');
+        $this->db->where_in('oxo.objective_id', $sessionObjectiveIds);
+        $this->db->where_in('oxo.parent_objective_id', $courseObjectiveIds);
+        $query = $this->db->get();
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett['relations'][] = array(
+                    'rel1' => $row['parent_objective_id'],
+                    'rel2' => $row['objective_id'],
+                );
+                $rhett['session_objective_ids'][] = $row['objective_id'];
+                $rhett['course_objective_ids'][] = $row['parent_objective_id'];
+            }
+            // dedupe
+            $rhett['session_objective_ids'] = array_values(array_unique($rhett['session_objective_ids']));
+            $rhett['course_objective_ids'] = array_values(array_unique($rhett['course_objective_ids']));
+        }
+        $query->free_result();
+        return $rhett;
     }
 
     /**

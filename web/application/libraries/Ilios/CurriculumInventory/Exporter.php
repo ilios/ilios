@@ -63,14 +63,24 @@ class Ilios_CurriculumInventory_Exporter
      *         'institution' ... An object representing the curriculum inventory's owning institution
      *         'events' ... An array of events, keyed off by event id. Each event is represented as assoc. array.
      *         'expectations' ... An associative array of arrays, each sub-array containing a
-     *             list of a different type of "competency object" within the curriculum.
-     *             These types are program objectives, course objectives and session objectives.
-     *             The keys for these type-specific sub-arrays are:
-     *                 'program_objectives'
-     *                 'course_objectives'
-     *                 'session_objectives'
+     *                            list of a different type of "competency object" within the curriculum.
+     *                            These types are program objectives, course objectives and session objectives.
+     *                            The keys for these type-specific sub-arrays are:
+     *             'program_objectives'
+     *             'course_objectives'
+     *             'session_objectives'
+     *         'framework' ... The competency framework data set.
+     *             'includes' ... Identifiers of the various competency objects that get referenced in the framework.
+     *                 'mecrs_ids'
+     *                 'program_objective_ids'
+     *                 'course_objective_ids'
+     *                 'session_objective_ids'
+     *             'relations' ... Relations between the various competencies within the framework
+     *                 'program_objectives_to_mecrs'
+     *                 'course_objectives_to_program_objectives'
+     *                 'session_objectives_to_course_objectives'
      *         'academic_levels' ... An array of academic levels used in the curriculum.
-     *             Each academic level is represented by an associative array.
+     *                               Each academic level is represented by an associative array.
      *         'sequence'  ... the inventory sequence object
      *         'sequence_blocks' An array of sequence block. Each sequence block is represented as associative array.
      * @throws Ilios_Exception
@@ -134,21 +144,25 @@ class Ilios_CurriculumInventory_Exporter
             'course_objective_ids' => array(),
             'session_objective_ids' => array(),
         );
-        $relations = array();
+        $relations = array(
+            'program_objectives_to_mecrs' => array(),
+            'course_objectives_to_program_objectives' => array(),
+            'session_objectives_to_course_objectives' => array(),
+        );
 
         $rel = $this->_ci->inventory->getProgramObjectivesToMecrsRelations($programObjectiveIds, $mecrsIds);
-        $relations = array_merge($relations, $rel['relations']);
+        $relations['program_objectives_to_mecrs'] = $rel['relations'];
         $includes['mecrs_ids'] = $rel['mecrs_ids'];
         $includes['program_objective_ids'] = $rel['program_objective_ids'];
-        $rel = $this->_ci->inventory->getCourseObjectivesToProgramOjectivesRelations($courseObjectiveIds,
+        $rel = $this->_ci->inventory->getCourseObjectivesToProgramObjectivesRelations($courseObjectiveIds,
             $programObjectiveIds);
-        $relations = array_merge($relations, $rel['relations']);
-        $includes['program_objective_ids'] = array_merge($includes['program_objective_ids'], $rel['program_objective_ids']);
+        $relations['course_objectives_to_program_objectives'] = $rel['relations'];
+        $includes['program_objective_ids'] = $includes['program_objective_ids'] + $rel['program_objective_ids'];
         $includes['course_objective_ids'] = $rel['course_objective_ids'];
         $rel = $this->_ci->inventory->getSessionObjectivesToCourseObjectivesRelations($sessionObjectiveIds,
             $courseObjectiveIds);
-        $relations = array_merge($relations, $rel['relations']);
-        $includes['course_objective_ids'] = array_merge($includes['course_objective_ids'], $rel['course_objective_ids']);
+        $relations['session_objectives_to_course_objectives'] = $rel['relations'];
+        $includes['course_objective_ids'] = $includes['course_objective_ids'] + $rel['course_objective_ids'];
         $includes['session_objective_ids'] = $rel['session_objective_ids'];
 
         $expectations['framework'] = array(
@@ -324,13 +338,16 @@ class Ilios_CurriculumInventory_Exporter
             // competency object references
             if (array_key_exists('competency_object_references', $event)) {
                 foreach ($event['competency_object_references']['program_objectives'] as $id) {
-                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'program_objective');
+                    $uri = $this->_createCompetencyObjectUri($domain, $id, 'program_objective');
+                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
                 }
                 foreach ($event['competency_object_references']['course_objectives'] as $id) {
-                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'course_objective');
+                    $uri = $this->_createCompetencyObjectUri($domain, $id, 'course_objective');
+                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
                 }
                 foreach ($event['competency_object_references']['session_objectives'] as $id) {
-                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $id, $domain, 'session_objective');
+                    $uri = $this->_createCompetencyObjectUri($domain, $id, 'session_objective');
+                    $this->_createCompetencyObjectReferenceNode($dom, $eventNode, $uri);
                 }
             }
 
@@ -367,20 +384,23 @@ class Ilios_CurriculumInventory_Exporter
         $rootNode->appendChild($expectationsNode);
         // program objectives
         foreach ($inventory['expectations']['program_objectives'] as $programObjective) {
-            $this->_createCompetencyObjectNode($dom, $expectationsNode, $programObjective['objective_id'],
-                $programObjective['title'], $domain, 'program_objective');
+            $uri = $this->_createCompetencyObjectUri($domain, $programObjective['objective_id'], 'program_objective');
+            $this->_createCompetencyObjectNode($dom, $expectationsNode, $programObjective['title'], $uri,
+                'program-level-competency');
         }
         // course objectives
         foreach ($inventory['expectations']['course_objectives'] as $courseObjective) {
-            $this->_createCompetencyObjectNode($dom, $expectationsNode, $courseObjective['objective_id'],
-                $courseObjective['title'], $domain, 'course_objective');
+            $uri = $this->_createCompetencyObjectUri($domain, $courseObjective['objective_id'], 'course_objective');
+            $this->_createCompetencyObjectNode($dom, $expectationsNode, $courseObjective['title'], $uri,
+                'sequence-block-level-competency');
         }
         // session objectives
         foreach ($inventory['expectations']['session_objectives'] as $sessionObjective) {
-            $this->_createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['objective_id'],
-                $sessionObjective['title'], $domain, 'session_objective');
+            $uri = $this->_createCompetencyObjectUri($domain, $sessionObjective['objective_id'], 'session_objective');
+            $this->_createCompetencyObjectNode($dom, $expectationsNode, $sessionObjective['title'], $uri,
+                'event-level-competency');
         }
-        // competency framework
+        // add competency framework
         $this->_createCompetencyFrameworkNode($dom, $expectationsNode, $inventory);
         //
         // Academic Levels
@@ -553,17 +573,18 @@ class Ilios_CurriculumInventory_Exporter
     }
 
     /**
-     * Creates the <CompetencyFramework> and adds it to a given parent node (<Expectations>).
-     * While at it, the LOM information for the competency framework gets added to the created node.
+     * Creates the competency framework node and child-nodes, and adds them to a given parent node (<Expectations>).
      * @param DomDocument $dom
      * @param DomElement $parentNode
      * @param array $inventory
-     * @return DomElement
      */
     protected function _createCompetencyFrameworkNode (DomDocument $dom, DomElement $parentNode, array $inventory)
     {
+        // competency framework
         $competencyFrameworkNode = $dom->createElement('CompetencyFramework');
         $parentNode->appendChild($competencyFrameworkNode);
+
+        // lom
         $lomNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'lom');
         $competencyFrameworkNode->appendChild($lomNode);
         $lomGeneralNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'general');
@@ -581,10 +602,62 @@ class Ilios_CurriculumInventory_Exporter
         $lomTitleNode->appendChild($lomStringNode);
         $title = 'Competency Framework for ' . $inventory['report']['name'];
         $lomStringNode->appendChild($dom->createTextNode($title));
-        return $competencyFrameworkNode;
+
+        // includes
+        $domain = $inventory['report']['domain'];
+        $competencyIds = $inventory['expectations']['framework']['includes']['mecrs_ids'];
+        for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
+            $id = $competencyIds[$i];
+            $uri = $this->_createMecrsUri($id);
+            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+        }
+        $competencyIds = $inventory['expectations']['framework']['includes']['program_objective_ids'];
+        for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
+            $id = $competencyIds[$i];
+            $uri = $this->_createCompetencyObjectUri($domain, $id, 'program_objective');
+            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+        }
+        $competencyIds = $inventory['expectations']['framework']['includes']['course_objective_ids'];
+        for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
+            $id = $competencyIds[$i];
+            $uri = $this->_createCompetencyObjectUri($domain, $id, 'course_objective');
+            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+        }
+        $competencyIds = $inventory['expectations']['framework']['includes']['session_objective_ids'];
+        for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
+            $id = $competencyIds[$i];
+            $uri = $this->_createCompetencyObjectUri($domain, $id, 'session_objective');
+            $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
+        }
+        // relations
+        $relations = $inventory['expectations']['framework']['relations']['program_objectives_to_mecrs'];
+        for ($i = 0, $n = count($relations); $i < $n; $i++) {
+            $relation = $relations[$i];
+            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
+            $relUri2 = $this->_createMecrsUri($relation['rel2']);
+            $relationshipUri = $this->_createRelationshipUri('related');
+            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
+                $relationshipUri);
+        }
+        $relations = $inventory['expectations']['framework']['relations']['course_objectives_to_program_objectives'];
+        for ($i = 0, $n = count($relations); $i < $n; $i++) {
+            $relation = $relations[$i];
+            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'course_objective');
+            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'program_objective');
+            $relationshipUri = $this->_createRelationshipUri('broader');
+            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
+                $relationshipUri);
+        }
+        $relations = $inventory['expectations']['framework']['relations']['session_objectives_to_course_objectives'];
+        for ($i = 0, $n = count($relations); $i < $n; $i++) {
+            $relation = $relations[$i];
+            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'session_objective');
+            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'course_objective');
+            $relationshipUri = $this->_createRelationshipUri('broader');
+            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
+                $relationshipUri);
+        }
     }
-
-
 
     /**
      * Recursively creates and appends sequence block nodes to the XML document
@@ -698,10 +771,12 @@ class Ilios_CurriculumInventory_Exporter
         if (array_key_exists('competency_object_references', $block)) {
             $domain = $inventory['report']['domain'];
             foreach ($block['competency_object_references']['program_objectives'] as $id) {
-                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $id, $domain, 'program_objective');
+                $uri = $this->_createCompetencyObjectUri($domain, $id, 'program_objective');
+                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
             }
             foreach ($block['competency_object_references']['course_objectives'] as $id) {
-                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $id, $domain, 'course_objective');
+                $uri = $this->_createCompetencyObjectUri($domain, $id, 'course_objective');
+                $this->_createCompetencyObjectReferenceNode($dom, $sequenceBlockNode, $uri);
             }
         }
         // pre-conditions and post-conditions are n/a
@@ -741,12 +816,11 @@ class Ilios_CurriculumInventory_Exporter
      * Creates a "CompetencyObject" DOM node and populates it with given values, then appends it to the given parent node.
      * @param DomDocument $dom The document object.
      * @param DomElement $parentNode The parent node.
-     * @param int $id The db record id of the competency object.
      * @param string $title The competency object's title.
-     * @param string $domain The domain name of competency object's URI.
-     * @param string $type One of "competency", "program objective", "course objective", "session objective".
+     * @param string $uri An URI that uniquely identifies the competency object.
+     * @param string $category One of 'program-level-competency', 'sequence-block-level-competency' or 'event-level-competency'.
      */
-    protected function _createCompetencyObjectNode(DomDocument $dom, DomElement $parentNode, $id, $title, $domain, $type)
+    protected function _createCompetencyObjectNode(DomDocument $dom, DomElement $parentNode, $title, $uri, $category)
     {
         $competencyObjectNode = $dom->createElement('CompetencyObject');
         $parentNode->appendChild($competencyObjectNode);
@@ -758,9 +832,6 @@ class Ilios_CurriculumInventory_Exporter
         $lomGeneralNode->appendChild($lomIdentifierNode);
         $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
         $lomIdentifierNode->appendChild($lomCatalogNode);
-
-        $uri = $this->_createCompetencyObjectUri($domain, $type, $id);
-
         $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','title', $uri);
         $lomIdentifierNode->appendChild($lomEntryNode);
         $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
@@ -768,6 +839,9 @@ class Ilios_CurriculumInventory_Exporter
         $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
         $lomTitleNode->appendChild($lomStringNode);
         $lomStringNode->appendChild($dom->createTextNode(trim(strip_tags($title))));
+        $categoryNode = $dom->createElement('Category');
+        $competencyObjectNode->appendChild($categoryNode);
+        $categoryNode->setAttribute('term', $category);
     }
 
     /**
@@ -775,33 +849,92 @@ class Ilios_CurriculumInventory_Exporter
      * Creates a "CompetencyObjectReference" DOM node and populates it with given values, then appends it to the given parent node.
      * @param DomDocument $dom The document object.
      * @param DomElement $parentNode The parent node.
-     * @param int $id The db record id of the competency object.
-     * @param string $domain The domain name of competency object's URI.
-     * @param string $type One of "competency", "program objective", "course objective", "session objective".
+     * @param string $uri An URI that uniquely identifies the competency object.
      * @see Ilios_CurriculumInventory_Exporter::_createCompetencyObjectUri
      */
-    protected function _createCompetencyObjectReferenceNode (DomDocument $dom, DomElement $parentNode, $id, $domain, $type)
+    protected function _createCompetencyObjectReferenceNode (DomDocument $dom, DomElement $parentNode, $uri)
     {
-        $uri = $this->_createCompetencyObjectUri($domain, $type, $id);
+        //$uri = $this->_createCompetencyObjectUri($domain, $type, $id);
         $ref = "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry=\"{$uri}\"]";
         $competencyObjectReferenceNode = $dom->createElement('CompetencyObjectReference', $ref);
         $parentNode->appendChild($competencyObjectReferenceNode);
     }
 
     /**
+     * @param DomDocument $dom
+     * @param DomElement $parentNode
+     * @param string $uri
+     */
+    protected function _createCompetencyFrameworkIncludesNode (DomDocument $dom, DomElement $parentNode, $uri)
+    {
+        $includesNode = $dom->createElement('Includes');
+        $parentNode->appendChild($includesNode);
+        $catalogNode = $dom->createElement('Catalog', 'URI');
+        $includesNode->appendChild($catalogNode);
+        $entryNode = $dom->createElement('Entry', $uri);
+        $includesNode->appendChild($entryNode);
+    }
+
+    /**
+     * @param DomDocument $dom
+     * @param DomElement $parentNode
+     * @param string $relUri1
+     * @param string $relUri2
+     * @param string $relationshipUri
+     */
+    protected function _createCompetencyFrameworkRelationNode (DomDocument $dom, DomElement $parentNode, $relUri1,
+                                                               $relUri2, $relationshipUri)
+    {
+        $relationNode = $dom->createElement('Relation');
+        $parentNode->appendChild($relationNode);
+        $referenceNode = $dom->createElement('Reference1');
+        $relationNode->appendChild($referenceNode);
+        $catalogNode = $dom->createElement('Catalog', 'URI');
+        $referenceNode->appendChild($catalogNode);
+        $entryNode = $dom->createElement('Entry', $relUri1);
+        $referenceNode->appendChild($entryNode);
+        $relationshipNode = $dom->createElement('Relationship', $relationshipUri);
+        $relationNode->appendChild($relationshipNode);
+        $referenceNode = $dom->createElement('Reference2');
+        $relationNode->appendChild($referenceNode);
+        $catalogNode = $dom->createElement('Catalog', 'URI');
+        $referenceNode->appendChild($catalogNode);
+        $entryNode = $dom->createElement('Entry', $relUri2);
+        $referenceNode->appendChild($entryNode);
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    protected function _createRelationshipUri($type)
+    {
+        return "http://www.w3.org/2004/02/skos/core#{$type}";
+    }
+
+    /**
      * Returns a URI that identifies a given competency object within the curriculum inventory.
      * Note: The returned URI is a bogus URL, but that's OK (for now).
      * @param string $domain The domain name of competency object's URI.
+     * @param int $id The db record id of the competency object.
      * @param string $type the type of competency object. Must be one of
-     *     "competency"
      *     "program_objective"
      *     "course_objective"
      *     "session_objective"
-     * @param int $id The db record id of the competency object.
      * @return string The unique URI for the given competency object.
      */
-    protected function _createCompetencyObjectUri ($domain, $type, $id)
+    protected function _createCompetencyObjectUri ($domain, $id, $type)
     {
         return "http://{$domain}/{$type}/{$id}";
+    }
+
+    /**
+     * Returns a URI that identifies a given MECRS as defined by the AAMC.
+     * @param string $mecrsPartialUri A part of the URI that uniquely identifies te MECRS competency.
+     * @return string The generated URI.
+     */
+    protected function _createMecrsUri ($mecrsPartialUri)
+    {
+        return "http://aamc.org/mecrs/{$mecrsPartialUri}";
     }
 }
