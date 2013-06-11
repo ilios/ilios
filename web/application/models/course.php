@@ -159,11 +159,8 @@ class Course extends Ilios_Base_Model
                 $this->db->query($queryString);
             }
 
-
-            $objectiveIdMap
-                = $this->rolloverObjectives('course_x_objective', 'course_id', $courseId,
-                                            $newCourseId, $includeCohorts);
-
+            $objectiveIdMap = $this->objective->rolloverObjectives('course_x_objective', 'course_id', $courseId,
+                $newCourseId, $includeCohorts);
 
             $sessionIds = $this->iliosSession->getIdsOfPublishedSessionsForCourse($courseId);
 
@@ -366,8 +363,8 @@ class Course extends Ilios_Base_Model
                                                                $notesArePubliclyViewable);
         }
 
-        $rhett['objectives'] = $this->_saveObjectives($objectiveArray, 'course_x_objective',
-                                                     'course_id', $courseId, $auditAtoms);
+        $rhett['objectives'] = $this->objective->saveObjectives($objectiveArray, 'course_x_objective', 'course_id',
+            $courseId, $auditAtoms);
 
         return $rhett;
     }
