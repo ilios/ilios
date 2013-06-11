@@ -141,10 +141,12 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
 };
 
 ilios.cm.transaction.saveAllDirty = function () {
-    var sessions = null;
-    var sessionModel = null;
+    var sessions, sessionModel;
     var firstChild = null;
     var collapserId = null;
+    var keys = [];
+    var isLast = false;
+    var i, n, key;
 
     this.hide();
 
@@ -155,42 +157,44 @@ ilios.cm.transaction.saveAllDirty = function () {
     }
 
     sessions = ilios.cm.currentCourseModel.getSessions();
-    for (var key in sessions) {
+    for (key in sessions) {
         sessionModel = sessions[key];
-
-        if (sessionModel.isModelDirty() || ((sessionModel.getPublishEventId() != null)
-                                                    && (sessionModel.getPublishEventId() > 0))) {
-            collapserId = ilios.dom.childCollapsingContainerIdForContainerNumber(key);
-            firstChild = document.getElementById(collapserId);
-            ilios.cm.transaction.performSessionSave(firstChild.firstChild.getAttribute('cnumber'),
-                                                    false, false);
+        if (sessionModel.isModelDirty()
+            || ((sessionModel.getPublishEventId() != null) && (sessionModel.getPublishEventId() > 0))) {
+            keys.push(key);
         }
+    }
+    for (i = 0, n = keys.length; i < n; i++) {
+        key = keys[i];
+        collapserId = ilios.dom.childCollapsingContainerIdForContainerNumber(key);
+        firstChild = document.getElementById(collapserId);
+        isLast = (n === (i + 1));
+        ilios.cm.transaction.performSessionSave(firstChild.firstChild.getAttribute('cnumber'), false, false, isLast);
     }
 };
 
 // This will be called from the review dialog panel
 ilios.cm.transaction.continueMixedPublish = function () {
-    var reviewObject = null;
+    var reviewObject;
     var containerNumber = null;
     var publishAsTBD = false;
+    var isLast = false;
+    var i, n;
 
-    for (var key in ilios.cm.reviewDialogObjects) {
-        reviewObject = ilios.cm.reviewDialogObjects[key];
+    // save course
+    reviewObject = ilios.cm.reviewDialogObjects.courseReviewObject;
+    if (reviewObject) {
+        publishAsTBD = (reviewObject.checkbox && (! reviewObject.checkbox.checked)) ? true : false;
+        ilios.cm.transaction.performCourseSave(true, publishAsTBD);
+    }
 
-        publishAsTBD = false;
-        if (reviewObject.checkbox && (! reviewObject.checkbox.checked)) {
-            publishAsTBD = true;
-        }
-
-        if (reviewObject.iliosModel instanceof CourseModel) {
-            ilios.cm.transaction.performCourseSave(true, publishAsTBD);
-        }
-        else {
-            containerNumber
-            = ilios.cm.currentCourseModel.getContainerForSession(reviewObject.iliosModel);
-
-            ilios.cm.transaction.performSessionSave(containerNumber, true, publishAsTBD);
-        }
+    // save sessions
+    for (i = 0, n = ilios.cm.reviewDialogObjects.sessionReviewObjects.length; i < n; i++) {
+        reviewObject = ilios.cm.reviewDialogObjects.sessionReviewObjects[i];
+        publishAsTBD = (reviewObject.checkbox && (! reviewObject.checkbox.checked)) ? true : false;
+        containerNumber = ilios.cm.currentCourseModel.getContainerForSession(reviewObject.iliosModel);
+        isLast = (n === (i + 1));
+        ilios.cm.transaction.performSessionSave(containerNumber, true, publishAsTBD, isLast);
     }
 };
 
@@ -209,6 +213,9 @@ ilios.cm.transaction.performCoursePublish = function () {
 
 ilios.cm.transaction.publishAll = function () {
     var publishability = ilios.cm.currentCourseModel.getTreePublishability();
+    var keys = [];
+    var isLast = false;
+    var i, n;
 
     this.hide();
 
@@ -219,18 +226,21 @@ ilios.cm.transaction.publishAll = function () {
 
         sessions = ilios.cm.currentCourseModel.getSessions();
         for (var key in sessions) {
-            ilios.cm.transaction.performSessionSave(key, true, false);
+            keys.push(key);
         }
-    }
-    else if (publishability
-                   == AbstractJavaScriptModelForm.prototype.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS) {
-        IEvent.fire({action: 'review_dialog_open', cnumber: 0, // cnumber doesn't matter here
-                     review_type: 0});
+        for (i = 0, n = keys.length; i < n; i++) {
+            key = keys[i];
+            isLast = (n === (i + 1));
+            ilios.cm.transaction.performSessionSave(key, true, false, isLast);
+        }
+
+    } else if (publishability == AbstractJavaScriptModelForm.prototype.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS) {
+        IEvent.fire({action: 'review_dialog_open', cnumber: 0, review_type: 0});  // cnumber doesn't matter here
     }
 };
 
 // @private
-ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPublish, publishAsTBD) {
+ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPublish, publishAsTBD, reloadLearnerGroupsOnSuccess) {
     var url = controllerURL + "saveSession",
         method = "POST",
         paramString = null,
@@ -240,6 +250,7 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
         errorString = sessionModel.saveAttemptWarningMessage(),
         replacer = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer,
         stringify = ilios.utilities.yahooJSONStringForAssociativeArray;
+        reloadLearnerGroupsOnSuccess = reloadLearnerGroupsOnSuccess || false;
 
     if (errorString != null) {
         ilios.alert.alert(errorString);
@@ -316,6 +327,11 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
 
                 // reload offerings
                 ilios.cm.transaction.loadOfferingsForSession(model.getDBId());
+
+                // reload learner groups
+                if (reloadLearnerGroupsOnSuccess) {
+                    ilios.cm.transaction.refreshAssociatedLearnerGroupsListing();
+                }
             },
 
             failure: function (resultObject) {
@@ -382,7 +398,7 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
 ilios.cm.transaction.saveSessionDraft = function (event) {
     var target = ilios.utilities.getEventTarget(event);
     var containerNumber = target.parentNode.parentNode.parentNode.parentNode.getAttribute('cnumber');
-    ilios.cm.transaction.performSessionSave(containerNumber, false, false);
+    ilios.cm.transaction.performSessionSave(containerNumber, false, false, true);
 };
 
 ilios.cm.transaction.publishSession = function (event) {
@@ -392,7 +408,7 @@ ilios.cm.transaction.publishSession = function (event) {
     var publishability = model.getPublishability();
 
     if (publishability== AbstractJavaScriptModelForm.prototype.CAN_BE_PUBLISHED) {
-        ilios.cm.transaction.performSessionSave(containerNumber, true, false);
+        ilios.cm.transaction.performSessionSave(containerNumber, true, false, true);
     }
     else if (publishability
                    == AbstractJavaScriptModelForm.prototype.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS) {
@@ -475,6 +491,8 @@ ilios.cm.transaction.continueSessionDelete = function (event, args) {
                 ilios.cm.loadedCourseModel.removeSessionForContainer(returnedContainerNumber);
 
                 ilios.cm.session.removeSessionUIWithContainerNumber(returnedContainerNumber);
+
+                ilios.cm.transaction.refreshAssociatedLearnerGroupsListing();
             },
 
             failure: function (resultObject) {
