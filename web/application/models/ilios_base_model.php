@@ -392,61 +392,6 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * Adds or updates given objectives in the database.
-     *
-     * @param array $objectives A list of objectives.
-     * @param string $crossTableName The name of an objectives JOIN table.
-     * @param string $crossTableColumn The column name in the objectives JOIN table that references the entity table
-     *     that the objectives are associated with.
-     * @param mixed $columnValue The id of the entity that the objectives are associated with.
-     * @param array $auditAtoms The auditing trail.
-     * @return array A nested array of associative arrays, containing information about the saved objectives.
-     *     Each array element contains a MD5 hash of the objective's content (key: 'md5') and the objective's
-     *     db record id (key: 'dbId').
-     */
-    protected function _saveObjectives (array $objectives, $crossTableName, $crossTableColumn, $columnValue,
-                                        &$auditAtoms)
-    {
-        $rhett = array();
-
-        // get the ids of currently associated objectives from the JOIN table
-        $existingObjectiveIds = $this->getIdArrayFromCrossTable($crossTableName, 'objective_id', $crossTableColumn,
-            $columnValue);
-
-        /*
-         * Objectives:
-         *
-         * does the objective exist already (dbId != -1), update that objective
-         * else, make a new objective.
-         *
-         * make a new array with key 'dbId' featuring that dbId, add it to $objectiveIdArray
-         * give $objectiveIdArray to the cross table insert method
-         */
-
-        foreach ($objectives as $key => $val) {
-            $dbId = $val['dbId'];
-
-            if ($dbId == -1) {
-                $dbId = $this->objective->addNewObjective($val, $auditAtoms);
-            }
-            else {
-                $this->objective->updateObjective($val, $auditAtoms);
-            }
-
-            $newId = array();
-            $newId['dbId'] = $dbId;
-            $newId['md5'] = $val['cachedMD5'];
-
-            array_push($rhett, $newId);
-        }
-
-        // update object associations
-        $this->_saveJoinTableAssociations($crossTableName, $crossTableColumn, $columnValue, 'objective_id', $rhett, $existingObjectiveIds);
-
-        return $rhett;
-    }
-
-    /**
      * This method copies ("rolls over") objectives for a given associated entity from one academic year into another.
      *
      * @param string $crossTableName The name of the objectives JOIN table.
