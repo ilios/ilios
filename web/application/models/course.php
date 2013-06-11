@@ -366,8 +366,8 @@ class Course extends Ilios_Base_Model
                                                                $notesArePubliclyViewable);
         }
 
-        $rhett['objectives'] = $this->_saveObjectives($objectiveArray, 'course_x_objective',
-                                                     'course_id', $courseId, $auditAtoms);
+        $rhett['objectives'] = $this->objective->saveObjectives($objectiveArray, 'course_x_objective', 'course_id',
+            $courseId, $auditAtoms);
 
         return $rhett;
     }

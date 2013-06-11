@@ -440,8 +440,8 @@ EOL;
             $objectivesArray[$i]['dbId'] = -1;
         }
 
-        $returningObjectives = $this->_saveObjectives($objectivesArray, 'program_year_x_objective',
-                                                     'program_year_id', $newId, $auditAtoms);
+        $returningObjectives = $this->objective->saveObjectives($objectivesArray, 'program_year_x_objective',
+            'program_year_id', $newId, $auditAtoms);
         return $newId;
     }
 
@@ -493,8 +493,8 @@ EOL;
         array_push($auditAtoms, $this->auditEvent->wrapAtom($cohortId, 'cohort_id', 'cohort',
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
 
-        $rhett = $this->_saveObjectives($objectivesArray, 'program_year_x_objective',
-                                       'program_year_id', $programYearId, $auditAtoms);
+        $rhett = $this->objective->saveObjectives($objectivesArray, 'program_year_x_objective', 'program_year_id',
+            $programYearId, $auditAtoms);
 
         // TODO audit events for the cross table transactions?
         $this->processCrossTableTransactions('program_year_x_competency', 'competency_id',
