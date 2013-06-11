@@ -205,4 +205,98 @@ class Objective extends Ilios_Base_Model
 
         return $rhett;
     }
+
+    /**
+     * This method copies ("rolls over") objectives for a given associated entity from one academic year into another.
+     *
+     * @param string $crossTableName The name of the objectives JOIN table.
+     * @param string $crossTableRowName The column name in the objectives JOIN table that references the entity table
+     *     that the objectives are associated with.
+     * @param string $crossTableId The id of the source entity that the objectives are associated with.
+     * @param int $newCrossTableId The id of the target entity that the copied objectives should be associated with.
+     * @param boolean $rolloverIsSameAcademicYear Flag indicating whether objective are being copied within the same
+     *     academic year or not. If set to TRUE then objective/competency associations are copied over, otherwise not.
+     * @param array|null $parentMap An array of nested arrays, representing already rolled-over parent objectives
+     *     to the objectives being rolled over. Each item is an associative array containing the rolled-over parent
+     *     objective's original and new record id, keyed off by "original" and "new".
+     * @return array An array of nested arrays, representing the rolled over objectives. Each item is an associative
+     *     array containing the rolled-over objective's original and new record id, keyed off by "original" and "new".
+     */
+    public function rolloverObjectives ($crossTableName, $crossTableRowName, $crossTableId, $newCrossTableId,
+                                        $rolloverIsSameAcademicYear, $parentMap = null)
+    {
+        $objectiveIdPairs = array();
+
+        $shouldCopyParentAttributes = ($rolloverIsSameAcademicYear || ($parentMap != null));
+
+        $this->db->where($crossTableRowName, $crossTableId);
+        $query = $this->db->get($crossTableName);
+        $objectiveIds = array();
+        foreach ($query->result_array() as $row) {
+            $objectiveIds[] = $row['objective_id'];
+        }
+
+        $query->free_result();
+
+        foreach ($objectiveIds as $objectiveId) {
+            $objectiveRow = $this->getRowForPrimaryKeyId($objectiveId);
+
+            $newRow = array();
+            $newRow['objective_id'] = null;
+
+            $newRow['title'] = $objectiveRow->title;
+            $newRow['competency_id'] = $rolloverIsSameAcademicYear ? $objectiveRow->competency_id
+                : null;
+
+            $this->db->insert($this->getTableName(), $newRow);
+            $pair = array();
+            $pair['new'] = $this->db->insert_id();
+            $pair['original'] = $objectiveId;
+
+            $objectiveIdPairs[] = $pair;
+        }
+        foreach ($objectiveIdPairs as $objectiveIdPair) {
+            $newRow = array();
+            $newRow[$crossTableRowName] = $newCrossTableId;
+            $newRow['objective_id'] = $objectiveIdPair['new'];
+            $this->db->insert($crossTableName, $newRow);
+
+            $queryString = 'SELECT copy_objective_attributes_to_objective('
+                . $objectiveIdPair['original'] . ', ' . $objectiveIdPair['new']
+                . ($shouldCopyParentAttributes ? ', 1' : ', 0') . ')';
+            $this->db->query($queryString);
+
+            if ($parentMap != null) {
+                $this->db->where('objective_id', $objectiveIdPair['new']);
+                $query = $this->db->get('objective_x_objective');
+
+                $updateList = array();
+                foreach ($query->result_array() as $row) {
+                    foreach ($parentMap as $parentObjectIdPair) {
+                        if ($parentObjectIdPair['original'] == $row['parent_objective_id']) {
+                            $updateTriplet = array();
+                            $updateTriplet['oid'] = $objectiveIdPair['new'];
+                            $updateTriplet['original_poid'] = $parentObjectIdPair['original'];
+                            $updateTriplet['new_poid'] = $parentObjectIdPair['new'];
+
+                            $updateList[] = $updateTriplet;
+                        }
+                    }
+                }
+
+                $query->free_result();
+
+                foreach ($updateList as $updateTriplet) {
+                    $this->db->where('objective_id', $updateTriplet['oid']);
+                    $this->db->where('parent_objective_id', $updateTriplet['original_poid']);
+
+                    $updateRow = array();
+                    $updateRow['parent_objective_id'] = $updateTriplet['new_poid'];
+
+                    $this->db->update('objective_x_objective', $updateRow);
+                }
+            }
+        }
+        return $objectiveIdPairs;
+    }
 }

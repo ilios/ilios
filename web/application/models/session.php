@@ -306,10 +306,8 @@ class Session extends Ilios_Base_Model
                 $this->db->query($queryString);
             }
 
-
-            $this->rolloverObjectives('session_x_objective', 'session_id', $sessionId,
-                                      $newSessionId, $rolloverIsSameAcademicYear, $objectiveIdMap);
-
+            $this->objective->rolloverObjectives('session_x_objective', 'session_id', $sessionId, $newSessionId,
+                $rolloverIsSameAcademicYear, $objectiveIdMap);
 
             if ($rolloverOfferingsToo) {
                 $offeringIds = array();
