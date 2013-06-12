@@ -1662,6 +1662,11 @@ ilios.cm.populateReviewDetailsInContainer = function (container, model) {
         listItem.appendChild(element);
         container.appendChild(listItem);
     }
+    if (isCourse) {
+        ilios.cm.reviewDialogObjects.courseReviewObject = reviewObject;
+    } else {
+        ilios.cm.reviewDialogObjects.sessionReviewObjects.push(reviewObject);
+    }
 
     for (i = 1, n = reviewArray.length; i < n; i++) {
         reviewObject = reviewArray[i];
@@ -1684,11 +1689,5 @@ ilios.cm.populateReviewDetailsInContainer = function (container, model) {
         element.innerHTML = reviewObject.displayValue;
         listItem.appendChild(element);
         container.appendChild(listItem);
-    }
-
-    if (isCourse) {
-        ilios.cm.reviewDialogObjects.courseReviewObject = reviewObject;
-    } else {
-        ilios.cm.reviewDialogObjects.sessionReviewObjects.push(reviewObject);
     }
 };
