@@ -18,7 +18,7 @@ class Canned_Queries extends Ilios_Base_Model
 
     /**
      * Retrieves a list of course-titles and -ids for courses that are associated with a given learner group via
-     * session-offerings.
+     * session-offerings and independent-learning-sessions.
      * Note: Archived courses are excluded.
      * @param int $groupId The learner group id.
      * @return array A nested array of associative arrays. Each item contains a course title (key: 'title') and a course
@@ -31,13 +31,23 @@ class Canned_Queries extends Ilios_Base_Model
         $clean['group_id'] = (int) $groupId;
 
         $sql =<<< EOL
-SELECT DISTINCT c.`course_id`, c.`title`
+SELECT c.`course_id`, c.`title`
 FROM `offering_learner` ol
 JOIN `offering` o ON o.`offering_id` = ol.`offering_id`
 JOIN `session` s ON s.`session_id` = o.`session_id`
 JOIN `course` c ON c.`course_id` = s.`course_id`
 WHERE ol.`group_id` = {$clean['group_id']}
 AND o.`deleted` = 0
+AND s.`deleted` = 0
+AND c.`deleted` = 0
+AND c.`archived` = 0
+UNION
+SELECT c.`course_id`, c.`title`
+FROM `ilm_session_facet_learner` isfl
+JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = isfl.`ilm_session_facet_id`
+JOIN `session` s ON s.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
+JOIN `course` c ON c.`course_id` = s.`course_id`
+WHERE isfl.`group_id` = {$clean['group_id']}
 AND s.`deleted` = 0
 AND c.`deleted` = 0
 AND c.`archived` = 0
