@@ -38,22 +38,46 @@ class Canned_Queries extends Ilios_Base_Model
         return $rhett;
     }
 
+    /**
+     * Retrieves a list of learner groups that are associated with independent learning sessions and offerings
+     * in a given course.
+     * @param int $courseId The course id.
+     * @return array a nested array of associative arrays. Each item represents a learner group, containing the group's
+     *      identifier (key: 'group_id') and the group's name (key: 'title')
+     */
     public function getLearnerGroupIdAndTitleForCourse ($courseId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['course_id'] = (int) $courseId;
 
-        $queryString = 'SELECT DISTINCT `group`.`group_id`, `group`.`title` '
-                        . 'FROM `session`, `offering`, `offering_learner`, `group` '
-                        . 'WHERE (`offering`.`session_id` = `session`.`session_id`) '
-                        .       'AND (`offering_learner`.`offering_id` = `offering`.`offering_id`) '
-                        .       'AND (`offering_learner`.`group_id` = `group`.`group_id`) '
-                        .       'AND (`session`.`course_id` = ' . $courseId . ')';
+        $sql =<<< EOL
+SELECT g.`group_id`, g.`title`
+FROM `session` s
+JOIN `offering` o ON o.`session_id` = s.`session_id`
+JOIN `offering_learner` ol ON ol.`offering_id` = o.`offering_id`
+JOIN `group` g ON g.`group_id` = ol.`group_id`
+WHERE
+s.`deleted` = 0
+AND o.`deleted` = 0
+AND s.`course_id` = {$clean['course_id']}
+UNION
+SELECT g.`group_id`, g.`title`
+FROM `session` s
+JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = s.`ilm_session_facet_id`
+JOIN `ilm_session_facet_learner` isfl ON isfl.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
+JOIN `group` g ON g.`group_id` = isfl.`group_id`
+WHERE s.`deleted` = 0
+AND s.`course_id` = {$clean['course_id']}
+EOL;
 
-        $queryResults = $this->db->query($queryString);
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row;
+            }
         }
-
+        $query->free_result();
         return $rhett;
     }
 
