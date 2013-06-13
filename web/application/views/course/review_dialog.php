@@ -42,7 +42,10 @@
 
         // The code which populates the view, showing checkboxes where appropriate, should put each
         //      HTMLElement which in this [what should be an] array
-        ilios.cm.reviewDialogObjects = null;
+        ilios.cm.reviewDialogObjects = {
+            sessionReviewObjects: [],
+            courseReviewObject: null
+        };
 
         ilios.cm.assembleReviewDialog = function (use, less, args) {
             var handleSave = function () {
