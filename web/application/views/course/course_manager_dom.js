@@ -1502,7 +1502,10 @@ ilios.cm.populateReviewForFullReview = function () {
     element = new YAHOO.util.Element(document.getElementById('session_review'));
     element.setStyle('display', 'none');
 
-    ilios.cm.reviewDialogObjects = new Array();
+    ilios.cm.reviewDialogObjects = {
+        sessionReviewObjects: [],
+        courseReviewObject: null
+    };
 
     element = document.getElementById('full_review_course_div');
     ilios.utilities.removeAllChildren(element);
@@ -1575,7 +1578,10 @@ ilios.cm.populateReviewForCourseReview = function () {
     element = new YAHOO.util.Element(document.getElementById('session_review'));
     element.setStyle('display', 'none');
 
-    ilios.cm.reviewDialogObjects = new Array();
+    ilios.cm.reviewDialogObjects = {
+        sessionReviewObjects: [],
+        courseReviewObject: null
+    };
 
     element = document.getElementById('course_review_course_div');
     ilios.utilities.removeAllChildren(element);
@@ -1612,7 +1618,10 @@ ilios.cm.populateReviewForSessionReviewForContainer = function (containerNumber)
     element = new Element(document.getElementById('course_review'));
     element.setStyle('display', 'none');
 
-    ilios.cm.reviewDialogObjects = new Array();
+    ilios.cm.reviewDialogObjects = {
+        sessionReviewObjects: [],
+        courseReviewObject: null
+    };
 
     element = document.getElementById('session_review_session_div');
     ilios.utilities.removeAllChildren(element);
@@ -1631,9 +1640,9 @@ ilios.cm.populateReviewForSessionReviewForContainer = function (containerNumber)
 ilios.cm.populateReviewDetailsInContainer = function (container, model) {
     var reviewArray = model.getReviewArray();
     var isCourse = (model instanceof CourseModel);
-    var reviewObject = new Object();
+    var reviewObject = {};
     var element = null;
-    var listItem;
+    var listItem, i, n;
 
     reviewObject.iliosModel = model;
 
@@ -1648,23 +1657,23 @@ ilios.cm.populateReviewDetailsInContainer = function (container, model) {
 
         element = document.createElement('span');
         element.setAttribute('class', 'warning');
-        element.innerHTML
-            = isCourse
-                ? ilios_i18nVendor.getI18NString('course_management.review.override_course')
-                : ilios_i18nVendor.getI18NString('course_management.review.override_session');
+        element.innerHTML = isCourse ? ilios_i18nVendor.getI18NString('course_management.review.override_course')
+            : ilios_i18nVendor.getI18NString('course_management.review.override_session');
         listItem.appendChild(element);
         container.appendChild(listItem);
     }
+    if (isCourse) {
+        ilios.cm.reviewDialogObjects.courseReviewObject = reviewObject;
+    } else {
+        ilios.cm.reviewDialogObjects.sessionReviewObjects.push(reviewObject);
+    }
 
-    ilios.cm.reviewDialogObjects.push(reviewObject);
-
-    for (var i = 1; i < reviewArray.length; i++) {
+    for (i = 1, n = reviewArray.length; i < n; i++) {
         reviewObject = reviewArray[i];
         listItem = document.createElement('li');
         if (reviewObject.passed) {
             listItem.setAttribute('class', 'pass icon-checkmark');
-        }
-        else {
+        } else {
             listItem.setAttribute('class','fail icon-warning');
         }
         element = document.createElement('label');
@@ -1674,8 +1683,7 @@ ilios.cm.populateReviewDetailsInContainer = function (container, model) {
         element = document.createElement('span');
         if (reviewObject.passed) {
             element.setAttribute('class', 'data');
-        }
-        else {
+        } else {
             element.setAttribute('class', 'data');
         }
         element.innerHTML = reviewObject.displayValue;
