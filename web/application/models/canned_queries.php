@@ -16,25 +16,39 @@ class Canned_Queries extends Ilios_Base_Model
         parent::__construct();
     }
 
+    /**
+     * Retrieves a list of course-titles and -ids for courses that are associated with a given learner group via
+     * session-offerings.
+     * Note: Archived courses are excluded.
+     * @param int $groupId The learner group id.
+     * @return array A nested array of associative arrays. Each item contains a course title (key: 'title') and a course
+     *      identifier (key: 'course_id').
+     */
     public function getCourseIdAndTitleForLearnerGroup ($groupId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['group_id'] = (int) $groupId;
 
-        $queryString = 'SELECT DISTINCT `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `session`, `offering`, `offering_learner` '
-                        . 'WHERE (`offering`.`session_id` = `session`.`session_id`) '
-                        .       'AND (`session`.`course_id` = `course`.`course_id`) '
-                        .       'AND (`session`.`deleted` = 0) '
-                        .       'AND (`course`.`deleted` = 0) '
-                        .       'AND (`course`.`archived` = 0) '
-                        .       'AND (`offering_learner`.`offering_id` = `offering`.`offering_id`) '
-                        .       'AND (`offering_learner`.`group_id` = ' . $groupId . ')';
-
-        $queryResults = $this->db->query($queryString);
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
+        $sql =<<< EOL
+SELECT DISTINCT c.`course_id`, c.`title`
+FROM `offering_learner` ol
+JOIN `offering` o ON o.`offering_id` = ol.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
+JOIN `course` c ON c.`course_id` = s.`course_id`
+WHERE ol.`group_id` = {$clean['group_id']}
+AND o.`deleted` = 0
+AND s.`deleted` = 0
+AND c.`deleted` = 0
+AND c.`archived` = 0
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row;
+            }
         }
-
+        $query->free_result();
         return $rhett;
     }
 
@@ -42,8 +56,8 @@ class Canned_Queries extends Ilios_Base_Model
      * Retrieves a list of learner groups that are associated with independent learning sessions and offerings
      * in a given course.
      * @param int $courseId The course id.
-     * @return array a nested array of associative arrays. Each item represents a learner group, containing the group's
-     *      identifier (key: 'group_id') and the group's name (key: 'title')
+     * @return array A nested array of associative arrays. Each item represents a learner group, containing the group's
+     *      identifier (key: 'group_id') and the group's name (key: 'title').
      */
     public function getLearnerGroupIdAndTitleForCourse ($courseId)
     {
