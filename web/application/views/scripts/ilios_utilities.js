@@ -221,21 +221,26 @@ ilios.utilities.toggle = function (containerIdToToggle, toggleLinkElement) {
 
 
 /**
- * It _Really_ seems like this should be a utility function somewhere in the world already
- *
- * @param optionValue if null, or value is not in the select options array, the first option
- *                      is selected
+ * Sets the option element in a given SELECT input field as "selected" that matches a given value.
+ * If the value is NULL, or value is not in the select options array, the first option is selected.
+ * @method selectOptionWithValue
+ * @param HTMLSelectElement selectElement The SELECT input element.
+ * @param mixed optionValue The value to match.
+ * @return boolean TRUE if a match was found, otherwise FALSE.
  */
 ilios.utilities.selectOptionWithValue = function (selectElement, optionValue) {
-    for (i = 0; i < selectElement.options.length; i++) {
+    var i, n;
+
+    for (i = 0, n = selectElement.options.length; i < n; i++) {
         if ((selectElement.options[i].value == optionValue) || (optionValue == null)) {
             selectElement.selectedIndex = i;
-
-            return;
+            return true;
         }
-
+    }
+    if (n) {
         selectElement.selectedIndex = 0;
     }
+    return false;
 };
 
 /**
