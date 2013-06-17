@@ -730,7 +730,7 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
         scratchOption = document.createElement('option');
         scratchOption.setAttribute('value', startYear);
         if (i == 0) {
-            scratchOption.setAttribute('selected', 'true');
+            scratchOption.setAttribute('selected', 'selected');
         }
 
         textNode = document.createTextNode(text);
