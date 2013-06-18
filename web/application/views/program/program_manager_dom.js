@@ -107,33 +107,6 @@ ilios.pm.revertChanges = function () {
 /*
  * Call via onDOMReady
  */
-ilios.pm.registerSaveAndPublishAll = function () {
-    var Event = YAHOO.util.Event;
-    var element = document.getElementById('save_all_dirty_to_draft');
-    var saveAllStr = ilios_i18nVendor.getI18NString('program_management.warning.save_all_draft');
-    var publishAllStr = ilios_i18nVendor.getI18NString('program_management.warning.publish_all');
-    var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
-    var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
-
-    Event.addListener(element, 'click', function () {
-        ilios.alert.inform('<p style="margin-bottom:9px; text-align:justify;">'
-            + saveAllStr + ':</p><center><b>' + continueStr
-            + '</b></center>', yesStr, ilios.pm.transaction.saveAllDirty
-        );
-    });
-
-    element = document.getElementById('publish_all');
-    Event.addListener(element, 'click', function () {
-        ilios.alert.inform('<p style="margin-bottom:9px; text-align:justify;">'
-            + publishAllStr + ':</p><center><b>' + continueStr
-            + '</b></center>', yesStr, ilios.pm.transaction.publishAll
-        );
-    });
-};
-
-/*
- * Call via onDOMReady
- */
 ilios.pm.registerProgramUIListeners = function () {
     var Event = YAHOO.util.Event;
     var element = document.getElementById('program_title');
@@ -377,12 +350,6 @@ ilios.pm.populateProgramAndSetEnable = function (title, shortTitle, duration, pr
     }
 
     YAHOO.util.Dom.setStyle("edit_program_inputfields", "display", "block");
-
-    element = document.getElementById('save_all_dirty_to_draft');
-    ilios.dom.setElementEnabled(element, true);
-
-    element = document.getElementById('publish_all');
-    ilios.dom.setElementEnabled(element, true);
 
     ilios.pm.cs.programSearchDialog.cancel();
 };
@@ -1190,12 +1157,6 @@ ilios.pm.alterViewToReflectReadOnlyState = function () {
         containerNumber = ilios.pm.currentProgramModel.getContainerNumberForProgramYear(programYears[key]);
         ilios.pm.alterProgramYearUIToReflectLockedState(containerNumber, false);
     }
-
-    element = new Element(document.getElementById('save_all_dirty_to_draft'));
-    element.setStyle('display', 'none');
-
-    element = new Element(document.getElementById('publish_all'));
-    element.setStyle('display', 'none');
 
     element = new Element(document.getElementById('draft_button'));
     element.setStyle('display', 'none');
