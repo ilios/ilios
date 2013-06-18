@@ -1033,7 +1033,7 @@ EOL;
      * This function's counterpart is <code>Group_Management::_stripdownGroupMembership</code>.
      * @param array $group a the user group. Will be modified in-place.
      * @return array a list containing all users that are members of the given group and its sub-groups.
-     * @see Group_Management::_backfillGroupMemberships::_stripdownGroupMembership()
+     * @see Group_Management::_stripdownGroupMembership()
      */
     protected function _backfillGroupMemberships (array &$group)
     {
