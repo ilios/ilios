@@ -172,9 +172,8 @@ require_once(getServerFilePath('views') . 'common/content_container_generator.ph
                                          $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
                                          $addNewSomethingAction, $addNewSomethingDisplayText,
                                          $suffixingContent, $saveDraftAction, $publishAction,
-                                         $revertAction, true, true, true, true, $save_all_draft_string,
-                                         $save_draft_string, $publish_all_string,
-                                         $publish_now_string, $reset_form_string);
+                                         $revertAction, true, true, false, false, '',
+                                         $save_draft_string, '',  $publish_now_string, $reset_form_string);
 
 ?>
 
