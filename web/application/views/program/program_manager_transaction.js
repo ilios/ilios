@@ -239,14 +239,14 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                 var formDOMElement = null;
                 var programYearModel = null;
                 var titleId = null;
-                var scatchElement = null;
+                var scratchElement = null;
                 var textListContent = null;
                 var enable = false;
                 var draftStr = ilios_i18nVendor.getI18NString('general.terms.draft');
                 var publishedStr = ilios_i18nVendor.getI18NString('general.terms.published');
                 var collapseTrio = null;
                 var idString = null;
-                var str;
+                var str, opt, startYear, nextYear;
 
                 try {
                     parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
@@ -290,8 +290,19 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
 
                     titleId = ilios.pm.generateIdStringForProgramYearSelect((i + 1));
-                    scatchElement = document.getElementById(titleId);
-                    ilios.utilities.selectOptionWithValue(scatchElement, modelTree['start_year']);
+                    scratchElement = document.getElementById(titleId);
+                    startYear = modelTree['start_year'];
+                    // if the program-year's start year is out-of-range of the SELECT input element,
+                    // then add it as an option.
+                    if (! ilios.utilities.selectOptionWithValue(scratchElement, startYear)) {
+                        opt = document.createElement('option');
+                        opt.setAttribute('value', startYear);
+                        nextYear = parseInt(startYear, 10) + 1;
+                        str = "" +  startYear + "-" + nextYear;
+                        opt.appendChild(document.createTextNode(str));
+                        scratchElement.add(opt, scratchElement.options[0]); // add as first option.
+                        scratchElement.selectedIndex = 0;
+                    }
 
                     childArray = modelTree.competency;
                     j = 0;
