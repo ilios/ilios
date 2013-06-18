@@ -30,10 +30,8 @@
  * @param boolean $showPublishDraftStatus If TRUE then the generated container markup will contain a section
  *      for displaying publish-status information.
  * @param boolean $showPublishAllButton If TRUE then "publish all" button will be rendered.
- * @param boolean $showSaveAllLink If TRUE then the "save all" button will be rendered, otherwise a "save all as draft"
- *      button will be rendered.
+ * @param boolean $showSaveAllLink If TRUE then the "save all" button will be rendered.
  * @param string $saveAllString The label-text of the "save all" button.
- * @param string $saveAllDraftString The label-text of the "save all as draft" button.
  * @param string $saveDraftString The label-text of the "save as draft" button.
  * @param string $publishAllString The label-text of the "publish all" button.
  * @param string $publishNowString The label-text of the "publish now" button.
@@ -50,7 +48,7 @@ function createContentContainerMarkup ($formPrefix, $addNewEntityLink, $searchNe
                                        $addNewSomethingDisplayText, $suffixingContent, $saveDraftAction,
                                        $publishAction, $revertAction, $shouldShowSavePublishRevertButtons,
                                        $showPublishDraftStatus, $showPublishAllButton,$showSaveAllLink,
-                                       $saveAllString, $saveAllDraftString, $saveDraftString, $publishAllString,
+                                       $saveAllString, $saveDraftString, $publishAllString,
                                        $publishNowString, $resetFormString, $showArchivingLinkDiv = false,
                                        $showRolloverLinkDiv = false)
 {
@@ -92,12 +90,7 @@ function createContentContainerMarkup ($formPrefix, $addNewEntityLink, $searchNe
 <?php
     if ($showSaveAllLink) :
 ?>
-
                     <button id="save_all_dirty_to_draft" class="medium radius button" disabled='disabled'><?php echo $saveAllString ?></button>
-<?php
-    else :
-?>
-                    <button id="save_all_dirty_to_draft" class="medium radius button" disabled='disabled'><?php echo $saveAllDraftString ?></button>
 <?php
     endif;
 ?>
