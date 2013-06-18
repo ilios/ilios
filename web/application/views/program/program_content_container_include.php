@@ -168,7 +168,7 @@ require_once(getServerFilePath('views') . 'common/content_container_generator.ph
             $publishAction = 'ilios.pm.transaction.performProgramSave(true);';
             $revertAction = 'ilios.pm.revertChanges();';
 
-            createContentContainerMarkup('&nbsp;', $formPrefix, $addNewEntityLink, $searchNewEntityLink,
+            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
                                          $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
                                          $addNewSomethingAction, $addNewSomethingDisplayText,
                                          $suffixingContent, $saveDraftAction, $publishAction,

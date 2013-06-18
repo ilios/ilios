@@ -62,7 +62,7 @@ require_once(getServerFilePath('views') . 'common/content_container_generator.ph
             $publishAction = '';
             $revertAction = '';
 
-            createContentContainerMarkup('&nbsp;', $formPrefix, $addNewEntityLink, $searchNewEntityLink,
+            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
                                          $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
                                          $addNewSomethingAction, $addNewSomethingDisplayText,
                                          $suffixingContent, $saveDraftAction, $publishAction,

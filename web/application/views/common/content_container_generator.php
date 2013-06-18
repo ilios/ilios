@@ -8,7 +8,6 @@
  * <code>$this->populateI18NStringsForContentContainerGenerator($data, $lang);</code>
  * invoked as part of its index() lest there be no label and button strings displayed in this UI.
  *
- * @param string $title The container title. NOT IN USE - DEPRECATED.
  * @param string $formPrefix Markup prefixing the container element.
  * @param string $addNewEntityLink Markup containing the "add new <entity>" link or button.
  * @param string $searchNewEntityLink Markup containing the "search <entities>" link or button.
@@ -46,14 +45,14 @@
  *
  * @todo Junk this god-awful mess. [ST 2013/06/18]
  */
-function createContentContainerMarkup ($title, $formPrefix, $addNewEntityLink, $searchNewEntityLink,
-                                       $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
-                                       $addNewSomethingAction, $addNewSomethingDisplayText, $suffixingContent,
-                                       $saveDraftAction, $publishAction, $revertAction,
-                                       $shouldShowSavePublishRevertButtons, $showPublishDraftStatus,
-                                       $showPublishAllButton,$showSaveAllLink, $saveAllString, $saveAllDraftString,
-                                       $saveDraftString, $publishAllString, $publishNowString, $resetFormString,
-                                       $showArchivingLinkDiv = false, $showRolloverLinkDiv = false)
+function createContentContainerMarkup ($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
+                                       $entityContainerContent, $addNewSomethingId, $addNewSomethingAction,
+                                       $addNewSomethingDisplayText, $suffixingContent, $saveDraftAction,
+                                       $publishAction, $revertAction, $shouldShowSavePublishRevertButtons,
+                                       $showPublishDraftStatus, $showPublishAllButton,$showSaveAllLink,
+                                       $saveAllString, $saveAllDraftString, $saveDraftString, $publishAllString,
+                                       $publishNowString, $resetFormString, $showArchivingLinkDiv = false,
+                                       $showRolloverLinkDiv = false)
 {
 ?>
     <div class="content_container">
