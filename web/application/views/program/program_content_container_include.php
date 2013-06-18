@@ -178,7 +178,7 @@ require_once(getServerFilePath('views') . 'common/content_container_generator.ph
 
 ?>
 
-    <script type="text/JavaScript">
+    <script type="text/javascript">
 
         // @private
         ilios.pm.disableAddProgramYearLink = function (un, deux, trois) {
