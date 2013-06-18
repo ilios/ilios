@@ -199,7 +199,6 @@ $viewsPath = getServerFilePath('views');
         });
 
         YAHOO.util.Event.onDOMReady(ilios.pm.registerProgramUIListeners);
-        YAHOO.util.Event.onDOMReady(ilios.pm.registerSaveAndPublishAll);
 <?php
     if ($program_row['program_id'] != '') :
 ?>
