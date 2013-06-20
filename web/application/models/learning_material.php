@@ -858,7 +858,7 @@ EOL;
     protected function _deleteSessionLearningMaterialAssociations ($sessionId,
     		$learningMaterialIds = array(), &$auditAtoms = array())
     {
-        $this->_unassociateFromJoinTable('session_learning_material', 'session_id',
+        $this->_disassociateFromJoinTable('session_learning_material', 'session_id',
                 $sessionId, 'learning_material_id', $learningMaterialIds);
     }
 

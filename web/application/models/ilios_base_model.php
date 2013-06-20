@@ -303,7 +303,7 @@ abstract class Ilios_Base_Model extends CI_Model
             $this->_associateWithJoinTable($joinTblName, $joinColName, $joinId, $refColName, $addAssocIds, $auditAtoms);
         }
         if (count($removeAssocIds)) { // remove deleted associations
-            $this->_unassociateFromJoinTable($joinTblName, $joinColName, $joinId, $refColName, $removeAssocIds, $auditAtoms);
+            $this->_disassociateFromJoinTable($joinTblName, $joinColName, $joinId, $refColName, $removeAssocIds, $auditAtoms);
         }
     }
 
@@ -344,7 +344,7 @@ abstract class Ilios_Base_Model extends CI_Model
      * @param array $refIds The record ids in table B.
      * @param array $auditAtoms The auditing trail.
      */
-    protected function _unassociateFromJoinTable ($joinTblName, $joinColName, $joinId, $refColName,
+    protected function _disassociateFromJoinTable ($joinTblName, $joinColName, $joinId, $refColName,
                                                   array $refIds = array(), array &$auditAtoms = array())
     {
         $refIds = array_unique($refIds); // de-dupe
