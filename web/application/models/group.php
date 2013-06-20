@@ -245,25 +245,27 @@ class Group extends Ilios_Base_Model
     }
 
     /**
-     * @param groupIdArray 1-N group ids
-     * @return count of rows affected
+     * Deletes all user/group associations for a given list of groups.
+     * @param array groupIdArray 1-N group ids.
+     * @param array $auditAtoms The audit trail.
+     * @return boolean TRUE on successful deletion, FALSE on transaction failure
+     *  or if there were no associations to be deleted.
+     *
+     * @todo Ambiguous information is conveyed in a FALSE return value. Fix this [ST 2013/06/20].
      */
     public function deleteUserGroupAssociationForGroupIds ($groupIdArray, &$auditAtoms)
     {
-        $aGID = 0;
         $len = count($groupIdArray);
 
         for ($i = 0; $i < $len; $i++) {
             if ($i == 0) {
                 $this->db->where('group_id', $groupIdArray[$i]);
-            }
-            else {
+            } else {
                 $this->db->or_where('group_id', $groupIdArray[$i]);
             }
 
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($groupIdArray[$i], 'group_id',
-                                                                'group_x_user',
-                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            $auditAtoms[] = $this->auditEvent->wrapAtom($groupIdArray[$i], 'group_id', 'group_x_user',
+                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
 
         $this->db->delete('group_x_user');
@@ -407,9 +409,8 @@ class Group extends Ilios_Base_Model
         $this->db->where('group_id', $groupId);
         $this->db->update($this->databaseTableName, $updatedRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+        $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'group_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1);
 
         $this->deleteInstructorsForGroup($groupId, $auditAtoms);
         $this->saveInstructorsForGroup($groupId, $instructors, $auditAtoms);
