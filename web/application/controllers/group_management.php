@@ -914,7 +914,7 @@ EOL;
 
         $len = count($users);
         for ($i = 0; $i < $len; $i++) {
-            array_push($userIds, $users[$i]['user_id']);
+            $userIds[] = $users[$i]['user_id'];
         }
 
         return $this->group->makeUserGroupAssociations($userIds, $groupId, $auditAtoms);
@@ -949,7 +949,7 @@ EOL;
 
         if (! isset($rhett['error'])) {
             $idArray = array();
-            array_push($idArray, $groupID);
+            $idArray[] = $groupID;
 
             $this->group->deleteUserGroupAssociationForGroupIds($idArray, $auditAtoms);
 
