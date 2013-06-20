@@ -921,7 +921,16 @@ EOL;
     }
 
     /**
-     * @todo add code docs
+     * Recursively saves learner groups and user/group associations.
+     * @param int $groupID The group id.
+     * @param string $title The group title.
+     * @param array $instructors A list of instructors.
+     * @param string $location The group's study location.
+     * @param int $parentGroupId The parent group id.
+     * @param array $users A list of users that are associated as learners with the group.
+     * @param array $subgroups A list of sub-groups.
+     * @param array $auditAtoms The audit trail.
+     * @return array Empty on success, on failure it will contain an error message (key: "error").
      */
     protected function _recursivelySaveGroupTree ($groupID, $title, $instructors, $location,
             $parentGroupId, $users, $subgroups, &$auditAtoms)
@@ -929,6 +938,7 @@ EOL;
         $rhett = array();
 
         $len = count($subgroups);
+        // RECURSION: save subgroups first.
         for ($i = 0; (($i < $len) && (! isset($rhett['error']))); $i++) {
             $subgroup = $subgroups[$i];
 
@@ -947,7 +957,7 @@ EOL;
             }
         }
 
-        if (! isset($rhett['error'])) {
+        if (! isset($rhett['error'])) { // check if error occurred while saving subgroups. If not then proceed.
             $idArray = array();
             $idArray[] = $groupID;
 
@@ -970,7 +980,6 @@ EOL;
                 }
             }
         }
-
         return $rhett;
     }
 
