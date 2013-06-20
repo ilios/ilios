@@ -937,47 +937,35 @@ EOL;
     {
         $rhett = array();
 
-        $len = count($subgroups);
-        // RECURSION: save subgroups first.
-        for ($i = 0; (($i < $len) && (! isset($rhett['error']))); $i++) {
+        // recursively process subgroups
+        for ($i = 0 ,$n = count($subgroups) ; ($i < $n) && (! array_key_exists('error', $rhett)); $i++) {
             $subgroup = $subgroups[$i];
-
-            $result = $this->_recursivelySaveGroupTree(
-                    $subgroup['group_id'],
-                    $subgroup['title'],
-                    $subgroup['instructors'],
-                    $subgroup['location'],
-                    $subgroup['parent_group_id'],
-                    $subgroup['users'],
-                    $subgroup['subgroups'],
-                    $auditAtoms);
-
-            if ($result != null) {
-                $rhett['error'] = $result['error'];
-            }
+            $rhett = $this->_recursivelySaveGroupTree($subgroup['group_id'], $subgroup['title'],
+                $subgroup['instructors'], $subgroup['location'], $subgroup['parent_group_id'], $subgroup['users'],
+                    $subgroup['subgroups'], $auditAtoms);
         }
 
-        if (! isset($rhett['error'])) { // check if error occurred while saving subgroups. If not then proceed.
-            $idArray = array();
-            $idArray[] = $groupID;
+        if (array_key_exists('error', $rhett)) {
+            return $rhett;
+        }
 
-            $this->group->deleteUserGroupAssociationForGroupIds($idArray, $auditAtoms);
+        $idArray = array();
+        $idArray[] = $groupID;
+        
+        $this->group->deleteUserGroupAssociationForGroupIds($idArray, $auditAtoms);
+        $failed = $this->group->transactionAtomFailed();
 
-            $failed = $this->group->transactionAtomFailed();
-
-            if (! $failed) {
-                $result = $this->group->saveGroupForGroupId($groupID, $title, $instructors,
-                    $location, $parentGroupId, $auditAtoms, ($parentGroupId != null));
-
+        if (! $failed) {
+            $result = $this->group->saveGroupForGroupId($groupID, $title, $instructors, $location,
+                $parentGroupId, $auditAtoms, ($parentGroupId != null));
                 $failed = $this->group->transactionAtomFailed();
-            }
+        }
 
-            if ($failed || ($result != null)) {
-                $rhett['error'] = ($result != null) ? $result : "There was a Database Deadlock error.";
-            } else {
-                if (! $this->_associateUsersToGroup($users, $groupID, $auditAtoms)) {
-                    $rhett['error'] = 'A failure occurred making new user-group associations for group id ' . $groupID;
-                }
+        if ($failed || ($result != null)) {
+            $rhett['error'] = ($result != null) ? $result : "There was a Database Deadlock error.";
+        } else {
+            if (! $this->_associateUsersToGroup($users, $groupID, $auditAtoms)) {
+                $rhett['error'] = 'A failure occurred making new user-group associations for group id ' . $groupID;
             }
         }
         return $rhett;
