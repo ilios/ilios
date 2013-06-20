@@ -902,27 +902,8 @@ EOL;
     }
 
     /**
-     * Associates a given list of users with a given group.
-     * @param array $users
-     * @param int $groupId
-     * @param array $auditAtoms
-     * @return boolean true if the insert appears to have gone ok, false otherwise
-     */
-    protected function _associateUsersToGroup ($users, $groupId, &$auditAtoms)
-    {
-        $userIds = array();
-
-        $len = count($users);
-        for ($i = 0; $i < $len; $i++) {
-            $userIds[] = $users[$i]['user_id'];
-        }
-
-        return $this->group->makeUserGroupAssociations($userIds, $groupId, $auditAtoms);
-    }
-
-    /**
      * Recursively saves learner groups and user/group associations.
-     * @param int $groupID The group id.
+     * @param int $groupId The group id.
      * @param string $title The group title.
      * @param array $instructors A list of instructors.
      * @param string $location The group's study location.
@@ -932,7 +913,7 @@ EOL;
      * @param array $auditAtoms The audit trail.
      * @return array Empty on success, on failure it will contain an error message (key: "error").
      */
-    protected function _recursivelySaveGroupTree ($groupID, $title, $instructors, $location,
+    protected function _recursivelySaveGroupTree ($groupId, $title, $instructors, $location,
             $parentGroupId, $users, $subgroups, &$auditAtoms)
     {
         $rhett = array();
@@ -945,29 +926,32 @@ EOL;
                     $subgroup['subgroups'], $auditAtoms);
         }
 
-        if (array_key_exists('error', $rhett)) {
+        if (array_key_exists('error', $rhett)) { // don't proceed if any errors bubbled up from the subgroups
             return $rhett;
         }
 
-        $idArray = array();
-        $idArray[] = $groupID;
-        
-        $this->group->deleteUserGroupAssociationForGroupIds($idArray, $auditAtoms);
-        $failed = $this->group->transactionAtomFailed();
-
-        if (! $failed) {
-            $result = $this->group->saveGroupForGroupId($groupID, $title, $instructors, $location,
+        // save the user group
+        $result = $this->group->saveGroupForGroupId($groupId, $title, $instructors, $location,
                 $parentGroupId, $auditAtoms, ($parentGroupId != null));
-                $failed = $this->group->transactionAtomFailed();
-        }
+
+        $failed = $this->group->transactionAtomFailed();
 
         if ($failed || ($result != null)) {
             $rhett['error'] = ($result != null) ? $result : "There was a Database Deadlock error.";
-        } else {
-            if (! $this->_associateUsersToGroup($users, $groupID, $auditAtoms)) {
-                $rhett['error'] = 'A failure occurred making new user-group associations for group id ' . $groupID;
-            }
+            return $rhett;
         }
+
+        // update the user/group associations
+        $existingUserIds = $this->group->getIdsForUsersInGroup($groupId);
+        $this->group->updateUserGroupAssociations($groupId, $users, $existingUserIds, $auditAtoms);
+
+        $failed = $this->group->transactionAtomFailed();
+
+        if ($failed) {
+            $rhett['error'] = 'A failure occurred when updating the user-group associations for group id ' . $groupId;
+            return $rhett;
+        }
+
         return $rhett;
     }
 

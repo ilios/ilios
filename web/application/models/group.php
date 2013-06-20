@@ -105,6 +105,21 @@ class Group extends Ilios_Base_Model
     }
 
     /**
+     * Updates the user/group associations for a given list of users and a given group.
+     * This may entail adding and removing associations.
+     * @param int $groupId The group id.
+     * @param array $users An array of arrays. Each item is an associative array, representing a user record.
+     * @param array $existingUserIds An array of user-ids, each of which is already associated with the given group.
+     * @param array $auditAtoms The audit trail.
+     * @see Ilios_Base_Model::_saveJoinTableAssociations()
+     */
+    public function updateUserGroupAssociations ($groupId, array $users, array $existingUserIds, array &$auditAtoms)
+    {
+        $this->_saveJoinTableAssociations('group_x_user', 'group_id', $groupId, 'user_id', $users, $existingUserIds,
+            'user_id', $auditAtoms);
+    }
+
+    /**
      * Associates a given group with a given list of users, and, optionally,
      * disassociates these users from another given group.
      *
@@ -216,6 +231,30 @@ class Group extends Ilios_Base_Model
         return $rhett;
     }
 
+    /**
+     * Retrieves a list of record ids for users that are associated as learners with a given group.
+     * @param int $groupId The group id.
+     * @return array An array of user ids.
+     */
+    public function getIdsForUsersInGroup ($groupId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['group_id'] = (int) $groupId;
+        $sql =<<< EOL
+SELECT `user_id`
+FROM `group_x_user`
+WHERE `group_id` = {$clean['group_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row['user_id'];
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
     /**
      * @return an array of user objects (just the sql row returns) associated to the group with
      *              specified id; this will return null if no group exists for the given id.
