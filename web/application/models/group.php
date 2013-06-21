@@ -109,8 +109,9 @@ class Group extends Ilios_Base_Model
      * Updates the user/group associations for a given list of users and a given group.
      * This may entail adding and removing associations.
      * @param int $groupId The group id.
-     * @param array $users An array of arrays. Each item is an associative array, representing a user record.
-     * @param array $existingUserIds An array of user-ids, each of which is already associated with the given group.
+     * @param array $users An array of arrays. Each item is an associative array, representing a user.
+     * @param array $existingUserIds An array of user-ids, each of which is already associated with the given group
+     *      as learner..
      * @param array $auditAtoms The audit trail.
      * @see Ilios_Base_Model::_saveJoinTableAssociations()
      */
@@ -118,6 +119,42 @@ class Group extends Ilios_Base_Model
     {
         $this->_saveJoinTableAssociations('group_x_user', 'group_id', $groupId, 'user_id', $users, $existingUserIds,
             'user_id', $auditAtoms);
+    }
+
+    /**
+     * Updates the instructor/group associations for a given list of users and a given group.
+     * This may entail adding and removing associations.
+     * @param int $groupId The group id.
+     * @param array $users An array of arrays. Each item is an associative array, representing a user.
+     * @param array $existingUserIds An array of user-ids, each of which is already associated with the given group as
+     *      instructor.
+     * @param array $auditAtoms The audit trail.
+     * @see Ilios_Base_Model::_saveJoinTableAssociations()
+     */
+    public function updateInstructorToGroupAssociations ($groupId, array $users, array $existingUserIds,
+                                                         array &$auditAtoms)
+    {
+        $this->_saveJoinTableAssociations('group_default_instructor', 'group_id', $groupId, 'user_id', $users,
+            $existingUserIds, 'dbId', $auditAtoms);
+    }
+
+    /**
+     * Updates the instructor-group/learner-group associations for a given list of instructors-groups and a given
+     * learner-group.
+     * This may entail adding and removing associations
+     * @param int $groupId The group id.
+     * @param array $instructorGroups An array of arrays. Each item is an associative array, representing an
+     *      instructor-group.
+     * @param array $existingInstructorGroupIds An array of instructor-group-ids, each of which is already associated
+     *      with the given learner-group.
+     * @param array $auditAtoms The audit trail.
+     * @see Ilios_Base_Model::_saveJoinTableAssociations()
+     */
+    public function updateInstructorGroupToGroupAssociations ($groupId, array $instructorGroups,
+                                                              array $existingInstructorGroupIds, array &$auditAtoms)
+    {
+        $this->_saveJoinTableAssociations('group_default_instructor', 'group_id', $groupId, 'instructor_group_id',
+            $instructorGroups, $existingInstructorGroupIds, 'dbId', $auditAtoms);
     }
 
     /*
@@ -215,6 +252,56 @@ EOL;
         return $rhett;
     }
     /**
+     * Retrieves a list of record ids for users that are associated as instructors with a given group.
+     * @param int $groupId The group id.
+     * @return array An array of user ids.
+     */
+    public function getIdsForInstructorsInGroup ($groupId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['group_id'] = (int) $groupId;
+        $sql =<<< EOL
+SELECT `user_id`
+FROM `group_default_instructor`
+WHERE `group_id` = {$clean['group_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row['user_id'];
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+    /**
+     * Retrieves a list of record ids for instructor-groups that are associated with a given learner-group.
+     * @param int $groupId The group id.
+     * @return array An array of instructor-group ids.
+     */
+    public function getIdsForInstructorGroupsInGroup ($groupId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['group_id'] = (int) $groupId;
+        $sql =<<< EOL
+SELECT `instructor_group_id`
+FROM `group_default_instructor`
+WHERE `group_id` = {$clean['group_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row['instructor_group_id'];
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+
+    /**
      * @return an array of user objects (just the sql row returns) associated to the group with
      *              specified id; this will return null if no group exists for the given id.
      */
@@ -280,10 +367,16 @@ EOL;
         return $rhett;
     }
 
+    /**
+     * Retrieves a query result set containing the identifiers of all instructors and instructor-groups
+     * associated with a given group.
+     * See JOIN table <code>default_instructor_group</code>.
+     * @param int $groupId The group id.
+     * @return CI_DB_result The query result object.
+     */
     public function getQueryResultsForInstructorsForGroup ($groupId)
     {
         $this->db->where('group_id', $groupId);
-
         return $this->db->get('group_default_instructor');
     }
 
@@ -481,6 +574,19 @@ EOL;
         return $groupNamePrefix . ' ' . $groupNameSuffix;
     }
 
+    /**
+     * Populates a given group record with associated entities, such as instructors, instructor-groups and learners.
+     * @param array $row The raw group record as associative array.
+     * @return array The fully populated group record as associative array, with the following properties:
+     *    'group_id' ... The group id.
+     *    'title' ... The group's title.
+     *    'parent_group_id' ... The parent group id (NULL if this group is a root group).
+     *    'location' ... The group's location.
+     *    'instructors' ... A list of instructors and instructor-groups associated with this group. Each item is an
+     *          associative array, containing either a user record or an instructor-group record.
+     *    'users' ... A list of learners associated with this group. Each item is an associative array, containing a
+     *          user record.
+     */
     protected function getModelArrayForGroupRow ($row)
     {
         $rhett = array();
@@ -491,33 +597,67 @@ EOL;
         $rhett['location'] = ($row['location'] != null ? $row['location'] : '');
 
         $rhett['instructors'] = $this->getInstructorsForGroup($rhett['group_id']);
+        $rhett['instructors'] = array_merge($rhett['instructors'],
+            $this->getInstructorGroupsForGroup($rhett['group_id']));
 
         $rhett['users'] = $this->getUsersForGroupWithId($rhett['group_id']);
 
         return $rhett;
     }
 
+    /**
+     * Retrieves a list of users that are associated as instructors with a given-learner group.
+     * @param int $groupId The group id.
+     * @return array An array of associative arrays. Each item represents a user.
+     */
     protected function getInstructorsForGroup ($groupId)
     {
         $rhett = array();
-
-        $queryResults = $this->getQueryResultsForInstructorsForGroup($groupId);
-
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                if ($igRow) {
-                    array_push($rhett, $this->convertStdObjToArray($igRow));
-                }
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
+        $clean = array();
+        $clean['group_id'] = (int) $groupId;
+        $sql =<<<EOL
+SELECT u.*
+FROM `user` u
+JOIN `group_default_instructor` gdi ON gdi.`user_id` = u.`user_id`
+WHERE gdi.`group_id` = {$clean['group_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row;
             }
         }
-
+        $query->free_result();
         return $rhett;
     }
+
+    /**
+     * Retrieves a list of instructor-groups that are associated with a given learner-group.
+     * @param int $groupId The group id.
+     * @return array An array of associative arrays. Each item represents an instructor group.
+     */
+    protected function getInstructorGroupsForGroup ($groupId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['group_id'] = (int) $groupId;
+        $sql =<<<EOL
+SELECT ig.*
+FROM `instructor_group` ig
+JOIN `group_default_instructor` gdi ON gdi.`instructor_group_id` = ig.`instructor_group_id`
+WHERE gdi.`group_id` = {$clean['group_id']}
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+
 
     /**
      * Deletes all instructors from a given group
