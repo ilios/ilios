@@ -931,7 +931,7 @@ EOL;
         }
 
         // save the user group
-        $result = $this->group->saveGroupForGroupId($groupId, $title, $instructors, $location,
+        $result = $this->group->saveGroupForGroupId($groupId, $title, $location,
                 $parentGroupId, $auditAtoms, ($parentGroupId != null));
 
         $failed = $this->group->transactionAtomFailed();
@@ -948,7 +948,18 @@ EOL;
         $failed = $this->group->transactionAtomFailed();
 
         if ($failed) {
-            $rhett['error'] = 'A failure occurred when updating the user-group associations for group id ' . $groupId;
+            $rhett['error'] = 'A failure occurred when updating the learner/group associations for group id ' . $groupId;
+            return $rhett;
+        }
+
+        // update the instructor/group associations
+        $this->group->deleteInstructorsForGroup($groupId, $auditAtoms);
+        $this->group->saveInstructorsForGroup($groupId, $instructors, $auditAtoms);
+
+        $failed = $this->group->transactionAtomFailed();
+
+        if ($failed) {
+            $rhett['error'] = 'A failure occurred when updating the instructor/group associations for group id ' . $groupId;
             return $rhett;
         }
 

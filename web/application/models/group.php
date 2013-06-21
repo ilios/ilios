@@ -342,14 +342,17 @@ EOL;
     }
 
     /**
-     * Transaction are assumed to be handled outside of this method
-     *
-     * @return an error string or null if the save was apparently successful (the check is not
-     *              robust (which would be requerying the db to make sure that no row exists for
-     *              the deleted id (TODO))
+     * Updates the properties of a given group.
+     * @param int $groupId The group id.
+     * @param string $title The group's title.
+     * @param string $location The group's default location.
+     * @param int|null $parentGroupId The parent group id. NULL if the given group is a root group.
+     * @param array $auditAtoms The audit trail
+     * @param boolean $checkUniqueTitle Set to TRUE to ensure uniqueness of group title amongst siblings.
+     * @return null|string NULL on success, or an error message on failure.
      */
-    public function saveGroupForGroupId ($groupId, $title, $instructors, $location,
-        $parentGroupId, &$auditAtoms, $checkUniqueTitle = true)
+    public function saveGroupForGroupId ($groupId, $title, $location, $parentGroupId, &$auditAtoms,
+                                         $checkUniqueTitle = true)
     {
         if ($checkUniqueTitle) {
             $this->db->where('parent_group_id', $parentGroupId);
@@ -375,13 +378,17 @@ EOL;
         $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'group_id', $this->databaseTableName,
             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1);
 
-        $this->deleteInstructorsForGroup($groupId, $auditAtoms);
-        $this->saveInstructorsForGroup($groupId, $instructors, $auditAtoms);
-
         return null;
     }
 
-    protected function saveInstructorsForGroup ($groupId, $instructors, &$auditAtoms)
+    /**
+     * Associates a given list of instructors/instructor-groups with a given group.
+     * @param int $groupId The group id.
+     * @param array $instructors An array of nested arrays. Each item represents either an instructor or an
+     *      instructor-group.
+     * @param array $auditAtoms The audit trail
+     */
+    public function saveInstructorsForGroup ($groupId, $instructors, &$auditAtoms)
     {
         foreach ($instructors as $instructorModel) {
             $newRow = array();
@@ -395,9 +402,8 @@ EOL;
 
             $this->db->insert('group_default_instructor', $newRow);
 
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
-                                                                'group_default_instructor',
-                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+            $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'group_id', 'group_default_instructor',
+                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
     }
 
@@ -514,16 +520,17 @@ EOL;
     }
 
     /**
-     * Transactions must be handled outside this method
+     * Deletes all instructors from a given group
+     * @param int $groupId The group id.
+     * @param array $auditAtoms The audit trail.
      */
-    protected function deleteInstructorsForGroup ($groupId, &$auditAtoms)
+    public function deleteInstructorsForGroup ($groupId, &$auditAtoms)
     {
         $this->db->where('group_id', $groupId);
         $this->db->delete('group_default_instructor');
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id',
-                                                            'group_default_instructor',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+        $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'group_id', 'group_default_instructor',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
     }
 }
 
