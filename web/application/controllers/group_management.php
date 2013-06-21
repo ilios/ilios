@@ -956,9 +956,16 @@ EOL;
             return $rhett;
         }
 
+        //
         // update the instructor/group associations
-        $this->group->deleteInstructorsForGroup($groupId, $auditAtoms);
-        $this->group->saveInstructorsForGroup($groupId, $instructors, $auditAtoms);
+        //
+        $existingInstructorIds = $this->group->getIdsForInstructorsInGroup($groupId);
+        $existingInstructorGroupIds = $this->group->getIdsForInstructorGroupsInGroup($groupId);
+        // separate instructors from groups
+        $instructorGroups = array_filter($instructors, function ($n) { return $n['isGroup']; });
+        $instructors = array_filter($instructors, function ($n) { return ! $n['isGroup']; });
+        $this->group->updateInstructorToGroupAssociations($groupId, $instructors, $existingInstructorIds, $auditAtoms);
+        $this->group->updateInstructorGroupToGroupAssociations($groupId, $instructorGroups, $existingInstructorGroupIds, $auditAtoms);
 
         $failed = $this->group->transactionAtomFailed();
 
