@@ -66,7 +66,13 @@ ilios.gm.transaction.autogenerateSubgroups = function (event) {
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };
 
+/**
+ * Sends the entire nested group model to the server via XHR.
+ * @method saveGroupModel
+ * @param {Event} event The triggered DOM event.
+ */
 ilios.gm.transaction.saveGroupModel = function (event) {
+    this.disabled = true; // disable the 'save all' button
     var rootModel = ilios.gm.currentModel.getRootGroup();
     var url = controllerURL + 'saveGroupModelTree';
     var method = "POST";
@@ -82,16 +88,15 @@ ilios.gm.transaction.saveGroupModel = function (event) {
                 }
                 catch (e) {
                     ilios.global.defaultAJAXFailureHandler(null, e);
-
+                    resultObject.argument.button.disabled = false; // re-enable the 'save all' button
                     return;
                 }
 
                 // MAY RETURN THIS BLOCK
                 if (parsedObject.error != null) {
                     var i18nStr = ilios_i18nVendor.getI18NString('groups.error.group_save');
-
                     ilios.alert.alert(i18nStr + ': ' + parsedObject.error);
-
+                    resultObject.argument.button.disabled = false; // re-enable the 'save all' button
                     return;
                 }
 
@@ -104,7 +109,13 @@ ilios.gm.transaction.saveGroupModel = function (event) {
 
             failure: function (resultObject) {
                 ilios.global.defaultAJAXFailureHandler(resultObject);
-            }};
+                resultObject.argument.button.disabled = false; // re-enable the 'save all' button
+
+            },
+            argument: {
+                'button': this // pass the 'save all' button to the ajax callback handlers.
+            }
+        };
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };
