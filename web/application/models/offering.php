@@ -233,6 +233,7 @@ class Offering extends Ilios_Base_Model
                             array_push($instructors, $userRow);
                         }
                     }
+                    $queryResults->free_result();
                 }
             }
             $rhett['offering_id'] = $newOfferingId;
