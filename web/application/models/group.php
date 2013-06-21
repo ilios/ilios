@@ -114,7 +114,7 @@ class Group extends Ilios_Base_Model
      * @param array $auditAtoms The audit trail.
      * @see Ilios_Base_Model::_saveJoinTableAssociations()
      */
-    public function updateUserGroupAssociations ($groupId, array $users, array $existingUserIds, array &$auditAtoms)
+    public function updateUserToGroupAssociations ($groupId, array $users, array $existingUserIds, array &$auditAtoms)
     {
         $this->_saveJoinTableAssociations('group_x_user', 'group_id', $groupId, 'user_id', $users, $existingUserIds,
             'user_id', $auditAtoms);

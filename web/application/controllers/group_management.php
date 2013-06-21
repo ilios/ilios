@@ -947,7 +947,7 @@ EOL;
 
         // update the user/group associations
         $existingUserIds = $this->group->getIdsForUsersInGroup($groupId);
-        $this->group->updateUserGroupAssociations($groupId, $users, $existingUserIds, $auditAtoms);
+        $this->group->updateUserToGroupAssociations($groupId, $users, $existingUserIds, $auditAtoms);
 
         $failed = $this->group->transactionAtomFailed();
 
