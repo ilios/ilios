@@ -275,11 +275,11 @@ $publishNowString = '<div id="-1_publish_warning" class="yellow_warning_icon" '
                         . 'style="display: none;"></div>'
                         . $publish_course_string;
 
-createContentContainerMarkup('&nbsp;', $formPrefix, $addNewEntityLink, $searchNewEntityLink,
+createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
                              $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
                              $addNewSomethingAction, $addNewSomethingDisplayText,
                              $suffixingContent, $saveDraftAction, $publishAction,
-                             $revertAction, true, true, true, false, $save_all_string, $save_all_draft_string,
+                             $revertAction, true, true, true, true, $save_all_draft_string,
                              $save_draft_string, $publishAllString,
                              $publishNowString, $reset_form_string, true, true);
 ?>
