@@ -460,6 +460,7 @@ EOL;
             }
         }
 
+
         $updatedRow = array();
 
         $updatedRow['title'] = $title;
@@ -468,9 +469,10 @@ EOL;
         $this->db->where('group_id', $groupId);
         $this->db->update($this->databaseTableName, $updatedRow);
 
-        $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'group_id', $this->databaseTableName,
-            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1);
-
+        if (0 < $this->db->affected_rows()) {
+            $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'group_id', $this->databaseTableName,
+                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1);
+        }
         return null;
     }
 
