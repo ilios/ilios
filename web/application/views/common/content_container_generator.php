@@ -153,7 +153,7 @@ function createContentContainerMarkup ($formPrefix, $addNewEntityLink, $searchNe
 <?php
     if ($addNewSomethingId != '') :
 ?>
-        <button class="small secondary radius button" disabled="disabled" id="<?php echo $addNewSomethingId ?>" onClick="<?php echo $addNewSomethingAction ?>"><?php echo $addNewSomethingDisplayText ?></button>
+        <button class="small secondary radius button" disabled="disabled" id="<?php echo $addNewSomethingId; ?>" onClick="<?php echo $addNewSomethingAction; ?>"><?php echo $addNewSomethingDisplayText; ?></button>
 
 <?php
     endif;
