@@ -422,7 +422,17 @@ class Group_Management extends Ilios_Web_Controller
     }
 
     /**
-     * @return a json'd array with key 'success' on success, or 'error' on failure
+     * This action saves the entire user-provided learner-group hierarchy.
+     * It updates the given groups/subgroups and adds/removes learner/group and instructor/group associations based
+     * on the given input.
+     *
+     * It expects the following POST parameters:
+     *    'whole_model_glom' ... A JSON-encoded nested array structure of arbitrary depth, containing the whole group model.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "success" which contains the value "indeedy".
+     * On failure, the object contains a property "error", which contains an error message.
      */
     public function saveGroupModelTree ()
     {
@@ -436,15 +446,13 @@ class Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        /**
-         * game plan:
-         *      x get all group_id of subgroups
-         *      x delete all entries in group_x_user for those group ids and this root group id
-         *      x update title, instructors, location for each subgroup
-         *      x make new group_x_user entries for all users in subgroups
-         *      x update title, instructors, location for this root group
-         */
-        $wholeTree = json_decode(urldecode($this->input->get_post('whole_model_glom')), true);
+        // JSON-decode user input
+        try {
+            $wholeTree = Ilios_Json::deserializeJsonArray($this->input->post('whole_model_glom'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('groups.error.group_save.input_validation', $lang);
+            return;
+        }
 
         // backfill membership associations in the group tree
         $subgroups = $wholeTree['subgroups'];
@@ -468,12 +476,8 @@ class Group_Management extends Ilios_Web_Controller
                 $subgroup = $subgroups[$i];
 
                 $result = $this->_recursivelySaveGroupTree($subgroup['group_id'], $subgroup['title'],
-                                                          $subgroup['instructors'],
-                                                          $subgroup['location'],
-                                                          $subgroup['parent_group_id'],
-                                                          $subgroup['users'],
-                                                          $subgroup['subgroups'],
-                                                          $auditAtoms);
+                    $subgroup['instructors'], $subgroup['location'], $subgroup['parent_group_id'], $subgroup['users'],
+                    $subgroup['subgroups'], $auditAtoms);
 
                 if ($result != null) {
                     $rhett['error'] = $result['error'];
