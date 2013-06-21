@@ -99,7 +99,8 @@ class Group extends Ilios_Base_Model
 
         $this->reallyFreeQueryResults($queryResults);
 
-        $this->makeUserGroupAssociations($usableUIDs, $rhett['group_id'], $auditAtoms);
+        // add user/group associations
+        $this->_associateWithJoinTable('group_x_user', 'group_id', $rhett['group_id'], 'user_id', $usableUIDs, $auditAtoms);
 
         return $rhett;
     }
@@ -117,48 +118,6 @@ class Group extends Ilios_Base_Model
     {
         $this->_saveJoinTableAssociations('group_x_user', 'group_id', $groupId, 'user_id', $users, $existingUserIds,
             'user_id', $auditAtoms);
-    }
-
-    /**
-     * Associates a given group with a given list of users, and, optionally,
-     * disassociates these users from another given group.
-     *
-     * @param array $userIds a list of user ids
-     * @param int $groupId the id of the group to associate users with
-     * @param array $auditAtoms the audit trail
-     * @param int $deleteFromId if non-null, the user ids are de-associated from this group id
-     * @return boolean FALSE if an insert doesn't produce an affected row - TRUE otherwise
-     */
-    public function makeUserGroupAssociations ($userIds, $groupId, &$auditAtoms, $deleteFromId = null)
-    {
-        foreach ($userIds as $uid) {
-            $newRow = array();
-            $newRow['group_id'] = $groupId;
-            $newRow['user_id'] = $uid;
-
-            $this->db->insert('group_x_user', $newRow);
-
-            if ($this->transactionAtomFailed() || ($this->db->affected_rows() == 0)) {
-                return false;
-            }
-
-            $auditAtoms[] = $this->auditEvent->wrapAtom($uid, 'user_id', 'group_x_user', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
-
-            if ($deleteFromId != null) {
-                $this->db->where('group_id', $deleteFromId);
-                $this->db->where('user_id', $uid);
-
-                $this->db->delete('group_x_user');
-
-                if ($this->transactionAtomFailed()) {
-                    return false;
-                }
-
-                $auditAtoms[] = $this->auditEvent->wrapAtom($deleteFromId, 'group_id', 'group_x_user', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-            }
-        }
-
-        return true;
     }
 
     /*
@@ -284,41 +243,6 @@ EOL;
     }
 
     /**
-     * Deletes all user/group associations for a given list of groups.
-     * @param array groupIdArray 1-N group ids.
-     * @param array $auditAtoms The audit trail.
-     * @return boolean TRUE on successful deletion, FALSE on transaction failure
-     *  or if there were no associations to be deleted.
-     *
-     * @todo Ambiguous information is conveyed in a FALSE return value. Fix this [ST 2013/06/20].
-     */
-    public function deleteUserGroupAssociationForGroupIds ($groupIdArray, &$auditAtoms)
-    {
-        $len = count($groupIdArray);
-
-        for ($i = 0; $i < $len; $i++) {
-            if ($i == 0) {
-                $this->db->where('group_id', $groupIdArray[$i]);
-            } else {
-                $this->db->or_where('group_id', $groupIdArray[$i]);
-            }
-
-            $auditAtoms[] = $this->auditEvent->wrapAtom($groupIdArray[$i], 'group_id', 'group_x_user',
-                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        }
-
-        $this->db->delete('group_x_user');
-
-        $rhett = $this->transactionAtomFailed();
-
-        if (! $rhett) {
-            $rhett = ($this->db->affected_rows() == 0) ? false : true;
-        }
-
-        return $rhett;
-    }
-
-    /*
      * @return an array of group model arrays; a group model associative array has keys:
      *              . group_id
      *              . title
