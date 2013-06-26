@@ -25,6 +25,7 @@ SOURCE data_population/SOM_competency_data.sql;
 SOURCE data_population/SOM_discipline_data.sql;
 SOURCE data_population/learning_material_data.sql;
 SOURCE data_population/school_data.sql;
+SOURCE data_population/assessment_option_data.sql;
 SOURCE data_population/session_type_data.sql;
 SOURCE data_population/user_role_data.sql;
 SOURCE data_population/course_clerkship_type_data.sql;
