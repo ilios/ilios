@@ -422,7 +422,17 @@ class Group_Management extends Ilios_Web_Controller
     }
 
     /**
-     * @return a json'd array with key 'success' on success, or 'error' on failure
+     * This action saves the entire user-provided learner-group hierarchy.
+     * It updates the given groups/subgroups and adds/removes learner/group and instructor/group associations based
+     * on the given input.
+     *
+     * It expects the following POST parameters:
+     *    'whole_model_glom' ... A JSON-encoded nested array structure of arbitrary depth, containing the whole group model.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "success" which contains the value "indeedy".
+     * On failure, the object contains a property "error", which contains an error message.
      */
     public function saveGroupModelTree ()
     {
@@ -436,15 +446,13 @@ class Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        /**
-         * game plan:
-         *      x get all group_id of subgroups
-         *      x delete all entries in group_x_user for those group ids and this root group id
-         *      x update title, instructors, location for each subgroup
-         *      x make new group_x_user entries for all users in subgroups
-         *      x update title, instructors, location for this root group
-         */
-        $wholeTree = json_decode(urldecode($this->input->get_post('whole_model_glom')), true);
+        // JSON-decode user input
+        try {
+            $wholeTree = Ilios_Json::deserializeJsonArray($this->input->post('whole_model_glom'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('groups.error.group_save.input_validation', $lang);
+            return;
+        }
 
         // backfill membership associations in the group tree
         $subgroups = $wholeTree['subgroups'];
@@ -468,12 +476,8 @@ class Group_Management extends Ilios_Web_Controller
                 $subgroup = $subgroups[$i];
 
                 $result = $this->_recursivelySaveGroupTree($subgroup['group_id'], $subgroup['title'],
-                                                          $subgroup['instructors'],
-                                                          $subgroup['location'],
-                                                          $subgroup['parent_group_id'],
-                                                          $subgroup['users'],
-                                                          $subgroup['subgroups'],
-                                                          $auditAtoms);
+                    $subgroup['instructors'], $subgroup['location'], $subgroup['parent_group_id'], $subgroup['users'],
+                    $subgroup['subgroups'], $auditAtoms);
 
                 if ($result != null) {
                     $rhett['error'] = $result['error'];
@@ -902,73 +906,72 @@ EOL;
     }
 
     /**
-     * Associates a given list of users with a given group.
-     * @param array $users
-     * @param int $groupId
-     * @param array $auditAtoms
-     * @return boolean true if the insert appears to have gone ok, false otherwise
+     * Recursively saves learner groups and user/group associations.
+     * @param int $groupId The group id.
+     * @param string $title The group title.
+     * @param array $instructors A list of instructors.
+     * @param string $location The group's study location.
+     * @param int $parentGroupId The parent group id.
+     * @param array $users A list of users that are associated as learners with the group.
+     * @param array $subgroups A list of sub-groups.
+     * @param array $auditAtoms The audit trail.
+     * @return array Empty on success, on failure it will contain an error message (key: "error").
      */
-    protected function _associateUsersToGroup ($users, $groupId, &$auditAtoms)
-    {
-        $userIds = array();
-
-        $len = count($users);
-        for ($i = 0; $i < $len; $i++) {
-            array_push($userIds, $users[$i]['user_id']);
-        }
-
-        return $this->group->makeUserGroupAssociations($userIds, $groupId, $auditAtoms);
-    }
-
-    /**
-     * @todo add code docs
-     */
-    protected function _recursivelySaveGroupTree ($groupID, $title, $instructors, $location,
+    protected function _recursivelySaveGroupTree ($groupId, $title, $instructors, $location,
             $parentGroupId, $users, $subgroups, &$auditAtoms)
     {
         $rhett = array();
 
-        $len = count($subgroups);
-        for ($i = 0; (($i < $len) && (! isset($rhett['error']))); $i++) {
+        // recursively process subgroups
+        for ($i = 0 ,$n = count($subgroups) ; ($i < $n) && (! array_key_exists('error', $rhett)); $i++) {
             $subgroup = $subgroups[$i];
-
-            $result = $this->_recursivelySaveGroupTree(
-                    $subgroup['group_id'],
-                    $subgroup['title'],
-                    $subgroup['instructors'],
-                    $subgroup['location'],
-                    $subgroup['parent_group_id'],
-                    $subgroup['users'],
-                    $subgroup['subgroups'],
-                    $auditAtoms);
-
-            if ($result != null) {
-                $rhett['error'] = $result['error'];
-            }
+            $rhett = $this->_recursivelySaveGroupTree($subgroup['group_id'], $subgroup['title'],
+                $subgroup['instructors'], $subgroup['location'], $subgroup['parent_group_id'], $subgroup['users'],
+                    $subgroup['subgroups'], $auditAtoms);
         }
 
-        if (! isset($rhett['error'])) {
-            $idArray = array();
-            array_push($idArray, $groupID);
+        if (array_key_exists('error', $rhett)) { // don't proceed if any errors bubbled up from the subgroups
+            return $rhett;
+        }
 
-            $this->group->deleteUserGroupAssociationForGroupIds($idArray, $auditAtoms);
+        // save the user group
+        $result = $this->group->saveGroupForGroupId($groupId, $title, $location,
+                $parentGroupId, $auditAtoms, ($parentGroupId != null));
 
-            $failed = $this->group->transactionAtomFailed();
+        $failed = $this->group->transactionAtomFailed();
 
-            if (! $failed) {
-                $result = $this->group->saveGroupForGroupId($groupID, $title, $instructors,
-                    $location, $parentGroupId, $auditAtoms, ($parentGroupId != null));
+        if ($failed || ($result != null)) {
+            $rhett['error'] = ($result != null) ? $result : "There was a Database Deadlock error.";
+            return $rhett;
+        }
 
-                $failed = $this->group->transactionAtomFailed();
-            }
+        // update the user/group associations
+        $existingUserIds = $this->group->getIdsForUsersInGroup($groupId);
+        $this->group->updateUserToGroupAssociations($groupId, $users, $existingUserIds, $auditAtoms);
 
-            if ($failed || ($result != null)) {
-                $rhett['error'] = ($result != null) ? $result : "There was a Database Deadlock error.";
-            } else {
-                if (! $this->_associateUsersToGroup($users, $groupID, $auditAtoms)) {
-                    $rhett['error'] = 'A failure occurred making new user-group associations for group id ' . $groupID;
-                }
-            }
+        $failed = $this->group->transactionAtomFailed();
+
+        if ($failed) {
+            $rhett['error'] = 'A failure occurred when updating the learner/group associations for group id ' . $groupId;
+            return $rhett;
+        }
+
+        //
+        // update the instructor/group associations
+        //
+        $existingInstructorIds = $this->group->getIdsForInstructorsInGroup($groupId);
+        $existingInstructorGroupIds = $this->group->getIdsForInstructorGroupsInGroup($groupId);
+        // separate instructors from groups
+        $instructorGroups = array_filter($instructors, function ($n) { return $n['isGroup']; });
+        $instructors = array_filter($instructors, function ($n) { return ! $n['isGroup']; });
+        $this->group->updateInstructorToGroupAssociations($groupId, $instructors, $existingInstructorIds, $auditAtoms);
+        $this->group->updateInstructorGroupToGroupAssociations($groupId, $instructorGroups, $existingInstructorGroupIds, $auditAtoms);
+
+        $failed = $this->group->transactionAtomFailed();
+
+        if ($failed) {
+            $rhett['error'] = 'A failure occurred when updating the instructor/group associations for group id ' . $groupId;
+            return $rhett;
         }
 
         return $rhett;
@@ -1033,7 +1036,7 @@ EOL;
      * This function's counterpart is <code>Group_Management::_stripdownGroupMembership</code>.
      * @param array $group a the user group. Will be modified in-place.
      * @return array a list containing all users that are members of the given group and its sub-groups.
-     * @see Group_Management::_backfillGroupMemberships::_stripdownGroupMembership()
+     * @see Group_Management::_stripdownGroupMembership()
      */
     protected function _backfillGroupMemberships (array &$group)
     {
