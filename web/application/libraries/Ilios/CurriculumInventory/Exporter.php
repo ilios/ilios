@@ -358,6 +358,7 @@ class Ilios_CurriculumInventory_Exporter
             if ($event['is_assessment_method']) {
                 $assessmentMethodNode = $dom->createElement('AssessmentMethod');
                 $eventNode->appendChild($assessmentMethodNode);
+                //
                 // from the spec:
                 // AssessmentMethod has the following attribute
                 //
@@ -366,8 +367,14 @@ class Ilios_CurriculumInventory_Exporter
                 // summative assessment. Use of the purpose attribute is required.
                 // Valid values are Formative and Summative.
                 //
-                // @todo Ilios does not have this info. Map this somehow.
-                $assessmentMethodNode->setAttribute('purpose', 'Summative');
+                switch ($event['assessment_option_name']) {
+                    case 'formative' :
+                        $assessmentMethodNode->setAttribute('purpose', 'Formative');
+                        break;
+                    case 'summative' :
+                    default:
+                        $assessmentMethodNode->setAttribute('purpose', 'Summative');
+                }
                 $assessmentMethodNode->appendChild($dom->createTextNode($event['method_title']));
             } else {
                 $instructionalMethodNode = $dom->createElement('InstructionalMethod');
