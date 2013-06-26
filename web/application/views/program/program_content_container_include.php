@@ -168,17 +168,16 @@ require_once(getServerFilePath('views') . 'common/content_container_generator.ph
             $publishAction = 'ilios.pm.transaction.performProgramSave(true);';
             $revertAction = 'ilios.pm.revertChanges();';
 
-            createContentContainerMarkup('&nbsp;', $formPrefix, $addNewEntityLink, $searchNewEntityLink,
+            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
                                          $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
                                          $addNewSomethingAction, $addNewSomethingDisplayText,
                                          $suffixingContent, $saveDraftAction, $publishAction,
-                                         $revertAction, true, true, true, false, $save_all_string, $save_all_draft_string,
-                                         $save_draft_string, $publish_all_string,
-                                         $publish_now_string, $reset_form_string);
+                                         $revertAction, true, true, false, false, '',
+                                         $save_draft_string, '',  $publish_now_string, $reset_form_string);
 
 ?>
 
-    <script type="text/JavaScript">
+    <script type="text/javascript">
 
         // @private
         ilios.pm.disableAddProgramYearLink = function (un, deux, trois) {

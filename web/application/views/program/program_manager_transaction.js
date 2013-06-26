@@ -84,73 +84,6 @@ ilios.pm.transaction.performProgramSave = function (shouldPublish) {
     return false;
 };
 
-/*
- * This is called when the user has clicked on the Save All UI button and then further ok'd
- *  the action via a modal inform choice panel.
- */
-ilios.pm.transaction.saveAllDirty = function () {
-    var programYearArray = null;
-    var programYear = null;
-    var containerNumber = 0;
-    var firstChild = null;
-    var collapserId = null;
-
-    this.hide();
-
-    if (ilios.pm.currentProgramModel.isModelDirty()) {
-        ilios.pm.transaction.performProgramSave(false);
-    }
-
-    programYearArray = ilios.pm.currentProgramModel.getProgramYearArray();
-    for (var key in programYearArray) {
-        programYear = programYearArray[key];
-
-        if (programYear.isModelDirty()) {
-            containerNumber
-                      = ilios.pm.currentProgramModel.getContainerNumberForProgramYear(programYear);
-
-            collapserId = ilios.dom.childCollapsingContainerIdForContainerNumber(containerNumber);
-            firstChild = document.getElementById(collapserId);
-            ilios.pm.transaction.performProgramYearSave(firstChild.firstChild.getAttribute('cnumber'),
-                                                        false);
-        }
-    }
-};
-
-/*
- * This is called when the user has clicked on the Publish All UI button and then further ok'd
- *  the action via a modal inform choice panel.
- */
-ilios.pm.transaction.publishAll = function () {
-    var programYearArray = null;
-    var programYear = null;
-    var containerNumber = 0;
-    var firstChild = null;
-    var collapserId = null;
-
-    this.hide();
-
-    if (ilios.utilities.canPublishModelItem(ilios.pm.currentProgramModel)) {
-        ilios.pm.transaction.performProgramSave(true);
-    }
-
-    programYearArray = ilios.pm.currentProgramModel.getProgramYearArray();
-    for (var key in programYearArray) {
-        programYear = programYearArray[key];
-
-        if (ilios.utilities.canPublishModelItem(programYear)) {
-            containerNumber
-                    = ilios.pm.currentProgramModel.getContainerNumberForProgramYear(programYear);
-
-            collapserId = ilios.dom.childCollapsingContainerIdForContainerNumber(containerNumber);
-            firstChild = document.getElementById(collapserId);
-            ilios.pm.transaction.performProgramYearSave(firstChild.firstChild.getAttribute('cnumber'),
-                                                        true);
-        }
-    }
-};
-
-
 /**
  * This is only called once per page load (or rather it should only need be such)
  */
@@ -239,14 +172,14 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                 var formDOMElement = null;
                 var programYearModel = null;
                 var titleId = null;
-                var scatchElement = null;
+                var scratchElement = null;
                 var textListContent = null;
                 var enable = false;
                 var draftStr = ilios_i18nVendor.getI18NString('general.terms.draft');
                 var publishedStr = ilios_i18nVendor.getI18NString('general.terms.published');
                 var collapseTrio = null;
                 var idString = null;
-                var str;
+                var str, opt, startYear, nextYear;
                 var containerNumber;
 
                 try {
@@ -292,8 +225,19 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
 
                     titleId = ilios.pm.generateIdStringForProgramYearSelect(containerNumber);
-                    scatchElement = document.getElementById(titleId);
-                    ilios.utilities.selectOptionWithValue(scatchElement, modelTree['start_year']);
+                    scratchElement = document.getElementById(titleId);
+                    startYear = modelTree['start_year'];
+                    // if the program-year's start year is out-of-range of the SELECT input element,
+                    // then add it as an option.
+                    if (! ilios.utilities.selectOptionWithValue(scratchElement, startYear)) {
+                        opt = document.createElement('option');
+                        opt.setAttribute('value', startYear);
+                        nextYear = parseInt(startYear, 10) + 1;
+                        str = "" +  startYear + "-" + nextYear;
+                        opt.appendChild(document.createTextNode(str));
+                        scratchElement.add(opt, scratchElement.options[0]); // add as first option.
+                        scratchElement.selectedIndex = 0;
+                    }
 
                     childArray = modelTree.competency;
                     j = 0;
