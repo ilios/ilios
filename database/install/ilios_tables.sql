@@ -255,23 +255,44 @@
 	  CONSTRAINT `clerkship_type_id` FOREIGN KEY (`clerkship_type_id`) REFERENCES `course_clerkship_type` (`course_clerkship_type_id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-	--
-	-- Table session_type
-	--
+--
+-- Table assessment_option
+--
+DROP TABLE IF EXISTS `assessment_option`;
+CREATE TABLE `assessment_option` (
+    `assessment_option_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`assessment_option_id`),
+    UNIQUE INDEX `name` (`name`)
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-	DROP TABLE IF EXISTS `session_type`;
-        SET character_set_client = utf8;
-        CREATE TABLE `session_type` (
-          `session_type_id` INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-          `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
-          `owning_school_id` INT(10) unsigned NOT NULL,
-          `session_type_css_class` VARCHAR(64) NULL,
-          `assessment` BOOL NOT NULL DEFAULT 0,
-          PRIMARY KEY (`session_type_id`) USING BTREE,
-          FOREIGN KEY (`owning_school_id`) REFERENCES school(school_id)
-          ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--
+-- Table session_type
+--
 
-
+DROP TABLE IF EXISTS `session_type`;
+SET character_set_client = utf8;
+CREATE TABLE `session_type` (
+    `session_type_id` INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
+    `owning_school_id` INT(10) unsigned NOT NULL,
+    `session_type_css_class` VARCHAR(64) NULL,
+    `assessment` BOOL NOT NULL DEFAULT 0,
+    `assessment_option_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+    PRIMARY KEY (`session_type_id`) USING BTREE,
+    FOREIGN KEY (`owning_school_id`) REFERENCES school(school_id),
+    INDEX `assessment_option_fkey` (`assessment_option_id`),
+    CONSTRAINT `assessment_option_fkey`
+        FOREIGN KEY (`assessment_option_id`) REFERENCES `assessment_option` (`assessment_option_id`)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1;
 
 	--
 	-- Table ilm_session_facet
