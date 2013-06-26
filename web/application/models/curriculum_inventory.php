@@ -98,11 +98,13 @@ SELECT
 s.session_id AS 'event_id',
 s.title, sd.description, st.title AS method_title,
 st.assessment AS is_assessment_method,
+ao.name AS assessment_option_name,
 SUM(TIMESTAMPDIFF(MINUTE, o.start_date, o.end_date)) AS duration
 FROM `session` s
 LEFT JOIN offering o ON o.session_id = s.session_id AND o.deleted = 0
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
 JOIN session_type st ON st.session_type_id = s.session_type_id
+LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
 JOIN course c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
 WHERE c.deleted = 0
@@ -118,10 +120,12 @@ SELECT
 s.session_id AS 'event_id',
 s.title, sd.description, st.title AS method_title,
 st.assessment AS is_assessment_method,
+ao.name AS assessmentoption_name,
 FLOOR(sf.hours * 60) AS duration
 FROM `session` s
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
 JOIN session_type st ON st.session_type_id = s.session_type_id
+LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
 JOIN course c ON c.course_id = s.course_id
 JOIN ilm_session_facet sf ON sf.ilm_session_facet_id = s.ilm_session_facet_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
