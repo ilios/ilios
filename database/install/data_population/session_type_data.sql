@@ -45,23 +45,28 @@ INSERT INTO session_type (title, owning_school_id, session_type_css_class, asses
 -- Assessment Methods
 
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Clinical Documentation Review', 1, 'clinical-doc-review',1, 1);
-INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Clinical Performance Rating/Checklist', 1, 'clinical-performance',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Clinical Performance Rating/Checklist', 1, 'clinical-performance',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Rating/Checklist', 1, 'rating-checklist',1, 1);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Institutionally Developed, Clinical Performance', 1, 'exam-institutional-clinical',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Institutionally Developed, Clinical Performance [formative]', 1, 'exam-institutional-clinical',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Institutionally Developed, Written/Computer-based', 1, 'exam-institutional-writ-comp',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Institutionally Developed, Written/Computer-based [formative]', 1, 'exam-institutional-writ-comp',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Institutionally Developed, Oral', 1, 'exam-institutional-oral',1, 1);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Licensure, Clinical Performance', 1, 'exam-licensure-clinical',1, 1);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Licensure, Written/Computer-based', 1, 'exam-licensure-writ-comp',1, 1);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Nationally Normed/Standardized, Subject', 1, 'exam-national-norm-standard-subj',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Nationally Normed/Standardized, Subject [formative]', 1, 'exam-national-norm-standard-subj',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Multisource Assessment', 1, 'multisource-assessment',1, 1);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Narrative Assessment', 1, 'narrative-assessment',1, 1);
-INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Oral Patient Presentation', 1, 'oral-patient-presentation',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Narrative Assessment [formative]', 1, 'narrative-assessment',1, 2);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Oral Patient Presentation', 1, 'oral-patient-presentation',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Participation', 1, 'participation',1, 1);
-INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Peer Assessment', 1, 'peer-assessment',1, 1);
-INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Portfolio-Based Assessment', 1, 'portfolio-assessment',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Peer Assessment', 1, 'peer-assessment',1, 2);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Portfolio-Based Assessment', 1, 'portfolio-assessment',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Practical (Lab) Exam', 1, 'practical-lab',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Practical (Lab) Exam [formative]', 1, 'practical-lab',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Research or Project Assessment', 1, 'research-project-assessment',1, 1);
-INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Self-Assessment', 1, 'self-assessment',1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Self-Assessment', 1, 'self-assessment',1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Stimulated Recall', 1, 'stimulated-recall',1, 1);
 
 --
