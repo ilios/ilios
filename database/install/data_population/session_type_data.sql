@@ -45,6 +45,7 @@ INSERT INTO session_type (title, owning_school_id, session_type_css_class, asses
 -- Assessment Methods
 
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Clinical Documentation Review', 1, 'clinical-doc-review', 1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Clinical Documentation Review [formative]', 1, 'clinical-doc-review', 1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Clinical Performance Rating/Checklist', 1, 'clinical-performance', 1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Rating/Checklist', 1, 'rating-checklist', 1, 1);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Exam - Institutionally Developed, Clinical Performance', 1, 'exam-institutional-clinical', 1, 1);
