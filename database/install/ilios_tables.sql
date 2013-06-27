@@ -263,7 +263,7 @@
         SET character_set_client = utf8;
         CREATE TABLE `session_type` (
           `session_type_id` INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-          `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
+          `title` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
           `owning_school_id` INT(10) unsigned NOT NULL,
           `session_type_css_class` VARCHAR(64) NULL,
           `assessment` BOOL NOT NULL DEFAULT 0,
