@@ -140,6 +140,45 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
     return false;
 };
 
+/**
+ * Click-event handler, tied to the "Save as Draft" button in the course container dialog.
+ * Initiates the process of saving the currently loaded course in draft-mode.
+ * @method saveCourseAsDraft
+ */
+ilios.cm.transaction.saveCourseAsDraft = function () {
+    var saveAsDraftStr, continueStr, yesStr;
+    //
+    // Check if the current course is already in draft mode.
+    // If so, then proceed with saving it directly.
+    // Otherwise, throw a confirmation dialog up.
+    //
+    if (! ilios.cm.currentCourseModel.isPublished()) {
+        ilios.cm.transaction.performCourseSave(false, false); // save as draft directly
+        return;
+    }
+
+    // pull up a confirmation dialog
+    saveAsDraftStr = ilios_i18nVendor.getI18NString('course_management.warning.published_course_save_as_draft');
+    continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+    yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
+
+    ilios.alert.inform((saveAsDraftStr + '<br />' + continueStr ), yesStr,
+        ilios.cm.transaction.continueSaveCourseAsDraft);
+};
+
+/**
+ * Click-event handler, tied to the "yes" button in the "save published course as draft?" confirmation dialog.
+ * Saves a given currently loaded course as draft.
+ * @method continueSaveCourseAsDraft
+ * @private
+ * @see ilios.cm.transaction.performCourseSave()
+ * @see ilios.cm.transaction.saveCourseAsDraft()
+ */
+ilios.cm.transaction.continueSaveCourseAsDraft = function () {
+    this.hide();
+    ilios.cm.transaction.performCourseSave(false, false);
+};
+
 ilios.cm.transaction.saveAllDirty = function () {
     var sessions, sessionModel;
     var firstChild = null;
@@ -395,9 +434,50 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };
 
+/**
+ * Click-event handler, tied to the "Save as Draft" button in the session container dialog.
+ * Initiates the process of saving a given session in draft-mode.
+ * @method saveSessionDraft
+ * @param {Event} event The click event.
+ */
 ilios.cm.transaction.saveSessionDraft = function (event) {
     var target = ilios.utilities.getEventTarget(event);
     var containerNumber = target.parentNode.parentNode.parentNode.parentNode.getAttribute('cnumber');
+    var sessionModel = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+    var saveAsDraftStr, continueStr, yesStr;
+    //
+    // Check if the given session is already in draft mode.
+    // If so, then proceed with saving it directly.
+    // Otherwise, throw a confirmation dialog up.
+    //
+    if (! sessionModel.isPublished()) {
+        ilios.cm.transaction.performSessionSave(containerNumber, false, false, true); // save as draft directly
+        return;
+    }
+
+    // pull up a confirmation dialog
+    saveAsDraftStr = ilios_i18nVendor.getI18NString('course_management.warning.published_session_save_as_draft');
+    continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+    yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
+
+    ilios.alert.inform((saveAsDraftStr + '<br />' + continueStr ), yesStr,
+        ilios.cm.transaction.continueSaveSessionDraft, {"cnumber": containerNumber});
+};
+
+/**
+ * Click-event handler, tied to the "yes" button in the "save published session as draft?" confirmation dialog.
+ * Saves a given published session as draft.
+ * @method continueSaveSessionDraft
+ * @param {Event} event The click event.
+ * @param {Object} args The event handler arguments object. It expects values keyed off by the following:
+ *     "cnumber" ... the session container number
+ * @private
+ * @see ilios.cm.transaction.performSessionSave()
+ * @see ilios.cm.transaction.saveSessionDraft()
+ */
+ilios.cm.transaction.continueSaveSessionDraft = function (event, args) {
+    var containerNumber = args.cnumber;
+    this.hide(); // "this" is the confirmation dialog. hide it.
     ilios.cm.transaction.performSessionSave(containerNumber, false, false, true);
 };
 
