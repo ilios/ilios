@@ -266,7 +266,7 @@ $suffixingContent = '
                 id="add_new_session_link" disabled="disabled">' . $add_session_string . '</button>
 </div>';
 
-$saveDraftAction = 'ilios.cm.transaction.performCourseSave(false, false);';
+$saveDraftAction = 'ilios.cm.transaction.saveCourseAsDraft();';
 $publishAction = 'ilios.cm.transaction.performCoursePublish();';
 $revertAction = 'ilios.cm.transaction.revertChanges();';
 
