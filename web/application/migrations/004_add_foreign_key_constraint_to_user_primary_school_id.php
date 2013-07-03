@@ -21,7 +21,7 @@ ALTER TABLE `user`
     ADD CONSTRAINT `fkey_user_primary_school`
         FOREIGN KEY (`primary_school_id`)
         REFERENCES `school` (`school_id`)
-        ON UPDATE CASCADE ON DELETE CASCADE
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 EOL;
         $this->db->query($sql);
         $this->db->trans_complete();

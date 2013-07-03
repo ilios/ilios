@@ -22,8 +22,20 @@
 --
 --
 
+	--
+	-- Table school
+	--
 
-
+CREATE TABLE `school` (
+  `school_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `template_prefix` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',
+  `title` VARCHAR(60) NOT NULL COLLATE 'utf8_unicode_ci',
+  `ilios_administrator_email` VARCHAR(100) NOT NULL COLLATE 'utf8_unicode_ci',
+  `deleted` TINYINT(1) NOT NULL,
+  `change_alert_recipients` TEXT NULL COLLATE 'utf8_unicode_ci',
+  PRIMARY KEY (`school_id`),
+  UNIQUE INDEX `template_prefix` (`template_prefix`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 	--
 	-- Table user
@@ -47,7 +59,7 @@
 	  `user_sync_ignore` TINYINT(1) NOT NULL,
 	  PRIMARY KEY (`user_id`) USING BTREE,
     INDEX `fkey_user_primary_school` (`primary_school_id`),
-    CONSTRAINT `fkey_user_primary_school` FOREIGN KEY (`primary_school_id`) REFERENCES `school` (`school_id`) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT `fkey_user_primary_school` FOREIGN KEY (`primary_school_id`) REFERENCES `school` (`school_id`) ON UPDATE RESTRICT ON DELETE RESTRICT
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -130,20 +142,6 @@
 	  PRIMARY KEY (`instruction_hours_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-	--
-	-- Table school
-	--
-
-	CREATE TABLE `school` (
-		`school_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-		`template_prefix` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',
-		`title` VARCHAR(60) NOT NULL COLLATE 'utf8_unicode_ci',
-		`ilios_administrator_email` VARCHAR(100) NOT NULL COLLATE 'utf8_unicode_ci',
-		`deleted` TINYINT(1) NOT NULL,
-		`change_alert_recipients` TEXT NULL COLLATE 'utf8_unicode_ci',
-		PRIMARY KEY (`school_id`),
-		UNIQUE INDEX `template_prefix` (`template_prefix`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 	--
 	-- Table department
