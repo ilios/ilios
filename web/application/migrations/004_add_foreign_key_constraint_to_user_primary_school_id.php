@@ -18,7 +18,7 @@ class Migration_Add_foreign_key_constraint_to_user_primary_school_id extends CI_
         // add the foreign key
         $sql =<<<EOL
 ALTER TABLE `user`
-    ADD CONSTRAINT `fkey_primary_school`
+    ADD CONSTRAINT `fkey_user_primary_school`
         FOREIGN KEY (`primary_school_id`)
         REFERENCES `school` (`school_id`)
         ON UPDATE CASCADE ON DELETE CASCADE
@@ -34,7 +34,7 @@ EOL;
     {
         $this->db->trans_start();
         // remove the foreign key constraint
-        $sql = 'ALTER TABLE `user` DROP FOREIGN KEY `fkey_primary_school`';
+        $sql = 'ALTER TABLE `user` DROP FOREIGN KEY `fkey_user_primary_school`';
         $this->db->query($sql);
         // revert data type of the "primary_school_id" column
         $sql = 'ALTER TABLE `user` CHANGE COLUMN `primary_school_id` `primary_school_id` TINYINT(10) SIGNED NOT NULL';

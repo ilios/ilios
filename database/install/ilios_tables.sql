@@ -46,8 +46,8 @@
 	  `examined` TINYINT(1) NOT NULL,			-- at the beginning of an EDS sync, we clear this, then set it if found in the EDS return
 	  `user_sync_ignore` TINYINT(1) NOT NULL,
 	  PRIMARY KEY (`user_id`) USING BTREE,
-    INDEX `fkey_primary_school` (`primary_school_id`),
-    CONSTRAINT `fkey_primary_school` FOREIGN KEY (`primary_school_id`) REFERENCES `school` (`school_id`) ON UPDATE CASCADE ON DELETE CASCADE
+    INDEX `fkey_user_primary_school` (`primary_school_id`),
+    CONSTRAINT `fkey_user_primary_school` FOREIGN KEY (`primary_school_id`) REFERENCES `school` (`school_id`) ON UPDATE CASCADE ON DELETE CASCADE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -877,12 +877,12 @@ CREATE TABLE `program_year_director` (
     `program_year_id` INT(14) UNSIGNED NOT NULL,
     `user_id` INT(14) UNSIGNED NOT NULL,
     PRIMARY KEY (`program_year_id`, `user_id`),
-    INDEX `fkey_user` (`user_id`),
-    CONSTRAINT `fkey_program_year`
+    INDEX `fkey_program_year_director_user` (`user_id`),
+    CONSTRAINT `fkey_program_year_director_program_year`
         FOREIGN KEY (`program_year_id`)
         REFERENCES `program_year` (`program_year_id`)
         ON UPDATE RESTRICT ON DELETE CASCADE,
-    CONSTRAINT `fkey_user`
+    CONSTRAINT `fkey_program_year_director_user`
         FOREIGN KEY (`user_id`)
         REFERENCES `user` (`user_id`)
         ON UPDATE RESTRICT ON DELETE CASCADE

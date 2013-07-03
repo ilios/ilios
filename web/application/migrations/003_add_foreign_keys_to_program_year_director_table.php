@@ -47,11 +47,11 @@ EOL;
         // add the foreign key constraints
         $sql =<<<EOL
 ALTER TABLE `program_year_director`
-    ADD CONSTRAINT `fkey_program_year`
+    ADD CONSTRAINT `fkey_program_year_director_program_year`
         FOREIGN KEY (`program_year_id`)
         REFERENCES `program_year` (`program_year_id`)
         ON UPDATE RESTRICT ON DELETE CASCADE,
-    ADD CONSTRAINT `fkey_user`
+    ADD CONSTRAINT `fkey_program_year_director_user`
         FOREIGN KEY (`user_id`)
         REFERENCES `user` (`user_id`)
         ON UPDATE RESTRICT ON DELETE CASCADE
@@ -67,7 +67,7 @@ EOL;
     {
         $this->db->trans_start();
         // remove the foreign key constraints
-        $sql = "ALTER TABLE `program_year_director` DROP FOREIGN KEY `fkey_program_year`, DROP FOREIGN KEY `fkey_user`";
+        $sql = "ALTER TABLE `program_year_director` DROP FOREIGN KEY `fkey_program_year_director_program_year`, DROP FOREIGN KEY `fkey_program_year_director_user`";
         $this->db->query($sql);
         // remove the primary key
         $sql = "ALTER TABLE `program_year_director` DROP PRIMARY KEY";
