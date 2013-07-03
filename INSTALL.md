@@ -37,12 +37,11 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
         application/config/default.ilios.php -> application/config/ilios.php
         application/config/default.database.php -> application/config/database.php
 
-5. In your deployment directory, configure the following files to reflect your institution's name, appropriate URLs, and database attributes:
+5. In your deployment directory, adjust the following files to properly configure your Ilios instance:
 
-        index.php                        ... substitute placeholder tokens with a version string
-        application/config/config.php    ... substitute placeholder token with your URL
-        application/config/ilios.php     ... set your institution's name and authentication method
-        application/config/database.php  ... fill in your database connection settings
+        application/config/config.php    ... for the `$config['encryption_key']` configuration option, replace the `%%ENCRYPTION_KEY%%` placeholder with an actual value.
+        application/config/ilios.php     ... for the `$config['ilios_institution_name']` configuration option, replace the `XXXXXX` placeholder with your institution's name.
+        application/config/database.php  ... configure your database connection by replacing the various X'ed placeholders with actual values. See the code comments for details.
 
 6. Construct and populate your database as described in `database/install/README.md`.
 
