@@ -38,14 +38,16 @@
 	  `middle_name` VARCHAR(20) COLLATE utf8_unicode_ci,
 	  `phone` VARCHAR(30) COLLATE utf8_unicode_ci,
 	  `email` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
-	  `primary_school_id` TINYINT(10) NOT NULL,
+	  `primary_school_id` INT(10) UNSIGNED NOT NULL,
 	  `added_via_ilios` TINYINT(1) NOT NULL,
 	  `enabled` TINYINT(1) NOT NULL,			-- if an account is disabled, the user cannot log in
 	  `uc_uid` VARCHAR(16) COLLATE utf8_unicode_ci,		-- visitors and volunteer faculty (at least) will not have; need uniquer
 	  `other_id` VARCHAR(16) COLLATE utf8_unicode_ci,
 	  `examined` TINYINT(1) NOT NULL,			-- at the beginning of an EDS sync, we clear this, then set it if found in the EDS return
 	  `user_sync_ignore` TINYINT(1) NOT NULL,
-	  PRIMARY KEY (`user_id`) USING BTREE
+	  PRIMARY KEY (`user_id`) USING BTREE,
+    INDEX `fkey_primary_school` (`primary_school_id`),
+    CONSTRAINT `fkey_primary_school` FOREIGN KEY (`primary_school_id`) REFERENCES `school` (`school_id`) ON UPDATE CASCADE ON DELETE CASCADE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
