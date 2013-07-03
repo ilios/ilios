@@ -867,16 +867,27 @@
 
 
 
-	--
-	-- Table program_year_director
-	--
-
-	DROP TABLE IF EXISTS `program_year_director`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program_year_director` (
-	  `program_year_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Table program_year_director
+--
+DROP TABLE IF EXISTS `program_year_director`;
+CREATE TABLE `program_year_director` (
+    `program_year_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    INDEX `fkey_program_year` (`program_year_id`),
+    INDEX `fkey_user` (`user_id`),
+    CONSTRAINT `fkey_program_year`
+        FOREIGN KEY (`program_year_id`)
+        REFERENCES `program_year` (`program_year_id`)
+        ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT `fkey_user`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON UPDATE RESTRICT ON DELETE CASCADE
+)
+COLLATE='utf8_general_ci'
+DEFAULT CHARSET=utf8
+ENGINE=InnoDB;
 
 
 
