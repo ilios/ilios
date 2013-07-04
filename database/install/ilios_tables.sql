@@ -891,18 +891,34 @@ ENGINE=InnoDB;
 
 
 
-	--
-	-- Table program_year_steward
-	--
-
-	DROP TABLE IF EXISTS `program_year_steward`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program_year_steward` (
-	  `program_year_id` INT(14) UNSIGNED NOT NULL,
-	  `school_id` INT(14) UNSIGNED NOT NULL,
-	  `department_id` INT(14) UNSIGNED,		-- if NULL, then the entire school is the steward
-	  KEY `py_s_k` USING BTREE (`program_year_id`,`school_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Table program_year_steward
+--
+DROP TABLE IF EXISTS `program_year_steward`;
+CREATE TABLE `program_year_steward` (
+    `program_year_id` INT(14) UNSIGNED NOT NULL,
+    `school_id` INT(14) UNSIGNED NOT NULL,
+    `department_id` INT(14) UNSIGNED,
+    UNIQUE INDEX `program_year_id_school_id_department_id` (`program_year_id`, `school_id`, `department_id`),
+    INDEX `fkey_program_year_steward_school` (`school_id`),
+    INDEX `fkey_program_year_steward_department` (`department_id`),
+    INDEX `py_s_k` (`program_year_id`, `school_id`) USING BTREE,
+    CONSTRAINT `fkey_program_year_steward_department`
+        FOREIGN KEY (`department_id`)
+        REFERENCES `department` (`department_id`)
+        ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT `fkey_program_year_steward_program_year`
+        FOREIGN KEY (`program_year_id`)
+        REFERENCES `program_year` (`program_year_id`)
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT `fkey_program_year_steward_school`
+        FOREIGN KEY (`school_id`)
+        REFERENCES `school` (`school_id`)
+        ON UPDATE RESTRICT ON DELETE CASCADE
+)
+COLLATE='utf8_general_ci'
+DEFAULT CHARSET=utf8
+ENGINE=InnoDB;
 
 
 
