@@ -33,7 +33,7 @@ EOL;
         $sql = 'DELETE FROM `program_year_steward`';
         $this->db->query($sql);
         $sql =<<<EOL
-INSERT INTO `program_year_director` (`program_year_id`, `user_id`, `department_id`) (
+INSERT INTO `program_year_steward` (`program_year_id`, `user_id`, `department_id`) (
     SELECT program_year_id, `user_id`, `department_id` FROM `program_year_steward_deduped`
 )
 EOL;
