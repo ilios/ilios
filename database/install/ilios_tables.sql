@@ -22,8 +22,20 @@
 --
 --
 
+	--
+	-- Table school
+	--
 
-
+CREATE TABLE `school` (
+  `school_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `template_prefix` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',
+  `title` VARCHAR(60) NOT NULL COLLATE 'utf8_unicode_ci',
+  `ilios_administrator_email` VARCHAR(100) NOT NULL COLLATE 'utf8_unicode_ci',
+  `deleted` TINYINT(1) NOT NULL,
+  `change_alert_recipients` TEXT NULL COLLATE 'utf8_unicode_ci',
+  PRIMARY KEY (`school_id`),
+  UNIQUE INDEX `template_prefix` (`template_prefix`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 	--
 	-- Table user
@@ -46,8 +58,8 @@
 	  `examined` TINYINT(1) NOT NULL,			-- at the beginning of an EDS sync, we clear this, then set it if found in the EDS return
 	  `user_sync_ignore` TINYINT(1) NOT NULL,
 	  PRIMARY KEY (`user_id`) USING BTREE,
-    INDEX `fkey_primary_school` (`primary_school_id`),
-    CONSTRAINT `fkey_primary_school` FOREIGN KEY (`primary_school_id`) REFERENCES `school` (`school_id`) ON UPDATE CASCADE ON DELETE CASCADE
+    INDEX `fkey_user_primary_school` (`primary_school_id`),
+    CONSTRAINT `fkey_user_primary_school` FOREIGN KEY (`primary_school_id`) REFERENCES `school` (`school_id`) ON UPDATE RESTRICT ON DELETE RESTRICT
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -130,20 +142,6 @@
 	  PRIMARY KEY (`instruction_hours_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-	--
-	-- Table school
-	--
-
-	CREATE TABLE `school` (
-		`school_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-		`template_prefix` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',
-		`title` VARCHAR(60) NOT NULL COLLATE 'utf8_unicode_ci',
-		`ilios_administrator_email` VARCHAR(100) NOT NULL COLLATE 'utf8_unicode_ci',
-		`deleted` TINYINT(1) NOT NULL,
-		`change_alert_recipients` TEXT NULL COLLATE 'utf8_unicode_ci',
-		PRIMARY KEY (`school_id`),
-		UNIQUE INDEX `template_prefix` (`template_prefix`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 	--
 	-- Table department
@@ -877,12 +875,12 @@ CREATE TABLE `program_year_director` (
     `program_year_id` INT(14) UNSIGNED NOT NULL,
     `user_id` INT(14) UNSIGNED NOT NULL,
     PRIMARY KEY (`program_year_id`, `user_id`),
-    INDEX `fkey_user` (`user_id`),
-    CONSTRAINT `fkey_program_year`
+    INDEX `fkey_program_year_director_user` (`user_id`),
+    CONSTRAINT `fkey_program_year_director_program_year`
         FOREIGN KEY (`program_year_id`)
         REFERENCES `program_year` (`program_year_id`)
         ON UPDATE RESTRICT ON DELETE CASCADE,
-    CONSTRAINT `fkey_user`
+    CONSTRAINT `fkey_program_year_director_user`
         FOREIGN KEY (`user_id`)
         REFERENCES `user` (`user_id`)
         ON UPDATE RESTRICT ON DELETE CASCADE
@@ -893,18 +891,34 @@ ENGINE=InnoDB;
 
 
 
-	--
-	-- Table program_year_steward
-	--
-
-	DROP TABLE IF EXISTS `program_year_steward`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program_year_steward` (
-	  `program_year_id` INT(14) UNSIGNED NOT NULL,
-	  `school_id` INT(14) UNSIGNED NOT NULL,
-	  `department_id` INT(14) UNSIGNED,		-- if NULL, then the entire school is the steward
-	  KEY `py_s_k` USING BTREE (`program_year_id`,`school_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Table program_year_steward
+--
+DROP TABLE IF EXISTS `program_year_steward`;
+CREATE TABLE `program_year_steward` (
+    `program_year_id` INT(14) UNSIGNED NOT NULL,
+    `school_id` INT(14) UNSIGNED NOT NULL,
+    `department_id` INT(14) UNSIGNED,
+    UNIQUE INDEX `program_year_id_school_id_department_id` (`program_year_id`, `school_id`, `department_id`),
+    INDEX `fkey_program_year_steward_school` (`school_id`),
+    INDEX `fkey_program_year_steward_department` (`department_id`),
+    INDEX `py_s_k` (`program_year_id`, `school_id`) USING BTREE,
+    CONSTRAINT `fkey_program_year_steward_department`
+        FOREIGN KEY (`department_id`)
+        REFERENCES `department` (`department_id`)
+        ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT `fkey_program_year_steward_program_year`
+        FOREIGN KEY (`program_year_id`)
+        REFERENCES `program_year` (`program_year_id`)
+      ON UPDATE RESTRICT ON DELETE CASCADE,
+    CONSTRAINT `fkey_program_year_steward_school`
+        FOREIGN KEY (`school_id`)
+        REFERENCES `school` (`school_id`)
+        ON UPDATE RESTRICT ON DELETE CASCADE
+)
+COLLATE='utf8_general_ci'
+DEFAULT CHARSET=utf8
+ENGINE=InnoDB;
 
 
 
