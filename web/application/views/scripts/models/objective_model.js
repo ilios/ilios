@@ -21,7 +21,7 @@ function ObjectiveModel (dbObject) {
 
     this.parentObjectives = [];
 
-    this.competencyId = -1;
+    this.competencyId = 0;
 
     if (typeof dbObject != 'undefined') {
         var key = null;
