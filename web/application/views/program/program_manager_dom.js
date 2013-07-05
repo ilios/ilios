@@ -1105,7 +1105,7 @@ ilios.pm.buildObjectiveTextDialogPulldownOptions = function (pulldown, container
 
     ilios.utilities.removeAllChildren(pulldown);
 
-    option.value = -1;
+    option.value = '0';
     option.innerHTML = '(' + ilios_i18nVendor.getI18NString('general.terms.none') + ')';
     pulldown.appendChild(option);
 
