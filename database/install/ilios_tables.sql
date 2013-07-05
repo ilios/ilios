@@ -414,21 +414,25 @@ CREATE TABLE `school` (
 
 
 
-	--
-	-- Table objective
-	--
-
-	DROP TABLE IF EXISTS `objective`;
-	SET character_set_client = utf8;
-	CREATE TABLE `objective` (
-	  `objective_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `title` TEXT COLLATE utf8_unicode_ci NOT NULL,
-	  `competency_id` int(14) unsigned default NULL,
-	  PRIMARY KEY (`objective_id`) USING BTREE
-	  -- ,
-	  -- TODO: objective uses 0 to represent null for competency id, therefore fails foreign key id, investigate if null is OK
-	  -- CONSTRAINT `fkey_objective_competency_id` FOREIGN KEY (`competency_id`) REFERENCES `competency` (`competency_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--
+-- Table objective
+--
+DROP TABLE IF EXISTS `objective`;
+CREATE TABLE `objective` (
+    `objective_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` TEXT COLLATE utf8_unicode_ci NOT NULL,
+    `competency_id` int(14) unsigned default NULL,
+    PRIMARY KEY (`objective_id`) USING BTREE,
+    INDEX `fkey_objective_competency` (`competency_id`),
+    CONSTRAINT `fkey_objective_competency`
+        FOREIGN KEY (`competency_id`)
+        REFERENCES `competency` (`competency_id`)
+        ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+AUTO_INCREMENT=1
+DEFAULT CHARSET=utf8
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
 
 
