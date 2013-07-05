@@ -89,9 +89,8 @@ class Objective extends Ilios_Base_Model
     {
         $newRow = array();
         $newRow['objective_id'] = null;
-
         $newRow['title'] = $objectiveObject['title'];
-        $newRow['competency_id'] = $objectiveObject['competencyId'];
+        $newRow['competency_id'] = $objectiveObject['competencyId'] ? $objectiveObject['competencyId'] : null;
 
         $this->db->insert($this->databaseTableName, $newRow);
 
@@ -127,7 +126,7 @@ class Objective extends Ilios_Base_Model
     {
         $updateRow = array();
         $updateRow['title'] = $objectiveObject['title'];
-        $updateRow['competency_id'] = $objectiveObject['competencyId'];
+        $updateRow['competency_id'] = $objectiveObject['competencyId'] ? $objectiveObject['competencyId'] : null;
 
         $this->db->where('objective_id', $objectiveObject['dbId']);
         $this->db->update($this->databaseTableName, $updateRow);
