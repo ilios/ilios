@@ -16,7 +16,7 @@ class Migration_Add_Foreign_keys_to_program_year_steward_table extends CI_Migrat
         // remove any orphaned entries in the join table
         $sql = "DELETE FROM `program_year_steward` WHERE `program_year_id` NOT IN (SELECT `program_year_id` FROM `program_year`)";
         $this->db->query($sql);
-        $sql = "DELETE FROM `program_year_steward` WHERE `user_id` NOT IN (SELECT `user_id` FROM `user`)";
+        $sql = "DELETE FROM `program_year_steward` WHERE `school_id` NOT IN (SELECT `school_id` FROM `school`)";
         $this->db->query($sql);
         $sql = "DELETE FROM `program_year_steward` WHERE `department_id` IS NOT NULL AND `department_id` NOT IN (SELECT `department_id` FROM `department`)";
         $this->db->query($sql);
@@ -25,16 +25,16 @@ class Migration_Add_Foreign_keys_to_program_year_steward_table extends CI_Migrat
         $sql = 'CREATE TABLE `program_year_steward_deduped` LIKE `program_year_steward`';
         $this->db->query($sql);
         $sql =<<<EOL
-INSERT INTO `program_year_steward_deduped` (`program_year_id`, `user_id`, `department_id`)(
-    SELECT DISTINCT `program_year_id`, `user_id`, `department_id` FROM `program_year_steward`
+INSERT INTO `program_year_steward_deduped` (`program_year_id`, `school_id`, `department_id`)(
+    SELECT DISTINCT `program_year_id`, `school_id`, `department_id` FROM `program_year_steward`
 )
 EOL;
         $this->db->query($sql);
         $sql = 'DELETE FROM `program_year_steward`';
         $this->db->query($sql);
         $sql =<<<EOL
-INSERT INTO `program_year_steward` (`program_year_id`, `user_id`, `department_id`) (
-    SELECT program_year_id, `user_id`, `department_id` FROM `program_year_steward_deduped`
+INSERT INTO `program_year_steward` (`program_year_id`, `school_id`, `department_id`) (
+    SELECT program_year_id, `school_id`, `department_id` FROM `program_year_steward_deduped`
 )
 EOL;
         $this->db->query($sql);
