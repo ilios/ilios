@@ -83,7 +83,7 @@ ALTER TABLE `program_year_steward`
 EOL;
         $this->db->query($sql);
         // remove the uniqueness constraint
-        $sql = "ALTER TABLE `program_year_steward` DROP INDEX `program_year_id_school_id_department_id`;";
+        $sql = "ALTER TABLE `program_year_steward` DROP INDEX `program_year_id_school_id_department_id`";
         $this->db->query($sql);
         $this->db->trans_complete();
     }
