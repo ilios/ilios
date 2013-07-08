@@ -67,6 +67,7 @@ INSERT INTO session_type (title, owning_school_id, session_type_css_class, asses
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Practical (Lab) Exam', 1, 'practical-lab', 1, 1);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Practical (Lab) Exam [formative]', 1, 'practical-lab', 1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Research or Project Assessment', 1, 'research-project-assessment', 1, 1);
+INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Research or Project Assessment [formative]', 1, 'research-project-assessment', 1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Self-Assessment', 1, 'self-assessment', 1, 2);
 INSERT INTO session_type (title, owning_school_id, session_type_css_class, assessment, assessment_option_id) VALUES ('Stimulated Recall', 1, 'stimulated-recall', 1, 1);
 
