@@ -83,8 +83,9 @@ $config['ilios_idle_page_timeout'] = 2700000;
 | ['ilios_authentication']
 |     The name authentication system to use.
 |     Options are:
-|         "default" - Ilios-internal authentication (username/password)
-|         "shibboleth" - Shibboleth-based authentication (SSO)
+|         "default"    Ilios-internal authentication (username/password)
+|         "shibboleth" Shibboleth-based authentication (SSO)
+|         "ldap"       LDAP based authentication
 |     If not specified, then the "default" option is assumed.
 */
 $config['ilios_authentication'] = 'default';
@@ -119,6 +120,25 @@ $config['ilios_authentication_internal_auth_salt'] = null;
 */
 $config['ilios_authentication_shibboleth_user_id_attribute'] = 'mail';
 $config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout';
+
+/*
+|--------------------------------------------------------------------------
+| LDAP Authentication
+|--------------------------------------------------------------------------
+|
+| ['ilios_ldap_authentication']['host']             LDAP server hostname or URL
+                                                    e.g. "directory.university.edu"
+                                                         "ldap://directory.university.edu:389"
+| ['ilios_ldap_authentication']['port']             LDAP server port.
+                                                    Will be ignored if 'host' is an URL.
+| ['ilios_ldap_authentication']['bind_dn_template'] Bind DN template.
+|                                                   use %s as placeholder for username substitution.
+|                                                   e.g. 'cn=%s,ou=directory,dc=university,dc=edu'
+*/
+$config['ilios_ldap_authentication']['host'] = 'directory.university.edu';
+$config['ilios_ldap_authentication']['port'] = 389;
+$config['ilios_ldap_authentication']['bind_dn_template'] = 'cn=%s,ou=directory,dc=university,dc=edu';
+
 /*
  |--------------------------------------------------------------------------
  | Scheduled Task configuration
@@ -133,9 +153,9 @@ $config['tasks'] = array(); // never comment out this line, code relies on this 
  | "Change Alert Notification Process" configuration
  |--------------------------------------------------------------------------
  |
- | ['tasks']['change_alerts']             configuration container for change alerts notification process
- | ['tasks']['change_alerts']['enabled']  "on/off" switch, set to TRUE to enable notification process, FALSE to turn it off
- | ['tasks']['change_alerts']['debug']    "debug mode" switch, set to TRUE for additional log output.
+ | ['tasks']['change_alerts']            configuration container for change alerts notification process
+ | ['tasks']['change_alerts']['enabled'] "on/off" switch, set to TRUE to enable notification process, FALSE to turn it off
+ | ['tasks']['change_alerts']['debug']   "debug mode" switch, set to TRUE for additional log output.
  |
 */
 $config['tasks']['change_alerts'] = array();
