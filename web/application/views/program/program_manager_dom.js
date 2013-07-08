@@ -19,7 +19,7 @@ ilios.pm.schoolDepartmentTreeModel = null;
 
 ilios.pm.placeHolderNodeTitle = "Place holder";
 
-/*
+/*x
  * @return true if the program model is dirty (including any of its program year models)
  */
 // @private
@@ -386,10 +386,14 @@ ilios.pm.collapseOrExpandProgramYears = function (collapseRegardless) {
 };
 
 ilios.pm.handleProgramYearDivCollapse = function (containerNumber, summaryTextDiv) {
-    var programYearStr = ilios_i18nVendor.getI18NString('general.phrases.program_year');
+    var programYearStr = ilios_i18nVendor.getI18NString('general.phrases.matriculation_year');
     var model = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(containerNumber);
-    var yearText = "" + model.getStartYear() + "-" + (model.getStartYear() + 1);
-    summaryTextDiv.innerHTML = programYearStr + ": " + yearText;
+    var startYear = model.getStartYear();
+    var endYear = (startYear + 1);
+    var yearText = startYear + "-" + endYear;
+    var graduatingClassYear = (parseInt(endYear) + parseInt(ilios.pm.currentProgramModel.duration));
+    var graduatingClassOfStr = ilios_i18nVendor.getI18NString('general.phrases.graduating_class_of');
+    summaryTextDiv.innerHTML = programYearStr + ": " + yearText + " ("+graduatingClassOfStr+" "+graduatingClassYear+")";
 };
 
 ilios.pm.getCollapseTrioForFirstChildLevelDiv = function (firstChildLevelDiv) {
@@ -668,10 +672,10 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
     var i = 0;
     var len = ilios.pm.getMaximumProgramYearCount();
     var titleId = ilios.pm.generateIdStringForProgramYearSelect(containerNumber);
-    var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.program_year');
+    var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.academic_year');
     var rowEl, labelCol, dataCol, actionCol;
 
-    // Program Year
+    // Matriculation Year
     rowEl = ilios.dom.createEntityContainerInputRow();
 
     //label column
@@ -705,9 +709,17 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
 
         scratchInput.appendChild(scratchOption);
     }
+   
     dataCol = ilios.dom.createDataCol(rowEl, scratchInput.get('element'));
+    
+    scratchInput = document.createElement('div');
+    scratchInput.setAttribute('id', ('matriculation_year_summary_text'));
+    scratchInput.setAttribute('style', 'display:inline-block');
+    var graduatingClassOfStr = ilios_i18nVendor.getI18NString('general.phrases.graduating_class_of');
+    scratchInput.innerHTML = "("+graduatingClassOfStr+" 2018)";
+    dataCol.appendChild(scratchInput);
     parentElement.appendChild(rowEl);
-
+    
     // Competencies
     i18nStr = ilios_i18nVendor.getI18NString('general.terms.competencies') + ' ';
     ilios.pm.appendProgramYearComponentToDOM(parentElement,
