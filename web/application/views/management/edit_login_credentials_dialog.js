@@ -37,11 +37,17 @@
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.done'),
                     handler: function () {
-                        var usernameEl = document.getElementById('ua_edit_login_username_tf');
-                        var passwordEl = document.getElementById('ua_edit_login_password_tf');
-                        var username = usernameEl.value;
-                        var password = passwordEl.value;
+                        var usernameEl, passwordEl;
+                        var username = '';
+                        var password = '';
                         var userModel = this.model;
+
+                        usernameEl = document.getElementById('ua_edit_login_username_tf');
+                        passwordEl = document.getElementById('ua_edit_login_password_tf');
+                        username = usernameEl.value;
+                        if (passwordEl) {
+                            password = passwordEl.value;
+                        }
 
                         // client-side input validation
                         // @todo
@@ -122,7 +128,9 @@
             } else {
                 usernameEl.value = '';
             }
-            passwordEl.value = '';
+            if (passwordEl) {
+                passwordEl.value = '';
+            }
         }
     });
 }());

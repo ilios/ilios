@@ -83,6 +83,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "management/program_cohort_dom.js"); ?>"></script>
     <script type="text/javascript">
             ilios.management.user_accounts.manageLoginCredentials = <?php echo ($manage_login_credentials ? "true" : "false"); ?>;
+            ilios.management.user_accounts.passwordRequired = <?php echo ($password_required ? "true" : "false"); ?>;
             YAHOO.util.Event.onDOMReady(ilios.management.user_accounts.startUserAccountsWorkflow);
     </script>
 </head>
@@ -173,9 +174,11 @@ $viewsPath = getServerFilePath('views');
             <form action="#">
                 <label for="ua_edit_login_username_tf">Login Name</label>:<br />
                 <input id="ua_edit_login_username_tf" name="ua_edit_login_username_tf" type="text" value="" /><br />
+        <?php if ($password_required) : ?>
                 <label for="ua_edit_login_password_tf">New Password</label>:<br />
                 <input id="ua_edit_login_password_tf" name="ua_edit_login_password_tf" type="password" value="" />
                 <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+        <?php endif; ?>
             </form>
         </div>
         <div class="ft"></div>
@@ -187,9 +190,11 @@ $viewsPath = getServerFilePath('views');
             <form action="#">
                 <label for="ua_add_login_username_tf">Login Name</label>:<br />
                 <input id="ua_add_login_username_tf" name="ua_add_login_username_tf" type="text" value="" /><br />
+            <?php if ($password_required) : ?>
                 <label for="ua_add_login_password_tf">Password</label>:<br />
                 <input id="ua_add_login_password_tf" name="ua_add_login_password_tf" type="password" value="" />
                 <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+            <?php endif; ?>
             </form>
         </div>
         <div class="ft"></div>
