@@ -358,20 +358,18 @@ class Management_Console extends Ilios_Web_Controller
     }
 
     /**
-     * XHR callback handler.
      * Adds login credentials (username/password) for a given user.
      * Expected input:
      *     'user_id' ...the user id
      *     'username' ... the new login handle
      *     'password' ... the new password
      *
-     * Prints out a JSON-formatted success/error messages on completion/failure.
+     * Prints out a JSON-formatted success/error message on completion/failure.
      */
     public function addLoginCredentials ()
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-        $addCredentials = false;
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -380,9 +378,9 @@ class Management_Console extends Ilios_Web_Controller
         }
 
 
-        $userId = $this->input->get_post('user_id');
-        $username = $this->input->get_post('username');
-        $password = $this->input->get_post('password');
+        $userId = $this->input->post('user_id');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
 
         // validate input
         if (! $userId) {
@@ -393,17 +391,26 @@ class Management_Console extends Ilios_Web_Controller
             $rhett['error'][] = 'Missing login name.';
         }
 
-        if (! $password) {
-            $rhett['error'][] = 'Missing password.';
-        } else {
-            $passwordCheckResult = $this->_validatePassword($password);
-            if ($passwordCheckResult !== true) {
-                if (array_key_exists('error', $rhett)) {
-                    $rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
+        $authnMethod = $this->config->item('ilios_authentication');
+        switch ($authnMethod) {
+            case 'ldap':
+                // generate random password.
+                $password = Ilios_PasswordUtils::generateRandomPassword();
+                break;
+            case 'default' :
+            default:
+                if (! $password) {
+                    $rhett['error'][] = 'Missing password.';
                 } else {
-                    $rhett['error'] = $passwordCheckResult;
+                    $passwordCheckResult = $this->_validatePassword($password);
+                    if ($passwordCheckResult !== true) {
+                        if (array_key_exists('error', $rhett)) {
+                            $rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
+                        } else {
+                            $rhett['error'] = $passwordCheckResult;
+                        }
+                    }
                 }
-            }
         }
 
         if (array_key_exists('error', $rhett)) {
