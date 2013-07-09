@@ -5,19 +5,19 @@
 
 function PermissionModel (dbObject) {
 
-	this.underlyingObject = null;
+    this.underlyingObject = null;
     this.underlyingObjectDBId = -1;
     this.displayHTML = 'Unknown Object';
     this.title = 'Unknown';
 
-	if (typeof dbObject == 'undefined') {
+    if (typeof dbObject == 'undefined') {
         this.dbId = -1;
-		this.readPermission = false;
+        this.readPermission = false;
         this.writePermission = false;
-	}
-	else {
+    }
+    else {
         this.dbId = dbObject.permission_id;
-		this.readPermission = (dbObject.can_read == '1');
+        this.readPermission = (dbObject.can_read == '1');
         this.writePermission = (dbObject.can_write == '1');
 
         if (dbObject.object != null) {
@@ -27,7 +27,7 @@ function PermissionModel (dbObject) {
             this.title = dbObject.object.title;
 
             if (this.underlyingObject.object_name == 'course') {
-        		var dates
+                var dates
                     = ilios.management
                              .getStartAndEndDateObjectsFromPermissionCourseDBObject(
                                                                             this.underlyingObject);
@@ -50,33 +50,33 @@ function PermissionModel (dbObject) {
                 this.underlyingObjectDBId = dbObject.object.school_id;
             }
         }
-	}
+    }
 
 }
 
 PermissionModel.prototype.getDBId = function () {
-	return this.dbId;
+    return this.dbId;
 };
 
 PermissionModel.prototype.getUnderlyingObjectDBId = function () {
-	return this.underlyingObjectDBId;
+    return this.underlyingObjectDBId;
 };
 
 PermissionModel.prototype.getUnderlyingObject = function () {
-	return this.underlyingObject;
+    return this.underlyingObject;
 };
 
 PermissionModel.prototype.getUnderlyingObjectName = function () {
-	return this.underlyingObject.object_name;
+    return this.underlyingObject.object_name;
 };
 
 // MVC-huh?
 PermissionModel.prototype.getDisplayHTML = function () {
-	return this.displayHTML;
+    return this.displayHTML;
 };
 
 PermissionModel.prototype.getTitle = function () {
-	return this.title;
+    return this.title;
 };
 
 PermissionModel.prototype.canRead = function () {
