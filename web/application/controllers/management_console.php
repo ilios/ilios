@@ -92,11 +92,16 @@ class Management_Console extends Ilios_Web_Controller
         }
 
         $data['manage_login_credentials'] = true; // flag used enable login credentials mngmt. in the UI
+        $data['password_required'] = true;
         $authnMethod = $this->config->item('ilios_authentication');
 
         switch ($authnMethod) {
             case 'shibboleth' :
                 $data['manage_login_credentials'] = false;
+                $data['password_required'] = false;
+                break;
+            case 'ldap' :
+                $data['password_required'] = false;
                 break;
             case 'default' :
             default :
