@@ -18,6 +18,7 @@ ilios.management.user_accounts.programCohortSelectedNode = null;
 ilios.management.user_accounts.userBeingModifiedIsDisabled = false;
 
 ilios.management.user_accounts.manageLoginCredentials = true;
+ilios.management.user_accounts.passwordRequired = true;
 
 ilios.management.user_accounts.currentUserModel = null;
 
@@ -1196,10 +1197,12 @@ ilios.management.user_accounts.buildUserAddAndRolesDOM = function (userModel) {
             element = ilios.management.user_accounts.generateUserAttributeInputPair(i18nStr, 'ua_login_username_tf');
             subContainer.appendChild(element);
 
-            i18nStr = ilios_i18nVendor.getI18NString('general.terms.password')
-            element = ilios.management.user_accounts.generateUserAttributeInputPair(i18nStr, 'ua_login_password_tf', 'password',
-            ilios_i18nVendor.getI18NString('management.user_accounts.password_strength_requirements'));
-            subContainer.appendChild(element);
+            if (ilios.management.user_accounts.passwordRequired) {
+                i18nStr = ilios_i18nVendor.getI18NString('general.terms.password')
+                element = ilios.management.user_accounts.generateUserAttributeInputPair(i18nStr, 'ua_login_password_tf', 'password',
+                ilios_i18nVendor.getI18NString('management.user_accounts.password_strength_requirements'));
+                subContainer.appendChild(element);
+            }
         }
     } else {
 
@@ -1465,7 +1468,9 @@ ilios.management.user_accounts.commitUserChanges = function (userModel, passback
         if (ilios.management.user_accounts.manageLoginCredentials) {
             // get login credentials
             loginName = document.getElementById('ua_login_username_tf').value;
-            password = document.getElementById('ua_login_password_tf').value;
+            if (ilios.management.user_accounts.passwordRequired) {
+                password = document.getElementById('ua_login_password_tf').value;
+            }
         }
     }
 
@@ -1570,7 +1575,7 @@ ilios.management.generateLoginCredentialsContainerMarkup = function (parentEl, u
     var containerEl, rowEl, labelEl, dataEl, btnEl;
     var Event = YAHOO.util.Event;
 
-    // only show any of this if we are running on ilios internal auth
+    // only show any of this if we are running on ilios internal auth or ldap auth
     if (ilios.management.user_accounts.manageLoginCredentials)  {
         containerEl = document.createElement('div');
         rowEl = document.createElement('div');
@@ -1706,7 +1711,9 @@ ilios.management.user_accounts.checkUserData = function () {
 
     if (ilios.management.user_accounts.manageLoginCredentials) {
         divsToUnstyle.push('ua_login_username_tf');
-        divsToUnstyle.push('ua_login_password_tf');
+        if (ilios.management.user_accounts.passwordRequired) {
+            divsToUnstyle.push('ua_login_password_tf');
+        }
     }
     var divsToStyle =  [];
     var divsToHint = [];
@@ -1753,13 +1760,15 @@ ilios.management.user_accounts.checkUserData = function () {
             divsToStyle.push('ua_login_username_tf');
             divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.login_username'));
         }
-        element = document.getElementById('ua_login_password_tf');
-        if (element != null) {
-            passwordStrength = ilios.utilities.checkPasswordStrength(element.value);
-            if (passwordStrength) {
-                msg = ilios.utilities.getPasswordStrengthCheckWarnings(passwordStrength);
-                divsToStyle.push('ua_login_password_tf');
-                divsToHint.push(msg.join("\n"));
+        if (ilios.management.user_accounts.passwordRequired) {
+            element = document.getElementById('ua_login_password_tf');
+            if (element != null) {
+                passwordStrength = ilios.utilities.checkPasswordStrength(element.value);
+                if (passwordStrength) {
+                    msg = ilios.utilities.getPasswordStrengthCheckWarnings(passwordStrength);
+                    divsToStyle.push('ua_login_password_tf');
+                    divsToHint.push(msg.join("\n"));
+                }
             }
         }
     }
