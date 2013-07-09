@@ -151,18 +151,17 @@ class Management_Console extends Ilios_Web_Controller
     }
 
     /**
-     * XHR callback handler.
      * Creates a new Ilios user account.
      * Expected input:
-     *     'user_id'
      *     'first_name'
      *     'middle_name'
      *     'last_name'
-     *     'uc_id'
      *     'email'
+     *     'uc_id'
+     *     'login'
+     *     'password'
      *     'roles'
      * Prints out a JSON-formatted success/error notification on completion/failure.
-     *
      */
     public function createUserAccount ()
     {
@@ -175,21 +174,21 @@ class Management_Console extends Ilios_Web_Controller
             return;
         }
 
-        $password = $this->input->get_post('password');
-        $username = $this->input->get_post('login');
-        $firstName = $this->input->get_post('first_name');
-        $middleName = $this->input->get_post('middle_name');
-        $lastName = $this->input->get_post('last_name');
-        $email = $this->input->get_post('email');
-        $ucUid = $this->input->get_post('uc_id');
+        $firstName = $this->input->post('first_name');
+        $middleName = $this->input->post('middle_name');
+        $lastName = $this->input->post('last_name');
+        $email = $this->input->post('email');
+        $ucUid = $this->input->post('uc_id');
 
-        $schoolId = $this->session->userdata('school_id');
+        $password = $this->input->post('password');
+        $username = $this->input->post('login');
 
-        $rolesInput = $this->input->get_post('roles');
+        $rolesInput = $this->input->post('roles');
         $roleArray = array();
         if ($rolesInput) {
             $roleArray = explode(",", $rolesInput);
         }
+        $schoolId = $this->session->userdata('school_id');
 
         // identify the primary user role
         $roleIndex = 0;
@@ -208,6 +207,10 @@ class Management_Console extends Ilios_Web_Controller
                 $result = $this->_createUserWithoutLoginCredentials($firstName, $lastName, $middleName,
                     $email, $ucUid, $schoolId, $primaryUserRole);
                 break;
+            case 'ldap' :
+                // ignore user input and generate a random password.
+                $password = Ilios_PasswordUtils::generateRandomPassword();
+                // fall-through intentional!
             case 'default': // create a user account with login credentials
             default:
                 $result = $this->_createUserWithLoginCredentials($firstName, $lastName, $middleName, $email,
