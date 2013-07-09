@@ -31,7 +31,7 @@ ilios.management.permissions.startPermissionsWorkflow = function () {
                                                        ilios.management.permissions.endWorkflow);
 
     ilios.alert.networkActivityI18NStrings.push('management.permissions.fetching_users');
-	ilios.alert.updateServerInteractionProgress();
+    ilios.alert.updateServerInteractionProgress();
 
     ilios.management.permissions.userAutoCompleter.sendQuery('');
 };
@@ -85,11 +85,11 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
     element.setAttribute('id', 'school_choosing_link');
     element.innerHTML = schoolAccessText;
     Event.addListener(element, 'click', function () {
-	IEvent.fire({
-	    action: 'default_dialog_open',
+    IEvent.fire({
+        action: 'default_dialog_open',
             event: 'school_picker_show_dialog',
             container_number: -1
-	});
+    });
         return false;
     });
     subContainer.appendChild(element);
@@ -232,7 +232,7 @@ ilios.management.permissions.populateUserPickerDOM = function (parentContainer, 
     element.setAttribute('class', 'picked');
     element.setAttribute('style', 'height: 321px;');
     element.setAttribute('id', 'permissions_selected_users');
-	YAHOO.util.Event.addListener(element, 'click', function (e) {
+    YAHOO.util.Event.addListener(element, 'click', function (e) {
         ilios.management.permissions.handleUserDeselection(e);
     });
     container.appendChild(element);
@@ -266,66 +266,66 @@ ilios.management.permissions.populateUserPickerDOM = function (parentContainer, 
                                                    'permissions_user_picker_continue_button',
                                                    'general.terms.cancel');
 
-	ilios.management.permissions.userAutoCompleter
-					= new YAHOO.widget.AutoComplete('permissions_ac_input', 'permissions_autolist',
-													ilios.management.userDataSource);
+    ilios.management.permissions.userAutoCompleter
+                    = new YAHOO.widget.AutoComplete('permissions_ac_input', 'permissions_autolist',
+                                                    ilios.management.userDataSource);
 
-	ilios.management.permissions.userAutoCompleter.alwaysShowContainer = true;
-	ilios.management.permissions.userAutoCompleter.allowBrowserAutocomplete = false;
-	ilios.management.permissions.userAutoCompleter.minQueryLength = 0;
-	ilios.management.permissions.userAutoCompleter.maxResultsDisplayed = 2500;
+    ilios.management.permissions.userAutoCompleter.alwaysShowContainer = true;
+    ilios.management.permissions.userAutoCompleter.allowBrowserAutocomplete = false;
+    ilios.management.permissions.userAutoCompleter.minQueryLength = 0;
+    ilios.management.permissions.userAutoCompleter.maxResultsDisplayed = 2500;
 
-	ilios.management.permissions.userAutoCompleter.autoHighlight = false;
+    ilios.management.permissions.userAutoCompleter.autoHighlight = false;
 
-	ilios.management.permissions.userAutoCompleter.applyLocalFilter = true;
-	ilios.management.permissions.userAutoCompleter.filterResults
+    ilios.management.permissions.userAutoCompleter.applyLocalFilter = true;
+    ilios.management.permissions.userAutoCompleter.filterResults
                                                         = ilios.management.permissions.filterUsers;
 
-	ilios.management.permissions.userAutoCompleter.resultTypeList = false;
+    ilios.management.permissions.userAutoCompleter.resultTypeList = false;
 
-	ilios.management.permissions.userAutoCompleter.formatResult = function (resultDataObject,
+    ilios.management.permissions.userAutoCompleter.formatResult = function (resultDataObject,
                                                                             queryString,
                                                                             resultMatch) {
         var rhett = '<span title="' + resultDataObject.getEmailAddress()
                                 + '" style="cursor: pointer;">';
 
-		rhett += resultDataObject.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
-		rhett += '</span>';
+        rhett += resultDataObject.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+        rhett += '</span>';
 
-		return rhett;
-	};
+        return rhett;
+    };
 
-	itemSelectHandler = function (selectionType, selectionArgs) {
-		ilios.management.permissions.handleUserSelection(selectionArgs[2]);
+    itemSelectHandler = function (selectionType, selectionArgs) {
+        ilios.management.permissions.handleUserSelection(selectionArgs[2]);
 
-		selectionArgs[1].parentNode.removeChild(selectionArgs[1]);
+        selectionArgs[1].parentNode.removeChild(selectionArgs[1]);
 
-		document.getElementById('permissions_ac_input').value = '';
-	};
-	ilios.management.permissions.userAutoCompleter.itemSelectEvent.subscribe(itemSelectHandler);
+        document.getElementById('permissions_ac_input').value = '';
+    };
+    ilios.management.permissions.userAutoCompleter.itemSelectEvent.subscribe(itemSelectHandler);
 
     ilios.management.permissions.selectedUsers = new Array();
 };
 
 ilios.management.permissions.handleUserSelection = function (selectedModel) {
-	var displayString = selectedModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+    var displayString = selectedModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
 
-	ilios.dom.addNewLIElementWithIliosModel(document.getElementById('permissions_selected_users'),
-											selectedModel, displayString);
+    ilios.dom.addNewLIElementWithIliosModel(document.getElementById('permissions_selected_users'),
+                                            selectedModel, displayString);
 
-	ilios.management.permissions.selectedUsers.push(selectedModel);
+    ilios.management.permissions.selectedUsers.push(selectedModel);
 
     ilios.dom.setElementEnabled(document.getElementById('permissions_user_picker_continue_button'),
                                 true);
 };
 
 ilios.management.permissions.handleUserDeselection = function (event) {
-	var target = ilios.utilities.getEventTarget(event);
+    var target = ilios.utilities.getEventTarget(event);
 
-	if (target.tagName.toLowerCase() === 'li') {
-		var model = target.iliosModel;
+    if (target.tagName.toLowerCase() === 'li') {
+        var model = target.iliosModel;
 
-		target.parentNode.removeChild(target);
+        target.parentNode.removeChild(target);
 
         ilios.utilities.removeElementWithValue(ilios.management.permissions.selectedUsers, model);
 
@@ -333,39 +333,39 @@ ilios.management.permissions.handleUserDeselection = function (event) {
                                     (ilios.management.permissions.selectedUsers.length > 0));
 
         ilios.alert.networkActivityI18NStrings.push('management.permissions.fetching_users');
-    	ilios.alert.updateServerInteractionProgress();
+        ilios.alert.updateServerInteractionProgress();
 
         ilios.management.permissions.userAutoCompleter.sendQuery('');
 
-		return false;
-	}
+        return false;
+    }
 
     return true;
 };
 
 ilios.management.permissions.filterUsers = function (queryString, fullResponse, parsedResponse,
                                                      callback) {
-	var len = parsedResponse.results.length;
-	var selectedList = document.getElementById('permissions_selected_users');
-	var filteredResults = new Array();
-	var i = 0;
+    var len = parsedResponse.results.length;
+    var selectedList = document.getElementById('permissions_selected_users');
+    var filteredResults = new Array();
+    var i = 0;
     var model = null;
 
-	for (; i < len; i++) {
+    for (; i < len; i++) {
         model = new UserModel(parsedResponse.results[i]);
 
-		if (! ilios.dom.iliosModeledLIElementsContainMatchingModel(selectedList, model)) {
-			filteredResults.push(model);
-		}
-	}
+        if (! ilios.dom.iliosModeledLIElementsContainMatchingModel(selectedList, model)) {
+            filteredResults.push(model);
+        }
+    }
 
-	parsedResponse.results = filteredResults;
+    parsedResponse.results = filteredResults;
 
     ilios.utilities.removeElementWithValue(ilios.alert.networkActivityI18NStrings,
-							   			   'management.permissions.fetching_users');
-	ilios.alert.updateServerInteractionProgress();
+                                              'management.permissions.fetching_users');
+    ilios.alert.updateServerInteractionProgress();
 
-	return parsedResponse;
+    return parsedResponse;
 };
 
 ilios.management.permissions.endWorkflow = function () {
