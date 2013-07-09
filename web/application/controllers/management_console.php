@@ -263,17 +263,17 @@ class Management_Console extends Ilios_Web_Controller
 
         // validate input
         if (! $userId) {
-        	$rhett['error'][] = 'Missing user id.';
+            $rhett['error'][] = 'Missing user id.';
         }
 
         if (! $username) {
-        	$rhett['error'][] = 'Missing login name.';
+            $rhett['error'][] = 'Missing login name.';
         }
 
         if (array_key_exists('error', $rhett)) {
-        	header("Content-Type: text/plain");
-        	echo json_encode($rhett);
-        	return;
+            header("Content-Type: text/plain");
+            echo json_encode($rhett);
+            return;
         }
 
         // load the authentication record by user id and by username
@@ -281,70 +281,70 @@ class Management_Console extends Ilios_Web_Controller
         $auth2 = $this->authentication->getByUsername($username);
 
         if (! $auth1) {
-        	// check if the user exists
-        	$user = $this->user->getRowForPrimaryKeyId($userId);
-        	if (! $user) {
-        		$rhett['error'][] = 'User account does not exist.';
-        	}
+            // check if the user exists
+            $user = $this->user->getRowForPrimaryKeyId($userId);
+            if (! $user) {
+                $rhett['error'][] = 'User account does not exist.';
+            }
         }
         // check if the given login name needs to updated
         if (! array_key_exists('error', $rhett)) {
-        	if ($auth2) {
-        		// check if the given login name is already taken up by another account
-        		if ($auth1->person_id !== $auth2->person_id) {
-        			$rhett['error'][] = 'The given login name is already in use by another user account.';
-        		}
-        	} else {
-        		$updateUsername = true;
-        	}
+            if ($auth2) {
+                // check if the given login name is already taken up by another account
+                if ($auth1->person_id !== $auth2->person_id) {
+                    $rhett['error'][] = 'The given login name is already in use by another user account.';
+                }
+            } else {
+                $updateUsername = true;
+            }
         }
 
         if ($password) {
-        	$passwordCheckResult = $this->_validatePassword($password);
-        	if ($passwordCheckResult !== true) {
-        		if (array_key_exists('error', $rhett)) {
-        			$rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
-        		} else {
-        			$rhett['error'] = $passwordCheckResult;
-        		}
-        	} else {
-        		// hash the given password
-        		$salt = $this->config->item('ilios_authentication_internal_auth_salt');
-        		$hash = Ilios_PasswordUtils::hashPassword($password, $salt);
+            $passwordCheckResult = $this->_validatePassword($password);
+            if ($passwordCheckResult !== true) {
+                if (array_key_exists('error', $rhett)) {
+                    $rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
+                } else {
+                    $rhett['error'] = $passwordCheckResult;
+                }
+            } else {
+                // hash the given password
+                $salt = $this->config->item('ilios_authentication_internal_auth_salt');
+                $hash = Ilios_PasswordUtils::hashPassword($password, $salt);
 
-        		// check if the given password needs to be updated
-        		if (! array_key_exists('error', $rhett)) {
-        			if (0 !== strcmp($hash, $auth1->password_sha256)) {
-        				$updatePassword = true;
-        			}
-        		}
-        	}
+                // check if the given password needs to be updated
+                if (! array_key_exists('error', $rhett)) {
+                    if (0 !== strcmp($hash, $auth1->password_sha256)) {
+                        $updatePassword = true;
+                    }
+                }
+            }
         }
 
         if (! array_key_exists('error', $rhett)) {
 
-        	if ($updateUsername || $updatePassword) {
-        		$this->user->startTransaction();
-				$success = false;
+            if ($updateUsername || $updatePassword) {
+                $this->user->startTransaction();
+                $success = false;
 
-				if ($updateUsername) {
-					$success = $this->authentication->changeUsername($userId, $username);
-				}
-				if ($updatePassword) {
-					$success = $this->authentication->changePassword($userId, $hash);
-				}
-        		// change the login name
-        		if (! $success) {
-        			$this->user->rollbackTransaction();
-        			$msg = $this->languagemap->getI18NString('general.error.db_update', $lang);
-        			$rhett['error'][] = $msg;
-        		} else { // commit the changes
-        			$this->user->commitTransaction();
-        			$rhett['success'] = 'updated credentials';
-        		}
-        	} else {
-        		$rhett['success'] = 'nothing to update';
-        	}
+                if ($updateUsername) {
+                    $success = $this->authentication->changeUsername($userId, $username);
+                }
+                if ($updatePassword) {
+                    $success = $this->authentication->changePassword($userId, $hash);
+                }
+                // change the login name
+                if (! $success) {
+                    $this->user->rollbackTransaction();
+                    $msg = $this->languagemap->getI18NString('general.error.db_update', $lang);
+                    $rhett['error'][] = $msg;
+                } else { // commit the changes
+                    $this->user->commitTransaction();
+                    $rhett['success'] = 'updated credentials';
+                }
+            } else {
+                $rhett['success'] = 'nothing to update';
+            }
         }
 
         header("Content-Type: text/plain");
