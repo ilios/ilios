@@ -72,16 +72,16 @@ function writeJsScripts (array $js, $asseticGroupPrefix = 'default', $aggregate 
         $asseticGroup = $asseticGroupPrefix . '_' . $group . '_' . $revision;
         foreach ($paths as $path) {
             if ($aggregate) {
-                $CI->assetic->addJs($baseUrl . $path, $asseticGroup);
-            } else {
                 $CI->assetic->addJs(FCPATH . $path, $asseticGroup);
+            } else {
+                $CI->assetic->addJs($baseUrl . $path, $asseticGroup);
             }
         }
     }
 
     if ($aggregate) {
-        $CI->assetic->writeJsScripts();
-    } else {
         $CI->assetic->writeStaticJsScripts();
+    } else {
+        $CI->assetic->writeJsScripts();
     }
 }
