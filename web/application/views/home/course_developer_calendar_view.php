@@ -97,24 +97,7 @@ $viewsPath = getServerFilePath('views');
             'application/views/home/reminder_model.js',
         ),
     );
-    $asseticGroupPrefix = 'educator_calendar';
-    $iliosRevision = $this->config->item('ilios_revision');
-    foreach ($js as $group => $paths) {
-        $asseticGroup = $asseticGroupPrefix . '_' .$group . '_' . $iliosRevision;
-        foreach ($paths as $path) {
-            if('development' === ENVIRONMENT) {
-                $this->assetic->addJs($baseUrl . $path, $asseticGroup);
-            } else {
-                $this->assetic->addJs(FCPATH . $path, $asseticGroup);
-            }
-        }
-    }
-
-    if('development' === ENVIRONMENT) {
-        $this->assetic->writeJsScripts();
-    } else {
-        $this->assetic->writeStaticJsScripts();
-    }
+    writeJsScripts($js, 'educator_calendar', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
 ?>
 </head>
 
