@@ -6,6 +6,7 @@
  * DEPENDENCY: scripts/ilios_ui.js
  * DEPENDENCY: scripts/ilios_utilities.js
  */
+ilios.namespace('home');
 
 ilios.home.currentlySelectingCalendarDates = false;
 
