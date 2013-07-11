@@ -53,7 +53,6 @@ $viewsPath = getServerFilePath('views');
         var isCalendarView = false;
     </script>
     <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
-
 <?php
     $js = array(
         'vendor' => array( // third-party js
