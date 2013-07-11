@@ -80,7 +80,6 @@ ilios.home.transaction.loadAllOfferings = function (filters) {
                 }
 
                 ilios.home.transaction.loadedOfferingModels = [];
-                ilios.home.calendar.offeringTableDataStructure = [];
 
                 if (! pageLoadedForStudent) {
                     ilios.home.transaction.midLoadCourseHolder = [];
@@ -106,24 +105,6 @@ ilios.home.transaction.loadAllOfferings = function (filters) {
                     offeringModel = new CalendarItemModel(offering);
 
                     ilios.home.transaction.loadedOfferingModels.push(offeringModel);
-
-                    model = {};
-                    model.id = offeringModel.getOfferingId();
-                    model.date = offeringModel.getStartDate();
-                    model.time = ilios.utilities.getTimeRangeString(offeringModel.getStartDate(),
-                                                                    offeringModel.getEndDate());
-                    model.recentlyUpdated = offeringModel.hasBeenRecentlyUpdated();
-                    if (pageLoadedForStudent && offeringModel.shouldDisplayAsTBD()) {
-                        model.title
-                                = ilios_i18nVendor.getI18NString('general.terms.scheduled');
-                        model.location = '';
-                    } else {
-                        model.title = offeringModel.getCourseTitle() + ' - '
-                                        + offeringModel.getSessionTitle();
-                        model.location = offeringModel.getLocation();
-                    }
-
-                    ilios.home.calendar.offeringTableDataStructure.push(model);
                 }
 
                 var filters = null;
@@ -271,38 +252,11 @@ ilios.home.transaction.loadAllSILMs = function (filters) {
                     offeringModel.sessionTypeCssClass = silm.session_type_css_class;
 
                     ilios.home.transaction.loadedOfferingModels.push(offeringModel);
-
-                    model = {};
-                    uniqueId = offeringModel.getCourseId() * 10000;
-                    uniqueId += offeringModel.getSessionId();
-                    model.id = uniqueId;
-                    model.date = offeringModel.getStartDate();
-                    model.time = ilios.utilities.getTimeRangeString(offeringModel.getStartDate(),
-                                                                    offeringModel.getEndDate());
-                    model.recentlyUpdated = offeringModel.hasBeenRecentlyUpdated();
-                    if (pageLoadedForStudent && offeringModel.shouldDisplayAsTBD()) {
-                        model.title
-                                = ilios_i18nVendor.getI18NString('general.terms.scheduled');
-                        model.location = '';
-                    }
-                    else {
-                        model.title = offeringModel.getCourseTitle() + ' - '
-                                        + offeringModel.getSessionTitle()
-                                        + ' ('
-                                        + ilios_i18nVendor
-                                            .getI18NString('course_management.session.independent_learning')
-                                        + ')';
-                        model.location = offeringModel.getLocation();
-                    }
-
-                    ilios.home.calendar.offeringTableDataStructure.push(model);
                 }
 
                 if (! pageLoadedForStudent && ! isCalendarView && ('' == paramString)) {
                     ilios.home.transaction.loadCoursesAndProgramsForUserAsDirector();
                 }
-
-                ilios.home.calendar.forceDataTableRefresh();
 
                 ilios.home.calendar.resetCurrentCalendarViewToStart();
 
