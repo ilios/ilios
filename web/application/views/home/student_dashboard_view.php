@@ -53,8 +53,6 @@ $viewsPath = getServerFilePath('views');
         var pageLoadedForStudent = true;
         var isCalendarView = false;
     </script>
-
-    <script type="text/javascript" src="<?php echo $viewsUrlRoot; ?>scripts/third_party/modernizr-2.5.3.min.js"></script>
     <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
 <?php
     $js = array(
