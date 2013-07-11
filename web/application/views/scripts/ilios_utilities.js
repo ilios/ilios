@@ -955,27 +955,9 @@ ilios.utilities.show = function(elem) {
     YAHOO.util.Dom.setStyle(elem, "display", "");
 };
 
-/* fade and hide */
-ilios.utilities.fadeOut = function(elem) {
-	var hideElem = function() {
-			var el = this.getEl();
-			YAHOO.util.Dom.setStyle(el, "display", "none");
-	}
-
-    var fadeOutAnim = new YAHOO.util.Anim(elem, { opacity: { to: 0 } }, 0.8);
-    fadeOutAnim.onComplete.subscribe(hideElem);
-    fadeOutAnim.animate();
-};
-
-ilios.utilities.fadeIn = function(elem){
-	YAHOO.util.Dom.setStyle(elem, "opacity", 0);
-	YAHOO.util.Dom.setStyle(elem, "display", "");
-    var fadeInAnim = new YAHOO.util.Anim(elem, { opacity: { to: 1 } }, 0.8);
-	fadeInAnim.animate();
-};
-
-
+//
 // password checker
+//
 
 // "constants"
 ilios.utilities.MIN_PASSWORD_LENGTH = 8;
