@@ -936,7 +936,8 @@ ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer = functio
         return null;
     }
     return v;
-}
+};
+
 /**
 * simple utility to scroll the window to a specific element - not smooth, but functional
 */
@@ -944,44 +945,15 @@ ilios.utilities.scrollElementIntoView = function(element){
     if(element != null){
         element.scrollIntoView();
     }
-}
-/* perform a blind open style animation of an element*/
-ilios.utilities.blindOpen = function(elem) {
-	// create animation instance when element becomes available
-	YAHOO.util.Event.onAvailable(elem, function() {
-		//determine if an elem is already open
-		isOpen = function(){
-			var region = YAHOO.util.Dom.getRegion(elem);
-			if((region.bottom-region.top) > 0){
-				return true;
-				}else{
-				return false;
-			};
-		};
-	    if(elem.isOpen) {
-	    		return false;
-		} else {
-	    		var blindOpenAnim = new YAHOO.util.Anim(elem, { height: { to: this.scrollHeight } }, 0.5, YAHOO.util.Easing.easeOut);
-		}
-		blindOpenAnim.animate();
-    });
-}
-
-/* perform a blind close style animation of an element*/
-ilios.utilities.blindClose = function(elem) {
-    var blindCloseAnim = new YAHOO.util.Anim(elem, { height: { to: 0 } }, 0.5, YAHOO.util.Easing.easeIn);
-    blindCloseAnim.animate();
-}
-
+};
 
 ilios.utilities.hide = function(elem) {
     YAHOO.util.Dom.setStyle(elem, "display", "none");
-}
+};
 
 ilios.utilities.show = function(elem) {
     YAHOO.util.Dom.setStyle(elem, "display", "");
-}
-
+};
 
 /* fade and hide */
 ilios.utilities.fadeOut = function(elem) {
@@ -993,14 +965,14 @@ ilios.utilities.fadeOut = function(elem) {
     var fadeOutAnim = new YAHOO.util.Anim(elem, { opacity: { to: 0 } }, 0.8);
     fadeOutAnim.onComplete.subscribe(hideElem);
     fadeOutAnim.animate();
-}
+};
 
 ilios.utilities.fadeIn = function(elem){
 	YAHOO.util.Dom.setStyle(elem, "opacity", 0);
 	YAHOO.util.Dom.setStyle(elem, "display", "");
     var fadeInAnim = new YAHOO.util.Anim(elem, { opacity: { to: 1 } }, 0.8);
 	fadeInAnim.animate();
-}
+};
 
 
 // password checker
@@ -1084,4 +1056,4 @@ ilios.utilities.getPasswordStrengthCheckWarnings = function (passwordStrength) {
         msg.push('The given password does not contain any special characters.');
     }
     return msg;
-}
+};
