@@ -7,7 +7,6 @@
  * - Yahoo Global Object
  *
  * YUI Javascript Utilities
- * - Animation Utility
  * - Connection Manager Full
  * - Cookie Utility
  * - DataSource Utility
@@ -32,10 +31,9 @@
  *
  * Generated via the YUI2 Dependency Configurator tool
 
- * @link http://developer.yahoo.com/yui/articles/hosting/?animation&autocomplete&button&calendar&connection&container&cookie&datasource&datatable&dom&dragdrop&element&event&event-delegate&get&json&menu&resize&selector&simpleeditor&tabview&treeview&yahoo&yuiloader&MIN
+ * @link http://developer.yahoo.com/yui/articles/hosting/?autocomplete&button&calendar&connection&container&cookie&datasource&datatable&dom&dragdrop&element&event&event-delegate&get&json&menu&selector&simpleeditor&tabview&treeview&yahoo&yuiloader&MIN
  * @link http://yui.yahooapis.com/combo?2.9.0/build/utilities/utilities.js&2.9.0/build/datasource/datasource-min.js&2.9.0/build/autocomplete/autocomplete-min.js&2.9.0/build/container/container-min.js&2.9.0/build/menu/menu-min.js&2.9.0/build/button/button-min.js&2.9.0/build/calendar/calendar-min.js&2.9.0/build/cookie/cookie-min.js&2.9.0/build/datatable/datatable-min.js&2.9.0/build/selector/selector-min.js&2.9.0/build/event-delegate/event-delegate-min.js&2.9.0/build/json/json-min.js&2.9.0/build/editor/simpleeditor-min.js&2.9.0/build/tabview/tabview-min.js&2.9.0/build/treeview/treeview-min.js
  */
-/*
 /*
 Copyright (c) 2011, Yahoo! Inc. All rights reserved.
 Code licensed under the BSD License:
