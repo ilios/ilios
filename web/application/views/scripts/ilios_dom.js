@@ -176,7 +176,6 @@ ilios.dom.buildDialogPanel = function (use, less, args) {
  *          aclist:             div id for holding autocomplete selection list
  *          container:          div id for holding the dialog form html
  *          tabs/autocomplete:  div id for autocomplete tab
- *          tabs/help:          div id for help tab
  */
 ilios.dom.generateAutoCompleteDialogMarkup = function (args) {
     var Dom = YAHOO.util.Dom;
@@ -252,9 +251,6 @@ ilios.dom.generateAutoCompleteDialogMarkup = function (args) {
             handler(e);
         }
     };
-
-    // tabify it
-    new YAHOO.widget.TabView(uniqueId);
 };
 
 /**
