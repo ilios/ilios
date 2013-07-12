@@ -92,9 +92,7 @@ $viewsPath = getServerFilePath('views');
             'application/views/scripts/public_course_summary_base_framework.js',
             'application/views/home/calendar_item_model.js',
             'application/views/home/dashboard_calendar_support.js',
-            'application/views/home/dashboard_dom.js',
             'application/views/home/dashboard_transaction.js',
-            'application/views/home/reminder_model.js',
         ),
     );
     writeJsScripts($js, 'student_dashboard', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
