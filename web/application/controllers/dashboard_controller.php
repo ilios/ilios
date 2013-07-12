@@ -928,7 +928,7 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $schoolId = $this->session->userdata('session_id');
+        $schoolId = $this->session->userdata('school_id');
         $rhett['items'] = $this->iliosSession->getSessionsWithCourseTitle($schoolId);
 
         header("Content-Type: text/plain");
