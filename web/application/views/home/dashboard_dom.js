@@ -1,5 +1,5 @@
 /*
- * Dom-manipulation functions for the user dashboard.
+ * Dom-manipulation functions for the educator dashboard.
  *
  * DEPENDENCY: YUI lib (at least YAHOO.util and its dependencies)
  * DEPENDENCY: DHTMLX Scheduler
@@ -98,15 +98,6 @@ ilios.home.populateRolloverPermissionsDialog = function () {
     element.setAttribute('checked', 'true');
 };
 
-// @private
-ilios.home.moveCalendarToDOMElement = function (element) {
-    var xyCoordinates = YAHOO.util.Dom.getXY(element);
-    var yElement = new YAHOO.util.Element(document.getElementById('date_picking_calendar_container'));
-
-    yElement.setStyle('left', (xyCoordinates[0] + 'px'));
-    yElement.setStyle('top', (xyCoordinates[1] + 'px'));
-};
-
 ilios.home.registerReminderUIListeners = function () {
     var Event = YAHOO.util.Event;
     var element = document.getElementById('ur_textarea');
@@ -118,9 +109,15 @@ ilios.home.registerReminderUIListeners = function () {
 
     element = document.getElementById('due_date_calendar_button');
     Event.addListener(element, 'click', function () {
-        var dateObject = null;
+        var dateObject,
+            xyCoordinates,
+            yElement;
 
-        ilios.home.moveCalendarToDOMElement(this);
+        // position the calendar picker in the center of the alert reminder dialog
+        xyCoordinates = YAHOO.util.Dom.getXY(this);
+        yElement = new YAHOO.util.Element(document.getElementById('date_picking_calendar_container'));
+        yElement.setStyle('left', (xyCoordinates[0] + 'px'));
+        yElement.setStyle('top', (xyCoordinates[1] + 'px'));
 
         if (ilios.home.reminder.inEditReminderModel.getDueDate() == null) {
             dateObject = new Date();
