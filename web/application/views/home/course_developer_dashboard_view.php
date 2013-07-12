@@ -85,6 +85,7 @@ $viewsPath = getServerFilePath('views');
             'application/views/scripts/models/program_cohort_model.js',
             'application/views/scripts/models/session_model.js',
             'application/views/scripts/models/user_model.js',
+            'application/views/scripts/models/report_model.js',
             'application/views/scripts/competency_base_framework.js',
             'application/views/scripts/course_model_support_framework.js',
             'application/views/scripts/learner_view_base_framework.js',
@@ -94,12 +95,13 @@ $viewsPath = getServerFilePath('views');
             'application/views/home/dashboard_dom.js',
             'application/views/home/dashboard_transaction.js',
             'application/views/home/reminder_model.js',
+            'application/views/home/report_dialogs_include.js',
+            'application/views/home/course_developer_dashboard_dialogs_include.js'
         ),
     );
     writeJsScripts($js, 'educator_dashboard', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
 ?>
 </head>
-
 <body class="home yui-skin-sam">
     <div id="wrapper">
         <header id="masthead" class="clearfix">
@@ -575,9 +577,6 @@ $viewsPath = getServerFilePath('views');
     <!-- date picker container for user reminder dialog -->
     <div id="date_picking_calendar_container" style="z-index: 10999; position: absolute;"></div>
 
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/report_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/report_dialogs_include.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/course_developer_dashboard_dialogs_include.js"); ?>"></script>
     <script type="text/javascript">
         // register alert/inform overrides on window load
         YAHOO.util.Event.on(window, 'load', function() {
