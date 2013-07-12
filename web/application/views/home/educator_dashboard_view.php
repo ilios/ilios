@@ -96,8 +96,8 @@ $viewsPath = getServerFilePath('views');
             'application/views/home/educator_dashboard_transaction.js',
             'application/views/home/educator_dashboard_dom.js',
             'application/views/home/reminder_model.js',
-            'application/views/home/report_dialogs_include.js',
-            'application/views/home/educator_dashboard_dialogs_include.js'
+            'application/views/home/educator_dashboard_dialogs_include.js',
+            'application/views/home/educator_dashboard_report_dialogs_include.js',
         ),
     );
     writeJsScripts($js, 'educator_dashboard', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
