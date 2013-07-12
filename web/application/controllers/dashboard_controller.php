@@ -131,8 +131,8 @@ class Dashboard_Controller extends Calendar_Controller
         $key = 'dashboard.title';
         $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
 
-        $key = 'dashboard.page_header.course_developer';
-        $data['page_title_course_developer_string'] = $this->languagemap->getI18NString($key, $lang);
+        $key = 'dashboard.page_header.educator';
+        $data['page_title_educator_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'dashboard.page_header.student';
         $data['page_title_student_string'] = $this->languagemap->getI18NString($key, $lang);
@@ -1056,7 +1056,7 @@ class Dashboard_Controller extends Calendar_Controller
         }
 
         // load view
-        $this->load->view('home/course_developer_dashboard_view', $data);
+        $this->load->view('home/educator_dashboard_view', $data);
     }
 
     /**

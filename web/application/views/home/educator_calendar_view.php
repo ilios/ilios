@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Instructor calendar page template.
+ * Educator calendar page template.
  */
 $siteUrl = site_url();
 $baseUrl = base_url();

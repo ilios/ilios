@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Instructor dashboard page template.
+ * Educator dashboard page template.
  */
 $siteUrl = site_url();
 $baseUrl = base_url();
@@ -96,7 +96,7 @@ $viewsPath = getServerFilePath('views');
             'application/views/home/dashboard_transaction.js',
             'application/views/home/reminder_model.js',
             'application/views/home/report_dialogs_include.js',
-            'application/views/home/course_developer_dashboard_dialogs_include.js'
+            'application/views/home/educator_dashboard_dialogs_include.js'
         ),
     );
     writeJsScripts($js, 'educator_dashboard', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
@@ -118,7 +118,7 @@ $viewsPath = getServerFilePath('views');
 
         <div id="main" role="main">
             <div id="content" class="dashboard clearfix">
-                <h2 class="page-header"><?php echo $page_title_course_developer_string; ?> <span id="page_title"></span></h2>
+                <h2 class="page-header"><?php echo $page_title_educator_string; ?> <span id="page_title"></span></h2>
                 <div class="content_container">
                     <div class="column primary clearfix">
                         <h3><?php echo $my_calendar_string; ?></h3>
