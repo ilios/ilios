@@ -500,24 +500,6 @@ ilios.utilities.delimitedStringOfTitledObjects = function (arr, delimiter) {
     return rhett;
 };
 
-/**
- * Given an array (arr) of objects, generate a delimited (plus a space after the delimiter)
- *  string of all of those array elements.
- */
-ilios.utilities.delimitedStringOfObjects = function (arr, delimiter) {
-    var rhett = '';
-
-    for (var key in arr) {
-        if (rhett.length > 0) {
-            rhett += delimiter + ' ';
-        }
-
-        rhett += arr[key];
-    }
-
-    return rhett;
-};
-
 /*
  * Assuming that the LI elements contained within the listElement obey the Ilios-standard of
  *  having an attribute 'iliosModel' being some sort of the Ilios javascript model class that
