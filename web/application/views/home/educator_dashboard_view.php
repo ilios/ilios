@@ -37,9 +37,6 @@ $viewsPath = getServerFilePath('views');
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/session-types.css"); ?>" media="all">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
 
-    <!-- this is an empty style tag AFTER all the external CSS scripts
-        to latch dynamically created rules onto.
-        DO NOT DELETE! -->
     <style type="text/css"></style>
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 

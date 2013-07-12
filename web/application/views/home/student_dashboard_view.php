@@ -36,9 +36,6 @@ $viewsPath = getServerFilePath('views');
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/session-types.css"); ?>" media="all">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
 
-    <!-- this is an empty style tag AFTER all the external CSS scripts
-        to latch dynamically created rules onto.
-        DO NOT DELETE! -->
     <style type="text/css"></style>
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
@@ -55,53 +52,7 @@ $viewsPath = getServerFilePath('views');
     </script>
     <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
 <?php
-    $js = array(
-        'vendor' => array( // third-party js
-            'application/views/scripts/third_party/modernizr-2.5.3.min.js',
-            'scripts/yui/build/yahoo-dom-event/yahoo-dom-event.js',
-            'scripts/yui/build/connection/connection-min.js',
-            'scripts/yui/build/container/container-min.js',
-            'scripts/yui/build/element/element-min.js',
-            'scripts/yui/build/button/button-min.js',
-            'scripts/yui/build/json/json-min.js',
-            'scripts/yui/build/selector/selector-min.js',
-            'application/views/scripts/third_party/date_formatter.js',
-            'application/views/scripts/third_party/md5-min.js',
-            'application/views/scripts/third_party/dhtmlx_scheduler/codebase/dhtmlxscheduler.js',
-            'application/views/scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_recurring.js',
-            'application/views/scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_week_agenda.js',
-            'application/views/scripts/third_party/idle-timer.js',
-        ),
-        'ilios' => array( // ilios js
-            'application/views/scripts/ilios_base.js',
-            'application/views/scripts/ilios_utilities.js',
-            'application/views/scripts/ilios_ui.js',
-            'application/views/scripts/ilios_dom.js',
-            'application/views/scripts/models/abstract_js_model_form.js',
-            'application/views/scripts/models/preferences_model.js',
-            'application/views/scripts/models/competency_model.js',
-            'application/views/scripts/models/school_competency_model.js',
-            'application/views/scripts/models/discipline_model.js',
-            'application/views/scripts/models/course_model.js',
-            'application/views/scripts/models/simplified_group_model.js',
-            'application/views/scripts/models/independent_learning_model.js',
-            'application/views/scripts/models/learning_material_model.js',
-            'application/views/scripts/models/mesh_item_model.js',
-            'application/views/scripts/models/objective_model.js',
-            'application/views/scripts/models/offering_model.js',
-            'application/views/scripts/models/program_cohort_model.js',
-            'application/views/scripts/models/session_model.js',
-            'application/views/scripts/models/user_model.js',
-            'application/views/scripts/competency_base_framework.js',
-            'application/views/scripts/course_model_support_framework.js',
-            'application/views/scripts/learner_view_base_framework.js',
-            'application/views/scripts/public_course_summary_base_framework.js',
-            'application/views/home/calendar_item_model.js',
-            'application/views/home/dashboard_transaction.js',
-            'application/views/home/dashboard_calendar_support.js',
-        ),
-    );
-    writeJsScripts($js, 'student_dashboard', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
+    include $viewsPath . 'home/calendar_header_js.inc.php';
 ?>
  </head>
 
