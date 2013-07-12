@@ -1,8 +1,9 @@
 /*
- * DEPENDENCY: YUI lib (at least YAHOO.util and its dependencies)
+ * DEPENDENCY: YUI libs (at least YAHOO.util and its dependencies)
  * DEPENDENCY: DHTMLX Scheduler
  * DEPENDENCY: scripts/ilios_ui.js
  * DEPENDENCY: scripts/ilios_utilities.js
+ * DEPENDENCY: home/dashboard_transaction.js
  */
 
 
