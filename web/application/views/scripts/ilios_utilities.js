@@ -27,21 +27,6 @@ ilios.utilities.setToolTipForElement = function (element, toolTipText) {
     element.setAttribute('title', toolTipText);
 };
 
-ilios.utilities.getNodeChildWithLabel = function (parentNode, label) {
-    var len = parentNode.children.length;
-    var child = null;
-
-    for (var i = 0; i < len; i++) {
-        child = parentNode.children[i];
-
-        if (child.label == label) {
-            return child;
-        }
-    }
-
-    return null;
-};
-
 ilios.utilities.getEventTarget = function (e) {
     var event = (e || window.event);
 
