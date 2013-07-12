@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Instructor dashboard page template.
+ * Educator dashboard page template.
  */
 $siteUrl = site_url();
 $baseUrl = base_url();
@@ -37,32 +37,9 @@ $viewsPath = getServerFilePath('views');
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/session-types.css"); ?>" media="all">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
 
-    <!-- this is an empty style tag AFTER all the external CSS scripts
-        to latch dynamically created rules onto.
-        DO NOT DELETE! -->
     <style type="text/css"></style>
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
-    <!-- Modernizr enables HTML5 elements & feature detects for optimal performance.
-         Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script type="text/javascript" src="<?php echo $viewsUrlRoot; ?>scripts/third_party/modernizr-2.5.3.min.js"></script>
-
-    <!-- Third party JS -->
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/yui_kitchensink.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/date_formatter.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/md5-min.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx_scheduler/codebase/dhtmlxscheduler.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_recurring.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_week_agenda.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/idle-timer.js"); ?>"></script>
-
-    <!-- Ilios JS -->
-    <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_base.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/preferences_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
     <script type="text/javascript">
         var baseURL = "<?php echo $siteUrl; ?>/";
         var controllerURL = "<?php echo $controllerURL; ?>/";    // expose this to our javascript land
@@ -71,36 +48,68 @@ $viewsPath = getServerFilePath('views');
         var programManagementURL = "<?php echo $programManagementURL; ?>/";     // similarly...
         var pageLoadedForStudent = false;
         var isCalendarView = false;
-        ilios.namespace('home');        // assure the existence of this page's namespace
     </script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/abstract_js_model_form.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/preferences_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/competency_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/school_competency_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/discipline_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/course_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/simplified_group_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/independent_learning_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/learning_material_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/mesh_item_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/objective_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/offering_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/program_cohort_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/session_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/user_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/competency_base_framework.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/course_model_support_framework.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/learner_view_base_framework.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/public_course_summary_base_framework.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/mesh_base_framework.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/calendar_item_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/dashboard_calendar_support.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/dashboard_dom.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/dashboard_transaction.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/reminder_model.js"); ?>"></script>
-
+    <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
+<?php
+    $js = array(
+        'vendor' => array( // third-party js
+            'application/views/scripts/third_party/modernizr-2.5.3.min.js',
+            'scripts/yui/build/yahoo-dom-event/yahoo-dom-event.js',
+            'scripts/yui/build/connection/connection-min.js',
+            'scripts/yui/build/datasource/datasource-min.js',
+            'scripts/yui/build/autocomplete/autocomplete-min.js',
+            'scripts/yui/build/element/element-min.js',
+            'scripts/yui/build/button/button-min.js',
+            'scripts/yui/build/calendar/calendar-min.js',
+            'scripts/yui/build/container/container-min.js',
+            'scripts/yui/build/json/json-min.js',
+            'scripts/yui/build/selector/selector-min.js',
+            'scripts/yui/build/treeview/treeview-min.js',
+            'application/views/scripts/third_party/date_formatter.js',
+            'application/views/scripts/third_party/md5-min.js',
+            'application/views/scripts/third_party/dhtmlx_scheduler/codebase/dhtmlxscheduler.js',
+            'application/views/scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_recurring.js',
+            'application/views/scripts/third_party/dhtmlx_scheduler/codebase/ext/dhtmlxscheduler_week_agenda.js',
+            'application/views/scripts/third_party/idle-timer.js',
+        ),
+        'ilios' => array( // ilios js
+            'application/views/scripts/ilios_base.js',
+            'application/views/scripts/ilios_utilities.js',
+            'application/views/scripts/ilios_ui.js',
+            'application/views/scripts/ilios_dom.js',
+            'application/views/scripts/models/abstract_js_model_form.js',
+            'application/views/scripts/models/preferences_model.js',
+            'application/views/scripts/models/competency_model.js',
+            'application/views/scripts/models/school_competency_model.js',
+            'application/views/scripts/models/discipline_model.js',
+            'application/views/scripts/models/course_model.js',
+            'application/views/scripts/models/simplified_group_model.js',
+            'application/views/scripts/models/independent_learning_model.js',
+            'application/views/scripts/models/learning_material_model.js',
+            'application/views/scripts/models/mesh_item_model.js',
+            'application/views/scripts/models/objective_model.js',
+            'application/views/scripts/models/offering_model.js',
+            'application/views/scripts/models/program_cohort_model.js',
+            'application/views/scripts/models/session_model.js',
+            'application/views/scripts/models/user_model.js',
+            'application/views/scripts/models/report_model.js',
+            'application/views/scripts/competency_base_framework.js',
+            'application/views/scripts/course_model_support_framework.js',
+            'application/views/scripts/learner_view_base_framework.js',
+            'application/views/scripts/public_course_summary_base_framework.js',
+            'application/views/home/calendar_item_model.js',
+            'application/views/home/dashboard_calendar_support.js',
+            'application/views/home/dashboard_transaction.js',
+            'application/views/home/educator_dashboard_transaction.js',
+            'application/views/home/educator_dashboard_dom.js',
+            'application/views/home/reminder_model.js',
+            'application/views/home/educator_dashboard_dialogs_include.js',
+            'application/views/home/educator_dashboard_report_dialogs_include.js',
+        ),
+    );
+    writeJsScripts($js, 'educator_dashboard', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
+?>
 </head>
-
 <body class="home yui-skin-sam">
     <div id="wrapper">
         <header id="masthead" class="clearfix">
@@ -117,7 +126,7 @@ $viewsPath = getServerFilePath('views');
 
         <div id="main" role="main">
             <div id="content" class="dashboard clearfix">
-                <h2 class="page-header"><?php echo $page_title_course_developer_string; ?> <span id="page_title"></span></h2>
+                <h2 class="page-header"><?php echo $page_title_educator_string; ?> <span id="page_title"></span></h2>
                 <div class="content_container">
                     <div class="column primary clearfix">
                         <h3><?php echo $my_calendar_string; ?></h3>
@@ -576,9 +585,6 @@ $viewsPath = getServerFilePath('views');
     <!-- date picker container for user reminder dialog -->
     <div id="date_picking_calendar_container" style="z-index: 10999; position: absolute;"></div>
 
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/report_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/report_dialogs_include.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "home/course_developer_dashboard_dialogs_include.js"); ?>"></script>
     <script type="text/javascript">
         // register alert/inform overrides on window load
         YAHOO.util.Event.on(window, 'load', function() {
