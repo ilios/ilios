@@ -8,7 +8,7 @@
  * DEPENDENCY: scripts/mesh_base_framework.js
  * DEPENDENCY: scripts/models/mesh_item_model.js
  * DEPENDENCY: scripts/models/report_model.js
-
+ * DEPENDENCY: home/educator_dashboard_transaction.js
  */
 
 ilios.namespace('home.report');
