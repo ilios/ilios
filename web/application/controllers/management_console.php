@@ -92,11 +92,16 @@ class Management_Console extends Ilios_Web_Controller
         }
 
         $data['manage_login_credentials'] = true; // flag used enable login credentials mngmt. in the UI
+        $data['password_required'] = true;
         $authnMethod = $this->config->item('ilios_authentication');
 
         switch ($authnMethod) {
             case 'shibboleth' :
                 $data['manage_login_credentials'] = false;
+                $data['password_required'] = false;
+                break;
+            case 'ldap' :
+                $data['password_required'] = false;
                 break;
             case 'default' :
             default :
@@ -151,18 +156,17 @@ class Management_Console extends Ilios_Web_Controller
     }
 
     /**
-     * XHR callback handler.
      * Creates a new Ilios user account.
      * Expected input:
-     *     'user_id'
      *     'first_name'
      *     'middle_name'
      *     'last_name'
-     *     'uc_id'
      *     'email'
+     *     'uc_id'
+     *     'login'
+     *     'password'
      *     'roles'
      * Prints out a JSON-formatted success/error notification on completion/failure.
-     *
      */
     public function createUserAccount ()
     {
@@ -175,21 +179,21 @@ class Management_Console extends Ilios_Web_Controller
             return;
         }
 
-        $password = $this->input->get_post('password');
-        $username = $this->input->get_post('login');
-        $firstName = $this->input->get_post('first_name');
-        $middleName = $this->input->get_post('middle_name');
-        $lastName = $this->input->get_post('last_name');
-        $email = $this->input->get_post('email');
-        $ucUid = $this->input->get_post('uc_id');
+        $firstName = $this->input->post('first_name');
+        $middleName = $this->input->post('middle_name');
+        $lastName = $this->input->post('last_name');
+        $email = $this->input->post('email');
+        $ucUid = $this->input->post('uc_id');
 
-        $schoolId = $this->session->userdata('school_id');
+        $password = $this->input->post('password');
+        $username = $this->input->post('login');
 
-        $rolesInput = $this->input->get_post('roles');
+        $rolesInput = $this->input->post('roles');
         $roleArray = array();
         if ($rolesInput) {
             $roleArray = explode(",", $rolesInput);
         }
+        $schoolId = $this->session->userdata('school_id');
 
         // identify the primary user role
         $roleIndex = 0;
@@ -208,6 +212,10 @@ class Management_Console extends Ilios_Web_Controller
                 $result = $this->_createUserWithoutLoginCredentials($firstName, $lastName, $middleName,
                     $email, $ucUid, $schoolId, $primaryUserRole);
                 break;
+            case 'ldap' :
+                // ignore user input and generate a random password.
+                $password = Ilios_PasswordUtils::generateRandomPassword();
+                // fall-through intentional!
             case 'default': // create a user account with login credentials
             default:
                 $result = $this->_createUserWithLoginCredentials($firstName, $lastName, $middleName, $email,
@@ -260,17 +268,17 @@ class Management_Console extends Ilios_Web_Controller
 
         // validate input
         if (! $userId) {
-        	$rhett['error'][] = 'Missing user id.';
+            $rhett['error'][] = 'Missing user id.';
         }
 
         if (! $username) {
-        	$rhett['error'][] = 'Missing login name.';
+            $rhett['error'][] = 'Missing login name.';
         }
 
         if (array_key_exists('error', $rhett)) {
-        	header("Content-Type: text/plain");
-        	echo json_encode($rhett);
-        	return;
+            header("Content-Type: text/plain");
+            echo json_encode($rhett);
+            return;
         }
 
         // load the authentication record by user id and by username
@@ -278,70 +286,70 @@ class Management_Console extends Ilios_Web_Controller
         $auth2 = $this->authentication->getByUsername($username);
 
         if (! $auth1) {
-        	// check if the user exists
-        	$user = $this->user->getRowForPrimaryKeyId($userId);
-        	if (! $user) {
-        		$rhett['error'][] = 'User account does not exist.';
-        	}
+            // check if the user exists
+            $user = $this->user->getRowForPrimaryKeyId($userId);
+            if (! $user) {
+                $rhett['error'][] = 'User account does not exist.';
+            }
         }
         // check if the given login name needs to updated
         if (! array_key_exists('error', $rhett)) {
-        	if ($auth2) {
-        		// check if the given login name is already taken up by another account
-        		if ($auth1->person_id !== $auth2->person_id) {
-        			$rhett['error'][] = 'The given login name is already in use by another user account.';
-        		}
-        	} else {
-        		$updateUsername = true;
-        	}
+            if ($auth2) {
+                // check if the given login name is already taken up by another account
+                if ($auth1->person_id !== $auth2->person_id) {
+                    $rhett['error'][] = 'The given login name is already in use by another user account.';
+                }
+            } else {
+                $updateUsername = true;
+            }
         }
 
         if ($password) {
-        	$passwordCheckResult = $this->_validatePassword($password);
-        	if ($passwordCheckResult !== true) {
-        		if (array_key_exists('error', $rhett)) {
-        			$rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
-        		} else {
-        			$rhett['error'] = $passwordCheckResult;
-        		}
-        	} else {
-        		// hash the given password
-        		$salt = $this->config->item('ilios_authentication_internal_auth_salt');
-        		$hash = Ilios_PasswordUtils::hashPassword($password, $salt);
+            $passwordCheckResult = $this->_validatePassword($password);
+            if ($passwordCheckResult !== true) {
+                if (array_key_exists('error', $rhett)) {
+                    $rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
+                } else {
+                    $rhett['error'] = $passwordCheckResult;
+                }
+            } else {
+                // hash the given password
+                $salt = $this->config->item('ilios_authentication_internal_auth_salt');
+                $hash = Ilios_PasswordUtils::hashPassword($password, $salt);
 
-        		// check if the given password needs to be updated
-        		if (! array_key_exists('error', $rhett)) {
-        			if (0 !== strcmp($hash, $auth1->password_sha256)) {
-        				$updatePassword = true;
-        			}
-        		}
-        	}
+                // check if the given password needs to be updated
+                if (! array_key_exists('error', $rhett)) {
+                    if (0 !== strcmp($hash, $auth1->password_sha256)) {
+                        $updatePassword = true;
+                    }
+                }
+            }
         }
 
         if (! array_key_exists('error', $rhett)) {
 
-        	if ($updateUsername || $updatePassword) {
-        		$this->user->startTransaction();
-				$success = false;
+            if ($updateUsername || $updatePassword) {
+                $this->user->startTransaction();
+                $success = false;
 
-				if ($updateUsername) {
-					$success = $this->authentication->changeUsername($userId, $username);
-				}
-				if ($updatePassword) {
-					$success = $this->authentication->changePassword($userId, $hash);
-				}
-        		// change the login name
-        		if (! $success) {
-        			$this->user->rollbackTransaction();
-        			$msg = $this->languagemap->getI18NString('general.error.db_update', $lang);
-        			$rhett['error'][] = $msg;
-        		} else { // commit the changes
-        			$this->user->commitTransaction();
-        			$rhett['success'] = 'updated credentials';
-        		}
-        	} else {
-        		$rhett['success'] = 'nothing to update';
-        	}
+                if ($updateUsername) {
+                    $success = $this->authentication->changeUsername($userId, $username);
+                }
+                if ($updatePassword) {
+                    $success = $this->authentication->changePassword($userId, $hash);
+                }
+                // change the login name
+                if (! $success) {
+                    $this->user->rollbackTransaction();
+                    $msg = $this->languagemap->getI18NString('general.error.db_update', $lang);
+                    $rhett['error'][] = $msg;
+                } else { // commit the changes
+                    $this->user->commitTransaction();
+                    $rhett['success'] = 'updated credentials';
+                }
+            } else {
+                $rhett['success'] = 'nothing to update';
+            }
         }
 
         header("Content-Type: text/plain");
@@ -350,20 +358,18 @@ class Management_Console extends Ilios_Web_Controller
     }
 
     /**
-     * XHR callback handler.
      * Adds login credentials (username/password) for a given user.
      * Expected input:
      *     'user_id' ...the user id
      *     'username' ... the new login handle
      *     'password' ... the new password
      *
-     * Prints out a JSON-formatted success/error messages on completion/failure.
+     * Prints out a JSON-formatted success/error message on completion/failure.
      */
     public function addLoginCredentials ()
     {
         $rhett = array();
         $lang =  $this->getLangToUse();
-        $addCredentials = false;
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -372,9 +378,9 @@ class Management_Console extends Ilios_Web_Controller
         }
 
 
-        $userId = $this->input->get_post('user_id');
-        $username = $this->input->get_post('username');
-        $password = $this->input->get_post('password');
+        $userId = $this->input->post('user_id');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
 
         // validate input
         if (! $userId) {
@@ -385,17 +391,26 @@ class Management_Console extends Ilios_Web_Controller
             $rhett['error'][] = 'Missing login name.';
         }
 
-        if (! $password) {
-            $rhett['error'][] = 'Missing password.';
-        } else {
-            $passwordCheckResult = $this->_validatePassword($password);
-            if ($passwordCheckResult !== true) {
-                if (array_key_exists('error', $rhett)) {
-                    $rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
+        $authnMethod = $this->config->item('ilios_authentication');
+        switch ($authnMethod) {
+            case 'ldap':
+                // generate random password.
+                $password = Ilios_PasswordUtils::generateRandomPassword();
+                break;
+            case 'default' :
+            default:
+                if (! $password) {
+                    $rhett['error'][] = 'Missing password.';
                 } else {
-                    $rhett['error'] = $passwordCheckResult;
+                    $passwordCheckResult = $this->_validatePassword($password);
+                    if ($passwordCheckResult !== true) {
+                        if (array_key_exists('error', $rhett)) {
+                            $rhett['error'] = array_merge($rhett['error'], $passwordCheckResult);
+                        } else {
+                            $rhett['error'] = $passwordCheckResult;
+                        }
+                    }
                 }
-            }
         }
 
         if (array_key_exists('error', $rhett)) {

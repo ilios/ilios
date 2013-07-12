@@ -1,6 +1,6 @@
 /**
- * Course Developer Dashboard dialog infrastructure.
- * @see views/home/course_developer_dashboard_view.php
+ * Educator Dashboard dialog infrastructure.
+ * @see views/home/educator_dashboard_view.php
  */
 
 ilios.namespace("home.preferences");

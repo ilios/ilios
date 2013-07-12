@@ -29,6 +29,7 @@ The minimal steps to get an Ilios deployment up-and-running can be described as 
         tmp_uploads
         application/cache
         application/logs
+        static
 
 4. In your deployment directory, rename the following files:
 
@@ -56,7 +57,7 @@ Read the "Setting your Key" section in the [CodeIgniter User Guide](http://ellis
 
 ## Ilios-internal Authentication
 
-If you are setting up an Ilios instance from scratch, it is highly recommended that you provide a salt to increase the security of user passwords.  
+If you are setting up an Ilios instance from scratch, it is highly recommended that you provide a salt to increase the security of user passwords.
 You may do so by assigning a value to the  `$config['ilios_authentication_internal_auth_salt']` setting in `application/config/ilios.php`.
 
 ## Shibboleth Authentication
@@ -99,6 +100,16 @@ We recommend the following exposure scheme; this is assuming Ilios is installed 
       Allow from all
     </Location>
 
+    <Location /scripts>
+       Satisfy Any
+       Allow from all
+     </Location>
+
+    <Location /static>
+       Satisfy Any
+       Allow from all
+     </Location>
+
     <Location /application/views/scripts>
       Satisfy Any
       Allow from all
@@ -123,6 +134,7 @@ We recommend the following exposure scheme; this is assuming Ilios is installed 
       Satisfy Any
       Allow from all
     </Location>
+
 
 
 ## Troubleshooting

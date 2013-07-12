@@ -18,6 +18,7 @@ ilios.management.user_accounts.programCohortSelectedNode = null;
 ilios.management.user_accounts.userBeingModifiedIsDisabled = false;
 
 ilios.management.user_accounts.manageLoginCredentials = true;
+ilios.management.user_accounts.passwordRequired = true;
 
 ilios.management.user_accounts.currentUserModel = null;
 
@@ -39,35 +40,35 @@ ilios.management.user_accounts.startUserAccountsWorkflow = function () {
  * @param cohort an object returned by the controller method getCohortProgramTreeContent
  * @param programTitle
  * @return an instance of a model -- this instance will be attached to the tree node so that it may
- * 				be referenced later
+ *                 be referenced later
  */
 ilios.ui.buildNodeModel = function (cohort, programTitle) {
-	var rhett = new ProgramCohortModel(programTitle, cohort.title, cohort.cohort_id,
+    var rhett = new ProgramCohortModel(programTitle, cohort.title, cohort.cohort_id,
                                        cohort.program_year_id, cohort.start_year, null);
 
-	rhett.setProgramShortTitle(cohort.program_short_title);
-	rhett.setProgramDuration(cohort.program_duration);
-	rhett.setCurrentEnrollment(cohort.enrollment);
+    rhett.setProgramShortTitle(cohort.program_short_title);
+    rhett.setProgramDuration(cohort.program_duration);
+    rhett.setCurrentEnrollment(cohort.enrollment);
 
-	return rhett;
+    return rhett;
 };
 
 /**
  * @see ilios.ui.handleProgramCohortSelectionDialogDisplay()
  */
 ilios.ui.handleProgramCohortDialogSelection = function (clickObject) {
-	var node = clickObject.node;
+    var node = clickObject.node;
     var element = document.getElementById('ua_assign_cohortless_button');
 
-	if (node.children.length > 0) {
-		if (ilios.management.user_accounts.programCohortSelectedNode == null) {
+    if (node.children.length > 0) {
+        if (ilios.management.user_accounts.programCohortSelectedNode == null) {
             element.setAttribute('disabled', 'true');
         }
 
         node.enableHighlight = false;
 
-		return false;
-	}
+        return false;
+    }
 
     if (document.getElementById('ua_cohortless_user_list').childNodes.length > 1) {
         element.removeAttribute('disabled');
@@ -89,7 +90,7 @@ ilios.ui.handleProgramCohortDialogSelection = function (clickObject) {
  */
 ilios.management.user_accounts.buildAlertsDisplayDOM = function () {
     var Dom = YAHOO.util.Dom, Event = YAHOO.util.Event;
-	var container = Dom.get('management_center_content');
+    var container = Dom.get('management_center_content');
     var element = document.createElement('h3');
     var sectionContainer = null;
 
@@ -107,7 +108,7 @@ ilios.management.user_accounts.buildAlertsDisplayDOM = function () {
     element.setAttribute('href', '');
     element.setAttribute('onclick', 'return false;');
     Event.addListener(element, 'click', function () {
-    	ilios.management.user_accounts.showSearchOnlyDOM();
+        ilios.management.user_accounts.showSearchOnlyDOM();
         return false;
     });
     element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.go_to_search');
@@ -116,7 +117,7 @@ ilios.management.user_accounts.buildAlertsDisplayDOM = function () {
 
     // if applicable then build and populate markup for user sync exception lists
     if (0 < ilios.management.syncExceptionsCount) {
-    	// section container
+        // section container
         sectionContainer = document.createElement('div');
         Dom.addClass(sectionContainer, 'mc_section_container');
         container.appendChild(sectionContainer);
@@ -124,8 +125,8 @@ ilios.management.user_accounts.buildAlertsDisplayDOM = function () {
         Dom.addClass(element, 'mc_section_description');
         Dom.setAttribute(element, 'id', 'ua_sync_exception_section_description');
         element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.sync_exception_description_pre')
-        					+ " <em>" + ilios.management.syncExceptionsCount + "<\/em> "
-        					+ ilios_i18nVendor.getI18NString('management.user_accounts.sync_exception_description_post');
+                            + " <em>" + ilios.management.syncExceptionsCount + "<\/em> "
+                            + ilios_i18nVendor.getI18NString('management.user_accounts.sync_exception_description_post');
         sectionContainer.appendChild(element);
 
         // container(s) for unprocessed sync exceptions
@@ -164,8 +165,8 @@ ilios.management.user_accounts.buildAlertsDisplayDOM = function () {
         processQueuedActionsBtn.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.process_accounts_button');
         sectionContainer.appendChild(processQueuedActionsBtn);
         Event.on(processQueuedActionsBtn, 'click', function () {
-        		this.disabled = true; // disable the clicked button
-        		ilios.management.user_accounts.processActionQueueOnClick(this);
+                this.disabled = true; // disable the clicked button
+                ilios.management.user_accounts.processActionQueueOnClick(this);
                 return false;
             }
         );
@@ -178,11 +179,11 @@ ilios.management.user_accounts.buildAlertsDisplayDOM = function () {
     }
     // if applicable then build and populate markup for cohortless user list
     if (ilios.management.cohortlessUserCount > 0) {
-    	sectionContainer = document.createElement('div');
+        sectionContainer = document.createElement('div');
         YAHOO.util.Dom.addClass(sectionContainer, 'mc_section_container');
         container.appendChild(sectionContainer);
 
-    	var linkElement = document.createElement('a');
+        var linkElement = document.createElement('a');
 
         element = document.createElement('div');
         Dom.addClass(element, 'mc_section_description');
@@ -220,8 +221,8 @@ ilios.management.user_accounts.buildAlertsDisplayDOM = function () {
  * @see ilios.management.user_accounts.generateSectionTitleNode
  */
 ilios.management.user_accounts.generateActionRequiredSectionTitleNode = function () {
-	var title = '- ' + ilios_i18nVendor.getI18NString('management.user_accounts.action_required').toLowerCase() + '! -';
-	return ilios.management.user_accounts.generateSectionTitleNode(title, 'alert');
+    var title = '- ' + ilios_i18nVendor.getI18NString('management.user_accounts.action_required').toLowerCase() + '! -';
+    return ilios.management.user_accounts.generateSectionTitleNode(title, 'alert');
 };
 
 /**
@@ -229,8 +230,8 @@ ilios.management.user_accounts.generateActionRequiredSectionTitleNode = function
  * @see ilios.management.user_accounts.generateSectionTitleNode
  */
 ilios.management.user_accounts.generateQueuedActionsSectionTitleNode = function () {
-	var title = '- ' + ilios_i18nVendor.getI18NString('management.user_accounts.selected_accounts').toLowerCase() + ' -';
-	return ilios.management.user_accounts.generateSectionTitleNode(title, 'info');
+    var title = '- ' + ilios_i18nVendor.getI18NString('management.user_accounts.selected_accounts').toLowerCase() + ' -';
+    return ilios.management.user_accounts.generateSectionTitleNode(title, 'info');
 };
 
 
@@ -297,14 +298,14 @@ ilios.management.user_accounts.createRowForCohortlessUser = function (userModel)
  * @param array users a nested array of users with sync exceptions
  */
 ilios.management.user_accounts.populateSyncExceptionsList = function (users) {
-	var container = document.getElementById('ua_sync_exceptions');
-	var element = null;
+    var container = document.getElementById('ua_sync_exceptions');
+    var element = null;
 
-	ilios.utilities.removeAllChildren(container);
-	for (var i = 0, n = users.length; i < n; i++) {
-		element = ilios.management.user_accounts.createRowForUserWithSyncException(users[i]);
-		container.appendChild(element);
-	}
+    ilios.utilities.removeAllChildren(container);
+    for (var i = 0, n = users.length; i < n; i++) {
+        element = ilios.management.user_accounts.createRowForUserWithSyncException(users[i]);
+        container.appendChild(element);
+    }
 }
 
 
@@ -341,10 +342,10 @@ ilios.management.user_accounts.createRowForSearchResultUser = function (user) {
 
 
     if (! userModel.isEnabled()) {
-    	subElement = document.createElement('div');
-    	subElement.setAttribute('style', 'float: left; font-style: italic; padding-left: 10px; color: #e00');
-    	subElement.innerHTML = "(" + ilios_i18nVendor.getI18NString('general.terms.disabled').toLowerCase() + ")";
-    	element.appendChild(subElement);
+        subElement = document.createElement('div');
+        subElement.setAttribute('style', 'float: left; font-style: italic; padding-left: 10px; color: #e00');
+        subElement.innerHTML = "(" + ilios_i18nVendor.getI18NString('general.terms.disabled').toLowerCase() + ")";
+        element.appendChild(subElement);
     }
     rhett.appendChild(element);
 
@@ -431,39 +432,39 @@ ilios.management.user_accounts.populateCohortlessUserList = function (users) {
  * Resets and re-populates the user sync list container and queued action container.
  */
 ilios.management.user_accounts.rebuildSyncExceptionsDisplayDOM = function () {
-	var Dom = YAHOO.util.Dom;
-	var queuedActionsContainer = Dom.get('ua_queued_actions'),
-		syncExceptionsContainer = Dom.get('ua_sync_exceptions'),
-		processedSyncExceptionsContainer = Dom.get('ua_processed_sync_exceptions'),
-		processQueuedActionsBtn = Dom.get('ua_process_queued_actions_btn'),
+    var Dom = YAHOO.util.Dom;
+    var queuedActionsContainer = Dom.get('ua_queued_actions'),
+        syncExceptionsContainer = Dom.get('ua_sync_exceptions'),
+        processedSyncExceptionsContainer = Dom.get('ua_processed_sync_exceptions'),
+        processQueuedActionsBtn = Dom.get('ua_process_queued_actions_btn'),
 
-		syncExceptionsSectionDescription = Dom.get('ua_sync_exception_section_description');
+        syncExceptionsSectionDescription = Dom.get('ua_sync_exception_section_description');
 
-	// clear out the list containers
-	ilios.utilities.removeAllChildren(queuedActionsContainer);
-	ilios.utilities.removeAllChildren(syncExceptionsContainer);
-	ilios.utilities.removeAllChildren(processedSyncExceptionsContainer);
+    // clear out the list containers
+    ilios.utilities.removeAllChildren(queuedActionsContainer);
+    ilios.utilities.removeAllChildren(syncExceptionsContainer);
+    ilios.utilities.removeAllChildren(processedSyncExceptionsContainer);
 
-	// reset the process action items button to be disabled
-	processQueuedActionsBtn.disabled = true;
+    // reset the process action items button to be disabled
+    processQueuedActionsBtn.disabled = true;
 
-	// update the description to accurately reflect on the updated # of remaining unresolved exceptions.
-	syncExceptionsSectionDescription.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.sync_exception_description_pre')
-    					+ " <em>" + ilios.management.syncExceptionsCount + "<\/em> "
-    					+ ilios_i18nVendor.getI18NString('management.user_accounts.sync_exception_description_post');
+    // update the description to accurately reflect on the updated # of remaining unresolved exceptions.
+    syncExceptionsSectionDescription.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.sync_exception_description_pre')
+                        + " <em>" + ilios.management.syncExceptionsCount + "<\/em> "
+                        + ilios_i18nVendor.getI18NString('management.user_accounts.sync_exception_description_post');
 
-	// depending on whether there are any outstanding sync exceptions or not,
-	// we load in the exceptions or display a "done-hansen" message
-	if (ilios.management.syncExceptionsCount) {
-		ilios.management.transaction.loadUsersWithSyncExceptions();
-	} else {
-		processQueuedActionsBtn.disabled = true;
+    // depending on whether there are any outstanding sync exceptions or not,
+    // we load in the exceptions or display a "done-hansen" message
+    if (ilios.management.syncExceptionsCount) {
+        ilios.management.transaction.loadUsersWithSyncExceptions();
+    } else {
+        processQueuedActionsBtn.disabled = true;
         var elem = document.createElement('div');
         elem.setAttribute('style',
                            'margin-top: 40px; margin-left: 39%; font-weight: bold;');
         elem.innerHTML = ilios_i18nVendor.getI18NString('general.phrases.you_are_done');
         syncExceptionsContainer.appendChild(elem);
-	}
+    }
 }
 
 
@@ -476,77 +477,77 @@ ilios.management.user_accounts.rebuildSyncExceptionsDisplayDOM = function () {
  *
  */
 ilios.management.user_accounts.createRowForUserWithSyncException = function (userModel) {
-	var Dom =YAHOO.util.Dom, Event = YAHOO.util.Event;
-	var rhett = document.createElement('div');
-	var syncExceptionContainer = document.createElement('div');
-	var optionsContainer = document.createElement('div');
-	var optionContainer = null;
-	var element = null;
-	var updateCheckbox, ignoreCheckbox, disableCheckbox = null;
+    var Dom =YAHOO.util.Dom, Event = YAHOO.util.Event;
+    var rhett = document.createElement('div');
+    var syncExceptionContainer = document.createElement('div');
+    var optionsContainer = document.createElement('div');
+    var optionContainer = null;
+    var element = null;
+    var updateCheckbox, ignoreCheckbox, disableCheckbox = null;
 
 
     // set the id of the container elem and add some class.
-	rhett.setAttribute('id', 'ua_sync_exception_user_' + userModel.user_id);
-	Dom.addClass(rhett, 'ua_sync_exception');
+    rhett.setAttribute('id', 'ua_sync_exception_user_' + userModel.user_id);
+    Dom.addClass(rhett, 'ua_sync_exception');
 
-	// build and populate actionable options container
-	optionsContainer.setAttribute('style', 'float: right; margin-right: 48px;');
-	// add "update" checkbox
-	if (userModel.update_option) {
-		updateCheckbox = document.createElement('input');
-		updateCheckbox.setAttribute('type', 'checkbox');
-		updateCheckbox.setAttribute('id', 'ua_update_user_chkbox_' + userModel.user_id);
-		updateCheckbox.value = 'update';
-		Event.addListener(updateCheckbox, 'click', function () {
-			this.checked = false; // reset checkbox
-			ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick(this);
-			return false;
-		});
-		optionContainer = document.createElement('div');
-		optionContainer.appendChild(updateCheckbox);
-		element = document.createElement('label');
-		element.setAttribute('for', updateCheckbox.getAttribute('id'));
-		element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.update_account');
-		optionContainer.appendChild(element);
-		optionsContainer.appendChild(optionContainer);
-	}
-	// add "leave and ignore" checkbox
-	ignoreCheckbox = document.createElement('input');
-	ignoreCheckbox.setAttribute('type', 'checkbox');
-	ignoreCheckbox.value = 'ignore';
-	ignoreCheckbox.setAttribute('id', 'ua_ignore_user_chkbox_' + userModel.user_id);
-	Event.addListener(ignoreCheckbox, 'click', function () {
-		this.checked = false; // reset checkbox
-		ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick(this);
-		return false;
-	});
-	optionContainer = document.createElement('div');
-	optionContainer.appendChild(ignoreCheckbox);
-	element = document.createElement('label');
-	element.setAttribute('for', ignoreCheckbox.getAttribute('id'));
-	element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.ignore_account');
-	optionContainer.appendChild(element);
-	optionsContainer.appendChild(optionContainer);
-	// add "disable account" checkbox
-	disableCheckbox = document.createElement('input');
-	disableCheckbox.setAttribute('type', 'checkbox');
-	disableCheckbox.value = 'disable';
-	disableCheckbox.setAttribute('id', 'ua_disable_user_chkbox_' + userModel.user_id);
-	Event.addListener(disableCheckbox, 'click', function () {
-		this.checked = false; // reset checkbox
-		ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick(this);
-		return false;
-	});
-	optionContainer = document.createElement('div');
-	optionContainer.appendChild(disableCheckbox);
-	element = document.createElement('label');
-	element.setAttribute('for', disableCheckbox.getAttribute('id'));
-	element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.disable_account');
-	optionContainer.appendChild(element);
-	optionsContainer.appendChild(optionContainer);
+    // build and populate actionable options container
+    optionsContainer.setAttribute('style', 'float: right; margin-right: 48px;');
+    // add "update" checkbox
+    if (userModel.update_option) {
+        updateCheckbox = document.createElement('input');
+        updateCheckbox.setAttribute('type', 'checkbox');
+        updateCheckbox.setAttribute('id', 'ua_update_user_chkbox_' + userModel.user_id);
+        updateCheckbox.value = 'update';
+        Event.addListener(updateCheckbox, 'click', function () {
+            this.checked = false; // reset checkbox
+            ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick(this);
+            return false;
+        });
+        optionContainer = document.createElement('div');
+        optionContainer.appendChild(updateCheckbox);
+        element = document.createElement('label');
+        element.setAttribute('for', updateCheckbox.getAttribute('id'));
+        element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.update_account');
+        optionContainer.appendChild(element);
+        optionsContainer.appendChild(optionContainer);
+    }
+    // add "leave and ignore" checkbox
+    ignoreCheckbox = document.createElement('input');
+    ignoreCheckbox.setAttribute('type', 'checkbox');
+    ignoreCheckbox.value = 'ignore';
+    ignoreCheckbox.setAttribute('id', 'ua_ignore_user_chkbox_' + userModel.user_id);
+    Event.addListener(ignoreCheckbox, 'click', function () {
+        this.checked = false; // reset checkbox
+        ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick(this);
+        return false;
+    });
+    optionContainer = document.createElement('div');
+    optionContainer.appendChild(ignoreCheckbox);
+    element = document.createElement('label');
+    element.setAttribute('for', ignoreCheckbox.getAttribute('id'));
+    element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.ignore_account');
+    optionContainer.appendChild(element);
+    optionsContainer.appendChild(optionContainer);
+    // add "disable account" checkbox
+    disableCheckbox = document.createElement('input');
+    disableCheckbox.setAttribute('type', 'checkbox');
+    disableCheckbox.value = 'disable';
+    disableCheckbox.setAttribute('id', 'ua_disable_user_chkbox_' + userModel.user_id);
+    Event.addListener(disableCheckbox, 'click', function () {
+        this.checked = false; // reset checkbox
+        ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick(this);
+        return false;
+    });
+    optionContainer = document.createElement('div');
+    optionContainer.appendChild(disableCheckbox);
+    element = document.createElement('label');
+    element.setAttribute('for', disableCheckbox.getAttribute('id'));
+    element.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.disable_account');
+    optionContainer.appendChild(element);
+    optionsContainer.appendChild(optionContainer);
 
-	// build and populate user data container element
-	syncExceptionContainer.setAttribute('style', 'float: left; margin-left: 48px; color: #800000; padding-top: 9px;');
+    // build and populate user data container element
+    syncExceptionContainer.setAttribute('style', 'float: left; margin-left: 48px; color: #800000; padding-top: 9px;');
     element = document.createElement('span');
     element.setAttribute('style', 'margin-right: 4px; font-weight: bold; font-size: 10pt;');
     element.innerHTML = ilios.management.user_accounts.getFullNameFromUserModel(userModel, false);
@@ -556,7 +557,7 @@ ilios.management.user_accounts.createRowForUserWithSyncException = function (use
     element.setAttribute('id', 'ua_sync_exception_user_' + userModel.user_id);
     element.setAttribute('style', 'font-size: 8pt;');
     Event.addListener(element, 'click', function () {
-    	ilios.management.user_accounts.showUserDetailOnClick(this);
+        ilios.management.user_accounts.showUserDetailOnClick(this);
         return false;
     });
     element.innerHTML = '(' + ilios_i18nVendor.getI18NString('management.user_accounts.click_details').toLowerCase() + ')';
@@ -579,70 +580,70 @@ ilios.management.user_accounts.createRowForUserWithSyncException = function (use
  * @param Input inputElem the element that triggered this event
  */
 ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick = function (inputElem) {
-	var Dom = YAHOO.util.Dom, Event = YAHOO.util.Event;
-	var action = inputElem.value;
-	// extract the user id of the associated user sync exception from the
-	// given input element but tokenizing its element-id (underscore is the delimiter)
-	// the pattern is XXX_XXX_XXX_..._NN, where NN representis the user id
-	var userId = inputElem.getAttribute('id').split('_').pop();
-	var processedSyncExceptionsContainer, queuedActionsContainer, queuedActionContainer = null;
-	var element = null;
-	// get the user model and associated container element
-	var syncExceptionContainer = document.getElementById('ua_sync_exception_user_' + userId);
-	var userModel = syncExceptionContainer.iliosModel;
-	var actionItemElems = null;
-	var processQueuedActionsBtn = Dom.get("ua_process_queued_actions_btn");
-	var actionLabelValue, actionLabelKey = null;
+    var Dom = YAHOO.util.Dom, Event = YAHOO.util.Event;
+    var action = inputElem.value;
+    // extract the user id of the associated user sync exception from the
+    // given input element but tokenizing its element-id (underscore is the delimiter)
+    // the pattern is XXX_XXX_XXX_..._NN, where NN representis the user id
+    var userId = inputElem.getAttribute('id').split('_').pop();
+    var processedSyncExceptionsContainer, queuedActionsContainer, queuedActionContainer = null;
+    var element = null;
+    // get the user model and associated container element
+    var syncExceptionContainer = document.getElementById('ua_sync_exception_user_' + userId);
+    var userModel = syncExceptionContainer.iliosModel;
+    var actionItemElems = null;
+    var processQueuedActionsBtn = Dom.get("ua_process_queued_actions_btn");
+    var actionLabelValue, actionLabelKey = null;
 
-	// build a new action item element and append it to the list of queued action items
-	queuedActionsContainer = document.getElementById('ua_queued_actions');
-	queuedActionContainer = document.createElement('div');
-	Dom.addClass(queuedActionContainer, 'ua_queued_action');
-	queuedActionContainer.setAttribute('id', 'ua_queued_action_' + userId);
-	element = document.createElement('span'); // create element for action item
-	Dom.addClass(element, 'ua_queued_action_user');
-	element.innerHTML = ilios.management.user_accounts.getFullNameFromUserModel(userModel, false);
-	queuedActionContainer.appendChild(element);
+    // build a new action item element and append it to the list of queued action items
+    queuedActionsContainer = document.getElementById('ua_queued_actions');
+    queuedActionContainer = document.createElement('div');
+    Dom.addClass(queuedActionContainer, 'ua_queued_action');
+    queuedActionContainer.setAttribute('id', 'ua_queued_action_' + userId);
+    element = document.createElement('span'); // create element for action item
+    Dom.addClass(element, 'ua_queued_action_user');
+    element.innerHTML = ilios.management.user_accounts.getFullNameFromUserModel(userModel, false);
+    queuedActionContainer.appendChild(element);
 
-	element = document.createElement('a');
-	element.href = '#';
-	element.setAttribute('onclick', 'return false;');
-	element.innerHTML = 'x';
-	element.setAttribute('id', 'ua_queued_action_remove_btn_' + userId);
-	Dom.addClass(element, 'ua_queued_action_remove_btn');
-	Event.addListener(element, 'click', function () {
-		ilios.management.user_accounts.removeSyncExceptionFromActionQueueOnClick(this);
-		return false;
-	});
+    element = document.createElement('a');
+    element.href = '#';
+    element.setAttribute('onclick', 'return false;');
+    element.innerHTML = 'x';
+    element.setAttribute('id', 'ua_queued_action_remove_btn_' + userId);
+    Dom.addClass(element, 'ua_queued_action_remove_btn');
+    Event.addListener(element, 'click', function () {
+        ilios.management.user_accounts.removeSyncExceptionFromActionQueueOnClick(this);
+        return false;
+    });
 
-	queuedActionContainer.appendChild(element);
+    queuedActionContainer.appendChild(element);
 
-	element = document.createElement('span');
+    element = document.createElement('span');
 
-	actionLabelKey = 'management.user_accounts.actions.' + action;
-	actionLabelValue = ilios_i18nVendor.getI18NString(actionLabelKey);
-	element.innerHTML = "(" + actionLabelValue +(")");
-	Dom.addClass(element, 'ua_queued_action_name');
-	queuedActionContainer.appendChild(element);
+    actionLabelKey = 'management.user_accounts.actions.' + action;
+    actionLabelValue = ilios_i18nVendor.getI18NString(actionLabelKey);
+    element.innerHTML = "(" + actionLabelValue +(")");
+    Dom.addClass(element, 'ua_queued_action_name');
+    queuedActionContainer.appendChild(element);
 
-	ilios.utilities.appendClearingDivToContainer(queuedActionContainer);
+    ilios.utilities.appendClearingDivToContainer(queuedActionContainer);
 
-	queuedActionContainer.iliosModel = syncExceptionContainer.iliosModel;
-	queuedActionContainer.iliosQueuedAction = action;
+    queuedActionContainer.iliosModel = syncExceptionContainer.iliosModel;
+    queuedActionContainer.iliosQueuedAction = action;
 
-	queuedActionsContainer.appendChild(queuedActionContainer);
+    queuedActionsContainer.appendChild(queuedActionContainer);
 
-	// remove the user container from the list of actionable sync exceptions
-	// and attach it to the list of processed sync exceptions
-	processedSyncExceptionsContainer = document.getElementById('ua_processed_sync_exceptions');
-	syncExceptionContainer = syncExceptionContainer.parentNode.removeChild(syncExceptionContainer);
-	processedSyncExceptionsContainer.appendChild(syncExceptionContainer);
+    // remove the user container from the list of actionable sync exceptions
+    // and attach it to the list of processed sync exceptions
+    processedSyncExceptionsContainer = document.getElementById('ua_processed_sync_exceptions');
+    syncExceptionContainer = syncExceptionContainer.parentNode.removeChild(syncExceptionContainer);
+    processedSyncExceptionsContainer.appendChild(syncExceptionContainer);
 
-	// disable the "process actions button", if applicable
-	actionItemElems = Dom.getElementsByClassName('ua_queued_action', 'div', 'ua_queued_actions');
-	if (actionItemElems.length) {
-		processQueuedActionsBtn.disabled = false;
-	}
+    // disable the "process actions button", if applicable
+    actionItemElems = Dom.getElementsByClassName('ua_queued_action', 'div', 'ua_queued_actions');
+    if (actionItemElems.length) {
+        processQueuedActionsBtn.disabled = false;
+    }
 }
 
 /**
@@ -652,28 +653,28 @@ ilios.management.user_accounts.addSyncExceptionToActionQueueOnClick = function (
  * @param HTMLElement inputElem the element that triggered this event
  */
 ilios.management.user_accounts.removeSyncExceptionFromActionQueueOnClick = function (inputElem) {
-	var Dom = YAHOO.util.Dom;
-	var userId = inputElem.getAttribute('id').split('_').pop();
-	var syncExceptionsContainer = Dom.get('ua_sync_exceptions');
-	var syncExceptionContainer = Dom.get('ua_sync_exception_user_' + userId);
-	var processedSyncExceptionsContainer = Dom.get('ua_process_sync_exceptions');
-	var queuedActionContainer = Dom.get('ua_queued_action_' + userId);
-	var actionItemElems = null;
-	var processQueuedActionsBtn = Dom.get("ua_process_queued_actions_btn");
+    var Dom = YAHOO.util.Dom;
+    var userId = inputElem.getAttribute('id').split('_').pop();
+    var syncExceptionsContainer = Dom.get('ua_sync_exceptions');
+    var syncExceptionContainer = Dom.get('ua_sync_exception_user_' + userId);
+    var processedSyncExceptionsContainer = Dom.get('ua_process_sync_exceptions');
+    var queuedActionContainer = Dom.get('ua_queued_action_' + userId);
+    var actionItemElems = null;
+    var processQueuedActionsBtn = Dom.get("ua_process_queued_actions_btn");
 
-	// remove the action item from the queue
-	queuedActionContainer = queuedActionContainer.parentNode.removeChild(queuedActionContainer);
+    // remove the action item from the queue
+    queuedActionContainer = queuedActionContainer.parentNode.removeChild(queuedActionContainer);
 
-	// remove the corresponding user sync exception element from the processed bucket
-	// and re-attached to the list of un-processed items.
-	syncExceptionContainer = syncExceptionContainer.parentNode.removeChild(syncExceptionContainer);
-	syncExceptionsContainer.appendChild(syncExceptionContainer);
+    // remove the corresponding user sync exception element from the processed bucket
+    // and re-attached to the list of un-processed items.
+    syncExceptionContainer = syncExceptionContainer.parentNode.removeChild(syncExceptionContainer);
+    syncExceptionsContainer.appendChild(syncExceptionContainer);
 
-	// disable the "process actions button", if applicable
-	actionItemElems = Dom.getElementsByClassName('ua_queued_action', 'div', 'ua_queued_actions');
-	if (! actionItemElems.length) {
-		processQueuedActionsBtn.disabled = true;
-	}
+    // disable the "process actions button", if applicable
+    actionItemElems = Dom.getElementsByClassName('ua_queued_action', 'div', 'ua_queued_actions');
+    if (! actionItemElems.length) {
+        processQueuedActionsBtn.disabled = true;
+    }
 }
 
 /**
@@ -686,47 +687,47 @@ ilios.management.user_accounts.removeSyncExceptionFromActionQueueOnClick = funct
  * @see ilios.management.transaction.processActionItems()
  */
 ilios.management.user_accounts.processActionQueueOnClick = function (clickedBtn) {
-	var Dom = YAHOO.util.Dom;
-	var hasAtLeastOneUpdateAction = false,
-		msg = '',
-		element = null,
-		userId = null;
+    var Dom = YAHOO.util.Dom;
+    var hasAtLeastOneUpdateAction = false,
+        msg = '',
+        element = null,
+        userId = null;
 
 
-	// get action items
-	var actionItems = ilios.management.user_accounts.getQueuedActionItemsFromDOM();
-	// check if at least one "update" action is amongst the retrieved action items.
-	for (userId in actionItems) {
-		if (actionItems.hasOwnProperty(userId) && "update" == actionItems[userId]) {
-			hasAtLeastOneUpdateAction = true;
-			break;
-		}
-	}
-	if (hasAtLeastOneUpdateAction) { // CYA by displaying confirmation dialogue
-		msg = ilios_i18nVendor.getI18NString('management.user_accounts.sync_update_action_warn_1');
+    // get action items
+    var actionItems = ilios.management.user_accounts.getQueuedActionItemsFromDOM();
+    // check if at least one "update" action is amongst the retrieved action items.
+    for (userId in actionItems) {
+        if (actionItems.hasOwnProperty(userId) && "update" == actionItems[userId]) {
+            hasAtLeastOneUpdateAction = true;
+            break;
+        }
+    }
+    if (hasAtLeastOneUpdateAction) { // CYA by displaying confirmation dialogue
+        msg = ilios_i18nVendor.getI18NString('management.user_accounts.sync_update_action_warn_1');
         msg += '<br/><br/>';
         msg += ilios_i18nVendor.getI18NString('management.user_accounts.sync_update_action_warn_2');
         msg += '<br/><br/>';
         msg += ilios_i18nVendor.getI18NString('management.user_accounts.sync_update_action_warn_3');
 
         ilios.alert.inform('<center><strong>' + msg + '</strong></center>',
-        	ilios_i18nVendor.getI18NString('general.terms.continue'),
-        	function (dialogClickSource, actionItems) {
-        		this.hide();
-        		ilios.management.transaction.processActionItems(actionItems);
-        	},
-        	actionItems,
-        	ilios_i18nVendor.getI18NString('general.terms.cancel'),
-        	function () {
-        		clickedBtn.disabled = false;
-        		this.hide();
-        	}
+            ilios_i18nVendor.getI18NString('general.terms.continue'),
+            function (dialogClickSource, actionItems) {
+                this.hide();
+                ilios.management.transaction.processActionItems(actionItems);
+            },
+            actionItems,
+            ilios_i18nVendor.getI18NString('general.terms.cancel'),
+            function () {
+                clickedBtn.disabled = false;
+                this.hide();
+            }
         );
     } else {
-    	element = Dom.get('ua_indeterminate_progress');
+        element = Dom.get('ua_indeterminate_progress');
         Dom.setStyle('ua_indeterminate_progress', 'display', 'block');
         ilios.management.transaction.processActionItems(actionItems);
-	}
+    }
 }
 
 /**
@@ -735,17 +736,17 @@ ilios.management.user_accounts.processActionQueueOnClick = function (clickedBtn)
  * @return Object an object of user-id/action pairs as property-name/values.
  */
 ilios.management.user_accounts.getQueuedActionItemsFromDOM = function () {
-	var Dom = YAHOO.util.Dom;
-	var rhett = {},
-		actionItems = [],
-		i, n = 0;
+    var Dom = YAHOO.util.Dom;
+    var rhett = {},
+        actionItems = [],
+        i, n = 0;
 
-	actionItemElems = Dom.getElementsByClassName('ua_queued_action', 'div', 'ua_queued_actions');
+    actionItemElems = Dom.getElementsByClassName('ua_queued_action', 'div', 'ua_queued_actions');
 
-	for (i = 0, n = actionItemElems.length; i < n; i++) {
-		rhett[actionItemElems[i].iliosModel.user_id] = actionItemElems[i].iliosQueuedAction;
-	}
-	return rhett;
+    for (i = 0, n = actionItemElems.length; i < n; i++) {
+        rhett[actionItemElems[i].iliosModel.user_id] = actionItemElems[i].iliosQueuedAction;
+    }
+    return rhett;
 }
 
 // @private
@@ -829,22 +830,22 @@ ilios.management.user_accounts.addressCohortlessUsers = function () {
  * @see ilios.management.user_accounts.showUserDetail()
  */
 ilios.management.user_accounts.resetUserDetails = function () {
-	// clear out the following elements
-	var elementIds = ['ua_detail_name', 'ua_detail_email', 'ua_detail_uid',
-	                  'ua_detail_school', 'ua_detail_ilios_roles',
-	                  'ua_detail_cohort_name', 'ua_detail_directory_uid',
-	                  'ua_detail_directory_email', 'ua_detail_sync_exceptions_messages'];
-	var element = null;
-	for (var i = 0, n = elementIds.length; i < n; i++) {
-		element = document.getElementById(elementIds[i]);
-		if (element) {
-			element.innerHTML = '';
-		}
-	}
-	// hide the following elements
-	elementIds = ['ua_detail_directory_email', 'ua_detail_directory_uid',
-	              'ua_detail_sync_exceptions'];
-	YAHOO.util.Dom.setStyle(elementIds, 'display', 'none');
+    // clear out the following elements
+    var elementIds = ['ua_detail_name', 'ua_detail_email', 'ua_detail_uid',
+                      'ua_detail_school', 'ua_detail_ilios_roles',
+                      'ua_detail_cohort_name', 'ua_detail_directory_uid',
+                      'ua_detail_directory_email', 'ua_detail_sync_exceptions_messages'];
+    var element = null;
+    for (var i = 0, n = elementIds.length; i < n; i++) {
+        element = document.getElementById(elementIds[i]);
+        if (element) {
+            element.innerHTML = '';
+        }
+    }
+    // hide the following elements
+    elementIds = ['ua_detail_directory_email', 'ua_detail_directory_uid',
+                  'ua_detail_sync_exceptions'];
+    YAHOO.util.Dom.setStyle(elementIds, 'display', 'none');
 }
 
 
@@ -856,9 +857,9 @@ ilios.management.user_accounts.resetUserDetails = function () {
  */
 
 ilios.management.user_accounts.showUserDetailOnClick = function (linkElement) {
-	var userId = linkElement.getAttribute('id').split('_').pop();
-	var syncExceptionContainer = document.getElementById('ua_sync_exception_user_' + userId);
-	ilios.management.user_accounts.showUserDetail(syncExceptionContainer.iliosModel);
+    var userId = linkElement.getAttribute('id').split('_').pop();
+    var syncExceptionContainer = document.getElementById('ua_sync_exception_user_' + userId);
+    ilios.management.user_accounts.showUserDetail(syncExceptionContainer.iliosModel);
 }
 
 /**
@@ -875,8 +876,8 @@ ilios.management.user_accounts.showUserDetail = function (userModel) {
     var exceptionMsgs = [];
     var exceptionMsg = null;
 
-	// reset panel
-	ilios.management.user_accounts.resetUserDetails();
+    // reset panel
+    ilios.management.user_accounts.resetUserDetails();
 
     // populate panel with user attributes as Ilios has them on file
     element.innerHTML = ilios.management.user_accounts.getFullNameFromUserModel(userModel, false);
@@ -890,26 +891,26 @@ ilios.management.user_accounts.showUserDetail = function (userModel) {
     if (0 < userModel.roles.length) {
         element.innerHTML = userModel.roles.join(', ');
     } else {
-    	element.innerHTML = ilios_i18nVendor.getI18NString('general.terms.none');
+        element.innerHTML = ilios_i18nVendor.getI18NString('general.terms.none');
     }
     element = document.getElementById('ua_detail_cohort_name');
     element.innerHTML = userModel.cohort_name;
 
     // print sync exceptions and display mismatches as applicable
     if (0 < userModel.exceptions.length) {
-    	YAHOO.util.Dom.setStyle('ua_detail_sync_exceptions', 'display', 'block');
-    	for (i = 0, n = userModel.exceptions.length; i < n; i++ ) {
-    		exceptionModel = userModel.exceptions[i];
-    		exceptionMsg = ilios_i18nVendor.getI18NString('management.user_accounts.sync_exceptions.' + exceptionModel.exception_code);
-    		exceptionMsgs.push(exceptionMsg);
-    		if ('email' == exceptionModel.mismatched_property_name || 'uid' == exceptionModel.mismatched_property_name) {
-    			element = document.getElementById('ua_detail_directory_' + exceptionModel.mismatched_property_name);
-    			element.innerHTML = '(' + ilios_i18nVendor.getI18NString('management.user_accounts.details.directory') + ' ' + exceptionModel.mismatched_property_value + ')';
-    			YAHOO.util.Dom.setStyle(element, 'display', 'inline');
-    		}
-    	}
-    	element = document.getElementById('ua_detail_sync_exceptions_messages');
-    	element.innerHTML = exceptionMsgs.join('<br/>');
+        YAHOO.util.Dom.setStyle('ua_detail_sync_exceptions', 'display', 'block');
+        for (i = 0, n = userModel.exceptions.length; i < n; i++ ) {
+            exceptionModel = userModel.exceptions[i];
+            exceptionMsg = ilios_i18nVendor.getI18NString('management.user_accounts.sync_exceptions.' + exceptionModel.exception_code);
+            exceptionMsgs.push(exceptionMsg);
+            if ('email' == exceptionModel.mismatched_property_name || 'uid' == exceptionModel.mismatched_property_name) {
+                element = document.getElementById('ua_detail_directory_' + exceptionModel.mismatched_property_name);
+                element.innerHTML = '(' + ilios_i18nVendor.getI18NString('management.user_accounts.details.directory') + ' ' + exceptionModel.mismatched_property_value + ')';
+                YAHOO.util.Dom.setStyle(element, 'display', 'inline');
+            }
+        }
+        element = document.getElementById('ua_detail_sync_exceptions_messages');
+        element.innerHTML = exceptionMsgs.join('<br/>');
     }
 
     ilios.management.user_accounts.accountDetailsDialog.showDialogPane(); // show the darned thing
@@ -1196,10 +1197,12 @@ ilios.management.user_accounts.buildUserAddAndRolesDOM = function (userModel) {
             element = ilios.management.user_accounts.generateUserAttributeInputPair(i18nStr, 'ua_login_username_tf');
             subContainer.appendChild(element);
 
-            i18nStr = ilios_i18nVendor.getI18NString('general.terms.password')
-            element = ilios.management.user_accounts.generateUserAttributeInputPair(i18nStr, 'ua_login_password_tf', 'password',
-            ilios_i18nVendor.getI18NString('management.user_accounts.password_strength_requirements'));
-            subContainer.appendChild(element);
+            if (ilios.management.user_accounts.passwordRequired) {
+                i18nStr = ilios_i18nVendor.getI18NString('general.terms.password')
+                element = ilios.management.user_accounts.generateUserAttributeInputPair(i18nStr, 'ua_login_password_tf', 'password',
+                ilios_i18nVendor.getI18NString('management.user_accounts.password_strength_requirements'));
+                subContainer.appendChild(element);
+            }
         }
     } else {
 
@@ -1271,13 +1274,13 @@ ilios.management.user_accounts.buildUserAddAndRolesDOM = function (userModel) {
         var btn;
 
         // we don't want to AJAX this one lest the user be left with a half-state waiting on a tardy
-        //			asynchronous reply
+        //            asynchronous reply
         if (xmlHTTPRequest == null) {
             msg = ilios_i18nVendor.getI18NString('course_management.error.failed_connection');
 
             // If we throw up our custom YUI alert dialog now, the return which triggers the
-            //		collapse of the autocomplete div also has some behind the scenes YUI stupidity
-            //		to clear out the dialog.
+            //        collapse of the autocomplete div also has some behind the scenes YUI stupidity
+            //        to clear out the dialog.
             setTimeout("ilios.alert.alert('" + msg + "')", 500);
 
             return;
@@ -1438,7 +1441,7 @@ ilios.management.user_accounts.commitUserChanges = function (userModel, passback
 
     element = document.getElementById('ua_account_sync_ignore_checkbox');
     if (null != element) {
-    	syncIgnore = element.checked;
+        syncIgnore = element.checked;
     }
 
     element = new YAHOO.util.Element(document.getElementById('ua_indeterminate_progress'));
@@ -1465,7 +1468,9 @@ ilios.management.user_accounts.commitUserChanges = function (userModel, passback
         if (ilios.management.user_accounts.manageLoginCredentials) {
             // get login credentials
             loginName = document.getElementById('ua_login_username_tf').value;
-            password = document.getElementById('ua_login_password_tf').value;
+            if (ilios.management.user_accounts.passwordRequired) {
+                password = document.getElementById('ua_login_password_tf').value;
+            }
         }
     }
 
@@ -1570,7 +1575,7 @@ ilios.management.generateLoginCredentialsContainerMarkup = function (parentEl, u
     var containerEl, rowEl, labelEl, dataEl, btnEl;
     var Event = YAHOO.util.Event;
 
-    // only show any of this if we are running on ilios internal auth
+    // only show any of this if we are running on ilios internal auth or ldap auth
     if (ilios.management.user_accounts.manageLoginCredentials)  {
         containerEl = document.createElement('div');
         rowEl = document.createElement('div');
@@ -1706,7 +1711,9 @@ ilios.management.user_accounts.checkUserData = function () {
 
     if (ilios.management.user_accounts.manageLoginCredentials) {
         divsToUnstyle.push('ua_login_username_tf');
-        divsToUnstyle.push('ua_login_password_tf');
+        if (ilios.management.user_accounts.passwordRequired) {
+            divsToUnstyle.push('ua_login_password_tf');
+        }
     }
     var divsToStyle =  [];
     var divsToHint = [];
@@ -1753,13 +1760,15 @@ ilios.management.user_accounts.checkUserData = function () {
             divsToStyle.push('ua_login_username_tf');
             divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.login_username'));
         }
-        element = document.getElementById('ua_login_password_tf');
-        if (element != null) {
-            passwordStrength = ilios.utilities.checkPasswordStrength(element.value);
-            if (passwordStrength) {
-                msg = ilios.utilities.getPasswordStrengthCheckWarnings(passwordStrength);
-                divsToStyle.push('ua_login_password_tf');
-                divsToHint.push(msg.join("\n"));
+        if (ilios.management.user_accounts.passwordRequired) {
+            element = document.getElementById('ua_login_password_tf');
+            if (element != null) {
+                passwordStrength = ilios.utilities.checkPasswordStrength(element.value);
+                if (passwordStrength) {
+                    msg = ilios.utilities.getPasswordStrengthCheckWarnings(passwordStrength);
+                    divsToStyle.push('ua_login_password_tf');
+                    divsToHint.push(msg.join("\n"));
+                }
             }
         }
     }

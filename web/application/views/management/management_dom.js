@@ -36,7 +36,7 @@ ilios.management.appendContinueOrCancelButtons = function (parentContainer, cont
     }
 
     element.innerHTML = ilios_i18nVendor.getI18NString(cancelI18NStr);
-	Event.addListener(element, 'click', function () {
+    Event.addListener(element, 'click', function () {
         cancelAction();
     });
     container.appendChild(element);
@@ -62,30 +62,30 @@ ilios.management.displayOptionAsSelected = function (selectedIdStr) {
 };
 
 ilios.management.setEnableForAElement = function (aElement, enabled) {
-	var wrappedElement = new YAHOO.util.Element(aElement);
+    var wrappedElement = new YAHOO.util.Element(aElement);
 
-	if (enabled) {
-		var cssRule = ilios.utilities.getCSSRule('a', false);
+    if (enabled) {
+        var cssRule = ilios.utilities.getCSSRule('a', false);
 
         if (aElement.getAttribute('href') == null) {
             aElement.setAttribute('href', '');
         }
 
-		wrappedElement.removeClass('disabled_a');
-		if (cssRule) {
+        wrappedElement.removeClass('disabled_a');
+        if (cssRule) {
             wrappedElement.setStyle('color', cssRule.style.color);
         }
-		wrappedElement.setStyle('font-weight', 'normal');
-		wrappedElement.setStyle('cursor', 'pointer');
-	}
-	else {
-		aElement.removeAttribute('href');
+        wrappedElement.setStyle('font-weight', 'normal');
+        wrappedElement.setStyle('cursor', 'pointer');
+    }
+    else {
+        aElement.removeAttribute('href');
 
-		wrappedElement.addClass('disabled_a');
-		wrappedElement.setStyle('color', '#CC6600');
-		wrappedElement.setStyle('font-weight', 'bold');
-		wrappedElement.setStyle('cursor', 'default');
-	}
+        wrappedElement.addClass('disabled_a');
+        wrappedElement.setStyle('color', '#CC6600');
+        wrappedElement.setStyle('font-weight', 'bold');
+        wrappedElement.setStyle('cursor', 'default');
+    }
 };
 
 ilios.management.getSchoolForId = function (schoolId) {

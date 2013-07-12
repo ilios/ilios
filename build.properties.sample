@@ -122,6 +122,11 @@ tasks.user_sync.ldap.password=XXXXXX
 #
 #visual_alert_threshold_in_days=3
 
+#
+# Assetic script aggregation
+#
+#script_aggregation_enabled=true
+
 #------------------------------------------------
 # On/off switches for the various cron tasks.
 # Allowed values are "true" and "false"
