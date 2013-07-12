@@ -705,8 +705,6 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
             scratchOption.setAttribute('selected', 'selected');
             //set the academicStartYear value for the graduation year summary string...
             var academicStartYear = startYear;
-            console.log('academic start year=>'+academicStartYear);
-            console.log('duration=>'+duration);
         }
 
         textNode = document.createTextNode(text);
