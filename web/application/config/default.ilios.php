@@ -278,3 +278,13 @@ $config['tasks']['enrollment_export']['participant_schools'] = 1;
 |
 */
 $config['ilios_revision'] = "%%ILIOS_REVISION%%";
+
+/*
+|--------------------------------------------------------------------------
+| Assetic script aggregation
+|--------------------------------------------------------------------------
+|
+| Set to TRUE to enable script aggregation.
+| This is recommended for production environments.
+*/
+$config['script_aggregation_enabled'] = false;

@@ -53,6 +53,7 @@
     <fileset dir="${webdir}" id="webfiles">
         <exclude name="tmp_uploads/" />
         <exclude name="learning_materials/" />
+        <exclude name="static/" />
         <exclude name="application/logs/" />
         <exclude name="application/cache/" />
     </fileset>
@@ -105,6 +106,7 @@
         <mkdir dir="${builddir}/application/logs" />
         <mkdir dir="${builddir}/application/cache" />
         <mkdir dir="${builddir}/learning_materials" />
+        <mkdir dir="${builddir}/static" />
         <!-- copy index files and .htaccess files to log and cache directories -->
         <copy todir="${builddir}/application/cache">
             <filelist dir="${webdir}/application/cache" files="index.html,.htaccess"/>
@@ -207,6 +209,13 @@
             <then>
                 <append destFile="${builddir}/application/config/ilios.php"
                         text="$config['visual_alert_threshold_in_days'] = ${visual_alert_threshold_in_days};${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="script_aggregation_enabled" />
+            <then>
+                <append destFile="${builddir}/application/config/ilios.php"
+                        text="$config['script_aggregation_enabled'] = ${script_aggregation_enabled};${line.separator}" />
             </then>
         </if>
         <if>
@@ -359,6 +368,7 @@
         <chown file="${deploydir}/learning_materials" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/logs" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/cache" user="${webuser}" group="${webgroup}" />
+        <chown file="${deploydir}/static" user="${webuser}" group="${webgroup}" />
         <!-- hokey way of checking if the database already exists or not -->
         <trycatch property="db_error">
             <try>
@@ -420,6 +430,7 @@
                         <exclude name="learning_materials/" />
                         <exclude name="application/logs/" />
                         <exclude name="application/cache/" />
+                        <exclude name="static/" />
                     </fileset>
                 </tar>
             </then>
