@@ -1,7 +1,7 @@
 /*
  * Base script of the Ilios JavaScript library.
  *
- * Contains the foundation of the library, but also a variety of seemlingly arbitary (yet commonly used) functionality.
+ * Contains the foundation of the library, but also a variety of seemingly arbitrary (yet commonly used) functionality.
  *
  * Defines the following namespaces:
  *
