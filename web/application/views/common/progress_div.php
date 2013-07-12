@@ -12,5 +12,3 @@ function generateProgressDivMarkup ($divStyleDefinition = null) {
 
     return $rhett;
 }
-
-?>
