@@ -1038,7 +1038,7 @@ ilios.utilities.getPasswordStrengthCheckWarnings = function (passwordStrength) {
         msg.push('The given password does not contain any special characters.');
     }
     return msg;
-}
+};
 
 /**
  * Returns the graduation year value when given the startYear and duration of a program
