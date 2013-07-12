@@ -19,33 +19,29 @@ class Ilios_Hooks
     }
 
     /**
-     * Class autoloader function.
+     * Class autoloader function for the Ilios code library.
      * @param string $className
      */
     public static function autoload ($className)
     {
-        // do not attempt to autoload CodeIgniter classes
-        // since CI has its own ways to load this stuff
-        if (0 === strpos($className, 'CI_')) {
-            return;
-        }
+        if (0 === strpos($className, 'Ilios_')) {
+            // convert the class name to a path
+            // by replacing underscores with path separators
+            // and by appending it with the '.php' file suffix
+            // e.g. a class name "Ilios_Database_Constant"
+            // will be converted to a corresponding file path
+            // "Ilios/Database/Constant.php"
+            $filePath = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-        // convert the class name to a path
-        // by replacing underscores with path separators
-        // and by appending it with the '.php' file suffix
-        // e.g. a class name "Ilios_Database_Constant"
-        // will be converted to a corresponding file path
-        // "Ilios/Database/Constant.php"
-        $filePath = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+            // complete the file path construction
+            // by scoping it down to the APPPATH/third_party subdirectory
+            $filePath = APPPATH . 'third_party' . DIRECTORY_SEPARATOR . $filePath;
 
-        // complete the file path construction
-        // by scoping it down to the APPPATH/libraries subdirectory
-        $filePath = APPPATH . 'libraries' . DIRECTORY_SEPARATOR . $filePath;
-
-        // check if the file exists
-        // if so then load it.
-        if (file_exists($filePath)) {
-            require_once $filePath;
+            // check if the file exists
+            // if so then load it.
+            if (file_exists($filePath)) {
+                require_once $filePath;
+            }
         }
     }
 
