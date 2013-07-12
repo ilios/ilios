@@ -1,6 +1,6 @@
 /**
- * This script entails the event handling and init routines
- * for the various report dialogs on the instructor dashboard page.
+ * This script entails the event handling and init routines for the various report dialogs
+ * on the educator dashboard page.
  *
  * DEPENDENCY: YUI lib
  * DEPENDENCY: scripts/ilios_ui.js
