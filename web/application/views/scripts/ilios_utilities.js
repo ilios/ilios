@@ -1041,11 +1041,13 @@ ilios.utilities.getPasswordStrengthCheckWarnings = function (passwordStrength) {
 };
 
 /**
- * Returns the graduation year value when given the startYear and duration of a program
+ * Returns the 'Graduating Class of XXXX' string when given the startYear and duration of a program
  * @param {Number} startYear the starting year of the academic/matriculation year of the program
  * @param {Number} duration the duration of the program
  */
 
-ilios.utilities.getGraduatingClassYearFromAcademicYear = function (startYear, duration) {
-	
+ilios.utilities.getGraduatingClassOfString = function (startYear, duration) {
+	var graduatingClassOfStr = ilios_i18nVendor.getI18NString('general.phrases.graduating_class_of');
+	var rhett = graduatingClassOfStr+" "+(parseInt(startYear) + parseInt(duration));
+    return rhett;
 }
