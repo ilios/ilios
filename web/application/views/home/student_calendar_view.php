@@ -58,7 +58,12 @@ $viewsPath = getServerFilePath('views');
     $js = array(
         'vendor' => array( // third-party js
             'application/views/scripts/third_party/modernizr-2.5.3.min.js',
-            'application/views/scripts/third_party/yui_kitchensink.js',
+            'scripts/yui/build/connection/connection-min.js',
+            'scripts/yui/build/container/container-min.js',
+            'scripts/yui/build/element/element-min.js',
+            'scripts/yui/build/button/button-min.js',
+            'scripts/yui/build/json/json-min.js',
+            'scripts/yui/build/selector/selector-min.js',
             'application/views/scripts/third_party/date_formatter.js',
             'application/views/scripts/third_party/md5-min.js',
             'application/views/scripts/third_party/dhtmlx_scheduler/codebase/dhtmlxscheduler.js',
