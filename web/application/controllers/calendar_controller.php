@@ -724,7 +724,7 @@ class Calendar_Controller extends Ilios_Web_Controller
      */
     private function _viewInstructorCalendar (array $data = array())
     {
-        $this->load->view('home/course_developer_calendar_view', $data);
+        $this->load->view('home/educator_calendar_view', $data);
     }
 
     /**

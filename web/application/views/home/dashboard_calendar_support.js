@@ -1,16 +1,14 @@
 /*
- * DEPENDENCY: YUI lib (at least YAHOO.util and its dependencies)
+ * DEPENDENCY: YUI libs (at least YAHOO.util and its dependencies)
  * DEPENDENCY: DHTMLX Scheduler
  * DEPENDENCY: scripts/ilios_ui.js
  * DEPENDENCY: scripts/ilios_utilities.js
+ * DEPENDENCY: home/dashboard_transaction.js
  */
 
 
 
 ilios.namespace('home.calendar');
-
-
-ilios.home.calendar.offeringTableDataStructure = [];
 
 ilios.home.calendar.currentlySelectedIliosModel = null;
 
@@ -19,52 +17,6 @@ ilios.home.calendar.lastEndDateUsedInAddingEvents = null;
 ilios.home.calendar.lastModeUsedInAddingEvents = null;
 
 ilios.home.calendar.insertingCalendarEvents = false;
-
-/*
- * We extend the DataTable functionality here with a new method called requery which allows the
- * 	data table to recache from its data source.
- */
-YAHOO.widget.DataTable.prototype.requery = function (newRequest) {
-    var dataSource = this.getDataSource();
-    var req = null;
-    var body = null;
-    var className = null;
-
-    if (this.get('dynamicData')) {
-        // For dynamic data, newRequest is ignored since the request is built by
-        // function generateRequest.
-        var paginator = this.get('paginator');
-
-        this.onPaginatorChangeRequest(paginator.getState({ 'page': paginator.getCurrentPage() }));
-    } else {
-        // The LocalDataSource needs to be treated different
-        if (dataSource instanceof YAHOO.util.LocalDataSource) {
-            dataSource.liveData = newRequest;
-            req = "";
-        } else {
-            req = ((newRequest === undefined) ? this.get('initialRequest') : newRequest);
-        }
-
-        dataSource.sendRequest(req, {
-            success: this.onDataReturnInitializeTable,
-            failure: this.onDataReturnInitializeTable,
-            scope: this,
-            argument: this.getState()
-        });
-    }
-
-    // force relayout due to this requery and table population munging the layout.. :- /
-    body = document.getElementsByTagName("body")[0];
-    className = body.className;
-    body.className = "forceReflow";
-    body.className = className;
-};
-
-ilios.home.calendar.forceDataTableRefresh = function () {
-    if (ilios.home.offeringDataTable != null) {
-        ilios.home.offeringDataTable.requery();
-    }
-};
 
 /**
  * This is called onDOMReady. This sets up the configuration of the DHTMLX scheduler canvas
@@ -171,40 +123,6 @@ ilios.home.calendar.resetCurrentCalendarViewToStart = function () {
     // }
 
     scheduler.setCurrentView(dateZero, 'week');
-};
-
-/*
- * Changes the calendar view to a specified date preserving the present view mode.
- *
- * Should be considered @protected
- */
-ilios.home.calendar.focusCalendarOnStartDate = function (startDate) {
-    var viewMode = ((ilios.home.calendar.lastModeUsedInAddingEvents != null)
-        ? ilios.home.calendar.lastModeUsedInAddingEvents
-        : 'week');
-
-    scheduler.setCurrentView(startDate, viewMode);
-};
-
-/**
- * Given an offering id for a model in the offering table data structure, change the calendar view
- * 	to focus on that offering's start date.
- */
-ilios.home.calendar.focusCalendarOnStartDateOfOfferingWithId = function (offeringId) {
-    var newDate = new Date();
-    var model = null;
-
-    // TODO optimize datastructure -- consider storing associated to id
-    for (var key in ilios.home.calendar.offeringTableDataStructure) {
-        model = ilios.home.calendar.offeringTableDataStructure[key];
-
-        if (model.id == offeringId) {
-            newDate = new Date(model.date.getTime()); // clone! the date
-            break;
-        }
-    }
-
-    ilios.home.calendar.focusCalendarOnStartDate(newDate);
 };
 
 /**
@@ -429,13 +347,6 @@ ilios.home.calendar.getCurrentViewEndDate = function (viewStartDate, viewMode) {
         rhett.setMonth(viewStartDate.getMonth() + 1);
     }
     return rhett;
-};
-
-/**
- * A convenience method handed over to the YAHOO data source instance.
- */
-ilios.home.calendar.getOfferingSummaryTableData = function () {
-    return ilios.home.calendar.offeringTableDataStructure;
 };
 
 ilios.home.calendar.hideSiblingPanels = function (panelId) {

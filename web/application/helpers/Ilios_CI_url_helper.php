@@ -52,3 +52,36 @@ function appendRevision ($url)
     }
     return $url;
 }
+
+/**
+ * Prints out <script> tags linking to a given list of JS files, or, if given, to aggregations of these files.
+ * @param array $js an associative array of arrays. Each item represents a group of script assets and contains
+ *     a list of paths to JS files, relative to the webroot.
+ * @param string $asseticGroupPrefix a prefix for naming aggregate files. typically,
+ *  one distinct prefix per page should be given.
+ * @param boolean aggregate Set to TRUE to use file aggregation.
+ * @param string $revision The ilios revision string. Used as cache busting mechanism.
+ */
+function writeJsScripts (array $js, $asseticGroupPrefix = 'default', $aggregate = false, $revision = '')
+{
+    $CI =& get_instance();
+
+    $baseUrl = base_url();
+
+    foreach ($js as $group => $paths) {
+        $asseticGroup = $asseticGroupPrefix . '_' . $group . '_' . $revision;
+        foreach ($paths as $path) {
+            if ($aggregate) {
+                $CI->assetic->addJs(FCPATH . $path, $asseticGroup);
+            } else {
+                $CI->assetic->addJs($baseUrl . $path, $asseticGroup);
+            }
+        }
+    }
+
+    if ($aggregate) {
+        $CI->assetic->writeStaticJsScripts();
+    } else {
+        $CI->assetic->writeJsScripts();
+    }
+}
