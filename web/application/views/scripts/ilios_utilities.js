@@ -1038,4 +1038,14 @@ ilios.utilities.getPasswordStrengthCheckWarnings = function (passwordStrength) {
         msg.push('The given password does not contain any special characters.');
     }
     return msg;
-};
+}
+
+/**
+ * Returns the graduation year value when given the startYear and duration of a program
+ * @param {Number} startYear the starting year of the academic/matriculation year of the program
+ * @param {Number} duration the duration of the program
+ */
+
+ilios.utilities.getGraduatingClassYearFromAcademicYear = function (startYear, duration) {
+	
+}
