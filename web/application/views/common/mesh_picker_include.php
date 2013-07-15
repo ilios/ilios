@@ -124,7 +124,5 @@
 //        return true;
     }
 
-   
-
     YAHOO.util.Event.onDOMReady(ilios.common.picker.mesh.buildMeSHPickerDialogDOM);
 </script>

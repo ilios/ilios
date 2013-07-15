@@ -1068,21 +1068,6 @@ ilios.dom.generateSelectAndCloseDialogMarkupAndWireContent = function (use, less
     IEvent.subscribe(displayOnTriggerHandler);
 };
 
-ilios.dom.firstParentNodeWithTagName = function (element, tagName) {
-    var parent = element.parentNode;
-    var lcTag = tagName.toLowerCase();
-
-    while (parent != null) {
-        if (parent.tagName.toLowerCase() == lcTag) {
-            return parent;
-        }
-
-        parent = parent.parentNode;
-    }
-
-    return null;
-};
-
 ilios.dom.removeLIElement = function (e) {
     var target = ilios.utilities.getEventTarget(e);
 
@@ -1501,8 +1486,6 @@ ilios.dom.toggleWidget = function (elem,auxillaryElement) {
     }
 };
 
-
-
 /*
  * a basic 3-column row for common entity_container: label, data, actions
  * append rowElement to parent container
@@ -1511,15 +1494,15 @@ ilios.dom.createEntityContainerInputRow = function(){
     var rowEl = document.createElement('div');
     rowEl.setAttribute('class','row');
     return rowEl;
-}
+};
 
 ilios.dom.createLabelCol = function(rowEl,labelEl){
     labelCol = document.createElement('div');
     labelCol.setAttribute('class', 'label column');
     labelCol.appendChild(labelEl);
     rowEl.appendChild(labelCol);
-	return labelCol;
-}
+    return labelCol;
+};
 
 ilios.dom.createDataCol = function(rowEl, dataEl){
     dataCol = document.createElement('div');
@@ -1527,7 +1510,7 @@ ilios.dom.createDataCol = function(rowEl, dataEl){
     dataCol.appendChild(dataEl);
     rowEl.appendChild(dataCol);
     return dataCol;
-}
+};
 
 ilios.dom.createActionCol = function(rowEl, actionEl){
     actionCol = document.createElement('div');
@@ -1535,4 +1518,4 @@ ilios.dom.createActionCol = function(rowEl, actionEl){
     actionCol.appendChild(actionEl);
     rowEl.appendChild(actionCol);
     return actionCol;
-}
+};
