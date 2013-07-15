@@ -64,7 +64,7 @@ ilios.pm.transaction.performProgramSave = function (shouldPublish) {
 
         return false;
     }
-    paramString += '&program_title=' + escape(str);
+    paramString += '&program_title=' + encodeURIComponent(str);
 
     str = document.getElementById('short_title').value;
     if ((str.length < 1) || (str.length > 10)) {
@@ -74,7 +74,7 @@ ilios.pm.transaction.performProgramSave = function (shouldPublish) {
 
         return false;
     }
-    paramString += '&short_title=' + escape(str);
+    paramString += '&short_title=' + encodeURIComponent(str);
 
     element = document.getElementById('duration_selector');
     paramString += '&duration=' + element.options[element.selectedIndex].value;
@@ -566,15 +566,15 @@ ilios.pm.transaction.performProgramYearSave = function (containerNumber, shouldP
                         + "&publish=" + (shouldPublish ? "true" : "false");
 
     pymArray = programYearModel.getCompetencyArray();
-    paramString += "&competency=" + escape(stringify(pymArray, replacer));
+    paramString += "&competency=" + encodeURIComponent(stringify(pymArray, replacer));
     pymArray = programYearModel.getObjectives();
-    paramString += "&objective=" + escape(stringify(pymArray, replacer));
+    paramString += "&objective=" + encodeURIComponent(stringify(pymArray, replacer));
     pymArray = programYearModel.getDisciplineArray();
-    paramString += "&discipline=" + escape(stringify(pymArray,replacer));
+    paramString += "&discipline=" + encodeURIComponent(stringify(pymArray,replacer));
     pymArray = programYearModel.getDirectors();
-    paramString += "&director=" + escape(stringify(pymArray, replacer));
+    paramString += "&director=" + encodeURIComponent(stringify(pymArray, replacer));
     pymArray = programYearModel.getStewardArray();
-    paramString += "&steward=" + escape(stringify(pymArray, replacer));
+    paramString += "&steward=" + encodeURIComponent(stringify(pymArray, replacer));
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };
