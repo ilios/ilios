@@ -70,7 +70,7 @@ ilios.gm.transaction.saveGroupModel = function (event) {
 	var rootModel = ilios.gm.currentModel.getRootGroup();
 	var url = controllerURL + 'saveGroupModelTree';
 	var method = "POST";
-	var paramString = "whole_model_glom=" + escape(rootModel.getAsJSONString());
+	var paramString = "whole_model_glom=" + encodeURIComponent(rootModel.getAsJSONString());
 	var ajaxCallback = {
 			success: function (resultObject) {
 				var parsedObject = null;

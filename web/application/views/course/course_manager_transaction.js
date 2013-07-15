@@ -108,7 +108,7 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
     paramString = 'course_id=' + ilios.cm.currentCourseModel.getDBId();
     paramString += '&external_id=' + ilios.cm.currentCourseModel.getExternalCourseId();
     paramString += '&should_publish=' + (shouldPublish ? 'true' : 'false');
-    paramString += '&title=' + escape(ilios.cm.currentCourseModel.getTitle());
+    paramString += '&title=' + encodeURIComponent(ilios.cm.currentCourseModel.getTitle());
     paramString += '&course_level=' + ilios.cm.currentCourseModel.getCourseLevel();
     paramString += '&start_date=' + ilios.cm.currentCourseModel.getStartDate();
     paramString += '&end_date=' + ilios.cm.currentCourseModel.getEndDate();
@@ -118,22 +118,22 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
 
     modelArray = ilios.cm.currentCourseModel.getCohorts();
     paramString += '&cohort='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = ilios.cm.currentCourseModel.getDisciplines();
     paramString += '&discipline='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = ilios.cm.currentCourseModel.getDirectors();
     paramString += '&director='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = ilios.cm.currentCourseModel.getMeSHItems();
     paramString += '&mesh_term='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = ilios.cm.currentCourseModel.getLearningMaterials();
     paramString += '&learning_materials='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = ilios.cm.currentCourseModel.getObjectives();
     paramString += '&objective='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 
@@ -333,21 +333,21 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
                                     + (sessionModel.isEquipmentRequired() ? 'true' : 'false')
                         + '&publish_as_tbd=' + (publishAsTBD ? 'true' : 'false');
 
-    paramString += '&title=' + escape(sessionModel.getTitle());
-    paramString += '&description=' + escape(sessionModel.getDescription());
+    paramString += '&title=' + encodeURIComponent(sessionModel.getTitle());
+    paramString += '&description=' + encodeURIComponent(sessionModel.getDescription());
 
     modelArray = sessionModel.getDisciplines();
     paramString += '&discipline='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = sessionModel.getMeSHItems();
     paramString += '&mesh_term='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = sessionModel.getLearningMaterials();
     paramString += '&learning_materials='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = sessionModel.getObjectives();
     paramString += '&objective='
-                        + escape(stringify(modelArray, replacer));
+                        + encodeURIComponent(stringify(modelArray, replacer));
 
     if (sessionModel.getIndependentLearningModel() != null) {
         var model = sessionModel.getIndependentLearningModel();
@@ -361,7 +361,7 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
 
         modelArray = model.getInstructors();
         paramString += '&ilm_instructors='
-                           + escape(stringify(modelArray, replacer));
+                           + encodeURIComponent(stringify(modelArray, replacer));
 
         modelArray = model.getLearnerGroups();
         for (var key in modelArray) {
@@ -654,7 +654,7 @@ ilios.cm.transaction.performOfferingSave = function (gidsString, containerNumber
     var recurring = (recurringEventModel != null);
     var sessionModel = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
     var paramString = "session_id=" + sessionModel.getDBId()
-        + "&start_date=" + escape(startDate) + "&end_date=" + escape(endDate)
+        + "&start_date=" + encodeURIComponent(startDate) + "&end_date=" + encodeURIComponent(endDate)
         + "&cnumber=" + containerNumber
         + "&is_recurring=" + (recurring ? 'true' : 'false');
 
@@ -712,7 +712,7 @@ ilios.cm.transaction.performOfferingSave = function (gidsString, containerNumber
 
         recurringEventModel.generateMySQLEndDate();
 
-        paramString += "&recurring_event=" + escape(YAHOO.lang.JSON.stringify(recurringEventModel));
+        paramString += "&recurring_event=" + encodeURIComponent(YAHOO.lang.JSON.stringify(recurringEventModel));
     }
 
     ilios.alert.networkActivityI18NStrings.push('course_management.saving_offerings');
@@ -1411,8 +1411,7 @@ ilios.cm.transaction.handleAddLearningMaterialUploadClick = function (uploadButt
 ilios.cm.transaction.searchLearningMaterials = function () {
     var url = learningMaterialsControllerURL + "getLearningMaterialDescriptorsForSearch";
     var method = "POST";
-    var paramString = "search_string="
-                                    + escape(document.getElementById('alm_search_textfield').value);
+    var paramString = "search_string=" + encodeURIComponent(document.getElementById('alm_search_textfield').value);
     var ajaxCallback = {
             success: function (resultObject) {
                 var parsedObject = null;
