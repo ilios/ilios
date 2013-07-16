@@ -516,7 +516,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
         $groupId = $this->input->get_post('instructor_group_id');
         $schoolId = $this->session->userdata('school_id');
         $containerNumber = $this->input->get_post('container_number');
-        $title = urldecode($this->input->get_post('title'));
+        $title = rawurldecode($this->input->get_post('title'));
         $users = json_decode($this->input->get_post('users'), true);
 
         $failedTransaction = true;

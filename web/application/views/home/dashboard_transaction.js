@@ -577,4 +577,3 @@ ilios.home.transaction.loadProgramsForUserAsDirector = function () {
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };
-
