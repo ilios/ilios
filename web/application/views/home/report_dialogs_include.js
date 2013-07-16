@@ -844,7 +844,7 @@ ilios.home.report.searchLearningMaterials = function () {
     var url = learningMaterialsControllerURL + "getLearningMaterialDescriptorsForSearch";
     var method = "POST";
     var paramString = "search_string="
-                                    + escape(document.getElementById('rlm_search_textfield').value);
+                                    + encodeURIComponent(document.getElementById('rlm_search_textfield').value);
     var ajaxCallback = {
             success: function (resultObject) {
                 var parsedObject = null;
