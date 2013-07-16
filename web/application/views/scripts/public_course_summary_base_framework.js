@@ -541,7 +541,7 @@ ilios.course_summary.createListElementForLearnerViewLearningMaterial = function 
         if ((model.getDescription() != null) && (model.getDescription().length > 0)) {
             element = document.createElement('div');
             element.setAttribute('class', 'description');
-            element.appendChild(document.createTextNode(model.getDescription()));
+            element.innerHTML = model.getDescription();
             rhett.appendChild(element);
         }
     }
@@ -560,7 +560,7 @@ ilios.course_summary.createListElementForLearnerViewLearningMaterial = function 
         if ((model.getDescription() != null) && (model.getDescription().length > 0)) {
             element = document.createElement('div');
             element.setAttribute('class', 'description');
-            element.appendChild(document.createTextNode(model.getDescription()));
+            element.innerHTML = model.getDescription();
             rhett.appendChild(element);
         }
     }
