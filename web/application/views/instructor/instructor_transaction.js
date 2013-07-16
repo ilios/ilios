@@ -177,7 +177,7 @@ ilios.igm.handleSaveForContainerNumber = function (containerNumber) {
 	var method = "POST";
 	var paramString = "instructor_group_id=" + groupModel.getDBId()
 								+ "&container_number=" + containerNumber
-								+ "&title=" + escape(groupModel.getTitle());
+								+ "&title=" + encodeURIComponent(groupModel.getTitle());
 	var ajaxCallback = {
 			success: function (resultObject) {
 				var parsedObject = null;
@@ -354,23 +354,22 @@ ilios.igm.handleManualUserAdd = function () {
 				ilios.global.defaultAJAXFailureHandler(resultObject);
     		}};
 
-	// todo entities-ing
-	paramString += '&last_name=' + element.value;
+	paramString += '&last_name=' + encodeURIComponent(element.value);
 
 	element = document.getElementById('em_first_name');
-	paramString += '&first_name=' + element.value;
+	paramString += '&first_name=' + encodeURIComponent(element.value);
 
 	element = document.getElementById('em_middle_name');
-	paramString += '&middle_name=' + element.value;
+	paramString += '&middle_name=' + encodeURIComponent(element.value);
 
 	element = document.getElementById('em_phone');
-	paramString += '&phone=' + element.value;
+	paramString += '&phone=' + encodeURIComponent(element.value);
 
 	element = document.getElementById('em_email');
-	paramString += '&email=' + element.value;
+	paramString += '&email=' + encodeURIComponent(element.value);
 
 	element = document.getElementById('em_uc_id');
-	paramString += '&uc_uid=' + element.value;
+	paramString += '&uc_uid=' + encodeURIComponent(element.value);
 
 	YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };

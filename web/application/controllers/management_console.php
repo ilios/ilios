@@ -723,7 +723,7 @@ class Management_Console extends Abstract_Ilios_Controller
             return;
         }
 
-        $users = json_decode(urldecode($this->input->get_post('users')), true);
+        $users = json_decode(rawurldecode($this->input->get_post('users')), true);
         $cohortId = $this->input->get_post('cohort_id');
 
         $failedTransaction = true;
@@ -954,7 +954,7 @@ class Management_Console extends Abstract_Ilios_Controller
 
         $allowedActions = array('ignore', 'disable', 'update');
 
-        $actionItems = json_decode(urldecode($this->input->get_post('users')), true);
+        $actionItems = json_decode(rawurldecode($this->input->get_post('users')), true);
 
         if (is_array($actionItems) && count($actionItems)) {
             $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;

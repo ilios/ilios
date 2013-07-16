@@ -36,7 +36,7 @@ ilios.mesh.saveMeSHSearchSelections = function () {
     var url = controllerURL + "saveMeSHSearchSelection";
     var method = "POST";
     var paramString = "selection_pairs="
-                            + escape(YAHOO.lang.JSON.stringify(ilios.mesh.currentEditQueryUIDPairSelections));
+                            + encodeURIComponent(YAHOO.lang.JSON.stringify(ilios.mesh.currentEditQueryUIDPairSelections));
     var ajaxCallback = {
             success: function (resultObject) {
                 var parsedObject = null;
@@ -76,7 +76,7 @@ ilios.mesh.performMeSHSearch = function (searchTerms, filterSelectedItems, store
     else {
         var url = controllerURL + "searchMeSHUniverseForIlios";
         var method = "POST";
-        var paramString = "query=" + escape(searchTerms);
+        var paramString = "query=" + encodeURIComponent(searchTerms);
         var ajaxCallback = {
             success: function (resultObject) {
                 var parsedObject = null;
