@@ -196,8 +196,8 @@ ilios.home.transaction.saveReminder = function (reminderModel) {
     var method = "POST";
     var dueDate = ilios.utilities.dateObjectToMySQLFriendly(reminderModel.getDueDate(), true);
     var paramString = 'reminder_id=' + reminderModel.getDBId()
-        + '&note=' + escape(reminderModel.getNote())
-        + '&due=' + escape(dueDate)
+        + '&note=' + encodeURIComponent(reminderModel.getNote())
+        + '&due=' + encodeURIComponent(dueDate)
         + '&closed=' + (reminderModel.isClosed() ? 'true' : 'false');
     var ajaxCallback = {
         success: function (resultObject) {
