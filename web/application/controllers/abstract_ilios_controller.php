@@ -342,7 +342,7 @@ abstract class Abstract_Ilios_Controller extends CI_Controller
             return;
         }
 
-        $pairs = json_decode(urldecode($this->input->get_post('selection_pairs')), true);
+        $pairs = json_decode(rawurldecode($this->input->get_post('selection_pairs')), true);
 
         $failedTransaction = true;
         $transactionRetryCount = Abstract_Ilios_Controller::$DB_TRANSACTION_RETRY_COUNT;

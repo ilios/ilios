@@ -309,8 +309,8 @@ class Program_Management extends Abstract_Ilios_Controller
 
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
-            $title = urldecode($this->input->get_post('program_title'));
-            $short = urldecode($this->input->get_post('short_title'));
+            $title = rawurldecode($this->input->get_post('program_title'));
+            $short = rawurldecode($this->input->get_post('short_title'));
             $duration = $this->input->get_post('duration');
             $programId = $this->input->get_post('program_id');
 

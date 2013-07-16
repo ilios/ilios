@@ -283,7 +283,7 @@ class Offering_Management extends Abstract_Ilios_Controller
 
         $location = $this->input->get_post('location');
 
-        $instructorArray = json_decode(urldecode($this->input->get_post('instructors')), true);
+        $instructorArray = json_decode(rawurldecode($this->input->get_post('instructors')), true);
         $studentGroupIds = explode(',', $this->input->get_post('student_group_ids'));
 
         $offeringId = $this->input->get_post('offering_id');
@@ -294,7 +294,7 @@ class Offering_Management extends Abstract_Ilios_Controller
         $recurringEvent = null;
         $recurringEventAdded = false;
         if ($this->input->get_post('is_recurring') == 'true') {
-            $recurringEvent = json_decode(urldecode($this->input->get_post('recurring_event')),
+            $recurringEvent = json_decode(rawurldecode($this->input->get_post('recurring_event')),
                                           true);
 
             $recurringEventAdded = ($recurringEvent['dbId'] == -1);

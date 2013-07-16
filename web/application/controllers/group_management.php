@@ -464,7 +464,7 @@ class Group_Management extends Abstract_Ilios_Controller
          *      x make new group_x_user entries for all users in subgroups
          *      x update title, instructors, location for this root group
          */
-        $wholeTree = json_decode(urldecode($this->input->get_post('whole_model_glom')), true);
+        $wholeTree = json_decode(rawurldecode($this->input->get_post('whole_model_glom')), true);
 
         // backfill membership associations in the group tree
         $subgroups = $wholeTree['subgroups'];
