@@ -6,6 +6,7 @@ Bug Fixes:
 
 Bug #3310: Scheduled ("TBD") information is not correctly hidden in certain cases
 Bug #3632: Improper POST parameter encoding causes loss of '+' characters from user input
+Bug #3636: HTML in learning material description not rendering properly in course summary
 
 ---
 
