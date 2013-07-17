@@ -264,7 +264,7 @@ ilios.management.transaction.loadUsersWithSyncExceptions = function () {
 ilios.management.transaction.processActionItems = function (actionItems) {
     var Dom = YAHOO.util.Dom;
     var url = controllerURL + "processActionItemsForUserSyncExceptions";
-    var paramString = 'users=' +  escape(YAHOO.lang.JSON.stringify(actionItems));
+    var paramString = 'users=' +  encodeURIComponent(YAHOO.lang.JSON.stringify(actionItems));
     var btn = Dom.get("ua_process_queued_actions_btn");
     var callback = {
         success : function (o) {
@@ -319,7 +319,7 @@ ilios.management.transaction.loadCohortlessUsers = function () {
 ilios.management.transaction.performCohortAssociations = function (users, selectedCohortId) {
     var url = controllerURL + "performCohortAssociations";
     var method = "POST";
-    var paramString = 'cohort_id=' + selectedCohortId + '&users=' + escape(YAHOO.lang.JSON.stringify(users));
+    var paramString = 'cohort_id=' + selectedCohortId + '&users=' + encodeURIComponent(YAHOO.lang.JSON.stringify(users));
     var ajaxCallback = {
         success: function (resultObject) {
             var parsedObject = null;
@@ -466,10 +466,10 @@ ilios.management.transaction.addOrUpdateUserAccount = function (addingUser, wasD
     wasSyncIgnored, isSyncIgnored, loginName, password) {
     var url = controllerURL + (addingUser ? "createUserAccount" : "updateUserAccount");
     var method = "POST";
-    var paramString = 'user_id=' + userId + '&first_name=' + firstName
-        + '&middle_name=' + middleName + '&last_name=' + lastName
-        + '&uc_id=' + ucId + '&email=' + email + "&secondary_cohorts=" + secondaryCohortIds
-        + '&login=' + loginName + '&password=' + password;
+    var paramString = 'user_id=' + userId + '&first_name=' + encodeURIComponent(firstName)
+        + '&middle_name=' + encodeURIComponent(middleName) + '&last_name=' + encodeURIComponent(lastName)
+        + '&uc_id=' + encodeURIComponent(ucId) + '&email=' + encodeURIComponent(email) + "&secondary_cohorts=" + secondaryCohortIds
+        + '&login=' + encodeURIComponent(loginName) + '&password=' + encodeURIComponent(password);
 
     var ajaxCallback = {
         success: function (resultObject) {
