@@ -297,45 +297,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * This action prints a requested curriculum inventory report as HTML document.
-     *
-     * It accepts the following query string parameters:
-     *    'report_id' ... the report id.
-     */
-    public function preview ()
-    {
-        $lang = $this->getLangToUse();
-
-        $data = array();
-        $data['lang'] = $lang;
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
-
-        // authorization check
-        if (! $this->session->userdata('has_admin_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
-            return;
-        }
-        // input validation
-        $reportId = (int) $this->input->get('report_id');
-        if (0 >= $reportId) {
-            show_error('Missing or invalid report id.');
-            return;
-        }
-
-        try {
-            $inventory = $this->_loadCurriculumInventory($reportId);
-        } catch (Ilios_Exception $e) {
-            log_message('error',  'CIM export: ' . $e->getMessage());
-            show_error('An error occurred while loading the curriculum inventory.');
-            return;
-        }
-
-        $data['inventory'] = $inventory;
-        $this->load->view('curriculum_inventory/preview', $data);
-    }
-
-    /**
      * This action exports a requested curriculum inventory report as XML document.
      *
      * It expects the following POST parameters:
