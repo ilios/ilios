@@ -669,13 +669,12 @@ ilios.pm.handleProgramYearStartYearSelect = function (containerNumber) {
 
 ilios.pm.setGraduatingClassOfText = function (containerNumber) {
 	//set the academicStartYear value for the graduation year summary string...
-    var matriculationYearSelector = document.getElementById('matriculation_year_summary_text');
+    var matriculationYearSelector = document.getElementById(containerNumber+'_matriculation_year_summary_text');
     var duration = ilios.pm.currentProgramModel.getDuration();
     var currentYearSelector = document.getElementById(containerNumber+'_program_year_title');
     var academicStartYear = currentYearSelector.options[currentYearSelector.selectedIndex].value;
     var graduatingClassOfString = ilios.utilities.getGraduatingClassOfString(academicStartYear, duration);
     matriculationYearSelector.innerHTML = "("+graduatingClassOfString+")";
-    console.log("("+graduatingClassOfString+")");
 };
 
 ilios.pm.programYearContentGenerator = function (parentElement, containerNumber) {
@@ -693,6 +692,7 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
     var titleId = ilios.pm.generateIdStringForProgramYearSelect(containerNumber);
     var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.academic_year');
     var rowEl, labelCol, dataCol, actionCol;
+    var previousProgramYearModel = ilios.pm.currentProgramModel;
 
     // Matriculation Year
     rowEl = ilios.dom.createEntityContainerInputRow();
@@ -722,6 +722,9 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
         scratchOption.setAttribute('value', startYear);
         if (i == 0) {
             scratchOption.setAttribute('selected', 'selected');
+            //the default selectedStartYear depends on which program container you're in, but
+            //the dom isn't ready yet, so we have to grab it base on the containerNumber
+            var selectedStartYear = parseInt(startYear) + parseInt(containerNumber) - 1;
         }
 
         textNode = document.createTextNode(text);
@@ -731,14 +734,16 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
     }
    
     dataCol = ilios.dom.createDataCol(rowEl, scratchInput.get('element'));
+    parentElement.appendChild(rowEl);
     
     //Initialize the 'matriculation_year_summary_text' div...
     scratchInput = document.createElement('div');
-    scratchInput.setAttribute('id', ('matriculation_year_summary_text'));
+    scratchInput.setAttribute('id', (containerNumber+'_matriculation_year_summary_text'));
     scratchInput.setAttribute('style', 'display:inline-block');
-    rowEl.appendChild(scratchInput);
+    var graduatingClassOfString = ilios.utilities.getGraduatingClassOfString(selectedStartYear, duration);
+    scratchInput.innerHTML = '('+graduatingClassOfString+')';
+    dataCol.appendChild(scratchInput);
     
-    parentElement.appendChild(rowEl);
     
     
     // Competencies
@@ -795,7 +800,7 @@ ilios.pm.addNewProgramYear = function () {
     var userCanAdd = ((ilios.pm.currentProgramModel.getDBId() != null)
         && (ilios.pm.currentProgramModel.getDBId() != '')
         && (parseInt(ilios.pm.currentProgramModel.getDBId()) > 0));
-
+    
     if (userCanAdd) {
         var container = document.getElementById('program_year_container');
         var newProgramYearDOMTree = null;
@@ -839,11 +844,10 @@ ilios.pm.addNewProgramYear = function () {
             var length = 0;
 
             for (; i > 0; i--) {
-                previousProgramYearModel = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(i);
-
+            	 previousProgramYearModel = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(i);
+            	
                 if (previousProgramYearModel != null) {
-                    programYearModel = previousProgramYearModel.clone();
-
+                    programYearModel = previousProgramYearModel.clone();   
                     break;
                 }
             }
@@ -922,7 +926,7 @@ ilios.pm.addNewProgramYear = function () {
             }
 
             ilios.pm.currentProgramModel.addProgramYear(programYearModel, ('' + containerNumber));
-
+            
             ilios.pm.updateObjectiveCountText(containerNumber);
 
             programYearModel.addStateChangeListener(ilios.pm.dirtyStateListener, null);
