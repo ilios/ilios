@@ -17,9 +17,11 @@
 
 CREATE DATABASE XXXXXX DEFAULT CHARACTER SET = latin1 DEFAULT COLLATE = latin1_swedish_ci;
 USE XXXXXX;
+
 SOURCE ilios_tables.sql;
 SOURCE ilios_stored.sql;
 SOURCE ilios_triggers.sql;
+SOURCE data_population/set_migration_counter.sql
 SOURCE data_population/alert_change_type_data.sql;
 SOURCE data_population/SOM_competency_data.sql;
 SOURCE data_population/SOM_discipline_data.sql;
