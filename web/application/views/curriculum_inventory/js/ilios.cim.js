@@ -93,6 +93,18 @@
             this.reportView.subscribe('finalizeFailed', function () {
                 this.show('Finalizing report failed.', false);
             }, this.statusView, true);
+            this.reportView.subscribe('deleteStarted', function () {
+                this.show('Deleting report &hellip;', true);
+            }, this.statusView, true);
+            this.reportView.subscribe('deleteFailed', function () {
+                this.show('Failed to delete report.', false);
+            }, this.statusView, true);
+            this.reportView.subscribe('deleteSucceeded', function() {
+                this.show('Successfully deleted report. Reloading page &hellip;', true);
+                // reload the page
+                window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
+
+            }, this.statusView, true);
             this.academicLevels = payload.academic_levels;
             this.sequenceBlock = payload.sequence_block;
             this.sequenceBlocks = payload.sequence_blocks;

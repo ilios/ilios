@@ -122,6 +122,9 @@
         this.subscribe('finalizeFailed', function () {
             this._unlockDraftModeButtons();
         }, {}, this);
+        this.subscribe('finalizeSucceeded', function () {
+            model.set('isFinalized', true);
+        }, {}, this);
         this.subscribe('deleteStarted', function () {
             this._lockDraftModeButtons();
         }, {}, this);
@@ -405,6 +408,52 @@
                 }, {}, this);
                 Event.addListener('report-details-view-export-form', 'submit', this._blockUIForExport, {}, this);
 
+                Event.addListener('report-details-view-delete-button', 'click', function (event, args) {
+                    var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+                    var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
+                    ilios.alert.inform(continueStr, yesStr, function (event, args) {
+                        var model = args.model;
+                        var url = args.url;
+                        var view = args.view;
+                        var postData = 'report_id=' + encodeURIComponent(model.get('id'));
+                        var callback = {
+                            success: function (o) {
+                                var response, msg;
+                                try {
+                                    response = YAHOO.lang.JSON.parse(o.responseText);
+                                } catch (e) {
+                                    view.fireEvent('deleteFailed');
+                                    ilios.global.defaultAJAXFailureHandler(null, e);
+                                    return;
+                                }
+                                if (response.error) {
+                                    view.fireEvent('deleteFailed');
+                                    msg = ilios_i18nVendor.getI18NString('curriculum_inventory.delete.error.general');
+                                    ilios.alert.alert(msg + ": " + response.error);
+                                    return;
+                                }
+                                view.fireEvent('deleteSucceeded');
+                            },
+                            failure: function (o) {
+                                view.fireEvent('deleteFailed');
+                                ilios.global.defaultAJAXFailureHandler(o);
+                            }
+                        };
+
+                        this.hide(); // hide the calling dialog
+
+                        view.fireEvent('deleteStarted');
+                        YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                        YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
+                    }, args);
+                }, {
+                    model: this.model,
+                    url: this.config.deleteUrl,
+                    view: this
+                },
+                this);
+
+
                 Event.addListener('report-details-view-finalize-button', 'click', function (event, args) {
                     var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
@@ -429,7 +478,6 @@
                                     ilios.alert.alert(msg + ": " + response.error);
                                     return;
                                 }
-                                model.set('isFinalized', true);
                                 view.fireEvent('finalizeSucceeded');
                             },
                             failure: function (o) {
