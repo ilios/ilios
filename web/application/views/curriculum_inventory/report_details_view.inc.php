@@ -73,6 +73,12 @@
                 <input type="hidden" id="report-details-view-export-download-token" name="download_token" value="" />
                 <input type="hidden" id="report-details-view-export-report-id" name="report_id" value="" />
             </form>
+            <button disabled="disabled" class="medium radius button hidden" id="report-details-view-finalize-button">
+                <?php echo $this->languagemap->t('general.terms.finalize', $lang); ?>
+            </button>
+            <button disabled="disabled" class="medium radius button hidden" id="report-details-view-delete-button">
+                <?php echo $this->languagemap->t('general.phrases.delete', $lang); ?>
+            </button>
             <form id="report-details-view-download-form" action="<?php echo $controllerURL; ?>/download" method="GET"
                   class="inline-form hidden">
                 <button disabled="disabled" class="medium radius button" id="report-details-view-download-button">
@@ -81,12 +87,6 @@
                 <input type="hidden" id="report-details-view-download-download-token" name="download_token" value="" />
                 <input type="hidden" id="report-details-view-download-report-id" name="report_id" value="" />
             </form>
-            <button disabled="disabled" class="medium radius button hidden" id="report-details-view-delete-button">
-                <?php echo $this->languagemap->t('general.phrases.delete', $lang); ?>
-            </button>
-            <button disabled="disabled" class="medium radius button hidden" id="report-details-view-finalize-button">
-                <?php echo $this->languagemap->t('general.terms.finalize', $lang); ?>
-            </button>
         </div>
     </div>
 </div>
