@@ -72,11 +72,26 @@
             this.reportView.subscribe('exportStarted', function() {
                 this.show('Started Report Export &hellip;', true);
             }, this.statusView, true);
+            this.reportView.subscribe('downloadStarted', function() {
+                this.show('Started Report Download &hellip;', true);
+            }, this.statusView, true);
             this.reportView.subscribe('exportFinished', function () {
+                this.reset();
+            }, this.statusView, true);
+            this.reportView.subscribe('downloadFinished', function () {
                 this.reset();
             }, this.statusView, true);
             this.reportModel.subscribe('afterUpdate', function () {
                 this.show('Report updated.', false);
+            }, this.statusView, true);
+            this.reportView.subscribe('finalizeStarted', function () {
+                this.show('Finalizing report started &hellip;', true);
+            }, this.statusView, true);
+            this.reportView.subscribe('finalizeSucceeded', function () {
+                this.reset();
+            }, this.statusView, true);
+            this.reportView.subscribe('finalizeFailed', function () {
+                this.show('Finalizing report failed.', false);
             }, this.statusView, true);
             this.academicLevels = payload.academic_levels;
             this.sequenceBlock = payload.sequence_block;

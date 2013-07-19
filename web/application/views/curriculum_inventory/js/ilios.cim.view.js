@@ -330,10 +330,31 @@
                     }
                 }
             });
+
+            // create custom events
             this.createEvent('exportStarted');
             this.createEvent('exportFinished');
             this.createEvent('downloadStarted');
             this.createEvent('downloadFinished');
+            this.createEvent('exportStarted');
+            this.createEvent('exportFinished');
+            this.createEvent('finalizeStarted');
+            this.createEvent('finalizeSucceeded');
+            this.createEvent('finalizeFailed');
+
+            // subscribe internally to some custom events
+            this.subscribe('finalizeStarted', function () {
+                (new Element('report-details-view-edit-button')).set('disabled', true);
+                (new Element('report-details-view-finalize-button')).set('disabled', true);
+                (new Element('report-details-view-delete-button')).set('disabled', true);
+                (new Element('report-details-view-export-button')).set('disabled', true);
+            }, this, true);
+            this.subscribe('finalizeFailed', function () {
+                (new Element('report-details-view-edit-button')).set('disabled', false);
+                (new Element('report-details-view-finalize-button')).set('disabled', false);
+                (new Element('report-details-view-delete-button')).set('disabled', false);
+                (new Element('report-details-view-export-button')).set('disabled', false);
+            }, this, true);
         },
         render: function () {
 
@@ -366,39 +387,43 @@
                         ilios.alert.inform(continueStr, yesStr, function (event, args) {
                             var model = args.model;
                             var url = args.url;
+                            var view = args.view;
                             var postData = 'report_id=' + encodeURIComponent(model.get('id'));
                             var callback = {
                                 success: function (o) {
-                                    var response;
+                                    var response, msg;
                                     try {
                                         response = YAHOO.lang.JSON.parse(o.responseText);
                                     } catch (e) {
+                                        view.fireEvent('finalizeFailed');
                                         ilios.global.defaultAJAXFailureHandler(null, e);
                                         return;
                                     }
                                     if (response.error) {
-                                        var msg = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.error.general');
+                                        view.fireEvent('finalizeFailed');
+                                        msg = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.error.general');
                                         ilios.alert.alert(msg + ": " + response.error);
                                         return;
                                     }
+                                    view.fireEvent('finalizeSucceeded');
                                     model.set('isFinalized', true);
-
                                 },
-
-                                failure: function (resultObject) {
-                                    ilios.global.defaultAJAXFailureHandler(resultObject);
-                                },
-                                argument: {model : model}
+                                failure: function (o) {
+                                    view.fireEvent('finalizeFailed');
+                                    ilios.global.defaultAJAXFailureHandler(o);
+                                }
                             };
 
                             this.hide(); // hide the calling dialog
 
+                            view.fireEvent('finalizeStarted');
                             YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                             YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
                         }, args);
                     }, {
                         model: this.model,
-                        url: this.config.finalizeUrl
+                        url: this.config.finalizeUrl,
+                        view: this
                     },
                     this);
             }
