@@ -229,6 +229,11 @@ EOL;
             'program_objective_ids' => array(),
             'mecrs_ids' => array(),
         );
+
+        if (! count($programObjectivesId) || ! count($mecrsIds)) {
+            return $rhett;
+        }
+
         $this->db->distinct();
         $this->db->select('o.objective_id, cxam.mecrs_id');
         $this->db->from('objective o');
@@ -268,6 +273,11 @@ EOL;
             'course_objective_ids' => array(),
             'program_objective_ids' => array(),
         );
+
+        if (! count($courseObjectiveIds) || ! count($programObjectiveIds)) {
+            return $rhett;
+        }
+
         $this->db->distinct();
         $this->db->select('oxo.objective_id, oxo.parent_objective_id');
         $this->db->from('objective_x_objective oxo');
@@ -303,12 +313,16 @@ EOL;
      */
     public function getSessionObjectivesToCourseObjectivesRelations (array $sessionObjectiveIds, array $courseObjectiveIds)
     {
-        // @todo implement
         $rhett = array(
             'relations' => array(),
             'session_objective_ids' => array(),
             'course_objective_ids' => array(),
         );
+
+        if (! count($sessionObjectiveIds) || ! count($courseObjectiveIds)) {
+            return $rhett;
+        }
+
         $this->db->distinct();
         $this->db->select('oxo.objective_id, oxo.parent_objective_id');
         $this->db->from('objective_x_objective oxo');
