@@ -409,7 +409,8 @@
                 Event.addListener('report-details-view-export-form', 'submit', this._blockUIForExport, {}, this);
 
                 Event.addListener('report-details-view-delete-button', 'click', function (event, args) {
-                    var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+                    var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.delete.confirm.warning')
+                        + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
                         var model = args.model;
@@ -455,7 +456,8 @@
 
 
                 Event.addListener('report-details-view-finalize-button', 'click', function (event, args) {
-                    var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+                    var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.confirm.warning')
+                        + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
                         var model = args.model;
