@@ -100,6 +100,34 @@
         this.model.subscribe('startDateChange', this.onStartDateChange, {}, this);
         this.model.subscribe('endDateChange', this.onEndDateChange, {}, this);
         this.model.subscribe('isFinalizedChange', this.onStatusChange, {}, this);
+
+        // create custom events
+        this.createEvent('exportStarted');
+        this.createEvent('exportFinished');
+        this.createEvent('downloadStarted');
+        this.createEvent('downloadFinished');
+        this.createEvent('exportStarted');
+        this.createEvent('exportFinished');
+        this.createEvent('finalizeStarted');
+        this.createEvent('finalizeSucceeded');
+        this.createEvent('finalizeFailed');
+        this.createEvent('deleteStarted');
+        this.createEvent('deleteSucceeded');
+        this.createEvent('deleteFailed');
+
+        // subscribe to own events
+        this.subscribe('finalizeStarted', function () {
+            this._lockDraftModeButtons();
+        }, {}, this);
+        this.subscribe('finalizeFailed', function () {
+            this._unlockDraftModeButtons();
+        }, {}, this);
+        this.subscribe('deleteStarted', function () {
+            this._lockDraftModeButtons();
+        }, {}, this);
+        this.subscribe('deleteFailed', function () {
+            this._unlockDraftModeButtons();
+        }, {}, this);
     };
 
     Lang.extend(ReportView, Element, {
@@ -141,6 +169,44 @@
             (new Element('report-details-view-export-button')).set('disabled', false);
             this.fireEvent('exportFinished');
         },
+
+        _lockDraftModeButtons: function () {
+            (new Element('report-details-view-edit-button')).set('disabled', true);
+            (new Element('report-details-view-finalize-button')).set('disabled', true);
+            (new Element('report-details-view-delete-button')).set('disabled', true);
+            (new Element('report-details-view-export-button')).set('disabled', true);
+        },
+        _unlockDraftModeButtons: function () {
+            (new Element('report-details-view-edit-button')).set('disabled', false);
+            (new Element('report-details-view-finalize-button')).set('disabled', false);
+            (new Element('report-details-view-delete-button')).set('disabled', false);
+            (new Element('report-details-view-export-button')).set('disabled', false);
+        },
+        _hideDraftModeButtons: function () {
+            Dom.addClass('report-details-view-edit-button', 'hidden');
+            Dom.addClass('report-details-view-finalize-button', 'hidden');
+            Dom.addClass('report-details-view-delete-button', 'hidden');
+            Dom.addClass('report-details-view-export-form', 'hidden');
+        },
+        _showDraftModeButtons: function () {
+            Dom.removeClass('report-details-view-edit-button', 'hidden');
+            Dom.removeClass('report-details-view-finalize-button', 'hidden');
+            Dom.removeClass('report-details-view-delete-button', 'hidden');
+            Dom.removeClass('report-details-view-export-form', 'hidden');
+        },
+        _lockFinalizedModeButtons: function () {
+            (new Element('report-details-view-download-button')).set('disabled', true);
+        },
+        _unlockFinalizedModeButtons: function () {
+            (new Element('report-details-view-download-button')).set('disabled', false);
+        },
+        _hideFinalizedModeButtons: function () {
+            Dom.addClass('report-details-view-download-form', 'hidden');
+        },
+        _showFinalizedModeButtons: function () {
+            Dom.removeClass('report-details-view-download-form', 'hidden');
+        },
+
         initAttributes : function (config) {
             ReportView.superclass.initAttributes.call(this, config);
 
@@ -279,7 +345,7 @@
                 }
             });
 
-            this.setAttributeConfig('status', {
+            this.setAttributeConfig('isFinalized', {
                 method: function (value) {
                     var el;
                     if (value) {
@@ -287,74 +353,22 @@
                         Dom.removeClass(el, 'is-draft');
                         Dom.addClass(el, 'is-locked');
                         el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.finalized');
-                        // enabled/show buttons and forms
-                        (new Element('report-details-view-download-button')).set('disabled', false);
-                        Dom.removeClass('report-details-view-download-form', 'hidden');
-                        // disabled/hide buttons and forms
-                        el = new Element('report-details-view-edit-button');
-                        el.set('disabled', false);
-                        el.addClass('hidden');
-                        el = new Element('report-details-view-delete-button');
-                        el.set('disabled', false);
-                        el.addClass('hidden');
-                        el = new Element('report-details-view-delete-button');
-                        el.set('disabled', false);
-                        el.addClass('hidden');
-                        el = new Element('report-details-view-finalize-button');
-                        el.set('disabled', false);
-                        el.addClass('hidden');
-                        el = new Element('report-details-view-export-button');
-                        el.set('disabled', false);
-                        Dom.addClass('report-details-view-export-form', 'hidden');
+                        this._lockDraftModeButtons();
+                        this._hideDraftModeButtons();
+                        this._unlockFinalizedModeButtons();
+                        this._showFinalizedModeButtons();
                     } else {
                         el = this.get('statusEl');
                         Dom.removeClass(el, 'is-locked');
                         Dom.addClass(el, 'is-draft');
                         el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.draft');
-                        // enabled/show buttons and forms
-                        el = new Element('report-details-view-edit-button');
-                        el.set('disabled', false);
-                        el.removeClass('hidden');
-                        el = new Element('report-details-view-finalize-button');
-                        el.set('disabled', false);
-                        el.removeClass('hidden');
-                        el = new Element('report-details-view-delete-button');
-                        el.set('disabled', false);
-                        el.removeClass('hidden');
-                        el = new Element('report-details-view-export-button');
-                        el.set('disabled', false);
-                        Dom.removeClass('report-details-view-export-form', 'hidden');
-                        // disabled/hide buttons and forms
-                        (new Element('report-details-view-download-button')).set('disabled', true);
-                        Dom.addClass('report-details-view-download-form', 'hidden');
+                        this._unlockDraftModeButtons();
+                        this._showDraftModeButtons();
+                        this._lockFinalizedModeButtons();
+                        this._hideFinalizedModeButtons();
                     }
                 }
             });
-
-            // create custom events
-            this.createEvent('exportStarted');
-            this.createEvent('exportFinished');
-            this.createEvent('downloadStarted');
-            this.createEvent('downloadFinished');
-            this.createEvent('exportStarted');
-            this.createEvent('exportFinished');
-            this.createEvent('finalizeStarted');
-            this.createEvent('finalizeSucceeded');
-            this.createEvent('finalizeFailed');
-
-            // subscribe internally to some custom events
-            this.subscribe('finalizeStarted', function () {
-                (new Element('report-details-view-edit-button')).set('disabled', true);
-                (new Element('report-details-view-finalize-button')).set('disabled', true);
-                (new Element('report-details-view-delete-button')).set('disabled', true);
-                (new Element('report-details-view-export-button')).set('disabled', true);
-            }, this, true);
-            this.subscribe('finalizeFailed', function () {
-                (new Element('report-details-view-edit-button')).set('disabled', false);
-                (new Element('report-details-view-finalize-button')).set('disabled', false);
-                (new Element('report-details-view-delete-button')).set('disabled', false);
-                (new Element('report-details-view-export-button')).set('disabled', false);
-            }, this, true);
         },
         render: function () {
 
@@ -365,12 +379,22 @@
             this.set('endDate', this.model.get('endDate'));
             this.set('program', this.model.get('program'));
             this.set('reportId', this.model.get('id'));
-            this.set('status', this.model.get('isFinalized'));
+            this.set('isFinalized', this.model.get('isFinalized'));
 
             //
-            // wire dialog buttons
+            // wire and show applicable dialog buttons
             //
-            if (! this.model.get('isFinalized')) {
+
+            // always wire the finalized mode buttons first
+            Event.addListener('report-details-view-toggle', 'click', function (event) {
+                ilios.utilities.toggle('report-details-view-content-wrapper', this);
+                Event.stopEvent(event);
+                return false;
+            });
+            Event.addListener('report-details-view-download-form', 'submit', this._blockUIForDownload, {}, this);
+
+            // if the report view gets rendered in draft mode then wire all of its buttons too.
+            if (! this.get('status')) {
                 Event.addListener('report-details-view-edit-button', 'click', function(event) {
                     if (! this.editReportDialog) {
                         this.editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog', this.model);
@@ -382,57 +406,52 @@
                 Event.addListener('report-details-view-export-form', 'submit', this._blockUIForExport, {}, this);
 
                 Event.addListener('report-details-view-finalize-button', 'click', function (event, args) {
-                        var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
-                        var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
-                        ilios.alert.inform(continueStr, yesStr, function (event, args) {
-                            var model = args.model;
-                            var url = args.url;
-                            var view = args.view;
-                            var postData = 'report_id=' + encodeURIComponent(model.get('id'));
-                            var callback = {
-                                success: function (o) {
-                                    var response, msg;
-                                    try {
-                                        response = YAHOO.lang.JSON.parse(o.responseText);
-                                    } catch (e) {
-                                        view.fireEvent('finalizeFailed');
-                                        ilios.global.defaultAJAXFailureHandler(null, e);
-                                        return;
-                                    }
-                                    if (response.error) {
-                                        view.fireEvent('finalizeFailed');
-                                        msg = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.error.general');
-                                        ilios.alert.alert(msg + ": " + response.error);
-                                        return;
-                                    }
-                                    view.fireEvent('finalizeSucceeded');
-                                    model.set('isFinalized', true);
-                                },
-                                failure: function (o) {
+                    var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+                    var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
+                    ilios.alert.inform(continueStr, yesStr, function (event, args) {
+                        var model = args.model;
+                        var url = args.url;
+                        var view = args.view;
+                        var postData = 'report_id=' + encodeURIComponent(model.get('id'));
+                        var callback = {
+                            success: function (o) {
+                                var response, msg;
+                                try {
+                                    response = YAHOO.lang.JSON.parse(o.responseText);
+                                } catch (e) {
                                     view.fireEvent('finalizeFailed');
-                                    ilios.global.defaultAJAXFailureHandler(o);
+                                    ilios.global.defaultAJAXFailureHandler(null, e);
+                                    return;
                                 }
-                            };
+                                if (response.error) {
+                                    view.fireEvent('finalizeFailed');
+                                    msg = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.error.general');
+                                    ilios.alert.alert(msg + ": " + response.error);
+                                    return;
+                                }
+                                model.set('isFinalized', true);
+                                view.fireEvent('finalizeSucceeded');
+                            },
+                            failure: function (o) {
+                                view.fireEvent('finalizeFailed');
+                                ilios.global.defaultAJAXFailureHandler(o);
+                            }
+                        };
 
-                            this.hide(); // hide the calling dialog
+                        this.hide(); // hide the calling dialog
 
-                            view.fireEvent('finalizeStarted');
-                            YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                            YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
-                        }, args);
-                    }, {
-                        model: this.model,
-                        url: this.config.finalizeUrl,
-                        view: this
-                    },
-                    this);
+                        view.fireEvent('finalizeStarted');
+                        YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                        YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
+                    }, args);
+                }, {
+                    model: this.model,
+                    url: this.config.finalizeUrl,
+                    view: this
+                },
+                this);
             }
-            Event.addListener('report-details-view-toggle', 'click', function (event) {
-                ilios.utilities.toggle('report-details-view-content-wrapper', this);
-                Event.stopEvent(event);
-                return false;
-            });
-            Event.addListener('report-details-view-download-form', 'submit', this._blockUIForDownload, {}, this);
+
         },
         show: function () {
             this.setStyle('display', 'block');
@@ -451,7 +470,7 @@
             this.set('endDate', evObj.newValue);
         },
         onStatusChange: function (evObj) {
-            this.set('status', evObj.newValue);
+            this.set('isFinalized', evObj.newValue);
         }
     });
     ilios.cim.view.ReportView = ReportView;
