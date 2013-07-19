@@ -40,24 +40,30 @@ $viewsPath = getServerFilePath('views');
 
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
-    <!-- Modernizr enables HTML5 elements & feature detects for optimal performance.
-         Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script type="text/javascript" src="<?php echo $viewsUrlRoot; ?>scripts/third_party/modernizr-2.5.3.min.js"></script>
-
-    <!-- Third party JS -->
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/yui_kitchensink.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/json2.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision(getYUILibrariesURL() . "event-simulate/event-simulate-min.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/idle-timer.js"); ?>"></script>
-
-    <!--  Ilios JS -->
     <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_base.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/preferences_model.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "curriculum_inventory/js/ilios.cim.js"); ?>"></script>
+<?php
+$js = array(
+    'vendor' => array( // third-party js
+        'application/views/scripts/third_party/modernizr-2.5.3.min.js',
+        'application/views/scripts/third_party/yui_kitchensink.js',
+        'application/views/scripts/third_party/date_formatter.js',
+        'application/views/scripts/third_party/md5-min.js',
+        'application/views/scripts/third_party/idle-timer.js',
+    ),
+    'ilios' => array( // ilios js
+        'application/views/scripts/ilios_base.js',
+        'application/views/scripts/ilios_utilities.js',
+        'application/views/scripts/ilios_ui.js',
+        'application/views/scripts/ilios_dom.js',
+        'application/views/scripts/models/preferences_model.js',
+        'application/views/curriculum_inventory/js/ilios.cim.model.js',
+        'application/views/curriculum_inventory/js/ilios.cim.widget.js',
+        'application/views/curriculum_inventory/js/ilios.cim.view.js',
+        'application/views/curriculum_inventory/js/ilios.cim.js',
+    ),
+);
+writeJsScripts($js, 'curriculum_inventory_manager', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
+?>
 </head>
 <body class="curriculum_inventory yui-skin-sam">
 <div id="wrapper">
