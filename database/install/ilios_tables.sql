@@ -1542,6 +1542,14 @@ ENGINE=InnoDB;
 --
 --
 --
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE `migrations` (
+    `version` INT(3) NOT NULL
+)
+DEFAULT CHARSET=utf8
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
 DROP TABLE IF EXISTS `ci_sessions`;
 SET character_set_client = utf8;
 
@@ -1555,5 +1563,4 @@ CREATE TABLE IF NOT EXISTS  `ci_sessions` (
     KEY `last_activity_idx` (`last_activity`)
 )
 DEFAULT CHARSET=utf8
-ENGINE=MyISAM
-;
+ENGINE=MyISAM;
