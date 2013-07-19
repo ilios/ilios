@@ -76,7 +76,7 @@
             <form id="report-details-view-download-form" action="<?php echo $controllerURL; ?>/download" method="GET"
                   class="inline-form hidden">
                 <button disabled="disabled" class="medium radius button" id="report-details-view-download-button">
-                    <?php echo $this->languagemap->t('general.terms.export', $lang); ?>
+                    <?php echo $this->languagemap->t('general.terms.download', $lang); ?>
                 </button>
                 <input type="hidden" id="report-details-view-download-download-token" name="download_token" value="" />
                 <input type="hidden" id="report-details-view-download-report-id" name="report_id" value="" />
