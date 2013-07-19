@@ -361,7 +361,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         // input validation
-        $reportId = (int) $this->input->get('report_id');
+        $reportId = (int) $this->input->post('report_id');
         $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
         if (! $invReport) {
             $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
