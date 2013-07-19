@@ -108,7 +108,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                 return;
             }
             $program = $this->program->getRowForPrimaryKeyId($report->program_id);
-            $report->finalized = $this->invExport->exists($reportId);
+            $report->is_finalized = $this->invExport->exists($reportId);
             $report->program = $program;
             $academicLevels = $this->invAcademicLevel->getLevels($report->report_id);
             $linkedCourses = $this->inventory->getLinkedCourses($report->report_id);
@@ -158,18 +158,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
-        $schoolId = $this->session->userdata('school_id');
-        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
-
-        if (! isset($schoolRow)) {
-            $this->_printErrorXhrResponse('general.error.school_not_found', $lang);
-            return;
-        }
-
         $year = (int) $this->input->post('report_year');
         $reportName = $this->input->post('report_name');
         $reportDescription = $this->input->post('report_description');
         $programId = (int) $this->input->post('program_id');
+
         //
         // create new inventory report for the given academic year
         //
@@ -226,22 +219,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $lang = $this->getLangToUse();
         $rhett = array();
 
-        $data = array();
-        $data['lang'] = $lang;
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse($lang);
-            return;
-        }
-
-        $schoolId = $this->session->userdata('school_id');
-        $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
-
-        if (! isset($schoolRow)) {
-            $this->_printErrorXhrResponse('general.error.school_not_found', $lang);
             return;
         }
 
@@ -297,7 +277,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * This action exports a requested curriculum inventory report as XML document.
+     * This action generates and prints a requested curriculum inventory report as XML document.
      *
      * It expects the following POST parameters:
      *    'report_id' ... the report id
@@ -325,28 +305,29 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $reportId = (int) $this->input->get('report_id');
         $downloadToken = filter_var($this->input->get('download_token'), FILTER_SANITIZE_NUMBER_INT);
         if (0 >= $reportId) {
-            show_error('Missing or invalid report id.');
+            show_error($this->languagemap->getI18NString('curriculum_inventory.validate.error.report_id_missing', $lang));
             return;
         }
 
         // generate and export the report to XML
         try {
             $xml = $this->_exporter->getXmlReport($reportId);
-
         } catch (DomException $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
-            show_error('An error occurred while exporting the curriculum inventory report to XML.');
+            show_error($this->languagemap->getI18NString('curriculum_inventory.export.error.generate', $lang));
             return;
         } catch (Ilios_Exception $e) {
             log_message('error',  'CIM export: ' . $e->getMessage());
-            show_error('An error occurred while loading the curriculum inventory.');
+            show_error($this->languagemap->getI18NString('curriculum_inventory.export.error.generate', $lang));
             return;
         }
 
         $out = $xml->saveXML();
+
         if (false === $out) {
             log_message('error', 'CIM export: Failed to convert XML to its String representation.');
-            show_error('An error occurred while exporting the curriculum inventory report.');
+            show_error($this->languagemap->getI18NString('curriculum_inventory.export.error.xml', $lang));
+            return;
         }
 
         // set the cookie containing the download token
@@ -373,14 +354,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     {
         $lang = $this->getLangToUse();
 
-        $data = array();
-        $data['lang'] = $lang;
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
+            $this->_printAuthorizationFailedXhrResponse($lang);
             return;
         }
 
@@ -405,7 +381,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * This action retrieves a finalized report document from the database.
+     * This action retrieves and prints a finalized report document from the database.
      *
      * It expects the following POST parameters:
      *    'report_id' ... the report id
@@ -416,7 +392,45 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      */
     public function download ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        $data = array();
+        $data['lang'] = $lang;
+        $data['institution_name'] = $this->config->item('ilios_institution_name');
+        $data['user_id'] = $this->session->userdata('uid');
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_viewAccessForbiddenPage($lang, $data);
+            return;
+        }
+
+        // input validation
+        $reportId = (int) $this->input->get('report_id');
+        $downloadToken = filter_var($this->input->get('download_token'), FILTER_SANITIZE_NUMBER_INT);
+        if (0 >= $reportId) {
+            show_error($this->languagemap->getI18NString('curriculum_inventory.validate.error.report_id_missing', $lang));
+            return;
+        }
+
+        // retrieve the report from the db and print it.
+        $report = $this->invExport->getRowForPrimaryKeyId($reportId);
+
+        if (! $report) {
+            log_message('error', 'CIM export: No finalized report was found with the given id.');
+            show_error($this->languagemap->getI18NString('curriculum_inventory.download.error.export_not_found', $lang));
+            return;
+        }
+
+
+        // set the cookie containing the download token
+        $this->input->set_cookie('download-token', $downloadToken, 0);
+
+        // all is good, output the XML
+        header('Content-Type: application/xml; charset="utf8"');
+        header('Content-disposition: attachment; filename="report.xml"');
+
+        echo $report->document;
     }
 
     /**
@@ -433,7 +447,58 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      */
     public function finalize ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $userId = $this->session->userdata('uid');
+
+        $reportId = (int) $this->input->post('report_id');
+
+        // check if a curriculum inventory report already exists
+        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
+        if (! $invReport) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            return;
+        }
+
+        // check if the report has already been finalized
+        if ($this->invExport->exists($reportId)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.finalize.error.already_finalized', $lang);
+            return;
+        }
+
+        // generate the XML report
+        try {
+            $xml = $this->_exporter->getXmlReport($reportId);
+        } catch (DomException $e) {
+            log_message('error',  'CIM export: ' . $e->getMessage());
+            $this->_printErrorXhrResponse('curriculum_inventory.export.error.generate', $lang);
+            return;
+        } catch (Ilios_Exception $e) {
+            log_message('error',  'CIM export: ' . $e->getMessage());
+            $this->_printErrorXhrResponse('curriculum_inventory.export.error.generate', $lang);
+            return;
+        }
+
+        $out = $xml->saveXML();
+        if (false === $out) {
+            log_message('error', 'CIM export: Failed to convert XML to its String representation.');
+            $this->_printErrorXhrResponse('curriculum_inventory.export.error.xml', $lang);
+            return;
+        }
+        // save the export to the db
+        if (! $this->invExport->create($reportId, $out , $userId)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.finalize.error.save', $lang);
+            return;
+        }
+        $rhett = array('success' => 'true');
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
     }
 
     /**
