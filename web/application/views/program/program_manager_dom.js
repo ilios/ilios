@@ -19,7 +19,7 @@ ilios.pm.schoolDepartmentTreeModel = null;
 
 ilios.pm.placeHolderNodeTitle = "Place holder";
 
-/*x
+/*
  * @return true if the program model is dirty (including any of its program year models)
  */
 // @private
@@ -385,13 +385,20 @@ ilios.pm.collapseOrExpandProgramYears = function (collapseRegardless) {
     }
 };
 
+/**
+ * Finalizes matriculation summary text in collapsible title-bar div of respective program year container
+ * @method ilios.pm.handleProgramYearDivCollapse
+ * @param {Number} containerNumber
+ * @param {Object} summaryTextDiv
+ */
+
 ilios.pm.handleProgramYearDivCollapse = function (containerNumber, summaryTextDiv) {
     var programYearStr = ilios_i18nVendor.getI18NString('general.phrases.matriculation_year');
     var graduatingClassOfStr = ilios_i18nVendor.getI18NString('general.phrases.graduating_class_of');
     var model = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(containerNumber);
     var duration = ilios.pm.currentProgramModel.duration;
     var startYear = model.getStartYear();
-    var graduatingClassOfString = ilios.utilities.getGraduatingClassOfString(startYear, duration);
+    var graduatingClassOfString = ilios.pm.getGraduatingClassOfString(startYear, duration);
     var yearText = startYear + "-" + (startYear + 1);
     summaryTextDiv.innerHTML = programYearStr + ': ' + yearText + " ("+graduatingClassOfString+")";
 };
@@ -677,14 +684,14 @@ ilios.pm.setGraduatingClassOfText = function (containerNumber, academicStartYear
     	var academicStartYear = currentYearSelector.options[currentYearSelector.selectedIndex].value;
     }
     //calculate the graduation year based on the duration and get the i18N string
-    var graduatingClassOfString = ilios.utilities.getGraduatingClassOfString(academicStartYear, duration);
+    var graduatingClassOfString = ilios.pm.getGraduatingClassOfString(academicStartYear, duration);
     var yearText = academicStartYear + "-" + (parseInt(academicStartYear) + 1);
     //wrap the text in parentheses..
     graduatingClassString = "("+graduatingClassOfString+")";
     //update the collapse div
     collapseSummaryTextSelector.innerHTML = "Matriculation year: "+yearText+" "+graduatingClassString;
     //and update the text next to the selector...
-    matriculationYearSummary.innerHTML = "&nbsp"+graduatingClassString;
+    matriculationYearSummary.innerHTML = "&nbsp;"+graduatingClassString;
 };
 
 ilios.pm.programYearContentGenerator = function (parentElement, containerNumber) {
@@ -1306,3 +1313,18 @@ ilios.common.picker.mesh.handleMeSHPickerSave = function (dialogPanel) {
     ilios.mesh.lastMeSHSearchQuery = null;
     ilios.mesh.currentEditQueryUIDPairSelections = null;
 };
+
+/**
+ * Returns the 'Graduating Class of XXXX' string when given the startYear and duration of a program
+ * 
+ * @method ilios.pm.getGraduatingClassOfString
+ * @param {Number} startYear the starting year of the academic/matriculation year of the program
+ * @param {Number} duration the duration of the program
+ * @return {String} rhett 'Graduating Class of XXXX' string
+ */
+
+ilios.pm.getGraduatingClassOfString = function (startYear, duration) {
+	var graduatingClassOfStr = ilios_i18nVendor.getI18NString('general.phrases.graduating_class_of');
+	var rhett = graduatingClassOfStr+" "+(parseInt(startYear) + parseInt(duration));
+    return rhett;
+}
