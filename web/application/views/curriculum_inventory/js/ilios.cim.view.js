@@ -106,8 +106,6 @@
         this.createEvent('exportFinished');
         this.createEvent('downloadStarted');
         this.createEvent('downloadFinished');
-        this.createEvent('exportStarted');
-        this.createEvent('exportFinished');
         this.createEvent('finalizeStarted');
         this.createEvent('finalizeSucceeded');
         this.createEvent('finalizeFailed');
@@ -408,6 +406,7 @@
                 }, {}, this);
                 Event.addListener('report-details-view-export-form', 'submit', this._blockUIForExport, {}, this);
 
+                // @todo decouple server interaction from view.
                 Event.addListener('report-details-view-delete-button', 'click', function (event, args) {
                     var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.delete.confirm.warning')
                         + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
