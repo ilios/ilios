@@ -53,7 +53,6 @@ INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM016', 'Researc
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM017', 'Self-Assessment');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM018', 'Stimulated Recall');
 
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0101','Provide patient care that is compassionate, appropriate, and effective for the treatment of health problems and the promotion of health');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0102','Perform all medical, diagnostic, and surgical procedures considered essential for the area of practice');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0103',' Gather essential and accurate information about patients and their condition through history-taking, physical examination, and the use of laboratory data, imaging and other tests');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0104','Interpret laboratory data, imaging studies, and other tests required for the area of practice');
@@ -114,7 +113,6 @@ INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (8, 'aa
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (9, 'aamc-pcrs-comp-c0107');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (10, 'aamc-pcrs-comp-c0405');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (11, 'aamc-pcrs-comp-c0102');
-INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (12, 'aamc-pcrs-comp-c0101');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (12, 'aamc-pcrs-comp-c0108');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (12, 'aamc-pcrs-comp-c0109');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (13, 'aamc-pcrs-comp-c0203');
