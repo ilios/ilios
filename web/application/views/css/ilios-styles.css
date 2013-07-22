@@ -1980,6 +1980,8 @@ fieldset > .row {
 
 .academic_year select {margin-left: 1em;}
 
+#matriculation_year_summary_text { margin-left: 1em; }
+
 .py_total_text_div {
     clear: both;
 }
@@ -2424,9 +2426,16 @@ ul.week_list li.selected_day {
 /********************************/
 /*     Admin Modules            */
 
+.disabled_a {
+    color: #cc6600;
+    font-weight: bold;
+    cursor: default;
+}
+
 .disabled_a:hover {
     text-decoration:none;
 }
+
 .alert_triangle {
     float:left;
     margin:0;
