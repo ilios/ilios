@@ -1478,12 +1478,12 @@ DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
 
--- Table aamc_mecrs
-DROP TABLE IF EXISTS `aamc_mecrs`;
-CREATE TABLE `aamc_mecrs` (
-    `mecrs_id` VARCHAR(21) NOT NULL,
+-- Table aamc_pcrs
+DROP TABLE IF EXISTS `aamc_pcrs`;
+CREATE TABLE `aamc_pcrs` (
+    `pcrs_id` VARCHAR(21) NOT NULL,
     `description` TEXT NOT NULL,
-    PRIMARY KEY (`mecrs_id`)
+    PRIMARY KEY (`pcrs_id`)
 )
 DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
@@ -1517,15 +1517,15 @@ DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
 
--- Table competency_x_aamc_mecrs
-DROP TABLE IF EXISTS `competency_x_aamc_mecrs`;
-CREATE TABLE `competency_x_aamc_mecrs` (
+-- Table competency_x_aamc_pcrs
+DROP TABLE IF EXISTS `competency_x_aamc_pcrs`;
+CREATE TABLE `competency_x_aamc_pcrs` (
     `competency_id` INT(14) UNSIGNED NOT NULL,
-    `mecrs_id` VARCHAR(21) NOT NULL,
-    PRIMARY KEY (`competency_id`, `mecrs_id`),
-    INDEX `aamc_mecrs_id_fkey` (`mecrs_id`),
-    CONSTRAINT `aamc_mecrs_id_fkey`
-        FOREIGN KEY (`mecrs_id`) REFERENCES `aamc_mecrs` (`mecrs_id`)
+    `pcrs_id` VARCHAR(21) NOT NULL,
+    PRIMARY KEY (`competency_id`, `pcrs_id`),
+    INDEX `aamc_pcrs_id_fkey` (`pcrs_id`),
+    CONSTRAINT `aamc_pcrs_id_fkey`
+        FOREIGN KEY (`pcrs_id`) REFERENCES `aamc_pcrs` (`pcrs_id`)
         ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT `competency_id_fkey`
         FOREIGN KEY (`competency_id`) REFERENCES `competency` (`competency_id`)
