@@ -57,9 +57,9 @@ INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0101
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0102','Gather essential and accurate information about patients and their conditions through history-taking, physical examination, and the use of laboratory data, imaging and other tests');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0103','Organize and prioritize responsibilities to provide care that is safe, effective, and efficient');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0104','Interpret laboratory data, imaging studies, and other tests required for the area of practice');
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0105','Counsel and educate patients and their families to empower them to participate in their care and enable shared decision making');
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0106','Make informed decisions about diagnostic and therapeutic interventions based on patient information and preferences, up-to-date scientific evidence, and clinical judgment');
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0107','Develop and carry out patient management plans');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0105','Make informed decisions about diagnostic and therapeutic interventions based on patient information and preferences, up-to-date scientific evidence, and clinical judgment');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0106','Develop and carry out patient management plans');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0107','Counsel and educate patients and their families to empower them to participate in their care and enable shared decision making');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0108','Provide appropriate referral of patients including ensuring continuity of care throughout transitions between providers or settings, and following up on patient progress and outcomes');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0109','Provide health care services to patients, families, and communities aimed at preventing health problems');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0201','Demonstrate an investigatory and analytic approach to clinical situations');
@@ -111,7 +111,7 @@ INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0808
 
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (7, 'aamc-pcrs-comp-c0101');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (8, 'aamc-pcrs-comp-c0102');
-INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (9, 'aamc-pcrs-comp-c0107');
+INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (9, 'aamc-pcrs-comp-c0106');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (10, 'aamc-pcrs-comp-c0405');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (11, 'aamc-pcrs-comp-c0101');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (12, 'aamc-pcrs-comp-c0108');
@@ -126,8 +126,8 @@ INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (16, 'a
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (16, 'aamc-pcrs-comp-c0306');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (17, 'aamc-pcrs-comp-c0301');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (17, 'aamc-pcrs-comp-c0307');
-INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (18, 'aamc-pcrs-comp-c0105');
-INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (19, 'aamc-pcrs-comp-c0105');
+INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (18, 'aamc-pcrs-comp-c0107');
+INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (19, 'aamc-pcrs-comp-c0107');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (19, 'aamc-pcrs-comp-c0401');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (19, 'aamc-pcrs-comp-c0406');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (20, 'aamc-pcrs-comp-c0402');
