@@ -94,7 +94,7 @@ INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0601
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0602','Coordinate patient care within the health care system relevant to one''s clinical specialty');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0603','Incorporate considerations of cost awareness and risk-benefit analysis in patient and/or population-based care');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0604','Advocate for quality patient care and optimal patient care systems');
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0606','Participate in identifying system errors and implementing potential systems solutions');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0605','Participate in identifying system errors and implementing potential systems solutions');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0701','Work in cooperation with other professionals to establish and maintain a climate of respect, dignity, diversity, ethical integrity, and trust in order to enhance team functioning and serve the needs of patients, families, and populations');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0702','Utilize and enhance one’s own expertise by understanding and engaging the unique and diverse knowledge, skills, and abilities of other professionals to enhance team performance and maximize the quality of patient care');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0703','Exchange relevant information effectively with patients, families, communities, and other health professionals in a respectful, responsive, and responsible manner, considering varied perspectives and ensuring common understanding of, agreement with, and adherence to care decisions for optimal outcomes');
@@ -139,6 +139,6 @@ INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (24, 'a
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (25, 'aamc-pcrs-comp-c0506');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (26, 'aamc-pcrs-comp-c0403');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (26, 'aamc-pcrs-comp-c0603');
-INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (50, 'aamc-pcrs-comp-c0606');
+INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (50, 'aamc-pcrs-comp-c0605');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (51, 'aamc-pcrs-comp-c0203');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (52, 'aamc-pcrs-comp-c0206');
