@@ -393,7 +393,6 @@ ilios.pm.handleProgramYearDivCollapse = function (containerNumber, summaryTextDi
     var startYear = model.getStartYear();
     var graduatingClassOfString = ilios.utilities.getGraduatingClassOfString(startYear, duration);
     var yearText = startYear + "-" + (startYear + 1);
-    //summaryTextDiv.innerHTML = '<span id="collapse_program_year_title">' + programYearStr + '</span>: ' + yearText + " ("+graduatingClassOfString+")";
     summaryTextDiv.innerHTML = programYearStr + ': ' + yearText + " ("+graduatingClassOfString+")";
 };
 
@@ -663,21 +662,29 @@ ilios.pm.handleProgramYearStartYearSelect = function (containerNumber) {
 
 /**
  * setGraduatingClassOfText
- * When a start year is selected, calculate and set the 'Graduating Class of XXXX' string in the
- * appropriate places...
+ * When an academic year is selected/changed in a program year container, calculate and set the 'Graduating Class of XXXX' string
+ *  and add it to the appropriate places: next to the year selector AND in the collapsible title div.
  */
 
 ilios.pm.setGraduatingClassOfText = function (containerNumber, academicStartYear) {
-	var matriculationYearSelector = document.getElementById(containerNumber+'_matriculation_year_summary_text');
-    var duration = ilios.pm.currentProgramModel.getDuration();
+	var matriculationYearSummary = document.getElementById(containerNumber+'_matriculation_year_summary_text');
+	var collapseSummaryTextSelector = document.getElementById(containerNumber+'_collapse_summary_text');
+	var duration = ilios.pm.currentProgramModel.getDuration();
     var currentYearSelector = document.getElementById(containerNumber+'_program_year_title');
     if(academicStartYear){
     	var academicStartYear = academicStartYear;	
     } else {
     	var academicStartYear = currentYearSelector.options[currentYearSelector.selectedIndex].value;
     }
+    //calculate the graduation year based on the duration and get the i18N string
     var graduatingClassOfString = ilios.utilities.getGraduatingClassOfString(academicStartYear, duration);
-    matriculationYearSelector.innerHTML = "("+graduatingClassOfString+")";
+    var yearText = academicStartYear + "-" + (parseInt(academicStartYear) + 1);
+    //wrap the text in parentheses..
+    graduatingClassString = "("+graduatingClassOfString+")";
+    //update the collapse div
+    collapseSummaryTextSelector.innerHTML = "Matriculation year: "+yearText+" "+graduatingClassString;
+    //and update the text next to the selector...
+    matriculationYearSummary.innerHTML = "&nbsp"+graduatingClassString;
 };
 
 ilios.pm.programYearContentGenerator = function (parentElement, containerNumber) {
@@ -741,8 +748,6 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
     scratchElement.setAttribute('class', 'matriculation_year_summary_text');
     scratchElement.setAttribute('style', 'display:inline-block');
     dataCol.appendChild(scratchElement);
-    
-    
     
     // Competencies
     i18nStr = ilios_i18nVendor.getI18NString('general.terms.competencies') + ' ';
@@ -935,10 +940,6 @@ ilios.pm.addNewProgramYear = function () {
 
             programYearModel.setDirtyAndNotify();
         }
-        //var duration = ilios.pm.currentProgramModel.getDuration();
-        //var graduatingClassOfString = ilios.utilities.getGraduatingClassOfString(newStartYear, duration);
-        //scratchElement = document.getElementById(containerNumber + '_matriculation_year_summary_text');
-        //scratchElement.innerHTML = '&nbsp;(' + graduatingClassOfString + ')';
         ilios.pm.setGraduatingClassOfText(containerNumber, newStartYear);
     }
 };
