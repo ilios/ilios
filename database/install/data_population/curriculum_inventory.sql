@@ -70,7 +70,7 @@ INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0205
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0206','Contribute to the creation, dissemination, application, and translation of new health care knowledge and practices');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0301','Identify strengths, deficiencies, and limits in one’s knowledge and expertise');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0302','Set learning and improvement goals');
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0303','Identify and perform learning activities that address one’s gaps in knowledge, skills or attitudes');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0303','Identify and perform learning activities that address one’s gaps in knowledge, skills and/or attitudes');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0304','Systematically analyze practice using quality improvement methods, and implement changes with the goal of practice improvement');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0305','Incorporate feedback into daily practice');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0306','Locate, appraise, and assimilate evidence from scientific studies related to patients’ health problems');
