@@ -1,7 +1,7 @@
 /*
  * Base script of the Ilios JavaScript library.
  *
- * Contains the foundation of the library, but also a variety of seemlingly arbitary (yet commonly used) functionality.
+ * Contains the foundation of the library, but also a variety of seemingly arbitrary (yet commonly used) functionality.
  *
  * Defines the following namespaces:
  *
@@ -194,6 +194,7 @@ ilios.alert.simpleHidingHandler = function () {
 ilios.alert.alert = function (str, acceptBtnText, acceptHandler, acceptHandlerArgs) {
     var lang = YAHOO.lang;
     var btnConfig = [];
+
     acceptHandler = lang.isFunction(acceptHandler) ? acceptHandler : ilios.alert.simpleHidingHandler;
     acceptBtnText = acceptBtnText || ilios_i18nVendor.getI18NString('general.terms.ok');
     acceptHandlerArgs = lang.isObject(acceptHandlerArgs) ? acceptHandlerArgs : {};
@@ -236,7 +237,6 @@ ilios.alert.alert = function (str, acceptBtnText, acceptHandler, acceptHandlerAr
 ilios.alert.inform = function (str, acceptBtnText, acceptHandler, acceptHandlerArgs, declineBtnText, declineHandler, declineHandlerArgs) {
     var lang = YAHOO.lang;
     var btnConfig = [];
-    var buttonGlom;
 
     acceptHandler = lang.isFunction(acceptHandler) ? acceptHandler : ilios.alert.simpleHidingHandler;
     declineHandler = lang.isFunction(declineHandler) ? declineHandler : ilios.alert.simpleHidingHandler;
