@@ -9,6 +9,8 @@
  *
  * @link http://www.medbiq.org/sites/default/files/files/CurriculumInventorySpecification.pdf
  * @link http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd
+ *
+ * @todo Break this class up in two - one for report generation and one for exporting to XML. [ST 2013/07/22]
  */
 class Ilios_CurriculumInventory_Exporter
 {
