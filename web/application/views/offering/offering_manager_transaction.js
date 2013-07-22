@@ -177,9 +177,9 @@ ilios.om.transaction.saveCalendarEventToServer = function (calendarEvent) {
 	    offeringModel = calendarEvent.iliosModel,
 	    startDate = ilios.utilities.dateObjectToMySQLFriendly(offeringModel.getStartDate(), true),
 	    endDate = ilios.utilities.dateObjectToMySQLFriendly(offeringModel.getEndDate(), true),
-	    paramString = "sid=" + sessionModel.getDBId() + "&start_date=" + escape(startDate)
-						+ "&end_date=" + escape(endDate)
-						+ "&location=" + escape(offeringModel.getRoom())
+	    paramString = "sid=" + sessionModel.getDBId() + "&start_date=" + encodeURIComponent(startDate)
+						+ "&end_date=" + encodeURIComponent(endDate)
+						+ "&location=" + encodeURIComponent(offeringModel.getRoom())
 						+ "&offering_id=" + offeringModel.getDBId()
 						+ "&calendar_id=" + calendarEvent.id
 						+ "&parent_publish_event_id=" + offeringModel.getPublishEventId()
@@ -301,7 +301,7 @@ ilios.om.transaction.saveCalendarEventToServer = function (calendarEvent) {
 	var groupModel = null;
 
 	paramString += "&instructors="
-						+ escape(stringify(tmpArray, replacer));
+						+ encodeURIComponent(stringify(tmpArray, replacer));
 
 	tmpArray = offeringModel.getStudentGroups();
 	for (var key in tmpArray) {
@@ -319,7 +319,7 @@ ilios.om.transaction.saveCalendarEventToServer = function (calendarEvent) {
 		offeringModel.getRecurringEvent().generateMySQLEndDate();
 
 		paramString += "&recurring_event="
-						+ escape(YAHOO.lang.JSON.stringify(offeringModel.getRecurringEvent()));
+						+ encodeURIComponent(YAHOO.lang.JSON.stringify(offeringModel.getRecurringEvent()));
 	}
 
 	ilios.alert.networkActivityI18NStrings.push('offering_management.saving_offering');

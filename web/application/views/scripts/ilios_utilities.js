@@ -27,21 +27,6 @@ ilios.utilities.setToolTipForElement = function (element, toolTipText) {
     element.setAttribute('title', toolTipText);
 };
 
-ilios.utilities.getNodeChildWithLabel = function (parentNode, label) {
-    var len = parentNode.children.length;
-    var child = null;
-
-    for (var i = 0; i < len; i++) {
-        child = parentNode.children[i];
-
-        if (child.label == label) {
-            return child;
-        }
-    }
-
-    return null;
-};
-
 ilios.utilities.getEventTarget = function (e) {
     var event = (e || window.event);
 
@@ -515,24 +500,6 @@ ilios.utilities.delimitedStringOfTitledObjects = function (arr, delimiter) {
     return rhett;
 };
 
-/**
- * Given an array (arr) of objects, generate a delimited (plus a space after the delimiter)
- *  string of all of those array elements.
- */
-ilios.utilities.delimitedStringOfObjects = function (arr, delimiter) {
-    var rhett = '';
-
-    for (var key in arr) {
-        if (rhett.length > 0) {
-            rhett += delimiter + ' ';
-        }
-
-        rhett += arr[key];
-    }
-
-    return rhett;
-};
-
 /*
  * Assuming that the LI elements contained within the listElement obey the Ilios-standard of
  *  having an attribute 'iliosModel' being some sort of the Ilios javascript model class that
@@ -798,82 +765,6 @@ ilios.utilities.createFormattedUserName = function (firstName, middleName, lastN
         rhett = firstName.substr(0, 1) + '. ' + lastName;
     }
     return rhett;
-};
-
-ilios.utilities.getCSSRule = function (ruleName, deleteRule) {
-    ruleName = ruleName.toLowerCase();
-
-    if (document.styleSheets) {
-        var styleSheet = null;
-        var j = 0;
-        var cssRule = false;
-
-        for (var i = 0; i < document.styleSheets.length; i++) {
-            styleSheet = document.styleSheets[i];
-            j = 0;
-            cssRule = false;
-
-            do {
-                if (styleSheet.cssRules) {
-                    // Mozilla
-                    cssRule = styleSheet.cssRules[j];
-                }
-                else {
-                    // IE
-                    cssRule = styleSheet.rules[j];
-                }
-
-                if (cssRule && cssRule.type === cssRule.STYLE_RULE) {
-                    if (cssRule.selectorText.toLowerCase() == ruleName) {
-                        if (deleteRule) {
-                            if (styleSheet.cssRules) {
-                                // Mozilla
-                                styleSheet.deleteRule(j);
-                            }
-                            else {
-                                // IE
-                                styleSheet.removeRule(j);
-                            }
-
-                            return true;
-                        }
-                        else {
-                            return cssRule;
-                        }
-                    }
-                }
-
-                j++;
-            }
-            while (cssRule)
-        }
-    }
-
-    return false;
-};
-
-ilios.utilities.deleteCSSRule = function (ruleName) {
-    return ilios.utilities.getCSSRule(ruleName, true);
-};
-
-ilios.utilities.addCSSRule = function (ruleName) {
-    if (document.styleSheets) {
-        if (! ilios.utilities.getCSSRule(ruleName)) {
-            // insert to the last style sheet so that this rule has most precedence
-            var index = document.styleSheets.length - 1;
-
-            if (document.styleSheets[index].addRule) {
-                // IE
-                document.styleSheets[index].addRule(ruleName, null, 0);
-            }
-            else {
-                // Mozilla
-                document.styleSheets[index].insertRule((ruleName + ' { }'), 0);
-            }
-        }
-    }
-
-    return ilios.utilities.getCSSRule(ruleName);
 };
 
 ilios.utilities.getDomainFromURL = function (url) {

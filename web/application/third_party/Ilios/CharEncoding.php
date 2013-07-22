@@ -44,18 +44,18 @@ class Ilios_CharEncoding
     }
 
     /**
-     * URL-decode given input from a HTTP-request in a UTF8-safe manner.
+     * URL-decodes given input from a HTTP-request in a UTF8-safe manner.
      *
      * @param string $str the raw input
      * @return string the url-decoded output
      * @link http://www.php.net/manual/en/function.urldecode.php#79595
-     * @see urlencode()
+     * @see rawurldecode()
      */
     public static function utf8UrlDecode ($str)
     {
         // url-decode, then convert %uXXXX to &#XXXX (html entities),
         // and then decode these entities.
-        $str = preg_replace("/%u([0-9a-f]{3,4})/i","&#x\\1;",urldecode($str));
+        $str = preg_replace("/%u([0-9a-f]{3,4})/i","&#x\\1;",rawurldecode($str));
         return html_entity_decode($str, null, 'UTF-8');
     }
 }

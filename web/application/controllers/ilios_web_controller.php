@@ -219,7 +219,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
             return;
         }
 
-        $pairs = json_decode(urldecode($this->input->get_post('selection_pairs')), true);
+        $pairs = Ilios_Json::deserializeJsonArray($this->input->post('selection_pairs'), true);
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;

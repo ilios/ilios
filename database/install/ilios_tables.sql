@@ -449,7 +449,7 @@ ENGINE=InnoDB;
 	  `relative_file_system_location` VARCHAR(128) COLLATE utf8_unicode_ci,			-- this is relative to the storage directory
 	  `filename` VARCHAR(255) COLLATE utf8_unicode_ci,
   	  `filesize` INT(12) UNSIGNED NOT NULL,
-	  `description` VARCHAR(512) COLLATE utf8_unicode_ci NOT NULL,
+	  `description` TEXT COLLATE utf8_unicode_ci NOT NULL,
 	  `copyright_ownership` TINYINT(1) UNSIGNED NOT NULL,					-- 0==don't have ownership; 1==do; 2==NA
 	  `copyright_rationale` TEXT COLLATE utf8_unicode_ci,
 	  `upload_date` DATETIME NOT NULL,							-- the code assumes this is stored in UTC
@@ -1332,6 +1332,14 @@ ENGINE=InnoDB;
 --
 --
 --
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE `migrations` (
+    `version` INT(3) NOT NULL
+)
+DEFAULT CHARSET=utf8
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
 DROP TABLE IF EXISTS `ci_sessions`;
 SET character_set_client = utf8;
 
@@ -1345,5 +1353,4 @@ CREATE TABLE IF NOT EXISTS  `ci_sessions` (
     KEY `last_activity_idx` (`last_activity`)
 )
 DEFAULT CHARSET=utf8
-ENGINE=MyISAM
-;
+ENGINE=MyISAM;
