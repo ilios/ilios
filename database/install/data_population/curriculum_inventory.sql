@@ -54,7 +54,8 @@ INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM017', 'Self-As
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM018', 'Stimulated Recall');
 
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0101','Perform all medical, diagnostic, and surgical procedures considered essential for the area of practice');
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0102',' Gather essential and accurate information about patients and their conditions through history-taking, physical examination, and the use of laboratory data, imaging and other tests');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0102','Gather essential and accurate information about patients and their conditions through history-taking, physical examination, and the use of laboratory data, imaging and other tests');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0103','Organize and prioritize responsibilities to provide care that is safe, effective, and efficient');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0104','Interpret laboratory data, imaging studies, and other tests required for the area of practice');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0105','Counsel and educate patients and their families to empower them to participate in their care, showing consideration for their perspective throughout treatment');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0106','Make informed decisions about diagnostic and therapeutic interventions based on patient information and preferences, up-to-date scientific evidence, and clinical judgment');
