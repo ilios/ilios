@@ -61,30 +61,24 @@ ilios.management.displayOptionAsSelected = function (selectedIdStr) {
     }
 };
 
+/**
+ * @method ilios.management.setEnableForAElement
+ * Toggles a given link between "enabled" and "disabled".
+ * ACHTUNG! Disabling a given link will remove it's href attribute. Re-enabling the link won't bring it back.
+ * @param {HTMLElement} aElement The link.
+ * @param {Boolean} enabled Set to TRUE to enable the link, or FALSE to disable it.
+ * @todo What a horrendous way to (temporarily) "disable" a link. Find a more benign method to handle this. [ST 2013/07/22]
+ */
 ilios.management.setEnableForAElement = function (aElement, enabled) {
-    var wrappedElement = new YAHOO.util.Element(aElement);
-
+    var el = new YAHOO.util.Element(aElement);
     if (enabled) {
-        var cssRule = ilios.utilities.getCSSRule('a', false);
-
         if (aElement.getAttribute('href') == null) {
             aElement.setAttribute('href', '');
         }
-
-        wrappedElement.removeClass('disabled_a');
-        if (cssRule) {
-            wrappedElement.setStyle('color', cssRule.style.color);
-        }
-        wrappedElement.setStyle('font-weight', 'normal');
-        wrappedElement.setStyle('cursor', 'pointer');
-    }
-    else {
+        el.removeClass('disabled_a');
+    } else {
         aElement.removeAttribute('href');
-
-        wrappedElement.addClass('disabled_a');
-        wrappedElement.setStyle('color', '#CC6600');
-        wrappedElement.setStyle('font-weight', 'bold');
-        wrappedElement.setStyle('cursor', 'default');
+        el.addClass('disabled_a');
     }
 };
 

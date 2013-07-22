@@ -2390,9 +2390,16 @@ ul.week_list li.selected_day {
 /********************************/
 /*     Admin Modules            */
 
+.disabled_a {
+    color: #cc6600;
+    font-weight: bold;
+    cursor: default;
+}
+
 .disabled_a:hover {
     text-decoration:none;
 }
+
 .alert_triangle {
     float:left;
     margin:0;
