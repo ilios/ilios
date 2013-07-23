@@ -144,10 +144,10 @@ ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
         $sql =<<<EOL
-CREATE TABLE `aamc_mecrs` (
-    `mecrs_id` VARCHAR(21) NOT NULL,
+CREATE TABLE `aamc_pcrs` (
+    `pcrs_id` VARCHAR(21) NOT NULL,
     `description` TEXT NOT NULL,
-    PRIMARY KEY (`mecrs_id`)
+    PRIMARY KEY (`pcrs_id`)
 )
 DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
@@ -183,13 +183,13 @@ ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
         $sql =<<<EOL
-CREATE TABLE `competency_x_aamc_mecrs` (
+CREATE TABLE `competency_x_aamc_pcrs` (
     `competency_id` INT(14) UNSIGNED NOT NULL,
-    `mecrs_id` VARCHAR(21) NOT NULL,
-    PRIMARY KEY (`competency_id`, `mecrs_id`),
-    INDEX `aamc_mecrs_id_fkey` (`mecrs_id`),
-    CONSTRAINT `aamc_mecrs_id_fkey`
-        FOREIGN KEY (`mecrs_id`) REFERENCES `aamc_mecrs` (`mecrs_id`)
+    `pcrs_id` VARCHAR(21) NOT NULL,
+    PRIMARY KEY (`competency_id`, `pcrs_id`),
+    INDEX `aamc_pcrs_id_fkey` (`pcrs_id`),
+    CONSTRAINT `aamc_pcrs_id_fkey`
+        FOREIGN KEY (`pcrs_id`) REFERENCES `aamc_pcrs` (`pcrs_id`)
         ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT `competency_id_fkey`
         FOREIGN KEY (`competency_id`) REFERENCES `competency` (`competency_id`)
@@ -209,10 +209,10 @@ EOL;
     public function down ()
     {
         $this->db->trans_start();
-        $this->db->query('DROP TABLE `competency_x_aamc_mecrs`');
+        $this->db->query('DROP TABLE `competency_x_aamc_pcrs`');
         $this->db->query('DROP TABLE `session_type_x_aamc_method`');
         $this->db->query('DROP TABLE `aamc_method`');
-        $this->db->query('DROP TABLE `aamc_mecrs`');
+        $this->db->query('DROP TABLE `aamc_pcrs`');
         $this->db->query('DROP TABLE `curriculum_inventory_export`');
         $this->db->query('DROP TABLE `curriculum_inventory_sequence_block`');
         $this->db->query('DROP TABLE `curriculum_inventory_academic_level`');

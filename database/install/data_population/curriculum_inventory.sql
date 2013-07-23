@@ -103,7 +103,7 @@ INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0704
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0801','Develop the ability to use self-awareness of knowledge, skills and emotional limitations to engage in appropriate help-seeking behaviors');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0802','Demonstrate healthy coping mechanisms to respond to stress');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0803','Manage conflict between personal and professional responsibilities');
-INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0804','Practice flexibility and maturity in adjusting to change with the capacity to alter one''s behavior ');
+INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0804','Practice flexibility and maturity in adjusting to change with the capacity to alter behavior');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0805','Demonstrate trustworthiness that makes colleagues feel secure when one is responsible for the care of patients');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0806','Provide leadership skills that enhance team functioning, the learning environment, and/or the health care delivery system');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0807','Demonstrate self-confidence that puts patients, families, and members of the health care team at ease');
