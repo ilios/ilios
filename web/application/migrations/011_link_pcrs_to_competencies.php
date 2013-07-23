@@ -16,7 +16,7 @@ class Migration_Link_pcrs_to_competencies extends CI_Migration
         $sql =<<<EOL
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`)
 (
-    SELECT 7, 'aamc-pcrs-comp-c0102' FROM competency
+    SELECT 7, 'aamc-pcrs-comp-c0101' FROM competency
     WHERE competency_id = 7 AND title = 'History Taking'
     AND parent_competency_id = 1 AND owning_school_id = 1
 )
@@ -25,7 +25,7 @@ EOL;
         $sql =<<<EOL
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`)
 (
-    SELECT 8, 'aamc-pcrs-comp-c0103' FROM competency
+    SELECT 8, 'aamc-pcrs-comp-c0102' FROM competency
     WHERE competency_id = 8 AND title = 'Physical Exam'
     AND parent_competency_id = 1 AND owning_school_id = 1
 )
@@ -52,7 +52,7 @@ EOL;
         $sql =<<<EOL
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`)
 (
-    SELECT 11, 'aamc-pcrs-comp-c0102' FROM competency
+    SELECT 11, 'aamc-pcrs-comp-c0101' FROM competency
     WHERE competency_id = 11 AND title = 'Procedures and Skills'
     AND parent_competency_id = 1 AND owning_school_id = 1
 )
@@ -328,11 +328,11 @@ EOL;
     public function down ()
     {
         $this->db->trans_start();
-        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 7 AND `pcrs_id` = 'aamc-pcrs-comp-c0102'");
-        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 8 AND `pcrs_id` = 'aamc-pcrs-comp-c0103'");
+        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 7 AND `pcrs_id` = 'aamc-pcrs-comp-c0101'");
+        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 8 AND `pcrs_id` = 'aamc-pcrs-comp-c0102'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 9 AND `pcrs_id` = 'aamc-pcrs-comp-c0107'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 10 AND `pcrs_id` = 'aamc-pcrs-comp-c0405'");
-        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 11 AND `pcrs_id` = 'aamc-pcrs-comp-c0102'");
+        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 11 AND `pcrs_id` = 'aamc-pcrs-comp-c0101'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 12 AND `pcrs_id` = 'aamc-pcrs-comp-c0108'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 12 AND `pcrs_id` = 'aamc-pcrs-comp-c0109'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 13 AND `pcrs_id` = 'aamc-pcrs-comp-c0203'");
