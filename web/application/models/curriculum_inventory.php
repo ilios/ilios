@@ -217,44 +217,44 @@ EOL;
     }
 
     /**
-     * Retrieves the relations between given program-objectives and MECRS (via competencies).
+     * Retrieves the relations between given program-objectives and PCRS (via competencies).
      * @param array $programObjectivesId
-     * @param array $mecrsIds
+     * @param array $pcrsIds
      * @return array
      */
-    public function getProgramObjectivesToMecrsRelations (array $programObjectivesId, array $mecrsIds)
+    public function getProgramObjectivesToPcrsRelations (array $programObjectivesId, array $pcrsIds)
     {
         $rhett = array(
             'relations' => array(),
             'program_objective_ids' => array(),
-            'mecrs_ids' => array(),
+            'pcrs_ids' => array(),
         );
 
-        if (! count($programObjectivesId) || ! count($mecrsIds)) {
+        if (! count($programObjectivesId) || ! count($pcrsIds)) {
             return $rhett;
         }
 
         $this->db->distinct();
-        $this->db->select('o.objective_id, cxam.mecrs_id');
+        $this->db->select('o.objective_id, cxam.pcrs_id');
         $this->db->from('objective o');
         $this->db->join('competency c', 'o.competency_id = c.competency_id');
-        $this->db->join('competency_x_aamc_mecrs cxam', 'c.competency_id = cxam.competency_id');
-        $this->db->join('aamc_mecrs am', 'am.mecrs_id = cxam.mecrs_id');
-        $this->db->where_in('am.mecrs_id', $mecrsIds);
+        $this->db->join('competency_x_aamc_pcrs cxam', 'c.competency_id = cxam.competency_id');
+        $this->db->join('aamc_pcrs am', 'am.pcrs_id = cxam.pcrs_id');
+        $this->db->where_in('am.pcrs_id', $pcrsIds);
         $this->db->where_in('o.objective_id', $programObjectivesId);
         $query = $this->db->get();
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
                 $rhett['relations'][] = array(
                     'rel1' => $row['objective_id'],
-                    'rel2' => $row['mecrs_id'],
+                    'rel2' => $row['pcrs_id'],
                 );
                 $rhett['program_objective_ids'][] = $row['objective_id'];
-                $rhett['mecrs_ids'][] = $row['mecrs_id'];
+                $rhett['pcrs_ids'][] = $row['pcrs_id'];
             }
             // dedupe
             $rhett['program_objective_ids'] = array_values(array_unique($rhett['program_objective_ids']));
-            $rhett['mecrs_ids'] = array_values(array_unique($rhett['mecrs_ids']));
+            $rhett['pcrs_ids'] = array_values(array_unique($rhett['pcrs_ids']));
         }
         $query->free_result();
         return $rhett;
@@ -349,19 +349,19 @@ EOL;
     }
 
     /**
-     * Retrieves all MECRS linked to sequence blocks (via objectives and competencies) in a given inventory report.
+     * Retrieves all PCRS linked to sequence blocks (via objectives and competencies) in a given inventory report.
      * @param $reportId The report id.
-     * @return array A nested array of associative arrays, keyed off by 'mecrs_id'. Each sub-array represents a MECRS
-     *      and is itself an associative array with values being keyed off by 'mecrs_id' and 'description'.
+     * @return array A nested array of associative arrays, keyed off by 'pcrs_id'. Each sub-array represents a PCRS
+     *      and is itself an associative array with values being keyed off by 'pcrs_id' and 'description'.
      */
-    public function getMecrs ($reportId)
+    public function getPcrs ($reportId)
     {
         $rhett = array();
         $clean = array();
         $clean['report_id'] = (int) $reportId;
         $sql =<<<EOL
 SELECT
-am.mecrs_id, am.description
+am.pcrs_id, am.description
 FROM
 curriculum_inventory_report r
 JOIN program p ON p.program_id = r.program_id
@@ -374,8 +374,8 @@ JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
 JOIN objective o ON o.objective_id = pyxo.objective_id
 JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
 JOIN competency cm2 ON cm2.competency_id = cm.parent_competency_id
-JOIN competency_x_aamc_mecrs cxm ON cxm.competency_id = cm2.competency_id
-JOIN aamc_mecrs am ON am.mecrs_id = cxm.mecrs_id
+JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm2.competency_id
+JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
 WHERE
 c.deleted = 0
 AND py.deleted = 0
@@ -384,7 +384,7 @@ AND r.report_id = {$clean['report_id']}
 UNION
 
 SELECT
-am.mecrs_id, am.description
+am.pcrs_id, am.description
 FROM
 curriculum_inventory_report r
 JOIN program p ON p.program_id = r.program_id
@@ -396,8 +396,8 @@ JOIN program_year py ON py.program_year_id = co.program_year_id
 JOIN program_year_x_objective pyxo ON pyxo.program_year_id = py.program_year_id
 JOIN objective o ON o.objective_id = pyxo.objective_id
 JOIN competency cm ON cm.competency_id = o.competency_id AND cm.owning_school_id = p.owning_school_id
-JOIN competency_x_aamc_mecrs cxm ON cxm.competency_id = cm.competency_id
-JOIN aamc_mecrs am ON am.mecrs_id = cxm.mecrs_id
+JOIN competency_x_aamc_pcrs cxm ON cxm.competency_id = cm.competency_id
+JOIN aamc_pcrs am ON am.pcrs_id = cxm.pcrs_id
 WHERE
 c.deleted = 0
 AND py.deleted = 0
@@ -406,7 +406,7 @@ EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
-                $rhett[$row['mecrs_id']] = $row;
+                $rhett[$row['pcrs_id']] = $row;
             }
         }
         $query->free_result();
