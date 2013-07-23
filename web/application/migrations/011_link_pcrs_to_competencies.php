@@ -295,7 +295,7 @@ EOL;
         $sql =<<<EOL
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`)
 (
-    SELECT 50, 'aamc-pcrs-comp-c0606' FROM competency
+    SELECT 50, 'aamc-pcrs-comp-c0605' FROM competency
     WHERE competency_id = 50 AND title = 'Systems Improvement'
     AND parent_competency_id = 6 AND owning_school_id = 1
 )
@@ -359,7 +359,7 @@ EOL;
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 25 AND `pcrs_id` = 'aamc-pcrs-comp-c0506'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 26 AND `pcrs_id` = 'aamc-pcrs-comp-c0403'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 26 AND `pcrs_id` = 'aamc-pcrs-comp-c0603'");
-        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 50 AND `pcrs_id` = 'aamc-pcrs-comp-c0606'");
+        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 50 AND `pcrs_id` = 'aamc-pcrs-comp-c0605'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 51 AND `pcrs_id` = 'aamc-pcrs-comp-c0203'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 52 AND `pcrs_id` = 'aamc-pcrs-comp-c0206'");
         $this->db->trans_complete();
