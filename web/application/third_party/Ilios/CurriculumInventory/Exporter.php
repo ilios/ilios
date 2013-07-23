@@ -73,12 +73,12 @@ class Ilios_CurriculumInventory_Exporter
      *             'session_objectives'
      *         'framework' ... The competency framework data set.
      *             'includes' ... Identifiers of the various competency objects that get referenced in the framework.
-     *                 'mecrs_ids'
+     *                 'pcrs_ids'
      *                 'program_objective_ids'
      *                 'course_objective_ids'
      *                 'session_objective_ids'
      *             'relations' ... Relations between the various competencies within the framework
-     *                 'program_objectives_to_mecrs'
+     *                 'program_objectives_to_pcrs'
      *                 'course_objectives_to_program_objectives'
      *                 'session_objectives_to_course_objectives'
      *         'academic_levels' ... An array of academic levels used in the curriculum.
@@ -134,27 +134,27 @@ class Ilios_CurriculumInventory_Exporter
 
 
         // Build out the competency framework information and added to $expectations.
-        $mecrs = $this->_ci->inventory->getMecrs($reportId);
+        $pcrs = $this->_ci->inventory->getPcrs($reportId);
 
-        $mecrsIds = array_keys($mecrs);
+        $pcrsIds = array_keys($pcrs);
         $programObjectiveIds = array_keys($programObjectives);
         $courseObjectiveIds = array_keys($courseObjectives);
         $sessionObjectiveIds = array_keys($sessionObjectives);
         $includes = array(
-            'mecrs_ids' => array(),
+            'pcrs_ids' => array(),
             'program_objective_ids' => array(),
             'course_objective_ids' => array(),
             'session_objective_ids' => array(),
         );
         $relations = array(
-            'program_objectives_to_mecrs' => array(),
+            'program_objectives_to_pcrs' => array(),
             'course_objectives_to_program_objectives' => array(),
             'session_objectives_to_course_objectives' => array(),
         );
 
-        $rel = $this->_ci->inventory->getProgramObjectivesToMecrsRelations($programObjectiveIds, $mecrsIds);
-        $relations['program_objectives_to_mecrs'] = $rel['relations'];
-        $includes['mecrs_ids'] = $rel['mecrs_ids'];
+        $rel = $this->_ci->inventory->getProgramObjectivesToPcrsRelations($programObjectiveIds, $pcrsIds);
+        $relations['program_objectives_to_pcrs'] = $rel['relations'];
+        $includes['pcrs_ids'] = $rel['pcrs_ids'];
         $includes['program_objective_ids'] = $rel['program_objective_ids'];
         $rel = $this->_ci->inventory->getCourseObjectivesToProgramObjectivesRelations($courseObjectiveIds,
             $programObjectiveIds);
@@ -614,10 +614,10 @@ class Ilios_CurriculumInventory_Exporter
 
         // includes
         $domain = $inventory['report']['domain'];
-        $competencyIds = $inventory['expectations']['framework']['includes']['mecrs_ids'];
+        $competencyIds = $inventory['expectations']['framework']['includes']['pcrs_ids'];
         for ($i = 0, $n = count($competencyIds); $i < $n; $i++) {
             $id = $competencyIds[$i];
-            $uri = $this->_createMecrsUri($id);
+            $uri = $this->_createPcrsUri($id);
             $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
         $competencyIds = $inventory['expectations']['framework']['includes']['program_objective_ids'];
@@ -639,11 +639,11 @@ class Ilios_CurriculumInventory_Exporter
             $this->_createCompetencyFrameworkIncludesNode($dom, $competencyFrameworkNode, $uri);
         }
         // relations
-        $relations = $inventory['expectations']['framework']['relations']['program_objectives_to_mecrs'];
+        $relations = $inventory['expectations']['framework']['relations']['program_objectives_to_pcrs'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
             $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
-            $relUri2 = $this->_createMecrsUri($relation['rel2']);
+            $relUri2 = $this->_createPcrsUri($relation['rel2']);
             $relationshipUri = $this->_createRelationshipUri('related');
             $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
                 $relationshipUri);
@@ -938,12 +938,12 @@ class Ilios_CurriculumInventory_Exporter
     }
 
     /**
-     * Returns a URI that identifies a given MECRS as defined by the AAMC.
-     * @param string $mecrsPartialUri A part of the URI that uniquely identifies te MECRS competency.
+     * Returns a URI that identifies a given PCRS as defined by the AAMC.
+     * @param string $pcrsPartialUri A part of the URI that uniquely identifies te PCRS competency.
      * @return string The generated URI.
      */
-    protected function _createMecrsUri ($mecrsPartialUri)
+    protected function _createPcrsUri ($pcrsPartialUri)
     {
-        return "http://aamc.org/mecrs/{$mecrsPartialUri}";
+        return "http://aamc.org/pcrs/{$pcrsPartialUri}";
     }
 }
