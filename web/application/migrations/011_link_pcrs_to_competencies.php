@@ -34,7 +34,7 @@ EOL;
         $sql =<<<EOL
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`)
 (
-    SELECT 9, 'aamc-pcrs-comp-c0107' FROM competency
+    SELECT 9, 'aamc-pcrs-comp-c0106' FROM competency
     WHERE competency_id = 9 AND title = 'Oral Case Presentation'
     AND parent_competency_id = 1 AND owning_school_id = 1
 )
@@ -169,7 +169,7 @@ EOL;
         $sql =<<<EOL
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`)
 (
-    SELECT 18, 'aamc-pcrs-comp-c0105' FROM competency
+    SELECT 18, 'aamc-pcrs-comp-c0107' FROM competency
     WHERE competency_id = 18 AND title = 'Doctor-Patient Relationship'
     AND parent_competency_id = 4 AND owning_school_id = 1
 )
@@ -178,7 +178,7 @@ EOL;
         $sql =<<<EOL
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`)
 (
-    SELECT 19, 'aamc-pcrs-comp-c0105' FROM competency
+    SELECT 19, 'aamc-pcrs-comp-c0107' FROM competency
     WHERE competency_id = 19 AND title = 'Communication and Information Sharing with Patients and Families'
     AND parent_competency_id = 4 AND owning_school_id = 1
 )
@@ -330,7 +330,7 @@ EOL;
         $this->db->trans_start();
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 7 AND `pcrs_id` = 'aamc-pcrs-comp-c0101'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 8 AND `pcrs_id` = 'aamc-pcrs-comp-c0102'");
-        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 9 AND `pcrs_id` = 'aamc-pcrs-comp-c0107'");
+        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 9 AND `pcrs_id` = 'aamc-pcrs-comp-c0106'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 10 AND `pcrs_id` = 'aamc-pcrs-comp-c0405'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 11 AND `pcrs_id` = 'aamc-pcrs-comp-c0101'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 12 AND `pcrs_id` = 'aamc-pcrs-comp-c0108'");
@@ -345,8 +345,8 @@ EOL;
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 16 AND `pcrs_id` = 'aamc-pcrs-comp-c0306'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 17 AND `pcrs_id` = 'aamc-pcrs-comp-c0301'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 17 AND `pcrs_id` = 'aamc-pcrs-comp-c0307'");
-        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 18 AND `pcrs_id` = 'aamc-pcrs-comp-c0105'");
-        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 19 AND `pcrs_id` = 'aamc-pcrs-comp-c0105'");
+        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 18 AND `pcrs_id` = 'aamc-pcrs-comp-c0107'");
+        $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 19 AND `pcrs_id` = 'aamc-pcrs-comp-c0107'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 19 AND `pcrs_id` = 'aamc-pcrs-comp-c0401'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 19 AND `pcrs_id` = 'aamc-pcrs-comp-c0406'");
         $this->db->query("DELETE FROM `competency_x_aamc_pcrs` WHERE `competency_id` = 20 AND `pcrs_id` = 'aamc-pcrs-comp-c0402'");
