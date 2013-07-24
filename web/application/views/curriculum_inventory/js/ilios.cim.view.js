@@ -77,7 +77,104 @@
         }
     });
 
-    ilios.cim.view.StatusView = StatusView;
+    var SequenceBlockViewHelper = {};
+
+    /**
+     * @method generateSequenceBlockMarkup
+     * Generates the container markup for a sequence block View.
+     * Note that data population and wiring of event handlers are not part of this.
+     * @param {Number} cnumber The container number. Used as suffix when creating unique ID attributes for HTML elements
+     *      within the container and of the container itself.
+     * @returns {HTMLElment} The generated markup.
+     * @static
+     */
+    SequenceBlockViewHelper.generateSequenceBlockMarkup = function (cnumber) {
+        var rootEl, headerEl, bodyEl, rowEl, el;
+
+        // the container element
+        rootEl = document.createElement('div');
+        Dom.setAttribute(rootEl, 'id', 'sequence-block-view-' + cnumber);
+        Dom.addClass(rootEl, 'entity_container');
+        Dom.addClass(rootEl, 'collapsed');
+        Dom.addClass(rootEl, 'hidden');
+
+        // header
+        headerEl = rootEl.appendChild(document.createElement('div'));
+        Dom.addClass(headerEl, 'hd');
+        el = headerEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'toggle');
+        el = headerEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-title-' + cnumber);
+        Dom.addClass(el, 'collapsed_summary_text_div');
+        el = headerEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-delete-button-' + cnumber);
+        Dom.addClass(el, 'delete_widget');
+        Dom.addClass(el, 'icon-cancel');
+
+        // body
+        bodyEl = rootEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(bodyEl, 'id', 'sequence-block-view-body-' + cnumber);
+        Dom.addClass(bodyEl, 'bd');
+        Dom.addClass(bodyEl, 'collapsible_container');
+        Dom.addClass(bodyEl, 'hidden');
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.description')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-description-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // ..
+        // @todo implement the rest
+        return rootEl;
+    };
+
+    /**
+     * The view for a given sequence block model.
+     * @namespace ilios.cim.view
+     * @class SequenceBlockView
+     * @constructor
+     * @extends YAHOO.util.Element
+     * @param {ilios.cim.model.SequenceBlockModel} model The sequence block model.
+     * @param {HTMLElement} parentEl The parent DOM element of this view.
+     * @param {Object} oConfig A configuration object.
+     */
+
+    var SequenceBlockView = function(model, parentEl, oConfig) {
+
+        var el = SequenceBlockViewHelper.generateSequenceBlockMarkup(model.get('id'));
+        parentEl.appendChild(el);
+
+        SequenceBlockView.superclass.constructor.call(this, el);
+
+        this.config = oConfig;
+        this.model = model;
+
+        // subscribe to model changes
+        this.model.subscribe('delete', this.delete, {}, this);
+    };
+
+    Lang.extend(SequenceBlockView, Element, {
+        initAttributes : function (config) {
+            SequenceBlockView.superclass.initAttributes.call(this, config);
+        },
+        delete: function () {
+            var el;
+            this.hide();
+            this.unsubscribeAll();
+            el = this.get('element');
+            el.parentNode.removeChild(el);
+        },
+        hide: function () {
+            this.addClass('hidden');
+        },
+        show: function () {
+            this.removeClass('hidden');
+        }
+    });
 
     /**
      * The view for a given report model.
@@ -522,5 +619,9 @@
             this.set('isFinalized', evObj.newValue);
         }
     });
+
+    ilios.cim.view.StatusView = StatusView;
     ilios.cim.view.ReportView = ReportView;
+    ilios.cim.view.SequenceBlockView = SequenceBlockView;
+
 }());
