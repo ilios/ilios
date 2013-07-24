@@ -10,7 +10,6 @@
  *     YUI Dom/Event/Element libs
  *     YUI Cookie lib
  *     application/views/curriculum_inventory/js/ilios.cim.model.js
- *     application/views/curriculum_inventory/js/ilios.cim.views.js
  */
 (function () {
 
