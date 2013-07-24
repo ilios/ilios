@@ -97,6 +97,15 @@ writeJsScripts($js, 'curriculum_inventory_manager', $this->config->item('script_
             </div>
 <?php include 'report_details_view.inc.php'; ?>
             <div id="status-toolbar"></div>
+            <div id="sequence-block-toolbar" class="hidden">
+                <div class="add_primary_child_link">
+                    <button disabled="true" id="add-new-sequence-block" onclick="return false;" class="small secondary radius button hidden">Add Sequence Block</button>
+                    <button disabled="true" id="expand-all-sequence-blocks" onclick="return false;" class="small secondary radius button hidden">Expand All</button>
+                    <button disabled="true" id="collapse-all-sequence-blocks" onclick="return false;" class="small secondary radius button hidden">Collapse All</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="report-sequence-container"></div>
         </div>
     </div>
 </div>
