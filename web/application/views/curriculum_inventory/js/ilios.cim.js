@@ -172,13 +172,14 @@
     };
 
     /**
+     * @method createSequenceBlockModel
      * Creates a sequence block model object from a given data transfer object representing a sequence block record.
      * @param {Object} oData The data transfer object.
      * @return {ilios.cim.model.SequenceBlockModel} The created model.
      */
     App.prototype.createSequenceBlockModel = function (oData) {
         return new ilios.cim.model.SequenceBlockModel(oData);
-    }
+    };
 
     /**
      * @method createSequenceBlockView
@@ -195,16 +196,22 @@
 
         parentEl = parentId ?  document.getElementById('sequence-block-view-children-' + parentId) : document.getElementById('report-sequence-container');
         el = generateSequenceBlockMarkup(id);
-        parentEl.appendChild(el); // insert the view into the dom
+
+        // attach the view element to it's parent in the document.
+        parentEl.appendChild(el);
 
         view = new ilios.cim.view.SequenceBlockView(model, el, { cnumber: id });
 
-        this.viewRegistry[id] = view;
+        this.viewRegistry[id] = view; // add the view to the registry so we can pull it up later
         view.render();
 
         return view;
     };
 
+    /**
+     * @method expandAllSequenceBlock
+     * Expands all sequence block views.
+     */
     App.prototype.expandAllSequenceBlocks = function () {
         var cnumber, view, registry;
         registry = this.viewRegistry;
@@ -216,6 +223,10 @@
         }
     };
 
+    /**
+     * @method expandAllSequenceBlock
+     * Collapses all sequence block views.
+     */
     App.prototype.collapseAllSequenceBlocks = function () {
         var cnumber, view, registry;
         registry = this.viewRegistry;
@@ -226,6 +237,10 @@
             }
         }
     };
+
+    //
+    // Utility methods.
+    //
 
     /**
      * @method generateSequenceBlockMarkup

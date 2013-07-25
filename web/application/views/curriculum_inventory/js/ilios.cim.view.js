@@ -84,20 +84,52 @@
      * @extends YAHOO.util.Element
      * @param {ilios.cim.model.SequenceBlockModel} model The sequence block model.
      * @param {HTMLElement} el The dom element corresponding to this view.
-     * @param {Object} oConfig A configuration object.
+     * @param {Object} oConfig A configuration object. Expected properties are:
+     *     'cnumber' ... The container number of this view. Should be unique within the context of the page.
      */
-
     var SequenceBlockView = function(model, el, oConfig) {
 
         SequenceBlockView.superclass.constructor.call(this, el, oConfig);
+
+        // set properties
         this.config = oConfig;
+        this.cnumber = this.config.cnumber;
         this.model = model;
 
         // subscribe to model changes
-        // this.model.subscribe('delete', this.delete, {}, this);
+        // @todo implement
+
+        // create custom events
+        this.createEvent(this.EVT_DELETE);
     };
 
     Lang.extend(SequenceBlockView, Element, {
+
+        /**
+         * The view's configuration object.
+         * @property config
+         * @type {Object}
+         */
+        config: null,
+
+        /**
+         * The view's container number.
+         * @property cnumber
+         * @type {Number}
+         */
+        cnumber: null,
+
+        /**
+         * @property model
+         * @type {ilios.cim.model.SequenceBlockModel}
+         */
+        model: null,
+
+        /**
+         * Overrides Element's <code>initAttributes()</code> method.
+         * @param {Object} config The view's configuration object.
+         * @see YAHOO.util.Element.initAttributes()
+         */
         initAttributes: function (config) {
             SequenceBlockView.superclass.initAttributes.call(this, config);
             var cnumber = config.cnumber;
@@ -126,20 +158,46 @@
                 value: ''
             });
         },
+
+        /**
+         * @method delete
+         * Lifecycle management method.
+         * "Deletes" the view from the page.
+         * This includes unsubscribing any event listeners, detaching the view from it's parent element in the page
+         * and hiding it from display.
+         * Fires the "delete" custom event.
+         * @see YAHOO.util.Element.destroy()
+         */
         delete: function () {
-            var el;
             this.hide();
-            this.unsubscribeAll();
-            el = this.get('element');
-            el.parentNode.removeChild(el);
+            this.fire(this.EVT_DELETE, { cnumber: this.cnumber });
+            // @todo remove event handlers from all buttons etc. within this view
+            this.destroy();
         },
+
+        /**
+         * @method hide
+         * Hides the view.
+         */
         hide: function () {
             this.addClass('hidden');
         },
+
+        /**
+         * @method show
+         * Makes the view visible.
+         */
         show: function () {
             this.removeClass('hidden');
         },
+
+        /**
+         * @method render
+         * Renders the view.
+         * This includes populating the view with the model data and wiring event handling.
+         */
         render: function () {
+
             this.set('title', this.model.get('title'));
 
             // wire buttons
@@ -153,16 +211,34 @@
                 return false;
             }, {}, this);
         },
+
+        /**
+         * @method expand
+         * Expands the view-container body.
+         */
         expand: function () {
             Dom.removeClass(this.get('bodyEl'), 'hidden');
             this.removeClass('collapsed');
             this.addClass('expanded');
         },
+
+        /**
+         * @method collapse
+         * Collapses the view-container body.
+         */
         collapse: function () {
             Dom.addClass(this.get('bodyEl'), 'hidden');
             this.removeClass('expanded');
             this.addClass('collapsed');
-        }
+        },
+
+        /**
+         * Fired when the view gets deleted.
+         * @event delete
+         * @param {Number} cnumber The view's container number.
+         * @final
+         */
+        EVT_DELETE : 'delete'
     });
 
     /**
@@ -177,6 +253,7 @@
     var ReportView = function (model, oConfig) {
         ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'), oConfig);
 
+        // set properties
         this.config = oConfig;
         this.model = model;
 
