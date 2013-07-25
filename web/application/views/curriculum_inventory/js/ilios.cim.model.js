@@ -151,7 +151,7 @@
             var academicLevelId = oData.academic_level_id;
             var duration = oData.duration;
             var courseId = oData.courseId;
-            var parentSequenceBlockId = oData.parent_sequence_block_id;
+            var parentId = oData.parent_sequence_block_id;
 
             this.setAttributeConfig('reportId', {
                 value: reportId,
@@ -224,8 +224,8 @@
                     return (Lang.isNull(value) || Lang.isNumber(value));
                 }
             });
-            this.setAttributeConfig('parentSequenceBlockId', {
-                value: parentSequenceBlockId,
+            this.setAttributeConfig('parentId', {
+                value: parentId,
                 validator: function (value) {
                     return (Lang.isNull(value) || Lang.isNumber(value));
                 }
