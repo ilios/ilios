@@ -19,7 +19,8 @@
     ilios.namespace('cim');
 
     var Lang = YAHOO.lang,
-        Event = YAHOO.util.Event;
+        Event = YAHOO.util.Event,
+        Dom = YAHOO.util.Dom;
     /**
      * Creates a client-side application object.
      * It sets up data model, instantiates and wires up views and dialogs.
@@ -33,14 +34,19 @@
      *     "sequence_blocks" ... (optional) An array of report sequence blocks.
      *     "academic_levels" ... (optional) An array of academic levels available in the given report.
      * @constructor
+     * @todo way to much things going on in there for a single function. chunk it up into separate init functions.
      */
     var App = function (config, payload) {
 
+        var i, n,
+            sequenceBlockModel, sequenceBlockView;
         // set module configuration
         this.config = Lang.isObject(config) ? config : {};
 
         this.statusView = new ilios.cim.view.StatusView();
         this.statusView.render('status-toolbar');
+
+        this.viewRegistry = {};
 
         // wire dialogs to buttons
         Event.addListener('pick_reports_btn', 'click', function (event) {
@@ -64,6 +70,24 @@
         this.programs = payload.programs;
 
         if (payload.hasOwnProperty('report')) {
+
+            // more wiring of event handlers
+            Event.addListener('expand-all-sequence-blocks-btn', 'click', function (event) {
+                this.expandAllSequenceBlocks();
+                Dom.removeClass('collapse-all-sequence-blocks-btn', 'hidden');
+                Dom.addClass('expand-all-sequence-blocks-btn', 'hidden');
+                Event.stopEvent(event);
+                return false;
+            }, {}, this);
+
+            Event.addListener('collapse-all-sequence-blocks-btn', 'click', function (event) {
+                this.collapseAllSequenceBlocks();
+                Dom.removeClass('expand-all-sequence-blocks-btn', 'hidden');
+                Dom.addClass('collapse-all-sequence-blocks-btn', 'hidden');
+                Event.stopEvent(event);
+                return false;
+            }, {}, this);
+
             this.reportModel = new ilios.cim.model.ReportModel(payload.report);
             this.reportView = new ilios.cim.view.ReportView(this.reportModel, {
                 finalizeUrl: this.config.controllerUrl + 'finalize',
@@ -112,6 +136,20 @@
             this.linkedCourses = payload.linked_courses;
             this.reportView.render();
             this.reportView.show();
+            Dom.removeClass('sequence-block-toolbar', 'hidden');
+            Dom.removeClass('expand-all-sequence-blocks-btn', 'hidden');
+            document.getElementById('expand-all-sequence-blocks-btn').disabled = false;
+            document.getElementById('collapse-all-sequence-blocks-btn').disabled = false;
+            if (! this.reportModel.get('isFinalized')) {
+                Dom.removeClass('add-new-sequence-block-btn', 'hidden');
+                document.getElementById('add-new-sequence-block-btn').disabled = false;
+            }
+
+            for (i = 0, n = payload.sequence_blocks.length; i < n; i++) {
+                sequenceBlockModel = this.createSequenceBlockModel(payload.sequence_blocks[i]);
+                sequenceBlockView = this.createSequenceBlockView(sequenceBlockModel);
+                sequenceBlockView.show();
+            }
         }
     };
 
@@ -134,6 +172,15 @@
     };
 
     /**
+     * Creates a sequence block model object from a given data transfer object representing a sequence block record.
+     * @param {Object} oData The data transfer object.
+     * @return {ilios.cim.model.SequenceBlockModel} The created model.
+     */
+    App.prototype.createSequenceBlockModel = function (oData) {
+        return new ilios.cim.model.SequenceBlockModel(oData);
+    }
+
+    /**
      * @method createSequenceBlockView
      * Generates, renders and returns a sequence block view for a given sequence block model.
      * @param {ilios.cim.model.SequenceBlockModel} model
@@ -151,9 +198,33 @@
         parentEl.appendChild(el); // insert the view into the dom
 
         view = new ilios.cim.view.SequenceBlockView(model, el, { cnumber: id });
+
+        this.viewRegistry[id] = view;
         view.render();
 
         return view;
+    };
+
+    App.prototype.expandAllSequenceBlocks = function () {
+        var cnumber, view, registry;
+        registry = this.viewRegistry;
+        for (cnumber in registry) {
+            if (registry.hasOwnProperty(cnumber)) {
+                view = registry[cnumber];
+                view.expand();
+            }
+        }
+    };
+
+    App.prototype.collapseAllSequenceBlocks = function () {
+        var cnumber, view, registry;
+        registry = this.viewRegistry;
+        for (cnumber in registry) {
+            if (registry.hasOwnProperty(cnumber)) {
+                view = registry[cnumber];
+                view.collapse();
+            }
+        }
     };
 
     /**
@@ -180,6 +251,7 @@
         Dom.addClass(headerEl, 'hd');
         el = headerEl.appendChild(document.createElement('div'));
         Dom.addClass(el, 'toggle');
+        Dom.setAttribute(el, 'id', 'sequence-block-view-toggle-btn-' + cnumber);
         el = headerEl.appendChild(document.createElement('div'));
         Dom.setAttribute(el, 'id', 'sequence-block-view-title-' + cnumber);
         Dom.addClass(el, 'collapsed_summary_text_div');
