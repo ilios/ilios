@@ -100,10 +100,19 @@
     Lang.extend(SequenceBlockView, Element, {
         initAttributes: function (config) {
             SequenceBlockView.superclass.initAttributes.call(this, config);
+            var cnumber = config.cnumber;
 
             this.setAttributeConfig('titleEl', {
                 writeOnce: true,
-                value: Dom.get('sequence-block-view-title-' + config.cnumber)
+                value: Dom.get('sequence-block-view-title-' + cnumber)
+            });
+            this.setAttributeConfig('toggleBtnEl', {
+               writeOnce: true,
+               value: Dom.get('sequence-block-view-toggle-btn-' + cnumber)
+            });
+            this.setAttributeConfig('bodyEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-body-' + cnumber)
             });
 
             this.setAttributeConfig('title', {
@@ -132,6 +141,27 @@
         },
         render: function () {
             this.set('title', this.model.get('title'));
+
+            // wire buttons
+            Event.addListener(this.get('toggleBtnEl'), 'click', function (event) {
+                if (this.hasClass('collapsed')) {
+                    this.expand();
+                } else {
+                    this.collapse();
+                }
+                Event.stopEvent(event);
+                return false;
+            }, {}, this);
+        },
+        expand: function () {
+            Dom.removeClass(this.get('bodyEl'), 'hidden');
+            this.removeClass('collapsed');
+            this.addClass('expanded');
+        },
+        collapse: function () {
+            Dom.addClass(this.get('bodyEl'), 'hidden');
+            this.removeClass('expanded');
+            this.addClass('collapsed');
         }
     });
 
