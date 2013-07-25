@@ -115,12 +115,101 @@
         }
     };
 
-    App.getStatusView = function () {
+    /**
+     * @method getStatusView
+     * Returns the app's status view.
+     * @return {ilios.cim.view.StatusView} The view.
+     */
+    App.prototype.getStatusView = function () {
         return this.statusView;
     };
 
-    App.getConfig = function () {
+    /**
+     * @method getConfig
+     * Returns the app's configuration object.
+     * @return {Object] The configuration object.
+     */
+    App.prototype.getConfig = function () {
         return this.config;
+    };
+
+    /**
+     * @method createSequenceBlockView
+     * Generates, renders and returns a sequence block view for a given sequence block model.
+     * @param {ilios.cim.model.SequenceBlockModel} model
+     * @return {ilios.cim.view.SequenceBlockView}
+     * @static
+     */
+    App.prototype.createSequenceBlockView = function (model) {
+        var parentId, id, parentEl, el, view;
+
+        parentId = model.get('parentId');
+        id = model.get('id');
+
+        parentEl = parentId ?  document.getElementById('sequence-block-view-children-' + parentId) : document.getElementById('report-sequence-container');
+        el = generateSequenceBlockMarkup(id);
+        parentEl.appendChild(el); // insert the view into the dom
+
+        view = new ilios.cim.view.SequenceBlockView(model, el, { cnumber: id });
+        view.render();
+
+        return view;
+    };
+
+    /**
+     * @method generateSequenceBlockMarkup
+     * Generates the container markup for a sequence block View.
+     * Note that data population and wiring of event handlers are not part of this.
+     * @param {Number} cnumber The container number. Used as suffix when creating unique ID attributes for HTML elements
+     *      within the container and of the container itself.
+     * @returns {HTMLElement} The generated markup.
+     * @static
+     */
+    var generateSequenceBlockMarkup = function (cnumber) {
+        var rootEl, headerEl, bodyEl, rowEl, el;
+
+        // the container element
+        rootEl = document.createElement('div');
+        Dom.setAttribute(rootEl, 'id', 'sequence-block-view-' + cnumber);
+        Dom.addClass(rootEl, 'entity_container');
+        Dom.addClass(rootEl, 'collapsed');
+        Dom.addClass(rootEl, 'hidden');
+
+        // header
+        headerEl = rootEl.appendChild(document.createElement('div'));
+        Dom.addClass(headerEl, 'hd');
+        el = headerEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'toggle');
+        el = headerEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-title-' + cnumber);
+        Dom.addClass(el, 'collapsed_summary_text_div');
+        el = headerEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-delete-button-' + cnumber);
+        Dom.addClass(el, 'delete_widget');
+        Dom.addClass(el, 'icon-cancel');
+
+        // body
+        bodyEl = rootEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(bodyEl, 'id', 'sequence-block-view-body-' + cnumber);
+        Dom.addClass(bodyEl, 'bd');
+        Dom.addClass(bodyEl, 'collapsible_container');
+        Dom.addClass(bodyEl, 'hidden');
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.description')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-description-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // ..
+        // @todo implement the rest
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        Dom.setAttribute(rowEl, 'id', 'sequence-block-view-children-' + cnumber);
+        return rootEl;
     };
 
     ilios.cim.App = App;
