@@ -71,23 +71,6 @@
 
         if (payload.hasOwnProperty('report')) {
 
-            // more wiring of event handlers
-            Event.addListener('expand-all-sequence-blocks-btn', 'click', function (event) {
-                this.expandAllSequenceBlocks();
-                Dom.removeClass('collapse-all-sequence-blocks-btn', 'hidden');
-                Dom.addClass('expand-all-sequence-blocks-btn', 'hidden');
-                Event.stopEvent(event);
-                return false;
-            }, {}, this);
-
-            Event.addListener('collapse-all-sequence-blocks-btn', 'click', function (event) {
-                this.collapseAllSequenceBlocks();
-                Dom.removeClass('expand-all-sequence-blocks-btn', 'hidden');
-                Dom.addClass('collapse-all-sequence-blocks-btn', 'hidden');
-                Event.stopEvent(event);
-                return false;
-            }, {}, this);
-
             this.reportModel = new ilios.cim.model.ReportModel(payload.report);
             this.reportView = new ilios.cim.view.ReportView(this.reportModel, {
                 finalizeUrl: this.config.controllerUrl + 'finalize',
@@ -136,6 +119,28 @@
             this.linkedCourses = payload.linked_courses;
             this.reportView.render();
             this.reportView.show();
+
+            this.sequenceBlockTopToolbarView = new ilios.cim.view.SequenceBlockTopToolbarView({});
+            this.sequenceBlockTopToolbarView.render();
+            this.sequenceBlockTopToolbarView.show();
+            this.sequenceBlockBottomToolbarView = new ilios.cim.view.SequenceBlockBottomToolbarView({});
+
+            // more wiring of event handlers
+            Event.addListener(this.sequenceBlockTopToolbarView.get('expandBtnEl'), 'click', function (event) {
+                this.expandAllSequenceBlocks();
+            }, {}, this);
+
+            Event.addListener(this.sequenceBlockTopToolbarView.get('collapseBtnEl'), 'click', function (event) {
+                this.collapseAllSequenceBlocks();
+            }, {}, this);
+
+            this.sequenceBlockBottomToolbarView.render(! this.reportModel.get('isFinalized'));
+            this.reportView.subscribe('finalizeSucceeded', function () {
+                this.disableButtons();
+            }, this.sequenceBlockBottomToolbarView, true);
+
+            this.sequenceBlockBottomToolbarView.show();
+
             Dom.removeClass('sequence-block-toolbar', 'hidden');
             Dom.removeClass('expand-all-sequence-blocks-btn', 'hidden');
             document.getElementById('expand-all-sequence-blocks-btn').disabled = false;
@@ -295,6 +300,7 @@
         // @todo implement the rest
         rowEl = bodyEl.appendChild(document.createElement('div'));
         Dom.addClass(rowEl, 'row');
+        Dom.addClass(rowEl, 'sequence-block-children');
         Dom.setAttribute(rowEl, 'id', 'sequence-block-view-children-' + cnumber);
         return rootEl;
     };
