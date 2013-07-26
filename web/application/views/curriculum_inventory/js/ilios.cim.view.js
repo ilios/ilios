@@ -10,6 +10,7 @@
  *     YUI Dom/Event/Element libs
  *     YUI Cookie lib
  *     application/views/curriculum_inventory/js/ilios.cim.model.js
+ *     application/views/curriculum_inventory/js/ilios.cim.widget.js
  */
 (function () {
 
@@ -21,12 +22,126 @@
         Event = YAHOO.util.Event,
         Cookie = YAHOO.util.Cookie;
 
+    var SequenceBlockTopToolbarView = function (oConfig) {
+        SequenceBlockTopToolbarView.superclass.constructor.call(this, 'sequence-block-top-toolbar', oConfig);
+    };
+
+    Lang.extend(SequenceBlockTopToolbarView, Element, {
+        /**
+         * Overrides Element's <code>initAttributes()</code> method.
+         * @param {Object} config The view's configuration object.
+         * @see YAHOO.util.Element.initAttributes()
+         */
+        initAttributes: function (config) {
+            this.setAttributeConfig('expandBtnEl', {
+                writeOnce: true,
+                value: Dom.get('expand-all-sequence-blocks-btn')
+            });
+            this.setAttributeConfig('collapseBtnEl', {
+                writeOnce: true,
+                value: Dom.get('collapse-all-sequence-blocks-btn')
+            });
+        },
+
+        show: function () {
+            this.removeClass('hidden');
+        },
+
+        hide: function () {
+            this.addClass('hidden');
+        },
+        render: function () {
+            var expandBtn = this.get('expandBtnEl');
+            var collapseBtn = this.get('collapseBtnEl');
+
+            // more wiring of event handlers
+            Event.addListener(collapseBtn, 'click', function (event) {
+                Dom.addClass(this.get('collapseBtnEl'), 'hidden');
+                Dom.removeClass(this.get('expandBtnEl'), 'hidden');
+                Event.stopEvent(event);
+                return false;
+            }, {}, this);
+
+            Event.addListener(expandBtn, 'click', function (event) {
+                Dom.addClass(this.get('expandBtnEl'), 'hidden');
+                Dom.removeClass(this.get('collapseBtnEl'), 'hidden');
+                Event.stopEvent(event);
+                return false;
+            }, {}, this);
+
+            expandBtn.disabled = false;
+            collapseBtn.disabled = false;
+            Dom.removeClass(expandBtn, 'hidden');
+        }
+    });
+
+
+    var SequenceBlockBottomToolbarView = function (oConfig) {
+        SequenceBlockBottomToolbarView.superclass.constructor.call(this, 'sequence-block-bottom-toolbar', oConfig);
+        this.config = oConfig;
+    };
+
+    Lang.extend(SequenceBlockBottomToolbarView, Element, {
+        /**
+         * Overrides Element's <code>initAttributes()</code> method.
+         * @param {Object} config The view's configuration object.
+         * @see YAHOO.util.Element.initAttributes()
+         */
+        initAttributes: function (config) {
+            this.setAttributeConfig('addBtnEl', {
+                writeOnce: true,
+                value: Dom.get('add-new-sequence-block-btn')
+            });
+        },
+
+        show: function () {
+            this.removeClass('hidden');
+        },
+
+        hide: function () {
+            this.addClass('hidden');
+        },
+
+        render: function (enableButtons) {
+
+            if (enableButtons) {
+                this.enableButtons();
+            }
+        },
+
+        enableButtons: function () {
+            var el = this.get('addBtnEl');
+            el.disabled = false;
+        },
+
+        disableButtons: function () {
+            var el = this.get('addBtnEl');
+            Dom.setAttribute(el, 'disabled', 'disabled');
+        }
+    });
+
+    /**
+     * The status indicator view.
+     * It's purpose is to display given (status-)messages on the page.
+     * @namespace ilios.cim.view
+     * @class StatusView
+     * @constructor
+     * @extends YAHOO.util.Element
+     * @param {Object} oConfig A configuration object.
+     */
     var StatusView = function (oConfig) {
         StatusView.superclass.constructor.call(this, document.createElement('div'), oConfig);
     };
 
     Lang.extend(StatusView, Element, {
+
+        /**
+         * Overrides Element's <code>initAttributes()</code> method.
+         * @param {Object} config The view's configuration object.
+         * @see YAHOO.util.Element.initAttributes()
+         */
         initAttributes: function (config) {
+
             StatusView.superclass.initAttributes.call(this, config);
 
             var container = this.get('element');
@@ -52,6 +167,12 @@
                 value: ''
             });
         },
+
+        /**
+         * @method render
+         * Renders the view onto the page.
+         * @param {String|HTMLElement} parentEl The parent element that this view should be attached to.
+         */
         render: function (parentEl) {
             parentEl = Dom.get(parentEl);
             var containerEl = this.get('element');
@@ -62,15 +183,29 @@
             Dom.setStyle(progressEl, 'display', 'none');
             parentEl.appendChild(containerEl);
         },
+        /**
+         * @method reset
+         * Resets the view, removes any currently shown message.
+         */
         reset: function () {
             this.show('', false)
         },
+        /**
+         * @method show
+         * Displays a given message in the view.
+         * @param {String} message The message to show.
+         * @param {Boolean} showProgressIndicator If TRUE then a spinner icon is shown with the message, otherwise not.
+         */
         show: function (message, showProgressIndicator) {
             showProgressIndicator = showProgressIndicator || false;
             Dom.setStyle(this.get('progressEl'), 'display', (showProgressIndicator ? 'inline-block' : 'none'));
             this.set('message', message);
             this.setStyle('display', 'block');
         },
+        /**
+         * @method hide
+         * Hides the view.
+         */
         hide: function () {
             this.setStyle('display', 'none');
         }
@@ -171,7 +306,12 @@
         delete: function () {
             this.hide();
             this.fire(this.EVT_DELETE, { cnumber: this.cnumber });
-            // @todo remove event handlers from all buttons etc. within this view
+            // Call YAHOO.util.Element.destroy().
+            // This method is undocumented, so here is the low-down:
+            // - it removes all event listeners registered to this element
+            // - it removes all event listeners from the element's children as well
+            // - it detaches the element from it's parent in the document.
+            // Check the code for details.
             this.destroy();
         },
 
@@ -299,7 +439,7 @@
         _exportIntervalTimer: null,
         _blockUIForDownload: function () {
             var token = (new Date()).getTime();
-            (new Element('report-details-view-download-button')).set('disabled', true);
+            Dom.setAttribute('report-details-view-download-button', 'disabled', 'disabled');
             this.fireEvent('downloadStarted');
             this.set('downloadToken', token);
             this._downloadIntervalTimer = Lang.later(1000, this, function () {
@@ -310,14 +450,15 @@
             }, [], true);
         },
         _finishDownload: function () {
+            var el = document.getElementById('report-details-view-download-button');
             this._downloadIntervalTimer.cancel();
             Cookie.remove('fileDownloadToken');
-            (new Element('report-details-view-download-button')).set('disabled', false);
+            el.disabled = false;
             this.fireEvent('downloadFinished');
         },
         _blockUIForExport: function () {
             var token = (new Date()).getTime();
-            (new Element('report-details-view-export-button')).set('disabled', true);
+            Dom.setAttribute('report-details-view-export-button', 'disabled', 'disabled');
             this.fireEvent('exportStarted');
             this.set('exportToken', token);
             this._exportIntervalTimer = Lang.later(1000, this, function () {
@@ -328,23 +469,28 @@
             }, [], true);
         },
         _finishExport: function () {
+            var el = document.getElementById('report-details-view-export-button');
             this._exportIntervalTimer.cancel();
             Cookie.remove('fileExportToken');
-            (new Element('report-details-view-export-button')).set('disabled', false);
+            el.disabled = false;
             this.fireEvent('exportFinished');
         },
 
         _lockDraftModeButtons: function () {
-            (new Element('report-details-view-edit-button')).set('disabled', true);
-            (new Element('report-details-view-finalize-button')).set('disabled', true);
-            (new Element('report-details-view-delete-button')).set('disabled', true);
-            (new Element('report-details-view-export-button')).set('disabled', true);
+            Dom.setAttribute('report-details-view-edit-button', 'disabled', 'disabled');
+            Dom.setAttribute('report-details-view-finalize-button', 'disabled', 'disabled');
+            Dom.setAttribute('report-details-view-delete-button', 'disabled', 'disabled');
+            Dom.setAttribute('report-details-view-export-button', 'disabled', 'disabled');
         },
         _unlockDraftModeButtons: function () {
-            (new Element('report-details-view-edit-button')).set('disabled', false);
-            (new Element('report-details-view-finalize-button')).set('disabled', false);
-            (new Element('report-details-view-delete-button')).set('disabled', false);
-            (new Element('report-details-view-export-button')).set('disabled', false);
+            var el = document.getElementById('report-details-view-edit-button');
+            el.disabled = false;
+            el = document.getElementById('report-details-view-finalize-button');
+            el.disabled = false;
+            el = document.getElementById('report-details-view-delete-button');
+            el.disabled = false;
+            el = document.getElementById('report-details-view-export-button');
+            el.disabled = false;
         },
         _hideDraftModeButtons: function () {
             Dom.addClass('report-details-view-edit-button', 'hidden');
@@ -359,10 +505,11 @@
             Dom.removeClass('report-details-view-export-form', 'hidden');
         },
         _lockFinalizedModeButtons: function () {
-            (new Element('report-details-view-download-button')).set('disabled', true);
+            Dom.setAttribute('report-details-view-download-button', 'disabled', 'disabled');
         },
         _unlockFinalizedModeButtons: function () {
-            (new Element('report-details-view-download-button')).set('disabled', false);
+            var el = document.getElementById('report-details-view-download-button');
+            el.disabled = false;
         },
         _hideFinalizedModeButtons: function () {
             Dom.addClass('report-details-view-download-form', 'hidden');
@@ -688,5 +835,7 @@
 
     ilios.cim.view.StatusView = StatusView;
     ilios.cim.view.ReportView = ReportView;
+    ilios.cim.view.SequenceBlockTopToolbarView = SequenceBlockTopToolbarView;
+    ilios.cim.view.SequenceBlockBottomToolbarView = SequenceBlockBottomToolbarView;
     ilios.cim.view.SequenceBlockView = SequenceBlockView;
 }());
