@@ -22,9 +22,13 @@
         Event = YAHOO.util.Event,
         Dom = YAHOO.util.Dom;
     /**
-     * Creates a client-side application object.
-     * It sets up data model, instantiates and wires up views and dialogs.
-     * @param {Object} config App. configuration.
+     * Creates a client-side application.
+     * It's the top level object responsible for instantiating a self-contained application environment
+     * and for providing routing and high-level workflow management functionality.
+     *
+     * @namespace ilios.cim
+     * @class App
+     * @param {Object} config the application configuration.
      * @param {Object} [payload] The initial page payload. It may have these data points as properties:
      *     "programs" ... an object holding the programs available for reporting on.
      *     "report" ... (optional) an object representing the currently selected report.
@@ -46,7 +50,7 @@
         this.statusBar = new ilios.cim.widget.StatusBar({});
         this.statusBar.render('status-toolbar');
 
-        this.viewRegistry = {};
+        this.programs = payload.programs;
 
         // wire dialogs to buttons
         Event.addListener('pick_reports_btn', 'click', function (event) {
@@ -67,11 +71,18 @@
             return false;
         }, {}, this);
 
-        this.programs = payload.programs;
-
         if (payload.hasOwnProperty('report')) {
 
+            // process data
+            this.academicLevels = payload.academic_levels;
+            this.sequenceBlock = payload.sequence_block;
+            this.sequenceBlocks = payload.sequence_blocks;
+            this.linkableCourses = payload.linkable_courses;
+            this.linkedCourses = payload.linked_courses;
             this.reportModel = new ilios.cim.model.ReportModel(payload.report);
+
+            // set up views and widgets
+
             this.reportView = new ilios.cim.view.ReportView(this.reportModel, {
                 finalizeUrl: this.config.controllerUrl + 'finalize',
                 deleteUrl: this.config.controllerUrl + 'delete'
@@ -112,20 +123,17 @@
                 window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
 
             }, this.statusBar, true);
-            this.academicLevels = payload.academic_levels;
-            this.sequenceBlock = payload.sequence_block;
-            this.sequenceBlocks = payload.sequence_blocks;
-            this.linkableCourses = payload.linkable_courses;
-            this.linkedCourses = payload.linked_courses;
+
             this.reportView.render();
-            this.reportView.show();
 
             this.sequenceBlockTopToolbar = new ilios.cim.widget.SequenceBlockTopToolbar({});
             this.sequenceBlockTopToolbar.render();
-            this.sequenceBlockTopToolbar.show();
+
             this.sequenceBlockBottomToolbar = new ilios.cim.widget.SequenceBlockBottomToolbar({});
+            this.sequenceBlockBottomToolbar.render(! this.reportModel.get('isFinalized'));
 
             // more wiring of event handlers
+
             Event.addListener(this.sequenceBlockTopToolbar.get('expandBtnEl'), 'click', function (event) {
                 this.expandAllSequenceBlocks();
             }, {}, this);
@@ -134,105 +142,184 @@
                 this.collapseAllSequenceBlocks();
             }, {}, this);
 
-            this.sequenceBlockBottomToolbar.render(! this.reportModel.get('isFinalized'));
+
             this.reportView.subscribe('finalizeSucceeded', function () {
                 this.disableButtons();
             }, this.sequenceBlockBottomToolbar, true);
 
+            // show views and widgets
+            this.reportView.show();
             this.sequenceBlockBottomToolbar.show();
+            this.sequenceBlockTopToolbar.show();
 
-            Dom.removeClass('sequence-block-toolbar', 'hidden');
-            Dom.removeClass('expand-all-sequence-blocks-btn', 'hidden');
-            document.getElementById('expand-all-sequence-blocks-btn').disabled = false;
-            document.getElementById('collapse-all-sequence-blocks-btn').disabled = false;
-            if (! this.reportModel.get('isFinalized')) {
-                Dom.removeClass('add-new-sequence-block-btn', 'hidden');
-                document.getElementById('add-new-sequence-block-btn').disabled = false;
-            }
-
+            // deal with sequence block models and views
+            // @todo break this out into three steps
+            // 1. create models
+            // 2. create views from models
+            // 3. show views
             for (i = 0, n = payload.sequence_blocks.length; i < n; i++) {
                 sequenceBlockModel = this.createSequenceBlockModel(payload.sequence_blocks[i]);
                 sequenceBlockView = this.createSequenceBlockView(sequenceBlockModel);
                 sequenceBlockView.show();
             }
+
         }
     };
 
-    /**
-     * @method getConfig
-     * Returns the app's configuration object.
-     * @return {Object] The configuration object.
-     */
-    App.prototype.getConfig = function () {
-        return this.config;
-    };
+    App.prototype = {
 
-    /**
-     * @method createSequenceBlockModel
-     * Creates a sequence block model object from a given data transfer object representing a sequence block record.
-     * @param {Object} oData The data transfer object.
-     * @return {ilios.cim.model.SequenceBlockModel} The created model.
-     */
-    App.prototype.createSequenceBlockModel = function (oData) {
-        return new ilios.cim.model.SequenceBlockModel(oData);
-    };
+        /**
+         * Registry of sequence blocks instances.
+         * @var sequenceBlockViewRegistry
+         * @type {Object}
+         */
+        sequenceBlockViewRegistry: {},
 
-    /**
-     * @method createSequenceBlockView
-     * Generates, renders and returns a sequence block view for a given sequence block model.
-     * @param {ilios.cim.model.SequenceBlockModel} model
-     * @return {ilios.cim.view.SequenceBlockView}
-     * @static
-     */
-    App.prototype.createSequenceBlockView = function (model) {
-        var parentId, id, parentEl, el, view;
+        /**
+         * The application's status-message bar.
+         * @var statusBar
+         * @type {ilios.cim.widget.StatusBar}
+         */
+        statusBar: null,
 
-        parentId = model.get('parentId');
-        id = model.get('id');
+        /**
+         * A map of programs, keyed off by their program id.
+         * @param programs
+         * @type {Object}
+         */
+        programs: {},
 
-        parentEl = parentId ?  document.getElementById('sequence-block-view-children-' + parentId) : document.getElementById('report-sequence-container');
-        el = generateSequenceBlockMarkup(id);
+        /**
+         * A dialog widget for selecting and loading existing reports onto the page.
+         * @param reportPickerDialog
+         * @type {ilios.cim.widget.ReportPickerDialog}
+         */
+        reportPickerDialog: null,
 
-        // attach the view element to it's parent in the document.
-        parentEl.appendChild(el);
+        /**
+         * A dialog widget for creating a new report.
+         * @param createReportDialog
+         * @type {ilios.cim.widget.CreateReportDialog}
+         */
+        createReportDialog: null,
+        /**
+         * @method getConfig
+         * Returns the application configuration.
+         * @return {Object] The configuration object.
+        */
+        getConfig: function () {
+            return this.config;
+        },
 
-        view = new ilios.cim.view.SequenceBlockView(model, el, { cnumber: id });
+        /**
+         * @method createSequenceBlockModel
+         * Creates a sequence block model object from a given data transfer object representing a sequence block record.
+         * @param {Object} oData The data transfer object.
+         * @return {ilios.cim.model.SequenceBlockModel} The created model.
+         */
+        createSequenceBlockModel: function (oData) {
+            // @todo add model to registry
+            return new ilios.cim.model.SequenceBlockModel(oData);
 
-        this.viewRegistry[id] = view; // add the view to the registry so we can pull it up later
-        view.render();
+        },
+        /**
+         * @method createSequenceBlockView
+         * Generates, renders and returns a sequence block view for a given sequence block model.
+         * @param {ilios.cim.model.SequenceBlockModel} model
+         * @return {ilios.cim.view.SequenceBlockView}
+         */
+        createSequenceBlockView: function (model) {
+            var parentId, id, parentEl, el, view;
 
-        return view;
-    };
+            parentId = model.get('parentId');
+            id = model.get('id');
 
-    /**
-     * @method expandAllSequenceBlock
-     * Expands all sequence block views.
-     */
-    App.prototype.expandAllSequenceBlocks = function () {
-        var cnumber, view, registry;
-        registry = this.viewRegistry;
-        for (cnumber in registry) {
-            if (registry.hasOwnProperty(cnumber)) {
-                view = registry[cnumber];
-                view.expand();
+            parentEl = parentId ?  document.getElementById('sequence-block-view-children-' + parentId) : document.getElementById('report-sequence-container');
+            el = generateSequenceBlockMarkup(id);
+
+            // attach the view element to it's parent in the document.
+            parentEl.appendChild(el);
+
+            view = new ilios.cim.view.SequenceBlockView(model, el, { cnumber: id });
+
+            this.sequenceBlockViewRegistry[id] = view; // add the view to the registry so we can pull it up later
+            view.render();
+
+            return view;
+        },
+        /**
+         * @method expandAllSequenceBlock
+         * Expands all sequence block views.
+         */
+        expandAllSequenceBlocks: function () {
+            var cnumber, view, registry;
+            registry = this.sequenceBlockViewRegistry;
+            for (cnumber in registry) {
+                if (registry.hasOwnProperty(cnumber)) {
+                    view = registry[cnumber];
+                    view.expand();
+                }
+            }
+        },
+
+        /**
+         * @method expandAllSequenceBlock
+         * Collapses all sequence block views.
+         */
+        collapseAllSequenceBlocks: function () {
+            var cnumber, view, registry;
+            registry = this.sequenceBlockViewRegistry;
+            for (cnumber in registry) {
+                if (registry.hasOwnProperty(cnumber)) {
+                    view = registry[cnumber];
+                    view.collapse();
+                }
             }
         }
     };
 
     /**
-     * @method expandAllSequenceBlock
-     * Collapses all sequence block views.
+     * Provides functionality for exchanging data with the server-side backend.
+     * All communication with the server will be handled asynchronous via XHR calls.
+     * @namespace ilios.cim
+     * @class App
+     * @uses YAHOO.util.EventProvider
+     * @constructor
      */
-    App.prototype.collapseAllSequenceBlocks = function () {
-        var cnumber, view, registry;
-        registry = this.viewRegistry;
-        for (cnumber in registry) {
-            if (registry.hasOwnProperty(cnumber)) {
-                view = registry[cnumber];
-                view.collapse();
-            }
-        }
+    var DataSource = function () {};
+
+    DataSource.prototype = {
+        /**
+         * Fired when the report download request is sent to the server.
+         * @event downloadStarted
+         * @final
+         */
+        EVT_DOWNLOAD_STARTED: 'downloadStarted',
+
+        /**
+         * Fired when the report download response has been received from the server.
+         * @event downloadFinished
+         * @final
+         */
+        EVT_DOWNLOAD_FINISHED: 'downloadFinished',
+
+        /**
+         * Fired when the report download request is sent to the server.
+         * @event exportStarted
+         * @final
+         */
+        EVT_EXPORT_STARTED: 'exportStarted',
+
+        /**
+         * Fired when the report download response has been received from the server.
+         * @event exportFinished
+         * @final
+         */
+        EVT_EXPORT_FINISHED: 'exportFinished'
     };
+
+    YAHOO.lang.augmentProto(DataSource, YAHOO.util.EventProvider);
+
 
     //
     // Utility methods.
@@ -296,5 +383,6 @@
         return rootEl;
     };
 
+    ilios.cim.DataSource = DataSource;
     ilios.cim.App = App;
 }());
