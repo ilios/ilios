@@ -278,6 +278,78 @@
         }
     };
 
+
+    /**
+     * Storage container of sequence block views within the application.
+     * Keeps track of parent-child relationships between views.
+     *
+     * @namespace ilios.cim
+     * @class SequenceBlockViewRegistry
+     * @constructor
+     */
+    var SequenceBlockViewRegistry = function () {};
+
+    SequenceBlockViewRegistry.protoype = {
+        /**
+         * The internal registry object.
+         * @var _registry
+         * @type {Object}
+         * @protected
+         */
+        _registry: {},
+        /**
+         * @method add
+         * @param {ilios.cim.view.SequenceBlockView} view
+         * @return {Boolean} TRUE on success, FALSE on failure.
+         */
+        add: function (view) {
+            // @todo implement
+        },
+        /**
+         * @method remove
+         * @param {Number} cnumber
+         * @return {ilios.cim.view.SequenceBlockView} The removed view object.
+         */
+        remove: function (cnumber) {
+            // @todo implement
+        },
+
+        /**
+         * @method list
+         * @return {Array}
+         */
+        list: function () {
+            // @todo implement
+        },
+
+        /**
+         * @method map
+         * @param {Number} cnumber
+         * @return {Object}
+         */
+        map: function (cnumber) {
+            // @todo implement
+        },
+
+        /**
+         * @method children
+         * @param {Number} cnumber
+         * @return {Array}
+         */
+        children: function (cnumber) {
+            // @todo implement
+        },
+
+        /**
+         * @method exists
+         * @param {Number} cnumber
+         * @return {Boolean}
+         */
+        exists: function (cnumber) {
+            // @todo implement
+        }
+    };
+
     /**
      * Provides functionality for exchanging data with the server-side backend.
      * All communication with the server will be handled asynchronous via XHR calls.
@@ -286,7 +358,15 @@
      * @uses YAHOO.util.EventProvider
      * @constructor
      */
-    var DataSource = function () {};
+    var DataSource = function () {
+
+        // create custom events provided by this object
+        this.createEvent(DataSource.EVT_DOWNLOAD_STARTED);
+        this.createEvent(DataSource.EVT_DOWNLOAD_FINISHED);
+        this.createEvent(DataSource.EVT_EXPORT_STARTED);
+        this.createEvent(DataSource.EVT_EXPORT_FINISHED);
+
+    };
 
     DataSource.prototype = {
         /**
@@ -319,7 +399,6 @@
     };
 
     YAHOO.lang.augmentProto(DataSource, YAHOO.util.EventProvider);
-
 
     //
     // Utility methods.
@@ -383,6 +462,7 @@
         return rootEl;
     };
 
+    ilios.cim.SequenceBlockViewRegistry = SequenceBlockViewRegistry;
     ilios.cim.DataSource = DataSource;
     ilios.cim.App = App;
 }());
