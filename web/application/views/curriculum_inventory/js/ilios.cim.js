@@ -160,6 +160,7 @@
             for (i = 0, n = payload.sequence_blocks.length; i < n; i++) {
                 sequenceBlockModel = this.createSequenceBlockModel(payload.sequence_blocks[i]);
                 sequenceBlockView = this.createSequenceBlockView(sequenceBlockModel);
+                sequenceBlockView.render();
                 sequenceBlockView.show();
             }
 
@@ -224,7 +225,7 @@
         },
         /**
          * @method createSequenceBlockView
-         * Generates, renders and returns a sequence block view for a given sequence block model.
+         * Creates and returns an sequence block view for a given sequence block model.
          * @param {ilios.cim.model.SequenceBlockModel} model
          * @return {ilios.cim.view.SequenceBlockView}
          */
@@ -240,10 +241,9 @@
             // attach the view element to it's parent in the document.
             parentEl.appendChild(el);
 
-            view = new ilios.cim.view.SequenceBlockView(model, el, { cnumber: id });
+            view = new ilios.cim.view.SequenceBlockView(model, el);
 
             this.sequenceBlockViewRegistry[id] = view; // add the view to the registry so we can pull it up later
-            view.render();
 
             return view;
         },
