@@ -43,8 +43,8 @@
         // set module configuration
         this.config = Lang.isObject(config) ? config : {};
 
-        this.statusView = new ilios.cim.view.StatusView();
-        this.statusView.render('status-toolbar');
+        this.statusBar = new ilios.cim.widget.StatusBar({});
+        this.statusBar.render('status-toolbar');
 
         this.viewRegistry = {};
 
@@ -78,40 +78,40 @@
             });
             this.reportView.subscribe('exportStarted', function() {
                 this.show('Started Report Export &hellip;', true);
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('downloadStarted', function() {
                 this.show('Started Report Download &hellip;', true);
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('exportFinished', function () {
                 this.reset();
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('downloadFinished', function () {
                 this.reset();
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportModel.subscribe('afterUpdate', function () {
                 this.show('Report updated.', false);
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('finalizeStarted', function () {
                 this.show('Finalizing report started &hellip;', true);
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('finalizeSucceeded', function () {
                 this.reset();
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('finalizeFailed', function () {
                 this.show('Finalizing report failed.', false);
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('deleteStarted', function () {
                 this.show('Deleting report &hellip;', true);
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('deleteFailed', function () {
                 this.show('Failed to delete report.', false);
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.reportView.subscribe('deleteSucceeded', function() {
                 this.show('Successfully deleted report. Reloading page &hellip;', true);
                 // reload the page
                 window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
 
-            }, this.statusView, true);
+            }, this.statusBar, true);
             this.academicLevels = payload.academic_levels;
             this.sequenceBlock = payload.sequence_block;
             this.sequenceBlocks = payload.sequence_blocks;
@@ -120,26 +120,26 @@
             this.reportView.render();
             this.reportView.show();
 
-            this.sequenceBlockTopToolbarView = new ilios.cim.view.SequenceBlockTopToolbarView({});
-            this.sequenceBlockTopToolbarView.render();
-            this.sequenceBlockTopToolbarView.show();
-            this.sequenceBlockBottomToolbarView = new ilios.cim.view.SequenceBlockBottomToolbarView({});
+            this.sequenceBlockTopToolbar = new ilios.cim.widget.SequenceBlockTopToolbar({});
+            this.sequenceBlockTopToolbar.render();
+            this.sequenceBlockTopToolbar.show();
+            this.sequenceBlockBottomToolbar = new ilios.cim.widget.SequenceBlockBottomToolbar({});
 
             // more wiring of event handlers
-            Event.addListener(this.sequenceBlockTopToolbarView.get('expandBtnEl'), 'click', function (event) {
+            Event.addListener(this.sequenceBlockTopToolbar.get('expandBtnEl'), 'click', function (event) {
                 this.expandAllSequenceBlocks();
             }, {}, this);
 
-            Event.addListener(this.sequenceBlockTopToolbarView.get('collapseBtnEl'), 'click', function (event) {
+            Event.addListener(this.sequenceBlockTopToolbar.get('collapseBtnEl'), 'click', function (event) {
                 this.collapseAllSequenceBlocks();
             }, {}, this);
 
-            this.sequenceBlockBottomToolbarView.render(! this.reportModel.get('isFinalized'));
+            this.sequenceBlockBottomToolbar.render(! this.reportModel.get('isFinalized'));
             this.reportView.subscribe('finalizeSucceeded', function () {
                 this.disableButtons();
-            }, this.sequenceBlockBottomToolbarView, true);
+            }, this.sequenceBlockBottomToolbar, true);
 
-            this.sequenceBlockBottomToolbarView.show();
+            this.sequenceBlockBottomToolbar.show();
 
             Dom.removeClass('sequence-block-toolbar', 'hidden');
             Dom.removeClass('expand-all-sequence-blocks-btn', 'hidden');
@@ -156,15 +156,6 @@
                 sequenceBlockView.show();
             }
         }
-    };
-
-    /**
-     * @method getStatusView
-     * Returns the app's status view.
-     * @return {ilios.cim.view.StatusView} The view.
-     */
-    App.prototype.getStatusView = function () {
-        return this.statusView;
     };
 
     /**
