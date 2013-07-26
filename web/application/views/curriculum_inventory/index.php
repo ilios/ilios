@@ -97,15 +97,20 @@ writeJsScripts($js, 'curriculum_inventory_manager', $this->config->item('script_
             </div>
 <?php include 'report_details_view.inc.php'; ?>
             <div id="status-toolbar"></div>
-            <div id="sequence-block-toolbar" class="hidden">
+            <div id="sequence-block-top-toolbar" class="hidden">
                 <div class="add_primary_child_link">
-                    <button disabled="true" id="add-new-sequence-block-btn" onclick="return false;" class="small secondary radius button hidden">Add Sequence Block</button>
-                    <button disabled="true" id="expand-all-sequence-blocks-btn" onclick="return false;" class="small secondary radius button hidden">Expand All</button>
-                    <button disabled="true" id="collapse-all-sequence-blocks-btn" onclick="return false;" class="small secondary radius button hidden">Collapse All</button>
+                    <button disabled="disabled" id="expand-all-sequence-blocks-btn" class="small secondary radius button hidden">Expand All</button>
+                    <button disabled="disabled" id="collapse-all-sequence-blocks-btn" class="small secondary radius button hidden">Collapse All</button>
                 </div>
                 <div class="clearfix"></div>
             </div>
             <div id="report-sequence-container"></div>
+            <div id="sequence-block-bottom-toolbar" class="hidden">
+                <div class="add_primary_child_link">
+                    <button disabled="disabled" id="add-new-sequence-block-btn" class="small secondary radius button">Add Sequence Block</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
         </div>
     </div>
 </div>
