@@ -29,18 +29,17 @@
      * @constructor
      * @extends YAHOO.util.Element
      * @param {ilios.cim.model.SequenceBlockModel} model The sequence block model.
-     * @param {HTMLElement} el The dom element corresponding to this view.
-     * @param {Object} oConfig A configuration object. Expected properties are:
-     *     'cnumber' ... The container number of this view. Should be unique within the context of the page.
+     * @param {HTMLElement} el The DOM element corresponding to this view.
      */
-    var SequenceBlockView = function(model, el, oConfig) {
+    var SequenceBlockView = function(model, el) {
 
-        SequenceBlockView.superclass.constructor.call(this, el, oConfig);
+        SequenceBlockView.superclass.constructor.call(this, el, { cnumber: model.get('id') });
 
         // set properties
-        this.config = oConfig;
-        this.cnumber = this.config.cnumber;
-        this.model = model;
+        this._model = model;
+        // initialize cnumber and parent cnumber with the corresponding model's id and parent id.
+        this._cnumber = model.get('id');
+        this._parentCnumber = model.get('parentId');
 
         // subscribe to model changes
         // @todo implement
@@ -52,24 +51,51 @@
     Lang.extend(SequenceBlockView, Element, {
 
         /**
-         * The view's configuration object.
-         * @property config
-         * @type {Object}
+         * @property _model
+         * @type {ilios.cim.model.SequenceBlockModel}
+         * @protected
          */
-        config: null,
+        _model: null,
 
         /**
          * The view's container number.
-         * @property cnumber
+         * @property _cnumber
          * @type {Number}
+         * @protected
          */
-        cnumber: null,
+        _cnumber: null,
 
         /**
-         * @property model
-         * @type {ilios.cim.model.SequenceBlockModel}
+         * The parent view's container number, if applicable.
+         * @property parentCnumber
+         * @type {Number|null}
+         * @protected
          */
-        model: null,
+        _parentCnumber: null,
+
+        /**
+         * @method getModel
+         * @returns {ilios.cim.model.SequenceBlockModel}
+         */
+        getModel: function () {
+            return this._model;
+        },
+
+        /**
+         * @method getCnumber
+         * @return {Number}
+         */
+        getCnumber: function () {
+            return this._cnumber;
+        },
+
+        /**
+         * @method getParentCnumber
+         * @return {Number|null}
+         */
+        getParentCnumber: function () {
+            return this._cnumber;
+        },
 
         /**
          * Overrides Element's <code>initAttributes()</code> method.
@@ -116,7 +142,7 @@
          */
         delete: function () {
             this.hide();
-            this.fire(this.EVT_DELETE, { cnumber: this.cnumber });
+            this.fire(this.EVT_DELETE, { cnumber: this._cnumber });
             // Call YAHOO.util.Element.destroy().
             // This method is undocumented, so here is the low-down:
             // - it removes all event listeners registered to this element
@@ -149,7 +175,7 @@
          */
         render: function () {
 
-            this.set('title', this.model.get('title'));
+            this.set('title', this._model.get('title'));
 
             // wire buttons
             Event.addListener(this.get('toggleBtnEl'), 'click', function (event) {
@@ -183,13 +209,14 @@
             this.addClass('collapsed');
         },
 
+
         /**
          * Fired when the view gets deleted.
          * @event delete
          * @param {Number} cnumber The view's container number.
          * @final
          */
-        EVT_DELETE : 'delete'
+        EVT_DELETE: 'delete'
     });
 
     /**
