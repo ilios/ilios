@@ -114,6 +114,7 @@ INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (8, 'aa
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (9, 'aamc-pcrs-comp-c0106');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (10, 'aamc-pcrs-comp-c0405');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (11, 'aamc-pcrs-comp-c0101');
+INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (12, 'aamc-pcrs-comp-c0103');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (12, 'aamc-pcrs-comp-c0108');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (12, 'aamc-pcrs-comp-c0109');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (13, 'aamc-pcrs-comp-c0203');
