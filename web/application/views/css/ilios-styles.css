@@ -2226,6 +2226,16 @@ ul.week_list li.selected_day {
     overflow-x: hidden;
 }
 
+/****************************************/
+/* Curriculum Inventory Manager modules */
+#report-sequence-container {
+    padding: 10px 0;
+}
+
+.row.sequence-block-children {
+    background-color: #fff;
+}
+
 /********************************/
 /* MeSH picker dialog           */
 .mesh_search_picked {
