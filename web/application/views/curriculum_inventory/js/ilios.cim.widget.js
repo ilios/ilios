@@ -22,7 +22,8 @@
 
     /**
      * "Create Report" dialog.
-     * @namespace ilios.cim.widget
+     *
+     * @namespace cim.widget
      * @class CreateReportDialog
      * @extends YAHOO.widget.Dialog
      * @constructor
@@ -164,8 +165,6 @@
             }
             return true;
         };
-
-        this.render();
     };
 
     Lang.extend(CreateReportDialog, YAHOO.widget.Dialog, {
@@ -185,7 +184,8 @@
 
     /**
      * "Edit Report" dialog.
-     * @namespace ilios.cim.widget
+     *
+     * @namespace cim.widget
      * @class EditReportDialog
      * @extends YAHOO.widget.Dialog
      * @constructor
@@ -320,11 +320,7 @@
                 return;
             }
             // update the model
-            model.set('name', parsedResponse.report.name);
-            model.set('description', parsedResponse.report.description);
-            model.set('endDate', parsedResponse.report.end_date);
-            model.set('startDate', parsedResponse.report.start_date);
-            model.fireEvent('afterUpdate');
+            model.update(parsedResponse.report);
             dialog.cancel();
         };
 
@@ -350,8 +346,6 @@
         this.onCalendarButtonClick = function (event, obj) {
             obj.calendar.show();
         };
-
-        this.render();
     };
 
     // inheritance
@@ -359,6 +353,7 @@
 
         /**
          * The report model editable through this dialog.
+         *
          * @property model
          * @type {ilios.cim.model.ReportModel}
          */
@@ -366,6 +361,7 @@
 
         /**
          * Calendar picker widget for the "start date" input element in the dialog form.
+         *
          * @property cal1
          * @type {YAHOO.widget.Calendar}
          */
@@ -373,13 +369,16 @@
 
         /**
          * Calendar picker widget for the "end date" input element in the dialog form.
+         *
          * @property cal2
          * @type {YAHOO.widget.Calendar}
          */
         cal2: null,
+
         /**
-         * @method populateForm
          * Fills in the form with model-provided data.
+         *
+         * @method populateForm
          */
         populateForm: function () {
             document.getElementById('edit_report_name').value = this.model.get('name');
@@ -416,7 +415,8 @@
 
     /**
      * "Search Reports" dialog.
-     * @namespace ilios.cim.widget
+     *
+     * @namespace cim.widget
      * @class ReportPickerDialog
      * @extends YAHOO.widget.Dialog
      * @constructor
@@ -463,7 +463,8 @@
     /**
      * A toolbar displayed above the sequence block containers.
      * Contains "expand/collapse-all" buttons.
-     * @namespace ilios.cim.widget
+     *
+     * @namespace cim.widget
      * @class SequenceBlockTopToolbar
      * @constructor
      * @extends YAHOO.util.Element
@@ -474,17 +475,30 @@
     };
 
     Lang.extend(SequenceBlockTopToolbar, Element, {
-        /**
-         * @method initAttributes
-         * Overrides Element's <code>initAttributes()</code> method.
-         * @param {Object} config The view's configuration object.
-         * @see YAHOO.util.Element.initAttributes()
+
+        /*
+         * @override
+         * @see YAHOO.util.Element.initAttributes
          */
         initAttributes: function (config) {
+            /**
+             * The toolbar's "expand all" button.
+             *
+             * @attribute expandBtnEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('expandBtnEl', {
                 writeOnce: true,
                 value: Dom.get('expand-all-sequence-blocks-btn')
             });
+
+            /**
+             * The toolbar's "collapse all" button.
+             * @attribute collapseBtnEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('collapseBtnEl', {
                 writeOnce: true,
                 value: Dom.get('collapse-all-sequence-blocks-btn')
@@ -492,27 +506,31 @@
         },
 
         /**
-         * @method show
          * Makes the toolbar visible.
+         *
+         * @method show
          */
         show: function () {
             this.removeClass('hidden');
         },
 
         /**
-         * @method hide
          * Hides the toolbar.
+         *
+         * @method hide
          */
         hide: function () {
             this.addClass('hidden');
         },
+
         /**
-         * @method render
          * Renders the toolbar.
+         *
+         * @method render
          */
         render: function () {
-            var expandBtn = this.get('expandBtnEl');
-            var collapseBtn = this.get('collapseBtnEl');
+            var expandBtn = this.getExpandButton();
+            var collapseBtn = this.getCollapseButton();
 
             // more wiring of event handlers
             Event.addListener(collapseBtn, 'click', function (event) {
@@ -532,13 +550,34 @@
             expandBtn.disabled = false;
             collapseBtn.disabled = false;
             Dom.removeClass(expandBtn, 'hidden');
+        },
+
+        /**
+         * Returns the toolbar's "expand all" button.
+         *
+         * @method getExpandButton
+         * @return {HTMLElement}
+         */
+        getExpandButton: function () {
+            return this.get('expandBtnEl');
+        },
+
+        /**
+         * Returns the toolbar's "collapse all" button.
+         *
+         * @method getCollapseButton
+         * @return {HTMLElement}
+         */
+        getCollapseButton: function () {
+            return this.get('collapseBtnEl');
         }
     });
 
     /**
      * A toolbar displayed above the sequence block containers.
      * Contains an "add new sequence block" button.
-     * @namespace ilios.cim.widget
+     *
+     * @namespace cim.widget
      * @class SequenceBlockBottomToolbar
      * @constructor
      * @extends YAHOO.util.Element
@@ -550,11 +589,11 @@
     };
 
     Lang.extend(SequenceBlockBottomToolbar, Element, {
+
         /**
          * @method initAttributes
-         * Overrides Element's <code>initAttributes()</code> method.
-         * @param {Object} config The view's configuration object.
-         * @see YAHOO.util.Element.initAttributes()
+         * Overrides <code>YAHOO.util.Element.initAttributes()</code>.
+         * @param {Object} config The view configuration.
          */
         initAttributes: function (config) {
             this.setAttributeConfig('addBtnEl', {
@@ -613,7 +652,7 @@
     /**
      * The status-indicator bar.
      * It's purpose is to display given (status-)messages on the page.
-     * @namespace ilios.cim.widget
+     * @namespace cim.widget
      * @class StatusBar
      * @constructor
      * @extends YAHOO.util.Element
@@ -625,11 +664,9 @@
 
     Lang.extend(StatusBar, Element, {
 
-        /**
-         * @method initAttributes
-         * Overrides Element's <code>initAttributes()</code> method.
-         * @param {Object} config The view's configuration object.
-         * @see YAHOO.util.Element.initAttributes()
+        /*
+         * @override
+         * @see YAHOO.util.Element.initAttributes
          */
         initAttributes: function (config) {
 
@@ -637,16 +674,37 @@
 
             var container = this.get('element');
 
+            /**
+             * The display element for showing a progress indicator ("spinner") in the status bar.
+             *
+             * @attribute progressEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('progressEl', {
                 writeOnce: true,
                 value: container.appendChild(document.createElement('div'))
             });
 
+            /**
+             * The display element for showing a message in the status bar.
+             *
+             * @attribute messageEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('messageEl', {
                 writeOnce: true,
                 value: container.appendChild(document.createElement('span'))
             });
 
+            /**
+             * The message to be shown in the status bar.
+             *
+             * @attribute message
+             * @type {String}
+             * @default ""
+             */
             this.setAttributeConfig('message', {
                 validator: Lang.isString,
                 method: function (value) {
@@ -660,9 +718,10 @@
         },
 
         /**
+         * Renders the status bar onto the page.
+         *
          * @method render
-         * Renders the view onto the page.
-         * @param {String|HTMLElement} parentEl The parent element that this view should be attached to.
+         * @param {String|HTMLElement} parentEl The parent element that this widget should be attached to.
          */
         render: function (parentEl) {
             parentEl = Dom.get(parentEl);
@@ -675,15 +734,17 @@
             parentEl.appendChild(containerEl);
         },
         /**
-         * @method reset
          * Clears out the status bar's message.
+         *
+         * @method reset
          */
         reset: function () {
-            this.show('', false)
+            this.show('', false);
         },
         /**
+         * Shows a given message and optionally a progress indicator in the status bar.
+         *
          * @method show
-         * Shows the bar with a given message.
          * @param {String} message The message to show.
          * @param {Boolean} showProgressIndicator If TRUE then a spinner icon is shown with the message, otherwise not.
          */
@@ -694,8 +755,9 @@
             this.setStyle('display', 'block');
         },
         /**
-         * @method hide
          * Hides the status bar.
+         *
+         * @method hide
          */
         hide: function () {
             this.setStyle('display', 'none');
