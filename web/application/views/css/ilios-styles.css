@@ -832,6 +832,12 @@ button {
     padding: .5em;
     border-top: 1px solid #FFF;
 }
+
+.buttons.bottom .button.medium {
+    margin-right: .2em;
+
+}
+
 .buttons.top {
     margin-top: -1em;
     padding: .5em;
