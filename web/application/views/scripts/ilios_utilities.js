@@ -183,6 +183,13 @@ ilios.utilities.toggleShowMoreOrLess = function (containerIdToToggle, toggleLink
     }
 };
 
+/**
+ * Container-support function. Toggles the visibility of a given element and a given toggle-button.
+ *
+ * @method toggle
+ * @param {String} containerIdToToggle The ID of the element that is has its display toggled.
+ * @param {String|HTMLElement} toggleLinkElement The toggle button (or the id of that element).
+ */
 ilios.utilities.toggle = function (containerIdToToggle, toggleLinkElement) {
     var container = new YAHOO.util.Element(document.getElementById(containerIdToToggle));
     var icon = YAHOO.util.Dom.getFirstChild(toggleLinkElement);
