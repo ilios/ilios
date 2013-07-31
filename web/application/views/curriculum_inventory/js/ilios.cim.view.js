@@ -106,7 +106,8 @@
                 el.disabled = false;
                 Dom.removeClass(el, 'hidden');
             }
-            Dom.removeClass(this.get('buttonRowEl'), 'hidden');
+            Dom.removeClass(this.get('topButtonsRowEl'), 'hidden');
+            Dom.removeClass(this.get('bottomButtonsRowEl'), 'hidden');
         },
 
         /**
@@ -122,7 +123,8 @@
                 Dom.setAttribute(el, 'disabled', 'disabled');
                 Dom.addClass(el, 'hidden');
             }
-            Dom.addClass(this.get('buttonRowEl'), 'hidden');
+            Dom.addClass(this.get('topButtonsRowEl'), 'hidden');
+            Dom.addClass(this.get('bottomButtonsRowEl'), 'hidden');
         },
 
         /**
@@ -179,15 +181,27 @@
             });
 
             /**
-             * The button row element in the view.
+             * The buttons row element at the top of the view container body.
              *
              * @attribute buttonRowEl
              * @type {HTMLElement}
              * @writeOnce
              */
-            this.setAttributeConfig('buttonRowEl', {
+            this.setAttributeConfig('topButtonsRowEl', {
                 writeOnce: true,
-                value: Dom.get('sequence-block-view-button-row-' + cnumber)
+                value: Dom.get('sequence-block-view-top-buttons-row-' + cnumber)
+            });
+
+            /**
+             * The buttons row element at the bottom of the view container body.
+             *
+             * @attribute buttonRowEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('bottomButtonsRowEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-bottom-buttons-row-' + cnumber)
             });
 
             /**

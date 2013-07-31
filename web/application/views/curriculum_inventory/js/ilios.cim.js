@@ -267,7 +267,7 @@
          * @protected
          */
         _reportView: null,
-        
+
         /**
          * The registry of sequence blocks instances.
          *
@@ -660,7 +660,7 @@
      * @static
      */
     var generateSequenceBlockMarkup = function (cnumber) {
-        var rootEl, headerEl, bodyEl, rowEl, el;
+        var rootEl, headerEl, bodyEl, rowEl, el, ulEl, liEl;
 
         // the container element
         rootEl = document.createElement('div');
@@ -689,6 +689,22 @@
         Dom.addClass(bodyEl, 'bd');
         Dom.addClass(bodyEl, 'collapsible_container');
         Dom.addClass(bodyEl, 'hidden');
+        // top-row with buttons
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(rowEl, 'id', 'sequence-block-view-top-buttons-row-' + cnumber);
+        Dom.addClass(rowEl, 'hidden');
+        Dom.addClass(rowEl, 'row');
+        ulEl = rowEl.appendChild(document.createElement('ul'));
+        Dom.addClass(ulEl, 'buttons');
+        Dom.addClass(ulEl, 'right');
+        liEl = ulEl.appendChild(document.createElement('li'));
+        el = liEl.appendChild(document.createElement('button'));
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.add')));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-add-btn-' + cnumber);
+        Dom.addClass(el, 'small');
+        Dom.addClass(el, 'radius');
+        Dom.addClass(el, 'button');
+        Dom.addClass(el, 'hidden');
         rowEl = bodyEl.appendChild(document.createElement('div'));
         Dom.addClass(rowEl, 'row');
         el = rowEl.appendChild(document.createElement('div'));
@@ -706,9 +722,9 @@
         Dom.addClass(rowEl, 'sequence-block-children');
         Dom.setAttribute(rowEl, 'id', 'sequence-block-view-children-' + cnumber);
 
-        // container bottom with buttons
+        // bottom-row with buttons
         rowEl = bodyEl.appendChild(document.createElement('div'));
-        Dom.setAttribute(rowEl, 'id', 'sequence-block-view-button-row-' + cnumber);
+        Dom.setAttribute(rowEl, 'id', 'sequence-block-view-bottom-buttons-row-' + cnumber);
         Dom.addClass(rowEl, 'buttons');
         Dom.addClass(rowEl, 'bottom');
         Dom.addClass(rowEl, 'hidden');
@@ -719,13 +735,7 @@
         Dom.addClass(el, 'radius');
         Dom.addClass(el, 'button');
         Dom.addClass(el, 'hidden');
-        el = rowEl.appendChild(document.createElement('button'));
-        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.add')));
-        Dom.setAttribute(el, 'id', 'sequence-block-view-add-btn-' + cnumber);
-        Dom.addClass(el, 'medium');
-        Dom.addClass(el, 'radius');
-        Dom.addClass(el, 'button');
-        Dom.addClass(el, 'hidden');
+
 
 
         return rootEl;
