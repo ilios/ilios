@@ -518,10 +518,43 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * @todo add code docs
+     * This action deletes a requested sequence block and all its children.
+     *
+     * It expects the following POST parameters::
+     *    'sequence_block_id' ... the report id
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "success", which contains the value "true".
+     * On failure, the object contains a property "error", which contains an error message.
      */
     public function deleteSequenceBlock ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        // input validation
+        $sequenceBlockId = (int) $this->input->post('sequence_block_id');
+        $invReport = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
+        if (! $invReport) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.update.error.does_not_exist', $lang);
+            return;
+        }
+        // delete the report and associated records
+        $this->db->trans_start();
+        $this->invSequenceBlock->delete($sequenceBlockId);
+        $this->db->trans_complete();
+        if (false === $this->db->trans_status()) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.delete.error.general', $lang);
+            return;
+        }
+        $rhett = array('success' => 'true');
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
     }
 }
