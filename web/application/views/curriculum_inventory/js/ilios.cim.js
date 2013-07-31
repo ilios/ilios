@@ -63,7 +63,8 @@
         // instantiate data source
         this._dataSource = new ilios.cim.DataSource({
             finalizeReportUrl: this._config.controllerUrl + 'finalize',
-            deleteReportUrl: this._config.controllerUrl + 'delete'
+            deleteReportUrl: this._config.controllerUrl + 'delete',
+            deleteSequenceBlockUrl: this._config.controllerUrl + 'deleteSequenceBlock'
         });
 
         // wire up the "search report" button
@@ -501,8 +502,9 @@
      * @uses YAHOO.util.EventProvider
      * @constructor
      * @param {Object} config The data source configuration object. Expect to contain the following attributes:
-     *     'deleteReportUrl' ... The endpoint URL to the server-side "delete report" controller action.
-     *     'finalizeReportUrl' ... The endpoint URL to the server-side "finalize report" controller action.
+     *     'deleteReportUrl' ... The URL to the server-side "delete report" controller action.
+     *     'finalizeReportUrl' ... The URL to the server-side "finalize report" controller action.
+     *     'deleteSequenceBlockUrl' ... The URL to te  server-side "delete sequence block" controller action.
      */
     var DataSource = function (config) {
 
@@ -535,7 +537,7 @@
          */
         finalizeReport: function (id) {
             var url = this._config.finalizeReportUrl;
-            var postData = 'report_id=' + encodeURIComponent(id);
+            var postData = 'report_id=' + id;
             var callback = {
                 success: function (o) {
                     var response, msg;
@@ -566,12 +568,16 @@
         },
 
         /**
+         * Makes an XHR call to the backend to request a given report to be deleted.
+         * Fires the "deleteReportStarted" event on transaction start, and, depending on its outcome,
+         * either the "deleteReportSucceeded" or the "deleteReportFailed" event on completion.
+         *
          * @method deleteReport
          * @param {Number} id The report id.
          */
         deleteReport: function (id) {
             var url = this._config.deleteReportUrl;
-            var postData = 'report_id=' + encodeURIComponent(model.get('id'));
+            var postData = 'report_id=' + id;
             var callback = {
                 success: function (o) {
                     var response, msg;
@@ -601,6 +607,48 @@
             YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
         },
+
+        /**
+         * Makes an XHR call to the backend to request a given sequence block to be deleted.
+         * Fires the "deleteSequenceBlockStarted" event on transaction start, and, depending on its outcome,
+         * either the "deleteSequenceBlockSucceeded" or the "deleteSequenceBlockFailed" event on completion.
+         *
+         * @method deleteSequenceBlock
+         * @param {Number} id The report id.
+         */
+        deleteSequenceBlock: function (id) {
+            var url = this._config.deleteSequenceBlockUrl;
+            var postData = 'sequence_block_id=' + id;
+            var callback = {
+                success: function (o) {
+                    var response, msg;
+                    try {
+                        response = YAHOO.lang.JSON.parse(o.responseText);
+                    } catch (e) {
+                        this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: id});
+                        ilios.global.defaultAJAXFailureHandler(null, e);
+                        return;
+                    }
+                    if (response.error) {
+                        this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: id});
+                        msg = ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.delete.error.general');
+                        ilios.alert.alert(msg + ": " + response.error);
+                        return;
+                    }
+                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED, {id: id});
+                },
+                failure: function (o) {
+                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: id});
+                    ilios.global.defaultAJAXFailureHandler(o);
+                },
+                scope: this
+            };
+
+            this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_STARTED);
+            YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
+        },
+
         /**
          * Fired when a finalize report request has been sent to the server.
          * @event finalizeReportStarted
@@ -641,7 +689,30 @@
          * @event deleteReportFailed
          * @final
          */
-        EVT_DELETE_REPORT_FAILED: 'deleteReportFailed'
+        EVT_DELETE_REPORT_FAILED: 'deleteReportFailed',
+
+        /**
+         * Fired when the a request for sequence block deletion has been sent to the server.
+         * @event deleteSequenceBlockStarted
+         * @final
+         */
+        EVT_DELETE_SEQUENCE_BLOCK_STARTED: 'deleteSequenceBlockStarted',
+
+        /**
+         * Fired when a server response indicating a failure in deleting a sequence block has been received.
+         * @event deleteSequenceBlockFailed
+         * @param {Number} id The sequence block id.
+         * @final
+         */
+        EVT_DELETE_SEQUENCE_BLOCK_FAILED: 'deleteSequenceBlockFailed',
+
+        /**
+         * Fired when a server response indication a successful sequence block deletion has been received.
+         * @event deleteSequenceBlockCompleted
+         * @param {Number} id The sequence block id.
+         * @final
+         */
+        EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED: 'deleteSequenceBlockCompleted'
     };
 
     YAHOO.lang.augmentProto(DataSource, YAHOO.util.EventProvider);
@@ -721,7 +792,6 @@
         Dom.addClass(rowEl, 'row');
         Dom.addClass(rowEl, 'sequence-block-children');
         Dom.setAttribute(rowEl, 'id', 'sequence-block-view-children-' + cnumber);
-
         // bottom-row with buttons
         rowEl = bodyEl.appendChild(document.createElement('div'));
         Dom.setAttribute(rowEl, 'id', 'sequence-block-view-bottom-buttons-row-' + cnumber);
@@ -735,9 +805,6 @@
         Dom.addClass(el, 'radius');
         Dom.addClass(el, 'button');
         Dom.addClass(el, 'hidden');
-
-
-
         return rootEl;
     };
 
