@@ -33,7 +33,7 @@
      * @class SequenceBlockView
      * @constructor
      * @extends YAHOO.util.Element
-     * @param {ilios.cim.model.SequenceBlockModel} model The sequence block model that this view displays.
+     * @param {ilios.cim.model.SequenceBlockModel} model The sequence block that this view displays.
      * @param {HTMLElement} el The root-element in the DOM that is rendered by this view-instance.
      */
     var SequenceBlockView = function(model, el) {
@@ -42,6 +42,7 @@
 
         // set properties
         this._model = model;
+
         // initialize cnumber and parent cnumber with the corresponding model's id and parent id.
         this._cnumber = model.get('id');
         this._parentCnumber = model.get('parentId');
@@ -93,6 +94,38 @@
         },
 
         /**
+         * Enables and shows "draft mode" view-controls (e.g. "add", "delete" and "edit" buttons).
+         *
+         * @method enableDraftMode
+         */
+        enableDraftMode: function () {
+            var i, n, elIds, el;
+            elIds = ['addBtnEl', 'editBtnEl', 'deleteBtnEl'];
+            for (i = 0, n = elIds.length; i < n; i++) {
+                el = this.get(elIds[i]);
+                el.disabled = false;
+                Dom.removeClass(el, 'hidden');
+            }
+            Dom.removeClass(this.get('buttonRowEl'), 'hidden');
+        },
+
+        /**
+         * Lock and hide "draft mode" view-controls (e.g. "add", "delete" and "edit" buttons).
+         *
+         * @method disableDraftMode
+         */
+        disableDraftMode: function () {
+            var i, n, elIds, el;
+            elIds = ['addBtnEl', 'editBtnEl', 'deleteBtnEl'];
+            for (i = 0, n = elIds.length; i < n; i++) {
+                el = this.get(elIds[i]);
+                Dom.setAttribute(el, 'disabled', 'disabled');
+                Dom.addClass(el, 'hidden');
+            }
+            Dom.addClass(this.get('buttonRowEl'), 'hidden');
+        },
+
+        /**
          * Returns the view's container number.
          *
          * @method getCnumber
@@ -121,19 +154,109 @@
             SequenceBlockView.superclass.initAttributes.call(this, config);
             var cnumber = config.cnumber;
 
+            /**
+             * The display element for the view's title.
+             *
+             * @attribute titleEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('titleEl', {
                 writeOnce: true,
                 value: Dom.get('sequence-block-view-title-' + cnumber)
             });
+
+            /**
+             * The display element for the view's description.
+             *
+             * @attribute descriptionEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('descriptionEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-description-' + cnumber)
+            });
+
+            /**
+             * The button row element in the view.
+             *
+             * @attribute buttonRowEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('buttonRowEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-button-row-' + cnumber)
+            });
+
+            /**
+             * The "toggle display" button of the view.
+             *
+             * @attribute toggleBtnEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('toggleBtnEl', {
                writeOnce: true,
                value: Dom.get('sequence-block-view-toggle-btn-' + cnumber)
             });
+
+            /**
+             * The "delete" button of the view.
+             *
+             * @attribute deleteBtnEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('deleteBtnEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-delete-btn-' + cnumber)
+            });
+
+            /**
+             * The "edit" button of the view.
+             *
+             * @attribute editBtnEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('editBtnEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-edit-btn-' + cnumber)
+            });
+
+            /**
+             * The "add" button of the view.
+             *
+             * @attribute addBtnEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('addBtnEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-add-btn-' + cnumber)
+            });
+
+            /**
+             * The body element of the view.
+             *
+             * @attribute bodyEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('bodyEl', {
                 writeOnce: true,
                 value: Dom.get('sequence-block-view-body-' + cnumber)
             });
 
+            /**
+             * The view's title attribute.
+             *
+             * @attribute title
+             * @type {String}
+             * @default ""
+             */
             this.setAttributeConfig('title', {
                 validator: Lang.isString,
                 method: function (value) {
@@ -142,18 +265,36 @@
                         el.innerHTML = value;
                     }
                 },
-                value: ''
+                value: ""
+            });
+            /**
+             * The view's description attribute.
+             *
+             * @attribute description
+             * @type {String}
+             * @default ""
+             */
+            this.setAttributeConfig('description', {
+                validator: Lang.isString,
+                method: function (value) {
+                    var el = this.get('descriptionEl');
+                    if (el) {
+                        el.innerHTML = value;
+                    }
+                },
+                value: ""
             });
         },
 
         /**
-         * @method delete
          * Lifecycle management method.
          * "Deletes" the view from the page.
          * This includes unsubscribing any event listeners, detaching the view from it's parent element in the page
          * and hiding it from display.
          * Fires the "delete" custom event.
-         * @see YAHOO.util.Element.destroy()
+         *
+         * @method delete
+         * @see YAHOO.util.Element.destroy
          */
         delete: function () {
             this.hide();
@@ -164,33 +305,41 @@
             // - it removes all event listeners from the element's children as well
             // - it detaches the element from it's parent in the document.
             // Check the code for details.
+
+            // @todo unsubscribe all event handlers from any controls (buttons) within the view.
+            // @todo unset any properties (such as the model) of the view
             this.destroy();
         },
 
         /**
-         * @method hide
          * Hides the view.
+         *
+         * @method hide
          */
         hide: function () {
             this.addClass('hidden');
         },
 
         /**
+         *  Makes the view visible.
+         *
          * @method show
-         * Makes the view visible.
          */
         show: function () {
             this.removeClass('hidden');
         },
 
         /**
-         * @method render
          * Renders the view.
          * This includes populating the view with the model data and wiring event handling.
+         *
+         * @method render
+         * @param {Boolean} enableDraftMode If TRUE then draft mode controls ("add"/"edit"/"delete" buttons) will be enabled.
          */
-        render: function () {
+        render: function (enableDraftMode) {
 
             this.set('title', this._model.get('title'));
+            this.set('description', this._model.get('description'));
 
             // wire buttons
             Event.addListener(this.get('toggleBtnEl'), 'click', function (event) {
@@ -202,11 +351,16 @@
                 Event.stopEvent(event);
                 return false;
             }, {}, this);
+
+            if (enableDraftMode) {
+                this.enableDraftMode();
+            }
         },
 
         /**
-         * @method expand
          * Expands the view-container body.
+         *
+         * @method expand
          */
         expand: function () {
             Dom.removeClass(this.get('bodyEl'), 'hidden');
@@ -215,8 +369,9 @@
         },
 
         /**
-         * @method collapse
          * Collapses the view-container body.
+         *
+         * @method collapse
          */
         collapse: function () {
             Dom.addClass(this.get('bodyEl'), 'hidden');
@@ -224,9 +379,39 @@
             this.addClass('collapsed');
         },
 
+        /**
+         * Retrieves the view's "Delete" button.
+         *
+         * @method getDeleteButton
+         * @return {HTMLElement}
+         */
+        getDeleteButton: function () {
+            return this.get('deleteBtnEl');
+        },
+
+        /**
+         * Retrieves the view's "Edit" button.
+         *
+         * @method getEditButton
+         * @return {HTMLElement}
+         */
+        getEditButton: function () {
+            return this.get('editBtnEl');
+        },
+
+        /**
+         * Retrieves the view's "Add" button.
+         *
+         * @method getAddButton
+         * @return {HTMLElement}
+         */
+        getAddButton: function () {
+            return this.get('addBtnEl');
+        },
 
         /**
          * Fired when the view gets deleted.
+         *
          * @event delete
          * @param {Number} cnumber The view's container number.
          * @final
@@ -262,31 +447,6 @@
         this.createEvent(ReportView.EVT_DOWNLOAD_COMPLETED);
         this.createEvent(ReportView.EVT_EXPORT_STARTED);
         this.createEvent(ReportView.EVT_EXPORT_COMPLETED);
- /*
-        this.createEvent('finalizeStarted');
-        this.createEvent('finalizeSucceeded');
-        this.createEvent('finalizeFailed');
-        this.createEvent('deleteStarted');
-        this.createEvent('deleteSucceeded');
-        this.createEvent('deleteFailed');
-
-        // subscribe to own events
-        this.subscribe('finalizeStarted', function () {
-            this.lockDraftModeControls();
-        }, {}, this);
-        this.subscribe('finalizeFailed', function () {
-            this.unlockDraftModeControls();
-        }, {}, this);
-        this.subscribe('finalizeSucceeded', function () {
-            model.set('isFinalized', true);
-        }, {}, this);
-        this.subscribe('deleteStarted', function () {
-            this.lockDraftModeControls();
-        }, {}, this);
-        this.subscribe('deleteFailed', function () {
-            this.unlockDraftModeControls();
-        }, {}, this);
-        */
     };
 
     Lang.extend(ReportView, Element, {
@@ -317,7 +477,7 @@
         _blockUIForDownload: function () {
             var token = (new Date()).getTime();
             Dom.setAttribute(this.get("downloadBtnEl"), 'disabled', 'disabled');
-            this.fireEvent(ReportView.EVT_DOWNLOAD_STARTED);
+            this.fireEvent(this.EVT_DOWNLOAD_STARTED);
             this.set('downloadToken', token);
             this._downloadIntervalTimer = Lang.later(1000, this, function () {
                 var cookieValue = Cookie.get('download-token');
@@ -338,7 +498,7 @@
             this._downloadIntervalTimer.cancel();
             Cookie.remove('fileDownloadToken');
             el.disabled = false;
-            this.fireEvent(ReportView.EVT_DOWNLOAD_COMPLETED);
+            this.fireEvent(this.EVT_DOWNLOAD_COMPLETED);
         },
 
         /**
@@ -351,7 +511,7 @@
         _blockUIForExport: function () {
             var token = (new Date()).getTime();
             Dom.setAttribute(this.get("exportBtnEl"), 'disabled', 'disabled');
-            this.fireEvent(ReportView.EVT_EXPORT_STARTED);
+            this.fireEvent(this.EVT_EXPORT_STARTED);
             this.set('exportToken', token);
             this._exportIntervalTimer = Lang.later(1000, this, function () {
                 var cookieValue = Cookie.get('download-token');
@@ -372,7 +532,7 @@
             this._exportIntervalTimer.cancel();
             Cookie.remove('fileExportToken');
             el.disabled = false;
-            this.fireEvent(ReportView.EVT_EXPORT_COMPLETED);
+            this.fireEvent(this.EVT_EXPORT_COMPLETED);
         },
 
         /**
@@ -612,7 +772,7 @@
              */
             this.setAttributeConfig('editBtnEl', {
                 writeOnce: true,
-                value: Dom.get(this.get('editBtnEl'))
+                value: Dom.get('report-details-view-edit-button')
             });
 
             /**
@@ -937,113 +1097,9 @@
             });
             Event.addListener(this.get("downloadFormEl"), 'submit', this._blockUIForDownload, {}, this);
 
-            // if the report view gets rendered in draft mode then wire all of its buttons too.
-            if (! this.get('status')) {
-                Event.addListener(this.getEditButton(), 'click', function(event) {
-                    if (! this.editReportDialog) {
-                        this.editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog', this.model);
-                    }
-                    this.editReportDialog.show();
-                    Event.stopEvent(event);
-                    return false;
-                }, {}, this);
-                Event.addListener(this.get('exportFormEl'), 'submit', this._blockUIForExport, {}, this);
-
-                // @todo decouple server interaction from view.
-                Event.addListener(this.getDeleteButton(), 'click', function (event, args) {
-                    var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.delete.confirm.warning')
-                        + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
-                    var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
-                    ilios.alert.inform(continueStr, yesStr, function (event, args) {
-                        var model = args.model;
-                        var url = args.url;
-                        var view = args.view;
-                        var postData = 'report_id=' + encodeURIComponent(model.get('id'));
-                        var callback = {
-                            success: function (o) {
-                                var response, msg;
-                                try {
-                                    response = YAHOO.lang.JSON.parse(o.responseText);
-                                } catch (e) {
-                                    view.fireEvent('deleteFailed');
-                                    ilios.global.defaultAJAXFailureHandler(null, e);
-                                    return;
-                                }
-                                if (response.error) {
-                                    view.fireEvent('deleteFailed');
-                                    msg = ilios_i18nVendor.getI18NString('curriculum_inventory.delete.error.general');
-                                    ilios.alert.alert(msg + ": " + response.error);
-                                    return;
-                                }
-                                view.fireEvent('deleteSucceeded');
-                            },
-                            failure: function (o) {
-                                view.fireEvent('deleteFailed');
-                                ilios.global.defaultAJAXFailureHandler(o);
-                            }
-                        };
-
-                        this.hide(); // hide the calling dialog
-
-                        view.fireEvent('deleteStarted');
-                        YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                        YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
-                    }, args);
-                }, {
-                    model: this.model,
-                    url: this.config.deleteUrl,
-                    view: this
-                },
-                this);
-
-
-                Event.addListener(this.getFinalizeButton(), 'click', function (event, args) {
-                    var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.confirm.warning')
-                        + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
-                    var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
-                    ilios.alert.inform(continueStr, yesStr, function (event, args) {
-                        var model = args.model;
-                        var url = args.url;
-                        var view = args.view;
-                        var postData = 'report_id=' + encodeURIComponent(model.get('id'));
-                        var callback = {
-                            success: function (o) {
-                                var response, msg;
-                                try {
-                                    response = YAHOO.lang.JSON.parse(o.responseText);
-                                } catch (e) {
-                                    view.fireEvent('finalizeFailed');
-                                    ilios.global.defaultAJAXFailureHandler(null, e);
-                                    return;
-                                }
-                                if (response.error) {
-                                    view.fireEvent('finalizeFailed');
-                                    msg = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.error.general');
-                                    ilios.alert.alert(msg + ": " + response.error);
-                                    return;
-                                }
-                                view.fireEvent('finalizeSucceeded');
-                            },
-                            failure: function (o) {
-                                view.fireEvent('finalizeFailed');
-                                ilios.global.defaultAJAXFailureHandler(o);
-                            }
-                        };
-
-                        this.hide(); // hide the calling dialog
-
-                        view.fireEvent('finalizeStarted');
-                        YAHOO.util.Connect.initHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                        YAHOO.util.Connect.asyncRequest("POST", url, callback, postData);
-                    }, args);
-                }, {
-                    model: this.model,
-                    url: this.config.finalizeUrl,
-                    view: this
-                },
-                this);
+            if (! this.get('isFinalized')) {
+                 Event.addListener(this.get('exportFormEl'), 'submit', this._blockUIForExport, {}, this);
             }
-
         },
 
         /**
