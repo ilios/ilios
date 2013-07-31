@@ -396,8 +396,8 @@ textarea.validation-failed {
 .level-1 .toggle a:hover {
     color: #444;
 }
-.expanded .toggle:before,
-.collapsed .toggle:before {
+.expanded > .hd > .toggle:before,
+.collapsed> .hd > .toggle:before {
     font-family: 'ilios-icons';
     font-style: normal;
     speak: none;
@@ -406,11 +406,11 @@ textarea.validation-failed {
     line-height: 2.5em;
     margin-left: .5em;
 }
-.collapsed .toggle:before {
+.collapsed > .hd > .toggle:before {
         content: "\e001";
 
 }
-.expanded .toggle:before {
+.expanded > .hd > .toggle:before {
     content: "\e01e";
 }
 /*ideally we would do this programmatically, but...*/
