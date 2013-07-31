@@ -223,10 +223,11 @@
             // 2. create views from models
             // 3. show views
             for (i = 0, n = payload.sequence_blocks.length; i < n; i++) {
-                sequenceBlockModel = this.createSequenceBlockModel(payload.sequence_blocks[i]);
+/*                sequenceBlockModel = this.createSequenceBlockModel(payload.sequence_blocks[i]);
                 sequenceBlockView = this.createSequenceBlockView(sequenceBlockModel);
                 sequenceBlockView.render(! this._reportModel.get('isFinalized'));
-                sequenceBlockView.show();
+                sequenceBlockView.show();*/
+                this.addSequenceBlock(payload.sequence_blocks[i]);
             }
         }
     };
@@ -323,6 +324,26 @@
          */
         _editReportDialog: null,
 
+
+        addSequenceBlock: function (oData, silent) {
+            var model, view, el;
+
+            var finalized = this._reportModel.get('isFinalized');
+            //create model and view
+            model = this.createSequenceBlockModel(oData);
+            view = this.createSequenceBlockView(model);
+            view.render(! finalized);
+
+            //
+            // wire the view's buttons
+            //
+            if (! finalized) {
+                Event.addListener(view.getDeleteButton(), 'click', this.onSequenceBlockDeleteButtonClick,
+                { id: view.getModel().getId() }, this);
+            }
+            view.show();
+        },
+
         /**
          * Creates a sequence block model object from a given data transfer object representing a sequence block record.
          *
@@ -358,7 +379,8 @@
 
             view = new ilios.cim.view.SequenceBlockView(model, el);
 
-            this._sequenceBlockViewRegistry[id] = view; // add the view to the registry so we can pull it up later
+            // add sequence block to registry
+            this._sequenceBlockViewRegistry[view.getCnumber()] = view;
 
             return view;
         },
@@ -409,6 +431,27 @@
                     view.disableDraftMode();
                 }
             }
+        },
+
+        /**
+         * Event handler function.
+         * Subscribe this to each sequence block's "Delete" button click-event.
+         *
+         * @method onSequenceBlockDeleteButtonClick
+         * @param {Event} The click event.
+         * @param {Object} args A map of arguments passed on method-invocation. Expected values are:
+         *     'id' ... the id of the to-be-deleted sequence block
+         * @see addSequenceBlock
+         */
+        onSequenceBlockDeleteButtonClick: function (event, args) {
+            var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+            var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
+            ilios.alert.inform(continueStr, yesStr, function (event, args) {
+                args.dataSource.deleteSequenceBlock(args.id);
+                this.hide(); // hide the calling dialog
+            }, { id: args.id, dataSource: this._dataSource});
+            Event.stopEvent(event);
+            return false;
         }
     };
 
@@ -625,23 +668,24 @@
                     try {
                         response = YAHOO.lang.JSON.parse(o.responseText);
                     } catch (e) {
-                        this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: id});
+                        this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: o.argument.id});
                         ilios.global.defaultAJAXFailureHandler(null, e);
                         return;
                     }
                     if (response.error) {
-                        this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: id});
+                        this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: o.argument.id});
                         msg = ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.delete.error.general');
                         ilios.alert.alert(msg + ": " + response.error);
                         return;
                     }
-                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED, {id: id});
+                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED, {id: o.argument.id});
                 },
                 failure: function (o) {
-                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: id});
+                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: o.argument.id});
                     ilios.global.defaultAJAXFailureHandler(o);
                 },
-                scope: this
+                scope: this,
+                argument: { id: id }
             };
 
             this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_STARTED);
