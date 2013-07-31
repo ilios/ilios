@@ -247,11 +247,11 @@
             });
 
             // create custom event
-            this.createEvent(ReportModel.EVT_ON_UPDATE);
+            this.createEvent(this.EVT_UPDATED);
         },
         /**
          * Updates the model's attributes with given data.
-         * Fires the "onUpdate" event after updating the attributes.
+         * Fires the "updated" event after updating the attributes.
          * @method update
          * @param {Object} oData a key/value map of data to update the model with.
          */
@@ -260,7 +260,7 @@
             this.set('description', oData.description);
             this.set('endDate', oData.end_date);
             this.set('startDate', oData.start_date);
-            this.fireEvent(ReportModel.EVT_ON_UPDATE);
+            this.fireEvent(this.EVT_UPDATED);
         },
 
         /*
@@ -281,10 +281,10 @@
          * For changes to the model attributes themselves, listen the various "change" events that
          * the individual model attributes are emitting.
          *
-         * @event onUpdate
+         * @event update
          * @final
          */
-        EVT_ON_UPDATE: 'onUpdate'
+        EVT_UPDATED: 'updated'
     });
 
     /**
