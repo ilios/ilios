@@ -1037,9 +1037,14 @@ fieldset > .row {
     line-height: 1em;
 }
 
-.row .button {
+.row > .button {
     float: right;
 }
+
+.row > .column > .button {
+    float: right;
+}
+
 .row .button:not(.secondary) {
     color: #FFF; /*override a firefox bug?*/
 }
