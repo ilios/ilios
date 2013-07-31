@@ -71,4 +71,13 @@ EOL;
         $query->free_result();
         return $rhett;
     }
+
+    /**
+     * Deletes a given sequence block and all its children.
+     * @param int $sequenceBlockId The sequence block id.
+     */
+    public function delete ($sequenceBlockId)
+    {
+        $this->db->delete($this->databaseTableName, array('sequence_block_id' => $sequenceBlockId));
+    }
 }
