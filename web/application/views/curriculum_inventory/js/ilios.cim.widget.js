@@ -453,8 +453,6 @@
         this.beforeShowEvent.subscribe(function () {
             this.center();
         });
-
-        this.render();
     };
 
     // inheritance
