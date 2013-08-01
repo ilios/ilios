@@ -14,7 +14,7 @@
  * @see application/views/js/ilios.cim.js
  */
 ?>
-<div class="tabdialog" id="edit_report_dialog">
+<div class="tabdialog hidden" id="edit_report_dialog">
     <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.edit.title', $lang); ?></div>
     <div class="bd">
         <div class="dialog_wrap">

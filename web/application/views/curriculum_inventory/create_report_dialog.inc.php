@@ -13,7 +13,7 @@
  * @see application/views/js/ilios.cim.js
  */
 ?>
-<div class="tabdialog" id="create_report_dialog">
+<div class="tabdialog hidden" id="create_report_dialog">
     <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.create.title', $lang); ?></div>
     <div class="bd">
         <div class="dialog_wrap">

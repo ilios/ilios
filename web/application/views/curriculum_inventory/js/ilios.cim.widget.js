@@ -69,10 +69,15 @@
 
         // clear out the dialog and center it before showing it.
         this.beforeShowEvent.subscribe(function () {
+            Dom.removeClass(el, 'hidden');
             this.reset();
             this.center();
         });
 
+
+        this.hideEvent.subscribe(function () {
+            Dom.addClass(el, 'hidden');
+        });
         // clear out the dialog and center it before showing it.
         this.cancelEvent.subscribe(function () {
             this.reset();
@@ -179,7 +184,7 @@
             Dom.removeClass('new_report_description', 'validation-failed');
             Dom.removeClass('new_report_year', 'validation-failed');
             Dom.removeClass('new_report_program', 'validation-failed');
-        }
+        },
     });
 
     /**
@@ -268,10 +273,15 @@
 
         // clear out the dialog and center it before showing it.
         this.beforeShowEvent.subscribe(function () {
+            Dom.removeClass(el, 'hidden');
             this.reset();
             this.populateForm();
             this.center();
         });
+
+        this.hideEvent.subscribe(function () {
+            Dom.addClass(el, 'hidden');
+        })
 
         this.beforeSubmitEvent.subscribe(function () {
             document.getElementById('report_update_status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.updating') + '...';
@@ -451,7 +461,12 @@
 
         // center dialog before showing it.
         this.beforeShowEvent.subscribe(function () {
+            Dom.removeClass(el, 'hidden');
             this.center();
+        });
+
+        this.hideEvent.subscribe(function () {
+           Dom.addClass(el, 'hidden');
         });
     };
 

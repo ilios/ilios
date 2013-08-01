@@ -15,7 +15,7 @@
  * @see application/views/curriculum_inventory_curriculum_inventory_manager.js
  */
 ?>
-<div class="tabdialog" id="report_picker_dialog">
+<div class="tabdialog hidden" id="report_picker_dialog">
     <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.select.title', $lang); ?>:</div>
     <div class="bd">
         <div class="dialog_wrap">
