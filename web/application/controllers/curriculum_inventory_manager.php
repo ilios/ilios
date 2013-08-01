@@ -110,7 +110,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $program = $this->program->getRowForPrimaryKeyId($report->program_id);
             $report->is_finalized = $this->invExport->exists($reportId);
             $report->program = $program;
-            $academicLevels = $this->invAcademicLevel->getLevels($report->report_id);
+            $academicLevels = array_values($this->invAcademicLevel->getLevels($report->report_id));
             $linkedCourses = $this->inventory->getLinkedCourses($report->report_id);
             $linkableCourses = $this->inventory->getLinkableCourses($report->year, $schoolId, $report->report_id);
             $courses = array_merge($linkedCourses, $linkableCourses);
