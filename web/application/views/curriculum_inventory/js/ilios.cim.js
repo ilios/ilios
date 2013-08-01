@@ -375,13 +375,11 @@
          * @param {Boolean} silent Don't fire any sequence block related "create" events, and don't show a message in the status bar.
          */
         addSequenceBlock: function (oData, silent) {
-            var model, view, courseModel;
+            var model, view;
 
             var finalized = this._reportModel.get('isFinalized');
 
-            // if applicable, check out the course model linked to this sequence block from the repository.
-            courseModel = this.getCourseRepository().checkOut(oData.course_id);
-            oData.course_model = courseModel;
+
 
             //create model and view
             model = this.createSequenceBlockModel(oData);
@@ -411,10 +409,23 @@
          * @return {ilios.cim.model.SequenceBlockModel} The created model.
          */
         createSequenceBlockModel: function (oData) {
-            // @todo pull the linked course and associated academic year model from their respective registries and add them to the model
+            var rhett, courseModel;
+            // if applicable, check out the course model linked to this sequence block from the repository.
+            courseModel = this.getCourseRepository().checkOut(oData.course_id);
+            oData.course_model = courseModel;
+            // @todo pull the associated academic year model from their respective registries and add them to the model
+
+            // instantiate model
+            rhett = new ilios.cim.model.SequenceBlockModel(oData);
+
+            // subscribe the app to the model's "course model change" event
+            rhett.subscribe("courseChange", this.onCourseModelChangeInSequenceBlock, this, true);
+
             // @todo add model to registry
             // @todo get parent model from registry and add this model as a child
-            return new ilios.cim.model.SequenceBlockModel(oData);
+
+            // return the damned thing
+            return rhett;
         },
 
         /**
@@ -510,6 +521,25 @@
             }, { id: args.id, dataSource: this._dataSource});
             Event.stopEvent(event);
             return false;
+        },
+
+        /**
+         * Change-event handler function.
+         * Subscribe this method to each sequence block's "courseChange" event, so we can
+         * capture changes to sequence block/course associations.
+         * Check-in previously assigned courses.
+         *
+         * The invocation scope of this method should be the application.
+         *
+         * @method onCourseModelChangeInSequenceBlock
+         * @param {Object} args Value object containing the old value ("prevValue") and new value ("newValue).
+         */
+        onCourseModelChangeInSequenceBlock: function (args) {
+            var repo = this.getCourseRepository();
+            if (args.prevValue) {
+                repo = this.getCourseRepository();
+                repo.checkIn(args.prevValue.getId());
+            }
         }
     };
 
