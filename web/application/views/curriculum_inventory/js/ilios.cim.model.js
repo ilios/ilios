@@ -289,11 +289,27 @@
 
     /**
      * The course model.
+     * Course are considered to be read-only in the context of curriculum inventory management, so this has been implemented
+     * as immutable object.
      *
      * @extends ilios.cim.model.BaseModel
      * @namespace cim.model
      * @class CourseModel
-     * @param {Object} oData A key/value map of initial model data.
+     * @param {Object} oData A key/value map of initial model data. This following properties are expected:
+     *     'archived'
+     *     'clerkship_type_id'
+     *     'course_id'
+     *     'course_level'
+     *     'deleted'
+     *     'end_date'
+     *     'external_id'
+     *     'locked'
+     *     'owning_school_id'
+     *     'publish_event_id'
+     *     'published_as_tbd'
+     *     'start_date'
+     *     'title'
+     *     'year'
      * @constructor
      */
     var CourseModel = function (oData) {
@@ -307,7 +323,176 @@
          */
         init : function (oData) {
             CourseModel.superclass.init.call(this, oData);
-            // @todo implement
+            var archived = oData.archived ? true : false;
+            var locked = oData.locked ? true : false;
+            var level = parseInt(oData.course_level, 10);
+            var deleted = oData.deleted ? true : false;
+            var endDate = oData.end_date;
+            var startDate = oData.start_date;
+            var title = oData.title;
+            var year = parseInt(oData.year, 10);
+            var isPublished = oData.publish_event_id ? true: false;
+            var isPublishedAsTbd = oData.published_as_tbd ? true : false;
+            var externalId = oData.external_id;
+            var clerkshipTypeId = Lang.isValue(oData.clerkship_type_id) ? oData.clerkship_type_id : 0;
+            var owningSchoolId = parseInt(oData.owning_school_id, 10);
+
+            /**
+             * A flag indicating whether the course has been archived or not.
+             *
+             * @attribute archived
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('archived', {
+                value: archived,
+                readOnly: true
+            });
+
+            /**
+             * A flag indicating whether the course has been locked or not.
+             *
+             * @attribute locked
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('locked', {
+                value: locked,
+                readOnly: true
+            });
+
+            /**
+             * A flag indicating whether the course has been "deleted" or not.
+             *
+             * @attribute deleted
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('deleted', {
+                value: deleted,
+                readOnly: true
+            });
+
+            /**
+             * The course level.
+             *
+             * @attribute level
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('level', {
+                value: level,
+                readOnly: true
+            });
+
+            /**
+             * The end-date of the course.
+             *
+             * @attribute endDate
+             * @type {String}
+             * @readOnly
+             */
+            this.setAttributeConfig('endDate', {
+                value: endDate,
+                readOnly: true
+            });
+
+            /**
+             * The start-date of the course.
+             *
+             * @attribute startDate
+             * @type {String}
+             * @readOnly
+             */
+            this.setAttributeConfig('startDate', {
+                value: startDate,
+                readOnly: true
+            });
+
+            /**
+             * The course title.
+             *
+             * @attribute title
+             * @type {String}
+             * @readOnly
+             */
+            this.setAttributeConfig('title', {
+                value: title,
+                readOnly: true
+            });
+
+            /**
+             * The course year.
+             *
+             * @attribute year
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('year', {
+                value: year,
+                readOnly: true
+            });
+
+            /**
+             * A flag indicating whether the course has been published or not.
+             *
+             * @attribute isPublished
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('isPublished', {
+                value: isPublished,
+                readOnly: true
+            });
+
+            /**
+             * A flag indicating whether the course has been published in "TBD" mode or not.
+             *
+             * @attribute isPublishedAsTbd
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('isPublishedAsTbd', {
+                value: isPublishedAsTbd,
+                readOnly: true
+            });
+
+            /**
+             * An alternative identifier ("machine name") of the course.
+             *
+             * @attribute externalId
+             * @type {String}
+             * @readOnly
+             */
+            this.setAttributeConfig('externalId', {
+                value: externalId,
+                readOnly: true
+            });
+
+            /**
+             * The id of the clerkship type associated with this course.
+             * This value is Zero if the course is not a clerkship.
+             *
+             * @attribute clerkshipTypeId
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('clerkshipTypeId', {
+                value: clerkshipTypeId,
+                readOnly: true
+            });
+
+            /**
+             * The id of the school that this course belongs to.
+             *
+             * @attribute owningSchoolId
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('owningSchoolId', {
+                value: owningSchoolId,
+                readOnly: true
+            });
         },
         /*
          * @override
@@ -382,7 +567,7 @@
             var endDate = oData.end_date;
             var academicLevelId = oData.academic_level_id;
             var duration = oData.duration;
-            var courseId = oData.courseId;
+            var courseModel = oData.course_model;
             var parentId = oData.parent_sequence_block_id;
 
             /**
@@ -552,15 +737,15 @@
             });
 
             /**
-             * The id of the course that this sequence block may be associated with.
+             * The course object associated with this sequence block, or NULL if no course is associated.
              *
-             * @attribute courseId
-             * @type {Number|null}
+             * @attribute course
+             * @type {ilios.cim.model.CourseModel|null}
              */
-            this.setAttributeConfig('courseId', {
-                value: courseId,
+            this.setAttributeConfig('course', {
+                value: courseModel,
                 validator: function (value) {
-                    return (Lang.isNull(value) || Lang.isNumber(value));
+                    return (Lang.isNull(value) || (value instanceof ilios.cim.model.CourseModel));
                 }
             });
 
