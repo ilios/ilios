@@ -702,68 +702,74 @@
     };
 
     /**
-     * Storage container of sequence block models within the application
+     * An implementation of an object collection.
      *
-     * @namespace cim
-     * @class SequenceBlockModelRegistry
+     * @class ObjectCollection
      * @constructor
+     * @todo This object could be useful outside the context of this app.
+     *      Refactor it out when the time comes to redo the rest of Ilios JS libs. [ST 2013-08-01]
      */
-    var SequenceBlockModelRegistry = function () {};
+    var ObjectCollection = function () {};
 
-    SequenceBlockModelRegistry.prototype = {
-        // @todo implement
-    };
+    ObjectCollection.prototype = {
 
-    /**
-     * Storage container of sequence block views within the application.
-     *
-     * @namespace cim
-     * @class SequenceBlockViewRegistry
-     * @constructor
-     */
-    var SequenceBlockViewRegistry = function () {};
-
-    SequenceBlockViewRegistry.prototype = {
         /**
-         * The internal registry object.
+         * The internal object registry.
          *
          * @var _registry
          * @type {Object}
          * @protected
          */
         _registry: {},
+
         /**
-         * Adds a given view to the registry.
+         * The internal object counter.
+         *
+         * @param _counter
+         * @type {Number}
+         * @default 0
+         * @protected
+         */
+        _counter: 0,
+
+        /**
+         * Adds a given object to the collection.
          *
          * @method add
-         * @param {ilios.cim.view.SequenceBlockView} view
-         * @return {ilios.cim.view.SequenceBlockView} The added view.
-         * @throws {Error} If a view has already been registered under the same cnumber as key.
+         * @param {Object} o The object to be added.
+         * @return {Object} The added object.
+         * @throws {Error} If an object already exists in the collection under the given object's id.
          */
-        add: function (view) {
-            var cnumber = view.getCnumber();
-            if (this.exists(cnumber)) {
-                throw new Error('A view with this cnumber has already been added to the registry. cnumber: ' + cnumber);
+        add: function (o) {
+            var id = this._getIdFromObject(o);
+            if (this.exists(id)) {
+                throw new Error('add(): id already exists. id = ' + id);
             }
-            this._registry[cnumber] = view;
-            return view;
-        },
-        /**
-         *
-         * @method remove
-         * @param {Number} cnumber
-         * @return {ilios.cim.view.SequenceBlockView} The removed view object.
-         * @throws {Error}
-         */
-        remove: function (cnumber) {
-            var view = this.get(cnumber);
-            delete this._registry[cnumber];
-            return view;
+            this._registry[id] = o;
+            this._counter = this._counter + 1;
+            return o;
         },
 
         /**
+         * Removes an given object from the collection.
+         *
+         * @method remove
+         * @param {Number|String} id The object id.
+         * @return {Object} The removed object.
+         * @throws {Error} If no object could be found for the given id.
+         */
+        remove: function (id) {
+            var o = this.get(id);
+            delete this._registry[id];
+            this._counter = this._counter - 1;
+            return o;
+        },
+
+        /**
+         * Returns all objects in the collection as array.
+         *
          * @method list
-         * @return {Array}
+         * @return {Array} A list of objects in the collection.
          */
         list: function () {
             var i, rhett;
@@ -777,52 +783,156 @@
         },
 
         /**
+         * Checks whether an object exists in the collection under a given id.
+         *
          * @method exists
-         * @param {Number} cnumber
-         * @return {Boolean}
+         * @param {Number|String} id The object id.
+         * @return {Boolean} TRUE if an object was found for the given id, FALSE otherwise.
          */
-        exists: function (cnumber) {
-            return this._registry.hasOwnProperty(cnumber);
+        exists: function (id) {
+            return this._registry.hasOwnProperty(id);
         },
 
         /**
+         * Retrieves an object from the collection by it's id.
          * @method get
-         * @param {Number} cnumber
-         * @return {ilios.cim.view.SequenceBlockView}
-         * @throws {Error}
+         * @param {Number|String} id The object id.
+         * @return {Object} The object.
+         * @throws {Error} If no object could be found for the given id.
          */
-        get: function (cnumber) {
-            if (! this.exists(cnumber)) {
-                throw new Error('A view with this cnumber does not exist in the registry. cnumber: ' + cnumber);
+        get: function (id) {
+            if (! this.exists(id)) {
+                throw new Error('get(): no object found for the given id. id = ' + id);
             }
-            this._registry[cnumber];
+            this._registry[id];
         },
 
         /**
-         * Applies a given function with given arguments to each view in the registry.
+         * Applies a given function with given arguments to each object in the collection.
          *
          * @method walk
          * @param {Function} fn
          * @param {Array} [args]
          */
         walk: function (fn, args) {
-            var i, view;
+            var i, o;
             args = args || [];
 
             for (i in this._registry) {
                 if (this._registry.hasOwnProperty(i)) {
-                    view = this._registry[i];
-                    fn.apply(view, args);
+                    o = this._registry[i];
+                    fn.apply(o, args);
                 }
             }
+        },
+
+        /**
+         * Retrieves the current number of objects in the collection.
+         *
+         * @method size
+         * @return {Number}
+         */
+        size: function () {
+            return this._counter;
+        },
+
+        /**
+         * Retrieves the "id" property for a given object.
+         *
+         * @method _getIdFromObject
+         * @param {Object} o
+         * @return {Number|String}
+         * @protected
+         */
+        _getIdFromObject: function (o) {
+            return o.id;
         }
     };
+
+
+    /**
+     * A collection of sequence block views within the application.
+     *
+     * @namespace cim
+     * @class SequenceBlockViewRegistry
+     * @extends ObjectCollection
+     * @constructor
+     */
+    var SequenceBlockViewRegistry = function () {
+        SequenceBlockViewRegistry.superclass.constructor.call(this);
+    };
+
+    Lang.extend(SequenceBlockViewRegistry, ObjectCollection, {
+
+        /**
+         * Adds a given sequence block view to the collection.
+         *
+         * @param {ilios.cim.view.SequenceBlockView} view The view to add.
+         * @return {ilios.cim.view.SequenceBlockView} The added view.
+         * @throw {Error} If the data type didn't match, or if the view already exists in the collection.
+         * @see ObjectCollection.add
+         * @override
+         */
+        add: function (view) {
+            if (! view instanceof ilios.cim.view.SequenceBlockView) {
+                throw new Error('add(): type mismatch.');
+            }
+            return SequenceBlockViewRegistry.superclass.add.call(this, view);
+        },
+
+        /*
+         * @override
+         * @see ObjectCollection._getIdFromObject
+         */
+        _getIdFromObject: function (o) {
+            return o.getCnumber();
+        }
+    });
+
+    /**
+     * A collection of sequence block models within the application.
+     *
+     * @namespace cim
+     * @class SequenceBlockModelRegistry
+     * @extends ObjectCollection
+     * @constructor
+     */
+    var SequenceBlockModelRegistry = function () {
+        SequenceBlockModelRegistry.superclass.constructor.call(this);
+    };
+
+    Lang.extend(SequenceBlockModelRegistry, ObjectCollection, {
+        /**
+         * Adds a given sequence block model to the collection.
+         *
+         * @param {ilios.cim.model.SequenceBlockModel} model The model to add.
+         * @return {ilios.cim.model.SequenceBlockModel} The added model.
+         * @throw {Error} If the data type didn't match, or if the model already exists in the collection.
+         * @see ObjectCollection.add
+         * @override
+         */
+        add: function (model) {
+            if (! model instanceof ilios.cim.model.SequenceBlockModel) {
+                throw new Error('add(): type mismatch.');
+            }
+            return SequenceBlockModelRegistry.superclass.add.call(this, model);
+        },
+
+        /*
+         * @override
+         * @see ObjectCollection._getIdFromObject
+         */
+        _getIdFromObject: function (o) {
+            return o.get('id');
+        }
+    });
 
     /**
      * Provides functionality for exchanging data with the server-side backend.
      * All communication with the server will be handled asynchronous via XHR calls.
+     *
      * @namespace cim
-     * @class App
+     * @class DataSource
      * @uses YAHOO.util.EventProvider
      * @constructor
      * @param {Object} config The data source configuration object. Expect to contain the following attributes:
