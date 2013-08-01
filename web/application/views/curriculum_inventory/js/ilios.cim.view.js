@@ -29,6 +29,7 @@
 
     /**
      * The view for a given sequence block model.
+     *
      * @namespace cim.view
      * @class SequenceBlockView
      * @constructor
@@ -94,6 +95,27 @@
         },
 
         /**
+         * Returns the view's container number.
+         *
+         * @method getCnumber
+         * @return {Number}
+         */
+        getCnumber: function () {
+            return this._cnumber;
+        },
+
+        /**
+         * Returns the container number of the parent sequence block view.
+         * Top level views return <code>NULL</code>.
+         *
+         * @method getParentCnumber
+         * @return {Number|null}
+         */
+        getParentCnumber: function () {
+            return this._cnumber;
+        },
+
+        /**
          * Enables and shows "draft mode" view-controls (e.g. "add", "delete" and "edit" buttons).
          *
          * @method enableDraftMode
@@ -125,27 +147,6 @@
             }
             Dom.addClass(this.get('topButtonsRowEl'), 'hidden');
             Dom.addClass(this.get('bottomButtonsRowEl'), 'hidden');
-        },
-
-        /**
-         * Returns the view's container number.
-         *
-         * @method getCnumber
-         * @return {Number}
-         */
-        getCnumber: function () {
-            return this._cnumber;
-        },
-
-        /**
-         * Returns the container number of the parent sequence block view.
-         * Top level views return <code>NULL</code>.
-         *
-         * @method getParentCnumber
-         * @return {Number|null}
-         */
-        getParentCnumber: function () {
-            return this._cnumber;
         },
 
         /*
@@ -440,21 +441,19 @@
      * @constructor
      * @extends YAHOO.util.Element
      * @param {ilios.cim.model.ReportModel} model The report model.
-     * @param {Object} oConfig A configuration object.
      */
-    var ReportView = function (model, oConfig) {
-        ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'), oConfig);
+    var ReportView = function (model)  {
+        ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'));
 
-        // set properties
-        this.config = oConfig;
-        this.model = model;
+        // set model
+        this._model = model;
 
         // subscribe to model changes
-        this.model.subscribe('nameChange', this.onNameChange, {}, this);
-        this.model.subscribe('descriptionChange', this.onDescriptionChange, {}, this);
-        this.model.subscribe('startDateChange', this.onStartDateChange, {}, this);
-        this.model.subscribe('endDateChange', this.onEndDateChange, {}, this);
-        this.model.subscribe('isFinalizedChange', this.onStatusChange, {}, this);
+        this._model.subscribe('nameChange', this.onNameChange, {}, this);
+        this._model.subscribe('descriptionChange', this.onDescriptionChange, {}, this);
+        this._model.subscribe('startDateChange', this.onStartDateChange, {}, this);
+        this._model.subscribe('endDateChange', this.onEndDateChange, {}, this);
+        this._model.subscribe('isFinalizedChange', this.onStatusChange, {}, this);
 
         // create custom events
         this.createEvent(ReportView.EVT_DOWNLOAD_STARTED);
@@ -466,8 +465,16 @@
     Lang.extend(ReportView, Element, {
 
         /**
+         * The view's report model.
+         *
+         * @property model
+         * @type {ilios.cim.model.ReportModel
+         * @protected
+         */
+        _model: null,
+        /**
          * Timer object for the tracking the report download progress.
-         * @var _downloadIntervalTimer
+         * @property _downloadIntervalTimer
          * @type {Object}
          * @protected
          */
@@ -475,7 +482,7 @@
 
         /**
          * Timer object for the tracking the report export progress.
-         * @var _downloadIntervalTimer
+         * @property _downloadIntervalTimer
          * @type {Object}
          * @protected
          */
@@ -547,6 +554,16 @@
             Cookie.remove('fileExportToken');
             el.disabled = false;
             this.fireEvent(this.EVT_EXPORT_COMPLETED);
+        },
+
+        /**
+         * Returns the view's model.
+         *
+         * @method getModel
+         * @return {ilios.cim.model.SequenceBlockModel}
+         */
+        getModel: function () {
+            return this._model;
         },
 
         /**
@@ -1090,14 +1107,14 @@
          */
         render: function () {
 
-            this.set('name', this.model.get('name'));
-            this.set('description', this.model.get('description'));
-            this.set('academicYear', this.model.get('academicYear'));
-            this.set('startDate', this.model.get('startDate'));
-            this.set('endDate', this.model.get('endDate'));
-            this.set('program', this.model.get('program'));
-            this.set('reportId', this.model.get('id'));
-            this.set('isFinalized', this.model.get('isFinalized'));
+            this.set('name', this._model.get('name'));
+            this.set('description', this._model.get('description'));
+            this.set('academicYear', this._model.get('academicYear'));
+            this.set('startDate', this._model.get('startDate'));
+            this.set('endDate', this._model.get('endDate'));
+            this.set('program', this._model.get('program'));
+            this.set('reportId', this._model.get('id'));
+            this.set('isFinalized', this._model.get('isFinalized'));
 
             //
             // wire and show applicable dialog buttons
