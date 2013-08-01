@@ -116,6 +116,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $courses = array_merge($linkedCourses, $linkableCourses);
             $sequence = $this->invSequence->getRowForPrimaryKeyId($report->report_id);
             $sequenceBlocks = $this->invSequenceBlock->getBlocks($report->report_id);
+            $sequenceBlocks = $this->invSequenceBlock->buildSequenceBlockHierarchy($sequenceBlocks);
 
             $payload['report'] = $report;
             $payload['academic_levels'] = $academicLevels;
