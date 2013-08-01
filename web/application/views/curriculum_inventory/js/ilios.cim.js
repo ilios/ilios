@@ -16,6 +16,7 @@
  */
 (function () {
 
+
     ilios.namespace('cim');
 
     var Lang = YAHOO.lang,
@@ -85,7 +86,7 @@
             this._reportModel = new ilios.cim.model.ReportModel(payload.report);
 
             // set up views and widgets
-            this._reportView = new ilios.cim.view.ReportView(this._reportModel, {});
+            this._reportView = new ilios.cim.view.ReportView(this._reportModel);
             this._reportView.render();
             this._sequenceBlockTopToolbar = new ilios.cim.widget.SequenceBlockTopToolbar({});
             this._sequenceBlockTopToolbar.render();
@@ -129,17 +130,16 @@
                 dataSource = this.getDataSource();
 
                 // wire up "finalize report" button
-                Event.addListener(this._reportView.getFinalizeButton(), 'click', function(event) {
+                Event.addListener(this._reportView.getFinalizeButton(), 'click', function() {
+                    var model = this._reportModel;
+                    var dataSource = this.getDataSource();
                     var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.confirm.warning')
                         + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
-                    var args = {};
-                    args.model = this._reportModel;
-                    args.dataSource = this.getDataSource();
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
                         args.dataSource.finalizeReport(args.model.get('id'));
                         this.hide(); // hide the calling dialog
-                    }, args);
+                    }, { model: model, dataSource: dataSource });
                 }, {}, this);
                 // subscribe to "finalize report"-events emitted by the data source
                 dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_STARTED, function () {
@@ -704,6 +704,7 @@
     /**
      * An implementation of an object collection.
      *
+     * @namespace cim
      * @class ObjectCollection
      * @constructor
      * @todo This object could be useful outside the context of this app.
@@ -936,9 +937,9 @@
      * @uses YAHOO.util.EventProvider
      * @constructor
      * @param {Object} config The data source configuration object. Expect to contain the following attributes:
-     *     'deleteReportUrl' ... The URL to the server-side "delete report" controller action.
-     *     'finalizeReportUrl' ... The URL to the server-side "finalize report" controller action.
-     *     'deleteSequenceBlockUrl' ... The URL to te  server-side "delete sequence block" controller action.
+     *     @param {String} config.deleteReportUrl The URL to the server-side "delete report" controller action.
+     *     @param {String} config.finalizeReportUrl The URL to the server-side "finalize report" controller action.
+     *     @param {String} deleteSequenceBlockUrl The URL to te  server-side "delete sequence block" controller action.
      */
     var DataSource = function (config) {
 
@@ -954,7 +955,6 @@
     };
 
     DataSource.prototype = {
-
         /**
          * The data source configuration.
          * @property _config
@@ -1243,6 +1243,7 @@
         return rootEl;
     };
 
+    ilios.cim.ObjectCollection = ObjectCollection;
     ilios.cim.SequenceBlockViewRegistry = SequenceBlockViewRegistry;
     ilios.cim.SequenceBlockModelRegistry = SequenceBlockModelRegistry;
     ilios.cim.CourseRepository = CourseRepository;
