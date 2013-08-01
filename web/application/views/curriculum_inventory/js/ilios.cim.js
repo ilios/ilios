@@ -44,8 +44,8 @@
      */
     var App = function (config, payload) {
 
-        var i, n,
-            sequenceBlockModel, sequenceBlockView;
+        var i, n, dataSource;
+
 
         // set module configuration
         this._config = config;
@@ -57,13 +57,6 @@
 
 
         this._programs = payload.programs;
-
-        // instantiate data source
-        this._dataSource = new ilios.cim.DataSource({
-            finalizeReportUrl: this._config.controllerUrl + 'finalize',
-            deleteReportUrl: this._config.controllerUrl + 'delete',
-            deleteSequenceBlockUrl: this._config.controllerUrl + 'deleteSequenceBlock'
-        });
 
         // wire up the "search report" button
         Event.addListener('pick_reports_btn', 'click', function (event) {
@@ -142,6 +135,8 @@
             //
             if (! this._reportModel.get('isFinalized')) {
 
+                dataSource = this.getDataSource();
+
                 // wire up "finalize report" button
                 Event.addListener(this._reportView.getFinalizeButton(), 'click', function(event) {
                     var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.confirm.warning')
@@ -149,17 +144,17 @@
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
                     var args = {};
                     args.model = this._reportModel;
-                    args.dataSource = this._dataSource;
+                    args.dataSource = this.getDataSource();
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
                         args.dataSource.finalizeReport(args.model.get('id'));
                         this.hide(); // hide the calling dialog
                     }, args);
                 }, {}, this);
                 // subscribe to "finalize report"-events emitted by the data source
-                this._dataSource.subscribe(this._dataSource.EVT_FINALIZE_REPORT_STARTED, function () {
+                dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_STARTED, function () {
                     this.show('Finalizing report started &hellip;', true);
                 }, this.getStatusBar(), true);
-                this._dataSource.subscribe(this._dataSource.EVT_FINALIZE_REPORT_SUCCEEDED, function () {
+                dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_SUCCEEDED, function () {
                     // update the report model
                     this.getStatusBar().reset();
                     this._reportModel.set('isFinalized', true);
@@ -168,7 +163,7 @@
                     this._sequenceBlockBottomToolbar.disableButtons();
                     this._sequenceBlockBottomToolbar.hide();
                 }, this, true);
-                this._dataSource.subscribe(this._dataSource.EVT_FINALIZE_REPORT_FAILED, function () {
+                dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_FAILED, function () {
                     this.getStatusBar().show('Finalizing report failed.', false);
                 }, this, true);
 
@@ -179,20 +174,20 @@
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
                     var args = {};
                     args.model = this._reportModel;
-                    args.dataSource = this._dataSource;
+                    args.dataSource = dataSource;
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
                         args.dataSource.deleteReport(args.model.get('id'));
                         this.hide(); // hide the calling dialog
                     }, args);
                 }, {}, this);
                 // subscribe to "delete report"-events emitted by the data source
-                this._dataSource.subscribe(this._dataSource.EVT_DELETE_REPORT_STARTED, function () {
+                dataSource.subscribe(dataSource.EVT_DELETE_REPORT_STARTED, function () {
                     this.getStatusBar().show('Deleting report &hellip;', true);
                 }, this, true);
-                this._dataSource.subscribe(this._dataSource.EVT_DELETE_REPORT_FAILED, function () {
+                dataSource.subscribe(dataSource.EVT_DELETE_REPORT_FAILED, function () {
                     this.getStatusBar().show('Failed to delete report.', false);
                 }, this, true);
-                this._dataSource.subscribe(this._dataSource.EVT_DELETE_REPORT_SUCCEEDED, function() {
+                dataSource.subscribe(dataSource.EVT_DELETE_REPORT_SUCCEEDED, function() {
                     this.getStatusBar().show('Successfully deleted report. Reloading page &hellip;', true);
                     // reload the page
                     window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
@@ -358,7 +353,7 @@
          */
         getStatusBar: function () {
             if (! this._statusBar) {
-                // lazy init
+                // lazy instantiation
                 this._statusBar = new ilios.cim.widget.StatusBar({});
                 this._statusBar.render('status-toolbar'); // render the widget onto the page the first time around.
             }
@@ -376,6 +371,24 @@
                 this._courseRepository = new ilios.cim.CourseRepository();
             }
             return this._courseRepository;
+        },
+
+        /**
+         * Retrieves the application's data source object.
+         *
+         * @method getDataSource
+         * @return {ilios.cim.DataSource} The application's data source.
+         */
+        getDataSource: function () {
+            if (! this._dataSource) {
+                // instantiate data source
+                this._dataSource = new ilios.cim.DataSource({
+                    finalizeReportUrl: this._config.controllerUrl + 'finalize',
+                    deleteReportUrl: this._config.controllerUrl + 'delete',
+                    deleteSequenceBlockUrl: this._config.controllerUrl + 'deleteSequenceBlock'
+                });
+            }
+            return this._dataSource();
         },
 
         /**
@@ -532,7 +545,7 @@
             ilios.alert.inform(continueStr, yesStr, function (event, args) {
                 args.dataSource.deleteSequenceBlock(args.id);
                 this.hide(); // hide the calling dialog
-            }, { id: args.id, dataSource: this._dataSource});
+            }, { id: args.id, dataSource: this.getDataSource()});
             Event.stopEvent(event);
             return false;
         },
