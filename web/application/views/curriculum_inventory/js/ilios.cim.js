@@ -181,7 +181,7 @@
                     args.model = this._reportModel;
                     args.dataSource = this._dataSource;
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
-                        args.dataSource.finalizeReport(args.model.get('id'));
+                        args.dataSource.deleteReport(args.model.get('id'));
                         this.hide(); // hide the calling dialog
                     }, args);
                 }, {}, this);
