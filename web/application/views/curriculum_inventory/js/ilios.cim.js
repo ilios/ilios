@@ -54,8 +54,7 @@
         // at a minimum, instantiate the programs property and wire up the "create report" and "search report" buttons,
         // as well as the status bar.
         //
-        this._statusBar = new ilios.cim.widget.StatusBar({});
-        this._statusBar.render('status-toolbar');
+
 
         this._programs = payload.programs;
 
@@ -112,21 +111,21 @@
 
             // subscribe "export report" events
             this._reportView.subscribe(this._reportView.EVT_EXPORT_STARTED, function() {
-                this._statusBar.show('Started Report Export &hellip;', true);
+                this.getStatusBar().show('Started Report Export &hellip;', true);
             }, this, true);
             this._reportView.subscribe(this._reportView.EVT_DOWNLOAD_STARTED, function() {
-                this._statusBar.show('Started Report Download &hellip;', true);
+                this.getStatusBar().show('Started Report Download &hellip;', true);
             }, this, true);
             this._reportView.subscribe(this._reportView.EVT_EXPORT_COMPLETED, function () {
-                this._statusBar.reset();
+                this.getStatusBar().reset();
             }, this, true);
 
             // subscribe "download report" events
             this._reportView.subscribe(this._reportView.EVT_DOWNLOAD_COMPLETED, function () {
-                this._statusBar.reset();
+                this.getStatusBar().reset();
             }, this, true);
             this._reportModel.subscribe(this._reportModel.EVT_UPDATED, function () {
-                this._statusBar.show('Report updated.', false);
+                this.getStatusBar().show('Report updated.', false);
             }, this, true);
 
             // wire up toolbars
@@ -159,10 +158,10 @@
                 // subscribe to "finalize report"-events emitted by the data source
                 this._dataSource.subscribe(this._dataSource.EVT_FINALIZE_REPORT_STARTED, function () {
                     this.show('Finalizing report started &hellip;', true);
-                }, this._statusBar, true);
+                }, this.getStatusBar(), true);
                 this._dataSource.subscribe(this._dataSource.EVT_FINALIZE_REPORT_SUCCEEDED, function () {
                     // update the report model
-                    this._statusBar.reset();
+                    this.getStatusBar().reset();
                     this._reportModel.set('isFinalized', true);
                     this.disableAllSequenceBlocks(); // disable "draft mode" for all sequence blocks
                     // disable and hide the bottom toolbar
@@ -170,7 +169,7 @@
                     this._sequenceBlockBottomToolbar.hide();
                 }, this, true);
                 this._dataSource.subscribe(this._dataSource.EVT_FINALIZE_REPORT_FAILED, function () {
-                    this._statusBar.show('Finalizing report failed.', false);
+                    this.getStatusBar().show('Finalizing report failed.', false);
                 }, this, true);
 
                 // wire up the "delete report" button
@@ -188,13 +187,13 @@
                 }, {}, this);
                 // subscribe to "delete report"-events emitted by the data source
                 this._dataSource.subscribe(this._dataSource.EVT_DELETE_REPORT_STARTED, function () {
-                    this._statusBar.show('Deleting report &hellip;', true);
+                    this.getStatusBar().show('Deleting report &hellip;', true);
                 }, this, true);
                 this._dataSource.subscribe(this._dataSource.EVT_DELETE_REPORT_FAILED, function () {
-                    this._statusBar.show('Failed to delete report.', false);
+                    this.getStatusBar().show('Failed to delete report.', false);
                 }, this, true);
                 this._dataSource.subscribe(this._dataSource.EVT_DELETE_REPORT_SUCCEEDED, function() {
-                    this._statusBar.show('Successfully deleted report. Reloading page &hellip;', true);
+                    this.getStatusBar().show('Successfully deleted report. Reloading page &hellip;', true);
                     // reload the page
                     window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
                 }, this, true);
@@ -352,6 +351,21 @@
         //
 
         /**
+         * Retrieves the application's status bar widget.
+         *
+         * @method getStatusBar
+         * @return {ilios.cim.widget.StatusBar} The application's status bar.
+         */
+        getStatusBar: function () {
+            if (! this._statusBar) {
+                // lazy init
+                this._statusBar = new ilios.cim.widget.StatusBar({});
+                this._statusBar.render('status-toolbar'); // render the widget onto the page the first time around.
+            }
+            return this._statusBar;
+        },
+
+        /**
          * Retrieves the application's course repository.
          *
          * @method getCourseRepository
@@ -395,7 +409,7 @@
             }
 
             if (! silent) {
-                this._statusBar.show('Added new sequence block.');
+                this.getStatusBar().show('Added new sequence block.');
             }
 
             view.show();
