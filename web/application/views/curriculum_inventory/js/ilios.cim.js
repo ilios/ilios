@@ -724,10 +724,15 @@
          * Newly checked-in courses are automatically available.
          *
          * @method add
-         * @param {ilios.cim.model.CourseModel} course
+         * @param {ilios.cim.model.CourseModel} The course object.
+         * @throws {Error} If the given course already exists in the repo.
          */
         add: function (course) {
-            this._available[course.getId()] = course;
+            var id = course.getId();
+            if (this.exists(id)) {
+                throw new Error('add(): course already exists in repo. course id = ' + id);
+            }
+            this._available[id] = course;
         },
 
         /**
@@ -736,18 +741,22 @@
          *
          * @method checkOut
          * @param {Number} id The course id.
-         * @return {ilios.cim.model.CourseModel|null} the checked-out course, or NULL if it doesn't exist.
+         * @return {ilios.cim.model.CourseModel} The checked-out course.
+         * @throw {Error} Throws an error if the course cannot be found or has already been checked out.
+         *
          */
         checkOut: function (id) {
             var course;
             if (! this.exists(id)) {
-                return null;
+                throw new Error('checkOut(): course does not exist in repo, course id = ' + id);
             }
-            if (this._available.hasOwnProperty(id)) {
-                course = this._available[id];
-                delete this._available[id];
-                this._unavailable[id] = course;
+            if (! this._available.hasOwnProperty(id)) {
+                throw new Error('checkOut(): course is already checked out, course id = ' + id);
             }
+            course = this._available[id];
+            delete this._available[id];
+            this._unavailable[id] = course;
+
             return this._unavailable[id];
         },
 
@@ -757,18 +766,20 @@
          *
          * @method checkIn
          * @param {Number} id The course id.
-         * @return {ilios.cim.model.CourseModel|null} the checked-in course, or NULL if it doesn't exist.
+         * @return {ilios.cim.model.CourseModel} The checked-in course.
+         * @throw {Error} Throws an error if the course cannot be found or has already been checked in.
          */
         checkIn: function (id) {
             var course;
             if (! this.exists(id)) {
-                return null;
+                throw new Error('checkOut(): course does not exist in repo, course id = ' + id);
             }
-            if (this._unavailable.hasOwnProperty(id)) {
-                course = this._unavailable[id];
-                delete this._unavailable[id];
-                this._available[id] = course;
+            if (! this._unavailable.hasOwnProperty(id)) {
+                throw new Error('checkOut(): course is already checked in, course id = ' + id);
             }
+            course = this._unavailable[id];
+            delete this._unavailable[id];
+            this._available[id] = course;
             return this._available[id];
         },
 
