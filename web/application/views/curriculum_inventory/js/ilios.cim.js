@@ -247,13 +247,23 @@
         _reportView: null,
 
         /**
-         * The registry of sequence blocks instances.
+         * The application's sequence block view registry.
          *
          * @property _sequenceBlockViewRegistry
-         * @type {Object}
+         * @type {ilios.cim.SequenceBlockViewRegistry}
          * @protected
          */
-        _sequenceBlockViewRegistry: {},
+        _sequenceBlockViewRegistry: null,
+
+
+        /**
+         * The application's sequence block model registry.
+         *
+         * @property _sequenceBlockModelRegistry
+         * @type {ilios.cim.SequenceBlockModelRegistry}
+         * @protected
+         */
+        _sequenceBlockModelRegistry: null,
 
 
         /**
@@ -383,6 +393,33 @@
         },
 
         /**
+         * Retrieves the application's sequence block view registry object.
+         *
+         * @method getSequenceBlockViewRegistry
+         * @return {ilios.cim.SequenceBlockViewRegistry} The application's sequence block view registry.
+         */
+        getSequenceBlockViewRegistry: function () {
+            if (! this._sequenceBlockViewRegistry) {
+                this._sequenceBlockViewRegistry = new ilios.cim.SequenceBlockViewRegistry();
+            }
+            return this._sequenceBlockViewRegistry;
+        },
+
+        /**
+         * Retrieves the application's sequence block model registry object.
+         *
+         * @method getSequenceBlockModelRegistry
+         * @return {ilios.cim.SequenceBlockModelRegistry} The application's sequence block model registry.
+         */
+        getSequenceBlockModelRegistry: function () {
+            if (! this._sequenceBlockModelRegistry) {
+                this._sequenceBlockModelRegistry = new ilios.cim.SequenceBlockModelRegistry();
+            }
+            return this._sequenceBlockModelRegistry;
+        },
+
+
+        /**
          * Adds a sequence block to the application.
          * This entails instantiating and populating the model from the given data, instantiating and wiring the view,
          * event wiring of the view and registration of model and view with the application's various object containers
@@ -468,7 +505,7 @@
             view = new ilios.cim.view.SequenceBlockView(model, el);
 
             // add sequence block to registry
-            this._sequenceBlockViewRegistry[view.getCnumber()] = view;
+            this.getSequenceBlockViewRegistry().add(view);
 
             return view;
         },
@@ -478,14 +515,8 @@
          * @method expandAllSequenceBlock
          */
         expandAllSequenceBlocks: function () {
-            var cnumber, view, registry;
-            registry = this._sequenceBlockViewRegistry;
-            for (cnumber in registry) {
-                if (registry.hasOwnProperty(cnumber)) {
-                    view = registry[cnumber];
-                    view.expand();
-                }
-            }
+            var fn = ilios.cim.view.SequenceBlockView.prototype.expand;
+            this.getSequenceBlockViewRegistry().walk(fn);
         },
 
         /**
@@ -494,14 +525,8 @@
          * @method expandAllSequenceBlock
          */
         collapseAllSequenceBlocks: function () {
-            var cnumber, view, registry;
-            registry = this._sequenceBlockViewRegistry;
-            for (cnumber in registry) {
-                if (registry.hasOwnProperty(cnumber)) {
-                    view = registry[cnumber];
-                    view.collapse();
-                }
-            }
+            var fn = ilios.cim.view.SequenceBlockView.prototype.collapse;
+            this.getSequenceBlockViewRegistry().walk(fn);
         },
 
         /**
@@ -511,14 +536,8 @@
          * @see ilios.cim.view.SequenceBlockView.disableDraftMode
          */
         disableAllSequenceBlocks: function () {
-            var cnumber, view, registry;
-            registry = this._sequenceBlockViewRegistry;
-            for (cnumber in registry) {
-                if (registry.hasOwnProperty(cnumber)) {
-                    view = registry[cnumber];
-                    view.disableDraftMode();
-                }
-            }
+            var fn = ilios.cim.view.SequenceBlockView.prototype.disableDraftMode;
+            this.getSequenceBlockViewRegistry().walk(fn);
         },
 
         /**
@@ -704,29 +723,42 @@
      */
     var SequenceBlockViewRegistry = function () {};
 
-    SequenceBlockViewRegistry.protoype = {
+    SequenceBlockViewRegistry.prototype = {
         /**
          * The internal registry object.
+         *
          * @var _registry
          * @type {Object}
          * @protected
          */
         _registry: {},
         /**
+         * Adds a given view to the registry.
+         *
          * @method add
          * @param {ilios.cim.view.SequenceBlockView} view
-         * @return {Boolean} TRUE on success, FALSE on failure.
+         * @return {ilios.cim.view.SequenceBlockView} The added view.
+         * @throws {Error} If a view has already been registered under the same cnumber as key.
          */
         add: function (view) {
-            // @todo implement
+            var cnumber = view.getCnumber();
+            if (this.exists(cnumber)) {
+                throw new Error('A view with this cnumber has already been added to the registry. cnumber: ' + cnumber);
+            }
+            this._registry[cnumber] = view;
+            return view;
         },
         /**
+         *
          * @method remove
          * @param {Number} cnumber
          * @return {ilios.cim.view.SequenceBlockView} The removed view object.
+         * @throws {Error}
          */
         remove: function (cnumber) {
-            // @todo implement
+            var view = this.get(cnumber);
+            delete this._registry[cnumber];
+            return view;
         },
 
         /**
@@ -734,25 +766,14 @@
          * @return {Array}
          */
         list: function () {
-            // @todo implement
-        },
-
-        /**
-         * @method map
-         * @param {Number} cnumber
-         * @return {Object}
-         */
-        map: function (cnumber) {
-            // @todo implement
-        },
-
-        /**
-         * @method children
-         * @param {Number} cnumber
-         * @return {Array}
-         */
-        children: function (cnumber) {
-            // @todo implement
+            var i, rhett;
+            rhett = [];
+            for (i in this._registry) {
+                if (this._registry.hasOwnProperty(i)) {
+                    rhett.push(this._registry[i]);
+                }
+            }
+            return rhett;
         },
 
         /**
@@ -761,7 +782,39 @@
          * @return {Boolean}
          */
         exists: function (cnumber) {
-            // @todo implement
+            return this._registry.hasOwnProperty(cnumber);
+        },
+
+        /**
+         * @method get
+         * @param {Number} cnumber
+         * @return {ilios.cim.view.SequenceBlockView}
+         * @throws {Error}
+         */
+        get: function (cnumber) {
+            if (! this.exists(cnumber)) {
+                throw new Error('A view with this cnumber does not exist in the registry. cnumber: ' + cnumber);
+            }
+            this._registry[cnumber];
+        },
+
+        /**
+         * Applies a given function with given arguments to each view in the registry.
+         *
+         * @method walk
+         * @param {Function} fn
+         * @param {Array} [args]
+         */
+        walk: function (fn, args) {
+            var i, view;
+            args = args || [];
+
+            for (i in this._registry) {
+                if (this._registry.hasOwnProperty(i)) {
+                    view = this._registry[i];
+                    fn.apply(view, args);
+                }
+            }
         }
     };
 
@@ -1081,6 +1134,7 @@
     };
 
     ilios.cim.SequenceBlockViewRegistry = SequenceBlockViewRegistry;
+    ilios.cim.SequenceBlockModelRegistry = SequenceBlockModelRegistry;
     ilios.cim.CourseRepository = CourseRepository;
     ilios.cim.DataSource = DataSource;
     ilios.cim.App = App;
