@@ -297,20 +297,20 @@
      * @namespace cim.model
      * @class CourseModel
      * @param {Object} oData A key/value map of initial model data. This following properties are expected:
-     *     'archived'
-     *     'clerkship_type_id'
-     *     'course_id'
-     *     'course_level'
-     *     'deleted'
-     *     'end_date'
-     *     'external_id'
-     *     'locked'
-     *     'owning_school_id'
-     *     'publish_event_id'
-     *     'published_as_tbd'
-     *     'start_date'
-     *     'title'
-     *     'year'
+     *     @param {Number} oData.archived
+     *     @param {Number|null} oData.clerkship_type_id
+     *     @param {Number} oData.course_id
+     *     @param {Number} oData.course_level
+     *     @param {Number} oData.deleted
+     *     @param {String} oData.end_date
+     *     @param {String} oData.external_id
+     *     @param {Number} oData.locked
+     *     @param {Number} oData.owning_school_id
+     *     @param {Number|null} oData.publish_event_id
+     *     @param {Number} oData.published_as_tbd
+     *     @param {String} oData.start_date
+     *     @param {String} oData.title
+     *     @param {Number} oData.year
      * @constructor
      */
     var CourseModel = function (oData) {
@@ -515,6 +515,11 @@
      * @namespace cim.model
      * @class AcademicLevelModel
      * @param {Object} oData A key/value map of initial model data.
+     *     @param {Number} oData.academic_level_id
+     *     @param {String} oData.description
+     *     @param {Number} oData.level
+     *     @param {String} oData.name
+     *     @param {Number} oData.report_id
      * @constructor
      */
     var AcademicLevelModel = function (oData) {
@@ -528,7 +533,56 @@
          */
         init : function (oData) {
             AcademicLevelModel.superclass.init.call(this, oData);
-            // @todo implement
+
+            var reportId = oData.report_id;
+            var level = oData.level;
+            var name = Lang.isString(oData.name) ? oData.name : '';
+            var description = Lang.isString(oData.description) ? oData.description : '';
+
+            /**
+             * The academic level's report id.
+             * Identifies the report that the level belongs to.
+             *
+             * @attribute reportId
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('reportId', {
+                value: reportId,
+                readOnly: true
+            });
+
+            /**
+             * The academic level's actual "level", a numeric value between 1 and 10.
+             *
+             * @attribute level
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('level', {
+                value: level,
+                readOnly: true
+            });
+
+            /**
+             * The academic level's name.
+             * @attribute name
+             * @type {String}
+             */
+            this.setAttributeConfig('name', {
+                value: reportId,
+                validator: Lang.isString
+            });
+
+            /**
+             * The academic level's description.
+             * @attribute name
+             * @type {String}
+             */
+            this.setAttributeConfig('description', {
+                value: description,
+                validator: Lang.isString
+            });
         },
 
         /*
@@ -551,6 +605,23 @@
      * @namespace cim.model
      * @class SequenceBlockModel
      * @param {Object} oData A key/value map of initial model data.
+     *    @param {Number} oData.sequence_block_id
+     *    @param {Number} oData.report_id
+     *    @param {Number} oData.status
+     *    @param {Number} oData.child_sequence_order
+     *    @param {Number} oData.order_in_sequence
+     *    @param {Number} oData.minimum
+     *    @param {Number} oData.maximum
+     *    @param {Number} oData.track
+     *    @param {String} oData.description
+     *    @param {String} oData.title
+     *    @param {String} oData.start_date
+     *    @param {String} oData.end_date
+     *    @param {Number} oData.academic_level_id
+     *    @param {Number} oData.duration
+     *    @param {ilios.cim.model.CourseModel|null} oData.course_model
+     *    @param {Number|null} oData.course_id
+     *    @param {Number|null} oData.parent_sequence_block_id
      * @constructor
      */
     var SequenceBlockModel = function (oData) {
@@ -785,6 +856,7 @@
          */
         delete: function () {
             this.fireEvent(this.EVT_DELETE);
+            this.set('course', null);
             this.unsubscribeAll();
         },
 
