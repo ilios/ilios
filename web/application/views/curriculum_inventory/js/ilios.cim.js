@@ -35,8 +35,7 @@
      * @param {Object} [payload] The initial page payload. It may have these data points as properties:
      *     "programs" ... an object holding the programs available for reporting on.
      *     "report" ... (optional) an object representing the currently selected report.
-     *     "courses" ... (optional) An lookup object (keyed off by course id) holding linked and linkable courses
-     *         with/for sequence blocks in this report.
+     *     "courses" ... (optional) An array of courses, linked-with or linkable-to sequence blocks in this report.
      *     "sequence" ... (optional) An object representing the report sequence.
      *     "sequence_blocks" ... (optional) An array of report sequence blocks.
      *     "academic_levels" ... (optional) An array of academic levels available in the given report.
@@ -98,8 +97,8 @@
             this.academicLevels = payload.academic_levels;
             this.sequenceBlock = payload.sequence_block;
             this.sequenceBlocks = payload.sequence_blocks;
-            this.linkableCourses = payload.linkable_courses;
-            this.linkedCourses = payload.linked_courses;
+
+            this._initCourseModel(payload.courses);
             this._reportModel = new ilios.cim.model.ReportModel(payload.report);
 
             // set up views and widgets
@@ -218,16 +217,8 @@
             this._sequenceBlockTopToolbar.show();
 
             // deal with sequence block models and views
-            // @todo break this out into three steps
-            // 1. create models
-            // 2. create views from models
-            // 3. show views
             for (i = 0, n = payload.sequence_blocks.length; i < n; i++) {
-/*                sequenceBlockModel = this.createSequenceBlockModel(payload.sequence_blocks[i]);
-                sequenceBlockView = this.createSequenceBlockView(sequenceBlockModel);
-                sequenceBlockView.render(! this._reportModel.get('isFinalized'));
-                sequenceBlockView.show();*/
-                this.addSequenceBlock(payload.sequence_blocks[i]);
+                this.addSequenceBlock(payload.sequence_blocks[i], true);
             }
         }
     };
@@ -279,6 +270,16 @@
          */
         _sequenceBlockViewRegistry: {},
 
+
+        /**
+         * The application-wide course repository.
+         *
+         * @property _courseRepository
+         * @type {ilios.cim.CourseRepository}
+         * @protected
+         */
+        _courseRepository: null,
+
         /**
          * The application's status-message bar.
          *
@@ -324,11 +325,64 @@
          */
         _editReportDialog: null,
 
+        //
+        // init methods
+        //
 
+        /**
+         * Initialization-method for the application's course model and its container objects.
+         * Instantiates course models from the given data and checks them into the course repo.
+         *
+         * @method _initCourseModel
+         * @param {Array} data A list of course data objects.
+         * @protected
+         */
+        _initCourseModel: function (data) {
+            var i, n, model, repo;
+            repo = this.getCourseRepository();
+
+            for (i = 0, n = data.length; i < n; i++ ) {
+                model = new ilios.cim.model.CourseModel(data[i]);
+                repo.add(model);
+            }
+        },
+
+        //
+        // API
+        //
+
+        /**
+         * Retrieves the application's course repository.
+         *
+         * @method getCourseRepository
+         * @return {ilios.cim.CourseRepository} The application's course repository.
+         */
+        getCourseRepository: function () {
+            if (! this._courseRepository) {
+                this._courseRepository = new ilios.cim.CourseRepository();
+            }
+            return this._courseRepository;
+        },
+
+        /**
+         * Adds a sequence block to the application.
+         * This entails instantiating and populating the model from the given data, instantiating and wiring the view,
+         * event wiring of the view and registration of model and view with the application's various object containers
+         * for further references.
+         *
+         * @method addSequenceBlock
+         * @param {Object} oData A map containing data of the new sequence block.
+         * @param {Boolean} silent Don't fire any sequence block related "create" events, and don't show a message in the status bar.
+         */
         addSequenceBlock: function (oData, silent) {
-            var model, view, el;
+            var model, view, courseModel;
 
             var finalized = this._reportModel.get('isFinalized');
+
+            // if applicable, check out the course model linked to this sequence block from the repository.
+            courseModel = this.getCourseRepository().checkOut(oData.course_id);
+            oData.course_model = courseModel;
+
             //create model and view
             model = this.createSequenceBlockModel(oData);
             view = this.createSequenceBlockView(model);
@@ -341,6 +395,11 @@
                 Event.addListener(view.getDeleteButton(), 'click', this.onSequenceBlockDeleteButtonClick,
                 { id: view.getModel().getId() }, this);
             }
+
+            if (! silent) {
+                this._statusBar.show('Added new sequence block.');
+            }
+
             view.show();
         },
 
@@ -441,7 +500,6 @@
          * @param {Event} The click event.
          * @param {Object} args A map of arguments passed on method-invocation. Expected values are:
          *     'id' ... the id of the to-be-deleted sequence block
-         * @see addSequenceBlock
          */
         onSequenceBlockDeleteButtonClick: function (event, args) {
             var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
@@ -455,8 +513,130 @@
         }
     };
 
+
+    /**
+     * Course repository.
+     * Allows for state management of courses within the repository application.
+     * A course can either be "checked in" (available for assignment to a sequence block),
+     * or "checked out" (unavailable for assignment)
+     * Courses will be checked-in/out from the repo by its owning application as part of sequence block lifecycle
+     * management (block-creation/deletion/update).
+     *
+     * @namespace cim
+     * @class CourseRepository
+     * @constructor
+     * @see ilios.cim.model.CourseModel
+     */
+    var CourseRepository = function () {};
+
+    CourseRepository.prototype = {
+
+        /**
+         * The container object for checked-out/unavailable courses.
+         *
+         * @property _unavailable
+         * @type {Object}
+         * @protected
+         */
+        _unavailable: {},
+
+        /**
+         * The container object for checked-in/available courses.
+         *
+         * @property _unavailable
+         * @type {Object}
+         * @protected
+         */
+        _available: {},
+
+
+        /**
+         * Checks if the repo contains a given course.
+         * @param {Number} The course id.
+         * @returns {Boolean} TRUE if the course exists in the repo, otherwise FALSE.
+         */
+        exists: function (id) {
+            return this._available.hasOwnProperty(id) || this._unavailable.hasOwnProperty(id);
+        },
+
+        /**
+         * Adds a course to the repo.
+         * Newly checked-in courses are automatically available.
+         *
+         * @method add
+         * @param {ilios.cim.model.CourseModel} course
+         */
+        add: function (course) {
+            this._available[course.getId()] = course;
+        },
+
+        /**
+         * Checks a given course out of the repo, and flags it as unavailable.
+         * If the course has already been checked-out, then it is simply returned without a status change.
+         *
+         * @method checkOut
+         * @param {Number} id The course id.
+         * @return {ilios.cim.model.CourseModel|null} the checked-out course, or NULL if it doesn't exist.
+         */
+        checkOut: function (id) {
+            var course;
+            if (! this.exists(id)) {
+                return null;
+            }
+            if (this._available.hasOwnProperty(id)) {
+                course = this._available[id];
+                delete this._available[id];
+                this._unavailable[id] = course;
+            }
+            return this._unavailable[id];
+        },
+
+        /**
+         * Checks a given course into the repo, and flags it as available.
+         * If the course has already been checked-in, then it is simply returned without a status change.
+         *
+         * @method checkIn
+         * @param {Number} id The course id.
+         * @return {ilios.cim.model.CourseModel|null} the checked-in course, or NULL if it doesn't exist.
+         */
+        checkIn: function (id) {
+            var course;
+            if (! this.exists(id)) {
+                return null;
+            }
+            if (this._unavailable.hasOwnProperty(id)) {
+                course = this._unavailable[id];
+                delete this._unavailable[id];
+                this._available[id] = course;
+            }
+            return this._available[id];
+        },
+
+        /**
+         * Retrieves a sorted list of available courses.
+         *
+         * @method listAvailable
+         * @returns {Array} A list of sorted courses.
+         */
+        listAvailable : function () {
+            var i, rhett;
+            rhett  = [];
+            for (i in this._available) {
+                if (this._available.hasOwnProperty(i)) {
+                    rhett.push(this._available[i]);
+                }
+            }
+            rhett.sort(function (a, b) {
+                return a.get('title').localeCompare(b.get('title'));
+            });
+
+            return rhett;
+        }
+    };
+
     /**
      * Storage container of sequence block models within the application
+     *
      * @namespace cim
      * @class SequenceBlockModelRegistry
      * @constructor
@@ -853,6 +1033,7 @@
     };
 
     ilios.cim.SequenceBlockViewRegistry = SequenceBlockViewRegistry;
+    ilios.cim.CourseRepository = CourseRepository;
     ilios.cim.DataSource = DataSource;
     ilios.cim.App = App;
 }());
