@@ -36,7 +36,6 @@
      *     "programs" ... an object holding the programs available for reporting on.
      *     "report" ... (optional) an object representing the currently selected report.
      *     "courses" ... (optional) An array of courses, linked-with or linkable-to sequence blocks in this report.
-     *     "sequence" ... (optional) An object representing the report sequence.
      *     "sequence_blocks" ... (optional) An array of report sequence blocks.
      *     "academic_levels" ... (optional) An array of academic levels available in the given report.
      * @constructor
@@ -46,15 +45,8 @@
 
         var i, n, dataSource;
 
-
         // set module configuration
         this._config = config;
-
-        //
-        // at a minimum, instantiate the programs property and wire up the "create report" and "search report" buttons,
-        // as well as the status bar.
-        //
-
 
         this._programs = payload.programs;
 
@@ -87,7 +79,6 @@
 
             // process data
             this.academicLevels = payload.academic_levels;
-            this.sequenceBlock = payload.sequence_block;
             this.sequenceBlocks = payload.sequence_blocks;
 
             this._initCourseModel(payload.courses);
@@ -388,7 +379,7 @@
                     deleteSequenceBlockUrl: this._config.controllerUrl + 'deleteSequenceBlock'
                 });
             }
-            return this._dataSource();
+            return this._dataSource;
         },
 
         /**
