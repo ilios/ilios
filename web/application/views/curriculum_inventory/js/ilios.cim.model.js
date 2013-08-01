@@ -50,7 +50,7 @@
 
         /**
          * Generates a unique 'client-side' identifier for a model instance.
-         * @returns {String} The client id.
+         * @return {String} The client id.
          * @static
          */
         generateClientId: function () {
@@ -70,10 +70,11 @@
              * The model's server-side id (e.g., the corresponding db record's primary key value).
              * @attribute id
              * @type {String|Number}
+             * @readOnly
              */
             this.setAttributeConfig('id', {
                 value: id,
-                writeOnce: true
+                readOnly: true
             });
 
             var clientId = this.generateClientId();
@@ -82,11 +83,11 @@
              * The model's client-side id. Gets generated on instantiation.
              * @attribute clientId
              * @type {String}
+             * @readOnly
              */
             this.setAttributeConfig('clientId', {
-                writeOnce: true,
-                validator: Lang.isString,
-                value: clientId
+                value: clientId,
+                readOnly: true
             });
         },
 
@@ -543,6 +544,15 @@
         ID_ATTRIBUTE_NAME: 'academic_level_id'
     });
 
+    /**
+     * The sequence block model.
+     *
+     * @extends ilios.cim.model.BaseModel
+     * @namespace cim.model
+     * @class SequenceBlockModel
+     * @param {Object} oData A key/value map of initial model data.
+     * @constructor
+     */
     var SequenceBlockModel = function (oData) {
         SequenceBlockModel.superclass.constructor.call(this, oData);
     };
