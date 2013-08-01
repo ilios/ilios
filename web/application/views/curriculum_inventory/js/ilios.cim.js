@@ -31,14 +31,14 @@
      * @namespace cim
      * @class App
      * @param {Object} config the application configuration. Expect the following attributes to be present:
-     *     'controllerUrl' ... URL to the server-side "curriculum inventory manager" controller.
-     *     'programControllerUrl' ... URL to the server-side "program manager" controller.
-     * @param {Object} [payload] The initial page payload. It may have these data points as properties:
-     *     "programs" ... an object holding the programs available for reporting on.
-     *     "report" ... (optional) an object representing the currently selected report.
-     *     "courses" ... (optional) An array of courses, linked-with or linkable-to sequence blocks in this report.
-     *     "sequence_blocks" ... (optional) An array of report sequence blocks.
-     *     "academic_levels" ... (optional) An array of academic levels available in the given report.
+     *     @param {String} config.controllerUrl The URL to the server-side "curriculum inventory manager" controller.
+     *     @param {String} config.programControllerUrl The URL to the server-side "program manager" controller.
+     * @param {Object} payload The initial page payload. It may have these data points as properties:
+     *     @param {Object} payload.programs An object holding the programs available for reporting on.
+     *     @param {Object} [payload.report] An object representing the currently selected report.
+     *     @param {Array} [payload.courses] An array of courses, linked-with or linkable-to sequence blocks in this report.
+     *     @param {Array} [payload.sequence_blocks] An array of report sequence blocks.
+     *     @param {Array} [payload.academic_levels] An array of academic levels available in the given report.
      * @constructor
      * @todo way to much things going on in there for a single function. chunk it up into separate init functions.
      */
@@ -49,7 +49,7 @@
         // set module configuration
         this._config = config;
 
-        this._programs = payload.programs;
+        this._initPrograms(payload.programs);
 
         // wire up the "search report" button
         Event.addListener('pick_reports_btn', 'click', function (event) {
@@ -65,7 +65,7 @@
         // wire up the "create report" button
         Event.addListener('create_report_btn', 'click', function (event) {
             if (! this._createReportDialog) {
-                this._createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, this._programs);
+                this._createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, this.getPrograms());
                 this._createReportDialog.render();
             }
             this._createReportDialog.show();
@@ -79,15 +79,9 @@
         if (payload.hasOwnProperty('report')) {
 
             // process data
-            this.academicLevels = payload.academic_levels;
-            this.sequenceBlocks = payload.sequence_blocks;
-
-            this._initCourseModel(payload.courses);
-            this._reportModel = new ilios.cim.model.ReportModel(payload.report);
-
-            // set up views and widgets
-            this._reportView = new ilios.cim.view.ReportView(this._reportModel);
-            this._reportView.render();
+            this._initAcademicLevels(payload.academic_levels);
+            this._initCourses(payload.courses);
+            this._initReport(payload.report);
             this._sequenceBlockTopToolbar = new ilios.cim.widget.SequenceBlockTopToolbar({});
             this._sequenceBlockTopToolbar.render();
             this._sequenceBlockBottomToolbar = new ilios.cim.widget.SequenceBlockBottomToolbar({});
@@ -294,6 +288,15 @@
         _programs: {},
 
         /**
+         * A map of academic levels available in the report, keyed off by their level id.
+         *
+         * @property _academicLevels
+         * @type {Object}
+         * @protected
+         */
+        _academicLevels: {},
+
+        /**
          * A dialog widget for selecting and loading existing reports onto the page.
          *
          * @property _reportPickerDialog
@@ -325,15 +328,51 @@
         //
 
         /**
-         * Initialization-method for the application's course model and its container objects.
+         * Initializes the programs infrastructure in the application.
+         * Stores the given map of program data in an application property for later reference.
+         *
+         * @method _initPrograms
+         * @param {Object} data A map of program data objects, each one representing a program record, keyed off by program id.
+         *
+         * @protected
+         */
+        _initPrograms: function (data) {
+            data = Lang.isObject(data) ? data :  {};
+            this._programs = data;
+        },
+
+        /**
+         * Initializes the academic levels infrastructure in the application.
+         * Instantiates model objects from the given data and stores them in a container object for later reference.
+         *
+         * @method _initAcademicLevels
+         * @param {Array} data A list of data objects, each one representing an academic level record.
+         * @protected
+         */
+        _initAcademicLevels: function (data) {
+            var i, n, model, map;
+            data = Lang.isArray(data) ? data : [];
+
+            map = {};
+
+            for (i = 0, n = data.length; i < n; i++) {
+                model = new ilios.cim.model.AcademicLevelModel(data[i]);
+                map[model.get('id')] = model;
+            }
+            this._academicLevels = map;
+        },
+
+        /**
+         * Initializes the course infrastructure in the application.
          * Instantiates course models from the given data and checks them into the course repo.
          *
-         * @method _initCourseModel
+         * @method _initCourses
          * @param {Array} data A list of course data objects.
          * @protected
          */
-        _initCourseModel: function (data) {
+        _initCourses: function (data) {
             var i, n, model, repo;
+            data = Lang.isArray(data) ? data : [];
             repo = this.getCourseRepository();
 
             for (i = 0, n = data.length; i < n; i++ ) {
@@ -342,9 +381,45 @@
             }
         },
 
+        /**
+         * Initialization method.
+         * Instantiates the application's report model and creates/renders the report view.
+         *
+         * @method _initReport
+         * @param {Object} data An object containing the report data.
+         * @protected
+         */
+        _initReport: function (data) {
+            this._reportModel = new ilios.cim.model.ReportModel(data);
+
+            // set up views and widgets
+            this._reportView = new ilios.cim.view.ReportView(this._reportModel);
+            this._reportView.render();
+        },
+
         //
         // API
         //
+
+        /**
+         * Retrieves the application's currently loaded course.
+         *
+         * @method getReportModel
+         * @return {ilios.cim.model.ReportModel|null}
+         */
+        getReportModel: function () {
+            return this._reportModel;
+        },
+
+        /**
+         * Retrieves the application's view for the currently loaded course.
+         *
+         * @method getReportView
+         * @return {ilios.cim.view.ReportView|null}
+         */
+        getReportView: function () {
+            return this._reportView;
+        },
 
         /**
          * Retrieves the application's status bar widget.
@@ -418,6 +493,24 @@
             return this._sequenceBlockModelRegistry;
         },
 
+
+        /**
+         * Retrieves a map of programs that can be reported on in this application.
+         * @method getPrograms
+         * @return {Object}
+         */
+        getPrograms: function () {
+            return this._programs;
+        },
+
+        /**
+         * Retrieves a map of academic levels that can be assigned in sequence blocks.
+         * @method getAcademicLevels
+         * @return {Object}
+         */
+        getAcademicLevels: function () {
+            return this._academicLevels;
+        },
 
         /**
          * Adds a sequence block to the application.
