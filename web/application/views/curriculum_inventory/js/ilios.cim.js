@@ -521,6 +521,7 @@
          * @method addSequenceBlock
          * @param {Object} oData A map containing data of the new sequence block.
          * @param {Boolean} silent Don't fire any sequence block related "create" events, and don't show a message in the status bar.
+         * @throws {Error}
          */
         addSequenceBlock: function (oData, silent) {
             var model, view;
@@ -555,13 +556,24 @@
          * @method createSequenceBlockModel
          * @param {Object} oData The data transfer object.
          * @return {ilios.cim.model.SequenceBlockModel} The created model.
+         * @throws {Error}
          */
         createSequenceBlockModel: function (oData) {
-            var rhett, courseModel;
+            var rhett, courseModel, level, levels;
+
             // if applicable, check out the course model linked to this sequence block from the repository.
-            courseModel = this.getCourseRepository().checkOut(oData.course_id);
+            courseModel = null;
+            if (oData.course_id) {
+                courseModel = this.getCourseRepository().checkOut(oData.course_id);
+            }
             oData.course_model = courseModel;
-            // @todo pull the associated academic year model from their respective registries and add them to the model
+
+            levels = this.getAcademicLevels();
+            level = levels[oData.academic_level_id];
+            if (! level) {
+                throw new Error('createSequenceBlockModel(): could not find academic level for sequence block, sequence block id = ' + oData.sequence_block_id);
+            }
+            oData.academic_level_model = level;
 
             // instantiate model
             rhett = new ilios.cim.model.SequenceBlockModel(oData);
@@ -569,8 +581,9 @@
             // subscribe the app to the model's "course model change" event
             rhett.subscribe("courseChange", this.onCourseModelChangeInSequenceBlock, this, true);
 
-            // @todo add model to registry
             // @todo get parent model from registry and add this model as a child
+
+            // @todo add model to registry
 
             // return the damned thing
             return rhett;
