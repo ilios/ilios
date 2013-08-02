@@ -654,7 +654,7 @@
             var courseModel = oData.course_model;
             var parentId = oData.parent_sequence_block_id;
             var parentModel = oData.parent_model;
-            var children = new ilios.cim.SequenceBlockModelRegistry();
+            var children = new ilios.cim.model.SequenceBlockModelMap();
 
             /**
              * The id of the report that this sequence block belongs to.
@@ -870,7 +870,7 @@
              * An object container holding child-sequence blocks.
              *
              * @attribute children
-             * @type {ilios.cim.SequenceBlockModelRegistry}
+             * @type {ilios.cim.model.SequenceBlockModelMap}
              * @readOnly
              */
             this.setAttributeConfig('children', {
@@ -978,9 +978,201 @@
         EVT_DELETE: 'delete'
     });
 
+
+    /**
+     * An implementation of an object map.
+     *
+     * @namespace cim.model
+     * @class ObjectMap
+     * @constructor
+     * @todo This object could be useful outside the context of this app.
+     *      Refactor it out when the time comes to redo the rest of Ilios JS libs. [ST 2013-08-01]
+     */
+    var ObjectMap = function () {
+        this._map = {};
+        this._counter = 0;
+    };
+
+    ObjectMap.prototype = {
+
+        /**
+         * The internal map.
+         *
+         * @var _map
+         * @type {Object}
+         * @protected
+         */
+        _map: null,
+
+        /**
+         * The internal object counter.
+         *
+         * @param _counter
+         * @type {Number}
+         * @protected
+         */
+        _counter: null,
+
+        /**
+         * Adds a given object to the map.
+         *
+         * @method add
+         * @param {Object} o The object to be added.
+         * @return {Object} The added object.
+         * @throws {Error} If an object already exists in the map under the given object's id.
+         */
+        add: function (o) {
+            var id = this._getIdFromObject(o);
+            if (this.exists(id)) {
+                throw new Error('add(): id already exists. id = ' + id);
+            }
+            this._map[id] = o;
+            this._counter = this._counter + 1;
+            return o;
+        },
+
+        /**
+         * Removes an given object from the map.
+         *
+         * @method remove
+         * @param {Number|String} id The object id.
+         * @return {Object} The removed object.
+         * @throws {Error} If no object could be found for the given id.
+         */
+        remove: function (id) {
+            var o = this.get(id);
+            delete this._map[id];
+            this._counter = this._counter - 1;
+            return o;
+        },
+
+        /**
+         * Returns all objects in the map as an array.
+         *
+         * @method list
+         * @return {Array} A list of objects in the map.
+         */
+        list: function () {
+            var i, rhett;
+            rhett = [];
+            for (i in this._map) {
+                if (this._map.hasOwnProperty(i)) {
+                    rhett.push(this._map[i]);
+                }
+            }
+            return rhett;
+        },
+
+        /**
+         * Checks whether an object exists in the map under a given id.
+         *
+         * @method exists
+         * @param {Number|String} id The object id.
+         * @return {Boolean} TRUE if an object was found for the given id, FALSE otherwise.
+         */
+        exists: function (id) {
+            return this._map.hasOwnProperty(id);
+        },
+
+        /**
+         * Retrieves an object from the map by it's id.
+         * @method get
+         * @param {Number|String} id The object id.
+         * @return {Object} The object.
+         * @throws {Error} If no object could be found for the given id.
+         */
+        get: function (id) {
+            if (! this.exists(id)) {
+                throw new Error('get(): no object found for the given id. id = ' + id);
+            }
+            this._map[id];
+        },
+
+        /**
+         * Applies a given function with given arguments to each object in the map.
+         *
+         * @method walk
+         * @param {Function} fn
+         * @param {Array} [args]
+         */
+        walk: function (fn, args) {
+            var i, o;
+            args = args || [];
+
+            for (i in this._map) {
+                if (this._map.hasOwnProperty(i)) {
+                    o = this._map[i];
+                    fn.apply(o, args);
+                }
+            }
+        },
+
+        /**
+         * Retrieves the current number of objects in the map.
+         *
+         * @method size
+         * @return {Number}
+         */
+        size: function () {
+            return this._counter;
+        },
+
+        /**
+         * Retrieves the "id" property for a given object.
+         *
+         * @method _getIdFromObject
+         * @param {Object} o
+         * @return {Number|String}
+         * @protected
+         */
+        _getIdFromObject: function (o) {
+            return o.id;
+        }
+    };
+
+    /**
+     * A map of sequence block models.
+     *
+     * @namespace cim.model
+     * @class SequenceBlockModelMap
+     * @extends ilios.cim.model.ObjectMap
+     * @constructor
+     */
+    var SequenceBlockModelMap = function () {
+        SequenceBlockModelMap.superclass.constructor.call(this);
+    };
+
+    Lang.extend(SequenceBlockModelMap, ObjectMap, {
+        /**
+         * Adds a given sequence block model to the map.
+         *
+         * @param {ilios.cim.model.SequenceBlockModel} model The model to add.
+         * @return {ilios.cim.model.SequenceBlockModel} The added model.
+         * @throw {Error} If the data type didn't match, or if the model already exists in the map.
+         * @see ilios.cim.model.ObjectMap.add
+         * @override
+         */
+        add: function (model) {
+            if (! model instanceof ilios.cim.model.SequenceBlockModel) {
+                throw new Error('add(): type mismatch.');
+            }
+            return SequenceBlockModelMap.superclass.add.call(this, model);
+        },
+
+        /*
+         * @override
+         * @see ilios.cim.model.ObjectMap._getIdFromObject
+         */
+        _getIdFromObject: function (o) {
+            return o.get('id');
+        }
+    });
+
     ilios.cim.model.AcademicLevelModel= AcademicLevelModel;
     ilios.cim.model.BaseModel = BaseModel;
     ilios.cim.model.CourseModel = CourseModel;
     ilios.cim.model.ReportModel = ReportModel;
     ilios.cim.model.SequenceBlockModel = SequenceBlockModel;
+    ilios.cim.model.ObjectMap = ObjectMap;
+    ilios.cim.model.SequenceBlockModelMap = SequenceBlockModelMap;
 }());
