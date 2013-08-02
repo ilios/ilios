@@ -285,7 +285,7 @@
          * @type {Object}
          * @protected
          */
-        _programs: {},
+        _programs: null,
 
         /**
          * A map of academic levels available in the report, keyed off by their level id.
@@ -294,7 +294,7 @@
          * @type {Object}
          * @protected
          */
-        _academicLevels: {},
+        _academicLevels: null,
 
         /**
          * A dialog widget for selecting and loading existing reports onto the page.
@@ -337,7 +337,7 @@
          * @protected
          */
         _initPrograms: function (data) {
-            data = Lang.isObject(data) ? data :  {};
+            data = Lang.isObject(data) ? data : {};
             this._programs = data;
         },
 
@@ -710,7 +710,10 @@
      * @constructor
      * @see ilios.cim.model.CourseModel
      */
-    var CourseRepository = function () {};
+    var CourseRepository = function () {
+        this._unavailable = {};
+        this._available = {};
+    };
 
     CourseRepository.prototype = {
 
@@ -721,7 +724,7 @@
          * @type {Object}
          * @protected
          */
-        _unavailable: {},
+        _unavailable: null,
 
         /**
          * The container object for checked-in/available courses.
@@ -730,7 +733,7 @@
          * @type {Object}
          * @protected
          */
-        _available: {},
+        _available: null,
 
 
         /**
@@ -851,17 +854,16 @@
          * @type {Object}
          * @protected
          */
-        _registry: {},
+        _registry: null,
 
         /**
          * The internal object counter.
          *
          * @param _counter
          * @type {Number}
-         * @default 0
          * @protected
          */
-        _counter: 0,
+        _counter: null,
 
         /**
          * Adds a given object to the collection.
