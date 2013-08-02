@@ -590,7 +590,7 @@
             var parentId = rhett.get('parentId');
             if (parentId) {
                 parent = registry.get(parentId);
-                // @todo add this model to its parent
+                oData.parent_model = parent;
             }
             // register model
             registry.add(rhett);
