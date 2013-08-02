@@ -524,11 +524,9 @@
          * @throws {Error}
          */
         addSequenceBlock: function (oData, silent) {
-            var model, view;
+            var i, n, model, view;
 
             var finalized = this._reportModel.get('isFinalized');
-
-
 
             //create model and view
             model = this.createSequenceBlockModel(oData);
@@ -548,6 +546,12 @@
             }
 
             view.show();
+
+            if (oData.children) {
+                for (i = 0, n = oData.children.length; i < n; i++) {
+                    this.addSequenceBlock(oData.children[i], silent);
+                }
+            }
         },
 
         /**
@@ -559,7 +563,9 @@
          * @throws {Error}
          */
         createSequenceBlockModel: function (oData) {
-            var rhett, courseModel, level, levels;
+            var rhett, courseModel, level, levels, parentId, parent, registry;
+
+            registry = this.getSequenceBlockModelRegistry();
 
             // if applicable, check out the course model linked to this sequence block from the repository.
             courseModel = null;
@@ -581,9 +587,13 @@
             // subscribe the app to the model's "course model change" event
             rhett.subscribe("courseChange", this.onCourseModelChangeInSequenceBlock, this, true);
 
-            // @todo get parent model from registry and add this model as a child
-
-            // @todo add model to registry
+            var parentId = rhett.get('parentId');
+            if (parentId) {
+                parent = registry.get(parentId);
+                // @todo add this model to its parent
+            }
+            // register model
+            registry.add(rhett);
 
             // return the damned thing
             return rhett;
@@ -827,7 +837,10 @@
      * @todo This object could be useful outside the context of this app.
      *      Refactor it out when the time comes to redo the rest of Ilios JS libs. [ST 2013-08-01]
      */
-    var ObjectCollection = function () {};
+    var ObjectCollection = function () {
+        this._registry = {};
+        this._counter = 0;
+    };
 
     ObjectCollection.prototype = {
 
@@ -966,7 +979,6 @@
             return o.id;
         }
     };
-
 
     /**
      * A collection of sequence block views within the application.
