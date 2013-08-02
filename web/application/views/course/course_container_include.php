@@ -57,7 +57,7 @@ $entityContainerContent =<<< EOL
 
 <div class="row">
     <div class="column label">
-        <label>{$phrase_course_year_string}</label>
+        <label>{$phrase_academic_year_string}</label>
     </div>
     <div class="column data">
         <span id="course_year_start" class="read_only_data"></span>

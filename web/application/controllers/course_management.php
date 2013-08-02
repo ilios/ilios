@@ -22,6 +22,7 @@ class Course_Management extends Ilios_Web_Controller
         $this->load->model('School', 'school', true);
         $this->load->model('User', 'user', true);
         $this->load->model('Course_Clerkship_Type', 'clerkshipType', true);
+        $this->load->model('Academic_Year', 'academic_year', true);
     }
 
     /**

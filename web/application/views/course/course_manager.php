@@ -131,6 +131,7 @@ $viewsPath = getServerFilePath('views');
     include $viewsPath . 'common/course_summary_view_include.php';
     include $viewsPath . 'common/mesh_picker_include.php';
     include $viewsPath . 'common/learning_material_lightbox_include.php';
+    include 'academic_year_include.php';
     include 'add_course_include.php';
     include 'add_learning_materials_dialog.php';
     include 'archiving_dialog.php';

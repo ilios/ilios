@@ -735,29 +735,4 @@ EOL;
         }
         return false;
     }
-    
-   /**
-	* Checks the given date for all academic years it may fall under for the given school 
-	*
-	* param date $date
-  	* param int $schoolId
-  	* 
-	* return array of academic years for this school where this date would be included.
-    */
-    public function getAllAcademicYearsFromDateAndSchoolId ($date, $schoolId)
-    {
-        $rhett = array();
-
-        $this->db->select('start_year');
-        $this->db->where("CAST('$date' AS DATETIME) BETWEEN academic_year_start_date AND academic_year_end_date");
-        $this->db->where('school_id', $schoolId);
-        
-        $results = $this->db->get('academic_year');
-        
-        foreach ($results as $academic_year){
-          $rhett[] = $academic_year;
-        }
-        
-        return $rhett;
-    }
 }
