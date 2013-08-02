@@ -32,8 +32,8 @@
      *
      * @namespace cim.view
      * @class SequenceBlockView
-     * @constructor
      * @extends YAHOO.util.Element
+     * @constructor
      * @param {ilios.cim.model.SequenceBlockModel} model The sequence block that this view displays.
      * @param {HTMLElement} el The root-element in the DOM that is rendered by this view-instance.
      */
@@ -46,7 +46,6 @@
 
         // initialize cnumber and parent cnumber with the corresponding model's id and parent id.
         this._cnumber = model.get('id');
-        this._parentCnumber = model.get('parentId');
 
         // subscribe to model changes
         // @todo implement
@@ -75,14 +74,6 @@
          */
         _cnumber: null,
 
-        /**
-         * The parent view's container number, if applicable.
-         *
-         * @property parentCnumber
-         * @type {Number|null}
-         * @protected
-         */
-        _parentCnumber: null,
 
         /**
          * Returns the view's model.
@@ -101,17 +92,6 @@
          * @return {Number}
          */
         getCnumber: function () {
-            return this._cnumber;
-        },
-
-        /**
-         * Returns the container number of the parent sequence block view.
-         * Top level views return <code>NULL</code>.
-         *
-         * @method getParentCnumber
-         * @return {Number|null}
-         */
-        getParentCnumber: function () {
             return this._cnumber;
         },
 
