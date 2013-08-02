@@ -2245,6 +2245,11 @@ ul.week_list li.selected_day {
 
 .row.sequence-block-children {
     background-color: #fff;
+    padding: 0;
+}
+
+.sequence-block-children > .entity_container {
+    margin: .5em 1em;
 }
 
 /********************************/
