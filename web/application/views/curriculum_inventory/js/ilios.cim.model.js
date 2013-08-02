@@ -618,6 +618,7 @@
      *    @param {String} oData.start_date
      *    @param {String} oData.end_date
      *    @param {Number} oData.academic_level_id
+     *    @param {ilios.cim.model.AcademicLevelModel} oData.academic_level_model
      *    @param {Number} oData.duration
      *    @param {ilios.cim.model.CourseModel|null} oData.course_model
      *    @param {Number|null} oData.course_id
@@ -647,6 +648,7 @@
             var startDate = oData.start_date;
             var endDate = oData.end_date;
             var academicLevelId = oData.academic_level_id;
+            var academicLevelModel = oData.academic_level_model;
             var duration = oData.duration;
             var courseModel = oData.course_model;
             var parentId = oData.parent_sequence_block_id;
@@ -796,17 +798,6 @@
             });
 
             /**
-             * The id of the academic level that this sequence block is set to.
-             *
-             * @attribute academicLevel
-             * @type {Number}
-             */
-            this.setAttributeConfig('academicLevelId', {
-                value: academicLevelId,
-                validator: Lang.isNumber
-            });
-
-            /**
              * The duration (in minutes) of this sequence block.
              *
              * @attribute duration
@@ -818,7 +809,7 @@
             });
 
             /**
-             * The course object associated with this sequence block, or NULL if no course is associated.
+             * The course associated with this sequence block, or NULL if no course is associated.
              *
              * @attribute course
              * @type {ilios.cim.model.CourseModel|null}
@@ -827,6 +818,19 @@
                 value: courseModel,
                 validator: function (value) {
                     return (Lang.isNull(value) || (value instanceof ilios.cim.model.CourseModel));
+                }
+            });
+
+            /**
+             * The academic level of this sequence block.
+             *
+             * @attribute academicLevel
+             * @type {ilios.cim.model.AcademicLevelModel}
+             */
+            this.setAttributeConfig('academicLevel', {
+                value: academicLevelModel,
+                validator: function (value) {
+                    return value instanceof ilios.cim.model.AcademicLevelModel;
                 }
             });
 
