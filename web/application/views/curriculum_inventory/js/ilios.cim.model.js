@@ -623,6 +623,7 @@
      *    @param {ilios.cim.model.CourseModel|null} oData.course_model
      *    @param {Number|null} oData.course_id
      *    @param {Number|null} oData.parent_sequence_block_id
+     *    @param {ilios.cim.model.SequenceBlockModel|null} oData.parent_model
      * @constructor
      */
     var SequenceBlockModel = function (oData) {
@@ -652,6 +653,8 @@
             var duration = oData.duration;
             var courseModel = oData.course_model;
             var parentId = oData.parent_sequence_block_id;
+            var parentModel = oData.parent_model;
+            var children = new ilios.cim.SequenceBlockModelRegistry();
 
             /**
              * The id of the report that this sequence block belongs to.
@@ -704,6 +707,20 @@
 
                 }
             });
+
+            /**
+             * The parent sequence block of this sequence block.
+             * NULL for top-level sequence blocks.
+             *
+             * @attribute parent
+             * @type {ilios.cim.model.SequenceBlockModel|null}
+             */
+            this.setAttributeConfig('parent', {
+                value: parentModel,
+                validator: function (value) {
+                    return (Lang.isNull(value) || (value instanceof ilios.cim.model.SequenceBlockModel));
+                }
+            })
 
             /**
              * A positive integer indicating the order of this sequence block in relation to its siblings within
@@ -848,20 +865,43 @@
                 }
             });
 
+
+            /**
+             * An object container holding child-sequence blocks.
+             *
+             * @attribute children
+             * @type {ilios.cim.SequenceBlockModelRegistry}
+             * @readOnly
+             */
+            this.setAttributeConfig('children', {
+                value: children,
+                readOnly: true
+            })
+
             // create custom event
             this.createEvent('delete');
         },
 
         /**
          * Lifecycle management method.
-         * Fires the "delete" event, then unsubscribes all registered event listeners from the model object.
+         * Removes the sequence block from its parent, then unsubscribes all registered event listeners.
+         * This method cascades down to any children of this sequence block.
+         * Fires the "delete" event.
          *
          * @method delete
          */
         delete: function () {
-            this.fireEvent(this.EVT_DELETE);
+            var parent = this.get('parent');
+            // remove itself from parent sequence
+            if (parent) {
+                parent.get('children').remove(this.get('id'));
+            }
             this.set('course', null);
+            this.set('academicYear', null);
             this.unsubscribeAll();
+            this.fireEvent(this.EVT_DELETE);
+            // cascading delete
+            this.get('children').walk(ilios.cim.model.SequenceBlockModel.delete);
         },
 
         /*
