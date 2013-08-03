@@ -2249,7 +2249,8 @@ ul.week_list li.selected_day {
 }
 
 .sequence-block-children > .entity_container {
-    margin: .5em 1em;
+    margin: .5em 0 .5em 1em;
+    border-right: 0;
 }
 
 /********************************/
