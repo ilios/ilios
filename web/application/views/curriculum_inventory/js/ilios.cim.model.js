@@ -648,7 +648,6 @@
             var title = oData.title;
             var startDate = oData.start_date;
             var endDate = oData.end_date;
-            var academicLevelId = oData.academic_level_id;
             var academicLevelModel = oData.academic_level_model;
             var duration = oData.duration;
             var courseModel = oData.course_model;
@@ -879,7 +878,7 @@
             })
 
             // create custom event
-            this.createEvent('delete');
+            this.createEvent(this.EVT_DELETE);
         },
 
         /**
@@ -898,10 +897,30 @@
             }
             this.set('course', null);
             this.set('academicYear', null);
-            this.unsubscribeAll();
             this.fireEvent(this.EVT_DELETE);
+            this.unsubscribeAll();
             // cascading delete
-            this.get('children').walk(ilios.cim.model.SequenceBlockModel.delete);
+            this.get('children').walk(this.delete);
+        },
+
+
+        /**
+         * Retrieves a set of model ids, included the id of this instance and all ids of its descendants.
+         * This is a recursive function.
+         *
+         * @method getIds
+         * @param {Object} [ids] A map of object ids.
+         */
+        getIds: function () {
+            var i, n;
+            var id = this.get('id');
+            var children = this.get('children').list();
+            var ids = {};
+            ids[id] = id;
+            for (i = 0, n = children.length; i < n; i++) {
+                ids = Lang.merge(ids, children[i].getIds());
+            }
+            return ids;
         },
 
         /*
@@ -1085,7 +1104,7 @@
             if (! this.exists(id)) {
                 throw new Error('get(): no object found for the given id. id = ' + id);
             }
-            this._map[id];
+            return this._map[id];
         },
 
         /**
@@ -1093,16 +1112,16 @@
          *
          * @method walk
          * @param {Function} fn
-         * @param {Array} [args]
+         * @param {Object} [args]
          */
         walk: function (fn, args) {
             var i, o;
-            args = args || [];
+            args = args || {};
 
             for (i in this._map) {
                 if (this._map.hasOwnProperty(i)) {
                     o = this._map[i];
-                    fn.apply(o, args);
+                    fn.call(o, args);
                 }
             }
         },

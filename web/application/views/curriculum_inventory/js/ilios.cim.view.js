@@ -48,10 +48,7 @@
         this._cnumber = model.get('id');
 
         // subscribe to model changes
-        // @todo implement
-
-        // create custom events
-        this.createEvent(this.EVT_DELETE);
+        this._model.subscribe(this._model.EVT_DELETE,this.delete, {}, this);
     };
 
     Lang.extend(SequenceBlockView, Element, {
@@ -286,24 +283,18 @@
          * "Deletes" the view from the page.
          * This includes unsubscribing any event listeners, detaching the view from it's parent element in the page
          * and hiding it from display.
-         * Fires the "delete" custom event.
          *
          * @method delete
          * @see YAHOO.util.Element.destroy
          */
         delete: function () {
+            var el;
             this.hide();
-            this.fire(this.EVT_DELETE, { cnumber: this._cnumber });
-            // Call YAHOO.util.Element.destroy().
-            // This method is undocumented, so here is the low-down:
-            // - it removes all event listeners registered to this element
-            // - it removes all event listeners from the element's children as well
-            // - it detaches the element from it's parent in the document.
-            // Check the code for details.
-
+            el = this.get('element');
+            // remove the view from the DOM
+            el.parentNode.removeChild(el);
             // @todo unsubscribe all event handlers from any controls (buttons) within the view.
-            // @todo unset any properties (such as the model) of the view
-            this.destroy();
+            this._model = null;
         },
 
         /**
@@ -402,16 +393,7 @@
          */
         getAddButton: function () {
             return this.get('addBtnEl');
-        },
-
-        /**
-         * Fired when the view gets deleted.
-         *
-         * @event delete
-         * @param {Number} cnumber The view's container number.
-         * @final
-         */
-        EVT_DELETE: 'delete'
+        }
     });
 
     /**

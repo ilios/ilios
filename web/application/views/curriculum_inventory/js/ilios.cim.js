@@ -170,12 +170,28 @@
                     this.getStatusBar().show('Deleting report &hellip;', true);
                 }, this, true);
                 dataSource.subscribe(dataSource.EVT_DELETE_REPORT_FAILED, function () {
-                    this.getStatusBar().show('Failed to delete report.', false);
+                    this.getStatusBar().show('Failed to delete report.');
                 }, this, true);
                 dataSource.subscribe(dataSource.EVT_DELETE_REPORT_SUCCEEDED, function() {
                     this.getStatusBar().show('Successfully deleted report. Reloading page &hellip;', true);
                     // reload the page
                     window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                }, this, true);
+
+                dataSource.subscribe(dataSource.EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED, function (args) {
+                    var i;
+                    var map = this.getSequenceBlockModelMap();
+                    var viewMap = this.getSequenceBlockViewMap();
+                    var model = map.get(args.id);
+                    var ids = model.getIds();
+                    for (i in ids) {
+                        if (ids.hasOwnProperty(i)) {
+                            map.remove(i);
+                            viewMap.remove(i);
+                        }
+                    }
+                    model.delete();
+                    this.getStatusBar().show('Successfully deleted sequence block');
                 }, this, true);
 
                 // wire up the "edit report" button
@@ -581,17 +597,23 @@
             }
             oData.academic_level_model = level;
 
-            // instantiate model
-            rhett = new ilios.cim.model.SequenceBlockModel(oData);
-
-            // subscribe the app to the model's "course model change" event
-            rhett.subscribe("courseChange", this.onCourseModelChangeInSequenceBlock, this, true);
-
-            var parentId = rhett.get('parentId');
+            parentId = oData.parent_sequence_block_id;
             if (parentId) {
                 parent = map.get(parentId);
                 oData.parent_model = parent;
             }
+
+            // instantiate model
+            rhett = new ilios.cim.model.SequenceBlockModel(oData);
+
+            // add the model to its parent
+            if (parent) {
+                parent.get('children').add(rhett);
+            }
+
+            // subscribe the app to the model's "course model change" event
+            rhett.subscribe("courseChange", this.onCourseModelChangeInSequenceBlock, this, true);
+
             // register model
             map.add(rhett);
 
@@ -895,6 +917,9 @@
         this.createEvent(this.EVT_DELETE_REPORT_STARTED);
         this.createEvent(this.EVT_DELETE_REPORT_SUCCEEDED);
         this.createEvent(this.EVT_DELETE_REPORT_FAILED);
+        this.createEvent(this.EVT_DELETE_SEQUENCE_BLOCK_STARTED);
+        this.createEvent(this.EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED);
+        this.createEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED);
     };
 
     DataSource.prototype = {
