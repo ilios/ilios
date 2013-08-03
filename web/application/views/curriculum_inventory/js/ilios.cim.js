@@ -191,7 +191,7 @@
                         }
                     }
                     model.delete();
-                    this.getStatusBar().show('Successfully deleted sequence block');
+                    this.getStatusBar().show('Sequence block deleted.');
                 }, this, true);
 
                 // wire up the "edit report" button
