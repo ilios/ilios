@@ -2,7 +2,7 @@
 /**
  * @file edit_report_dialog.inc.php
  *
- * Renders the markup for the report editing dialog.
+ * Renders the markup for the report editing dialog widget.
  *
  * Available template variables:
  *
@@ -11,7 +11,7 @@
  *    $controllerURL ... The page controller URL.
  *
  * @see application/views/curriculum_inventory/index.php
- * @see application/views/js/ilios.cim.js
+ * @see application/views/js/ilios.cim.widget.js
  */
 ?>
 <div class="tabdialog hidden" id="edit_report_dialog">

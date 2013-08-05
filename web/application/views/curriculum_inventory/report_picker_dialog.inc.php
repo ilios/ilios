@@ -2,7 +2,7 @@
 /**
  * @file report_picker_dialog.inc.php
  *
- * Renders the markup for the report search dialog.
+ * Renders the markup for the report search dialog widget.
  *
  * Available template variables:
  *
@@ -11,8 +11,7 @@
  *    $controllerURL ... The page controller URL.
  *
  * @see application/views/curriculum_inventory/index.php
- * @see application/views/curriculum_inventory/view.php
- * @see application/views/curriculum_inventory_curriculum_inventory_manager.js
+ * @see application/views/js/ilios.cim.widget.js
  */
 ?>
 <div class="tabdialog hidden" id="report_picker_dialog">
