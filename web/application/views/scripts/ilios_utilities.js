@@ -33,6 +33,34 @@ ilios.utilities.getEventTarget = function (e) {
     return (event.target || event.srcElement);
 };
 
+
+/**
+ * dateInRange
+ * 
+ * tests if the given date fall between the given start date and the given end date.
+ * 
+ * @param {Date} date object to test
+ * @param {Date} startDate - the start date of the date range 
+ * @param {Date} endDate - the end date of the date range
+ * 
+ * @return {Boolean}
+ */
+ilios.utilities.dateInRange = function (date, startDate, endDate) {
+	
+	var dateInRange = false;
+	
+	// check if given date falls into the boundaries of the given start/endDate
+	var unix_date = date.getTime();
+	var unix_start_date = startDate.getTime();
+	var unix_end_date = endDate.getTime();
+	
+	if (unix_date >= unix_start_date && unix_date <= unix_end_date) {
+		dateIsInRange = true;
+    }
+	
+	return dateInRange;
+}
+
 /*
  * The response from a file upload is "<pre>useful information we want</pre>" -- this
  *  method digs out the good stuff, de-json's it, and hands the object back.
