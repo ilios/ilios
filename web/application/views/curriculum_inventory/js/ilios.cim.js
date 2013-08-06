@@ -198,7 +198,8 @@
                 // wire up the "edit report" button
                 Event.addListener(this._reportView.getEditButton(), 'click', function(event) {
                     if (! this._editReportDialog) {
-                        this._editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog', this._reportModel);
+                        this._editReportDialog = new ilios.cim.widget.EditReportDialog('edit_report_dialog',
+                            this._reportModel, {});
                         this._editReportDialog.render();
                     }
                     this._editReportDialog.show();
@@ -207,10 +208,8 @@
                 }, {}, this);
 
                 // wire up "add sequence block" button in the bottom toolbar
-                Event.addListener(this._sequenceBlockBottomToolbar.getAddButton(), 'click', function (event) {
-                    var dialog = this.getCreateSequenceBlockDialog();
-                    dialog.show();
-                }, {}, this);
+                Event.addListener(this._sequenceBlockBottomToolbar.getAddButton(), 'click',
+                    this.onSequenceBlockAddButtonClick, { parent: null }, this);
             };
 
             // show views and widgets
@@ -585,6 +584,8 @@
             if (! finalized) {
                 Event.addListener(view.getDeleteButton(), 'click', this.onSequenceBlockDeleteButtonClick,
                 { id: view.getModel().getId() }, this);
+                Event.addListener(view.getAddButton(), 'click', this.onSequenceBlockAddButtonClick,
+                { parent: view.getModel().get('parent') }, this);
             }
 
             if (! silent) {
@@ -628,10 +629,11 @@
             oData.academic_level_model = level;
 
             parentId = oData.parent_sequence_block_id;
+            parent = null;
             if (parentId) {
                 parent = map.get(parentId);
-                oData.parent_model = parent;
             }
+            oData.parent_model = parent;
 
             // instantiate model
             rhett = new ilios.cim.model.SequenceBlockModel(oData);
@@ -711,11 +713,13 @@
         /**
          * Event handler function.
          * Subscribe this to each sequence block's "Delete" button click-event.
+         * This will throw up a confirmation dialog which will continue the sequence block deletion
+         * process upon confirmation.
          *
          * @method onSequenceBlockDeleteButtonClick
          * @param {Event} The click event.
          * @param {Object} args A map of arguments passed on method-invocation. Expected values are:
-         *     'id' ... the id of the to-be-deleted sequence block
+         *     @param {Number} args.id The id of the to-be-deleted sequence block.
          */
         onSequenceBlockDeleteButtonClick: function (event, args) {
             var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
@@ -729,7 +733,25 @@
         },
 
         /**
-         * Change-event handler function.
+         * Event handler function.
+         * Subscribe this to each sequence block's "Add" button click-event, and the "add" button in the bottom toolbar.
+         * This will populate the "create a sequence block" dialog with a given parent model (if applicable) and the
+         * available courses within the application, then display the dialog.
+         *
+         * @method onSequenceBlockAddButtonClick
+         * @param {Event} The click event.
+         * @param {Object} args A map of arguments passed on method-invocation. Expected values are:
+         *     @param {ilios.cim.model.SequenceBlockModel|null} args.parent The parent sequence block, or NULL if a top-level block is to be created.
+         */
+        onSequenceBlockAddButtonClick: function (event, args) {
+            var dialog = this.getCreateSequenceBlockDialog();
+            var courseRepo = this.getCourseRepository();
+            var parent = args.parent;
+            dialog.show(courseRepo, parent);
+        },
+
+        /**
+         * Event handler function.
          * Subscribe this method to each sequence block's "courseChange" event, so we can
          * capture changes to sequence block/course associations.
          * Check-in previously assigned courses.
@@ -737,7 +759,9 @@
          * The invocation scope of this method should be the application.
          *
          * @method onCourseModelChangeInSequenceBlock
-         * @param {Object} args Value object containing the old value ("prevValue") and new value ("newValue).
+         * @param {Object} args Value object containing the old and new value.
+         *     @param {ilios.cim.model.CourseModel|null} args.prevValue The previous course, or NULL if n/a.
+         *     @param {ilios.cim.model.CourseModel|null} args.newValue The new course, or NULL if n/a
          */
         onCourseModelChangeInSequenceBlock: function (args) {
             var repo = this.getCourseRepository();
