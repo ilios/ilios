@@ -710,6 +710,11 @@
             this.getSequenceBlockViewMap().walk(fn);
         },
 
+
+        //
+        // event handling
+        //
+
         /**
          * Event handler function.
          * Subscribe this to each sequence block's "Delete" button click-event.
