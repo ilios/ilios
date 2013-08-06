@@ -91,6 +91,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         $payload = array(); // data container
+        $academicLevels = array();
 
         $programs = $this->program->getAllPublishedProgramsWithSchoolId($schoolId);
         $payload['programs'] = $programs;
@@ -122,8 +123,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $payload['courses'] = $courses;
             $payload['sequence_blocks'] = $sequenceBlocks;
         }
-
+        // JSONifiy the entire report data array and push it to the view
         $data['payload'] = Ilios_Json::encodeForJavascriptEmbedding($payload, Ilios_Json::JSON_ENC_SINGLE_QUOTES);
+        // push the academic levels separately to simplify the "add sequence block" dialog's form population.
+        $data['academic_levels'] = $academicLevels;
+
         $this->load->view('curriculum_inventory/index', $data);
     }
 
