@@ -20,26 +20,37 @@
     <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.title', $lang); ?></div>
     <div class="bd">
         <div class="dialog_wrap">
-            <span id="create-sequence-block-dialog-status" class="dialog-form-status"></span>
-            <form method="POST" action="<?php echo $controllerURL; ?>/update">
-                <input type="hidden" value="" id="create-sequence-block-dialog-report-id" name="report_id" />
+            <span id="create-sequence-block-dialog--status" class="dialog-form-status"></span>
+            <form method="POST" action="<?php echo $controllerURL; ?>/createSequenceBlock">
+                <input type="hidden" value="" id="create-sequence-block-dialog--report-id" name="report_id" />
+                <input type="hidden" value="" id="create-sequence-block-dialog--parent-id" name="parent_id" />
                 <div class="dialog-form-row" >
                     <label for="create-sequence-block-dialog--title" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.title.label', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.title', $lang); ?>:
                     </label><br />
                     <input id="create-sequence-block-dialog--title" name="title" type="text" value="" size="50"
                            placeholder="<?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.title.hint', $lang, false); ?>" />
                 </div>
                 <div class="dialog-form-row" >
                     <label for="create-sequence-block-dialog--description" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.description.label', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.description', $lang); ?>:
                     </label><br />
                     <textarea id="create-sequence-block-dialog--description" name="description" type="text" cols="80" rows="10"
                               placeholder="<?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.description.hint', $lang, false); ?>"></textarea>
                 </div>
                 <div class="dialog-form-row" >
+                    <label for="create-sequence-block-dialog--status" class="entity_widget_title">
+                        <?php echo $this->languagemap->t('general.phrases.status', $lang); ?>:
+                    </label><br />
+                    <select id="create-sequence-block-dialog--status" name="status">
+                        <option value="1">Required</option>
+                        <option value="2">Optional</option>
+                        <option value="3">Required in Track</option>
+                    </select>
+                </div>
+                <div class="dialog-form-row" >
                     <label for="create-sequence-block-dialog--academic-level" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.academic-level.label', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.phrases.academic_level', $lang); ?>:
                     </label><br />
                     <select id="create-sequence-block-dialog--academic-level" name="academic_level">
 <?php foreach ($academic_levels as $level) : ?>
@@ -47,6 +58,30 @@
                             <?php echo htmlentities($level['name'], ENT_COMPAT, 'utf-8'); ?></option>
 <?php endforeach; ?>
                     </select>
+                </div>
+                <div class="dialog-form-row">
+                    <label for="create-sequence-block-dialog--course" class="entity_widget_title">
+                        <?php echo $this->languagemap->t('general.terms.courses', $lang); ?>:
+                    </label><br />
+                    <select id="create-sequence-block-dialog--course" name="course_id"></select>
+                    <br />
+                    <div id="create-sequence-block-dialog--course-view-container" class="hidden"></div>
+                </div>
+                <div class="dialog-form-row">
+                    <label class="entity_widget_title" for="create-sequence-block-dialog--child-sequence-order">
+                        <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.child_order', $lang); ?>:
+                    </label><br />
+                    <select id="create-sequence-block-dialog--child-sequence-order" name="child_sequence_order">
+                        <option value="1">Ordered</option>
+                        <option value="2">Unordered</option>
+                        <option value="3">Parallel</option>
+                    </select>
+                </div>
+                <div class="dialog-form-row" id="create-sequence-block-dialog--order-in-sequence-row" class="hidden">
+                    <label for="create-sequence-block-dialog--order-in-sequence" class="entity_widget_title">
+                        <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.order_in_sequence', $lang); ?>:
+                    </label><br />
+                    <select id="create-sequence-block-dialog--order-in-sequence" name="order_in_sequence"></select>
                 </div>
             </form>
         </div>

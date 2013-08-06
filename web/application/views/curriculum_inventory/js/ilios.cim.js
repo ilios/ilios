@@ -533,7 +533,7 @@
         getCreateSequenceBlockDialog: function () {
             if (! this._createSequenceBlockDialog) {
                 this._createSequenceBlockDialog
-                    = new ilios.cim.widget.CreateSequenceBlockDialog('create-sequence-block-dialog', {});
+                    = new ilios.cim.widget.CreateSequenceBlockDialog('create-sequence-block-dialog', this.getCourseRepository(), {});
                 this._createSequenceBlockDialog.render();
             }
             return this._createSequenceBlockDialog;

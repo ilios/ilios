@@ -523,13 +523,15 @@
      * @extends YAHOO.widget.Dialog
      * @constructor
      * @param {HTMLElement|String} el The element or element-ID representing the dialog
-     * @param {Object} userConfig The configuration object literal containing
-     *     the configuration that should be set for this dialog.
+     * @param {ilios.cim.CourseRepository} courseRepo A course repo object. Used to populate course dropdown and to
+     *     look up course details on selection.
+     * @param {Object} userConfig The configuration object literal containing the configuration that should be set for
+     *     this dialog.
      */
-    var CreateSequenceBlockDialog = function (el, userConfig) {
+    var CreateSequenceBlockDialog = function (el, courseRepo, userConfig) {
 
         var defaultConfig = {
-            width: "600px",
+            width: "640px",
             modal: true,
             visible: false,
             constraintoviewport: false,
@@ -551,8 +553,12 @@
         // call the parent constructor with the merged config
         CreateSequenceBlockDialog.superclass.constructor.call(this, el, config);
 
+        this._courseRepo = courseRepo;
+        this._parentModel = null;
+
         // center dialog before showing it.
         this.beforeShowEvent.subscribe(function () {
+            this._rebuildCourseDropdown();
             Dom.removeClass(el, 'hidden');
             this.center();
         });
@@ -563,7 +569,47 @@
     };
 
     // inheritance
-    Lang.extend(CreateSequenceBlockDialog, YAHOO.widget.Dialog);
+    Lang.extend(CreateSequenceBlockDialog, YAHOO.widget.Dialog, {
+
+        /**
+         * @property _courseRepo
+         * @type {ilios.cim.CourseRepository}
+         * @protected
+         */
+        _courseRepo: null,
+
+        /**
+         * @property _parentModel
+         * @type {ilios.cim.model.SequenceBlockModel|null}
+         * @protected
+         */
+        _parentModel: null,
+
+        /**
+         * @method _rebuildCourseDropdown
+         * @protected
+         */
+        _rebuildCourseDropdown: function () {
+            var i, n, selectEl, optionEl, course, courses;
+            selectEl = document.getElementById('create-sequence-block-dialog--course');
+            selectEl.innerHTML = ''; // gut the dropdown
+            courses = this._courseRepo.listAvailable();
+            for (i = 0, n = courses.length; i < n; i++) {
+                course = courses[i];
+                optionEl = selectEl.appendChild(document.createElement('option'));
+                optionEl.value = course.getId();
+                optionEl.innerHTML = course.get('title');
+            }
+        },
+
+        /**
+         * @method setParentModel
+         * @param {ilios.cim.model.SequenceBlockModel} parentModel
+         */
+        setParentModel: function (parentModel) {
+            this._parentModel = parentModel;
+        }
+    });
 
     /**
      * A toolbar displayed above the sequence block containers.
