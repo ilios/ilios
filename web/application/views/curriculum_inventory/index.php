@@ -125,6 +125,7 @@ writeJsScripts($js, 'curriculum_inventory_manager', $this->config->item('script_
 include 'create_report_dialog.inc.php';
 include 'report_picker_dialog.inc.php';
 include 'edit_report_dialog.inc.php';
+include 'create_sequence_block_dialog.inc.php';
 ?>
 <!-- end dialog tabs -->
 <script type="text/javascript">
