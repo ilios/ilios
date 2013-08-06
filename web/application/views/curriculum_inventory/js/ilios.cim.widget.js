@@ -140,9 +140,40 @@
             document.getElementById('report_creation_status').innerHTML
                 = ilios_i18nVendor.getI18NString('curriculum_inventory.create.error.general');
         }
+    };
 
-        // form validation function
-        this.validate = function () {
+    Lang.extend(CreateReportDialog, YAHOO.widget.Dialog, {
+
+        /**
+         * A map of programs available for report creation.
+         *
+         * @property program
+         * @type {Object}
+         */
+        programs: null,
+
+        /**
+         * @method reset
+         *
+         * Resets the dialog's form element.
+         */
+        reset : function () {
+            document.getElementById('report_creation_status').innerHTML = '';
+            document.getElementById('new_report_name').value = '';
+            document.getElementById('new_report_description').value = '';
+            document.getElementById('new_report_year').value = '';
+            document.getElementById('new_report_program').selectedIndex = 0;
+            Dom.removeClass('new_report_name', 'validation-failed');
+            Dom.removeClass('new_report_description', 'validation-failed');
+            Dom.removeClass('new_report_year', 'validation-failed');
+            Dom.removeClass('new_report_program', 'validation-failed');
+        },
+
+        /*
+         * @override
+         * @see YAHOO.widget.Dialog.validate
+         */
+        validate: function () {
             var data = this.getData();
             var msgs = [];
             if ('' === Lang.trim(data.report_name)) {
@@ -169,22 +200,7 @@
                 return false;
             }
             return true;
-        };
-    };
-
-    Lang.extend(CreateReportDialog, YAHOO.widget.Dialog, {
-        // clear out form, reset status field etc.
-        reset : function () {
-            document.getElementById('report_creation_status').innerHTML = '';
-            document.getElementById('new_report_name').value = '';
-            document.getElementById('new_report_description').value = '';
-            document.getElementById('new_report_year').value = '';
-            document.getElementById('new_report_program').selectedIndex = 0;
-            Dom.removeClass('new_report_name', 'validation-failed');
-            Dom.removeClass('new_report_description', 'validation-failed');
-            Dom.removeClass('new_report_year', 'validation-failed');
-            Dom.removeClass('new_report_program', 'validation-failed');
-        },
+        }
     });
 
     /**
@@ -341,21 +357,6 @@
         };
 
         this.callback.argument = this;
-
-        this.selectCalendar = function (type, args, obj) {
-            var cal = obj.calendar;
-            var el = obj.targetEl;
-            var dt;
-            if (args[0]) {
-                dt = new Date(args[0][0][0], args[0][0][1], args[0][0][2]);
-                el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
-            }
-            cal.hide();
-        };
-
-        this.onCalendarButtonClick = function (event, obj) {
-            obj.calendar.show();
-        };
     };
 
     // inheritance
@@ -399,16 +400,18 @@
         },
 
         /**
-         * @method reset
          * Empties the dialog's status display.
+         *
+         * @method reset
          */
         reset: function () {
             document.getElementById('report_update_status').innerHTML = '';
         },
 
         /**
-         * @method resetCalendars
          * Resets the calendar widgets in the dialog's form to the dates provided by the model.
+         *
+         * @method resetCalendars
          */
         resetCalendars: function () {
             this.cal1.cfg.setProperty('selected', this.model.get('startDate'), false);
@@ -420,6 +423,45 @@
             this.cal2.cfg.setProperty('pagedate', new Date(this.model.get('endDate')), false);
             this.cal2.render();
             this.cal2.hide();
+        },
+
+        /**
+         * Event-listener function.
+         * Subscribed to each calendar widget's "selectEvent" event.
+         * It takes the selected date as passed from the calendar and writes it to a given input field
+         * after reformatting it, then closes/hides the given calendar.
+         *
+         * @method selectCalendar
+         * @param {String} type The name of the fired event.
+         * @param {Array} args an array of Date-field arrays in the format [YYYY, MM, DD]
+         * @param {Object} obj An argument map containing:
+         *    @param {HTMLElement} obj.targetEl The form element to write the picked date to.
+         *    @param {YAHOO.widget.Calendar} obj.calendar The calendar to hide.
+         * @link http://developer.yahoo.com/yui/docs/YAHOO.widget.Calendar.html#event_selectEvent
+         */
+        selectCalendar: function (type, args, obj) {
+            var cal = obj.calendar;
+            var el = obj.targetEl;
+            var dt;
+            if (args[0]) {
+                dt = new Date(args[0][0][0], args[0][0][1], args[0][0][2]);
+                el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
+            }
+            cal.hide();
+        },
+
+        /**
+         * Event-listener function.
+         * Subscribed to each calendar button in this dialog's form.
+         * Pops up the given calendar widget.
+         *
+         * @method onCalendarButtonClick
+         * @param {Event} event The fired event.
+         * @param {Object} obj An argument map containing:
+         *     @param {YAHOO.widget.Calendar} obj.calendar The calendar to pop up.
+         */
+        onCalendarButtonClick: function (event, obj) {
+            obj.calendar.show();
         }
     });
 
