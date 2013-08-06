@@ -516,6 +516,56 @@
     Lang.extend(ReportPickerDialog, YAHOO.widget.Dialog);
 
     /**
+     * "Create a sequence block" dialog.
+     *
+     * @namespace cim.widget
+     * @class CreateSequenceBlockDialog
+     * @extends YAHOO.widget.Dialog
+     * @constructor
+     * @param {HTMLElement|String} el The element or element-ID representing the dialog
+     * @param {Object} userConfig The configuration object literal containing
+     *     the configuration that should be set for this dialog.
+     */
+    var CreateSequenceBlockDialog = function (el, userConfig) {
+
+        var defaultConfig = {
+            width: "600px",
+            modal: true,
+            visible: false,
+            constraintoviewport: false,
+            hideaftersubmit: false,
+            zIndex: 999,
+            buttons: [
+                {
+                    text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
+                    handler: function () {
+                        this.cancel();
+                    }
+                }
+            ]
+        };
+        // merge the user config with the default configuration
+        userConfig = userConfig || {};
+        var config = Lang.merge(defaultConfig, userConfig);
+
+        // call the parent constructor with the merged config
+        CreateSequenceBlockDialog.superclass.constructor.call(this, el, config);
+
+        // center dialog before showing it.
+        this.beforeShowEvent.subscribe(function () {
+            Dom.removeClass(el, 'hidden');
+            this.center();
+        });
+
+        this.hideEvent.subscribe(function () {
+            Dom.addClass(el, 'hidden');
+        });
+    };
+
+    // inheritance
+    Lang.extend(CreateSequenceBlockDialog, YAHOO.widget.Dialog);
+
+    /**
      * A toolbar displayed above the sequence block containers.
      * Contains "expand/collapse-all" buttons.
      *
@@ -645,12 +695,19 @@
 
     Lang.extend(SequenceBlockBottomToolbar, Element, {
 
-        /**
-         * @method initAttributes
-         * Overrides <code>YAHOO.util.Element.initAttributes()</code>.
-         * @param {Object} config The view configuration.
+        /*
+         * @override
+         * @see YAHOO.util.Element.initAttributes
          */
         initAttributes: function (config) {
+
+            /**
+             * The "add new sequence block" button element in the toolbar.
+             *
+             * @attribute addBtnEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
             this.setAttributeConfig('addBtnEl', {
                 writeOnce: true,
                 value: Dom.get('add-new-sequence-block-btn')
@@ -658,24 +715,27 @@
         },
 
         /**
-         * @method show
          * Makes the toolbar visible.
+         *
+         * @method show
          */
         show: function () {
             this.removeClass('hidden');
         },
 
         /**
-         * @method hide
          * Hides the toolbar.
+         *
+         *  @method hide
          */
         hide: function () {
             this.addClass('hidden');
         },
 
         /**
-         * @method render.
          * Renders the toolbar.
+         *
+         * @method render.
          * @param {Boolean} enableButtons If TRUE then all buttons contained within the toolbar will be enabled.
          */
         render: function (enableButtons) {
@@ -686,8 +746,9 @@
         },
 
         /**
-         * @method enableButtons
          * Enables all buttons in the toolbar.
+         *
+         * @method enableButtons
          */
         enableButtons: function () {
             var el = this.get('addBtnEl');
@@ -695,18 +756,30 @@
         },
 
         /**
-         * @method disableButtons
          * Disables all buttons in the toolbar.
+         *
+         * @method disableButtons
          */
         disableButtons: function () {
             var el = this.get('addBtnEl');
             Dom.setAttribute(el, 'disabled', 'disabled');
+        },
+
+        /**
+         * Retrieves the toolbar's "add new sequence block" button.
+         *
+         * @method getAddButton
+         * @returns {HTMLElement} The button element.
+         */
+        getAddButton: function () {
+            return this.get('addBtnEl');
         }
     });
 
     /**
      * The status-indicator bar.
      * It's purpose is to display given (status-)messages on the page.
+     *
      * @namespace cim.widget
      * @class StatusBar
      * @constructor
@@ -825,4 +898,5 @@
     ilios.cim.widget.CreateReportDialog = CreateReportDialog;
     ilios.cim.widget.ReportPickerDialog = ReportPickerDialog;
     ilios.cim.widget.EditReportDialog = EditReportDialog;
+    ilios.cim.widget.CreateSequenceBlockDialog = CreateSequenceBlockDialog;
 }());
