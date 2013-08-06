@@ -65,7 +65,8 @@
         // wire up the "create report" button
         Event.addListener('create_report_btn', 'click', function (event) {
             if (! this._createReportDialog) {
-                this._createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {}, this.getPrograms());
+                this._createReportDialog = new ilios.cim.widget.CreateReportDialog('create_report_dialog', {},
+                    this.getPrograms());
                 this._createReportDialog.render();
             }
             this._createReportDialog.show();
@@ -204,6 +205,12 @@
                     Event.stopEvent(event);
                     return false;
                 }, {}, this);
+
+                // wire up "add sequence block" button in the bottom toolbar
+                Event.addListener(this._sequenceBlockBottomToolbar.getAddButton(), 'click', function (event) {
+                    var dialog = this.getCreateSequenceBlockDialog();
+                    dialog.show();
+                }, {}, this);
             };
 
             // show views and widgets
@@ -329,6 +336,15 @@
          * @protected
          */
         _createReportDialog: null,
+
+        /**
+         * A dialog widget for creating a new sequence block.
+         *
+         * @property _createSequenceBlockDialog
+         * @type {ilios.cim.widget.CreateSequenceBlockDialog}
+         * @protected
+         */
+        _createSequenceBlockDialog: null,
 
         /**
          * A dialog widget for editing the report.
@@ -509,6 +525,20 @@
             return this._sequenceBlockModelMap;
         },
 
+        /**
+         * Returns the application's "create a new sequence block" dialog.
+         *
+         * @method getCreateSequenceBlockDialog
+         * @return {ilios.cim.widget.CreateSequenceBlockDialog} The dialog instance.
+         */
+        getCreateSequenceBlockDialog: function () {
+            if (! this._createSequenceBlockDialog) {
+                this._createSequenceBlockDialog
+                    = new ilios.cim.widget.CreateSequenceBlockDialog('create-sequence-block-dialog', {});
+                this._createSequenceBlockDialog.render();
+            }
+            return this._createSequenceBlockDialog;
+        },
 
         /**
          * Retrieves a map of programs that can be reported on in this application.
