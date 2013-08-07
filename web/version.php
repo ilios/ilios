@@ -5,4 +5,4 @@
  * @see system/application/views/common/masthead.logo.inc.php
  */
 ?>
-2.3-dev
+2.3
