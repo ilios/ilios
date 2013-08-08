@@ -354,8 +354,7 @@ class Ilios_CurriculumInventory_Exporter
                 }
             }
 
-            // resource types
-            // @todo implement
+            // resource types are not implemented.
 
             // instructional- or assessment-method
             if ($event['is_assessment_method']) {
@@ -655,9 +654,6 @@ class Ilios_CurriculumInventory_Exporter
             case Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK :
                 $sequenceBlockNode->setAttribute('required', 'Required in Track');
                 break;
-            default :
-                // SOL!
-                // @todo handle this. e.g. throw an exception.
         }
         switch ($block['child_sequence_order']) {
             case Curriculum_Inventory_Sequence_Block::ORDERED :
@@ -669,8 +665,6 @@ class Ilios_CurriculumInventory_Exporter
             case Curriculum_Inventory_Sequence_Block::PARALLEL :
                 $sequenceBlockNode->setAttribute('order', 'parallel');
                 break;
-            default :
-                // @todo handle this. e.g. throw an exception.
         }
 
         $sequenceBlockNode->setAttribute('minimum', $block['minimum']);
@@ -692,16 +686,25 @@ class Ilios_CurriculumInventory_Exporter
             $descriptionNode->appendChild($dom->createTextNode($block['description']));
         }
 
-        // currently, only start/end-date are supported for <Timing>
-        // @todo add duration
+        // add duration and/or start+end date
         $timingNode = $dom->createElement('Timing');
         $sequenceBlockNode->appendChild($timingNode);
-        $datesNode = $dom->createElement('Dates');
-        $timingNode->appendChild($datesNode);
-        $startDateNode = $dom->createElement('StartDate', $block['start_date']);
-        $datesNode->appendChild($startDateNode);
-        $endDateNode = $dom->createElement('EndDate', $block['end_date']);
-        $datesNode->appendChild($endDateNode);
+        if ($block['duration']) {
+            $durationNode = $dom->createElement('Duration');
+            $timingNode->appendChild($durationNode);
+            $durationNode->appendChild($dom->createTextNode('PT' . $block['duration'] . 'M')); // duration in minutes.
+        }
+
+        if ($block['start_date']) {
+            $datesNode = $dom->createElement('Dates');
+            $timingNode->appendChild($datesNode);
+            $startDateNode = $dom->createElement('StartDate', $block['start_date']);
+            $datesNode->appendChild($startDateNode);
+            $endDateNode = $dom->createElement('EndDate', $block['end_date']);
+            $datesNode->appendChild($endDateNode);
+        }
+
+
 
         // academic level
         $levelNode = $dom->createElement('Level', "/CurriculumInventory/AcademicLevels/Level[@number='{$block['academic_level_number']}']");
@@ -710,7 +713,6 @@ class Ilios_CurriculumInventory_Exporter
         // clerkship type
         // map course clerkship type to "Clerkship Model"
         $clerkshipModel = false;
-        // @todo review business rules
         switch ($block['course_clerkship_type_id']) {
             case Course_Clerkship_Type::INTEGRATED :
                 $clerkshipModel = 'integrated';
@@ -720,13 +722,10 @@ class Ilios_CurriculumInventory_Exporter
                 $clerkshipModel = 'rotation';
                 break;
         }
-        if ($clerkshipModel) {
-            $clerkshipModelNode = $dom->createElement('ClerkshipModel', $clerkshipModel);
-            $sequenceBlockNode->appendChild($clerkshipModelNode);
-        } else {
-            // this should not occur.
-            // @todo add error handling
-        }
+
+        $clerkshipModelNode = $dom->createElement('ClerkshipModel', $clerkshipModel);
+        $sequenceBlockNode->appendChild($clerkshipModelNode);
+
 
         // competency object references
         if (array_key_exists('competency_object_references', $block)) {
