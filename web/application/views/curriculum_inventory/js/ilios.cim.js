@@ -894,13 +894,20 @@
          * Retrieves a sorted list of available courses.
          *
          * @method listAvailable
+         * @param {Boolean} includeDeleted If TRUE then available courses that are flagged as deleted will be included.
+         *      Otherwise deleted courses will be filtered out. The default is FALSE.
          * @returns {Array} A list of sorted courses.
          */
-        listAvailable : function () {
-            var i, rhett;
+        listAvailable : function (includeDeleted) {
+            var i, course, rhett;
+            includeDeleted = includeDeleted || false;
             rhett  = [];
             for (i in this._available) {
                 if (this._available.hasOwnProperty(i)) {
+                    course = this._available[i];
+                    if (! includeDeleted && ! course.get('deleted')) {
+                        continue;
+                    }
                     rhett.push(this._available[i]);
                 }
             }
