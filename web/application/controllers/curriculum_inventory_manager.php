@@ -241,6 +241,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        // reject requests for modifying finalized reports
+        if ($this->invExport->exists($reportId)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.error.cannot_modify_finalized_report', $lang);
+            return;
+        }
+
         // input validation
         if ('' === trim($reportName)) {
             $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_name_missing', $lang);
@@ -370,6 +376,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
             return;
         }
+
+        // reject requests for modifying finalized reports
+        if ($this->invExport->exists($reportId)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.error.cannot_modify_finalized_report', $lang);
+            return;
+        }
+
         // delete the report and associated records
         $this->db->trans_start();
         $this->invReport->delete($reportId);
@@ -555,6 +568,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        // reject requests for modifying finalized reports
+        if ($this->invExport->exists($reportId)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.error.cannot_modify_finalized_report', $lang);
+            return;
+        }
+
         $parentBlock = null;
 
         if ($parentBlockId) {
@@ -608,10 +627,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_maximum', $lang);
             return;
         }
-        if (0 >= $duration) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_duration', $lang);
-            return;
-        }
+
         if ($minimum > $maximum) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.minimum_gt_maximum', $lang);
             return;
@@ -667,6 +683,16 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                 $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.start_date_gt_end_date', $lang);
                 return;
             }
+        } else { // if no date range is given then duration becomes required
+            if (! $duration) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.missing_duration', $lang);
+                return;
+            }
+        }
+
+        if (0 > $duration) { // if a duration is given then it must be valid
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_duration', $lang);
+            return;
         }
 
         // final data massaging to provide proper default values for optional/conditional properties
@@ -774,6 +800,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.update.error.does_not_exist', $lang);
             return;
         }
+
+        // reject requests for modifying finalized reports
+        if ($this->invExport->exists($block['report_id'])) {
+            $this->_printErrorXhrResponse('curriculum_inventory.error.cannot_modify_finalized_report', $lang);
+            return;
+        }
+
         // delete the report and associated records
         $this->db->trans_start();
         $this->invSequenceBlock->delete($sequenceBlockId);
