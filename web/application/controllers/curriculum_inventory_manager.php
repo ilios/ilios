@@ -180,14 +180,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $startYear = $year;
         $endYear = $startYear + 1;
         // create start/end date for the report
-        // @todo make hardwired start/end day/month configurable
+        // @todo replace hardwired start/end day/month with values configured for academic years once issue #565 has been resolved.
         $startDate = new DateTime();
         $startDate->setDate($startYear, 7, 1);
         $endDate = new DateTime();
         $endDate->setDate($endYear, 6, 30);
 
         // create a new curriculum inventory report and associated entities (academic levels, sequence etc.)
-        // @todo running db transactions in the controller - BAD! refactor this out.
         $this->db->trans_start();
         $reportId = $this->invReport->create($year, $programId, $reportName, $reportDescription, $startDate, $endDate);
         $this->invAcademicLevel->createDefaultLevels($reportId);
