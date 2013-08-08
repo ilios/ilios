@@ -61,7 +61,6 @@ EOL;
         $sql =<<<EOL
 SELECT c.*
 FROM course c
-JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
 WHERE c.deleted = 0
 AND c.year = {$clean['year']}
 AND c.owning_school_id = {$clean['school_id']}
