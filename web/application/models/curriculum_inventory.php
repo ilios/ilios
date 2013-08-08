@@ -46,9 +46,9 @@ EOL;
     /**
      * Retrieves a map of courses that qualify as linkable to sequence blocks in a given inventory report
      * by the matching the given year and owning school id, and that are not already linked to a given report that report.
-     * @param int $year the academic year
-     * @param int $schoolId the owning school id
-     * @param int $reportId the report id
+     * @param int $year The academic year.
+     * @param int $schoolId The owning school id.
+     * @param int $reportId The report id.
      * @return array an assoc array of course records, keyed off by course id.
      */
     public function getLinkableCourses ($year, $schoolId, $reportId)
@@ -77,6 +77,48 @@ EOL;
             foreach ($query->result_array() as $row) {
                 $rhett[$row['course_id']] = $row;
             }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+
+    /**
+     * Checks if a given course qualifies as linkable to sequence blocks in a given inventory report
+     * by the matching the given year and owning school id.
+     * This check excluded qualifying courses that are already linked to sequence blocks in the given report.
+     * @param int $year The academic year.
+     * @param int $schoolId The owning school id.
+     * @param int $reportId The report id.
+     * @param int $courseId The course id.
+     * @return boolean TRUE if the given course qualifies as linkable, FALSE otherwise.
+     */
+    public function isLinkableCourse ($year, $schoolId, $reportId, $courseId)
+    {
+        $rhett = false;
+        $clean =array();
+        $clean['year'] = (int) $year;
+        $clean['school_id'] = (int) $schoolId;
+        $clean['report_id'] = (int) $reportId;
+        $clean['course_id'] = (int) $courseId;
+        $sql =<<<EOL
+SELECT c.*
+FROM course c
+JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
+WHERE c.course_id = {$clean['course_id']}
+AND c.deleted = 0
+AND c.year = {$clean['year']}
+AND c.owning_school_id = {$clean['school_id']}
+AND c.course_id NOT IN (
+    SELECT course_id
+    FROM curriculum_inventory_sequence_block
+    WHERE course_id IS NOT NULL
+    AND report_id = {$clean['report_id']}
+)
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            $rhett = true;
         }
         $query->free_result();
         return $rhett;
