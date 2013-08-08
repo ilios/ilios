@@ -160,6 +160,67 @@ EOL;
     }
 
     /**
+     * Increment the order-in-sequence value by one for all sequence blocks that
+     * are direct descendants of a given sequence block, and that currently have
+     * a order-in-sequence value higher than or equal to a given threshold value.
+     * This may become necessary when blocks are added to/moved within an ordered sequence.
+     *
+     * @param int $lowerBoundary The threshold value.
+     * @param int $parentSequenceBlockId The parent sequence block id.
+     */
+    public function incrementOrderInSequence ($lowerBoundary, $parentSequenceBlockId)
+    {
+        $clean = array();
+        $clean['parent_sequence_block_id'] = (int) $parentSequenceBlockId;
+        $clean['boundary'] = (int) $lowerBoundary;
+        $sql =<<<EOL
+UPDATE {$this->databaseTableName}
+SET order_in_sequence = order_in_sequence + 1
+WHERE order_in_sequence >= {$clean['boundary']}
+AND parent_sequence_block_id = {$clean['parent_sequence_block_id']}
+EOL;
+        $this->db->query($sql);
+    }
+
+    /**
+     * Decrement the order-in-sequence value by one for all sequence blocks that
+     * are direct descendants of a given sequence block, and that currently have
+     * a order-in-sequence value higher than a given threshold value.
+     * This may become necessary when blocks are removed from/moved within an ordered sequence.
+     *
+     * @param int $lowerBoundary The threshold value.
+     * @param int $parentSequenceBlockId The parent sequence block id.
+     */
+    public function decrementOrderInSequence ($lowerBoundary, $parentSequenceBlockId)
+    {
+        $clean = array();
+        $clean['parent_sequence_block_id'] = (int) $parentSequenceBlockId;
+        $clean['boundary'] = (int) $lowerBoundary;
+        $sql =<<<EOL
+UPDATE {$this->databaseTableName}
+SET order_in_sequence = order_in_sequence - 1
+WHERE order_in_sequence > {$clean['boundary']}
+AND parent_sequence_block_id = {$clean['parent_sequence_block_id']}
+EOL;
+        $this->db->query($sql);
+    }
+
+    /**
+     * Sets the order-in-sequence to '0' for all sequence blocks that are
+     * direct descendants of a given sequence block.
+     * This becomes necessary if a sequence block's child-sequence order changes
+     * from "ordered" to "unordered" or "parallel".
+     *
+     * @param int $parentSequenceBlockId The parent sequence block id.
+     */
+    public function setOrderToZeroInSequence ($parentSequenceBlockId)
+    {
+        $this->db->update($this->databaseTableName, array('order_in_sequence' => '0'),
+            array('parent_sequence_block_id' => $parentSequenceBlockId));
+    }
+
+
+    /**
      * Recursively builds a hierarchy of nested sequence blocks, based on their parent/child relationships
      * @param array $sequenceBlocks A flat array of sequence blocks.
      * @param int|null $parentBlockId The id of the parent sequence block, NULL if for top-level blocks.
