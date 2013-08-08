@@ -295,7 +295,7 @@ class Ilios_CurriculumInventory_Exporter
         $rootNode->appendChild($reportingStartDateNode);
         $reportingEndDateNode = $dom->createElement('ReportingEndDate', $inventory['report']['end_date']);
         $rootNode->appendChild($reportingEndDateNode);
-        $languageNode = $dom->createElement('Language', 'en-US'); // @todo make this configurable
+        $languageNode = $dom->createElement('Language', 'en-US');
         $rootNode->appendChild($languageNode);
         $descriptionNode = $dom->createElement('Description');
         $descriptionNode->appendChild($dom->createTextNode($inventory['report']['description']));
@@ -754,7 +754,21 @@ class Ilios_CurriculumInventory_Exporter
                 $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['event_id']}']}";
                 $eventReferenceNode = $dom->createElement('EventReferenceNode', $refUri);
                 $sequenceBlockEventNode->appendChild($eventReferenceNode);
-                // @todo add start/end-date
+
+                // start/end-date
+                // Not implemented at this point.
+                //
+                // Some food for thought:
+                // This information may be retrieved from the date range values of offerings or independent learning
+                // sessions associated with Ilios sessions.
+                // E.g.
+                // For a start date of this sequence block event reference, the earliest start date of any offerings
+                // within a session may be assumed.
+                // Likewise, the latest end date of any offerings within a session could be used for the end date of
+                // event reference.
+                // How accurate this will match the expected start/end date values here remains to be seen and will
+                // require further discussion.
+                // [ST 2013/08/08]
             }
         }
 
