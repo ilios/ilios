@@ -440,7 +440,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      * This action generates an inventory report, stores it in the database and flags the associated report record
      * as "finalized".
      *
-     * It expects the following POST parameters::
+     * It expects the following POST parameters:
      *    'report_id' ... the report id
      *
      * This method prints out a result object as JSON-formatted text.
@@ -505,26 +505,252 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     }
 
     /**
-     * @todo add code docs
+     * This action creates a new sequence block in the report.
+     *
+     * It expects the following POST parameters:
+     *    'report_id' ... The report id.
+     *    'parent_block_id' ... The id of the block that will be the parent to the newly created sequence block, or '0'
+     *          if the newly created block is a top-level block.
+     *    'title' ... The title of the block.
+     *    'description' ... A description of the block.
+     *    'required' ... Indicates whether the block is required ("1"), optional ("2") or required in track ("3").
+     *    'minimum' ... Indicates the number of child sequence blocks that a learner must take.
+     *    'maximum' ... Indicates the number of child sequence blocks that a learner can take.
+     *    'track' ... Indicates whether this sequence block is a track ("1") or not ("0").
+     *    'child_sequence_order' ... Indicates whether child sequences are ordered ("1"), unordered ("2") or parallel ("3").
+     *    'academic_level_id' ... The id of the academic level of this sequence block.
+     *    'order_in_sequence' ... Indicates the order of this sequence block in relation to its siblings within a sequence.
+     *          This only applies to blocks nested within ordered sequence blocks. Defaults to '0' in all other scenarios.
+     *    'start_date' ... The start date of a sequence block.
+     *    'end_date' ... The end date of a sequence block.
+     *    'duration' ... The duration of a sequence block in minutes.
+     *    'course_id' ... The id of the course that this sequence block is linked to. blank if no course should be linked.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "sequence_block" which contains the created sequence block record.
+     * On failure, the object contains a property "error", which contains an error message.
      */
     public function createSequenceBlock ()
     {
-        // @todo implement
+        $lang = $this->getLangToUse();
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $schoolId = $this->session->userdata('school_id');
+
+        //
+        // fetch and validate report- and parent-block-data
+        //
+        $reportId = (int) $this->input->post('report_id');
+        $parentBlockId = (int) $this->input->post('parent_block_id');
+
+        $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
+        if (! $invReport) {
+            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            return;
+        }
+
+        $parentBlock = null;
+
+        if ($parentBlockId) {
+            $parentBlock = $this->invSequenceBlock->getRowForPrimaryKeyId($parentBlockId);
+            if (! $parentBlock) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.update.error.does_not_exist', $lang);
+                return;
+            }
+            // paranoia mode - check if the parent block belongs to the given report
+            if ($parentBlock->report_id !== $invReport->report_id) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.create.error.report_mismatch', $lang);
+                return;
+            }
+        }
+
+        //
+        // fetch and validate the rest of the form post
+        //
+        $title = trim($this->input->post('title'));
+        $description = trim($this->input->post('description'));
+        $minimum  = (int) $this->input->post('minimum');
+        $maximum = (int) $this->input->post('maximum');
+        $required = (int) $this->input->post('required');
+        $childSequenceOrder = (int) $this->input->post('child_sequence_order');
+        $orderInSequence = (int) $this->input->post('order_in_sequence');
+        $academicLevelId = (int) $this->input->post('academic_level');
+        $courseId = (int) $this->input->post('course_id');
+        $track = (boolean) $this->input->post('track');
+        $startDate = trim($this->input->post('start_date'));
+        $endDate = trim($this->input->post('end_date'));
+        $startDateTs = strtotime($startDate);
+        $endDateTs = strtotime($endDate);
+        $duration = $this->input->duration('duration');
+        $hasDateRange = ('' !== $startDate);
+        $isInOrderedSequence = ($parentBlock
+            && $parentBlock->child_sequence_order === Curriculum_Inventory_Sequence_Block::ORDERED);
+
+        if ('' === $title) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.title_missing', $lang);
+            return;
+        }
+        if ('' === $description) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.description_missing', $lang);
+            return;
+        }
+        if (0 >= $minimum) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_minimum', $lang);
+            return;
+        }
+        if (0 >= $maximum) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_maximum', $lang);
+            return;
+        }
+        if (0 >= $duration) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_duration', $lang);
+            return;
+        }
+        if ($minimum > $maximum) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.minimum_gt_maximum', $lang);
+            return;
+        }
+        if (! in_array($required, array(Curriculum_Inventory_Sequence_Block::REQUIRED,
+            Curriculum_Inventory_Sequence_Block::OPTIONAL, Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK))) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.minimum_gt_maximum', $lang);
+            return;
+        }
+        if (! in_array($childSequenceOrder, array(Curriculum_Inventory_Sequence_Block::ORDERED,
+            Curriculum_Inventory_Sequence_Block::UNORDERED, Curriculum_Inventory_Sequence_Block::PARALLEL))) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_child_sequence_order', $lang);
+            return;
+        }
+        if (! $academicLevelId) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.academic_level_missing', $lang);
+            return;
+        }
+        if ($courseId
+            && ! $this->inventory->isLinkableCourse($invReport->year, $schoolId, $invReport->report_id, $courseId)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.course_not_linkable', $lang);
+            return;
+        }
+        if ($isInOrderedSequence) {
+            // perform boundaries check of given order in sequence
+            if ($orderInSequence < 1) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_order_in_sequence', $lang);
+                return;
+            }
+            $numberOfSiblings = $this->invSequenceBlock->getNumberOfChildren($parentBlock->sequence_block_id);
+            if ($orderInSequence > ($numberOfSiblings + 1)) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_order_in_sequence', $lang);
+                return;
+            }
+        }
+        if ($hasDateRange) {
+            if ('' === $endDate) { // must provide end date if start date is given
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.missing_end_date', $lang);
+                return;
+            }
+            // start and end date must be valid
+            if (false === $startDateTs) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_start_date', $lang);
+                return;
+            };
+            if (false === $startDateTs) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_end_date', $lang);
+                return;
+            };
+
+            // start date must not come after end date
+            if ($startDateTs > $endDateTs) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.start_date_gt_end_date', $lang);
+                return;
+            }
+        }
+
+        // final data massaging to provide proper default values for optional/conditional properties
+        $orderInSequence = $isInOrderedSequence ? $orderInSequence : 0;
+        $parentBlockId = $parentBlockId ? $parentBlockId : null;
+        $courseId = $courseId ? $courseId : null;
+        if ($hasDateRange) {
+            $startDate = date('YYYY-mm-dd', $startDateTs);
+            $endDate = date('YYYY-mm-dd', $endDateTs);
+        } else {
+            $startDate = null;
+            $endDate = null;
+        }
+
+        //
+        // create a new sequence block in the db
+        //
+        $this->db->trans_start();
+        // @todo fix order in ordered sequence by incrementing sort order value for siblings with a higher sort order.
+        $blockId = $this->invSequenceBlock->create($reportId, $parentBlockId, $title, $description, $startDate,
+            $endDate, $duration, $academicLevelId, $required, $maximum, $minimum, $track, $courseId, $childSequenceOrder,
+            $orderInSequence);
+        $block = $this->invSequenceBlock->getById($blockId);
+        $this->db->trans_complete();
+        if (false === $this->db->trans_status()) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.create.error.general', $lang);
+            return;
+        }
+
+        $rhett['sequence_block'] = $block;
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
     }
 
     /**
-     * @todo add code docs
+     * This action updates a sequence block.
+     *
+     * It expects the following POST parameters:
+     *    'sequence_block_id' ... The sequence block id.
+     *    'title' ... The title of the block.
+     *    'description' ... A description of the block.
+     *    'required' ... Indicates whether the block is required ("1"), optional ("2") or required in track ("3").
+     *    'minimum' ... Indicates the number of child sequence blocks that a learner must take.
+     *    'maximum' ... Indicates the number of child sequence blocks that a learner can take.
+     *    'track' ... Indicates whether this sequence block is a track ("1") or not ("0").
+     *    'child_sequence_order' ... Indicates whether child sequences are ordered ("1"), unordered ("2") or parallel ("3").
+     *    'academic_level_id' ... The id of the academic level of this sequence block.
+     *    'order_in_sequence' ... Indicates the order of this sequence block in relation to its siblings within a sequence.
+     *          This only applies to blocks nested within ordered sequence blocks. Defaults to '0' in all other scenarios.
+     *    'start_date' ... The start date of a sequence block.
+     *    'end_date' ... The end date of a sequence block.
+     *    'duration' ... The duration of a sequence block in minutes.
+     *    'course_id' ... The id of the course that this sequence block is linked to. blank if no course should be linked.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "sequence_block" which contains the updated sequence block record.
+     * On failure, the object contains a property "error", which contains an error message.
      */
     public function updateSequenceBlock ()
     {
+        $lang = $this->getLangToUse();
+        $rhett = array();
+
+        // authorization check
+        if (! $this->session->userdata('has_admin_access')) {
+            $this->_printAuthorizationFailedXhrResponse($lang);
+            return;
+        }
+
+        $schoolId = $this->session->userdata('school_id');
+
         // @todo implement
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
     }
 
     /**
-     * This action deletes a requested sequence block and all its children.
+     * This action deletes a given sequence block and all its descendants.
      *
-     * It expects the following POST parameters::
-     *    'sequence_block_id' ... the report id
+     * It expects the following POST parameters:
+     *     'sequence_block_id' ... The id of the sequence block to delete.
      *
      * This method prints out a result object as JSON-formatted text.
      *
@@ -543,14 +769,15 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         // input validation
         $sequenceBlockId = (int) $this->input->post('sequence_block_id');
-        $invReport = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
-        if (! $invReport) {
+        $block = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
+        if (! $block) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.update.error.does_not_exist', $lang);
             return;
         }
         // delete the report and associated records
         $this->db->trans_start();
         $this->invSequenceBlock->delete($sequenceBlockId);
+        // @todo correct sort order in ordered sequence for siblings with a higher sort order by decrementing their order value by one
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.delete.error.general', $lang);

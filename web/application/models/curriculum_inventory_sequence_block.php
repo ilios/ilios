@@ -43,6 +43,23 @@ class Curriculum_Inventory_Sequence_Block extends Ilios_Base_Model
         parent::__construct('curriculum_inventory_sequence_block', array('sequence_block_id'));
     }
 
+
+    /**
+     * Retrieves a sequence block by its given id.
+     * @param int $sequenceBlockId The sequence block id.
+     * @return array|boolean An associative array representing the sequence block record, or FALSE if none was found.
+     */
+    public function get ($sequenceBlockId)
+    {
+        $rhett = false;
+        $query = $this->db->get_where($this->databaseTableName, array('sequence_block_id' => $sequenceBlockId));
+        if (0 < $query->num_rows()) {
+            $rhett = $query->result_array();
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
     /**
      * Retrieves the sequence blocks associated with a given report.
      * @param int $reportId the report id
@@ -73,12 +90,73 @@ EOL;
     }
 
     /**
+     * Creates a new sequence block.
+     * Note: Input validation according to business rules, like type- and range-checking, is assumed to happen further
+     * upstream. In other words, this function expects validated input.
+     *
+     * @param int $reportId
+     * @param int|null $parentBlockId
+     * @param string $title
+     * @param string $description
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int $duration
+     * @param int $academicLevelId
+     * @param int $required
+     * @param int $maximum
+     * @param int $minimum
+     * @param boolean $track
+     * @param int|null $courseId
+     * @param int $childSequenceOrder
+     * @param int $orderInSequence
+     * @return int|boolean the new sequence block id on success, or FALSE on failure
+     */
+    public function create ($reportId, $parentBlockId, $title, $description, $startDate, $endDate, $duration,
+        $academicLevelId, $required, $maximum, $minimum, $track, $courseId, $childSequenceOrder, $orderInSequence)
+    {
+        $data = array();
+        $data['parent_sequence_block_id'] = $parentBlockId;
+        $data['report_id'] = $reportId;
+        $data['title'] = $title;
+        $data['description'] = $description;
+        $data['status'] = $required;
+        $data['maximum'] = $maximum;
+        $data['minimum'] = $minimum;
+        $data['track'] = $track;
+        $data['course_id'] = $courseId;
+        $data['academic_level_id'] = $academicLevelId;
+        $data['child_sequence_order'] = $childSequenceOrder;
+        $data['order_in_sequence'] = $orderInSequence;
+        $data['start_date'] = $startDate;
+        $data['end_date'] = $endDate;
+        $data['duration'] = $duration;
+
+        if ($this->db->insert($this->databaseTableName, $data)) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
+
+    /**
      * Deletes a given sequence block and all its children.
      * @param int $sequenceBlockId The sequence block id.
      */
     public function delete ($sequenceBlockId)
     {
         $this->db->delete($this->databaseTableName, array('sequence_block_id' => $sequenceBlockId));
+    }
+
+    /**
+     * Retrieves the number of sequence blocks that are children of a given sequence block.
+     * @param int $sequenceBlockId The sequence block id.
+     * @return int The number of child sequence blocks.
+     */
+    public function getNumberOfChildren ($sequenceBlockId)
+    {
+        $this->db->where('parent_sequence_block_id', $sequenceBlockId);
+        $this->db->from($this->databaseTableName);
+        return (int) $this->db->count_all_results();
     }
 
     /**
