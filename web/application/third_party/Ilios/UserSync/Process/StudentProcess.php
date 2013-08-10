@@ -55,7 +55,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
         $msg = "Kicking off the Student-user synchronization process, here we go ....";
         $logger->log($msg , $processId);
         // ----------------------
-        // 0. Initalization
+        // 0. Initialization
         // ----------------------
         // remove all recorded sync exceptions from the last run
         $this->_deleteUserSyncExceptionsForProcess();
