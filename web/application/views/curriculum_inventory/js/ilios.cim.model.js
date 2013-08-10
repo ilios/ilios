@@ -607,7 +607,7 @@
      * @param {Object} oData A key/value map of initial model data.
      *    @param {Number} oData.sequence_block_id
      *    @param {Number} oData.report_id
-     *    @param {Number} oData.status
+     *    @param {Number} oData.required
      *    @param {Number} oData.child_sequence_order
      *    @param {Number} oData.order_in_sequence
      *    @param {Number} oData.minimum
@@ -638,7 +638,7 @@
         init : function (oData) {
             SequenceBlockModel.superclass.init.call(this, oData);
             var reportId = oData.report_id;
-            var status = oData.status;
+            var required = oData.required;
             var childSequenceOrder = oData.child_sequence_order;
             var orderInSequence = oData.order_in_sequence;
             var minimum = oData.minimum;
@@ -670,28 +670,28 @@
 
             /**
              * Indicates whether this sequence block is a required part of the curriculum.
-             * Valid values are "Required" (<code>SequenceBlockModel.STATUS_REQUIRED</code>), "Optional"
-             * (<code<SequenceBlockModel.STATUS_OPTIONAL</code>), and "Required in Track"
+             * Valid values are "Required" (<code>SequenceBlockModel.REQUIRED</code>), "Optional"
+             * (<code<SequenceBlockModel.OPTIONAL</code>), and "Required in Track"
              * (<code>SequenceBlockModel.REQUIRED_IN_TRACK</code>).
              *
-             * @attribute status
+             * @attribute required
              * @type {Number}
              */
-            this.setAttributeConfig('status', {
-                value: status,
+            this.setAttributeConfig('required', {
+                value: required,
                 validator: function (value) {
                     return Lang.isNumber(value)
-                        && (this.STATUS_OPTIONAL === value
-                        || this.STATUS_REQUIRED === value
-                        || this.STATUS_REQUIRED_IN_TRACK === value);
+                        && (this.OPTIONAL === value
+                        || this.REQUIRED === value
+                        || this.REQUIRED_IN_TRACK === value);
 
                 }
             });
             /**
              * If there are nested sequence blocks within this sequence block, <em>childSequenceOrder</em> indicates
              * how the nested sequence blocks are delivered to learners. Valid values are "Ordered"
-             * (<code>SequenceBlockModel.SORT_ORDERED</code>), "Unordered" (<code>SequenceBlockModel.SORT_UNORDERED</code>)
-             * , and "Parallel" (<code>SequenceBlockModel.SORT_PARALLEL</code>).
+             * (<code>SequenceBlockModel.ORDERED</code>), "Unordered" (<code>SequenceBlockModel.UNORDERED</code>)
+             * , and "Parallel" (<code>SequenceBlockModel.PARALLEL</code>).
              *
              * @attribute childSequenceOrder
              * @type {Number}
@@ -700,9 +700,9 @@
                 value: childSequenceOrder,
                 validator: function (value) {
                     return Lang.isNumber(value)
-                        && (this.SORT_ORDERED === value
-                        || this.SORT_UNORDERED === value
-                        || this.SORT_PARALLEL === value);
+                        && (this.ORDERED === value
+                        || this.UNORDERED === value
+                        || this.PARALLEL === value);
 
                 }
             });
@@ -935,59 +935,48 @@
         ID_ATTRIBUTE_NAME: 'sequence_block_id',
 
         /**
-         * "Required" status indicator.
-         *
-         * @property STATUS_REQUIRED
+         * @property REQUIRED
          * @type {Number}
          * @final
          *
          */
-        STATUS_REQUIRED: 1,
+        REQUIRED: 1,
 
         /**
-         * "Optional" status indicator.
-         *
-         * @property STATUS_OPTIONAL
+         * @property OPTIONAL
          * @type {Number}
          * @final
          */
-        STATUS_OPTIONAL: 2,
+        OPTIONAL: 2,
 
         /**
-         * "Required in Track" status indicator.
-         *
-         * @property STATUS_REQUIRED_IN_TRACK
+         * @property REQUIRED_IN_TRACK
          * @type {Number}
          * @final
          */
-        STATUS_REQUIRED_IN_TRACK: 3,
+        REQUIRED_IN_TRACK: 3,
 
         /**
-         * "Ordered" child-sequences indicator.
-         *
          * @property SORT_ORDER
          * @type {Number}
          * @final
          */
-        SORT_ORDERED: 1,
+        ORDERED: 1,
 
         /**
-         * "Unordered" child-sequences indicator.
-         *
-         * @property SORT_UNORDERED
+         * @property UNORDERED
+         * @property UNORDERED
          * @type {Number}
          * @final
          */
-        SORT_UNORDERED: 2,
+        UNORDERED: 2,
 
         /**
-         * "Parallel" child-sequences indicator.
-         *
-         * @property SORT_PARALLEL
+         * @property PARALLEL
          * @type {Number}
          * @final
          */
-        SORT_PARALLEL: 3,
+        PARALLEL: 3,
 
         /**
          * Fired when this sequence block instance is being deleted.

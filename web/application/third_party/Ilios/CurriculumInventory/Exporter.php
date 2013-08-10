@@ -644,7 +644,7 @@ class Ilios_CurriculumInventory_Exporter
             }
         }
         $sequenceBlockNode->setAttribute('id', $block['sequence_block_id']);
-        switch ($block['status']) {
+        switch ($block['required']) {
             case Curriculum_Inventory_Sequence_Block::OPTIONAL :
                 $sequenceBlockNode->setAttribute('required', 'Optional');
                 break;

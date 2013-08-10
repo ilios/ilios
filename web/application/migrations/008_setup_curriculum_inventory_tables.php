@@ -87,7 +87,7 @@ EOL;
 CREATE TABLE `curriculum_inventory_sequence_block` (
     `sequence_block_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     `report_id` INT(10) UNSIGNED NOT NULL,
-    `status` TINYINT UNSIGNED NOT NULL DEFAULT '0',
+    `required` TINYINT UNSIGNED NOT NULL DEFAULT '0',
     `child_sequence_order` TINYINT UNSIGNED NOT NULL DEFAULT '0',
     `order_in_sequence` INT(10) UNSIGNED NOT NULL DEFAULT '0',
     `minimum` INT(11) NOT NULL DEFAULT '-1',
@@ -98,7 +98,7 @@ CREATE TABLE `curriculum_inventory_sequence_block` (
     `start_date` DATE NULL DEFAULT NULL,
     `end_date` DATE NULL DEFAULT NULL,
     `academic_level_id` INT(10) UNSIGNED NOT NULL,
-    `duration` INT(11) NOT NULL DEFAULT '0',
+    `duration` INT(11) UNSIGNED NOT NULL DEFAULT '0',
     `course_id` INT(10) UNSIGNED NULL DEFAULT NULL,
     `parent_sequence_block_id` INT(10) UNSIGNED NULL DEFAULT NULL,
     PRIMARY KEY (`sequence_block_id`),

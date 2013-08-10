@@ -119,7 +119,7 @@ EOL;
         $data['report_id'] = $reportId;
         $data['title'] = $title;
         $data['description'] = $description;
-        $data['status'] = $required;
+        $data['required'] = $required;
         $data['maximum'] = $maximum;
         $data['minimum'] = $minimum;
         $data['track'] = $track;

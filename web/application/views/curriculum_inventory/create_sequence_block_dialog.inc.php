@@ -39,10 +39,10 @@
                               placeholder="<?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.description.hint', $lang, false); ?>"></textarea>
                 </div>
                 <div class="dialog-form-row" >
-                    <label for="create-sequence-block-dialog--status" class="entity_widget_title">
+                    <label for="create-sequence-block-dialog--required" class="entity_widget_title">
                         <?php echo $this->languagemap->t('general.terms.required', $lang); ?>:
                     </label><br />
-                    <select id="create-sequence-block-dialog--status" name="status">
+                    <select id="create-sequence-block-dialog--required" name="required">
                         <option value="1">Required</option>
                         <option value="2">Optional</option>
                         <option value="3">Required in Track</option>
