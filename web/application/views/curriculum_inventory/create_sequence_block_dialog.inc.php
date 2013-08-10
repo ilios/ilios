@@ -23,7 +23,7 @@
             <span id="create-sequence-block-dialog--status" class="dialog-form-status"></span>
             <form method="POST" action="<?php echo $controllerURL; ?>/createSequenceBlock">
                 <input type="hidden" value="" id="create-sequence-block-dialog--report-id" name="report_id" />
-                <input type="hidden" value="" id="create-sequence-block-dialog--parent-id" name="parent_id" />
+                <input type="hidden" value="" id="create-sequence-block-dialog--parent-id" name="parent_sequence_block_id" />
                 <div class="dialog-form-row" >
                     <label for="create-sequence-block-dialog--title" class="entity_widget_title">
                         <?php echo $this->languagemap->t('general.terms.title', $lang); ?>:
@@ -93,6 +93,37 @@
                     </label><br />
                     <select id="create-sequence-block-dialog--order-in-sequence" name="order_in_sequence">
                         <option value="1">1</option>
+                    </select>
+                </div>
+                <div class="dialog-form-row">
+                    <label class="entity_widget_title" for="create-sequence-block-dialog--start-date">
+                        <?php echo $this->languagemap->t('general.phrases.start_date', $lang); ?>:
+                    </label>
+                    <input id="create-sequence-block-dialog--start-date" name="start_date" type="text" size="11"
+                           placeholder="YYYY-MM-DD" readonly="readonly"/>
+                    <span class="calendar_button" id="create-sequence-block-dialog--start_date-button"></span>
+                    <label class="entity_widget_title" for="create-sequence-block-dialog--end-date">
+                        <?php echo $this->languagemap->t('general.phrases.end_date', $lang); ?>:
+                    </label>
+                    <input id="create-sequence-block-dialog--end-date" name="end_date" type="text" size="11"
+                           placeholder="YYYY-MM-DD" readonly="readonly"/>
+                    <span class="calendar_button" id="create-sequence-block-dialog--end_date-button"></span>
+                    <button id="create_sequence-block-dialog--clear-dates-button">
+                        <?php echo $this->languagemap->t('general.phrases.clear_dates', $lang); ?></button>
+                </div>
+                <div class="dialog-form-row">
+                    <label class="entity_widget_title" for="create-sequence-block-dialog--duration">
+                        <?php echo $this->languagemap->t('general.phrases.duration.in_minutes', $lang); ?>:
+                    </label><br />
+                    <input id="create-sequence-block-dialog--duration" name="duration" type="text" size="4" value="0" />
+                </div>
+                <div class="dialog-form-row">
+                    <label class="entity_widget_title" for="create-sequence-block-dialog--track">
+                        <?php echo $this->languagemap->t('general.phrases.is_track', $lang); ?> ?
+                    </label><br />
+                    <select id="create-sequence-block-dialog--track" name="track">
+                        <option value="0"><?php echo $this->languagemap->t('general.terms.no', $lang); ?></option>
+                        <option value="1"><?php echo $this->languagemap->t('general.terms.yes', $lang); ?></option>
                     </select>
                 </div>
             </form>
