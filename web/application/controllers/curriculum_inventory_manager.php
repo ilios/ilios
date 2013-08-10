@@ -521,7 +521,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *
      * It expects the following POST parameters:
      *    'report_id' ... The report id.
-     *    'parent_block_id' ... The id of the block that will be the parent to the newly created sequence block, or '0'
+     *    'parent_sequence_block_id' ... The id of the block that will be the parent to the newly created sequence block, or '0'
      *          if the newly created block is a top-level block.
      *    'title' ... The title of the block.
      *    'description' ... A description of the block.
@@ -559,7 +559,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // fetch and validate report- and parent-block-data
         //
         $reportId = (int) $this->input->post('report_id');
-        $parentBlockId = (int) $this->input->post('parent_block_id');
+        $parentBlockId = (int) $this->input->post('parent_sequence_block_id');
 
         $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
         if (! $invReport) {
