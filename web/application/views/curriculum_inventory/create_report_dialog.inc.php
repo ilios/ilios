@@ -45,8 +45,7 @@
                     <label for="new_report_year" class="entity_widget_title">
                         <?php echo $this->languagemap->t('general.phrases.academic_year', $lang); ?>:
                     </label><br />
-                    <input id="new_report_year" name="report_year" type="text" value=""
-                        maxlength="4" size="4" placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_year.hint', $lang, false); ?>">
+                    <input id="new_report_year" name="report_year" type="text" value="" maxlength="4" size="4" placeholder="YYYY">
                 </div>
                 <div class="clear"></div>
             </form>
