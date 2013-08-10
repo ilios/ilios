@@ -97,7 +97,7 @@ class Program_Management extends Ilios_Web_Controller
         $key = 'program_management.objective_edit_title';
         $data['edit_objective_dialog_title'] = $this->languagemap->getI18NString($key, $lang);
 
-        $key = 'program_management.duration';
+        $key = 'general.phrases.duration.in_years';
         $data['duration_string'] = $this->languagemap->getI18NString($key, $lang);
 
         $key = 'general.phrases.collapse_all';
