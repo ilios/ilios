@@ -23,7 +23,7 @@
             <span id="create-sequence-block-dialog--status" class="dialog-form-status"></span>
             <form method="POST" action="<?php echo $controllerURL; ?>/createSequenceBlock">
                 <input type="hidden" value="" id="create-sequence-block-dialog--report-id" name="report_id" />
-                <input type="hidden" value="" id="create-sequence-block-dialog--parent-id" name="parent_sequence_block_id" />
+                <input type="hidden" value="" id="create-sequence-block-dialog--parent-block-id" name="parent_sequence_block_id" />
                 <div class="dialog-form-row" >
                     <label for="create-sequence-block-dialog--title" class="entity_widget_title">
                         <?php echo $this->languagemap->t('general.terms.title', $lang); ?>:
@@ -70,10 +70,8 @@
                     <select id="create-sequence-block-dialog--course" name="course_id">
                         <option value="">&lt;<?php echo $this->languagemap->t('general.terms.none', $lang); ?>&gt;</option>
                     </select>
-                    <br />
-                    <div id="create-sequence-block-dialog--course-view-container" class="hidden"></div>
                 </div>
-                <div class="dialog-form-row">
+                <div class="dialog-form-row" >
                     <label class="entity_widget_title" for="create-sequence-block-dialog--child-sequence-order">
                         <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.child_sequence_order', $lang); ?>:
                     </label><br />
@@ -101,16 +99,19 @@
                     </label>
                     <input id="create-sequence-block-dialog--start-date" name="start_date" type="text" size="11"
                            placeholder="YYYY-MM-DD" readonly="readonly"/>
-                    <span class="calendar_button" id="create-sequence-block-dialog--start_date-button"></span>
+                    <span class="calendar_button" id="create-sequence-block-dialog--start-date-button"></span>
                     <label class="entity_widget_title" for="create-sequence-block-dialog--end-date">
                         <?php echo $this->languagemap->t('general.phrases.end_date', $lang); ?>:
                     </label>
                     <input id="create-sequence-block-dialog--end-date" name="end_date" type="text" size="11"
                            placeholder="YYYY-MM-DD" readonly="readonly"/>
-                    <span class="calendar_button" id="create-sequence-block-dialog--end_date-button"></span>
-                    <button id="create_sequence-block-dialog--clear-dates-button">
+                    <span class="calendar_button" id="create-sequence-block-dialog--end-date-button"></span>
+                    <button id="create-sequence-block-dialog--clear-dates-button">
                         <?php echo $this->languagemap->t('general.phrases.clear_dates', $lang); ?></button>
                 </div>
+                <div id="create-sequence-block-dialog--start-date-calendar-container" style="display:none;"></div>
+                <div id="create-sequence-block-dialog--end-date-calendar-container" style="display:none;"></div>
+                <div class="clear"></div>
                 <div class="dialog-form-row">
                     <label class="entity_widget_title" for="create-sequence-block-dialog--duration">
                         <?php echo $this->languagemap->t('general.phrases.duration.in_minutes', $lang); ?>:
