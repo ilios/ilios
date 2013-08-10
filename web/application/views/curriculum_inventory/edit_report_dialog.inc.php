@@ -23,14 +23,14 @@
                 <input type="hidden" value="" id="edit_report_id" name="report_id" />
                 <div class="dialog-form-row" >
                     <label for="edit_report_name" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('curriculum_inventory.create.report_name.label', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.name', $lang); ?>:
                     </label><br />
                     <input id="edit_report_name" name="report_name" type="text"  value="" size="50"
                            placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_name.hint', $lang, false); ?>" />
                 </div>
                 <div class="dialog-form-row" >
                     <label for="edit_report_description" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('curriculum_inventory.create.report_description.label', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.description', $lang); ?>:
                     </label><br />
                     <textarea id="edit_report_description" name="report_description" type="text" cols="80" rows="10"
                               placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_description.hint', $lang, false); ?>"></textarea>

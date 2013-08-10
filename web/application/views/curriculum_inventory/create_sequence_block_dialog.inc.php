@@ -17,7 +17,7 @@
  */
 ?>
 <div class="tabdialog hidden" id="create-sequence-block-dialog">
-    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.title', $lang); ?></div>
+    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog', $lang); ?></div>
     <div class="bd">
         <div class="dialog_wrap">
             <span id="create-sequence-block-dialog--status" class="dialog-form-status"></span>
@@ -35,12 +35,12 @@
                     <label for="create-sequence-block-dialog--description" class="entity_widget_title">
                         <?php echo $this->languagemap->t('general.terms.description', $lang); ?>:
                     </label><br />
-                    <textarea id="create-sequence-block-dialog--description" name="description" type="text" cols="80" rows="10"
+                    <textarea id="create-sequence-block-dialog--description" name="description" type="text" cols="80" rows="3"
                               placeholder="<?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog.description.hint', $lang, false); ?>"></textarea>
                 </div>
                 <div class="dialog-form-row" >
                     <label for="create-sequence-block-dialog--status" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('general.phrases.status', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.required', $lang); ?>:
                     </label><br />
                     <select id="create-sequence-block-dialog--status" name="status">
                         <option value="1">Required</option>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="dialog-form-row">
                     <label class="entity_widget_title" for="create-sequence-block-dialog--child-sequence-order">
-                        <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.child_order', $lang); ?>:
+                        <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.child_sequence_order', $lang); ?>:
                     </label><br />
                     <select id="create-sequence-block-dialog--child-sequence-order" name="child_sequence_order">
                         <option value="1">Ordered</option>

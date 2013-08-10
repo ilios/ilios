@@ -236,7 +236,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // check if a curriculum inventory report already exists
         $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
         if (! $invReport) {
-            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.validate.error.report_does_not_exist', $lang);
             return;
         }
 
@@ -372,7 +372,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $reportId = (int) $this->input->post('report_id');
         $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
         if (! $invReport) {
-            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.validate.error.report_does_not_exist', $lang);
             return;
         }
 
@@ -477,7 +477,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // check if a curriculum inventory report already exists
         $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
         if (! $invReport) {
-            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.validate.error.report_does_not_exist', $lang);
             return;
         }
 
@@ -563,7 +563,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         $invReport = $this->invReport->getRowForPrimaryKeyId($reportId);
         if (! $invReport) {
-            $this->_printErrorXhrResponse('curriculum_inventory.update.error.report_does_not_exist', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.validate.error.report_does_not_exist', $lang);
             return;
         }
 
@@ -611,86 +611,86 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             && $parentBlock->child_sequence_order === Curriculum_Inventory_Sequence_Block::ORDERED);
 
         if ('' === $title) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.title_missing', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.title_missing', $lang);
             return;
         }
         if ('' === $description) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.description_missing', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.description_missing', $lang);
             return;
         }
         if (0 >= $minimum) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_minimum', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_minimum', $lang);
             return;
         }
         if (0 >= $maximum) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_maximum', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_maximum', $lang);
             return;
         }
 
         if ($minimum > $maximum) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.minimum_gt_maximum', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.minimum_gt_maximum', $lang);
             return;
         }
         if (! in_array($required, array(Curriculum_Inventory_Sequence_Block::REQUIRED,
             Curriculum_Inventory_Sequence_Block::OPTIONAL, Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK))) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.minimum_gt_maximum', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.minimum_gt_maximum', $lang);
             return;
         }
         if (! in_array($childSequenceOrder, array(Curriculum_Inventory_Sequence_Block::ORDERED,
             Curriculum_Inventory_Sequence_Block::UNORDERED, Curriculum_Inventory_Sequence_Block::PARALLEL))) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_child_sequence_order', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_child_sequence_order', $lang);
             return;
         }
         if (! $academicLevelId) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.academic_level_missing', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.academic_level_missing', $lang);
             return;
         }
         if ($courseId
             && ! $this->inventory->isLinkableCourse($invReport->year, $schoolId, $invReport->report_id, $courseId)) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.course_not_linkable', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.course_not_linkable', $lang);
             return;
         }
         if ($isInOrderedSequence) {
             // perform boundaries check of given order in sequence
             if ($orderInSequence < 1) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_order_in_sequence', $lang);
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_order_in_sequence', $lang);
                 return;
             }
             $numberOfSiblings = $this->invSequenceBlock->getNumberOfChildren($parentBlock->sequence_block_id);
             if ($orderInSequence > ($numberOfSiblings + 1)) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_order_in_sequence', $lang);
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_order_in_sequence', $lang);
                 return;
             }
         }
         if ($hasDateRange) {
             if ('' === $endDate) { // must provide end date if start date is given
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.missing_end_date', $lang);
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_end_date', $lang);
                 return;
             }
             // start and end date must be valid
             if (false === $startDateTs) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_start_date', $lang);
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_start_date', $lang);
                 return;
             };
             if (false === $startDateTs) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_end_date', $lang);
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_end_date', $lang);
                 return;
             };
 
             // start date must not come after end date
             if ($startDateTs > $endDateTs) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.start_date_gt_end_date', $lang);
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.start_date_gt_end_date', $lang);
                 return;
             }
         } else { // if no date range is given then duration becomes required
             if (! $duration) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.missing_duration', $lang);
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_duration', $lang);
                 return;
             }
         }
 
         if (0 > $duration) { // if a duration is given then it must be valid
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.invalid_duration', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_duration', $lang);
             return;
         }
 
@@ -796,7 +796,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $sequenceBlockId = (int) $this->input->post('sequence_block_id');
         $block = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
         if (! $block) {
-            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.update.error.does_not_exist', $lang);
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.error.does_not_exist', $lang);
             return;
         }
 
