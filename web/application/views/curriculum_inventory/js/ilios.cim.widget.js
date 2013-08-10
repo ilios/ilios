@@ -530,6 +530,7 @@
      */
     var CreateSequenceBlockDialog = function (el, courseRepo, userConfig) {
 
+        var date = new Date();
         var defaultConfig = {
             width: "640px",
             modal: true,
@@ -538,6 +539,12 @@
             hideaftersubmit: false,
             zIndex: 999,
             buttons: [
+                {
+                    text: ilios_i18nVendor.getI18NString('general.terms.save'),
+                    handler: function () {
+                        this.submit();
+                    }
+                },
                 {
                     text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
                     handler: function () {
@@ -556,9 +563,53 @@
         this._courseRepo = courseRepo;
         this._parentModel = null;
 
+
+        // calendar widgets
+        this.cal1 = new YAHOO.widget.Calendar(null, 'create-sequence-block-dialog--start-date-calendar-container', {
+            selected: date,
+            iframe: false,
+            close: true,
+            pagedate: date,
+            title: ilios_i18nVendor.getI18NString('general.phrases.start_date')
+        });
+        this.cal2 = new YAHOO.widget.Calendar(null, 'create-sequence-block-dialog--end-date-calendar-container', {
+            selected: date,
+            iframe: false,
+            close: true,
+            pagedate: date,
+            title: ilios_i18nVendor.getI18NString('general.phrases.end_date')
+        });
+
+        this.beforeRenderEvent.subscribe(function () {
+
+            this.cal1.selectEvent.subscribe(this.selectCalendar, {
+                calendar: this.cal1,
+                targetEl: document.getElementById('create-sequence-block-dialog--start-date')
+            });
+            this.cal1.render();
+
+            this.cal2.selectEvent.subscribe(this.selectCalendar, {
+                calendar: this.cal2,
+                targetEl: document.getElementById('create-sequence-block-dialog--end-date')
+            });
+            this.cal2.render();
+
+            Event.addListener('create-sequence-block-dialog--start-date-button', 'click', this.onCalendarButtonClick, {
+                calendar: this.cal1
+            }, this);
+            Event.addListener('create-sequence-block-dialog--end-date-button', 'click', this.onCalendarButtonClick, {
+                calendar: this.cal2
+            }, this);
+
+            Event.addListener('create-sequence-block-dialog--clear-dates-button', 'click', function (event) {
+                this._resetDateFields();
+                Event.stopEvent(event);
+            }, this);
+        });
+
+
         // center dialog before showing it.
         this.beforeShowEvent.subscribe(function () {
-            this._rebuildCourseDropdown();
             Dom.removeClass(el, 'hidden');
             this.center();
         });
@@ -566,10 +617,47 @@
         this.hideEvent.subscribe(function () {
             Dom.addClass(el, 'hidden');
         });
+        this.beforeSubmitEvent.subscribe(function () {
+            document.getElementById('create-sequence-block-dialog--status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.saving') + '...';
+        });
+
+        this.cancelEvent.subscribe(function () {
+            this.resetCalendars();
+            this.reset();
+        });
+
+        /*
+         * Form submission success handler.
+         * @param {Object} resultObject
+         */
+        this.callback.success = function (resultObject) {
+            // @todo validate
+        };
+
+        /*
+         * Form submission failure handler.
+         * @param {Object} resultObject
+         */
+        this.callback.failure = function (resultObject) {
+            // @todo validate
+        };
     };
 
     // inheritance
     Lang.extend(CreateSequenceBlockDialog, YAHOO.widget.Dialog, {
+
+
+        /**
+         * @property cal1
+         * @type {YAHOO.widget.Calendar}
+         */
+        cal1: null,
+
+        /**
+         * @property cal2
+         * @type {YAHOO.widget.Calendar}
+         */
+        cal2: null,
 
         /**
          * @property _courseRepo
@@ -586,20 +674,151 @@
         _parentModel: null,
 
         /**
-         * @method _rebuildCourseDropdown
+         * @method _populateCourseDropdown
          * @protected
          */
-        _rebuildCourseDropdown: function () {
+        _populateCourseDropdown: function () {
             var i, n, selectEl, optionEl, course, courses;
+            courses = this._courseRepo.listAvailable(false);
             selectEl = document.getElementById('create-sequence-block-dialog--course');
-            selectEl.innerHTML = ''; // gut the dropdown
-            courses = this._courseRepo.listAvailable();
             for (i = 0, n = courses.length; i < n; i++) {
                 course = courses[i];
                 optionEl = selectEl.appendChild(document.createElement('option'));
                 optionEl.value = course.getId();
                 optionEl.innerHTML = course.get('title');
             }
+        },
+
+        _populateOrderInSequenceDropdown: function (n) {
+            var i, selectEl, optionEl;
+            selectEl = document.getElementById('create-sequence-block-dialog--order-in-sequence');
+            for (i = 1; i <= n; i++) {
+                optionEl = selectEl.appendChild(document.createElement('option'));
+                optionEl.value = n;
+                optionEl.innerHTML = n;
+            }
+        },
+
+        /**
+         * @method _resetCourseDropdown
+         * @protected
+         */
+        _resetCourseDropdown: function () {
+            var selectEl, optionEl;
+            selectEl = document.getElementById('create-sequence-block-dialog--course');
+            selectEl.innerHTML = ''; // gut the drop-down
+            optionEl = selectEl.appendChild(document.createElement('option'));
+            optionEl.value = "";
+            optionEl.innerHTML = '&lt;' + ilios_i18nVendor.getI18NString('general.terms.none') + '&gt;';
+        },
+
+        _resetDateFields: function () {
+            document.getElementById('create-sequence-block-dialog--start-date').value = "";
+            document.getElementById('create-sequence-block-dialog--end-date').value = "";
+        },
+
+        _resetOrderInSequenceDropdown: function () {
+            var el = document.getElementById('create-sequence-block-dialog--order-in-sequence');
+            el.innerHTML = '';
+        },
+
+        reset: function () {
+            document.getElementById('create-sequence-block-dialog--report-id').value = "";
+            document.getElementById('create-sequence-block-dialog--parent-block-id').value = "";
+            document.getElementById('create-sequence-block-dialog--title').value = "";
+            document.getElementById('create-sequence-block-dialog--description').value = "";
+            document.getElementById('create-sequence-block-dialog--duration').value = "0";
+            document.getElementById('create-sequence-block-dialog--required').options[0].selected = 'selected';
+            document.getElementById('create-sequence-block-dialog--academic-level').options[0].selected = 'selected';
+            document.getElementById('create-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
+            document.getElementById('create-sequence-block-dialog--track').options[0].selected = 'selected';
+            this._resetDateFields();
+            this._resetCourseDropdown();
+            this._resetOrderInSequenceDropdown();
+            Dom.addClass('create-sequence-block-dialog--order-in-sequence-row', 'hidden');
+        },
+
+        populateForm: function (reportId, parent) {
+            this._populateCourseDropdown();
+            document.getElementById('create-sequence-block-dialog--report-id').value = reportId;
+            if (parent) {
+                document.getElementById('create-sequence-block-dialog--parent-block-id').value = parent.getId();
+                // if the parent sequence is unordered or in parallel
+                // then hide the "order in sequence" input field
+                if (parent.ORDERED == parent.get('childSequenceOrder')) {
+                    this._populateOrderInSequenceDropdown(parent.get('children').size() + 1);
+                    Dom.removeClass('create-sequence-block-dialog--order-in-sequence-row', 'hidden');
+                }
+            }
+        },
+
+        validate: function () {
+            // @todo implement
+            return true;
+        },
+
+        resetCalendars: function () {
+            var date = new Date();
+            this.cal1.cfg.setProperty('selected', date, false);
+            this.cal1.cfg.setProperty('pagedate', date, false);
+            this.cal1.render();
+            this.cal1.hide();
+
+            this.cal2.cfg.setProperty('selected', date, false);
+            this.cal2.cfg.setProperty('pagedate', date, false);
+            this.cal2.render();
+            this.cal2.hide();
+        },
+
+        /**
+         * @method show
+         * @param {Number} reportId
+         * @param {ilios.cim.model.SequenceBlockModel|null} parent
+         */
+        show: function (reportId, parent) {
+            this.reset();
+            this.populateForm(reportId, parent);
+            CreateSequenceBlockDialog.superclass.show.call(this);
+
+        },
+
+        /**
+         * Event-listener function.
+         * Subscribed to each calendar widget's "selectEvent" event.
+         * It takes the selected date as passed from the calendar and writes it to a given input field
+         * after reformatting it, then closes/hides the given calendar.
+         *
+         * @method selectCalendar
+         * @param {String} type The name of the fired event.
+         * @param {Array} args an array of Date-field arrays in the format [YYYY, MM, DD]
+         * @param {Object} obj An argument map containing:
+         *    @param {HTMLElement} obj.targetEl The form element to write the picked date to.
+         *    @param {YAHOO.widget.Calendar} obj.calendar The calendar to hide.
+         * @link http://developer.yahoo.com/yui/docs/YAHOO.widget.Calendar.html#event_selectEvent
+         */
+        selectCalendar: function (type, args, obj) {
+            var cal = obj.calendar;
+            var el = obj.targetEl;
+            var dt;
+            if (args[0]) {
+                dt = new Date(args[0][0][0], args[0][0][1], args[0][0][2]);
+                el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
+            }
+            cal.hide();
+        },
+
+        /**
+         * Event-listener function.
+         * Subscribed to each calendar button in this dialog's form.
+         * Pops up the given calendar widget.
+         *
+         * @method onCalendarButtonClick
+         * @param {Event} event The fired event.
+         * @param {Object} obj An argument map containing:
+         *     @param {YAHOO.widget.Calendar} obj.calendar The calendar to pop up.
+         */
+        onCalendarButtonClick: function (event, obj) {
+            obj.calendar.show();
         },
 
         /**
