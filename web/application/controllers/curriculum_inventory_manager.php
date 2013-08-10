@@ -605,7 +605,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $endDate = trim($this->input->post('end_date'));
         $startDateTs = strtotime($startDate);
         $endDateTs = strtotime($endDate);
-        $duration = $this->input->duration('duration');
+        $duration = $this->input->post('duration');
         $hasDateRange = ('' !== $startDate);
         $isInOrderedSequence = ($parentBlock
             && $parentBlock->child_sequence_order === Curriculum_Inventory_Sequence_Block::ORDERED);
@@ -618,11 +618,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.description_missing', $lang);
             return;
         }
-        if (0 >= $minimum) {
+        if (0 > $minimum) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_minimum', $lang);
             return;
         }
-        if (0 >= $maximum) {
+        if (0 > $maximum) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_maximum', $lang);
             return;
         }
@@ -714,7 +714,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $blockId = $this->invSequenceBlock->create($reportId, $parentBlockId, $title, $description, $startDate,
             $endDate, $duration, $academicLevelId, $required, $maximum, $minimum, $track, $courseId, $childSequenceOrder,
             $orderInSequence);
-        $block = $this->invSequenceBlock->getById($blockId);
+        $block = $this->invSequenceBlock->get($blockId);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.create.error.general', $lang);
