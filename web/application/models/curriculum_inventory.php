@@ -103,7 +103,6 @@ EOL;
         $sql =<<<EOL
 SELECT c.*
 FROM course c
-JOIN course_x_cohort cxc ON cxc.course_id = c.course_id
 WHERE c.course_id = {$clean['course_id']}
 AND c.deleted = 0
 AND c.year = {$clean['year']}
