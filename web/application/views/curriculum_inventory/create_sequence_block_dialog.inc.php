@@ -65,7 +65,7 @@
                 </div>
                 <div class="dialog-form-row">
                     <label for="create-sequence-block-dialog--course" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('general.terms.courses', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.course', $lang); ?>:
                     </label><br />
                     <select id="create-sequence-block-dialog--course" name="course_id">
                         <option value="">&lt;<?php echo $this->languagemap->t('general.terms.none', $lang); ?>&gt;</option>
