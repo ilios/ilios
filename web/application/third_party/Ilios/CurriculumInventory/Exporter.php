@@ -652,18 +652,18 @@ class Ilios_CurriculumInventory_Exporter
                 $sequenceBlockNode->setAttribute('required', 'Required');
                 break;
             case Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK :
-                $sequenceBlockNode->setAttribute('required', 'Required in Track');
+                $sequenceBlockNode->setAttribute('required', 'Required In Track');
                 break;
         }
         switch ($block['child_sequence_order']) {
             case Curriculum_Inventory_Sequence_Block::ORDERED :
-                $sequenceBlockNode->setAttribute('order', 'optional');
+                $sequenceBlockNode->setAttribute('order', 'Ordered');
                 break;
             case Curriculum_Inventory_Sequence_Block::UNORDERED :
-                $sequenceBlockNode->setAttribute('order', 'unordered');
+                $sequenceBlockNode->setAttribute('order', 'Unordered');
                 break;
             case Curriculum_Inventory_Sequence_Block::PARALLEL :
-                $sequenceBlockNode->setAttribute('order', 'parallel');
+                $sequenceBlockNode->setAttribute('order', 'Parallel');
                 break;
         }
 
