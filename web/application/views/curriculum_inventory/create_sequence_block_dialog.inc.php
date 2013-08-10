@@ -43,9 +43,13 @@
                         <?php echo $this->languagemap->t('general.terms.required', $lang); ?>:
                     </label><br />
                     <select id="create-sequence-block-dialog--required" name="required">
-                        <option value="1">Required</option>
-                        <option value="2">Optional</option>
-                        <option value="3">Required in Track</option>
+                        <option value="<?php echo Curriculum_Inventory_Sequence_Block::REQUIRED; ?>">
+                            <?php echo $this->languagemap->t('general.terms.required', $lang); ?></option>
+                        <option value="<?php echo Curriculum_Inventory_Sequence_Block::OPTIONAL; ?>">
+                            <?php echo $this->languagemap->t('general.terms.optional', $lang); ?></option>
+                        <option value="<?php echo Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK; ?>">
+                            <?php echo $this->languagemap->t('general.phrases.required_in_track', $lang); ?>
+                        </option>
                     </select>
                 </div>
                 <div class="dialog-form-row" >
@@ -63,7 +67,9 @@
                     <label for="create-sequence-block-dialog--course" class="entity_widget_title">
                         <?php echo $this->languagemap->t('general.terms.courses', $lang); ?>:
                     </label><br />
-                    <select id="create-sequence-block-dialog--course" name="course_id"></select>
+                    <select id="create-sequence-block-dialog--course" name="course_id">
+                        <option value="">&lt;<?php echo $this->languagemap->t('general.terms.none', $lang); ?>&gt;</option>
+                    </select>
                     <br />
                     <div id="create-sequence-block-dialog--course-view-container" class="hidden"></div>
                 </div>
@@ -72,16 +78,22 @@
                         <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.child_sequence_order', $lang); ?>:
                     </label><br />
                     <select id="create-sequence-block-dialog--child-sequence-order" name="child_sequence_order">
-                        <option value="1">Ordered</option>
-                        <option value="2">Unordered</option>
-                        <option value="3">Parallel</option>
+                        <option value="<?php echo Curriculum_Inventory_Sequence_Block::ORDERED; ?>">
+                            <?php echo $this->languagemap->t('general.terms.ordered', $lang); ?></option>
+                        <option value="<?php echo Curriculum_Inventory_Sequence_Block::UNORDERED; ?>">
+                            <?php echo $this->languagemap->t('general.terms.unordered', $lang); ?></option>
+                        <option value="<?php echo Curriculum_Inventory_Sequence_Block::PARALLEL; ?>">
+                            <?php echo $this->languagemap->t('general.terms.parallel', $lang); ?>
+                        </option>
                     </select>
                 </div>
                 <div class="dialog-form-row" id="create-sequence-block-dialog--order-in-sequence-row" class="hidden">
                     <label for="create-sequence-block-dialog--order-in-sequence" class="entity_widget_title">
                         <?php echo $this->languagemap->t('curriculum_inventory.sequence_block.order_in_sequence', $lang); ?>:
                     </label><br />
-                    <select id="create-sequence-block-dialog--order-in-sequence" name="order_in_sequence"></select>
+                    <select id="create-sequence-block-dialog--order-in-sequence" name="order_in_sequence">
+                        <option value="1">1</option>
+                    </select>
                 </div>
             </form>
         </div>
