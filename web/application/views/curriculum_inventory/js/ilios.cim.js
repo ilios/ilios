@@ -209,7 +209,7 @@
 
                 // wire up "add sequence block" button in the bottom toolbar
                 Event.addListener(this._sequenceBlockBottomToolbar.getAddButton(), 'click',
-                    this.onSequenceBlockAddButtonClick, { parent: null }, this);
+                    this.onSequenceBlockAddButtonClick, { report_id: this._reportModel.getId(), parent: null }, this);
             };
 
             // show views and widgets
@@ -583,9 +583,9 @@
             //
             if (! finalized) {
                 Event.addListener(view.getDeleteButton(), 'click', this.onSequenceBlockDeleteButtonClick,
-                { id: view.getModel().getId() }, this);
+                { id: model.getId() }, this);
                 Event.addListener(view.getAddButton(), 'click', this.onSequenceBlockAddButtonClick,
-                { parent: view.getModel().get('parent') }, this);
+                { report_id: model.get('reportId'), parent: model }, this);
             }
 
             if (! silent) {
@@ -746,13 +746,14 @@
          * @method onSequenceBlockAddButtonClick
          * @param {Event} The click event.
          * @param {Object} args A map of arguments passed on method-invocation. Expected values are:
+         *     @param {Number} args.report_id The id of the report that a new sequence block should be added to.
          *     @param {ilios.cim.model.SequenceBlockModel|null} args.parent The parent sequence block, or NULL if a top-level block is to be created.
          */
         onSequenceBlockAddButtonClick: function (event, args) {
-            var dialog = this.getCreateSequenceBlockDialog();
-            var courseRepo = this.getCourseRepository();
             var parent = args.parent;
-            dialog.show(courseRepo, parent);
+            var reportId = args.report_id;
+            var dialog = this.getCreateSequenceBlockDialog();
+            dialog.show(reportId, parent);
         },
 
         /**
