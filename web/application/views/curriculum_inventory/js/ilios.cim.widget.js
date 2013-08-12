@@ -567,7 +567,6 @@
 
         // custom events
         this.sequenceBlockCreationSucceededEvent = new CustomEvent(this.EVT_SEQUENCE_BLOCK_CREATION_SUCCEEDED, this);
-        this.sequenceBlockCreationFailedEvent = new CustomEvent(this.EVT_SEQUENCE_BLOCK_CREATION_FAILED, this);
 
         // calendar widgets
         this.cal1 = new YAHOO.widget.Calendar(null, 'create-sequence-block-dialog--start-date-calendar-container', {
@@ -877,15 +876,6 @@
         EVT_SEQUENCE_BLOCK_CREATION_SUCCEEDED: 'sequenceBlockCreationSucceeded',
 
         /**
-         * Event type.
-         * @property EVT_SEQUENCE_BLOCK_CREATION_FAILED
-         * @type {String}
-         * @final
-         * @see ilios.cim.widget.CreateSequenceBlockDialog.sequenceBlockCreationFailedEvent
-         */
-        EVT_SEQUENCE_BLOCK_CREATION_FAILED: 'sequenceBlockCreationFailed',
-
-        /**
          * Fired when the server response following form post for sequence block creation
          * and indicating success has been received, and the payload from that response has been parsed
          * into a data map object.
@@ -893,16 +883,7 @@
          * @event sequenceBlockCreationSucceededEvent
          * @param {Object} data A plain data object containing the properties of the newly created sequence block record.
          */
-        sequenceBlockCreationSucceededEvent: null,
-
-        /**
-         * Fired when the server response following a form post for sequence block creation and indicating a failure
-         * has been received.
-
-         * @event sequenceBlockCreationFailedEvent
-         * @param {String} errorMessage An error message pertaining to that failure.
-         */
-        sequenceBlockCreationFailedEvent: null
+        sequenceBlockCreationSucceededEvent: null
     });
 
     /**
