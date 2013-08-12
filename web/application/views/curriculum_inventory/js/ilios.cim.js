@@ -535,6 +535,12 @@
                 this._createSequenceBlockDialog
                     = new ilios.cim.widget.CreateSequenceBlockDialog('create-sequence-block-dialog', this.getCourseRepository(), {});
                 this._createSequenceBlockDialog.render();
+                // wire the dialog's success/failure events up to the application
+                this._createSequenceBlockDialog.sequenceBlockCreationSucceededEvent.subscribe(function (type, args, me) {
+                    var data = args[0]['data'];
+                    me.addSequenceBlock(data);
+                    me.getStatusBar().show('New sequence block added.');
+                }, this);
             }
             return this._createSequenceBlockDialog;
         },

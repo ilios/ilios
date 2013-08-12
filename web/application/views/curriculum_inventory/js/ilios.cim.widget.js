@@ -18,7 +18,8 @@
     var Event = YAHOO.util.Event,
         Element = YAHOO.util.Element,
         Dom = YAHOO.util.Dom,
-        Lang = YAHOO.lang;
+        Lang = YAHOO.lang,
+        CustomEvent = YAHOO.util.CustomEvent;
 
     /**
      * "Create Report" dialog.
@@ -531,6 +532,7 @@
     var CreateSequenceBlockDialog = function (el, courseRepo, userConfig) {
 
         var date = new Date();
+
         var defaultConfig = {
             width: "640px",
             modal: true,
@@ -563,6 +565,9 @@
         this._courseRepo = courseRepo;
         this._parentModel = null;
 
+        // custom events
+        this.sequenceBlockCreationSucceededEvent = new CustomEvent(this.EVT_SEQUENCE_BLOCK_CREATION_SUCCEEDED, this);
+        this.sequenceBlockCreationFailedEvent = new CustomEvent(this.EVT_SEQUENCE_BLOCK_CREATION_FAILED, this);
 
         // calendar widgets
         this.cal1 = new YAHOO.widget.Calendar(null, 'create-sequence-block-dialog--start-date-calendar-container', {
@@ -628,19 +633,51 @@
 
         /*
          * Form submission success handler.
+         *
          * @param {Object} resultObject
          */
         this.callback.success = function (resultObject) {
-            // @todo validate
+            var parsedResponse;
+            var dialog = resultObject.argument;
+            try {
+                parsedResponse = Lang.JSON.parse(resultObject.responseText);
+            } catch (e) {
+                document.getElementById('create-sequence-block-dialog--status').innerHTML
+                    = ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.create.error.general');
+                return;
+            }
+
+            document.getElementById('create-sequence-block-dialog--status').innerHTML = '';
+
+            if (parsedResponse.hasOwnProperty('error')) {
+                document.getElementById('create-sequence-block-dialog--status').innerHTML = parsedResponse.error;
+                return;
+            }
+
+            // At this point we can assume that the transaction was a success.
+            // peel the new block record (key: "sequence_block") off the payload,
+            // and fire it off to subscribers of our "creation succeeded" event.
+            dialog.sequenceBlockCreationSucceededEvent.fire({ data: parsedResponse.sequence_block });
+            dialog.cancel();
         };
 
-        /*
+        /**
          * Form submission failure handler.
+         *
+         * @method
          * @param {Object} resultObject
          */
         this.callback.failure = function (resultObject) {
-            // @todo validate
+            ilios.global.defaultAJAXFailureHandler(resultObject);
+            document.getElementById('create-sequence-block-dialog--status').innerHTML
+                = ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.create.error.general');
         };
+
+        this.callback.argument = this;
+
+        this.beforeSubmitEvent.subscribe(function () {
+            document.getElementById('create-sequence-block-dialog--status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.creating') + '...';
+        });
     };
 
     // inheritance
@@ -723,6 +760,7 @@
         },
 
         reset: function () {
+            document.getElementById('create-sequence-block-dialog--status').value = "";
             document.getElementById('create-sequence-block-dialog--report-id').value = "";
             document.getElementById('create-sequence-block-dialog--parent-block-id').value = "";
             document.getElementById('create-sequence-block-dialog--title').value = "";
@@ -827,7 +865,44 @@
          */
         setParentModel: function (parentModel) {
             this._parentModel = parentModel;
-        }
+        },
+
+        /**
+         * Event type.
+         * @property EVT_SEQUENCE_BLOCK_CREATION_SUCCEEDED
+         * @type {String}
+         * @final
+         * @see ilios.cim.widget.CreateSequenceBlockDialog.sequenceBlockCreationSucceededEvent
+         */
+        EVT_SEQUENCE_BLOCK_CREATION_SUCCEEDED: 'sequenceBlockCreationSucceeded',
+
+        /**
+         * Event type.
+         * @property EVT_SEQUENCE_BLOCK_CREATION_FAILED
+         * @type {String}
+         * @final
+         * @see ilios.cim.widget.CreateSequenceBlockDialog.sequenceBlockCreationFailedEvent
+         */
+        EVT_SEQUENCE_BLOCK_CREATION_FAILED: 'sequenceBlockCreationFailed',
+
+        /**
+         * Fired when the server response following form post for sequence block creation
+         * and indicating success has been received, and the payload from that response has been parsed
+         * into a data map object.
+         *
+         * @event sequenceBlockCreationSucceededEvent
+         * @param {Object} data A plain data object containing the properties of the newly created sequence block record.
+         */
+        sequenceBlockCreationSucceededEvent: null,
+
+        /**
+         * Fired when the server response following a form post for sequence block creation and indicating a failure
+         * has been received.
+
+         * @event sequenceBlockCreationFailedEvent
+         * @param {String} errorMessage An error message pertaining to that failure.
+         */
+        sequenceBlockCreationFailedEvent: null
     });
 
     /**
