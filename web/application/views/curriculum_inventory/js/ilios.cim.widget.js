@@ -604,7 +604,7 @@
             Event.addListener('create-sequence-block-dialog--clear-dates-button', 'click', function (event) {
                 this._resetDateFields();
                 Event.stopEvent(event);
-            }, this);
+            }, {}, this);
         });
 
 
