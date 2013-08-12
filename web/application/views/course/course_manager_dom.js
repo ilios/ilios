@@ -241,18 +241,29 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     var selectedAcademicYearEnd = parseInt(selectedAcademicYearStart) + 1;
     var selectedAcademicYearRange = selectedAcademicYearStart + "-" + selectedAcademicYearEnd;
     
+    var owningSchoolAcademicYear = ilios.cm.academicYears[selectedAcademicYearStart];
+    console.log(owningSchoolAcademicYear);
+    var owningSchoolAcademicYearStartDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_start_date, false);
+    var owningSchoolAcademicYearEndDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_end_date, false);
+    var formattedOwningSchoolAcademicYearStartDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearStartDate);
+    console.log(formattedOwningSchoolAcademicYearStartDate);
+    var formattedOwningSchoolAcademicYearEndDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearEndDate);
+    console.log(formattedOwningSchoolAcademicYearEndDate);
+    
     if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.COURSE_START) {
     	
     	//check if the date is in the actual range of the selected academic year...
-    	if(!ilios.utilities.dateInRange(selectedDate, selectedDate, selectedDate)){
-    		ilios.alert.alert("You have chosen a start date that is out of range for the " + selectedAcademicYearRange + " academic year.\n Please choose a date between " + selectedDate + " and " + selectedDate);
+    	if(!ilios.utilities.dateInRange(selectedDate, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate)){
+    		ilios.alert.alert("You have chosen a start date that is out of range for the " + selectedAcademicYearRange + " academic year.\n Please choose a date between " + formattedOwningSchoolAcademicYearStartDate + " and " + formattedOwningSchoolAcademicYearEndDate);
     		//clear the calendar event, retaining the initial value...
     		this.clearEvent;
     		//change the selectedDate value back to the initial value
     		selectedDate = initialStartDate;
     	}
     	else {
-    		//the selected date is in-range ofchosen academic year, so set the start date...
+    		//the selected date is in-range of the chosen academic year, so check for overlap and warn if it's contained between two academic years.
+    		ilios.alert.alert("WARNING: The start date you selected is included in the following academic years: XXXX-XXXX, XXXX-XXXX.\n You are currently setting this value for the " + selectedAcademicYearRange + " academic year. Please make sure this is correct before continuing...");
+    		//and then set the date...
     		ilios.cm.currentCourseModel.setStartDate(formattedDate);
     	}
     	element = document.getElementById('course_start_date');
@@ -262,13 +273,16 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     else if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.COURSE_END) {
     	
     	//first check if the date is in the actual range of the selected academic year...
-    	if(!ilios.utilities.dateInRange(selectedDate, selectedDate, selectedDate)){
+    	if(!ilios.utilities.dateInRange(selectedDate, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate)){
     		ilios.alert.alert("You have selected an end date that is out of range for the " + selectedAcademicYearRange + " academic year.\n Please select a date between " + selectedDate + " and " + selectedDate);
     		//clear the calendar event, retaining the initial value...
     		this.clearEvent;
     		//change the selectedDate value back to the initial value
     		selectedDate = initialEndDate;
     	} else {
+    		//the selected date is in-range of the chosen academic year, so check for overlap and warn if it's contained between two academic years.
+    		ilios.alert.alert("WARNING: The end date you selected is included in the following academic years: XXXX-XXXX, XXXX-XXXX.\n You are currently setting this value for the " + selectedAcademicYearRange + " academic year. Please make sure this is correct before continuing...");
+    		
     		//the selected date is in-range ofchosen academic year, so set the start date...
     		ilios.cm.currentCourseModel.setEndDate(formattedDate);
     	}
