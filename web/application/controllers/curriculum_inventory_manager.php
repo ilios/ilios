@@ -801,7 +801,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         // reject requests for modifying finalized reports
-        if ($this->invExport->exists($block['report_id'])) {
+        if ($this->invExport->exists($block->report_id)) {
             $this->_printErrorXhrResponse('curriculum_inventory.error.cannot_modify_finalized_report', $lang);
             return;
         }
