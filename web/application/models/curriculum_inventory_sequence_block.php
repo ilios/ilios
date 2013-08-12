@@ -57,7 +57,7 @@ class Curriculum_Inventory_Sequence_Block extends Ilios_Base_Model
             $rhett = $query->result_array();
         }
         $query->free_result();
-        return $rhett;
+        return $rhett[0];
     }
 
     /**
