@@ -131,7 +131,6 @@ $viewsPath = getServerFilePath('views');
     include $viewsPath . 'common/course_summary_view_include.php';
     include $viewsPath . 'common/mesh_picker_include.php';
     include $viewsPath . 'common/learning_material_lightbox_include.php';
-    include 'academic_year_include.php';
     include 'add_course_include.php';
     include 'add_learning_materials_dialog.php';
     include 'archiving_dialog.php';
@@ -234,6 +233,16 @@ $viewsPath = getServerFilePath('views');
         YAHOO.util.Event.onDOMReady(ilios.cm.registerCourseUIListeners);
         YAHOO.util.Event.onDOMReady(ilios.cm.registerSaveAndPublishAll);
 
+		YAHOO.util.Event.onDOMReady(function() {
+			var o;
+			try {
+				o = YAHOO.lang.JSON.parse('<?php echo $academic_years_json?>');
+                ilios.cm.academicYears = o;
+			} catch (e) {
+				// @todo add exception handling
+			}
+		});
+        
         ilios.cm.loadedSessionTypes = [];
         ilios.cm.preloadedCourseModelStub = null;
         ilios.cm.loadedSessionIdToDisplay = <?php echo $session_id; ?>;

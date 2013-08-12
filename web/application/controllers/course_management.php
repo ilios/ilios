@@ -433,9 +433,14 @@ class Course_Management extends Ilios_Web_Controller
         $data['learning_material_statuses']
                                         = $this->learningMaterial->getLearningMaterialStatuses();
 
-
         $data['preference_array'] = $this->getPreferencesArrayForUser();
-
+        
+        //get all of the academic years for this school id, with their respective start and end dates
+        $academicYears = $this->academic_year->getAllAcademicYearsFromSchoolId($schoolId);
+        //cast the results into a JSON object...
+        $data['academic_years_json'] = Ilios_Json::encodeForJavascriptEmbedding($academicYears,
+            Ilios_Json::JSON_ENC_SINGLE_QUOTES);
+        
         $this->load->view('course/course_manager', $data);
     }
 

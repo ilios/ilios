@@ -25,6 +25,9 @@ function CourseModel (dbObject) {
     this.startDateDO = null;
     this.endDate = null;
     this.endDateDO = null;
+    
+    this.academicYearStartDate = null;
+    this.academicYearEndDate = null;
 
     this.courseLevel = 1;
 
@@ -77,6 +80,14 @@ function CourseModel (dbObject) {
 
         this.uniqueId = (typeof dbObject.unique_id != 'undefined') ? dbObject.unique_id : '';
 
+        // @todo if ay start/end-date are given, 
+        if (dbObject.academic_year_start_date) {
+        	this.academicYearStartDate = Date.parse(dbObject.academic_year_start_date);
+        }
+        if (dbObject.academic_year_end_date) {
+        	this.academicYearEndDate = Date.parse(dbObject.academic_year_end_date);
+        }
+        
         if (dbObject.clerkship_type_id) {
             this.clerkshipTypeId = dbObject.clerkship_type_id;
         }
@@ -323,6 +334,24 @@ CourseModel.prototype.meetsSecondaryPublishingRequirements = function (reviewArr
 
     return rhett;
 };
+
+
+/**
+ * @method getAcademicYearStartDate
+ * @return {Date|null}
+ */
+CourseModel.prototype.getAcademicYearStartDate = function () {
+	return this.academicYearStartDate;
+};
+
+/**
+ * @method getAcademicYearEndDate
+ * @return {Date|null}
+ */
+CourseModel.prototype.getAcademicYearEndDate = function () {
+	return this.academicYearEndDate;
+};
+
 
 CourseModel.prototype.getPublishability = function () {
     var rhett = this.CANNOT_BE_PUBLISHED;

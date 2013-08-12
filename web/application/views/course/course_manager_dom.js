@@ -7,6 +7,14 @@
 ilios.cm.loadedCourseModel = null;
 ilios.cm.currentCourseModel = null;
 
+/**
+ * A lookup map of all academic years available in the currently active school.
+ * 
+ * @property academicYears
+ * @type {Object}
+ */
+ilios.cm.academicYears = {};
+
 ilios.cm.inEditObjectiveModel = null;
 ilios.cm.inEditObjectiveContainerTextField = null;
 ilios.cm.inEditObjectiveContainerTextEditor = null;
@@ -224,15 +232,47 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     selectedDate = this.toDate(selected[0]);
     formattedDate = ilios.utilities.dateObjectToMySQLFriendly(selectedDate, false);
 
+    var initialStartDate = this.toDate(ilios.cm.currentCourseModel.startDateDO);
+    var formattedInitialStartDate = ilios.utilities.dateObjectToMySQLFriendly(initialStartDate, false);
+    var initialEndDate = this.toDate(ilios.cm.currentCourseModel.endDateDO);
+    var formattedInitialEndDate = ilios.utilities.dateObjectToMySQLFriendly(initialEndDate, false);
+    
+    var selectedAcademicYearStart = ilios.cm.currentCourseModel.year;
+    var selectedAcademicYearEnd = parseInt(selectedAcademicYearStart) + 1;
+    var selectedAcademicYearRange = selectedAcademicYearStart + "-" + selectedAcademicYearEnd;
+    
     if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.COURSE_START) {
-        ilios.cm.currentCourseModel.setStartDate(formattedDate);
-
-        element = document.getElementById('course_start_date');
+    	
+    	//check if the date is in the actual range of the selected academic year...
+    	if(!ilios.utilities.dateInRange(selectedDate, selectedDate, selectedDate)){
+    		ilios.alert.alert("You have chosen a start date that is out of range for the " + selectedAcademicYearRange + " academic year.\n Please choose a date between " + selectedDate + " and " + selectedDate);
+    		//clear the calendar event, retaining the initial value...
+    		this.clearEvent;
+    		//change the selectedDate value back to the initial value
+    		selectedDate = initialStartDate;
+    	}
+    	else {
+    		//the selected date is in-range ofchosen academic year, so set the start date...
+    		ilios.cm.currentCourseModel.setStartDate(formattedDate);
+    	}
+    	element = document.getElementById('course_start_date');
+    	
     }
+    
     else if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.COURSE_END) {
-        ilios.cm.currentCourseModel.setEndDate(formattedDate);
-
-        element = document.getElementById('course_end_date');
+    	
+    	//first check if the date is in the actual range of the selected academic year...
+    	if(!ilios.utilities.dateInRange(selectedDate, selectedDate, selectedDate)){
+    		ilios.alert.alert("You have selected an end date that is out of range for the " + selectedAcademicYearRange + " academic year.\n Please select a date between " + selectedDate + " and " + selectedDate);
+    		//clear the calendar event, retaining the initial value...
+    		this.clearEvent;
+    		//change the selectedDate value back to the initial value
+    		selectedDate = initialEndDate;
+    	} else {
+    		//the selected date is in-range ofchosen academic year, so set the start date...
+    		ilios.cm.currentCourseModel.setEndDate(formattedDate);
+    	}
+    	element = document.getElementById('course_end_date');
     }
     else if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.ROLLOVER_START) {
         ilios.cm.rollover.setRolloverStartDate(selectedDate);
@@ -343,11 +383,13 @@ ilios.cm.registerCourseUIListeners = function () {
         if (! document.getElementById('course_level_selector').hasAttribute('disabled')) {
             ilios.cm.yuiCalendarInstance.modificationTarget = ilios.cm.yuiCalendarModificationTarget.COURSE_START;
 
+            
             ilios.cm.setCalendarToDate(ilios.cm.currentCourseModel.getStartDateAsDateObject());
 
             ilios.cm.moveCalendarToDOMElement(this);
-
+            
             ilios.cm.yuiCalendarInstance.show();
+           
         }
     });
 
@@ -1556,6 +1598,49 @@ ilios.cm.populateReviewForFullReview = function () {
 
 //    element = new Element(document.getElementById('r_dialog_wrap'));
 //    element.setStyle('height', '626px');
+};
+
+/**
+ * @method checkDateForAcademicYearOverlap
+ * @param {Date} date A 'YYYY-mm-dd'-formatted date string.
+ * @return {Array} an array of academic years objects spanning the given date.
+ * 
+ */
+ilios.cm.checkDateForAcademicYearOverlap = function (date) {
+
+	var all_academic_years = ilios.cm.academicYears;
+	//add the time to the date for conversion to unixtimestamp timestamp
+	var datetime = (date + ' 12:00:00');
+	//get the unix timestamp version of the date...
+	var unix_date = (Date.parse(datetime) / 1000);
+
+	//create and empty array to hold the year values
+	var overlapping_years = [];
+
+	//loop through the all_academic_years object
+	//for the unix start and end dates
+	for (var academic_year in all_academic_years) {
+   		var obj = all_academic_years[academic_year];
+   		for (var prop in obj) {
+      		if(obj.hasOwnProperty(prop)){
+      			//get the academic year start date in unixtime...
+      			if(prop == 'unix_academic_year_start_date'){
+      				var unix_start_date = obj[prop];
+      			}
+      			//and the academic year end date in unixtime...
+      			if(prop == 'unix_academic_year_end_date'){
+      				var unix_end_date = obj[prop];
+      			}
+        	}
+   		}
+		//cycle through all the years and check if they're between the two values
+	    if (unix_date >= unix_start_date && unix_date <= unix_end_date) {
+			//if they are add them to the return array...
+		    overlapping_years.push(academic_year);
+	    }
+	}
+	//return the array and function can check its (.lengh > 0) on the other end...
+	return overlapping_years;
 };
 
 ilios.cm.populateReviewForCourseReview = function () {

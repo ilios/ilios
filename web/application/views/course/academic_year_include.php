@@ -18,7 +18,7 @@ var all_academic_years = {
  <?php
  	// in order to check dates against the academic year start and end dates,
     // we need to set get all the start and end dates for the current school id
-    $all_academic_years_array = $this->academic_year->getAllAcademicYearsFromSchoolId();
+    
     //get the total returned, so we can know when to end the object creation...
     $total_academic_years = count($all_academic_years_array);
     
