@@ -445,7 +445,7 @@
             var el = obj.targetEl;
             var dt;
             if (args[0]) {
-                dt = new Date(args[0][0][0], args[0][0][1], args[0][0][2]);
+                dt = new Date(args[0][0][0], args[0][0][1] - 1, args[0][0][2]);
                 el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
             }
             cal.hide();
@@ -936,7 +936,7 @@
             var el = obj.targetEl;
             var dt;
             if (args[0]) {
-                dt = new Date(args[0][0][0], args[0][0][1], args[0][0][2]);
+                dt = new Date(args[0][0][0], args[0][0][1] - 1, args[0][0][2]);
                 el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
             }
             cal.hide();
