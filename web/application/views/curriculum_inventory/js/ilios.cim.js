@@ -1252,6 +1252,7 @@
         Dom.addClass(el, 'radius');
         Dom.addClass(el, 'button');
         Dom.addClass(el, 'hidden');
+        // description
         rowEl = bodyEl.appendChild(document.createElement('div'));
         Dom.addClass(rowEl, 'row');
         el = rowEl.appendChild(document.createElement('div'));
@@ -1262,8 +1263,105 @@
         Dom.setAttribute(el, 'id', 'sequence-block-view-description-' + cnumber);
         Dom.addClass(el, 'data');
         Dom.addClass(el, 'column');
-        // ..
-        // @todo implement the rest
+        // required
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.required')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-required-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // academic level
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.phrases.academic_level')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-academic-level-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // course
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.course')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-course-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // child sequence order
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.child_sequence_order')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-child-sequence-order-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // order in sequence
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.order_in_sequence')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-order-in-sequence-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // start date
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.phrases.start_date')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-start-date-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // end date
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.phrases.end_date')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-end-date-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // duration
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.duration')));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-duration-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
+        // is track?
+        rowEl = bodyEl.appendChild(document.createElement('div'));
+        Dom.addClass(rowEl, 'row');
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.addClass(el, 'label');
+        Dom.addClass(el, 'column');
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.phrases.is_track') + " ?"));
+        el = rowEl.appendChild(document.createElement('div'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-track-' + cnumber);
+        Dom.addClass(el, 'data');
+        Dom.addClass(el, 'column');
         rowEl = bodyEl.appendChild(document.createElement('div'));
         Dom.addClass(rowEl, 'row');
         Dom.addClass(rowEl, 'sequence-block-children');
