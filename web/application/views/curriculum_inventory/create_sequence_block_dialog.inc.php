@@ -58,7 +58,7 @@
                     </label><br />
                     <select id="create-sequence-block-dialog--academic-level" name="academic_level">
 <?php foreach ($academic_levels as $level) : ?>
-                        <option value="<?php echo htmlentities($level['level'], ENT_COMPAT, 'utf-8'); ?>">
+                        <option value="<?php echo htmlentities($level['academic_level_id'], ENT_COMPAT, 'utf-8'); ?>">
                             <?php echo htmlentities($level['name'], ENT_COMPAT, 'utf-8'); ?></option>
 <?php endforeach; ?>
                     </select>
