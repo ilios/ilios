@@ -531,7 +531,7 @@
      */
     var CreateSequenceBlockDialog = function (el, courseRepo, userConfig) {
 
-        var date = new Date();
+        var date = new Date(); // get current date to initialize the calendar widgets.
 
         var defaultConfig = {
             width: "640px",
@@ -563,7 +563,6 @@
         CreateSequenceBlockDialog.superclass.constructor.call(this, el, config);
 
         this._courseRepo = courseRepo;
-        this._parentModel = null;
 
         // custom events
         this.sequenceBlockCreationSucceededEvent = new CustomEvent(this.EVT_SEQUENCE_BLOCK_CREATION_SUCCEEDED, this);
@@ -584,6 +583,9 @@
             title: ilios_i18nVendor.getI18NString('general.phrases.end_date')
         });
 
+        //
+        // subscribe to the dialog's various events.
+        //
         this.beforeRenderEvent.subscribe(function () {
 
             this.cal1.selectEvent.subscribe(this.selectCalendar, {
@@ -611,8 +613,6 @@
             }, {}, this);
         });
 
-
-        // center dialog before showing it.
         this.beforeShowEvent.subscribe(function () {
             Dom.removeClass(el, 'hidden');
             this.center();
@@ -632,8 +632,6 @@
 
         /*
          * Form submission success handler.
-         *
-         * @param {Object} resultObject
          */
         this.callback.success = function (resultObject) {
             var parsedResponse;
@@ -660,11 +658,8 @@
             dialog.cancel();
         };
 
-        /**
+        /*
          * Form submission failure handler.
-         *
-         * @method
-         * @param {Object} resultObject
          */
         this.callback.failure = function (resultObject) {
             ilios.global.defaultAJAXFailureHandler(resultObject);
@@ -679,35 +674,33 @@
         });
     };
 
-    // inheritance
     Lang.extend(CreateSequenceBlockDialog, YAHOO.widget.Dialog, {
 
-
         /**
+         * The calendar widget for selecting the "start date" in this dialog's form.
+         *
          * @property cal1
          * @type {YAHOO.widget.Calendar}
          */
         cal1: null,
 
         /**
+         * The calendar widget for selecting the "end date" in this dialog's form.
+         *
          * @property cal2
          * @type {YAHOO.widget.Calendar}
          */
         cal2: null,
 
         /**
+         * The course repository.
+         * Used to look up linkable courses for populating the "course" dropdown in this dialog's form.
+         *
          * @property _courseRepo
          * @type {ilios.cim.CourseRepository}
          * @protected
          */
         _courseRepo: null,
-
-        /**
-         * @property _parentModel
-         * @type {ilios.cim.model.SequenceBlockModel|null}
-         * @protected
-         */
-        _parentModel: null,
 
         /**
          * @method _populateCourseDropdown
@@ -725,6 +718,17 @@
             }
         },
 
+        /**
+         * Populates the "order in sequence" dropdown with <code>n</code> options.
+         * Each option has an increment of 1 as its text and value, starting at 1 and ending
+         * at a given upper boundary n.
+         * E.g., if n = 3 is given then this method will add three option elements with the values
+         * 1, 2 and 3 to the dropdown.
+         *
+         * @method _populateOrderInSequenceDropdown
+         * @param {Number} n The upper inclusive) boundary.
+         * @protected
+         */
         _populateOrderInSequenceDropdown: function (n) {
             var i, selectEl, optionEl;
             selectEl = document.getElementById('create-sequence-block-dialog--order-in-sequence');
@@ -736,6 +740,8 @@
         },
 
         /**
+         * Clears out the "course" dropdown and re-adds the default "None" option.
+         *
          * @method _resetCourseDropdown
          * @protected
          */
@@ -748,16 +754,33 @@
             optionEl.innerHTML = '&lt;' + ilios_i18nVendor.getI18NString('general.terms.none') + '&gt;';
         },
 
+        /**
+         * Clears out the start/end-date input fields.
+         *
+         * @method _resetDateFields
+         * @protected
+         */
         _resetDateFields: function () {
             document.getElementById('create-sequence-block-dialog--start-date').value = "";
             document.getElementById('create-sequence-block-dialog--end-date').value = "";
         },
 
+        /**
+         * Clears out the "order in sequence" dropdown.
+         *
+         * @method _resetOrderInSequenceDropdown
+         * @protected
+         */
         _resetOrderInSequenceDropdown: function () {
             var el = document.getElementById('create-sequence-block-dialog--order-in-sequence');
             el.innerHTML = '';
         },
 
+        /**
+         * Resets the dialog's form to its initial state.
+         *
+         * @method reset
+         */
         reset: function () {
             document.getElementById('create-sequence-block-dialog--status').value = "";
             document.getElementById('create-sequence-block-dialog--report-id').value = "";
@@ -775,6 +798,12 @@
             Dom.addClass('create-sequence-block-dialog--order-in-sequence-row', 'hidden');
         },
 
+        /**
+         * Populates the dialog's form with the given data.
+         *
+         * @param {Number} reportId The report id.
+         * @param {ilios.cim.model.SequenceBlockModel|null} parent The parent sequence block, or NULL if there is no parent.
+         */
         populateForm: function (reportId, parent) {
             this._populateCourseDropdown();
             document.getElementById('create-sequence-block-dialog--report-id').value = reportId;
@@ -789,11 +818,22 @@
             }
         },
 
+        /**
+         * Validates the data entered into the dialog's form.
+         *
+         * @method validate
+         * @return {Boolean} TRUE on success, FALSE on error.
+         */
         validate: function () {
             // @todo implement
             return true;
         },
 
+        /**
+         * Resets the start/end date calendar widgets and hides them from view.
+         *
+         * @method resetCalendars
+         */
         resetCalendars: function () {
             var date = new Date();
             this.cal1.cfg.setProperty('selected', date, false);
@@ -808,9 +848,13 @@
         },
 
         /**
+         * Makes the dialog visible, after resetting and populating it with the given data.
+         *
+         * @override
          * @method show
-         * @param {Number} reportId
-         * @param {ilios.cim.model.SequenceBlockModel|null} parent
+         * @param {Number} reportId The report id.
+         * @param {ilios.cim.model.SequenceBlockModel|null} parent The parent sequence block, or NULL if there is no parent.
+         * @see YAHOO.widget.Module.show
          */
         show: function (reportId, parent) {
             this.reset();
@@ -856,14 +900,6 @@
          */
         onCalendarButtonClick: function (event, obj) {
             obj.calendar.show();
-        },
-
-        /**
-         * @method setParentModel
-         * @param {ilios.cim.model.SequenceBlockModel} parentModel
-         */
-        setParentModel: function (parentModel) {
-            this._parentModel = parentModel;
         },
 
         /**
