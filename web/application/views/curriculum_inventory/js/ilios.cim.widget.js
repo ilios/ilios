@@ -792,11 +792,26 @@
             document.getElementById('create-sequence-block-dialog--academic-level').options[0].selected = 'selected';
             document.getElementById('create-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
             document.getElementById('create-sequence-block-dialog--track').options[0].selected = 'selected';
+
+            this._clearValidationErrorStyles();
             this._resetDateFields();
             this._resetCourseDropdown();
             this._resetOrderInSequenceDropdown();
             Dom.addClass('create-sequence-block-dialog--order-in-sequence-row', 'hidden');
         },
+
+        /**
+         * Removes the CSS classes for highlighting form validation errors from input elements.
+         *
+         * @method _clearValidationErrorStyles
+         * @protected
+         */
+         _clearValidationErrorStyles: function () {
+             Dom.removeClass('create-sequence-block-dialog--title', 'validation-failed');
+             Dom.removeClass('create-sequence-block-dialog--description', 'validation-failed');
+             Dom.removeClass('create-sequence-block-dialog--end-date', 'validation-failed');
+             Dom.removeClass('create-sequence-block-dialog--duration', 'validation-failed');
+         },
 
         /**
          * Populates the dialog's form with the given data.
@@ -825,7 +840,46 @@
          * @return {Boolean} TRUE on success, FALSE on error.
          */
         validate: function () {
-            // @todo implement
+            this._clearValidationErrorStyles();
+            var data = this.getData();
+            var msgs = [];
+            var hasStartDate = data.start_date ? true : false;
+
+            if ('' === Lang.trim(data.title)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.title_missing'));
+                Dom.addClass('create-sequence-block-dialog--title', 'validation-failed');
+            }
+            if ('' === Lang.trim(data.description)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.description_missing'));
+                Dom.addClass('create-sequence-block-dialog--description', 'validation-failed');
+            }
+            if (hasStartDate) {
+                if (! data.end_date) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_end_date'));
+                    Dom.addClass('create-sequence-block-dialog--end-date', 'validation-failed');
+                }
+                if (Date.parse(data.start_date) > Date.parse(data.end_date)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.start_date_gt_end_date'));
+                    Dom.addClass('create-sequence-block-dialog--end-date', 'validation-failed');
+                }
+
+                // if a duration is given then it must be valid
+                if ("" !== Lang.trim(data.duration) && 0 > parseInt(data.duration, 10)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
+                    Dom.addClass('create-sequence-block-dialog--duration', 'validation-failed');
+                }
+            } else {
+                // duration is required and must be larger that zero
+                if ("" === Lang.trim(data.duration) || 0 >= parseInt(data.duration, 10)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_duration'));
+                    Dom.addClass('create-sequence-block-dialog--duration', 'validation-failed');
+                }
+            }
+
+            if (msgs.length) {
+                document.getElementById('create-sequence-block-dialog--status').innerHTML = msgs.join('<br />') + '<br />';
+                return false;
+            }
             return true;
         },
 
