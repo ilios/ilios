@@ -91,10 +91,10 @@
 
             // subscribe "export report" events
             this._reportView.subscribe(this._reportView.EVT_EXPORT_STARTED, function() {
-                this.getStatusBar().show('Started Report Export &hellip;', true);
+                this.getStatusBar().show('Exporting report &hellip;', true);
             }, this, true);
             this._reportView.subscribe(this._reportView.EVT_DOWNLOAD_STARTED, function() {
-                this.getStatusBar().show('Started Report Download &hellip;', true);
+                this.getStatusBar().show('Downloading report &hellip;', true);
             }, this, true);
             this._reportView.subscribe(this._reportView.EVT_EXPORT_COMPLETED, function () {
                 this.getStatusBar().reset();
@@ -138,7 +138,7 @@
                 }, {}, this);
                 // subscribe to "finalize report"-events emitted by the data source
                 dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_STARTED, function () {
-                    this.show('Finalizing report started &hellip;', true);
+                    this.show('Finalizing report &hellip;', true);
                 }, this.getStatusBar(), true);
                 dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_SUCCEEDED, function () {
                     // update the report model
@@ -150,7 +150,7 @@
                     this._sequenceBlockBottomToolbar.hide();
                 }, this, true);
                 dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_FAILED, function () {
-                    this.getStatusBar().show('Finalizing report failed.', false);
+                    this.getStatusBar().show('Failed to finalize report.', false);
                 }, this, true);
 
                 // wire up the "delete report" button
@@ -174,7 +174,7 @@
                     this.getStatusBar().show('Failed to delete report.');
                 }, this, true);
                 dataSource.subscribe(dataSource.EVT_DELETE_REPORT_SUCCEEDED, function() {
-                    this.getStatusBar().show('Successfully deleted report. Reloading page &hellip;', true);
+                    this.getStatusBar().show('Report deleted, reloading page now &hellip;', true);
                     // reload the page
                     window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
                 }, this, true);
