@@ -730,8 +730,8 @@
             selectEl = document.getElementById('create-sequence-block-dialog--order-in-sequence');
             for (i = 1; i <= n; i++) {
                 optionEl = selectEl.appendChild(document.createElement('option'));
-                optionEl.value = n;
-                optionEl.innerHTML = n;
+                optionEl.value = i;
+                optionEl.innerHTML = i;
             }
         },
 
