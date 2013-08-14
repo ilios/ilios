@@ -699,8 +699,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $parentBlockId = $parentBlockId ? $parentBlockId : null;
         $courseId = $courseId ? $courseId : null;
         if ($hasDateRange) {
-            $startDate = date('YYYY-mm-dd', $startDateTs);
-            $endDate = date('YYYY-mm-dd', $endDateTs);
+            $startDate = date('Y-m-d', $startDateTs);
+            $endDate = date('Y-m-d', $endDateTs);
         } else {
             $startDate = null;
             $endDate = null;
