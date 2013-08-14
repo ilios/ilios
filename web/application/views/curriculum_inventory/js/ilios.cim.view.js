@@ -427,6 +427,8 @@
                     if (value) {
                         str = value.get('title');
                         // @todo flesh this out
+                    } else {
+                        str = ilios_i18nVendor.getI18NString('general.terms.not_applicable');
                     }
                     el.innerHTML = str;
                 },
@@ -462,33 +464,6 @@
             });
 
             /**
-             * The view's order-in-sequence attribute.
-             *
-             * @attribute childSequenceOrder
-             * @type {Number}
-             */
-            this.setAttributeConfig('orderInSequence', {
-                method: function (value) {
-                    var el = this.get('orderInSequence');
-                    var str = '';
-                    switch (value) {
-                        case ilios.cim.model.SequenceBlockModel.prototype.ORDERED:
-                            str = ilios_i18nVendor.getI18NString('general.terms.ordered');
-                            break;
-                        case ilios.cim.model.SequenceBlockModel.prototype.UNORDERED:
-                            str = ilios_i18nVendor.getI18NString('general.terms.unordered');
-                            break;
-                        case ilios.cim.model.SequenceBlockModel.prototype.PARALLEL:
-                            str = ilios_i18nVendor.getI18NString('general.terms.parallel');
-                            break;
-                    }
-                    el.innerHTML = str;
-                },
-                validator: Lang.isNumber
-            });
-
-
-            /**
              * The view's academic level attribute.
              *
              * @attribute academicLevel
@@ -520,6 +495,76 @@
                         el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.not_applicable');
                     } else {
                         el.innerHTML = value;
+                    }
+                }
+            });
+
+            /**
+             * The view's start date attribute.
+             *
+             * @attribute startDate
+             * @type {String|null}
+             */
+            this.setAttributeConfig('startDate', {
+                validator: function (value) {
+                    return Lang.isNull(value) || Lang.isString(value);
+                },
+                method: function (value) {
+                    var el = this.get('startDateEl');
+                    el.innerHTML = value ? value : ilios_i18nVendor.getI18NString('general.terms.not_applicable');
+                }
+            });
+
+            /**
+             * The view's end date attribute.
+             *
+             * @attribute endDate
+             * @type {String|null}
+             */
+            this.setAttributeConfig('endDate', {
+                validator: function (value) {
+                    return Lang.isNull(value) || Lang.isString(value);
+                },
+                method: function (value) {
+                    var el = this.get('endDateEl');
+                    el.innerHTML = value ? value : ilios_i18nVendor.getI18NString('general.terms.not_applicable');
+                }
+            });
+
+            /**
+             * The view's duration attribute.
+             *
+             * @attribute duration
+             * @type {Number}
+             */
+            this.setAttributeConfig('duration', {
+                validator: Lang.isNumber,
+                method: function (value) {
+                    var el = this.get('durationEl');
+                    if (! value) {
+                        el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.not_applicable');
+                    } else {
+                        el.innerHTML = "" + value + " ";
+                        el.innerHTML += (1 == value) ? ilios_i18nVendor.getI18NString('general.terms.minute') :
+                            ilios_i18nVendor.getI18NString('general.terms.minutes');
+                    }
+                }
+            });
+
+            /**
+             * The view's track attribute.
+             *
+             * @attribute track
+             * @type {Boolean}
+             */
+            this.setAttributeConfig('track', {
+                validator: Lang.isBoolean,
+                method: function (value) {
+                    var el = this.get('trackEl');
+                    if (value) {
+                        el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.yes');
+                    } else {
+                        el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.no');
                     }
                 }
             });
@@ -578,6 +623,10 @@
             this.set('course', this._model.get('course'));
             this.set('childSequenceOrder', this._model.get('childSequenceOrder'));
             this.set('orderInSequence', this._model.get('orderInSequence'));
+            this.set('startDate', this._model.get('startDate'));
+            this.set('endDate', this._model.get('endDate'));
+            this.set('duration', this._model.get('duration'));
+            this.set('track', this._model.get('track'));
 
 
             // wire buttons
