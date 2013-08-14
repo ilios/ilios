@@ -245,27 +245,84 @@ EOL;
             if (count($children)) {
                 // sort children if the sort order demands it
                 if (Curriculum_Inventory_Sequence_Block::ORDERED == $rhett[$i]['child_sequence_order']) {
-                    usort($children, array($this, '_sortSequenceBlocks'));
+                    usort($children, array($this, '_orderedSortSequenceBlocks'));
+                } else {
+                    usort($children, array($this, '_defaultSortSequenceBlocks'));
                 }
                 $rhett[$i]['children'] = $children;
             }
+        }
+        if (is_null($parentBlockId)) {
+            usort($rhett, array($this, '_defaultSortSequenceBlocks'));
         }
         return $rhett;
     }
 
     /**
      * Comparison function for sorting sequence block arrays.
+     * The applied criterion for comparison is the "order_in_sequence" property.
      * @param array $a associative array representing a sequence block
      * @param array $b associative array representing a sequence block
      * @return int
      * @see usort()
      * @see Curriculum_Inventory_Sequence_Block::buildSequenceBlockHierarchy()
      */
-    protected function _sortSequenceBlocks (array $a, array $b)
+    protected function _orderedSortSequenceBlocks (array $a, array $b)
     {
         if ($a['order_in_sequence'] === $b['order_in_sequence']) {
             return 0;
         }
         return ($a['order_in_sequence'] > $b['order_in_sequence']) ? 1 : -1;
+    }
+
+    /**
+     * Comparison function for sorting sequence block arrays.
+     * The applied, ranked criteria for comparison are:
+     * 1. "academic level id"
+     *      Ideally, this would be 'level' value of the actual corresponding "academic level" record.
+     *      However, this data point is not available at this point of data processing.
+     *      Still, we can infer the level from the sequentially generated level ids.
+     *      Hokey, but works [ST 2013/08/14]
+     *      Numeric sort, ascending.
+     * 2. "start date"
+     *      Numeric sort on timestamps, ascending. NULL values will be treated unix timestamp 0.
+     * 3. "title"
+     *    Alphabetical sort.
+     * 4. "sequence block id"
+     *    A last resort. Numeric sort, ascending.
+     *
+     * @param array $a associative array representing a sequence block
+     * @param array $b associative array representing a sequence block
+     * @return int
+     * @see usort()
+     * @see Curriculum_Inventory_Sequence_Block::buildSequenceBlockHierarchy()
+     */
+    protected function _defaultSortSequenceBlocks (array $a, array $b)
+    {
+        // 1. academic level id
+        if ($a['academic_level_id'] > $b['academic_level_id']) {
+            return 1;
+        } elseif ($a['academic_level_id'] < $b['academic_level_id']) {
+            return -1;
+        }
+
+        // 2. start date
+        $startDateA = $a['start_date'] ? strtotime($a['start_date']) : 0;
+        $startDateB = $b['start_date'] ? strtotime($b['start_date']) : 0;
+
+        if ($startDateA > $startDateB) {
+            return 1;
+        } elseif ($startDateA < $startDateB) {
+            return -1;
+        }
+
+        // 3. title comparison
+        $n = strcasecmp($a['title'], $b['title']);
+        if ($n) {
+            return $n;
+        }
+
+        // 4. sequence block id comparison
+        return ($a['sequence_block_id'] > $b['sequence_block_id']) ? 1 : -1;
     }
 }
