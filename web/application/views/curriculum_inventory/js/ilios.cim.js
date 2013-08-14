@@ -667,9 +667,13 @@
          * @return {ilios.cim.view.SequenceBlockView}
          */
         createSequenceBlockView: function (model) {
-            var parentId, id, parentEl, el, view;
+            var parent, parentId, id, parentEl, el, view;
 
-            parentId = model.get('parentId');
+            parent = model.get('parent');
+            parentId = false;
+            if (parent) {
+                parentId = parent.get('id');
+            }
             id = model.get('id');
 
             parentEl = parentId ?  document.getElementById('sequence-block-view-children-' + parentId) : document.getElementById('report-sequence-container');
