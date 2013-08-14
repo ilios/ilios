@@ -135,30 +135,6 @@
             var cnumber = config.cnumber;
 
             /**
-             * The display element for the view's title.
-             *
-             * @attribute titleEl
-             * @type {HTMLElement}
-             * @writeOnce
-             */
-            this.setAttributeConfig('titleEl', {
-                writeOnce: true,
-                value: Dom.get('sequence-block-view-title-' + cnumber)
-            });
-
-            /**
-             * The display element for the view's description.
-             *
-             * @attribute descriptionEl
-             * @type {HTMLElement}
-             * @writeOnce
-             */
-            this.setAttributeConfig('descriptionEl', {
-                writeOnce: true,
-                value: Dom.get('sequence-block-view-description-' + cnumber)
-            });
-
-            /**
              * The buttons row element at the top of the view container body.
              *
              * @attribute buttonRowEl
@@ -231,7 +207,7 @@
             });
 
             /**
-             * The body element of the view.
+             * The body container-element of the view.
              *
              * @attribute bodyEl
              * @type {HTMLElement}
@@ -243,7 +219,43 @@
             });
 
             /**
-             * The academic level element of the view.
+             * The display-element for the view's title attribute.
+             *
+             * @attribute titleEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('titleEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-title-' + cnumber)
+            });
+
+            /**
+             * The display-element for the view's description attribute.
+             *
+             * @attribute descriptionEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('descriptionEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-description-' + cnumber)
+            });
+
+            /**
+             * The display-element of the view's required attribute.
+             *
+             * @attribute requiredEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('requiredEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-required-' + cnumber)
+            });
+
+            /**
+             * The display-element of the view's academic level attribute.
              *
              * @attribute academicLevelEl
              * @type {HTMLElement}
@@ -255,15 +267,89 @@
             });
 
             /**
-             * The required element of the view.
+             * The display-element of the view's course attribute.
              *
-             * @attribute requiredEl
+             * @attribute courseEl
              * @type {HTMLElement}
              * @writeOnce
              */
-            this.setAttributeConfig('requiredEl', {
+            this.setAttributeConfig('courseEl', {
                 writeOnce: true,
-                value: Dom.get('sequence-block-view-required-' + cnumber)
+                value: Dom.get('sequence-block-view-course-' + cnumber)
+            });
+
+            /**
+             * The display-element of the view's start date attribute.
+             *
+             * @attribute startDateEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('startDateEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-start-date-' + cnumber)
+            });
+
+            /**
+             * The display-element of the view's end date attribute.
+             *
+             * @attribute endDateEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('endDateEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-end-date-' + cnumber)
+            });
+
+            /**
+             * The display-element of the view's duration attribute.
+             *
+             * @attribute durationEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('durationEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-duration-' + cnumber)
+            });
+
+
+            /**
+             * The display-element of the view's order-in-sequence attribute.
+             *
+             * @attribute orderInSequenceEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('orderInSequenceEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-order-in-sequence-' + cnumber)
+            });
+
+            /**
+             * The display-element of the view's child-sequence-order attribute.
+             *
+             * @attribute childSequenceOrderEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('childSequenceOrderEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-child-sequence-order-' + cnumber)
+            });
+
+
+            /**
+             * The display-element of the view's track attribute.
+             *
+             * @attribute trackEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('trackEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-track-' + cnumber)
             });
 
             /**
@@ -309,7 +395,6 @@
              */
             this.setAttributeConfig('required', {
                 method: function (value) {
-                    // value = parseInt(value, 10); //
                     var el = this.get('requiredEl');
                     var str = '';
                     switch (value) {
@@ -325,10 +410,83 @@
                     }
                     el.innerHTML = str;
                 },
-                setter: function (value, name) {
-                    return parseInt(value, 10);
+                validator: Lang.isNumber
+
+            });
+
+            /**
+             * The view's course attribute.
+             *
+             * @attribute course
+             * @type {ilios.cim.model.CourseModel|null}
+             */
+            this.setAttributeConfig('course', {
+                method: function (value) {
+                    var el = this.get('courseEl');
+                    var str = '';
+                    if (value) {
+                        str = value.get('title');
+                        // @todo flesh this out
+                    }
+                    el.innerHTML = str;
+                },
+                validator: function (value) {
+                    return (Lang.isNull(value) || (value instanceof ilios.cim.model.CourseModel));
                 }
             });
+
+            /**
+             * The view's child-sequence-order attribute.
+             *
+             * @attribute childSequenceOrder
+             * @type {Number}
+             */
+            this.setAttributeConfig('childSequenceOrder', {
+                method: function (value) {
+                    var el = this.get('childSequenceOrderEl');
+                    var str = '';
+                    switch (value) {
+                        case ilios.cim.model.SequenceBlockModel.prototype.ORDERED:
+                            str = ilios_i18nVendor.getI18NString('general.terms.ordered');
+                            break;
+                        case ilios.cim.model.SequenceBlockModel.prototype.UNORDERED:
+                            str = ilios_i18nVendor.getI18NString('general.terms.unordered');
+                            break;
+                        case ilios.cim.model.SequenceBlockModel.prototype.PARALLEL:
+                            str = ilios_i18nVendor.getI18NString('general.terms.parallel');
+                            break;
+                    }
+                    el.innerHTML = str;
+                },
+                validator: Lang.isNumber
+            });
+
+            /**
+             * The view's order-in-sequence attribute.
+             *
+             * @attribute childSequenceOrder
+             * @type {Number}
+             */
+            this.setAttributeConfig('orderInSequence', {
+                method: function (value) {
+                    var el = this.get('orderInSequence');
+                    var str = '';
+                    switch (value) {
+                        case ilios.cim.model.SequenceBlockModel.prototype.ORDERED:
+                            str = ilios_i18nVendor.getI18NString('general.terms.ordered');
+                            break;
+                        case ilios.cim.model.SequenceBlockModel.prototype.UNORDERED:
+                            str = ilios_i18nVendor.getI18NString('general.terms.unordered');
+                            break;
+                        case ilios.cim.model.SequenceBlockModel.prototype.PARALLEL:
+                            str = ilios_i18nVendor.getI18NString('general.terms.parallel');
+                            break;
+                    }
+                    el.innerHTML = str;
+                },
+                validator: Lang.isNumber
+            });
+
 
             /**
              * The view's academic level attribute.
@@ -344,6 +502,24 @@
                     var el = this.get('academicLevelEl');
                     if (el) {
                         el.innerHTML = value.get('name');
+                    }
+                }
+            });
+
+            /**
+             * The view's order-in-sequence attribute.
+             *
+             * @attribute orderInSequence
+             * @type {Number}
+             */
+            this.setAttributeConfig('orderInSequence', {
+                validator: Lang.isNumber,
+                method: function (value) {
+                    var el = this.get('orderInSequenceEl');
+                    if (! value) {
+                        el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.not_applicable');
+                    } else {
+                        el.innerHTML = value;
                     }
                 }
             });
@@ -399,6 +575,10 @@
             this.set('description', this._model.get('description'));
             this.set('academicLevel', this._model.get('academicLevel'));
             this.set('required', this._model.get('required'));
+            this.set('course', this._model.get('course'));
+            this.set('childSequenceOrder', this._model.get('childSequenceOrder'));
+            this.set('orderInSequence', this._model.get('orderInSequence'));
+
 
             // wire buttons
             Event.addListener(this.get('toggleBtnEl'), 'click', function (event) {
@@ -477,7 +657,7 @@
      * @extends YAHOO.util.Element
      * @param {ilios.cim.model.ReportModel} model The report model.
      */
-    var ReportView = function (model)  {
+    var ReportView = function (model) {
         ReportView.superclass.constructor.call(this, document.getElementById('report-details-view-container'));
 
         // set model
@@ -503,7 +683,7 @@
          * The view's report model.
          *
          * @property model
-         * @type {ilios.cim.model.ReportModel
+         * @type {ilios.cim.model.ReportModel}
          * @protected
          */
         _model: null,
@@ -595,7 +775,7 @@
          * Returns the view's model.
          *
          * @method getModel
-         * @return {ilios.cim.model.SequenceBlockModel}
+         * @return {ilios.cim.model.ReportModel}
          */
         getModel: function () {
             return this._model;
