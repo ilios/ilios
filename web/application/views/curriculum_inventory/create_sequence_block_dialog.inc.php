@@ -40,13 +40,13 @@
                 </div>
                 <div class="dialog-form-row" >
                     <label for="create-sequence-block-dialog--required" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('general.terms.required', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.required', $lang); ?> ?
                     </label><br />
                     <select id="create-sequence-block-dialog--required" name="required">
                         <option value="<?php echo Curriculum_Inventory_Sequence_Block::REQUIRED; ?>">
-                            <?php echo $this->languagemap->t('general.terms.required', $lang); ?></option>
+                            <?php echo $this->languagemap->t('general.terms.yes', $lang); ?></option>
                         <option value="<?php echo Curriculum_Inventory_Sequence_Block::OPTIONAL; ?>">
-                            <?php echo $this->languagemap->t('general.terms.optional', $lang); ?></option>
+                            <?php echo $this->languagemap->t('general.terms.no', $lang); ?></option>
                         <option value="<?php echo Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK; ?>">
                             <?php echo $this->languagemap->t('general.phrases.required_in_track', $lang); ?>
                         </option>
