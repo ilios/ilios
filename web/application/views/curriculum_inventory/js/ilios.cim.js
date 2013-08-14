@@ -1269,7 +1269,7 @@
         el = rowEl.appendChild(document.createElement('div'));
         Dom.addClass(el, 'label');
         Dom.addClass(el, 'column');
-        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.required')));
+        el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.required') + ' ?'));
         el = rowEl.appendChild(document.createElement('div'));
         Dom.setAttribute(el, 'id', 'sequence-block-view-required-' + cnumber);
         Dom.addClass(el, 'data');
