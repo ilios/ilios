@@ -310,7 +310,7 @@
      *     @param {String|null} oData.clerkship_type_id
      *     @param {String} oData.course_id
      *     @param {String} oData.course_level
-     *     @param {String} oData.deleted
+     *     @param {Boolean} oData.deleted
      *     @param {String} oData.end_date
      *     @param {String} oData.external_id
      *     @param {String} oData.locked
@@ -336,7 +336,7 @@
             var archived = !! parseInt(oData.archived, 10);
             var locked = !! parseInt(oData.locked, 10);
             var level = parseInt(oData.course_level, 10);
-            var deleted = !! parseInt(oData.deleted, 10);
+            var deleted = oData.deleted;
             var endDate = oData.end_date;
             var startDate = oData.start_date;
             var title = oData.title;
@@ -624,8 +624,8 @@
      *    @param {String} oData.track
      *    @param {String} oData.description
      *    @param {String} oData.title
-     *    @param {String} oData.start_date
-     *    @param {String} oData.end_date
+     *    @param {String|null} oData.start_date
+     *    @param {String|null} oData.end_date
      *    @param {String} oData.academic_level_id
      *    @param {ilios.cim.model.AcademicLevelModel} oData.academic_level_model
      *    @param {String} oData.duration
@@ -801,22 +801,26 @@
              * The start date of the sequence block.
              *
              * @attribute startDate
-             * @type {String}
+             * @type {String|null}
              */
             this.setAttributeConfig('startDate', {
                 value: startDate,
-                validator: Lang.isString
+                validator: function (value) {
+                    return Lang.isNull(value) || Lang.isString(value);
+                }
             });
 
             /**
              * The end date of the sequence block.
              *
              * @attribute endDate
-             * @type {String}
+             * @type {String|null}
              */
             this.setAttributeConfig('endDate', {
                 value: endDate,
-                validator: Lang.isString
+                validator: function (value) {
+                    return Lang.isNull(value) || Lang.isString(value);
+                }
             });
 
             /**
