@@ -147,6 +147,13 @@
      * @namespace cim.model
      * @class ReportModel
      * @param {Object} oData A key/value map of initial model data.
+     * @param {String} oData.name
+     * @param {String} oData.description
+     * @param {String} oData.year
+     * @param {Object} oData.program
+     * @param {String} oData.start_date
+     * @param {String} oData.end_date
+     * @param {Boolean} oData.is_finalized
      * @constructor
      */
     var ReportModel = function (oData) {
@@ -163,7 +170,7 @@
             ReportModel.superclass.init.call(this, oData);
             var name = oData.name;
             var description = oData.description;
-            var year = oData.year;
+            var year = parseInt(oData.year, 10);
             var program = oData.program;
             var startDate = oData.start_date;
             var endDate = oData.end_date;
@@ -199,7 +206,8 @@
              */
             this.setAttributeConfig('academicYear', {
                 writeOnce: true,
-                value: year
+                value: year,
+                validator: Lang.isNumber
             });
 
             /**
@@ -212,6 +220,7 @@
                 writeOnce: true,
                 value: program,
                 validator: Lang.isObject
+
             });
 
             /**
@@ -297,20 +306,20 @@
      * @namespace cim.model
      * @class CourseModel
      * @param {Object} oData A key/value map of initial model data. This following properties are expected:
-     *     @param {Number} oData.archived
-     *     @param {Number|null} oData.clerkship_type_id
-     *     @param {Number} oData.course_id
-     *     @param {Number} oData.course_level
-     *     @param {Number} oData.deleted
+     *     @param {String} oData.archived
+     *     @param {String|null} oData.clerkship_type_id
+     *     @param {String} oData.course_id
+     *     @param {String} oData.course_level
+     *     @param {String} oData.deleted
      *     @param {String} oData.end_date
      *     @param {String} oData.external_id
-     *     @param {Number} oData.locked
-     *     @param {Number} oData.owning_school_id
-     *     @param {Number|null} oData.publish_event_id
-     *     @param {Number} oData.published_as_tbd
+     *     @param {String} oData.locked
+     *     @param {String} oData.owning_school_id
+     *     @param {String|null} oData.publish_event_id
+     *     @param {String} oData.published_as_tbd
      *     @param {String} oData.start_date
      *     @param {String} oData.title
-     *     @param {Number} oData.year
+     *     @param {String} oData.year
      * @constructor
      */
     var CourseModel = function (oData) {
@@ -324,18 +333,18 @@
          */
         init : function (oData) {
             CourseModel.superclass.init.call(this, oData);
-            var archived = oData.archived ? true : false;
-            var locked = oData.locked ? true : false;
+            var archived = !! parseInt(oData.archived, 10);
+            var locked = !! parseInt(oData.locked, 10);
             var level = parseInt(oData.course_level, 10);
-            var deleted = oData.deleted ? true : false;
+            var deleted = !! parseInt(oData.deleted, 10);
             var endDate = oData.end_date;
             var startDate = oData.start_date;
             var title = oData.title;
             var year = parseInt(oData.year, 10);
-            var isPublished = oData.publish_event_id ? true: false;
-            var isPublishedAsTbd = oData.published_as_tbd ? true : false;
+            var isPublished = Lang.isNull(oData.publish_event_id);
+            var isPublishedAsTbd = !! parseInt(oData.published_as_tbd, 10);
             var externalId = oData.external_id;
-            var clerkshipTypeId = Lang.isValue(oData.clerkship_type_id) ? oData.clerkship_type_id : 0;
+            var clerkshipTypeId = Lang.isValue(oData.clerkship_type_id) ? parseInt(oData.clerkship_type_id, 10) : 0;
             var owningSchoolId = parseInt(oData.owning_school_id, 10);
 
             /**
@@ -515,11 +524,11 @@
      * @namespace cim.model
      * @class AcademicLevelModel
      * @param {Object} oData A key/value map of initial model data.
-     *     @param {Number} oData.academic_level_id
+     *     @param {String} oData.academic_level_id
      *     @param {String} oData.description
-     *     @param {Number} oData.level
+     *     @param {String} oData.level
      *     @param {String} oData.name
-     *     @param {Number} oData.report_id
+     *     @param {String} oData.report_id
      * @constructor
      */
     var AcademicLevelModel = function (oData) {
@@ -534,8 +543,8 @@
         init : function (oData) {
             AcademicLevelModel.superclass.init.call(this, oData);
 
-            var reportId = oData.report_id;
-            var level = oData.level;
+            var reportId = parseInt(oData.report_id, 10);
+            var level = parseInt(oData.level, 10);
             var name = Lang.isString(oData.name) ? oData.name : '';
             var description = Lang.isString(oData.description) ? oData.description : '';
 
@@ -605,24 +614,23 @@
      * @namespace cim.model
      * @class SequenceBlockModel
      * @param {Object} oData A key/value map of initial model data.
-     *    @param {Number} oData.sequence_block_id
-     *    @param {Number} oData.report_id
-     *    @param {Number} oData.required
-     *    @param {Number} oData.child_sequence_order
-     *    @param {Number} oData.order_in_sequence
-     *    @param {Number} oData.minimum
-     *    @param {Number} oData.maximum
-     *    @param {Number} oData.track
+     *    @param {String} oData.sequence_block_id
+     *    @param {String} oData.report_id
+     *    @param {String} oData.required
+     *    @param {String} oData.child_sequence_order
+     *    @param {String} oData.order_in_sequence
+     *    @param {String} oData.minimum
+     *    @param {String} oData.maximum
+     *    @param {String} oData.track
      *    @param {String} oData.description
      *    @param {String} oData.title
      *    @param {String} oData.start_date
      *    @param {String} oData.end_date
-     *    @param {Number} oData.academic_level_id
+     *    @param {String} oData.academic_level_id
      *    @param {ilios.cim.model.AcademicLevelModel} oData.academic_level_model
-     *    @param {Number} oData.duration
+     *    @param {String} oData.duration
      *    @param {ilios.cim.model.CourseModel|null} oData.course_model
-     *    @param {Number|null} oData.course_id
-     *    @param {Number|null} oData.parent_sequence_block_id
+     *    @param {String|null} oData.parent_sequence_block_id
      *    @param {ilios.cim.model.SequenceBlockModel|null} oData.parent_model
      * @constructor
      */
@@ -637,21 +645,20 @@
          */
         init : function (oData) {
             SequenceBlockModel.superclass.init.call(this, oData);
-            var reportId = oData.report_id;
-            var required = oData.required;
-            var childSequenceOrder = oData.child_sequence_order;
-            var orderInSequence = oData.order_in_sequence;
-            var minimum = oData.minimum;
-            var maximum = oData.maximum;
-            var track = oData.track;
+            var reportId = parseInt(oData.report_id, 10);
+            var required = parseInt(oData.required, 10);
+            var childSequenceOrder = parseInt(oData.child_sequence_order, 10);
+            var orderInSequence = parseInt(oData.order_in_sequence, 10);
+            var minimum = parseInt(oData.minimum, 10);
+            var maximum = parseInt(oData.maximum, 10);
+            var track = !! parseInt(oData.track, 10);
             var description = oData.description;
             var title = oData.title;
             var startDate = oData.start_date;
             var endDate = oData.end_date;
             var academicLevelModel = oData.academic_level_model;
-            var duration = oData.duration;
+            var duration = parseInt(oData.duration, 10);
             var courseModel = oData.course_model;
-            var parentId = oData.parent_sequence_block_id;
             var parentModel = oData.parent_model;
             var children = new ilios.cim.model.SequenceBlockModelMap();
 
@@ -703,7 +710,6 @@
                         && (this.ORDERED === value
                         || this.UNORDERED === value
                         || this.PARALLEL === value);
-
                 }
             });
 
@@ -849,21 +855,6 @@
                     return value instanceof ilios.cim.model.AcademicLevelModel;
                 }
             });
-
-            /**
-             * The id of parent sequence block to this sequence block.
-             * Top-level sequence blocks have a parent id value of <code>NULL</code>.
-             *
-             * @attribute parentId
-             * @type {Number|null}
-             */
-            this.setAttributeConfig('parentId', {
-                value: parentId,
-                validator: function (value) {
-                    return (Lang.isNull(value) || Lang.isNumber(value));
-                }
-            });
-
 
             /**
              * An object container holding child-sequence blocks.
@@ -1176,7 +1167,7 @@
         }
     });
 
-    ilios.cim.model.AcademicLevelModel= AcademicLevelModel;
+    ilios.cim.model.AcademicLevelModel = AcademicLevelModel;
     ilios.cim.model.BaseModel = BaseModel;
     ilios.cim.model.CourseModel = CourseModel;
     ilios.cim.model.ReportModel = ReportModel;
