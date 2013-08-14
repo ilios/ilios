@@ -243,6 +243,30 @@
             });
 
             /**
+             * The academic level element of the view.
+             *
+             * @attribute academicLevelEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('academicLevelEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-academic-level-' + cnumber)
+            });
+
+            /**
+             * The required element of the view.
+             *
+             * @attribute requiredEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('requiredEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-required-' + cnumber)
+            });
+
+            /**
              * The view's title attribute.
              *
              * @attribute title
@@ -275,6 +299,53 @@
                     }
                 },
                 value: ""
+            });
+
+            /**
+             * The view's required attribute.
+             *
+             * @attribute required
+             * @type {Number}
+             */
+            this.setAttributeConfig('required', {
+                method: function (value) {
+                    // value = parseInt(value, 10); //
+                    var el = this.get('requiredEl');
+                    var str = '';
+                    switch (value) {
+                        case ilios.cim.model.SequenceBlockModel.prototype.REQUIRED:
+                            str = ilios_i18nVendor.getI18NString('general.terms.yes');
+                            break;
+                        case ilios.cim.model.SequenceBlockModel.prototype.OPTIONAL:
+                            str = ilios_i18nVendor.getI18NString('general.terms.no');
+                            break;
+                        case ilios.cim.model.SequenceBlockModel.prototype.REQUIRED_IN_TRACK:
+                            str = ilios_i18nVendor.getI18NString('general.phrases.required_in_track');
+                            break;
+                    }
+                    el.innerHTML = str;
+                },
+                setter: function (value, name) {
+                    return parseInt(value, 10);
+                }
+            });
+
+            /**
+             * The view's academic level attribute.
+             *
+             * @attribute academicLevel
+             * @type {ilios.cim.model.AcademicLevelModel}
+             */
+            this.setAttributeConfig('academicLevel', {
+                validator: function (value) {
+                    return (value instanceof ilios.cim.model.AcademicLevelModel);
+                },
+                method: function (value) {
+                    var el = this.get('academicLevelEl');
+                    if (el) {
+                        el.innerHTML = value.get('name');
+                    }
+                }
             });
         },
 
@@ -326,6 +397,8 @@
 
             this.set('title', this._model.get('title'));
             this.set('description', this._model.get('description'));
+            this.set('academicLevel', this._model.get('academicLevel'));
+            this.set('required', this._model.get('required'));
 
             // wire buttons
             Event.addListener(this.get('toggleBtnEl'), 'click', function (event) {
