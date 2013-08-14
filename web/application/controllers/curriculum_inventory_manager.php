@@ -608,7 +608,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $duration = $this->input->post('duration');
         $hasDateRange = ('' !== $startDate);
         $isInOrderedSequence = ($parentBlock
-            && $parentBlock->child_sequence_order === Curriculum_Inventory_Sequence_Block::ORDERED);
+            && $parentBlock->child_sequence_order == Curriculum_Inventory_Sequence_Block::ORDERED);
 
         if ('' === $title) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.title_missing', $lang);
@@ -710,7 +710,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // create a new sequence block in the db
         //
         $this->db->trans_start();
-        // @todo fix order in ordered sequence by incrementing sort order value for siblings with a higher sort order.
+        if ($isInOrderedSequence) {
+            $this->invSequenceBlock->incrementOrderInSequence($orderInSequence, $parentBlock->sequence_block_id);
+        }
         $blockId = $this->invSequenceBlock->create($reportId, $parentBlockId, $title, $description, $startDate,
             $endDate, $duration, $academicLevelId, $required, $maximum, $minimum, $track, $courseId, $childSequenceOrder,
             $orderInSequence);
