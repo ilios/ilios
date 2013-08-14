@@ -570,7 +570,7 @@
              * @type {String}
              */
             this.setAttributeConfig('name', {
-                value: reportId,
+                value: name,
                 validator: Lang.isString
             });
 
