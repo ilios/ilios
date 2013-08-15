@@ -767,7 +767,21 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
 
         $schoolId = $this->session->userdata('school_id');
 
-        // @todo implement
+        //
+        // fetch and validate report- and parent-block-data
+        //
+        $blockId = (int) $this->input->post('sequence_block_id');
+        $block = $this->invSequenceBlock->getRowForPrimaryKeyId($blockId);
+        if (! $block) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.update.error.does_not_exist', $lang);
+            return;
+        }
+
+        // reject requests for modifying finalized reports
+        if ($this->invExport->exists($block->report_id)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.error.cannot_modify_finalized_report', $lang);
+            return;
+        }
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
