@@ -19,8 +19,9 @@ class Curriculum_Inventory extends Ilios_Base_Model
 
     /**
      * Retrieves a map of courses that are linked to sequence blocks in a given curriculum inventory report.
-     * @param int $reportId the report id
-     * @return array an assoc array of course records, keyed off by course id.
+     * Note: This may include deleted and non-published courses.
+     * @param int $reportId The report id.
+     * @return array An assoc array of course records, keyed off by course id.
      */
     public function getLinkedCourses ($reportId)
     {
@@ -44,8 +45,13 @@ EOL;
     }
 
     /**
-     * Retrieves a map of courses that qualify as linkable to sequence blocks in a given inventory report
-     * by the matching the given year and owning school id, and that are not already linked to a given report that report.
+     * Retrieves a map of courses that qualify as linkable to sequence blocks in a given inventory.
+     * The criteria for linkable are:
+     * - the course must be published
+     * - the course must not be deleted
+     * - the course must belong the same academic year as the report
+     * - the course must belong to the same school as the report
+     * - the course must not yet be linked to a sequence block within the report
      * @param int $year The academic year.
      * @param int $schoolId The owning school id.
      * @param int $reportId The report id.
@@ -64,6 +70,7 @@ FROM course c
 WHERE c.deleted = 0
 AND c.year = {$clean['year']}
 AND c.owning_school_id = {$clean['school_id']}
+AND c.publish_event_id IS NOT NULL
 AND c.course_id NOT IN (
     SELECT course_id
     FROM curriculum_inventory_sequence_block
@@ -83,9 +90,13 @@ EOL;
 
 
     /**
-     * Checks if a given course qualifies as linkable to sequence blocks in a given inventory report
-     * by the matching the given year and owning school id.
-     * This check excluded qualifying courses that are already linked to sequence blocks in the given report.
+     * Checks if a given course is linkable within a given report.
+     * The criteria for linkable are:
+     * - the course must be published
+     * - the course must not be deleted
+     * - the course must belong the same academic year as the report
+     * - the course must belong to the same school as the report
+     * - the course must not yet be linked to a sequence block within the report
      * @param int $year The academic year.
      * @param int $schoolId The owning school id.
      * @param int $reportId The report id.
@@ -105,6 +116,7 @@ SELECT c.*
 FROM course c
 WHERE c.course_id = {$clean['course_id']}
 AND c.deleted = 0
+AND c.publish_event_id IS NOT NULL
 AND c.year = {$clean['year']}
 AND c.owning_school_id = {$clean['school_id']}
 AND c.course_id NOT IN (
