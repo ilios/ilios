@@ -952,24 +952,24 @@
         },
 
         /**
-         * Retrieves a sorted list of available courses.
+         * Retrieves a sorted list of available courses that fulfill the "linkable" criteria.
+         * These criteria are:
+         * - the course must not be deleted
+         * - the course must not be in "draft" mode
          *
-         * @method listAvailable
-         * @param {Boolean} includeDeleted If TRUE then available courses that are flagged as deleted will be included.
-         *      Otherwise deleted courses will be filtered out. The default is FALSE.
-         * @returns {Array} A list of sorted courses.
+         * @method listLinkable
+         * @return {Array} A list of sorted courses.
          */
-        listAvailable : function (includeDeleted) {
+        listLinkable : function () {
             var i, course, rhett;
-            includeDeleted = includeDeleted || false;
             rhett  = [];
             for (i in this._available) {
                 if (this._available.hasOwnProperty(i)) {
                     course = this._available[i];
-                    if (! includeDeleted && ! course.get('deleted')) {
+                    if (! course.get('isPublished')  || course.get('deleted')) {
                         continue;
                     }
-                    rhett.push(this._available[i]);
+                    rhett.push(course);
                 }
             }
             rhett.sort(function (a, b) {
