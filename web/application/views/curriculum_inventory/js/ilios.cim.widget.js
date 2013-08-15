@@ -703,12 +703,14 @@
         _courseRepo: null,
 
         /**
+         * Populates the "courses" dropdown with linkable courses retrieved from the course repo.
+         *
          * @method _populateCourseDropdown
          * @protected
          */
         _populateCourseDropdown: function () {
             var i, n, selectEl, optionEl, course, courses;
-            courses = this._courseRepo.listAvailable(false);
+            courses = this._courseRepo.listLinkable();
             selectEl = document.getElementById('create-sequence-block-dialog--course');
             for (i = 0, n = courses.length; i < n; i++) {
                 course = courses[i];
@@ -1163,14 +1165,16 @@
         _courseRepo: null,
 
         /**
+         * Populates the "courses" dropdown with linkable courses retrieved from the course repo,
+         * and the currently selected course (if applicable).
+         *
          * @method _populateCourseDropdown
          * @property {ilios.cim.model.CourseModel|null} value The currently selected course, or NULL if none is selected.
          * @protected
          */
         _populateCourseDropdown: function (value) {
             var i, n, selectEl, optionEl, course, courses;
-            selected = false;
-            courses = this._courseRepo.listAvailable(false);
+            courses = this._courseRepo.listLinkable();
             selectEl = document.getElementById('edit-sequence-block-dialog--course');
             // if applicable, add the currently selected course to the top of the dropdown.
             if (value) {
@@ -1196,7 +1200,7 @@
          *
          * @method _populateOrderInSequenceDropdown
          * @param {Number} n The upper inclusive) boundary.
-         @param {Number} value The currently selected order-in-sequence value.
+         * @param {Number} value The currently selected order-in-sequence value.
          * @protected
          */
         _populateOrderInSequenceDropdown: function (n, value) {
