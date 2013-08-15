@@ -17,7 +17,7 @@
  */
 ?>
 <div class="tabdialog hidden" id="edit-sequence-block-dialog">
-    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.sequence_block.add_dialog', $lang); ?></div>
+    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.sequence_block.edit_dialog', $lang); ?></div>
     <div class="bd">
         <div class="dialog_wrap">
             <span id="edit-sequence-block-dialog--status" class="dialog-form-status"></span>
