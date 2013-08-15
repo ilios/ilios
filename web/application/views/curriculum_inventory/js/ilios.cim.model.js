@@ -336,12 +336,12 @@
             var archived = !! parseInt(oData.archived, 10);
             var locked = !! parseInt(oData.locked, 10);
             var level = parseInt(oData.course_level, 10);
-            var deleted = oData.deleted;
+            var deleted = !! parseInt(oData.deleted, 10);
             var endDate = oData.end_date;
             var startDate = oData.start_date;
             var title = oData.title;
             var year = parseInt(oData.year, 10);
-            var isPublished = Lang.isNull(oData.publish_event_id);
+            var isPublished = ! Lang.isNull(oData.publish_event_id);
             var isPublishedAsTbd = !! parseInt(oData.published_as_tbd, 10);
             var externalId = oData.external_id;
             var clerkshipTypeId = Lang.isValue(oData.clerkship_type_id) ? parseInt(oData.clerkship_type_id, 10) : 0;
