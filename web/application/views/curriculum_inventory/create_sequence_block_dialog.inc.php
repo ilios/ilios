@@ -21,7 +21,7 @@
     <div class="bd">
         <div class="dialog_wrap">
             <span id="create-sequence-block-dialog--status" class="dialog-form-status"></span>
-            <form method="POST" action="<?php echo $controllerURL; ?>/updateSequenceBlock">
+            <form method="POST" action="<?php echo $controllerURL; ?>/createSequenceBlock">
                 <input type="hidden" value="" id="create-sequence-block-dialog--report-id" name="report_id" />
                 <input type="hidden" value="" id="create-sequence-block-dialog--parent-block-id" name="parent_sequence_block_id" />
                 <div class="dialog-form-row" >
