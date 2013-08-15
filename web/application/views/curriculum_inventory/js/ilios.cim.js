@@ -346,6 +346,16 @@
         _createSequenceBlockDialog: null,
 
         /**
+         * A dialog widget for editing a sequence block.
+         *
+         * @property _editSequenceBlockDialog
+         * @type {ilios.cim.widget.EditSequenceBlockDialog}
+         * @protected
+         */
+        _editSequenceBlockDialog: null,
+
+
+        /**
          * A dialog widget for editing the report.
          *
          * @property _editReportDialog
@@ -546,6 +556,27 @@
         },
 
         /**
+         * Returns the application's "edit a new sequence block" dialog.
+         *
+         * @method getEditSequenceBlockDialog
+         * @return {ilios.cim.widget.EditSequenceBlockDialog} The dialog instance.
+         */
+        getEditSequenceBlockDialog: function () {
+            if (! this._editSequenceBlockDialog) {
+                this._editSequenceBlockDialog
+                    = new ilios.cim.widget.EditSequenceBlockDialog('edit-sequence-block-dialog', this.getCourseRepository(), {});
+                this._editSequenceBlockDialog.render();
+                // wire the dialog's success/failure events up to the application
+                this._editSequenceBlockDialog.sequenceBlockUpdateSucceededEvent.subscribe(function (type, args, me) {
+                    var data = args[0]['data'];
+                    me.update(data);
+                    me.getStatusBar().show('Updated sequence block.');
+                }, this);
+            }
+            return this._editSequenceBlockDialog;
+        },
+
+        /**
          * Retrieves a map of programs that can be reported on in this application.
          * @method getPrograms
          * @return {Object}
@@ -592,6 +623,8 @@
                 { id: model.getId() }, this);
                 Event.addListener(view.getAddButton(), 'click', this.onSequenceBlockAddButtonClick,
                 { report_id: model.get('reportId'), parent: model }, this);
+                Event.addListener(view.getEditButton(), 'click', this.onSequenceBlockEditButtonClick,
+                    { block: model }, this);
             }
 
             if (! silent) {
@@ -764,6 +797,23 @@
             var reportId = args.report_id;
             var dialog = this.getCreateSequenceBlockDialog();
             dialog.show(reportId, parent);
+        },
+
+        /**
+         * Event handler function.
+         * Subscribe this to each sequence block's "Edit" button click-event.
+         * This will populate the "edit a sequence block" dialog with a given block model and the
+         * available courses within the application, then display the dialog.
+         *
+         * @method onSequenceBlockEditButtonClick
+         * @param {Event} The click event.
+         * @param {Object} args A map of arguments passed on method-invocation. Expected values are:
+         *     @param {ilios.cim.model.SequenceBlockModel} args.block The sequence block to update.
+         */
+        onSequenceBlockEditButtonClick: function (event, args) {
+            var block = args.block;
+            var dialog = this.getEditSequenceBlockDialog();
+            dialog.show(block);
         },
 
         /**

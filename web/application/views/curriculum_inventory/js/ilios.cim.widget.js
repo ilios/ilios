@@ -977,6 +977,507 @@
     });
 
     /**
+     * "Edit a sequence block" dialog.
+     *
+     * @namespace cim.widget
+     * @class EditSequenceBlockDialog
+     * @extends YAHOO.widget.Dialog
+     * @constructor
+     * @param {HTMLElement|String} el The element or element-ID representing the dialog
+     * @param {ilios.cim.CourseRepository} courseRepo A course repo object. Used to populate course dropdown and to
+     *     look up course details on selection.
+     * @param {Object} userConfig The configuration object literal containing the configuration that should be set for
+     *     this dialog.
+     */
+    var EditSequenceBlockDialog = function (el, courseRepo, userConfig) {
+
+        var date = new Date(); // get current date to initialize the calendar widgets.
+
+        var defaultConfig = {
+            width: "640px",
+            modal: true,
+            visible: false,
+            constraintoviewport: false,
+            hideaftersubmit: false,
+            zIndex: 999,
+            buttons: [
+                {
+                    text: ilios_i18nVendor.getI18NString('general.terms.save'),
+                    handler: function () {
+                        this.submit();
+                    }
+                },
+                {
+                    text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
+                    handler: function () {
+                        this.cancel();
+                    }
+                }
+            ]
+        };
+        // merge the user config with the default configuration
+        userConfig = userConfig || {};
+        var config = Lang.merge(defaultConfig, userConfig);
+
+        // call the parent constructor with the merged config
+        EditSequenceBlockDialog.superclass.constructor.call(this, el, config);
+
+        this._courseRepo = courseRepo;
+
+        // custom events
+        this.sequenceBlockUpdateSucceededEvent = new CustomEvent(this.EVT_SEQUENCE_BLOCK_UPDATE_SUCCEEDED, this);
+
+        // calendar widgets
+        this.cal1 = new YAHOO.widget.Calendar(null, 'edit-sequence-block-dialog--start-date-calendar-container', {
+            selected: date,
+            iframe: false,
+            close: true,
+            pagedate: date,
+            title: ilios_i18nVendor.getI18NString('general.phrases.start_date')
+        });
+        this.cal2 = new YAHOO.widget.Calendar(null, 'edit-sequence-block-dialog--end-date-calendar-container', {
+            selected: date,
+            iframe: false,
+            close: true,
+            pagedate: date,
+            title: ilios_i18nVendor.getI18NString('general.phrases.end_date')
+        });
+
+        //
+        // subscribe to the dialog's various events.
+        //
+        this.beforeRenderEvent.subscribe(function () {
+
+            this.cal1.selectEvent.subscribe(this.selectCalendar, {
+                calendar: this.cal1,
+                targetEl: document.getElementById('edit-sequence-block-dialog--start-date')
+            });
+            this.cal1.render();
+
+            this.cal2.selectEvent.subscribe(this.selectCalendar, {
+                calendar: this.cal2,
+                targetEl: document.getElementById('edit-sequence-block-dialog--end-date')
+            });
+            this.cal2.render();
+
+            Event.addListener('edit-sequence-block-dialog--start-date-button', 'click', this.onCalendarButtonClick, {
+                calendar: this.cal1
+            }, this);
+            Event.addListener('edit-sequence-block-dialog--end-date-button', 'click', this.onCalendarButtonClick, {
+                calendar: this.cal2
+            }, this);
+
+            Event.addListener('edit-sequence-block-dialog--clear-dates-button', 'click', function (event) {
+                this._resetDateFields();
+                Event.stopEvent(event);
+            }, {}, this);
+        });
+
+        this.beforeShowEvent.subscribe(function () {
+            Dom.removeClass(el, 'hidden');
+            this.center();
+        });
+
+        this.hideEvent.subscribe(function () {
+            Dom.addClass(el, 'hidden');
+        });
+        this.beforeSubmitEvent.subscribe(function () {
+            document.getElementById('edit-sequence-block-dialog--status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.saving') + '...';
+        });
+
+        this.cancelEvent.subscribe(function () {
+            this.resetCalendars();
+            this.reset();
+        });
+
+        /*
+         * Form submission success handler.
+         */
+        this.callback.success = function (resultObject) {
+            var parsedResponse;
+            var dialog = resultObject.argument;
+            try {
+                parsedResponse = Lang.JSON.parse(resultObject.responseText);
+            } catch (e) {
+                document.getElementById('edit-sequence-block-dialog--status').innerHTML
+                    = ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.update.error.general');
+                return;
+            }
+
+            document.getElementById('edit-sequence-block-dialog--status').innerHTML = '';
+
+            if (parsedResponse.hasOwnProperty('error')) {
+                document.getElementById('edit-sequence-block-dialog--status').innerHTML = parsedResponse.error;
+                return;
+            }
+
+            // At this point we can assume that the transaction was a success.
+            // peel the new block record (key: "sequence_block") off the payload,
+            // and fire it off to subscribers of our "update succeeded" event.
+            dialog.sequenceBlockUpdateSucceededEvent.fire({ data: parsedResponse.sequence_block });
+            dialog.cancel();
+        };
+
+        /*
+         * Form submission failure handler.
+         */
+        this.callback.failure = function (resultObject) {
+            ilios.global.defaultAJAXFailureHandler(resultObject);
+            document.getElementById('edit-sequence-block-dialog--status').innerHTML
+                = ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.update.error.general');
+        };
+
+        this.callback.argument = this;
+
+        this.beforeSubmitEvent.subscribe(function () {
+            document.getElementById('edit-sequence-block-dialog--status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.creating') + '...';
+        });
+    };
+
+    Lang.extend(EditSequenceBlockDialog, YAHOO.widget.Dialog, {
+
+        /**
+         * The calendar widget for selecting the "start date" in this dialog's form.
+         *
+         * @property cal1
+         * @type {YAHOO.widget.Calendar}
+         */
+        cal1: null,
+
+        /**
+         * The calendar widget for selecting the "end date" in this dialog's form.
+         *
+         * @property cal2
+         * @type {YAHOO.widget.Calendar}
+         */
+        cal2: null,
+
+        /**
+         * The course repository.
+         * Used to look up linkable courses for populating the "course" dropdown in this dialog's form.
+         *
+         * @property _courseRepo
+         * @type {ilios.cim.CourseRepository}
+         * @protected
+         */
+        _courseRepo: null,
+
+        /**
+         * @method _populateCourseDropdown
+         * @property {ilios.cim.model.CourseModel|null} value The currently selected course, or NULL if none is selected.
+         * @protected
+         */
+        _populateCourseDropdown: function (value) {
+            var i, n, selectEl, optionEl, course, courses;
+            selected = false;
+            courses = this._courseRepo.listAvailable(false);
+            selectEl = document.getElementById('edit-sequence-block-dialog--course');
+            // if applicable, add the currently selected course to the top of the dropdown.
+            if (value) {
+                optionEl = selectEl.appendChild(document.createElement('option'));
+                optionEl.value = value.getId();
+                optionEl.innerHTML = value.get('title');
+                Dom.setAttribute(optionEl, 'selected', 'selected');
+            }
+            for (i = 0, n = courses.length; i < n; i++) {
+                course = courses[i];
+                optionEl = selectEl.appendChild(document.createElement('option'));
+                optionEl.value = course.getId();
+                optionEl.innerHTML = course.get('title');
+            }
+        },
+
+        /**
+         * Populates the "order in sequence" dropdown with <code>n</code> options.
+         * Each option has an increment of 1 as its text and value, starting at 1 and ending
+         * at a given upper boundary n.
+         * E.g., if n = 3 is given then this method will add three option elements with the values
+         * 1, 2 and 3 to the dropdown.
+         *
+         * @method _populateOrderInSequenceDropdown
+         * @param {Number} n The upper inclusive) boundary.
+         @param {Number} value The currently selected order-in-sequence value.
+         * @protected
+         */
+        _populateOrderInSequenceDropdown: function (n, value) {
+            var i, selectEl, optionEl;
+            selectEl = document.getElementById('edit-sequence-block-dialog--order-in-sequence');
+            for (i = 1; i <= n; i++) {
+                optionEl = selectEl.appendChild(document.createElement('option'));
+                optionEl.value = i;
+                optionEl.innerHTML = i;
+                if (value == i) {
+                    optionEl.selected = "selected";
+                }
+            }
+        },
+
+        /**
+         * Clears out the "course" dropdown and re-adds the default "None" option.
+         *
+         * @method _resetCourseDropdown
+         * @protected
+         */
+        _resetCourseDropdown: function () {
+            var selectEl, optionEl;
+            selectEl = document.getElementById('edit-sequence-block-dialog--course');
+            selectEl.innerHTML = ''; // gut the drop-down
+            optionEl = selectEl.appendChild(document.createElement('option'));
+            optionEl.value = "";
+            optionEl.innerHTML = '&lt;' + ilios_i18nVendor.getI18NString('general.terms.none') + '&gt;';
+        },
+
+        /**
+         * Clears out the start/end-date input fields.
+         *
+         * @method _resetDateFields
+         * @protected
+         */
+        _resetDateFields: function () {
+            document.getElementById('edit-sequence-block-dialog--start-date').value = "";
+            document.getElementById('edit-sequence-block-dialog--end-date').value = "";
+        },
+
+        /**
+         * Clears out the "order in sequence" dropdown.
+         *
+         * @method _resetOrderInSequenceDropdown
+         * @protected
+         */
+        _resetOrderInSequenceDropdown: function () {
+            var el = document.getElementById('edit-sequence-block-dialog--order-in-sequence');
+            el.innerHTML = '';
+        },
+
+        /**
+         * Resets the dialog's form to its initial state.
+         *
+         * @method reset
+         */
+        reset: function () {
+            document.getElementById('edit-sequence-block-dialog--sequence-block-id').value = "";
+            document.getElementById('edit-sequence-block-dialog--title').value = "";
+            document.getElementById('edit-sequence-block-dialog--description').value = "";
+            document.getElementById('edit-sequence-block-dialog--duration').value = "0";
+            document.getElementById('edit-sequence-block-dialog--required').options[0].selected = 'selected';
+            document.getElementById('edit-sequence-block-dialog--academic-level').options[0].selected = 'selected';
+            document.getElementById('edit-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
+            document.getElementById('edit-sequence-block-dialog--track').options[0].selected = 'selected';
+
+            this._clearValidationErrorStyles();
+            this._resetDateFields();
+            this._resetCourseDropdown();
+            this._resetOrderInSequenceDropdown();
+            Dom.addClass('edit-sequence-block-dialog--order-in-sequence-row', 'hidden');
+        },
+
+        /**
+         * Removes the CSS classes for highlighting form validation errors from input elements.
+         *
+         * @method _clearValidationErrorStyles
+         * @protected
+         */
+        _clearValidationErrorStyles: function () {
+            Dom.removeClass('edit-sequence-block-dialog--title', 'validation-failed');
+            Dom.removeClass('edit-sequence-block-dialog--description', 'validation-failed');
+            Dom.removeClass('edit-sequence-block-dialog--end-date', 'validation-failed');
+            Dom.removeClass('edit-sequence-block-dialog--duration', 'validation-failed');
+        },
+
+        /**
+         * Populates the dialog's form with the data of a given sequence block.
+         *
+         * @param {ilios.cim.model.SequenceBlockModel} block The given sequence block.
+         */
+        populateForm: function (block) {
+
+            var dt, duration, required, academicLevel, track, childSequenceOrder, startDate, endDate;
+            document.getElementById('edit-sequence-block-dialog--sequence-block-id').value = block.getId();
+            document.getElementById('edit-sequence-block-dialog--title').value = block.get('title');
+            document.getElementById('edit-sequence-block-dialog--description').value = block.get('description');
+            startDate = block.get('startDate');
+            if (startDate) {
+                document.getElementById('edit-sequence-block-dialog--start-date').value = startDate;
+                dt = new Date(startDate);
+                this.cal1.cfg.setProperty('selected', dt, false);
+                this.cal1.cfg.setProperty('pagedate', dt, false);
+                this.cal1.render();
+            }
+            endDate = block.get('endDate');
+            if (endDate) {
+                document.getElementById('edit-sequence-block-dialog--end-date').value = endDate;
+                dt = new Date(endDate);
+                this.cal2.cfg.setProperty('selected', dt, false);
+                this.cal2.cfg.setProperty('pagedate', dt, false);
+                this.cal2.render();
+            }
+            duration = block.get('duration');
+            if (duration) {
+                document.getElementById('edit-sequence-block-dialog--duration').value = duration;
+            }
+            // @todo populate the dropdowns
+            /*
+             document.getElementById('edit-sequence-block-dialog--required').options[0].selected = 'selected';
+             document.getElementById('edit-sequence-block-dialog--academic-level').options[0].selected = 'selected';
+             document.getElementById('edit-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
+             document.getElementById('edit-sequence-block-dialog--track').options[0].selected = 'selected';
+             */
+            var parent = block.get('parent');
+            this._populateCourseDropdown(block.get('course'));
+            document.getElementById('edit-sequence-block-dialog--sequence-block-id').value = block.getId();
+            if (parent) {
+                // if the parent sequence is unordered or in parallel
+                // then hide the "order in sequence" input field
+                if (parent.ORDERED == parent.get('childSequenceOrder')) {
+                    this._populateOrderInSequenceDropdown(parent.get('children').size() + 1, block.get('orderInSequence'));
+                    Dom.removeClass('edit-sequence-block-dialog--order-in-sequence-row', 'hidden');
+                }
+            }
+        },
+
+        /**
+         * Validates the data entered into the dialog's form.
+         *
+         * @method validate
+         * @return {Boolean} TRUE on success, FALSE on error.
+         */
+        validate: function () {
+            this._clearValidationErrorStyles();
+            var data = this.getData();
+            var msgs = [];
+            var hasStartDate = data.start_date ? true : false;
+
+            if ('' === Lang.trim(data.title)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.title_missing'));
+                Dom.addClass('edit-sequence-block-dialog--title', 'validation-failed');
+            }
+            if ('' === Lang.trim(data.description)) {
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.description_missing'));
+                Dom.addClass('edit-sequence-block-dialog--description', 'validation-failed');
+            }
+            if (hasStartDate) {
+                if (! data.end_date) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_end_date'));
+                    Dom.addClass('edit-sequence-block-dialog--end-date', 'validation-failed');
+                }
+                if (Date.parse(data.start_date) > Date.parse(data.end_date)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.start_date_gt_end_date'));
+                    Dom.addClass('edit-sequence-block-dialog--end-date', 'validation-failed');
+                }
+
+                // if a duration is given then it must be valid
+                if ("" !== Lang.trim(data.duration) && 0 > parseInt(data.duration, 10)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
+                    Dom.addClass('edit-sequence-block-dialog--duration', 'validation-failed');
+                }
+            } else {
+                // duration is required and must be larger that zero
+                if ("" === Lang.trim(data.duration) || 0 >= parseInt(data.duration, 10)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_duration'));
+                    Dom.addClass('edit-sequence-block-dialog--duration', 'validation-failed');
+                }
+            }
+
+            if (msgs.length) {
+                document.getElementById('edit-sequence-block-dialog--status').innerHTML = msgs.join('<br />') + '<br />';
+                return false;
+            }
+            return true;
+        },
+
+        /**
+         * Resets the start/end date calendar widgets and hides them from view.
+         *
+         * @method resetCalendars
+         */
+        resetCalendars: function () {
+            var date = new Date();
+            this.cal1.cfg.setProperty('selected', date, false);
+            this.cal1.cfg.setProperty('pagedate', date, false);
+            this.cal1.render();
+            this.cal1.hide();
+
+            this.cal2.cfg.setProperty('selected', date, false);
+            this.cal2.cfg.setProperty('pagedate', date, false);
+            this.cal2.render();
+            this.cal2.hide();
+        },
+
+        /**
+         * Makes the dialog visible, after resetting and populating it with the given data.
+         *
+         * @override
+         * @method show
+         * @param {ilios.cim.model.SequenceBlockModel} block The sequence block to edit.
+         * @see YAHOO.widget.Module.show
+         */
+        show: function (block) {
+            this.reset();
+            this.populateForm(block);
+            EditSequenceBlockDialog.superclass.show.call(this);
+
+        },
+
+        /**
+         * Event-listener function.
+         * Subscribed to each calendar widget's "selectEvent" event.
+         * It takes the selected date as passed from the calendar and writes it to a given input field
+         * after reformatting it, then closes/hides the given calendar.
+         *
+         * @method selectCalendar
+         * @param {String} type The name of the fired event.
+         * @param {Array} args an array of Date-field arrays in the format [YYYY, MM, DD]
+         * @param {Object} obj An argument map containing:
+         *    @param {HTMLElement} obj.targetEl The form element to write the picked date to.
+         *    @param {YAHOO.widget.Calendar} obj.calendar The calendar to hide.
+         * @link http://developer.yahoo.com/yui/docs/YAHOO.widget.Calendar.html#event_selectEvent
+         */
+        selectCalendar: function (type, args, obj) {
+            var cal = obj.calendar;
+            var el = obj.targetEl;
+            var dt;
+            if (args[0]) {
+                dt = new Date(args[0][0][0], args[0][0][1] - 1, args[0][0][2]);
+                el.value = YAHOO.util.Date.format(dt, {format: "%Y-%m-%d"});
+            }
+            cal.hide();
+        },
+
+        /**
+         * Event-listener function.
+         * Subscribed to each calendar button in this dialog's form.
+         * Pops up the given calendar widget.
+         *
+         * @method onCalendarButtonClick
+         * @param {Event} event The fired event.
+         * @param {Object} obj An argument map containing:
+         *     @param {YAHOO.widget.Calendar} obj.calendar The calendar to pop up.
+         */
+        onCalendarButtonClick: function (event, obj) {
+            obj.calendar.show();
+        },
+
+        /**
+         * Event type.
+         * @property EVT_SEQUENCE_BLOCK_UPDATE_SUCCEEDED
+         * @type {String}
+         * @final
+         * @see ilios.cim.widget.EditSequenceBlockDialog.sequenceBlockUpdateSucceededEvent
+         */
+        EVT_SEQUENCE_BLOCK_UPDATE_SUCCEEDED: 'sequenceBlockUpdateSucceeded',
+
+        /**
+         * Fired when the server response following form post for updating a sequence block indicating success
+         * has been received, and the payload from that response has been parsed into a data map object.
+         *
+         * @event sequenceBlockUpdateSucceededEvent
+         * @param {Object} data A plain data object containing the properties of updated sequence block record.
+         */
+        sequenceBlockUpdateSucceededEvent: null
+    });
+
+
+    /**
      * A toolbar displayed above the sequence block containers.
      * Contains "expand/collapse-all" buttons.
      *
@@ -1310,4 +1811,5 @@
     ilios.cim.widget.ReportPickerDialog = ReportPickerDialog;
     ilios.cim.widget.EditReportDialog = EditReportDialog;
     ilios.cim.widget.CreateSequenceBlockDialog = CreateSequenceBlockDialog;
+    ilios.cim.widget.EditSequenceBlockDialog = EditSequenceBlockDialog;
 }());
