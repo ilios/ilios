@@ -808,6 +808,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+
         // input validation
         $sequenceBlockId = (int) $this->input->post('sequence_block_id');
         $block = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
@@ -822,10 +823,21 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        $isInOrderedSequence = false;
+        if ($block->parent_sequence_block_id) {
+            $parent = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
+            if (Curriculum_Inventory_Sequence_Block::ORDERED == $parent->child_sequence_order) {
+                $isInOrderedSequence = true;
+            }
+        }
+
+
         // delete the report and associated records
         $this->db->trans_start();
         $this->invSequenceBlock->delete($sequenceBlockId);
-        // @todo correct sort order in ordered sequence for siblings with a higher sort order by decrementing their order value by one
+        if ($isInOrderedSequence) {
+            $this->invSequenceBlock->decrementOrderInSequence($block->order_in_sequence, $block->parent_sequence_block_id);
+        }
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.delete.error.general', $lang);
