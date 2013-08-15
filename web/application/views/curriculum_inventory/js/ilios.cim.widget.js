@@ -1132,7 +1132,7 @@
         this.callback.argument = this;
 
         this.beforeSubmitEvent.subscribe(function () {
-            document.getElementById('edit-sequence-block-dialog--status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.creating') + '...';
+            document.getElementById('edit-sequence-block-dialog--status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.updating') + '...';
         });
     };
 
