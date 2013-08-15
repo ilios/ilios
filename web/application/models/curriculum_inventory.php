@@ -402,7 +402,7 @@ EOL;
 
     /**
      * Retrieves all PCRS linked to sequence blocks (via objectives and competencies) in a given inventory report.
-     * @param $reportId The report id.
+     * @param int $reportId The report id.
      * @return array A nested array of associative arrays, keyed off by 'pcrs_id'. Each sub-array represents a PCRS
      *      and is itself an associative array with values being keyed off by 'pcrs_id' and 'description'.
      */
@@ -469,7 +469,7 @@ EOL;
      * Retrieves all competencies (that includes sub-domains) linked to sequence blocks in a given inventory report.
      * A further constraint on owning school is applied to ensure that all retrieved competencies belong to the same
      * school as the program that is being reported on.
-     * @param $reportId The report id.
+     * @param int $reportId The report id.
      * @return array A nested array of associative arrays, keyed off by 'competency_id'. Each sub-array
      *     represents a competency and is itself an associative array with values being keyed off by 'competency_id' and 'title'.
      */
