@@ -783,6 +783,189 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             return;
         }
 
+        $invReport = $this->invReport->getRowForPrimaryKeyId($block->report_id);
+        $parentBlock = false;
+        if ($block->parent_sequence_block_id) {
+            $parentBlock = $this->invSequenceBlock->getRowForPrimaryKeyId($block->parent_sequence_block_id);
+        }
+
+        //
+        // fetch and validate the rest of the form post
+        //
+        $title = trim($this->input->post('title'));
+        $description = trim($this->input->post('description'));
+        $minimum  = (int) $this->input->post('minimum');
+        $maximum = (int) $this->input->post('maximum');
+        $required = (int) $this->input->post('required');
+        $childSequenceOrder = (int) $this->input->post('child_sequence_order');
+        $orderInSequence = (int) $this->input->post('order_in_sequence');
+        $academicLevelId = (int) $this->input->post('academic_level');
+        $courseId = (int) $this->input->post('course_id');
+        $track = (boolean) $this->input->post('track');
+        $startDate = trim($this->input->post('start_date'));
+        $endDate = trim($this->input->post('end_date'));
+        $startDateTs = strtotime($startDate);
+        $endDateTs = strtotime($endDate);
+        $duration = $this->input->post('duration');
+        $hasDateRange = ('' !== $startDate);
+        $isInOrderedSequence = ($parentBlock
+            && $parentBlock->child_sequence_order == Curriculum_Inventory_Sequence_Block::ORDERED);
+
+        if ('' === $title) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.title_missing', $lang);
+            return;
+        }
+        if ('' === $description) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.description_missing', $lang);
+            return;
+        }
+        if (0 > $minimum) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_minimum', $lang);
+            return;
+        }
+        if (0 > $maximum) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_maximum', $lang);
+            return;
+        }
+
+        if ($minimum > $maximum) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.minimum_gt_maximum', $lang);
+            return;
+        }
+        if (! in_array($required, array(Curriculum_Inventory_Sequence_Block::REQUIRED,
+            Curriculum_Inventory_Sequence_Block::OPTIONAL, Curriculum_Inventory_Sequence_Block::REQUIRED_IN_TRACK))) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.minimum_gt_maximum', $lang);
+            return;
+        }
+        if (! in_array($childSequenceOrder, array(Curriculum_Inventory_Sequence_Block::ORDERED,
+            Curriculum_Inventory_Sequence_Block::UNORDERED, Curriculum_Inventory_Sequence_Block::PARALLEL))) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_child_sequence_order', $lang);
+            return;
+        }
+        if (! $academicLevelId) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.academic_level_missing', $lang);
+            return;
+        }
+        if ($courseId
+            && ($courseId != $block->course_id) // check first if course has changed
+            && ! $this->inventory->isLinkableCourse($invReport->year, $schoolId, $invReport->report_id, $courseId)) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.course_not_linkable', $lang);
+            return;
+        }
+        if ($isInOrderedSequence) {
+            // perform boundaries check of given order in sequence
+            if ($orderInSequence < 1) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_order_in_sequence', $lang);
+                return;
+            }
+            $numberOfSiblings = $this->invSequenceBlock->getNumberOfChildren($parentBlock->sequence_block_id);
+            if ($orderInSequence > ($numberOfSiblings + 1)) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_order_in_sequence', $lang);
+                return;
+            }
+        }
+        if ($hasDateRange) {
+            if ('' === $endDate) { // must provide end date if start date is given
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_end_date', $lang);
+                return;
+            }
+            // start and end date must be valid
+            if (false === $startDateTs) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_start_date', $lang);
+                return;
+            };
+            if (false === $startDateTs) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_end_date', $lang);
+                return;
+            };
+
+            // start date must not come after end date
+            if ($startDateTs > $endDateTs) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.start_date_gt_end_date', $lang);
+                return;
+            }
+        } else { // if no date range is given then duration becomes required
+            if (! $duration) {
+                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_duration', $lang);
+                return;
+            }
+        }
+
+        if (0 > $duration) { // if a duration is given then it must be valid
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_duration', $lang);
+            return;
+        }
+
+        // final data massaging to provide proper default values for optional/conditional properties
+        $orderInSequence = $isInOrderedSequence ? $orderInSequence : 0;
+        $courseId = $courseId ? $courseId : null;
+        if ($hasDateRange) {
+            $startDate = date('Y-m-d', $startDateTs);
+            $endDate = date('Y-m-d', $endDateTs);
+        } else {
+            $startDate = null;
+            $endDate = null;
+        }
+
+        $childSequenceOrderHasChanged = ($block->child_sequence_order != $childSequenceOrder);
+        $orderInSequenceHasChanged = ($block->order_in_sequence != $orderInSequence);
+
+        $data = array();
+        $data['title'] = $title;
+        $data['description'] = $description;
+        $data['required'] = $required;
+        $data['maximum'] = $maximum;
+        $data['minimum'] = $minimum;
+        $data['track'] = $track;
+        $data['course_id'] = $courseId;
+        $data['academic_level_id'] = $academicLevelId;
+        $data['child_sequence_order'] = $childSequenceOrder;
+        $data['order_in_sequence'] = $orderInSequence;
+        $data['start_date'] = $startDate;
+        $data['end_date'] = $endDate;
+        $data['duration'] = $duration;
+
+
+        //
+        // create a new sequence block in the db
+        //
+        $this->db->trans_start();
+        // if the given block is in an ordered sequence, and its place within that sequence has changed
+        // then we must resort the whole sequence.
+        if ($isInOrderedSequence && $orderInSequenceHasChanged) {
+            $this->invSequenceBlock->decrementOrderInSequence($block->order_in_sequence, $parentBlock->sequence_block_id);
+            $this->invSequenceBlock->incrementOrderInSequence($orderInSequence, $parentBlock->sequence_block_id);
+        }
+        if ($childSequenceOrderHasChanged) {
+            if ($block->child_sequence_order == Curriculum_Inventory_Sequence_Block::ORDERED) {
+                // if the block's child sequence is changing FROM the ordered TO an unordered state
+                // then the sequence order for each child must be zeroed out
+                $this->invSequenceBlock->setOrderToZeroInSequence($block->sequence_block_id);
+            } elseif ($childSequenceOrder == Curriculum_Inventory_Sequence_Block::ORDERED) {
+                // if the block's child sequence is changing FROM an unordered TO the ordered state
+                // the we must sort all of its children and update each child's order-in-sequence value
+                // accordingly.
+                $children = $this->invSequenceBlock->getChildren($block->sequence_block_id);
+                $n = count($children);
+                if ($n) {
+                    usort($children, 'Curriculum_Inventory_Sequence_Block::defaultSortSequenceBlocks');
+                    for ($i = 0; $i < $n; $i++) {
+                        $this->invSequenceBlock->update($children[$i]['sequence_block_id'],
+                            array('order_in_sequence' => ($i + 1)));
+                    }
+                }
+            }
+        }
+        $this->invSequenceBlock->update($block->sequence_block_id, $data);
+        $block = $this->invSequenceBlock->get($blockId);
+        $this->db->trans_complete();
+        if (false === $this->db->trans_status()) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.update.error.general', $lang);
+            return;
+        }
+
+        $rhett['sequence_block'] = $block;
+
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
