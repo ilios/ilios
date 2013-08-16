@@ -1206,7 +1206,7 @@
         _populateOrderInSequenceDropdown: function (n, value) {
             var i, selectEl, optionEl;
             selectEl = document.getElementById('edit-sequence-block-dialog--order-in-sequence');
-            for (i = 1; i < n; i++) {
+            for (i = 1; i <= n; i++) {
                 optionEl = selectEl.appendChild(document.createElement('option'));
                 optionEl.value = i;
                 optionEl.innerHTML = i;
@@ -1295,7 +1295,7 @@
          */
         populateForm: function (block) {
 
-            var dt, duration, required, academicLevel, track, childSequenceOrder, startDate, endDate;
+            var dt, duration, required, i, track, childSequenceOrder, startDate, endDate;
             document.getElementById('edit-sequence-block-dialog--sequence-block-id').value = block.getId();
             document.getElementById('edit-sequence-block-dialog--title').value = block.get('title');
             document.getElementById('edit-sequence-block-dialog--description').value = block.get('description');
@@ -1319,13 +1319,15 @@
             if (duration) {
                 document.getElementById('edit-sequence-block-dialog--duration').value = duration;
             }
-            // @todo populate the dropdowns
-            /*
-             document.getElementById('edit-sequence-block-dialog--required').options[0].selected = 'selected';
-             document.getElementById('edit-sequence-block-dialog--academic-level').options[0].selected = 'selected';
-             document.getElementById('edit-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
-             document.getElementById('edit-sequence-block-dialog--track').options[0].selected = 'selected';
-             */
+            i = block.get('required') - 1;
+            document.getElementById('edit-sequence-block-dialog--required').options[i].selected = 'selected';
+            i = block.get('academicLevel').get('level') - 1;
+            document.getElementById('edit-sequence-block-dialog--academic-level').options[i].selected = 'selected';
+            i = block.get('childSequenceOrder') - 1;
+            document.getElementById('edit-sequence-block-dialog--child-sequence-order').options[i].selected = 'selected';
+            i = block.get('track') ? 1 : 0;
+            document.getElementById('edit-sequence-block-dialog--track').options[i].selected = 'selected';
+
             var parent = block.get('parent');
             this._populateCourseDropdown(block.get('course'));
             document.getElementById('edit-sequence-block-dialog--sequence-block-id').value = block.getId();
@@ -1333,7 +1335,7 @@
                 // if the parent sequence is unordered or in parallel
                 // then hide the "order in sequence" input field
                 if (parent.ORDERED == parent.get('childSequenceOrder')) {
-                    this._populateOrderInSequenceDropdown(parent.get('children').size() + 1, block.get('orderInSequence'));
+                    this._populateOrderInSequenceDropdown(parent.get('children').size(), block.get('orderInSequence'));
                     Dom.removeClass('edit-sequence-block-dialog--order-in-sequence-row', 'hidden');
                 }
             }
