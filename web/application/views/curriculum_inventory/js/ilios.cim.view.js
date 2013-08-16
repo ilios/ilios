@@ -48,7 +48,19 @@
         this._cnumber = model.get('id');
 
         // subscribe to model changes
-        this._model.subscribe(this._model.EVT_DELETE,this.delete, {}, this);
+        this._model.subscribe(this._model.EVT_DELETE, this.delete, {}, this);
+        this._model.subscribe('titleChange', this.onTitleChange, {}, this);
+        this._model.subscribe('descriptionChange', this.onDescriptionChange, {}, this);
+        this._model.subscribe('requiredChange', this.onRequiredChange, {}, this);
+        this._model.subscribe('academicLevelChange', this.onAcademicLevelChange, {}, this);
+        this._model.subscribe('courseChange', this.onCourseChange, {}, this);
+        this._model.subscribe('childSequenceOrderChange', this.onChildSequenceOrderChange, {}, this);
+        this._model.subscribe('orderInSequenceChange', this.onOrderInSequenceChange, {}, this);
+        this._model.subscribe('startDateChange', this.onStartDateChange, {}, this);
+        this._model.subscribe('endDateChange', this.onEndDateChange, {}, this);
+        this._model.subscribe('durationChange', this.onDurationChange, {}, this);
+        this._model.subscribe('trackChange', this.onTrackChange, {}, this);
+
     };
 
     Lang.extend(SequenceBlockView, Element, {
@@ -695,6 +707,146 @@
          */
         getAddButton: function () {
             return this.get('addBtnEl');
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a title attribute change in the view's model and updates the view's title attribute accordingly.
+         *
+         * @method onTitleChange
+         * @param {Object} evObj An object containing the old and new title value
+         */
+        onTitleChange: function (evObj) {
+            this.set('title', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a description attribute change in the view's model and updates the view's description attribute
+         * accordingly.
+         *
+         * @method onDescriptionChange
+         * @param {Object} evObj An object containing the old and new description value.
+         */
+        onDescriptionChange: function (evObj) {
+            this.set('description', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a required attribute change in the view's model and updates the view's required attribute
+         * accordingly.
+         *
+         * @method onRequiredChange
+         * @param {Object} evObj An object containing the old and new required value.
+         */
+        onRequiredChange: function (evObj) {
+            this.set('required', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a academic level attribute change in the view's model and updates the view's academic level
+         * attribute accordingly.
+         *
+         * @method onAcademicLevelChange
+         * @param {Object} evObj An object containing the old and new academic level value.
+         */
+        onAcademicLevelChange: function (evObj) {
+            this.set('academicLevel', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a course attribute in the view's model and updates the view's course attribute accordingly.
+         *
+         * @method onCourseChange
+         * @param {Object} evObj An  object containing the old and new course value.
+         */
+        onCourseChange: function (evObj) {
+            this.set('course', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a child sequence order attribute in the view's model and updates the view's
+         * child sequence order attribute accordingly.
+         *
+         * @method onChildSequenceOrderChange
+         * @param {Object} evObj An object containing the old and new child sequence order value.
+         */
+        onChildSequenceOrderChange: function (evObj) {
+            this.set('childSequenceOrder', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a order in sequence attribute in the view's model and updates the view's
+         * order in sequence attribute accordingly.
+         *
+         * @method onOrderInSequenceChange
+         * @param {Object} evObj An object containing the old and new order in sequence value.
+         */
+        onOrderInSequenceChange: function (evObj) {
+            this.set('orderInSequence', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a start date attribute change in the view's model and updates the view's start date attribute
+         * accordingly.
+         *
+         * @method onStartDateChange
+         * @param {Object} evObj An object containing the old and new start date value.
+         */
+        onStartDateChange: function (evObj) {
+            this.set('startDate', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a end date attribute change in the view's model and updates the view's end date attribute
+         * accordingly.
+         *
+         * @method onEndDateChange
+         * @param {Object} evObj An object containing the old and new end date value.
+         */
+        onEndDateChange: function (evObj) {
+            this.set('endDate', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a duration attribute change in the view's model and updates the view's duration attribute
+         * accordingly.
+         *
+         * @method onDurationChange
+         * @param {Object} evObj An object containing the old and new duration value.
+         */
+        onDurationChange: function (evObj) {
+            this.set('duration', evObj.newValue);
+        },
+
+        /**
+         * Event listener method.
+         *
+         * Listens for a track attribute change in the view's model and updates the view's track attribute accordingly.
+         *
+         * @method onTrackChange
+         * @param {Object} evObj An object containing the old and new end date value.
+         */
+        onTrackChange: function (evObj) {
+            this.set('track', evObj.newValue);
         }
     });
 

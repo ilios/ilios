@@ -630,7 +630,6 @@
      *    @param {ilios.cim.model.AcademicLevelModel} oData.academic_level_model
      *    @param {String} oData.duration
      *    @param {ilios.cim.model.CourseModel|null} oData.course_model
-     *    @param {String|null} oData.parent_sequence_block_id
      *    @param {ilios.cim.model.SequenceBlockModel|null} oData.parent_model
      * @constructor
      */
@@ -639,6 +638,56 @@
     };
 
     Lang.extend(SequenceBlockModel, BaseModel, {
+
+        /**
+         * Updates the model's attributes with given values.
+         *
+         * @method update
+         * @param {Object} oData A key/value map of updated model data.
+         *    @param {String} oData.required
+         *    @param {String} oData.child_sequence_order
+         *    @param {String} oData.order_in_sequence
+         *    @param {String} oData.minimum
+         *    @param {String} oData.maximum
+         *    @param {String} oData.track
+         *    @param {String} oData.description
+         *    @param {String} oData.title
+         *    @param {String|null} oData.start_date
+         *    @param {String|null} oData.end_date
+         *    @param {String} oData.academic_level_id
+         *    @param {ilios.cim.model.AcademicLevelModel} oData.academic_level_model
+         *    @param {String} oData.duration
+         *    @param {ilios.cim.model.CourseModel|null} oData.course_model
+         */
+        update: function (oData) {
+            var required = parseInt(oData.required, 10);
+            var childSequenceOrder = parseInt(oData.child_sequence_order, 10);
+            var orderInSequence = parseInt(oData.order_in_sequence, 10);
+            var minimum = parseInt(oData.minimum, 10);
+            var maximum = parseInt(oData.maximum, 10);
+            var track = !! parseInt(oData.track, 10);
+            var description = oData.description;
+            var title = oData.title;
+            var startDate = oData.start_date;
+            var endDate = oData.end_date;
+            var academicLevelModel = oData.academic_level_model;
+            var duration = parseInt(oData.duration, 10);
+            var courseModel = oData.course_model;
+
+            this.set('required', required);
+            this.set('childSequenceOrder', childSequenceOrder);
+            this.set('orderInSequence', orderInSequence);
+            this.set('minimum', minimum);
+            this.set('maximum', maximum);
+            this.set('track', track);
+            this.set('description', description);
+            this.set('startDate', startDate);
+            this.set('endDate', endDate);
+            this.set('academicLevel', academicLevelModel);
+            this.set('duration', duration);
+            this.set('title', title);
+            this.set('course', courseModel);
+        },
         /*
          * @override
          * @see ilios.cim.model.BaseModel.init

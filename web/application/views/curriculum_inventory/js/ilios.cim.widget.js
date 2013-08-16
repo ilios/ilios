@@ -1206,7 +1206,7 @@
         _populateOrderInSequenceDropdown: function (n, value) {
             var i, selectEl, optionEl;
             selectEl = document.getElementById('edit-sequence-block-dialog--order-in-sequence');
-            for (i = 1; i <= n; i++) {
+            for (i = 1; i < n; i++) {
                 optionEl = selectEl.appendChild(document.createElement('option'));
                 optionEl.value = i;
                 optionEl.innerHTML = i;

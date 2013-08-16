@@ -569,7 +569,7 @@
                 // wire the dialog's success/failure events up to the application
                 this._editSequenceBlockDialog.sequenceBlockUpdateSucceededEvent.subscribe(function (type, args, me) {
                     var data = args[0]['data'];
-                    me.update(data);
+                    me.updateSequenceBlock(data);
                     me.getStatusBar().show('Updated sequence block.');
                 }, this);
             }
@@ -638,6 +638,30 @@
                     this.addSequenceBlock(oData.children[i], silent);
                 }
             }
+        },
+
+        /**
+         * Updates a sequence block with the given data.
+         *
+         * @method updateSequenceBlock
+         * @param {Object} oData A map containing data of the new sequence block.
+         * @throws {Error}
+         */
+        updateSequenceBlock: function (oData) {
+            var course, newCourse;
+            var block = this.getSequenceBlockModelMap().get(oData.sequence_block_id);
+            var levels = this.getAcademicLevels();
+            oData['academic_level_model'] = levels[oData.academic_level_id];
+            newCourse = null;
+            if (oData['course_id']) {
+                course = block.get('course');
+                if (! course || (course.getId() != oData.course_id)) {
+                    newCourse = this.getCourseRepository().checkOut(oData.course_id);
+                }
+            }
+            oData['course_model'] = newCourse;
+            block.update(oData);
+            // @todo rearrange sequence block containers in the UI if necessary.
         },
 
         /**
