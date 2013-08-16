@@ -90,6 +90,25 @@ EOL;
     }
 
     /**
+     * Retrieves sequence blocks that are children of a given parent sequence block.
+     *
+     * @param int $parentSequenceBlockId The parent block's id.
+     * @return array An array of associative arrays. Each item is representing a full sequence block record.
+     */
+    public function getChildren($parentSequenceBlockId)
+    {
+        $rhett = array();
+        $query = $this->db->get_where($this->databaseTableName, array('parent_sequence_block_id' => $parentSequenceBlockId));
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
      * Creates a new sequence block.
      * Note: Input validation according to business rules, like type- and range-checking, is assumed to happen further
      * upstream. In other words, this function expects validated input.
@@ -135,6 +154,24 @@ EOL;
             return $this->db->insert_id();
         }
         return false;
+    }
+
+    /**
+     * Updates a sequence block with given data.
+     * Note: Input validation according to business rules, like type- and range-checking, is assumed to happen further
+     * upstream. In other words, this function expects validated input.
+     *
+     * @param int $sequenceBlockId
+     * @param array $data An associative array containing the updated values keyed off by column name.
+     *    May contain values entries for the following keys:
+     *   "title", "description", "start_date", "end_date", "duration", "academic_level_id", "required", "maximum",
+     *   "minimum", "track", "course_id", "child_sequence_number" and "order_in_sequence".
+     */
+    public function update ($sequenceBlockId, array $data)
+    {
+        $this->db->where('sequence_block_id', $sequenceBlockId);
+        $this->db->update($this->databaseTableName, $data);
+
     }
 
 
@@ -245,15 +282,15 @@ EOL;
             if (count($children)) {
                 // sort children if the sort order demands it
                 if (Curriculum_Inventory_Sequence_Block::ORDERED == $rhett[$i]['child_sequence_order']) {
-                    usort($children, array($this, '_orderedSortSequenceBlocks'));
+                    usort($children, 'Curriculum_Inventory_Sequence_Block::orderedSortSequenceBlocks');
                 } else {
-                    usort($children, array($this, '_defaultSortSequenceBlocks'));
+                    usort($children, 'Curriculum_Inventory_Sequence_Block::defaultSortSequenceBlocks');
                 }
                 $rhett[$i]['children'] = $children;
             }
         }
         if (is_null($parentBlockId)) {
-            usort($rhett, array($this, '_defaultSortSequenceBlocks'));
+            usort($rhett, 'Curriculum_Inventory_Sequence_Block::defaultSortSequenceBlocks');
         }
         return $rhett;
     }
@@ -267,7 +304,7 @@ EOL;
      * @see usort()
      * @see Curriculum_Inventory_Sequence_Block::buildSequenceBlockHierarchy()
      */
-    protected function _orderedSortSequenceBlocks (array $a, array $b)
+    public static function orderedSortSequenceBlocks (array $a, array $b)
     {
         if ($a['order_in_sequence'] === $b['order_in_sequence']) {
             return 0;
@@ -297,7 +334,7 @@ EOL;
      * @see usort()
      * @see Curriculum_Inventory_Sequence_Block::buildSequenceBlockHierarchy()
      */
-    protected function _defaultSortSequenceBlocks (array $a, array $b)
+    public static function defaultSortSequenceBlocks (array $a, array $b)
     {
         // 1. academic level id
         if ($a['academic_level_id'] > $b['academic_level_id']) {
