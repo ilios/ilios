@@ -1102,14 +1102,19 @@
          * Returns all objects in the map as an array.
          *
          * @method list
+         * @property {Function} [filterFn] an optional filter function.
          * @return {Array} A list of objects in the map.
          */
-        list: function () {
-            var i, rhett;
+        list: function (filterFn) {
+            var i, rhett, item;
+            filterFn = Lang.isFunction(filterFn) ? filterFn : false;
             rhett = [];
             for (i in this._map) {
                 if (this._map.hasOwnProperty(i)) {
-                    rhett.push(this._map[i]);
+                    item = this._map[i];
+                    if (! filterFn || filterFn(item)) {
+                        rhett.push(item);
+                    }
                 }
             }
             return rhett;
@@ -1209,6 +1214,83 @@
                 throw new Error('add(): type mismatch.');
             }
             return SequenceBlockModelMap.superclass.add.call(this, model);
+        },
+
+        /**
+         * Sorts and returns the sequence blocks in the map according to a given sorting mechanism.
+         *
+         * @method sort
+         * @param {Function} fn Am <code>Array.sort</code> compatible callback function implementing a comparison algorithm for sequence blocks.
+         * @return {Array} a sorted array of sequence blocks
+         */
+        sort: function (fn) {
+            var list = this.list();
+            list.sort(fn);
+            return list;
+        },
+
+        /**
+         * Callback function for <code>Array.sort()</code>
+         * Compares two given sequence blocks by their following attributes in the precedence listed:
+         * 1. academic level ... sort on "level" attribute. numeric sort, ascending.
+         * 2. start date ... numeric sort on timestamps, ascending. NULL values will be treated a unix timestamp 0.
+         * 3. title ... sort alphabetically, case-insensitive, ascending
+         * 4. sequence model id ... numeric sort, ascending
+         *
+         * @method sortByAcademicLevel
+         * @param {ilios.cim.model.SequenceBlockModel} a
+         * @param {ilios.cim.model.SequenceBlockModel} b
+         * @return {Number}
+         * @see ilios.cim.model.SequenceBlockModelMap.sort
+         */
+        sortByAcademicLevel: function (a, b) {
+            var valA, valB, n;
+            // 1. sort by academic level
+            valA = a.get('academicLevel').get('level');
+            valB = b.get('academicLevel').get('level');
+            if (valA > valB) {
+                return 1;
+            } else if (valA < valB) {
+                return -1;
+            }
+            // 2. sort by start date
+            valA = a.get('startDate');
+            valB = b.get('startDate');
+            valA = valA ? Date.parse(valA) : 0;
+            valB = valB ? Date.parse(valB) : 0;
+            if (valA > valB) {
+                return 1;
+            } else if (valA < valB) {
+                return -1;
+            }
+            // 3. sort by title
+            valA = a.get('title');
+            valB = b.get('title');
+
+            n = valA.toLowerCase().localeCompare(valB.toLowerCase());
+            if (n) {
+                return n;
+            }
+            return (a.getId() > b.getId()) ? 1 : -1;
+        },
+
+        /**
+         * Callback function for <code>Array.sort()</code>
+         * Compares two given sequence blocks by their order in sequence value.
+         *
+         * @method sortByOrderInSequence
+         * @param {ilios.cim.model.SequenceBlockModel} a
+         * @param {ilios.cim.model.SequenceBlockModel} b
+         * @return {Number}
+         * @see ilios.cim.model.SequenceBlockModelMap.sort
+         */
+        sortByOrderInSequence: function (a, b) {
+            var valA = a.get('orderInSequence');
+            var valB = b.get('orderInSequence');
+            if (valA == valB) {
+                return 0;
+            }
+            return (valA > valB) ? 1 : -1;
         },
 
         /*
