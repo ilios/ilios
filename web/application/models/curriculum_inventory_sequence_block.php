@@ -322,7 +322,7 @@ EOL;
      *      Hokey, but works [ST 2013/08/14]
      *      Numeric sort, ascending.
      * 2. "start date"
-     *      Numeric sort on timestamps, ascending. NULL values will be treated unix timestamp 0.
+     *      Numeric sort on timestamps, ascending. NULL values will be treated as unix timestamp 0.
      * 3. "title"
      *    Alphabetical sort.
      * 4. "sequence block id"
