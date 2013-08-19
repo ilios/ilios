@@ -6,6 +6,7 @@
  *
  *  Dependencies:
  *     application/views/scripts/ilios_base.js
+ *     application/views/scripts/ilios_utilities.js
  *     ilios_i18nVendor
  *     YUI Dom/Event/Element libs
  *     YUI Cookie lib
@@ -227,6 +228,19 @@
             this.setAttributeConfig('bodyEl', {
                 writeOnce: true,
                 value: Dom.get('sequence-block-view-body-' + cnumber)
+            });
+
+            /**
+             * The view's container element for sub-sequence block views.
+             *
+             * @attribute childrenEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('childrenEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-children-' + cnumber)
+
             });
 
             /**
@@ -653,6 +667,33 @@
 
             if (enableDraftMode) {
                 this.enableDraftMode();
+            }
+        },
+
+        /**
+         * Sorts nested sequence block views and updates the DOM accordingly.
+         *
+         * @method sortChildViews
+         */
+        sortChildViews: function () {
+            var i, n, id, el, containerEl, model, blocks, sortFn, list;
+            containerEl = this.get('childrenEl');
+            model = this.getModel();
+            blocks = model.get('children');
+            if (! blocks.size()) {
+                return;
+            }
+            // sort the child block models
+            sortFn = (model.get('child_sequence_order' == this.ORDERED)) ? blocks.sortByOrderInSequence :
+                blocks.sortByAcademicLevel;
+            list = blocks.list();
+            list.sort(sortFn);
+
+            // re-attach each child view element in the proper order (no need to detach them first)
+            for (i = 0, n = list.length; i < n; i++) {
+                id = 'sequence-block-view-' + list[i].getId();
+                el = document.getElementById(id); // hokey but works.
+                containerEl.appendChild(el);
             }
         },
 
