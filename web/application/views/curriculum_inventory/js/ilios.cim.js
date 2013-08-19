@@ -606,7 +606,7 @@
          * @throws {Error}
          */
         addSequenceBlock: function (oData, silent) {
-            var i, n, model, view;
+            var i, n, model, view, parent, parentView;
 
             var finalized = this._reportModel.get('isFinalized');
 
@@ -627,16 +627,28 @@
                     { block: model }, this);
             }
 
-            if (! silent) {
-                this.getStatusBar().show('Added new sequence block.');
-            }
-
-            view.show();
-
             if (oData.children) {
                 for (i = 0, n = oData.children.length; i < n; i++) {
                     this.addSequenceBlock(oData.children[i], silent);
                 }
+            }
+
+            if (! silent) {
+                parent = model.get('parent');
+                if (! model.get('parent')) {
+                    this._sortTopLevelSequenceBlocks();
+                } else {
+                    parentView = this.getSequenceBlockViewMap().get(parent.getId());
+                    parentView.sortChildViews();
+                }
+            }
+
+            view.show();
+
+            if (! silent) {
+                view.expand();
+                view.get('element').focus();
+                this.getStatusBar().show('Added new sequence block.');
             }
         },
 
@@ -648,7 +660,7 @@
          * @throws {Error}
          */
         updateSequenceBlock: function (oData) {
-            var course, newCourse;
+            var course, newCourse, parent, view;
             var block = this.getSequenceBlockModelMap().get(oData.sequence_block_id);
             var levels = this.getAcademicLevels();
             oData['academic_level_model'] = levels[oData.academic_level_id];
@@ -661,7 +673,45 @@
             }
             oData['course_model'] = newCourse;
             block.update(oData);
-            // @todo rearrange sequence block containers in the UI if necessary.
+
+            view = this.getSequenceBlockViewMap().get(block.getId());
+            view.sortChildViews();
+
+            parent = block.get('parent');
+            if (! block.get('parent')) {
+                this._sortTopLevelSequenceBlocks();
+            } else {
+                view = this.getSequenceBlockViewMap().get(parent.getId());
+                view.sortChildViews();
+            }
+        },
+
+        /**
+         * Sorts the top level blocks and updates their display in the DOM accordingly.
+         *
+         * @method _sortTopLevelSequenceBlocks
+         * @protected
+         */
+        _sortTopLevelSequenceBlocks: function () {
+            var i, n, containerEl, el, map, list;
+            map = this.getSequenceBlockModelMap();
+            if (! map.size()) {
+                return;
+            }
+            // get top level blocks
+            list = map.list(function (item) {
+                return Lang.isNull(item.get('parent'));
+            });
+            // aways sort by academic level, order-in-sequence is not supported at the top level
+            list.sort(map.sortByAcademicLevel);
+            containerEl = document.getElementById('report-sequence-container');
+
+            // re-attach each child view element in the proper order (no need to detach them first)
+            for (i = 0, n = list.length; i < n; i++) {
+                id = 'sequence-block-view-' + list[i].getId();
+                el = document.getElementById(id); // hokey but works.
+                containerEl.appendChild(el);
+            }
         },
 
         /**
