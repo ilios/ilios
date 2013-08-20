@@ -290,7 +290,18 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     	element = document.getElementById('course_end_date');
     }
     else if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.ROLLOVER_START) {
-    	//check if the selected date is in the actual range of the selected academic year...
+    	//get the year of the currently selected date or, if null, set it equal to the currently selected academic year
+    	if(!ilios.cm.rollover.startDateObject) {
+    		selectedAcademicYearStart = document.getElementById('r1_academic_year_select').value;
+    	} else {
+    		selectedAcademicYearStart = ilios.cm.rollover.startDateObject.getFullYear();
+    	}
+    	selectedAcademicYearRange = selectedAcademicYearStart + "-" + (parseInt(selectedAcademicYearStart) + 1);
+    	owningSchoolAcademicYear = ilios.cm.academicYears[selectedAcademicYearStart];
+        owningSchoolAcademicYearStartDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_start_date, false);
+        owningSchoolAcademicYearEndDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_end_date, false);
+    	
+        //check if the selected date is in the actual range of the selected academic year...
     	if(!ilios.utilities.dateInRange(selectedDate, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate)){
     		//notify the user that it is out of range for that selected academic year...
     		ilios.cm.dateOutOfAcademicYearRangeAlert(selectedAcademicYearRange, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate, 'start');
@@ -299,7 +310,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     		//change the selectedDate value back to the initial value
     		selectedDate = initialStartDate;
     	}
-    	else {
+    	else { 
     		//check for multi-academic year overlap and warn if selected date is in multiple years...
     		ilios.cm.dateInMultipleAcademicYearsAlert (selectedDate, selectedAcademicYearRange, 'end');
     		//and then set the date...
