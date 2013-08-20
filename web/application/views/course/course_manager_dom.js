@@ -242,27 +242,27 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     var selectedAcademicYearRange = selectedAcademicYearStart + "-" + selectedAcademicYearEnd;
     
     var owningSchoolAcademicYear = ilios.cm.academicYears[selectedAcademicYearStart];
-    console.log(owningSchoolAcademicYear);
     var owningSchoolAcademicYearStartDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_start_date, false);
     var owningSchoolAcademicYearEndDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_end_date, false);
-    var formattedOwningSchoolAcademicYearStartDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearStartDate);
-    console.log(formattedOwningSchoolAcademicYearStartDate);
-    var formattedOwningSchoolAcademicYearEndDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearEndDate);
-    console.log(formattedOwningSchoolAcademicYearEndDate);
+    //var formattedOwningSchoolAcademicYearStartDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearStartDate);
+    //var formattedOwningSchoolAcademicYearEndDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearEndDate);
+    
     
     if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.COURSE_START) {
     	
-    	//check if the date is in the actual range of the selected academic year...
+    	//check if the selected date is in the actual range of the selected academic year...
     	if(!ilios.utilities.dateInRange(selectedDate, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate)){
-    		ilios.alert.alert("You have chosen a start date that is out of range for the " + selectedAcademicYearRange + " academic year.\n Please choose a date between " + formattedOwningSchoolAcademicYearStartDate + " and " + formattedOwningSchoolAcademicYearEndDate);
+    		//notify the user that it is out of range for that selected academic year...
+    		ilios.cm.dateOutOfAcademicYearRangeAlert(selectedAcademicYearRange, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate, 'start');
     		//clear the calendar event, retaining the initial value...
     		this.clearEvent;
     		//change the selectedDate value back to the initial value
     		selectedDate = initialStartDate;
     	}
     	else {
-    		//the selected date is in-range of the chosen academic year, so check for overlap and warn if it's contained between two academic years.
-    		ilios.alert.alert("WARNING: The start date you selected is included in the following academic years: XXXX-XXXX, XXXX-XXXX.\n You are currently setting this value for the " + selectedAcademicYearRange + " academic year. Please make sure this is correct before continuing...");
+    		//check for multi-academic year overlap and warn if selected date is in multiple years...
+    		ilios.cm.dateInMultipleAcademicYearsAlert (selectedDate, selectedAcademicYearRange, 'start');
+    		
     		//and then set the date...
     		ilios.cm.currentCourseModel.setStartDate(formattedDate);
     	}
@@ -272,24 +272,40 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     
     else if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.COURSE_END) {
     	
-    	//first check if the date is in the actual range of the selected academic year...
+    	//first check if the selected date is in the actual range of the selected academic year...
     	if(!ilios.utilities.dateInRange(selectedDate, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate)){
-    		ilios.alert.alert("You have selected an end date that is out of range for the " + selectedAcademicYearRange + " academic year.\n Please select a date between " + selectedDate + " and " + selectedDate);
+    		//notify the user that it is out of range for that selected academic year...
+    		ilios.cm.dateOutOfAcademicYearRangeAlert(selectedAcademicYearRange, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate, 'end');
     		//clear the calendar event, retaining the initial value...
     		this.clearEvent;
     		//change the selectedDate value back to the initial value
     		selectedDate = initialEndDate;
     	} else {
-    		//the selected date is in-range of the chosen academic year, so check for overlap and warn if it's contained between two academic years.
-    		ilios.alert.alert("WARNING: The end date you selected is included in the following academic years: XXXX-XXXX, XXXX-XXXX.\n You are currently setting this value for the " + selectedAcademicYearRange + " academic year. Please make sure this is correct before continuing...");
+    		//check for multi-academic year overlap and warn if selected date is in multiple years...
+    		ilios.cm.dateInMultipleAcademicYearsAlert (selectedDate, selectedAcademicYearRange, 'end');
     		
-    		//the selected date is in-range ofchosen academic year, so set the start date...
+    		//set the end date...
     		ilios.cm.currentCourseModel.setEndDate(formattedDate);
     	}
     	element = document.getElementById('course_end_date');
     }
     else if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.ROLLOVER_START) {
-        ilios.cm.rollover.setRolloverStartDate(selectedDate);
+    	//check if the selected date is in the actual range of the selected academic year...
+    	if(!ilios.utilities.dateInRange(selectedDate, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate)){
+    		//notify the user that it is out of range for that selected academic year...
+    		ilios.cm.dateOutOfAcademicYearRangeAlert(selectedAcademicYearRange, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate, 'start');
+    		//clear the calendar event, retaining the initial value...
+    		this.clearEvent;
+    		//change the selectedDate value back to the initial value
+    		selectedDate = initialStartDate;
+    	}
+    	else {
+    		//check for multi-academic year overlap and warn if selected date is in multiple years...
+    		ilios.cm.dateInMultipleAcademicYearsAlert (selectedDate, selectedAcademicYearRange, 'end');
+    		//and then set the date...
+    		ilios.cm.currentCourseModel.setStartDate(formattedDate);
+    	}
+    	ilios.cm.rollover.setRolloverStartDate(selectedDate);
     }
 
     if (element != null) {
@@ -298,6 +314,33 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
 
     this.hide();
 };
+
+/**
+ * Alerts if date is out of range
+ */
+
+ilios.cm.dateOutOfAcademicYearRangeAlert = function (yearRange, startDate, endDate, dateType){
+	
+	var formattedStartDate = ilios.utilities.dateObjectToMySQLFriendly(startDate);
+    var formattedEndDate = ilios.utilities.dateObjectToMySQLFriendly(endDate);
+    var alertString = "You have chosen a " + dateType + " date that is out of range for the " + yearRange + " academic year.<br /><br />Please choose a date between " + formattedStartDate + " and " + formattedEndDate;
+    ilios.alert.alert(alertString);
+	
+}
+
+/**
+ * Checks if date is contained in multiple years and warns if it is... 
+ */
+ilios.cm.dateInMultipleAcademicYearsAlert = function (selectedDate, yearRange, dateType){
+	
+	var overlapping_years_array = ilios.cm.checkDateForAcademicYearOverlap(selectedDate);
+	if(overlapping_years_array.length > 1){
+		var overlapping_years_string = overlapping_years_array.join(', ');
+		//the selected date is in-range of the chosen academic year, so check for overlap and warn if it's contained between two academic years.
+		alertString = "WARNING: The date you selected is included in the following academic years:<br /><br />" + overlapping_years_string +".<br /><br />You are currently setting this value for the " + yearRange + " academic year.<br /><br />Please verify that your academic year selection is correct before saving...";
+		ilios.alert.alert(alertString);
+	}
+}
 
 /*
  * Assures that the calendar to display is set with the appropriate year and month.
@@ -1624,9 +1667,9 @@ ilios.cm.checkDateForAcademicYearOverlap = function (date) {
 
 	var all_academic_years = ilios.cm.academicYears;
 	//add the time to the date for conversion to unixtimestamp timestamp
-	var datetime = (date + ' 12:00:00');
+	//var datetime = (date + ' 12:00:00');
 	//get the unix timestamp version of the date...
-	var unix_date = (Date.parse(datetime) / 1000);
+	var unix_date = (Date.parse(date) / 1000);
 
 	//create and empty array to hold the year values
 	var overlapping_years = [];

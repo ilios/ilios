@@ -55,7 +55,7 @@ ilios.utilities.dateInRange = function (date, startDate, endDate) {
 	var unix_end_date = endDate.getTime();
 	
 	if (unix_date >= unix_start_date && unix_date <= unix_end_date) {
-		dateIsInRange = true;
+		dateInRange = true;
     }
 	
 	return dateInRange;
