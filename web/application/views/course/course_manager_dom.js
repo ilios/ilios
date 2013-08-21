@@ -244,9 +244,6 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     var owningSchoolAcademicYear = ilios.cm.academicYears[selectedAcademicYearStart];
     var owningSchoolAcademicYearStartDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_start_date, false);
     var owningSchoolAcademicYearEndDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_end_date, false);
-    //var formattedOwningSchoolAcademicYearStartDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearStartDate);
-    //var formattedOwningSchoolAcademicYearEndDate = ilios.utilities.dateObjectToMySQLFriendly(owningSchoolAcademicYearEndDate);
-    
     
     if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.COURSE_START) {
     	
@@ -290,15 +287,26 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     	element = document.getElementById('course_end_date');
     }
     else if (this.modificationTarget == ilios.cm.yuiCalendarModificationTarget.ROLLOVER_START) {
-    	//get the year of the currently selected date or, if null, set it equal to the currently selected academic year
-    	if(!ilios.cm.rollover.startDateObject) {
-    		selectedAcademicYearStart = document.getElementById('r1_academic_year_select').value;
-    	} else {
-    		selectedAcademicYearStart = ilios.cm.rollover.startDateObject.getFullYear();
-    	}
+    	
+    	//get the year currently-selected academic year from the dropdown...
+    	selectedAcademicYearStart = document.getElementById('r1_academic_year_select').value;
+    	//set the range...
     	selectedAcademicYearRange = selectedAcademicYearStart + "-" + (parseInt(selectedAcademicYearStart) + 1);
-    	owningSchoolAcademicYear = ilios.cm.academicYears[selectedAcademicYearStart];
-        owningSchoolAcademicYearStartDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_start_date, false);
+
+    	//the rollover year selections are not pulled from the database, so throw a warning if the an undefined
+    	//academic year is selected
+    	if(!ilios.cm.academicYears[selectedAcademicYearStart]){
+    		var alertString1 = ilios_i18nVendor.getI18NString('course_management.rollover.warning.academic_year_undefined_1');
+    		var alertString2 = ilios_i18nVendor.getI18NString('course_management.rollover.warning.academic_year_undefined_2');
+    		var alertString3 = ilios_i18nVendor.getI18NString('course_management.rollover.warning.academic_year_undefined_3');
+    		ilios.alert.alert(alertString1 + " " + selectedAcademicYearRange + ". " + alertString2 + " " + selectedAcademicYearRange + " " + alertString3);
+    		this.clearEvent;
+    		return false;
+    	} else {
+    		owningSchoolAcademicYear = ilios.cm.academicYears[selectedAcademicYearStart];	
+    	}
+    	
+    	owningSchoolAcademicYearStartDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_start_date, false);
         owningSchoolAcademicYearEndDate = ilios.utilities.mySQLDateToDateObject(owningSchoolAcademicYear.academic_year_end_date, false);
     	
         //check if the selected date is in the actual range of the selected academic year...
@@ -312,11 +320,11 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     	}
     	else { 
     		//check for multi-academic year overlap and warn if selected date is in multiple years...
-    		ilios.cm.dateInMultipleAcademicYearsAlert (selectedDate, selectedAcademicYearRange, 'end');
+    		ilios.cm.dateInMultipleAcademicYearsAlert (selectedDate, selectedAcademicYearRange, 'start');
     		//and then set the date...
-    		ilios.cm.currentCourseModel.setStartDate(formattedDate);
+    		ilios.cm.rollover.setRolloverStartDate(selectedDate);
     	}
-    	ilios.cm.rollover.setRolloverStartDate(selectedDate);
+    	
     }
 
     if (element != null) {
