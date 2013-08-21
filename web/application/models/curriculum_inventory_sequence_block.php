@@ -258,6 +258,48 @@ EOL;
 
 
     /**
+     * Retrieves the order of blocks within a given sequence, optionally limited by a given range of order-in-sequence values.
+     *
+     * @param int $parentSequenceBlockId The parent block id.
+     * @param int $lowerBoundary The inclusive lower boundary of the range.
+     * @param int $upperBoundary The inclusive upper boundary of the range.
+     * @return array An associative array containing key/value pairs of sequence block id/order-in-sequence values.
+     */
+    public function getBlockOrderInSequence ($parentSequenceBlockId, $lowerBoundary = null, $upperBoundary = null)
+    {
+        $rhett  = array();
+
+        $clean = array();
+        $clean['parent_id'] = (int) $parentSequenceBlockId;
+        if (! is_null($lowerBoundary)) {
+            $clean['lower'] = (int) $lowerBoundary;
+        }
+        if (! is_null($upperBoundary)) {
+            $clean['upper'] = (int) $upperBoundary;
+        }
+
+        $sql = "SELECT sequence_block_id, order_in_sequence FROM `curriculum_inventory_sequence_block`";
+        $sql .= " WHERE parent_sequence_block_id = {$clean['parent_id']}";
+        if (array_key_exists('lower', $clean) && array_key_exists('upper', $clean)) {
+            $sql .= " AND order_in_sequence BETWEEN ({$clean['lower']}, {$clean['upper']})";
+        } elseif (array_key_exists('lower', $clean)) {
+            $sql .= " AND order_in_sequence >= {$clean['lower']}";
+        } elseif (array_key_exists('upper', $clean)) {
+            $sql .= " AND order_in_sequence =< {$clean['upper']}";
+        }
+
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[$row['sequence_block_id']] = $row['order_in_sequence'];
+            }
+        }
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
      * Recursively builds a hierarchy of nested sequence blocks, based on their parent/child relationships
      * @param array $sequenceBlocks A flat array of sequence blocks.
      * @param int|null $parentBlockId The id of the parent sequence block, NULL if for top-level blocks.
