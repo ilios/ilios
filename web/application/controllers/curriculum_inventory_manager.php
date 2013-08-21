@@ -1041,7 +1041,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $isInOrderedSequence = false;
         $updatedBlockOrder = array();
         if ($block->parent_sequence_block_id) {
-            $parent = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
+            $parent = $this->invSequenceBlock->getRowForPrimaryKeyId($block->parent_sequence_block_id);
             if (Curriculum_Inventory_Sequence_Block::ORDERED == $parent->child_sequence_order) {
                 $isInOrderedSequence = true;
             }
