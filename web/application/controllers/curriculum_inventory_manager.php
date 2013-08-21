@@ -540,12 +540,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *
      * This method prints out a result object as JSON-formatted text.
      *
-     * On success, the object contains:
-     *     a property "sequence_block" which contains the created sequence block record.
-     *     a property "updated_siblings_order", a map which may contain key/value pairs of block-id/modified order-in-sequence
-     *     values for blocks within the same ordered sequence as the newly created one.
-     *     The array will be empty if the block was created in a non-ordered sequence, or if the block creation had
-     *     no side-effects on existing blocks within the same sequence.
+     * On success, the object contains the following properties:
+     *     "sequence_block" ... a map which contains the created sequence block record.
+     *     "updated_siblings_order" ... a map which may contain key/value pairs of block-id/modified order-in-sequence
+     *          values for blocks within the same ordered sequence as the newly created one.
+     *          The array will be empty if the block was created in a non-ordered sequence, or if the block creation had
+     *          no side-effects on existing blocks within the same sequence.
      * On failure, the object contains a property "error", which contains an error message.
      */
     public function createSequenceBlock ()
@@ -759,7 +759,15 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *
      * This method prints out a result object as JSON-formatted text.
      *
-     * On success, the object contains a property "sequence_block" which contains the updated sequence block record.
+     * On success, the object contains the following properties:
+     *     "sequence_block" ... a map which contains the updated sequence block record.
+     *     "updated_siblings_order" ... a map which may contain key/value pairs of block-id/modified order-in-sequence
+     *          values for blocks within the same ordered sequence as the updated one.
+     *          The array will be empty if the updated block is part of a non-ordered sequence, or if the update had
+     *          no side-effects on other blocks within the same sequence.
+     *     "updated_children_order" ... a map which may contain key/value pairs of block-id/modified order-in-sequence
+     *          values for children of the updated block. This may be the case if the child-sequence-value of the updated
+     *          block changed from or to "ordered", which triggers resorting of the child sequence.
      * On failure, the object contains a property "error", which contains an error message.
      */
     public function updateSequenceBlock ()
@@ -934,6 +942,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $data['duration'] = $duration;
 
 
+        $updatedChildrenOrder = array();
+        $updatedSiblingsOrder = array();
         //
         // create a new sequence block in the db
         //
@@ -943,12 +953,18 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         if ($isInOrderedSequence && $orderInSequenceHasChanged) {
             $this->invSequenceBlock->decrementOrderInSequence($block->order_in_sequence, $parentBlock->sequence_block_id);
             $this->invSequenceBlock->incrementOrderInSequence($orderInSequence, $parentBlock->sequence_block_id);
+            $boundaries = array((int) $block->order_in_sequence, $orderInSequence);
+            $updatedSiblingsOrder = $this->invSequenceBlock->getBlockOrderInSequence($parentBlock->sequence_block_id,
+                min($boundaries), max($boundaries));
         }
         if ($childSequenceOrderHasChanged) {
             if ($block->child_sequence_order == Curriculum_Inventory_Sequence_Block::ORDERED) {
-                // if the block's child sequence is changing FROM the ordered TO an unordered state
-                // then the sequence order for each child must be zeroed out
-                $this->invSequenceBlock->setOrderToZeroInSequence($block->sequence_block_id);
+                if ($this->invSequenceBlock->getNumberOfChildren($block->sequence_block_id)) {
+                    // if the block's child sequence is changing FROM the ordered TO an unordered state
+                    // then the sequence order for each child must be zeroed out
+                    $this->invSequenceBlock->setOrderToZeroInSequence($block->sequence_block_id);
+                    $updatedChildrenOrder = $this->invSequenceBlock->getBlockOrderInSequence($block->sequence_block_id);
+                }
             } elseif ($childSequenceOrder == Curriculum_Inventory_Sequence_Block::ORDERED) {
                 // if the block's child sequence is changing FROM an unordered TO the ordered state
                 // the we must sort all of its children and update each child's order-in-sequence value
@@ -961,6 +977,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                         $this->invSequenceBlock->update($children[$i]['sequence_block_id'],
                             array('order_in_sequence' => ($i + 1)));
                     }
+                    $updatedChildrenOrder = $this->invSequenceBlock->getBlockOrderInSequence($block->sequence_block_id);
                 }
             }
         }
@@ -973,6 +990,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         $rhett['sequence_block'] = $block;
+        $rhett['updated_siblings_order'] = $updatedSiblingsOrder;
+        $rhett['updated_children_order'] = $updatedChildrenOrder;
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -986,7 +1005,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *
      * This method prints out a result object as JSON-formatted text.
      *
-     * On success, the object contains a property "success", which contains the value "true".
+     * On success, the object contains the following properties:
+     *     "sequence_block_id" ... the id of the deleted sequence block.
+     *     "updated_siblings_order" ... a map which may contain key/value pairs of block-id/modified order-in-sequence
+     *          values for blocks within the same ordered sequence as the deleted one.
+     *          The array will be empty if the block was deleted from a non-ordered sequence, or if the block deletion had
+     *          no side-effects on other blocks within the same sequence.
      * On failure, the object contains a property "error", which contains an error message.
      */
     public function deleteSequenceBlock ()
@@ -1015,6 +1039,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         $isInOrderedSequence = false;
+        $updatedBlockOrder = array();
         if ($block->parent_sequence_block_id) {
             $parent = $this->invSequenceBlock->getRowForPrimaryKeyId($sequenceBlockId);
             if (Curriculum_Inventory_Sequence_Block::ORDERED == $parent->child_sequence_order) {
@@ -1028,13 +1053,18 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $this->invSequenceBlock->delete($sequenceBlockId);
         if ($isInOrderedSequence) {
             $this->invSequenceBlock->decrementOrderInSequence($block->order_in_sequence, $block->parent_sequence_block_id);
+            $updatedBlockOrder = $this->invSequenceBlock->getBlockOrderInSequence($block->parent_sequence_block_id, $block->order_in_sequence);
+
         }
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.delete.error.general', $lang);
             return;
         }
-        $rhett = array('success' => 'true');
+        $rhett = array(
+            'sequence_block_id' => $block->sequence_block_id,
+            'updated_siblings_order' => $updatedBlockOrder
+        );
         header("Content-Type: text/plain");
         echo json_encode($rhett);
     }
