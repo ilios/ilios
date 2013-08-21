@@ -549,6 +549,8 @@
                 // wire the dialog's success/failure events up to the application
                 this._createSequenceBlockDialog.sequenceBlockCreationSucceededEvent.subscribe(function (type, args, me) {
                     var data = args[0]['data'];
+                    var map = args[0]['updated_siblings_order'];
+                    me._updateBlockOrderInSequence(map);
                     me.addSequenceBlock(data);
                     me.getStatusBar().show('New sequence block added.');
                 }, this);
@@ -851,8 +853,6 @@
                 }
             }
         },
-
-
 
         //
         // event handling
@@ -1343,7 +1343,7 @@
          * Fired when a server response indication a successful sequence block deletion has been received.
          * @event deleteSequenceBlockCompleted
          * @param {Number} id The sequence block id.
-         * @param {Object} updated_siblings_order A map containing sequence-block-ids/order-in-sequence values as for
+         * @param {Object} updated_siblings_order A map containing sequence-block-ids/order-in-sequence values as
          *      key/value pairs. The referenced blocks are siblings in a sequence to the deleted block, and had
          *      their order-in-sequence value changed as a side-effect of the block deletion.
          * @final
