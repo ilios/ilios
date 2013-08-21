@@ -281,7 +281,7 @@ EOL;
         $sql = "SELECT sequence_block_id, order_in_sequence FROM `curriculum_inventory_sequence_block`";
         $sql .= " WHERE parent_sequence_block_id = {$clean['parent_id']}";
         if (array_key_exists('lower', $clean) && array_key_exists('upper', $clean)) {
-            $sql .= " AND order_in_sequence BETWEEN ({$clean['lower']}, {$clean['upper']})";
+            $sql .= " AND order_in_sequence BETWEEN {$clean['lower']} AND {$clean['upper']}";
         } elseif (array_key_exists('lower', $clean)) {
             $sql .= " AND order_in_sequence >= {$clean['lower']}";
         } elseif (array_key_exists('upper', $clean)) {
