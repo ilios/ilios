@@ -540,7 +540,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      *
      * This method prints out a result object as JSON-formatted text.
      *
-     * On success, the object contains a property "sequence_block" which contains the created sequence block record.
+     * On success, the object contains:
+     *     a property "sequence_block" which contains the created sequence block record.
+     *     a property "updated_siblings_order", a map which may contain key/value pairs of block-id/modified order-in-sequence
+     *     values for blocks within the same ordered sequence as the newly created one.
+     *     The array will be empty if the block was created in a non-ordered sequence, or if the block creation had
+     *     no side-effects on existing blocks within the same sequence.
      * On failure, the object contains a property "error", which contains an error message.
      */
     public function createSequenceBlock ()
@@ -709,9 +714,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         //
         // create a new sequence block in the db
         //
+        $updatedBlockOrder = array();
         $this->db->trans_start();
         if ($isInOrderedSequence) {
             $this->invSequenceBlock->incrementOrderInSequence($orderInSequence, $parentBlock->sequence_block_id);
+            $updatedBlockOrder = $this->invSequenceBlock->getBlockOrderInSequence($parentBlock->sequence_block_id, $orderInSequence);
         }
         $blockId = $this->invSequenceBlock->create($reportId, $parentBlockId, $title, $description, $startDate,
             $endDate, $duration, $academicLevelId, $required, $maximum, $minimum, $track, $courseId, $childSequenceOrder,
@@ -724,6 +731,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         }
 
         $rhett['sequence_block'] = $block;
+        $rhett['updated_siblings_order'] = $updatedBlockOrder;
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
