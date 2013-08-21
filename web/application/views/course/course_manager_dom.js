@@ -252,7 +252,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     		//notify the user that it is out of range for that selected academic year...
     		ilios.cm.dateOutOfAcademicYearRangeAlert(selectedAcademicYearRange, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate, 'start');
     		//clear the calendar event, retaining the initial value...
-    		this.clearEvent;
+    		this.hide();
     		//change the selectedDate value back to the initial value
     		selectedDate = initialStartDate;
     	}
@@ -274,7 +274,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     		//notify the user that it is out of range for that selected academic year...
     		ilios.cm.dateOutOfAcademicYearRangeAlert(selectedAcademicYearRange, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate, 'end');
     		//clear the calendar event, retaining the initial value...
-    		this.clearEvent;
+    		this.hide();
     		//change the selectedDate value back to the initial value
     		selectedDate = initialEndDate;
     	} else {
@@ -300,7 +300,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     		var alertString2 = ilios_i18nVendor.getI18NString('course_management.rollover.warning.academic_year_undefined_2');
     		var alertString3 = ilios_i18nVendor.getI18NString('course_management.rollover.warning.academic_year_undefined_3');
     		ilios.alert.alert(alertString1 + " " + selectedAcademicYearRange + ". " + alertString2 + " " + selectedAcademicYearRange + " " + alertString3);
-    		this.clearEvent;
+    		this.hide();
     		return false;
     	} else {
     		owningSchoolAcademicYear = ilios.cm.academicYears[selectedAcademicYearStart];	
@@ -314,7 +314,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     		//notify the user that it is out of range for that selected academic year...
     		ilios.cm.dateOutOfAcademicYearRangeAlert(selectedAcademicYearRange, owningSchoolAcademicYearStartDate, owningSchoolAcademicYearEndDate, 'start');
     		//clear the calendar event, retaining the initial value...
-    		this.clearEvent;
+    		this.hide();
     		//change the selectedDate value back to the initial value
     		selectedDate = initialStartDate;
     	}
