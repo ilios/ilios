@@ -652,9 +652,12 @@
             }
 
             // At this point we can assume that the transaction was a success.
-            // peel the new block record (key: "sequence_block") off the payload,
-            // and fire it off to subscribers of our "creation succeeded" event.
-            dialog.sequenceBlockCreationSucceededEvent.fire({ data: parsedResponse.sequence_block });
+            // We peel the new block record (key: "sequence_block") and the passed map of updated sequence block orders
+            // (key: "updated_siblings_order")off the payload, and fire it off to subscribers of our "creation succeeded" event.
+            dialog.sequenceBlockCreationSucceededEvent.fire({
+                data: parsedResponse.sequence_block,
+                updated_siblings_order: parsedResponse.updated_siblings_order
+            });
             dialog.cancel();
         };
 
@@ -974,6 +977,9 @@
          *
          * @event sequenceBlockCreationSucceededEvent
          * @param {Object} data A plain data object containing the properties of the newly created sequence block record.
+         * @param {Object} updated_siblings_order A map containing sequence-block-ids/order-in-sequence values as
+         *      key/value pairs. The referenced blocks are siblings in a sequence to the created block, and had
+         *      their order-in-sequence value changed as a side-effect of the block creation.
          */
         sequenceBlockCreationSucceededEvent: null
     });
