@@ -684,7 +684,7 @@
                 return;
             }
             // sort the child block models
-            sortFn = (model.get('child_sequence_order' == this.ORDERED)) ? blocks.sortByOrderInSequence :
+            sortFn = (model.get('childSequenceOrder') == model.ORDERED) ? blocks.sortByOrderInSequence :
                 blocks.sortByAcademicLevel;
             list = blocks.list();
             list.sort(sortFn);
