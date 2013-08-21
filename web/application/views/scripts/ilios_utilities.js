@@ -98,6 +98,27 @@ ilios.utilities.dateObjectToMySQLFriendly = function (dateObject, includeTime) {
                         : '');
 };
 
+/**
+ * Return a YYYYMMDD-formatted dateObject with custom separator
+ * that does NOT round the date based on the timestamp
+ * 
+ * @param {Date} dateObject to format
+ * @param {String} separator, usually '-' or '/'
+ * 
+ * @return {String}
+ */
+
+ilios.utilities.dateObjectToYYYYMMDD = function (dateObject, separator) {
+    
+	if(!separator) var separator = '';
+	var yyyy = dateObject.getFullYear().toString();
+	var mm = (dateObject.getMonth()+1).toString();
+	var dd  = dateObject.getDate().toString();
+	//single digit mm and dd need to be padded
+	return yyyy + separator + (mm[1]?mm:"0"+mm[0]) + separator + (dd[1]?dd:"0"+dd[0]);
+};
+
+
 ilios.utilities.mySQLTimelessDateToDateObject = function (yyyyMMDDStr) {
     var dateStr = yyyyMMDDStr + " 00:00:00";
 

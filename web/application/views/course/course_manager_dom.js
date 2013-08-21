@@ -332,23 +332,32 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
 
 ilios.cm.dateOutOfAcademicYearRangeAlert = function (yearRange, startDate, endDate, dateType){
 	
-	var formattedStartDate = ilios.utilities.dateObjectToMySQLFriendly(startDate);
-    var formattedEndDate = ilios.utilities.dateObjectToMySQLFriendly(endDate);
-    var alertString = "You have chosen a " + dateType + " date that is out of range for the " + yearRange + " academic year.<br /><br />Please choose a date between " + formattedStartDate + " and " + formattedEndDate;
+	var formattedStartDate = ilios.utilities.dateObjectToYYYYMMDD(startDate, '-');
+    var formattedEndDate = ilios.utilities.dateObjectToYYYYMMDD(endDate, '-');
+    var alertString1 = ilios_i18nVendor.getI18NString('course_management.warning.date_out_of_academic_year_range1');
+    var alertString2 = ilios_i18nVendor.getI18NString('course_management.warning.date_out_of_academic_year_range2');
+    var alertString3 = ilios_i18nVendor.getI18NString('course_management.warning.date_out_of_academic_year_range3');
+    var alertString4 = ilios_i18nVendor.getI18NString('course_management.warning.date_out_of_academic_year_range4');
+    var alertString5 = ilios_i18nVendor.getI18NString('course_management.warning.date_out_of_academic_year_range5');
+    var alertString = alertString1 + " " + dateType + " " + alertString2 + " " + yearRange + " " + alertString3 + "<br /><br />" + alertString4  + " " + formattedStartDate + " " + alertString5 + " " + formattedEndDate + ".";
     ilios.alert.alert(alertString);
 	
 }
 
 /**
- * Checks if date is contained in multiple years and warns if it is... 
+ * Checks if date is contained in multiple academic years and warns if it is... 
  */
 ilios.cm.dateInMultipleAcademicYearsAlert = function (selectedDate, yearRange, dateType){
 	
 	var overlapping_years_array = ilios.cm.checkDateForAcademicYearOverlap(selectedDate);
 	if(overlapping_years_array.length > 1){
-		var overlapping_years_string = overlapping_years_array.join(', ');
+		var overlapping_years_string = '<div align="center">' + overlapping_years_array.join('</div><div>') + "</div>";
 		//the selected date is in-range of the chosen academic year, so check for overlap and warn if it's contained between two academic years.
-		alertString = "WARNING: The date you selected is included in the following academic years:<br /><br />" + overlapping_years_string +".<br /><br />You are currently setting this value for the " + yearRange + " academic year.<br /><br />Please verify that your academic year selection is correct before saving...";
+		var alertString1 = ilios_i18nVendor.getI18NString('course_management.warning.overlapping_academic_years_1');
+		var alertString2 = ilios_i18nVendor.getI18NString('course_management.warning.overlapping_academic_years_2');
+		var alertString3 = ilios_i18nVendor.getI18NString('course_management.warning.overlapping_academic_years_3');
+		var alertString4 = ilios_i18nVendor.getI18NString('course_management.warning.overlapping_academic_years_4');
+		var alertString = alertString1 + " " + dateType + " " + alertString2 + ":<br /><br />" + overlapping_years_string + "<br /><br />" + alertString3 + " " + yearRange + "<br /><br />" + alertString4;
 		ilios.alert.alert(alertString);
 	}
 }

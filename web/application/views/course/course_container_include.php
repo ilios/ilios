@@ -20,7 +20,7 @@ $entityContainerHeader =<<< EOL
     <span class="data" id="summary-course-id"></span>
 </li>
 <li class="course-year">
-    <span class="data-type">Course Year</span>
+    <span class="data-type">Academic Year</span>
     <span class="data" id="summary-course-year"></span>
 </li>
 <li class="course-level">
