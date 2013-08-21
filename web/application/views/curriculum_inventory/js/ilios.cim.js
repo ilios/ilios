@@ -192,6 +192,7 @@
                         }
                     }
                     model.delete();
+                    this._updateBlockOrderInSequence(args.updated_siblings_order);
                     this.getStatusBar().show('Sequence block deleted.');
                 }, this, true);
 
@@ -439,7 +440,7 @@
         },
 
         //
-        // API
+        // public API
         //
 
         /**
@@ -687,34 +688,6 @@
         },
 
         /**
-         * Sorts the top level blocks and updates their display in the DOM accordingly.
-         *
-         * @method _sortTopLevelSequenceBlocks
-         * @protected
-         */
-        _sortTopLevelSequenceBlocks: function () {
-            var i, n, containerEl, el, map, list;
-            map = this.getSequenceBlockModelMap();
-            if (! map.size()) {
-                return;
-            }
-            // get top level blocks
-            list = map.list(function (item) {
-                return Lang.isNull(item.get('parent'));
-            });
-            // aways sort by academic level, order-in-sequence is not supported at the top level
-            list.sort(map.sortByAcademicLevel);
-            containerEl = document.getElementById('report-sequence-container');
-
-            // re-attach each child view element in the proper order (no need to detach them first)
-            for (i = 0, n = list.length; i < n; i++) {
-                id = 'sequence-block-view-' + list[i].getId();
-                el = document.getElementById(id); // hokey but works.
-                containerEl.appendChild(el);
-            }
-        },
-
-        /**
          * Creates a sequence block model object from a given data transfer object representing a sequence block record.
          *
          * @method createSequenceBlockModel
@@ -826,6 +799,59 @@
             var fn = ilios.cim.view.SequenceBlockView.prototype.disableDraftMode;
             this.getSequenceBlockViewMap().walk(fn);
         },
+
+
+        //
+        // internal API
+        //
+
+        /**
+         * Sorts the top level blocks and updates their display in the DOM accordingly.
+         *
+         * @method _sortTopLevelSequenceBlocks
+         * @protected
+         */
+        _sortTopLevelSequenceBlocks: function () {
+            var i, n, containerEl, el, map, list, id;
+            map = this.getSequenceBlockModelMap();
+            if (! map.size()) {
+                return;
+            }
+            // get top level blocks
+            list = map.list(function (item) {
+                return Lang.isNull(item.get('parent'));
+            });
+            // aways sort by academic level, order-in-sequence is not supported at the top level
+            list.sort(map.sortByAcademicLevel);
+            containerEl = document.getElementById('report-sequence-container');
+
+            // re-attach each child view element in the proper order (no need to detach them first)
+            for (i = 0, n = list.length; i < n; i++) {
+                id = 'sequence-block-view-' + list[i].getId();
+                el = document.getElementById(id); // hokey but works.
+                containerEl.appendChild(el);
+            }
+        },
+
+        /**
+         * Updates the order-in-sequence value for given sequence blocks.
+         *
+         * @method _updateBlockOrderInSequence
+         * @param {Object} o A map of key/value pairs. Each pair consists of a sequence block id as key, and
+         *      the order-in-sequence as the value.
+         * @protected
+         */
+        _updateBlockOrderInSequence: function (o) {
+            var i, n, blocks;
+            blocks = this.getSequenceBlockModelMap();
+            for (i in o) {
+                if (o.hasOwnProperty(i)) {
+                    n = parseInt(o[i], 10);
+                    blocks.get(i).set('orderInSequence', n);
+                }
+            }
+        },
+
 
 
         //
@@ -1238,7 +1264,10 @@
                         ilios.alert.alert(msg + ": " + response.error);
                         return;
                     }
-                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED, {id: o.argument.id});
+                    this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED, {
+                        id: o.argument.id,
+                        updated_siblings_order: response.updated_siblings_order
+                    });
                 },
                 failure: function (o) {
                     this.fireEvent(this.EVT_DELETE_SEQUENCE_BLOCK_FAILED, {id: o.argument.id});
@@ -1314,6 +1343,9 @@
          * Fired when a server response indication a successful sequence block deletion has been received.
          * @event deleteSequenceBlockCompleted
          * @param {Number} id The sequence block id.
+         * @param {Object} updated_siblings_order A map containing sequence-block-ids/order-in-sequence values as for
+         *      key/value pairs. The referenced blocks are siblings in a sequence to the deleted block, and had
+         *      their order-in-sequence value changed as a side-effect of the block deletion.
          * @final
          */
         EVT_DELETE_SEQUENCE_BLOCK_SUCCEEDED: 'deleteSequenceBlockCompleted'
