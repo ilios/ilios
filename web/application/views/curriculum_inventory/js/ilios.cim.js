@@ -572,6 +572,8 @@
                 // wire the dialog's success/failure events up to the application
                 this._editSequenceBlockDialog.sequenceBlockUpdateSucceededEvent.subscribe(function (type, args, me) {
                     var data = args[0]['data'];
+                    me._updateBlockOrderInSequence(args[0].updated_children_order);
+                    me._updateBlockOrderInSequence(args[0].updated_siblings_order);
                     me.updateSequenceBlock(data);
                     me.getStatusBar().show('Updated sequence block.');
                 }, this);

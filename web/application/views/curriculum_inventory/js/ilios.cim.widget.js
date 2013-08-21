@@ -1120,9 +1120,14 @@
             }
 
             // At this point we can assume that the transaction was a success.
-            // peel the new block record (key: "sequence_block") off the payload,
-            // and fire it off to subscribers of our "update succeeded" event.
-            dialog.sequenceBlockUpdateSucceededEvent.fire({ data: parsedResponse.sequence_block });
+            // We peel the updated block record (key: "sequence_block") and the passed maps of updated
+            // siblings/child-sequence block orders (keys: "updated_siblings_order" and "updated_children_order")
+            // off the payload, and fire it off to subscribers of our "update succeeded" event.
+            dialog.sequenceBlockUpdateSucceededEvent.fire({
+                data: parsedResponse.sequence_block,
+                updated_siblings_order: parsedResponse.updated_siblings_order,
+                updated_children_order: parsedResponse.updated_children_order
+            });
             dialog.cancel();
         };
 
@@ -1484,6 +1489,12 @@
          *
          * @event sequenceBlockUpdateSucceededEvent
          * @param {Object} data A plain data object containing the properties of updated sequence block record.
+         * @param {Object} updated_siblings_order A map containing sequence-block-ids/order-in-sequence values as
+         *      key/value pairs. The referenced blocks are siblings in a sequence to the updated block, and had
+         *      their order-in-sequence value changed as a side-effect of the block update.
+         * @param {Object} updated_children_order A map containing sequence-block-ids/order-in-sequence values as
+         *      key/value pairs. The referenced blocks are children of the updated block, and had their order-in-sequence
+         *      values changed as a side-effect of the block's "child-sequence-order" property update.
          */
         sequenceBlockUpdateSucceededEvent: null
     });
