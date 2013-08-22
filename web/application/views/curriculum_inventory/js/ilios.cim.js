@@ -1381,7 +1381,6 @@
         el = rootEl.appendChild(document.createElement('a'));
         Dom.setAttribute(el, 'id', 'sequence-block-view-anchor-' + cnumber);
         Dom.setAttribute(el, 'href', '#sequence-block-view-' + cnumber);
-        Dom.addClass(el, 'hidden');
         // header
         headerEl = rootEl.appendChild(document.createElement('div'));
         Dom.addClass(headerEl, 'hd');
