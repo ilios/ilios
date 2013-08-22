@@ -20,12 +20,12 @@ class Migration_Add_and_populate_academic_year_table extends CI_Migration
 	//Create the table
         $sql =<<<EOL
 CREATE TABLE `academic_year` (
-  `academic_year_id` SMALLINT(4) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE KEY,
+  `academic_year_id` SMALLINT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `school_id` INT(10) NOT NULL,
   `academic_year_start_date` DATETIME NOT NULL,
   `academic_year_end_date` DATETIME NOT NULL,
   `start_year` SMALLINT(4) NOT NULL,
-  PRIMARY KEY `school_start_year` (`school_id`,`start_year`),
+   UNIQUE KEY `school_start_year` (`school_id`,`start_year`),
   INDEX `school_year_start_date_end_date` (`school_id`,`start_year`,`academic_year_start_date`,`academic_year_end_date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 EOL;
