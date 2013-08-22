@@ -873,7 +873,8 @@
          *     @param {Number} args.id The id of the to-be-deleted sequence block.
          */
         onSequenceBlockDeleteButtonClick: function (event, args) {
-            var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
+            var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.delete.confirm.warning')
+                + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
             var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
             ilios.alert.inform(continueStr, yesStr, function (event, args) {
                 args.dataSource.deleteSequenceBlock(args.id);
