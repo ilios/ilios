@@ -171,6 +171,18 @@
             });
 
             /**
+             * The view's anchor element.
+             *
+             * @attribute anchorEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('anchorEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-anchor-' + cnumber)
+            });
+
+            /**
              * The "toggle display" button of the view.
              *
              * @attribute toggleBtnEl

@@ -652,7 +652,7 @@
 
             if (! silent) {
                 view.expand();
-                view.get('element').focus();
+                view.get('anchorEl').focus();
                 this.getStatusBar().show('Added new sequence block.');
             }
         },
@@ -665,7 +665,7 @@
          * @throws {Error}
          */
         updateSequenceBlock: function (oData) {
-            var course, newCourse, parent, view;
+            var course, newCourse, parent, view, parentView;
             var block = this.getSequenceBlockModelMap().get(oData.sequence_block_id);
             var levels = this.getAcademicLevels();
             oData['academic_level_model'] = levels[oData.academic_level_id];
@@ -686,9 +686,10 @@
             if (! block.get('parent')) {
                 this._sortTopLevelSequenceBlocks();
             } else {
-                view = this.getSequenceBlockViewMap().get(parent.getId());
-                view.sortChildViews();
+                parentView = this.getSequenceBlockViewMap().get(parent.getId());
+                parentView.sortChildViews();
             }
+            view.get('anchorEl').focus();
         },
 
         /**
@@ -1377,7 +1378,10 @@
         Dom.addClass(rootEl, 'entity_container');
         Dom.addClass(rootEl, 'collapsed');
         Dom.addClass(rootEl, 'hidden');
-
+        el = rootEl.appendChild(document.createElement('a'));
+        Dom.setAttribute(el, 'id', 'sequence-block-view-anchor-' + cnumber);
+        Dom.setAttribute(el, 'href', '#sequence-block-view-' + cnumber);
+        Dom.addClass(el, 'hidden');
         // header
         headerEl = rootEl.appendChild(document.createElement('div'));
         Dom.addClass(headerEl, 'hd');
