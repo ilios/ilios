@@ -483,7 +483,7 @@
             width: "600px",
             modal: true,
             visible: false,
-            constraintoviewport: false,
+            constraintoviewport: true,
             hideaftersubmit: false,
             zIndex: 999,
             buttons: [
@@ -535,9 +535,10 @@
 
         var defaultConfig = {
             width: "640px",
+            y: 0,
             modal: true,
             visible: false,
-            constraintoviewport: false,
+            constraintoviewport: true,
             hideaftersubmit: false,
             zIndex: 999,
             buttons: [
@@ -1003,9 +1004,10 @@
 
         var defaultConfig = {
             width: "640px",
+            y: 0,
             modal: true,
             visible: false,
-            constraintoviewport: false,
+            constraintoviewport: true,
             hideaftersubmit: false,
             zIndex: 999,
             buttons: [
