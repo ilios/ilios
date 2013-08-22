@@ -4,11 +4,12 @@
  */
 $siteUrl = site_url();
 $baseUrl = base_url();
-$controllerURL = site_url() . '/dashboard_controller'; // TODO: consider how to avoid this coupling
-$courseManagementURL = site_url() . '/course_management';
-$learningMaterialsControllerURL = site_url() . '/learning_materials';
-$programManagementURL = site_url() . '/program_management';
-$managementConsoleURL = site_url() . '/management_console';
+$controllerURL = $siteUrl . '/dashboard_controller'; // TODO: consider how to avoid this coupling
+$courseManagementURL = $siteUrl . '/course_management';
+$learningMaterialsControllerURL = $siteUrl . '/learning_materials';
+$programManagementURL = $siteUrl . '/program_management';
+$managementConsoleURL = $siteUrl . '/management_console';
+$curriculumInventoryManagerUrl = $siteUrl . '/curriculum_inventory_manager';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
@@ -259,6 +260,11 @@ $viewsPath = getServerFilePath('views');
                                          <span style="font-size: 8pt; font-weight: bold; color: #ee0a0a;">
                                              (<?php echo implode(', ', $sync_exceptions_indicators); ?>)
                                          </span>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo $curriculumInventoryManagerUrl; ?>">
+                                            <?php echo $this->languagemap->t('curriculum_inventory.title_bar', $lang); ?>
+                                        </a>
                                     </li>
 <?php
         endif;
