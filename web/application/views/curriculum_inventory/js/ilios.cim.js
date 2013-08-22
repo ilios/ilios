@@ -1384,9 +1384,9 @@
         // header
         headerEl = rootEl.appendChild(document.createElement('div'));
         Dom.addClass(headerEl, 'hd');
+        Dom.setAttribute(headerEl, 'id', 'sequence-block-view-header-' + cnumber);
         el = headerEl.appendChild(document.createElement('div'));
         Dom.addClass(el, 'toggle');
-        Dom.setAttribute(el, 'id', 'sequence-block-view-toggle-btn-' + cnumber);
         el = headerEl.appendChild(document.createElement('div'));
         Dom.setAttribute(el, 'id', 'sequence-block-view-title-' + cnumber);
         Dom.addClass(el, 'collapsed_summary_text_div');

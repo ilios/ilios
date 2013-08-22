@@ -183,18 +183,6 @@
             });
 
             /**
-             * The "toggle display" button of the view.
-             *
-             * @attribute toggleBtnEl
-             * @type {HTMLElement}
-             * @writeOnce
-             */
-            this.setAttributeConfig('toggleBtnEl', {
-               writeOnce: true,
-               value: Dom.get('sequence-block-view-toggle-btn-' + cnumber)
-            });
-
-            /**
              * The "delete" button of the view.
              *
              * @attribute deleteBtnEl
@@ -241,6 +229,19 @@
                 writeOnce: true,
                 value: Dom.get('sequence-block-view-body-' + cnumber)
             });
+
+            /**
+             * The header container-element of the view.
+             *
+             * @attribute headerEl
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('headerEl', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-header-' + cnumber)
+            });
+
 
             /**
              * The view's container element for sub-sequence block views.
@@ -648,7 +649,7 @@
             // unsubscribe click-event listeners from buttons
             Event.removeListener(this.get('editBtnEl'), 'click');
             Event.removeListener(this.get('addBtnEl'), 'click');
-            Event.removeListener(this.get('toggleBtnEl'), 'click');
+            Event.removeListener(this.get('headerEl'), 'click');
             Event.removeListener(this.get('deleteBtnEl'), 'click');
 
             // we don't need to unsubscribe from the model's various change events
@@ -697,7 +698,7 @@
 
 
             // wire buttons
-            Event.addListener(this.get('toggleBtnEl'), 'click', function (event) {
+            Event.addListener(this.get('headerEl'), 'click', function (event) {
                 if (this.hasClass('collapsed')) {
                     this.expand();
                 } else {
