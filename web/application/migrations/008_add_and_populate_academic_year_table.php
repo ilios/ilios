@@ -34,7 +34,7 @@ EOL;
 	//create a temporary table to get all the years used by each school
 	$sql = "DROP TABLE IF EXISTS migration_academic_years_by_school";
         $this->db->query($sql);
-	$sql = "CREATE TABLE migration_academic_years_by_school AS SELECT `year`, `owning_school_id` FROM `course` GROUP BY `owning_school_id`, `year`"
+	$sql = "CREATE TABLE migration_academic_years_by_school AS SELECT `year`, `owning_school_id` FROM `course` GROUP BY `owning_school_id`, `year`";
         $this->db->query($sql);
 	
 	// using the new table, populate the table with pre-determined datetimes (YYYY-07-01 00:00:00 - [YYYY + 1]-06-30 23:59:59)
