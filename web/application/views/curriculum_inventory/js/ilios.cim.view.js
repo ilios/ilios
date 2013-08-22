@@ -462,8 +462,25 @@
                     var el = this.get('courseEl');
                     var str = '';
                     if (value) {
-                        str = value.get('title');
-                        // @todo flesh this out
+                        // check if course is flagged as "deleted"
+                        // if so then don't display any details
+                        if (value.get('deleted')) {
+                            str = "<em>[" + ilios_i18nVendor.getI18NString('general.terms.deleted') + "]</em>";
+                        } else {
+                            str = value.get('title');
+                            if (! value.get('isPublished')) {
+                                str += " <em>[" + ilios_i18nVendor.getI18NString('general.terms.draft')+ "]</em>";
+                            }
+                            str += '<br /><span class="small">';
+                            // course level
+                            str += ilios_i18nVendor.getI18NString('general.terms.level')+ ": " + value.get('level')+ ", ";
+                            // course start date
+                            str += ilios_i18nVendor.getI18NString('general.phrases.start_date') + ": " + value.get('endDate') + ", "
+                            // course end date
+                            str += ilios_i18nVendor.getI18NString('general.phrases.end_date') + ": " + value.get('startDate')
+                            str += "</span>";
+                        }
+
                     } else {
                         str = ilios_i18nVendor.getI18NString('general.terms.not_applicable');
                     }
