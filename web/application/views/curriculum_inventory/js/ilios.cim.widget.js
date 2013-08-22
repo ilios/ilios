@@ -1191,7 +1191,11 @@
             if (value) {
                 optionEl = selectEl.appendChild(document.createElement('option'));
                 optionEl.value = value.getId();
-                optionEl.innerHTML = value.get('title');
+                if (value.get('deleted')) {
+                    optionEl.innerHTML = "[" + ilios_i18nVendor.getI18NString('general.terms.deleted') + "]";
+                } else {
+                    optionEl.innerHTML = value.get('title');
+                }
                 Dom.setAttribute(optionEl, 'selected', 'selected');
             }
             for (i = 0, n = courses.length; i < n; i++) {
