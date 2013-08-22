@@ -438,7 +438,7 @@ class Course_Management extends Ilios_Web_Controller
         $data['preference_array'] = $this->getPreferencesArrayForUser();
         
         //get all of the academic years for the course-owning school with the respective start and end dates
-        if($courseId !== -1 && isset($data['owning_school_id'])) {
+        if($data['course_id'] !== -1 && isset($data['owning_school_id'])) {
           $academicYears = $this->academic_year->getAllAcademicYearsFromSchoolId($data['owning_school_id']);
         } else {
           //if the course does not exist yet (ie, it is being created), use the current school
