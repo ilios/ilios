@@ -1688,39 +1688,35 @@ ilios.cm.populateReviewForFullReview = function () {
 
 /**
  * @method checkDateForAcademicYearOverlap
- * @param {Date} date A 'YYYY-mm-dd'-formatted date string.
- * @return {Array} an array of academic years objects spanning the given date.
+ * @param {String} date - A 'YYYY-mm-dd'-formatted date string.
+ * @return {Array} overlapping_years - an array of academic years objects spanning the given date.
  * 
  */
 ilios.cm.checkDateForAcademicYearOverlap = function (date) {
 
 	var all_academic_years = ilios.cm.academicYears;
-	//add the time to the date for conversion to unixtimestamp timestamp
-	//var datetime = (date + ' 12:00:00');
-	//get the unix timestamp version of the date...
-	var unix_date = (Date.parse(date) / 1000);
+	date = Date.parse(date);
 
 	//create and empty array to hold the year values
 	var overlapping_years = [];
 
 	//loop through the all_academic_years object
-	//for the unix start and end dates
 	for (var academic_year in all_academic_years) {
    		var obj = all_academic_years[academic_year];
    		for (var prop in obj) {
       		if(obj.hasOwnProperty(prop)){
       			//get the academic year start date in unixtime...
-      			if(prop == 'unix_academic_year_start_date'){
-      				var unix_start_date = obj[prop];
+      			if(prop == 'academic_year_start_date'){
+      				var start_date = Date.parse(obj[prop]);
       			}
       			//and the academic year end date in unixtime...
-      			if(prop == 'unix_academic_year_end_date'){
-      				var unix_end_date = obj[prop];
+      			if(prop == 'academic_year_end_date'){
+      				var end_date = Date.parse(obj[prop]);
       			}
         	}
    		}
 		//cycle through all the years and check if they're between the two values
-	    if (unix_date >= unix_start_date && unix_date <= unix_end_date) {
+	    if (date >= start_date && date <= end_date) {
 			//if they are add them to the return array...
 		    overlapping_years.push(academic_year);
 	    }

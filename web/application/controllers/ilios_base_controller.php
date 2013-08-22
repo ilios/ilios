@@ -388,9 +388,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
         $academicYear = $this->academic_year->getAcademicYearStartAndEndDate($courseRow->year, $activeSchoolId);
         $rhett['academic_year_start_date'] = $academicYear->academic_year_start_date;
         $rhett['academic_year_end_date'] = $academicYear->academic_year_end_date;
-        $rhett['unix_academic_year_start_date'] = $academicYear->unix_academic_year_start_date;
-        $rhett['unix_academic_year_end_date'] = $academicYear->unix_academic_year_end_date;
-        
 
         $results = $this->course->getProgramCohortDetailsForCourse($courseId);
         if (is_null($results)) {
