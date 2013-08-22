@@ -70,6 +70,7 @@
                     <select id="create-sequence-block-dialog--course" name="course_id">
                         <option value="">&lt;<?php echo $this->languagemap->t('general.terms.none', $lang); ?>&gt;</option>
                     </select>
+                    <div id="create-sequence-block-dialog--course-details"></div>
                 </div>
                 <div class="dialog-form-row" >
                     <label class="entity_widget_title" for="create-sequence-block-dialog--child-sequence-order">
