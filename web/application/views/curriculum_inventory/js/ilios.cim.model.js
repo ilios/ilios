@@ -1302,6 +1302,168 @@
         }
     });
 
+
+    /**
+     * Course repository.
+     * Allows for state management of courses within the application.
+     * A course can either be "checked in" (available for assignment to a sequence block),
+     * or "checked out" (unavailable for assignment)
+     * Courses will be checked-in/out from the repo by its owning application as part of sequence block lifecycle
+     * management (block-creation/deletion/update).
+     *
+     * @namespace cim
+     * @class CourseRepository
+     * @constructor
+     * @see ilios.cim.model.CourseModel
+     */
+    var CourseRepository = function () {
+        this._unavailable = {};
+        this._available = {};
+    };
+
+    CourseRepository.prototype = {
+
+        /**
+         * The container object for checked-out/unavailable courses.
+         *
+         * @property _unavailable
+         * @type {Object}
+         * @protected
+         */
+        _unavailable: null,
+
+        /**
+         * The container object for checked-in/available courses.
+         *
+         * @property _unavailable
+         * @type {Object}
+         * @protected
+         */
+        _available: null,
+
+
+        /**
+         * Checks if the repo contains a given course.
+         * @param {Number} The course id.
+         * @returns {Boolean} TRUE if the course exists in the repo, otherwise FALSE.
+         */
+        exists: function (id) {
+            return this._available.hasOwnProperty(id) || this._unavailable.hasOwnProperty(id);
+        },
+
+        /**
+         * Adds a course to the repo.
+         * Newly checked-in courses are automatically available.
+         *
+         * @method add
+         * @param {ilios.cim.model.CourseModel} The course object.
+         * @throws {Error} If the given course already exists in the repo.
+         */
+        add: function (course) {
+            var id = course.getId();
+            if (this.exists(id)) {
+                throw new Error('add(): course already exists in repo. course id = ' + id);
+            }
+            this._available[id] = course;
+        },
+
+        /**
+         * Checks a given course out of the repo, and flags it as unavailable.
+         * If the course has already been checked-out, then it is simply returned without a status change.
+         *
+         * @method checkOut
+         * @param {Number} id The course id.
+         * @return {ilios.cim.model.CourseModel} The checked-out course.
+         * @throw {Error} Throws an error if the course cannot be found or has already been checked out.
+         *
+         */
+        checkOut: function (id) {
+            var course;
+            if (! this.exists(id)) {
+                throw new Error('checkOut(): course does not exist in repo, course id = ' + id);
+            }
+            if (! this._available.hasOwnProperty(id)) {
+                throw new Error('checkOut(): course is already checked out, course id = ' + id);
+            }
+            course = this._available[id];
+            delete this._available[id];
+            this._unavailable[id] = course;
+
+            return this._unavailable[id];
+        },
+
+        /**
+         * Retrieves a course from the repo by its identifier.
+         * Please note that this is not the same as checking out a course, it just simply returns the course
+         * without changing its availability status within the repo.
+         *
+         * @method get
+         * @param {Number} id The course id.
+         * @throws {Error} Throws an error if the course cannot be found
+         * @return {ilios.cim.model.CourseModel} The course object.
+         */
+        get: function (id) {
+            if (this._available.hasOwnProperty(id)) {
+                return this._available[id];
+            } else if (this._unavailable.hasOwnProperty(id)) {
+                return this._unavailable[id];
+            } else {
+                throw new Error('get(): course does not exist in repo, course id = ' + id);
+            }
+        },
+
+        /**
+         * Checks a given course into the repo, and flags it as available.
+         * If the course has already been checked-in, then it is simply returned without a status change.
+         *
+         * @method checkIn
+         * @param {Number} id The course id.
+         * @return {ilios.cim.model.CourseModel} The checked-in course.
+         * @throw {Error} Throws an error if the course cannot be found or has already been checked in.
+         */
+        checkIn: function (id) {
+            var course;
+            if (! this.exists(id)) {
+                throw new Error('checkOut(): course does not exist in repo, course id = ' + id);
+            }
+            if (! this._unavailable.hasOwnProperty(id)) {
+                throw new Error('checkOut(): course is already checked in, course id = ' + id);
+            }
+            course = this._unavailable[id];
+            delete this._unavailable[id];
+            this._available[id] = course;
+            return this._available[id];
+        },
+
+        /**
+         * Retrieves a sorted list of available courses that fulfill the "linkable" criteria.
+         * These criteria are:
+         * - the course must not be deleted
+         * - the course must not be in "draft" mode
+         *
+         * @method listLinkable
+         * @return {Array} A list of sorted courses.
+         */
+        listLinkable : function () {
+            var i, course, rhett;
+            rhett  = [];
+            for (i in this._available) {
+                if (this._available.hasOwnProperty(i)) {
+                    course = this._available[i];
+                    if (! course.get('isPublished')  || course.get('deleted')) {
+                        continue;
+                    }
+                    rhett.push(course);
+                }
+            }
+            rhett.sort(function (a, b) {
+                return a.get('title').localeCompare(b.get('title'));
+            });
+
+            return rhett;
+        }
+    };
+
     ilios.cim.model.AcademicLevelModel = AcademicLevelModel;
     ilios.cim.model.BaseModel = BaseModel;
     ilios.cim.model.CourseModel = CourseModel;
@@ -1309,4 +1471,5 @@
     ilios.cim.model.SequenceBlockModel = SequenceBlockModel;
     ilios.cim.model.ObjectMap = ObjectMap;
     ilios.cim.model.SequenceBlockModelMap = SequenceBlockModelMap;
+    ilios.cim.model.CourseRepository = CourseRepository;
 }());

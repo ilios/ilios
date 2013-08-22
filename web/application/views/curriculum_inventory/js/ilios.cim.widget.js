@@ -524,7 +524,7 @@
      * @extends YAHOO.widget.Dialog
      * @constructor
      * @param {HTMLElement|String} el The element or element-ID representing the dialog
-     * @param {ilios.cim.CourseRepository} courseRepo A course repo object. Used to populate course dropdown and to
+     * @param {ilios.cim.model.CourseRepository} courseRepo A course repo object. Used to populate course dropdown and to
      *     look up course details on selection.
      * @param {Object} userConfig The configuration object literal containing the configuration that should be set for
      *     this dialog.
@@ -534,7 +534,7 @@
         var date = new Date(); // get current date to initialize the calendar widgets.
 
         var defaultConfig = {
-            width: "680px",
+            width: "640px",
             y: 0,
             modal: true,
             visible: false,
@@ -720,7 +720,7 @@
          * Used to look up linkable courses for populating the "course" dropdown in this dialog's form.
          *
          * @property _courseRepo
-         * @type {ilios.cim.CourseRepository}
+         * @type {ilios.cim.model.CourseRepository}
          * @protected
          */
         _courseRepo: null,
@@ -1013,7 +1013,7 @@
      * @extends YAHOO.widget.Dialog
      * @constructor
      * @param {HTMLElement|String} el The element or element-ID representing the dialog
-     * @param {ilios.cim.CourseRepository} courseRepo A course repo object. Used to populate course dropdown and to
+     * @param {ilios.cim.model.CourseRepository} courseRepo A course repo object. Used to populate course dropdown and to
      *     look up course details on selection.
      * @param {Object} userConfig The configuration object literal containing the configuration that should be set for
      *     this dialog.
@@ -1023,7 +1023,7 @@
         var date = new Date(); // get current date to initialize the calendar widgets.
 
         var defaultConfig = {
-            width: "680px",
+            width: "640px",
             y: 0,
             modal: true,
             visible: false,
@@ -1203,7 +1203,7 @@
          * Used to look up linkable courses for populating the "course" dropdown in this dialog's form.
          *
          * @property _courseRepo
-         * @type {ilios.cim.CourseRepository}
+         * @type {ilios.cim.model.CourseRepository}
          * @protected
          */
         _courseRepo: null,
