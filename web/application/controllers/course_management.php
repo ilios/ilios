@@ -71,6 +71,8 @@ class Course_Management extends Ilios_Web_Controller
             $data['course_year'] = $courseRow->year;
             $data['course_course_level'] = $courseRow->course_level;
             $data['course_is_locked'] = $courseRow->locked;
+            $data['owning_school_id'] = $courseRow->owning_school_id;
+            
 
             if (($courseRow->publish_event_id == null) || ($courseRow->publish_event_id == -1)) {
                 $data['course_publish_event_id'] = '';
@@ -435,8 +437,14 @@ class Course_Management extends Ilios_Web_Controller
 
         $data['preference_array'] = $this->getPreferencesArrayForUser();
         
-        //get all of the academic years for this school id, with their respective start and end dates
-        $academicYears = $this->academic_year->getAllAcademicYearsFromSchoolId($schoolId);
+        //get all of the academic years for the course-owning school with the respective start and end dates
+        if($courseId !== -1 && isset($data['owning_school_id'])) {
+          $academicYears = $this->academic_year->getAllAcademicYearsFromSchoolId($data['owning_school_id']);
+        } else {
+          //if the course does not exist yet (ie, it is being created), use the current school
+          $academicYears = $this->academic_year->getAllAcademicYearsFromSchoolId($schoolId);
+        }
+        
         //cast the results into a JSON object...
         $data['academic_years_json'] = Ilios_Json::encodeForJavascriptEmbedding($academicYears,
             Ilios_Json::JSON_ENC_SINGLE_QUOTES);
