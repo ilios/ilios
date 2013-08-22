@@ -534,7 +534,7 @@
         var date = new Date(); // get current date to initialize the calendar widgets.
 
         var defaultConfig = {
-            width: "640px",
+            width: "680px",
             y: 0,
             modal: true,
             visible: false,
@@ -612,6 +612,23 @@
                 this._resetDateFields();
                 Event.stopEvent(event);
             }, {}, this);
+
+            Event.addListener(document.getElementById('create-sequence-block-dialog--course'), 'change', function (event) {
+                var courseId, str, el, course;
+                el = document.getElementById('create-sequence-block-dialog--course-details');
+                courseId = event.target.value;
+                str = '';
+                if ('' != courseId) {
+                    course = this._courseRepo.get(courseId);
+                    str += '<span class="small">';
+                    str += ilios_i18nVendor.getI18NString('general.terms.level') + ': ' + course.get('level');
+                    str += ", " + ilios_i18nVendor.getI18NString('general.phrases.start_date') + ': ' + course.get('startDate');
+                    str += ", " + ilios_i18nVendor.getI18NString('general.phrases.end_date') + ': ' + course.get('endDate');
+                    str += '</span>';
+                }
+                el.innerHTML = str;
+                Event.stopEvent(event);
+            }, {}, this);
         });
 
         this.beforeShowEvent.subscribe(function () {
@@ -676,6 +693,8 @@
         this.beforeSubmitEvent.subscribe(function () {
             document.getElementById('create-sequence-block-dialog--status').innerHTML = ilios_i18nVendor.getI18NString('general.terms.creating') + '...';
         });
+
+
     };
 
     Lang.extend(CreateSequenceBlockDialog, YAHOO.widget.Dialog, {
@@ -793,6 +812,7 @@
             document.getElementById('create-sequence-block-dialog--parent-block-id').value = "";
             document.getElementById('create-sequence-block-dialog--title').value = "";
             document.getElementById('create-sequence-block-dialog--description').value = "";
+            document.getElementById('create-sequence-block-dialog--course-details').innerHTML = "";
             document.getElementById('create-sequence-block-dialog--duration').value = "0";
             document.getElementById('create-sequence-block-dialog--required').options[0].selected = 'selected';
             document.getElementById('create-sequence-block-dialog--academic-level').options[0].selected = 'selected';
@@ -1003,7 +1023,7 @@
         var date = new Date(); // get current date to initialize the calendar widgets.
 
         var defaultConfig = {
-            width: "640px",
+            width: "680px",
             y: 0,
             modal: true,
             visible: false,
@@ -1079,6 +1099,17 @@
 
             Event.addListener('edit-sequence-block-dialog--clear-dates-button', 'click', function (event) {
                 this._resetDateFields();
+                Event.stopEvent(event);
+            }, {}, this);
+
+            Event.addListener(document.getElementById('edit-sequence-block-dialog--course'), 'change', function (event) {
+                courseId = event.target.value;
+                if ('' != courseId) {
+                    course = this._courseRepo.get(courseId);
+                    this._showCourseDetails(course);
+                } else {
+                    this._clearCourseDetails();
+                }
                 Event.stopEvent(event);
             }, {}, this);
         });
@@ -1199,6 +1230,8 @@
                     optionEl.innerHTML = value.get('title');
                 }
                 Dom.setAttribute(optionEl, 'selected', 'selected');
+                this._showCourseDetails(value);
+
             }
             for (i = 0, n = courses.length; i < n; i++) {
                 course = courses[i];
@@ -1207,6 +1240,35 @@
                 optionEl.innerHTML = course.get('title');
             }
         },
+
+        /**
+         * Prints course details onto the dialog.
+         *
+         * @method _showCourseDetails
+         * @param {ilios.cim.model.CourseModel} course The course
+         * @protected
+         */
+        _showCourseDetails: function (course) {
+            var el = document.getElementById('edit-sequence-block-dialog--course-details');
+            var str = '';
+            if (! course.get('deleted')) {
+                str += '<span class="small">';
+                str += ilios_i18nVendor.getI18NString('general.terms.level') + ': ' + course.get('level');
+                str += ", " + ilios_i18nVendor.getI18NString('general.phrases.start_date') + ': ' + course.get('startDate');
+                str += ", " + ilios_i18nVendor.getI18NString('general.phrases.end_date') + ': ' + course.get('endDate');
+                str += '</span>';
+            }
+            el.innerHTML = str;
+        },
+
+        /**
+         * Clears out the course details display-element.
+         *
+         * @protected
+         */
+        _clearCourseDetails: function () {
+            document.getElementById('edit-sequence-block-dialog--course-details').innerHTML = '';
+         },
 
         /**
          * Populates the "order in sequence" dropdown with <code>n</code> options.
@@ -1285,6 +1347,7 @@
             document.getElementById('edit-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
             document.getElementById('edit-sequence-block-dialog--track').options[0].selected = 'selected';
 
+            this._clearCourseDetails();
             this._clearValidationErrorStyles();
             this._resetDateFields();
             this._resetCourseDropdown();
