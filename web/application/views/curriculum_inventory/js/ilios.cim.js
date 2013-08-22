@@ -1032,6 +1032,26 @@
         },
 
         /**
+         * Retrieves a course from the repo by its identifier.
+         * Please note that this is not the same as checking out a course, it just simply returns the course
+         * without changing its availability status within the repo.
+         *
+         * @method get
+         * @param {Number} id The course id.
+         * @throws {Error} Throws an error if the course cannot be found
+         * @return {ilios.cim.model.CourseModel} The course object.
+         */
+        get: function (id) {
+            if (this._available.hasOwnProperty(id)) {
+                return this._available[id];
+            } else if (this._unavailable.hasOwnProperty(id)) {
+                return this._unavailable[id];
+            } else {
+                throw new Error('get(): course does not exist in repo, course id = ' + id);
+            }
+        },
+
+        /**
          * Checks a given course into the repo, and flags it as available.
          * If the course has already been checked-in, then it is simply returned without a status change.
          *
