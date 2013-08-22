@@ -639,8 +639,21 @@
             el = this.get('element');
             // remove the view from the DOM
             el.parentNode.removeChild(el);
-            // @todo unsubscribe all event handlers from any controls (buttons) within the view.
+
+            // unset props and attributes
             this._model = null;
+            this.set('course', null, true);
+            this.set('academicLevel', null, true);
+
+            // unsubscribe click-event listeners from buttons
+            Event.removeListener(this.get('editBtnEl'), 'click');
+            Event.removeListener(this.get('addBtnEl'), 'click');
+            Event.removeListener(this.get('toggleBtnEl'), 'click');
+            Event.removeListener(this.get('deleteBtnEl'), 'click');
+
+            // we don't need to unsubscribe from the model's various change events
+            // since the model unsubscribes all listeners, including this view's listeners,
+            // on deletion.
         },
 
         /**
