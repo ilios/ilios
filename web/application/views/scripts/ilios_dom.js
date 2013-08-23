@@ -1183,10 +1183,11 @@ ilios.dom.collapseChildForContainerNumber = function (containerNumber, toggleCol
  *              first argument and will append children to that element as appropriate in order
  *              to render the body content of the container; its second argument will be the
  *              containerNumber
+ * @param {Array} buttonPlaceholders  a list of class names used to create targetable placeholder elements in the button row.
  */
 ilios.dom.buildChildContainerDOMTree = function (containerNumber, saveText, saveButtonDOMExtra,
     saveHandler, publishButtonDOMExtra, publishHandler, deleteHandler,
-    collapseHandler, expandHandler, formDOMElement, contentGeneratorFunction) {
+    collapseHandler, expandHandler, formDOMElement, contentGeneratorFunction, buttonPlaceholders) {
     var Element = YAHOO.util.Element;
     var rhett = new Element(document.createElement('div'));
     var collapseId = ilios.dom.childCollapsingContainerIdForContainerNumber(containerNumber);
@@ -1201,7 +1202,11 @@ ilios.dom.buildChildContainerDOMTree = function (containerNumber, saveText, save
     var btnBar = new Element(document.createElement('div'));
     var scratchList = new Element(document.createElement('ul'));
     var scratchItem, deleteEl, toggleEl;
+    var i, n;
 
+    if (! YAHOO.lang.isArray(buttonPlaceholders)) {
+        buttonPlaceholders = [];
+    }
 
     rhett.addClass('entity_container');
     rhett.addClass('expanded');
@@ -1238,8 +1243,6 @@ ilios.dom.buildChildContainerDOMTree = function (containerNumber, saveText, save
     scratchElement.addClass('child_publish_status');
     hdElement.appendChild(scratchElement.get('element'))
 
-
-
     // Delete widget
     deleteEl = new Element(document.createElement('div'));
     deleteEl.addClass('delete_widget icon-cancel');
@@ -1257,10 +1260,13 @@ ilios.dom.buildChildContainerDOMTree = function (containerNumber, saveText, save
     //button bar & list
     btnBar.addClass('row');
     scratchList.addClass('buttons right');
-    //add archive button placeholder
-    scratchItem = new Element(document.createElement('li'));
-    scratchItem.addClass('archiver');
-    scratchList.appendChild(scratchItem.get('element'));
+
+    // add button placeholders
+    for (i = 0, n = buttonPlaceholders.length; i < n; i++) {
+        scratchItem = new Element(document.createElement('li'));
+        scratchItem.addClass(buttonPlaceholders[i]);
+        scratchList.appendChild(scratchItem.get('element'));
+    }
 
     // Save draft button
     // why doesn't instructors use this?

@@ -148,6 +148,13 @@ input.readonly-text {
     background-color: transparent;
 }
 
+/* input validation failed */
+input.validation-failed,
+select.validation-failed,
+textarea.validation-failed {
+    border: 1px solid #c00;
+}
+
 /********************************/
 /* icons via ilios-icons font   */
 /* http://css-tricks.com/html-for-icon-font-usage/ */
@@ -389,8 +396,8 @@ input.readonly-text {
 .level-1 .toggle a:hover {
     color: #444;
 }
-.expanded .toggle:before,
-.collapsed .toggle:before {
+.expanded > .hd > .toggle:before,
+.collapsed> .hd > .toggle:before {
     font-family: 'ilios-icons';
     font-style: normal;
     speak: none;
@@ -399,11 +406,11 @@ input.readonly-text {
     line-height: 2.5em;
     margin-left: .5em;
 }
-.collapsed .toggle:before {
+.collapsed > .hd > .toggle:before {
         content: "\e001";
 
 }
-.expanded .toggle:before {
+.expanded > .hd > .toggle:before {
     content: "\e01e";
 }
 /*ideally we would do this programmatically, but...*/
@@ -448,6 +455,10 @@ input.readonly-text {
 /*Some useful global styles     */
 
 h3 span, h4 span {font-weight: normal;}
+
+form.inline-form {
+    display: inline;
+}
 
 fieldset {
     border: 1px solid #CCC;
@@ -821,6 +832,12 @@ button {
     padding: .5em;
     border-top: 1px solid #FFF;
 }
+
+.buttons.bottom .button.medium {
+    margin-right: .2em;
+
+}
+
 .buttons.top {
     margin-top: -1em;
     padding: .5em;
@@ -1020,9 +1037,14 @@ fieldset > .row {
     line-height: 1em;
 }
 
-.row .button {
+.row > .button {
     float: right;
 }
+
+.row > .column > .button {
+    float: right;
+}
+
 .row .button:not(.secondary) {
     color: #FFF; /*override a firefox bug?*/
 }
@@ -1387,10 +1409,29 @@ fieldset > .row {
     vertical-align: middle;
 }
 
-.search-status {
+.search-status, .dialog-form-status {
     margin-bottom: 1em;
     font-size: .8em;
     color: #F00;
+}
+
+/* page-status view */
+.status-view-container {
+    color: #666;
+    font-size: 0.8em;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.status-view-container .in-progress-indicator {
+    display: inline-block;
+    background: url("../images/loading.gif") no-repeat scroll 0 0 transparent;
+    height: 20px;
+    margin: 0 9px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    width: 20px;
 }
 
 /*************************************/
@@ -1576,6 +1617,10 @@ fieldset > .row {
     min-height: 5em;
     width:100%;
     overflow-y:auto;
+}
+
+.dialog_wrap .dialog-form-row {
+    margin-bottom: 10px;
 }
 
 .dialog_single_content {
@@ -2190,6 +2235,22 @@ ul.week_list li.selected_day {
     max-height: 170px;
     overflow: auto;
     overflow-x: hidden;
+}
+
+/****************************************/
+/* Curriculum Inventory Manager modules */
+#report-sequence-container {
+    padding: 10px 0;
+}
+
+.row.sequence-block-children {
+    background-color: #666;
+    padding: 0;
+}
+
+.sequence-block-children > .entity_container {
+    margin: .5em 0 .5em 1em;
+    border-right: 0;
 }
 
 /********************************/
