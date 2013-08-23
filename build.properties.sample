@@ -56,11 +56,18 @@ encryption_key=
 #------------------------------------------------
 # Ilios-specific settings
 #------------------------------------------------
+
 #
 # The name of your institution/school/university.
 # Do not put quotes, e.g. institution_name=University of California
 #
 institution_name=UCSF
+
+#
+# The institution's domain name.
+# Used in curriculum inventory reporting.
+#
+institution_domain=ucsf.edu
 
 #------------------------------------------------
 # Database settings
@@ -126,6 +133,14 @@ tasks.user_sync.ldap.password=XXXXXX
 # Assetic script aggregation
 #
 #script_aggregation_enabled=true
+
+#------------------------------------------------
+# Curriculum Inventory Reporting
+#------------------------------------------------
+#
+# Supporting Link for curriculum inventory reports.
+# Provide a full URL.
+#curriculum_inventory_supporting_link=https://curriculum.ucsf.edu/inventory
 
 #------------------------------------------------
 # On/off switches for the various cron tasks.

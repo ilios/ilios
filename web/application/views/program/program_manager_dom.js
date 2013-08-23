@@ -526,7 +526,7 @@ ilios.pm.appendProgramYearComponentToDOM = function (parentElement, contentId, l
 
 
         if (! parentDOMElement.hideOnLockDivs) {
-            parentDOMElement.hideOnLockDivs = new Array();
+            parentDOMElement.hideOnLockDivs = [];
         }
         parentDOMElement.hideOnLockDivs.push(scratchElement);
     }
@@ -707,7 +707,7 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
     var len = ilios.pm.getMaximumProgramYearCount();
     var titleId = ilios.pm.generateIdStringForProgramYearSelect(containerNumber);
     var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.academic_year');
-    var rowEl, labelCol, dataCol, actionCol;
+    var elem, rowEl, labelCol, dataCol, actionCol;
     var previousProgramYearModel = ilios.pm.currentProgramModel;
 
     // Matriculation Year
@@ -797,11 +797,10 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
         scratchInput.innerHTML = i18nStr;
         scratchInput.setAttribute('class', 'small secondary radius button');
         scratchInput.setAttribute('id', ilios.pm.generateIdStringForArchivingDiv(containerNumber));
-
-        //we set a placeholder li.archiver in ilios.dom.buildChildContainerDOMTree
-        var archiver = YAHOO.util.Dom.getElementsByClassName('archiver', 'li', parentElement)[0]; //works, but could be cleaner
-        archiver.appendChild(scratchInput);
-
+        scratchInput.setAttribute('style', 'display:none');
+        //we set a placeholder li.archiver in ilios.dom.buildChildContainerDOMTree()
+        elem = YAHOO.util.Dom.getElementsByClassName('archiver', 'li', parentElement)[0]; //works, but could be cleaner
+        elem.appendChild(scratchInput);
     }
 };
 
@@ -826,7 +825,7 @@ ilios.pm.addNewProgramYear = function () {
         newProgramYearDOMTree = ilios.dom.buildChildContainerDOMTree(containerNumber, null, null,
            ilios.pm.transaction.saveProgramYearAsDraft, null, ilios.pm.transaction.saveProgramYearAndPublish,
            ilios.pm.transaction.deleteProgramYear, ilios.pm.handleProgramYearDivCollapse, null,
-           formDOMElement, ilios.pm.programYearContentGenerator);
+           formDOMElement, ilios.pm.programYearContentGenerator, ['archiver']);
 
         container.appendChild(newProgramYearDOMTree.get('element'));
 
