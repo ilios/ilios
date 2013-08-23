@@ -255,23 +255,44 @@ CREATE TABLE `school` (
 	  CONSTRAINT `clerkship_type_id` FOREIGN KEY (`clerkship_type_id`) REFERENCES `course_clerkship_type` (`course_clerkship_type_id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-	--
-	-- Table session_type
-	--
+--
+-- Table assessment_option
+--
+DROP TABLE IF EXISTS `assessment_option`;
+CREATE TABLE `assessment_option` (
+    `assessment_option_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`assessment_option_id`),
+    UNIQUE INDEX `name` (`name`)
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-	DROP TABLE IF EXISTS `session_type`;
-        SET character_set_client = utf8;
-        CREATE TABLE `session_type` (
-          `session_type_id` INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
-          `title` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
-          `owning_school_id` INT(10) unsigned NOT NULL,
-          `session_type_css_class` VARCHAR(64) NULL,
-          `assessment` BOOL NOT NULL DEFAULT 0,
-          PRIMARY KEY (`session_type_id`) USING BTREE,
-          FOREIGN KEY (`owning_school_id`) REFERENCES school(school_id)
-          ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--
+-- Table session_type
+--
 
-
+DROP TABLE IF EXISTS `session_type`;
+SET character_set_client = utf8;
+CREATE TABLE `session_type` (
+    `session_type_id` INT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
+    `owning_school_id` INT(10) unsigned NOT NULL,
+    `session_type_css_class` VARCHAR(64) NULL,
+    `assessment` BOOL NOT NULL DEFAULT 0,
+    `assessment_option_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+    PRIMARY KEY (`session_type_id`) USING BTREE,
+    FOREIGN KEY (`owning_school_id`) REFERENCES school(school_id),
+    INDEX `assessment_option_fkey` (`assessment_option_id`),
+    CONSTRAINT `assessment_option_fkey`
+        FOREIGN KEY (`assessment_option_id`) REFERENCES `assessment_option` (`assessment_option_id`)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1;
 
 	--
 	-- Table ilm_session_facet
@@ -1322,6 +1343,195 @@ CREATE TABLE `user_x_cohort` (
     CONSTRAINT `fkey_user_x_cohort_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT `fkey_user_x_cohort_cohort` FOREIGN KEY (`cohort_id`) REFERENCES `cohort` (`cohort_id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table curriculum_inventory_institution
+DROP TABLE IF EXISTS `curriculum_inventory_institution`;
+CREATE TABLE `curriculum_inventory_institution` (
+    `school_id` INT(10) UNSIGNED NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    `aamc_code` VARCHAR(10) NOT NULL,
+    `address_street` VARCHAR(100) NOT NULL,
+    `address_city` VARCHAR(100) NOT NULL,
+    `address_state_or_province` VARCHAR(50) NOT NULL,
+    `address_zipcode` VARCHAR(10) NOT NULL,
+    `address_country_code` CHAR(2) NOT NULL,
+    PRIMARY KEY (`school_id`),
+    CONSTRAINT `fkey_curriculum_inventory_institution_school_id`
+        FOREIGN KEY (`school_id`) REFERENCES `school` (`school_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table curriculum_inventory_report
+DROP TABLE IF EXISTS `curriculum_inventory_report`;
+CREATE TABLE `curriculum_inventory_report` (
+    `report_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `program_id` INT(10) UNSIGNED NOT NULL,
+    `year` SMALLINT(4) UNSIGNED NOT NULL,
+    `name` VARCHAR(200) NULL DEFAULT NULL,
+    `description` TEXT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date` DATE NOT NULL,
+    PRIMARY KEY (`report_id`),
+    UNIQUE INDEX `program_id_year` (`program_id`, `year`),
+    CONSTRAINT `fkey_curriculum_inventory_report_program_id`
+        FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table curriculum_inventory_sequence
+DROP TABLE IF EXISTS `curriculum_inventory_sequence`;
+CREATE TABLE `curriculum_inventory_sequence` (
+    `report_id` INT(10) UNSIGNED NOT NULL,
+    `description` TEXT NULL,
+    PRIMARY KEY (`report_id`),
+    CONSTRAINT `fkey_curriculum_inventory_sequence_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table curriculum_inventory_academic_level
+DROP TABLE IF EXISTS `curriculum_inventory_academic_level`;
+CREATE TABLE `curriculum_inventory_academic_level` (
+    `academic_level_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `report_id` INT(10) UNSIGNED NOT NULL,
+    `level` INT(2) UNSIGNED NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `description` TEXT NULL,
+    PRIMARY KEY (`academic_level_id`),
+    UNIQUE INDEX `report_id_level` (`report_id`, `level`),
+    CONSTRAINT `fkey_curriculum_inventory_academic_level_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table curriculum_inventory_sequence_block
+DROP TABLE IF EXISTS `curriculum_inventory_sequence_block`;
+CREATE TABLE `curriculum_inventory_sequence_block` (
+    `sequence_block_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `report_id` INT(10) UNSIGNED NOT NULL,
+    `required` TINYINT UNSIGNED NOT NULL DEFAULT '0',
+    `child_sequence_order` TINYINT UNSIGNED NOT NULL DEFAULT '0',
+    `order_in_sequence` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+    `minimum` INT(11) NOT NULL DEFAULT '-1',
+    `maximum` INT(11) NOT NULL DEFAULT '-1',
+    `track` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
+    `description` TEXT NULL,
+    `title` VARCHAR(200) NOT NULL,
+    `start_date` DATE NULL DEFAULT NULL,
+    `end_date` DATE NULL DEFAULT NULL,
+    `academic_level_id` INT(10) UNSIGNED NOT NULL,
+    `duration` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+    `course_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+    `parent_sequence_block_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+    PRIMARY KEY (`sequence_block_id`),
+    INDEX `fkey_curriculum_inventory_sequence_block_report_id` (`report_id`),
+    INDEX `fkey_curriculum_inventory_sequence_block_course_id` (`course_id`),
+    INDEX `fkey_curriculum_inventory_sequence_block_parent_id` (`parent_sequence_block_id`),
+    INDEX `fkey_curriculum_inventory_sequence_block_academic_level_id` (`academic_level_id`),
+    CONSTRAINT `fkey_curriculum_inventory_sequence_block_academic_level_id`
+        FOREIGN KEY (`academic_level_id`) REFERENCES `curriculum_inventory_academic_level` (`academic_level_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `fkey_curriculum_inventory_sequence_block_course_id`
+        FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+    CONSTRAINT `fkey_curriculum_inventory_sequence_block_parent_id`
+        FOREIGN KEY (`parent_sequence_block_id`) REFERENCES `curriculum_inventory_sequence_block` (`sequence_block_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `fkey_curriculum_inventory_sequence_block_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table curriculum_inventory_export
+DROP TABLE IF EXISTS `curriculum_inventory_export`;
+CREATE TABLE `curriculum_inventory_export` (
+    `report_id` INT(10) UNSIGNED NOT NULL,
+    `document` MEDIUMTEXT NOT NULL,
+    `created_by` INT(10) UNSIGNED NOT NULL,
+    `created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`report_id`),
+    CONSTRAINT `fkey_curriculum_inventory_export_report_id`
+        FOREIGN KEY (`report_id`) REFERENCES `curriculum_inventory_report` (`report_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `fkey_curriculum_inventory_export_user_id`
+        FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`)
+        ON UPDATE RESTRICT ON DELETE NO ACTION
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table aamc_pcrs
+DROP TABLE IF EXISTS `aamc_pcrs`;
+CREATE TABLE `aamc_pcrs` (
+    `pcrs_id` VARCHAR(21) NOT NULL,
+    `description` TEXT NOT NULL,
+    PRIMARY KEY (`pcrs_id`)
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table aamc_method
+DROP TABLE IF EXISTS `aamc_method`;
+CREATE TABLE `aamc_method` (
+    `method_id` VARCHAR(10) NOT NULL,
+    `description` TEXT NOT NULL,
+    PRIMARY KEY (`method_id`)
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table session_type_x_aamc_method
+DROP TABLE IF EXISTS `session_type_x_aamc_method`;
+CREATE TABLE `session_type_x_aamc_method` (
+    `session_type_id` INT(14) UNSIGNED NOT NULL,
+    `method_id` VARCHAR(10) NOT NULL,
+    PRIMARY KEY (`session_type_id`, `method_id`),
+    CONSTRAINT `session_type_id_fkey`
+        FOREIGN KEY (`session_type_id`) REFERENCES `session_type` (`session_type_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `aamc_method_id_fkey`
+        FOREIGN KEY (`method_id`) REFERENCES `aamc_method` (`method_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+-- Table competency_x_aamc_pcrs
+DROP TABLE IF EXISTS `competency_x_aamc_pcrs`;
+CREATE TABLE `competency_x_aamc_pcrs` (
+    `competency_id` INT(14) UNSIGNED NOT NULL,
+    `pcrs_id` VARCHAR(21) NOT NULL,
+    PRIMARY KEY (`competency_id`, `pcrs_id`),
+    INDEX `aamc_pcrs_id_fkey` (`pcrs_id`),
+    CONSTRAINT `aamc_pcrs_id_fkey`
+        FOREIGN KEY (`pcrs_id`) REFERENCES `aamc_pcrs` (`pcrs_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `competency_id_fkey`
+        FOREIGN KEY (`competency_id`) REFERENCES `competency` (`competency_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
 

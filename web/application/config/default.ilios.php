@@ -140,59 +140,94 @@ $config['ilios_ldap_authentication']['port'] = 389;
 $config['ilios_ldap_authentication']['bind_dn_template'] = 'cn=%s,ou=directory,dc=university,dc=edu';
 
 /*
- |--------------------------------------------------------------------------
- | Scheduled Task configuration
- |--------------------------------------------------------------------------
- |
- | ['tasks']  container for task specific configuration
- |
- */
-$config['tasks'] = array(); // never comment out this line, code relies on this sub-array to exist.
+|--------------------------------------------------------------------------
+| Curriculum Inventory Report Management/Export
+|--------------------------------------------------------------------------
+|
+| ['curriculum_inventory_institution_domain'] ...
+|    Part of the "domain" attribute of the <ReportID> element
+|    From the spec:
+|
+|        domain
+|            Defines the organization that is the source of the unique identifier. domain has the following format:
+|                idd:domainname:localidentifier
+|            Where:
+|                domainnameis internet domain name that is a valid URN authority (see RFC 3986 - URI)
+|                and is owned by the organization issuing the unique ID.
+|    Example:
+|        $config['curriculum_inventory_institution_domain'] = 'ucsf.edu';
+|
+| ['curriculum_inventory_report_supporting_link'] ...
+|    Optional "supporting link" for the curriculum. (<SupportingLink> element).
+|    Leave empty or commented in if this value is to be omitted from reports.
+|
+|    From the spec:
+|
+|        A link to supporting information, such as a pictorial representation of the curriculum
+|        or a document explaining the rationale behind the curriculum structure"
+|
+|    Example:
+|        $config['curriculum_inventory_supporting_link_url'] ] = 'http://curriculum.example.edu/inventory'
+|
+| @link http://www.medbiq.org/sites/default/files/files/CurriculumInventorySpecification.pdf
+*/
+$config['curriculum_inventory_institution_domain'] = '%%ILIOS_INSTITUTION_DOMAIN%%';
+$config['curriculum_inventory_supporting_link'] = '';
 /*
- |--------------------------------------------------------------------------
- | "Change Alert Notification Process" configuration
- |--------------------------------------------------------------------------
- |
- | ['tasks']['change_alerts']            configuration container for change alerts notification process
- | ['tasks']['change_alerts']['enabled'] "on/off" switch, set to TRUE to enable notification process, FALSE to turn it off
- | ['tasks']['change_alerts']['debug']   "debug mode" switch, set to TRUE for additional log output.
- |
+|--------------------------------------------------------------------------
+| Scheduled Task configuration
+|--------------------------------------------------------------------------
+|
+| ['tasks'] container for task specific configuration
+|
+*/
+$config['tasks'] = array(); // never comment out this line, code relies on this sub-array to exist.
+
+/*
+|--------------------------------------------------------------------------
+| "Change Alert Notification Process" configuration
+|--------------------------------------------------------------------------
+|
+| ['tasks']['change_alerts']             configuration container for change alerts notification process
+| ['tasks']['change_alerts']['enabled']  "on/off" switch, set to TRUE to enable notification process, FALSE to turn it off
+| ['tasks']['change_alerts']['debug']    "debug mode" switch, set to TRUE for additional log output.
+|
 */
 $config['tasks']['change_alerts'] = array();
 $config['tasks']['change_alerts']['enabled'] = false;
 $config['tasks']['change_alerts']['debug'] = false;
 
 /*
- |--------------------------------------------------------------------------
- | "Teaching Reminder Alert Notification Process" configuration
- |--------------------------------------------------------------------------
- |
- | ['tasks']['teaching_reminders']             configuration container for teaching reminder notification process
- | ['tasks']['teaching_reminders']['enabled']  "on/off" switch, set to TRUE to enable notification process, FALSE to turn it off
- |
+|--------------------------------------------------------------------------
+| "Teaching Reminder Alert Notification Process" configuration
+|--------------------------------------------------------------------------
+|
+| ['tasks']['teaching_reminders']             configuration container for teaching reminder notification process
+| ['tasks']['teaching_reminders']['enabled']  "on/off" switch, set to TRUE to enable notification process, FALSE to turn it off
+|
 */
 $config['tasks']['teaching_reminders'] = array();
 $config['tasks']['teaching_reminders']['enabled'] = false;
 
 /*
- |--------------------------------------------------------------------------
- | * "User Synchronization Process" configuration
- |--------------------------------------------------------------------------
- |
- | ['tasks']['user_sync']                       configuration container for user sync process
- | ['tasks']['user_sync']['enabled']            set to TRUE to enable sync, FALSE to turn it off
- | ['tasks']['user_sync']['log_file_path']      absolute path to the log file
- | ['tasks']['user_sync']['user_source_class']  classname of the external user source implementation
- |
- | * LDAP-based exernal user source configuration
- |
- | ['tasks']['user_sync']['ldap']               configuration container for LDAP user source
- | ['tasks']['user_sync']['ldap']['host']       LDAP server host name or an URL
- | ['tasks']['user_sync']['ldap']['port']       LDAP server port, only needed when 'host' contains a host name and not an URL.
- | ['tasks']['user_sync']['ldap']['bind_dn']    LDAP bind DN
- | ['tasks']['user_sync']['ldap']['password']   LDAP bind password
- |
- */
+|--------------------------------------------------------------------------
+| * "User Synchronization Process" configuration
+|--------------------------------------------------------------------------
+|
+| ['tasks']['user_sync']                       configuration container for user sync process
+| ['tasks']['user_sync']['enabled']            set to TRUE to enable sync, FALSE to turn it off
+| ['tasks']['user_sync']['log_file_path']      absolute path to the log file
+| ['tasks']['user_sync']['user_source_class']  classname of the external user source implementation
+|
+| * LDAP-based external user source configuration
+|
+| ['tasks']['user_sync']['ldap']               configuration container for LDAP user source
+| ['tasks']['user_sync']['ldap']['host']       LDAP server host name or an URL
+| ['tasks']['user_sync']['ldap']['port']       LDAP server port, only needed when 'host' contains a host name and not an URL.
+| ['tasks']['user_sync']['ldap']['bind_dn']    LDAP bind DN
+| ['tasks']['user_sync']['ldap']['password']   LDAP bind password
+|
+*/
 $config['tasks']['user_sync'] = array();
 $config['tasks']['user_sync']['enabled'] = false;
 $config['tasks']['user_sync']['log_file_path'] = '/web/ilios/cron/user_sync.txt';
@@ -204,24 +239,24 @@ $config['tasks']['user_sync']['ldap']['bind_dn'] = '%%USERSYNC_LDAP_BINDDN%%';
 $config['tasks']['user_sync']['ldap']['password'] = '%%USERSYNC_LDAP_PASSWORD%%';
 
 /*
- |--------------------------------------------------------------------------
- | "Scheduled Enrollment Export Task" configuration
- |--------------------------------------------------------------------------
- |
- | * Enrollment Export Process task specific configuration
- |
- | ['tasks']['enrollment_export']                        configuration container for user sync process
- | ['tasks']['enrollment_export']['enabled']             set to TRUE to enable sync, FALSE to turn it off
- | ['tasks']['enrollment_export']['output_file_path']    absolute path of the export file
- | ['tasks']['enrollment_export']['instructor_role']     string value that instructor role will map to;
- | ['tasks']['enrollment_export']['instructor_schools']  a single school id or an array of school ids that have instructor enrollment export;
- | ['tasks']['enrollment_export']['learner_role']        string value that learner role will map to;
- | ['tasks']['enrollment_export']['learner_schools']     a single school id or an array of school ids that have learner enrollment export;
- | ['tasks']['enrollment_export']['participant_role']    string value for participle role
- | ['tasks']['enrollment_export']['participant_schools'] a single school id or an array of school ids for
- |                                                       schools that have participant enrollments.
- |
- */
+|--------------------------------------------------------------------------
+| "Scheduled Enrollment Export Task" configuration
+|--------------------------------------------------------------------------
+|
+| * Enrollment Export Process task specific configuration
+|
+| ['tasks']['enrollment_export']                        configuration container for user sync process
+| ['tasks']['enrollment_export']['enabled']             set to TRUE to enable sync, FALSE to turn it off
+| ['tasks']['enrollment_export']['output_file_path']    absolute path of the export file
+| ['tasks']['enrollment_export']['instructor_role']     string value that instructor role will map to;
+| ['tasks']['enrollment_export']['instructor_schools']  a single school id or an array of school ids that have instructor enrollment export;
+| ['tasks']['enrollment_export']['learner_role']        string value that learner role will map to;
+| ['tasks']['enrollment_export']['learner_schools']     a single school id or an array of school ids that have learner enrollment export;
+| ['tasks']['enrollment_export']['participant_role']    string value for participle role
+| ['tasks']['enrollment_export']['participant_schools'] a single school id or an array of school ids for
+|                                                       schools that have participant enrollments.
+|
+*/
 $config['tasks']['enrollment_export'] = array();
 $config['tasks']['enrollment_export']['enabled'] = false;
 $config['tasks']['enrollment_export']['output_file_path'] = '/home/cleae/export/ilios_enrollment_list.csv';
