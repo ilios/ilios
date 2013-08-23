@@ -91,10 +91,10 @@
 
             // subscribe "export report" events
             this._reportView.subscribe(this._reportView.EVT_EXPORT_STARTED, function() {
-                this.getStatusBar().show('Exporting report &hellip;', true);
+                this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.export.status.in_progress'), true);
             }, this, true);
             this._reportView.subscribe(this._reportView.EVT_DOWNLOAD_STARTED, function() {
-                this.getStatusBar().show('Downloading report &hellip;', true);
+                this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.download.status.in_progress'), true);
             }, this, true);
             this._reportView.subscribe(this._reportView.EVT_EXPORT_COMPLETED, function () {
                 this.getStatusBar().reset();
@@ -105,7 +105,7 @@
                 this.getStatusBar().reset();
             }, this, true);
             this._reportModel.subscribe(this._reportModel.EVT_UPDATED, function () {
-                this.getStatusBar().show('Report updated.', false);
+                this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.update.status.success'), false);
             }, this, true);
 
             // wire up toolbars
@@ -138,11 +138,11 @@
                 }, {}, this);
                 // subscribe to "finalize report"-events emitted by the data source
                 dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_STARTED, function () {
-                    this.show('Finalizing report &hellip;', true);
+                    this.show(ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.status.in_progress'), true);
                 }, this.getStatusBar(), true);
                 dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_SUCCEEDED, function () {
                     // update the report model
-                    this.getStatusBar().reset();
+                    this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.status.success'));
                     this._reportModel.set('isFinalized', true);
                     this.disableAllSequenceBlocks(); // disable "draft mode" for all sequence blocks
                     // disable and hide the bottom toolbar
@@ -150,7 +150,7 @@
                     this._sequenceBlockBottomToolbar.hide();
                 }, this, true);
                 dataSource.subscribe(dataSource.EVT_FINALIZE_REPORT_FAILED, function () {
-                    this.getStatusBar().show('Failed to finalize report.', false);
+                    this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.finalize.error.general'), false);
                 }, this, true);
 
                 // wire up the "delete report" button
@@ -168,13 +168,13 @@
                 }, {}, this);
                 // subscribe to "delete report"-events emitted by the data source
                 dataSource.subscribe(dataSource.EVT_DELETE_REPORT_STARTED, function () {
-                    this.getStatusBar().show('Deleting report &hellip;', true);
+                    this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.delete.status.in_progress'), true);
                 }, this, true);
                 dataSource.subscribe(dataSource.EVT_DELETE_REPORT_FAILED, function () {
-                    this.getStatusBar().show('Failed to delete report.');
+                    this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.delete.error.general'));
                 }, this, true);
                 dataSource.subscribe(dataSource.EVT_DELETE_REPORT_SUCCEEDED, function() {
-                    this.getStatusBar().show('Report deleted, reloading page now &hellip;', true);
+                    this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.delete.status.success'), true);
                     // reload the page
                     window.location = window.location.protocol + "//" + window.location.host + window.location.pathname;
                 }, this, true);
@@ -193,7 +193,7 @@
                     }
                     model.delete();
                     this._updateBlockOrderInSequence(args.updated_siblings_order);
-                    this.getStatusBar().show('Sequence block deleted.');
+                    this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.delete.status.success'));
                 }, this, true);
 
                 // wire up the "edit report" button
@@ -551,8 +551,9 @@
                     var data = args[0]['data'];
                     var map = args[0]['updated_siblings_order'];
                     me._updateBlockOrderInSequence(map);
-                    me.addSequenceBlock(data);
-                    me.getStatusBar().show('New sequence block added.');
+                    me.addSequenceBlock(data, false);
+                    me.getStatusBar().show(
+                        ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.create.status.success'));
                 }, this);
             }
             return this._createSequenceBlockDialog;
@@ -575,7 +576,8 @@
                     me._updateBlockOrderInSequence(args[0].updated_children_order);
                     me._updateBlockOrderInSequence(args[0].updated_siblings_order);
                     me.updateSequenceBlock(data);
-                    me.getStatusBar().show('Updated sequence block.');
+                    me.getStatusBar().show(
+                        ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.update.status.success'));
                 }, this);
             }
             return this._editSequenceBlockDialog;
@@ -653,7 +655,7 @@
             if (! silent) {
                 view.expand();
                 view.get('anchorEl').focus();
-                this.getStatusBar().show('Added new sequence block.');
+                this.getStatusBar().show(ilios_i18nVendor.getI18NString('curriculum_inventory.create.status.success'));
             }
         },
 
