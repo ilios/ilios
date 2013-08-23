@@ -8,6 +8,19 @@ include_once "ilios_base_model.php";
 class Course_Clerkship_Type extends Ilios_Base_Model
 {
     /**
+     * @var int
+     */
+    const BLOCK = 1;
+    /**
+     * @var int
+     */
+    const LONGITUDINAL = 2;
+    /**
+     * @var int
+     */
+    const INTEGRATED = 3;
+
+    /**
      * Constructor.
      */
     public function __construct ()

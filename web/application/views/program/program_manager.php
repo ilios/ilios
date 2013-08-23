@@ -4,7 +4,6 @@
  */
 
 $controllerURL = site_url() . '/program_management'; // TODO: consider how to avoid this coupling
-$yuiUrl = getYUILibrariesURL();
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
@@ -54,8 +53,10 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui_rte.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
     <script type="text/javascript">
-        var controllerURL = "<?php echo $controllerURL; ?>/"; // expose this to our program_manager_*.js
-        ilios.namespace('pm');            // assure the existence of this page's namespace
+        // expose this to our program_manager_*.js
+        var controllerURL = "<?php echo $controllerURL; ?>/";
+        // assure the existence of this page's namespace
+        ilios.namespace('pm');
         // We do this here due to load-time issue; program_manager_dom loaded below, and
         // prior to the include-include of mesh picking php that eventually creates
         // this namespace, implements the custom save handler in this namespace
@@ -203,16 +204,14 @@ $viewsPath = getServerFilePath('views');
 <?php
     if ($program_row['program_id'] != '') :
 ?>
-        // @private
-        ilios.pm.startProgramLoad = function () {
+        YAHOO.util.Event.onDOMReady(function () {
             ilios.pm.populateProgramAndSetEnable('<?php echo fullyEscapedText($program_row['title']); ?>',
                 '<?php echo fullyEscapedText($program_row['short_title']); ?>',
                 '<?php echo $program_row['duration']; ?>',
                 '<?php echo $program_row['program_id']; ?>',
                 <?php echo ($program_row['publish_event_id'] != '' ? $program_row['publish_event_id'] : 'null'); ?>,
                 true, true, false);
-        };
-        YAHOO.util.Event.onDOMReady(ilios.pm.startProgramLoad);
+        });
 <?php
     endif;
 ?>
