@@ -33,6 +33,34 @@ ilios.utilities.getEventTarget = function (e) {
     return (event.target || event.srcElement);
 };
 
+
+/**
+ * dateInRange
+ * 
+ * tests if the given date fall between the given start date and the given end date.
+ * 
+ * @param {Date} date object to test
+ * @param {Date} startDate - the start date of the date range 
+ * @param {Date} endDate - the end date of the date range
+ * 
+ * @return {Boolean}
+ */
+ilios.utilities.dateInRange = function (date, startDate, endDate) {
+	
+	var dateInRange = false;
+	
+	// check if given date falls into the boundaries of the given start/endDate
+	var unix_date = date.getTime();
+	var unix_start_date = startDate.getTime();
+	var unix_end_date = endDate.getTime();
+	
+	if (unix_date >= unix_start_date && unix_date <= unix_end_date) {
+		dateInRange = true;
+    }
+	
+	return dateInRange;
+}
+
 /*
  * The response from a file upload is "<pre>useful information we want</pre>" -- this
  *  method digs out the good stuff, de-json's it, and hands the object back.
@@ -69,6 +97,27 @@ ilios.utilities.dateObjectToMySQLFriendly = function (dateObject, includeTime) {
                                 + ':' + ilios.utilities.paddedTimeValue(dateObject.getUTCSeconds()))
                         : '');
 };
+
+/**
+ * Return a YYYYMMDD-formatted dateObject with custom separator
+ * that does NOT round the date based on the timestamp
+ * 
+ * @param {Date} dateObject to format
+ * @param {String} separator, usually '-' or '/'
+ * 
+ * @return {String}
+ */
+
+ilios.utilities.dateObjectToYYYYMMDD = function (dateObject, separator) {
+    
+	if(!separator) var separator = '';
+	var yyyy = dateObject.getFullYear().toString();
+	var mm = (dateObject.getMonth()+1).toString();
+	var dd  = dateObject.getDate().toString();
+	//single digit mm and dd need to be padded
+	return yyyy + separator + (mm[1]?mm:"0"+mm[0]) + separator + (dd[1]?dd:"0"+dd[0]);
+};
+
 
 ilios.utilities.mySQLTimelessDateToDateObject = function (yyyyMMDDStr) {
     var dateStr = yyyyMMDDStr + " 00:00:00";

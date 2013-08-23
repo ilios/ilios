@@ -25,6 +25,9 @@ function CourseModel (dbObject) {
     this.startDateDO = null;
     this.endDate = null;
     this.endDateDO = null;
+    
+    this.academicYearStartDate = null;
+    this.academicYearEndDate = null;
 
     this.courseLevel = 1;
 

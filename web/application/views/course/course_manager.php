@@ -233,6 +233,16 @@ $viewsPath = getServerFilePath('views');
         YAHOO.util.Event.onDOMReady(ilios.cm.registerCourseUIListeners);
         YAHOO.util.Event.onDOMReady(ilios.cm.registerSaveAndPublishAll);
 
+		YAHOO.util.Event.onDOMReady(function() {
+			var o;
+			try {
+				o = YAHOO.lang.JSON.parse('<?php echo $academic_years_json?>');
+                ilios.cm.academicYears = o;
+			} catch (e) {
+				// @todo add exception handling
+			}
+		});
+        
         ilios.cm.loadedSessionTypes = [];
         ilios.cm.preloadedCourseModelStub = null;
         ilios.cm.loadedSessionIdToDisplay = <?php echo $session_id; ?>;

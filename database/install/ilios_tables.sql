@@ -37,6 +37,21 @@ CREATE TABLE `school` (
   UNIQUE INDEX `template_prefix` (`template_prefix`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+	--
+	-- Table academic_year
+	--
+	DROP TABLE IF EXISTS `academic_year`;
+	CREATE TABLE `academic_year` (
+  	`academic_year_id` SMALLINT(4) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE KEY,
+  	`school_id` INT(10) UNSIGNED NOT NULL,
+  	`academic_year_start_date` DATETIME NOT NULL,
+  	`academic_year_end_date` DATETIME NOT NULL,
+  	`start_year` SMALLINT(4) UNSIGNED NOT NULL,
+  	PRIMARY KEY `school_start_year` (`school_id`,`start_year`),
+  	INDEX `school_year_start_date_end_date` (`school_id`,`start_year`,`academic_year_start_date`,`academic_year_end_date`)
+	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 	--
 	-- Table user
 	--

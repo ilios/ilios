@@ -384,7 +384,10 @@ abstract class Ilios_Base_Controller extends CI_Controller
         $rhett['locked'] = $courseRow->locked;
         $rhett['published_as_tbd'] = $courseRow->published_as_tbd;
         $rhett['clerkship_type_id'] = $courseRow->clerkship_type_id;
-
+        //get the start and end dates for the current academic year and school...
+        $academicYear = $this->academic_year->getAcademicYearStartAndEndDate($courseRow->year, $activeSchoolId);
+        $rhett['academic_year_start_date'] = $academicYear->academic_year_start_date;
+        $rhett['academic_year_end_date'] = $academicYear->academic_year_end_date;
 
         $results = $this->course->getProgramCohortDetailsForCourse($courseId);
         if (is_null($results)) {

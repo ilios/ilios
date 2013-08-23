@@ -20,7 +20,7 @@ $entityContainerHeader =<<< EOL
     <span class="data" id="summary-course-id"></span>
 </li>
 <li class="course-year">
-    <span class="data-type">Course Year</span>
+    <span class="data-type">Academic Year</span>
     <span class="data" id="summary-course-year"></span>
 </li>
 <li class="course-level">
@@ -57,7 +57,7 @@ $entityContainerContent =<<< EOL
 
 <div class="row">
     <div class="column label">
-        <label>{$phrase_course_year_string}</label>
+        <label>{$phrase_academic_year_string}</label>
     </div>
     <div class="column data">
         <span id="course_year_start" class="read_only_data"></span>
