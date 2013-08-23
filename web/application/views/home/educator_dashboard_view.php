@@ -261,13 +261,15 @@ $viewsPath = getServerFilePath('views');
                                              (<?php echo implode(', ', $sync_exceptions_indicators); ?>)
                                          </span>
                                     </li>
+<?php
+        endif;
+?>
                                     <li>
                                         <a href="<?php echo $curriculumInventoryManagerUrl; ?>">
                                             <?php echo $this->languagemap->t('curriculum_inventory.title_bar', $lang); ?>
                                         </a>
                                     </li>
 <?php
-        endif;
     endif;
 ?>
                                 </ul>
