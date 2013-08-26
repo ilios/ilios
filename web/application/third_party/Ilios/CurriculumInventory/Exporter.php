@@ -723,8 +723,10 @@ class Ilios_CurriculumInventory_Exporter
                 break;
         }
 
-        $clerkshipModelNode = $dom->createElement('ClerkshipModel', $clerkshipModel);
-        $sequenceBlockNode->appendChild($clerkshipModelNode);
+        if ($clerkshipModel) {
+            $clerkshipModelNode = $dom->createElement('ClerkshipModel', $clerkshipModel);
+            $sequenceBlockNode->appendChild($clerkshipModelNode);
+        }
 
 
         // competency object references
