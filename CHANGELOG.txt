@@ -1,5 +1,54 @@
 ------- VERSION CHANGES --------
 
+Version 2.3.0
+
+Bug Fixes:
+
+Bug #1017: Learner groups attached to ILMs do not display in course "associated groups" list.
+Bug #1020: Population of auto-generated student groups is not randomized.
+Bug #2688: Keystroke action not working for admin user search.
+Bug #2701: IE8, IE9: changing pages constantly triggers alert.
+Bug #2775: Exception handling for missing learning materials needed.
+Bug #3088: Learner group updates taking too much time to process.
+Bug #3174: Phing "copy" task will fail if build dir does not exist.
+Bug #3219: LDAP port setting ignored (at least in some cases? maybe all cases?).
+Bug #3304: AAMC curriculum export: need place to store institutional information.
+Bug #3430: Ilios transaction management utilities employ wrong method to start transactions.
+Bug #3431: Query helper methods not cleaning up after themselves.
+Bug #3438: Remove any nested transactions.
+Bug #3439: Method _saveObjectives() implemented in wrong class.
+Bug #3440: Method rolloverObjectives() implemented in wrong class.
+Bug #3493: Fix install instructions.
+Bug #3525: Learner groups not showing associated courses for ILMs.
+Bug #3539: Wrong academic year selected.
+Bug #3637: Expand learning_material::description column to prevent data truncation.
+
+Feature Changes:
+
+Feature #569: Improve program year title in program year manager.
+Feature #1018: Alert user when un-publishing course or session.
+Feature #1052: Provide method for output of XML data to populate AAMC Curriculum Inventory.
+Feature #2506: Create table set in the data model to capture high level curricular formations.
+Feature #2562: Break up the YUI kitchen-sink script.
+Feature #2744: Upgrade DHTMLX Scheduler to next major version.
+Feature #2776: Rework PFS-status controller.
+Feature #3173: Enable db migrations.
+Feature #3234: Add foreign key constraints to table program_year_director.
+Feature #3235: Add combined primary key to table program_year_director.
+Feature #3236: Add foreign key constraints to table program_year_steward.
+Feature #3237: Add foreign key constraints to table objective.
+Feature #3261: Widen calendar display in student calendar/dashboard.
+Feature #3268: Improve LDAP bind error message.
+Feature #3404: Extend model to allow variable attributes of assessment methods.
+Feature #3422: Add foreign key constraints on user::primary_school_id.
+Feature #3432: Improve code docs of Ilios base model class.
+Feature #3540: Remove bulk operations from program manager.
+Feature #3583: Expand the size of the "title" column in the "session_type" table.
+Feature #3615: Add LDAP authentication to Ilios Core.
+Feature #3619: Upgrade to CodeIgniter 2.1.4.
+
+---
+
 Version 2.2.2
 
 Bug Fixes:
