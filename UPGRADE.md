@@ -34,6 +34,7 @@ Post-deployment, please ensure that the data-, cache-, and log-directories are w
     tmp_uploads
     application/cache
     application/logs
+    static
 
 ## Deploy database changes
 
