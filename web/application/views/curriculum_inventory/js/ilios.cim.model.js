@@ -308,6 +308,7 @@
      * @param {Object} oData A key/value map of initial model data. This following properties are expected:
      *     @param {String} oData.archived
      *     @param {String|null} oData.clerkship_type_id
+     *     @param {String|null} oData.clerkship_type_title
      *     @param {String} oData.course_id
      *     @param {String} oData.course_level
      *     @param {Boolean} oData.deleted
@@ -345,7 +346,9 @@
             var isPublishedAsTbd = !! parseInt(oData.published_as_tbd, 10);
             var externalId = oData.external_id;
             var clerkshipTypeId = Lang.isValue(oData.clerkship_type_id) ? parseInt(oData.clerkship_type_id, 10) : 0;
+            var clerkshipTypeTitle = oData.clerkship_type_title;
             var owningSchoolId = parseInt(oData.owning_school_id, 10);
+
 
             /**
              * A flag indicating whether the course has been archived or not.
@@ -481,7 +484,7 @@
 
             /**
              * The id of the clerkship type associated with this course.
-             * This value is Zero if the course is not a clerkship.
+             * This value is 0 if the course is not a clerkship.
              *
              * @attribute clerkshipTypeId
              * @type {Number}
@@ -489,6 +492,19 @@
              */
             this.setAttributeConfig('clerkshipTypeId', {
                 value: clerkshipTypeId,
+                readOnly: true
+            });
+
+            /**
+             * The title of the clerkship type associated with this course.
+             * This value is NULL if the course is not a clerkship
+             *
+             * @attribute clerkshipTypeTitle
+             * @type {String|null}
+             * @readOnly
+             */
+            this.setAttributeConfig('clerkshipTypeTitle', {
+                value: clerkshipTypeTitle,
                 readOnly: true
             });
 
