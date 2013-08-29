@@ -600,8 +600,8 @@
                         el.innerHTML = ilios_i18nVendor.getI18NString('general.terms.not_applicable');
                     } else {
                         el.innerHTML = "" + value + " ";
-                        el.innerHTML += (1 == value) ? ilios_i18nVendor.getI18NString('general.terms.minute') :
-                            ilios_i18nVendor.getI18NString('general.terms.minutes');
+                        el.innerHTML += (1 == value) ? ilios_i18nVendor.getI18NString('general.terms.day') :
+                            ilios_i18nVendor.getI18NString('general.terms.days');
                     }
                 }
             });

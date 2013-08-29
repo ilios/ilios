@@ -692,7 +692,7 @@ class Ilios_CurriculumInventory_Exporter
         if ($block['duration']) {
             $durationNode = $dom->createElement('Duration');
             $timingNode->appendChild($durationNode);
-            $durationNode->appendChild($dom->createTextNode('PT' . $block['duration'] . 'M')); // duration in minutes.
+            $durationNode->appendChild($dom->createTextNode('P' . $block['duration'] . 'D')); // duration in days.
         }
 
         if ($block['start_date']) {
