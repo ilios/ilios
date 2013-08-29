@@ -29,9 +29,10 @@ class Curriculum_Inventory extends Ilios_Base_Model
         $clean =array();
         $clean['report_id'] = (int) $reportId;
         $sql =<<<EOL
-SELECT c.*
+SELECT c.*, cct.title AS clerkship_type_title
 FROM course c
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
+LEFT JOIN course_clerkship_type cct ON cct.course_clerkship_type_id = c.clerkship_type_id
 WHERE sb.report_id = {$clean['report_id']}
 EOL;
         $query = $this->db->query($sql);
@@ -65,8 +66,9 @@ EOL;
         $clean['school_id'] = (int) $schoolId;
         $clean['report_id'] = (int) $reportId;
         $sql =<<<EOL
-SELECT c.*
+SELECT c.*, cct.title AS clerkship_type_title
 FROM course c
+LEFT JOIN course_clerkship_type cct ON cct.course_clerkship_type_id = c.clerkship_type_id
 WHERE c.deleted = 0
 AND c.year = {$clean['year']}
 AND c.owning_school_id = {$clean['school_id']}
