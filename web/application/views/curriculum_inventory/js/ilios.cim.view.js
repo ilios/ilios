@@ -479,6 +479,12 @@
                             str += ilios_i18nVendor.getI18NString('general.phrases.start_date') + ": " + value.get('endDate') + ", "
                             // course end date
                             str += ilios_i18nVendor.getI18NString('general.phrases.end_date') + ": " + value.get('startDate')
+
+                            if (value.get('clerkshipTypeId')) {
+                                str += ", " + ilios_i18nVendor.getI18NString('general.terms.clerkship');
+                                str += ' (' + value.get('clerkshipTypeTitle') + ')';
+                            }
+
                             str += "</span>";
                         }
 

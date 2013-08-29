@@ -624,6 +624,10 @@
                     str += ilios_i18nVendor.getI18NString('general.terms.level') + ': ' + course.get('level');
                     str += ", " + ilios_i18nVendor.getI18NString('general.phrases.start_date') + ': ' + course.get('startDate');
                     str += ", " + ilios_i18nVendor.getI18NString('general.phrases.end_date') + ': ' + course.get('endDate');
+                    if (course.get('clerkshipTypeId')) {
+                        str += ", " + ilios_i18nVendor.getI18NString('general.terms.clerkship');
+                        str += ' (' + course.get('clerkshipTypeTitle') + ')';
+                    }
                     str += '</span>';
                 }
                 el.innerHTML = str;
@@ -1256,6 +1260,10 @@
                 str += ilios_i18nVendor.getI18NString('general.terms.level') + ': ' + course.get('level');
                 str += ", " + ilios_i18nVendor.getI18NString('general.phrases.start_date') + ': ' + course.get('startDate');
                 str += ", " + ilios_i18nVendor.getI18NString('general.phrases.end_date') + ': ' + course.get('endDate');
+                if (course.get('clerkshipTypeId')) {
+                    str += ", " + ilios_i18nVendor.getI18NString('general.terms.clerkship');
+                    str += ' (' + course.get('clerkshipTypeTitle') + ')';
+                }
                 str += '</span>';
             }
             el.innerHTML = str;
