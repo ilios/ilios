@@ -114,7 +114,7 @@
                 <div class="clear"></div>
                 <div class="dialog-form-row">
                     <label class="entity_widget_title" for="edit-sequence-block-dialog--duration">
-                        <?php echo $this->languagemap->t('general.phrases.duration.in_minutes', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.phrases.duration.in_days', $lang); ?>:
                     </label><br />
                     <input id="edit-sequence-block-dialog--duration" name="duration" type="text" size="4" value="0" />
                 </div>
