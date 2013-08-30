@@ -673,7 +673,7 @@
             oData['academic_level_model'] = levels[oData.academic_level_id];
             if (oData['course_id']) {
                 course = block.get('course');
-                if (course && course.getId() != oData.course_id) {
+                if (! course  || (course.getId() != oData.course_id)) {
                     oData['course_model'] = this.getCourseRepository().checkOut(oData.course_id);
                 }
             } else {
