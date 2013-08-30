@@ -822,6 +822,7 @@
             document.getElementById('create-sequence-block-dialog--academic-level').options[0].selected = 'selected';
             document.getElementById('create-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
             document.getElementById('create-sequence-block-dialog--track').options[0].selected = 'selected';
+            document.getElementById('create-sequence-block-dialog--status').innerHTML = "";
 
             this._clearValidationErrorStyles();
             this._resetDateFields();
@@ -840,6 +841,7 @@
              Dom.removeClass('create-sequence-block-dialog--title', 'validation-failed');
              Dom.removeClass('create-sequence-block-dialog--description', 'validation-failed');
              Dom.removeClass('create-sequence-block-dialog--end-date', 'validation-failed');
+             Dom.removeClass('create-sequence-block-dialog--start-date', 'validation-failed');
              Dom.removeClass('create-sequence-block-dialog--duration', 'validation-failed');
          },
 
@@ -874,6 +876,20 @@
             var data = this.getData();
             var msgs = [];
             var hasStartDate = data.start_date ? true : false;
+            var courseId = parseInt(data.course_id, 10);
+            var course = null;
+            var clerkshipSelected = false;
+            var durationRequired = false;
+            var dateRangeRequired = false;
+            var duration = parseInt(data.duration, 10);
+
+            if (0 < courseId) {
+                course = this._courseRepo.get(courseId);
+                clerkshipSelected = !! course.get('clerkshipTypeId');
+                // clerkship selected automatically means mandatory duration and date range.
+                durationRequired = clerkshipSelected || false;
+                dateRangeRequired =clerkshipSelected || false;
+            }
 
             if ('' === Lang.trim(data.title)) {
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.title_missing'));
@@ -883,7 +899,12 @@
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.description_missing'));
                 Dom.addClass('create-sequence-block-dialog--description', 'validation-failed');
             }
-            if (hasStartDate) {
+            if (dateRangeRequired && ! data.start_date) { // date range is mandatory for clerkships.
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_start_date'));
+                Dom.addClass('create-sequence-block-dialog--start-date', 'validation-failed');
+            }
+
+            if (dateRangeRequired || hasStartDate) {
                 if (! data.end_date) {
                     msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_end_date'));
                     Dom.addClass('create-sequence-block-dialog--end-date', 'validation-failed');
@@ -892,16 +913,25 @@
                     msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.start_date_gt_end_date'));
                     Dom.addClass('create-sequence-block-dialog--end-date', 'validation-failed');
                 }
+            } else if (! dateRangeRequired && ! hasStartDate) {
+                // no date range given? then duration becomes mandatory
+                durationRequired = true;
+            }
 
-                // if a duration is given then it must be valid
-                if ("" !== Lang.trim(data.duration) && 0 > parseInt(data.duration, 10)) {
-                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
+            if (durationRequired) {
+                // duration is required and must be larger that zero
+                if ("" === Lang.trim(data.duration) || isNaN(duration) || 0 >= duration) {
+                    if (clerkshipSelected) {
+                        msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
+                    } else {
+                        msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_duration_or_date_range'));
+                    }
                     Dom.addClass('create-sequence-block-dialog--duration', 'validation-failed');
                 }
             } else {
-                // duration is required and must be larger that zero
-                if ("" === Lang.trim(data.duration) || 0 >= parseInt(data.duration, 10)) {
-                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_duration'));
+                // if a duration is given then it must be valid
+                if ("" !== Lang.trim(data.duration) && (isNaN(duration) || 0 >= duration)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
                     Dom.addClass('create-sequence-block-dialog--duration', 'validation-failed');
                 }
             }
@@ -1354,6 +1384,7 @@
             document.getElementById('edit-sequence-block-dialog--academic-level').options[0].selected = 'selected';
             document.getElementById('edit-sequence-block-dialog--child-sequence-order').options[0].selected = 'selected';
             document.getElementById('edit-sequence-block-dialog--track').options[0].selected = 'selected';
+            document.getElementById('edit-sequence-block-dialog--status').innerHTML = "";
 
             this._clearCourseDetails();
             this._clearValidationErrorStyles();
@@ -1373,6 +1404,7 @@
             Dom.removeClass('edit-sequence-block-dialog--title', 'validation-failed');
             Dom.removeClass('edit-sequence-block-dialog--description', 'validation-failed');
             Dom.removeClass('edit-sequence-block-dialog--end-date', 'validation-failed');
+            Dom.removeClass('edit-sequence-block-dialog--start-date', 'validation-failed');
             Dom.removeClass('edit-sequence-block-dialog--duration', 'validation-failed');
         },
 
@@ -1439,7 +1471,21 @@
             this._clearValidationErrorStyles();
             var data = this.getData();
             var msgs = [];
+            var course = null;
             var hasStartDate = data.start_date ? true : false;
+            var courseId = parseInt(data.course_id, 10);
+            var clerkshipSelected = false;
+            var durationRequired = false;
+            var dateRangeRequired = false;
+            var duration = parseInt(data.duration, 10);
+
+            if (0 < courseId) {
+                course = this._courseRepo.get(courseId);
+                clerkshipSelected = !! course.get('clerkshipTypeId');
+                // clerkship selected automatically means mandatory duration and date range.
+                durationRequired = clerkshipSelected || false;
+                dateRangeRequired =clerkshipSelected || false;
+            }
 
             if ('' === Lang.trim(data.title)) {
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.title_missing'));
@@ -1449,7 +1495,21 @@
                 msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.description_missing'));
                 Dom.addClass('edit-sequence-block-dialog--description', 'validation-failed');
             }
-            if (hasStartDate) {
+
+            if (clerkshipSelected) {
+                if (! data.start_date) { // date range is mandatory for clerkships.
+                    durationRequired = true;
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_start_date'));
+                    Dom.addClass('edit-sequence-block-dialog--start-date', 'validation-failed');
+                }
+            }
+
+            if (dateRangeRequired && ! data.start_date) { // date range is mandatory for clerkships.
+                msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_start_date'));
+                Dom.addClass('edit-sequence-block-dialog--start-date', 'validation-failed');
+            }
+
+            if (dateRangeRequired || hasStartDate) { // if start date is given then the end date becomes mandatory
                 if (! data.end_date) {
                     msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_end_date'));
                     Dom.addClass('edit-sequence-block-dialog--end-date', 'validation-failed');
@@ -1458,16 +1518,25 @@
                     msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.start_date_gt_end_date'));
                     Dom.addClass('edit-sequence-block-dialog--end-date', 'validation-failed');
                 }
+            } else if (! dateRangeRequired && ! hasStartDate) {
+                // no date range given? then duration becomes mandatory
+                durationRequired = true;
+            }
 
-                // if a duration is given then it must be valid
-                if ("" !== Lang.trim(data.duration) && 0 > parseInt(data.duration, 10)) {
-                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
+            if (durationRequired) {
+                // duration is required and must be larger that zero
+                if ("" === Lang.trim(data.duration) || isNaN(duration) || 0 >= duration) {
+                    if (clerkshipSelected) {
+                        msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
+                    } else {
+                        msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_duration_or_date_range'));
+                    }
                     Dom.addClass('edit-sequence-block-dialog--duration', 'validation-failed');
                 }
             } else {
-                // duration is required and must be larger that zero
-                if ("" === Lang.trim(data.duration) || 0 >= parseInt(data.duration, 10)) {
-                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.missing_duration'));
+                // if a duration is given then it must be valid
+                if ("" !== Lang.trim(data.duration) && (isNaN(duration) || 0 >= duration)) {
+                    msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
                     Dom.addClass('edit-sequence-block-dialog--duration', 'validation-failed');
                 }
             }

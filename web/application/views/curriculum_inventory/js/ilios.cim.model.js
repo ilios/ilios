@@ -673,7 +673,7 @@
          *    @param {String} oData.academic_level_id
          *    @param {ilios.cim.model.AcademicLevelModel} oData.academic_level_model
          *    @param {String} oData.duration
-         *    @param {ilios.cim.model.CourseModel|null} oData.course_model
+         *    @param {ilios.cim.model.CourseModel|null} [oData.course_model]
          */
         update: function (oData) {
             var required = parseInt(oData.required, 10);
@@ -702,7 +702,9 @@
             this.set('academicLevel', academicLevelModel);
             this.set('duration', duration);
             this.set('title', title);
-            this.set('course', courseModel);
+            if (typeof courseModel !== 'undefined') {
+                this.set('course', courseModel);
+            }
         },
         /*
          * @override
