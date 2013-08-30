@@ -610,10 +610,26 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $endDate = trim($this->input->post('end_date'));
         $startDateTs = strtotime($startDate);
         $endDateTs = strtotime($endDate);
-        $duration = $this->input->post('duration');
-        $hasDateRange = ('' !== $startDate);
+        $duration = (int) $this->input->post('duration');
+        $hasStartDate = ('' !== $startDate);
         $isInOrderedSequence = ($parentBlock
             && $parentBlock->child_sequence_order == Curriculum_Inventory_Sequence_Block::ORDERED);
+
+        $durationRequired = false;
+        $dateRangeRequired = false;
+        $course = null;
+        if ($courseId) {
+            $course = $this->course->getRowForPrimaryKeyId($courseId);
+            if (! $course) {
+                $this->_printErrorXhrResponse('general.error.course_not_found', $lang);
+                return;
+            }
+            if ($course->clerkship_type_id) {
+                $durationRequired = true;
+                $dateRangeRequired = true;
+            }
+        }
+
 
         if ('' === $title) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.title_missing', $lang);
@@ -650,8 +666,8 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.academic_level_missing', $lang);
             return;
         }
-        if ($courseId
-            && ! $this->inventory->isLinkableCourse($invReport->year, $schoolId, $invReport->report_id, $courseId)) {
+        if ($course
+            && ! $this->inventory->isLinkableCourse($invReport->year, $schoolId, $invReport->report_id, $course->course_id)) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.course_not_linkable', $lang);
             return;
         }
@@ -667,7 +683,14 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                 return;
             }
         }
-        if ($hasDateRange) {
+
+
+        if ($dateRangeRequired && ! $hasStartDate) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_start_date', $lang);
+            return;
+        }
+
+        if ($hasStartDate) {
             if ('' === $endDate) { // must provide end date if start date is given
                 $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_end_date', $lang);
                 return;
@@ -688,10 +711,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                 return;
             }
         } else { // if no date range is given then duration becomes required
-            if (! $duration) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_duration', $lang);
-                return;
-            }
+            $durationRequired = true;
+        }
+
+        if ($durationRequired && ! $duration) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_duration', $lang);
+            return;
         }
 
         if (0 > $duration) { // if a duration is given then it must be valid
@@ -703,7 +728,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $orderInSequence = $isInOrderedSequence ? $orderInSequence : 0;
         $parentBlockId = $parentBlockId ? $parentBlockId : null;
         $courseId = $courseId ? $courseId : null;
-        if ($hasDateRange) {
+        if ($hasStartDate) {
             $startDate = date('Y-m-d', $startDateTs);
             $endDate = date('Y-m-d', $endDateTs);
         } else {
@@ -822,10 +847,25 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $endDate = trim($this->input->post('end_date'));
         $startDateTs = strtotime($startDate);
         $endDateTs = strtotime($endDate);
-        $duration = $this->input->post('duration');
-        $hasDateRange = ('' !== $startDate);
+        $duration = (int) $this->input->post('duration');
+        $hasStartDate = ('' !== $startDate);
         $isInOrderedSequence = ($parentBlock
             && $parentBlock->child_sequence_order == Curriculum_Inventory_Sequence_Block::ORDERED);
+
+        $durationRequired = false;
+        $dateRangeRequired = false;
+        $course = null;
+        if ($courseId) {
+            $course = $this->course->getRowForPrimaryKeyId($courseId);
+            if (! $course) {
+                $this->_printErrorXhrResponse('general.error.course_not_found', $lang);
+                return;
+            }
+            if ($course->clerkship_type_id) {
+                $durationRequired = true;
+                $dateRangeRequired = true;
+            }
+        }
 
         if ('' === $title) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.title_missing', $lang);
@@ -862,9 +902,9 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.academic_level_missing', $lang);
             return;
         }
-        if ($courseId
-            && ($courseId != $block->course_id) // check first if course has changed
-            && ! $this->inventory->isLinkableCourse($invReport->year, $schoolId, $invReport->report_id, $courseId)) {
+        if ($course
+            && ($course->course_id != $block->course_id) // check first if course has changed
+            && ! $this->inventory->isLinkableCourse($invReport->year, $schoolId, $invReport->report_id, $course->course_id)) {
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.course_not_linkable', $lang);
             return;
         }
@@ -880,7 +920,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                 return;
             }
         }
-        if ($hasDateRange) {
+
+        if ($dateRangeRequired && ! $hasStartDate) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_start_date', $lang);
+            return;
+        }
+
+        if ($hasStartDate) {
             if ('' === $endDate) { // must provide end date if start date is given
                 $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_end_date', $lang);
                 return;
@@ -901,12 +947,13 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
                 return;
             }
         } else { // if no date range is given then duration becomes required
-            if (! $duration) {
-                $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.missing_duration', $lang);
-                return;
-            }
+            $durationRequired = true;
         }
 
+        if ($durationRequired && ! $duration) {
+            $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_duration', $lang);
+            return;
+        }
         if (0 > $duration) { // if a duration is given then it must be valid
             $this->_printErrorXhrResponse('curriculum_inventory.sequence_block.validate.error.invalid_duration', $lang);
             return;
@@ -915,7 +962,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         // final data massaging to provide proper default values for optional/conditional properties
         $orderInSequence = $isInOrderedSequence ? $orderInSequence : 0;
         $courseId = $courseId ? $courseId : null;
-        if ($hasDateRange) {
+        if ($hasStartDate) {
             $startDate = date('Y-m-d', $startDateTs);
             $endDate = date('Y-m-d', $endDateTs);
         } else {

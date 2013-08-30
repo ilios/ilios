@@ -1405,18 +1405,17 @@
              * The academic year of a report displayed by the view.
              *
              * @attribute academicYear
-             * @type {String}
+             * @type {Number}
              * @default ""
              */
             this.setAttributeConfig('academicYear', {
-                validator: Lang.isString,
+                validator: Lang.isNumber,
                 method: function (value) {
                     var el = this.get('academicYearEl');
                     if (el) {
                         el.innerHTML = value;
                     }
-                },
-                value: ""
+                }
             });
 
             /**
