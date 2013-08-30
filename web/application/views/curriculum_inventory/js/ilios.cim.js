@@ -667,18 +667,19 @@
          * @throws {Error}
          */
         updateSequenceBlock: function (oData) {
-            var course, newCourse, parent, view, parentView;
+            var course, parent, view, parentView;
             var block = this.getSequenceBlockModelMap().get(oData.sequence_block_id);
             var levels = this.getAcademicLevels();
             oData['academic_level_model'] = levels[oData.academic_level_id];
-            newCourse = null;
             if (oData['course_id']) {
                 course = block.get('course');
-                if (! course || (course.getId() != oData.course_id)) {
-                    newCourse = this.getCourseRepository().checkOut(oData.course_id);
+                if (course.getId() != oData.course_id) {
+                    oData['course_model'] = this.getCourseRepository().checkOut(oData.course_id);
                 }
+            } else {
+                oData['course_model'] = null;
             }
-            oData['course_model'] = newCourse;
+
             block.update(oData);
 
             view = this.getSequenceBlockViewMap().get(block.getId());
