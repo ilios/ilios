@@ -930,7 +930,7 @@
                 }
             } else {
                 // if a duration is given then it must be valid
-                if ("" !== Lang.trim(data.duration) && (isNaN(duration) || 0 >= duration)) {
+                if ("" !== Lang.trim(data.duration) && (isNaN(duration) || 0 > duration)) {
                     msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
                     Dom.addClass('create-sequence-block-dialog--duration', 'validation-failed');
                 }
@@ -1535,7 +1535,7 @@
                 }
             } else {
                 // if a duration is given then it must be valid
-                if ("" !== Lang.trim(data.duration) && (isNaN(duration) || 0 >= duration)) {
+                if ("" !== Lang.trim(data.duration) && (isNaN(duration) || 0 > duration)) {
                     msgs.push(ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.validate.error.invalid_duration'));
                     Dom.addClass('edit-sequence-block-dialog--duration', 'validation-failed');
                 }
