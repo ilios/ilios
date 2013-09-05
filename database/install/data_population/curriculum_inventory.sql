@@ -1,8 +1,12 @@
+-- dummy data for schools as reporting institutions
+
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (1, 'School of Medicine', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (2, 'School of Dentistry', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (3, 'School of Pharmacy', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (4, 'School of Nursing', '00000', '', '', '', '', '');
 INSERT INTO `curriculum_inventory_institution` (`school_id`, `name`, `aamc_code`, `address_street`, `address_city`, `address_state_or_province`, `address_zipcode`, `address_country_code`) VALUES (5, 'Other', '00000', '', '', '', '', '');
+
+-- AAMC instructional/assessment methods
 
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM001', 'Case-Based Instruction/Learning');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM002', 'Clinical Experience - Ambulatory');
@@ -34,6 +38,7 @@ INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM027', 'Team-Bu
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM028', 'Tutorial');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM029', 'Ward Rounds');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('IM030', 'Workshop Assessment');
+
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM001', 'Clinical Documentation Review');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM002', 'Clinical Performance Rating/Checklist');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM003', 'Exam - Institutionally Developed, Clinical Performance');
@@ -52,6 +57,8 @@ INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM015', 'Practic
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM016', 'Research or Project Assessment');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM017', 'Self-Assessment');
 INSERT INTO `aamc_method` (`method_id`, `description`) VALUES ('AM018', 'Stimulated Recall');
+
+-- PECRS
 
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0101','Perform all medical, diagnostic, and surgical procedures considered essential for the area of practice');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0102','Gather essential and accurate information about patients and their conditions through history-taking, physical examination, and the use of laboratory data, imaging and other tests');
@@ -109,6 +116,9 @@ INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0806
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0807','Demonstrate self-confidence that puts patients, families, and members of the health care team at ease');
 INSERT INTO `aamc_pcrs` (`pcrs_id`, `description`) VALUES ('aamc-pcrs-comp-c0808','Recognize that ambiguity is part of clinical health care and respond by utilizing appropriate resources in dealing with uncertainty');
 
+
+-- map SOM competencies to PECRS
+
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (7, 'aamc-pcrs-comp-c0101');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (8, 'aamc-pcrs-comp-c0102');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (9, 'aamc-pcrs-comp-c0106');
@@ -144,3 +154,70 @@ INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (26, 'a
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (50, 'aamc-pcrs-comp-c0605');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (51, 'aamc-pcrs-comp-c0203');
 INSERT INTO `competency_x_aamc_pcrs` (`competency_id`, `pcrs_id`) VALUES (52, 'aamc-pcrs-comp-c0206');
+
+
+-- map session types for SOM to AAMC methods
+
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM010', `session_type_id` FROM `session_type` WHERE title = 'Independent Learning' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM012', `session_type_id` FROM `session_type` WHERE title = 'Laboratory' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM013', `session_type_id` FROM `session_type` WHERE title = 'Lecture' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM028', `session_type_id` FROM `session_type` WHERE title = 'Tutorial' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM003', `session_type_id` FROM `session_type` WHERE title = 'Exam - Institutionally Developed, Clinical Performance' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM030', `session_type_id` FROM `session_type` WHERE title = 'Workshop' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM019', `session_type_id` FROM `session_type` WHERE title = 'Problem-Based Learning (PBL)' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM008', `session_type_id` FROM `session_type` WHERE title = 'Discussion, Small Group (<=12)' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM018', `session_type_id` FROM `session_type` WHERE title = 'Preceptorship' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM029', `session_type_id` FROM `session_type` WHERE title = 'Ward Rounds' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM002', `session_type_id` FROM `session_type` WHERE title = 'Clinical Experience - Ambulatory' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM003', `session_type_id` FROM `session_type` WHERE title = 'Clinical Experience - Inpatient' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM026', `session_type_id` FROM `session_type` WHERE title = 'Team-Based Learning (TBL)' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM001', `session_type_id` FROM `session_type` WHERE title = 'Case-Based Instruction/Learning' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM004', `session_type_id` FROM `session_type` WHERE title = 'Concept Mapping' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM005', `session_type_id` FROM `session_type` WHERE title = 'Conference' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM006', `session_type_id` FROM `session_type` WHERE title = 'Demonstration' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM007', `session_type_id` FROM `session_type` WHERE title = 'Discussion, Large Group (>12)' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM009', `session_type_id` FROM `session_type` WHERE title = 'Games' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM011', `session_type_id` FROM `session_type` WHERE title = 'Journal Club' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM014', `session_type_id` FROM `session_type` WHERE title = 'Mentorship' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM015', `session_type_id` FROM `session_type` WHERE title = 'Patient Presentation - Faculty' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM016', `session_type_id` FROM `session_type` WHERE title = 'Patient Presentation - Learner' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM017', `session_type_id` FROM `session_type` WHERE title = 'Peer Teaching' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM020', `session_type_id` FROM `session_type` WHERE title = 'Reflection' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM021', `session_type_id` FROM `session_type` WHERE title = 'Research' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM022', `session_type_id` FROM `session_type` WHERE title = 'Role Play/Dramatization' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM023', `session_type_id` FROM `session_type` WHERE title = 'Self-Directed Learning' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM024', `session_type_id` FROM `session_type` WHERE title = 'Service Learning Activity' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM025', `session_type_id` FROM `session_type` WHERE title = 'Simulation' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM027', `session_type_id` FROM `session_type` WHERE title = 'Team-Building' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM010', `session_type_id` FROM `session_type` WHERE title = 'Holiday' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM013', `session_type_id` FROM `session_type` WHERE title = 'Ceremony' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM010', `session_type_id` FROM `session_type` WHERE title = 'Deadline' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM013', `session_type_id` FROM `session_type` WHERE title = 'Learner Project Presentation' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM013', `session_type_id` FROM `session_type` WHERE title = 'Movie' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM007', `session_type_id` FROM `session_type` WHERE title = 'Panel Presentation' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM013', `session_type_id` FROM `session_type` WHERE title = 'Performance' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'IM007', `session_type_id` FROM `session_type` WHERE title = 'Social Event' AND `owning_school_id`  = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM001', `session_type_id` FROM `session_type` WHERE title = 'Clinical Documentation Review' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM002', `session_type_id` FROM `session_type` WHERE title = 'Clinical Performance - Rating/Checklist' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM004', `session_type_id` FROM `session_type` WHERE title = 'Exam - Institutionally Developed, Written/Computer-based' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM005', `session_type_id` FROM `session_type` WHERE title = 'Exam - Institutionally Developed, Oral' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM006', `session_type_id` FROM `session_type` WHERE title = 'Exam - Licensure, Clinical Performance' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM007', `session_type_id` FROM `session_type` WHERE title = 'Exam - Licensure, Written/Computer-based' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM008', `session_type_id` FROM `session_type` WHERE title = 'Exam - Nationally Normed/Standardized, Subject' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM009', `session_type_id` FROM `session_type` WHERE title = 'Multisource Assessment' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM010', `session_type_id` FROM `session_type` WHERE title = 'Narrative Assessment' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM011', `session_type_id` FROM `session_type` WHERE title = 'Oral Patient Presentation' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM012', `session_type_id` FROM `session_type` WHERE title = 'Participation' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM013', `session_type_id` FROM `session_type` WHERE title = 'Peer Assessment' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM014', `session_type_id` FROM `session_type` WHERE title = 'Portfolio-Based Assessment' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM015', `session_type_id` FROM `session_type` WHERE title = 'Practical (Lab) Exam' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM016', `session_type_id` FROM `session_type` WHERE title = 'Research or Project Assessment' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM017', `session_type_id` FROM `session_type` WHERE title = 'Self-Assessment' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM018', `session_type_id` FROM `session_type` WHERE title = 'Stimulated Recall' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM001', `session_type_id` FROM `session_type` WHERE title = 'Clinical Documentation Review [formative]' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM003', `session_type_id` FROM `session_type` WHERE title = 'Exam - Institutionally Developed, Clinical Performance [formative]' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM004', `session_type_id` FROM `session_type` WHERE title = 'Exam - Institutionally Developed, Written/Computer-based [formative]' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM008', `session_type_id` FROM `session_type` WHERE title = 'Exam - Nationally Normed/Standardized, Subject [formative]' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM010', `session_type_id` FROM `session_type` WHERE title = 'Narrative Assessment [formative]' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM015', `session_type_id` FROM `session_type` WHERE title = 'Practical (Lab) Exam [formative]' AND `owning_school_id` = 1);
+INSERT INTO `session_type_x_aamc_method` (`method_id`, `session_type_id`) (SELECT 'AM016', `session_type_id` FROM `session_type` WHERE title = 'Research or Project Assessment [formative]' AND `owning_school_id` = 1);

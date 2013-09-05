@@ -1505,12 +1505,14 @@ DROP TABLE IF EXISTS `session_type_x_aamc_method`;
 CREATE TABLE `session_type_x_aamc_method` (
     `session_type_id` INT(14) UNSIGNED NOT NULL,
     `method_id` VARCHAR(10) NOT NULL,
-    PRIMARY KEY (`session_type_id`, `method_id`),
-    CONSTRAINT `session_type_id_fkey`
-        FOREIGN KEY (`session_type_id`) REFERENCES `session_type` (`session_type_id`)
-        ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY (`session_type_id`),
+    UNIQUE INDEX `session_type_id_method_id` (`session_type_id`, `method_id`),
+    INDEX `aamc_method_id_fkey` (`method_id`),
     CONSTRAINT `aamc_method_id_fkey`
         FOREIGN KEY (`method_id`) REFERENCES `aamc_method` (`method_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `session_type_id_fkey`
+        FOREIGN KEY (`session_type_id`) REFERENCES `session_type` (`session_type_id`)
         ON UPDATE CASCADE ON DELETE CASCADE
 )
 DEFAULT CHARSET='utf8'
