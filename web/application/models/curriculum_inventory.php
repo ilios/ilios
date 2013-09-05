@@ -150,7 +150,7 @@ EOL;
         $sql =<<<EOL
 SELECT
 s.session_id AS 'event_id',
-s.title, sd.description, st.title AS method_title,
+s.title, sd.description, stxam.method_id,
 st.assessment AS is_assessment_method,
 ao.name AS assessment_option_name,
 SUM(TIMESTAMPDIFF(MINUTE, o.start_date, o.end_date)) AS duration
@@ -158,6 +158,7 @@ FROM `session` s
 LEFT JOIN offering o ON o.session_id = s.session_id AND o.deleted = 0
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
 JOIN session_type st ON st.session_type_id = s.session_type_id
+LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
 LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
 JOIN course c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
@@ -166,19 +167,20 @@ AND s.deleted = 0
 AND s.publish_event_id IS NOT NULL
 AND s.ilm_session_facet_id IS NULL
 AND sb.report_id = {$clean['report_id']}
-GROUP BY s.session_id, s.title, sd.description, method_title, is_assessment_method
+GROUP BY s.session_id, s.title, sd.description, stxam.method_id, is_assessment_method
 
 UNION
 
 SELECT
 s.session_id AS 'event_id',
-s.title, sd.description, st.title AS method_title,
+s.title, sd.description, stxam.method_id,
 st.assessment AS is_assessment_method,
-ao.name AS assessmentoption_name,
+ao.name AS assessment_option_name,
 FLOOR(sf.hours * 60) AS duration
 FROM `session` s
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
 JOIN session_type st ON st.session_type_id = s.session_type_id
+LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
 LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
 JOIN course c ON c.course_id = s.course_id
 JOIN ilm_session_facet sf ON sf.ilm_session_facet_id = s.ilm_session_facet_id
@@ -187,7 +189,7 @@ WHERE c.deleted = 0
 AND s.deleted = 0
 AND s.publish_event_id IS NOT NULL
 AND sb.report_id = {$clean['report_id']}
-GROUP BY s.session_id, s.title, sd.description, method_title, is_assessment_method
+GROUP BY s.session_id, s.title, sd.description, stxam.method_id, is_assessment_method
 EOL;
 
         $query = $this->db->query($sql);

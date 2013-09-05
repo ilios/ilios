@@ -357,6 +357,17 @@ class Ilios_CurriculumInventory_Exporter
             // resource types are not implemented.
 
             // instructional- or assessment-method
+            //
+            // NOTE: unmapped session types to AAMC methods will result in empty values in the
+            // <InstructionalMethod> or <AssessmentMethod> elements.
+            // Which will result the report being rejected on import.
+            // The alternatives would have been to:
+            // (a) exclude events with unknown AAMC methods.
+            // (b) raise an exception on report generation.
+            // Neither of which are IMO preferable to the current approach to "kick the bucket down the road" at this point.
+            // Option (b) may be something could be implemented at a later point, once the AAMC's CI tool and business rules
+            // are less of a moving target than what they are now.
+            // [ST 2013/09/07]
             if ($event['is_assessment_method']) {
                 $assessmentMethodNode = $dom->createElement('AssessmentMethod');
                 $eventNode->appendChild($assessmentMethodNode);
@@ -377,12 +388,12 @@ class Ilios_CurriculumInventory_Exporter
                     default:
                         $assessmentMethodNode->setAttribute('purpose', 'Summative');
                 }
-                $assessmentMethodNode->appendChild($dom->createTextNode($event['method_title']));
+                $assessmentMethodNode->appendChild($dom->createTextNode($event['method_id']));
             } else {
                 $instructionalMethodNode = $dom->createElement('InstructionalMethod');
                 $eventNode->appendChild($instructionalMethodNode);
                 $instructionalMethodNode->setAttribute('primary', 'true');
-                $instructionalMethodNode->appendChild($dom->createTextNode($event['method_title']));
+                $instructionalMethodNode->appendChild($dom->createTextNode($event['method_id']));
             }
         }
 
