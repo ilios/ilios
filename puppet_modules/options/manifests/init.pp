@@ -1,6 +1,6 @@
 # Change values in this file to override defaults.
 
-class params {
+class options {
   $docroot = "/var/www"
   $apacheuser = "www-data"
   $repodir = "/vagrant"
