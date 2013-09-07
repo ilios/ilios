@@ -7,19 +7,18 @@ Scenario: Add program
     Given I am on the Ilios home page
     And I log in as "zero_user" with password "Ch4nge_m3"
     And I navigate to the "Programs" tab
-    And I click the "Add New Program" link
+    And I click the "Add Program" link
     And I enter "Test Med Program" into "new_program_title"
     And I enter "TMP" into "new_short_title"
     And I click the "Done" button
     Then I should see "Test Med Program"
-    And I click the "Add Academic Year" button 
+    And I click the "Add New Program Year" button
     Then there is a "dirty_state" class
-    And I click the "Publish All" button
-    And I click the "Yes" button
+    And I click the "Publish" button
     Then I should see "Test Med Program"
     And there is no "dirty_state" class
     And I click all expanded toggles
-    And I click the "Add Academic Year" button
+    And I click the "Add New Program Year" button
     And I click the "Edit" button for "Competencies"
     And I click "Medical Knowledge"
     And I click the "Done" button
@@ -30,8 +29,7 @@ Scenario: Add program
     And I set "eot_textarea_editor" to "Test Objective"
     And I set "eot_competency_pulldown" to "Inquiry and Discovery (Medical Knowledge"
     And I click the "Done" button
-    And I click the "Publish All" button
-    And I click the "Yes" button
+    And I click the "Publish" button
     Then there is no "dirty_state" class
     And I navigate to the "Learner Groups" tab
     And I click the "Select Program and Cohort" link
