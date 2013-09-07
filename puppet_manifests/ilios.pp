@@ -1,12 +1,12 @@
 class ilios (
-  $docroot=$params::docroot,
-  $apacheuser=$params::apacheuser,
-  $repodir=$params::repodir,
-  $dbuser=$params::dbuser,
-  $dbpass=$params::dbpass,
-  $dbname=$params::dbname,
-  $adminemail=$params::adminemail,
-) inherits params {
+  $docroot=$options::docroot,
+  $apacheuser=$options::apacheuser,
+  $repodir=$options::repodir,
+  $dbuser=$options::dbuser,
+  $dbpass=$options::dbpass,
+  $dbname=$options::dbname,
+  $adminemail=$options::adminemail,
+) inherits options {
 
   exec { "apt-get update":
     command => "/usr/bin/apt-get update",
