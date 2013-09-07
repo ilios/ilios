@@ -1,12 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
-  config.vm.provision :puppet do |puppet|
+  config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "puppet_manifests"
+    puppet.module_path = "puppet_modules"
     puppet.manifest_file = "ilios.pp"
   end
 
@@ -26,15 +27,12 @@ Vagrant::Config.run do |config|
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  config.vm.forward_port 443, 8443
+  config.vm.network "forwarded_port", guest: 443, host: 8443
 
-  # Share an additional folder to the guest VM. The first argument is
-  # an identifier, the second is the path on the guest to mount the
-  # folder, and the third is the path on the host to the actual folder.
-  # config.vm.share_folder "v-data", "/vagrant_data", "../data"
-  config.vm.share_folder "docroot", "/var/www", "web"
-  config.vm.share_folder "learning_materials", "/var/www/learning_materials", "web/learning_materials", :extra => "uid=33,gid=33"
-  config.vm.share_folder "tmp_uploads", "/var/www/tmp_uploads", "web/tmp_uploads", :extra => "uid=33,gid=33"
-  config.vm.share_folder "application/logs", "/var/www/application/logs", "web/application/logs", :extra => "uid=33,gid=33"
-  config.vm.share_folder "application/cache", "/var/www/application/cache", "web/application/cache", :extra => "uid=33,gid=33"
+  # Share an additional folder to the guest VM.
+  config.vm.synced_folder "web", "/var/www"
+  config.vm.synced_folder "web/learning_materials", "/var/www/learning_materials", :mount_options => "uid=33,gid=33"
+  config.vm.synced_folder "web/tmp_uploads", "/var/www/tmp_uploads", :mount_options => "uid=33,gid=33"
+  config.vm.synced_folder "web/application/logs", "/var/www/application/logs", :mount_options => "uid=33,gid=33"
+  config.vm.synced_folder "web/application/cache", "/var/www/application/cache", :mount_options => "uid=33,gid=33"
 end
