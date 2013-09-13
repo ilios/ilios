@@ -72,8 +72,10 @@ CREATE TABLE `school` (
       `username` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
       `password_sha256` VARCHAR(64) COLLATE 'utf8_unicode_ci' NOT NULL,
       `person_id` INT(14) UNSIGNED NOT NULL,
+      `api_key` VARCHAR(64) COLLATE 'utf8_unicode_ci' DEFAULT NULL,
     PRIMARY KEY (`person_id`) USING BTREE,
     UNIQUE INDEX `username` (`username`),
+    UNIQUE INDEX `api_key` (`api_key`),
     CONSTRAINT `fkey_authentication_user` FOREIGN KEY (`person_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
