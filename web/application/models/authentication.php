@@ -48,6 +48,23 @@ class Authentication extends Ilios_Base_Model
     }
 
     /**
+     * Updates the api key for a given user.
+     * @param int $userId the user id
+     * @param string $key the api key
+     * @return boolean TRUE on update, FALSE otherwise
+     */
+    public function changeAPIKey ($userId, $key)
+    {
+        $updateRow = array();
+        $updateRow['api_key'] = $key;
+
+        $this->db->where('person_id', $userId);
+        $this->db->update($this->databaseTableName, $updateRow);
+
+        return ($this->db->affected_rows() == 1);
+    }
+
+    /**
      * Adds a given login/password combination for a given user to the "authentication" table.
      * Transactions should be handled outside this method.
      * @param string $username the user login handle
@@ -95,6 +112,24 @@ class Authentication extends Ilios_Base_Model
         $rhett = false;
 
         $this->db->where('username', $username);
+        $query = $this->db->get($this->databaseTableName);
+
+        if (0 < $query->num_rows()) {
+            $rhett = $query->first_row();
+        }
+        return $rhett;
+    }
+
+    /**
+     * Retrieves authentication details for a given user by API key.
+     * @param string $key the API key
+     * @return Object | boolean returns the authentication record as object, of FALSE if not found
+     */
+    public function getByAPIKey ($key)
+    {
+        $rhett = false;
+
+        $this->db->where('api_key', $key);
         $query = $this->db->get($this->databaseTableName);
 
         if (0 < $query->num_rows()) {

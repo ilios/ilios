@@ -90,6 +90,10 @@ class Ilios_Hooks
             && 'index' === $action) {
             return;
         };
+        if ('calendar_exporter' === $controller
+            && 'api' === $action) {
+            return;
+        };
         if ('authentication_controller' === $controller
             && in_array($action, array('index', 'login', 'logout'))) {
             return;

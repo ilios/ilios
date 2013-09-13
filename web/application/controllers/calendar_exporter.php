@@ -1,12 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once 'ilios_web_controller.php';
+require_once 'base_authentication_controller.php';
 
 /**
  * @package Ilios
  * Calendar exporter controller.
  */
-class Calendar_Exporter extends Ilios_Web_Controller
+class Calendar_Exporter extends Base_Authentication_Controller
 {
     /**
      * Constructor
@@ -23,6 +23,33 @@ class Calendar_Exporter extends Ilios_Web_Controller
     {
         // Default to export in ICalendar format
         $this->exportICalendar();
+    }
+
+    /**
+     * API interface
+     */
+    public function api ($key)
+    {
+        $authenticationRow = $this->authentication->getByAPIKey($key);
+
+        $user = false;
+
+        if ($authenticationRow) {
+            // load the user record
+            $user = $this->user->getEnabledUsersById($authenticationRow->person_id);
+        }
+
+        if ($user) { // authentication succeeded. log the user in.
+            $this->_log_in_user($user);
+            // Default to export in ICalendar format
+            $this->exportICalendar();
+
+            // Invalidate the session we just created so it can't be reused
+            // for other purposes
+            $this->session->sess_destroy();
+        } else { // login failed
+            header('HTTP/1.1 403 Forbidden'); // VERBOTEN!
+        }
     }
 
     /**
