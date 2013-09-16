@@ -170,6 +170,9 @@ class Dashboard_Controller extends Calendar_Controller
         $key = 'dashboard.icalendar.download_title';
         $data['ical_download_title'] = $this->languagemap->getI18NString($key, $lang);
 
+        $key = 'dashboard.icalendar.feed_title';
+        $data['ical_feed_title'] = $this->languagemap->getI18NString($key, $lang);
+
         $key = 'general.phrases.add_new';
         $data['phrase_add_new_string'] = $this->languagemap->getI18NString($key, $lang);
 

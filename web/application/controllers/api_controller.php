@@ -34,7 +34,7 @@ class API_Controller extends Ilios_Web_Controller
         $key = @$this->authentication->getByUserId($this->session->userdata('uid'))->api_key;
         if ($key) {
             header('Content-type: text/plain');
-            print $key;
+            print json_encode(array('key' => $key));
         } else {
             $this->new_api_key();
         }
@@ -56,9 +56,9 @@ class API_Controller extends Ilios_Web_Controller
             }
             header('Content-type: text/plain');
             if ($this->authentication->changeAPIKey($this->session->userdata('uid'), $key)) {
-                print $key;
+                print json_encode(array('key' => $key));
             } else {
-                print 'Error';
+                print json_encode(array('error' => 'Error'));
             }
         } else {
             header('HTTP/1.1 403 Forbidden');

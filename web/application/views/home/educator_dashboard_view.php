@@ -157,6 +157,12 @@ $viewsPath = getServerFilePath('views');
                                         <span class="screen-reader-text"><?php echo $ical_download_button; ?></span>
                                     </a>
                                 </li>
+                                <li>
+                                    <span id="ical_feed_btn" title="<?php echo $ical_feed_title; ?>" class="medium radius button">
+                                        <span class="icon-actions icon-alone"></span>
+                                        <span class="screen-reader-text"><?php echo $ical_feed_title; ?></span>
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                         <div id="calendar_filters_breadcrumb_block">
@@ -372,6 +378,21 @@ $viewsPath = getServerFilePath('views');
 ?>
     <div class="tabdialog" id="calendar_filters_dialog">
         <?php echo generateCalendarFiltersFormContent($calendar_filters_data, true); ?>
+    </div>
+
+    <div class="tabdialog" id="ical_feed_dialog">
+        <div class="hd">
+        Calendar Feed
+        </div>
+        <div class="bd">
+        <p>To add your Ilios calendar to another application or service, use
+        this URL.</p>
+        <input style="font-size: smaller; width: 100%" id="apiurl" disabled/>
+        </p>
+        <p>If you wish to invalidate this URL and generate a new one,
+        press Regenerate.</p>
+        <p>
+        </div>
     </div>
 
     <div class="tabdialog" id="report_competency_pick_dialog"></div>
@@ -646,6 +667,8 @@ $viewsPath = getServerFilePath('views');
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.assembleCalendarEventDetailsDialog);
 
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.initFilterHooks);
+
+        YAHOO.util.Event.onDOMReady(ilios.home.calendar.initFeedHooks);
 
         YAHOO.util.Event.onDOMReady(ilios.home.report.assembleReportDialog,
             {display_handler: ilios.home.report.resetReportDialog}

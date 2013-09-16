@@ -1867,7 +1867,7 @@ fieldset > .row {
 .dashboard_report_item .icon-cancel:hover::before {
     color: #C00;
 }
-#dashboard_calendar_filters_content {
+#dashboard_calendar_filters_content, #dashboard_ical_feed_content {
     display: none;
     margin: .5em;
     padding: 5px;
