@@ -1058,7 +1058,9 @@ ENGINE=InnoDB;
 	SET character_set_client = utf8;
 	CREATE TABLE `course_director` (
 	  `course_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED NOT NULL
+	  `user_id` INT(14) UNSIGNED NOT NULL,
+	  KEY `course_id_k` USING BTREE (`course_id`),
+	  KEY `user_id_k` USING BTREE (`user_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
