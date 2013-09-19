@@ -271,6 +271,15 @@ class Dashboard_Controller extends Calendar_Controller
         $data['render_headerless'] = false;
         $data['show_view_switch'] = false;
 
+        $key = 'calendar.feed_title';
+        $data['calendar_feed_title'] = $this->languagemap->getI18NString($key, $lang);
+
+        $key = 'calendar.feed_about';
+        $data['calendar_feed_about'] = $this->languagemap->getI18NString($key, $lang);
+
+        $key = 'calendar.feed_new_key';
+        $data['calendar_feed_new_key'] = $this->languagemap->getI18NString($key, $lang);
+
         $key = 'calendar.ical';
         $data['ical_download_button'] = $this->languagemap->getI18NString($key, $lang);
 

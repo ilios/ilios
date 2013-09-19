@@ -14,6 +14,20 @@ function generateCheckboxElementsFromArray( $element_key_and_value_array) {
     return $retval;
 }
 
+function generateCalendarFeedContent($title, $about, $newkey) {
+    $content =<<< EOL
+<div class="hd">$title</div>
+<div class="bd">
+<p>$about</p>
+<p>
+<input style="font-size: smaller; width: 100%" id="apiurl" disabled/>
+</p>
+<p>$newkey</p>
+</div>
+EOL;
+    return $content;
+}
+
 function generateCalendarFiltersFormContent($filtersData, $asDialog = false) {
 
     // Header Div

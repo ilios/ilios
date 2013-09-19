@@ -381,18 +381,7 @@ $viewsPath = getServerFilePath('views');
     </div>
 
     <div class="tabdialog" id="ical_feed_dialog">
-        <div class="hd">
-        Calendar Feed
-        </div>
-        <div class="bd">
-        <p>To add your Ilios calendar to another application or service, use
-        this URL.</p>
-        <input style="font-size: smaller; width: 100%" id="apiurl" disabled/>
-        </p>
-        <p>If you wish to invalidate this URL and generate a new one,
-        press Regenerate.</p>
-        <p>
-        </div>
+        <?php echo generateCalendarFeedContent($calendar_feed_title, $calendar_feed_about, $calendar_feed_new_key); ?>
     </div>
 
     <div class="tabdialog" id="report_competency_pick_dialog"></div>
