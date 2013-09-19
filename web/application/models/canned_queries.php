@@ -105,6 +105,180 @@ EOL;
         return $rhett;
     }
 
+    /*
+     * As getOfferingsForCalendar, but look up additional details about
+     * the entries
+     *
+     * Returns learning-session offerings with fields that are needed for Calendar.
+     * @param int $schoolId
+     * @param int $userId
+     * @param array $roles an array of user-role ids
+     * @param int $year
+     * @param bool $includeArchived
+     * @param int $lastUpdatedOffset
+     * @param int $begin UNIX timestamp when to begin search
+     * @param int $end UNIX timestamp when to end search
+     * @return array
+     */
+    public function getOfferingsDetailsForCalendar ($schoolId = null,
+            $userId = null, $roles = array(), $year = null,
+            $includeArchived = false,
+            $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
+            $begin = null, $end = null)
+    {
+        $offerings = $this->getOfferingsForCalendar($schoolId, $userId, $roles,
+         $year, $includeArchived, $lastUpdatedOffset, $begin, $end);
+        $courses = array();
+        $sessions = array();
+        foreach($offerings as $offering) {
+          $courses[] = $offering['course_id'];
+          $sessions[] = $offering['session_id'];
+        }
+        $courses = array_unique($courses);
+        $sessions = array_unique($sessions);
+
+        $directors = $this->getCoursesDirectors($courses);
+        $courseObjectives = $this->getCoursesObjectives($courses);
+        $courseMaterials = $this->getCoursesMaterials($courses);
+        $sessionObjectives = $this->getSessionsObjectives($sessions);
+        $sessionMaterials = $this->getSessionsMaterials($sessions);
+
+        for($i=0;$i<count($offerings);$i++) {
+          @$offerings[$i]['directors'] =
+           $directors[$offerings[$i]['course_id']]; 
+          @$offerings[$i]['course_objectives'] =
+           $courseObjectives[$offerings[$i]['course_id']]; 
+          @$offerings[$i]['course_materials'] =
+           $courseMaterials[$offerings[$i]['course_id']]; 
+          @$offerings[$i]['session_objectives'] =
+           $sessionObjectives[$offerings[$i]['session_id']]; 
+          @$offerings[$i]['session_materials'] =
+           $sessionMaterials[$offerings[$i]['session_id']]; 
+        }
+        return $offerings;
+    }
+
+    public function getCoursesDirectors($courses)
+    {
+        $courses = implode(',', $courses);
+        $sql =<<< EOL
+SELECT user.first_name, user.last_name, course.course_id
+FROM course
+JOIN course_director on course.course_id=course_director.course_id
+JOIN user ON course_director.user_id=user.user_id
+WHERE course.course_id IN ($courses);
+EOL;
+        $queryResults = $this->db->query($sql);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            if (! isset($rhett[$row['course_id']]))
+              $rhett[$row['course_id']] = array();
+            $rhett[$row['course_id']][] = $row['first_name'] . ' ' . $row['last_name'];
+        }
+
+        return $rhett;
+    }
+
+    public function getCoursesObjectives($courses)
+    {
+        $courses = implode(',', $courses);
+        $sql =<<< EOL
+SELECT objective.title, course.course_id
+FROM course
+JOIN course_x_objective ON course.course_id=course_x_objective.course_id
+JOIN objective ON course_x_objective.objective_id=objective.objective_id
+WHERE course.course_id IN ($courses);
+EOL;
+        $queryResults = $this->db->query($sql);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            if (! isset($rhett[$row['course_id']]))
+              $rhett[$row['course_id']] = array();
+            $rhett[$row['course_id']][] = $row['title'];
+        }
+
+        return $rhett;
+    }
+
+    public function getCoursesMaterials($courses)
+    {
+        $courses = implode(',', $courses);
+        $sql =<<< EOL
+SELECT
+ learning_material.title, learning_material.description,
+  learning_material.learning_material_id, learning_material.filename,
+ course_learning_material.required, course_learning_material.notes,
+ course.course_id
+FROM course
+JOIN course_learning_material
+ ON course.course_id=course_learning_material.course_id
+JOIN learning_material
+ ON course_learning_material.learning_material_id=learning_material.learning_material_id
+WHERE course.course_id IN ($courses);
+EOL;
+        $queryResults = $this->db->query($sql);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            if (! isset($rhett[$row['course_id']]))
+              $rhett[$row['course_id']] = array();
+            $rhett[$row['course_id']][] = $row;
+        }
+
+        return $rhett;
+    }
+
+    public function getSessionsMaterials($sessions)
+    {
+        $sessions = implode(',', $sessions);
+        $sql =<<< EOL
+SELECT
+ learning_material.title, learning_material.description,
+  learning_material.learning_material_id, learning_material.filename,
+ session_learning_material.required, session_learning_material.notes,
+ session.session_id
+FROM session
+JOIN session_learning_material
+ ON session.session_id=session_learning_material.session_id
+JOIN learning_material
+ ON session_learning_material.learning_material_id=learning_material.learning_material_id
+WHERE session.session_id IN ($sessions);
+EOL;
+        $queryResults = $this->db->query($sql);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            if (! isset($rhett[$row['session_id']]))
+              $rhett[$row['session_id']] = array();
+            $rhett[$row['session_id']][] = $row;
+        }
+
+        return $rhett;
+    }
+
+    public function getSessionsObjectives($sessions)
+    {
+        $sessions = implode(',', $sessions);
+        $sql =<<< EOL
+SELECT objective.title, session.session_id
+FROM session
+JOIN session_x_objective on session.session_id=session_x_objective.session_id
+JOIN objective on session_x_objective.objective_id=objective.objective_id
+WHERE session.session_id in ($sessions);
+EOL;
+        $queryResults = $this->db->query($sql);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            if (! isset($rhett[$row['session_id']]))
+              $rhett[$row['session_id']] = array();
+            $rhett[$row['session_id']][] = $row['title'];
+        }
+
+        return $rhett;
+    }
 
     /*
      * This is function returns all the learning session offerings with fields that are
@@ -160,7 +334,7 @@ EOL;
         if (!empty($begin) && !empty($end)) {
             $dateWhere =<<< EOL
 AND offering.start_date > FROM_UNIXTIME($begin)
-AMD offering.end_date < FROM_UNIXTIME($end)
+AND offering.end_date < FROM_UNIXTIME($end)
 EOL;
         }
 
@@ -206,7 +380,8 @@ SELECT DISTINCT
  session.title as session_title, session.attire_required,
   session.equipment_required, session.supplemental, session.session_id,
   session.published_as_tbd,
- session_type.title, session_type.session_type_id,
+ session_description.description,
+ session_type.title as session_type, session_type.session_type_id,
   session_type.session_type_css_class,
  offering.room, offering.start_date, offering.end_date, offering.offering_id,
  course.title as course_title, course.course_id, course.year,
@@ -215,6 +390,7 @@ SELECT DISTINCT
 FROM offering
 JOIN session ON offering.session_id=session.session_id
 JOIN session_type ON session.session_type_id=session_type.session_type_id
+LEFT JOIN session_description ON session.session_id=session_description.session_id
 JOIN course ON session.course_id=course.course_id
 $userJoins
 WHERE

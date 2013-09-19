@@ -45,11 +45,24 @@ class Calendar_Exporter extends Base_Authentication_Controller
             $this->exportICalendar();
 
             // Invalidate the session we just created so it can't be reused
-            // for other purposes
-            $this->session->sess_destroy();
+            // for other purposes.  The session library wants to send a
+            // Cookie header to the browser to complete the session
+            // termination, but that won't work since we've already
+            // outputted non-header data in exportICalendar, so use
+            // @ to swallow the warning
+            @$this->session->sess_destroy();
         } else { // login failed
             header('HTTP/1.1 403 Forbidden'); // VERBOTEN!
         }
+    }
+
+    /**
+     * Transform HTML formatted string into plain text
+     *
+     * @param string $s
+     */
+    private function _unHTML($s) {
+      return str_replace("\n", ' ', trim(strip_tags($s)));
     }
 
     /**
@@ -85,14 +98,14 @@ class Calendar_Exporter extends Base_Authentication_Controller
 
         $schoolId = $this->session->userdata('school_id');
 
-        $offerings = array();
-        $ilm_sessions = array();
-
-        $offerings = $this->queries->getOfferingsForCalendar( $schoolId, $userId, $userRoles);
+        $offerings = $this->queries->getOfferingsDetailsForCalendar(
+         $schoolId, $userId, $userRoles, null, false,
+         Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
+         $timestart, $timeend);
         $ilm_sessions = $this->queries->getSILMsForCalendar( $schoolId, $userId, $userRoles);
 
         $hostaddress = str_replace('http://', '', base_url());
-        $hostaddress = str_replace('https://', '', base_url());
+        $hostaddress = str_replace('https://', '', $hostaddress);
 
         if ("/" == substr($hostaddress, strlen($hostaddress) - 1)) {
             // strip the slash at the end of the string.
@@ -103,22 +116,103 @@ class Calendar_Exporter extends Base_Authentication_Controller
         // also combine offerings with same offering_ids.
         $events = array();
         foreach ($offerings as $offering) {
+            $id = $offering['offering_id'];
 
-            if ($timestart <= strtotime($offering['start_date']) and
-                $timeend >= strtotime($offering['start_date'])) {
-                $id = $offering['offering_id'];
+            $offering['event_id'] = $id.'@'.$hostaddress; // UID
+            $offering['text'] = $offering['session_title']; // SUMMARY
+            $offering['location'] = array_key_exists('room', $offering) ? $offering['room'] : null;  // LOCATION
+            $offering['utc_time'] = true;
+            $offering['event_pid'] = null;
+            $offering['rec_type'] = null;
+            $offering['event_length'] = null;
+            $details = $this->_unHTML($offering['description']);
 
-                $offering['event_id'] = $id.'@'.$hostaddress; // UID
-                $offering['text'] = $offering['course_title'].' - '.$offering['session_title']; // SUMMARY
-                $offering['event_details'] = $this->iliosSession->getDescription($offering['session_id']);  // DESCRIPTION
-                $offering['location'] = array_key_exists('room', $offering) ? $offering['room'] : null;  // LOCATION
-                $offering['utc_time'] = true;
-                $offering['event_pid'] = null;
-                $offering['rec_type'] = null;
-                $offering['event_length'] = null;
+            // Taught by
+            $details .= $this->languagemap->getI18NString(
+             'general.phrases.taught_by', $lang)
+             . ' ' . implode(', ', $offering['directors']) . "\n";
 
-                $events[$id] = $offering;
+            // This offering is a(n)
+            $details .= $this->languagemap->getI18NString(
+             'dashboard.offering_description.offering_type', $lang)
+             . ' ' . $offering['session_type'];
+
+            if ($offering['supplemental']) {
+              $details .=  $this->languagemap->getI18NString(
+               'dashboard.offering_description.offering_supplemental_suffix',
+               $lang)
+               . "\n";
+            } else {
+              $details .= "\n";
             }
+            if ($offering['attire_required']) {
+              $details .= $this->languagemap->getI18NString(
+               'dashboard.offering_description.special_attire',
+               $lang). "\n";
+            }   
+            if ($offering['equipment_required']) {
+              $details .= $this->languagemap->getI18NString(
+               'dashboard.offering_description.special_equipment',
+               $lang). "\n";
+            }   
+            if (count($offering['session_objectives']) > 0) {
+              $details .= "\n";
+              $details .= $this->languagemap->getI18NString(
+               'general.terms.session', $lang) . ' ';
+              $details .= $this->languagemap->getI18NString(
+               'general.terms.objectives', $lang) . "\n";
+              foreach ($offering['session_objectives'] as $objective)
+                $details .= $this->_unHTML($objective) . "\n";
+            }
+            if (count($offering['session_materials']) > 0) {
+              $details .= "\n";
+              $details .= $this->languagemap->getI18NString(
+               'general.terms.session', $lang) . ' ';
+              $details .= $this->languagemap->getI18NString(
+               'general.phrases.learning_materials', $lang) . "\n";
+              foreach ($offering['session_materials'] as $material) {
+                $details .= $this->_unHTML($material['title']);
+                if ($material['required']) {
+                  $details .= ' (' . $this->languagemap->getI18NString(
+                   'general.terms.required', $lang). ')';
+                }
+                $details .= ' (' . base_url()
+                 . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
+                 . ')';
+                $details .= ': ' . $this->_unHTML($material['description']) . "\n";
+              }
+            }
+            if (count($offering['course_objectives']) > 0) {
+              $details .= "\n";
+              $details .= $this->languagemap->getI18NString(
+               'general.terms.course', $lang) . ' ';
+              $details .= $this->languagemap->getI18NString(
+               'general.terms.objectives', $lang) . "\n";
+              foreach ($offering['course_objectives'] as $objective)
+                $details .= $this->_unHTML($objective) . "\n";
+            }
+            if (count($offering['course_materials']) > 0) {
+              $details .= "\n";
+              $details .= $this->languagemap->getI18NString(
+               'general.terms.course', $lang) . ' ';
+              $details .= $this->languagemap->getI18NString(
+               'general.phrases.learning_materials', $lang) . "\n";
+              foreach ($offering['course_materials'] as $material) {
+                $details .= $this->_unHTML($material['title']);
+                $details .= ' (' . base_url()
+                 . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
+                 . ')';
+                if ($material['required']) {
+                  $details .= ' (' . $this->languagemap->getI18NString(
+                   'general.phrases.learning_materials', $lang) . ')';
+                }
+                $details .= ': ' . $this->_unHTML($material['description']) . "\n";
+              }
+            }
+
+            $offering['event_details'] = $details;
+
+            $events[$id] = $offering;
         }
 
         foreach ($ilm_sessions as $session) {
