@@ -486,7 +486,7 @@ ilios.home.calendar.initFeedHooks = function () {
                         }
                     },
                     {
-                        text: "Okay",
+                        text: "Done",
                         handler: function () {
                             this.cancel();
                         },
