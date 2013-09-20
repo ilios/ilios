@@ -125,12 +125,17 @@ class Calendar_Exporter extends Base_Authentication_Controller
             $offering['event_pid'] = null;
             $offering['rec_type'] = null;
             $offering['event_length'] = null;
-            $details = $this->_unHTML($offering['description']);
+            $details = '';
+
+            if ($offering['description'])
+                $details = $this->_unHTML($offering['description']) . "\n";
 
             // Taught by
-            $details .= $this->languagemap->getI18NString(
-             'general.phrases.taught_by', $lang)
-             . ' ' . implode(', ', $offering['directors']) . "\n";
+            if (is_array($offering['instructors'])) {
+                $details .= $this->languagemap->getI18NString(
+                 'general.phrases.taught_by', $lang)
+                 . ' ' . implode(', ', $offering['instructors']) . "\n";
+            }
 
             // This offering is a(n)
             $details .= $this->languagemap->getI18NString(

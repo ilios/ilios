@@ -128,24 +128,25 @@ EOL;
     {
         $offerings = $this->getOfferingsForCalendar($schoolId, $userId, $roles,
          $year, $includeArchived, $lastUpdatedOffset, $begin, $end);
-        $courses = array();
-        $sessions = array();
+        $offeringIDs = $courses = $sessions = array();
         foreach($offerings as $offering) {
+          $offeringIDs[] = $offering['offering_id'];
           $courses[] = $offering['course_id'];
           $sessions[] = $offering['session_id'];
         }
+        $offeringIDs = array_unique($offeringIDs);
         $courses = array_unique($courses);
         $sessions = array_unique($sessions);
 
-        $directors = $this->getCoursesDirectors($courses);
+        $instructors = $this->getOfferingsInstructors($offeringIDs);
         $courseObjectives = $this->getCoursesObjectives($courses);
         $courseMaterials = $this->getCoursesMaterials($courses);
         $sessionObjectives = $this->getSessionsObjectives($sessions);
         $sessionMaterials = $this->getSessionsMaterials($sessions);
 
         for($i=0;$i<count($offerings);$i++) {
-          @$offerings[$i]['directors'] =
-           $directors[$offerings[$i]['course_id']]; 
+          @$offerings[$i]['instructors'] =
+           $instructors[$offerings[$i]['offering_id']]; 
           @$offerings[$i]['course_objectives'] =
            $courseObjectives[$offerings[$i]['course_id']]; 
           @$offerings[$i]['course_materials'] =
@@ -158,23 +159,24 @@ EOL;
         return $offerings;
     }
 
-    public function getCoursesDirectors($courses)
+    public function getOfferingsInstructors($offerings)
     {
-        $courses = implode(',', $courses);
+        $offerings = implode(',', $offerings);
         $sql =<<< EOL
-SELECT user.first_name, user.last_name, course.course_id
-FROM course
-JOIN course_director on course.course_id=course_director.course_id
-JOIN user ON course_director.user_id=user.user_id
-WHERE course.course_id IN ($courses);
+SELECT
+ user.first_name, user.last_name,
+ offering_instructor.offering_id
+FROM offering_instructor
+JOIN user ON offering_instructor.user_id=user.user_id
+WHERE offering_instructor.offering_id IN ($offerings);
 EOL;
         $queryResults = $this->db->query($sql);
 
         $rhett = array();
         foreach ($queryResults->result_array() as $row) {
-            if (! isset($rhett[$row['course_id']]))
-              $rhett[$row['course_id']] = array();
-            $rhett[$row['course_id']][] = $row['first_name'] . ' ' . $row['last_name'];
+            if (! isset($rhett[$row['offering_id']]))
+              $rhett[$row['offering_id']] = array();
+            $rhett[$row['offering_id']][] = $row['first_name'] . ' ' . $row['last_name'];
         }
 
         return $rhett;
