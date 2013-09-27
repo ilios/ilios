@@ -20,6 +20,8 @@ WHERE `user_id` NOT IN (
    SELECT `course_id` FROM `course`
 )
 EOL;
+        $this->db->query($sql);
+        // add keys
         $sql =<<< EOL
 ALTER IGNORE TABLE `course_director`
     ADD PRIMARY KEY (`course_id`, `user_id`),
