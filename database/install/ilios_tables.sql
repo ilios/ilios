@@ -1050,20 +1050,27 @@ ENGINE=InnoDB;
 
 
 
-	--
-	-- Table course_director
-	--
-
-	DROP TABLE IF EXISTS `course_director`;
-	SET character_set_client = utf8;
-	CREATE TABLE `course_director` (
-	  `course_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED NOT NULL,
-	  KEY `course_id_k` USING BTREE (`course_id`),
-	  KEY `user_id_k` USING BTREE (`user_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
+--
+-- Table course_director
+--
+DROP TABLE IF EXISTS `course_director`;
+CREATE TABLE `course_director` (
+    `course_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`course_id`, `user_id`),
+    INDEX `fkey_course_director_user_id` (`user_id`),
+    CONSTRAINT `fkey_course_director_course_id`
+        FOREIGN KEY (`course_id`)
+        REFERENCES `course` (`course_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `fkey_course_director_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
 	--
 	-- Table session_x_discipline
