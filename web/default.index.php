@@ -72,7 +72,7 @@
             </div><!--end #content-->
         </div><!--end #main-->
 
-        <div style="position: absolute; width: 100%; bottom: 12px; left: 0px;">
+        <div style="position: relative; width: 100%; bottom: 1em; top: 8em;">
             <div>
                 <center>
                     <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/" >About us</a></span>
