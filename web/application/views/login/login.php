@@ -68,7 +68,7 @@ $viewsPath = getServerFilePath('views');
                 </div>
 
                 <div id="login_panel_div"
-                     style="margin-left: 40%; margin-top: 8%; padding: 6px 6px 0px; width: 260px;
+                     style="margin: auto;  padding: 0.5em; width: 17em;
                              background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
                     <label for="user_name"><?php echo $word_username; ?></label>
                     <input type="text" id="user_name" name="user_name" value=""
