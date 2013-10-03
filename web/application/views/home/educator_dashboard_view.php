@@ -159,7 +159,7 @@ $viewsPath = getServerFilePath('views');
                                 </li>
                                 <li>
                                     <span id="ical_feed_btn" title="<?php echo $ical_feed_title; ?>" class="medium radius button">
-                                        <span class="icon-actions icon-alone"></span>
+                                        <span class="icon-feed icon-alone"></span>
                                         <span class="screen-reader-text"><?php echo $ical_feed_title; ?></span>
                                     </span>
                                 </li>

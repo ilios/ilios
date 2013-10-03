@@ -331,6 +331,9 @@ textarea.validation-failed {
 .icon-add-user:before {
     content: "\e01f";
 }
+.icon-feed:before {
+    content: "\e000";  
+}
 
 .collapsed_widget, .expanded_widget {
     position:absolute;

@@ -17,25 +17,27 @@
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		margin: 0;
-		paddin: 0;
+		padding: 0;
 	}
 	.glyph {
+		font-size: 16px;
 		float: left;
 		text-align: center;
 		background: #eee;
 		padding: .75em;
 		margin: .75em 1.5em .75em 0;
-		width: 7em;
-		border-radius: .375em;
-		box-shadow: inset 0 0 0 1px #fff, 0 0 0 1px #ccc;
+		width: 7.5em;
+		border-radius: .25em;
+		box-shadow: inset 0 0 0 1px #f8f8f8, 0 0 0 1px #CCC;
 	}
 	.glyph input {
+		font-family: consolas, monospace;
+		font-size: 13px;
 		width: 100%;
 		text-align: center;
-		font-family: consolas, monospace;
-	}
-	.glyph input, .mtm {
-		margin-top: .75em;
+		border: 0;
+		box-shadow: 0 0 0 1px #ccc;
+		padding: .125em;
 	}
 	.w-main {
 		width: 80%;
@@ -70,6 +72,7 @@
 	}
 	a:hover, a:focus {color: #000;}
 	.box1 {
+		font-size: 16px;
 		display: inline-block;
 		width: 15em;
 		padding: .25em .5em;
@@ -83,12 +86,8 @@
 	<section class="mtm clearfix" id="glyphs">
 	<header>
 		<h1>Your font contains the following glyphs</h1>
-		<p>The generated SVG font can be imported back to <a href="http://keyamoon.com/icomoon/app">IcoMoon</a> for modification.</p>
+		<p>The generated SVG font can be imported back to <a href="http://icomoon.io/app">IcoMoon</a> for modification.</p>
 	</header>
-	<div class="glyph">
-		<div class="fs1" aria-hidden="true" data-icon="&#xe00f;"></div>
-		<input type="text" readonly="readonly" value="&amp;#xe00f;" />
-	</div>
 	<div class="glyph">
 		<div class="fs1" aria-hidden="true" data-icon="&#x270e;"></div>
 		<input type="text" readonly="readonly" value="&amp;#x270e;" />
@@ -138,8 +137,8 @@
 		<input type="text" readonly="readonly" value="&amp;#xe01e;" />
 	</div>
 	<div class="glyph">
-		<div class="fs1" aria-hidden="true" data-icon="&#xe000;"></div>
-		<input type="text" readonly="readonly" value="&amp;#xe000;" />
+		<div class="fs1" aria-hidden="true" data-icon="&#xe002;"></div>
+		<input type="text" readonly="readonly" value="&amp;#xe002;" />
 	</div>
 	<div class="glyph">
 		<div class="fs1" aria-hidden="true" data-icon="&#x2014;"></div>
@@ -273,16 +272,16 @@
 		<div class="fs1" aria-hidden="true" data-icon="&#xe018;"></div>
 		<input type="text" readonly="readonly" value="&amp;#xe018;" />
 	</div>
+	<div class="glyph">
+		<div class="fs1" aria-hidden="true" data-icon="&#xe000;"></div>
+		<input type="text" readonly="readonly" value="&amp;#xe000;" />
+	</div>
 	</section>
 	<div class="clear"></div>
 	<section class="mtm clearfix" id="glyphs">
 	<header>
-		<h1>CSS Class Names</h1>
+		<h1>Class Names</h1>
 	</header>
-	<span class="box1">
-		<span aria-hidden="true" class="icon-home"></span>
-		&nbsp;icon-home
-	</span>
 	<span class="box1">
 		<span aria-hidden="true" class="icon-edit"></span>
 		&nbsp;icon-edit
@@ -466,6 +465,10 @@
 	<span class="box1">
 		<span aria-hidden="true" class="icon-locked"></span>
 		&nbsp;icon-locked
+	</span>
+	<span class="box1">
+		<span aria-hidden="true" class="icon-feed"></span>
+		&nbsp;icon-feed
 	</span>
 	</section>
 	<footer>
