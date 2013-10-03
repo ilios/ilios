@@ -479,14 +479,14 @@ ilios.home.calendar.initFeedHooks = function () {
                 constraintoviewport: false,
                 buttons: [
                     {
-                        text: "Regenerate",
+                        text: ilios_i18nVendor.getI18NString('general.terms.generate'),
                         handler: function () {
                             ilios.home.calendar.getFeedURL('new_api_key', apiURLField);
                             return false;
                         }
                     },
                     {
-                        text: "Done",
+                        text: ilios_i18nVendor.getI18NString('general.terms.close'),
                         handler: function () {
                             this.cancel();
                         },
@@ -553,7 +553,7 @@ ilios.home.calendar.initFilterHooks = function () {
                 y: 0,
                 buttons: [
                     {
-                        text: "Search",
+                        text: ilios_i18nVendor.getI18NString('general.terms.search'),
                         handler: function () {
                             ilios.home.calendar.filtersDialog.submit();
                             ilios.home.calendar.applyCalendarFilters();
@@ -562,7 +562,7 @@ ilios.home.calendar.initFilterHooks = function () {
                         isDefault: true
                     },
                     {
-                        text: "Cancel",
+                        text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
                         handler: function () {
                             this.cancel();
                         }
