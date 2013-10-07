@@ -238,10 +238,8 @@ $progressDivStyleDefinition
 $suffixingContent = '
 <div id="course_session_header_div">
     <div id="sessions_summary"></div>
-
 ' . generateProgressDivMarkup($progressDivStyleDefinition) . '
-
-    <div  class="collapse_children_toggle_link">
+    <div id="course_sessions_toolbar" class="collapse_children_toggle_link hidden">
         <select id="session_ordering_selector" onchange="ilios.cm.session.reorderSessionDivs(); return false;">
             <option selected="selected">' . $sort_alpha_asc . '</option>
             <option>' . $sort_alpha_desc . '</option>
@@ -285,12 +283,10 @@ createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLin
     <script type="text/JavaScript">
 
         ilios.cm.setEnabledStateForCourseContainerUI = function (enabled) {
-            var element = document.getElementById('add_new_session_link');
+            var element;
 
+            element = document.getElementById('add_new_session_link');
             ilios.dom.setElementEnabled(element, enabled);
-
-            element = new YAHOO.util.Element(document.getElementById('course_session_header_div'));
-            element.setStyle('display', (enabled ? 'block' : 'none'));
 
             element = document.getElementById('add_objective_link');
             ilios.dom.setEnableForAElement(element, enabled);
