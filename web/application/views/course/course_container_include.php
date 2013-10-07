@@ -237,9 +237,7 @@ $progressDivStyleDefinition
 
 $suffixingContent = '
 <div id="course_session_header_div">
-    <div id="sessions_summary">
-        ' . $word_no_string . ' ' . $sessions_exist_string . '
-    </div>
+    <div id="sessions_summary"></div>
 
 ' . generateProgressDivMarkup($progressDivStyleDefinition) . '
 
