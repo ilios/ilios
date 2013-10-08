@@ -331,7 +331,7 @@ ilios.om.transaction.saveCalendarEventToServer = function (calendarEvent) {
 /**
  * This method is called via onDomReady and loads all offerings associated to the course which
  * is the parent of the session-in-edit. In handling a successful transaction from the server,
- * the code instaniates the offering models as apporpriate, adding them to the session model
+ * the code instantiates the offering models as appropriate, adding them to the session model
  * as appropriate. It finished the handling by making sure that the both the calendar view
  * and the data table view are appropriately updated.
  */
@@ -589,7 +589,7 @@ ilios.om.transaction.fetchAssociatedInstructorsBusyTime = function () {
 
 /**
  * This is called in response to a user action ticking the checkbox asking to display the busy
- * time for the associated studen groups. Since the results of this request can change given
+ * time for the associated student groups. Since the results of this request can change given
  * modifications the user is doing in this page, and/or due to concurrent modification by
  * another user, this [AJAX-ian] transaction is done each time the user clicks the checkbox.
  */
