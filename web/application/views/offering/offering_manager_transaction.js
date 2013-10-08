@@ -11,11 +11,11 @@
 
 ilios.namespace('om.transaction');
 
-ilios.om.transaction.loadedOfferingModels = new Array();
+ilios.om.transaction.loadedOfferingModels = [];
 
 // This array holds models for the short lifespan of an ajax return notification of successful
 // delete and when the associated calendar event is removed from the DHTMLX model/canvas
-ilios.om.transaction.successfulDeletions = new Array();
+ilios.om.transaction.successfulDeletions = [];
 
 /*
  * We use this as an internal notification scheme to denote that we have a received a successful
@@ -80,7 +80,7 @@ ilios.om.transaction.deleteCalendarEventOnServer = function (calendarEvent) {
         success: function (resultObject) {
             var parsedObject = null;
             var calendarEvent = null;
-            var newOfferingTableData = new Array();
+            var newOfferingTableData = [];
             var refreshDataTable = false;
 
             ilios.utilities.removeElementWithValue(ilios.alert.networkActivityI18NStrings,
@@ -125,7 +125,7 @@ ilios.om.transaction.deleteCalendarEventOnServer = function (calendarEvent) {
                 refreshDataTable = true;
             }
 
-            newOfferingTableData = new Array();
+            newOfferingTableData = [];
             for (var key in ilios.om.sessionOnlyOfferingTableDataStructure) {
                 if (ilios.om.sessionOnlyOfferingTableDataStructure[key].id
                     != calendarEvent.iliosModel.getDBId()) {
@@ -247,7 +247,7 @@ ilios.om.transaction.saveCalendarEventToServer = function (calendarEvent) {
             }
 
             if (!modelIsAlreadyInDataTable) {
-                var model = new Object();
+                var model = {};
 
                 model.id = parsedObject.offering_id;
                 model.date = iliosModel.getStartDate();
@@ -384,7 +384,7 @@ ilios.om.transaction.loadAllOfferings = function () {
                 return;
             }
 
-            ilios.om.offeringTableDataStructure = new Array();
+            ilios.om.offeringTableDataStructure = [];
 
             offerings = parsedObject.offerings;
             len = offerings.length;
@@ -409,7 +409,7 @@ ilios.om.transaction.loadAllOfferings = function () {
                     instructor = instructors[j];
 
                     if (instructor.instructor_group_id != null) {
-                        model = new Object();
+                        model = {};
                         model.isGroup = true;
                         model.dbId = instructor.instructor_group_id;
                         model.title = instructor.title;
@@ -447,7 +447,7 @@ ilios.om.transaction.loadAllOfferings = function () {
 
                 ilios.om.transaction.loadedOfferingModels.push(offeringModel);
 
-                model = new Object();
+                model = {};
                 model.id = offeringModel.getDBId();
                 model.date = offeringModel.getStartDate();
                 model.group = offeringModel.getStudentGroupsAsFormattedText();
@@ -533,7 +533,7 @@ ilios.om.transaction.fetchAssociatedInstructorsBusyTime = function () {
                 return;
             }
 
-            ilios.om.associatedInstructorGroups = new Array();
+            ilios.om.associatedInstructorGroups = [];
             instructors = parsedObject.instructors;
             for (var key in instructors) {
                 instructor = instructors[key];
@@ -550,7 +550,7 @@ ilios.om.transaction.fetchAssociatedInstructorsBusyTime = function () {
                 for (var key2 in offerings) {
                     offering = offerings[key2];
 
-                    model = new Object();
+                    model = {};
                     model.displayName = displayName;
                     model.sessionTypeId = offering.session_type_id;
                     model.startDate = ilios.utilities.mySQLDateToDateObject(offering.start_date,
@@ -636,7 +636,7 @@ ilios.om.transaction.fetchAssociatedLearnerBusyTime = function () {
                 return;
             }
 
-            ilios.om.associatedLearners = new Array();
+            ilios.om.associatedLearners = [];
             learners = parsedObject.learners;
             for (var key in learners) {
                 learner = learners[key];
@@ -653,7 +653,7 @@ ilios.om.transaction.fetchAssociatedLearnerBusyTime = function () {
                 for (var key2 in offerings) {
                     offering = offerings[key2];
 
-                    model = new Object();
+                    model = {};
                     model.displayName = displayName;
                     model.sessionTypeId = offering.session_type_id;
                     model.startDate = ilios.utilities.mySQLDateToDateObject(offering.start_date,
