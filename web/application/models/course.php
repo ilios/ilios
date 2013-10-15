@@ -90,6 +90,7 @@ class Course extends Ilios_Base_Model
         $newRow['archived'] = 0;
         $newRow['published_as_tbd'] = 0;
         $newRow['clerkship_type_id'] = $courseRow->clerkship_type_id;
+        $newRow['external_id'] = $courseRow->external_id;
 
         $this->db->insert($this->databaseTableName, $newRow);
         $newCourseId = $this->db->insert_id();
