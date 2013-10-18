@@ -167,6 +167,8 @@ $viewsPath = getServerFilePath('views');
             }
         };
         YAHOO.util.Event.onDOMReady(ilios.igm.buildPreExistingGroupDivs);
+
+        window.onbeforeunload = ilios.igm.windowWillClose;
     </script>
 
 </body>
