@@ -733,7 +733,7 @@ class Management_Console extends Ilios_Web_Controller
         }
 
         $schoolId = $this->session->userdata('school_id');
-        $rhett['cohortless_user_count'] = $this->user->getCountForStudentsWithoutPrimaryCohort();
+        $rhett['cohortless_user_count'] = $this->user->getCountForStudentsWithoutPrimaryCohort($schoolId);
         $rhett['users_with_sync_exceptions_count'] = $this->user->countUsersWithSyncExceptions($schoolId);
         header("Content-Type: text/plain");
         echo json_encode($rhett);
