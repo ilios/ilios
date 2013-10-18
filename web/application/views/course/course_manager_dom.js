@@ -397,18 +397,9 @@ ilios.cm.courseLoader = function (courseModelStub) {
     var publishability = -1;
     var enable = false;
 
-
-    // add "loading course sessions" status indicator
-    ilios.alert.networkActivityI18NStrings.push('general.phrases.loading_all_course_sessions');
-    ilios.alert.updateServerInteractionProgress();
-
     // we don't want to AJAX this one lest the user be left with a half-state waiting on a tardy
     // asynchronous reply
     loadedCourseDetails = ilios.course_model.loadCourseTreeSynchronously(courseModelStub.getDBId(), false, null, 'getCourseTree');
-
-    // remove status indicator
-    ilios.utilities.removeElementWithValue(ilios.alert.networkActivityI18NStrings, 'general.phrases.loading_all_course_sessions');
-    ilios.alert.updateServerInteractionProgress();
 
     ilios.cm.populateCourseAndSetEnable(courseModelStub.getTitle(), courseModelStub.getStartDate(),
                                         courseModelStub.getEndDate(), courseModelStub.getYear(),
