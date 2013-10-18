@@ -170,24 +170,14 @@ JOIN session_type st ON st.session_type_id = s.session_type_id
 JOIN course c ON c.course_id = s.course_id
 EOL;
         if ($student_role) {
-            if (count($roles) > 1) {
-                $sql .= " LEFT";
-            }
-            $sql .= " JOIN offering_learner ON offering_learner.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_learner ON offering_learner.offering_id = o.offering_id";
         }
         if ($faculty_role) {
-            if (count($roles) > 1) {
-                $sql .= " LEFT";
-            }
-            $sql .= " JOIN offering_instructor ON offering_instructor.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_instructor ON offering_instructor.offering_id = o.offering_id";
         }
         if ($director_role) {
-            if (count($roles) > 1) {
-                $sql .= " LEFT";
-            }
-            $sql .= " JOIN course_director ON course_director.course_id = c.course_id";
+            $sql .= " LEFT JOIN course_director ON course_director.course_id = c.course_id";
         }
-
         // WHERE clause
         $sql .= " WHERE o.deleted = 0 AND c.deleted = 0 AND s.deleted = 0 AND c.owning_school_id = {$clean['school_id']}";
 
