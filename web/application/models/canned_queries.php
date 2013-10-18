@@ -254,6 +254,7 @@ EOL;
             array_push($rhett, $row);
         }
 
+        $queryResults->free_result();
         return $rhett;
     }
 
