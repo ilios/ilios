@@ -401,6 +401,8 @@ ilios.cm.courseLoader = function (courseModelStub) {
     // asynchronous reply
     loadedCourseDetails = ilios.course_model.loadCourseTreeSynchronously(courseModelStub.getDBId(), false, null, 'getCourseTree');
 
+
+
     ilios.cm.populateCourseAndSetEnable(courseModelStub.getTitle(), courseModelStub.getStartDate(),
                                         courseModelStub.getEndDate(), courseModelStub.getYear(),
                                         courseModelStub.getDBId(),
@@ -420,7 +422,8 @@ ilios.cm.courseLoader = function (courseModelStub) {
                                         courseModelStub.isLocked(),
                                         courseModelStub.isPublishedAsTBD(),
                                         loadedCourseDetails.clerkship_type_id);
-
+    // clear the progress bar
+    ilios.alert.updateServerInteractionProgress();
     Dom.removeClass('course_sessions_toolbar', 'hidden');
     element = new Element(document.getElementById('course_more_or_less_div'));
     if (element.getStyle('display') != 'none') {
