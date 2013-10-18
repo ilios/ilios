@@ -226,6 +226,8 @@ ilios.om.transaction.saveCalendarEventToServer = function (calendarEvent) {
             iliosModel.setDBId(parsedObject.offering_id);
             iliosModel.setRoom(parsedObject.location);
 
+            sessionModel.addOffering(iliosModel);
+
             for (var key in ilios.om.offeringTableDataStructure) {
                 if (ilios.om.offeringTableDataStructure[key].id == parsedObject.offering_id) {
                     var model = ilios.om.offeringTableDataStructure[key];
