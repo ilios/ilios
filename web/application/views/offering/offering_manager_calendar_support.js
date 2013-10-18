@@ -204,8 +204,6 @@ ilios.om.calendar.offeringAddedViaCalendar = function (eventId, eventObject) {
         model.setSessionTypeId(sessionModel.getSessionTypeId());
         model.setPublishEventId(sessionModel.getPublishEventId());
 
-        sessionModel.addOffering(model);
-
         eventObject.iliosType = ilios.om.calendar.generateEventTypeForModel(sessionModel);
         eventObject.iliosModel = model;
 
