@@ -168,6 +168,7 @@ $viewsPath = getServerFilePath('views');
 <?php
     endif;
 ?>
+        window.onbeforeunload = ilios.gm.windowWillClose;
         </script>
     </body>
 </html>
