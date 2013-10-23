@@ -356,3 +356,27 @@ ilios.igm.resetAddNewMembersDialog = function (dialog) {
 	element = document.getElementById('em_transaction_status');
 	element.innerHTML = '';
 };
+
+/**
+ * <code>window.onbeforeunload</code> event handler.
+ * Checks if any of the instructor groups loaded on the page are in dirty state, and returns a warning if applicable.
+ *
+ * @method windowWillClose
+ * @param {Event} e The unload event.
+ * @return {String|undefined} A warning message if any instructor group model is in a dirty state.
+ *
+ * @link https://developer.mozilla.org/en-US/docs/Web/API/Window.onbeforeunload
+ */
+ilios.igm.windowWillClose = function (e) {
+    var i, n, msg, model;
+    for (i = 0, n = ilios.igm.instructorGroupModels.length; i < n; i++) {
+        model = ilios.igm.instructorGroupModels[i];
+        // extra typecheck needed here b/c of crappy "sparse array" implementation.
+        // @todo fix this by refactoring ilios.igm.instructorGroupModels as Object instead of Array. [ST 2013/10/18]
+        if (typeof model !== 'undefined' && model.isModelDirty()) {
+            msg = ilios_i18nVendor.getI18NString('general.warning.dirty_state_lose_changes');
+            e.returnValue = msg;
+            return msg;
+        }
+    }
+};
