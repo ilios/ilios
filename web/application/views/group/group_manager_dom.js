@@ -1001,3 +1001,22 @@ ilios.gm.resetAddNewMembersDialog = function (dialog) {
     element = document.getElementById('em_transaction_status');
     element.innerHTML = '';
 };
+
+/**
+ * <code>window.onbeforeunload</code> event handler.
+ * Checks if any of the learner groups loaded on the page are in dirty state, and returns a warning if applicable.
+ *
+ * @method windowWillClose
+ * @param {Event} e The unload event.
+ * @return {String|undefined} A warning message if any learner group model is in a dirty state.
+ *
+ * @link https://developer.mozilla.org/en-US/docs/Web/API/Window.onbeforeunload
+ */
+ilios.gm.windowWillClose = function (e) {
+    var msg;
+    if (! YAHOO.lang.isNull(ilios.gm.currentRootViewGroup) && ilios.gm.currentRootViewGroup.isModelDirty()) {
+        msg = ilios_i18nVendor.getI18NString('general.warning.dirty_state_lose_changes');
+        e.returnValue = msg;
+        return msg;
+    }
+};
