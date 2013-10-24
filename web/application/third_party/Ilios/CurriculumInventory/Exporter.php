@@ -248,7 +248,7 @@ class Ilios_CurriculumInventory_Exporter
         $rootNode->appendChild($reportIdNode);
 
         // Institution
-        $institutionNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:Institution');
+        $institutionNode = $dom->createElement('Institution');
         $rootNode->appendChild($institutionNode);
         $institutionNameNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:InstitutionName');
         $institutionNameNode->appendChild($dom->createTextNode($inventory['institution']->name));
@@ -258,7 +258,7 @@ class Ilios_CurriculumInventory_Exporter
         $institutionNode->appendChild($institutionIdNode);
         $addressNode = $dom->createElementNS('http://ns.medbiq.org/member/v1/', 'm:Address');
         $institutionNode->appendChild($addressNode);
-        $streetAddressNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:StreetAddressName');
+        $streetAddressNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:StreetAddressLine');
         $streetAddressNode->appendChild($dom->createTextNode($inventory['institution']->address_street));
         $addressNode->appendChild($streetAddressNode);
         $cityNode = $dom->createElementNS('http://ns.medbiq.org/address/v1/', 'a:City', $inventory['institution']->address_city);
@@ -318,7 +318,8 @@ class Ilios_CurriculumInventory_Exporter
             $eventTitleNode = $dom->createElement('Title');
             $eventNode->appendChild($eventTitleNode);
             $eventTitleNode->appendChild($dom->createTextNode($event['title']));
-            $eventDurationNode = $dom->createElement('EventDuration', 'PT' . $event['duration'] . 'M');
+            $duration = str_pad($event['duration'], 2, '0', STR_PAD_LEFT);
+            $eventDurationNode = $dom->createElement('EventDuration', 'PT' . $duration . 'M');
             $eventNode->appendChild($eventDurationNode);
             if ('' !== trim($event['description'])) {
                 $descriptionNode = $dom->createElement('Description');
@@ -678,8 +679,11 @@ class Ilios_CurriculumInventory_Exporter
                 break;
         }
 
-        $sequenceBlockNode->setAttribute('minimum', $block['minimum']);
-        $sequenceBlockNode->setAttribute('maximum', $block['maximum']);
+        //
+        // min/max are currently not supported.
+        //
+        //$sequenceBlockNode->setAttribute('minimum', $block['minimum']);
+        //$sequenceBlockNode->setAttribute('maximum', $block['maximum']);
 
         if ($block['track']) {
             $sequenceBlockNode->setAttribute('track', 'true');
@@ -764,8 +768,8 @@ class Ilios_CurriculumInventory_Exporter
                 } else {
                     $sequenceBlockEventNode->setAttribute('required', 'false');
                 }
-                $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['event_id']}']}";
-                $eventReferenceNode = $dom->createElement('EventReferenceNode', $refUri);
+                $refUri = "/CurriculumInventory/Events/Event[@id='E{$reference['event_id']}']";
+                $eventReferenceNode = $dom->createElement('EventReference', $refUri);
                 $sequenceBlockEventNode->appendChild($eventReferenceNode);
 
                 // start/end-date
@@ -819,7 +823,7 @@ class Ilios_CurriculumInventory_Exporter
         $lomGeneralNode->appendChild($lomIdentifierNode);
         $lomCatalogNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'catalog', 'URI');
         $lomIdentifierNode->appendChild($lomCatalogNode);
-        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','title', $uri);
+        $lomEntryNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM','entry', $uri);
         $lomIdentifierNode->appendChild($lomEntryNode);
         $lomTitleNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'title');
         $lomGeneralNode->appendChild($lomTitleNode);
@@ -842,7 +846,7 @@ class Ilios_CurriculumInventory_Exporter
     protected function _createCompetencyObjectReferenceNode (DomDocument $dom, DomElement $parentNode, $uri)
     {
         //$uri = $this->_createCompetencyObjectUri($domain, $type, $id);
-        $ref = "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry=\"{$uri}\"]";
+        $ref = "/CurriculumInventory/Expectations/CompetencyObject[lom:lom/lom:general/lom:identifier/lom:entry='{$uri}']";
         $competencyObjectReferenceNode = $dom->createElement('CompetencyObjectReference', $ref);
         $parentNode->appendChild($competencyObjectReferenceNode);
     }
@@ -854,11 +858,11 @@ class Ilios_CurriculumInventory_Exporter
      */
     protected function _createCompetencyFrameworkIncludesNode (DomDocument $dom, DomElement $parentNode, $uri)
     {
-        $includesNode = $dom->createElement('Includes');
+        $includesNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Includes');
         $parentNode->appendChild($includesNode);
-        $catalogNode = $dom->createElement('Catalog', 'URI');
+        $catalogNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Catalog', 'URI');
         $includesNode->appendChild($catalogNode);
-        $entryNode = $dom->createElement('Entry', $uri);
+        $entryNode = $dom->createElementNS('http://ns.medbiq.org/competencyframework/v1/', 'cf:Entry', $uri);
         $includesNode->appendChild($entryNode);
     }
 
