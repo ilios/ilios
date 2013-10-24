@@ -152,7 +152,7 @@ $config['ilios_ldap_authentication']['bind_dn_template'] = 'cn=%s,ou=directory,d
 |            Defines the organization that is the source of the unique identifier. domain has the following format:
 |                idd:domainname:localidentifier
 |            Where:
-|                domainnameis internet domain name that is a valid URN authority (see RFC 3986 - URI)
+|                domainname is internet domain name that is a valid URN authority (see RFC 3986 - URI)
 |                and is owned by the organization issuing the unique ID.
 |    Example:
 |        $config['curriculum_inventory_institution_domain'] = 'ucsf.edu';
