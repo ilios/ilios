@@ -830,7 +830,7 @@ class Ilios_CurriculumInventory_Exporter
         $lomStringNode = $dom->createElementNS('http://ltsc.ieee.org/xsd/LOM', 'string');
         $lomTitleNode->appendChild($lomStringNode);
         $lomStringNode->appendChild($dom->createTextNode(trim(strip_tags($title))));
-        $categoryNode = $dom->createElement('Category');
+        $categoryNode = $dom->createElement('co:Category');
         $competencyObjectNode->appendChild($categoryNode);
         $categoryNode->setAttribute('term', $category);
     }
