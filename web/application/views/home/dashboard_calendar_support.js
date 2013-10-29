@@ -623,8 +623,8 @@ ilios.home.calendar.filtersUpdateCourseList = function (year) {
             elementlabel = document.createElement('label');
             elementlabel.setAttribute('for', checkboxid);
             elementlabel.innerHTML = courseModel.getTitle() + ' '
-                + courseModel.getExternalCourseId() + ' '
-                + '<span style="font-size: 8pt; color: #808080;">('
+                + '<span style="font-size: 8pt; color: #808080;">'
+                + courseModel.getExternalCourseId() + ' ('
                 + courseModel.getStartDateAsDateObject().format('m/d/yyyy')
                 + ' - '
                 + courseModel.getEndDateAsDateObject().format('m/d/yyyy')
