@@ -342,7 +342,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $this->input->set_cookie('download-token', $downloadToken, 0);
 
         // all is good, output the XML
-        header('Content-Type: application/xml; charset="utf8"');
+        header('Content-Type: application/xml; charset="utf-8"');
         header('Content-disposition: attachment; filename="report.xml"');
         echo $out;
     }
@@ -442,7 +442,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $this->input->set_cookie('download-token', $downloadToken, 0);
 
         // all is good, output the XML
-        header('Content-Type: application/xml; charset="utf8"');
+        header('Content-Type: application/xml; charset="utf-8"');
         header('Content-disposition: attachment; filename="report.xml"');
 
         echo $report->document;
