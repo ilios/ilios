@@ -876,21 +876,21 @@ class Ilios_CurriculumInventory_Exporter
     protected function _createCompetencyFrameworkRelationNode (DomDocument $dom, DomElement $parentNode, $relUri1,
                                                                $relUri2, $relationshipUri)
     {
-        $relationNode = $dom->createElement('Relation');
+        $relationNode = $dom->createElement('cf:Relation');
         $parentNode->appendChild($relationNode);
-        $referenceNode = $dom->createElement('Reference1');
+        $referenceNode = $dom->createElement('cf:Reference1');
         $relationNode->appendChild($referenceNode);
-        $catalogNode = $dom->createElement('Catalog', 'URI');
+        $catalogNode = $dom->createElement('cf:Catalog', 'URI');
         $referenceNode->appendChild($catalogNode);
-        $entryNode = $dom->createElement('Entry', $relUri1);
+        $entryNode = $dom->createElement('cf:Entry', $relUri1);
         $referenceNode->appendChild($entryNode);
-        $relationshipNode = $dom->createElement('Relationship', $relationshipUri);
+        $relationshipNode = $dom->createElement('cf:Relationship', $relationshipUri);
         $relationNode->appendChild($relationshipNode);
-        $referenceNode = $dom->createElement('Reference2');
+        $referenceNode = $dom->createElement('cf:Reference2');
         $relationNode->appendChild($referenceNode);
-        $catalogNode = $dom->createElement('Catalog', 'URI');
+        $catalogNode = $dom->createElement('cf:Catalog', 'URI');
         $referenceNode->appendChild($catalogNode);
-        $entryNode = $dom->createElement('Entry', $relUri2);
+        $entryNode = $dom->createElement('cf:Entry', $relUri2);
         $referenceNode->appendChild($entryNode);
     }
 
