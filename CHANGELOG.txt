@@ -4,7 +4,7 @@ Version 2.3.1
 
 Bug Fixes:
 
-Issue #190: Make appalling inline CSS abomination marginally less appalling
+Issue #190: Make appalling inline CSS abomination marginally less appalling.
 Issue #191: Footer shouldn't overlap other items just because I change window size.
 Issue #193: recurring events display does not load correctly on event creation.
 Issue #195: Offering does not display in student search if published with no student group associations.
@@ -18,7 +18,7 @@ Issue #226: Relative paths in yui-widgets.css stylesheet are wrong.
 Issue #229: External Course ID does not get cloned during course rollover.
 Issue #238: Various bug fixes to curriculum inventory export.
 Issue #239: Curriculum inventory export fails validation.
-Issue #240: Category element not properly name-spaced in curr. inv. report.
+Issue #240: Category element not properly name-spaced in curriculum inventory report.
 Issue #241: Character encoding issue with curr. inv. export.
 Issue #246: Curriculum Inventory export does validate against business rules.
 
