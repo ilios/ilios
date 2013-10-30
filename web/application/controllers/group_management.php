@@ -560,101 +560,115 @@ class Group_Management extends Ilios_Web_Controller
             $cohortId = $this->input->get_post('cohort_id');
             $newUsers = array();
 
-            $this->load->library('csvreader');
+            //get the file contents in order to check that the file is UTF8-encoded...
+            $uploadDataContents = file_get_contents($uploadData['full_path']);
+            //get the encoding-type
+            $encoding = mb_detect_encoding($uploadDataContents);
 
-            // false parameter => no named fields on line 0 of the csv
-            $csvData = $this->csvreader->parse_file($uploadData['full_path'], false);
+            //if the file is not UTF-8...
+            if ($encoding != 'UTF-8') {
+                //throw the error message
+                $this->_printErrorXhrResponse ('general.error.csv_not_utf8', $lang);
+                return;
 
-            $foundDuplicates = array();
+            } else {
 
-            foreach ($csvData as $row) {
-                $email = $row[4];
+                $this->load->library('csvreader');
 
-                if ($this->user->userExistsWithEmail($email)) {
-                    array_push($foundDuplicates, ($email . ' ' . $row[0] . ', ' . $row[1] . ' ' . $row[2]));
+                // false parameter => no named fields on line 0 of the csv
+                $csvData = $this->csvreader->parse_file($uploadData['full_path'], false);
+
+                $foundDuplicates = array();
+
+                foreach ($csvData as $row) {
+                    $email = $row[4];
+
+                    if ($this->user->userExistsWithEmail($email)) {
+                        array_push($foundDuplicates, ($email . ' ' . $row[0] . ', ' . $row[1] . ' ' . $row[2]));
+                    }
                 }
-            }
 
-            // MAY RETURN THIS BLOCK
-            if (count($foundDuplicates) > 0) {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found',
-                                                        $lang);
+                // MAY RETURN THIS BLOCK
+                if (count($foundDuplicates) > 0) {
+                    $lang = $this->getLangToUse();
+                    $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found',
+                        $lang);
 
-                $rhett['duplicates'] = $foundDuplicates;
-                $rhett['error'] = $msg;
+                    $rhett['duplicates'] = $foundDuplicates;
+                    $rhett['error'] = $msg;
 
+                    if (! unlink($uploadData['full_path'])) {
+                        log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
+                    }
+
+                    header("Content-Type: text/plain");
+                    echo json_encode($rhett);
+
+                    return;
+                }
+
+                $failedTransaction = true;
+                $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
+                do {
+                    $auditAtoms = array();
+
+                    unset($rhett['error']);
+
+                    $this->user->startTransaction();
+
+                    foreach ($csvData as $row) {
+                        $lastName = trim($row[0]);
+                        $firstName = trim($row[1]);
+                        $middleName = trim($row[2]);
+                        $phone = trim($row[3]);
+                        $email = trim($row[4]);
+                        $ucUID = trim($row[5]);
+                        $otherId = trim($row[7]);
+
+                        $primarySchoolId = $this->session->userdata('school_id');
+
+                        $newId = $this->user->addUserAsStudent($lastName, $firstName, $middleName, $phone,
+                            $email, $ucUID, $otherId, $cohortId, $primarySchoolId, $auditAtoms);
+
+                        if (($newId <= 0) || $this->user->transactionAtomFailed()) {
+                            $lang = $this->getLangToUse();
+                            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+
+                            $rhett['error'] = $msg;
+
+                            break;
+                        }
+
+                        array_push($newUsers, $this->convertStdObjToArray($this->user->getRowForPrimaryKeyId($newId)));
+                    }
+
+                    if (isset($rhett['error'])) {
+                        Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->user);
+                    } else {
+                        $this->user->commitTransaction();
+
+                        $failedTransaction = false;
+
+                        // save audit trail
+                        $this->auditEvent->startTransaction();
+                        $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
+                        if ($this->auditEvent->transactionAtomFailed() || ! $success) {
+                            $this->auditEvent->rollbackTransaction();
+                        } else {
+                            $this->auditEvent->commitTransaction();
+                        }
+
+                        $rhett['users'] = $newUsers;
+                    }
+                } while ($failedTransaction && ($transactionRetryCount > 0));
                 if (! unlink($uploadData['full_path'])) {
                     log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
                 }
-
-                header("Content-Type: text/plain");
-                echo json_encode($rhett);
-
-                return;
             }
 
-            $failedTransaction = true;
-            $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
-            do {
-                $auditAtoms = array();
-
-                unset($rhett['error']);
-
-                $this->user->startTransaction();
-
-                foreach ($csvData as $row) {
-                    $lastName = trim($row[0]);
-                    $firstName = trim($row[1]);
-                    $middleName = trim($row[2]);
-                    $phone = trim($row[3]);
-                    $email = trim($row[4]);
-                    $ucUID = trim($row[5]);
-                    $otherId = trim($row[7]);
-
-                    $primarySchoolId = $this->session->userdata('school_id');
-
-                    $newId = $this->user->addUserAsStudent($lastName, $firstName, $middleName, $phone,
-                        $email, $ucUID, $otherId, $cohortId, $primarySchoolId, $auditAtoms);
-
-                    if (($newId <= 0) || $this->user->transactionAtomFailed()) {
-                        $lang = $this->getLangToUse();
-                        $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
-
-                        $rhett['error'] = $msg;
-
-                        break;
-                    }
-
-                    array_push($newUsers, $this->convertStdObjToArray($this->user->getRowForPrimaryKeyId($newId)));
-                }
-
-                if (isset($rhett['error'])) {
-                    Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->user);
-                } else {
-                    $this->user->commitTransaction();
-
-                    $failedTransaction = false;
-
-                    // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
-                    } else {
-                        $this->auditEvent->commitTransaction();
-                    }
-
-                    $rhett['users'] = $newUsers;
-                }
-            } while ($failedTransaction && ($transactionRetryCount > 0));
-            if (! unlink($uploadData['full_path'])) {
-                log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
-            }
+            header("Content-Type: text/plain");
+            echo json_encode($rhett);
         }
-
-        header("Content-Type: text/plain");
-        echo json_encode($rhett);
     }
 
     /**
