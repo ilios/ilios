@@ -614,18 +614,18 @@ class Ilios_CurriculumInventory_Exporter
         $relations = $inventory['expectations']['framework']['relations']['course_objectives_to_program_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
-            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'course_objective');
-            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'program_objective');
-            $relationshipUri = $this->_createRelationshipUri('broader');
+            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
+            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'course_objective');
+            $relationshipUri = $this->_createRelationshipUri('narrower');
             $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
                 $relationshipUri);
         }
         $relations = $inventory['expectations']['framework']['relations']['session_objectives_to_course_objectives'];
         for ($i = 0, $n = count($relations); $i < $n; $i++) {
             $relation = $relations[$i];
-            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'session_objective');
-            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'course_objective');
-            $relationshipUri = $this->_createRelationshipUri('broader');
+            $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'course_objective');
+            $relUri2 = $this->_createCompetencyObjectUri($domain, $relation['rel2'], 'session_objective');
+            $relationshipUri = $this->_createRelationshipUri('narrower');
             $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
                 $relationshipUri);
         }
