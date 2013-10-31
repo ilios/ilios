@@ -337,32 +337,32 @@ This interim beta release provides a wide range of UI tweaks and process correct
 
 Major Features:
 
-Feature #669:	Calendar Filters and Views - Extended search capability for a given school curriculum
-Feature #897:	Combine offerings from the same session with the same timeslots on calendar's week and month views.
-Feature #1003:	upgrade codeigniter to latest point release
-Feature #869:	upgrade to YUI 2.9.0
-Feature #1021:	Allow for deployment with IIS7 in Windows environment
+Feature #669:    Calendar Filters and Views - Extended search capability for a given school curriculum
+Feature #897:    Combine offerings from the same session with the same timeslots on calendar's week and month views.
+Feature #1003:    upgrade codeigniter to latest point release
+Feature #869:    upgrade to YUI 2.9.0
+Feature #1021:    Allow for deployment with IIS7 in Windows environment
 Feature #721:   create export feed to moodle for student & instructor > course assignments. enrollment feed provided via new tracking ID for courses
-Feature #722:	build unit test harness for ilios
-Feature #913:	augment user management console with capabilities to in/exclude user from sync process
-Feature #626:	Status of user accounts noted in search returns
+Feature #722:    build unit test harness for ilios
+Feature #913:    augment user management console with capabilities to in/exclude user from sync process
+Feature #626:    Status of user accounts noted in search returns
 Feature #1058:  Add Shibboleth user id attribute configuration option
 
 
 Major Bug fixes:
 
-Bug #920:	deployment scripts omit /scripts directory
-Bug #921:	broken layout of tree select dialogues in YUI 2.9.0
-Bug #567:	drop down select lists should be alpha order
-Bug #548:	ilms for deleted sessions still appearing on calendar
-Bug #723, #768:	database setup script incomplete/incorrect
+Bug #920:    deployment scripts omit /scripts directory
+Bug #921:    broken layout of tree select dialogues in YUI 2.9.0
+Bug #567:    drop down select lists should be alpha order
+Bug #548:    ilms for deleted sessions still appearing on calendar
+Bug #723, #768:    database setup script incomplete/incorrect
 Bug #1022:  ilios deployment script does not replace "deploy date" token in present_actual.php
 Bug #711:   disabled students show up as available for group association in cohort and group listings. now identifying disabled accounts as greyed out in student select lists
-Bug #965:	unable to upload .swf file to learning materials
+Bug #965:    unable to upload .swf file to learning materials
 Bug #929:   saving program year after removing MeSH terms from objective fails
-Bug #855:	administration console should default to User Management / notification screen
-Bug #710:	unassigned student list should only include enabled accounts
-Bug #864, #866, #964, #879, #654:	completely refactored LDAP/EDS integration: student and non-student records now imported and synchronized correctly. Also adds additional controls to handling, tracking, and logging.
+Bug #855:    administration console should default to User Management / notification screen
+Bug #710:    unassigned student list should only include enabled accounts
+Bug #864, #866, #964, #879, #654:    completely refactored LDAP/EDS integration: student and non-student records now imported and synchronized correctly. Also adds additional controls to handling, tracking, and logging.
 Bug #894:   Patched security hole in authentication mechanism
 
 ---
@@ -372,58 +372,58 @@ Vrsion 2.0.5b
 The following new features have been added to Ilios:
 
 Feature #560: Provide method for downloading/synchronizing Ilios calendar with google calendar, iCal, Outlook.
-	Dashboard and embedded calendar displays are now provided with a direct calendar download.
+    Dashboard and embedded calendar displays are now provided with a direct calendar download.
         The download file (.ics) provides an iCal format set of all events for the user in a span beginning 5 days
         prior to today's date through 60 days in the future.
         NB: for students who also have admin  or instructor roles, this calendar will provide the combined set
-	of all associated activity for both roles when downloaded from the embedded view in Moodle;
-	if downloaded from the Ilios dashboard, however, they will get a filtered calendar showing
-	only those activities from the role which they are currently viewing.
+    of all associated activity for both roles when downloaded from the embedded view in Moodle;
+    if downloaded from the Ilios dashboard, however, they will get a filtered calendar showing
+    only those activities from the role which they are currently viewing.
 Feature #576: timeout setting increase.
-	The default Ilios timeout has been increased to 45 minutes.
+    The default Ilios timeout has been increased to 45 minutes.
 Feature #622/648: further separate dashboard from calendar functionality.
-	Ilios now has a completely separate controller to allow for the embed of the calendar display into
-	any authenticated 3rd party system (such as moodle or another LMS).
+    Ilios now has a completely separate controller to allow for the embed of the calendar display into
+    any authenticated 3rd party system (such as moodle or another LMS).
 Feature #674 All task in the cron_tasks controller have been commented in to prevent them from running by default.
 
 In addition, the following bugs have been corrected:
 
 Bug #537: Students assigned to admin or faculty roles as well as student role cannot access editorial pages.
-	Ilios now provides the ability to easily toggle between student and non-student access roles for authorized users.
+    Ilios now provides the ability to easily toggle between student and non-student access roles for authorized users.
 Bug #538: Students cannot view ILM details.
-	In certain situations, ILM details were not being displayed in the student user view.
+    In certain situations, ILM details were not being displayed in the student user view.
 Bug #541: email alerts do not appear to be going out when appropriate changes to state occur.
 Bug #544: student validation is failing to act correctly: student accounts are being disabled.
 Bug #545: user accounts are allowing duplicate emails, causing login issues
 Bug #557: "undefined" error in calendar event display boxes
-	In certain situations, the location and/or additional header information of an offering would display as "undefined"
+    In certain situations, the location and/or additional header information of an offering would display as "undefined"
 Bug #615: course summary popup for ILM not loading
-	The course summary is inaccessible from within the detail window of an ILM offering.
+    The course summary is inaccessible from within the detail window of an ILM offering.
 Bug #619: location of student/instructor dashboard toggle
-	Related to bug #537, a toggle is now provided above the main calendar display.
+    Related to bug #537, a toggle is now provided above the main calendar display.
 Bug #620: deny web access to certain directories/files
 Bug #645: de-duping function for ILMs broken.
-	In certain situations, loading ILM offerings into the dashboard calendar would generate an error.
+    In certain situations, loading ILM offerings into the dashboard calendar would generate an error.
 Bug #646: switching dashboards cause administrative pages to break.
-	Related to bug #537, navigation has been enhanced and strengthened.
+    Related to bug #537, navigation has been enhanced and strengthened.
 Bug #637: update opensaml for shibboleth
 Bug #666: Calendar Display consistency (1)
-	In certain instances, after 4pm local time on a Saturday (last displayed day in week view)
-	the initial load of the calendar is incorrect in week view mode.
-	Any navigation from day to day, week to week or month to month clears the error.
+    In certain instances, after 4pm local time on a Saturday (last displayed day in week view)
+    the initial load of the calendar is incorrect in week view mode.
+    Any navigation from day to day, week to week or month to month clears the error.
         In certain instances, after 4pm local time on the final day of a month,
-	the initial load of the calendar is incorrect in month view mode.
-	Any navigation from day to day, week to week or month to month clears the error.
+    the initial load of the calendar is incorrect in month view mode.
+    Any navigation from day to day, week to week or month to month clears the error.
 Bug #668: Calendar Display consistency (2)
-	In certain situations, navigating in the calendar via the date links in the list box below the calendar
-	will causes events displayed to disappear from the calendar display;
-	refreshing the page via the navigation tab at the top of the page clears the error.
+    In certain situations, navigating in the calendar via the date links in the list box below the calendar
+    will causes events displayed to disappear from the calendar display;
+    refreshing the page via the navigation tab at the top of the page clears the error.
 Bug #689: Instructor search results are not displayed in full.
 Bug #691: Corrected datetime values in email alerts to server's local timezone
 by adjusting the datetime values with the timezone offset
 Bug #692: Location field is empty when downloading iCalendar as director.
-	Fixed.
-Bug #703: Ilios' MIME type mapping for learing materials has been updated.
+    Fixed.
+Bug #703: Ilios' MIME type mapping for learning materials has been updated.
 Bug #712: The SQL query for retrieving student offerings has been optimized for performance.
 Bug #714: The SQL query powering the session report associated with a given MeSH term has been optimized for performance.
 
@@ -464,22 +464,22 @@ Among the items included in this release are a numerous minor UI modifications, 
 
 New Features:
 
-�	Management Console to allow for permissions assignment.
-�	Provide granular control over the publishing workflow for courses and sessions with pre-publishing checklists.
-�	Provide archiving controls to allow for the locking and filing of past curriculum.
-�	Provide controls to allow for multi-school lists such as competency domains.
+Management Console to allow for permissions assignment.
+Provide granular control over the publishing workflow for courses and sessions with pre-publishing checklists.
+Provide archiving controls to allow for the locking and filing of past curriculum.
+Provide controls to allow for multi-school lists such as competency domains.
 
 Major fixes:
 
-�	#2.0.0b-16: Corrects a display issue where on initial page load after a calendar transaction, the session would display an incorrect number of associated offerings.
-�	#2.0.0b-17: Corrects a bug where not all session learning objectives were visible if there were gaps in the competency/objective  structure.
-�	#2.0.0b-18: Corrects an error where changes in the course level were not saved.
-�	#2.0.0b-19: Provides for the automatic rollover of program objective from one program year to the next.
-�	#2.0.0b-20: Provides for the same one-click workflow of program objectives as exists for course/session.
-�	#2.0.0b-30/36: Fix for an issue where learning materials failed to load to the server or associate with curricular data.
-�	#2.0.0b-35: Corrects a display error for quotes encoding when copied from MS Word.
-�	#2.0.0b-39: Corrects a labeling error on calendar display panel
-�	#2.0.0b-40: Corrects an issue where in certain circumstances when using the recurring events tool, the system would generate an unresolved deadlock.
-�	#2.0.0b-43: modify group selector tree to allow for multiple year selection.
-�	#2.0.0b-xxx: increase in allowable course name length.
-�	#2.0.0b-xxx: address a timezone-related bug where, although the server data was correct, the client side was showing dates for events as the following day if the client machine's local clock was not in UTC
+#2.0.0b-16: Corrects a display issue where on initial page load after a calendar transaction, the session would display an incorrect number of associated offerings.
+#2.0.0b-17: Corrects a bug where not all session learning objectives were visible if there were gaps in the competency/objective  structure.
+#2.0.0b-18: Corrects an error where changes in the course level were not saved.
+#2.0.0b-19: Provides for the automatic rollover of program objective from one program year to the next.
+#2.0.0b-20: Provides for the same one-click workflow of program objectives as exists for course/session.
+#2.0.0b-30/36: Fix for an issue where learning materials failed to load to the server or associate with curricular data.
+#2.0.0b-35: Corrects a display error for quotes encoding when copied from MS Word.
+#2.0.0b-39: Corrects a labeling error on calendar display panel
+#2.0.0b-40: Corrects an issue where in certain circumstances when using the recurring events tool, the system would generate an unresolved deadlock.
+#2.0.0b-43: modify group selector tree to allow for multiple year selection.
+#2.0.0b-xxx: increase in allowable course name length.
+#2.0.0b-xxx: address a timezone-related bug where, although the server data was correct, the client side was showing dates for events as the following day if the client machine's local clock was not in UTC
