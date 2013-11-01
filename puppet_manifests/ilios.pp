@@ -64,6 +64,12 @@ class ilios (
     require => Package["apache2"],
   }
 
+  exec {"add-mod-headers":
+    command => "/usr/sbin/a2enmod headers",
+    notify => Service["apache2"],
+    require => Package["apache2"],
+  }
+
   exec {"create-db":
     cwd => "${repodir}/database/install",
     unless => "/usr/bin/sudo /bin/ls /var/lib/mysql/${dbname}/mesh_concept_x_term.MYI",
