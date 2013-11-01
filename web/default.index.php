@@ -63,9 +63,9 @@
 
                 <div style="margin-top: 128px; text-align: center;">
                            For assistance, please contact your school's Ilios administrator.<br/><br/>
-                           <strong>School of Medicine:</strong> <a href="mailto:irocket@ucsf.edu?subject=Ilios Project Help Request">irocket@ucsf.edu</a><br/><br/>
-                           <strong>School of Pharmacy:</strong> <a href="mailto:EducationSOP@ucsf.edu?subject=Ilios Project Help Request">EducationSOP@ucsf.edu</a><br/><br/>
-                           <strong>School of Dentistry:</strong> <a href="mailto:SODCLEHelp@ucsf.edu?subject=Ilios Project Help Request">SODCLEHelp@ucsf.edu</a><br/>
+                           <strong>School of Medicine:</strong> <a href="mailto:irocket@ucsf.edu?subject=Ilios%20Project%20Help%20Request">irocket@ucsf.edu</a><br/><br/>
+                           <strong>School of Pharmacy:</strong> <a href="mailto:EducationSOP@ucsf.edu?subject=Ilios%20Project%20Help%20Request">EducationSOP@ucsf.edu</a><br/><br/>
+                           <strong>School of Dentistry:</strong> <a href="mailto:SODCLEHelp@ucsf.edu?subject=Ilios%20Project%20Help%20Request">SODCLEHelp@ucsf.edu</a><br/>
                 </div>
             </div><!--end #content-->
         </div><!--end #main-->
