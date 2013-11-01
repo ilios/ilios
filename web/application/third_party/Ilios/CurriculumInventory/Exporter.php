@@ -159,12 +159,12 @@ class Ilios_CurriculumInventory_Exporter
         $rel = $this->_ci->inventory->getCourseObjectivesToProgramObjectivesRelations($courseObjectiveIds,
             $programObjectiveIds);
         $relations['course_objectives_to_program_objectives'] = $rel['relations'];
-        $includes['program_objective_ids'] = $includes['program_objective_ids'] + $rel['program_objective_ids'];
+        $includes['program_objective_ids'] = array_values(array_unique(array_merge($includes['program_objective_ids'], $rel['program_objective_ids'])));
         $includes['course_objective_ids'] = $rel['course_objective_ids'];
         $rel = $this->_ci->inventory->getSessionObjectivesToCourseObjectivesRelations($sessionObjectiveIds,
             $courseObjectiveIds);
         $relations['session_objectives_to_course_objectives'] = $rel['relations'];
-        $includes['course_objective_ids'] = $includes['course_objective_ids'] + $rel['course_objective_ids'];
+        $includes['course_objective_ids'] = array_values(array_unique(array_merge($includes['course_objective_ids'], $rel['course_objective_ids'])));
         $includes['session_objective_ids'] = $rel['session_objective_ids'];
 
         $expectations['framework'] = array(
