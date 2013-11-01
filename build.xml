@@ -346,8 +346,8 @@
     <target name="deploy" depends="deploy-prepare,backup"
             description="(re)deploys the code to a given destination directory and installs/updates the database.">
         <property name="db_exists" value="true" />
-        <property name="mysql_conf_file" value="${db_backupdir}/tmp.my.cnf" />
-    <!-- either create a deployment directory (if non-existent), or gut the existing one -->
+        <property name="mysql_conf_file" value="${builddir}/tmp.my.cnf" />
+	<!-- either create a deployment directory (if non-existent), or gut the existing one -->
         <if>
             <available file="${deploydir}" type="dir" />
             <then>
