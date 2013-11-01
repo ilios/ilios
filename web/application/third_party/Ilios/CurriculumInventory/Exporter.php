@@ -926,6 +926,6 @@ class Ilios_CurriculumInventory_Exporter
      */
     protected function _createPcrsUri ($pcrsPartialUri)
     {
-        return "https://services.aamc.org/30/ci‐school‐web/pcrs/PCRS.html#{$pcrsPartialUri}";
+        return "https://services.aamc.org/30/ci-school-web/pcrs/PCRS.html#{$pcrsPartialUri}";
     }
 }
