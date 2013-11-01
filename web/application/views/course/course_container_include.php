@@ -232,18 +232,24 @@ $addNewSomethingId = '';
 $addNewSomethingAction = '';
 $addNewSomethingDisplayText = '';
 
-$progressDivStyleDefinition
-        = 'position: absolute; left: 38%; display: none;';
+$suffixingContent = '<div id="course_session_header_div"><div id="sessions_summary"></div>';
 
-$suffixingContent = '
-<div id="course_session_header_div">
-    <div id="sessions_summary">
-        ' . $word_no_string . ' ' . $sessions_exist_string . '
-    </div>
+$progressDivStyleDefinition = 'position: absolute; left: 38%;';
 
-' . generateProgressDivMarkup($progressDivStyleDefinition) . '
+// KLUDGE!
+// see if a course is about to be loaded in the page by checking if a stub object has been passed to the view.
+// if so then display a "loading course details" status progress message in the sessions_summary element.
+// @see GitHub Issue #203
+// [ST 2013/10/18]
+if (-1 === $course_id) {
+    $suffixingContent .= generateProgressDivMarkup($progressDivStyleDefinition . ' display: none', ''); // hide it.
+} else {
+    $suffixingContent .= generateProgressDivMarkup($progressDivStyleDefinition,
+       $this->languagemap->t('general.phrases.loading_all_course_sessions', $lang));
+}
 
-    <div  class="collapse_children_toggle_link">
+$suffixingContent .= '
+    <div id="course_sessions_toolbar" class="collapse_children_toggle_link hidden">
         <select id="session_ordering_selector" onchange="ilios.cm.session.reorderSessionDivs(); return false;">
             <option selected="selected">' . $sort_alpha_asc . '</option>
             <option>' . $sort_alpha_desc . '</option>
@@ -287,12 +293,10 @@ createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLin
     <script type="text/JavaScript">
 
         ilios.cm.setEnabledStateForCourseContainerUI = function (enabled) {
-            var element = document.getElementById('add_new_session_link');
+            var element;
 
+            element = document.getElementById('add_new_session_link');
             ilios.dom.setElementEnabled(element, enabled);
-
-            element = new YAHOO.util.Element(document.getElementById('course_session_header_div'));
-            element.setStyle('display', (enabled ? 'block' : 'none'));
 
             element = document.getElementById('add_objective_link');
             ilios.dom.setEnableForAElement(element, enabled);

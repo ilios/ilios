@@ -390,6 +390,7 @@ ilios.cm.registerCourseUIListeners = function () {
 
 // @private
 ilios.cm.courseLoader = function (courseModelStub) {
+    var Dom = YAHOO.util.Dom;
     var Element = YAHOO.util.Element;
     var loadedCourseDetails = null;
     var element = null;
@@ -397,8 +398,10 @@ ilios.cm.courseLoader = function (courseModelStub) {
     var enable = false;
 
     // we don't want to AJAX this one lest the user be left with a half-state waiting on a tardy
-    //          asynchronous reply
+    // asynchronous reply
     loadedCourseDetails = ilios.course_model.loadCourseTreeSynchronously(courseModelStub.getDBId(), false, null, 'getCourseTree');
+
+
 
     ilios.cm.populateCourseAndSetEnable(courseModelStub.getTitle(), courseModelStub.getStartDate(),
                                         courseModelStub.getEndDate(), courseModelStub.getYear(),
@@ -419,7 +422,9 @@ ilios.cm.courseLoader = function (courseModelStub) {
                                         courseModelStub.isLocked(),
                                         courseModelStub.isPublishedAsTBD(),
                                         loadedCourseDetails.clerkship_type_id);
-
+    // clear the progress bar
+    ilios.alert.updateServerInteractionProgress();
+    Dom.removeClass('course_sessions_toolbar', 'hidden');
     element = new Element(document.getElementById('course_more_or_less_div'));
     if (element.getStyle('display') != 'none') {
         ilios.utilities.toggleShowMoreOrLess('course_more_or_less_div',

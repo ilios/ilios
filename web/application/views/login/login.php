@@ -20,10 +20,6 @@ $viewsPath = getServerFilePath('views');
 <head>
     <meta charset="utf-8">
 
-    <!-- Use the .htaccess and remove these lines to avoid edge case issues.
-        More info: h5bp.com/i/378 -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
     <title><?php echo $login_title; ?></title>
     <meta name="description" content="">
 
@@ -68,7 +64,7 @@ $viewsPath = getServerFilePath('views');
                 </div>
 
                 <div id="login_panel_div"
-                     style="margin-left: 40%; margin-top: 8%; padding: 6px 6px 0px; width: 260px;
+                     style="margin: auto;  padding: 0.5em; width: 17em;
                              background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
                     <label for="user_name"><?php echo $word_username; ?></label>
                     <input type="text" id="user_name" name="user_name" value=""

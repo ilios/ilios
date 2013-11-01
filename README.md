@@ -12,7 +12,7 @@ Ilios leverages the power of existing online learning technologies supported at 
 
 # Get Ilios
 
-Download the [distribution](http://bit.ly/U0okjm) or clone the [codebase](https://github.com/ilios/ilios).
+Download the [latest distribution](https://github.com/ilios/ilios/releases) or clone the [codebase](https://github.com/ilios/ilios).
 
 # Contact
 

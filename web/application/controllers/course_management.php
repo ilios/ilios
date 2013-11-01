@@ -150,9 +150,6 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'course_management.external_course_id';
         $data['external_course_id_string'] = $this->languagemap->getI18NString($key, $lang);
 
-        $key = 'course_management.notification.sessions_exist';
-        $data['sessions_exist_string'] = $this->languagemap->getI18NString($key, $lang);
-
         $key = 'course_management.objective_edit_title';
         $data['edit_objective_dialog_title'] = $this->languagemap->getI18NString($key, $lang);
 

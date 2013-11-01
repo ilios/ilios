@@ -741,7 +741,7 @@ ilios.home.calendar.filtersUpdateCourseList = function (year) {
 
         for (var key in parsedObject) {
             courseModel = new CourseModel(parsedObject[key]);
-            var checkboxid = "checkbox-" + courseModel.getTitle() + "-" + courseModel.getDBId();
+            var checkboxid = "calendar-filter-course-checkbox-" + courseModel.getDBId();
             element = document.createElement('input');
             element.setAttribute('type', 'checkbox');
             element.setAttribute('value', courseModel.getDBId());
@@ -750,8 +750,8 @@ ilios.home.calendar.filtersUpdateCourseList = function (year) {
             elementlabel = document.createElement('label');
             elementlabel.setAttribute('for', checkboxid);
             elementlabel.innerHTML = courseModel.getTitle() + ' '
-                + courseModel.getExternalCourseId() + ' '
-                + '<span style="font-size: 8pt; color: #808080;">('
+                + '<span style="font-size: 8pt; color: #808080;">'
+                + courseModel.getExternalCourseId() + ' ('
                 + courseModel.getStartDateAsDateObject().format('m/d/yyyy')
                 + ' - '
                 + courseModel.getEndDateAsDateObject().format('m/d/yyyy')

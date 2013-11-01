@@ -1,6 +1,6 @@
 # Database Upgrade
 
-## Version 2.2 and below
+## Upgrading to version 2.2 and below
 
 Run the `upgrade.sql` scripts in subdirectories that apply
 to the range of versions that you are upgrading from/to against your Ilios database.
@@ -15,7 +15,10 @@ apply the following SQL scripts to your Ilios database:
 
 _Back up your database first before running any upgrade scripts against it!_
 
-## Version 2.3 and newer
+## Upgrading to version 2.3 and above
+
+_If you are currently on a version older than 2.2, please make sure to upgrade your database to version 2.2
+using the process outlined above before continuing._
 
 Starting with Ilios v2.3, database upgrades have been integrated into the application itself.
 They can be executed by invoking the `migrate` controller's default action.

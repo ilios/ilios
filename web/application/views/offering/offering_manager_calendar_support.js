@@ -19,8 +19,8 @@ ilios.om.calendar.lastModeUsedInAddingEvents = null;
 
 /**
  * This is called onDOMReady; added to that event queue in offering_manager.php. This sets
- * 	up the configuration of the DHTMLX scheduler canvas including registering for event
- * 	notifications from that canvas.
+ *     up the configuration of the DHTMLX scheduler canvas including registering for event
+ *     notifications from that canvas.
  */
 ilios.om.calendar.initCalendar = function () {
     var weekHeaderFormat = scheduler.date.date_to_str("%M %j, %Y");
@@ -97,10 +97,10 @@ ilios.om.calendar.resetCurrentCalendarViewToStart = function () {
     var offeringModels = sessionModel.getOfferings();
 
     if (ilios.utilities.arraySize(offeringModels) > 0) {
-	var model = null;
+    var model = null;
 
-	dateBegin = new Date(offeringModels[0].getStartDate().getTime());
-	dateEnd = new Date(offeringModels[0].getEndDate().getTime());
+    dateBegin = new Date(offeringModels[0].getStartDate().getTime());
+    dateEnd = new Date(offeringModels[0].getEndDate().getTime());
 
         for (var key in offeringModels) {
             model = offeringModels[key];
@@ -108,9 +108,9 @@ ilios.om.calendar.resetCurrentCalendarViewToStart = function () {
             if (model.getStartDate() < dateBegin) {
                 dateBegin = new Date(model.getStartDate().getTime());
             }
-	    if (model.getEndDate() > dateEnd) {
-	    	dateEnd = new Date(model.getEndDate().getTime());
-	    }
+        if (model.getEndDate() > dateEnd) {
+            dateEnd = new Date(model.getEndDate().getTime());
+        }
         }
     }
 
@@ -203,8 +203,6 @@ ilios.om.calendar.offeringAddedViaCalendar = function (eventId, eventObject) {
         model.setRoom(i18nStr);
         model.setSessionTypeId(sessionModel.getSessionTypeId());
         model.setPublishEventId(sessionModel.getPublishEventId());
-
-        sessionModel.addOffering(model);
 
         eventObject.iliosType = ilios.om.calendar.generateEventTypeForModel(sessionModel);
         eventObject.iliosModel = model;

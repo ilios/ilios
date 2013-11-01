@@ -17,10 +17,6 @@ $viewsPath = getServerFilePath('views');
 <head>
     <meta charset="utf-8">
 
-    <!-- Use the .htaccess and remove these lines to avoid edge case issues.
-        More info: h5bp.com/i/378 -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
     <title><?php echo $title_bar_string; ?></title>
     <meta name="description" content="">
 
@@ -167,6 +163,8 @@ $viewsPath = getServerFilePath('views');
             }
         };
         YAHOO.util.Event.onDOMReady(ilios.igm.buildPreExistingGroupDivs);
+
+        window.onbeforeunload = ilios.igm.windowWillClose;
     </script>
 
 </body>

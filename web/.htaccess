@@ -1,5 +1,11 @@
 Options +FollowSymLinks
 
+# Get rid of Compatibility View button in IE 10 and below
+<IfModule mod_headers.c>
+  BrowserMatch MSIE ie
+  Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
+</IfModule>
+
 #
 # redirect all request to HTTPS
 #
