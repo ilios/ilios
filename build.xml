@@ -20,13 +20,15 @@
 
     Tips:
 
-    1. You may want to keep multiple property files around, one for each environment (dev/stage/prod).
-    2. Run the "deploy" and "build-and-deploy" targets with elevated privileges ('sudo') if your deployment directory is owned by 'root'
+    1. Make certain that you db.user has ALL privileges necessary.  Because ilios uses stored procedures,
+       you must 'GRANT CREATE ROUTINE ON db.name.* TO db.username@db.hostname' IN ADDITION TO the normal "GRANT ALL..."
+    2. You may want to keep multiple property files around, one for each environment (dev/stage/prod).
+    3. Run the "deploy" and "build-and-deploy" targets with elevated privileges ('sudo') if your deployment directory is owned by 'root'
 
         Example:
             $ sudo phing -propertyfile build.properties build-and-deploy
 
-    3. You can directly provide the package bundle as command line argument "packagefilepath" to the "deploy" target
+    4. You can directly provide the package bundle as command line argument "packagefilepath" to the "deploy" target
 
         Example:
             $ phing -propertyfile build.properties -Dpackagefilepath=/path/to/your/ilios/package.tar.gz deploy
@@ -344,7 +346,8 @@
     <target name="deploy" depends="deploy-prepare,backup"
             description="(re)deploys the code to a given destination directory and installs/updates the database.">
         <property name="db_exists" value="true" />
-        <!-- either create a deployment directory (if non-existent), or gut the existing one -->
+        <property name="mysql_conf_file" value="${db_backupdir}/tmp.my.cnf" />
+    <!-- either create a deployment directory (if non-existent), or gut the existing one -->
         <if>
             <available file="${deploydir}" type="dir" />
             <then>
@@ -369,11 +372,19 @@
         <chown file="${deploydir}/application/logs" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/application/cache" user="${webuser}" group="${webgroup}" />
         <chown file="${deploydir}/static" user="${webuser}" group="${webgroup}" />
+	<!-- create a temp config file to store the db password in. -->
+        <phingcall target="create-mysql-conf-file">
+            <property name="mysql_conf_file" value="${mysql_conf_file}" />
+        </phingcall>
         <!-- hokey way of checking if the database already exists or not -->
         <trycatch property="db_error">
             <try>
                 <!-- attempt to connect and run a query against the given database -->
-                <exec command="mysql -u ${db.username} -h ${db.hostname} --skip-column-names ${db.name} -e 'SELECT true;'" checkreturn="true" logoutput="true" />
+                <!-- <pdosqlexec url="mysql:host=${db.hostname};dbname=${db.name}"
+                    userid="${db.username}" password="${db.password}">
+                    SELECT true;
+                </pdosqlexec> -->
+		<exec command="mysql --defaults-extra-file=${mysql_conf_file} -u ${db.username} -h ${db.hostname} ${db.name} -e 'USE ${db.name};'" checkreturn="true" logoutput="true" />
             </try>
             <catch>
                 <!--
@@ -387,6 +398,10 @@
                 <echo msg="${db_error}" />
                 <property name="db_exists" value="false" override="true" />
             </catch>
+	    <finally>
+                <!-- clean up -->
+                <delete file="${mysql_conf_file}" />
+            </finally>
         </trycatch>
         <!-- update or install db -->
         <if>
