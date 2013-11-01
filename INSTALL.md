@@ -4,7 +4,7 @@
 
 The Ilios has the following minimal technical requirements
 
-* `Apache 2.2.3+` or `IIS 6+`
+* `Apache 2.2.3+` with `mod_ssl` and `mod_rewrite` enabled, or `IIS 6+` with equivalent modules.
 
 * `PHP 5.3.3+`, with the `mysqli`, `json`, `mbstring` and `mcrypt` extensions installed and enabled.
 
