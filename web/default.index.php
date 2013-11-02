@@ -25,12 +25,8 @@
     <link rel="stylesheet" href="application/views/css/custom.css?iref=%%ILIOS_REVISION%%" media="all">
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
-    <!-- All JavaScript at the bottom, except this Modernizr build.
-         Modernizr enables HTML5 elements & feature detects for optimal performance.
-         Create your own custom Modernizr build: www.modernizr.com/download/ -->
-         <script type="text/javascript" src="application/views/scripts/third_party/modernizr-2.5.3.min.js"></script>
-     </head>
-     <body class="welcome yui-skin-sam">
+    </head>
+    <body class="welcome yui-skin-sam">
         <div id="wrapper">
             <header id="masthead" class="clearfix">
                 <div class="inner">
