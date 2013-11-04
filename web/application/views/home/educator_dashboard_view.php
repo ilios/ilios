@@ -89,6 +89,7 @@ $viewsPath = getServerFilePath('views');
             'application/views/scripts/course_model_support_framework.js',
             'application/views/scripts/learner_view_base_framework.js',
             'application/views/scripts/public_course_summary_base_framework.js',
+            'application/views/scripts/mesh_base_framework.js',
             'application/views/home/calendar_item_model.js',
             'application/views/home/dashboard_calendar_support.js',
             'application/views/home/dashboard_transaction.js',
