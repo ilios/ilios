@@ -11,6 +11,7 @@
  */
 $js = array(
     'vendor' => array( // third-party js
+        'application/views/scripts/third_party/modernizr-2.5.3.min.js',
         'scripts/yui/build/yahoo-dom-event/yahoo-dom-event.js',
         'scripts/yui/build/connection/connection-min.js',
         'scripts/yui/build/container/container-min.js',

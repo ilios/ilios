@@ -6,11 +6,11 @@
  */
 ?><!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
 
@@ -25,8 +25,12 @@
     <link rel="stylesheet" href="application/views/css/custom.css?iref=%%ILIOS_REVISION%%" media="all">
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
-    </head>
-    <body class="welcome yui-skin-sam">
+    <!-- All JavaScript at the bottom, except this Modernizr build.
+         Modernizr enables HTML5 elements & feature detects for optimal performance.
+         Create your own custom Modernizr build: www.modernizr.com/download/ -->
+         <script type="text/javascript" src="application/views/scripts/third_party/modernizr-2.5.3.min.js"></script>
+     </head>
+     <body class="welcome yui-skin-sam">
         <div id="wrapper">
             <header id="masthead" class="clearfix">
                 <div class="inner">
