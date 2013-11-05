@@ -329,30 +329,37 @@ class Offering extends Ilios_Base_Model
     }
 
     /**
-     * Transactions are assumed to be handled outside this block
+     * Flags a given offering as "deleted" and removes any associations to other entities, such as learner-
+     * and instructor-groups, from it.
      *
-     * @todo improve code docs
-     * @param int $offeringId
-     * @param array $auditAtoms
-     * @param boolean $deleteIsRootEvent
-     * @return boolean TRUE if the delete removed a row in this class' main db table
+     * @param int $offeringId The offering id
+     * @param array $auditAtoms The auditing trail.
+     * @param boolean $deleteIsRootEvent TRUE if the offering deletion is it's own event, FALSE if it is part of a cascading
+     *  delete triggered by the deletion of an owning entity further upstream.
+     * @return boolean TRUE if the deletion/update operation was a success, FALSE if the db transaction bombs out here.
      *
+     * @todo The rules implemented here are total BS. Flagging the offering as "deleted", but removing any associations from it, WTF?!!
+     *      Take this up with the product owner and come up with a better approach that won't leave these offerings in a basket-case
+     *      state post-"deletion". [ST 2013/11/05]
+     * @todo move the transaction checkpoint out of this function. Either transaction management is in-scope, or it's not. [ST 2013/11/05]
      */
     public function deleteOffering ($offeringId, &$auditAtoms, $deleteIsRootEvent)
     {
+        // delete associated recurring event patterns from the offering.
         $this->deleteAssociatedRecurringEvent($offeringId, $auditAtoms);
 
+        // delete associations to instructors/instructor-groups and learners/learner-groups
         $tables = array('offering_x_instructor', 'offering_x_instructor_group', 'offering_learner');
-
         $this->db->where('offering_id', $offeringId);
         $this->db->delete($tables);
 
+        // flag the offering as deleted
         $updateRow = array();
         $updateRow['deleted'] = 1;
-
         $this->db->where('offering_id', $offeringId);
         $this->db->update($this->databaseTableName, $updateRow);
 
+        // capture the delete/update events in the audit trail
         $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor',
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor_group',
@@ -362,6 +369,7 @@ class Offering extends Ilios_Base_Model
         $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', $this->databaseTableName,
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, ($deleteIsRootEvent ? 1 : 0));
 
+        // transaction checkpoint
         return (! $this->transactionAtomFailed());
     }
 
