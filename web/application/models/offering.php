@@ -342,7 +342,7 @@ class Offering extends Ilios_Base_Model
     {
         $this->deleteAssociatedRecurringEvent($offeringId, $auditAtoms);
 
-        $tables = array('offering_instructor', 'offering_learner');
+        $tables = array('offering_x_instructor', 'offering_x_instructor_group', 'offering_learner');
 
         $this->db->where('offering_id', $offeringId);
         $this->db->delete($tables);
@@ -354,8 +354,10 @@ class Offering extends Ilios_Base_Model
         $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                            'offering_instructor',
+                                                            'offering_x_instructor',
                                                             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+        array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
+            'offering_x_instructor_group', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
                                                             'offering_learner',
                                                             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
