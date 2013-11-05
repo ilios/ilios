@@ -134,7 +134,7 @@ class Group extends Ilios_Base_Model
     public function updateInstructorToGroupAssociations ($groupId, array $users, array $existingUserIds,
                                                          array &$auditAtoms)
     {
-        $this->_saveJoinTableAssociations('group_default_instructor', 'group_id', $groupId, 'user_id', $users,
+        $this->_saveJoinTableAssociations('group_x_instructor', 'group_id', $groupId, 'user_id', $users,
             $existingUserIds, 'dbId', $auditAtoms);
     }
 
@@ -153,7 +153,7 @@ class Group extends Ilios_Base_Model
     public function updateInstructorGroupToGroupAssociations ($groupId, array $instructorGroups,
                                                               array $existingInstructorGroupIds, array &$auditAtoms)
     {
-        $this->_saveJoinTableAssociations('group_default_instructor', 'group_id', $groupId, 'instructor_group_id',
+        $this->_saveJoinTableAssociations('group_x_instructor_group', 'group_id', $groupId, 'instructor_group_id',
             $instructorGroups, $existingInstructorGroupIds, 'dbId', $auditAtoms);
     }
 
@@ -263,7 +263,7 @@ EOL;
         $clean['group_id'] = (int) $groupId;
         $sql =<<< EOL
 SELECT `user_id`
-FROM `group_default_instructor`
+FROM `group_x_instructor`
 WHERE `group_id` = {$clean['group_id']}
 EOL;
         $query = $this->db->query($sql);
@@ -287,7 +287,7 @@ EOL;
         $clean['group_id'] = (int) $groupId;
         $sql =<<< EOL
 SELECT `instructor_group_id`
-FROM `group_default_instructor`
+FROM `group_x_instructor_group`
 WHERE `group_id` = {$clean['group_id']}
 EOL;
         $query = $this->db->query($sql);
@@ -370,7 +370,7 @@ EOL;
     /**
      * Retrieves a query result set containing the identifiers of all instructors and instructor-groups
      * associated with a given group.
-     * See JOIN table <code>default_instructor_group</code>.
+     * See JOIN table <code>group_x_instructor</code> and <code>group_x_instructor_group</code>.
      * @param int $groupId The group id.
      * @return CI_DB_result The query result object.
      */
@@ -620,7 +620,7 @@ EOL;
         $sql =<<<EOL
 SELECT u.*
 FROM `user` u
-JOIN `group_default_instructor` gdi ON gdi.`user_id` = u.`user_id`
+JOIN `group_x_instructor` gdi ON gdi.`user_id` = u.`user_id`
 WHERE gdi.`group_id` = {$clean['group_id']}
 EOL;
         $query = $this->db->query($sql);
@@ -646,7 +646,7 @@ EOL;
         $sql =<<<EOL
 SELECT ig.*
 FROM `instructor_group` ig
-JOIN `group_default_instructor` gdi ON gdi.`instructor_group_id` = ig.`instructor_group_id`
+JOIN `group_x_instructor_group` gdi ON gdi.`instructor_group_id` = ig.`instructor_group_id`
 WHERE gdi.`group_id` = {$clean['group_id']}
 EOL;
         $query = $this->db->query($sql);
