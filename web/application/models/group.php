@@ -376,8 +376,18 @@ EOL;
      */
     public function getQueryResultsForInstructorsForGroup ($groupId)
     {
-        $this->db->where('group_id', $groupId);
-        return $this->db->get('group_default_instructor');
+        $clean = array();
+        $clean['group_id'] = (int) $groupId;
+        $sql =<<<EOL
+SELECT group_id, user_id, NULL AS instructor_group_id
+FROM group_x_instructor
+WHERE WHERE group_id = ${clean['group_id']}
+UNION
+SELECT group_id, NULL as user_id, instructor_group_id
+FROM group_x_instructor_group
+WHERE group_id = ${clean['group_id']}
+EOL;
+        return $this->db->query($sql);
     }
 
     /**
