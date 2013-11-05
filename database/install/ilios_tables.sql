@@ -790,24 +790,45 @@ ENGINE=InnoDB;
 	  `group_b_id` INT(14) UNSIGNED NOT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Table group_x_instructor
+--
+DROP TABLE IF EXISTS `group_x_instructor`;
+CREATE TABLE `group_x_instructor` (
+    `group_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`group_id`, `user_id`),
+    CONSTRAINT `fkey_group_x_instructor_group_id`
+        FOREIGN KEY (`group_id`)
+        REFERENCES `group` (`group_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_group_x_instructor_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-
-	--
-	-- Table group_default_instructor
-	--
-
-	DROP TABLE IF EXISTS `group_default_instructor`;
-	SET character_set_client = utf8;
-	CREATE TABLE `group_default_instructor` (
-	  `group_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `instructor_group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  CONSTRAINT `fkey_group_default_instructor_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_group_default_instructor_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_group_default_instructor_instr_grp_id` FOREIGN KEY (`instructor_group_id`) REFERENCES `instructor_group` (`instructor_group_id`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
+--
+-- Table group_x_instructor_group
+--
+DROP TABLE IF EXISTS `group_x_instructor_group`;
+CREATE TABLE `group_x_instructor_group` (
+    `group_id` INT(14) UNSIGNED NOT NULL,
+    `instructor_group_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`group_id`, `instructor_group_id`),
+    CONSTRAINT `fkey_group_x_instructor_group_group_id`
+        FOREIGN KEY (`group_id`)
+        REFERENCES `group` (`group_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_group_x_instructor_group_instructor_group_id`
+        FOREIGN KEY (`instructor_group_id`)
+        REFERENCES `instructor_group` (`instructor_group_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
 	--
 	-- Table instructor_group_x_user
