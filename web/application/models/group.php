@@ -495,21 +495,20 @@ EOL;
      */
     public function saveInstructorsForGroup ($groupId, $instructors, &$auditAtoms)
     {
+        $userIds = array();
+        $instructorGroupIds = array();
         foreach ($instructors as $instructorModel) {
-            $newRow = array();
-            $newRow['group_id'] = $groupId;
-
-            $columnName = 'user_id';
-            if ($instructorModel['isGroup'] == 1) {
-                $columnName = 'instructor_group_id';
+            if (1 == $instructorModel['isGroup']) { // separate user ids from instructor group ids
+                $instructorGroupIds[] = $instructorModel['dbId'];
+            } else {
+                $userIds[] = $instructorModel['dbId'];
             }
-            $newRow[$columnName] = $instructorModel['dbId'];
-
-            $this->db->insert('group_default_instructor', $newRow);
-
-            $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'group_id', 'group_default_instructor',
-                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
+        // add group/instructor associations
+        $this->_associateWithJoinTable('group_x_instructor', 'group_id', $groupId, 'user_id', $userIds, $auditAtoms);
+        // add group/instructor_group associations
+        $this->_associateWithJoinTable('group_x_instructor_group', 'group_id', $groupId, 'instructor_group_id',
+            $instructorGroupIds, $auditAtoms);
     }
 
     /**
