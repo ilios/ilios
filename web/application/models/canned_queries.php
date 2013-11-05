@@ -106,8 +106,8 @@ EOL;
     }
 
 
-    /*
-     * This is function returns all the learning session offerings with fields that are
+    /**
+     * This function returns all the learning session offerings with fields that are
      * required by the calendar to display properly.  We only include some calendar filters'
      * arguments here, only those that are reused often enough for MySQL to be able to cache
      * the query efficiently.
@@ -259,8 +259,8 @@ EOL;
         return $rhett;
     }
 
-    /*
-     * This is function returns all the independent learning sessions with fields that are
+    /**
+     * This function returns all the independent learning sessions with fields that are
      * required by the calendar to display properly.  We only include some calendar filters'
      * arguments here, only those that are reused often enough for MySQL to be able to cache
      * the query efficiently.
