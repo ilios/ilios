@@ -3096,7 +3096,7 @@ EOL;
         foreach($competencyTreeNodes as $node) {
             $retval .=  "<li>" . $node['title'];
             if (isset($node['subdomains']) && is_array($node['subdomains'])) {
-                $reval .= $this->_printCompetencyTreeNodes( $node['subdomains'] );
+                $retval .= $this->_printCompetencyTreeNodes( $node['subdomains'] );
             }
             $retval .= "</li>";
         }
