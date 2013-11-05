@@ -353,18 +353,14 @@ class Offering extends Ilios_Base_Model
         $this->db->where('offering_id', $offeringId);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                            'offering_x_instructor',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-            'offering_x_instructor_group', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                            'offering_learner',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE,
-                                                            ($deleteIsRootEvent ? 1 : 0));
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor_group',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_learner',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, ($deleteIsRootEvent ? 1 : 0));
 
         return (! $this->transactionAtomFailed());
     }
