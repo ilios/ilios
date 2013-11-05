@@ -173,7 +173,8 @@ EOL;
             $sql .= " LEFT JOIN offering_learner ON offering_learner.offering_id = o.offering_id";
         }
         if ($faculty_role) {
-            $sql .= " LEFT JOIN offering_instructor ON offering_instructor.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_instructor ON offering_x_instructor.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_instructor_group ON offering_x_instructor_group.offering_id = o.offering_id";
         }
         if ($director_role) {
             $sql .= " LEFT JOIN course_director ON course_director.course_id = c.course_id";
@@ -203,11 +204,11 @@ EOL;
 EOL;
             }
             if ($faculty_role) {
-                $subqueries[] = $sql . " AND `offering_instructor`.`user_id` = {$clean['user_id']}";
+                $subqueries[] = $sql . " AND `offering_x_instructor`.`user_id` = {$clean['user_id']}";
                 $subqueries[] = $sql . <<< EOL
  AND EXISTS (
     SELECT `instructor_group_x_user`.`user_id` FROM `instructor_group_x_user`
-    WHERE `offering_instructor`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+    WHERE `offering_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
     AND `instructor_group_x_user`.`user_id` = {$clean['user_id']}
 )
 EOL;
@@ -402,9 +403,9 @@ EOL;
         }
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `session`, `offering_instructor`, `offering` '
-                        . 'WHERE (`offering_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`offering_instructor`.`offering_id` = `offering`.`offering_id`) '
+                        . 'FROM `course`, `session`, `offering_x_instructor_group`, `offering` '
+                        . 'WHERE (`offering_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`) '
                         .       'AND (`offering`.`session_id` = `session`.`session_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -804,7 +805,7 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_instructor` AS oi ON o.offering_id = oi.offering_id
+JOIN `offering_x_instructor` AS oi ON o.offering_id = oi.offering_id
 JOIN `user` AS u ON oi.user_id = u.user_id
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -818,7 +819,7 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_instructor` AS oi ON o.offering_id = oi.offering_id
+JOIN `offering_x_instructor_group` AS oi ON o.offering_id = oi.offering_id
 JOIN `instructor_group_x_user` AS igxu ON oi.instructor_group_id = igxu.instructor_group_id
 JOIN `user` AS u ON igxu.user_id = u.user_id
 
