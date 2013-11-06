@@ -707,9 +707,11 @@ o.`room` AS room,
 o.`publish_event_id` AS publish_event_id,
 o.`session_id` AS session_id,
 o.`start_date` AS start_date,
-o.`end_date` AS end_date
+o.`end_date` AS end_date,
+s.`session_type_id` AS session_type_id
 FROM `offering` o
 JOIN `offering_x_instructor` oxi ON oxi.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
 WHERE o.`deleted` = 0
 AND o.`session_id` != {$clean['session_id']}
 AND oxi.`user_id` = {$clean['user_id']}
@@ -726,17 +728,14 @@ EOL;
             $model['session_id'] = $row['session_id'];
             $model['start_date'] = $row['start_date'];
             $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
             if ($recurringEventId != -1) {
                 $reRow = $this->recurringEvent->getRowForPrimaryKeyId($recurringEventId);
                 $model['recurring_event'] = $this->convertStdObjToArray($reRow);
             }
-
-            $sessionRow = $this->getRow('session', 'session_id', $row['session_id']);
-            $model['session_type_id'] = $sessionRow->session_type_id;
-
-            array_push($rhett, $model);
+            $rhett[] = $model;
         }
 
         return $rhett;
@@ -761,9 +760,11 @@ o.`room` AS room,
 o.`publish_event_id` AS publish_event_id,
 o.`session_id` AS session_id,
 o.`start_date` AS start_date,
-o.`end_date` AS end_date
+o.`end_date` AS end_date,
+s.`session_type_id` AS session_type_id
 FROM `offering` o
 JOIN `offering_x_instructor_group` oxig ON oxig.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
 WHERE o.`deleted` = 0
 AND o.`session_id` != {$clean['session_id']}
 AND oxig.`instructor_group_id` = {$clean['instructor_group_id']}
@@ -779,6 +780,7 @@ EOL;
             $model['session_id'] = $row['session_id'];
             $model['start_date'] = $row['start_date'];
             $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
             if ($recurringEventId != -1) {
@@ -786,10 +788,7 @@ EOL;
                 $model['recurring_event'] = $this->convertStdObjToArray($reRow);
             }
 
-            $sessionRow = $this->getRow('session', 'session_id', $row['session_id']);
-            $model['session_type_id'] = $sessionRow->session_type_id;
-
-            array_push($rhett, $model);
+            $rhett[] = $model;
         }
 
         return $rhett;
