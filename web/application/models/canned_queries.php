@@ -416,9 +416,9 @@ EOL;
         }
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `session`, `offering`, `group_default_instructor`, `offering_learner` '
-                        . 'WHERE (`group_default_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`group_default_instructor`.`group_id` = `offering_learner`.`group_id`) '
+                        . 'FROM `course`, `session`, `offering`, `group_x_instructor_group`, `offering_learner` '
+                        . 'WHERE (`group_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`group_x_instructor_group`.`group_id` = `offering_learner`.`group_id`) '
                         .       'AND (`offering_learner`.`offering_id` = `offering`.`offering_id`) '
                         .       'AND (`offering`.`session_id` = `session`.`session_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'

@@ -58,8 +58,8 @@ FROM `course` c
 JOIN `session` s ON s.`course_id` = c.`course_id`
 JOIN `offering` o ON o.`session_id` = s.`session_id`
 JOIN `offering_learner` ol ON ol.`offering_id` = o.`offering_id`
-JOIN `group_default_instructor` gdi ON gdi.`group_id` = ol.`group_id`
-WHERE gdi.`instructor_group_id` = {$clean['group_id']}
+JOIN `group_x_instructor_group` gxig ON gxig.`group_id` = ol.`group_id`
+WHERE gxig.`instructor_group_id` = {$clean['group_id']}
 AND (c.`archived` = 1 OR c.`locked` = 1)
 AND c.`deleted` = 0
 AND s.`deleted` = 0
