@@ -606,41 +606,22 @@ class Offering_Management extends Ilios_Web_Controller
             return;
         }
 
-        $instructorArray = array();
-
         $sessionId = $this->input->get_post('session_id');
-        $instructorsQueryResults = $this->iliosSession->getInstructorsForSession($sessionId);
-        foreach ($instructorsQueryResults->result_array() as $row) {
-            $instructorModel = array();
 
-            if ($row['user_id'] == null) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                $instructorModel['instructor_group_id'] = $igRow->instructor_group_id;
-                $instructorModel['title'] = $igRow->title;
-                $instructorModel['school_id'] = $igRow->school_id;
-                $instructorModel['offerings'] =
-                    $this->offering->getOtherOfferingsForInstructorGroup($sessionId, $row['instructor_group_id']);
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                $instructorModel['user_id'] = $userRow->user_id;
-                $instructorModel['last_name'] = $userRow->last_name;
-                $instructorModel['first_name'] = $userRow->first_name;
-                $instructorModel['middle_name'] = $userRow->middle_name;
-                $instructorModel['phone'] = $userRow->phone;
-                $instructorModel['email'] = $userRow->email;
-                $instructorModel['added_via_ilios'] = $userRow->added_via_ilios;
-                $instructorModel['enabled'] = $userRow->enabled;
-                $instructorModel['uc_uid'] = $userRow->uc_uid;
-                $instructorModel['other_id'] = $userRow->other_id;
-                $instructorModel['offerings'] =
-                    $this->offering->getOtherOfferingsForInstructor($sessionId, $row['user_id']);
-            }
-            array_push($instructorArray, $instructorModel);
+        // @todo running queries per line item is inefficient, build a better solution to this. [ST 2013/11/06]
+        $instructors = $this->iliosSession->getInstructorsForSession($sessionId);
+        for ($i = 0, $n = count($instructors); $i < $n; $i++) {
+            $instructors[$i]['offerings'] =
+                $this->offering->getOtherOfferingsForInstructor($sessionId, $instructors[$i]['user_id']);
         }
+        $instructorGroups = $this->iliosSession->getInstructorGroupsForSession($sessionId);
+        for ($i = 0, $n = count($instructorGroups); $i < $n; $i++) {
+            $instructorGroups[$i]['offerings'] =
+                $this->offering->getOtherOfferingsForInstructorGroup($sessionId, $instructorGroups[$i]['instructor_group_id']);
+        }
+        $rhett['instructors'] = array_merge($instructors, $instructorGroups);
 
-        // todo error cases
-        $rhett['instructors'] = $instructorArray;
+        // @todo error case
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
