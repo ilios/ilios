@@ -696,6 +696,9 @@ EOL;
     public function getOtherOfferingsForInstructor ($sessionId, $userId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['user_id'] = (int) $userId;
 
         $queryString
             = 'SELECT `offering`.`offering_id` AS offering_id, '
@@ -705,9 +708,9 @@ EOL;
                             . '`offering`.`start_date` AS start_date, '
                             . '`offering`.`end_date` AS end_date '
                     . 'FROM `offering_x_instructor`, `offering` '
-                    . 'WHERE `offering`.`session_id` != ' . $sessionId
+                    . 'WHERE `offering`.`session_id` != ' . $clean['session_id']
                             . ' AND `offering`.`deleted` = 0 '
-                            . ' AND `offering_x_instructor`.`user_id` = ' . $userId
+                            . ' AND `offering_x_instructor`.`user_id` = ' . $clean['user_id']
                             . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
 
         $queryResults = $this->db->query($queryString);
@@ -745,6 +748,9 @@ EOL;
     protected function getOtherOfferingsForInstructorGroup ($sessionId, $instructorGroupId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['instructor_group_id'] = (int) $instructorGroupId;
 
         $queryString
             = 'SELECT `offering`.`offering_id` AS offering_id, '
@@ -754,9 +760,9 @@ EOL;
             . '`offering`.`start_date` AS start_date, '
             . '`offering`.`end_date` AS end_date '
             . 'FROM `offering_x_instructor_group`, `offering` '
-            . 'WHERE `offering`.`session_id` != ' . $sessionId
+            . 'WHERE `offering`.`session_id` != ' . $clean['session_id']
             . ' AND `offering`.`deleted` = 0 '
-            . ' AND `offering_x_instructor_group`.`instructor_group_id` = ' . $instructorGroupId
+            . ' AND `offering_x_instructor_group`.`instructor_group_id` = ' .  $clean['instructor_group_id']
             . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
 
         $queryResults = $this->db->query($queryString);
