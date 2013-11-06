@@ -614,15 +614,15 @@ EOL;
         $sql =<<< EOL
 (SELECT u.*
 FROM `user` u
-JOIN offering_x_instructor oxi ON oxi.user_id = u.user_id
+JOIN `offering_x_instructor` oxi ON oxi.`user_id` = u.`user_id`
 WHERE oxi.`offering_id` = {$clean['offering_id']})
 UNION
 (SELECT u.*
-FROM user u
-JOIN instructor_group_x_user igxu ON igxu.user_id = u.user_id
-JOIN offering_x_instructor_group oxig ON oxig.instructor_group_id = igxu.instructor_group_id
+FROM `user` u
+JOIN `instructor_group_x_user` igxu ON igxu.`user_id` = u.`user_id`
+JOIN `offering_x_instructor_group` oxig ON oxig.`instructor_group_id` = igxu.`instructor_group_id`
 WHERE oxig.`offering_id` = {$clean['offering_id']})
-ORDER BY last_name, first_name, middle_name
+ORDER BY `last_name`, `first_name`, `middle_name`
 EOL;
         $query = $this->db->query($sql);
         foreach ($query->result_array() as $row) {
