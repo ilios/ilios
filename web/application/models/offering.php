@@ -700,20 +700,22 @@ EOL;
         $clean['session_id'] = (int) $sessionId;
         $clean['user_id'] = (int) $userId;
 
-        $queryString
-            = 'SELECT `offering`.`offering_id` AS offering_id, '
-                            . '`offering`.`room` AS room, '
-                            . '`offering`.`publish_event_id` AS publish_event_id, '
-                            . '`offering`.`session_id` AS session_id, '
-                            . '`offering`.`start_date` AS start_date, '
-                            . '`offering`.`end_date` AS end_date '
-                    . 'FROM `offering_x_instructor`, `offering` '
-                    . 'WHERE `offering`.`session_id` != ' . $clean['session_id']
-                            . ' AND `offering`.`deleted` = 0 '
-                            . ' AND `offering_x_instructor`.`user_id` = ' . $clean['user_id']
-                            . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
+        $sql =<<< EOL
+SELECT
+`offering`.`offering_id` AS offering_id,
+`offering`.`room` AS room,
+`offering`.`publish_event_id` AS publish_event_id,
+`offering`.`session_id` AS session_id,
+`offering`.`start_date` AS start_date,
+`offering`.`end_date` AS end_date
+FROM `offering_x_instructor`, `offering`
+WHERE `offering`.`session_id` != {$clean['session_id']}
+AND `offering`.`deleted` = 0
+AND `offering_x_instructor`.`user_id` = {$clean['user_id']}
+AND `offering`.`offering_id` = `offering_x_instructor`.`offering_id`
+EOL;
 
-        $queryResults = $this->db->query($queryString);
+        $queryResults = $this->db->query($sql);
 
         foreach ($queryResults->result_array() as $row) {
             $model = array();
@@ -752,20 +754,21 @@ EOL;
         $clean['session_id'] = (int) $sessionId;
         $clean['instructor_group_id'] = (int) $instructorGroupId;
 
-        $queryString
-            = 'SELECT `offering`.`offering_id` AS offering_id, '
-            . '`offering`.`room` AS room, '
-            . '`offering`.`publish_event_id` AS publish_event_id, '
-            . '`offering`.`session_id` AS session_id, '
-            . '`offering`.`start_date` AS start_date, '
-            . '`offering`.`end_date` AS end_date '
-            . 'FROM `offering_x_instructor_group`, `offering` '
-            . 'WHERE `offering`.`session_id` != ' . $clean['session_id']
-            . ' AND `offering`.`deleted` = 0 '
-            . ' AND `offering_x_instructor_group`.`instructor_group_id` = ' .  $clean['instructor_group_id']
-            . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
-
-        $queryResults = $this->db->query($queryString);
+        $sql =<<< EOL
+SELECT
+`offering`.`offering_id` AS offering_id,
+`offering`.`room` AS room,
+`offering`.`publish_event_id` AS publish_event_id,
+`offering`.`session_id` AS session_id,
+`offering`.`start_date` AS start_date,
+`offering`.`end_date` AS end_date
+FROM `offering_x_instructor_group`, `offering`
+WHERE `offering`.`session_id` != {$clean['session_id']}
+AND `offering`.`deleted` = 0
+AND `offering_x_instructor_group`.`instructor_group_id` = {$clean['instructor_group_id']}
+AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
+EOL;
+        $queryResults = $this->db->query($sql);
 
         foreach ($queryResults->result_array() as $row) {
             $model = array();
