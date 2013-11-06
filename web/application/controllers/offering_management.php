@@ -613,22 +613,16 @@ class Offering_Management extends Ilios_Web_Controller
         foreach ($instructorsQueryResults->result_array() as $row) {
             $instructorModel = array();
 
-            $columnName = 'user_id';
-            $columnValue = $row[$columnName];
-
-            if ($columnValue == null) {
-                $columnName = 'instructor_group_id';
-                $columnValue = $row[$columnName];
-
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($columnValue);
-
+            if ($row['user_id'] == null) {
+                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
                 $instructorModel['instructor_group_id'] = $igRow->instructor_group_id;
                 $instructorModel['title'] = $igRow->title;
                 $instructorModel['school_id'] = $igRow->school_id;
+                $instructorModel['offerings'] =
+                    $this->offering->getOtherOfferingsForInstructorGroup($sessionId, $row['instructor_group_id']);
             }
             else {
-                $userRow = $this->user->getRowForPrimaryKeyId($columnValue);
-
+                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
                 $instructorModel['user_id'] = $userRow->user_id;
                 $instructorModel['last_name'] = $userRow->last_name;
                 $instructorModel['first_name'] = $userRow->first_name;
@@ -639,12 +633,9 @@ class Offering_Management extends Ilios_Web_Controller
                 $instructorModel['enabled'] = $userRow->enabled;
                 $instructorModel['uc_uid'] = $userRow->uc_uid;
                 $instructorModel['other_id'] = $userRow->other_id;
+                $instructorModel['offerings'] =
+                    $this->offering->getOtherOfferingsForInstructor($sessionId, $row['user_id']);
             }
-
-            $offerings = $this->offering->getOtherOfferingsForInstructor($sessionId, $columnName,
-                                                                         $columnValue);
-
-            $instructorModel['offerings'] = $offerings;
             array_push($instructorArray, $instructorModel);
         }
 
