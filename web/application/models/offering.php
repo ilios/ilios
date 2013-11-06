@@ -570,6 +570,7 @@ EOL;
         foreach ($query->result_array() as $row) {
             $rhett[] = $row;
         }
+        $query->free_result();
         return $rhett;
     }
 
@@ -595,6 +596,7 @@ EOL;
         foreach ($query->result_array() as $row) {
             $rhett[] = $row;
         }
+        $query->free_result();
         return $rhett;
     }
 
@@ -626,6 +628,7 @@ EOL;
         foreach ($query->result_array() as $row) {
             $rhett[md5(serialize($row))] = $row;
         }
+        $query->free_result();
         return $rhett;
     }
 
@@ -731,7 +734,7 @@ EOL;
             }
             $rhett[] = $model;
         }
-
+        $query->free_result();
         return $rhett;
     }
 
@@ -787,7 +790,7 @@ EOL;
 
             $rhett[] = $model;
         }
-
+        $query->free_result();
         return $rhett;
     }
 
