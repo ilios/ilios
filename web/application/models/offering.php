@@ -599,40 +599,33 @@ EOL;
     }
 
     /**
-     * This method differs from <code>getInstructorsForOffering()</code>
-     * in that all items returned are user
-     * objects - so if there are instructor groups associated to an offering, the members of
-     * that group are actually returned.
-     * @param int $offeringId
-     * @return array
+     * This method differs from <code>getInstructorsForOffering()</code> in that all items returned are user objects
+     * - so if there are instructor groups associated to an offering, the members of that group are actually returned.
+     * @param int $offeringId The offering id.
+     * @return array An associative array of arrays. Each key is an md5 hash of the its value, each value represents a user record.
      */
     public function getIndividualInstructorsForOffering ($offeringId)
     {
-        $possiblyRedundantArray = array();
-
-        $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_instructor');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $userRows
-                    = $this->instructorGroup->getUsersForGroupWithId($row['instructor_group_id']);
-
-                foreach ($userRows as $userRow) {
-                    array_push($possiblyRedundantArray, $this->convertStdObjToArray($userRow));
-                }
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($possiblyRedundantArray, $this->convertStdObjToArray($userRow));
-            }
-        }
-
         $rhett = array();
-        foreach ($possiblyRedundantArray as $user) { // deduping
-            $rhett[md5(serialize($user))] = $user;
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+        $sql =<<< EOL
+(SELECT u.*
+FROM `user` u
+JOIN offering_x_instructor oxi ON oxi.user_id = u.user_id
+WHERE oxi.`offering_id` = {$clean['offering_id']})
+UNION
+(SELECT u.*
+FROM user u
+JOIN instructor_group_x_user igxu ON igxu.user_id = u.user_id
+JOIN offering_x_instructor_group oxig ON oxig.instructor_group_id = igxu.instructor_group_id
+WHERE oxig.`offering_id` = {$clean['offering_id']})
+ORDER BY last_name, first_name, middle_name
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[md5(serialize($row))] = $row;
         }
-
         return $rhett;
     }
 
