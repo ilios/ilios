@@ -893,16 +893,14 @@ EOL;
     }
 
     /**
-     * Retrieves ids of users that are associated as instructors
-     * with a given offering.
+     * Retrieves ids of users that are associated as instructors with a given offering.
      * @param int $offeringId
      * @return array list of user ids
      */
     protected function _getInstructorIds ($offeringId)
     {
-    	$ids = $this->getIdArrayFromCrossTable('offering_instructor',
-    			'user_id', 'offering_id', $offeringId);
-    	return is_null($ids) ? array() : array_filter($ids);
+        $ids = $this->getIdArrayFromCrossTable('offering_x_instructor', 'user_id', 'offering_id', $offeringId);
+        return is_null($ids) ? array() : array_filter($ids);
     }
 
     /**
@@ -912,9 +910,8 @@ EOL;
      */
     protected function _getInstructorGroupIds ($offeringId)
     {
-    	$ids = $this->getIdArrayFromCrossTable('offering_instructor',
-    			'instructor_group_id', 'offering_id', $offeringId);
-    	return is_null($ids) ?  array() : array_filter($ids);
+        $ids = $this->getIdArrayFromCrossTable('offering_x_instructor_group', 'instructor_group_id', 'offering_id', $offeringId);
+        return is_null($ids) ?  array() : array_filter($ids);
     }
 
     /**
