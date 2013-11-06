@@ -304,6 +304,7 @@ class Offering_Management extends Ilios_Web_Controller
 
         if (! $isNewOffering) {
             $previousInstructors = $this->offering->getInstructorsForOffering($offeringId);
+            $previousInstructors = array_merge($previousInstructors, $this->offering->getInstructorGroupsForOffering($offeringId));
             $previousLearners = $this->offering->getLearnerGroupsForOffering($offeringId);
             $previousOfferingRow = $this->offering->getRowForPrimaryKeyId($offeringId);
         }
@@ -344,6 +345,8 @@ class Offering_Management extends Ilios_Web_Controller
                 if ($sessionIsPublished) {
                     if (! $isNewOffering) {
                         $currentInstructors = $this->offering->getInstructorsForOffering($offeringId);
+                        $currentInstructors = array_merge($currentInstructors,
+                            $this->offering->getInstructorGroupsForOffering($offeringId));
                         // get the ids of all instructors/instructor-groups that were added and removed
                         // to/from this offering with the last save
                         $instructorsDiff = array_merge(

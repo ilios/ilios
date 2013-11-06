@@ -489,7 +489,9 @@ class Offering extends Ilios_Base_Model
             $offering['start_date'] = $row['start_date'];
             $offering['end_date'] = $row['end_date'];
             $offering['publish_event_id'] = $row['publish_event_id'];
-            $offering['instructors'] = $this->getInstructorsForOffering($row['offering_id']);
+            $instructors = $this->getInstructorsForOffering($row['offering_id']);
+            $instructorGroups = $this->getInstructorGroupsForOffering($row['offering_id']);
+            $offering['instructors'] = array_merge($instructors, $instructorGroups);
             $offering['learner_groups'] = $this->getLearnerGroupsForOffering($row['offering_id']);
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
@@ -517,6 +519,7 @@ class Offering extends Ilios_Base_Model
     {
         $rhett = array();
         $rhett = $this->addUserIdsFromInstructors($this->getInstructorsForOffering($offeringId), $rhett);
+        $rhett = $this->addUserIdsFromInstructors($this->getInstructorsGroupsForOffering($offeringId), $rhett);
         $rhett = $this->addUserIdsFromStudentGroups($this->getLearnerGroupsForOffering($offeringId), $rhett);
         return $rhett;
     }
@@ -546,28 +549,52 @@ class Offering extends Ilios_Base_Model
     }
 
     /**
-     * Retrieves instructors and instructor-groups for a given offering.
-     * @param int $offeringId
-     * @return array
+     * Retrieves instructors associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of arrays, each item representing a user that is an associated as instructor with the offering.
      */
     public function getInstructorsForOffering ($offeringId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
 
-        $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_instructor');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                array_push($rhett, $this->convertStdObjToArray($igRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<<EOL
+SELECT u.*
+FROM `user` u
+JOIN `offering_x_instructor` oxi ON oxi.`user_id` = u.`user_id`
+WHERE oxi.`offering_id` = ${clean['offering_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+        return $rhett;
+    }
 
+    /**
+     * Retrieves instructors-groups associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of arrays, each item representing an instructor group associated with the offering.
+     */
+    public function getInstructorGroupsForOffering ($offeringId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+
+        $sql =<<<EOL
+SELECT ig.*
+FROM `instructor_group` ig
+JOIN `offering_x_instructor_group` oxig ON oxig.`instructor_group_id` = ig.`instructor_group_id`
+WHERE oxig.`offering_id` = ${clean['offering_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
         return $rhett;
     }
 
