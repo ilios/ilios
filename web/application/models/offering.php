@@ -717,9 +717,9 @@ AND o.`session_id` != {$clean['session_id']}
 AND oxi.`user_id` = {$clean['user_id']}
 EOL;
 
-        $queryResults = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $model = array();
 
             $model['offering_id'] = $row['offering_id'];
@@ -769,9 +769,9 @@ WHERE o.`deleted` = 0
 AND o.`session_id` != {$clean['session_id']}
 AND oxig.`instructor_group_id` = {$clean['instructor_group_id']}
 EOL;
-        $queryResults = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $model = array();
 
             $model['offering_id'] = $row['offering_id'];
