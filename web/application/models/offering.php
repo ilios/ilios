@@ -929,32 +929,30 @@ EOL;
 
     /**
      * Saves the offering/instructor associations for a given offering
-     * and given instructors, taken given pre-existings associations into account.
+     * and given instructors, taken given pre-existing associations into account.
      * @param int $offeringId
      * @param array $instructors
      * @param array $associatedInstructorIds
      */
     protected function _saveInstructorAssociations ($offeringId, $instructors = array(),
-    		$associatedInstructorIds = array())
+                                                    $associatedInstructorIds = array())
     {
-    	$this->_saveJoinTableAssociations('offering_instructor',
-    			'offering_id', $offeringId, 'user_id',
-    			$instructors, $associatedInstructorIds);
+        $this->_saveJoinTableAssociations('offering_x_instructor', 'offering_id', $offeringId, 'user_id',
+            $instructors, $associatedInstructorIds);
     }
 
     /**
      * Saves the offering/instructor-group associations for a given offering
-     * and given instructors-groups, taken given pre-existings associations into account.
+     * and given instructors-groups, taken given pre-existing associations into account.
      * @param int $offeringId
      * @param array $instructorGroups
      * @param array $associatedInstructorGroupsIds
      */
     protected function _saveInstructorGroupAssociations ($offeringId, $instructorGroups = array(),
-    		$associatedInstructorGroupsIds = array())
+                                                         $associatedInstructorGroupsIds = array())
     {
-    	$this->_saveJoinTableAssociations('offering_instructor',
-    			'offering_id', $offeringId, 'instructor_group_id',
-    			$instructorGroups, $associatedInstructorGroupsIds);
+        $this->_saveJoinTableAssociations('offering_x_instructor_group', 'offering_id', $offeringId,
+            'instructor_group_id', $instructorGroups, $associatedInstructorGroupsIds);
     }
 
 
