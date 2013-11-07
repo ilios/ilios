@@ -885,21 +885,60 @@ class Session extends Ilios_Base_Model
     }
 
     /**
-     * @return a database query results object containing rows with names offering_id, user_id and
-     *              instructor_group_id. the query results represent all instructors which are
-     *              presently associated with offerings for the specified session id.
+     * Retrieves all instructors that are associated with offerings belonging to a given session.
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing a user.
      */
     public function getInstructorsForSession ($sessionId)
     {
-        $queryString
-            = 'SELECT `offering_instructor`.`offering_id` AS offering_id, '
-                        . '`offering_instructor`.`user_id` AS user_id, '
-                        . '`offering_instructor`.`instructor_group_id` AS instructor_group_id '
-                    . 'FROM `offering_instructor`, `offering`, `session` '
-                    . 'WHERE `session`.`session_id` = ' . $sessionId
-                            . ' AND `session`.`session_id` = `offering`.`session_id`'
-                            . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
-        return $this->db->query($queryString);
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+u.`user_id`, u.`last_name`, u.`first_name`, u.`middle_name`, u.`phone`, u.`email`, u.`added_via_ilios`,
+u.`enabled`, u.`uc_uid`, u.`other_id`
+FROM `user` u
+JOIN `offering_x_instructor` oxi ON oxi.`user_id` = u.`user_id`
+JOIN `offering` o ON o.`offering_id` = oxi.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * Retrieves all instructor groups that are associated with offerings belonging to a given session.
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing an instructor group.
+     */
+    public function getInstructorGroupsForSession ($sessionId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+ig.`instructor_group_id`, ig.`title`, ig.`school_id`
+FROM `instructor_group` ig
+JOIN `offering_x_instructor_group` oxig ON oxig.`instructor_group_id` = ig.`instructor_group_id`
+JOIN `offering` o ON o.`offering_id` = oxig.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
     }
 
     /**
