@@ -746,7 +746,7 @@ EOL;
      * @todo The recurrence pattern lookup requires an additional two queries per offering.
      *  Reduce the number of queries necessary to maintain this info, or get rid of it altogether. [ST 2013/11/05]
      */
-    protected function getOtherOfferingsForInstructorGroup ($sessionId, $instructorGroupId)
+    public function getOtherOfferingsForInstructorGroup ($sessionId, $instructorGroupId)
     {
         $rhett = array();
         $clean = array();
