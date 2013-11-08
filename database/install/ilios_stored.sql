@@ -937,36 +937,53 @@ DELIMITER ;
 
 DROP FUNCTION IF EXISTS copy_offering_attributes_to_offering;
 DELIMITER //
-	CREATE FUNCTION copy_offering_attributes_to_offering (in_original_oid INT, in_new_oid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE uid INT DEFAULT 0;
-		DECLARE gid INT DEFAULT 0;
-		DECLARE rows_added INT DEFAULT 0;
-		DECLARE i_cursor CURSOR FOR SELECT user_id, instructor_group_id FROM offering_instructor WHERE offering_id = in_original_oid;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
+CREATE FUNCTION copy_offering_attributes_to_offering (in_original_oid INT, in_new_oid INT)
+    RETURNS INT
+    READS SQL DATA
+BEGIN
+    DECLARE out_of_rows INT DEFAULT 0;
+    DECLARE uid INT DEFAULT 0;
+    DECLARE gid INT DEFAULT 0;
+    DECLARE rows_added INT DEFAULT 0;
+    DECLARE i_cursor CURSOR FOR SELECT user_id  FROM offering_x_instructor WHERE offering_id = in_original_oid;
+    DECLARE j_cursor CURSOR FOR SELECT instructor_group_id FROM offering_x_instructor_group WHERE offering_id = in_original_oid;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
-		OPEN i_cursor;
+    OPEN i_cursor;
 
-		REPEAT
-			FETCH i_cursor INTO uid, gid;
+    REPEAT
+        FETCH i_cursor INTO uid;
 
-			IF NOT out_of_rows THEN
-				INSERT INTO offering_instructor (offering_id, user_id, instructor_group_id) VALUES (in_new_oid, uid, gid);
+        IF NOT out_of_rows THEN
+            INSERT INTO offering_x_instructor (offering_id, user_id) VALUES (in_new_oid, uid);
 
-				SET rows_added = rows_added + 1;
-			END IF;
+            SET rows_added = rows_added + 1;
+        END IF;
 
-		UNTIL out_of_rows END REPEAT;
+    UNTIL out_of_rows END REPEAT;
 
-		CLOSE i_cursor;
+    CLOSE i_cursor;
 
+    SET out_of_rows = 0;
 
-		RETURN rows_added;
-	END;
-	//
+    OPEN j_cursor;
+
+    REPEAT
+        FETCH j_cursor INTO gid;
+
+        IF NOT out_of_rows THEN
+            INSERT INTO offering_x_instructor_group (offering_id, instructor_group_id) VALUES (in_new_oid, gid);
+
+            SET rows_added = rows_added + 1;
+        END IF;
+
+    UNTIL out_of_rows END REPEAT;
+
+    CLOSE j_cursor;
+
+    RETURN rows_added;
+END;
+//
 DELIMITER ;
 
 
@@ -1154,28 +1171,29 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS nuke_offering;
 DELIMITER //
-	CREATE PROCEDURE nuke_offering (in_offering_id INT)
-		READS SQL DATA
-	BEGIN
-		DECLARE recurring_event_id INT DEFAULT 0;
-		DECLARE select_found_match INT DEFAULT 1;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET select_found_match = 0;
+CREATE PROCEDURE nuke_offering (in_offering_id INT)
+    READS SQL DATA
+BEGIN
+    DECLARE recurring_event_id INT DEFAULT 0;
+    DECLARE select_found_match INT DEFAULT 1;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET select_found_match = 0;
 
 
-		DELETE FROM offering_learner WHERE offering_id = in_offering_id;
-		DELETE FROM offering_instructor WHERE offering_id = in_offering_id;
+    DELETE FROM offering_learner WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_instructor WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_instructor_group WHERE offering_id = in_offering_id;
 
-		SELECT recurring_event_id FROM offering_x_recurring_event WHERE offering_id = in_offering_id
-			INTO recurring_event_id;
+    SELECT recurring_event_id FROM offering_x_recurring_event WHERE offering_id = in_offering_id
+        INTO recurring_event_id;
 
-		IF select_found_match THEN
-			CALL nuke_recurring_event_chain(recurring_event_id);
-			DELETE FROM offering_x_recurring_event WHERE offering_id = in_offering_id;
-		END IF;
+    IF select_found_match THEN
+        CALL nuke_recurring_event_chain(recurring_event_id);
+        DELETE FROM offering_x_recurring_event WHERE offering_id = in_offering_id;
+    END IF;
 
-		DELETE FROM offering WHERE offering_id = in_offering_id;
-	END;
-	//
+    DELETE FROM offering WHERE offering_id = in_offering_id;
+END;
+    //
 DELIMITER ;
 
 

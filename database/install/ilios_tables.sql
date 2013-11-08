@@ -1212,25 +1212,41 @@ ENGINE=InnoDB;
 	  UNIQUE (`offering_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Table offering_x_instructor
+--
+DROP TABLE IF EXISTS `offering_x_instructor`;
+CREATE TABLE `offering_x_instructor` (
+    `offering_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`offering_id`, `user_id`),
+    CONSTRAINT `fkey_offering_x_instructor_offering_id`
+    FOREIGN KEY (`offering_id`)
+    REFERENCES `offering` (`offering_id`),
+    CONSTRAINT `fkey_offering_x_instructor_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`user_id`)
+) DEFAULT CHARSET='utf8'
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;
 
-
-	--
-	-- Table offering_instructor
-	--
-
-	DROP TABLE IF EXISTS `offering_instructor`;
-	SET character_set_client = utf8;
-	CREATE TABLE `offering_instructor` (
-	  `offering_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `instructor_group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  KEY `user_id_k` USING BTREE (`user_id`),
-	  KEY `instructor_group_id_k` USING BTREE (`instructor_group_id`),
-	  KEY `offering_user_group_k` USING BTREE (`offering_id`,`user_id`,`instructor_group_id`),
-	  CONSTRAINT `offering_instructor_ibfk_1` FOREIGN KEY (`offering_id`) REFERENCES `offering` (`offering_id`),
-	  CONSTRAINT `offering_instructor_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-	  CONSTRAINT `offering_instructor_ibfk_3` FOREIGN KEY (`instructor_group_id`) REFERENCES `instructor_group` (`instructor_group_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Table offering_x_instructor_group
+--
+DROP TABLE IF EXISTS `offering_x_instructor_group`;
+CREATE TABLE `offering_x_instructor_group` (
+    `offering_id` INT(14) UNSIGNED NOT NULL,
+    `instructor_group_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`offering_id`, `instructor_group_id`),
+    CONSTRAINT `fkey_offering_x_instructor_group_offering_id`
+    FOREIGN KEY (`offering_id`)
+    REFERENCES `offering` (`offering_id`),
+    CONSTRAINT `fkey_offering_x_instructor_group_instructor_group_id`
+    FOREIGN KEY (`instructor_group_id`)
+    REFERENCES `instructor_group` (`instructor_group_id`)
+) DEFAULT CHARSET='utf8'
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;
 
 
 
