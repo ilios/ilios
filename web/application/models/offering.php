@@ -162,7 +162,7 @@ class Offering extends Ilios_Base_Model
             if (count($learnerGroupIds)) {
                 $groupRow = $this->group->getRowForPrimaryKeyId($learnerGroupIds[0]);
                 if ($groupRow) {
-                	$locationToUse = $groupRow->location;
+                    $locationToUse = $groupRow->location;
                 }
             }
         }
@@ -298,21 +298,21 @@ class Offering extends Ilios_Base_Model
         $instructorGroups = array();
         $individualInstructors = array();
         if (! empty($instructors)) {
-        	foreach ($instructors as $instructor) {
-        		if (1 == $instructor['isGroup']) { // is individual or group?
-        			$instructorGroups[] = $instructor;
-        		} else {
-        			$individualInstructors[] = $instructor;
-        		}
-        	}
+            foreach ($instructors as $instructor) {
+                if (1 == $instructor['isGroup']) { // is individual or group?
+                    $instructorGroups[] = $instructor;
+                } else {
+                    $individualInstructors[] = $instructor;
+                }
+            }
         }
         $learnerGroups = array();
         if (! empty($learnerGroupIds)) {
-        	//
-        	// KLUDGE:
-        	// see lengthly code comment in <code<Session::saveIndependentLearningFacet()</code>
-        	foreach ($learnerGroupIds as $groupId) {
-        	    $learnerGroups[] = array('dbId' => $groupId);
+            //
+            // KLUDGE:
+            // see lengthly code comment in <code<Session::saveIndependentLearningFacet()</code>
+            foreach ($learnerGroupIds as $groupId) {
+                $learnerGroups[] = array('dbId' => $groupId);
             }
         }
         // save group- and user-associations.
@@ -917,9 +917,9 @@ EOL;
      */
     protected function _getLearnerGroupIds ($offeringId)
     {
-    	$ids = $this->getIdArrayFromCrossTable('offering_learner',
-    			'group_id', 'offering_id', $offeringId);
-    	return is_null($ids) ? array() : array_filter($ids);
+        $ids = $this->getIdArrayFromCrossTable('offering_learner',
+                'group_id', 'offering_id', $offeringId);
+        return is_null($ids) ? array() : array_filter($ids);
     }
 
 
@@ -960,11 +960,11 @@ EOL;
      * @param array $associatedLearnerGroupsIds
      */
     protected function _saveLearnerGroupAssociations ($offeringId, $learnerGroups = array(),
-    		$associatedLearnerGroupsIds = array())
+            $associatedLearnerGroupsIds = array())
     {
-    	$this->_saveJoinTableAssociations('offering_learner',
-    			'offering_id', $offeringId, 'group_id',
-    			$learnerGroups, $associatedLearnerGroupsIds);
+        $this->_saveJoinTableAssociations('offering_learner',
+                'offering_id', $offeringId, 'group_id',
+                $learnerGroups, $associatedLearnerGroupsIds);
     }
 
 }
