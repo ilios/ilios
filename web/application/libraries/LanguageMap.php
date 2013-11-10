@@ -40,7 +40,7 @@ class LanguageMap
     /**
      * Returns the absolute file path for a given relative file path.
      * @param string $relative the relative file path
-     * @return string the absoulute file path
+     * @return string the absolute file path
      */
     protected function _getAbsoluteFilePathForRelativeFile ($relative)
     {
