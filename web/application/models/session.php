@@ -77,16 +77,19 @@ class Session extends Ilios_Base_Model
     }
 
     /**
+     * Retrieves an Independent Learning Session (ILS) offering by its associated session.
      *
-     * @param unknown_type $sessionId
+     * @param int $sessionId The session id.
+     * @return array|NULL An assoc. array representing the ILS offering, or NULL if none was found.
      */
     public function getSILMBySessionId ($sessionId)
     {
         $this->db->where('session_id', $sessionId);
-        $queryResults = $this->db->get('session');
+        $query = $this->db->get('session');
 
-        if ($queryResults->num_rows() > 0) {
-            $row = $queryResults->first_row();
+        if ($query->num_rows() > 0) {
+            $row = $query->first_row();
+            $query->free_result();
             $silmId = $row->ilm_session_facet_id;
 
             if ($silmId)
