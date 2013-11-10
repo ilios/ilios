@@ -49,6 +49,7 @@ class Session extends Ilios_Base_Model
 
     /**
      * Retrieves an Independent Learning Session (ILS) offering by its given identifier.
+     *
      * @param int $silmId The offering id.
      * @return array An associative array representing the ILS offering.
      */
@@ -57,9 +58,9 @@ class Session extends Ilios_Base_Model
         $rhett = array();
 
         $this->db->where('ilm_session_facet_id', $silmId);
-        $queryResults = $this->db->get('ilm_session_facet');
+        $query = $this->db->get('ilm_session_facet');
 
-        $silm = $queryResults->first_row();
+        $silm = $query->first_row();
 
         $rhett['ilm_session_facet'] = $silmId;
         $rhett['hours'] = $silm->hours;
@@ -69,6 +70,8 @@ class Session extends Ilios_Base_Model
 
         // the value of this key-value pair is arbitrary
         $rhett['is_silm'] = 'true';
+
+        $query->free_result();
 
         return $rhett;
     }
