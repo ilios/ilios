@@ -24,9 +24,12 @@ class Session extends Ilios_Base_Model
     }
 
     /**
-     * @return this returns an array of just the matching db rows, but not the robust tree structure
-     *              which would be returned by getSessionsForCourse. Used by learning materials
-     *              and offering management.
+     * Retrieves sessions by a given course id.
+     * This will return an array of just the matching db rows, but not the robust tree structure which would be returned
+     * by <code>getSessionsForCourse()</code>. Used by learning materials and offering management.
+     *
+     * @param int The course id.
+     * @return array An array of arrays, each item representing a session within the given course.
      */
     public function getSimplifiedSessionsForCourse ($courseId)
     {
