@@ -133,7 +133,7 @@ class Session extends Ilios_Base_Model
     protected function _getILMInstructorIds ($ilmId)
     {
         $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
-        		'user_id', 'ilm_session_facet_id', $ilmId);
+                'user_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
 
@@ -390,7 +390,8 @@ class Session extends Ilios_Base_Model
      *   "start_date"         ... the start date of the first offering or ILM due date
      */
     public function getSessionsForCourse ($courseId, $userId, $excludeUnpublishedSessions = false,
-        $excludeTBDSessions = false, $excludeUnpublishedLearningMaterials = false, $sortByStartDate = false)
+                                          $excludeTBDSessions = false, $excludeUnpublishedLearningMaterials = false,
+                                          $sortByStartDate = false)
     {
         $rhett = array();
         $sessions = array();
@@ -601,11 +602,11 @@ class Session extends Ilios_Base_Model
      */
     protected function _updateDescription ($sessionId, $description)
     {
-    	$data = array('description' => $description);
-    	$this->db->where('session_id', $sessionId);
-    	$this->db->update('session_description', $data);
+        $data = array('description' => $description);
+        $this->db->where('session_id', $sessionId);
+        $this->db->update('session_description', $data);
 
-    	return true; // no way to check with certainty if update was a success.
+        return true; // no way to check with certainty if update was a success.
     }
 
     /**
@@ -615,9 +616,9 @@ class Session extends Ilios_Base_Model
      */
     protected function _deleteDescription ($sessionId)
     {
-    	$this->db->where('session_id', $sessionId);
-    	$this->db->delete('session_description');
-    	return ($this->db->affected_rows() != 0);
+        $this->db->where('session_id', $sessionId);
+        $this->db->delete('session_description');
+        return ($this->db->affected_rows() != 0);
     }
 
     /**
@@ -644,8 +645,8 @@ class Session extends Ilios_Base_Model
      * @param array $disciplines nested array of disciplines
      * @param array|NULL $associatedDisciplineIds ids of disciplines already associated with the given session
      */
-    protected function _saveDisciplineAssociations ($sessionId,
-            $disciplines = array(), $associatedDisciplineIds = array())
+    protected function _saveDisciplineAssociations ($sessionId, $disciplines = array(),
+                                                    $associatedDisciplineIds = array())
     {
         $this->_saveJoinTableAssociations('session_x_discipline', 'session_id', $sessionId,
             'discipline_id', $disciplines, $associatedDisciplineIds);
@@ -659,8 +660,7 @@ class Session extends Ilios_Base_Model
      * @param array $meshTerms nested array of mesh terms
      * @param array|NULL $associatedMeshTermIds ids of mesh terms already associated with the given session
      */
-    protected function _saveMeshTermAssociations ($sessionId,
-            $meshTerms = array(), $associatedMeshTermIds = array())
+    protected function _saveMeshTermAssociations ($sessionId, $meshTerms = array(), $associatedMeshTermIds = array())
     {
         $this->_saveJoinTableAssociations('session_x_mesh', 'session_id', $sessionId,
             'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds);
@@ -669,10 +669,9 @@ class Session extends Ilios_Base_Model
     /**
      * Transactionality is assumed to be handled outside of this method.
      */
-    public function addSession ($courseId, $title, $sessionTypeId, array $disciplinesArray,
-        array $meshTermArray, array $objectiveArray, $supplemental, $attireRequired,
-        $equipmentRequired, $publishId, $description, array $learningMaterialArray,
-        $ilmId, array &$auditAtoms)
+    public function addSession ($courseId, $title, $sessionTypeId, array $disciplinesArray, array $meshTermArray,
+                                array $objectiveArray, $supplemental, $attireRequired, $equipmentRequired, $publishId,
+                                $description, array $learningMaterialArray, $ilmId, array &$auditAtoms)
     {
         $rhett = array();
 
@@ -751,22 +750,21 @@ class Session extends Ilios_Base_Model
     /**
      * Transactionality is assumed to be handled outside of this method.
      */
-    public function updateSession ($sessionId, $courseId, $title, $sessionTypeId,
-        array $disciplinesArray, array $meshTermArray, array $objectiveArray,
-        $supplemental, $attireRequired, $equipmentRequired, $publishId,
-        $publishAsTBD, $description, array $learningMaterialArray,
-        $ilmId, array &$auditAtoms)
+    public function updateSession ($sessionId, $courseId, $title, $sessionTypeId, array $disciplinesArray,
+                                   array $meshTermArray, array $objectiveArray, $supplemental, $attireRequired,
+                                   $equipmentRequired, $publishId, $publishAsTBD, $description,
+                                   array $learningMaterialArray, $ilmId, array &$auditAtoms)
     {
         $rhett = array();
 
         $associatedDisciplinesIds = $this->getIdArrayFromCrossTable('session_x_discipline',
-        		'discipline_id', 'session_id', $sessionId);
+                'discipline_id', 'session_id', $sessionId);
 
         $associatedMeshTermIds = $this->getIdArrayFromCrossTable('session_x_mesh',
                 'mesh_descriptor_uid', 'session_id', $sessionId);
 
         $associatedLearningMaterialIds = $this->getIdArrayFromCrossTable('session_learning_material',
-        		'learning_material_id', 'session_id', $sessionId);
+                'learning_material_id', 'session_id', $sessionId);
 
         $updateRow = array();
         $updateRow['title'] = $title;
@@ -1140,11 +1138,11 @@ EOL;
      * @param array $associatedInstructorIds
      */
     protected function _saveILMInstructorAssociations ($ilmId, $instructors = array(),
-    		$associatedInstructorIds = array())
+                                                       $associatedInstructorIds = array())
     {
         $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
                 'ilm_session_facet_id', $ilmId, 'user_id',
-        		$instructors, $associatedInstructorIds);
+                $instructors, $associatedInstructorIds);
     }
 
     /**
@@ -1155,7 +1153,7 @@ EOL;
      * @param array $associatedInstructorGroupsIds
      */
     protected function _saveILMInstructorGroupAssociations ($ilmId, $instructorGroups = array(),
-            $associatedInstructorGroupsIds = array())
+                                                            $associatedInstructorGroupsIds = array())
     {
         $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
                 'ilm_session_facet_id', $ilmId, 'instructor_group_id',
@@ -1171,10 +1169,10 @@ EOL;
      * @param array $associatedLearnerGroupsIds
      */
     protected function _saveILMLearnerGroupAssociations ($ilmId, $learnerGroups = array(),
-    		$associatedLearnerGroupsIds = array())
+                                                         $associatedLearnerGroupsIds = array())
     {
-    	$this->_saveJoinTableAssociations('ilm_session_facet_learner',
-    			'ilm_session_facet_id', $ilmId, 'group_id',
-    			$learnerGroups, $associatedLearnerGroupsIds);
+        $this->_saveJoinTableAssociations('ilm_session_facet_learner',
+                'ilm_session_facet_id', $ilmId, 'group_id',
+                $learnerGroups, $associatedLearnerGroupsIds);
     }
 }
