@@ -47,6 +47,11 @@ class Session extends Ilios_Base_Model
         return $rhett;
     }
 
+    /**
+     * Retrieves an Independent Learning Session (ILS) offering by its given identifier.
+     * @param int $silmId The offering id.
+     * @return array An associative array representing the ILS offering.
+     */
     public function getSILM ($silmId)
     {
         $rhett = array();
@@ -64,7 +69,6 @@ class Session extends Ilios_Base_Model
 
         // the value of this key-value pair is arbitrary
         $rhett['is_silm'] = 'true';
-
 
         return $rhett;
     }
