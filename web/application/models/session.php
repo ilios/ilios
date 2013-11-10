@@ -1134,7 +1134,7 @@ EOL;
 
     /**
      * Saves the ILM/instructor associations for a given ILM
-     * and given instructors, taken given pre-existings associations into account.
+     * and given instructors, taken given pre-existing associations into account.
      * @param int $ilmId
      * @param array $instructors
      * @param array $associatedInstructorIds
@@ -1149,7 +1149,7 @@ EOL;
 
     /**
      * Saves the ILM/instructor-group associations for a given ILM
-     * and given instructors-groups, taken given pre-existings associations into account.
+     * and given instructors-groups, taken given pre-existing associations into account.
      * @param int $ilmId
      * @param array $instructorGroups
      * @param array $associatedInstructorGroupsIds
@@ -1165,7 +1165,7 @@ EOL;
 
     /**
      * Saves the ILM/learner-group associations for a given ILM
-     * and given learner-groups, taken given pre-existings associations into account.
+     * and given learner-groups, taken given pre-existing associations into account.
      * @param int $ilmId
      * @param array $learnerGroups
      * @param array $associatedLearnerGroupsIds
