@@ -36,11 +36,13 @@ class Session extends Ilios_Base_Model
         $rhett = array();
 
         $this->db->where('course_id', $courseId);
-        $queryResults = $this->db->get($this->databaseTableName);
+        $query = $this->db->get($this->databaseTableName);
 
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+
+        $query->free_result();
 
         return $rhett;
     }
