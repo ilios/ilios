@@ -121,9 +121,9 @@ class Session extends Ilios_Base_Model
                            AND `course`.`owning_school_id` = ' . $clean['school_id'] . '
                       ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`';
 
-        $queryResults = $this->db->query($queryString);
+        $query = $this->db->query($queryString);
         $items = array();
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $item = array();
             $item['value'] = $row['session_id'];
             $startDate = new DateTime($row['start_date']);
@@ -135,6 +135,7 @@ class Session extends Ilios_Base_Model
             array_push($items, $item);
         }
 
+        $query->free_result();
         return $items;
 
     }
