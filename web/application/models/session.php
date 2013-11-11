@@ -99,14 +99,17 @@ class Session extends Ilios_Base_Model
     }
 
     /**
-     * Returns a list of all sessions for a given owning school, along with the course title in this format:
-     *   course title - session title,
-     * Also returns session id.
-     * The list is sorted by course title, then session title
-     * The list is shows only non-deleted sessions and courses
-     * The list is restricted by owning school of the course
-     * @param int $schoolId
-     * @return array
+     * Returns a sorted list of assorted course/session data owned by a given school.
+     * The sort order is:
+     * - course title, ascending
+     * - course start date, ascending
+     * - course end date, ascending
+     * - session title, ascending
+     *
+     * @param int $schoolId The owning school id.
+     * @return array An array of associative arrays, containing the following key/value pairs:
+     *  'value'         ... The session id.
+     *  'display_title' ... A combination of course title, course start/end-date and session title.
      */
     public function getSessionsWithCourseTitle ($schoolId)
     {
