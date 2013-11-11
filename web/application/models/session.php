@@ -112,16 +112,19 @@ class Session extends Ilios_Base_Model
     {
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
-        $queryString = 'SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
-                               `course`.`start_date`, `course`.`end_date`, `session`.`session_id`
-                          FROM `course`, `session`
-                         WHERE `course`.`course_id` = `session`.`course_id`
-                           AND `session`.`deleted` = 0
-                           AND `course`.`deleted` = 0
-                           AND `course`.`owning_school_id` = ' . $clean['school_id'] . '
-                      ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`';
+        $sql =<<< EOL
+SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
+`course`.`start_date`, `course`.`end_date`, `session`.`session_id`
+FROM `course`, `session`
+WHERE `course`.`course_id` = `session`.`course_id`
+AND `session`.`deleted` = 0
+AND `course`.`deleted` = 0
+AND `course`.`owning_school_id` = {$clean['school_id']}
+ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`
+EOL;
 
-        $query = $this->db->query($queryString);
+
+        $query = $this->db->query($sql);
         $items = array();
         foreach ($query->result_array() as $row) {
             $item = array();
