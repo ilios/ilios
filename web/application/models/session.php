@@ -113,14 +113,15 @@ class Session extends Ilios_Base_Model
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
         $sql =<<< EOL
-SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
-`course`.`start_date`, `course`.`end_date`, `session`.`session_id`
-FROM `course`, `session`
-WHERE `course`.`course_id` = `session`.`course_id`
-AND `session`.`deleted` = 0
-AND `course`.`deleted` = 0
-AND `course`.`owning_school_id` = {$clean['school_id']}
-ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`
+SELECT
+c.`title` AS `course_title`, s.`title` AS `session_title`, c.`start_date`, c.`end_date`, s.`session_id`
+FROM `course` c
+JOIN `session` s ON s.`course_id` = c.`course_id`
+WHERE
+s.`deleted` = 0
+AND c.`deleted` = 0
+AND c.`owning_school_id` = {$clean['school_id']}
+ORDER BY c.`title`, c.`start_date`, c.`end_date`, s.`title`
 EOL;
 
 
