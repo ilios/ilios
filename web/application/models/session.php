@@ -136,7 +136,7 @@ EOL;
             $endDate = date_format($endDate, 'm/d/Y');
             $item['display_title'] = $row['course_title'] . ' (' .$startDate . ' - ' .$endDate . ') - ' .$row['session_title'];
 
-            array_push($items, $item);
+            $items[] = $item;
         }
 
         $query->free_result();
