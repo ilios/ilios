@@ -99,31 +99,38 @@ class Session extends Ilios_Base_Model
     }
 
     /**
-     * Returns a list of all sessions for a given owning school, along with the course title in this format:
-     *   course title - session title,
-     * Also returns session id.
-     * The list is sorted by course title, then session title
-     * The list is shows only non-deleted sessions and courses
-     * The list is restricted by owning school of the course
-     * @param int $schoolId
-     * @return array
+     * Returns a sorted list of assorted course/session data owned by a given school.
+     * The sort order is:
+     * - course title, ascending
+     * - course start date, ascending
+     * - course end date, ascending
+     * - session title, ascending
+     *
+     * @param int $schoolId The owning school id.
+     * @return array An array of associative arrays, containing the following key/value pairs:
+     *  'value'         ... The session id.
+     *  'display_title' ... A combination of course title, course start/end-date and session title.
      */
     public function getSessionsWithCourseTitle ($schoolId)
     {
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
-        $queryString = 'SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
-                               `course`.`start_date`, `course`.`end_date`, `session`.`session_id`
-                          FROM `course`, `session`
-                         WHERE `course`.`course_id` = `session`.`course_id`
-                           AND `session`.`deleted` = 0
-                           AND `course`.`deleted` = 0
-                           AND `course`.`owning_school_id` = ' . $clean['school_id'] . '
-                      ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`';
+        $sql =<<< EOL
+SELECT
+c.`title` AS `course_title`, s.`title` AS `session_title`, c.`start_date`, c.`end_date`, s.`session_id`
+FROM `course` c
+JOIN `session` s ON s.`course_id` = c.`course_id`
+WHERE
+s.`deleted` = 0
+AND c.`deleted` = 0
+AND c.`owning_school_id` = {$clean['school_id']}
+ORDER BY c.`title`, c.`start_date`, c.`end_date`, s.`title`
+EOL;
 
-        $queryResults = $this->db->query($queryString);
+
+        $query = $this->db->query($sql);
         $items = array();
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $item = array();
             $item['value'] = $row['session_id'];
             $startDate = new DateTime($row['start_date']);
@@ -132,9 +139,10 @@ class Session extends Ilios_Base_Model
             $endDate = date_format($endDate, 'm/d/Y');
             $item['display_title'] = $row['course_title'] . ' (' .$startDate . ' - ' .$endDate . ') - ' .$row['session_title'];
 
-            array_push($items, $item);
+            $items[] = $item;
         }
 
+        $query->free_result();
         return $items;
 
     }
