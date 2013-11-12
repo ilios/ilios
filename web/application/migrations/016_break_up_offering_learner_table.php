@@ -25,7 +25,7 @@ CREATE TABLE `offering_x_learner` (
         FOREIGN KEY (`user_id`)
         REFERENCES `user` (`user_id`)
 ) DEFAULT CHARSET='utf8'
-COLLATE='utf8_general_ci'
+COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
@@ -41,7 +41,7 @@ CREATE TABLE `offering_x_group` (
         FOREIGN KEY (`group_id`)
         REFERENCES `group` (`group_id`)
 ) DEFAULT CHARSET='utf8'
-COLLATE='utf8_general_ci'
+COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
