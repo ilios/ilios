@@ -1179,7 +1179,8 @@ BEGIN
     DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET select_found_match = 0;
 
 
-    DELETE FROM offering_learner WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_learner WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_group WHERE offering_id = in_offering_id;
     DELETE FROM offering_x_instructor WHERE offering_id = in_offering_id;
     DELETE FROM offering_x_instructor_group WHERE offering_id = in_offering_id;
 
