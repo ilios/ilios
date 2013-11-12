@@ -433,7 +433,7 @@ EOL;
         $this->db->delete('cohort_master_group');
 
         $this->db->where('group_id', $groupId);
-        $this->db->delete('offering_learner');
+        $this->db->delete('offering_x_group');
 
         $this->db->where('group_id', $groupId);
         $this->db->delete('ilm_session_facet_learner');
