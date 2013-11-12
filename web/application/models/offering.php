@@ -349,7 +349,7 @@ class Offering extends Ilios_Base_Model
         $this->deleteAssociatedRecurringEvent($offeringId, $auditAtoms);
 
         // delete associations to instructors/instructor-groups and learners/learner-groups
-        $tables = array('offering_x_instructor', 'offering_x_instructor_group', 'offering_learner');
+        $tables = array('offering_x_instructor', 'offering_x_instructor_group', 'offering_x_learner', 'offering_x_group');
         $this->db->where('offering_id', $offeringId);
         $this->db->delete($tables);
 
@@ -364,7 +364,9 @@ class Offering extends Ilios_Base_Model
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor_group',
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_learner',
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_x_learner',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_x_group',
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', $this->databaseTableName,
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, ($deleteIsRootEvent ? 1 : 0));
