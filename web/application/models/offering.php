@@ -666,13 +666,18 @@ EOL;
     public function getLearnerGroupsForOffering ($offeringId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+        $sql =<<<EOL
+SELECT g.*
+FROM `group` g
+JOIN `offering_x_group` oxg ON oxg.`group_id` = g.`group_id`
+WHERE oxg.`offering_id` = {$clean['offering_id']}
+EOL;
 
-        $this->db->where('offering_id', $offeringId);
-        $query = $this->db->get('offering_x_group');
-
+        $query = $this->db->query($sql);
         foreach ($query->result_array() as $row) {
-            $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-            $rhett[] = $this->convertStdObjToArray($groupRow));
+            $rhett[] = $row;
         }
 
         $query->free_result();
@@ -686,13 +691,18 @@ EOL;
     public function getLearnersForOffering ($offeringId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+        $sql =<<<EOL
+SELECT u.*
+FROM `user` u
+JOIN `offering_x_learner` oxl ON oxl.`user_id` = u.`user_id`
+WHERE oxl.`offering_id` = {$clean['offering_id']}
+EOL;
 
-        $this->db->where('offering_id', $offeringId);
-        $query = $this->db->get('offering_x_learner');
-
+        $query = $this->db->query($sql);
         foreach ($query->result_array() as $row) {
-            $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-            $rhett[] = $this->convertStdObjToArray($userRow));
+            $rhett[] = $row;
         }
 
         $query->free_result();
