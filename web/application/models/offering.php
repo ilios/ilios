@@ -1064,7 +1064,7 @@ EOL;
 
     /**
      * Saves the offering/learner-group associations for a given offering
-     * and given learner-groups, taken given pre-existings associations into account.
+     * and given learner-groups, taken given pre-existing associations into account.
      * @param int $offeringId
      * @param array $learnerGroups
      * @param array $associatedLearnerGroupsIds
@@ -1072,9 +1072,8 @@ EOL;
     protected function _saveLearnerGroupAssociations ($offeringId, $learnerGroups = array(),
             $associatedLearnerGroupsIds = array())
     {
-        $this->_saveJoinTableAssociations('offering_learner',
-                'offering_id', $offeringId, 'group_id',
-                $learnerGroups, $associatedLearnerGroupsIds);
+        $this->_saveJoinTableAssociations('offering_x_group', 'offering_id', $offeringId, 'group_id', $learnerGroups,
+            $associatedLearnerGroupsIds);
     }
 
 }
