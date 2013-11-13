@@ -906,7 +906,8 @@ EOL;
     }
 
     /**
-     * Retrieves all instructors that are associated with offerings belonging to a given session.
+     * Retrieves all users that are associated as instructors with offerings belonging to a given session.
+     *
      * @param int $sessionId The session id.
      * @return array An array of arrays, each item representing a user.
      */
@@ -936,6 +937,7 @@ EOL;
 
     /**
      * Retrieves all instructor groups that are associated with offerings belonging to a given session.
+     *
      * @param int $sessionId The session id.
      * @return array An array of arrays, each item representing an instructor group.
      */
@@ -963,21 +965,62 @@ EOL;
     }
 
     /**
-     * @return a database query results object containing rows with names offering_id, user_id
-     *              and group_id. the query results represent all learners which are
-     *              presently associated with offerings for the specified session id.
+     * Retrieves all users that are associated as learners with offerings belonging to a given session.
+     *
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing a user.
      */
     public function getLearnersForSession ($sessionId)
     {
-        $queryString
-            = 'SELECT `offering_learner`.`offering_id` AS offering_id, '
-                        . '`offering_learner`.`user_id` AS user_id, '
-                        . '`offering_learner`.`group_id` AS group_id '
-                    . 'FROM `offering_learner`, `offering`, `session` '
-                    . 'WHERE `session`.`session_id` = ' . $sessionId
-                            . ' AND `session`.`session_id` = `offering`.`session_id`'
-                            . ' AND `offering`.`offering_id` = `offering_learner`.`offering_id`';
-        return $this->db->query($queryString);
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+u.`user_id`, u.`last_name`, u.`first_name`, u.`middle_name`, u.`phone`, u.`email`, u.`added_via_ilios`,
+u.`enabled`, u.`uc_uid`, u.`other_id`
+FROM `user` u
+JOIN `offering_x_learner` oxl ON oxl.`user_id` = u.`user_id`
+JOIN `offering` o ON o.`offering_id` = oxl.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * Retrieves all groups that are associated with offerings belonging to a given session.
+     *
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing a group.
+     */
+    public function getLearnerGroupsForSession ($sessionId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+g.`group_id`, g.`parent_group_id`, g.`title`
+FROM `group` g
+JOIN `offering_x_group` oxg ON oxg.`group_id` = g.`group_id`
+JOIN `offering` o ON o.`offering_id` = oxg.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
     }
 
     /**

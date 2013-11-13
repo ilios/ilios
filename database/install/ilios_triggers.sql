@@ -15,8 +15,10 @@ DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_delete`;
 DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_insert`;
 DROP TRIGGER IF EXISTS `trig_offering_x_instructor_group_post_delete`;
 DROP TRIGGER IF EXISTS `trig_offering_x_instructor_group_post_insert`;
-DROP TRIGGER IF EXISTS `trig_offering_learner_post_delete`;
-DROP TRIGGER IF EXISTS `trig_offering_learner_post_insert`;
+DROP TRIGGER IF EXISTS `trig_offering_x_group_post_delete`;
+DROP TRIGGER IF EXISTS `trig_offering_x_group_post_insert`;
+DROP TRIGGER IF EXISTS `trig_offering_x_learner_post_delete`;
+DROP TRIGGER IF EXISTS `trig_offering_x_learner_post_insert`;
 DROP TRIGGER IF EXISTS `trig_session_description_post_delete` ;
 DROP TRIGGER IF EXISTS `trig_session_description_post_insert`;
 DROP TRIGGER IF EXISTS `trig_session_description_post_update`;
@@ -138,21 +140,38 @@ FOR EACH ROW BEGIN
     WHERE `offering`.`offering_id` = NEW.`offering_id`;
 END;
 
--- DELETE trigger on "offering_learner"
+-- DELETE trigger on "offering_x_learner"
 -- Sets the "last_updated_on" to the current time on the parent record in the "offering" table.
-CREATE TRIGGER `trig_offering_learner_post_delete` AFTER DELETE ON `offering_learner`
+CREATE TRIGGER `trig_offering_x_learner_post_delete` AFTER DELETE ON `offering_x_learner`
 FOR EACH ROW BEGIN
-	UPDATE `offering` SET `offering`.`last_updated_on` = NOW()
-	WHERE `offering`.`offering_id` = OLD.`offering_id`;
+  UPDATE `offering` SET `offering`.`last_updated_on` = NOW()
+  WHERE `offering`.`offering_id` = OLD.`offering_id`;
 END;
 
--- INSERT trigger on "offering_learner"
+-- INSERT trigger on "offering_x_learner"
 -- Sets the "last_updated_on" to the current time on the parent record in the "offering" table.
-CREATE TRIGGER `trig_offering_learner_post_insert` AFTER INSERT ON `offering_learner`
+CREATE TRIGGER `trig_offering_x_learner_post_insert` AFTER INSERT ON `offering_x_learner`
 FOR EACH ROW BEGIN
-	UPDATE `offering` SET `offering`.`last_updated_on` = NOW()
-	WHERE `offering`.`offering_id` = NEW.`offering_id`;
+  UPDATE `offering` SET `offering`.`last_updated_on` = NOW()
+  WHERE `offering`.`offering_id` = NEW.`offering_id`;
 END;
+
+-- DELETE trigger on "offering_x_group"
+-- Sets the "last_updated_on" to the current time on the parent record in the "offering" table.
+CREATE TRIGGER `trig_offering_x_group_post_delete` AFTER DELETE ON `offering_x_group`
+FOR EACH ROW BEGIN
+  UPDATE `offering` SET `offering`.`last_updated_on` = NOW()
+  WHERE `offering`.`offering_id` = OLD.`offering_id`;
+END;
+
+-- INSERT trigger on "offering_x_group"
+-- Sets the "last_updated_on" to the current time on the parent record in the "offering" table.
+CREATE TRIGGER `trig_offering_x_group_post_insert` AFTER INSERT ON `offering_x_group`
+FOR EACH ROW BEGIN
+  UPDATE `offering` SET `offering`.`last_updated_on` = NOW()
+  WHERE `offering`.`offering_id` = NEW.`offering_id`;
+END;
+
 
 -- UPDATE trigger on "session" table
 -- Sets the "last_updated_on" to the current time if the given records were modified.

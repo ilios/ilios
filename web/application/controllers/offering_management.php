@@ -305,7 +305,7 @@ class Offering_Management extends Ilios_Web_Controller
         if (! $isNewOffering) {
             $previousInstructors = $this->offering->getInstructorsForOffering($offeringId);
             $previousInstructors = array_merge($previousInstructors, $this->offering->getInstructorGroupsForOffering($offeringId));
-            $previousLearners = $this->offering->getLearnerGroupsForOffering($offeringId);
+            $previousLearners = $this->offering->getLearnersAndLearnerGroupsForOffering($offeringId);
             $previousOfferingRow = $this->offering->getRowForPrimaryKeyId($offeringId);
         }
 
@@ -360,7 +360,7 @@ class Offering_Management extends Ilios_Web_Controller
                         }
 
 
-                        $currentLearners = $this->offering->getLearnerGroupsForOffering($offeringId);
+                        $currentLearners = $this->offering->getLearnersAndLearnerGroupsForOffering($offeringId);
                         // get the ids of all learners/learner-groups that were added and removed
                         // to/from this offering with the last save
                         $learnersDiff = array_merge(
@@ -646,58 +646,22 @@ class Offering_Management extends Ilios_Web_Controller
             return;
         }
 
-        $studentGroupArray = array();
-
         $sessionId = $this->input->get_post('session_id');
-        $learnersQueryResults = $this->iliosSession->getLearnersForSession($sessionId);
-        foreach ($learnersQueryResults->result_array() as $row) {
-            $studentGroupModel = array();
 
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-
-                $studentGroupModel['group_id'] = $groupRow->group_id;
-                $studentGroupModel['title'] = $groupRow->title;
-                $studentGroupModel['parent_group_id'] = $groupRow->parent_group_id;
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-
-                $studentGroupModel['user_id'] = $userRow->user_id;
-                $studentGroupModel['last_name'] = $userRow->last_name;
-                $studentGroupModel['first_name'] = $userRow->first_name;
-                $studentGroupModel['middle_name'] = $userRow->middle_name;
-                $studentGroupModel['phone'] = $userRow->phone;
-                $studentGroupModel['email'] = $userRow->email;
-                $studentGroupModel['added_via_ilios'] = $userRow->added_via_ilios;
-                $studentGroupModel['enabled'] = $userRow->enabled;
-                $studentGroupModel['uc_uid'] = $userRow->uc_uid;
-                $studentGroupModel['other_id'] = $userRow->other_id;
-            }
-
-            if ((! isset($row['user_id'])) || ($row['user_id'] == '')) {
-                $userId = 0;
-            }
-            else {
-                $userId = $row['user_id'];
-            }
-
-            if ((! isset($row['group_id'])) || ($row['group_id'] == '')) {
-                $groupId = 0;
-            }
-            else {
-                $groupId = $row['group_id'];
-            }
-
-            $offerings = $this->offering->getOtherOfferingsForLearner($sessionId, $userId,
-                                                                      $groupId);
-
-            $studentGroupModel['offerings'] = $offerings;
-            array_push($studentGroupArray, $studentGroupModel);
+        // @todo replace inefficient code that queries in loop. [ST 2013/11/13]
+        $learners =  $this->iliosSession->getLearnersForSession($sessionId);
+        for ($i = 0, $n = count($learners); $i < $n; $i++) {
+            $learners[$i]['offerings'] =
+                $this->offering->getOtherOfferingsForInstructor($sessionId, $learners[$i]['user_id']);
         }
+        $learnerGroups = $this->iliosSession->getLearnerGroupsForSession($sessionId);
+        for ($i = 0, $n = count($learnerGroups); $i < $n; $i++) {
+            $learnerGroups[$i]['offerings'] =
+                $this->offering->getOtherOfferingsForInstructorGroup($sessionId, $learnerGroups[$i]['group_id']);
+        }
+        $rhett['learners'] = array_merge($learners, $learnerGroups);
 
-        // todo error cases
-        $rhett['learners'] = $studentGroupArray;
+        // @todo error case
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
