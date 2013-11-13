@@ -381,7 +381,7 @@ EOL;
         $sql =<<<EOL
 SELECT group_id, user_id, NULL AS instructor_group_id
 FROM group_x_instructor
-WHERE WHERE group_id = ${clean['group_id']}
+WHERE group_id = ${clean['group_id']}
 UNION
 SELECT group_id, NULL as user_id, instructor_group_id
 FROM group_x_instructor_group
