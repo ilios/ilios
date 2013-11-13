@@ -1061,7 +1061,6 @@ EOL;
             'instructor_group_id', $instructorGroups, $associatedInstructorGroupsIds);
     }
 
-
     /**
      * Saves the offering/learner-group associations for a given offering
      * and given learner-groups, taken given pre-existing associations into account.
@@ -1075,5 +1074,4 @@ EOL;
         $this->_saveJoinTableAssociations('offering_x_group', 'offering_id', $offeringId, 'group_id', $learnerGroups,
             $associatedLearnerGroupsIds);
     }
-
 }
