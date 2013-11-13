@@ -659,9 +659,10 @@ EOL;
     }
 
     /**
-     * @todo add code docs
-     * @param int $offeringId
-     * @return array
+     * Retrieves all learner groups associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of assoc. arrays. Each item represents a learner group.
      */
     public function getLearnerGroupsForOffering ($offeringId)
     {
@@ -685,8 +686,10 @@ EOL;
     }
 
     /**
-     * @param int $offeringId
-     * @return array
+     * Retrieves all learners associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of assoc. arrays. Each item represents a user that is associated as learner with the given offering.
      */
     public function getLearnersForOffering ($offeringId)
     {
@@ -710,8 +713,13 @@ EOL;
     }
 
     /**
-     * @param int $offeringId
-     * @return array
+     * Retrieves a list of all learners and learner-groups associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of assoc. arrays. Each item represents either a learner group or a user that is associated
+     *  as learner with the given offering.
+     * @see Offering::getLearnerGroupsForOffering()
+     * @see Offering::getLearnersForOffering()
      */
     public function getLearnersAndLearnerGroupsForOffering ($offeringId)
     {
