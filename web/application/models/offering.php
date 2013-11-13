@@ -731,7 +731,7 @@ EOL;
 
 
     /**
-     * Get offerings associated with a given instructor that don't belong to a given session.
+     * Retrieves all offerings associated with a given user as instructor that don't belong to a given session.
      * @param int sessionId The session id.
      * @param int $userId The instructor's user id.
      * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
@@ -787,7 +787,7 @@ EOL;
     }
 
     /**
-     * Get offerings associated with a given instructor group that don't belong to a given session.
+     * Retrieves all offerings associated with a given instructor group that don't belong to a given session.
      * @param int sessionId The session id.
      * @param int $instructorGroupId The instructor group id.
      * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
@@ -843,11 +843,12 @@ EOL;
     }
 
     /**
-     * @todo improve code docs
-     * @param int $sessionId
-     * @param int $userId
-     * @return array an array of offering models which include session type id, but not the instructors
-     *                  and student groups
+     * Retrieves all offerings associated with a given user as learner that don't belong to a given session.
+     * @param int $sessionId The session id.
+     * @param int $userId The learner's user id.
+     * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
+     * @todo The recurrence pattern lookup requires an additional two queries per offering.
+     *  Reduce the number of queries necessary to maintain this info, or get rid of it altogether. [ST 2013/11/12]
      */
     public function getOtherOfferingsForLearner ($sessionId, $userId)
     {
@@ -900,11 +901,12 @@ EOL;
     }
 
     /**
-     * @todo improve code docs
-     * @param int $sessionId
-     * @param int $groupId
-     * @return array an array of offering models which include session type id, but not the instructors
-     *                  and student groups
+     * Retrieves all offerings associated with a given learner group that don't belong to a given session.
+     * @param int $sessionId The session id.
+     * @param int $groupId The group id.
+     * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
+     * @todo The recurrence pattern lookup requires an additional two queries per offering.
+     *  Reduce the number of queries necessary to maintain this info, or get rid of it altogether. [ST 2013/11/12]
      */
     public function getOtherOfferingsForLearnerGroup ($sessionId, $groupId)
     {
