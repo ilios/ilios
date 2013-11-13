@@ -846,31 +846,36 @@ EOL;
      * @todo improve code docs
      * @param int $sessionId
      * @param int $userId
-     * @param int $groupId
      * @return array an array of offering models which include session type id, but not the instructors
      *                  and student groups
      */
-    public function getOtherOfferingsForLearner ($sessionId, $userId, $groupId)
+    public function getOtherOfferingsForLearner ($sessionId, $userId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['user_id'] = (int) $userId;
 
-        $queryString
-            = 'SELECT `offering`.`offering_id` AS offering_id, '
-                            . '`offering`.`room` AS room, '
-                            . '`offering`.`publish_event_id` AS publish_event_id, '
-                            . '`offering`.`session_id` AS session_id, '
-                            . '`offering`.`start_date` AS start_date, '
-                            . '`offering`.`end_date` AS end_date '
-                    . 'FROM `offering_learner`, `offering` '
-                    . 'WHERE `offering`.`session_id` != ' . $sessionId
-                            . ' AND `offering`.`deleted` = 0 '
-                            . ' AND (`offering_learner`.`user_id` = ' . $userId
-                            . ' OR `offering_learner`.`group_id` = ' . $groupId . ') '
-                            . ' AND `offering`.`offering_id` = `offering_learner`.`offering_id`';
+        $sql =<<<EOL
+SELECT
+o.`offering_id`,
+o.`room`,
+o.`publish_event_id`,
+o.`session_id`,
+o.`start_date`,
+o.`end_date`,
+s.`session_type_id`
+FROM `offering` o
+JOIN `offering_x_learner` oxl ON oxl.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
+WHERE o.`deleted` = 0
+AND o.`session_id` != {$clean['session_id']}
+AND oxl.`user_id` = {$clean['user_id']}
+EOL;
 
-        $queryResults = $this->db->query($queryString);
+        $query = $this->db->query($sql);
 
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $model = array();
 
             $model['offering_id'] = $row['offering_id'];
@@ -879,6 +884,7 @@ EOL;
             $model['session_id'] = $row['session_id'];
             $model['start_date'] = $row['start_date'];
             $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
             if ($recurringEventId != -1) {
@@ -886,12 +892,67 @@ EOL;
                 $model['recurring_event'] = $this->convertStdObjToArray($reRow);
             }
 
-            $sessionRow = $this->getRow('session', 'session_id', $row['session_id']);
-            $model['session_type_id'] = $sessionRow->session_type_id;
-
-            array_push($rhett, $model);
+            $rhett[] = $model;
         }
 
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
+     * @todo improve code docs
+     * @param int $sessionId
+     * @param int $groupId
+     * @return array an array of offering models which include session type id, but not the instructors
+     *                  and student groups
+     */
+    public function getOtherOfferingsForLearnerGroup ($sessionId, $groupId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['group_id'] = (int) $groupId;
+
+        $sql =<<<EOL
+SELECT
+o.`offering_id`,
+o.`room`,
+o.`publish_event_id`,
+o.`session_id`,
+o.`start_date`,
+o.`end_date`,
+s.`session_type_id`
+FROM `offering` o
+JOIN `offering_x_group` oxg ON oxg.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
+WHERE o.`deleted` = 0
+AND o.`session_id` != {$clean['session_id']}
+AND oxg.`group_id` = {$clean['group_id']}
+EOL;
+
+        $query = $this->db->query($sql);
+
+        foreach ($query->result_array() as $row) {
+            $model = array();
+
+            $model['offering_id'] = $row['offering_id'];
+            $model['room'] = $row['room'];
+            $model['publish_event_id'] = $row['publish_event_id'];
+            $model['session_id'] = $row['session_id'];
+            $model['start_date'] = $row['start_date'];
+            $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
+
+            $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
+            if ($recurringEventId != -1) {
+                $reRow = $this->recurringEvent->getRowForPrimaryKeyId($recurringEventId);
+                $model['recurring_event'] = $this->convertStdObjToArray($reRow);
+            }
+
+            $rhett[] = $model;
+        }
+
+        $query->free_result();
         return $rhett;
     }
 

@@ -675,22 +675,11 @@ class Offering_Management extends Ilios_Web_Controller
                 $studentGroupModel['other_id'] = $userRow->other_id;
             }
 
-            if ((! isset($row['user_id'])) || ($row['user_id'] == '')) {
-                $userId = 0;
+            if ($row['user_id']) {
+                $offerings = $this->offering->getOtherOfferingsForLearner($sessionId, $row['user_id']);
+            } else {
+                $offerings = $this->offering->getOtherOfferingsForLearnerGroup($sessionId, $row['group_id']);
             }
-            else {
-                $userId = $row['user_id'];
-            }
-
-            if ((! isset($row['group_id'])) || ($row['group_id'] == '')) {
-                $groupId = 0;
-            }
-            else {
-                $groupId = $row['group_id'];
-            }
-
-            $offerings = $this->offering->getOtherOfferingsForLearner($sessionId, $userId,
-                                                                      $groupId);
 
             $studentGroupModel['offerings'] = $offerings;
             array_push($studentGroupArray, $studentGroupModel);
