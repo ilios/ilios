@@ -1028,8 +1028,7 @@ EOL;
      */
     protected function _getLearnerGroupIds ($offeringId)
     {
-        $ids = $this->getIdArrayFromCrossTable('offering_learner',
-                'group_id', 'offering_id', $offeringId);
+        $ids = $this->getIdArrayFromCrossTable('offering_x_group', 'group_id', 'offering_id', $offeringId);
         return is_null($ids) ? array() : array_filter($ids);
     }
 
