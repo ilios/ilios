@@ -668,13 +668,14 @@ EOL;
         $rhett = array();
 
         $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_x_group');
+        $query = $this->db->get('offering_x_group');
 
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-            array_push($rhett, $this->convertStdObjToArray($groupRow));
+            $rhett[] = $this->convertStdObjToArray($groupRow));
         }
 
+        $query->free_result();
         return $rhett;
     }
 
@@ -687,13 +688,14 @@ EOL;
         $rhett = array();
 
         $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_x_learner');
+        $query = $this->db->get('offering_x_learner');
 
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-            array_push($rhett, $this->convertStdObjToArray($userRow));
+            $rhett[] = $this->convertStdObjToArray($userRow));
         }
 
+        $query->free_result();
         return $rhett;
     }
 
