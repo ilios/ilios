@@ -494,7 +494,7 @@ class Offering extends Ilios_Base_Model
             $instructors = $this->getInstructorsForOffering($row['offering_id']);
             $instructorGroups = $this->getInstructorGroupsForOffering($row['offering_id']);
             $offering['instructors'] = array_merge($instructors, $instructorGroups);
-            $offering['learner_groups'] = $this->getLearnerGroupsForOffering($row['offering_id']);
+            $offering['learner_groups'] = $this->getLearnersAndLearnerGroupsForOffering($row['offering_id']);
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
             if ($recurringEventId != -1) {
@@ -668,21 +668,47 @@ EOL;
         $rhett = array();
 
         $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_learner');
+        $queryResults = $this->db->get('offering_x_group');
 
         foreach ($queryResults->result_array() as $row) {
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-                array_push($rhett, $this->convertStdObjToArray($groupRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+            $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
+            array_push($rhett, $this->convertStdObjToArray($groupRow));
         }
 
         return $rhett;
     }
+
+    /**
+     * @param int $offeringId
+     * @return array
+     */
+    public function getLearnersForOffering ($offeringId)
+    {
+        $rhett = array();
+
+        $this->db->where('offering_id', $offeringId);
+        $queryResults = $this->db->get('offering_x_learner');
+
+        foreach ($queryResults->result_array() as $row) {
+            $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
+            array_push($rhett, $this->convertStdObjToArray($userRow));
+        }
+
+        return $rhett;
+    }
+
+    /**
+     * @param int $offeringId
+     * @return array
+     */
+    public function getLearnersAndLearnerGroupsForOffering ($offeringId)
+    {
+        $learners = $this->getLearnersForOffering($offeringId);
+        $learnerGroups = $this->getLearnerGroupsForOffering($offeringId);
+
+        return array_merge($learners, $learnerGroups);
+    }
+
 
     /**
      * Get offerings associated with a given instructor that don't belong to a given session.
