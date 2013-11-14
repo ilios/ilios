@@ -179,7 +179,7 @@ EOL;
      */
     protected function _getILMLearnerGroupIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_learner',
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_group',
             'group_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
@@ -208,20 +208,32 @@ EOL;
     protected function getLearnerGroupsForSILM ($silmId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['ilm_id'] = (int) $silmId;
 
-        $this->db->where('ilm_session_facet_id', $silmId);
-        $queryResults = $this->db->get('ilm_session_facet_learner');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-                array_push($rhett, $this->convertStdObjToArray($groupRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_learner` isfxl ON isfxl.`user_id` = u.`user_id`
+WHERE isfxl.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT g.*
+FROM `group` g
+JOIN `ilm_session_facet_x_group` isfxg ON isfxg.`group_id` = g.`group_id`
+WHERE isfxg.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
