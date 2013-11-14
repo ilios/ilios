@@ -430,17 +430,17 @@ class Report extends Ilios_Base_Model
                                                AND `session`.`deleted` = false
                                            UNION
                                             SELECT DISTINCT `session`.`course_id`
-                                              FROM `ilm_session_facet_instructor`, `session`
-                                             WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                              FROM `ilm_session_facet_x_instructor`, `session`
+                                             WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
-                                               AND `ilm_session_facet_instructor`.`user_id` = ' . $clean['id'] . '
+                                               AND `ilm_session_facet_x_instructor`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = false
                                            UNION
                                             SELECT DISTINCT `session`.`course_id`
-                                              FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`
-                                             WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                              FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`
+                                             WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                               AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                               AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = false
@@ -494,10 +494,10 @@ class Report extends Ilios_Base_Model
                                                AND `session`.`deleted` = false
                                            UNION
                                             SELECT DISTINCT `session`.`course_id`
-                                              FROM `ilm_session_facet_instructor`, `session`
-                                             WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                              FROM `ilm_session_facet_x_instructor_group`, `session`
+                                             WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                               AND `ilm_session_facet_instructor`.`instructor_group_id` = ' . $clean['id'] . '
+                                               AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = false
                                            UNION
                                              SELECT DISTINCT `session`.`course_id`
@@ -859,18 +859,18 @@ class Report extends Ilios_Base_Model
                                            UNION
                                             SELECT DISTINCT `session`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `ilm_session_facet_instructor`, `session`
-                                             WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                              FROM `ilm_session_facet_x_instructor`, `session`
+                                             WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
-                                               AND `ilm_session_facet_instructor`.`user_id` = ' . $clean['id'] . '
+                                               AND `ilm_session_facet_x_instructor`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = 0
                                            UNION
                                             SELECT DISTINCT `session`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`
-                                             WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                              FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`
+                                             WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
-                                               AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                               AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = 0
@@ -930,10 +930,10 @@ class Report extends Ilios_Base_Model
                                            UNION
                                             SELECT DISTINCT `session`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `ilm_session_facet_instructor`, `session`
-                                             WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                              FROM `ilm_session_facet_x_instructor_group`, `session`
+                                             WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                               AND `ilm_session_facet_instructor`.`instructor_group_id` = ' . $clean['id'] .'
+                                               AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] .'
                                                AND `session`.`deleted` = 0
                                            UNION
                                             SELECT DISTINCT `session`.`session_id`, `session`.`course_id`,
@@ -1379,19 +1379,19 @@ EOL;
                                        AND `session`.`course_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `session`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor`.`user_id`
+                                      FROM `ilm_session_facet_x_instructor`, `session`
+                                     WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
                                        AND `session`.`course_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
-                                       AND `ilm_session_facet_instructor`.`user_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                      FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`course_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
@@ -1455,19 +1455,19 @@ EOL;
                                        AND `session`.`session_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `session`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor`.`user_id`
+                                      FROM `ilm_session_facet_x_instructor`, `session`
+                                     WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
-                                       AND `ilm_session_facet_instructor`.`user_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                      FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`session_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
@@ -1530,17 +1530,17 @@ EOL;
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`user_id`
-                                      FROM `ilm_session_facet_instructor`
-                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor`.`user_id`
+                                      FROM `ilm_session_facet_x_instructor`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
-                                       AND `ilm_session_facet_instructor`.`user_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
                                       FROM `instructor_group_x_user`
-                                      JOIN `ilm_session_facet_instructor` ON `ilm_session_facet_instructor`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
-                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                      JOIN `ilm_session_facet_x_instructor_group` ON `ilm_session_facet_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
@@ -1618,21 +1618,21 @@ EOL;
                                        AND `slm`.`learning_material_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `session`, `session_learning_material` `slm`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor`.`user_id`
+                                      FROM `ilm_session_facet_x_instructor`, `session`, `session_learning_material` `slm`
+                                     WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id'] . '
-                                       AND `ilm_session_facet_instructor`.`user_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor`.`user_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id'] . '
@@ -1707,21 +1707,21 @@ EOL;
                                        AND `sxd`.`discipline_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `session`, `session_x_discipline` `sxd`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor`.`user_id`
+                                      FROM `ilm_session_facet_x_instructor`, `session`, `session_x_discipline` `sxd`
+                                     WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id'] . '
-                                       AND `ilm_session_facet_instructor`.`user_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor`.`user_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id'] . '
@@ -1815,12 +1815,12 @@ EOL;
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`instructor_group_id`
-                                      FROM `ilm_session_facet_instructor`, `session`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor_group`.`instructor_group_id`
+                                      FROM `ilm_session_facet_x_instructor_group`, `session`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
                                        AND `session`.`course_id` = ' . $clean['id']  . '
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
@@ -1855,12 +1855,12 @@ EOL;
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`instructor_group_id`
-                                      FROM `ilm_session_facet_instructor`, `session`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor_group`.`instructor_group_id`
+                                      FROM `ilm_session_facet_x_instructor_group`, `session`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = ' . $clean['id']  . '
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
@@ -1894,11 +1894,11 @@ EOL;
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`instructor_group_id`
-                                      FROM `ilm_session_facet_instructor`
-                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor_group`.`instructor_group_id`
+                                      FROM `ilm_session_facet_x_instructor_group`
+                                      JOIN `session` ON `session`.`ilm_session_facet_id` = `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                        AND `session`.`session_type_id` = ' . $clean['id']  . '
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
@@ -1944,14 +1944,14 @@ EOL;
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`instructor_group_id`
-                                      FROM `ilm_session_facet_instructor`, `session`,
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor_group`.`instructor_group_id`
+                                      FROM `ilm_session_facet_x_instructor_group`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id']  . '
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
@@ -1990,14 +1990,14 @@ EOL;
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
-                                    SELECT DISTINCT `ilm_session_facet_instructor`.`instructor_group_id`
-                                      FROM `ilm_session_facet_instructor`, `session`,
+                                    SELECT DISTINCT `ilm_session_facet_x_instructor_group`.`instructor_group_id`
+                                      FROM `ilm_session_facet_x_instructor_group`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id']  . '
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
@@ -2338,19 +2338,19 @@ EOL;
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `ilm_session_facet_instructor`, `session`, `session_x_discipline` `sxd`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                      FROM `ilm_session_facet_x_instructor`, `session`, `session_x_discipline` `sxd`
+                                     WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
-                                       AND `ilm_session_facet_instructor`.`user_id` = ' . $clean['id'] . '
+                                       AND `ilm_session_facet_x_instructor`.`user_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
@@ -2401,12 +2401,12 @@ EOL;
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `ilm_session_facet_instructor`, `session`,
+                                      FROM `ilm_session_facet_x_instructor_group`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id` = ' . $clean['id'] . '
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
@@ -2700,19 +2700,19 @@ EOL;
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `ilm_session_facet_instructor`, `session`, `session_learning_material` `slm`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                      FROM `ilm_session_facet_x_instructor`, `session`, `session_learning_material` `slm`
+                                     WHERE `ilm_session_facet_x_instructor`.`ilm_session_facet_id`
                                                                                       = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
-                                       AND `ilm_session_facet_instructor`.`user_id` = ' . $clean['id'] . '
+                                       AND `ilm_session_facet_x_instructor`.`user_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `ilm_session_facet_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `ilm_session_facet_x_instructor_group`, `instructor_group_x_user`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id`
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
@@ -2764,12 +2764,12 @@ EOL;
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `ilm_session_facet_instructor`, `session`,
+                                      FROM `ilm_session_facet_x_instructor_group`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `ilm_session_facet_instructor`.`ilm_session_facet_id`
+                                     WHERE `ilm_session_facet_x_instructor_group`.`ilm_session_facet_id`
                                                                        = `session`.`ilm_session_facet_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
-                                       AND `ilm_session_facet_instructor`.`instructor_group_id` = ' . $clean['id']  . '
+                                       AND `ilm_session_facet_x_instructor_group`.`instructor_group_id` = ' . $clean['id']  . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `slm`.`learning_material_id`
