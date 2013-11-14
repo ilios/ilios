@@ -18,7 +18,7 @@ CREATE TABLE `ilm_session_facet_x_learner` (
     `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
     `user_id` INT(14) UNSIGNED NOT NULL,
     PRIMARY KEY(`ilm_session_facet_id`, `user_id`),
-   CONSTRAINT `fkey_ilm_session_facet_x_learner_ilm_session_facet_id`
+    CONSTRAINT `fkey_ilm_session_facet_x_learner_ilm_session_facet_id`
         FOREIGN KEY (`ilm_session_facet_id`)
         REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
         ON DELETE CASCADE,
@@ -80,7 +80,7 @@ EOL;
 CREATE TRIGGER `trig_ilm_session_facet_x_learner_post_insert` AFTER INSERT ON `ilm_session_facet_x_learner`
 FOR EACH ROW BEGIN
     UPDATE `session` SET `session`.`last_updated_on` = NOW()
-    WHERE `session`.`ilm_session_facet_id` = OLD.`ilm_session_facet_id`;
+    WHERE `session`.`ilm_session_facet_id` = NEW.`ilm_session_facet_id`;
 END
 EOL;
         $this->db->query($sql);
@@ -96,7 +96,7 @@ EOL;
 CREATE TRIGGER `trig_ilm_session_facet_x_group_post_insert` AFTER INSERT ON `ilm_session_facet_x_group`
 FOR EACH ROW BEGIN
     UPDATE `session` SET `session`.`last_updated_on` = NOW()
-    WHERE `session`.`ilm_session_facet_id` = OLD.`ilm_session_facet_id`;
+    WHERE `session`.`ilm_session_facet_id` = NEW.`ilm_session_facet_id`;
 END
 EOL;
         $this->db->query($sql);
