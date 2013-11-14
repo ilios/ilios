@@ -646,16 +646,6 @@ html,body {
     font-style:italic;
 }
 
-@media only screen and (max-width: 600px) {
-    #utility li.last-login {
-        display: none;
-    }
-
-    .page-header {
-        display: none;
-    }
-}
-
 .username {
     font-weight:bold;
 }
@@ -2509,6 +2499,20 @@ ul.week_list li.selected_day {
 
 }
 */
+
+@media only screen and (max-width: 600px) {
+    #utility li.last-login {
+        display: none;
+    }
+
+    .page-header {
+        display: none;
+    }
+
+    .dashboard #role_switch {
+        top: 0;
+    }
+}
 
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
