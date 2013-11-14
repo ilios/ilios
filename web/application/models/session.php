@@ -1264,7 +1264,7 @@ EOL;
     protected function _saveILMLearnerGroupAssociations ($ilmId, $learnerGroups = array(),
                                                          $associatedLearnerGroupsIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_learner',
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_group',
             'ilm_session_facet_id', $ilmId, 'group_id',
             $learnerGroups, $associatedLearnerGroupsIds);
     }
