@@ -641,8 +641,15 @@ html,body {
     margin-right:1em;
     color: #FFF;
 }
+
 .last-login {
     font-style:italic;
+}
+
+@media only screen and (max-width: 600px) {
+    #utility li.last-login {
+        display: none;
+    }
 }
 
 .username {
