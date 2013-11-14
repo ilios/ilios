@@ -650,6 +650,10 @@ html,body {
     #utility li.last-login {
         display: none;
     }
+
+    .page-header {
+        display: none;
+    }
 }
 
 .username {
