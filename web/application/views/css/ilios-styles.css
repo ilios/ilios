@@ -2512,6 +2512,10 @@ ul.week_list li.selected_day {
     .dashboard #role_switch {
         top: 0;
     }
+
+    .calendar_tools > ul {
+        margin-top: 1.5em;
+    }
 }
 
 /* ==|== non-semantic helper classes ========================================
