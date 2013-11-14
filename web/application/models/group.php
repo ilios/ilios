@@ -667,3 +667,4 @@ EOL;
         $query->free_result();
         return $rhett;
     }
+}
