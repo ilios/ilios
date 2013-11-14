@@ -3,8 +3,10 @@
  */
 
 -- drop existing triggers
-DROP TRIGGER IF EXISTS `trig_ilm_session_facet_instructor_post_delete`;
-DROP TRIGGER IF EXISTS `trig_ilm_session_facet_instructor_post_insert`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_post_delete`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_post_insert`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_group_post_delete`;
+DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_instructor_group_post_insert`;
 DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_learner_post_delete`;
 DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_learner_post_insert`;
 DROP TRIGGER IF EXISTS `trig_ilm_session_facet_x_group_post_delete`;
@@ -39,20 +41,36 @@ DROP TRIGGER IF EXISTS `trig_session_x_objective_post_insert`;
 
 delimiter $$
 
--- DELETE trigger on "ilm_session_facet_instructor"
+-- DELETE trigger on "ilm_session_facet_x_instructor"
 -- Sets the "last_updated_on" to the current time on the parent record in the "session" table.
-CREATE TRIGGER `trig_ilm_session_facet_instructor_post_delete` AFTER DELETE ON `ilm_session_facet_instructor`
+CREATE TRIGGER `trig_ilm_session_facet_x_instructor_post_delete` AFTER DELETE ON `ilm_session_facet_x_instructor`
 FOR EACH ROW BEGIN
-	UPDATE `session` SET `session`.`last_updated_on` = NOW()
-	WHERE `session`.`ilm_session_facet_id` = OLD.`ilm_session_facet_id`;
+    UPDATE `session` SET `session`.`last_updated_on` = NOW()
+    WHERE `session`.`ilm_session_facet_id` = OLD.`ilm_session_facet_id`;
 END;
 
--- INSERT trigger on "ilm_session_facet_instructor"
+-- INSERT trigger on "ilm_session_facet_x_instructor"
 -- Sets the "last_updated_on" to the current time on the parent record in the "session" table.
-CREATE TRIGGER `trig_ilm_session_facet_instructor_post_insert` AFTER INSERT ON `ilm_session_facet_instructor`
+CREATE TRIGGER `trig_ilm_session_facet_x_instructor_post_insert` AFTER INSERT ON `ilm_session_facet_x_instructor`
 FOR EACH ROW BEGIN
-	UPDATE `session` SET `session`.`last_updated_on` = NOW()
-	WHERE `session`.`ilm_session_facet_id` = NEW.`ilm_session_facet_id`;
+    UPDATE `session` SET `session`.`last_updated_on` = NOW()
+    WHERE `session`.`ilm_session_facet_id` = NEW.`ilm_session_facet_id`;
+END;
+
+-- DELETE trigger on "ilm_session_facet_x_instructor_group"
+-- Sets the "last_updated_on" to the current time on the parent record in the "session" table.
+CREATE TRIGGER `trig_ilm_session_facet_x_instructor_group_post_delete` AFTER DELETE ON `ilm_session_facet_x_instructor_group`
+FOR EACH ROW BEGIN
+    UPDATE `session` SET `session`.`last_updated_on` = NOW()
+    WHERE `session`.`ilm_session_facet_id` = OLD.`ilm_session_facet_id`;
+END;
+
+-- INSERT trigger on "ilm_session_facet_x_instructor_group"
+-- Sets the "last_updated_on" to the current time on the parent record in the "session" table.
+CREATE TRIGGER `trig_ilm_session_facet_x_instructor_group_post_insert` AFTER INSERT ON `ilm_session_facet_x_instructor_group`
+FOR EACH ROW BEGIN
+    UPDATE `session` SET `session`.`last_updated_on` = NOW()
+    WHERE `session`.`ilm_session_facet_id` = NEW.`ilm_session_facet_id`;
 END;
 
 -- DELETE trigger on "ilm_session_facet_x_learner"
