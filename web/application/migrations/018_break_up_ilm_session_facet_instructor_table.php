@@ -105,7 +105,7 @@ EOL;
         $this->db->query("DROP TRIGGER `ilm_session_facet_instructor_post_delete`");
         $this->db->query("DROP TRIGGER `ilm_session_facet_instructor_post_insert`");
 
-        // nuke "ilm_session_facet_learner"
+        // nuke "ilm_session_facet_instructor"
         $sql = "DROP TABLE `ilm_session_facet_instructor`";
         $this->db->query($sql);
 
@@ -207,7 +207,7 @@ INSERT INTO `ilm_session_facet_instructor` (`ilm_session_facet_id`, `instructor_
 EOL;
         $this->db->query($sql);
 
-        // re-create triggers on "ilm_session_facet_learner"
+        // re-create triggers on "ilm_session_facet_instructor"
         $sql =<<<EOL
 CREATE TRIGGER `trig_ilm_session_facet_instructor_post_delete` AFTER DELETE ON `ilm_session_facet_instructor`
 FOR EACH ROW BEGIN
@@ -225,7 +225,7 @@ END
 EOL;
         $this->db->query($sql);
 
-        // drop triggers on ilm_session_facet_x_learner and ilm_session_facet_x_group
+        // drop triggers on ilm_session_facet_x_instructor and ilm_session_facet_x_instructor_group
         $this->db->query("DROP TRIGGER `trig_ilm_session_facet_x_instructor_post_delete`");
         $this->db->query("DROP TRIGGER `trig_ilm_session_facet_x_instructor_post_insert`");
         $this->db->query("DROP TRIGGER `trig_ilm_session_facet_x_instructor_group_post_delete`");
