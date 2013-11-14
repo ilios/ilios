@@ -1072,7 +1072,6 @@ BEGIN
 
     IF ilm_id IS NOT NULL THEN
         DELETE FROM ilm_session_facet WHERE ilm_session_facet_id = ilm_id;
-        DELETE FROM ilm_session_facet_instructor WHERE ilm_session_facet_id = ilm_id;
     END IF;
 END;
 //
