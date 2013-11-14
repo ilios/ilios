@@ -156,7 +156,7 @@ EOL;
     protected function _getILMInstructorIds ($ilmId)
     {
         $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
-                'user_id', 'ilm_session_facet_id', $ilmId);
+            'user_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
 
@@ -168,7 +168,7 @@ EOL;
     protected function _getILMInstructorGroupIds ($ilmId)
     {
         $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
-                'instructor_group_id', 'ilm_session_facet_id', $ilmId);
+            'instructor_group_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ?  array() : array_filter($ids);
     }
 
@@ -179,8 +179,8 @@ EOL;
      */
     protected function _getILMLearnerGroupIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_learner',
-                'group_id', 'ilm_session_facet_id', $ilmId);
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_group',
+            'group_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
 
@@ -208,20 +208,32 @@ EOL;
     protected function getLearnerGroupsForSILM ($silmId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['ilm_id'] = (int) $silmId;
 
-        $this->db->where('ilm_session_facet_id', $silmId);
-        $queryResults = $this->db->get('ilm_session_facet_learner');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-                array_push($rhett, $this->convertStdObjToArray($groupRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_learner` isfxl ON isfxl.`user_id` = u.`user_id`
+WHERE isfxl.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT g.*
+FROM `group` g
+JOIN `ilm_session_facet_x_group` isfxg ON isfxg.`group_id` = g.`group_id`
+WHERE isfxg.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
@@ -283,19 +295,19 @@ EOL;
 
 
             $queryString = 'SELECT copy_disciplines_from_session_to_session(' . $sessionId . ', '
-                                . $newSessionId . ')';
+                . $newSessionId . ')';
             $this->db->query($queryString);
 
 
             $queryString = 'SELECT copy_mesh_session_to_session(' . $sessionId . ', '
-                                . $newSessionId . ')';
+                . $newSessionId . ')';
             $this->db->query($queryString);
 
 
             if ($newILMSessionFacetId != null) {
                 $queryString = 'SELECT copy_ilm_session_attributes_to_ilm_session('
-                                    . $sessionRow->ilm_session_facet_id . ', '
-                                    . $newILMSessionFacetId . ')';
+                    . $sessionRow->ilm_session_facet_id . ', '
+                    . $newILMSessionFacetId . ')';
             }
 
 
@@ -325,7 +337,7 @@ EOL;
             }
             foreach ($lmidPairs as $lmidPair) {
                 $queryString = 'SELECT copy_learning_material_mesh_from_session_lm_to_session_lm('
-                                . $lmidPair['original'] . ', ' . $lmidPair['new'] . ')';
+                    . $lmidPair['original'] . ', ' . $lmidPair['new'] . ')';
                 $this->db->query($queryString);
             }
 
@@ -551,7 +563,7 @@ EOL;
         $rhett = array();
 
         $crossIdArray = $this->getIdArrayFromCrossTable('session_x_objective', 'objective_id',
-                                                        'session_id', $sessionId);
+            'session_id', $sessionId);
         if ($crossIdArray != null) {
             foreach ($crossIdArray as $id) {
                 $objective = $this->objective->getObjective($id);
@@ -595,8 +607,8 @@ EOL;
         $this->db->update('offering', $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'offering',
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
+            'offering',
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
     }
 
     /**
@@ -724,8 +736,8 @@ EOL;
         }
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newSessionId, 'session_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         // associate learning materials with session
         $this->learningMaterial->saveSessionLearningMaterialAssociations($newSessionId, $learningMaterialArray,
@@ -746,7 +758,7 @@ EOL;
             $lang = $this->getLangToUse();
 
             $rhett['error']
-                   = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
+                = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
 
             return $rhett;
         }
@@ -756,7 +768,7 @@ EOL;
         //
         $success = true;
         if (! empty($description)) { // add new description if input given
-                $success = $this->_addDescription($newSessionId, $description);
+            $success = $this->_addDescription($newSessionId, $description);
         }
         if (! $success) { // deal with failure
             $lang = $this->getLangToUse();
@@ -781,13 +793,13 @@ EOL;
         $rhett = array();
 
         $associatedDisciplinesIds = $this->getIdArrayFromCrossTable('session_x_discipline',
-                'discipline_id', 'session_id', $sessionId);
+            'discipline_id', 'session_id', $sessionId);
 
         $associatedMeshTermIds = $this->getIdArrayFromCrossTable('session_x_mesh',
-                'mesh_descriptor_uid', 'session_id', $sessionId);
+            'mesh_descriptor_uid', 'session_id', $sessionId);
 
         $associatedLearningMaterialIds = $this->getIdArrayFromCrossTable('session_learning_material',
-                'learning_material_id', 'session_id', $sessionId);
+            'learning_material_id', 'session_id', $sessionId);
 
         $updateRow = array();
         $updateRow['title'] = $title;
@@ -805,12 +817,12 @@ EOL;
         $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+            $this->databaseTableName,
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         // update session/learning material associations
         $this->learningMaterial->saveSessionLearningMaterialAssociations($sessionId, $learningMaterialArray,
-                $associatedLearningMaterialIds, $auditAtoms);
+            $associatedLearningMaterialIds, $auditAtoms);
 
         // update session/discipline associations
         $this->_saveDisciplineAssociations($sessionId, $disciplinesArray, $associatedDisciplinesIds);
@@ -826,7 +838,7 @@ EOL;
             $lang = $this->getLangToUse();
 
             $rhett['error']
-                   = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
+                = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
 
             return $rhett;
         }
@@ -884,17 +896,17 @@ EOL;
         $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'session_x_discipline',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            'session_x_discipline',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'session_x_mesh',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            'session_x_mesh',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'session_x_objective',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            'session_x_objective',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
+            $this->databaseTableName,
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
 
         if ($this->db->affected_rows() == 0) {
             $lang = $this->getLangToUse();
@@ -1068,29 +1080,44 @@ EOL;
     protected function getIndependentLearningFacet ($ilmId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['ilm_id'] = (int) $ilmId;
 
         $this->db->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $this->db->get('ilm_session_facet');
+        $query = $this->db->get('ilm_session_facet');
 
-        $ilmRow = $queryResults->first_row();
+        $ilmRow = $query->first_row();
+
+        $query->free_result();
+
         $rhett['ilm_session_facet_id'] = $ilmId;
         $rhett['hours'] = $ilmRow->hours;
         $rhett['due_date'] = $ilmRow->due_date;
+        $rhett['learners'] = array();
 
-        $this->db->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $this->db->get('ilm_session_facet_learner');
-        $learnerArray = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-                array_push($learnerArray, $this->convertStdObjToArray($groupRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($learnerArray, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_learner` isfxl ON isfxl.`user_id` = u.`user_id`
+WHERE isfxl.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['learners'][] = $row;
         }
-        $rhett['learners'] = $learnerArray;
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT g.*
+FROM `group` g
+JOIN `ilm_session_facet_x_group` isfxg ON isfxg.`group_id` = g.`group_id`
+WHERE isfxg.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['learners'][] = $row;
+        }
+        $query->free_result();
 
         $this->db->where('ilm_session_facet_id', $ilmId);
         $queryResults = $this->db->get('ilm_session_facet_instructor');
@@ -1207,8 +1234,8 @@ EOL;
                                                        $associatedInstructorIds = array())
     {
         $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
-                'ilm_session_facet_id', $ilmId, 'user_id',
-                $instructors, $associatedInstructorIds);
+            'ilm_session_facet_id', $ilmId, 'user_id',
+            $instructors, $associatedInstructorIds);
     }
 
     /**
@@ -1222,8 +1249,8 @@ EOL;
                                                             $associatedInstructorGroupsIds = array())
     {
         $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
-                'ilm_session_facet_id', $ilmId, 'instructor_group_id',
-                $instructorGroups, $associatedInstructorGroupsIds);
+            'ilm_session_facet_id', $ilmId, 'instructor_group_id',
+            $instructorGroups, $associatedInstructorGroupsIds);
     }
 
 
@@ -1237,8 +1264,8 @@ EOL;
     protected function _saveILMLearnerGroupAssociations ($ilmId, $learnerGroups = array(),
                                                          $associatedLearnerGroupsIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_learner',
-                'ilm_session_facet_id', $ilmId, 'group_id',
-                $learnerGroups, $associatedLearnerGroupsIds);
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_group',
+            'ilm_session_facet_id', $ilmId, 'group_id',
+            $learnerGroups, $associatedLearnerGroupsIds);
     }
 }
