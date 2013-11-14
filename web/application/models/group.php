@@ -381,7 +381,7 @@ EOL;
         $sql =<<<EOL
 SELECT group_id, user_id, NULL AS instructor_group_id
 FROM group_x_instructor
-WHERE WHERE group_id = ${clean['group_id']}
+WHERE group_id = ${clean['group_id']}
 UNION
 SELECT group_id, NULL as user_id, instructor_group_id
 FROM group_x_instructor_group
@@ -433,7 +433,7 @@ EOL;
         $this->db->delete('cohort_master_group');
 
         $this->db->where('group_id', $groupId);
-        $this->db->delete('offering_learner');
+        $this->db->delete('offering_x_group');
 
         $this->db->where('group_id', $groupId);
         $this->db->delete('ilm_session_facet_learner');

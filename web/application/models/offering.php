@@ -162,7 +162,7 @@ class Offering extends Ilios_Base_Model
             if (count($learnerGroupIds)) {
                 $groupRow = $this->group->getRowForPrimaryKeyId($learnerGroupIds[0]);
                 if ($groupRow) {
-                	$locationToUse = $groupRow->location;
+                    $locationToUse = $groupRow->location;
                 }
             }
         }
@@ -298,21 +298,21 @@ class Offering extends Ilios_Base_Model
         $instructorGroups = array();
         $individualInstructors = array();
         if (! empty($instructors)) {
-        	foreach ($instructors as $instructor) {
-        		if (1 == $instructor['isGroup']) { // is individual or group?
-        			$instructorGroups[] = $instructor;
-        		} else {
-        			$individualInstructors[] = $instructor;
-        		}
-        	}
+            foreach ($instructors as $instructor) {
+                if (1 == $instructor['isGroup']) { // is individual or group?
+                    $instructorGroups[] = $instructor;
+                } else {
+                    $individualInstructors[] = $instructor;
+                }
+            }
         }
         $learnerGroups = array();
         if (! empty($learnerGroupIds)) {
-        	//
-        	// KLUDGE:
-        	// see lengthly code comment in <code<Session::saveIndependentLearningFacet()</code>
-        	foreach ($learnerGroupIds as $groupId) {
-        	    $learnerGroups[] = array('dbId' => $groupId);
+            //
+            // KLUDGE:
+            // see lengthly code comment in <code<Session::saveIndependentLearningFacet()</code>
+            foreach ($learnerGroupIds as $groupId) {
+                $learnerGroups[] = array('dbId' => $groupId);
             }
         }
         // save group- and user-associations.
@@ -329,41 +329,49 @@ class Offering extends Ilios_Base_Model
     }
 
     /**
-     * Transactions are assumed to be handled outside this block
+     * Flags a given offering as "deleted" and removes any associations to other entities, such as learner-
+     * and instructor-groups, from it.
      *
-     * @todo improve code docs
-     * @param int $offeringId
-     * @param array $auditAtoms
-     * @param boolean $deleteIsRootEvent
-     * @return boolean TRUE if the delete removed a row in this class' main db table
+     * @param int $offeringId The offering id
+     * @param array $auditAtoms The auditing trail.
+     * @param boolean $deleteIsRootEvent TRUE if the offering deletion is it's own event, FALSE if it is part of a cascading
+     *  delete triggered by the deletion of an owning entity further upstream.
+     * @return boolean TRUE if the deletion/update operation was a success, FALSE if the db transaction bombs out here.
      *
+     * @todo The rules implemented here are total BS. Flagging the offering as "deleted", but removing any associations from it, WTF?!!
+     *      Take this up with the product owner and come up with a better approach that won't leave these offerings in a basket-case
+     *      state post-"deletion". [ST 2013/11/05]
+     * @todo move the transaction checkpoint out of this function. Either transaction management is in-scope, or it's not. [ST 2013/11/05]
      */
     public function deleteOffering ($offeringId, &$auditAtoms, $deleteIsRootEvent)
     {
+        // delete associated recurring event patterns from the offering.
         $this->deleteAssociatedRecurringEvent($offeringId, $auditAtoms);
 
-        $tables = array('offering_instructor', 'offering_learner');
-
+        // delete associations to instructors/instructor-groups and learners/learner-groups
+        $tables = array('offering_x_instructor', 'offering_x_instructor_group', 'offering_x_learner', 'offering_x_group');
         $this->db->where('offering_id', $offeringId);
         $this->db->delete($tables);
 
+        // flag the offering as deleted
         $updateRow = array();
         $updateRow['deleted'] = 1;
-
         $this->db->where('offering_id', $offeringId);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                            'offering_instructor',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                            'offering_learner',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE,
-                                                            ($deleteIsRootEvent ? 1 : 0)));
+        // capture the delete/update events in the audit trail
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor_group',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_x_learner',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_x_group',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, ($deleteIsRootEvent ? 1 : 0));
 
+        // transaction checkpoint
         return (! $this->transactionAtomFailed());
     }
 
@@ -483,8 +491,10 @@ class Offering extends Ilios_Base_Model
             $offering['start_date'] = $row['start_date'];
             $offering['end_date'] = $row['end_date'];
             $offering['publish_event_id'] = $row['publish_event_id'];
-            $offering['instructors'] = $this->getInstructorsForOffering($row['offering_id']);
-            $offering['learner_groups'] = $this->getLearnerGroupsForOffering($row['offering_id']);
+            $instructors = $this->getInstructorsForOffering($row['offering_id']);
+            $instructorGroups = $this->getInstructorGroupsForOffering($row['offering_id']);
+            $offering['instructors'] = array_merge($instructors, $instructorGroups);
+            $offering['learner_groups'] = $this->getLearnersAndLearnerGroupsForOffering($row['offering_id']);
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
             if ($recurringEventId != -1) {
@@ -511,6 +521,7 @@ class Offering extends Ilios_Base_Model
     {
         $rhett = array();
         $rhett = $this->addUserIdsFromInstructors($this->getInstructorsForOffering($offeringId), $rhett);
+        $rhett = $this->addUserIdsFromInstructors($this->getInstructorsGroupsForOffering($offeringId), $rhett);
         $rhett = $this->addUserIdsFromStudentGroups($this->getLearnerGroupsForOffering($offeringId), $rhett);
         return $rhett;
     }
@@ -540,66 +551,86 @@ class Offering extends Ilios_Base_Model
     }
 
     /**
-     * Retrieves instructors and instructor-groups for a given offering.
-     * @param int $offeringId
-     * @return array
+     * Retrieves instructors associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of arrays, each item representing a user that is an associated as instructor with the offering.
      */
     public function getInstructorsForOffering ($offeringId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
 
-        $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_instructor');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                array_push($rhett, $this->convertStdObjToArray($igRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<<EOL
+SELECT u.*
+FROM `user` u
+JOIN `offering_x_instructor` oxi ON oxi.`user_id` = u.`user_id`
+WHERE oxi.`offering_id` = ${clean['offering_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
-
+        $query->free_result();
         return $rhett;
     }
 
     /**
-     * This method differs from <code>getInstructorsForOffering()</code>
-     * in that all items returned are user
-     * objects - so if there are instructor groups associated to an offering, the members of
-     * that group are actually returned.
-     * @param int $offeringId
-     * @return array
+     * Retrieves instructors-groups associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of arrays, each item representing an instructor group associated with the offering.
+     */
+    public function getInstructorGroupsForOffering ($offeringId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+
+        $sql =<<<EOL
+SELECT ig.*
+FROM `instructor_group` ig
+JOIN `offering_x_instructor_group` oxig ON oxig.`instructor_group_id` = ig.`instructor_group_id`
+WHERE oxig.`offering_id` = ${clean['offering_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
+     * This method differs from <code>getInstructorsForOffering()</code> in that all items returned are user objects
+     * - so if there are instructor groups associated to an offering, the members of that group are actually returned.
+     * @param int $offeringId The offering id.
+     * @return array An associative array of arrays. Each key is an md5 hash of the its value, each value represents a user record.
      */
     public function getIndividualInstructorsForOffering ($offeringId)
     {
-        $possiblyRedundantArray = array();
-
-        $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_instructor');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $userRows
-                    = $this->instructorGroup->getUsersForGroupWithId($row['instructor_group_id']);
-
-                foreach ($userRows as $userRow) {
-                    array_push($possiblyRedundantArray, $this->convertStdObjToArray($userRow));
-                }
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($possiblyRedundantArray, $this->convertStdObjToArray($userRow));
-            }
-        }
-
         $rhett = array();
-        foreach ($possiblyRedundantArray as $user) { // deduping
-            $rhett[md5(serialize($user))] = $user;
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+        $sql =<<< EOL
+(SELECT u.*
+FROM `user` u
+JOIN `offering_x_instructor` oxi ON oxi.`user_id` = u.`user_id`
+WHERE oxi.`offering_id` = {$clean['offering_id']})
+UNION
+(SELECT u.*
+FROM `user` u
+JOIN `instructor_group_x_user` igxu ON igxu.`user_id` = u.`user_id`
+JOIN `offering_x_instructor_group` oxig ON oxig.`instructor_group_id` = igxu.`instructor_group_id`
+WHERE oxig.`offering_id` = {$clean['offering_id']})
+ORDER BY `last_name`, `first_name`, `middle_name`
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[md5(serialize($row))] = $row;
         }
-
+        $query->free_result();
         return $rhett;
     }
 
@@ -628,59 +659,112 @@ class Offering extends Ilios_Base_Model
     }
 
     /**
-     * @todo add code docs
-     * @param int $offeringId
-     * @return array
+     * Retrieves all learner groups associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of assoc. arrays. Each item represents a learner group.
      */
     public function getLearnerGroupsForOffering ($offeringId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+        $sql =<<<EOL
+SELECT g.*
+FROM `group` g
+JOIN `offering_x_group` oxg ON oxg.`group_id` = g.`group_id`
+WHERE oxg.`offering_id` = {$clean['offering_id']}
+EOL;
 
-        $this->db->where('offering_id', $offeringId);
-        $queryResults = $this->db->get('offering_learner');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-                array_push($rhett, $this->convertStdObjToArray($groupRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
 
+        $query->free_result();
         return $rhett;
     }
 
     /**
-     * @todo improve code docs
-     * @param int $sessionId
-     * @param string $columnName
-     * @param string $columnValue
-     * @return array an array of offering models which include session type id, but not the instructors
-     *                  and student groups
+     * Retrieves all learners associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of assoc. arrays. Each item represents a user that is associated as learner with the given offering.
      */
-    public function getOtherOfferingsForInstructor ($sessionId, $columnName, $columnValue)
+    public function getLearnersForOffering ($offeringId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['offering_id'] = (int) $offeringId;
+        $sql =<<<EOL
+SELECT u.*
+FROM `user` u
+JOIN `offering_x_learner` oxl ON oxl.`user_id` = u.`user_id`
+WHERE oxl.`offering_id` = {$clean['offering_id']}
+EOL;
 
-        $queryString
-            = 'SELECT `offering`.`offering_id` AS offering_id, '
-                            . '`offering`.`room` AS room, '
-                            . '`offering`.`publish_event_id` AS publish_event_id, '
-                            . '`offering`.`session_id` AS session_id, '
-                            . '`offering`.`start_date` AS start_date, '
-                            . '`offering`.`end_date` AS end_date '
-                    . 'FROM `offering_instructor`, `offering` '
-                    . 'WHERE `offering`.`session_id` != ' . $sessionId
-                            . ' AND `offering`.`deleted` = 0 '
-                            . ' AND `offering_instructor`.`' . $columnName . '` = ' . $columnValue
-                            . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
 
-        $queryResults = $this->db->query($queryString);
+        $query->free_result();
+        return $rhett;
+    }
 
-        foreach ($queryResults->result_array() as $row) {
+    /**
+     * Retrieves a list of all learners and learner-groups associated with a given offering.
+     *
+     * @param int $offeringId The offering id.
+     * @return array An array of assoc. arrays. Each item represents either a learner group or a user that is associated
+     *  as learner with the given offering.
+     * @see Offering::getLearnerGroupsForOffering()
+     * @see Offering::getLearnersForOffering()
+     */
+    public function getLearnersAndLearnerGroupsForOffering ($offeringId)
+    {
+        $learners = $this->getLearnersForOffering($offeringId);
+        $learnerGroups = $this->getLearnerGroupsForOffering($offeringId);
+
+        return array_merge($learners, $learnerGroups);
+    }
+
+
+    /**
+     * Retrieves all offerings associated with a given user as instructor that don't belong to a given session.
+     * @param int sessionId The session id.
+     * @param int $userId The instructor's user id.
+     * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
+     * @todo The recurrence pattern lookup requires an additional two queries per offering.
+     *  Reduce the number of queries necessary to maintain this info, or get rid of it altogether. [ST 2013/11/05]
+     */
+    public function getOtherOfferingsForInstructor ($sessionId, $userId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['user_id'] = (int) $userId;
+
+        $sql =<<< EOL
+SELECT
+o.`offering_id` AS offering_id,
+o.`room` AS room,
+o.`publish_event_id` AS publish_event_id,
+o.`session_id` AS session_id,
+o.`start_date` AS start_date,
+o.`end_date` AS end_date,
+s.`session_type_id` AS session_type_id
+FROM `offering` o
+JOIN `offering_x_instructor` oxi ON oxi.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
+WHERE o.`deleted` = 0
+AND o.`session_id` != {$clean['session_id']}
+AND oxi.`user_id` = {$clean['user_id']}
+EOL;
+
+        $query = $this->db->query($sql);
+
+        foreach ($query->result_array() as $row) {
             $model = array();
 
             $model['offering_id'] = $row['offering_id'];
@@ -689,51 +773,53 @@ class Offering extends Ilios_Base_Model
             $model['session_id'] = $row['session_id'];
             $model['start_date'] = $row['start_date'];
             $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
             if ($recurringEventId != -1) {
                 $reRow = $this->recurringEvent->getRowForPrimaryKeyId($recurringEventId);
                 $model['recurring_event'] = $this->convertStdObjToArray($reRow);
             }
-
-            $sessionRow = $this->getRow('session', 'session_id', $row['session_id']);
-            $model['session_type_id'] = $sessionRow->session_type_id;
-
-            array_push($rhett, $model);
+            $rhett[] = $model;
         }
-
+        $query->free_result();
         return $rhett;
     }
 
     /**
-     * @todo improve code docs
-     * @param int $sessionId
-     * @param int $userId
-     * @param int $groupId
-     * @return array an array of offering models which include session type id, but not the instructors
-     *                  and student groups
+     * Retrieves all offerings associated with a given instructor group that don't belong to a given session.
+     * @param int sessionId The session id.
+     * @param int $instructorGroupId The instructor group id.
+     * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
+     * @todo The recurrence pattern lookup requires an additional two queries per offering.
+     *  Reduce the number of queries necessary to maintain this info, or get rid of it altogether. [ST 2013/11/05]
      */
-    public function getOtherOfferingsForLearner ($sessionId, $userId, $groupId)
+    public function getOtherOfferingsForInstructorGroup ($sessionId, $instructorGroupId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['instructor_group_id'] = (int) $instructorGroupId;
 
-        $queryString
-            = 'SELECT `offering`.`offering_id` AS offering_id, '
-                            . '`offering`.`room` AS room, '
-                            . '`offering`.`publish_event_id` AS publish_event_id, '
-                            . '`offering`.`session_id` AS session_id, '
-                            . '`offering`.`start_date` AS start_date, '
-                            . '`offering`.`end_date` AS end_date '
-                    . 'FROM `offering_learner`, `offering` '
-                    . 'WHERE `offering`.`session_id` != ' . $sessionId
-                            . ' AND `offering`.`deleted` = 0 '
-                            . ' AND (`offering_learner`.`user_id` = ' . $userId
-                            . ' OR `offering_learner`.`group_id` = ' . $groupId . ') '
-                            . ' AND `offering`.`offering_id` = `offering_learner`.`offering_id`';
+        $sql =<<< EOL
+SELECT
+o.`offering_id` AS offering_id,
+o.`room` AS room,
+o.`publish_event_id` AS publish_event_id,
+o.`session_id` AS session_id,
+o.`start_date` AS start_date,
+o.`end_date` AS end_date,
+s.`session_type_id` AS session_type_id
+FROM `offering` o
+JOIN `offering_x_instructor_group` oxig ON oxig.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
+WHERE o.`deleted` = 0
+AND o.`session_id` != {$clean['session_id']}
+AND oxig.`instructor_group_id` = {$clean['instructor_group_id']}
+EOL;
+        $query = $this->db->query($sql);
 
-        $queryResults = $this->db->query($queryString);
-
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $model = array();
 
             $model['offering_id'] = $row['offering_id'];
@@ -742,6 +828,7 @@ class Offering extends Ilios_Base_Model
             $model['session_id'] = $row['session_id'];
             $model['start_date'] = $row['start_date'];
             $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
 
             $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
             if ($recurringEventId != -1) {
@@ -749,12 +836,125 @@ class Offering extends Ilios_Base_Model
                 $model['recurring_event'] = $this->convertStdObjToArray($reRow);
             }
 
-            $sessionRow = $this->getRow('session', 'session_id', $row['session_id']);
-            $model['session_type_id'] = $sessionRow->session_type_id;
+            $rhett[] = $model;
+        }
+        $query->free_result();
+        return $rhett;
+    }
 
-            array_push($rhett, $model);
+    /**
+     * Retrieves all offerings associated with a given user as learner that don't belong to a given session.
+     * @param int $sessionId The session id.
+     * @param int $userId The learner's user id.
+     * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
+     * @todo The recurrence pattern lookup requires an additional two queries per offering.
+     *  Reduce the number of queries necessary to maintain this info, or get rid of it altogether. [ST 2013/11/12]
+     */
+    public function getOtherOfferingsForLearner ($sessionId, $userId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['user_id'] = (int) $userId;
+
+        $sql =<<<EOL
+SELECT
+o.`offering_id`,
+o.`room`,
+o.`publish_event_id`,
+o.`session_id`,
+o.`start_date`,
+o.`end_date`,
+s.`session_type_id`
+FROM `offering` o
+JOIN `offering_x_learner` oxl ON oxl.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
+WHERE o.`deleted` = 0
+AND o.`session_id` != {$clean['session_id']}
+AND oxl.`user_id` = {$clean['user_id']}
+EOL;
+
+        $query = $this->db->query($sql);
+
+        foreach ($query->result_array() as $row) {
+            $model = array();
+
+            $model['offering_id'] = $row['offering_id'];
+            $model['room'] = $row['room'];
+            $model['publish_event_id'] = $row['publish_event_id'];
+            $model['session_id'] = $row['session_id'];
+            $model['start_date'] = $row['start_date'];
+            $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
+
+            $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
+            if ($recurringEventId != -1) {
+                $reRow = $this->recurringEvent->getRowForPrimaryKeyId($recurringEventId);
+                $model['recurring_event'] = $this->convertStdObjToArray($reRow);
+            }
+
+            $rhett[] = $model;
         }
 
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
+     * Retrieves all offerings associated with a given learner group that don't belong to a given session.
+     * @param int $sessionId The session id.
+     * @param int $groupId The group id.
+     * @return array An array of arrays, each item representing an offering (+some session data and a recurrence pattern if available).
+     * @todo The recurrence pattern lookup requires an additional two queries per offering.
+     *  Reduce the number of queries necessary to maintain this info, or get rid of it altogether. [ST 2013/11/12]
+     */
+    public function getOtherOfferingsForLearnerGroup ($sessionId, $groupId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['group_id'] = (int) $groupId;
+
+        $sql =<<<EOL
+SELECT
+o.`offering_id`,
+o.`room`,
+o.`publish_event_id`,
+o.`session_id`,
+o.`start_date`,
+o.`end_date`,
+s.`session_type_id`
+FROM `offering` o
+JOIN `offering_x_group` oxg ON oxg.`offering_id` = o.`offering_id`
+JOIN `session` s ON s.`session_id` = o.`session_id`
+WHERE o.`deleted` = 0
+AND o.`session_id` != {$clean['session_id']}
+AND oxg.`group_id` = {$clean['group_id']}
+EOL;
+
+        $query = $this->db->query($sql);
+
+        foreach ($query->result_array() as $row) {
+            $model = array();
+
+            $model['offering_id'] = $row['offering_id'];
+            $model['room'] = $row['room'];
+            $model['publish_event_id'] = $row['publish_event_id'];
+            $model['session_id'] = $row['session_id'];
+            $model['start_date'] = $row['start_date'];
+            $model['end_date'] = $row['end_date'];
+            $model['session_type_id'] = $row['session_type_id'];
+
+            $recurringEventId = $this->getRecurringEventIdForOffering($row['offering_id']);
+            if ($recurringEventId != -1) {
+                $reRow = $this->recurringEvent->getRowForPrimaryKeyId($recurringEventId);
+                $model['recurring_event'] = $this->convertStdObjToArray($reRow);
+            }
+
+            $rhett[] = $model;
+        }
+
+        $query->free_result();
         return $rhett;
     }
 
@@ -800,16 +1000,14 @@ class Offering extends Ilios_Base_Model
     }
 
     /**
-     * Retrieves ids of users that are associated as instructors
-     * with a given offering.
+     * Retrieves ids of users that are associated as instructors with a given offering.
      * @param int $offeringId
      * @return array list of user ids
      */
     protected function _getInstructorIds ($offeringId)
     {
-    	$ids = $this->getIdArrayFromCrossTable('offering_instructor',
-    			'user_id', 'offering_id', $offeringId);
-    	return is_null($ids) ? array() : array_filter($ids);
+        $ids = $this->getIdArrayFromCrossTable('offering_x_instructor', 'user_id', 'offering_id', $offeringId);
+        return is_null($ids) ? array() : array_filter($ids);
     }
 
     /**
@@ -819,9 +1017,8 @@ class Offering extends Ilios_Base_Model
      */
     protected function _getInstructorGroupIds ($offeringId)
     {
-    	$ids = $this->getIdArrayFromCrossTable('offering_instructor',
-    			'instructor_group_id', 'offering_id', $offeringId);
-    	return is_null($ids) ?  array() : array_filter($ids);
+        $ids = $this->getIdArrayFromCrossTable('offering_x_instructor_group', 'instructor_group_id', 'offering_id', $offeringId);
+        return is_null($ids) ?  array() : array_filter($ids);
     }
 
     /**
@@ -831,56 +1028,50 @@ class Offering extends Ilios_Base_Model
      */
     protected function _getLearnerGroupIds ($offeringId)
     {
-    	$ids = $this->getIdArrayFromCrossTable('offering_learner',
-    			'group_id', 'offering_id', $offeringId);
-    	return is_null($ids) ? array() : array_filter($ids);
+        $ids = $this->getIdArrayFromCrossTable('offering_x_group', 'group_id', 'offering_id', $offeringId);
+        return is_null($ids) ? array() : array_filter($ids);
     }
 
 
     /**
      * Saves the offering/instructor associations for a given offering
-     * and given instructors, taken given pre-existings associations into account.
+     * and given instructors, taken given pre-existing associations into account.
      * @param int $offeringId
      * @param array $instructors
      * @param array $associatedInstructorIds
      */
     protected function _saveInstructorAssociations ($offeringId, $instructors = array(),
-    		$associatedInstructorIds = array())
+                                                    $associatedInstructorIds = array())
     {
-    	$this->_saveJoinTableAssociations('offering_instructor',
-    			'offering_id', $offeringId, 'user_id',
-    			$instructors, $associatedInstructorIds);
+        $this->_saveJoinTableAssociations('offering_x_instructor', 'offering_id', $offeringId, 'user_id',
+            $instructors, $associatedInstructorIds);
     }
 
     /**
      * Saves the offering/instructor-group associations for a given offering
-     * and given instructors-groups, taken given pre-existings associations into account.
+     * and given instructors-groups, taken given pre-existing associations into account.
      * @param int $offeringId
      * @param array $instructorGroups
      * @param array $associatedInstructorGroupsIds
      */
     protected function _saveInstructorGroupAssociations ($offeringId, $instructorGroups = array(),
-    		$associatedInstructorGroupsIds = array())
+                                                         $associatedInstructorGroupsIds = array())
     {
-    	$this->_saveJoinTableAssociations('offering_instructor',
-    			'offering_id', $offeringId, 'instructor_group_id',
-    			$instructorGroups, $associatedInstructorGroupsIds);
+        $this->_saveJoinTableAssociations('offering_x_instructor_group', 'offering_id', $offeringId,
+            'instructor_group_id', $instructorGroups, $associatedInstructorGroupsIds);
     }
-
 
     /**
      * Saves the offering/learner-group associations for a given offering
-     * and given learner-groups, taken given pre-existings associations into account.
+     * and given learner-groups, taken given pre-existing associations into account.
      * @param int $offeringId
      * @param array $learnerGroups
      * @param array $associatedLearnerGroupsIds
      */
     protected function _saveLearnerGroupAssociations ($offeringId, $learnerGroups = array(),
-    		$associatedLearnerGroupsIds = array())
+            $associatedLearnerGroupsIds = array())
     {
-    	$this->_saveJoinTableAssociations('offering_learner',
-    			'offering_id', $offeringId, 'group_id',
-    			$learnerGroups, $associatedLearnerGroupsIds);
+        $this->_saveJoinTableAssociations('offering_x_group', 'offering_id', $offeringId, 'group_id', $learnerGroups,
+            $associatedLearnerGroupsIds);
     }
-
 }

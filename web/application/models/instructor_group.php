@@ -34,7 +34,7 @@ SELECT DISTINCT c.`course_id`
 FROM `course` c
 JOIN `session` s ON s.`course_id` = c.`course_id`
 JOIN `offering` o ON o.`session_id` = s.`session_id`
-JOIN `offering_instructor` oi ON oi.`offering_id` = o.`offering_id`
+JOIN `offering_x_instructor_group` oi ON oi.`offering_id` = o.`offering_id`
 WHERE oi.`instructor_group_id` = {$clean['group_id']}
 AND (c.`archived` = 1 OR c.`locked` = 1)
 AND c.`deleted` = 0
@@ -57,8 +57,8 @@ SELECT DISTINCT c.`course_id`
 FROM `course` c
 JOIN `session` s ON s.`course_id` = c.`course_id`
 JOIN `offering` o ON o.`session_id` = s.`session_id`
-JOIN `offering_learner` ol ON ol.`offering_id` = o.`offering_id`
-JOIN `group_x_instructor_group` gxig ON gxig.`group_id` = ol.`group_id`
+JOIN `offering_x_group` oxg ON oxg.`offering_id` = o.`offering_id`
+JOIN `group_x_instructor_group` gxig ON gxig.`group_id` = oxg.`group_id`
 WHERE gxig.`instructor_group_id` = {$clean['group_id']}
 AND (c.`archived` = 1 OR c.`locked` = 1)
 AND c.`deleted` = 0
@@ -370,7 +370,7 @@ EOL;
     protected function _deleteOfferingAssociationsToGroup ($groupId,  &$auditAtoms)
     {
         $this->db->where('instructor_group_id', $groupId);
-        $this->db->delete('offering_instructor');
+        $this->db->delete('offering_x_instructor_group');
 
         if ($this->transactionAtomFailed()) {
             return false;
@@ -378,7 +378,7 @@ EOL;
 
         if (0 < $this->db->affected_rows()) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'instructor_group_id',
-                'offering_instructor', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+                'offering_x_instructor_group', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return true;
     }

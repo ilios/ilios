@@ -608,7 +608,7 @@ class Ilios_CurriculumInventory_Exporter
             $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
             $relUri2 = $this->_createPcrsUri($relation['rel2']);
             $relationshipUri = $this->_createRelationshipUri('related');
-            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
+            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri2, $relUri1,
                 $relationshipUri);
         }
         $relations = $inventory['expectations']['framework']['relations']['course_objectives_to_program_objectives'];

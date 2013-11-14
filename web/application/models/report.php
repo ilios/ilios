@@ -394,37 +394,37 @@ class Report extends Ilios_Base_Model
                     $queryString = 'SELECT `course`.`course_id`
                                       FROM `course`,
                                           ( SELECT DISTINCT `session`.`course_id`
-                                              FROM `offering`, `offering_instructor`, `session`
-                                             WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
-                                               AND `offering_instructor`.`user_id` =  ' . $clean['id'] . '
+                                              FROM `offering`, `offering_x_instructor`, `session`
+                                             WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
+                                               AND `offering_x_instructor`.`user_id` =  ' . $clean['id'] . '
                                                AND `session`.`session_id` = `offering`.`session_id`
                                                AND `session`.`deleted` = false
                                            UNION
                                             SELECT DISTINCT `session`.`course_id`
-                                              FROM `offering`, `offering_instructor`, `instructor_group_x_user`,
+                                              FROM `offering`, `offering_x_instructor_group`, `instructor_group_x_user`,
                                                    `session`
-                                             WHERE `offering_instructor`.`instructor_group_id`
+                                             WHERE `offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
-                                               AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                               AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                                AND `offering`.`session_id` = `session`.`session_id`
                                                AND `session`.`deleted` = false
                                            UNION
                                             SELECT DISTINCT `session`.`course_id`
-                                              FROM `offering`, `offering_learner`, `group_x_instructor`, `session`
-                                             WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                               AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                              FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`
+                                             WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                               AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                                AND `offering`.`session_id` = `session`.`session_id`
                                                AND `group_x_instructor`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = false
                                            UNION
                                             SELECT DISTINCT `session`.`course_id`
-                                              FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                              FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                                    `instructor_group_x_user`, `session`
-                                             WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                             WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                                AND `group_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                               AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                               AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                                AND `offering`.`session_id` = `session`.`session_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = false
@@ -480,17 +480,17 @@ class Report extends Ilios_Base_Model
                     $queryString = 'SELECT `course`.`course_id`
                                       FROM `course`,
                                           ( SELECT DISTINCT `session`.`course_id`
-                                              FROM `offering`, `session`, `offering_instructor`
-                                             WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
-                                               AND `offering_instructor`.`instructor_group_id` = ' . $clean['id'] . '
+                                              FROM `offering`, `session`, `offering_x_instructor_group`
+                                             WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
+                                               AND `offering_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
                                                AND `offering`.`session_id` = `session`.`session_id`
                                                AND `session`.`deleted` = false
                                            UNION
                                             SELECT DISTINCT `session`.`course_id`
-                                              FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                              FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                                    `session`
-                                             WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                               AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                             WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                               AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                                AND `offering`.`session_id` = `session`.`session_id`
                                                AND `group_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = false
@@ -823,39 +823,39 @@ class Report extends Ilios_Base_Model
                                       FROM `course`,
                                            (SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `offering`, `offering_instructor`, `session`
-                                             WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
-                                               AND `offering_instructor`.`user_id` =  ' . $clean['id'] . '
+                                              FROM `offering`, `offering_x_instructor`, `session`
+                                             WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
+                                               AND `offering_x_instructor`.`user_id` =  ' . $clean['id'] . '
                                                AND `session`.`session_id` = `offering`.`session_id`
                                                AND `session`.`deleted` = 0
                                            UNION
                                             SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `offering`, `offering_instructor`, `instructor_group_x_user`, `session`
-                                             WHERE `offering_instructor`.`instructor_group_id`
+                                              FROM `offering`, `offering_x_instructor_group`, `instructor_group_x_user`, `session`
+                                             WHERE `offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
-                                               AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                               AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                                AND `session`.`session_id` = `offering`.`session_id`
                                                AND `session`.`deleted` = 0
                                            UNION
                                             SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `offering`, `offering_learner`, `group_x_instructor`, `session`
-                                             WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                               AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                              FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`
+                                             WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                               AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                                AND `group_x_instructor`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`session_id` = `offering`.`session_id`
                                                AND `session`.`deleted` = 0
                                            UNION
                                             SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `offering`, `offering_learner`, `group_x_instructor`,
+                                              FROM `offering`, `offering_x_group`, `group_x_instructor`,
                                                    `instructor_group_x_user`, `session`
-                                             WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                             WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                                AND `group_x_instructor`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                               AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                               AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`session_id` = `offering`.`session_id`
                                                AND `session`.`deleted` = 0
@@ -918,18 +918,18 @@ class Report extends Ilios_Base_Model
                                       FROM `course`,
                                            (SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `offering`, `session`, `offering_instructor`
-                                             WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
-                                               AND `offering_instructor`.`instructor_group_id` = ' . $clean['id'] . '
+                                              FROM `offering`, `session`, `offering_x_instructor_group`
+                                             WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
+                                               AND `offering_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
                                                AND `session`.`session_id` = `offering`.`session_id`
                                                AND `session`.`deleted` = 0
                                            UNION
                                             SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
-                                              FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                              FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                                    `session`
-                                             WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                               AND `offering_learner`.`group_id` = `group_x_instructor_group`.group_id
+                                             WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                               AND `offering_x_group`.`group_id` = `group_x_instructor_group`.group_id
                                                AND `group_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
                                                AND `session`.`session_id` = `offering`.`session_id`
                                                AND `session`.`deleted` = 0
@@ -1350,39 +1350,39 @@ EOL;
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
-                    $queryString ='SELECT DISTINCT `offering_instructor`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `session`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                    $queryString ='SELECT DISTINCT `offering_x_instructor`.`user_id`
+                                      FROM `offering`, `offering_x_instructor`, `session`
+                                     WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`course_id` = ' . $clean['id'] . '
                                        AND `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`deleted` = false
-                                       AND `offering_instructor`.`user_id` IS NOT NULL
+                                       AND `offering_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `instructor_group_x_user`, `session`
-                                     WHERE `offering_instructor`.`instructor_group_id`
+                                      FROM `offering`, `offering_x_instructor_group`, `instructor_group_x_user`, `session`
+                                     WHERE `offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`course_id` = ' . $clean['id'] . '
-                                       AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                       AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor`, `session`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`course_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                        AND `group_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `instructor_group_x_user`, `session`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                        AND `group_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`course_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
@@ -1430,39 +1430,39 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_SESSION :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `session`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor`.`user_id`
+                                      FROM `offering`, `offering_x_instructor`, `session`
+                                     WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = ' . $clean['id'] . '
                                        AND `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`deleted` = false
-                                       AND `offering_instructor`.`user_id` IS NOT NULL
+                                       AND `offering_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `instructor_group_x_user`, `session`
-                                     WHERE `offering_instructor`.`instructor_group_id`
+                                      FROM `offering`, `offering_x_instructor_group`, `instructor_group_x_user`, `session`
+                                     WHERE `offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                        AND `session`.`session_id` = ' . $clean['id'] . '
-                                       AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                       AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor`, `session`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                        AND `group_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `instructor_group_x_user`, `session`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                        AND `group_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
@@ -1510,27 +1510,27 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_SESSION_TYPE :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`user_id`
-                                      FROM `offering_instructor`
-                                      JOIN `offering` ON `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor`.`user_id`
+                                      FROM `offering_x_instructor`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_x_instructor`.`offering_id`
                                       JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
-                                       AND `offering_instructor`.`user_id` IS NOT NULL
+                                       AND `offering_x_instructor`.`user_id` IS NOT NULL
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
                                       FROM `instructor_group_x_user`
-                                      JOIN `offering_instructor` ON`offering_instructor`.`instructor_group_id`
+                                      JOIN `offering_x_instructor_group` ON`offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                      JOIN `offering` ON `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                       JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor`.`user_id`
                                       FROM `group_x_instructor`
-                                      JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
-                                      JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                      JOIN `offering_x_group` ON `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                       JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
@@ -1538,10 +1538,9 @@ EOL;
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
                                       FROM `instructor_group_x_user`
-                                      JOIN `group_x_instructor_group` ON `group_x_instructor_group`.`instructor_group_id`
-                                                                       					= `instructor_group_x_user`.`instructor_group_id`
-                                      JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
-                                      JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                      JOIN `group_x_instructor_group` ON `group_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+                                      JOIN `offering_x_group` ON `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                       JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
@@ -1593,32 +1592,32 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_LEARNING_MATERIAL :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `session`,
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor`.`user_id`
+                                      FROM `offering`, `offering_x_instructor`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id'] . '
-                                       AND `offering_instructor`.`user_id` is not null
+                                       AND `offering_x_instructor`.`user_id` is not null
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `offering`, `offering_x_instructor_group`, `instructor_group_x_user`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `offering_instructor`.`instructor_group_id`
+                                     WHERE `offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                       AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor`, `session`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id'] . '
@@ -1626,12 +1625,12 @@ EOL;
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `instructor_group_x_user`, `session`, `session_learning_material` `slm`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                        AND `group_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id'] . '
@@ -1686,32 +1685,32 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_TOPIC :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `session`,
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor`.`user_id`
+                                      FROM `offering`, `offering_x_instructor`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id'] . '
-                                       AND `offering_instructor`.`user_id` is not null
+                                       AND `offering_x_instructor`.`user_id` is not null
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `offering`, `offering_x_instructor_group`, `instructor_group_x_user`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering_instructor`.`instructor_group_id`
+                                     WHERE `offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                       AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor`, `session`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id'] . '
@@ -1719,12 +1718,11 @@ EOL;
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `instructor_group_x_user`.`user_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `instructor_group_x_user`, `session`, `session_x_discipline` `sxd`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `group_x_instructor_group`.`instructor_group_id`
-                                                                       = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `group_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id'] . '
@@ -1824,19 +1822,19 @@ EOL;
 
             switch ($po) {
                 case self::REPORT_NOUN_COURSE :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`instructor_group_id`
-                                      FROM `offering`, `session`, `offering_instructor`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor_group`.`instructor_group_id`
+                                      FROM `offering`, `session`, `offering_x_instructor_group`
+                                     WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`course_id` = ' . $clean['id']  . '
                                        AND `offering`.`session_id` = `session`.`session_id`
-                                       AND `offering_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `offering_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `session`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`course_id` = ' . $clean['id']  . '
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
@@ -1866,19 +1864,19 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_SESSION :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`instructor_group_id`
-                                      FROM `offering`, `session`, `offering_instructor`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor_group`.`instructor_group_id`
+                                      FROM `offering`, `session`, `offering_x_instructor_group`
+                                     WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = ' . $clean['id']  . '
                                        AND `offering`.`session_id` = `session`.`session_id`
-                                       AND `offering_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `offering_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `session`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = ' . $clean['id']  . '
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
@@ -1908,18 +1906,18 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_SESSION_TYPE :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`instructor_group_id`
-                                      FROM `offering_instructor`
-                                      JOIN `offering` ON `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor_group`.`instructor_group_id`
+                                      FROM `offering_x_instructor_group`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                       JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id']  . '
-                                       AND `offering_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `offering_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
                                       FROM `group_x_instructor_group`
-                                      JOIN `offering_learner` ON `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
-                                      JOIN `offering` ON `offering`.`offering_id` = `offering_learner`.`offering_id`
+                                      JOIN `offering_x_group` ON `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
+                                      JOIN `offering` ON `offering`.`offering_id` = `offering_x_group`.`offering_id`
                                       JOIN `session` ON `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_type_id` = ' . $clean['id']  . '
                                        AND `group_x_instructor_group`.`instructor_group_id` IS NOT NULL
@@ -1955,21 +1953,21 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_LEARNING_MATERIAL :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`instructor_group_id`
-                                      FROM `offering`, `session`, `offering_instructor`,
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor_group`.`instructor_group_id`
+                                      FROM `offering`, `session`, `offering_x_instructor_group`,
                                            `session_learning_material` `slm`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id']  . '
                                        AND `offering`.`session_id` = `session`.`session_id`
-                                       AND `offering_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `offering_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `session`, `session_learning_material` `slm`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `slm`.`learning_material_id` = ' . $clean['id']  . '
@@ -2003,21 +2001,21 @@ EOL;
                     }
                     break;
                 case self::REPORT_NOUN_TOPIC :
-                    $queryString = 'SELECT DISTINCT `offering_instructor`.`instructor_group_id`
-                                      FROM `offering`, `session`, `offering_instructor`,
+                    $queryString = 'SELECT DISTINCT `offering_x_instructor_group`.`instructor_group_id`
+                                      FROM `offering`, `session`, `offering_x_instructor_group`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id']  . '
                                        AND `offering`.`session_id` = `session`.`session_id`
-                                       AND `offering_instructor`.`instructor_group_id` IS NOT NULL
+                                       AND `offering_x_instructor_group`.`instructor_group_id` IS NOT NULL
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `group_x_instructor_group`.`instructor_group_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `session`, `session_x_discipline` `sxd`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `sxd`.`discipline_id` = ' . $clean['id']  . '
@@ -2333,42 +2331,41 @@ EOL;
                     break;
                 case self::REPORT_NOUN_INSTRUCTOR :
                     $queryString = 'SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `offering`, `offering_instructor`, `session`,
+                                      FROM `offering`, `offering_x_instructor`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
-                                       AND `offering_instructor`.`user_id` = ' . $clean['id'] . '
+                                       AND `offering_x_instructor`.`user_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `offering`, `offering_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `offering`, `offering_x_instructor_group`, `instructor_group_x_user`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering_instructor`.`instructor_group_id`
+                                     WHERE `offering_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
+                                       AND `offering`.`offering_id` = `offering_x_instructor_group`.`offering_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor`, `session`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `group_x_instructor`.`user_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `instructor_group_x_user`, `session`, `session_x_discipline` `sxd`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `group_x_instructor_group`.`instructor_group_id`
-                                                                       = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `group_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
@@ -2422,19 +2419,19 @@ EOL;
                     break;
                 case self::REPORT_NOUN_INSTRUCTOR_GROUP :
                     $queryString = 'SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `offering`, `session`, `offering_instructor`,
+                                      FROM `offering`, `session`, `offering_x_instructor_group`,
                                            `session_x_discipline` `sxd`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
-                                       AND `offering_instructor`.`instructor_group_id` = ' . $clean['id'] . '
+                                       AND `offering_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `sxd`.`discipline_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `session`, `session_x_discipline` `sxd`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `sxd`.`session_id`
                                        AND `group_x_instructor_group`.`instructor_group_id` = ' . $clean['id'] . '
@@ -2712,42 +2709,30 @@ EOL;
                     break;
                 case self::REPORT_NOUN_INSTRUCTOR :
                     $queryString = 'SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `offering`, `offering_instructor`, `session`,
+                                      FROM `offering`, `offering_x_instructor`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `offering`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
-                                       AND `offering_instructor`.`user_id` = ' . $clean['id'] . '
+                                       AND `offering_x_instructor`.`user_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `offering`, `offering_instructor`, `instructor_group_x_user`, `session`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor`, `session`,
                                            `session_learning_material` `slm`
-                                     WHERE `offering_instructor`.`instructor_group_id`
-                                                                       = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering`.`offering_id` = `offering_instructor`.`offering_id`
-                                       AND `offering`.`session_id` = `session`.`session_id`
-                                       AND `session`.`session_id` = `slm`.`session_id`
-                                       AND `offering_instructor`.`user_id` = ' . $clean['id'] . '
-                                       AND `session`.`deleted` = false
-                                  UNION
-                                    SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor`, `session`,
-                                           `session_learning_material` `slm`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `group_x_instructor`.`user_id` = ' . $clean['id'] . '
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `instructor_group_x_user`, `session`, `session_learning_material` `slm`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `group_x_instructor_group`.`instructor_group_id`
-                                                                       = `instructor_group_x_user`.`instructor_group_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `group_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
@@ -2801,19 +2786,19 @@ EOL;
                     break;
                 case self::REPORT_NOUN_INSTRUCTOR_GROUP :
                     $queryString = 'SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `offering`, `session`, `offering_instructor`,
+                                      FROM `offering`, `session`, `offering_x_instructor_group`,
                                            `session_learning_material` `slm`
-                                     WHERE `offering_instructor`.`offering_id` = `offering`.`offering_id`
+                                     WHERE `offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
-                                       AND `offering_instructor`.`instructor_group_id` = ' . $clean['id']  . '
+                                       AND `offering_x_instructor_group`.`instructor_group_id` = ' . $clean['id']  . '
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`deleted` = false
                                   UNION
                                     SELECT DISTINCT `slm`.`learning_material_id`
-                                      FROM `offering`, `offering_learner`, `group_x_instructor_group`,
+                                      FROM `offering`, `offering_x_group`, `group_x_instructor_group`,
                                            `session`, `session_learning_material` `slm`
-                                     WHERE `offering`.`offering_id` = `offering_learner`.`offering_id`
-                                       AND `offering_learner`.`group_id` = `group_x_instructor_group`.`group_id`
+                                     WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
+                                       AND `offering_x_group`.`group_id` = `group_x_instructor_group`.`group_id`
                                        AND `offering`.`session_id` = `session`.`session_id`
                                        AND `session`.`session_id` = `slm`.`session_id`
                                        AND `group_x_instructor_group`.`instructor_group_id` = ' . $clean['id']  . '

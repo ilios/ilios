@@ -32,11 +32,11 @@ class Canned_Queries extends Ilios_Base_Model
 
         $sql =<<< EOL
 SELECT c.`course_id`, c.`title`
-FROM `offering_learner` ol
-JOIN `offering` o ON o.`offering_id` = ol.`offering_id`
+FROM `offering_x_group` oxg
+JOIN `offering` o ON o.`offering_id` = oxg.`offering_id`
 JOIN `session` s ON s.`session_id` = o.`session_id`
 JOIN `course` c ON c.`course_id` = s.`course_id`
-WHERE ol.`group_id` = {$clean['group_id']}
+WHERE oxg.`group_id` = {$clean['group_id']}
 AND o.`deleted` = 0
 AND s.`deleted` = 0
 AND c.`deleted` = 0
@@ -79,8 +79,8 @@ EOL;
 SELECT g.`group_id`, g.`title`
 FROM `session` s
 JOIN `offering` o ON o.`session_id` = s.`session_id`
-JOIN `offering_learner` ol ON ol.`offering_id` = o.`offering_id`
-JOIN `group` g ON g.`group_id` = ol.`group_id`
+JOIN `offering_x_group` oxg ON oxg.`offering_id` = o.`offering_id`
+JOIN `group` g ON g.`group_id` = oxg.`group_id`
 WHERE
 s.`deleted` = 0
 AND o.`deleted` = 0
@@ -106,8 +106,8 @@ EOL;
     }
 
 
-    /*
-     * This is function returns all the learning session offerings with fields that are
+    /**
+     * This function returns all the learning session offerings with fields that are
      * required by the calendar to display properly.  We only include some calendar filters'
      * arguments here, only those that are reused often enough for MySQL to be able to cache
      * the query efficiently.
@@ -170,10 +170,12 @@ JOIN session_type st ON st.session_type_id = s.session_type_id
 JOIN course c ON c.course_id = s.course_id
 EOL;
         if ($student_role) {
-            $sql .= " LEFT JOIN offering_learner ON offering_learner.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_learner ON offering_x_learner.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_group ON offering_x_group.offering_id = o.offering_id";
         }
         if ($faculty_role) {
-            $sql .= " LEFT JOIN offering_instructor ON offering_instructor.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_instructor ON offering_x_instructor.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_instructor_group ON offering_x_instructor_group.offering_id = o.offering_id";
         }
         if ($director_role) {
             $sql .= " LEFT JOIN course_director ON course_director.course_id = c.course_id";
@@ -193,21 +195,21 @@ EOL;
         }
         if (!empty($clean['user_id'])) {
             if ($student_role) {
-                $subqueries[] = $sql . " AND `offering_learner`.`user_id` = {$clean['user_id']}";
+                $subqueries[] = $sql . " AND `offering_x_learner`.`user_id` = {$clean['user_id']}";
                 $subqueries[] = $sql . <<< EOL
  AND EXISTS (
     SELECT `group_x_user`.`user_id` FROM `group_x_user`
-    WHERE `group_x_user`.`group_id` = `offering_learner`.`group_id`
+    WHERE `group_x_user`.`group_id` = `offering_x_group`.`group_id`
     AND `group_x_user`.`user_id` = {$clean['user_id']}
 )
 EOL;
             }
             if ($faculty_role) {
-                $subqueries[] = $sql . " AND `offering_instructor`.`user_id` = {$clean['user_id']}";
+                $subqueries[] = $sql . " AND `offering_x_instructor`.`user_id` = {$clean['user_id']}";
                 $subqueries[] = $sql . <<< EOL
  AND EXISTS (
     SELECT `instructor_group_x_user`.`user_id` FROM `instructor_group_x_user`
-    WHERE `offering_instructor`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+    WHERE `offering_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
     AND `instructor_group_x_user`.`user_id` = {$clean['user_id']}
 )
 EOL;
@@ -258,8 +260,8 @@ EOL;
         return $rhett;
     }
 
-    /*
-     * This is function returns all the independent learning sessions with fields that are
+    /**
+     * This function returns all the independent learning sessions with fields that are
      * required by the calendar to display properly.  We only include some calendar filters'
      * arguments here, only those that are reused often enough for MySQL to be able to cache
      * the query efficiently.
@@ -402,9 +404,9 @@ EOL;
         }
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `session`, `offering_instructor`, `offering` '
-                        . 'WHERE (`offering_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`offering_instructor`.`offering_id` = `offering`.`offering_id`) '
+                        . 'FROM `course`, `session`, `offering_x_instructor_group`, `offering` '
+                        . 'WHERE (`offering_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`) '
                         .       'AND (`offering`.`session_id` = `session`.`session_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -416,10 +418,10 @@ EOL;
         }
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `session`, `offering`, `group_x_instructor_group`, `offering_learner` '
+                        . 'FROM `course`, `session`, `offering`, `group_x_instructor_group`, `offering_x_group` '
                         . 'WHERE (`group_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`group_x_instructor_group`.`group_id` = `offering_learner`.`group_id`) '
-                        .       'AND (`offering_learner`.`offering_id` = `offering`.`offering_id`) '
+                        .       'AND (`group_x_instructor_group`.`group_id` = `offering_x_group`.`group_id`) '
+                        .       'AND (`offering_x_group`.`offering_id` = `offering`.`offering_id`) '
                         .       'AND (`offering`.`session_id` = `session`.`session_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -683,9 +685,9 @@ EOL;
         $clean['userId'] = (int) $userId;
         $clean['offeringId'] = (int)$offeringId;
 
-        $queryString = "SELECT * FROM offering_learner "
-            . "JOIN group_x_user ON group_x_user.group_id = offering_learner.group_id "
-            . "WHERE offering_learner.offering_id = {$clean['offeringId']} "
+        $queryString = "SELECT * FROM offering_x_group "
+            . "JOIN group_x_user ON group_x_user.group_id = offering_x_group.group_id "
+            . "WHERE offering_x_group.offering_id = {$clean['offeringId']} "
             . "AND group_x_user.user_id = {$clean['userId']}";
 
         $queryResults = $this->db->query($queryString);
@@ -725,8 +727,8 @@ EOL;
 SELECT u.`user_id`
 FROM `session` s
 JOIN `offering` o ON s.`session_id` = o.`session_id`
-JOIN  `offering_learner` ol ON o.`offering_id` = ol.`offering_id`
-JOIN `group_x_user` gxu ON gxu.`group_id` = ol.`group_id`
+JOIN  `offering_x_group` oxg ON o.`offering_id` = oxg.`offering_id`
+JOIN `group_x_user` gxu ON gxu.`group_id` = oxg.`group_id`
 JOIN `user` u ON u.`user_id` = gxu.`user_id`
 WHERE s.`session_id` = {$clean['session_id']}
 AND u.`user_id` = {$clean['user_id']}
@@ -742,8 +744,8 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_learner` AS ol ON o.offering_id = ol.offering_id
-JOIN `user` AS u ON ol.user_id = u.user_id
+JOIN `offering_x_learner` AS oxl ON o.offering_id = oxl.offering_id
+JOIN `user` AS u ON oxl.user_id = u.user_id
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
 AND s.deleted = 0 AND s.publish_event_id IS NOT NULL
@@ -756,8 +758,8 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_learner` AS ol ON o.offering_id = ol.offering_id
-JOIN `group_x_user` AS gxu ON ol.group_id = gxu.group_id
+JOIN `offering_x_group` AS oxg ON o.offering_id = oxg.offering_id
+JOIN `group_x_user` AS gxu ON oxg.group_id = gxu.group_id
 JOIN `user` AS u ON gxu.user_id = u.user_id
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -804,7 +806,7 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_instructor` AS oi ON o.offering_id = oi.offering_id
+JOIN `offering_x_instructor` AS oi ON o.offering_id = oi.offering_id
 JOIN `user` AS u ON oi.user_id = u.user_id
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -818,7 +820,7 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_instructor` AS oi ON o.offering_id = oi.offering_id
+JOIN `offering_x_instructor_group` AS oi ON o.offering_id = oi.offering_id
 JOIN `instructor_group_x_user` AS igxu ON oi.instructor_group_id = igxu.instructor_group_id
 JOIN `user` AS u ON igxu.user_id = u.user_id
 
