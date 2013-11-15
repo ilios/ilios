@@ -323,7 +323,8 @@ EOL;
             $sql .= "LEFT JOIN ilm_session_facet_x_group ON ilm_session_facet_x_group.ilm_session_facet_id = s.ilm_session_facet_id ";
         }
         if ($faculty_role) {
-            $sql .= "LEFT JOIN ilm_session_facet_instructor ON ilm_session_facet_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor ON ilm_session_facet_x_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor_group ON ilm_session_facet_x_instructor_group.ilm_session_facet_id = s.ilm_session_facet_id ";
         }
         if ($director_role) {
             $sql .= "LEFT JOIN course_director ON course_director.course_id = c.course_id ";
@@ -350,9 +351,9 @@ EOL;
                     . "AND group_x_user.user_id = $user_id) ) ";
             }
             if ($faculty_role) {
-                $clause .= "OR ( ilm_session_facet_instructor.user_id = $user_id "
+                $clause .= "OR ( ilm_session_facet_x_instructor.user_id = $user_id "
                     ."OR EXISTS (SELECT instructor_group_x_user.user_id FROM instructor_group_x_user "
-                    . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_instructor.instructor_group_id "
+                    . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id "
                     . "AND instructor_group_x_user.user_id = $user_id) ) ";
             }
             if ($director_role) {
@@ -385,9 +386,9 @@ EOL;
         $tmpArray = array();
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `ilm_session_facet_instructor`, `session` '
-                        . 'WHERE (`ilm_session_facet_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`ilm_session_facet_instructor`.`ilm_session_facet_id` '
+                        . 'FROM `course`, `ilm_session_facet_x_instructor_group`, `session` '
+                        . 'WHERE (`ilm_session_facet_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`ilm_session_facet_x_instructor_group`.`ilm_session_facet_id` '
                         .                                   '= `session`.`ilm_session_facet_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -829,7 +830,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_instructor` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_instructor` AS i USING( ilm_session_facet_id )
 JOIN `user` AS u USING( user_id )
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -841,7 +842,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_instructor` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_instructor_group` AS i USING( ilm_session_facet_id )
 JOIN `instructor_group_x_user` AS igxu USING( instructor_group_id )
 JOIN `user` AS u ON igxu.user_id = u.user_id
 
