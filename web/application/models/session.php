@@ -1119,20 +1119,29 @@ EOL;
         }
         $query->free_result();
 
-        $this->db->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $this->db->get('ilm_session_facet_instructor');
-        $instructorArray = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                array_push($instructorArray, $this->convertStdObjToArray($igRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($instructorArray, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_instructor` isfxi ON isfxi.`user_id` = u.`user_id`
+WHERE isfxi.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['instructors'][] = $row;
         }
-        $rhett['instructors'] = $instructorArray;
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT ig.*
+FROM `instructor_group` ig
+JOIN `ilm_session_facet_x_instructor_group` isfxig ON isfxig.`instructor_group_id` = ig.`instructor_group_id`
+WHERE isfxig.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['instructors'][] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
