@@ -43,11 +43,11 @@ AND c.`deleted` = 0
 AND c.`archived` = 0
 UNION
 SELECT c.`course_id`, c.`title`
-FROM `ilm_session_facet_learner` isfl
-JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = isfl.`ilm_session_facet_id`
+FROM `ilm_session_facet_x_group` isfxg
+JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = isfxg.`ilm_session_facet_id`
 JOIN `session` s ON s.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
 JOIN `course` c ON c.`course_id` = s.`course_id`
-WHERE isfl.`group_id` = {$clean['group_id']}
+WHERE isfxg.`group_id` = {$clean['group_id']}
 AND s.`deleted` = 0
 AND c.`deleted` = 0
 AND c.`archived` = 0
@@ -89,8 +89,8 @@ UNION
 SELECT g.`group_id`, g.`title`
 FROM `session` s
 JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = s.`ilm_session_facet_id`
-JOIN `ilm_session_facet_learner` isfl ON isfl.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
-JOIN `group` g ON g.`group_id` = isfl.`group_id`
+JOIN `ilm_session_facet_x_group` isfxg ON isfxg.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
+JOIN `group` g ON g.`group_id` = isfxg.`group_id`
 WHERE s.`deleted` = 0
 AND s.`course_id` = {$clean['course_id']}
 EOL;
@@ -319,19 +319,15 @@ EOL;
             . "JOIN ilm_session_facet i ON i.ilm_session_facet_id = s.ilm_session_facet_id ";
 
         if ($student_role) {
-            if (count($roles) > 1)
-                $sql .= "LEFT ";
-            $sql .= "JOIN ilm_session_facet_learner ON ilm_session_facet_learner.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_learner ON ilm_session_facet_x_learner.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_group ON ilm_session_facet_x_group.ilm_session_facet_id = s.ilm_session_facet_id ";
         }
         if ($faculty_role) {
-            if (count($roles) > 1)
-                $sql .= "LEFT ";
-            $sql .= "JOIN ilm_session_facet_instructor ON ilm_session_facet_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor ON ilm_session_facet_x_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor_group ON ilm_session_facet_x_instructor_group.ilm_session_facet_id = s.ilm_session_facet_id ";
         }
         if ($director_role) {
-            if (count($roles) > 1)
-                $sql .= "LEFT ";
-            $sql .= "JOIN course_director ON course_director.course_id = c.course_id ";
+            $sql .= "LEFT JOIN course_director ON course_director.course_id = c.course_id ";
         }
 
         // WHERE clause
@@ -349,15 +345,15 @@ EOL;
             $user_id = $clean['userId'];
             $clause = "( 0 ";
             if ($student_role) {
-                $clause .= "OR ( ilm_session_facet_learner.user_id = $user_id "
+                $clause .= "OR ( ilm_session_facet_x_learner.user_id = $user_id "
                     . "OR EXISTS (SELECT group_x_user.user_id FROM group_x_user "
-                    . "WHERE group_x_user.group_id = ilm_session_facet_learner.group_id "
+                    . "WHERE group_x_user.group_id = ilm_session_facet_x_group.group_id "
                     . "AND group_x_user.user_id = $user_id) ) ";
             }
             if ($faculty_role) {
-                $clause .= "OR ( ilm_session_facet_instructor.user_id = $user_id "
+                $clause .= "OR ( ilm_session_facet_x_instructor.user_id = $user_id "
                     ."OR EXISTS (SELECT instructor_group_x_user.user_id FROM instructor_group_x_user "
-                    . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_instructor.instructor_group_id "
+                    . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id "
                     . "AND instructor_group_x_user.user_id = $user_id) ) ";
             }
             if ($director_role) {
@@ -390,9 +386,9 @@ EOL;
         $tmpArray = array();
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `ilm_session_facet_instructor`, `session` '
-                        . 'WHERE (`ilm_session_facet_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`ilm_session_facet_instructor`.`ilm_session_facet_id` '
+                        . 'FROM `course`, `ilm_session_facet_x_instructor_group`, `session` '
+                        . 'WHERE (`ilm_session_facet_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`ilm_session_facet_x_instructor_group`.`ilm_session_facet_id` '
                         .                                   '= `session`.`ilm_session_facet_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -702,9 +698,9 @@ EOL;
         $clean['userId'] = (int) $userId;
         $clean['silmId'] = (int)$silmId;
 
-        $queryString = "SELECT * FROM ilm_session_facet_learner "
-            . "JOIN group_x_user ON group_x_user.group_id = ilm_session_facet_learner.group_id "
-            . "WHERE ilm_session_facet_learner.ilm_session_facet_id = {$clean['silmId']} "
+        $queryString = "SELECT * FROM ilm_session_facet_x_group "
+            . "JOIN group_x_user ON group_x_user.group_id = ilm_session_facet_x_group.group_id "
+            . "WHERE ilm_session_facet_x_group.ilm_session_facet_id = {$clean['silmId']} "
             . "AND group_x_user.user_id = {$clean['userId']}";
 
         $queryResults = $this->db->query($queryString);
@@ -720,10 +716,10 @@ EOL;
      * @return boolean TRUE if the user a "learner" within the context of the session, FALSE otherwise
      */
     public function isUserInSessionAsLearner ($userId , $sessionId) {
-    	$clean = array();
-    	$clean['session_id'] = (int) $sessionId;
-    	$clean['user_id'] = (int) $userId;
-    	$query = <<<EOL
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['user_id'] = (int) $userId;
+        $query = <<<EOL
 SELECT u.`user_id`
 FROM `session` s
 JOIN `offering` o ON s.`session_id` = o.`session_id`
@@ -733,8 +729,8 @@ JOIN `user` u ON u.`user_id` = gxu.`user_id`
 WHERE s.`session_id` = {$clean['session_id']}
 AND u.`user_id` = {$clean['user_id']}
 EOL;
-    	$queryResults = $this->db->query($query);
-    	return $queryResults->num_rows() ? true : false;
+        $queryResults = $this->db->query($query);
+        return $queryResults->num_rows() ? true : false;
     }
 
     public function getCoursesAndLearners ()
@@ -772,7 +768,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_learner` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_learner` AS i USING( ilm_session_facet_id )
 JOIN `user` AS u USING( user_id )
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -784,7 +780,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_learner` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_group` AS i USING( ilm_session_facet_id )
 JOIN `group_x_user` AS gxu USING( group_id )
 JOIN `user` AS u ON gxu.user_id = u.user_id
 
@@ -834,7 +830,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_instructor` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_instructor` AS i USING( ilm_session_facet_id )
 JOIN `user` AS u USING( user_id )
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -846,7 +842,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_instructor` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_instructor_group` AS i USING( ilm_session_facet_id )
 JOIN `instructor_group_x_user` AS igxu USING( instructor_group_id )
 JOIN `user` AS u ON igxu.user_id = u.user_id
 

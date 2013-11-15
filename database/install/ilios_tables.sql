@@ -1168,37 +1168,85 @@ ENGINE=InnoDB;
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-	--
-	-- Table ilm_session_facet_learner
-	--
+--
+-- Table ilm_session_facet_x_learner
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_learner`;
+CREATE TABLE `ilm_session_facet_x_learner` (
+    `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`ilm_session_facet_id`, `user_id`),
+    CONSTRAINT `fkey_ilm_session_facet_x_learner_ilm_session_facet_id`
+        FOREIGN KEY (`ilm_session_facet_id`)
+        REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_ilm_session_facet_x_learner_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-	DROP TABLE IF EXISTS `ilm_session_facet_learner`;
-	SET character_set_client = utf8;
-	CREATE TABLE `ilm_session_facet_learner` (
-	  `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  CONSTRAINT `fkey_ilm_learner_ilm_session_facet_id` FOREIGN KEY (`ilm_session_facet_id`) REFERENCES `ilm_session_facet` (`ilm_session_facet_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_learner_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_learner_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Table ilm_session_facet_x_group
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_group`;
+CREATE TABLE `ilm_session_facet_x_group` (
+  `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+  `group_id` INT(14) UNSIGNED NOT NULL,
+  PRIMARY KEY(`ilm_session_facet_id`, `group_id`),
+  CONSTRAINT `fkey_ilm_session_facet_x_group_ilm_session_facet_id`
+      FOREIGN KEY (`ilm_session_facet_id`)
+      REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+      ON DELETE CASCADE,
+  CONSTRAINT `fkey_ilm_session_facet_x_group_grouo_id`
+      FOREIGN KEY (`group_id`)
+      REFERENCES `group` (`group_id`)
+      ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
+--
+-- Table ilm_session_facet_x_instructor
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_instructor`;
+CREATE TABLE `ilm_session_facet_x_instructor` (
+    `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`ilm_session_facet_id`, `user_id`),
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_ilm_session_facet_id`
+        FOREIGN KEY (`ilm_session_facet_id`)
+        REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-	--
-	-- Table ilm_session_facet_instructor
-	--
-
-	DROP TABLE IF EXISTS `ilm_session_facet_instructor`;
-	SET character_set_client = utf8;
-	CREATE TABLE `ilm_session_facet_instructor` (
-	  `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `instructor_group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  CONSTRAINT `fkey_ilm_instructor_ilm_session_facet_id` FOREIGN KEY (`ilm_session_facet_id`) REFERENCES `ilm_session_facet` (`ilm_session_facet_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_instructor_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_instructor_group_id` FOREIGN KEY (`instructor_group_id`) REFERENCES `instructor_group` (`instructor_group_id`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+--
+-- Table ilm_session_facet_x_instructor_group
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_instructor_group`;
+CREATE TABLE `ilm_session_facet_x_instructor_group` (
+    `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+    `instructor_group_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`ilm_session_facet_id`, `instructor_group_id`),
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_group_ilm_session_facet_id`
+        FOREIGN KEY (`ilm_session_facet_id`)
+        REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_group_instructor_group_id`
+        FOREIGN KEY (`instructor_group_id`)
+        REFERENCES `instructor_group` (`instructor_group_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
 	--
 	-- Table offering_x_recurring_event
