@@ -903,36 +903,53 @@ DELIMITER ;
 
 DROP FUNCTION IF EXISTS copy_ilm_session_attributes_to_ilm_session;
 DELIMITER //
-	CREATE FUNCTION copy_ilm_session_attributes_to_ilm_session (in_original_ilmsfid INT, in_new_ilmsfid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE uid INT DEFAULT 0;
-		DECLARE gid INT DEFAULT 0;
-		DECLARE rows_added INT DEFAULT 0;
-		DECLARE i_cursor CURSOR FOR SELECT user_id, instructor_group_id FROM ilm_session_facet_instructor WHERE ilm_session_facet_id = in_original_ilmsfid;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
+CREATE FUNCTION copy_ilm_session_attributes_to_ilm_session (in_original_ilmsfid INT, in_new_ilmsfid INT)
+RETURNS INT
+READS SQL DATA
+BEGIN
+    DECLARE out_of_rows INT DEFAULT 0;
+    DECLARE uid INT DEFAULT 0;
+    DECLARE gid INT DEFAULT 0;
+    DECLARE rows_added INT DEFAULT 0;
+    DECLARE i_cursor CURSOR FOR SELECT user_id FROM ilm_session_facet_x_instructor WHERE ilm_session_facet_id = in_original_ilmsfid;
+    DECLARE j_cursor CURSOR FOR SELECT instructor_group_id FROM ilm_session_facet_x_instructor_group WHERE ilm_session_facet_id = in_original_ilmsfid;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
-		OPEN i_cursor;
+    OPEN i_cursor;
 
-		REPEAT
-			FETCH i_cursor INTO uid, gid;
+    REPEAT
+        FETCH i_cursor INTO uid;
 
-			IF NOT out_of_rows THEN
-				INSERT INTO ilm_session_facet_instructor (ilm_session_facet_id, user_id, instructor_group_id) VALUES (in_new_ilmsfid, uid, gid);
+        IF NOT out_of_rows THEN
+            INSERT INTO ilm_session_facet_x_instructor (ilm_session_facet_id, user_id) VALUES (in_new_ilmsfid, uid);
 
-				SET rows_added = rows_added + 1;
-			END IF;
+            SET rows_added = rows_added + 1;
+        END IF;
 
-		UNTIL out_of_rows END REPEAT;
+    UNTIL out_of_rows END REPEAT;
 
-		CLOSE i_cursor;
+    CLOSE i_cursor;
 
+    SET out_of_rows = 0;
 
-		RETURN rows_added;
-	END;
-	//
+    OPEN j_cursor;
+
+    REPEAT
+        FETCH j_cursor INTO gid;
+
+        IF NOT out_of_rows THEN
+            INSERT INTO ilm_session_facet_x_instructor_group (ilm_session_facet_id, instructor_group_id) VALUES (in_new_ilmsfid, gid);
+
+            SET rows_added = rows_added + 1;
+        END IF;
+
+    UNTIL out_of_rows END REPEAT;
+
+    CLOSE j_cursor;
+
+    RETURN rows_added;
+END;
+//
 DELIMITER ;
 
 DROP FUNCTION IF EXISTS copy_offering_attributes_to_offering;
@@ -1072,7 +1089,6 @@ BEGIN
 
     IF ilm_id IS NOT NULL THEN
         DELETE FROM ilm_session_facet WHERE ilm_session_facet_id = ilm_id;
-        DELETE FROM ilm_session_facet_instructor WHERE ilm_session_facet_id = ilm_id;
     END IF;
 END;
 //

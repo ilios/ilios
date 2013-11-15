@@ -155,7 +155,7 @@ EOL;
      */
     protected function _getILMInstructorIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_instructor',
             'user_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
@@ -167,7 +167,7 @@ EOL;
      */
     protected function _getILMInstructorGroupIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_instructor_group',
             'instructor_group_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ?  array() : array_filter($ids);
     }
@@ -187,20 +187,32 @@ EOL;
     protected function getInstructorsForSILM ($silmId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['ilm_id'] = (int) $silmId;
 
-        $this->db->where('ilm_session_facet_id', $silmId);
-        $queryResults = $this->db->get('ilm_session_facet_instructor');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                array_push($rhett, $this->convertStdObjToArray($igRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_instructor` isfxi ON isfxi.`user_id` = u.`user_id`
+WHERE isfxi.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT ig.*
+FROM `instructor_group` ig
+JOIN `ilm_session_facet_x_instructor_group` isfxig ON isfxig.`instructor_group_id` = ig.`instructor_group_id`
+WHERE isfxig.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
@@ -1119,20 +1131,29 @@ EOL;
         }
         $query->free_result();
 
-        $this->db->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $this->db->get('ilm_session_facet_instructor');
-        $instructorArray = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                array_push($instructorArray, $this->convertStdObjToArray($igRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($instructorArray, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_instructor` isfxi ON isfxi.`user_id` = u.`user_id`
+WHERE isfxi.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['instructors'][] = $row;
         }
-        $rhett['instructors'] = $instructorArray;
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT ig.*
+FROM `instructor_group` ig
+JOIN `ilm_session_facet_x_instructor_group` isfxig ON isfxig.`instructor_group_id` = ig.`instructor_group_id`
+WHERE isfxig.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['instructors'][] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
@@ -1233,7 +1254,7 @@ EOL;
     protected function _saveILMInstructorAssociations ($ilmId, $instructors = array(),
                                                        $associatedInstructorIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_instructor',
             'ilm_session_facet_id', $ilmId, 'user_id',
             $instructors, $associatedInstructorIds);
     }
@@ -1248,7 +1269,7 @@ EOL;
     protected function _saveILMInstructorGroupAssociations ($ilmId, $instructorGroups = array(),
                                                             $associatedInstructorGroupsIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_instructor_group',
             'ilm_session_facet_id', $ilmId, 'instructor_group_id',
             $instructorGroups, $associatedInstructorGroupsIds);
     }
