@@ -155,7 +155,7 @@ EOL;
      */
     protected function _getILMInstructorIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_instructor',
             'user_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
@@ -167,7 +167,7 @@ EOL;
      */
     protected function _getILMInstructorGroupIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_instructor_group',
             'instructor_group_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ?  array() : array_filter($ids);
     }
@@ -1242,7 +1242,7 @@ EOL;
     protected function _saveILMInstructorAssociations ($ilmId, $instructors = array(),
                                                        $associatedInstructorIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_instructor',
             'ilm_session_facet_id', $ilmId, 'user_id',
             $instructors, $associatedInstructorIds);
     }
@@ -1257,7 +1257,7 @@ EOL;
     protected function _saveILMInstructorGroupAssociations ($ilmId, $instructorGroups = array(),
                                                             $associatedInstructorGroupsIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_instructor_group',
             'ilm_session_facet_id', $ilmId, 'instructor_group_id',
             $instructorGroups, $associatedInstructorGroupsIds);
     }
