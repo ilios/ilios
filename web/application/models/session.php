@@ -1106,6 +1106,7 @@ EOL;
         $rhett['hours'] = $ilmRow->hours;
         $rhett['due_date'] = $ilmRow->due_date;
         $rhett['learners'] = array();
+        $rhett['instructors'] = array();
 
         $sql =<<< EOL
 SELECT DISTINCT u.*
