@@ -45,7 +45,7 @@ UNION
 SELECT DISTINCT c.`course_id`
 FROM `course` c
 JOIN `session` s ON s.`course_id` = c.`course_id`
-JOIN `ilm_session_facet_instructor` sfi ON sfi.`ilm_session_facet_id` = s.`ilm_session_facet_id`
+JOIN `ilm_session_facet_x_instructor_group` sfi ON sfi.`ilm_session_facet_id` = s.`ilm_session_facet_id`
 WHERE sfi.`instructor_group_id` = {$clean['group_id']}
 AND (c.`archived` = 1 OR c.`locked` = 1)
 AND c.`deleted` = 0
