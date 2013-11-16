@@ -1289,7 +1289,4 @@ EOL;
         // flag user/cohort combo as primary
         $data = array('is_primary' => true);
         $this->db->where('user_id', $userId);
-        $this->db->where('cohort_id', $cohortId);
-        $this->db->update('user_x_cohort', $data);
-    }
- }
+        $this->db->where('cohort_id', $coh
