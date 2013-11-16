@@ -554,6 +554,11 @@ EOL;
         $this->db->query($query);
     }
 
+    /**
+     * Enables or disables a given user.
+     * @param int $userId The user id.
+     * @param boolean If set to TRUE then the user account will be enabled, if set to FALSE it will be disabled.
+     */
     public function enableUser ($userId, $enable)
     {
         $updateRow = array();
@@ -563,6 +568,12 @@ EOL;
         $this->db->update($this->databaseTableName, $updateRow);
     }
 
+    /**
+     * Flags a given user as examined or unexamined.
+     * @param int $userId The user id.
+     * @param boolean $examined If set to TRUE then the user account will be flagged as examined,
+     *  if set to FALSE it will be flagged as unexamined.
+     */
     public function setUserExaminedBit ($userId, $examined)
     {
         $updateRow = array();
@@ -574,8 +585,8 @@ EOL;
 
     /**
      * Toggles the sync ignore flag for a given user on or off.
-     * @param int $userId the user id
-     * @param boolean $ignore TRUE to turn the ignore-flag on, FALSE to turn it off
+     * @param int $userId The user id.
+     * @param boolean $ignore Set to TRUE to turn the ignore-flag on, FALSE to turn it off.
      */
     public function setSyncIgnoreBit ($userId, $ignore)
     {
@@ -586,8 +597,8 @@ EOL;
 
     /**
      * Assigns a primary cohort to a given user.
-     * @param int $userId
-     * @param int $cohortId
+     * @param int $userId The user id.
+     * @param int $cohortId The cohort id.
      */
     public function assignPrimaryCohort ($userId, $cohortId)
     {
@@ -654,7 +665,7 @@ EOL;
      * Checks if a given user is assigned to at least one
      * from a list of given user-roles.
      * @param int $userId the user id
-     * @param array $roleId a list of user-role ids.
+     * @param array $roleIds a list of user-role ids.
      * @return boolean TRUE on success, FALSE otherwise.
      */
     public function userInRoles ($userId, array $roleIds = array())
@@ -825,6 +836,8 @@ EOL;
     /**
      * Checks if at least one user with a given UID exists.
      * @param int $uid
+     * @param boolean $enabledOnly
+     * @param boolean $excludeIgnored
      * @return boolean TRUE if at least one user exists, FALSE otherwise.
      */
     public function hasUsersWithUid ($uid, $enabledOnly = false, $excludeIgnored = false)
@@ -856,6 +869,8 @@ EOL;
     /**
      * Retrieves all enabled user records with the same given UID.
      * @param string $uid
+     * @param boolean $enabledOnly
+     * @param boolean $excludeIgnored
      * @return array a nested array of user records
      */
     public function getUsersWithUid ($uid, $enabledOnly = false, $excludeIgnored = false)
