@@ -642,9 +642,10 @@ EOL;
         $this->db->where('email', $email);
         $this->db->where('enabled', 1);
 
-        $queryResults = $this->db->get($this->databaseTableName);
-
-        return ($queryResults->num_rows() > 0);
+        $query = $this->db->get($this->databaseTableName);
+        $rhett = ($query->num_rows() > 0);
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -657,8 +658,10 @@ EOL;
     {
         $this->db->where('user_id', $userId);
         $this->db->where('user_role_id', $roleId);
-        $queryResults = $this->db->get('user_x_user_role');
-        return ($queryResults->num_rows() > 0);
+        $query = $this->db->get('user_x_user_role');
+        $rhett = ($query->num_rows() > 0);
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -672,8 +675,10 @@ EOL;
     {
         $this->db->where('user_id', $userId);
         $this->db->where_in('user_role_id', $roleIds);
-        $queryResults = $this->db->get('user_x_user_role');
-        return ($queryResults->num_rows() > 0);
+        $query = $this->db->get('user_x_user_role');
+        $rhett = ($query->num_rows() > 0);
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -1112,7 +1117,9 @@ EOL;
         }
 
         $query = $this->db->query($sql);
-        return $query->num_rows();
+        $rhett =  $query->num_rows();
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -1134,6 +1141,7 @@ EOL;
                 $rhett[] = $row;
             }
         }
+        $query->free_result();
         return $rhett;
     }
 
@@ -1226,6 +1234,7 @@ EOL;
         if (0 < $query->num_rows()) {
             $rhett = $query->first_row('array');
         }
+        $query->free_result();
         return $rhett;
     }
 
@@ -1239,12 +1248,12 @@ EOL;
         $rhett = array();
 
         $this->db->where('user_id', $userId);
-        $queryResults = $this->db->get('user_x_user_role');
-        foreach ($queryResults->result_array() as $row) {
+        $query = $this->db->get('user_x_user_role');
+        foreach ($query->result_array() as $row) {
             $roleRow = $this->roles->getRowForPrimaryKeyId($row['user_role_id']);
-            array_push($rhett, $roleRow);
+            $rhett[] = $roleRow;
         }
-
+        $query->free_result();
         return $rhett;
     }
 
@@ -1286,11 +1295,13 @@ EOL;
      */
     protected function _getUserCohort($userId, $cohortId)
     {
+        $rhett = false;
         $query = $this->db->get_where('user_x_cohort', array('user_id' => $userId, 'cohort_id' => $cohortId));
         if ($query->num_rows()) {
-            return $query->result_array(); // if so, then there is only one record. return it.
+            $rhett = $query->result_array(); // if so, then there is only one record. return it.
         }
-        return false;
+        $query->free_result();
+        return $rhett;
     }
 
     /**
