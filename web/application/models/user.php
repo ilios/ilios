@@ -26,7 +26,6 @@ class User extends Ilios_Base_Model
      * @param string $email
      * @param string $ucUID
      * @param string $otherId
-     * @param int|NULL $cohortId
      * @param int $primarySchoolId
      * @param array|NULL $auditAtoms
      * @return int the newly created user id
