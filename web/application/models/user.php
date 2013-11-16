@@ -710,8 +710,8 @@ EOL;
      */
     public function userHasAdminAccess ($userId)
     {
-    	$roles = array(User_Role::COURSE_DIRECTOR_ROLE_ID, User_Role::DEVELOPER_ROLE_ID);
-    	return $this->userInRoles($userId, $roles);
+        $roles = array(User_Role::COURSE_DIRECTOR_ROLE_ID, User_Role::DEVELOPER_ROLE_ID);
+        return $this->userInRoles($userId, $roles);
     }
 
     /**
@@ -789,48 +789,48 @@ EOL;
      */
     public function getUsersFilteredOnNameMatchWithRoleTitle ($name, $roleTitle)
     {
-    	$clean = array();
-    	$clean['name'] = $this->db->escape_like_str($name);
+        $clean = array();
+        $clean['name'] = $this->db->escape_like_str($name);
 
-    	$this->db->select('user.user_id');
-    	$this->db->select('user.last_name');
-    	$this->db->select('user.first_name');
-    	$this->db->select('user.middle_name');
-    	$this->db->select('user.phone');
-    	$this->db->select('user.email');
-    	$this->db->select('user.uc_uid');
-    	$this->db->select('user.other_id');
+        $this->db->select('user.user_id');
+        $this->db->select('user.last_name');
+        $this->db->select('user.first_name');
+        $this->db->select('user.middle_name');
+        $this->db->select('user.phone');
+        $this->db->select('user.email');
+        $this->db->select('user.uc_uid');
+        $this->db->select('user.other_id');
 
-    	$this->db->from('user');
-    	$this->db->join('user_x_user_role', 'user.user_id = user_x_user_role.user_id');
-    	$this->db->join('user_role', 'user_x_user_role.user_role_id = user_role.user_role_id');
+        $this->db->from('user');
+        $this->db->join('user_x_user_role', 'user.user_id = user_x_user_role.user_id');
+        $this->db->join('user_role', 'user_x_user_role.user_role_id = user_role.user_role_id');
 
 
-    	$this->db->where('user_role.title', $roleTitle);
-    	$this->db->where('user.enabled', 1);
+        $this->db->where('user_role.title', $roleTitle);
+        $this->db->where('user.enabled', 1);
 
-    	$len = strlen($name);
-    	if ('' === trim($name)) {
-    		// search all
-    	} elseif (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
-    	    // trailing wildcard search
-    		$this->db->where("(`user`.`last_name` LIKE '{$clean['name']}%'"
-    		. " OR `user`.`first_name` LIKE '{$clean['name']}%'"
-    		. " OR `user`.`middle_name` LIKE '{$clean['name']}%')");
-    	} else {
-    	    // full wildcard search
-    		$this->db->where("(`user`.`last_name` LIKE '%{$clean['name']}%'"
-    		. " OR `user`.`first_name` LIKE '%{$clean['name']}%'"
-    		. " OR `user`.`middle_name` LIKE '%{$clean['name']}%')");
-    	}
+        $len = strlen($name);
+        if ('' === trim($name)) {
+            // search all
+        } elseif (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+            // trailing wildcard search
+            $this->db->where("(`user`.`last_name` LIKE '{$clean['name']}%'"
+            . " OR `user`.`first_name` LIKE '{$clean['name']}%'"
+            . " OR `user`.`middle_name` LIKE '{$clean['name']}%')");
+        } else {
+            // full wildcard search
+            $this->db->where("(`user`.`last_name` LIKE '%{$clean['name']}%'"
+            . " OR `user`.`first_name` LIKE '%{$clean['name']}%'"
+            . " OR `user`.`middle_name` LIKE '%{$clean['name']}%')");
+        }
 
-    	$this->db->order_by('user.last_name', 'asc');
-    	$this->db->order_by('user.first_name', 'asc');
-    	$this->db->order_by('user.middle_name', 'asc');
+        $this->db->order_by('user.last_name', 'asc');
+        $this->db->order_by('user.first_name', 'asc');
+        $this->db->order_by('user.middle_name', 'asc');
 
-    	$this->db->distinct();
+        $this->db->distinct();
 
-    	return $this->db->get();
+        return $this->db->get();
     }
 
     /**
