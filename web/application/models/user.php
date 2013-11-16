@@ -126,14 +126,12 @@ class User extends Ilios_Base_Model
 
     /**
      * Deletes all recorded sync exceptions for a given user.
-     * @param int $userId the user's id
+     * @param int $userId The user id.
      */
     public function deleteSyncExceptionsForUser ($userId)
     {
-        // input validation
-        // user id must be given
         if (empty($userId)) {
-            return false;
+            return;
         }
         $this->db->where('user_id', $userId);
         $this->db->delete('user_sync_exception');
@@ -292,9 +290,11 @@ EOL;
         return $rhett;
     }
 
-    /*
-     * @return an array of unique user ids for which either the primary role id, or associated user
-     *              role matches the $roleId value
+    /**
+     * Retrieves the ids of all users that have a given user-role assigned to them.
+     *
+     * @param int $roleId The user-role id.
+     * @return array An array of user ids.
      */
     public function getUsersWithRoleId ($roleId)
     {
@@ -1289,4 +1289,7 @@ EOL;
         // flag user/cohort combo as primary
         $data = array('is_primary' => true);
         $this->db->where('user_id', $userId);
-        $this->db->where('cohort_id', $coh
+        $this->db->where('cohort_id', $cohortId);
+        $this->db->update('user_x_cohort', $data);
+    }
+ }
