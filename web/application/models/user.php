@@ -303,16 +303,21 @@ EOL;
         $clean = array();
         $clean['role_id'] = (int) $roleId;
 
-        $queryString = 'SELECT DISTINCT `user`.`user_id`
-                            FROM `user`, `user_x_user_role`
-                            WHERE (`user_x_user_role`.`user_role_id` = ' . $clean['role_id'] . '
-                                            AND `user_x_user_role`.`user_id` = `user`.`user_id`)';
+        $sql =<<< EOL
+SELECT u.`user_id`
+FROM `user` u
+JOIN `user_x_user_role` uxur ON uxur.`user_id` = u.`user_id`
+WHERE uxur.`user_role_id` = {$clean['role_id']}
+EOL;
 
-        $queryResults = $this->db->query($queryString);
+        $query = $this->db->query($sql);
 
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row['user_id']);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row['user_id'];
         }
+
+        $query->free_result();
+
         return $rhett;
     }
 
