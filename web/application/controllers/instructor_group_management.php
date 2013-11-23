@@ -66,8 +66,6 @@ class Instructor_Group_Management extends Ilios_Web_Controller
             $key = 'instructor_groups.title_bar';
             $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
 
-            $this->populateForAddNewMembersDialog($data, $lang);
-
             $this->load->view('instructor/instructor_group_manager', $data);
         } else {
             // error condition - todo
