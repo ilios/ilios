@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/content_container_generator.php');
-
 $formPrefix = '<form id="course_form" method="POST" action="' . current_url() . '/doesntGetUsed" onsubmit="return false;">';
 
 $addNewEntityLink = '<button id="add_new_course" class="small secondary radius button" onClick="ilios.cm.displayAddNewCourseDialog();">' . $add_course_string . '</button>';

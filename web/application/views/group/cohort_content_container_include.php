@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/content_container_generator.php');
-
             $formPrefix = '<form id="cohort_form" method="POST" action="' . current_url()
                                 . '/willNeverSubmit"
                         onsubmit="return false;">';

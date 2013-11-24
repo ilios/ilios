@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/content_container_generator.php');
-
             // This form action is actually used in the code as the url for the AJAX-ian save
             $formPrefix = '<form id="program_form" method="POST" action="no matter" onsubmit="return false;">
                 <input id="working_program_id" name="program_id" value="' . $program_row['program_id'] . '"';
