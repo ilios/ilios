@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/picker_dialog_generator.php');
-
 /**
  * The code relies upon the following notions:
  *  . the Javascript model which is produced by the PHP that includes this file must feature the
