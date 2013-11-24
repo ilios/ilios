@@ -82,10 +82,7 @@ $viewsPath = getServerFilePath('views');
                                 </script> <?php echo $school_name; ?>
                             </h3>
                         </div>
-<?php
-    include getServerFilePath('views') . 'common/progress_div.php';
-    echo generateProgressDivMarkup('position: absolute; right: 1em; top: .6em;');
-?>
+<?php echo generateProgressDivMarkup('position: absolute; right: 1em; top: .6em;'); ?>
                     </div>
                     <div class="master_button_container clearfix">
                         <div class="add_primary_child_link">
