@@ -122,7 +122,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
             $rhett['py_archiving'] = 'false';
             $rhett['course_archiving'] = 'false';
             $rhett['course_rollover'] = 'false';
-            $rhett['lang'] = $this->getLangToUse();
         } else {
             // $userId setting left for future developers should they want to have prefs stored in
             //          the db keyed by user_id
@@ -133,7 +132,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
                                                                                       : 'false';
             $rhett['course_rollover'] = $this->session->userdata('course_rollover') ? 'true'
                                                                                     : 'false';
-            $rhett['lang'] = $this->getLangToUse();
         }
         return $rhett;
     }

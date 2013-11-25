@@ -1017,11 +1017,11 @@ class Dashboard_Controller extends Calendar_Controller
         }
         if ($data['has_student_sync_exceptions']) {
             $data['sync_exceptions_indicators'][] =
-                $this->languagemap->getI18NString('dashboard.administration.has_student_sync_exceptions_label', $data['lang']);
+                $this->languagemap->getI18NString('dashboard.administration.has_student_sync_exceptions_label');
         }
         if ($data['has_non_student_sync_exceptions']) {
             $data['sync_exceptions_indicators'][] =
-                $this->languagemap->getI18NString('dashboard.administration.has_non_student_sync_exceptions_label', $data['lang']);
+                $this->languagemap->getI18NString('dashboard.administration.has_non_student_sync_exceptions_label');
         }
 
         // load view
