@@ -219,54 +219,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
     }
 
     /**
-     * @todo add code docs
-     */
-    protected function populateForAddNewMembersDialog (&$data, $lang)
-    {
-        $key = 'general.phrases.add_members';
-        $data['add_members_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'add_members_dialog.manual_entry';
-        $data['manual_entry_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.user.first_name';
-        $data['first_name_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.user.middle_name';
-        $data['middle_name_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.user.last_name';
-        $data['last_name_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.user.phone';
-        $data['phone_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.user.email';
-        $data['email_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.user.uc_id';
-        $data['uc_id_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'add_members_dialog.add_user';
-        $data['add_user_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'add_members_dialog.from_csv';
-        $data['from_csv_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.text.csv_user_upload_1';
-        $data['csv_user_upload_1_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.text.csv_user_upload_2';
-        $data['csv_user_upload_2_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.terms.done';
-        $data['done_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.terms.upload';
-        $data['upload_string'] = $this->languagemap->getI18NString($key, $lang);
-    }
-
-    /**
      * Returns a non-associative array of ids which represent school_id from the school table which
      *     are associated to the cohorts (cohorts -> program year ->* schools). $cohorts is assumed to
      *     be homogeneous in object representations of rows from the Cohort table.
