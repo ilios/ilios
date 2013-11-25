@@ -8,7 +8,6 @@
  *
  * @todo Turducken code. Replace with JS-only solution.
  */
-require_once getServerFilePath("views") . "common/picker_dialog_generator.php";
 
 /**
  * The code which includes this file must define the following variables (prior to inclusion, to

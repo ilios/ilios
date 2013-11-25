@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/picker_dialog_generator.php');
-
 /**
  * This file is meant to be included from program_manager.php and is responsible for generating
  * 	the HTML and JavaScript (via the function call to the method defined in

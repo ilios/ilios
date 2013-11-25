@@ -74,9 +74,7 @@ $viewsPath = getServerFilePath('views');
 ?>
 
                         <div class="calendar_tools clearfix">
-                           <?php include $viewsPath . 'common/progress_div.php';
-                                echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;');
-                           ?>
+<?php echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;'); ?>
                             <ul class="buttons right">
                                 <li>
                                     <span id="calendar_filters_btn" title="<?php echo $calendar_filters_title; ?>" class="medium radius button">

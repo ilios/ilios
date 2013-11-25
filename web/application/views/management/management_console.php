@@ -97,10 +97,7 @@ $viewsPath = getServerFilePath('views');
                 <div class="content_container">
                     <div class="column primary clearfix">
                         <div style="position: absolute; top: 24px; right: 9px;">
-    <?php
-        include getServerFilePath('views') . 'common/progress_div.php';
-        echo generateProgressDivMarkup();
-    ?>
+<?php echo generateProgressDivMarkup(); ?>
                             <div class="clear"></div>
                         </div>
                         <div id="management_center_content">
