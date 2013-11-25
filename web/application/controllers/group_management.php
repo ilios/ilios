@@ -121,8 +121,6 @@ class Group_Management extends Ilios_Web_Controller
             $key = 'general.terms.filter';
             $data['word_filter_string'] = $this->languagemap->getI18NString($key, $lang);
 
-            $this->populateI18NStringsForContentContainerGenerator($data, $lang);
-
             $this->load->view('group/group_manager', $data);
         } else {
             // error condition

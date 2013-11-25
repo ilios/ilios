@@ -60,11 +60,13 @@
             $publishAction = '';
             $revertAction = '';
 
-            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
-                                         $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
-                                         $addNewSomethingAction, $addNewSomethingDisplayText,
-                                         $suffixingContent, $saveDraftAction, $publishAction,
-                                         $revertAction, false, false, false, true, $save_all_string,
-                                         $save_draft_string, $publish_all_string,
-                                         $publish_now_string, $reset_form_string);
+            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
+                $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
+                $suffixingContent, $saveDraftAction, $publishAction, $revertAction, false, false, false, true,
+                $this->languagemap->getI18NString('general.phrases.save_all', $lang),
+                $this->languagemap->getI18NString('general.phrases.save_draft', $lang),
+                $this->languagemap->getI18NString('general.phrases.publish_all', $lang),
+                $this->languagemap->getI18NString('general.phrases.publish_now', $lang),
+                $this->languagemap->getI18NString('general.phrases.reset_form', $lang)
+            );
 

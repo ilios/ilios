@@ -272,18 +272,17 @@ $saveDraftAction = 'ilios.cm.transaction.saveCourseAsDraft();';
 $publishAction = 'ilios.cm.transaction.performCoursePublish();';
 $revertAction = 'ilios.cm.transaction.revertChanges();';
 
-$publishAllString = $publish_all_string;
+$publishAllString = $this->languagemap->getI18NString('general.phrases.publish_all', $lang);
 $publishNowString = '<div id="-1_publish_warning" class="yellow_warning_icon" '
                         . 'style="display: none;"></div>'
-                        . $publish_course_string;
+                        . $this->languagemap->getI18NString('general.phrases.publish_course', $lang);
 
-createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
-                             $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
-                             $addNewSomethingAction, $addNewSomethingDisplayText,
-                             $suffixingContent, $saveDraftAction, $publishAction,
-                             $revertAction, true, true, true, true, $save_all_draft_string,
-                             $save_draft_string, $publishAllString,
-                             $publishNowString, $reset_form_string, true, true);
+createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
+    $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText, $suffixingContent,
+    $saveDraftAction, $publishAction, $revertAction, true, true, true, true,
+    $this->languagemap->getI18NString('general.phrases.save_all_draft', $lang),
+    $this->languagemap->getI18NString('general.phrases.save_draft', $lang), $publishAllString, $publishNowString,
+    $this->languagemap->getI18NString('general.phrases.reset_form', $lang), true, true);
 ?>
 
     <script type="text/JavaScript">

@@ -62,10 +62,6 @@ if (! function_exists('createContentContainerMarkup')) {
     /**
      * Markup generator function for "primary content" container elements (i.e. 'program' of the program & program years).
      *
-     * The controller which initiates this view should have
-     * <code>$this->populateI18NStringsForContentContainerGenerator($data, $lang);</code>
-     * invoked as part of its index() lest there be no label and button strings displayed in this UI.
-     *
      * @param string $formPrefix Markup prefixing the container element.
      * @param string $addNewEntityLink Markup containing the "add new <entity>" link or button.
      * @param string $searchNewEntityLink Markup containing the "search <entities>" link or button.
@@ -96,8 +92,6 @@ if (! function_exists('createContentContainerMarkup')) {
      * @param string $resetFormString The label-text of the "reset form" button.
      * @param boolean $showArchivingLinkDiv If TRUE then the container element for the "archive" button will be rendered.
      * @param boolean $showRolloverLinkDiv If TRUE then the container element for the "rollover" button will be rendered.
-     *
-     * @see Ilios_Base_Controller::populateI18NStringsForContentContainerGenerator()
      *
      * @todo Junk this god-awful mess. [ST 2013/06/18]
      */
