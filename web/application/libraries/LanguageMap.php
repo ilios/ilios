@@ -30,10 +30,27 @@ class LanguageMap
     protected $_cachedLanguageMaps;
 
     /**
-     * Constructor.
+     * @var string
      */
-    public function __construct ()
+    protected $_lang;
+
+    /**
+     * Constructor.
+     *
+     * @param string $lang The language key. If none is given then the lang key is loaded from the app configuration.
+     */
+    public function __construct ($lang = null)
     {
+        if (! isset($lang)) {
+            // load the default locale key from the app. config
+            $CI =& get_instance();
+            $lang = $CI->config->item('ilios_default_lang_locale');
+            // last ditch effort
+            $lang = $lang ? $lang : self::I18N_DEFAULT_LOCALE;
+        }
+
+        $this->_lang = $lang;
+
         $this->_cachedLanguageMaps = array();
     }
 
@@ -132,13 +149,12 @@ class LanguageMap
 
     /**
      * Prints the lookup map for a given language as global JavaScript variable.
-     * @param string $lang the language key
      * @param string $javascriptArrayName the variable name
      * @param string $contentSeparator line separator
      */
-    public function dumpI18NStringsForLanguageAsJavascript ($lang, $javascriptArrayName, $contentSeparator)
+    public function dumpI18NStringsForLanguageAsJavascript ($javascriptArrayName, $contentSeparator)
     {
-        $languageMap = $this->_getLanguageMapForLocale($lang);
+        $languageMap = $this->_getLanguageMapForLocale($this->_lang);
         echo "var " . $javascriptArrayName . " = [];" . $contentSeparator;
         foreach ($languageMap as $key => $val) {
             echo $javascriptArrayName . "['" . $key . "'] = \"" . $val . "\";" . $contentSeparator;
@@ -148,13 +164,12 @@ class LanguageMap
     /**
      * Returns the text value for a given key from a language pack.
      * @param string $key the text key
-     * @param string $lang the targeted language
      * @param boolean unescape if TRUE then escaped double quotes in the value will be unescaped
      * @return string the text
      */
-    public function getI18NString ($key, $lang, $unescape = false)
+    public function getI18NString ($key, $unescape = false)
     {
-        $languageMap = $this->_getLanguageMapForLocale($lang);
+        $languageMap = $this->_getLanguageMapForLocale($this->_lang);
         $value = array_key_exists($key, $languageMap) ? $languageMap[$key] : "?????";
         if ($unescape) {
             $value = str_replace('\"', '"', $value);
@@ -167,12 +182,11 @@ class LanguageMap
      * The only difference is that double quotes in the return-value get unescaped by default.
      * @see I18N_Vendor::getI18nString()
      * @param string $key the text key
-     * @param string $lang the targeted language
      * @param boolean unescape if TRUE then escaped double quotes in the value will be unescaped
      * @return string the text
      */
-    public function t ($key, $lang, $unescape = true)
+    public function t ($key, $unescape = true)
     {
-        return $this->getI18NString($key, $lang, $unescape);
+        return $this->getI18NString($key, $this->_lang, $unescape);
     }
 }
