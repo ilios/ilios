@@ -142,8 +142,6 @@ class Program_Management extends Ilios_Web_Controller
         $key = 'general.phrases.show_more';
         $data['phrase_show_more_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
 
-        $this->populateI18NStringsForContentContainerGenerator($data, $lang);
-
         $institution = $this->config->item('ilios_institution_name');
         $data['viewbar_title'] = $institution;
         if ($schoolRow->title != null) {

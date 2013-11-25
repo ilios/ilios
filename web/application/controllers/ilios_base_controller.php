@@ -189,36 +189,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
     }
 
     /**
-     * @todo add code docs
-     */
-    protected function populateI18NStringsForContentContainerGenerator (&$data, $lang)
-    {
-        $key = 'general.phrases.publish_all';
-        $data['publish_all_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.phrases.publish_now';
-        $data['publish_now_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.phrases.publish_course';
-        $data['publish_course_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.phrases.publish_session';
-        $data['publish_session_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.phrases.save_all';
-        $data['save_all_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.phrases.save_all_draft';
-        $data['save_all_draft_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.phrases.save_draft';
-        $data['save_draft_string'] = $this->languagemap->getI18NString($key, $lang);
-
-        $key = 'general.phrases.reset_form';
-        $data['reset_form_string'] = $this->languagemap->getI18NString($key, $lang);
-    }
-
-    /**
      * Returns a non-associative array of ids which represent school_id from the school table which
      *     are associated to the cohorts (cohorts -> program year ->* schools). $cohorts is assumed to
      *     be homogeneous in object representations of rows from the Cohort table.

@@ -414,9 +414,6 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'mesh.dialog.title';
         $data['mesh_dialog_title']= $this->languagemap->getI18NString($key, $lang);
 
-        $this->populateI18NStringsForContentContainerGenerator($data, $lang);
-
-
         $sessionTypes = $this->sessionType->getList($schoolId);
 
         $clerkshipTypes = $this->clerkshipType->getMap();

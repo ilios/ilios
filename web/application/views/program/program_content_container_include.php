@@ -166,13 +166,12 @@
             $publishAction = 'ilios.pm.transaction.performProgramSave(true);';
             $revertAction = 'ilios.pm.revertChanges();';
 
-            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
-                                         $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
-                                         $addNewSomethingAction, $addNewSomethingDisplayText,
-                                         $suffixingContent, $saveDraftAction, $publishAction,
-                                         $revertAction, true, true, false, false, '',
-                                         $save_draft_string, '',  $publish_now_string, $reset_form_string);
-
+            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
+                $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
+                $suffixingContent, $saveDraftAction, $publishAction, $revertAction, true, true, false, false, '',
+                $this->languagemap->getI18NString('general.phrases.save_draft', $lang), '',
+                $this->languagemap->getI18NString('general.phrases.publish_now', $lang),
+                $this->languagemap->getI18NString('general.phrases.reset_form', $lang));
 ?>
 
     <script type="text/javascript">
