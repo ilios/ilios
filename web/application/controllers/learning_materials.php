@@ -36,7 +36,6 @@ class Learning_Materials extends Ilios_Web_Controller
     public function getLearningMaterialWithId ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // not extra authorization check here, learning materials are readable by all logged in users.
         $learningMaterialId = $this->input->get_post('learning_material_id');
@@ -65,11 +64,10 @@ class Learning_Materials extends Ilios_Web_Controller
     public function modifyLearningMaterial ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -133,11 +131,10 @@ class Learning_Materials extends Ilios_Web_Controller
     public function getLearningMaterialDescriptorsForSearch ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -163,11 +160,10 @@ class Learning_Materials extends Ilios_Web_Controller
     public function associateLearningMaterial ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -186,7 +182,7 @@ class Learning_Materials extends Ilios_Web_Controller
         // if this is not the case then echo out an error message
         // and be done with it.
         if (empty($school)) {
-            $msg = $this->languagemap->getI18NString('learning_material.error.associate', $lang);
+            $msg = $this->languagemap->getI18NString('learning_material.error.associate');
             $rhett = array();
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
@@ -217,7 +213,7 @@ class Learning_Materials extends Ilios_Web_Controller
             }
 
             if (! $success) {
-                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert');
                 $rhett['error'] = $msg;
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
                                        $this->learningMaterial);
@@ -275,11 +271,10 @@ class Learning_Materials extends Ilios_Web_Controller
     public function disassociateLearningMaterial ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -300,7 +295,7 @@ class Learning_Materials extends Ilios_Web_Controller
         // if this is not the case then echo out an error message
         // and be done with it.
         if (empty($school)) {
-            $msg = $this->languagemap->getI18NString('learning_material.error.associate', $lang);
+            $msg = $this->languagemap->getI18NString('learning_material.error.associate');
             $rhett = array();
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
@@ -332,8 +327,7 @@ class Learning_Materials extends Ilios_Web_Controller
             }
 
             if (! $success) {
-                $lang =  $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert');
                 $rhett['error'] = $msg;
 
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction,
@@ -397,11 +391,10 @@ class Learning_Materials extends Ilios_Web_Controller
     public function uploadLearningMaterial ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -415,7 +408,7 @@ class Learning_Materials extends Ilios_Web_Controller
         $sessionId = (int) $this->input->post('session_id');
 
         if (0 > $courseId) {
-            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail');
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -423,7 +416,7 @@ class Learning_Materials extends Ilios_Web_Controller
         }
 
         if (0 > $sessionId) {
-            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail');
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -454,7 +447,7 @@ class Learning_Materials extends Ilios_Web_Controller
         $displayedTab = $this->input->get_post('displayed_tab');
 
         if (($displayedTab == 1) && (! $this->upload->do_upload())) {
-            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail');
             $uploadData = $this->upload->data();
 
             $mimeType = $uploadData['file_type'];
@@ -506,9 +499,7 @@ class Learning_Materials extends Ilios_Web_Controller
                 $uniqueFilename = $this->_moveFileToUniqueName($uploadPath, $uploadedFileName);
 
                 if (is_null($uniqueFilename)) {
-                    $lang = $this->getLangToUse();
-
-                    $rhett['error'] = $this->languagemap->getI18NString('general.error.file_rename', $lang);
+                    $rhett['error'] = $this->languagemap->getI18NString('general.error.file_rename');
                 }
             }
 
@@ -553,9 +544,7 @@ class Learning_Materials extends Ilios_Web_Controller
                     }
 
                     if (is_null($newLearningMaterialId) || ($newLearningMaterialId < 1)) {
-                        $lang = $this->getLangToUse();
-
-                        $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                        $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert');
                         Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->learningMaterial);
                     } else {
                         $failedTransaction = false;
