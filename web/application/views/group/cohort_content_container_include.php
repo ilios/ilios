@@ -63,10 +63,10 @@
             createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
                 $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
                 $suffixingContent, $saveDraftAction, $publishAction, $revertAction, false, false, false, true,
-                $this->languagemap->getI18NString('general.phrases.save_all', $lang),
-                $this->languagemap->getI18NString('general.phrases.save_draft', $lang),
-                $this->languagemap->getI18NString('general.phrases.publish_all', $lang),
-                $this->languagemap->getI18NString('general.phrases.publish_now', $lang),
-                $this->languagemap->getI18NString('general.phrases.reset_form', $lang)
+                $this->languagemap->getI18NString('general.phrases.save_all'),
+                $this->languagemap->getI18NString('general.phrases.save_draft'),
+                $this->languagemap->getI18NString('general.phrases.publish_all'),
+                $this->languagemap->getI18NString('general.phrases.publish_now'),
+                $this->languagemap->getI18NString('general.phrases.reset_form')
             );
 
