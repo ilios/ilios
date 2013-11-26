@@ -5,7 +5,7 @@
  * Renders the markup for the report details view.
  *
  * Available template variables:
- *    $lang ... The language key.
+ *
  *    $controllerURL ... The url to "curriculum inventory manager" controller.
  *
  * @see application/views/curriculum_inventory/index.php
@@ -21,23 +21,23 @@
         </div>
         <ul>
             <li class="title">
-                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.report_name', $lang); ?></span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.report_name'); ?></span>
                 <span class="data" id="report-details-view-name"></span>
             </li>
             <li class="course-id">
-                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.academic_year', $lang); ?></span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.academic_year'); ?></span>
                 <span class="data" id="report-details-view-academic-year"></span>
             </li>
             <li class="start-date">
-                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.start_date', $lang); ?></span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.start_date'); ?></span>
                 <span class="data" id="report-details-view-start-date"></span>
             </li>
             <li class="end-date">
-                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.end_date', $lang); ?></span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.phrases.end_date'); ?></span>
                 <span class="data" id="report-details-view-end-date"></span>
             </li>
             <li class="publish-status">
-                <span class="data-type"><?php echo $this->languagemap->t('general.terms.status', $lang); ?></span>
+                <span class="data-type"><?php echo $this->languagemap->t('general.terms.status'); ?></span>
                 <span class="data">
                     <span class="status" id="report-details-status"></span>
                 </span>
@@ -48,7 +48,7 @@
         <div class="row">
             <div class="column label">
                 <label for="report-details-description">
-                    <?php echo $this->languagemap->t('general.terms.description', $lang); ?>
+                    <?php echo $this->languagemap->t('general.terms.description'); ?>
                 </label>
             </div>
             <div class="column data" id="report-details-view-description"></div>
@@ -56,33 +56,33 @@
         <div class="row">
             <div class="column label">
                 <label for="report-details-program">
-                    <?php echo $this->languagemap->t('general.terms.program', $lang); ?>
+                    <?php echo $this->languagemap->t('general.terms.program'); ?>
                 </label>
             </div>
             <div class="column data" id="report-details-view-program"></div>
         </div>
         <div class="buttons bottom">
             <button disabled="disabled" class="medium radius button hidden" id="report-details-view-edit-button">
-                <?php echo $this->languagemap->t('general.terms.edit', $lang); ?>
+                <?php echo $this->languagemap->t('general.terms.edit'); ?>
             </button>
             <form id="report-details-view-export-form" action="<?php echo $controllerURL; ?>/export" method="GET"
                   class="inline-form hidden">
                 <button disabled="disabled" class="medium radius button" id="report-details-view-export-button">
-                    <?php echo $this->languagemap->t('general.terms.export', $lang); ?>
+                    <?php echo $this->languagemap->t('general.terms.export'); ?>
                 </button>
                 <input type="hidden" id="report-details-view-export-download-token" name="download_token" value="" />
                 <input type="hidden" id="report-details-view-export-report-id" name="report_id" value="" />
             </form>
             <button disabled="disabled" class="medium radius button hidden" id="report-details-view-finalize-button">
-                <?php echo $this->languagemap->t('general.terms.finalize', $lang); ?>
+                <?php echo $this->languagemap->t('general.terms.finalize'); ?>
             </button>
             <button disabled="disabled" class="medium radius button hidden" id="report-details-view-delete-button">
-                <?php echo $this->languagemap->t('general.phrases.delete', $lang); ?>
+                <?php echo $this->languagemap->t('general.phrases.delete'); ?>
             </button>
             <form id="report-details-view-download-form" action="<?php echo $controllerURL; ?>/download" method="GET"
                   class="inline-form hidden">
                 <button disabled="disabled" class="medium radius button" id="report-details-view-download-button">
-                    <?php echo $this->languagemap->t('general.terms.download', $lang); ?>
+                    <?php echo $this->languagemap->t('general.terms.download'); ?>
                 </button>
                 <input type="hidden" id="report-details-view-download-download-token" name="download_token" value="" />
                 <input type="hidden" id="report-details-view-download-report-id" name="report_id" value="" />
