@@ -168,8 +168,7 @@ class Offering extends Ilios_Base_Model
         }
 
         if ('' === trim($locationToUse)) {
-            $lang =  $this->getLangToUse();
-            $locationToUse = $this->languagemap->getI18NString('general.acronyms.to_be_decided', $lang);
+            $locationToUse = $this->languagemap->getI18NString('general.acronyms.to_be_decided');
         }
 
         if ($offeringId == null) { // add new offering
