@@ -47,11 +47,10 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function searchInstructors ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -80,13 +79,12 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function getLearnerDashboardSummaryForOffering ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check,
         // must be either a student or one of the instructor/admin-type roles
         if (! $this->session->userdata('is_learner')
             && ! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -125,13 +123,12 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function getLearnerDashboardSummaryForSILM ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check,
         // must be either a student or one of the instructor/admin-type roles
         if (! $this->session->userdata('is_learner')
             && ! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -187,11 +184,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
      */
     public function searchMeSHUniverseForIlios ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -211,11 +206,10 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function saveMeSHSearchSelection ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -237,7 +231,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
                 $failedTransaction = false;
                 $rhett['success'] = 'huzzah';
             } else {
-                $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert');
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->mesh);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -251,11 +245,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
      */
     public function getCohortProgramTreeContent ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -327,11 +319,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
      */
     public function getFacultyList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -350,11 +340,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
      */
     public function getDirectorList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -373,11 +361,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
      */
     public function getDisciplineList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 

@@ -6,7 +6,6 @@
  *
  * Available template variables:
  *
- *    $lang ... The language key.
  *    $reports ... An array of existing inventory reports.
  *    $controllerURL ... The page controller URL.
  *
@@ -15,7 +14,7 @@
  */
 ?>
 <div class="tabdialog hidden" id="edit_report_dialog">
-    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.edit.title', $lang); ?></div>
+    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.edit.title'); ?></div>
     <div class="bd">
         <div class="dialog_wrap">
             <span id="report_update_status" class="dialog-form-status"></span>
@@ -23,21 +22,21 @@
                 <input type="hidden" value="" id="edit_report_id" name="report_id" />
                 <div class="dialog-form-row" >
                     <label for="edit_report_name" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('general.terms.name', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.name'); ?>:
                     </label><br />
                     <input id="edit_report_name" name="report_name" type="text"  value="" size="50"
-                           placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_name.hint', $lang, false); ?>" />
+                           placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_name.hint', false); ?>" />
                 </div>
                 <div class="dialog-form-row" >
                     <label for="edit_report_description" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('general.terms.description', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.terms.description'); ?>:
                     </label><br />
                     <textarea id="edit_report_description" name="report_description" type="text" cols="80" rows="10"
-                              placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_description.hint', $lang, false); ?>"></textarea>
+                              placeholder="<?php echo $this->languagemap->t('curriculum_inventory.create.report_description.hint', false); ?>"></textarea>
                 </div>
                 <div class="dialog-form-row" >
                     <label for="edit_report_description" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('general.phrases.start_date', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.phrases.start_date'); ?>:
                     </label><br />
                     <input id="edit_report_start_date" name="start_date" type="text" size="10"
                            placeholder="YYYY-MM-DD" readonly="readonly"/>
@@ -47,7 +46,7 @@
                 <div class="clear"></div>
                 <div class="dialog-form-row">
                     <label for="edit_report_description" class="entity_widget_title">
-                        <?php echo $this->languagemap->t('general.phrases.end_date', $lang); ?>:
+                        <?php echo $this->languagemap->t('general.phrases.end_date'); ?>:
                     </label><br />
                     <input id="edit_report_end_date" name="end_date" type="text" size="10"
                            placeholder="YYYY-MM-DD" readonly="readonly"/>

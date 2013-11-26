@@ -30,16 +30,13 @@ class Management_Console extends Ilios_Web_Controller
      */
     public function index ()
     {
-        $lang = $this->getLangToUse();
-
         $data = array();
-        $data['lang'] = $lang;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
+            $this->_viewAccessForbiddenPage($data);
             return;
         }
 
@@ -71,7 +68,7 @@ class Management_Console extends Ilios_Web_Controller
         // add school title (and school switcher if applicable) to viewbar
         if ($schoolTitle != null) {
             $key = 'general.phrases.school_of';
-            $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
+            $schoolOfStr = $this->languagemap->getI18NString($key);
             $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolTitle;
 
             $availSchools = $this->_getAvailableSchools();
@@ -87,7 +84,7 @@ class Management_Console extends Ilios_Web_Controller
                 $data['selected_school_id'] = $schoolId;
 
                 $key = 'general.phrases.select_school';
-                $data['select_school_string'] = $this->languagemap->getI18NString($key, $lang);
+                $data['select_school_string'] = $this->languagemap->getI18NString($key);
             }
         }
 
@@ -114,38 +111,38 @@ class Management_Console extends Ilios_Web_Controller
 
         $data['cohorts_json'] = Ilios_Json::encodeForJavascriptEmbedding($cohorts, Ilios_Json::JSON_ENC_SINGLE_QUOTES);
         $key = 'administration.title';
-        $data['page_title'] = $this->languagemap->getI18NString($key, $lang);
+        $data['page_title'] = $this->languagemap->getI18NString($key);
         $data['title_bar_string'] = $data['page_title'];
 
         $key = 'administration.ro.title';
-        $data['add_ro_title'] = $this->languagemap->getI18NString($key, $lang);
+        $data['add_ro_title'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.title';
-        $data['widget_title'] = $this->languagemap->getI18NString($key, $lang);
+        $data['widget_title'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.dashboard_return';
-        $data['dashboard_return_str'] = $this->languagemap->getI18NString($key, $lang);
+        $data['dashboard_return_str'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.data_lists';
-        $data['data_lists_str'] = $this->languagemap->getI18NString($key, $lang);
+        $data['data_lists_str'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.emails';
-        $data['emails_str'] = $this->languagemap->getI18NString($key, $lang);
+        $data['emails_str'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.passwords';
-        $data['manage_passwords_str'] = $this->languagemap->getI18NString($key, $lang);
+        $data['manage_passwords_str'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.permissions';
-        $data['permissions_str'] = $this->languagemap->getI18NString($key, $lang);
+        $data['permissions_str'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.system_preferences';
-        $data['system_preferences_str'] = $this->languagemap->getI18NString($key, $lang);
+        $data['system_preferences_str'] = $this->languagemap->getI18NString($key);
 
         $key = 'management.widget.users';
-        $data['manage_users_str'] = $this->languagemap->getI18NString($key, $lang);
+        $data['manage_users_str'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.welcome_back';
-        $data['phrase_welcome_back_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['phrase_welcome_back_string'] = $this->languagemap->getI18NString($key);
 
         $data['cohortless_user_count'] = $this->user->getCountForStudentsWithoutPrimaryCohort($schoolId);
         $data['users_with_sync_exceptions_count'] =  $this->user->countUsersWithSyncExceptions($schoolId);
@@ -171,11 +168,10 @@ class Management_Console extends Ilios_Web_Controller
     public function createUserAccount ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -251,13 +247,12 @@ class Management_Console extends Ilios_Web_Controller
     public function updateLoginCredentials ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
         $updateUsername = false;
         $updatePassword = false;
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -341,7 +336,7 @@ class Management_Console extends Ilios_Web_Controller
                 // change the login name
                 if (! $success) {
                     $this->user->rollbackTransaction();
-                    $msg = $this->languagemap->getI18NString('general.error.db_update', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_update');
                     $rhett['error'][] = $msg;
                 } else { // commit the changes
                     $this->user->commitTransaction();
@@ -369,11 +364,10 @@ class Management_Console extends Ilios_Web_Controller
     public function addLoginCredentials ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -448,7 +442,7 @@ class Management_Console extends Ilios_Web_Controller
         if (! array_key_exists('error', $rhett)) {
             $success = $this->authentication->addNewAuthentication($username, $hash, $userId);
             if (! $success) {
-                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert');
                 $rhett['error'] = $msg;
             } else {
                 $rhett['success'] = 'added new login credentials';
@@ -468,11 +462,10 @@ class Management_Console extends Ilios_Web_Controller
     public function getUserPermissions ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -493,11 +486,10 @@ class Management_Console extends Ilios_Web_Controller
     public function getUserAttributes ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -520,11 +512,9 @@ class Management_Console extends Ilios_Web_Controller
      */
     public function getProgramList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -542,11 +532,9 @@ class Management_Console extends Ilios_Web_Controller
      */
     public function getCohortlessStudentList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -562,11 +550,10 @@ class Management_Console extends Ilios_Web_Controller
     public function getUsersWithSyncExceptions ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -587,11 +574,10 @@ class Management_Console extends Ilios_Web_Controller
     public function setUserPermissions ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -634,8 +620,7 @@ class Management_Console extends Ilios_Web_Controller
             }
 
             if ($dbError) {
-                $lang =  $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('management.error.saving_permissions', $lang);
+                $msg = $this->languagemap->getI18NString('management.error.saving_permissions');
 
                 $rhett['error'] = $msg;
 
@@ -665,11 +650,10 @@ class Management_Console extends Ilios_Web_Controller
     public function performCohortAssociations ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -696,8 +680,7 @@ class Management_Console extends Ilios_Web_Controller
             }
 
             if ($insertError) {
-                $lang =  $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
                 $rhett['error'] = $msg;
 
@@ -724,11 +707,10 @@ class Management_Console extends Ilios_Web_Controller
     public function getUserAccountAlertCounts ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -753,11 +735,10 @@ class Management_Console extends Ilios_Web_Controller
     public function updateUserAccount ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -835,7 +816,7 @@ class Management_Console extends Ilios_Web_Controller
         } while ($failedTransaction && ($transactionRetryCount > 0));
 
         if ($failedTransaction) {
-            $msg = $this->languagemap->getI18NString('general.error.db_update', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_update');
             $rhett['error'] = $msg;
         } else {
             $rhett['result'] = "i invented the piano key necktie";
@@ -876,11 +857,10 @@ class Management_Console extends Ilios_Web_Controller
     public function processActionItemsForUserSyncExceptions ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -929,8 +909,7 @@ class Management_Console extends Ilios_Web_Controller
                 }
 
                 if ($updateError) {
-                    $lang =  $this->getLangToUse();
-                    $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_insert');
                     $rhett['error'] = $msg;
                     Ilios_Database_TransactionHelper::failTransaction(
                         $transactionRetryCount, $failedTransaction, $this->user);
@@ -961,11 +940,9 @@ class Management_Console extends Ilios_Web_Controller
      */
     public function searchAllUsers ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -982,11 +959,9 @@ class Management_Console extends Ilios_Web_Controller
      */
     public function searchEnabledUsers ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -1005,11 +980,9 @@ class Management_Console extends Ilios_Web_Controller
      */
     public function getCourseList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -1027,11 +1000,9 @@ class Management_Console extends Ilios_Web_Controller
      */
     public function getSchoolList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -1218,7 +1189,6 @@ class Management_Console extends Ilios_Web_Controller
         $email, $ucUid, $schoolId, $primaryUserRole, $username, $password)
     {
         $errors = array();
-        $lang =  $this->getLangToUse();
 
         $userId = $this->session->userdata('uid');
 
@@ -1229,7 +1199,7 @@ class Management_Console extends Ilios_Web_Controller
             // check if username is already taken
             $auth = $this->authentication->getByUsername($username);
             if ($auth) {
-                $errors[] = $this->languagemap->getI18NString('administration.error.already_exists_status', $lang);
+                $errors[] = $this->languagemap->getI18NString('administration.error.already_exists_status');
             }
         }
 
@@ -1257,7 +1227,7 @@ class Management_Console extends Ilios_Web_Controller
             if (($newUserId == -1) || (! $this->authentication->addNewAuthentication($username, $hash, $newUserId))) {
                 $this->user->rollbackTransaction();
 
-                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
                 $errors[] = $msg;
             } else {
@@ -1298,7 +1268,6 @@ class Management_Console extends Ilios_Web_Controller
         $email, $ucUid, $schoolId, $primaryUserRole)
     {
         $errors = array();
-        $lang =  $this->getLangToUse();
 
         $userId = $this->session->userdata('uid');
 
@@ -1309,7 +1278,7 @@ class Management_Console extends Ilios_Web_Controller
 
         if ($newUserId == -1) {
             $this->user->rollbackTransaction();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
             $errors[] = $msg;
         } else {
             $this->user->commitTransaction();

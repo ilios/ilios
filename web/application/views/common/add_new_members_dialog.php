@@ -11,38 +11,38 @@
  */
 ?>
 <div class="tabdialog" id="add_new_members_dialog">
-    <div class="hd"><?php echo $this->languagemap->getI18NString('general.phrases.add_members', $lang); ?></div>
+    <div class="hd"><?php echo $this->languagemap->getI18NString('general.phrases.add_members'); ?></div>
         <div class="bd">
             <form method="post" action="matters not at all">
                 <div style="padding: 9px; border: 1px solid #3c3c3c;">
-                    <p><?php echo $this->languagemap->getI18NString('add_members_dialog.manual_entry', $lang); ?></p>
+                    <p><?php echo $this->languagemap->getI18NString('add_members_dialog.manual_entry'); ?></p>
                     <table style="width: 100%; align: center;">
                         <tr>
-                            <td><?php echo $this->languagemap->getI18NString('general.user.last_name', $lang); ?>:<br/>
+                            <td><?php echo $this->languagemap->getI18NString('general.user.last_name'); ?>:<br/>
                                 <input id="em_last_name" style="width:95%" value="" type="text" /></td>
-                            <td><?php echo $this->languagemap->getI18NString('general.user.first_name', $lang); ?>:<br/>
+                            <td><?php echo $this->languagemap->getI18NString('general.user.first_name'); ?>:<br/>
                                 <input id="em_first_name" style="width:95%" value="" type="text" /></td>
-                            <td><?php echo $this->languagemap->getI18NString('general.user.middle_name', $lang); ?>:<br/>
+                            <td><?php echo $this->languagemap->getI18NString('general.user.middle_name'); ?>:<br/>
                                 <input id="em_middle_name" style="width:95%" value="" type="text" /></td>
-                            <td><?php echo $this->languagemap->getI18NString('general.user.phone', $lang); ?>:<br/>
+                            <td><?php echo $this->languagemap->getI18NString('general.user.phone'); ?>:<br/>
                                 <input id="em_phone" style="width:95%" value="" type="text" /></td>
-                            <td><?php echo $this->languagemap->getI18NString('general.user.email', $lang); ?>:<br/>
+                            <td><?php echo $this->languagemap->getI18NString('general.user.email'); ?>:<br/>
                                 <input id="em_email" style="width:95%" value="" type="text" /></td>
-                            <td><?php echo $this->languagemap->getI18NString('general.user.uc_id', $lang); ?>:<br/>
+                            <td><?php echo $this->languagemap->getI18NString('general.user.uc_id'); ?>:<br/>
                                 <input id="em_uc_id" style="width:95%" value="" type="text" /></td>
                         </tr>
                     </table>
                     <button id="em_add_user_button" style="float: right;" onclick="return false;">
-                        <?php echo $this->languagemap->getI18NString('add_members_dialog.add_user', $lang); ?></button>
+                        <?php echo $this->languagemap->getI18NString('add_members_dialog.add_user'); ?></button>
                     <div class="clear"></div>
                 </div>
             </form>
             <div style="padding: 9px; margin-top: 9px; border: 1px solid #3c3c3c; position: relative;">
-            <p><?php echo $this->languagemap->getI18NString('add_members_dialog.from_csv', $lang); ?></p>
+            <p><?php echo $this->languagemap->getI18NString('add_members_dialog.from_csv'); ?></p>
             <div style="padding: 3px; position: absolute; width: 415px; top: 3px; right: 1px; font-size: 8pt;">
-                <?php echo $this->languagemap->getI18NString('general.text.csv_user_upload_1', $lang); ?>
+                <?php echo $this->languagemap->getI18NString('general.text.csv_user_upload_1'); ?>
                 <br/>
-                <strong><?php echo $this->languagemap->getI18NString('general.text.csv_user_upload_2', $lang); ?></strong>
+                <strong><?php echo $this->languagemap->getI18NString('general.text.csv_user_upload_2'); ?></strong>
             </div>
             <div style="margin-left: 9px; margin-right: 9px;">
 <?php
@@ -55,7 +55,7 @@
                 <input type="hidden" name="full_file_path" id="em_filepath_value" value="" />
                 <input type="file" name="userfile" id="em_csv_file_field" size="50" />
                 <button id="em_upload_button" style="margin-left: 18px;" onclick="return false;">
-                    <?php echo $this->languagemap->getI18NString('general.terms.upload', $lang); ?></button>
+                    <?php echo $this->languagemap->getI18NString('general.terms.upload'); ?></button>
  <?php
     // done as an 'echo' here to avoid witty IDEs complaining about a closing tag without
     // an opening one (the opening tag is generated in the php block above

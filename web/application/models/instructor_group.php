@@ -104,8 +104,7 @@ EOL;
         $newId = $this->makeNewRow($title, $schoolId, $auditAtoms);
 
         if (($newId == null) || ($newId == -1) || ($newId == 0)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
             $rhett['error'] = $msg;
         }
@@ -259,9 +258,7 @@ EOL;
         $this->db->where('instructor_group_id !=', $groupId);
         $queryResults = $this->db->get($this->databaseTableName);
         if ($queryResults->num_rows() > 0) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('instructor_groups.error.preexisting_title',
-                                                    $lang);
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.preexisting_title');
 
             return $msg . " '" . $title . "'";
         }
@@ -286,9 +283,7 @@ EOL;
         }
 
         if (! $this->makeUserGroupAssociations($users, $groupId, $auditAtoms)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('instructor_groups.error.failed_associations',
-                                                    $lang);
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.failed_associations');
 
             return $msg;
         }
@@ -317,8 +312,7 @@ EOL;
      */
     protected function makeDefaultGroupTitleForSuffix ($groupNameSuffix)
     {
-        $lang = $this->getLangToUse();
-        $groupNamePrefix = $this->languagemap->getI18NString('instructor_groups.name_prefix', $lang);
+        $groupNamePrefix = $this->languagemap->getI18NString('instructor_groups.name_prefix');
 
         return $groupNamePrefix . ' ' . $groupNameSuffix;
     }

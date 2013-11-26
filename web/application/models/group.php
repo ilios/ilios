@@ -170,8 +170,7 @@ class Group extends Ilios_Base_Model
         $newId = $this->makeNewRow($title, $parentGroupId, $auditAtoms);
 
         if (($newId == null) || ($newId == -1) || ($newId == 0)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
             $rhett['error'] = $msg;
         }
@@ -463,8 +462,7 @@ EOL;
             $this->db->where('group_id !=', $groupId);
             $queryResults = $this->db->get($this->databaseTableName);
             if ($queryResults->num_rows() > 0) {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('groups.error.preexisting_title', $lang);
+                $msg = $this->languagemap->getI18NString('groups.error.preexisting_title');
 
                 return $msg . " '" . $title . "'";
             }
@@ -575,8 +573,7 @@ EOL;
         }
 
         if ($parentGroupName == null) {
-            $lang = $this->getLangToUse();
-            $groupNamePrefix = $this->languagemap->getI18NString('groups.name_prefix', $lang);
+            $groupNamePrefix = $this->languagemap->getI18NString('groups.name_prefix');
         }
         else {
             $groupNamePrefix = $parentGroupName;

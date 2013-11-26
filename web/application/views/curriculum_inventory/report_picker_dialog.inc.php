@@ -6,7 +6,6 @@
  *
  * Available template variables:
  *
- *    $lang ... The language key.
  *    $reports ... An array of existing inventory reports.
  *    $controllerURL ... The page controller URL.
  *
@@ -15,12 +14,12 @@
  */
 ?>
 <div class="tabdialog hidden" id="report_picker_dialog">
-    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.select.title', $lang); ?>:</div>
+    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.select.title'); ?>:</div>
     <div class="bd">
         <div class="dialog_wrap">
             <form method="POST" action="#">
                 <fieldset>
-                    <legend><?php echo $this->languagemap->t('general.terms.curriculum_inventory_reports', $lang); ?></legend>
+                    <legend><?php echo $this->languagemap->t('general.terms.curriculum_inventory_reports'); ?></legend>
                     <div class="scroll_list clearfix">
                         <ul id="report_picker_results_list" class="search-results">
                         <?php foreach ($reports as $report) : ?>

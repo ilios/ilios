@@ -7,27 +7,27 @@
  */
 $tabs = array(
     array(
-        'label' => $this->languagemap->getI18NString('general.terms.home', $lang),
+        'label' => $this->languagemap->getI18NString('general.terms.home'),
         'target' => 'dashboard_controller',
         'id' => 't-home'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.terms.programs', $lang),
+        'label' => $this->languagemap->getI18NString('general.terms.programs'),
         'target' => 'program_management',
         'id' => 't-program'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.terms.instructors', $lang),
+        'label' => $this->languagemap->getI18NString('general.terms.instructors'),
         'target' => 'instructor_group_management',
         'id' => 't-instructor'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.phrases.learner_groups', $lang),
+        'label' => $this->languagemap->getI18NString('general.phrases.learner_groups'),
         'target' => 'group_management',
         'id' => 't-learner'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.phrases.courses_and_sessions', $lang),
+        'label' => $this->languagemap->getI18NString('general.phrases.courses_and_sessions'),
         'target' => 'course_management',
         'id' => 't-course'
     )

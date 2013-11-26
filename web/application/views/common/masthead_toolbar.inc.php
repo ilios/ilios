@@ -10,14 +10,14 @@
     <ul>
 <?php if ($this->session->userdata('username')) : // show user session info and logout button ?>
         <li class="username"><?php echo $this->session->userdata('display_fullname'); ?></li>
-        <li class="last-login"><?php echo $this->languagemap->getI18NString('general.phrases.last_login', $lang); ?>:
+        <li class="last-login"><?php echo $this->languagemap->getI18NString('general.phrases.last_login'); ?>:
             <span><?php echo $this->session->userdata('display_last'); ?></span></li>
         <li><a id="logout_link" class="tiny radius button" href="<?php echo site_url(); ?>/authentication_controller?logout=yes">
-            <?php echo $this->languagemap->getI18NString('general.terms.logout', $lang); ?></a>
+            <?php echo $this->languagemap->getI18NString('general.terms.logout'); ?></a>
         </li>
 <?php else: // show login button ?>
         <li id="logout_link"><a class="tiny radius button" href="<?php echo site_url(); ?>/dashboard_controller">
-            <?php echo $this->languagemap->getI18NString('general.terms.login', $lang); ?></a>
+            <?php echo $this->languagemap->getI18NString('general.terms.login'); ?></a>
         </li>
 <?php endif; ?>
     </ul>

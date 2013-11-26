@@ -740,9 +740,7 @@ EOL;
 
         // MAY RETURN THIS BLOCK
         if ((! $newSessionId) || ($newSessionId < 1)) {
-            $lang = $this->getLangToUse();
-
-            $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert');
 
             return $rhett;
         }
@@ -767,10 +765,8 @@ EOL;
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
-            $lang = $this->getLangToUse();
-
             $rhett['error']
-                = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
+                = $this->languagemap->getI18NString('general.error.db_cross_table_insert');
 
             return $rhett;
         }
@@ -783,8 +779,7 @@ EOL;
             $success = $this->_addDescription($newSessionId, $description);
         }
         if (! $success) { // deal with failure
-            $lang = $this->getLangToUse();
-            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description');
             return $rhett;
         }
 
@@ -847,10 +842,8 @@ EOL;
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
-            $lang = $this->getLangToUse();
-
             $rhett['error']
-                = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
+                = $this->languagemap->getI18NString('general.error.db_cross_table_insert');
 
             return $rhett;
         }
@@ -872,8 +865,7 @@ EOL;
             }
         }
         if (! $success) { // deal with failure
-            $lang = $this->getLangToUse();
-            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description');
             return $rhett;
         }
 
@@ -921,9 +913,7 @@ EOL;
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
 
         if ($this->db->affected_rows() == 0) {
-            $lang = $this->getLangToUse();
-
-            $rhett['error']  = $this->languagemap->getI18NString('general.error.db_delete', $lang);
+            $rhett['error']  = $this->languagemap->getI18NString('general.error.db_delete');
         }
 
         return $rhett;

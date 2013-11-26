@@ -169,9 +169,9 @@
             createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
                 $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
                 $suffixingContent, $saveDraftAction, $publishAction, $revertAction, true, true, false, false, '',
-                $this->languagemap->getI18NString('general.phrases.save_draft', $lang), '',
-                $this->languagemap->getI18NString('general.phrases.publish_now', $lang),
-                $this->languagemap->getI18NString('general.phrases.reset_form', $lang));
+                $this->languagemap->getI18NString('general.phrases.save_draft'), '',
+                $this->languagemap->getI18NString('general.phrases.publish_now'),
+                $this->languagemap->getI18NString('general.phrases.reset_form'));
 ?>
 
     <script type="text/javascript">
