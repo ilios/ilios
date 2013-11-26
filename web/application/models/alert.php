@@ -253,8 +253,7 @@ EOL;
         }
 
         if ($alertId == -1) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
             return $msg;
         }
 
@@ -287,8 +286,7 @@ EOL;
         }
 
         if ($count != $affectedCount) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
             return $msg;
         }
 
