@@ -189,17 +189,6 @@ abstract class Ilios_Base_Model extends CI_Model
     }
 
     /**
-     * Returns the language key as specified in the application configuration.
-     *
-     * @see Abstract_Ilios_Controller::getLangToUse()
-     * @return string The language key.
-     */
-    protected function getLangToUse ()
-    {
-        return $this->config->item('ilios_default_lang_locale');
-    }
-
-    /**
      * Retrieves a list of ids from a target column in a JOIN table that are matching a given constraining value.
      * @param string $table The table name.
      * @param string $column The name of the target column.
