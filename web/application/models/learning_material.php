@@ -595,8 +595,7 @@ EOL;
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         if (($this->db->affected_rows() == 0) || $this->transactionAtomFailed()) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
             $rhett = $msg;
         }
