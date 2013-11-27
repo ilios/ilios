@@ -241,7 +241,7 @@ if (-1 === $course_id) {
     $suffixingContent .= generateProgressDivMarkup($progressDivStyleDefinition . ' display: none', ''); // hide it.
 } else {
     $suffixingContent .= generateProgressDivMarkup($progressDivStyleDefinition,
-       $this->languagemap->t('general.phrases.loading_all_course_sessions'));
+       t('general.phrases.loading_all_course_sessions'));
 }
 
 $suffixingContent .= '
