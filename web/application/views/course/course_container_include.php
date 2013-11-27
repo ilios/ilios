@@ -272,17 +272,17 @@ $saveDraftAction = 'ilios.cm.transaction.saveCourseAsDraft();';
 $publishAction = 'ilios.cm.transaction.performCoursePublish();';
 $revertAction = 'ilios.cm.transaction.revertChanges();';
 
-$publishAllString = $this->languagemap->getI18NString('general.phrases.publish_all');
+$publishAllString = t('general.phrases.publish_all');
 $publishNowString = '<div id="-1_publish_warning" class="yellow_warning_icon" '
                         . 'style="display: none;"></div>'
-                        . $this->languagemap->getI18NString('general.phrases.publish_course');
+                        . t('general.phrases.publish_course');
 
 createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
     $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText, $suffixingContent,
     $saveDraftAction, $publishAction, $revertAction, true, true, true, true,
-    $this->languagemap->getI18NString('general.phrases.save_all_draft'),
-    $this->languagemap->getI18NString('general.phrases.save_draft'), $publishAllString, $publishNowString,
-    $this->languagemap->getI18NString('general.phrases.reset_form'), true, true);
+    t('general.phrases.save_all_draft'),
+    t('general.phrases.save_draft'), $publishAllString, $publishNowString,
+    t('general.phrases.reset_form'), true, true);
 ?>
 
     <script type="text/JavaScript">
