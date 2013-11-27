@@ -28,7 +28,7 @@
                 </div>
                 <div class="dialog-form-row" >
                     <label for="new_report_description" class="entity_widget_title">
-                        <?php echo $t('general.terms.description'); ?>:
+                        <?php echo t('general.terms.description'); ?>:
                     </label><br />
                     <textarea id="new_report_description" name="report_description" type="text" cols="80" rows="10"
                            placeholder="<?php echo t('curriculum_inventory.create.report_description.hint', false); ?>"></textarea>
