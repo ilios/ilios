@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database', 'languageMap', 'assetic');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('string', 'form', 'url', 'template');
+$autoload['helper'] = array('string', 'form', 'url', 'template', 'translation');
 
 
 /*

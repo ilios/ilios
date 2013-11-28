@@ -180,7 +180,7 @@ class LanguageMap
     /**
      * Wrapper around <code>getI18NString()</code>.
      * The only difference is that double quotes in the return-value get unescaped by default.
-     * @see I18N_Vendor::getI18nString()
+     * @see LanguageMap::getI18nString()
      * @param string $key the text key
      * @param boolean unescape if TRUE then escaped double quotes in the value will be unescaped
      * @return string the text

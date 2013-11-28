@@ -14,12 +14,12 @@
  */
 ?>
 <div class="tabdialog hidden" id="report_picker_dialog">
-    <div class="hd"><?php echo $this->languagemap->t('curriculum_inventory.select.title'); ?>:</div>
+    <div class="hd"><?php echo t('curriculum_inventory.select.title'); ?>:</div>
     <div class="bd">
         <div class="dialog_wrap">
             <form method="POST" action="#">
                 <fieldset>
-                    <legend><?php echo $this->languagemap->t('general.terms.curriculum_inventory_reports'); ?></legend>
+                    <legend><?php echo t('general.terms.curriculum_inventory_reports'); ?></legend>
                     <div class="scroll_list clearfix">
                         <ul id="report_picker_results_list" class="search-results">
                         <?php foreach ($reports as $report) : ?>
