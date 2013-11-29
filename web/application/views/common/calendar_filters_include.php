@@ -1,6 +1,21 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function generateCheckboxElementsFromArray( $element_key_and_value_array) {
+/**
+ * @file calendar_filters_include.php
+ *
+ * An assortment of form-builder/templating functions for the search/filter widget on the calendar/dashboard pages.
+ * @todo the only "real" helper function here is <code>generateCheckboxElementsFromArray</code>.
+ * @todo Move this to the templating helper script, convert the rest of this mess into a template script.
+ * @todo [ST 2013/11/27]
+ */
+
+/**
+ * Generates and returns a HTML checkbox element plus corresponding label for each item in a given array.
+ *
+ * @param array $element_key_and_value_array An associative array, each item's key being used as the checkbox value and each item's value being used as the label text.
+ * @return string The generated markup.
+ */
+function generateCheckboxElementsFromArray ($element_key_and_value_array) {
 
     $retval = "";
 
@@ -14,7 +29,15 @@ function generateCheckboxElementsFromArray( $element_key_and_value_array) {
     return $retval;
 }
 
-function generateCalendarFiltersFormContent($filtersData, $asDialog = false) {
+
+/**
+ * Generates and returns an HTML form displaying given filtering options.
+ *
+ * @param array $filtersData An associative array containing the form content.
+ * @param boolean $asDialog Set to TRUE generate markup for a dialog widget.
+ * @return string The generated markup.
+ */
+function generateCalendarFiltersFormContent ($filtersData, $asDialog = false) {
 
     // Header Div
     $content = '<div class="hd">';
@@ -113,7 +136,15 @@ EOF;
     return $content;
 }
 
-function generateTopicFilters($filtersData) {
+
+/**
+ * Generates and returns an HTML container for displaying the topic-related elements
+ * of the search/filter form.
+ *
+ * @param array $filtersData An associative array containing the form content.
+ * @return string The generated markup.
+ */
+function generateTopicFilters ($filtersData) {
 
     // Generate 'Search by Topic/Detail' panel (div)
     $content = '<div id="search_by_topic_panel">';
@@ -159,7 +190,14 @@ function generateTopicFilters($filtersData) {
     return $content;
 }
 
-function generateCourseFilters($filtersData) {
+/**
+ * Generates and returns an HTML container for displaying the course-related elements
+ * of the search/filter form.
+ *
+ * @param array $filtersData An associative array containing the form content.
+ * @return string The generated markup.
+ */
+function generateCourseFilters ($filtersData) {
 
     // Generate 'Search by Course' panel (div)
     $content = '<div id="search_by_course_panel" style="display: none;">';
