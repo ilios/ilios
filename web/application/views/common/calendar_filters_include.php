@@ -34,28 +34,21 @@ function generateCheckboxElementsFromArray ($element_key_and_value_array) {
  * Generates and returns an HTML form displaying given filtering options.
  *
  * @param array $filtersData An associative array containing the form content.
- * @param boolean $asDialog Set to TRUE generate markup for a dialog widget.
  * @return string The generated markup.
  */
-function generateCalendarFiltersFormContent ($filtersData, $asDialog = false) {
+function generateCalendarFiltersFormContent ($filtersData) {
 
     // Header Div
     $content = '<div class="hd">';
-    if ($asDialog) {
-        $content .= $filtersData['calendar_filters_title'];
-    } else {
-        $content .= '';
-    }
+    $content .= $filtersData['calendar_filters_title'];
     $content .= '</div>';
 
     // Body Div
     $content .= '<div class="bd">' . '<form method="GET" action="#">';
 
     $content .= '<div>';
+    $content .= '<strong>' . $filtersData['calendar_filters_title'] . '</strong>';
 
-    if (! $asDialog) {
-        $content .= '<strong>' . $filtersData['calendar_filters_title'] . '</strong>';
-    }
 
     // Generate drop down box for academic year
     $content .= '<span style="float: right; padding-left: 5px;">'.$filtersData['academic_year_title'].'&nbsp;';
@@ -109,24 +102,24 @@ function generateCalendarFiltersFormContent ($filtersData, $asDialog = false) {
         <label id="calendar_filters_showallactivities_label" for="calendar_filters_showallactivities" style="font-weight:bold;" >show all activities for selection</label>
         </div>
 EOF;
-    if (!$asDialog) {
-        $content .= '<div style="float:right;"> <br />'
-            /* .       '<input id="calendar_filters_search_button" type="button" value="Search" />' */
-            /* .       '<input id="calendar_filters_clear_button" type="button" value="Clear" />' */
-            . '<span id="calendar_filters_button_group" class="yui-buttongroup">'
-            . ' <span id="calendar_filters_search_button" class="yui-button">'
-            . '   <span class="first-child">'
-            . '     <button type="button">Search</button>'
-            . '   </span>'
-            . ' </span>'
-            . ' <span id="calendar_filters_clear_button" class="yui-button">'
-            . '   <span class="first-child">'
-            . '     <button type="button">Clear</button>'
-            . '   </span>'
-            . ' </span>'
-            . '</span>'
-            .       '</div>';
-    }
+
+    $content .= '<div style="float:right;"> <br />'
+        /* .       '<input id="calendar_filters_search_button" type="button" value="Search" />' */
+        /* .       '<input id="calendar_filters_clear_button" type="button" value="Clear" />' */
+        . '<span id="calendar_filters_button_group" class="yui-buttongroup">'
+        . ' <span id="calendar_filters_search_button" class="yui-button">'
+        . '   <span class="first-child">'
+        . '     <button type="button">Search</button>'
+        . '   </span>'
+        . ' </span>'
+        . ' <span id="calendar_filters_clear_button" class="yui-button">'
+        . '   <span class="first-child">'
+        . '     <button type="button">Clear</button>'
+        . '   </span>'
+        . ' </span>'
+        . '</span>'
+        .       '</div>';
+
     $content .= '</div>';
 
     $content .= '</form>';
