@@ -10,27 +10,6 @@
  */
 
 /**
- * Generates and returns a HTML checkbox element plus corresponding label for each item in a given array.
- *
- * @param array $element_key_and_value_array An associative array, each item's key being used as the checkbox value and each item's value being used as the label text.
- * @return string The generated markup.
- */
-function generateCheckboxElementsFromArray ($element_key_and_value_array) {
-
-    $retval = "";
-
-    if (!empty($element_key_and_value_array)) {
-        foreach ($element_key_and_value_array as $key=>$value) {
-            $retval .= '<input type="checkbox" value="'. htmlentities($key, ENT_COMPAT, 'UTF-8').'" />';
-            $retval .= '<label>' . htmlentities($value, ENT_COMPAT, 'UTF-8') . '</label><br />';
-        }
-    }
-
-    return $retval;
-}
-
-
-/**
  * Generates and returns an HTML form displaying given filtering options.
  *
  * @param array $filtersData An associative array containing the form content.
