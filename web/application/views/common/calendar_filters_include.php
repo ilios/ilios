@@ -88,59 +88,7 @@ function generateCalendarFiltersFormContent ($filtersData) {
     $content .= '<div><div style="border-style: solid; border-width: medium thin thin; border-color: chocolate grey grey; margin-top: 8px; padding: 5px; background-color: AliceBlue;">';
 
     // Generate 'Search by Topic/Detail' panel (div)
-    $content .= generateTopicFilters($filtersData);
-    $content .= generateCourseFilters($filtersData);
-
-    $content .= '</div></div>';
-
-    $content .= <<<EOF
-        <div style="padding: 10px 0; overflow:hidden;">
-        <div style="float:left">
-        <input id="calendar_filters_showmyactivities" type="radio" name="showallactivities" onclick="ilios.ui.radioButtonSelected(this);" />
-        <label id="calendar_filters_showmyactivities_label" for="calendar_filters_showmyactivities">show my schedule only </label><br />
-        <input id="calendar_filters_showallactivities" type="radio" name="showallactivities" onclick="ilios.ui.radioButtonSelected(this);" checked />
-        <label id="calendar_filters_showallactivities_label" for="calendar_filters_showallactivities" style="font-weight:bold;" >show all activities for selection</label>
-        </div>
-EOF;
-
-    $content .= '<div style="float:right;"> <br />'
-        /* .       '<input id="calendar_filters_search_button" type="button" value="Search" />' */
-        /* .       '<input id="calendar_filters_clear_button" type="button" value="Clear" />' */
-        . '<span id="calendar_filters_button_group" class="yui-buttongroup">'
-        . ' <span id="calendar_filters_search_button" class="yui-button">'
-        . '   <span class="first-child">'
-        . '     <button type="button">Search</button>'
-        . '   </span>'
-        . ' </span>'
-        . ' <span id="calendar_filters_clear_button" class="yui-button">'
-        . '   <span class="first-child">'
-        . '     <button type="button">Clear</button>'
-        . '   </span>'
-        . ' </span>'
-        . '</span>'
-        .       '</div>';
-
-    $content .= '</div>';
-
-    $content .= '</form>';
-    $content .= '</div>';
-    $content .= '<div class="ft"></div>';
-
-    return $content;
-}
-
-
-/**
- * Generates and returns an HTML container for displaying the topic-related elements
- * of the search/filter form.
- *
- * @param array $filtersData An associative array containing the form content.
- * @return string The generated markup.
- */
-function generateTopicFilters ($filtersData) {
-
-    // Generate 'Search by Topic/Detail' panel (div)
-    $content = '<div id="search_by_topic_panel">';
+    $content .= '<div id="search_by_topic_panel">';
 
     $content .= 'Show Topic: ';
     $content .= '<span style="float: right;">';
@@ -180,20 +128,8 @@ function generateTopicFilters ($filtersData) {
 
     $content .= '</div><!-- div-search_by_topic_panel -->';
 
-    return $content;
-}
-
-/**
- * Generates and returns an HTML container for displaying the course-related elements
- * of the search/filter form.
- *
- * @param array $filtersData An associative array containing the form content.
- * @return string The generated markup.
- */
-function generateCourseFilters ($filtersData) {
-
     // Generate 'Search by Course' panel (div)
-    $content = '<div id="search_by_course_panel" style="display: none;">';
+    $content .= '<div id="search_by_course_panel" style="display: none;">';
 
     // Since course titles are not unique, we will use the whole string instead of the corresponding course id.
     $course_array = array_values(array_unique($filtersData['course_titles']));
@@ -217,6 +153,41 @@ function generateCourseFilters ($filtersData) {
     $content .= '</div><br />';
 
     $content .= '</div><!-- div-search_by_course_panel -->';
+
+    $content .= '</div></div>';
+
+    $content .= <<<EOF
+        <div style="padding: 10px 0; overflow:hidden;">
+        <div style="float:left">
+        <input id="calendar_filters_showmyactivities" type="radio" name="showallactivities" onclick="ilios.ui.radioButtonSelected(this);" />
+        <label id="calendar_filters_showmyactivities_label" for="calendar_filters_showmyactivities">show my schedule only </label><br />
+        <input id="calendar_filters_showallactivities" type="radio" name="showallactivities" onclick="ilios.ui.radioButtonSelected(this);" checked />
+        <label id="calendar_filters_showallactivities_label" for="calendar_filters_showallactivities" style="font-weight:bold;" >show all activities for selection</label>
+        </div>
+EOF;
+
+    $content .= '<div style="float:right;"> <br />'
+        /* .       '<input id="calendar_filters_search_button" type="button" value="Search" />' */
+        /* .       '<input id="calendar_filters_clear_button" type="button" value="Clear" />' */
+        . '<span id="calendar_filters_button_group" class="yui-buttongroup">'
+        . ' <span id="calendar_filters_search_button" class="yui-button">'
+        . '   <span class="first-child">'
+        . '     <button type="button">Search</button>'
+        . '   </span>'
+        . ' </span>'
+        . ' <span id="calendar_filters_clear_button" class="yui-button">'
+        . '   <span class="first-child">'
+        . '     <button type="button">Clear</button>'
+        . '   </span>'
+        . ' </span>'
+        . '</span>'
+        .       '</div>';
+
+    $content .= '</div>';
+
+    $content .= '</form>';
+    $content .= '</div>';
+    $content .= '<div class="ft"></div>';
 
     return $content;
 }
