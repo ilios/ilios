@@ -146,8 +146,6 @@ function generateCalendarFiltersFormContent ($filtersData) {
 EOF;
 
     $content .= '<div style="float:right;"> <br />'
-        /* .       '<input id="calendar_filters_search_button" type="button" value="Search" />' */
-        /* .       '<input id="calendar_filters_clear_button" type="button" value="Clear" />' */
         . '<span id="calendar_filters_button_group" class="yui-buttongroup">'
         . ' <span id="calendar_filters_search_button" class="yui-button">'
         . '   <span class="first-child">'
