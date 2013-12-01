@@ -2,176 +2,174 @@
 
 /**
  * This file is meant to be included from program_manager.php and is responsible for generating
- * 	the HTML and JavaScript (via the function call to the method defined in
- * 	common/picker_dialog_generator).
+ *     the HTML and JavaScript (via the function call to the method defined in
+ *     common/picker_dialog_generator).
  */
 
-			$dialogDivId = 'faculty_picker_dialog';
+$dialogDivId = 'faculty_picker_dialog';
 
 
-			$modelName = '';
-			$modelSpecification = '';
+$modelName = '';
+$modelSpecification = '';
 
 
-			$remoteDataSourceMethod = 'getFacultyList';
+$remoteDataSourceMethod = 'getFacultyList';
 
-			$autoCompleteFilterer = 'facultyAutoCompleteFilterer';
+$autoCompleteFilterer = 'facultyAutoCompleteFilterer';
 
-			$autoCompleteFormatter = 'facultyAutoCompleteFormatter';
+$autoCompleteFormatter = 'facultyAutoCompleteFormatter';
 
-			$responseSchema = '{ resultNode: "Result", fields: ["last_name", "user_id", "first_name", '
-									. '"middle_name", "phone", "email", '
-									. '"uc_uid", "other_id", "cohort_id"] }';
+$responseSchema = '{ resultNode: "Result", fields: ["last_name", "user_id", "first_name", '
+                        . '"middle_name", "phone", "email", '
+                        . '"uc_uid", "other_id", "cohort_id"] }';
 
-			$hiddenFormElementId = 'faculty_hidden_input';
-			$listingTextFieldId = 'faculty_picker_selected_text_list';
-			$selectedItemContainerId = 'faculty_picked';
-
-
-			$parentModelGetterName = '';
-			$parentModelGetter = '';
-			$localModelGetterInvocation = '';
-			$localModelSetterName = '';
-			$modelSettingCode = '';
+$hiddenFormElementId = 'faculty_hidden_input';
+$listingTextFieldId = 'faculty_picker_selected_text_list';
+$selectedItemContainerId = 'faculty_picked';
 
 
-			$autolistContainerId = 'faculty_autolist';
-			$autoCompleteTextFieldId = 'faculty_name_input';
-			$i18nKeyForSelectedLabel = 'general.terms.instructors';
-			$i18nKeyForInstructions = 'general.text.instructor_search_instructions';
-			$autoCompleteTabId = 'faculty_autocomplete_tab';
+$parentModelGetterName = '';
+$parentModelGetter = '';
+$localModelGetterInvocation = '';
+$localModelSetterName = '';
+$modelSettingCode = '';
 
-			$dialogDisplayingEventTriggerName = 'faculty_picker_show_dialog';
 
-			$displayHandlerCode = '
-				var containerNumber = dialog.containerNumber;
-				var groupModel = ilios.igm.instructorGroupModels[containerNumber];
-				var users = groupModel.getUsers();
-				var userModel = null;
+$autolistContainerId = 'faculty_autolist';
+$autoCompleteTextFieldId = 'faculty_name_input';
+$i18nKeyForSelectedLabel = 'general.terms.instructors';
+$i18nKeyForInstructions = 'general.text.instructor_search_instructions';
+$autoCompleteTabId = 'faculty_autocomplete_tab';
 
-				idUserMap = new Array();
-				facultyPickerModel = groupModel.clone();
+$dialogDisplayingEventTriggerName = 'faculty_picker_show_dialog';
 
-				if (facultySelectListElement == null) {
-					facultySelectListElement = document.getElementById(dialog.selectListId);
-				}
-				facultySelectListElement.iliosModel = groupModel;
+$displayHandlerCode = '
+    var containerNumber = dialog.containerNumber;
+    var groupModel = ilios.igm.instructorGroupModels[containerNumber];
+    var users = groupModel.getUsers();
+    var userModel = null;
 
-				ilios.utilities.removeAllChildren(facultySelectListElement);
+    idUserMap = new Array();
+    facultyPickerModel = groupModel.clone();
 
-				for (var key in users) {
-					userModel = users[key];
+    if (facultySelectListElement == null) {
+        facultySelectListElement = document.getElementById(dialog.selectListId);
+    }
+    facultySelectListElement.iliosModel = groupModel;
 
-					facultySelectListElement.appendChild(createSelectedElementForUserModel(userModel));
-				}
+    ilios.utilities.removeAllChildren(facultySelectListElement);
 
-                return true;
-			';
+    for (var key in users) {
+        userModel = users[key];
 
-			$selectHandlerCode = '
-				var userModel = idUserMap[rowSelection.user_id];
+        facultySelectListElement.appendChild(createSelectedElementForUserModel(userModel));
+    }
 
-				facultySelectListElement.appendChild(createSelectedElementForUserModel(userModel));
-				facultyPickerModel.addUser(userModel);
-			';
+    return true;
+';
 
-			$deselectHandlerCode = '
-				var target = ilios.utilities.getEventTarget(event);
+$selectHandlerCode = '
+    var userModel = idUserMap[rowSelection.user_id];
 
-				if (target.tagName.toLowerCase() === "li") {
-					facultyPickerModel.removeUser(target.iliosModel);
-				}
-			';
+    facultySelectListElement.appendChild(createSelectedElementForUserModel(userModel));
+    facultyPickerModel.addUser(userModel);
+';
 
-			$submitHandlerCode = '
-				var groupModel = facultySelectListElement.iliosModel;
+$deselectHandlerCode = '
+    var target = ilios.utilities.getEventTarget(event);
 
-				if (groupModel.compareTo(facultyPickerModel) != 0) {
-					groupModel.replaceContentWithModel(facultyPickerModel, true);
-				}
+    if (target.tagName.toLowerCase() === "li") {
+        facultyPickerModel.removeUser(target.iliosModel);
+    }
+';
 
-				idUserMap = null;
-				facultyPickerModel = null;
-			';
+$submitHandlerCode = '
+    var groupModel = facultySelectListElement.iliosModel;
 
-			generatePickerMarkupAndScript("facu_", $dialogDivId, $modelName, $modelSpecification,
-										  $remoteDataSourceMethod, $responseSchema,
-										  $hiddenFormElementId, $listingTextFieldId,
-										  $selectedItemContainerId, $parentModelGetterName,
-										  $parentModelGetter, $localModelGetterInvocation,
-										  $localModelSetterName, $modelSettingCode,
-										  $autolistContainerId, $autoCompleteTextFieldId,
-										  $i18nKeyForSelectedLabel,
-										  $i18nKeyForInstructions,
-										  $autoCompleteTabId,
-										  $dialogDisplayingEventTriggerName,
-										  'YAHOO.util.XHRDataSource.TYPE_XML', null,
-										  $autoCompleteFilterer, $autoCompleteFormatter, 2500,
-										  $displayHandlerCode, $selectHandlerCode,
-										  $deselectHandlerCode, $submitHandlerCode);
+    if (groupModel.compareTo(facultyPickerModel) != 0) {
+        groupModel.replaceContentWithModel(facultyPickerModel, true);
+    }
+
+    idUserMap = null;
+    facultyPickerModel = null;
+';
+
+generatePickerMarkupAndScript("facu_", $dialogDivId, $modelName, $modelSpecification,
+                              $remoteDataSourceMethod, $responseSchema,
+                              $hiddenFormElementId, $listingTextFieldId,
+                              $selectedItemContainerId, $parentModelGetterName,
+                              $parentModelGetter, $localModelGetterInvocation,
+                              $localModelSetterName, $modelSettingCode,
+                              $autolistContainerId, $autoCompleteTextFieldId,
+                              $i18nKeyForSelectedLabel,
+                              $i18nKeyForInstructions,
+                              $autoCompleteTabId,
+                              $dialogDisplayingEventTriggerName,
+                              'YAHOO.util.XHRDataSource.TYPE_XML', null,
+                              $autoCompleteFilterer, $autoCompleteFormatter, 2500,
+                              $displayHandlerCode, $selectHandlerCode,
+                              $deselectHandlerCode, $submitHandlerCode);
 
 ?>
 
 <script type="text/javascript">
 
-	var idUserMap = null;
-	var facultyPickerModel = null;
-	var facultySelectListElement = null;
+    var idUserMap = null;
+    var facultyPickerModel = null;
+    var facultySelectListElement = null;
 
-	function createSelectedElementForUserModel (userModel) {
-		var element = document.createElement('li');
-		var textNode = document.createTextNode(userModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST));
+    function createSelectedElementForUserModel (userModel) {
+        var element = document.createElement('li');
+        var textNode = document.createTextNode(userModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST));
 
-		element.iliosModel = userModel;
-		element.appendChild(textNode);
+        element.iliosModel = userModel;
+        element.appendChild(textNode);
 
-		ilios.utilities.setToolTipForElement(element, userModel.getEmailAddress());
+        ilios.utilities.setToolTipForElement(element, userModel.getEmailAddress());
 
-		return element;
-	}
+        return element;
+    }
 
-	var facultyAutoCompleteFilterer = function (queryString, fullResponse, parsedResponse,
-										   		callback, autoCompleter) {
-		var len = parsedResponse.results.length;
-		var selectedList = document.getElementById(autoCompleter.target);
-		var filteredResults = new Array();
-		var i = 0;
-		var userModel = null;
-		var populateUserMap = (idUserMap.length == 0);
+    var facultyAutoCompleteFilterer = function (queryString, fullResponse, parsedResponse,
+                                                   callback, autoCompleter) {
+        var len = parsedResponse.results.length;
+        var selectedList = document.getElementById(autoCompleter.target);
+        var filteredResults = new Array();
+        var i = 0;
+        var userModel = null;
+        var populateUserMap = (idUserMap.length == 0);
 
-		for (; i < len; i++) {
-			userModel = new UserModel(parsedResponse.results[i]);
+        for (; i < len; i++) {
+            userModel = new UserModel(parsedResponse.results[i]);
 
-			 userModel.setLastName(parsedResponse.results[i].last_name);
-			 userModel.clearDirtyState();
+             userModel.setLastName(parsedResponse.results[i].last_name);
+             userModel.clearDirtyState();
 
-			if (populateUserMap) {
-				idUserMap[userModel.getDBId()] = userModel;
-			}
+            if (populateUserMap) {
+                idUserMap[userModel.getDBId()] = userModel;
+            }
 
-			if (! ilios.utilities.searchListElementForModel(selectedList, userModel)) {
-				filteredResults.push(parsedResponse.results[i]);
-			}
-		}
+            if (! ilios.utilities.searchListElementForModel(selectedList, userModel)) {
+                filteredResults.push(parsedResponse.results[i]);
+            }
+        }
 
-		parsedResponse.results = filteredResults;
+        parsedResponse.results = filteredResults;
 
-		return parsedResponse;
-	};
+        return parsedResponse;
+    };
 
-	var facultyAutoCompleteFormatter = function (resultDataObject, queryString, resultMatch,
-												 autoCompleter) {
-		var rhett = '<span uid="' + resultDataObject.user_id + '" title="'
-							+ resultDataObject.email + '">';
+    var facultyAutoCompleteFormatter = function (resultDataObject, queryString, resultMatch,
+                                                 autoCompleter) {
+        var rhett = '<span uid="' + resultDataObject.user_id + '" title="'
+                            + resultDataObject.email + '">';
 
-		rhett += ilios.utilities.createFormattedUserName(resultDataObject.first_name,
-				 										 resultDataObject.middle_name,
-				 										 resultDataObject.last_name, 0);
+        rhett += ilios.utilities.createFormattedUserName(resultDataObject.first_name,
+                                                          resultDataObject.middle_name,
+                                                          resultDataObject.last_name, 0);
 
-		rhett += '</span>';
+        rhett += '</span>';
 
-		return rhett;
-	};
-
-
+        return rhett;
+    };
 </script>
