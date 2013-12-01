@@ -358,12 +358,8 @@ $viewsPath = getServerFilePath('views');
     </div><!-- end archiving_permissions_dialog -->
 <?php
     include $viewsPath . 'common/course_summary_view_include.php';
-    include $viewsPath . 'common/calendar_filters_include.php';
+    include $viewsPath . 'home/calendar_filters_dialog.inc.php';;
 ?>
-    <div class="tabdialog" id="calendar_filters_dialog">
-        <?php echo generateCalendarFiltersFormContent($calendar_filters_data); ?>
-    </div>
-
     <div class="tabdialog" id="report_competency_pick_dialog"></div>
 
     <div class="tabdialog" id="calendar_event_details_dialog">
