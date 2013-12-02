@@ -6,7 +6,7 @@
  * Templating helper functions.
  */
 
-if ( ! function_exists('ilios_print_daytime_options')) {
+if (! function_exists('ilios_print_daytime_options')) {
     /**
      * Prints out <code>option</code> tags for day times in 15min intervals
      * within given boundaries.
@@ -216,7 +216,7 @@ if (! function_exists('createContentContainerMarkup')) {
     } // end function
 }
 
-if ( ! function_exists('generatePickerMarkupAndScript')) {
+if (! function_exists('generatePickerMarkupAndScript')) {
     /**
      * This function allows a generalization of HTML and JavaScript generation for pickers of different
      * table-model pairings. This is a walk through the unpretty world of PHP variable substitution
@@ -530,3 +530,24 @@ if ( ! function_exists('generatePickerMarkupAndScript')) {
     }
 }
 
+if (! function_exists('generateCheckboxElementsFromArray')) {
+    /**
+     * Generates and returns a HTML checkbox element plus corresponding label for each item in a given array.
+     *
+     * @param array $element_key_and_value_array An associative array, each item's key being used as the checkbox value and each item's value being used as the label text.
+     * @return string The generated markup.
+     */
+    function generateCheckboxElementsFromArray ($element_key_and_value_array) {
+
+        $rhett = '';
+
+        if (!empty($element_key_and_value_array)) {
+            foreach ($element_key_and_value_array as $key=>$value) {
+                $rhett .= '<input type="checkbox" value="'. htmlentities($key, ENT_COMPAT, 'UTF-8').'" />';
+                $rhett .= '<label>' . htmlentities($value, ENT_COMPAT, 'UTF-8') . '</label><br />';
+            }
+        }
+
+        return $rhett;
+    }
+}
