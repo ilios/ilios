@@ -70,13 +70,8 @@ class Discipline extends Ilios_Base_Model
 
         $len = strlen($title);
 
-        $sql =<<<EOL
-SELECT
-*
-FROM discipline
-WHERE
-owning_school_id = {$clean['school_id']}
-EOL;
+        $sql = "SELECT * FROM discipline WHERE owning_school_id = {$clean['school_id']}";
+
         if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
             // trailing wildcard search
             $sql .= " AND title LIKE '{$clean['title']}%'";
