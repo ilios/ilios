@@ -72,7 +72,7 @@ class Discipline extends Ilios_Base_Model
 
         $sql =<<<EOL
 SELECT
-discipline_id, title
+*
 FROM discipline
 WHERE
 owning_school_id = {$clean['school_id']}
@@ -96,7 +96,7 @@ EOL;
     {
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
-        $sql = "SELECT discipline_id, title FROM discipline WHERE owning_school_id = {$clean['school_id']} ORDER BY title";
+        $sql = "SELECT * FROM discipline WHERE owning_school_id = {$clean['school_id']} ORDER BY title";
         return $this->db->query($sql);
     }
 }
