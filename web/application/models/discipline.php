@@ -3,7 +3,7 @@
 include_once "ilios_base_model.php";
 
 /**
- * Data Access Object (DAO) to the "discipine" table.
+ * Data Access Object (DAO) to the "discipline" table.
  */
 class Discipline extends Ilios_Base_Model
 {
@@ -26,9 +26,9 @@ class Discipline extends Ilios_Base_Model
     public function getDisciplinesFilteredOnTitleMatch ($title, $schoolId)
     {
         if (! $title) { // get all
-        	return $this->_getDisciplines($schoolId);
+            return $this->_getDisciplines($schoolId);
         } else { // search by title
-        	return $this->_searchDisciplinesByTitle($title, $schoolId);
+            return $this->_searchDisciplinesByTitle($title, $schoolId);
         }
     }
 
@@ -70,21 +70,25 @@ class Discipline extends Ilios_Base_Model
 
         $len = strlen($title);
 
+        $sql =<<<EOL
+SELECT
+discipline_id, title
+FROM discipline
+WHERE
+owning_school_id = {$clean['school_id']}
+EOL;
         if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
-        	// trailing wildcard search
-        	$sql = 'CALL disciplines_for_title_restricted_by_school('
-                . '"' . $clean['title'] . '%", ' . $clean['school_id']  . ')';
+            // trailing wildcard search
+            $sql .= " AND title LIKE '{$clean['title']}%'";
         } else {
-        	// full wildcard search
-        	$sql = 'CALL disciplines_for_title_restricted_by_school('
-                . '"%' . $clean['title'] . '%", ' . $clean['school_id']  . ')';
+            // full wildcard search
+            $sql .= " AND title LIKE '%{$clean['title']}%'";
         }
         return $this->db->query($sql);
     }
 
     /**
      * Retrieves all disciplines belonging to a given school.
-     * @param string $title the discipline title
      * @param int $schoolId the school id
      * @return CI_DB_result a db query result object
      */
@@ -92,8 +96,7 @@ class Discipline extends Ilios_Base_Model
     {
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
-        $queryString = 'CALL disciplines_for_title_restricted_by_school('
-                     . '"%%", ' . $clean['school_id']  . ')';
-        return $this->db->query($queryString);
+        $sql = "SELECT discipline_id, title FROM discipline WHERE owning_school_id = {$clean['school_id']} ORDER BY title";
+        return $this->db->query($sql);
     }
 }
