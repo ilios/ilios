@@ -79,6 +79,8 @@ class Discipline extends Ilios_Base_Model
             // full wildcard search
             $sql .= " AND title LIKE '%{$clean['title']}%'";
         }
+        $sql .= " ORDER BY title";
+
         return $this->db->query($sql);
     }
 
