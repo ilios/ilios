@@ -4,14 +4,15 @@ Version 2.3.2
 
 Bug Fixes:
 
-Issue #260: MeSH picker for "My Reports" not functioning
+Issue #260: MeSH picker for "My Reports" not functioning.
+Issue #275: Recurring events tool creates additional offerings when used with "create offerings by group" feature.
 
 Feature Changes:
 
-Issue #211: Refactor user/user-group JOIN tables
-Issue #286: Simplify translation API
-Issue #288: Provide translation helper methods
-Issue #291: Improve topics picker performance
+Issue #211: Refactor user/user-group JOIN tables.
+Issue #286: Simplify translation API.
+Issue #288: Provide translation helper methods.
+Issue #291: Improve topics picker performance.
 
 ---
 
