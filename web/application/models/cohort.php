@@ -124,11 +124,10 @@ EOL;
     {
         $rhett = array();
 
-        $this->db->where('cohort_master_group.cohort_id', $cohortId);
-        $this->db->join('group', 'cohort_master_group.group_id = group.group_id');
+        $this->db->where('group.cohort_id', $cohortId);
         $this->db->order_by('group.title');
 
-        $queryResults = $this->db->get('cohort_master_group');
+        $queryResults = $this->db->get('group');
 
         foreach ($queryResults->result_array() as $row) {
             array_push($rhett, $row['group_id']);

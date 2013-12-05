@@ -167,7 +167,7 @@ class Group extends Ilios_Base_Model
         $rhett = array();
 
         $title = $this->makeDefaultGroupTitleForSuffix($parentGroupId, $newContainerNumber);
-        $newId = $this->makeNewRow($title, $parentGroupId, $auditAtoms);
+        $newId = $this->makeNewRow($title, $parentGroupId, $cohortId, $auditAtoms);
 
         if (($newId == null) || ($newId == -1) || ($newId == 0)) {
             $msg = $this->languagemap->getI18NString('general.error.db_insert');
@@ -179,11 +179,6 @@ class Group extends Ilios_Base_Model
                 $newRow = array();
                 $newRow['cohort_id'] = $cohortId;
                 $newRow['group_id'] = $newId;
-
-                $this->db->insert('cohort_master_group', $newRow);
-                array_push($auditAtoms,
-                           $this->auditEvent->wrapAtom($newId, 'group_id', 'cohort_master_group',
-                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
                 $queryResults = $this->user->getUsersForCohort($cohortId);
                 foreach ($queryResults->result_array() as $row) {
@@ -544,12 +539,13 @@ EOL;
         return $rhett;
     }
 
-    protected function makeNewRow ($title, $parentGroupId, &$auditAtoms) {
+    protected function makeNewRow ($title, $parentGroupId, $cohortId, &$auditAtoms) {
         $newRow = array();
         $newRow['group_id'] = null;
 
         $newRow['title'] = $title;
         $newRow['parent_group_id'] = (($parentGroupId < 1) ? null : $parentGroupId);
+        $newRow['cohort_id'] = $cohortId;
 
         $this->db->insert($this->databaseTableName, $newRow);
 
