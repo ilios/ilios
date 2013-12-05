@@ -174,7 +174,7 @@ class Ilios_CurriculumInventory_Exporter
 
         // report (and some program) properties
         $report = array();
-        $report['id'] = $invReport->year . '-' . $program->program_id . '-' . time(); // report id format: "<academic year>-<program id>-<current timestamp>"
+        $report['id'] = $invReport->year . 'x' . $program->program_id . 'x' . time(); // report id format: "<academic year>x<program id>x<current timestamp>"
         $report['domain'] = $this->_ci->config->item('curriculum_inventory_institution_domain');
         $report['date'] = date('Y-m-d');
         $report['name'] = $invReport->name;
