@@ -103,6 +103,7 @@ CREATE TABLE `school` (
 	  `instructors` VARCHAR(120) COLLATE utf8_unicode_ci,
 	  `location` VARCHAR(100) COLLATE utf8_unicode_ci,
 	  `parent_group_id` INT(14) UNSIGNED,
+	  `cohort_id` INT(14) UNSIGNED NULL,
 	  PRIMARY KEY (`group_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -758,26 +759,6 @@ ENGINE=InnoDB;
 	  CONSTRAINT `fkey_user_x_user_role_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
 	  CONSTRAINT `fkey_user_x_user_role_user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`user_role_id`) ON DELETE CASCADE ON UPDATE RESTRICT
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-	--
-	-- Table cohort_master_group
-	--
-	--	This embodies the 1-N relationship
-	--	between a cohort table row and 0-N
-	--	group table rows (for group instances
-	--	that are top-level-groups).
-	--
-
-	DROP TABLE IF EXISTS `cohort_master_group`;
-	SET character_set_client = utf8;
-	CREATE TABLE `cohort_master_group` (
-	  `cohort_id` INT(14) UNSIGNED NOT NULL,
-	  `group_id` INT(14) UNSIGNED NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 
 	--
 	-- Table group_x_group
