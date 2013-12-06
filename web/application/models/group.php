@@ -83,7 +83,7 @@ class Group extends Ilios_Base_Model
 
         $rhett['group_title'] = $this->makeDefaultGroupTitleForSuffix($masterGroupId, $groupNameSuffix);
 
-        $rhett['group_id'] = $this->makeNewRow($rhett['group_title'], $masterGroupId, $auditAtoms);
+        $rhett['group_id'] = $this->makeNewRow($rhett['group_title'], $masterGroupId, $cohortId, $auditAtoms);
 
         $queryResults = $this->db->query($queryString);
         $rhett['enrollment'] = $queryResults->num_rows();
