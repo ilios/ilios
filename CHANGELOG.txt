@@ -10,9 +10,11 @@ Issue #275: Recurring events tool creates additional offerings when used with "c
 Feature Changes:
 
 Issue #211: Refactor user/user-group JOIN tables.
+Issue #214: Associate each learner group with its "owning" cohort.
 Issue #286: Simplify translation API.
 Issue #288: Provide translation helper methods.
 Issue #291: Improve topics picker performance.
+Issue #295: Replace dashes in inventory report id.
 
 ---
 
