@@ -103,7 +103,8 @@ CREATE TABLE `school` (
 	  `instructors` VARCHAR(120) COLLATE utf8_unicode_ci,
 	  `location` VARCHAR(100) COLLATE utf8_unicode_ci,
 	  `parent_group_id` INT(14) UNSIGNED,
-	  `cohort_id` INT(14) UNSIGNED NULL,
+	  `cohort_id` INT(14) UNSIGNED NOT NULL,
+    CONSTRAINT `fkey_group_cohort_id` FOREIGN KEY (`cohort_id`) REFERENCES `cohort` (`cohort_id`) ON DELETE CASCADE,
 	  PRIMARY KEY (`group_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

@@ -125,6 +125,7 @@ EOL;
         $rhett = array();
 
         $this->db->where('group.cohort_id', $cohortId);
+        $this->db->where('group.parent_group_id IS NULL');
         $this->db->order_by('group.title');
 
         $queryResults = $this->db->get('group');
