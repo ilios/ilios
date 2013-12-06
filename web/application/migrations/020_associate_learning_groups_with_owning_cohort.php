@@ -54,6 +54,7 @@ EOL;
 
         //then drop the `root_group_of_group` function
         $sql = "DROP FUNCTION root_group_of_group";
+        $this->db->query($sql);
         $this->db->trans_complete();
     }
 
@@ -69,16 +70,25 @@ EOL;
 CREATE TABLE `cohort_master_group` (
 	  `cohort_id` INT(14) UNSIGNED NOT NULL,
 	  `group_id` INT(14) UNSIGNED NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8
 EOL;
         $this->db->query($sql);
 
         //then insert the rows from the group table
-        $sql = "INSERT INTO `cohort_master_group` (`cohort_id`,`group_id`) SELECT `cohort_id`, `group_id` FROM `group` ORDER BY `group_id` WHERE `cohort_id` IS NOT NULL AND `parent_group_id` IS NULL";
+        $sql = <<<EOL
+INSERT INTO `cohort_master_group` (`cohort_id`,`group_id`)
+ SELECT `cohort_id`, `group_id` FROM `group` WHERE `cohort_id` IS NOT NULL
+ AND `parent_group_id` IS NULL
+ ORDER BY `group_id`
+EOL;
         $this->db->query($sql);
 
-        //then drop the `cohort_id` column from group table
-        $sql = "ALTER TABLE `group` DROP COLUMN `cohort_id`";
+        //then drop the foreign key on `cohort_id` and the column itself from group table
+        $sql = <<<EOL
+ALTER TABLE `group`
+ DROP FOREIGN KEY `fkey_group_cohort_id`,
+ DROP COLUMN `cohort_id`
+EOL;
         $this->db->query($sql);
 
         //then create the root_group_of_group function
@@ -104,7 +114,7 @@ BEGIN
     END WHILE;
 
     RETURN 0;
-END;
+END
 EOL;
         $this->db->query($sql);
         $this->db->trans_complete();
