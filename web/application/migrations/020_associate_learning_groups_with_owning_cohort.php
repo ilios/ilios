@@ -37,11 +37,7 @@ EOL;
         $this->db->query($sql);
 
         //clean up the group table where the cohort_id is null or non-existent
-        $sql = <<<EOL
-DELETE FROM `group` WHERE `group_id` IN (
- SELECT group_id FROM `group` WHERE `cohort_id` IS NULL OR `cohort_id` NOT IN (SELECT `cohort_id` FROM `cohort`)
-)
-EOL;
+        $sql = "DELETE FROM `group` WHERE `cohort_id` IS NULL OR `cohort_id` NOT IN (SELECT `cohort_id` FROM `cohort`)";
         $this->db->query($sql);
 
         //alter the `group` table again to add the foreign key constraint and make the `cohort_id` column not NULL
