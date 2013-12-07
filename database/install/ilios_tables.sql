@@ -89,6 +89,60 @@ CREATE TABLE `school` (
 	  PRIMARY KEY (`user_role_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+	-- Table program
+	--
+
+DROP TABLE IF EXISTS `program`;
+SET character_set_client = utf8;
+CREATE TABLE `program` (
+    `program_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
+    `short_title` VARCHAR(10) COLLATE utf8_unicode_ci NOT NULL,
+    `publish_event_id` INT(14) UNSIGNED,		-- if null, the row is still in draft mode
+    `duration` TINYINT(1) UNSIGNED NOT NULL,
+    `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
+    `owning_school_id` INT(10) UNSIGNED NOT NULL,
+    `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
+    PRIMARY KEY (`program_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+--
+	-- Table program_year
+	--
+
+DROP TABLE IF EXISTS `program_year`;
+SET character_set_client = utf8;
+CREATE TABLE `program_year` (
+    `program_year_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `publish_event_id` INT(14) UNSIGNED,			-- if null, the row is still in draft mode
+    `start_year` SMALLINT(4) UNSIGNED NOT NULL,
+    `program_id` INT(14) UNSIGNED NOT NULL,
+    `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
+    `locked` TINYINT(1) NOT NULL,			-- marked as locked prevents it from being modified
+    `archived` TINYINT(1) NOT NULL,		-- marked as archived prevents it from being found in searches - but is different semantically from 'deleted'
+    `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
+    PRIMARY KEY (`program_year_id`) USING BTREE,
+    CONSTRAINT `fkey_program_year_program_id` FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+--
+	-- Table cohort
+	--
+
+DROP TABLE IF EXISTS `cohort`;
+SET character_set_client = utf8;
+CREATE TABLE `cohort` (
+    `cohort_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
+    `program_year_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`cohort_id`) USING BTREE,
+    KEY `whole_k` USING BTREE (`program_year_id`,`cohort_id`,`title`),
+    CONSTRAINT `fkey_cohort_program_year_id` FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 	--
@@ -162,60 +216,6 @@ CREATE TABLE `school` (
 
 
 
-	--
-	-- Table program
-	--
-
-	DROP TABLE IF EXISTS `program`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program` (
-	  `program_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `title` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-	  `short_title` VARCHAR(10) COLLATE utf8_unicode_ci NOT NULL,
-	  `publish_event_id` INT(14) UNSIGNED,		-- if null, the row is still in draft mode
-	  `duration` TINYINT(1) UNSIGNED NOT NULL,
-	  `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
-	  `owning_school_id` INT(10) UNSIGNED NOT NULL,
-	  `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
-	  PRIMARY KEY (`program_id`) USING BTREE
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-
-	--
-	-- Table program_year
-	--
-
-	DROP TABLE IF EXISTS `program_year`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program_year` (
-	  `program_year_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `publish_event_id` INT(14) UNSIGNED,			-- if null, the row is still in draft mode
-	  `start_year` SMALLINT(4) UNSIGNED NOT NULL,
-	  `program_id` INT(14) UNSIGNED NOT NULL,
-	  `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
-	  `locked` TINYINT(1) NOT NULL,			-- marked as locked prevents it from being modified
-	  `archived` TINYINT(1) NOT NULL,		-- marked as archived prevents it from being found in searches - but is different semantically from 'deleted'
-	  `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
-	  PRIMARY KEY (`program_year_id`) USING BTREE,
-	  CONSTRAINT `fkey_program_year_program_id` FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-	--
-	-- Table cohort
-	--
-
-	DROP TABLE IF EXISTS `cohort`;
-	SET character_set_client = utf8;
-	CREATE TABLE `cohort` (
-	  `cohort_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
-	  `program_year_id` INT(14) UNSIGNED NOT NULL,
-	  PRIMARY KEY (`cohort_id`) USING BTREE,
-	  KEY `whole_k` USING BTREE (`program_year_id`,`cohort_id`,`title`),
-	  CONSTRAINT `fkey_cohort_program_year_id` FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 	--
