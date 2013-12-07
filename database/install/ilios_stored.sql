@@ -9,34 +9,6 @@
 --
 
 
-DROP FUNCTION IF EXISTS root_group_of_group;
-DELIMITER //
-	CREATE FUNCTION root_group_of_group (in_gid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE gid INT DEFAULT in_gid;
-		DECLARE pgid INT DEFAULT 0;
-
-		WHILE gid IS NOT NULL DO
-			SELECT parent_group_id
-				INTO pgid
-				FROM `group`
-				WHERE group_id = gid;
-
-			IF pgid IS NULL THEN
-				RETURN gid;
-			ELSE
-				SET gid = pgid;
-			END IF;
-		END WHILE;
-
-		RETURN 0;
-	END;
-	//
-DELIMITER ;
-
-
 DROP FUNCTION IF EXISTS group_is_child_of_group;
 DELIMITER //
 	CREATE FUNCTION group_is_child_of_group (in_potential_child_gid INT, in_potential_parent_gid INT)

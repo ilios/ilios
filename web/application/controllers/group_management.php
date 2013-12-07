@@ -865,13 +865,12 @@ SELECT
   `cohort`.`title` AS `cohort_title`,
   `cohort`.`program_year_id` AS `program_year_id`
 FROM
-  `program`, `program_year`, `cohort`, `cohort_master_group`,
-  (SELECT root_group_of_group({$clean['group_id']}) AS `rgid`) AS `t1`
+  `program`, `program_year`, `cohort`, `group`
 WHERE
   `cohort`.`program_year_id` = `program_year`.`program_year_id`
   AND `program`.`program_id` = `program_year`.`program_id`
-  AND `cohort`.`cohort_id` = `cohort_master_group`.`cohort_id`
-  AND `cohort_master_group`.`group_id` = `t1`.`rgid`
+  AND `cohort`.`cohort_id` = `group`.`cohort_id`
+  AND `group`.`group_id` = {$clean['group_id']}
 ORDER BY `program_title`, `cohort_title`
 EOL;
         $queryResults = $this->db->query($query);
