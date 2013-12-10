@@ -1182,7 +1182,7 @@ CREATE TABLE `ilm_session_facet_x_group` (
       FOREIGN KEY (`ilm_session_facet_id`)
       REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
       ON DELETE CASCADE,
-  CONSTRAINT `fkey_ilm_session_facet_x_group_grouo_id`
+  CONSTRAINT `fkey_ilm_session_facet_x_group_group_id`
       FOREIGN KEY (`group_id`)
       REFERENCES `group` (`group_id`)
       ON DELETE CASCADE
