@@ -62,10 +62,11 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
         $schoolId =  $user->primary_school_id;
 
         $instructors = array();
-        $queryResult = $this->getFacultyFilteredOnNameMatch($search); // search instructors
-        foreach ($queryResult->result_array() as $row) {
+        $query = $this->getFacultyFilteredOnNameMatch($search); // search instructors
+        foreach ($query->result_array() as $row) {
             $instructors[] = $this->convertStdObjToArray($row);
         }
+        $query->free_result();
         $groups = $this->instructorGroup->getList($schoolId, $search); // search instructor groups
         $rhett['results'] = array_merge($groups, $instructors); // merge groups and instructor
 
@@ -327,9 +328,10 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
         }
 
         $matchString = $this->input->get('query');
-        $queryResults = $this->getFacultyFilteredOnNameMatch($matchString);
+        $query = $this->getFacultyFilteredOnNameMatch($matchString);
 
-        $this->outputQueryResultsAsXML($queryResults);
+        $this->outputQueryResultsAsXML($query);
+        $query->free_result();
     }
 
     /**
@@ -348,9 +350,10 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
         }
 
         $matchString = $this->input->get('query');
-        $queryResults = $this->getDirectorsFilteredOnNameMatch($matchString);
+        $query = $this->getDirectorsFilteredOnNameMatch($matchString);
 
-        $this->outputQueryResultsAsXML($queryResults);
+        $this->outputQueryResultsAsXML($query);
+        $query->free_result();
 
     }
 
@@ -370,9 +373,10 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
 
         $title = $this->input->get('query');
         $schoolId = $this->session->userdata('school_id');
-        $queryResults = $this->discipline->getDisciplinesFilteredOnTitleMatch($title, $schoolId);
+        $query = $this->discipline->getDisciplinesFilteredOnTitleMatch($title, $schoolId);
 
-        $this->outputQueryResultsAsXML($queryResults);
+        $this->outputQueryResultsAsXML($query);
+        $query->free_result();
     }
 
     /**
