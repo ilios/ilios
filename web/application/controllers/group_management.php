@@ -30,16 +30,13 @@ class Group_Management extends Ilios_Web_Controller
      */
     public function index ()
     {
-        $lang = $this->getLangToUse();
-
         $data = array();
-        $data['lang'] = $lang;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
+            $this->_viewAccessForbiddenPage($data);
             return;
         }
 
@@ -57,7 +54,7 @@ class Group_Management extends Ilios_Web_Controller
             $data['viewbar_title'] = $data['institution_name'];
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
 
@@ -76,53 +73,48 @@ class Group_Management extends Ilios_Web_Controller
             $data['cohort_load_stub'] = $cohortStub;
 
             $key = 'groups.title_bar';
-            $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['title_bar_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.select_program';
-            $data['select_program_link_string'] = $this->languagemap->getI18NString($key,
-                                                                                   $lang);
+            $data['select_program_link_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.page_header';
-            $data['page_header_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['page_header_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.instructor_picker_title';
-            $data['instructor_picker_title'] = $this->languagemap->getI18NString($key, $lang);
+            $data['instructor_picker_title'] = $this->languagemap->getI18NString($key);
 
             $key = 'general.phrases.expand_all';
-            $data['expand_groups_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['expand_groups_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.open_cohort';
-            $data['open_cohort_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['open_cohort_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.default_instructor';
-            $data['default_instructor_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['default_instructor_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.default_location';
-            $data['default_location_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['default_location_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.add_new_to_all_group';
-            $data['add_to_all_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['add_to_all_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.add_new_group';
-            $data['add_group_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['add_group_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'general.phrases.current_enrollment';
-            $data['current_enrollment_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['current_enrollment_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'general.phrases.orphan_members';
-            $data['orphans_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['orphans_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'general.phrases.program_title_short';
-            $data['program_title_short_string'] = $this->languagemap->getI18NString($key,
-                                                                                   $lang);
+            $data['program_title_short_string'] = $this->languagemap->getI18NString($key);
             $key = 'groups.program_title';
-            $data['program_title_full_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['program_title_full_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'general.terms.filter';
-            $data['word_filter_string'] = $this->languagemap->getI18NString($key, $lang);
-
-            $this->populateForAddNewMembersDialog($data, $lang);
-            $this->populateI18NStringsForContentContainerGenerator($data, $lang);
+            $data['word_filter_string'] = $this->languagemap->getI18NString($key);
 
             $this->load->view('group/group_manager', $data);
         } else {
@@ -137,11 +129,10 @@ class Group_Management extends Ilios_Web_Controller
     public function getUsersForCohort ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -159,11 +150,10 @@ class Group_Management extends Ilios_Web_Controller
     public function getUserGroupTree ()
     {
         $rhett = array();
-        $lang = $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -199,11 +189,10 @@ class Group_Management extends Ilios_Web_Controller
     public function autogenerateSubGroups ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -215,16 +204,14 @@ class Group_Management extends Ilios_Web_Controller
 
         if (-1 == $groupToDivide) {
 
-            $msg = $this->languagemap->getI18NString('groups.error.cohort_association', $lang);
+            $msg = $this->languagemap->getI18NString('groups.error.cohort_association');
             $rhett['error'] = $msg . ' ' . $groupToDivide;
         } else {
 
             $enrollment = $this->group->getUserCountForGroupWithId($groupToDivide);
 
             if ($enrollment == 0) {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('groups.error.cohort_zero_population',
-                                                        $lang);
+                $msg = $this->languagemap->getI18NString('groups.error.cohort_zero_population');
 
                 $rhett['error'] = $msg . ' ' . $groupToDivide;
             } else {
@@ -326,11 +313,10 @@ class Group_Management extends Ilios_Web_Controller
     public function getMasterGroupsForCohort ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -340,7 +326,7 @@ class Group_Management extends Ilios_Web_Controller
         $groups = $this->_getGroupsForGroupIds($groupIds);
 
         if (false === $groups) {
-            $msg = $this->languagemap->getI18NString('groups.error.failed_subgroup_fetch', $lang);
+            $msg = $this->languagemap->getI18NString('groups.error.failed_subgroup_fetch');
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -368,11 +354,10 @@ class Group_Management extends Ilios_Web_Controller
     public function deleteGroup ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -408,8 +393,7 @@ class Group_Management extends Ilios_Web_Controller
                     $this->auditEvent->commitTransaction();
                 }
             } else {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('groups.error.failed_group_delete', $lang);
+                $msg = $this->languagemap->getI18NString('groups.error.failed_group_delete');
 
                 $rhett['error'] = $msg . ': ' . $groupId;
 
@@ -436,11 +420,9 @@ class Group_Management extends Ilios_Web_Controller
      */
     public function saveGroupModelTree ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -450,7 +432,7 @@ class Group_Management extends Ilios_Web_Controller
         try {
             $wholeTree = Ilios_Json::deserializeJsonArray($this->input->post('whole_model_glom'), true);
         } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('groups.error.group_save.input_validation', $lang);
+            $this->_printErrorXhrResponse('groups.error.group_save.input_validation');
             return;
         }
 
@@ -529,11 +511,10 @@ class Group_Management extends Ilios_Web_Controller
     public function uploadStudentListCSVFile ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -548,9 +529,8 @@ class Group_Management extends Ilios_Web_Controller
         $this->load->library('upload', $config);
 
         if (! $this->upload->do_upload()) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
-            $msg2 = $this->languagemap->getI18NString('general.phrases.found_mime_type', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail');
+            $msg2 = $this->languagemap->getI18NString('general.phrases.found_mime_type');
             $uploadData = $this->upload->data();
 
             $rhett['error'] = $msg . ': ' . $this->upload->display_errors() . '. ' . $msg2 . ': '
@@ -568,7 +548,7 @@ class Group_Management extends Ilios_Web_Controller
             //if the file is not UTF-8...
             if ($encoding != 'UTF-8') {
                 //throw the error message
-                $this->_printErrorXhrResponse ('general.error.csv_not_utf8', $lang);
+                $this->_printErrorXhrResponse ('general.error.csv_not_utf8');
                 return;
 
             } else {
@@ -590,9 +570,7 @@ class Group_Management extends Ilios_Web_Controller
 
                 // MAY RETURN THIS BLOCK
                 if (count($foundDuplicates) > 0) {
-                    $lang = $this->getLangToUse();
-                    $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found',
-                        $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found');
 
                     $rhett['duplicates'] = $foundDuplicates;
                     $rhett['error'] = $msg;
@@ -631,8 +609,7 @@ class Group_Management extends Ilios_Web_Controller
                             $email, $ucUID, $otherId, $cohortId, $primarySchoolId, $auditAtoms);
 
                         if (($newId <= 0) || $this->user->transactionAtomFailed()) {
-                            $lang = $this->getLangToUse();
-                            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                            $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
                             $rhett['error'] = $msg;
 
@@ -681,11 +658,10 @@ class Group_Management extends Ilios_Web_Controller
     public function addNewUserToGroup ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -702,8 +678,7 @@ class Group_Management extends Ilios_Web_Controller
 
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found');
 
             $rhett['error'] = $msg;
 
@@ -729,8 +704,7 @@ class Group_Management extends Ilios_Web_Controller
                                                    $auditAtoms);
 
             if (($newId <= 0) || $this->user->transactionAtomFailed()) {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
                 $rhett['error'] = $msg;
 
@@ -774,11 +748,9 @@ class Group_Management extends Ilios_Web_Controller
      */
     public function addNewGroup ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -893,13 +865,12 @@ SELECT
   `cohort`.`title` AS `cohort_title`,
   `cohort`.`program_year_id` AS `program_year_id`
 FROM
-  `program`, `program_year`, `cohort`, `cohort_master_group`,
-  (SELECT root_group_of_group({$clean['group_id']}) AS `rgid`) AS `t1`
+  `program`, `program_year`, `cohort`, `group`
 WHERE
   `cohort`.`program_year_id` = `program_year`.`program_year_id`
   AND `program`.`program_id` = `program_year`.`program_id`
-  AND `cohort`.`cohort_id` = `cohort_master_group`.`cohort_id`
-  AND `cohort_master_group`.`group_id` = `t1`.`rgid`
+  AND `cohort`.`cohort_id` = `group`.`cohort_id`
+  AND `group`.`group_id` = {$clean['group_id']}
 ORDER BY `program_title`, `cohort_title`
 EOL;
         $queryResults = $this->db->query($query);

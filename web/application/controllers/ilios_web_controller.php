@@ -47,11 +47,10 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function searchInstructors ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -63,10 +62,11 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
         $schoolId =  $user->primary_school_id;
 
         $instructors = array();
-        $queryResult = $this->getFacultyFilteredOnNameMatch($search); // search instructors
-        foreach ($queryResult->result_array() as $row) {
+        $query = $this->getFacultyFilteredOnNameMatch($search); // search instructors
+        foreach ($query->result_array() as $row) {
             $instructors[] = $this->convertStdObjToArray($row);
         }
+        $query->free_result();
         $groups = $this->instructorGroup->getList($schoolId, $search); // search instructor groups
         $rhett['results'] = array_merge($groups, $instructors); // merge groups and instructor
 
@@ -80,13 +80,12 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function getLearnerDashboardSummaryForOffering ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check,
         // must be either a student or one of the instructor/admin-type roles
         if (! $this->session->userdata('is_learner')
             && ! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -125,13 +124,12 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function getLearnerDashboardSummaryForSILM ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check,
         // must be either a student or one of the instructor/admin-type roles
         if (! $this->session->userdata('is_learner')
             && ! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -187,11 +185,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
      */
     public function searchMeSHUniverseForIlios ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -211,11 +207,10 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     public function saveMeSHSearchSelection ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -237,7 +232,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
                 $failedTransaction = false;
                 $rhett['success'] = 'huzzah';
             } else {
-                $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert');
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->mesh);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -247,15 +242,16 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * @return a JSON'd array which features the cohort program tree
+     * Prints a JSON-formatted list of program year/cohort data, depending on the current user's permission settings
+     * and currently selected active school.
+     *
+     * @see Cohort::getCohortProgramTreeContent()
      */
     public function getCohortProgramTreeContent ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -267,10 +263,12 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * XHR handler.
-     * Retrieves and prints a complete course for a given identifier as JSON-formatted text.
+     * Prints a complete course for a given identifier as JSON-formatted text.
+     *
      * Expects the following values to be POSTed:
-     * - "course_id" ... the course identifier [integer]
+     * - "course_id" ... the course id
+     *
+     * @see Ilios_Base_Controller::_buildCourseTree()
      */
     public function getDashboardCourseTree ()
     {
@@ -283,12 +281,12 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Expected params:
-     *    session_id
+     * Prints a JSON-formatted list of offerings owned by a given session.
      *
-     * @return a JSON'd array with key 'error', or the key 'container' - a passback of the
-     *                         cnumber param value - and the key 'added' - the number of offerings
-     *                         added
+     * Expects the following values to be POSTed:
+     * - "session_id" ... the session id
+     *
+     * @see Offering::_getOfferingsForSession()
      */
     public function getOfferingsForSession ()
     {
@@ -301,13 +299,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * This takes no arguments presently and returns a tree of all competencies and sub-domains
-     * owned by the curent user's selected school.
+     * Prints a JSON-formatted data structure of all competencies and sub-domains owned by the current user's active school.
      *
-     * @return this returns a JSON'd non-associative array of competency objects, each object being
-     *                 an associative array with keys 'competency_id', 'title', and 'subdomains'. the
-     *                 value for the 'subdomains' key is a non-associative array of competency objects
-     *                 without further subdomains
+     * @see Competency::getCompetencyTree()
      */
     public function getCompetencyTree ()
     {
@@ -319,78 +313,75 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * XHR handler.
-     * Retrieves and prints a list of enabled users that match a given name/name-fragment and that
+     * Prints a XML-formatted list of enabled users that match a given name/name-fragment and that
      * have been assigned the "Faculty" (aka "Instructor") role.
+
      * Expects the following values to be POSTed:
      * - "query" ... a name/name-fragment to search users by
      */
     public function getFacultyList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
         $matchString = $this->input->get('query');
-        $queryResults = $this->getFacultyFilteredOnNameMatch($matchString);
+        $query = $this->getFacultyFilteredOnNameMatch($matchString);
 
-        $this->outputQueryResultsAsXML($queryResults);
+        $this->outputQueryResultsAsXML($query);
+        $query->free_result();
     }
 
     /**
-     * XHR handler.
-     * Retrieves and prints a list of enabled users that match a given name/name-fragment and that
-     * have been assigned the "Course Director" role.
+     * Prints a XML-formatted list of enabled users that match a given name/name-fragment and that have been assigned
+     * the "Course Director" role.
+     *
      * Expects the following values to be POSTed:
      * - "query" ... a name/name-fragment to search users by
      */
     public function getDirectorList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
         $matchString = $this->input->get('query');
-        $queryResults = $this->getDirectorsFilteredOnNameMatch($matchString);
+        $query = $this->getDirectorsFilteredOnNameMatch($matchString);
 
-        $this->outputQueryResultsAsXML($queryResults);
+        $this->outputQueryResultsAsXML($query);
+        $query->free_result();
 
     }
 
     /**
-     * XHR Handler.
-     * Prints out a JSON-formatted array of disciplines.
+     * Prints out a XML-formatted list of disciplines.
+     *
      * Expects the following values to be POSTed:
      * - 'query' ... a title/title-fragment to search disciplines by
      */
     public function getDisciplineList ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
         $title = $this->input->get('query');
         $schoolId = $this->session->userdata('school_id');
-        $queryResults = $this->discipline->getDisciplinesFilteredOnTitleMatch($title, $schoolId);
+        $query = $this->discipline->getDisciplinesFilteredOnTitleMatch($title, $schoolId);
 
-        $this->outputQueryResultsAsXML($queryResults);
+        $this->outputQueryResultsAsXML($query);
+        $query->free_result();
     }
 
     /**
-     * XHR Handler.
      * Prints out a JSON-formatted array of courses in a given academic year.
+     *
      * Expects the following values to be POSTed:
      * - 'year' ... the academic year
      * - 'sort' ... the sort order

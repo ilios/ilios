@@ -98,26 +98,7 @@
                                 <span style="font-weight: bold;">
                                     <?php echo $phrase_start_time_string; ?></span>
                                 <select id="lightbox_start_time_select" style="float: right;">
-<?php
-$index = 0;
-while ($index < 60) {
-    $hours = floor($index / 4) + 6;
-    $minutes = ($index % 4) * 15;
-
-    if ($hours < 10) {
-        $hours = '0' . $hours;
-    }
-
-    if ($minutes == 0) {
-        $minutes = '00';
-    }
-
-    $string = $hours . ':' . $minutes;
-
-    echo '<option value="' . $string . '">' . $string . '</option>';
-    $index++;
-}
-?>
+                                    <?php ilios_print_daytime_options(0, 60); ?>
                                 </select>
                             </div>
                             <br/>
@@ -136,27 +117,7 @@ while ($index < 60) {
                                 <span style="font-weight: bold;">
                                     <?php echo $phrase_end_time_string; ?></span>
                                 <select id="lightbox_end_time_select" style="float: right;">
-<?php
-$index = 1;
-
-while ($index < 61) {
-    $hours = floor($index / 4) + 6;
-    $minutes = ($index % 4) * 15;
-
-    if ($hours < 10) {
-        $hours = '0' . $hours;
-    }
-
-    if ($minutes == 0) {
-        $minutes = '00';
-    }
-
-    $string = $hours . ':' . $minutes;
-    echo '<option value="' . $string . '">' . $string . '</option>';
-    $index++;
-}
-
-?>
+                                    <?php ilios_print_daytime_options(1, 61); ?>
                                 </select>
                             </div>
                             <br/>

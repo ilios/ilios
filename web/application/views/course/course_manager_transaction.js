@@ -827,6 +827,7 @@ ilios.cm.transaction.performOfferingSave = function (gidsString, containerNumber
  */
 ilios.cm.transaction.createEventsResultingFromRecurrence = function (containerNumber) {
     var currentDate = new Date(ilios.cm.session.mo.getTimeMarker(true).getTime());
+    var strategy = ilios.cm.session.mo.getSelectedLearnerGroupAssignmentStrategy();
     var currentDay = currentDate.getDay();
     var calendarEndDate = ilios.cm.session.mo.getTimeMarker(false);
     var currentEndDate = new Date(calendarEndDate.getTime());
@@ -837,18 +838,22 @@ ilios.cm.transaction.createEventsResultingFromRecurrence = function (containerNu
             Math.floor((currentEndDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
     var saveStartDate = null;
     var saveEndDate = null;
-    var gids = '';
-    var groupModel = null;
-    var selectedModels = ilios.lg.picker.getSelectedLearnerModels();
+    var gids = [];
+    var selectedModels =[];
+    var i, n;
 
-    for (var key in selectedModels) {
-        if (gids.length > 0) {
-            gids += ',';
-        }
-
-        groupModel = selectedModels[key];
-        gids += groupModel.getDBId();
+    if ("roots" === strategy) { // get parent groups
+        selectedModels = ilios.lg.picker.getSelectedLearnerModelsRootsFromTree(ilios.lg.picker.learnerTreeModel);
+    } else { // get subgroups
+        selectedModels = ilios.lg.picker.getSelectedLearnerModelsLeavesFromTree(ilios.lg.picker.learnerTreeModel);
     }
+
+    // extact group ids
+    for (i = 0, n = selectedModels.length; i < n; i++) {
+        gids.push(selectedModels[i].getDBId());
+    }
+
+    gids = gids.join(",");
 
     ilios.cm.transaction.needToSaveRecurrence = false;
     ilios.cm.session.mo.inEditRecurringEventModel = null;

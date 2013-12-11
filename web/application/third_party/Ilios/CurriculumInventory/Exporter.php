@@ -174,7 +174,7 @@ class Ilios_CurriculumInventory_Exporter
 
         // report (and some program) properties
         $report = array();
-        $report['id'] = $invReport->year . '-' . $program->program_id . '-' . time(); // report id format: "<academic year>-<program id>-<current timestamp>"
+        $report['id'] = $invReport->year . 'x' . $program->program_id . 'x' . time(); // report id format: "<academic year>x<program id>x<current timestamp>"
         $report['domain'] = $this->_ci->config->item('curriculum_inventory_institution_domain');
         $report['date'] = date('Y-m-d');
         $report['name'] = $invReport->name;
@@ -608,7 +608,7 @@ class Ilios_CurriculumInventory_Exporter
             $relUri1 = $this->_createCompetencyObjectUri($domain, $relation['rel1'], 'program_objective');
             $relUri2 = $this->_createPcrsUri($relation['rel2']);
             $relationshipUri = $this->_createRelationshipUri('related');
-            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri1, $relUri2,
+            $this->_createCompetencyFrameworkRelationNode($dom, $competencyFrameworkNode, $relUri2, $relUri1,
                 $relationshipUri);
         }
         $relations = $inventory['expectations']['framework']['relations']['course_objectives_to_program_objectives'];

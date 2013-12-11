@@ -11,12 +11,7 @@ $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
 ?><!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 <head>
     <meta charset="utf-8">
 
@@ -40,9 +35,9 @@ $viewsPath = getServerFilePath('views');
 
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
-    <!-- Modernizr enables HTML5 elements & feature detects for optimal performance.
-         Create your own custom Modernizr build: www.modernizr.com/download/ -->
-    <script type="text/javascript" src="<?php echo $viewsUrlRoot; ?>scripts/third_party/modernizr-2.5.3.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="<?php echo $viewsUrlRoot; ?>scripts/third_party/html5shiv.js"></script>
+    <![endif]-->
 
     <!-- Third party JS -->
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/yui_kitchensink.js"); ?>"></script>
@@ -102,10 +97,7 @@ $viewsPath = getServerFilePath('views');
                 <div class="content_container">
                     <div class="column primary clearfix">
                         <div style="position: absolute; top: 24px; right: 9px;">
-    <?php
-        include getServerFilePath('views') . 'common/progress_div.php';
-        echo generateProgressDivMarkup();
-    ?>
+<?php echo generateProgressDivMarkup(); ?>
                             <div class="clear"></div>
                         </div>
                         <div id="management_center_content">
@@ -173,7 +165,7 @@ $viewsPath = getServerFilePath('views');
         <?php if ($password_required) : ?>
                 <label for="ua_edit_login_password_tf">New Password</label>:<br />
                 <input id="ua_edit_login_password_tf" name="ua_edit_login_password_tf" type="password" value="" />
-                <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+                <div class="small"><?php echo t('management.user_accounts.password_strength_requirements'); ?></div>
         <?php endif; ?>
             </form>
         </div>
@@ -189,7 +181,7 @@ $viewsPath = getServerFilePath('views');
             <?php if ($password_required) : ?>
                 <label for="ua_add_login_password_tf">Password</label>:<br />
                 <input id="ua_add_login_password_tf" name="ua_add_login_password_tf" type="password" value="" />
-                <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+                <div class="small"><?php echo t('management.user_accounts.password_strength_requirements'); ?></div>
             <?php endif; ?>
             </form>
         </div>

@@ -32,22 +32,22 @@ class Canned_Queries extends Ilios_Base_Model
 
         $sql =<<< EOL
 SELECT c.`course_id`, c.`title`
-FROM `offering_learner` ol
-JOIN `offering` o ON o.`offering_id` = ol.`offering_id`
+FROM `offering_x_group` oxg
+JOIN `offering` o ON o.`offering_id` = oxg.`offering_id`
 JOIN `session` s ON s.`session_id` = o.`session_id`
 JOIN `course` c ON c.`course_id` = s.`course_id`
-WHERE ol.`group_id` = {$clean['group_id']}
+WHERE oxg.`group_id` = {$clean['group_id']}
 AND o.`deleted` = 0
 AND s.`deleted` = 0
 AND c.`deleted` = 0
 AND c.`archived` = 0
 UNION
 SELECT c.`course_id`, c.`title`
-FROM `ilm_session_facet_learner` isfl
-JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = isfl.`ilm_session_facet_id`
+FROM `ilm_session_facet_x_group` isfxg
+JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = isfxg.`ilm_session_facet_id`
 JOIN `session` s ON s.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
 JOIN `course` c ON c.`course_id` = s.`course_id`
-WHERE isfl.`group_id` = {$clean['group_id']}
+WHERE isfxg.`group_id` = {$clean['group_id']}
 AND s.`deleted` = 0
 AND c.`deleted` = 0
 AND c.`archived` = 0
@@ -79,8 +79,8 @@ EOL;
 SELECT g.`group_id`, g.`title`
 FROM `session` s
 JOIN `offering` o ON o.`session_id` = s.`session_id`
-JOIN `offering_learner` ol ON ol.`offering_id` = o.`offering_id`
-JOIN `group` g ON g.`group_id` = ol.`group_id`
+JOIN `offering_x_group` oxg ON oxg.`offering_id` = o.`offering_id`
+JOIN `group` g ON g.`group_id` = oxg.`group_id`
 WHERE
 s.`deleted` = 0
 AND o.`deleted` = 0
@@ -89,8 +89,8 @@ UNION
 SELECT g.`group_id`, g.`title`
 FROM `session` s
 JOIN `ilm_session_facet` isf ON isf.`ilm_session_facet_id` = s.`ilm_session_facet_id`
-JOIN `ilm_session_facet_learner` isfl ON isfl.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
-JOIN `group` g ON g.`group_id` = isfl.`group_id`
+JOIN `ilm_session_facet_x_group` isfxg ON isfxg.`ilm_session_facet_id` = isf.`ilm_session_facet_id`
+JOIN `group` g ON g.`group_id` = isfxg.`group_id`
 WHERE s.`deleted` = 0
 AND s.`course_id` = {$clean['course_id']}
 EOL;
@@ -105,8 +105,8 @@ EOL;
         return $rhett;
     }
 
-    /*
-     * As getOfferingsForCalendar, but look up additional details about
+    /**
+     * Similar to <code>getOfferingsForCalendar</code>, but look up additional details about
      * the entries
      *
      * Returns learning-session offerings with fields that are needed for Calendar.
@@ -126,7 +126,7 @@ EOL;
             $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
             $begin = null, $end = null)
     {
-        $offerings = $this->getOfferingsForCalendar($schoolId, $userId, $roles,
+        $offerings = $this->_getOfferingsForCalendarWithinDateRange($schoolId, $userId, $roles,
          $year, $includeArchived, $lastUpdatedOffset, $begin, $end);
         $offeringIDs = $courses = $sessions = array();
         foreach($offerings as $offering) {
@@ -146,15 +146,15 @@ EOL;
 
         for($i=0;$i<count($offerings);$i++) {
           @$offerings[$i]['instructors'] =
-           $instructors[$offerings[$i]['offering_id']]; 
+           $instructors[$offerings[$i]['offering_id']];
           @$offerings[$i]['course_objectives'] =
-           $courseObjectives[$offerings[$i]['course_id']]; 
+           $courseObjectives[$offerings[$i]['course_id']];
           @$offerings[$i]['course_materials'] =
-           $courseMaterials[$offerings[$i]['course_id']]; 
+           $courseMaterials[$offerings[$i]['course_id']];
           @$offerings[$i]['session_objectives'] =
-           $sessionObjectives[$offerings[$i]['session_id']]; 
+           $sessionObjectives[$offerings[$i]['session_id']];
           @$offerings[$i]['session_materials'] =
-           $sessionMaterials[$offerings[$i]['session_id']]; 
+           $sessionMaterials[$offerings[$i]['session_id']];
         }
         return $offerings;
     }
@@ -283,7 +283,7 @@ EOL;
     }
 
     /*
-     * This is function returns all the learning session offerings with fields that are
+     * This function returns all the learning session offerings with fields that are
      * required by the calendar to display properly.  We only include some calendar filters'
      * arguments here, only those that are reused often enough for MySQL to be able to cache
      * the query efficiently.
@@ -295,115 +295,137 @@ EOL;
      * @param int $year
      * @param bool $includeArchived
      * @param int $lastUpdatedOffset
-     * @param int $begin UNIX timestamp when to begin search
-     * @param int $end UNIX timestamp when to end search
      * @return array
+     *
+     * @todo the SQL-construction in this function is a horrendous mess. clean it up.[ST 8/30/2012]
      */
-    public function getOfferingsForCalendar ($schoolId = null, $userId = null,
+    public function getOfferingsForCalendar ($schoolId, $userId = null,
             $roles = array(), $year = null, $includeArchived = false,
-            $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
-            $begin = null, $end = null)
+            $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS)
     {
-        // Sanitize input
-        $schoolId = (int) $schoolId;
-        $userId = (int) $userId;
-        $year = (int) $year;
-        $lastUpdatedOffset = (int) $lastUpdatedOffset;
-        $begin = (int) $begin;
-        $end = (int) $end;
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
+        $clean['user_id'] = (int) $userId;
+        $clean['year'] = (int) $year;
+        $clean['last_updated_on_offset'] = (int) $lastUpdatedOffset;
+        $subqueries = array();
 
-        // if a negative value has been given for the "last updated offset"
-        // then treat this as "off-switch" and just return FALSE for the
-        // "recently_updated" value.  otherwise, calculate whether the given
-        // offering or its parent session have been updated in the last X
-        // given days.  see redmine tickets #1010 and #2447
-        if (0 > $lastUpdatedOffset) {
-            $recentlyUpdated = 'false AS recently_updated';
-        } else {
-            $recentlyUpdated =<<< EOL
-GREATEST(session.last_updated_on, offering.last_updated_on)
- >= DATE_SUB(NOW(), INTERVAL $lastUpdatedOffset DAY) AS recently_updated
-EOL;
-        }
-
-        $archivedWhere = $schoolWhere = $yearWhere = $dateWhere = '';
-        if (! $includeArchived)
-            $archivedWhere = 'AND course.archived = 0';
-        if (!empty($schoolId))
-            $schoolWhere = "AND course.owning_school_id=$schoolId";
-        if (!empty($year))
-            $yearWhere = "AND course.year = $year";
-        if (!empty($begin) && !empty($end)) {
-            $dateWhere =<<< EOL
-AND offering.start_date > FROM_UNIXTIME($begin)
-AND offering.end_date < FROM_UNIXTIME($end)
-EOL;
-        }
-
-        $userJoins = $userWhere = '';
-        if (!empty($userId)) {
-            $userWhere = array();
-            if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
-                $userJoins .=<<< EOL
-LEFT JOIN offering_learner ON
- offering_learner.offering_id=offering.offering_id
-  AND (offering_learner.user_id=$userId
-   OR offering_learner.group_id IN
-    (SELECT group_id from group_x_user WHERE user_id=$userId))
-  AND course.publish_event_id IS NOT NULL
-  AND session.publish_event_id IS NOT NULL
-EOL;
-                $userWhere[] = 'offering_learner.offering_id IS NOT NULL';
-            }
+        $student_role = in_array(User_Role::STUDENT_ROLE_ID, $roles);
+        $faculty_role = in_array(User_Role::FACULTY_ROLE_ID, $roles);
         $director_role = in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles);
-            if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
-                $userJoins .=<<< EOL
-LEFT JOIN offering_instructor
- ON offering_instructor.offering_id=offering.offering_id
- AND (offering_instructor.user_id=$userId
-  OR offering_instructor.instructor_group_id IN
-   (SELECT instructor_group_id FROM instructor_group_x_user
-    WHERE user_id=$userId))
-EOL;
-                $userWhere[] = 'offering_instructor.offering_id IS NOT NULL';
-            }
-            if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
-                $userJoins .=<<< EOL
-LEFT JOIN course_director ON course_director.course_id=course.course_id
- AND course_director.user_id=$userId
-EOL;
-                $userWhere[] = 'course_director.course_id IS NOT NULL';
-            }
-            $userWhere='AND (' . implode(' OR ', $userWhere) . ')';
-        }
 
+        // SELECT clause
         $sql =<<< EOL
 SELECT DISTINCT
- session.title as session_title, session.attire_required,
-  session.equipment_required, session.supplemental, session.session_id,
-  session.published_as_tbd,
- session_description.description,
- session_type.title as session_type, session_type.session_type_id,
-  session_type.session_type_css_class,
- offering.room, offering.start_date, offering.end_date, offering.offering_id,
- course.title as course_title, course.course_id, course.year,
-  course.course_level, course.published_as_tbd AS course_published_as_tbd,
- $recentlyUpdated
-FROM offering
-JOIN session ON offering.session_id=session.session_id
-JOIN session_type ON session.session_type_id=session_type.session_type_id
-LEFT JOIN session_description ON session.session_id=session_description.session_id
-JOIN course ON session.course_id=course.course_id
-$userJoins
-WHERE
- offering.deleted=0 AND session.deleted=0 AND course.deleted=0
- $archivedWhere
- $yearWhere
- $schoolWhere
- $dateWhere
- $userWhere
-ORDER BY offering.start_date ASC, offering.offering_id ASC
+o.offering_id, o.start_date, o.end_date, o.session_id, o.room,
+c.course_id, c.title AS course_title, c.year, c.course_level,
+s.session_type_id, s.title AS session_title,
+st.session_type_css_class,
 EOL;
+        // if a negative value has been given for the "last updated offset"
+        // then treat this as "off-switch" and just return FALSE
+        // for the "recently_updated" value.
+        // otherwise, calculate whether the given offering or its parent session
+        // have been updated in the last X given days.
+        // see redmine tickets #1010 and #2447
+        if (0 > $clean['last_updated_on_offset']) {
+            $sql .= " false AS recently_updated";
+        } else {
+            $sql .= " GREATEST(s.last_updated_on, o.last_updated_on) >= DATE_ADD(NOW(), INTERVAL -{$clean['last_updated_on_offset']} DAY) AS recently_updated";
+        }
+
+        if ($student_role) {   // Only include these fields for Student role
+            $sql .= " , s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd";
+        }
+
+        // FROM clause
+        $sql .=<<< EOL
+ FROM offering o
+JOIN session s ON s.session_id = o.session_id
+JOIN session_type st ON st.session_type_id = s.session_type_id
+JOIN course c ON c.course_id = s.course_id
+EOL;
+        if ($student_role) {
+            $sql .= " LEFT JOIN offering_x_learner ON offering_x_learner.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_group ON offering_x_group.offering_id = o.offering_id";
+        }
+        if ($faculty_role) {
+            $sql .= " LEFT JOIN offering_x_instructor ON offering_x_instructor.offering_id = o.offering_id";
+            $sql .= " LEFT JOIN offering_x_instructor_group ON offering_x_instructor_group.offering_id = o.offering_id";
+        }
+        if ($director_role) {
+            $sql .= " LEFT JOIN course_director ON course_director.course_id = c.course_id";
+        }
+        // WHERE clause
+        $sql .= " WHERE o.deleted = 0 AND c.deleted = 0 AND s.deleted = 0 AND c.owning_school_id = {$clean['school_id']}";
+
+        if ($student_role) {
+            $sql .= " AND s.publish_event_id IS NOT NULL AND c.publish_event_id IS NOT NULL";
+        }
+
+        if (!$includeArchived) {
+            $sql .= " AND c.archived = 0";
+        }
+        if (!empty($clean['year'])) {
+            $sql .= " AND c.year = {$clean['year']}";
+        }
+
+        if (!empty($clean['user_id'])) {
+            if ($student_role) {
+                $subqueries[] = $sql . " AND `offering_x_learner`.`user_id` = {$clean['user_id']}";
+                $subqueries[] = $sql . <<< EOL
+ AND EXISTS (
+    SELECT `group_x_user`.`user_id` FROM `group_x_user`
+    WHERE `group_x_user`.`group_id` = `offering_x_group`.`group_id`
+    AND `group_x_user`.`user_id` = {$clean['user_id']}
+)
+EOL;
+            }
+            if ($faculty_role) {
+                $subqueries[] = $sql . " AND `offering_x_instructor`.`user_id` = {$clean['user_id']}";
+                $subqueries[] = $sql . <<< EOL
+ AND EXISTS (
+    SELECT `instructor_group_x_user`.`user_id` FROM `instructor_group_x_user`
+    WHERE `offering_x_instructor_group`.`instructor_group_id` = `instructor_group_x_user`.`instructor_group_id`
+    AND `instructor_group_x_user`.`user_id` = {$clean['user_id']}
+)
+EOL;
+            }
+            if ($director_role) {
+                $subqueries[] = $sql . " AND course_director.`user_id` = {$clean['user_id']}";
+            }
+        }
+
+        switch (count($subqueries)) {
+            case 0 :
+                $sql .= " ORDER BY o.start_date ASC, o.offering_id ASC";
+                break;
+            case 1 :
+                $sql = $subqueries[0]. " ORDER BY o.start_date ASC, o.offering_id ASC";
+                break;
+            default :
+                if ($student_role) {
+        $sql =<<< EOL
+SELECT DISTINCT d.offering_id, d.start_date, d.end_date, d.session_id, d.room,
+d.course_id, d.course_title, d.year, d.course_level,
+d.session_type_id, d.session_title, d.session_type_css_class, d.recently_updated,
+d.published_as_tbd, d.course_published_as_tbd
+FROM (
+EOL;
+                    $sql .= implode("\n UNION \n", $subqueries);
+                    $sql .= ") AS d";
+                } else {
+                    $sql =<<< EOL
+SELECT DISTINCT d.offering_id, d.start_date, d.end_date, d.session_id, d.room,
+d.course_id, d.course_title, d.year, d.course_level,
+d.session_type_id, d.session_title, d.session_type_css_class, d.recently_updated
+FROM (
+EOL;
+                    $sql .= implode("\n UNION \n", $subqueries);
+                    $sql .= ") AS d";
+                }
+                $sql .= " ORDER BY d.start_date ASC, d.offering_id ASC";
+        }
         $queryResults = $this->db->query($sql);
 
         $rhett = array();
@@ -411,11 +433,12 @@ EOL;
             array_push($rhett, $row);
         }
 
+        $queryResults->free_result();
         return $rhett;
     }
 
-    /*
-     * This is function returns all the independent learning sessions with fields that are
+    /**
+     * This function returns all the independent learning sessions with fields that are
      * required by the calendar to display properly.  We only include some calendar filters'
      * arguments here, only those that are reused often enough for MySQL to be able to cache
      * the query efficiently.
@@ -473,19 +496,15 @@ EOL;
             . "JOIN ilm_session_facet i ON i.ilm_session_facet_id = s.ilm_session_facet_id ";
 
         if ($student_role) {
-            if (count($roles) > 1)
-                $sql .= "LEFT ";
-            $sql .= "JOIN ilm_session_facet_learner ON ilm_session_facet_learner.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_learner ON ilm_session_facet_x_learner.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_group ON ilm_session_facet_x_group.ilm_session_facet_id = s.ilm_session_facet_id ";
         }
         if ($faculty_role) {
-            if (count($roles) > 1)
-                $sql .= "LEFT ";
-            $sql .= "JOIN ilm_session_facet_instructor ON ilm_session_facet_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor ON ilm_session_facet_x_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor_group ON ilm_session_facet_x_instructor_group.ilm_session_facet_id = s.ilm_session_facet_id ";
         }
         if ($director_role) {
-            if (count($roles) > 1)
-                $sql .= "LEFT ";
-            $sql .= "JOIN course_director ON course_director.course_id = c.course_id ";
+            $sql .= "LEFT JOIN course_director ON course_director.course_id = c.course_id ";
         }
 
         // WHERE clause
@@ -503,15 +522,15 @@ EOL;
             $user_id = $clean['userId'];
             $clause = "( 0 ";
             if ($student_role) {
-                $clause .= "OR ( ilm_session_facet_learner.user_id = $user_id "
+                $clause .= "OR ( ilm_session_facet_x_learner.user_id = $user_id "
                     . "OR EXISTS (SELECT group_x_user.user_id FROM group_x_user "
-                    . "WHERE group_x_user.group_id = ilm_session_facet_learner.group_id "
+                    . "WHERE group_x_user.group_id = ilm_session_facet_x_group.group_id "
                     . "AND group_x_user.user_id = $user_id) ) ";
             }
             if ($faculty_role) {
-                $clause .= "OR ( ilm_session_facet_instructor.user_id = $user_id "
+                $clause .= "OR ( ilm_session_facet_x_instructor.user_id = $user_id "
                     ."OR EXISTS (SELECT instructor_group_x_user.user_id FROM instructor_group_x_user "
-                    . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_instructor.instructor_group_id "
+                    . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id "
                     . "AND instructor_group_x_user.user_id = $user_id) ) ";
             }
             if ($director_role) {
@@ -544,9 +563,9 @@ EOL;
         $tmpArray = array();
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `ilm_session_facet_instructor`, `session` '
-                        . 'WHERE (`ilm_session_facet_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`ilm_session_facet_instructor`.`ilm_session_facet_id` '
+                        . 'FROM `course`, `ilm_session_facet_x_instructor_group`, `session` '
+                        . 'WHERE (`ilm_session_facet_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`ilm_session_facet_x_instructor_group`.`ilm_session_facet_id` '
                         .                                   '= `session`.`ilm_session_facet_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -558,9 +577,9 @@ EOL;
         }
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `session`, `offering_instructor`, `offering` '
-                        . 'WHERE (`offering_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`offering_instructor`.`offering_id` = `offering`.`offering_id`) '
+                        . 'FROM `course`, `session`, `offering_x_instructor_group`, `offering` '
+                        . 'WHERE (`offering_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`offering_x_instructor_group`.`offering_id` = `offering`.`offering_id`) '
                         .       'AND (`offering`.`session_id` = `session`.`session_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -572,10 +591,10 @@ EOL;
         }
 
         $queryString = 'SELECT DISTINCT `course`.`year`, `course`.`course_id`, `course`.`title` '
-                        . 'FROM `course`, `session`, `offering`, `group_default_instructor`, `offering_learner` '
-                        . 'WHERE (`group_default_instructor`.`instructor_group_id` = ' . $igId . ') '
-                        .       'AND (`group_default_instructor`.`group_id` = `offering_learner`.`group_id`) '
-                        .       'AND (`offering_learner`.`offering_id` = `offering`.`offering_id`) '
+                        . 'FROM `course`, `session`, `offering`, `group_x_instructor_group`, `offering_x_group` '
+                        . 'WHERE (`group_x_instructor_group`.`instructor_group_id` = ' . $igId . ') '
+                        .       'AND (`group_x_instructor_group`.`group_id` = `offering_x_group`.`group_id`) '
+                        .       'AND (`offering_x_group`.`offering_id` = `offering`.`offering_id`) '
                         .       'AND (`offering`.`session_id` = `session`.`session_id`) '
                         .       'AND (`session`.`course_id` = `course`.`course_id`)'
                         .       'AND (`session`.`deleted` = 0) '
@@ -763,7 +782,11 @@ EOL;
             while (($row != null) && !$found);
 
 
-            $queryString = 'SELECT owning_school_id FROM cohort_master_group JOIN cohort USING(cohort_id) JOIN program_year USING(program_year_id) JOIN program USING(program_id) WHERE group_id = '. $groupId;
+            $queryString = <<<EOL
+SELECT `owning_school_id` FROM `group` JOIN `cohort` USING(`cohort_id`)
+JOIN `program_year` USING(`program_year_id`) JOIN `program` USING(`program_id`)
+WHERE `group_id` = {$groupId};
+EOL;
             $queryResults = $this->db->query($queryString);
 
             if ($schoolId == $queryResults->first_row()->owning_school_id) {
@@ -839,9 +862,9 @@ EOL;
         $clean['userId'] = (int) $userId;
         $clean['offeringId'] = (int)$offeringId;
 
-        $queryString = "SELECT * FROM offering_learner "
-            . "JOIN group_x_user ON group_x_user.group_id = offering_learner.group_id "
-            . "WHERE offering_learner.offering_id = {$clean['offeringId']} "
+        $queryString = "SELECT * FROM offering_x_group "
+            . "JOIN group_x_user ON group_x_user.group_id = offering_x_group.group_id "
+            . "WHERE offering_x_group.offering_id = {$clean['offeringId']} "
             . "AND group_x_user.user_id = {$clean['userId']}";
 
         $queryResults = $this->db->query($queryString);
@@ -856,9 +879,9 @@ EOL;
         $clean['userId'] = (int) $userId;
         $clean['silmId'] = (int)$silmId;
 
-        $queryString = "SELECT * FROM ilm_session_facet_learner "
-            . "JOIN group_x_user ON group_x_user.group_id = ilm_session_facet_learner.group_id "
-            . "WHERE ilm_session_facet_learner.ilm_session_facet_id = {$clean['silmId']} "
+        $queryString = "SELECT * FROM ilm_session_facet_x_group "
+            . "JOIN group_x_user ON group_x_user.group_id = ilm_session_facet_x_group.group_id "
+            . "WHERE ilm_session_facet_x_group.ilm_session_facet_id = {$clean['silmId']} "
             . "AND group_x_user.user_id = {$clean['userId']}";
 
         $queryResults = $this->db->query($queryString);
@@ -874,21 +897,21 @@ EOL;
      * @return boolean TRUE if the user a "learner" within the context of the session, FALSE otherwise
      */
     public function isUserInSessionAsLearner ($userId , $sessionId) {
-    	$clean = array();
-    	$clean['session_id'] = (int) $sessionId;
-    	$clean['user_id'] = (int) $userId;
-    	$query = <<<EOL
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $clean['user_id'] = (int) $userId;
+        $query = <<<EOL
 SELECT u.`user_id`
 FROM `session` s
 JOIN `offering` o ON s.`session_id` = o.`session_id`
-JOIN  `offering_learner` ol ON o.`offering_id` = ol.`offering_id`
-JOIN `group_x_user` gxu ON gxu.`group_id` = ol.`group_id`
+JOIN  `offering_x_group` oxg ON o.`offering_id` = oxg.`offering_id`
+JOIN `group_x_user` gxu ON gxu.`group_id` = oxg.`group_id`
 JOIN `user` u ON u.`user_id` = gxu.`user_id`
 WHERE s.`session_id` = {$clean['session_id']}
 AND u.`user_id` = {$clean['user_id']}
 EOL;
-    	$queryResults = $this->db->query($query);
-    	return $queryResults->num_rows() ? true : false;
+        $queryResults = $this->db->query($query);
+        return $queryResults->num_rows() ? true : false;
     }
 
     public function getCoursesAndLearners ()
@@ -898,8 +921,8 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_learner` AS ol ON o.offering_id = ol.offering_id
-JOIN `user` AS u ON ol.user_id = u.user_id
+JOIN `offering_x_learner` AS oxl ON o.offering_id = oxl.offering_id
+JOIN `user` AS u ON oxl.user_id = u.user_id
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
 AND s.deleted = 0 AND s.publish_event_id IS NOT NULL
@@ -912,8 +935,8 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_learner` AS ol ON o.offering_id = ol.offering_id
-JOIN `group_x_user` AS gxu ON ol.group_id = gxu.group_id
+JOIN `offering_x_group` AS oxg ON o.offering_id = oxg.offering_id
+JOIN `group_x_user` AS gxu ON oxg.group_id = gxu.group_id
 JOIN `user` AS u ON gxu.user_id = u.user_id
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -926,7 +949,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_learner` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_learner` AS i USING( ilm_session_facet_id )
 JOIN `user` AS u USING( user_id )
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -938,7 +961,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_learner` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_group` AS i USING( ilm_session_facet_id )
 JOIN `group_x_user` AS gxu USING( group_id )
 JOIN `user` AS u ON gxu.user_id = u.user_id
 
@@ -960,7 +983,7 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_instructor` AS oi ON o.offering_id = oi.offering_id
+JOIN `offering_x_instructor` AS oi ON o.offering_id = oi.offering_id
 JOIN `user` AS u ON oi.user_id = u.user_id
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -974,7 +997,7 @@ SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
 JOIN `offering` AS o ON s.session_id = o.session_id
-JOIN `offering_instructor` AS oi ON o.offering_id = oi.offering_id
+JOIN `offering_x_instructor_group` AS oi ON o.offering_id = oi.offering_id
 JOIN `instructor_group_x_user` AS igxu ON oi.instructor_group_id = igxu.instructor_group_id
 JOIN `user` AS u ON igxu.user_id = u.user_id
 
@@ -988,7 +1011,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_instructor` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_instructor` AS i USING( ilm_session_facet_id )
 JOIN `user` AS u USING( user_id )
 
 WHERE c.deleted = 0 AND c.publish_event_id IS NOT NULL
@@ -1000,7 +1023,7 @@ UNION DISTINCT
 SELECT c.*, u.*
 FROM `course` AS c
 JOIN `session` AS s ON c.course_id = s.course_id
-JOIN `ilm_session_facet_instructor` AS i USING( ilm_session_facet_id )
+JOIN `ilm_session_facet_x_instructor_group` AS i USING( ilm_session_facet_id )
 JOIN `instructor_group_x_user` AS igxu USING( instructor_group_id )
 JOIN `user` AS u ON igxu.user_id = u.user_id
 
@@ -1031,5 +1054,138 @@ EOL;
 
         return $queryResults->result_array();
 
+    }
+
+    /*
+ * This is function returns all the learning session offerings with fields that are
+ * required by the calendar to display properly.  We only include some calendar filters'
+ * arguments here, only those that are reused often enough for MySQL to be able to cache
+ * the query efficiently.
+ *
+ * Returns learning-session offerings with fields that are needed for Calendar.
+ * @param int $schoolId
+ * @param int $userId
+ * @param array $roles an array of user-role ids
+ * @param int $year
+ * @param bool $includeArchived
+ * @param int $lastUpdatedOffset
+ * @param int $begin UNIX timestamp when to begin search
+ * @param int $end UNIX timestamp when to end search
+ * @return array
+ * @todo Check into whether this method can be consolidated with <code>getOfferingsForCalendar</code>, or further slimmed down. [ST 2013/12/11]
+ */
+    protected function _getOfferingsForCalendarWithinDateRange ($schoolId = null, $userId = null,
+                                                                $roles = array(), $year = null, $includeArchived = false,
+                                                                $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
+                                                                $begin = null, $end = null)
+    {
+        // Sanitize input
+        $schoolId = (int) $schoolId;
+        $userId = (int) $userId;
+        $year = (int) $year;
+        $lastUpdatedOffset = (int) $lastUpdatedOffset;
+        $begin = (int) $begin;
+        $end = (int) $end;
+
+        // if a negative value has been given for the "last updated offset"
+        // then treat this as "off-switch" and just return FALSE for the
+        // "recently_updated" value.  otherwise, calculate whether the given
+        // offering or its parent session have been updated in the last X
+        // given days.  see redmine tickets #1010 and #2447
+        if (0 > $lastUpdatedOffset) {
+            $recentlyUpdated = 'false AS recently_updated';
+        } else {
+            $recentlyUpdated =<<< EOL
+GREATEST(session.last_updated_on, offering.last_updated_on)
+ >= DATE_SUB(NOW(), INTERVAL $lastUpdatedOffset DAY) AS recently_updated
+EOL;
+        }
+
+        $archivedWhere = $schoolWhere = $yearWhere = $dateWhere = '';
+        if (! $includeArchived)
+            $archivedWhere = 'AND course.archived = 0';
+        if (!empty($schoolId))
+            $schoolWhere = "AND course.owning_school_id=$schoolId";
+        if (!empty($year))
+            $yearWhere = "AND course.year = $year";
+        if (!empty($begin) && !empty($end)) {
+            $dateWhere =<<< EOL
+AND offering.start_date > FROM_UNIXTIME($begin)
+AND offering.end_date < FROM_UNIXTIME($end)
+EOL;
+        }
+
+        $userJoins = $userWhere = '';
+        if (!empty($userId)) {
+            $userWhere = array();
+            if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+                $userJoins .=<<< EOL
+LEFT JOIN offering_learner ON
+ offering_learner.offering_id=offering.offering_id
+  AND (offering_learner.user_id=$userId
+   OR offering_learner.group_id IN
+    (SELECT group_id from group_x_user WHERE user_id=$userId))
+  AND course.publish_event_id IS NOT NULL
+  AND session.publish_event_id IS NOT NULL
+EOL;
+                $userWhere[] = 'offering_learner.offering_id IS NOT NULL';
+            }
+            $director_role = in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles);
+            if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
+                $userJoins .=<<< EOL
+LEFT JOIN offering_instructor
+ ON offering_instructor.offering_id=offering.offering_id
+ AND (offering_instructor.user_id=$userId
+  OR offering_instructor.instructor_group_id IN
+   (SELECT instructor_group_id FROM instructor_group_x_user
+    WHERE user_id=$userId))
+EOL;
+                $userWhere[] = 'offering_instructor.offering_id IS NOT NULL';
+            }
+            if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
+                $userJoins .=<<< EOL
+LEFT JOIN course_director ON course_director.course_id=course.course_id
+ AND course_director.user_id=$userId
+EOL;
+                $userWhere[] = 'course_director.course_id IS NOT NULL';
+            }
+            $userWhere='AND (' . implode(' OR ', $userWhere) . ')';
+        }
+
+        $sql =<<< EOL
+SELECT DISTINCT
+ session.title as session_title, session.attire_required,
+  session.equipment_required, session.supplemental, session.session_id,
+  session.published_as_tbd,
+ session_description.description,
+ session_type.title as session_type, session_type.session_type_id,
+  session_type.session_type_css_class,
+ offering.room, offering.start_date, offering.end_date, offering.offering_id,
+ course.title as course_title, course.course_id, course.year,
+  course.course_level, course.published_as_tbd AS course_published_as_tbd,
+ $recentlyUpdated
+FROM offering
+JOIN session ON offering.session_id=session.session_id
+JOIN session_type ON session.session_type_id=session_type.session_type_id
+LEFT JOIN session_description ON session.session_id=session_description.session_id
+JOIN course ON session.course_id=course.course_id
+$userJoins
+WHERE
+ offering.deleted=0 AND session.deleted=0 AND course.deleted=0
+ $archivedWhere
+ $yearWhere
+ $schoolWhere
+ $dateWhere
+ $userWhere
+ORDER BY offering.start_date ASC, offering.offering_id ASC
+EOL;
+        $queryResults = $this->db->query($sql);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            array_push($rhett, $row);
+        }
+
+        return $rhett;
     }
 }

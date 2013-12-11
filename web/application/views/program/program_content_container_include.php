@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/content_container_generator.php');
-
             // This form action is actually used in the code as the url for the AJAX-ian save
             $formPrefix = '<form id="program_form" method="POST" action="no matter" onsubmit="return false;">
                 <input id="working_program_id" name="program_id" value="' . $program_row['program_id'] . '"';
@@ -168,13 +166,12 @@ require_once(getServerFilePath('views') . 'common/content_container_generator.ph
             $publishAction = 'ilios.pm.transaction.performProgramSave(true);';
             $revertAction = 'ilios.pm.revertChanges();';
 
-            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
-                                         $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
-                                         $addNewSomethingAction, $addNewSomethingDisplayText,
-                                         $suffixingContent, $saveDraftAction, $publishAction,
-                                         $revertAction, true, true, false, false, '',
-                                         $save_draft_string, '',  $publish_now_string, $reset_form_string);
-
+            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
+                $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
+                $suffixingContent, $saveDraftAction, $publishAction, $revertAction, true, true, false, false, '',
+                t('general.phrases.save_draft'), '',
+                t('general.phrases.publish_now'),
+                t('general.phrases.reset_form'));
 ?>
 
     <script type="text/javascript">

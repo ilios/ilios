@@ -17,6 +17,7 @@ class User_Made_Reminder extends Ilios_Base_Model
 
     /**
      * Adds or updates a given user reminder.
+     *
      * @param int $reminderId the reminder id, -1 for new reminders
      * @param string $noteText the reminder text
      * @param string $dueDate the due date, formatted as SQL datetime string
@@ -60,9 +61,10 @@ class User_Made_Reminder extends Ilios_Base_Model
 
     /**
      * Retrieves all user reminders for the given user that are due to in a given number of days from now.
-     * @param int $dayCount days from now
-     * @param int $userId the user id
-     * @return array
+     *
+     * @param int $dayCount Days from now.
+     * @param int $userId The user id.
+     * @return array An array of associative arrays. Each item is representing a user reminder.
      */
     public function loadAllRemindersForCurrentUserForFollowingDays ($dayCount, $userId)
     {
@@ -70,14 +72,18 @@ class User_Made_Reminder extends Ilios_Base_Model
 
         $cutoffTime = time() + ($dayCount * 24 * 60 * 60);
         $dateCutoff = date('Y-m-d H:i:s', $cutoffTime);
-        $qualifications = array('user_id = ' => $userId,
-                                'due_date <= ' => $dateCutoff);
+        $qualifications = array('user_id = ' => $userId, 'due_date <= ' => $dateCutoff);
+
         $this->db->where($qualifications);
         $this->db->order_by('due_date', 'asc');
-        $queryResults = $this->db->get($this->databaseTableName);
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
+        $query = $this->db->get($this->databaseTableName);
+
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+
+        $query->free_result();
+
         return $rhett;
     }
 }

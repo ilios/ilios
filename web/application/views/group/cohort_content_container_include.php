@@ -1,7 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/content_container_generator.php');
-
             $formPrefix = '<form id="cohort_form" method="POST" action="' . current_url()
                                 . '/willNeverSubmit"
                         onsubmit="return false;">';
@@ -62,11 +60,13 @@ require_once(getServerFilePath('views') . 'common/content_container_generator.ph
             $publishAction = '';
             $revertAction = '';
 
-            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
-                                         $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
-                                         $addNewSomethingAction, $addNewSomethingDisplayText,
-                                         $suffixingContent, $saveDraftAction, $publishAction,
-                                         $revertAction, false, false, false, true, $save_all_string,
-                                         $save_draft_string, $publish_all_string,
-                                         $publish_now_string, $reset_form_string);
+            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
+                $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
+                $suffixingContent, $saveDraftAction, $publishAction, $revertAction, false, false, false, true,
+                t('general.phrases.save_all'),
+                t('general.phrases.save_draft'),
+                t('general.phrases.publish_all'),
+                t('general.phrases.publish_now'),
+                t('general.phrases.reset_form')
+            );
 

@@ -17,7 +17,7 @@ class Authentication extends Ilios_Base_Model
      * Updates a given hashed password for a given user.
      * @param int $userId the user id
      * @param string $hash the hashed password
-     * @return boolean TRUE on update, FALSE otherwise
+     * @return boolean TRUE on update, FALSE otherwise.
      */
     public function changePassword ($userId, $hash)
     {
@@ -31,10 +31,10 @@ class Authentication extends Ilios_Base_Model
     }
 
     /**
-     * Updates a given hashed password for a given user.
-     * @param int $userId the user id
-     * @param string $hash the hashed password
-     * @return boolean TRUE on update, FALSE otherwise
+     * updates the username of a given user.
+     * @param int $userId The user id.
+     * @param string $username The new username.
+     * @return boolean TRUE on update, FALSE otherwise.
      */
     public function changeUsername ($userId, $username)
     {
@@ -70,7 +70,7 @@ class Authentication extends Ilios_Base_Model
      * @param string $username the user login handle
      * @param string $hash the hashed password
      * @param int $userId the user id
-     * @return boolean TRUE on insertion, FALSE otherwise
+     * @return boolean TRUE on insertion, FALSE otherwise.
      */
     public function addNewAuthentication ($username, $hash, $userId)
     {
@@ -87,7 +87,7 @@ class Authentication extends Ilios_Base_Model
     /**
      * Retrieves authentication details for a given user by user id.
      * @param int $userId the user id
-     * @return Object | boolean returns the authentication record as object, of FALSE if not found
+     * @return stdClass|boolean returns the authentication record as object, of FALSE if not found.
      */
     public function getByUserId ($userId)
     {
@@ -103,9 +103,9 @@ class Authentication extends Ilios_Base_Model
     }
 
     /**
-     * Retrieves authentication details for a given user by login name.
-     * @param int $userId the user id
-     * @return Object | boolean returns the authentication record as object, of FALSE if not found
+     * Retrieves authentication details for a given user by a given username.
+     * @param string $username The username.
+     * @return stdClass|boolean Returns the authentication record as object, of FALSE if not found.
      */
     public function getByUsername ($username)
     {

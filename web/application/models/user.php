@@ -26,7 +26,6 @@ class User extends Ilios_Base_Model
      * @param string $email
      * @param string $ucUID
      * @param string $otherId
-     * @param int|NULL $cohortId
      * @param int $primarySchoolId
      * @param array|NULL $auditAtoms
      * @return int the newly created user id
@@ -127,14 +126,12 @@ class User extends Ilios_Base_Model
 
     /**
      * Deletes all recorded sync exceptions for a given user.
-     * @param int $userId the user's id
+     * @param int $userId The user id.
      */
     public function deleteSyncExceptionsForUser ($userId)
     {
-        // input validation
-        // user id must be given
         if (empty($userId)) {
-            return false;
+            return;
         }
         $this->db->where('user_id', $userId);
         $this->db->delete('user_sync_exception');
@@ -293,9 +290,11 @@ EOL;
         return $rhett;
     }
 
-    /*
-     * @return an array of unique user ids for which either the primary role id, or associated user
-     *              role matches the $roleId value
+    /**
+     * Retrieves the ids of all users that have a given user-role assigned to them.
+     *
+     * @param int $roleId The user-role id.
+     * @return array An array of user ids.
      */
     public function getUsersWithRoleId ($roleId)
     {
@@ -304,16 +303,21 @@ EOL;
         $clean = array();
         $clean['role_id'] = (int) $roleId;
 
-        $queryString = 'SELECT DISTINCT `user`.`user_id`
-                            FROM `user`, `user_x_user_role`
-                            WHERE (`user_x_user_role`.`user_role_id` = ' . $clean['role_id'] . '
-                                            AND `user_x_user_role`.`user_id` = `user`.`user_id`)';
+        $sql =<<< EOL
+SELECT u.`user_id`
+FROM `user` u
+JOIN `user_x_user_role` uxur ON uxur.`user_id` = u.`user_id`
+WHERE uxur.`user_role_id` = {$clean['role_id']}
+EOL;
 
-        $queryResults = $this->db->query($queryString);
+        $query = $this->db->query($sql);
 
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row['user_id']);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row['user_id'];
         }
+
+        $query->free_result();
+
         return $rhett;
     }
 
@@ -550,6 +554,11 @@ EOL;
         $this->db->query($query);
     }
 
+    /**
+     * Enables or disables a given user.
+     * @param int $userId The user id.
+     * @param boolean If set to TRUE then the user account will be enabled, if set to FALSE it will be disabled.
+     */
     public function enableUser ($userId, $enable)
     {
         $updateRow = array();
@@ -559,6 +568,12 @@ EOL;
         $this->db->update($this->databaseTableName, $updateRow);
     }
 
+    /**
+     * Flags a given user as examined or unexamined.
+     * @param int $userId The user id.
+     * @param boolean $examined If set to TRUE then the user account will be flagged as examined,
+     *  if set to FALSE it will be flagged as unexamined.
+     */
     public function setUserExaminedBit ($userId, $examined)
     {
         $updateRow = array();
@@ -570,8 +585,8 @@ EOL;
 
     /**
      * Toggles the sync ignore flag for a given user on or off.
-     * @param int $userId the user id
-     * @param boolean $ignore TRUE to turn the ignore-flag on, FALSE to turn it off
+     * @param int $userId The user id.
+     * @param boolean $ignore Set to TRUE to turn the ignore-flag on, FALSE to turn it off.
      */
     public function setSyncIgnoreBit ($userId, $ignore)
     {
@@ -582,8 +597,8 @@ EOL;
 
     /**
      * Assigns a primary cohort to a given user.
-     * @param int $userId
-     * @param int $cohortId
+     * @param int $userId The user id.
+     * @param int $cohortId The cohort id.
      */
     public function assignPrimaryCohort ($userId, $cohortId)
     {
@@ -627,9 +642,10 @@ EOL;
         $this->db->where('email', $email);
         $this->db->where('enabled', 1);
 
-        $queryResults = $this->db->get($this->databaseTableName);
-
-        return ($queryResults->num_rows() > 0);
+        $query = $this->db->get($this->databaseTableName);
+        $rhett = ($query->num_rows() > 0);
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -642,23 +658,27 @@ EOL;
     {
         $this->db->where('user_id', $userId);
         $this->db->where('user_role_id', $roleId);
-        $queryResults = $this->db->get('user_x_user_role');
-        return ($queryResults->num_rows() > 0);
+        $query = $this->db->get('user_x_user_role');
+        $rhett = ($query->num_rows() > 0);
+        $query->free_result();
+        return $rhett;
     }
 
     /**
      * Checks if a given user is assigned to at least one
      * from a list of given user-roles.
      * @param int $userId the user id
-     * @param array $roleId a list of user-role ids.
+     * @param array $roleIds a list of user-role ids.
      * @return boolean TRUE on success, FALSE otherwise.
      */
     public function userInRoles ($userId, array $roleIds = array())
     {
         $this->db->where('user_id', $userId);
         $this->db->where_in('user_role_id', $roleIds);
-        $queryResults = $this->db->get('user_x_user_role');
-        return ($queryResults->num_rows() > 0);
+        $query = $this->db->get('user_x_user_role');
+        $rhett = ($query->num_rows() > 0);
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -695,8 +715,8 @@ EOL;
      */
     public function userHasAdminAccess ($userId)
     {
-    	$roles = array(User_Role::COURSE_DIRECTOR_ROLE_ID, User_Role::DEVELOPER_ROLE_ID);
-    	return $this->userInRoles($userId, $roles);
+        $roles = array(User_Role::COURSE_DIRECTOR_ROLE_ID, User_Role::DEVELOPER_ROLE_ID);
+        return $this->userInRoles($userId, $roles);
     }
 
     /**
@@ -774,53 +794,55 @@ EOL;
      */
     public function getUsersFilteredOnNameMatchWithRoleTitle ($name, $roleTitle)
     {
-    	$clean = array();
-    	$clean['name'] = $this->db->escape_like_str($name);
+        $clean = array();
+        $clean['name'] = $this->db->escape_like_str($name);
 
-    	$this->db->select('user.user_id');
-    	$this->db->select('user.last_name');
-    	$this->db->select('user.first_name');
-    	$this->db->select('user.middle_name');
-    	$this->db->select('user.phone');
-    	$this->db->select('user.email');
-    	$this->db->select('user.uc_uid');
-    	$this->db->select('user.other_id');
+        $this->db->select('user.user_id');
+        $this->db->select('user.last_name');
+        $this->db->select('user.first_name');
+        $this->db->select('user.middle_name');
+        $this->db->select('user.phone');
+        $this->db->select('user.email');
+        $this->db->select('user.uc_uid');
+        $this->db->select('user.other_id');
 
-    	$this->db->from('user');
-    	$this->db->join('user_x_user_role', 'user.user_id = user_x_user_role.user_id');
-    	$this->db->join('user_role', 'user_x_user_role.user_role_id = user_role.user_role_id');
+        $this->db->from('user');
+        $this->db->join('user_x_user_role', 'user.user_id = user_x_user_role.user_id');
+        $this->db->join('user_role', 'user_x_user_role.user_role_id = user_role.user_role_id');
 
 
-    	$this->db->where('user_role.title', $roleTitle);
-    	$this->db->where('user.enabled', 1);
+        $this->db->where('user_role.title', $roleTitle);
+        $this->db->where('user.enabled', 1);
 
-    	$len = strlen($name);
-    	if ('' === trim($name)) {
-    		// search all
-    	} elseif (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
-    	    // trailing wildcard search
-    		$this->db->where("(`user`.`last_name` LIKE '{$clean['name']}%'"
-    		. " OR `user`.`first_name` LIKE '{$clean['name']}%'"
-    		. " OR `user`.`middle_name` LIKE '{$clean['name']}%')");
-    	} else {
-    	    // full wildcard search
-    		$this->db->where("(`user`.`last_name` LIKE '%{$clean['name']}%'"
-    		. " OR `user`.`first_name` LIKE '%{$clean['name']}%'"
-    		. " OR `user`.`middle_name` LIKE '%{$clean['name']}%')");
-    	}
+        $len = strlen($name);
+        if ('' === trim($name)) {
+            // search all
+        } elseif (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+            // trailing wildcard search
+            $this->db->where("(`user`.`last_name` LIKE '{$clean['name']}%'"
+            . " OR `user`.`first_name` LIKE '{$clean['name']}%'"
+            . " OR `user`.`middle_name` LIKE '{$clean['name']}%')");
+        } else {
+            // full wildcard search
+            $this->db->where("(`user`.`last_name` LIKE '%{$clean['name']}%'"
+            . " OR `user`.`first_name` LIKE '%{$clean['name']}%'"
+            . " OR `user`.`middle_name` LIKE '%{$clean['name']}%')");
+        }
 
-    	$this->db->order_by('user.last_name', 'asc');
-    	$this->db->order_by('user.first_name', 'asc');
-    	$this->db->order_by('user.middle_name', 'asc');
+        $this->db->order_by('user.last_name', 'asc');
+        $this->db->order_by('user.first_name', 'asc');
+        $this->db->order_by('user.middle_name', 'asc');
 
-    	$this->db->distinct();
+        $this->db->distinct();
 
-    	return $this->db->get();
+        return $this->db->get();
     }
 
     /**
      * Checks if at least one user with a given UID exists.
      * @param int $uid
+     * @param boolean $enabledOnly
+     * @param boolean $excludeIgnored
      * @return boolean TRUE if at least one user exists, FALSE otherwise.
      */
     public function hasUsersWithUid ($uid, $enabledOnly = false, $excludeIgnored = false)
@@ -852,6 +874,8 @@ EOL;
     /**
      * Retrieves all enabled user records with the same given UID.
      * @param string $uid
+     * @param boolean $enabledOnly
+     * @param boolean $excludeIgnored
      * @return array a nested array of user records
      */
     public function getUsersWithUid ($uid, $enabledOnly = false, $excludeIgnored = false)
@@ -1093,7 +1117,9 @@ EOL;
         }
 
         $query = $this->db->query($sql);
-        return $query->num_rows();
+        $rhett =  $query->num_rows();
+        $query->free_result();
+        return $rhett;
     }
 
     /**
@@ -1115,6 +1141,7 @@ EOL;
                 $rhett[] = $row;
             }
         }
+        $query->free_result();
         return $rhett;
     }
 
@@ -1207,6 +1234,7 @@ EOL;
         if (0 < $query->num_rows()) {
             $rhett = $query->first_row('array');
         }
+        $query->free_result();
         return $rhett;
     }
 
@@ -1220,12 +1248,12 @@ EOL;
         $rhett = array();
 
         $this->db->where('user_id', $userId);
-        $queryResults = $this->db->get('user_x_user_role');
-        foreach ($queryResults->result_array() as $row) {
+        $query = $this->db->get('user_x_user_role');
+        foreach ($query->result_array() as $row) {
             $roleRow = $this->roles->getRowForPrimaryKeyId($row['user_role_id']);
-            array_push($rhett, $roleRow);
+            $rhett[] = $roleRow;
         }
-
+        $query->free_result();
         return $rhett;
     }
 
@@ -1267,11 +1295,13 @@ EOL;
      */
     protected function _getUserCohort($userId, $cohortId)
     {
+        $rhett = false;
         $query = $this->db->get_where('user_x_cohort', array('user_id' => $userId, 'cohort_id' => $cohortId));
         if ($query->num_rows()) {
-            return $query->result_array(); // if so, then there is only one record. return it.
+            $rhett = $query->result_array(); // if so, then there is only one record. return it.
         }
-        return false;
+        $query->free_result();
+        return $rhett;
     }
 
     /**

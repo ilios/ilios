@@ -1,9 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(getServerFilePath('views') . 'common/content_container_generator.php');
-require_once(getServerFilePath('views') . 'common/progress_div.php');
-
-
 $formPrefix = '<form id="course_form" method="POST" action="' . current_url() . '/doesntGetUsed" onsubmit="return false;">';
 
 $addNewEntityLink = '<button id="add_new_course" class="small secondary radius button" onClick="ilios.cm.displayAddNewCourseDialog();">' . $add_course_string . '</button>';
@@ -245,7 +241,7 @@ if (-1 === $course_id) {
     $suffixingContent .= generateProgressDivMarkup($progressDivStyleDefinition . ' display: none', ''); // hide it.
 } else {
     $suffixingContent .= generateProgressDivMarkup($progressDivStyleDefinition,
-       $this->languagemap->t('general.phrases.loading_all_course_sessions', $lang));
+       t('general.phrases.loading_all_course_sessions'));
 }
 
 $suffixingContent .= '
@@ -276,18 +272,17 @@ $saveDraftAction = 'ilios.cm.transaction.saveCourseAsDraft();';
 $publishAction = 'ilios.cm.transaction.performCoursePublish();';
 $revertAction = 'ilios.cm.transaction.revertChanges();';
 
-$publishAllString = $publish_all_string;
+$publishAllString = t('general.phrases.publish_all');
 $publishNowString = '<div id="-1_publish_warning" class="yellow_warning_icon" '
                         . 'style="display: none;"></div>'
-                        . $publish_course_string;
+                        . t('general.phrases.publish_course');
 
-createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink,
-                             $entityContainerHeader, $entityContainerContent, $addNewSomethingId,
-                             $addNewSomethingAction, $addNewSomethingDisplayText,
-                             $suffixingContent, $saveDraftAction, $publishAction,
-                             $revertAction, true, true, true, true, $save_all_draft_string,
-                             $save_draft_string, $publishAllString,
-                             $publishNowString, $reset_form_string, true, true);
+createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
+    $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText, $suffixingContent,
+    $saveDraftAction, $publishAction, $revertAction, true, true, true, true,
+    t('general.phrases.save_all_draft'),
+    t('general.phrases.save_draft'), $publishAllString, $publishNowString,
+    t('general.phrases.reset_form'), true, true);
 ?>
 
     <script type="text/JavaScript">

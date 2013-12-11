@@ -735,11 +735,6 @@ html,body {
 /********************************/
 /*  Main Content Area           */
 
-
-.lt-ie9 #main {
-    border-top:1px solid #999;
-}
-
 .page-header {
     padding:0;
     margin:0;

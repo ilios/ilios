@@ -105,8 +105,7 @@ class Ilios_Hooks
             // Prints a JSON-formatted array with a generic, i18ned "not logged in" error message,
             // keyed off by "error".
             if ($ci->input->is_ajax_request()) {
-                $lang = $ci->config->item('ilios_default_lang_locale');
-                $msg = $ci->languagemap->getI18NString('login.error.not_logged_in', $lang);
+                $msg = $ci->languagemap->getI18NString('login.error.not_logged_in');
                 $rhett = array();
                 $rhett['error'] = $msg;
                 header("Content-Type: text/plain");

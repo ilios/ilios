@@ -8,11 +8,12 @@ include_once "ilios_base_model.php";
 class Alert extends Ilios_Base_Model
 {
     /*
-     * These constanct should be used to communicate via addOrUpdateAlert what change types
-     *  should be associated with the alert.
+     * These constants should be used to communicate via addOrUpdateAlert what change types
+     * should be associated with the alert.
      *
      * This assumes the database has been populated via the 'alert_change_type_data.sql' file.
      */
+
     /**
      * Indicates a course director change.
      * @var int
@@ -81,7 +82,7 @@ class Alert extends Ilios_Base_Model
     }
 
     /**
-     * Retrieves all undisplatched change alerts for a given school and table.
+     * Retrieves all un-dispatched change alerts for a given school and table.
      * @param int $schoolId
      * @param string $tableName
      * @return array a nested array of alerts
@@ -252,8 +253,7 @@ EOL;
         }
 
         if ($alertId == -1) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
             return $msg;
         }
 
@@ -286,8 +286,7 @@ EOL;
         }
 
         if ($count != $affectedCount) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
             return $msg;
         }
 

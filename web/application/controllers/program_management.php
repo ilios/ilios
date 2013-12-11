@@ -27,15 +27,12 @@ class Program_Management extends Ilios_Web_Controller
      */
     public function index ()
     {
-        $lang = $this->getLangToUse();
-
         $data = array();
-        $data['lang'] = $lang;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
+            $this->_viewAccessForbiddenPage($data);
             return;
         }
 
@@ -53,7 +50,7 @@ class Program_Management extends Ilios_Web_Controller
             $data['school_name'] = $schoolRow->title;
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
         } else {
@@ -83,72 +80,70 @@ class Program_Management extends Ilios_Web_Controller
             Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
         $key = 'program_management.title_bar';
-        $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['title_bar_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'program_management.search.title';
-        $data['program_search_title'] = $this->languagemap->getI18NString($key, $lang);
+        $data['program_search_title'] = $this->languagemap->getI18NString($key);
 
         $key = 'program_management.select_associated_competency';
-        $data['select_competency'] = $this->languagemap->getI18NString($key, $lang);
+        $data['select_competency'] = $this->languagemap->getI18NString($key);
 
         $key = 'program_management.page_header';
-        $data['page_header_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['page_header_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'program_management.objective_edit_title';
-        $data['edit_objective_dialog_title'] = $this->languagemap->getI18NString($key, $lang);
+        $data['edit_objective_dialog_title'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.duration.in_years';
-        $data['duration_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['duration_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.collapse_all';
-        $data['collapse_program_years_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['collapse_program_years_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'program_management.add_program';
-        $data['add_program_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['add_program_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'program_management.add_new_program';
-        $data['add_new_program_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['add_new_program_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'program_management.add_program_year';
-        $data['add_program_year_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['add_program_year_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'mesh.dialog.search_mesh';
-        $data['mesh_search_mesh'] = $this->languagemap->getI18NString($key, $lang);
+        $data['mesh_search_mesh'] = $this->languagemap->getI18NString($key);
 
         $key = 'mesh.dialog.title';
-        $data['mesh_dialog_title'] = $this->languagemap->getI18NString($key, $lang);
+        $data['mesh_dialog_title'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.program_title_full';
-        $data['program_title_full_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['program_title_full_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.program_title_short';
-        $data['program_title_short_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['program_title_short_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.search.clear';
-        $data['generic_search_clear'] = $this->languagemap->getI18NString($key, $lang);
+        $data['generic_search_clear'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.search.hint';
-        $data['generic_search_hint'] = $this->languagemap->getI18NString($key, $lang);
+        $data['generic_search_hint'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.terms.help';
-        $data['word_help_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['word_help_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.terms.search';
-        $data['word_search_string'] = $this->languagemap->getI18NString($key, $lang);
+        $data['word_search_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.show_less';
-        $data['phrase_show_less_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
+        $data['phrase_show_less_string'] = strtolower($this->languagemap->getI18NString($key));
 
         $key = 'general.phrases.show_more';
-        $data['phrase_show_more_string'] = strtolower($this->languagemap->getI18NString($key, $lang));
-
-        $this->populateI18NStringsForContentContainerGenerator($data, $lang);
+        $data['phrase_show_more_string'] = strtolower($this->languagemap->getI18NString($key));
 
         $institution = $this->config->item('ilios_institution_name');
         $data['viewbar_title'] = $institution;
         if ($schoolRow->title != null) {
             $key = 'general.phrases.school_of';
-            $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
+            $schoolOfStr = $this->languagemap->getI18NString($key);
             $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
         }
 
@@ -166,11 +161,9 @@ class Program_Management extends Ilios_Web_Controller
      */
     public function getProgramListForQuery ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -195,11 +188,9 @@ class Program_Management extends Ilios_Web_Controller
      */
     public function getProgramYears ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -230,11 +221,9 @@ class Program_Management extends Ilios_Web_Controller
      */
     public function getSchoolTree ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -255,11 +244,10 @@ class Program_Management extends Ilios_Web_Controller
     public function saveProgram ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -274,8 +262,7 @@ class Program_Management extends Ilios_Web_Controller
         $this->form_validation->set_rules('short_title', 'Program Title (Short)', 'trim|required|max_length[10]');
 
         if (! $this->form_validation->run()) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.data_validation', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.data_validation');
 
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
@@ -310,8 +297,7 @@ class Program_Management extends Ilios_Web_Controller
                 }
 
                 if ($failed || $this->program->transactionAtomFailed()) {
-                    $lang = $this->getLangToUse();
-                    $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                    $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert');
 
                     Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->program);
                 } else {
@@ -353,11 +339,10 @@ class Program_Management extends Ilios_Web_Controller
     public function addNewProgram ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -374,8 +359,7 @@ class Program_Management extends Ilios_Web_Controller
         $short = $this->input->get_post('new_short_title');
 
         if (! $this->form_validation->run()) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.data_validation', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.data_validation');
 
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
@@ -393,8 +377,7 @@ class Program_Management extends Ilios_Web_Controller
                 $newId = $this->program->addNewProgram($title, $short, $duration, $schoolId, $auditAtoms);
 
                 if (($newId <= 0) || $this->program->transactionAtomFailed()) {
-                    $lang = $this->getLangToUse();
-                    $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
                     $rhett['error'] = $msg;
 
@@ -437,11 +420,10 @@ class Program_Management extends Ilios_Web_Controller
     public function deleteProgramYear ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -453,8 +435,7 @@ class Program_Management extends Ilios_Web_Controller
         $rhett['container'] = $containerNumber;
 
         if ((! isset($programYearId)) || ($programYearId == '')) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.data_validation', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.data_validation');
 
             $rhett['error'] = $msg;
         } else {
@@ -483,8 +464,7 @@ class Program_Management extends Ilios_Web_Controller
 
                     $rhett['success'] = "ya";
                 } else {
-                    $lang = $this->getLangToUse();
-                    $msg = $this->languagemap->getI18NString('general.error.db_delete', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_delete');
 
                     $rhett['error'] = $msg;
 
@@ -507,11 +487,10 @@ class Program_Management extends Ilios_Web_Controller
     public function lockProgramYear ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -531,8 +510,7 @@ class Program_Management extends Ilios_Web_Controller
 
             $this->programYear->lockOrArchiveProgramYear($programYearId, true, $archiveAlso, $auditAtoms);
             if ($this->programYear->transactionAtomFailed()) {
-                $lang = $this->getLangToUse();
-                $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert');
 
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->programYear);
             } else {
@@ -569,13 +547,12 @@ class Program_Management extends Ilios_Web_Controller
     public function saveProgramYear ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         //
         // authorization check
         //
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -587,31 +564,31 @@ class Program_Management extends Ilios_Web_Controller
         try {
             $competencies = Ilios_Json::deserializeJsonArray($this->input->post('competency'), true);
         } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.competencies', $lang);
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.competencies');
             return;
         }
         try {
             $directors = Ilios_Json::deserializeJsonArray($this->input->post('director'), true);
         } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.directors', $lang);
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.directors');
             return;
         }
         try {
             $disciplines = Ilios_Json::deserializeJsonArray($this->input->post('discipline'), true);
         } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.disciplines', $lang);
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.disciplines');
             return;
         }
         try {
             $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
         } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.objectives', $lang);
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.objectives');
             return;
         }
         try {
             $stewards = Ilios_Json::deserializeJsonArray($this->input->post('steward'), true);
         } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.stewards', $lang);
+            $this->_printErrorXhrResponse('program_management.error.program_save.input_validation.stewards');
             return;
         }
 

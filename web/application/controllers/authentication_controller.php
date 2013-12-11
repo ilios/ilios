@@ -106,13 +106,11 @@ class Authentication_Controller extends Base_Authentication_Controller
 
         $username = $this->session->userdata('username');
 
-        $lang = $this->getLangToUse();
-        $data['lang'] = $lang;
-        $data['login_message'] = $this->languagemap->getI18NString('login.default_status', $lang);
-        $data['login_title'] = $this->languagemap->getI18NString('login.title', $lang);
-        $data['word_login'] = $this->languagemap->getI18NString('general.terms.login', $lang);
-        $data['word_password'] = $this->languagemap->getI18NString('general.terms.password', $lang);
-        $data['word_username'] = $this->languagemap->getI18NString('general.terms.username', $lang);
+        $data['login_message'] = $this->languagemap->getI18NString('login.default_status');
+        $data['login_title'] = $this->languagemap->getI18NString('login.title');
+        $data['word_login'] = $this->languagemap->getI18NString('general.terms.login');
+        $data['word_password'] = $this->languagemap->getI18NString('general.terms.password');
+        $data['word_username'] = $this->languagemap->getI18NString('general.terms.username');
         $data['last_url'] = '';
         $data['param_string'] = '';
 
@@ -157,8 +155,6 @@ class Authentication_Controller extends Base_Authentication_Controller
      */
     protected function _default_login ()
     {
-        $lang = $this->getLangToUse();
-
         $rhett = array();
 
         $username = $this->input->get_post('username');
@@ -183,7 +179,7 @@ class Authentication_Controller extends Base_Authentication_Controller
         if ($user) { // authentication succeeded. log the user in.
             $rhett['success'] = $this->_log_in_user($user);
         } else { // login failed
-            $msg = $this->languagemap->getI18NString('login.error.bad_login', $lang);
+            $msg = $this->languagemap->getI18NString('login.error.bad_login');
             $rhett['error'] = $msg;
         }
 
@@ -210,16 +206,13 @@ class Authentication_Controller extends Base_Authentication_Controller
      */
     protected function _shibboleth_index ()
     {
-        $lang = $this->getLangToUse();
-
         $logout = $this->input->get_post('logout');
 
         $data = array();
-        $data['lang'] = $lang;
 
         if ($logout == 'yes') {
             $this->_shibboleth_logout();
-            $data['logout_in_progress'] = $this->languagemap->getI18NString('logout.logout_in_progress', $lang);
+            $data['logout_in_progress'] = $this->languagemap->getI18NString('logout.logout_in_progress');
             $this->load->view('login/logout', $data);
         } else {
             $emailAddress = "illegal_em4!l_addr3ss";
@@ -234,17 +227,17 @@ class Authentication_Controller extends Base_Authentication_Controller
             $userCount = count($authenticatedUsers);
 
             if ($userCount == 0) {
-                $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.no_match_1', $lang)
-                    . ' (' . $emailAddress . ') ' . $this->languagemap->getI18NString('login.error.no_match_2', $lang);
+                $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.no_match_1')
+                    . ' (' . $emailAddress . ') ' . $this->languagemap->getI18NString('login.error.no_match_2');
                 $this->load->view('common/forbidden', $data);
             } else if ($userCount > 1) {
-                $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match', $lang)
+                $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match')
                     . ' (' . $emailAddress . ' [' . $userCount . '])';
                 $this->load->view('common/forbidden', $data);
             } else {
                 $user = $authenticatedUsers[0];
                 if ($this->user->userAccountIsDisabled($user['user_id'])) {
-                    $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account', $lang);
+                    $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
                     $this->load->view('common/forbidden', $data);
                 } else {
                     $this->_log_in_user($user);
@@ -291,8 +284,6 @@ class Authentication_Controller extends Base_Authentication_Controller
      */
     public function _ldap_login ()
     {
-        $lang = $this->getLangToUse();
-
         $rhett = array();
 
         // get login credentials from user input
@@ -332,7 +323,7 @@ class Authentication_Controller extends Base_Authentication_Controller
                 $rhett['error']  = 'Your username does not match any active user records in Ilios. If you need further assistance, please contact your Ilios administrator. Thank you.';
             }
         } else { // login failed
-            $msg = $this->i18nVendor->getI18NString('login.error.bad_login', $lang);
+            $msg = $this->i18nVendor->getI18NString('login.error.bad_login');
             $rhett['error'] = $msg;
         }
 

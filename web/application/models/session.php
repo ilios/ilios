@@ -24,32 +24,43 @@ class Session extends Ilios_Base_Model
     }
 
     /**
-     * @return this returns an array of just the matching db rows, but not the robust tree structure
-     *              which would be returned by getSessionsForCourse. Used by learning materials
-     *              and offering management.
+     * Retrieves sessions by a given course id.
+     * This will return an array of just the matching db rows, but not the robust tree structure which would be returned
+     * by <code>getSessionsForCourse()</code>. Used by learning materials and offering management.
+     *
+     * @param int The course id.
+     * @return array An array of arrays, each item representing a session within the given course.
      */
     public function getSimplifiedSessionsForCourse ($courseId)
     {
         $rhett = array();
 
         $this->db->where('course_id', $courseId);
-        $queryResults = $this->db->get($this->databaseTableName);
+        $query = $this->db->get($this->databaseTableName);
 
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+
+        $query->free_result();
 
         return $rhett;
     }
 
+    /**
+     * Retrieves an Independent Learning Session (ILS) offering by its given identifier.
+     *
+     * @param int $silmId The offering id.
+     * @return array An associative array representing the ILS offering.
+     */
     public function getSILM ($silmId)
     {
         $rhett = array();
 
         $this->db->where('ilm_session_facet_id', $silmId);
-        $queryResults = $this->db->get('ilm_session_facet');
+        $query = $this->db->get('ilm_session_facet');
 
-        $silm = $queryResults->first_row();
+        $silm = $query->first_row();
 
         $rhett['ilm_session_facet'] = $silmId;
         $rhett['hours'] = $silm->hours;
@@ -60,21 +71,25 @@ class Session extends Ilios_Base_Model
         // the value of this key-value pair is arbitrary
         $rhett['is_silm'] = 'true';
 
+        $query->free_result();
 
         return $rhett;
     }
 
     /**
+     * Retrieves an Independent Learning Session (ILS) offering by its associated session.
      *
-     * @param unknown_type $sessionId
+     * @param int $sessionId The session id.
+     * @return array|NULL An assoc. array representing the ILS offering, or NULL if none was found.
      */
     public function getSILMBySessionId ($sessionId)
     {
         $this->db->where('session_id', $sessionId);
-        $queryResults = $this->db->get('session');
+        $query = $this->db->get('session');
 
-        if ($queryResults->num_rows() > 0) {
-            $row = $queryResults->first_row();
+        if ($query->num_rows() > 0) {
+            $row = $query->first_row();
+            $query->free_result();
             $silmId = $row->ilm_session_facet_id;
 
             if ($silmId)
@@ -84,31 +99,38 @@ class Session extends Ilios_Base_Model
     }
 
     /**
-     * Returns a list of all sessions for a given owning school, along with the course title in this format:
-     *   course title - session title,
-     * Also returns session id.
-     * The list is sorted by course title, then session title
-     * The list is shows only non-deleted sessions and courses
-     * The list is restricted by owning school of the course
-     * @param int $schoolId
-     * @return array
+     * Returns a sorted list of assorted course/session data owned by a given school.
+     * The sort order is:
+     * - course title, ascending
+     * - course start date, ascending
+     * - course end date, ascending
+     * - session title, ascending
+     *
+     * @param int $schoolId The owning school id.
+     * @return array An array of associative arrays, containing the following key/value pairs:
+     *  'value'         ... The session id.
+     *  'display_title' ... A combination of course title, course start/end-date and session title.
      */
     public function getSessionsWithCourseTitle ($schoolId)
     {
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
-        $queryString = 'SELECT `course`.`title` AS `course_title`, `session`.`title` AS `session_title`,
-                               `course`.`start_date`, `course`.`end_date`, `session`.`session_id`
-                          FROM `course`, `session`
-                         WHERE `course`.`course_id` = `session`.`course_id`
-                           AND `session`.`deleted` = 0
-                           AND `course`.`deleted` = 0
-                           AND `course`.`owning_school_id` = ' . $clean['school_id'] . '
-                      ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`, `session`.`title`';
+        $sql =<<< EOL
+SELECT
+c.`title` AS `course_title`, s.`title` AS `session_title`, c.`start_date`, c.`end_date`, s.`session_id`
+FROM `course` c
+JOIN `session` s ON s.`course_id` = c.`course_id`
+WHERE
+s.`deleted` = 0
+AND c.`deleted` = 0
+AND c.`owning_school_id` = {$clean['school_id']}
+ORDER BY c.`title`, c.`start_date`, c.`end_date`, s.`title`
+EOL;
 
-        $queryResults = $this->db->query($queryString);
+
+        $query = $this->db->query($sql);
         $items = array();
-        foreach ($queryResults->result_array() as $row) {
+        foreach ($query->result_array() as $row) {
             $item = array();
             $item['value'] = $row['session_id'];
             $startDate = new DateTime($row['start_date']);
@@ -117,9 +139,10 @@ class Session extends Ilios_Base_Model
             $endDate = date_format($endDate, 'm/d/Y');
             $item['display_title'] = $row['course_title'] . ' (' .$startDate . ' - ' .$endDate . ') - ' .$row['session_title'];
 
-            array_push($items, $item);
+            $items[] = $item;
         }
 
+        $query->free_result();
         return $items;
 
     }
@@ -132,8 +155,8 @@ class Session extends Ilios_Base_Model
      */
     protected function _getILMInstructorIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
-        		'user_id', 'ilm_session_facet_id', $ilmId);
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_instructor',
+            'user_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
 
@@ -144,8 +167,8 @@ class Session extends Ilios_Base_Model
      */
     protected function _getILMInstructorGroupIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_instructor',
-                'instructor_group_id', 'ilm_session_facet_id', $ilmId);
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_instructor_group',
+            'instructor_group_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ?  array() : array_filter($ids);
     }
 
@@ -156,28 +179,40 @@ class Session extends Ilios_Base_Model
      */
     protected function _getILMLearnerGroupIds ($ilmId)
     {
-        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_learner',
-                'group_id', 'ilm_session_facet_id', $ilmId);
+        $ids = $this->getIdArrayFromCrossTable('ilm_session_facet_x_group',
+            'group_id', 'ilm_session_facet_id', $ilmId);
         return is_null($ids) ? array() : array_filter($ids);
     }
 
     protected function getInstructorsForSILM ($silmId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['ilm_id'] = (int) $silmId;
 
-        $this->db->where('ilm_session_facet_id', $silmId);
-        $queryResults = $this->db->get('ilm_session_facet_instructor');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                array_push($rhett, $this->convertStdObjToArray($igRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_instructor` isfxi ON isfxi.`user_id` = u.`user_id`
+WHERE isfxi.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT ig.*
+FROM `instructor_group` ig
+JOIN `ilm_session_facet_x_instructor_group` isfxig ON isfxig.`instructor_group_id` = ig.`instructor_group_id`
+WHERE isfxig.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
@@ -185,20 +220,32 @@ class Session extends Ilios_Base_Model
     protected function getLearnerGroupsForSILM ($silmId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['ilm_id'] = (int) $silmId;
 
-        $this->db->where('ilm_session_facet_id', $silmId);
-        $queryResults = $this->db->get('ilm_session_facet_learner');
-
-        foreach ($queryResults->result_array() as $row) {
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-                array_push($rhett, $this->convertStdObjToArray($groupRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($rhett, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_learner` isfxl ON isfxl.`user_id` = u.`user_id`
+WHERE isfxl.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
         }
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT g.*
+FROM `group` g
+JOIN `ilm_session_facet_x_group` isfxg ON isfxg.`group_id` = g.`group_id`
+WHERE isfxg.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
@@ -260,19 +307,19 @@ class Session extends Ilios_Base_Model
 
 
             $queryString = 'SELECT copy_disciplines_from_session_to_session(' . $sessionId . ', '
-                                . $newSessionId . ')';
+                . $newSessionId . ')';
             $this->db->query($queryString);
 
 
             $queryString = 'SELECT copy_mesh_session_to_session(' . $sessionId . ', '
-                                . $newSessionId . ')';
+                . $newSessionId . ')';
             $this->db->query($queryString);
 
 
             if ($newILMSessionFacetId != null) {
                 $queryString = 'SELECT copy_ilm_session_attributes_to_ilm_session('
-                                    . $sessionRow->ilm_session_facet_id . ', '
-                                    . $newILMSessionFacetId . ')';
+                    . $sessionRow->ilm_session_facet_id . ', '
+                    . $newILMSessionFacetId . ')';
             }
 
 
@@ -302,7 +349,7 @@ class Session extends Ilios_Base_Model
             }
             foreach ($lmidPairs as $lmidPair) {
                 $queryString = 'SELECT copy_learning_material_mesh_from_session_lm_to_session_lm('
-                                . $lmidPair['original'] . ', ' . $lmidPair['new'] . ')';
+                    . $lmidPair['original'] . ', ' . $lmidPair['new'] . ')';
                 $this->db->query($queryString);
             }
 
@@ -390,7 +437,8 @@ class Session extends Ilios_Base_Model
      *   "start_date"         ... the start date of the first offering or ILM due date
      */
     public function getSessionsForCourse ($courseId, $userId, $excludeUnpublishedSessions = false,
-        $excludeTBDSessions = false, $excludeUnpublishedLearningMaterials = false, $sortByStartDate = false)
+                                          $excludeTBDSessions = false, $excludeUnpublishedLearningMaterials = false,
+                                          $sortByStartDate = false)
     {
         $rhett = array();
         $sessions = array();
@@ -527,7 +575,7 @@ class Session extends Ilios_Base_Model
         $rhett = array();
 
         $crossIdArray = $this->getIdArrayFromCrossTable('session_x_objective', 'objective_id',
-                                                        'session_id', $sessionId);
+            'session_id', $sessionId);
         if ($crossIdArray != null) {
             foreach ($crossIdArray as $id) {
                 $objective = $this->objective->getObjective($id);
@@ -571,8 +619,8 @@ class Session extends Ilios_Base_Model
         $this->db->update('offering', $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'offering',
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
+            'offering',
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
     }
 
     /**
@@ -601,11 +649,11 @@ class Session extends Ilios_Base_Model
      */
     protected function _updateDescription ($sessionId, $description)
     {
-    	$data = array('description' => $description);
-    	$this->db->where('session_id', $sessionId);
-    	$this->db->update('session_description', $data);
+        $data = array('description' => $description);
+        $this->db->where('session_id', $sessionId);
+        $this->db->update('session_description', $data);
 
-    	return true; // no way to check with certainty if update was a success.
+        return true; // no way to check with certainty if update was a success.
     }
 
     /**
@@ -615,9 +663,9 @@ class Session extends Ilios_Base_Model
      */
     protected function _deleteDescription ($sessionId)
     {
-    	$this->db->where('session_id', $sessionId);
-    	$this->db->delete('session_description');
-    	return ($this->db->affected_rows() != 0);
+        $this->db->where('session_id', $sessionId);
+        $this->db->delete('session_description');
+        return ($this->db->affected_rows() != 0);
     }
 
     /**
@@ -644,8 +692,8 @@ class Session extends Ilios_Base_Model
      * @param array $disciplines nested array of disciplines
      * @param array|NULL $associatedDisciplineIds ids of disciplines already associated with the given session
      */
-    protected function _saveDisciplineAssociations ($sessionId,
-            $disciplines = array(), $associatedDisciplineIds = array())
+    protected function _saveDisciplineAssociations ($sessionId, $disciplines = array(),
+                                                    $associatedDisciplineIds = array())
     {
         $this->_saveJoinTableAssociations('session_x_discipline', 'session_id', $sessionId,
             'discipline_id', $disciplines, $associatedDisciplineIds);
@@ -659,8 +707,7 @@ class Session extends Ilios_Base_Model
      * @param array $meshTerms nested array of mesh terms
      * @param array|NULL $associatedMeshTermIds ids of mesh terms already associated with the given session
      */
-    protected function _saveMeshTermAssociations ($sessionId,
-            $meshTerms = array(), $associatedMeshTermIds = array())
+    protected function _saveMeshTermAssociations ($sessionId, $meshTerms = array(), $associatedMeshTermIds = array())
     {
         $this->_saveJoinTableAssociations('session_x_mesh', 'session_id', $sessionId,
             'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds);
@@ -669,10 +716,9 @@ class Session extends Ilios_Base_Model
     /**
      * Transactionality is assumed to be handled outside of this method.
      */
-    public function addSession ($courseId, $title, $sessionTypeId, array $disciplinesArray,
-        array $meshTermArray, array $objectiveArray, $supplemental, $attireRequired,
-        $equipmentRequired, $publishId, $description, array $learningMaterialArray,
-        $ilmId, array &$auditAtoms)
+    public function addSession ($courseId, $title, $sessionTypeId, array $disciplinesArray, array $meshTermArray,
+                                array $objectiveArray, $supplemental, $attireRequired, $equipmentRequired, $publishId,
+                                $description, array $learningMaterialArray, $ilmId, array &$auditAtoms)
     {
         $rhett = array();
 
@@ -694,16 +740,14 @@ class Session extends Ilios_Base_Model
 
         // MAY RETURN THIS BLOCK
         if ((! $newSessionId) || ($newSessionId < 1)) {
-            $lang = $this->getLangToUse();
-
-            $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('general.error.db_insert');
 
             return $rhett;
         }
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($newSessionId, 'session_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
         // associate learning materials with session
         $this->learningMaterial->saveSessionLearningMaterialAssociations($newSessionId, $learningMaterialArray,
@@ -721,10 +765,8 @@ class Session extends Ilios_Base_Model
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
-            $lang = $this->getLangToUse();
-
             $rhett['error']
-                   = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
+                = $this->languagemap->getI18NString('general.error.db_cross_table_insert');
 
             return $rhett;
         }
@@ -734,11 +776,10 @@ class Session extends Ilios_Base_Model
         //
         $success = true;
         if (! empty($description)) { // add new description if input given
-                $success = $this->_addDescription($newSessionId, $description);
+            $success = $this->_addDescription($newSessionId, $description);
         }
         if (! $success) { // deal with failure
-            $lang = $this->getLangToUse();
-            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description');
             return $rhett;
         }
 
@@ -751,22 +792,21 @@ class Session extends Ilios_Base_Model
     /**
      * Transactionality is assumed to be handled outside of this method.
      */
-    public function updateSession ($sessionId, $courseId, $title, $sessionTypeId,
-        array $disciplinesArray, array $meshTermArray, array $objectiveArray,
-        $supplemental, $attireRequired, $equipmentRequired, $publishId,
-        $publishAsTBD, $description, array $learningMaterialArray,
-        $ilmId, array &$auditAtoms)
+    public function updateSession ($sessionId, $courseId, $title, $sessionTypeId, array $disciplinesArray,
+                                   array $meshTermArray, array $objectiveArray, $supplemental, $attireRequired,
+                                   $equipmentRequired, $publishId, $publishAsTBD, $description,
+                                   array $learningMaterialArray, $ilmId, array &$auditAtoms)
     {
         $rhett = array();
 
         $associatedDisciplinesIds = $this->getIdArrayFromCrossTable('session_x_discipline',
-        		'discipline_id', 'session_id', $sessionId);
+            'discipline_id', 'session_id', $sessionId);
 
         $associatedMeshTermIds = $this->getIdArrayFromCrossTable('session_x_mesh',
-                'mesh_descriptor_uid', 'session_id', $sessionId);
+            'mesh_descriptor_uid', 'session_id', $sessionId);
 
         $associatedLearningMaterialIds = $this->getIdArrayFromCrossTable('session_learning_material',
-        		'learning_material_id', 'session_id', $sessionId);
+            'learning_material_id', 'session_id', $sessionId);
 
         $updateRow = array();
         $updateRow['title'] = $title;
@@ -784,12 +824,12 @@ class Session extends Ilios_Base_Model
         $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+            $this->databaseTableName,
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
         // update session/learning material associations
         $this->learningMaterial->saveSessionLearningMaterialAssociations($sessionId, $learningMaterialArray,
-                $associatedLearningMaterialIds, $auditAtoms);
+            $associatedLearningMaterialIds, $auditAtoms);
 
         // update session/discipline associations
         $this->_saveDisciplineAssociations($sessionId, $disciplinesArray, $associatedDisciplinesIds);
@@ -802,10 +842,8 @@ class Session extends Ilios_Base_Model
 
         // MAY RETURN THIS BLOCK
         if (is_null($objectives)) {
-            $lang = $this->getLangToUse();
-
             $rhett['error']
-                   = $this->languagemap->getI18NString('general.error.db_cross_table_insert', $lang);
+                = $this->languagemap->getI18NString('general.error.db_cross_table_insert');
 
             return $rhett;
         }
@@ -827,8 +865,7 @@ class Session extends Ilios_Base_Model
             }
         }
         if (! $success) { // deal with failure
-            $lang = $this->getLangToUse();
-            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description', $lang);
+            $rhett['error'] = $this->languagemap->getI18NString('course_management.error.session_save.description');
             return $rhett;
         }
 
@@ -863,61 +900,141 @@ class Session extends Ilios_Base_Model
         $this->db->update($this->databaseTableName, $updateRow);
 
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'session_x_discipline',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            'session_x_discipline',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'session_x_mesh',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            'session_x_mesh',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            'session_x_objective',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            'session_x_objective',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
+            $this->databaseTableName,
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
 
         if ($this->db->affected_rows() == 0) {
-            $lang = $this->getLangToUse();
-
-            $rhett['error']  = $this->languagemap->getI18NString('general.error.db_delete', $lang);
+            $rhett['error']  = $this->languagemap->getI18NString('general.error.db_delete');
         }
 
         return $rhett;
     }
 
     /**
-     * @return a database query results object containing rows with names offering_id, user_id and
-     *              instructor_group_id. the query results represent all instructors which are
-     *              presently associated with offerings for the specified session id.
+     * Retrieves all users that are associated as instructors with offerings belonging to a given session.
+     *
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing a user.
      */
     public function getInstructorsForSession ($sessionId)
     {
-        $queryString
-            = 'SELECT `offering_instructor`.`offering_id` AS offering_id, '
-                        . '`offering_instructor`.`user_id` AS user_id, '
-                        . '`offering_instructor`.`instructor_group_id` AS instructor_group_id '
-                    . 'FROM `offering_instructor`, `offering`, `session` '
-                    . 'WHERE `session`.`session_id` = ' . $sessionId
-                            . ' AND `session`.`session_id` = `offering`.`session_id`'
-                            . ' AND `offering`.`offering_id` = `offering_instructor`.`offering_id`';
-        return $this->db->query($queryString);
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+u.`user_id`, u.`last_name`, u.`first_name`, u.`middle_name`, u.`phone`, u.`email`, u.`added_via_ilios`,
+u.`enabled`, u.`uc_uid`, u.`other_id`
+FROM `user` u
+JOIN `offering_x_instructor` oxi ON oxi.`user_id` = u.`user_id`
+JOIN `offering` o ON o.`offering_id` = oxi.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
     }
 
     /**
-     * @return a database query results object containing rows with names offering_id, user_id
-     *              and group_id. the query results represent all learners which are
-     *              presently associated with offerings for the specified session id.
+     * Retrieves all instructor groups that are associated with offerings belonging to a given session.
+     *
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing an instructor group.
+     */
+    public function getInstructorGroupsForSession ($sessionId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+ig.`instructor_group_id`, ig.`title`, ig.`school_id`
+FROM `instructor_group` ig
+JOIN `offering_x_instructor_group` oxig ON oxig.`instructor_group_id` = ig.`instructor_group_id`
+JOIN `offering` o ON o.`offering_id` = oxig.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * Retrieves all users that are associated as learners with offerings belonging to a given session.
+     *
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing a user.
      */
     public function getLearnersForSession ($sessionId)
     {
-        $queryString
-            = 'SELECT `offering_learner`.`offering_id` AS offering_id, '
-                        . '`offering_learner`.`user_id` AS user_id, '
-                        . '`offering_learner`.`group_id` AS group_id '
-                    . 'FROM `offering_learner`, `offering`, `session` '
-                    . 'WHERE `session`.`session_id` = ' . $sessionId
-                            . ' AND `session`.`session_id` = `offering`.`session_id`'
-                            . ' AND `offering`.`offering_id` = `offering_learner`.`offering_id`';
-        return $this->db->query($queryString);
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+u.`user_id`, u.`last_name`, u.`first_name`, u.`middle_name`, u.`phone`, u.`email`, u.`added_via_ilios`,
+u.`enabled`, u.`uc_uid`, u.`other_id`
+FROM `user` u
+JOIN `offering_x_learner` oxl ON oxl.`user_id` = u.`user_id`
+JOIN `offering` o ON o.`offering_id` = oxl.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * Retrieves all groups that are associated with offerings belonging to a given session.
+     *
+     * @param int $sessionId The session id.
+     * @return array An array of arrays, each item representing a group.
+     */
+    public function getLearnerGroupsForSession ($sessionId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['session_id'] = (int) $sessionId;
+        $sql =<<< EOL
+SELECT DISTINCT
+g.`group_id`, g.`parent_group_id`, g.`title`
+FROM `group` g
+JOIN `offering_x_group` oxg ON oxg.`group_id` = g.`group_id`
+JOIN `offering` o ON o.`offering_id` = oxg.`offering_id`
+WHERE o.`session_id` = {$clean['session_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett[] = $row;
+        }
+
+        $query->free_result();
+
+        return $rhett;
     }
 
     /**
@@ -965,44 +1082,69 @@ class Session extends Ilios_Base_Model
     protected function getIndependentLearningFacet ($ilmId)
     {
         $rhett = array();
+        $clean = array();
+        $clean['ilm_id'] = (int) $ilmId;
 
         $this->db->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $this->db->get('ilm_session_facet');
+        $query = $this->db->get('ilm_session_facet');
 
-        $ilmRow = $queryResults->first_row();
+        $ilmRow = $query->first_row();
+
+        $query->free_result();
+
         $rhett['ilm_session_facet_id'] = $ilmId;
         $rhett['hours'] = $ilmRow->hours;
         $rhett['due_date'] = $ilmRow->due_date;
+        $rhett['learners'] = array();
+        $rhett['instructors'] = array();
 
-        $this->db->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $this->db->get('ilm_session_facet_learner');
-        $learnerArray = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (isset($row['group_id']) && (! is_null($row['group_id']))) {
-                $groupRow = $this->group->getRowForPrimaryKeyId($row['group_id']);
-                array_push($learnerArray, $this->convertStdObjToArray($groupRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($learnerArray, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_learner` isfxl ON isfxl.`user_id` = u.`user_id`
+WHERE isfxl.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['learners'][] = $row;
         }
-        $rhett['learners'] = $learnerArray;
+        $query->free_result();
 
-        $this->db->where('ilm_session_facet_id', $ilmId);
-        $queryResults = $this->db->get('ilm_session_facet_instructor');
-        $instructorArray = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (($row['user_id'] == null) || ($row['user_id'] == '')) {
-                $igRow = $this->instructorGroup->getRowForPrimaryKeyId($row['instructor_group_id']);
-                array_push($instructorArray, $this->convertStdObjToArray($igRow));
-            }
-            else {
-                $userRow = $this->user->getRowForPrimaryKeyId($row['user_id']);
-                array_push($instructorArray, $this->convertStdObjToArray($userRow));
-            }
+        $sql =<<< EOL
+SELECT DISTINCT g.*
+FROM `group` g
+JOIN `ilm_session_facet_x_group` isfxg ON isfxg.`group_id` = g.`group_id`
+WHERE isfxg.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['learners'][] = $row;
         }
-        $rhett['instructors'] = $instructorArray;
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT u.*
+FROM `user` u
+JOIN `ilm_session_facet_x_instructor` isfxi ON isfxi.`user_id` = u.`user_id`
+WHERE isfxi.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['instructors'][] = $row;
+        }
+        $query->free_result();
+
+        $sql =<<< EOL
+SELECT DISTINCT ig.*
+FROM `instructor_group` ig
+JOIN `ilm_session_facet_x_instructor_group` isfxig ON isfxig.`instructor_group_id` = ig.`instructor_group_id`
+WHERE isfxig.`ilm_session_facet_id` = {$clean['ilm_id']}
+EOL;
+        $query = $this->db->query($sql);
+        foreach ($query->result_array() as $row) {
+            $rhett['instructors'][] = $row;
+        }
+        $query->free_result();
 
         return $rhett;
     }
@@ -1095,47 +1237,47 @@ class Session extends Ilios_Base_Model
 
     /**
      * Saves the ILM/instructor associations for a given ILM
-     * and given instructors, taken given pre-existings associations into account.
+     * and given instructors, taken given pre-existing associations into account.
      * @param int $ilmId
      * @param array $instructors
      * @param array $associatedInstructorIds
      */
     protected function _saveILMInstructorAssociations ($ilmId, $instructors = array(),
-    		$associatedInstructorIds = array())
+                                                       $associatedInstructorIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
-                'ilm_session_facet_id', $ilmId, 'user_id',
-        		$instructors, $associatedInstructorIds);
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_instructor',
+            'ilm_session_facet_id', $ilmId, 'user_id',
+            $instructors, $associatedInstructorIds);
     }
 
     /**
      * Saves the ILM/instructor-group associations for a given ILM
-     * and given instructors-groups, taken given pre-existings associations into account.
+     * and given instructors-groups, taken given pre-existing associations into account.
      * @param int $ilmId
      * @param array $instructorGroups
      * @param array $associatedInstructorGroupsIds
      */
     protected function _saveILMInstructorGroupAssociations ($ilmId, $instructorGroups = array(),
-            $associatedInstructorGroupsIds = array())
+                                                            $associatedInstructorGroupsIds = array())
     {
-        $this->_saveJoinTableAssociations('ilm_session_facet_instructor',
-                'ilm_session_facet_id', $ilmId, 'instructor_group_id',
-                $instructorGroups, $associatedInstructorGroupsIds);
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_instructor_group',
+            'ilm_session_facet_id', $ilmId, 'instructor_group_id',
+            $instructorGroups, $associatedInstructorGroupsIds);
     }
 
 
     /**
      * Saves the ILM/learner-group associations for a given ILM
-     * and given learner-groups, taken given pre-existings associations into account.
+     * and given learner-groups, taken given pre-existing associations into account.
      * @param int $ilmId
      * @param array $learnerGroups
      * @param array $associatedLearnerGroupsIds
      */
     protected function _saveILMLearnerGroupAssociations ($ilmId, $learnerGroups = array(),
-    		$associatedLearnerGroupsIds = array())
+                                                         $associatedLearnerGroupsIds = array())
     {
-    	$this->_saveJoinTableAssociations('ilm_session_facet_learner',
-    			'ilm_session_facet_id', $ilmId, 'group_id',
-    			$learnerGroups, $associatedLearnerGroupsIds);
+        $this->_saveJoinTableAssociations('ilm_session_facet_x_group',
+            'ilm_session_facet_id', $ilmId, 'group_id',
+            $learnerGroups, $associatedLearnerGroupsIds);
     }
 }

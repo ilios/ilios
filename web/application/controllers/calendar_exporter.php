@@ -71,8 +71,6 @@ class Calendar_Exporter extends Base_Authentication_Controller
      */
     public function exportICalendar ($role='all')
     {
-        $lang =  $this->getLangToUse();
-
         $userRoles = array();
 
         // authorization check and capture of user requested/available user roles
@@ -234,10 +232,10 @@ class Calendar_Exporter extends Base_Authentication_Controller
 
                 $session['event_id'] = $id.'@'.$hostaddress; // UID
 
-                $session['text'] = $this->languagemap->getI18NString('course_management.session.independent_learning_short', $lang).': ';
+                $session['text'] = $this->languagemap->getI18NString('course_management.session.independent_learning_short').': ';
                 $session['text'] .= $ilm_session['hours'] . ' ';
-                $session['text'] .= strtolower($this->languagemap->getI18NString('general.terms.hours', $lang)).' ';
-                $session['text'] .= strtolower($this->languagemap->getI18NString('general.phrases.due_by', $lang)).' ';
+                $session['text'] .= strtolower($this->languagemap->getI18NString('general.terms.hours')).' ';
+                $session['text'] .= strtolower($this->languagemap->getI18NString('general.phrases.due_by')).' ';
                 $session['text'] .= strftime('%a, %b %d', strtotime($session['due_date'])).' - ';
                 $session['text'] .= $session['course_title'].' - '.$session['session_title']; // SUMMARY
                 $session['event_details'] = $this->iliosSession->getDescription($session['session_id']);  // DESCRIPTION

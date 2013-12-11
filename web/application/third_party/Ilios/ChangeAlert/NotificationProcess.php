@@ -83,7 +83,7 @@ class Ilios_ChangeAlert_NotificationProcess
      * Constructor.
      * @param array $config
      * @param Alert $alertDao
-     * @param School $schooDao
+     * @param School $schoolDao
      * @param Offering $offeringDao
      * @param Session $sessionDao
      * @param Session_Type $sessionTypeDao
@@ -356,7 +356,7 @@ class Ilios_ChangeAlert_NotificationProcess
         }
 
         // student list
-        $learners = $this->_offeringDao->getLearnerGroupsForOffering($alert['table_row_id']);
+        $learners = $this->_offeringDao->getLearnersAndLearnerGroupsForOffering($alert['table_row_id']);
         $rows = array();
         foreach ($learners as $learner) {
         	if (isset($learner['user_id'])) { // is user record

@@ -3,7 +3,7 @@
  * Curriculum Inventory Management page template.
  *
  * Available template variables:
- *    $lang ... The language key.
+ *
  *    $payload ... A JSON-formatted string representation of the entire initial data payload.
  *    $reports ... An array of existing inventory reports.
  */
@@ -13,16 +13,11 @@ $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
 ?><!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 <head>
     <meta charset="utf-8">
 
-    <title><?php echo $this->languagemap->t('curriculum_inventory.title_bar', $lang); ?></title>
+    <title><?php echo t('curriculum_inventory.title_bar'); ?></title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -40,7 +35,7 @@ $viewsPath = getServerFilePath('views');
 <?php
 $js = array(
     'vendor' => array( // third-party js
-        'application/views/scripts/third_party/modernizr-2.5.3.min.js',
+        'application/views/scripts/third_party/html5shiv.js',
         'application/views/scripts/third_party/yui_kitchensink.js',
         'application/views/scripts/third_party/date_formatter.js',
         'application/views/scripts/third_party/md5-min.js',
@@ -76,17 +71,17 @@ writeJsScripts($js, 'curriculum_inventory_manager', $this->config->item('script_
     <div id="main" role="main">
 
         <div id="content" class="clearfix">
-            <h2 class="page-header"><?php echo $this->languagemap->t('curriculum_inventory.page_header', $lang); ?></h2>
+            <h2 class="page-header"><?php echo t('curriculum_inventory.page_header'); ?></h2>
             <div class="master_button_container clearfix">
                 <ul class="buttons left">
                     <li>
                         <a class="small radius button" href="" id="pick_reports_btn">
-                            <?php echo $this->languagemap->t('curriculum_inventory.select_report', $lang); ?>
+                            <?php echo t('curriculum_inventory.select_report'); ?>
                         </a>
                     </li>
                     <li>
                         <a class="small secondary radius button" href="" id="create_report_btn">
-                            <?php echo $this->languagemap->t('general.phrases.create_report', $lang); ?>
+                            <?php echo t('general.phrases.create_report'); ?>
                          </a>
                     </li>
                 </ul>

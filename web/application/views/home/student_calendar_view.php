@@ -12,12 +12,7 @@ $programManagementURL = $siteUrl . '/program_management';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 ?><!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 <head>
     <meta charset="utf-8">
 
@@ -71,9 +66,7 @@ if (!$render_headerless && $show_view_switch) :
 endif;
 ?>
                     <div class="calendar_tools clearfix">
-                       <?php include $viewsPath . 'common/progress_div.php';
-                            echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;');
-                       ?>
+<?php echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;'); ?>
                         <ul class="buttons right">
                             <li>
                                 <span id="calendar_filters_btn" title="<?php echo $calendar_filters_title; ?>" class="medium radius button">
@@ -129,16 +122,9 @@ endif;
     <!-- start dialog tabs -->
 <?php
     include $viewsPath . 'common/course_summary_view_include.php';
-    include $viewsPath . 'common/calendar_filters_include.php';
+    include $viewsPath . 'home/calendar_filters_dialog.inc.php';
+    include $viewsPath . 'home/calendar_feed_dialog.inc.php';
 ?>
-    <div class="tabdialog" id="calendar_filters_dialog">
-        <?php echo generateCalendarFiltersFormContent($calendar_filters_data, true); ?>
-    </div>
-
-    <div class="tabdialog" id="ical_feed_dialog">
-        <?php echo generateCalendarFeedContent($calendar_feed_title, $calendar_feed_about, $calendar_feed_new_key); ?>
-    </div>
-
     <div class="tabdialog" id="report_competency_pick_dialog"></div>
 
     <div class="tabdialog" id="calendar_event_details_dialog">

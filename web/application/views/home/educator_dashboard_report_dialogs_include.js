@@ -491,7 +491,7 @@ ilios.home.report.handleReportDialogCancel = function () {
 
 /*
  * ============================================================================
- * "compentency-report picker" dialog support
+ * "competency-report picker" dialog support
  * ===========================================================================
  */
 

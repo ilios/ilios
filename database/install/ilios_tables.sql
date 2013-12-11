@@ -91,6 +91,60 @@ CREATE TABLE `school` (
 	  PRIMARY KEY (`user_role_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+	-- Table program
+	--
+
+DROP TABLE IF EXISTS `program`;
+SET character_set_client = utf8;
+CREATE TABLE `program` (
+    `program_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
+    `short_title` VARCHAR(10) COLLATE utf8_unicode_ci NOT NULL,
+    `publish_event_id` INT(14) UNSIGNED,		-- if null, the row is still in draft mode
+    `duration` TINYINT(1) UNSIGNED NOT NULL,
+    `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
+    `owning_school_id` INT(10) UNSIGNED NOT NULL,
+    `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
+    PRIMARY KEY (`program_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+--
+	-- Table program_year
+	--
+
+DROP TABLE IF EXISTS `program_year`;
+SET character_set_client = utf8;
+CREATE TABLE `program_year` (
+    `program_year_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `publish_event_id` INT(14) UNSIGNED,			-- if null, the row is still in draft mode
+    `start_year` SMALLINT(4) UNSIGNED NOT NULL,
+    `program_id` INT(14) UNSIGNED NOT NULL,
+    `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
+    `locked` TINYINT(1) NOT NULL,			-- marked as locked prevents it from being modified
+    `archived` TINYINT(1) NOT NULL,		-- marked as archived prevents it from being found in searches - but is different semantically from 'deleted'
+    `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
+    PRIMARY KEY (`program_year_id`) USING BTREE,
+    CONSTRAINT `fkey_program_year_program_id` FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+--
+	-- Table cohort
+	--
+
+DROP TABLE IF EXISTS `cohort`;
+SET character_set_client = utf8;
+CREATE TABLE `cohort` (
+    `cohort_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
+    `program_year_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`cohort_id`) USING BTREE,
+    KEY `whole_k` USING BTREE (`program_year_id`,`cohort_id`,`title`),
+    CONSTRAINT `fkey_cohort_program_year_id` FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 	--
@@ -105,6 +159,8 @@ CREATE TABLE `school` (
 	  `instructors` VARCHAR(120) COLLATE utf8_unicode_ci,
 	  `location` VARCHAR(100) COLLATE utf8_unicode_ci,
 	  `parent_group_id` INT(14) UNSIGNED,
+	  `cohort_id` INT(14) UNSIGNED NOT NULL,
+    CONSTRAINT `fkey_group_cohort_id` FOREIGN KEY (`cohort_id`) REFERENCES `cohort` (`cohort_id`) ON DELETE CASCADE,
 	  PRIMARY KEY (`group_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -162,60 +218,6 @@ CREATE TABLE `school` (
 
 
 
-	--
-	-- Table program
-	--
-
-	DROP TABLE IF EXISTS `program`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program` (
-	  `program_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `title` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-	  `short_title` VARCHAR(10) COLLATE utf8_unicode_ci NOT NULL,
-	  `publish_event_id` INT(14) UNSIGNED,		-- if null, the row is still in draft mode
-	  `duration` TINYINT(1) UNSIGNED NOT NULL,
-	  `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
-	  `owning_school_id` INT(10) UNSIGNED NOT NULL,
-	  `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
-	  PRIMARY KEY (`program_id`) USING BTREE
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-
-	--
-	-- Table program_year
-	--
-
-	DROP TABLE IF EXISTS `program_year`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program_year` (
-	  `program_year_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `publish_event_id` INT(14) UNSIGNED,			-- if null, the row is still in draft mode
-	  `start_year` SMALLINT(4) UNSIGNED NOT NULL,
-	  `program_id` INT(14) UNSIGNED NOT NULL,
-	  `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
-	  `locked` TINYINT(1) NOT NULL,			-- marked as locked prevents it from being modified
-	  `archived` TINYINT(1) NOT NULL,		-- marked as archived prevents it from being found in searches - but is different semantically from 'deleted'
-	  `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
-	  PRIMARY KEY (`program_year_id`) USING BTREE,
-	  CONSTRAINT `fkey_program_year_program_id` FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-	--
-	-- Table cohort
-	--
-
-	DROP TABLE IF EXISTS `cohort`;
-	SET character_set_client = utf8;
-	CREATE TABLE `cohort` (
-	  `cohort_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
-	  `program_year_id` INT(14) UNSIGNED NOT NULL,
-	  PRIMARY KEY (`cohort_id`) USING BTREE,
-	  KEY `whole_k` USING BTREE (`program_year_id`,`cohort_id`,`title`),
-	  CONSTRAINT `fkey_cohort_program_year_id` FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 	--
@@ -761,26 +763,6 @@ ENGINE=InnoDB;
 	  CONSTRAINT `fkey_user_x_user_role_user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`user_role_id`) ON DELETE CASCADE ON UPDATE RESTRICT
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
-	--
-	-- Table cohort_master_group
-	--
-	--	This embodies the 1-N relationship
-	--	between a cohort table row and 0-N
-	--	group table rows (for group instances
-	--	that are top-level-groups).
-	--
-
-	DROP TABLE IF EXISTS `cohort_master_group`;
-	SET character_set_client = utf8;
-	CREATE TABLE `cohort_master_group` (
-	  `cohort_id` INT(14) UNSIGNED NOT NULL,
-	  `group_id` INT(14) UNSIGNED NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
 	--
 	-- Table group_x_group
 	--
@@ -792,24 +774,45 @@ ENGINE=InnoDB;
 	  `group_b_id` INT(14) UNSIGNED NOT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Table group_x_instructor
+--
+DROP TABLE IF EXISTS `group_x_instructor`;
+CREATE TABLE `group_x_instructor` (
+    `group_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`group_id`, `user_id`),
+    CONSTRAINT `fkey_group_x_instructor_group_id`
+        FOREIGN KEY (`group_id`)
+        REFERENCES `group` (`group_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_group_x_instructor_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-
-	--
-	-- Table group_default_instructor
-	--
-
-	DROP TABLE IF EXISTS `group_default_instructor`;
-	SET character_set_client = utf8;
-	CREATE TABLE `group_default_instructor` (
-	  `group_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `instructor_group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  CONSTRAINT `fkey_group_default_instructor_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_group_default_instructor_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_group_default_instructor_instr_grp_id` FOREIGN KEY (`instructor_group_id`) REFERENCES `instructor_group` (`instructor_group_id`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
+--
+-- Table group_x_instructor_group
+--
+DROP TABLE IF EXISTS `group_x_instructor_group`;
+CREATE TABLE `group_x_instructor_group` (
+    `group_id` INT(14) UNSIGNED NOT NULL,
+    `instructor_group_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`group_id`, `instructor_group_id`),
+    CONSTRAINT `fkey_group_x_instructor_group_group_id`
+        FOREIGN KEY (`group_id`)
+        REFERENCES `group` (`group_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_group_x_instructor_group_instructor_group_id`
+        FOREIGN KEY (`instructor_group_id`)
+        REFERENCES `instructor_group` (`instructor_group_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
 	--
 	-- Table instructor_group_x_user
@@ -1158,37 +1161,85 @@ ENGINE=InnoDB;
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-	--
-	-- Table ilm_session_facet_learner
-	--
+--
+-- Table ilm_session_facet_x_learner
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_learner`;
+CREATE TABLE `ilm_session_facet_x_learner` (
+    `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`ilm_session_facet_id`, `user_id`),
+    CONSTRAINT `fkey_ilm_session_facet_x_learner_ilm_session_facet_id`
+        FOREIGN KEY (`ilm_session_facet_id`)
+        REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_ilm_session_facet_x_learner_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-	DROP TABLE IF EXISTS `ilm_session_facet_learner`;
-	SET character_set_client = utf8;
-	CREATE TABLE `ilm_session_facet_learner` (
-	  `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  CONSTRAINT `fkey_ilm_learner_ilm_session_facet_id` FOREIGN KEY (`ilm_session_facet_id`) REFERENCES `ilm_session_facet` (`ilm_session_facet_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_learner_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_learner_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Table ilm_session_facet_x_group
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_group`;
+CREATE TABLE `ilm_session_facet_x_group` (
+  `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+  `group_id` INT(14) UNSIGNED NOT NULL,
+  PRIMARY KEY(`ilm_session_facet_id`, `group_id`),
+  CONSTRAINT `fkey_ilm_session_facet_x_group_ilm_session_facet_id`
+      FOREIGN KEY (`ilm_session_facet_id`)
+      REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+      ON DELETE CASCADE,
+  CONSTRAINT `fkey_ilm_session_facet_x_group_group_id`
+      FOREIGN KEY (`group_id`)
+      REFERENCES `group` (`group_id`)
+      ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
+--
+-- Table ilm_session_facet_x_instructor
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_instructor`;
+CREATE TABLE `ilm_session_facet_x_instructor` (
+    `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`ilm_session_facet_id`, `user_id`),
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_ilm_session_facet_id`
+        FOREIGN KEY (`ilm_session_facet_id`)
+        REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
-	--
-	-- Table ilm_session_facet_instructor
-	--
-
-	DROP TABLE IF EXISTS `ilm_session_facet_instructor`;
-	SET character_set_client = utf8;
-	CREATE TABLE `ilm_session_facet_instructor` (
-	  `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `instructor_group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  CONSTRAINT `fkey_ilm_instructor_ilm_session_facet_id` FOREIGN KEY (`ilm_session_facet_id`) REFERENCES `ilm_session_facet` (`ilm_session_facet_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_instructor_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
-	  CONSTRAINT `fkey_ilm_instructor_group_id` FOREIGN KEY (`instructor_group_id`) REFERENCES `instructor_group` (`instructor_group_id`) ON DELETE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+--
+-- Table ilm_session_facet_x_instructor_group
+--
+DROP TABLE IF EXISTS `ilm_session_facet_x_instructor_group`;
+CREATE TABLE `ilm_session_facet_x_instructor_group` (
+    `ilm_session_facet_id` INT(14) UNSIGNED NOT NULL,
+    `instructor_group_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`ilm_session_facet_id`, `instructor_group_id`),
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_group_ilm_session_facet_id`
+        FOREIGN KEY (`ilm_session_facet_id`)
+        REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
+        ON DELETE CASCADE,
+    CONSTRAINT `fkey_ilm_session_facet_x_instructor_group_instructor_group_id`
+        FOREIGN KEY (`instructor_group_id`)
+        REFERENCES `instructor_group` (`instructor_group_id`)
+        ON DELETE CASCADE
+) DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
 	--
 	-- Table offering_x_recurring_event
@@ -1202,46 +1253,77 @@ ENGINE=InnoDB;
 	  UNIQUE (`offering_id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Table offering_x_instructor
+--
+DROP TABLE IF EXISTS `offering_x_instructor`;
+CREATE TABLE `offering_x_instructor` (
+    `offering_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`offering_id`, `user_id`),
+    CONSTRAINT `fkey_offering_x_instructor_offering_id`
+        FOREIGN KEY (`offering_id`)
+        REFERENCES `offering` (`offering_id`),
+    CONSTRAINT `fkey_offering_x_instructor_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+) DEFAULT CHARSET='utf8'
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;
 
+--
+-- Table offering_x_instructor_group
+--
+DROP TABLE IF EXISTS `offering_x_instructor_group`;
+CREATE TABLE `offering_x_instructor_group` (
+    `offering_id` INT(14) UNSIGNED NOT NULL,
+    `instructor_group_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`offering_id`, `instructor_group_id`),
+    CONSTRAINT `fkey_offering_x_instructor_group_offering_id`
+        FOREIGN KEY (`offering_id`)
+        REFERENCES `offering` (`offering_id`),
+    CONSTRAINT `fkey_offering_x_instructor_group_instructor_group_id`
+        FOREIGN KEY (`instructor_group_id`)
+        REFERENCES `instructor_group` (`instructor_group_id`)
+) DEFAULT CHARSET='utf8'
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;
 
-	--
-	-- Table offering_instructor
-	--
+--
+-- Table offering_x_learner
+--
+DROP TABLE IF EXISTS `offering_x_learner`;
+CREATE TABLE `offering_x_learner` (
+    `offering_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`offering_id`, `user_id`),
+    CONSTRAINT `fkey_offering_x_learner_offering_id`
+        FOREIGN KEY (`offering_id`)
+        REFERENCES `offering` (`offering_id`),
+    CONSTRAINT `fkey_offering_x_learner_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+) DEFAULT CHARSET='utf8'
+    COLLATE='utf8_unicode_ci'
+    ENGINE=InnoDB;
 
-	DROP TABLE IF EXISTS `offering_instructor`;
-	SET character_set_client = utf8;
-	CREATE TABLE `offering_instructor` (
-	  `offering_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `instructor_group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  KEY `user_id_k` USING BTREE (`user_id`),
-	  KEY `instructor_group_id_k` USING BTREE (`instructor_group_id`),
-	  KEY `offering_user_group_k` USING BTREE (`offering_id`,`user_id`,`instructor_group_id`),
-	  CONSTRAINT `offering_instructor_ibfk_1` FOREIGN KEY (`offering_id`) REFERENCES `offering` (`offering_id`),
-	  CONSTRAINT `offering_instructor_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-	  CONSTRAINT `offering_instructor_ibfk_3` FOREIGN KEY (`instructor_group_id`) REFERENCES `instructor_group` (`instructor_group_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-	--
-	-- Table offering_learner
-	--
-
-	DROP TABLE IF EXISTS `offering_learner`;
-	SET character_set_client = utf8;
-	CREATE TABLE `offering_learner` (
-	  `offering_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  `group_id` INT(14) UNSIGNED,		-- either this or user_id must not be null
-	  KEY `user_id_k` USING BTREE (`user_id`),
-	  KEY `group_id_k` USING BTREE (`group_id`),
-	  KEY `offering_user_group_k` USING BTREE (`offering_id`,`user_id`,`group_id`),
-	  CONSTRAINT `offering_learner_ibfk_1` FOREIGN KEY (`offering_id`) REFERENCES `offering` (`offering_id`),
-	  CONSTRAINT `offering_learner_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-	  CONSTRAINT `offering_learner_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+--
+-- Table offering_x_group
+--
+DROP TABLE IF EXISTS `offering_x_group`;
+CREATE TABLE `offering_x_group` (
+    `offering_id` INT(14) UNSIGNED NOT NULL,
+    `group_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY(`offering_id`, `group_id`),
+    CONSTRAINT `fkey_offering_x_group_offering_id`
+        FOREIGN KEY (`offering_id`)
+        REFERENCES `offering` (`offering_id`),
+    CONSTRAINT `fkey_offering_x_group_group_id`
+        FOREIGN KEY (`group_id`)
+        REFERENCES `group` (`group_id`)
+) DEFAULT CHARSET='utf8'
+    COLLATE='utf8_unicode_ci'
+    ENGINE=InnoDB;
 
 
 	--

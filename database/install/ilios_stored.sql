@@ -9,34 +9,6 @@
 --
 
 
-DROP FUNCTION IF EXISTS root_group_of_group;
-DELIMITER //
-	CREATE FUNCTION root_group_of_group (in_gid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE gid INT DEFAULT in_gid;
-		DECLARE pgid INT DEFAULT 0;
-
-		WHILE gid IS NOT NULL DO
-			SELECT parent_group_id
-				INTO pgid
-				FROM `group`
-				WHERE group_id = gid;
-
-			IF pgid IS NULL THEN
-				RETURN gid;
-			ELSE
-				SET gid = pgid;
-			END IF;
-		END WHILE;
-
-		RETURN 0;
-	END;
-	//
-DELIMITER ;
-
-
 DROP FUNCTION IF EXISTS group_is_child_of_group;
 DELIMITER //
 	CREATE FUNCTION group_is_child_of_group (in_potential_child_gid INT, in_potential_parent_gid INT)
@@ -394,45 +366,6 @@ DELIMITER //
     END;
 //
 DELIMITER ;
-
-
-DROP PROCEDURE IF EXISTS disciplines_for_title_restricted_by_school;
-DELIMITER //
-	CREATE PROCEDURE disciplines_for_title_restricted_by_school (in_title_query VARCHAR(30), in_school_id INT)
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE did INT DEFAULT 0;
-		DECLARE discipline_owner_school_id INT DEFAULT 0;
-		DECLARE flag INT DEFAULT 0;
-		DECLARE did_cursor CURSOR FOR SELECT discipline_id, owning_school_id FROM discipline WHERE title LIKE in_title_query;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
-
-		CREATE TEMPORARY TABLE IF NOT EXISTS tt_disciplines (`discipline_id` INT(14) UNSIGNED, `title` VARCHAR(60) COLLATE utf8_unicode_ci, `owning_school_id` INT(10) UNSIGNED);
-
-
-		OPEN did_cursor;
-
-		REPEAT
-			FETCH did_cursor INTO did, discipline_owner_school_id;
-
-			IF NOT out_of_rows THEN
-				IF discipline_owner_school_id = in_school_id THEN
-					INSERT INTO tt_disciplines SELECT * FROM discipline WHERE discipline_id = did;
-				END IF;
-			END IF;
-
-		UNTIL out_of_rows END REPEAT;
-
-		CLOSE did_cursor;
-
-
-		SELECT * FROM tt_disciplines ORDER BY `title`;
-		DROP TABLE tt_disciplines;
-	END;
-	//
-DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS mesh_search;
 DELIMITER //
@@ -903,70 +836,104 @@ DELIMITER ;
 
 DROP FUNCTION IF EXISTS copy_ilm_session_attributes_to_ilm_session;
 DELIMITER //
-	CREATE FUNCTION copy_ilm_session_attributes_to_ilm_session (in_original_ilmsfid INT, in_new_ilmsfid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE uid INT DEFAULT 0;
-		DECLARE gid INT DEFAULT 0;
-		DECLARE rows_added INT DEFAULT 0;
-		DECLARE i_cursor CURSOR FOR SELECT user_id, instructor_group_id FROM ilm_session_facet_instructor WHERE ilm_session_facet_id = in_original_ilmsfid;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
+CREATE FUNCTION copy_ilm_session_attributes_to_ilm_session (in_original_ilmsfid INT, in_new_ilmsfid INT)
+RETURNS INT
+READS SQL DATA
+BEGIN
+    DECLARE out_of_rows INT DEFAULT 0;
+    DECLARE uid INT DEFAULT 0;
+    DECLARE gid INT DEFAULT 0;
+    DECLARE rows_added INT DEFAULT 0;
+    DECLARE i_cursor CURSOR FOR SELECT user_id FROM ilm_session_facet_x_instructor WHERE ilm_session_facet_id = in_original_ilmsfid;
+    DECLARE j_cursor CURSOR FOR SELECT instructor_group_id FROM ilm_session_facet_x_instructor_group WHERE ilm_session_facet_id = in_original_ilmsfid;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
-		OPEN i_cursor;
+    OPEN i_cursor;
 
-		REPEAT
-			FETCH i_cursor INTO uid, gid;
+    REPEAT
+        FETCH i_cursor INTO uid;
 
-			IF NOT out_of_rows THEN
-				INSERT INTO ilm_session_facet_instructor (ilm_session_facet_id, user_id, instructor_group_id) VALUES (in_new_ilmsfid, uid, gid);
+        IF NOT out_of_rows THEN
+            INSERT INTO ilm_session_facet_x_instructor (ilm_session_facet_id, user_id) VALUES (in_new_ilmsfid, uid);
 
-				SET rows_added = rows_added + 1;
-			END IF;
+            SET rows_added = rows_added + 1;
+        END IF;
 
-		UNTIL out_of_rows END REPEAT;
+    UNTIL out_of_rows END REPEAT;
 
-		CLOSE i_cursor;
+    CLOSE i_cursor;
 
+    SET out_of_rows = 0;
 
-		RETURN rows_added;
-	END;
-	//
+    OPEN j_cursor;
+
+    REPEAT
+        FETCH j_cursor INTO gid;
+
+        IF NOT out_of_rows THEN
+            INSERT INTO ilm_session_facet_x_instructor_group (ilm_session_facet_id, instructor_group_id) VALUES (in_new_ilmsfid, gid);
+
+            SET rows_added = rows_added + 1;
+        END IF;
+
+    UNTIL out_of_rows END REPEAT;
+
+    CLOSE j_cursor;
+
+    RETURN rows_added;
+END;
+//
 DELIMITER ;
 
 DROP FUNCTION IF EXISTS copy_offering_attributes_to_offering;
 DELIMITER //
-	CREATE FUNCTION copy_offering_attributes_to_offering (in_original_oid INT, in_new_oid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE uid INT DEFAULT 0;
-		DECLARE gid INT DEFAULT 0;
-		DECLARE rows_added INT DEFAULT 0;
-		DECLARE i_cursor CURSOR FOR SELECT user_id, instructor_group_id FROM offering_instructor WHERE offering_id = in_original_oid;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
+CREATE FUNCTION copy_offering_attributes_to_offering (in_original_oid INT, in_new_oid INT)
+    RETURNS INT
+    READS SQL DATA
+BEGIN
+    DECLARE out_of_rows INT DEFAULT 0;
+    DECLARE uid INT DEFAULT 0;
+    DECLARE gid INT DEFAULT 0;
+    DECLARE rows_added INT DEFAULT 0;
+    DECLARE i_cursor CURSOR FOR SELECT user_id  FROM offering_x_instructor WHERE offering_id = in_original_oid;
+    DECLARE j_cursor CURSOR FOR SELECT instructor_group_id FROM offering_x_instructor_group WHERE offering_id = in_original_oid;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
-		OPEN i_cursor;
+    OPEN i_cursor;
 
-		REPEAT
-			FETCH i_cursor INTO uid, gid;
+    REPEAT
+        FETCH i_cursor INTO uid;
 
-			IF NOT out_of_rows THEN
-				INSERT INTO offering_instructor (offering_id, user_id, instructor_group_id) VALUES (in_new_oid, uid, gid);
+        IF NOT out_of_rows THEN
+            INSERT INTO offering_x_instructor (offering_id, user_id) VALUES (in_new_oid, uid);
 
-				SET rows_added = rows_added + 1;
-			END IF;
+            SET rows_added = rows_added + 1;
+        END IF;
 
-		UNTIL out_of_rows END REPEAT;
+    UNTIL out_of_rows END REPEAT;
 
-		CLOSE i_cursor;
+    CLOSE i_cursor;
 
+    SET out_of_rows = 0;
 
-		RETURN rows_added;
-	END;
-	//
+    OPEN j_cursor;
+
+    REPEAT
+        FETCH j_cursor INTO gid;
+
+        IF NOT out_of_rows THEN
+            INSERT INTO offering_x_instructor_group (offering_id, instructor_group_id) VALUES (in_new_oid, gid);
+
+            SET rows_added = rows_added + 1;
+        END IF;
+
+    UNTIL out_of_rows END REPEAT;
+
+    CLOSE j_cursor;
+
+    RETURN rows_added;
+END;
+//
 DELIMITER ;
 
 
@@ -1016,52 +983,48 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS nuke_session;
 DELIMITER //
-	CREATE PROCEDURE nuke_session (in_session_id INT)
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE ilm_id INT DEFAULT 0;
-		DECLARE oid INT DEFAULT 0;
-		DECLARE offering_cursor CURSOR FOR SELECT offering_id FROM offering WHERE session_id = in_session_id;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
+CREATE PROCEDURE nuke_session (in_session_id INT)
+READS SQL DATA
+BEGIN
+    DECLARE out_of_rows INT DEFAULT 0;
+    DECLARE ilm_id INT DEFAULT 0;
+    DECLARE oid INT DEFAULT 0;
+    DECLARE offering_cursor CURSOR FOR SELECT offering_id FROM offering WHERE session_id = in_session_id;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
-		DELETE FROM session_description WHERE session_id = in_session_id;
-		DELETE FROM session_x_discipline WHERE session_id = in_session_id;
-		DELETE FROM session_x_mesh WHERE session_id = in_session_id;
+    DELETE FROM session_description WHERE session_id = in_session_id;
+    DELETE FROM session_x_discipline WHERE session_id = in_session_id;
+    DELETE FROM session_x_mesh WHERE session_id = in_session_id;
 
-		CALL nuke_learning_material_associations(in_session_id, 'session');
+    CALL nuke_learning_material_associations(in_session_id, 'session');
 
-		CALL nuke_objective_associations(in_session_id, 'session');
+    CALL nuke_objective_associations(in_session_id, 'session');
 
-		SELECT ilm_session_facet_id FROM session WHERE session_id = in_session_id
-			INTO ilm_id;
-
-
-		OPEN offering_cursor;
-
-		REPEAT
-			SET out_of_rows = 0;
-			FETCH offering_cursor INTO oid;
-
-			IF NOT out_of_rows THEN
-				CALL nuke_offering(oid);
-			END IF;
-
-		UNTIL out_of_rows END REPEAT;
-
-		CLOSE offering_cursor;
+    SELECT ilm_session_facet_id FROM session WHERE session_id = in_session_id INTO ilm_id;
 
 
-		DELETE FROM session WHERE session_id = in_session_id;
+    OPEN offering_cursor;
+
+    REPEAT
+        SET out_of_rows = 0;
+        FETCH offering_cursor INTO oid;
+
+        IF NOT out_of_rows THEN
+            CALL nuke_offering(oid);
+        END IF;
+
+    UNTIL out_of_rows END REPEAT;
+
+    CLOSE offering_cursor;
+
+    DELETE FROM session WHERE session_id = in_session_id;
 
 
-		IF ilm_id IS NOT NULL THEN
-			DELETE FROM ilm_session_facet WHERE ilm_session_facet_id = ilm_id;
-			DELETE FROM ilm_session_facet_learner WHERE ilm_session_facet_id = ilm_id;
-			DELETE FROM ilm_session_facet_instructor WHERE ilm_session_facet_id = ilm_id;
-		END IF;
-	END;
-	//
+    IF ilm_id IS NOT NULL THEN
+        DELETE FROM ilm_session_facet WHERE ilm_session_facet_id = ilm_id;
+    END IF;
+END;
+//
 DELIMITER ;
 
 
@@ -1154,28 +1117,30 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS nuke_offering;
 DELIMITER //
-	CREATE PROCEDURE nuke_offering (in_offering_id INT)
-		READS SQL DATA
-	BEGIN
-		DECLARE recurring_event_id INT DEFAULT 0;
-		DECLARE select_found_match INT DEFAULT 1;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET select_found_match = 0;
+CREATE PROCEDURE nuke_offering (in_offering_id INT)
+    READS SQL DATA
+BEGIN
+    DECLARE recurring_event_id INT DEFAULT 0;
+    DECLARE select_found_match INT DEFAULT 1;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET select_found_match = 0;
 
 
-		DELETE FROM offering_learner WHERE offering_id = in_offering_id;
-		DELETE FROM offering_instructor WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_learner WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_group WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_instructor WHERE offering_id = in_offering_id;
+    DELETE FROM offering_x_instructor_group WHERE offering_id = in_offering_id;
 
-		SELECT recurring_event_id FROM offering_x_recurring_event WHERE offering_id = in_offering_id
-			INTO recurring_event_id;
+    SELECT recurring_event_id FROM offering_x_recurring_event WHERE offering_id = in_offering_id
+        INTO recurring_event_id;
 
-		IF select_found_match THEN
-			CALL nuke_recurring_event_chain(recurring_event_id);
-			DELETE FROM offering_x_recurring_event WHERE offering_id = in_offering_id;
-		END IF;
+    IF select_found_match THEN
+        CALL nuke_recurring_event_chain(recurring_event_id);
+        DELETE FROM offering_x_recurring_event WHERE offering_id = in_offering_id;
+    END IF;
 
-		DELETE FROM offering WHERE offering_id = in_offering_id;
-	END;
-	//
+    DELETE FROM offering WHERE offering_id = in_offering_id;
+END;
+    //
 DELIMITER ;
 
 

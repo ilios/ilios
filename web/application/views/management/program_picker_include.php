@@ -2,8 +2,6 @@
 /**
  * Includes-script that rigs the "program picker" dialog to the user management page.
  */
-require_once getServerFilePath('views') . 'common/picker_dialog_generator.php';
-
 $dialogDivId = 'program_picker_dialog';
 
 $modelName = 'SimpleProgramModel';

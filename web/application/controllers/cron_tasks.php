@@ -395,7 +395,7 @@ class Cron_Tasks extends Ilios_Base_Controller
         $offeringEndTime = $dtEndPHPTime->format('h:i a');
 
         $studentList = '';
-        $students = $this->offering->getLearnerGroupsForOffering($offering->offering_id);
+        $students = $this->offering->getLearnersAndLearnerGroupsForOffering($offering->offering_id);
         foreach ($students as $student) {
             if (isset($student['user_id'])) {
                 $learnerName = $student['first_name'] . ' ' . $student['last_name'];

@@ -34,7 +34,7 @@ SELECT DISTINCT c.`course_id`
 FROM `course` c
 JOIN `session` s ON s.`course_id` = c.`course_id`
 JOIN `offering` o ON o.`session_id` = s.`session_id`
-JOIN `offering_instructor` oi ON oi.`offering_id` = o.`offering_id`
+JOIN `offering_x_instructor_group` oi ON oi.`offering_id` = o.`offering_id`
 WHERE oi.`instructor_group_id` = {$clean['group_id']}
 AND (c.`archived` = 1 OR c.`locked` = 1)
 AND c.`deleted` = 0
@@ -45,7 +45,7 @@ UNION
 SELECT DISTINCT c.`course_id`
 FROM `course` c
 JOIN `session` s ON s.`course_id` = c.`course_id`
-JOIN `ilm_session_facet_instructor` sfi ON sfi.`ilm_session_facet_id` = s.`ilm_session_facet_id`
+JOIN `ilm_session_facet_x_instructor_group` sfi ON sfi.`ilm_session_facet_id` = s.`ilm_session_facet_id`
 WHERE sfi.`instructor_group_id` = {$clean['group_id']}
 AND (c.`archived` = 1 OR c.`locked` = 1)
 AND c.`deleted` = 0
@@ -57,9 +57,9 @@ SELECT DISTINCT c.`course_id`
 FROM `course` c
 JOIN `session` s ON s.`course_id` = c.`course_id`
 JOIN `offering` o ON o.`session_id` = s.`session_id`
-JOIN `offering_learner` ol ON ol.`offering_id` = o.`offering_id`
-JOIN `group_default_instructor` gdi ON gdi.`group_id` = ol.`group_id`
-WHERE gdi.`instructor_group_id` = {$clean['group_id']}
+JOIN `offering_x_group` oxg ON oxg.`offering_id` = o.`offering_id`
+JOIN `group_x_instructor_group` gxig ON gxig.`group_id` = oxg.`group_id`
+WHERE gxig.`instructor_group_id` = {$clean['group_id']}
 AND (c.`archived` = 1 OR c.`locked` = 1)
 AND c.`deleted` = 0
 AND s.`deleted` = 0
@@ -104,8 +104,7 @@ EOL;
         $newId = $this->makeNewRow($title, $schoolId, $auditAtoms);
 
         if (($newId == null) || ($newId == -1) || ($newId == 0)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
             $rhett['error'] = $msg;
         }
@@ -259,9 +258,7 @@ EOL;
         $this->db->where('instructor_group_id !=', $groupId);
         $queryResults = $this->db->get($this->databaseTableName);
         if ($queryResults->num_rows() > 0) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('instructor_groups.error.preexisting_title',
-                                                    $lang);
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.preexisting_title');
 
             return $msg . " '" . $title . "'";
         }
@@ -286,9 +283,7 @@ EOL;
         }
 
         if (! $this->makeUserGroupAssociations($users, $groupId, $auditAtoms)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('instructor_groups.error.failed_associations',
-                                                    $lang);
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.failed_associations');
 
             return $msg;
         }
@@ -317,8 +312,7 @@ EOL;
      */
     protected function makeDefaultGroupTitleForSuffix ($groupNameSuffix)
     {
-        $lang = $this->getLangToUse();
-        $groupNamePrefix = $this->languagemap->getI18NString('instructor_groups.name_prefix', $lang);
+        $groupNamePrefix = $this->languagemap->getI18NString('instructor_groups.name_prefix');
 
         return $groupNamePrefix . ' ' . $groupNameSuffix;
     }
@@ -370,7 +364,7 @@ EOL;
     protected function _deleteOfferingAssociationsToGroup ($groupId,  &$auditAtoms)
     {
         $this->db->where('instructor_group_id', $groupId);
-        $this->db->delete('offering_instructor');
+        $this->db->delete('offering_x_instructor_group');
 
         if ($this->transactionAtomFailed()) {
             return false;
@@ -378,7 +372,7 @@ EOL;
 
         if (0 < $this->db->affected_rows()) {
             $auditAtoms[] = $this->auditEvent->wrapAtom($groupId, 'instructor_group_id',
-                'offering_instructor', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+                'offering_x_instructor_group', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return true;
     }
