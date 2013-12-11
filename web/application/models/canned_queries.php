@@ -1120,32 +1120,33 @@ EOL;
             $userWhere = array();
             if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
                 $userJoins .=<<< EOL
-LEFT JOIN offering_learner ON
- offering_learner.offering_id=offering.offering_id
-  AND (offering_learner.user_id=$userId
-   OR offering_learner.group_id IN
-    (SELECT group_id from group_x_user WHERE user_id=$userId))
-  AND course.publish_event_id IS NOT NULL
-  AND session.publish_event_id IS NOT NULL
+LEFT JOIN offering_x_learner
+ON offering_x_learner.offering_id = offering.offering_id AND offering_x_learner.user_id = {$userId}
+EOL;
+                $userJoins .=<<< EOL
+LEFT JOIN offering_x_learner_group
+ON offering_x_learner_group.offering_id = offering.offering_id AND offering_x_learner_group.group_id IN (
+    SELECT group_id from group_x_user WHERE user_id = {$userId}
+)
 EOL;
                 $userWhere[] = 'offering_learner.offering_id IS NOT NULL';
             }
-            $director_role = in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles);
             if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
                 $userJoins .=<<< EOL
-LEFT JOIN offering_instructor
- ON offering_instructor.offering_id=offering.offering_id
- AND (offering_instructor.user_id=$userId
-  OR offering_instructor.instructor_group_id IN
-   (SELECT instructor_group_id FROM instructor_group_x_user
-    WHERE user_id=$userId))
+LEFT JOIN offering_x_instructor
+ON offering_x_instructor.offering_id = offering.offering_id AND offering_x_instructor.user_id = {$userId}
+EOL;
+                $userJoins .=<<< EOL
+LEFT JOIN offering_x_instructor_group
+ON offering_x_instructor_group.offering_id = offering.offering_id AND offering_x_instructor_group.instructor_group_id IN (
+    SELECT instructor_group_id FROM instructor_group_x_user WHERE user_id= {$userId})
 EOL;
                 $userWhere[] = 'offering_instructor.offering_id IS NOT NULL';
             }
             if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
                 $userJoins .=<<< EOL
-LEFT JOIN course_director ON course_director.course_id=course.course_id
- AND course_director.user_id=$userId
+LEFT JOIN course_director ON course_director.course_id = course.course_id
+AND course_director.user_id = $userId
 EOL;
                 $userWhere[] = 'course_director.course_id IS NOT NULL';
             }
@@ -1172,6 +1173,8 @@ JOIN course ON session.course_id=course.course_id
 $userJoins
 WHERE
  offering.deleted=0 AND session.deleted=0 AND course.deleted=0
+ AND course.publish_event_id IS NOT NULL
+ AND session.publish_event_id IS NOT NULL
  $archivedWhere
  $yearWhere
  $schoolWhere
