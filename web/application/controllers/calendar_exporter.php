@@ -96,10 +96,8 @@ class Calendar_Exporter extends Base_Authentication_Controller
 
         $schoolId = $this->session->userdata('school_id');
 
-        $offerings = $this->queries->getOfferingsDetailsForCalendar(
-         $schoolId, $userId, $userRoles, null, false,
-         Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
-         $timestart, $timeend);
+        $offerings = $this->queries->getOfferingsDetailsForCalendar($schoolId, $userId, $userRoles, null, false,
+            Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS, $timestart, $timeend);
         $ilm_sessions = $this->queries->getSILMsForCalendar( $schoolId, $userId, $userRoles);
 
         $hostaddress = str_replace('http://', '', base_url());
@@ -131,53 +129,50 @@ class Calendar_Exporter extends Base_Authentication_Controller
             // Taught by
             if (is_array($offering['instructors'])) {
                 $details .= $this->languagemap->getI18NString(
-                 'general.phrases.taught_by', $lang)
+                 'general.phrases.taught_by')
                  . ' ' . implode(', ', $offering['instructors']) . "\n";
             }
 
             // This offering is a(n)
             $details .= $this->languagemap->getI18NString(
-             'dashboard.offering_description.offering_type', $lang)
+             'dashboard.offering_description.offering_type')
              . ' ' . $offering['session_type'];
 
             if ($offering['supplemental']) {
               $details .=  $this->languagemap->getI18NString(
-               'dashboard.offering_description.offering_supplemental_suffix',
-               $lang)
+               'dashboard.offering_description.offering_supplemental_suffix')
                . "\n";
             } else {
               $details .= "\n";
             }
             if ($offering['attire_required']) {
               $details .= $this->languagemap->getI18NString(
-               'dashboard.offering_description.special_attire',
-               $lang). "\n";
+               'dashboard.offering_description.special_attire'). "\n";
             }   
             if ($offering['equipment_required']) {
               $details .= $this->languagemap->getI18NString(
-               'dashboard.offering_description.special_equipment',
-               $lang). "\n";
+               'dashboard.offering_description.special_equipment'). "\n";
             }   
             if (count($offering['session_objectives']) > 0) {
               $details .= "\n";
               $details .= $this->languagemap->getI18NString(
-               'general.terms.session', $lang) . ' ';
+               'general.terms.session') . ' ';
               $details .= $this->languagemap->getI18NString(
-               'general.terms.objectives', $lang) . "\n";
+               'general.terms.objectives') . "\n";
               foreach ($offering['session_objectives'] as $objective)
                 $details .= $this->_unHTML($objective) . "\n";
             }
             if (count($offering['session_materials']) > 0) {
               $details .= "\n";
               $details .= $this->languagemap->getI18NString(
-               'general.terms.session', $lang) . ' ';
+               'general.terms.session') . ' ';
               $details .= $this->languagemap->getI18NString(
-               'general.phrases.learning_materials', $lang) . "\n";
+               'general.phrases.learning_materials') . "\n";
               foreach ($offering['session_materials'] as $material) {
                 $details .= $this->_unHTML($material['title']);
                 if ($material['required']) {
                   $details .= ' (' . $this->languagemap->getI18NString(
-                   'general.terms.required', $lang). ')';
+                   'general.terms.required'). ')';
                 }
                 $details .= ' (' . base_url()
                  . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
@@ -188,18 +183,18 @@ class Calendar_Exporter extends Base_Authentication_Controller
             if (count($offering['course_objectives']) > 0) {
               $details .= "\n";
               $details .= $this->languagemap->getI18NString(
-               'general.terms.course', $lang) . ' ';
+               'general.terms.course') . ' ';
               $details .= $this->languagemap->getI18NString(
-               'general.terms.objectives', $lang) . "\n";
+               'general.terms.objectives') . "\n";
               foreach ($offering['course_objectives'] as $objective)
                 $details .= $this->_unHTML($objective) . "\n";
             }
             if (count($offering['course_materials']) > 0) {
               $details .= "\n";
               $details .= $this->languagemap->getI18NString(
-               'general.terms.course', $lang) . ' ';
+               'general.terms.course') . ' ';
               $details .= $this->languagemap->getI18NString(
-               'general.phrases.learning_materials', $lang) . "\n";
+               'general.phrases.learning_materials') . "\n";
               foreach ($offering['course_materials'] as $material) {
                 $details .= $this->_unHTML($material['title']);
                 $details .= ' (' . base_url()
@@ -207,7 +202,7 @@ class Calendar_Exporter extends Base_Authentication_Controller
                  . ')';
                 if ($material['required']) {
                   $details .= ' (' . $this->languagemap->getI18NString(
-                   'general.phrases.learning_materials', $lang) . ')';
+                   'general.phrases.learning_materials') . ')';
                 }
                 $details .= ': ' . $this->_unHTML($material['description']) . "\n";
               }
