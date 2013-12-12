@@ -148,9 +148,9 @@ $viewsPath = getServerFilePath('views');
                                     </a>
                                 </li>
                                 <li>
-                                    <span id="ical_feed_btn" title="<?php echo $ical_feed_title; ?>" class="medium radius button">
+                                    <span id="ical_feed_btn" title="<?php echo t("dashboard.icalendar.feed_title", false); ?>" class="medium radius button">
                                         <span class="icon-feed icon-alone"></span>
-                                        <span class="screen-reader-text"><?php echo $ical_feed_title; ?></span>
+                                        <span class="screen-reader-text"><?php echo t("dashboard.icalendar.feed_title"); ?></span>
                                     </span>
                                 </li>
                             </ul>
