@@ -72,12 +72,26 @@ CREATE TABLE `school` (
       `username` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL,
       `password_sha256` VARCHAR(64) COLLATE 'utf8_unicode_ci' NOT NULL,
       `person_id` INT(14) UNSIGNED NOT NULL,
-      `api_key` VARCHAR(64) COLLATE 'utf8_unicode_ci' DEFAULT NULL,
     PRIMARY KEY (`person_id`) USING BTREE,
     UNIQUE INDEX `username` (`username`),
-    UNIQUE INDEX `api_key` (`api_key`),
     CONSTRAINT `fkey_authentication_user` FOREIGN KEY (`person_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Table api_key
+--
+DROP TABLE IF EXISTS `api_key`;
+CREATE TABLE `api_key` (
+    `user_id` INT(10) UNSIGNED NOT NULL,
+    `api_key` VARCHAR(64) NOT NULL COLLATE 'utf8_unicode_ci',
+    PRIMARY KEY (`user_id`),
+    UNIQUE INDEX `api_key` (`api_key`),
+    CONSTRAINT `fk_api_key_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
 
 	--
 	-- Table user_role
