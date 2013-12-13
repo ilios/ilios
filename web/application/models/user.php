@@ -1239,6 +1239,34 @@ EOL;
     }
 
     /**
+     * Retrieves the enabled ("active") user-account by a given API token.
+     *
+     * @param string $key The API token.
+     * @return array|boolean the user record as associative array, or FALSE if none could be found.
+     */
+    public function getEnabledUserByToken ($key)
+    {
+        $rhett = false;
+        $clean['key'] = $this->db->escape($key);
+
+        $sql =<<< EOL
+SELECT u.*
+FROM user u
+JOIN api_key ak ON ak.user_id = u.user_id
+WHERE u.enabled = 1
+AND ak.api_key = {$clean['key']}
+EOL;
+
+        $query = $this->db->get($sql);
+        if (0 < $query->num_rows()) {
+            $rhett = $query->first_row('array');
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+
+    /**
      * Retrieves the roles assigned to a given user.
      * @param int $userId the user id.
      * @return array an array of assoc. arrays, each representing a user role record
