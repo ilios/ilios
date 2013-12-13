@@ -86,15 +86,44 @@ class Calendar_Exporter extends Ilios_Web_Controller
             return;
         }
 
-        $this->load->library("ICalExporter");
-
-        // Specify the period of events to be included in the export.
-        $timestart = strtotime("-5 days");     // last 5 days
-        $timeend   = strtotime("+2 months");   // next 2 months (~60 days)
-
         $userId = $this->session->userdata('uid');
 
         $schoolId = $this->session->userdata('school_id');
+
+        $this->load->library("ICalExporter");
+
+        $events = $this->_exportCalendar($userId, $schoolId, $userRoles);
+
+        $calendar_title = 'Ilios Calendar';
+        $this->icalexporter->setTitle($calendar_title);
+        $ical = $this->icalexporter->toICal($events);
+
+        $filename="ilios_calendar.ics";
+        header('Last-Modified: '. gmdate('D, d M Y H:i:s', time()) .' GMT');
+        header('Cache-Control: private, must-revalidate, pre-check=0, post-check=0, max-age=0');
+        header('Expires: '. gmdate('D, d M Y H:i:s', 0) .'GMT');
+        header('Pragma: no-cache');
+        header('Accept-Ranges: none');
+        header('Content-disposition: attachment; filename='.$filename);
+        header('Content-length: '.strlen($ical));
+        header('Content-type: text/calendar');
+
+        echo $ical;
+    }
+
+    /**
+     * @param int $userId
+     * @param int $schoolId
+     * @param array $userRoles
+     * @return array
+     *
+     * @todo improve code docs.
+     */
+    protected function _exportCalendar($userId, $schoolId, array $userRoles)
+    {
+        // Specify the period of events to be included in the export.
+        $timestart = strtotime("-5 days");     // last 5 days
+        $timeend   = strtotime("+2 months");   // next 2 months (~60 days)
 
         $offerings = $this->queries->getOfferingsDetailsForCalendar($schoolId, $userId, $userRoles, null, false,
             Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS, $timestart, $timeend);
@@ -129,83 +158,83 @@ class Calendar_Exporter extends Ilios_Web_Controller
             // Taught by
             if (is_array($offering['instructors'])) {
                 $details .= $this->languagemap->getI18NString(
-                 'general.phrases.taught_by')
-                 . ' ' . implode(', ', $offering['instructors']) . "\n";
+                        'general.phrases.taught_by')
+                    . ' ' . implode(', ', $offering['instructors']) . "\n";
             }
 
             // This offering is a(n)
             $details .= $this->languagemap->getI18NString(
-             'dashboard.offering_description.offering_type')
-             . ' ' . $offering['session_type'];
+                    'dashboard.offering_description.offering_type')
+                . ' ' . $offering['session_type'];
 
             if ($offering['supplemental']) {
-              $details .=  $this->languagemap->getI18NString(
-               'dashboard.offering_description.offering_supplemental_suffix')
-               . "\n";
+                $details .=  $this->languagemap->getI18NString(
+                        'dashboard.offering_description.offering_supplemental_suffix')
+                    . "\n";
             } else {
-              $details .= "\n";
+                $details .= "\n";
             }
             if ($offering['attire_required']) {
-              $details .= $this->languagemap->getI18NString(
-               'dashboard.offering_description.special_attire'). "\n";
-            }   
+                $details .= $this->languagemap->getI18NString(
+                        'dashboard.offering_description.special_attire'). "\n";
+            }
             if ($offering['equipment_required']) {
-              $details .= $this->languagemap->getI18NString(
-               'dashboard.offering_description.special_equipment'). "\n";
-            }   
+                $details .= $this->languagemap->getI18NString(
+                        'dashboard.offering_description.special_equipment'). "\n";
+            }
             if (count($offering['session_objectives']) > 0) {
-              $details .= "\n";
-              $details .= $this->languagemap->getI18NString(
-               'general.terms.session') . ' ';
-              $details .= $this->languagemap->getI18NString(
-               'general.terms.objectives') . "\n";
-              foreach ($offering['session_objectives'] as $objective)
-                $details .= $this->_unHTML($objective) . "\n";
+                $details .= "\n";
+                $details .= $this->languagemap->getI18NString(
+                        'general.terms.session') . ' ';
+                $details .= $this->languagemap->getI18NString(
+                        'general.terms.objectives') . "\n";
+                foreach ($offering['session_objectives'] as $objective)
+                    $details .= $this->_unHTML($objective) . "\n";
             }
             if (count($offering['session_materials']) > 0) {
-              $details .= "\n";
-              $details .= $this->languagemap->getI18NString(
-               'general.terms.session') . ' ';
-              $details .= $this->languagemap->getI18NString(
-               'general.phrases.learning_materials') . "\n";
-              foreach ($offering['session_materials'] as $material) {
-                $details .= $this->_unHTML($material['title']);
-                if ($material['required']) {
-                  $details .= ' (' . $this->languagemap->getI18NString(
-                   'general.terms.required'). ')';
+                $details .= "\n";
+                $details .= $this->languagemap->getI18NString(
+                        'general.terms.session') . ' ';
+                $details .= $this->languagemap->getI18NString(
+                        'general.phrases.learning_materials') . "\n";
+                foreach ($offering['session_materials'] as $material) {
+                    $details .= $this->_unHTML($material['title']);
+                    if ($material['required']) {
+                        $details .= ' (' . $this->languagemap->getI18NString(
+                                'general.terms.required'). ')';
+                    }
+                    $details .= ' (' . base_url()
+                        . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
+                        . ')';
+                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
                 }
-                $details .= ' (' . base_url()
-                 . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
-                 . ')';
-                $details .= ': ' . $this->_unHTML($material['description']) . "\n";
-              }
             }
             if (count($offering['course_objectives']) > 0) {
-              $details .= "\n";
-              $details .= $this->languagemap->getI18NString(
-               'general.terms.course') . ' ';
-              $details .= $this->languagemap->getI18NString(
-               'general.terms.objectives') . "\n";
-              foreach ($offering['course_objectives'] as $objective)
-                $details .= $this->_unHTML($objective) . "\n";
+                $details .= "\n";
+                $details .= $this->languagemap->getI18NString(
+                        'general.terms.course') . ' ';
+                $details .= $this->languagemap->getI18NString(
+                        'general.terms.objectives') . "\n";
+                foreach ($offering['course_objectives'] as $objective)
+                    $details .= $this->_unHTML($objective) . "\n";
             }
             if (count($offering['course_materials']) > 0) {
-              $details .= "\n";
-              $details .= $this->languagemap->getI18NString(
-               'general.terms.course') . ' ';
-              $details .= $this->languagemap->getI18NString(
-               'general.phrases.learning_materials') . "\n";
-              foreach ($offering['course_materials'] as $material) {
-                $details .= $this->_unHTML($material['title']);
-                $details .= ' (' . base_url()
-                 . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
-                 . ')';
-                if ($material['required']) {
-                  $details .= ' (' . $this->languagemap->getI18NString(
-                   'general.phrases.learning_materials') . ')';
+                $details .= "\n";
+                $details .= $this->languagemap->getI18NString(
+                        'general.terms.course') . ' ';
+                $details .= $this->languagemap->getI18NString(
+                        'general.phrases.learning_materials') . "\n";
+                foreach ($offering['course_materials'] as $material) {
+                    $details .= $this->_unHTML($material['title']);
+                    $details .= ' (' . base_url()
+                        . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
+                        . ')';
+                    if ($material['required']) {
+                        $details .= ' (' . $this->languagemap->getI18NString(
+                                'general.phrases.learning_materials') . ')';
+                    }
+                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
                 }
-                $details .= ': ' . $this->_unHTML($material['description']) . "\n";
-              }
             }
 
             $offering['event_details'] = $details;
@@ -244,36 +273,6 @@ class Calendar_Exporter extends Ilios_Web_Controller
                 $events[$id] = $session;
             }
         }
-
-        $calendar_title = 'Ilios Calendar';
-        $this->icalexporter->setTitle($calendar_title);
-        $ical = $this->icalexporter->toICal(array_values($events));
-
-        $filename="ilios_calendar.ics";
-        header('Last-Modified: '. gmdate('D, d M Y H:i:s', time()) .' GMT');
-        header('Cache-Control: private, must-revalidate, pre-check=0, post-check=0, max-age=0');
-        header('Expires: '. gmdate('D, d M Y H:i:s', 0) .'GMT');
-        header('Pragma: no-cache');
-        header('Accept-Ranges: none');
-        header('Content-disposition: attachment; filename='.$filename);
-        header('Content-length: '.strlen($ical));
-        header('Content-type: text/calendar');
-
-        echo $ical;
-    }
-
-    /**
-     * @param int $userId
-     * @param int $schoolId
-     * @param array $userRoles
-     * @return array
-     *
-     * @todo improve code docs.
-     */
-    protected function _exportCalendar($userId, $schoolId, array $userRoles)
-    {
-        $events = array();
-        // @todo implement
-        return  $events;
+        return array_values($events);
      }
 }
