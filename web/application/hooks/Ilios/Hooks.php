@@ -90,8 +90,7 @@ class Ilios_Hooks
             && 'index' === $action) {
             return;
         };
-        if ('calendar_exporter' === $controller
-            && 'api' === $action) {
+        if ('api' === $controller) {
             return;
         };
         if ('authentication_controller' === $controller
