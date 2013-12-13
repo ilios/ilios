@@ -119,22 +119,4 @@ class Authentication extends Ilios_Base_Model
         }
         return $rhett;
     }
-
-    /**
-     * Retrieves authentication details for a given user by API key.
-     * @param string $key the API key
-     * @return Object | boolean returns the authentication record as object, of FALSE if not found
-     */
-    public function getByAPIKey ($key)
-    {
-        $rhett = false;
-
-        $this->db->where('api_key', $key);
-        $query = $this->db->get($this->databaseTableName);
-
-        if (0 < $query->num_rows()) {
-            $rhett = $query->first_row();
-        }
-        return $rhett;
-    }
 }
