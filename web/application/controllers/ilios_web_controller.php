@@ -407,23 +407,28 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Fetch the user's API key. If none exists, create one
+     * This action retrieves and prints the user's API key. If none exists, create one before printing it.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "key", which contains the API key as its value.
+     * On failure, the object contains a property "error", which contains an error message as its value.
      */
-    public function get_api_key ()
+    public function getApiKey ()
     {
-        $key = @$this->authentication->getByUserId($this->session->userdata('uid'))->api_key;
+        $key = $this->authentication->getByUserId($this->session->userdata('uid'))->api_key;
         if ($key) {
             header('Content-type: text/plain');
             print json_encode(array('key' => $key));
         } else {
-            $this->new_api_key();
+            $this->createNewApiKey();
         }
     }
 
     /**
-     * Create and store a new API key for the user
+     * Create and store a new API key for the current user.
      */
-    public function new_api_key ()
+    public function createNewApiKey ()
     {
         if ($this->session->userdata('uid')) {
             if (function_exists('openssl_random_pseudo_bytes')) {

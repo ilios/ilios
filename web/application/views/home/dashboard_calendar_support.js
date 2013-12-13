@@ -481,7 +481,7 @@ ilios.home.calendar.initFeedHooks = function () {
                     {
                         text: ilios_i18nVendor.getI18NString('general.terms.generate'),
                         handler: function () {
-                            ilios.home.calendar.getFeedURL('new_api_key', apiURLField);
+                            ilios.home.calendar.getFeedURL('createNewApiKey', apiURLField);
                             return false;
                         }
                     },
@@ -498,7 +498,7 @@ ilios.home.calendar.initFeedHooks = function () {
             dialog.showDialogPane = function() {
                 this.cfg.setProperty("x", Math.floor((YAHOO.util.Dom.getViewportWidth() - 800) / 2));
                 this.cfg.setProperty("y", Math.floor((YAHOO.util.Dom.getViewportHeight() - 250) / 2));
-                ilios.home.calendar.getFeedURL('get_api_key', apiURLField);
+                ilios.home.calendar.getFeedURL('getApiKey', apiURLField);
                 this.show();
             };
 
