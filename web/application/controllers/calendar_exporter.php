@@ -6,7 +6,7 @@ require_once 'base_authentication_controller.php';
  * @package Ilios
  * Calendar exporter controller.
  */
-class Calendar_Exporter extends Base_Authentication_Controller
+class Calendar_Exporter extends Ilios_Web_Controller
 {
     /**
      * Constructor

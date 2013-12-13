@@ -10,7 +10,7 @@ require_once 'base_authentication_controller.php';
  *
  * @todo Refactor authentication sub-systems out into their own components.
  */
-class Authentication_Controller extends Base_Authentication_Controller
+class Authentication_Controller extends Ilios_Base_Controller
 {
     /**
      * Authentication subsystem name.
@@ -24,6 +24,11 @@ class Authentication_Controller extends Base_Authentication_Controller
     public function __construct ()
     {
         parent::__construct();
+
+        $this->load->library('session');
+
+        $this->load->model('Authentication', 'authentication', true);
+        $this->load->model('User', 'user', true);
 
         // set the authentication subsystem to use
         $authn = $this->config->item('ilios_authentication');
