@@ -32,13 +32,23 @@ class Api extends Ilios_Base_Controller
             return;
         }
 
-        // get user roles
-        $userRoles = $this->userRole->getUserRolesForUser($user['user_id']);
-        $userRoleIds = array_keys($userRoles);
+        // kludge the applicable user roles together.
+        $userRoles = array();
+        if ($this->_ci->userIsLearner($user['user_id'])) {
+            $userRoles[] = User_Role::STUDENT_ROLE_ID;
+        }
+        if ($this->_ci->user->userHasInstructorAccess($user['user_id'])) {
+            $userRoles[] = User_Role::FACULTY_ROLE_ID;
+            $userRoles[] = User_role::COURSE_DIRECTOR_ROLE_ID;
+        }
+        if (! count($userRoles)) {
+            header('HTTP/1.1 403 Forbidden'); // VERBOTEN!
+            return;
+        }
 
         // load the calendar events
         // @todo Right now, we only retrieve events from the user's primary school. Make it work with multiple schools. [ST 2013/12/13]
-        $events = $this->calendarfeeddataprovider->getData($user['user_id'], $user['primary_school_id'], $userRoleIds);
+        $events = $this->calendarfeeddataprovider->getData($user['user_id'], $user['primary_school_id'], $userRoles);
 
         $calendar_title = 'Ilios Calendar';
         $this->icalexporter->setTitle($calendar_title);
