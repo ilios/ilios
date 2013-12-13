@@ -14,6 +14,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
     public function __construct ()
     {
         parent::__construct();
+        $this->load->library("ICalExporter");
         $this->load->library('CalendarFeedDataProvider');
     }
 
@@ -26,36 +27,6 @@ class Calendar_Exporter extends Ilios_Web_Controller
         $this->exportICalendar();
     }
 
-    /**
-     * API interface
-     */
-    public function api ($key)
-    {
-        $authenticationRow = $this->authentication->getByAPIKey($key);
-
-        $user = false;
-
-        if ($authenticationRow) {
-            // load the user record
-            $user = $this->user->getEnabledUsersById($authenticationRow->person_id);
-        }
-
-        if ($user) { // authentication succeeded. log the user in.
-            $this->_log_in_user($user);
-            // Default to export in ICalendar format
-            $this->exportICalendar();
-
-            // Invalidate the session we just created so it can't be reused
-            // for other purposes.  The session library wants to send a
-            // Cookie header to the browser to complete the session
-            // termination, but that won't work since we've already
-            // outputted non-header data in exportICalendar, so use
-            // @ to swallow the warning
-            @$this->session->sess_destroy();
-        } else { // login failed
-            header('HTTP/1.1 403 Forbidden'); // VERBOTEN!
-        }
-    }
     /**
      * @todo add code docs
      * @param string $role
@@ -80,8 +51,6 @@ class Calendar_Exporter extends Ilios_Web_Controller
         $userId = $this->session->userdata('uid');
 
         $schoolId = $this->session->userdata('school_id');
-
-        $this->load->library("ICalExporter");
 
         $events = $this->calendarfeeddataprovider->getData($userId, $schoolId, $userRoles);
 
