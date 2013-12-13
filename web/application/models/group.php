@@ -436,7 +436,7 @@ EOL;
         $this->db->delete('offering_x_group');
 
         $this->db->where('group_id', $groupId);
-        $this->db->delete('ilm_session_facet_learner');
+        // $this->db->delete('ilm_session_facet_x_group');
 
         $this->db->where('group_id', $groupId);
         $this->db->delete($this->databaseTableName);
@@ -668,4 +668,3 @@ EOL;
         return $rhett;
     }
 }
-

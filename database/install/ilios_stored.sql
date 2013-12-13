@@ -903,36 +903,53 @@ DELIMITER ;
 
 DROP FUNCTION IF EXISTS copy_ilm_session_attributes_to_ilm_session;
 DELIMITER //
-	CREATE FUNCTION copy_ilm_session_attributes_to_ilm_session (in_original_ilmsfid INT, in_new_ilmsfid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE uid INT DEFAULT 0;
-		DECLARE gid INT DEFAULT 0;
-		DECLARE rows_added INT DEFAULT 0;
-		DECLARE i_cursor CURSOR FOR SELECT user_id, instructor_group_id FROM ilm_session_facet_instructor WHERE ilm_session_facet_id = in_original_ilmsfid;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
+CREATE FUNCTION copy_ilm_session_attributes_to_ilm_session (in_original_ilmsfid INT, in_new_ilmsfid INT)
+RETURNS INT
+READS SQL DATA
+BEGIN
+    DECLARE out_of_rows INT DEFAULT 0;
+    DECLARE uid INT DEFAULT 0;
+    DECLARE gid INT DEFAULT 0;
+    DECLARE rows_added INT DEFAULT 0;
+    DECLARE i_cursor CURSOR FOR SELECT user_id FROM ilm_session_facet_x_instructor WHERE ilm_session_facet_id = in_original_ilmsfid;
+    DECLARE j_cursor CURSOR FOR SELECT instructor_group_id FROM ilm_session_facet_x_instructor_group WHERE ilm_session_facet_id = in_original_ilmsfid;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
-		OPEN i_cursor;
+    OPEN i_cursor;
 
-		REPEAT
-			FETCH i_cursor INTO uid, gid;
+    REPEAT
+        FETCH i_cursor INTO uid;
 
-			IF NOT out_of_rows THEN
-				INSERT INTO ilm_session_facet_instructor (ilm_session_facet_id, user_id, instructor_group_id) VALUES (in_new_ilmsfid, uid, gid);
+        IF NOT out_of_rows THEN
+            INSERT INTO ilm_session_facet_x_instructor (ilm_session_facet_id, user_id) VALUES (in_new_ilmsfid, uid);
 
-				SET rows_added = rows_added + 1;
-			END IF;
+            SET rows_added = rows_added + 1;
+        END IF;
 
-		UNTIL out_of_rows END REPEAT;
+    UNTIL out_of_rows END REPEAT;
 
-		CLOSE i_cursor;
+    CLOSE i_cursor;
 
+    SET out_of_rows = 0;
 
-		RETURN rows_added;
-	END;
-	//
+    OPEN j_cursor;
+
+    REPEAT
+        FETCH j_cursor INTO gid;
+
+        IF NOT out_of_rows THEN
+            INSERT INTO ilm_session_facet_x_instructor_group (ilm_session_facet_id, instructor_group_id) VALUES (in_new_ilmsfid, gid);
+
+            SET rows_added = rows_added + 1;
+        END IF;
+
+    UNTIL out_of_rows END REPEAT;
+
+    CLOSE j_cursor;
+
+    RETURN rows_added;
+END;
+//
 DELIMITER ;
 
 DROP FUNCTION IF EXISTS copy_offering_attributes_to_offering;
@@ -1033,52 +1050,48 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS nuke_session;
 DELIMITER //
-	CREATE PROCEDURE nuke_session (in_session_id INT)
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE ilm_id INT DEFAULT 0;
-		DECLARE oid INT DEFAULT 0;
-		DECLARE offering_cursor CURSOR FOR SELECT offering_id FROM offering WHERE session_id = in_session_id;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
+CREATE PROCEDURE nuke_session (in_session_id INT)
+READS SQL DATA
+BEGIN
+    DECLARE out_of_rows INT DEFAULT 0;
+    DECLARE ilm_id INT DEFAULT 0;
+    DECLARE oid INT DEFAULT 0;
+    DECLARE offering_cursor CURSOR FOR SELECT offering_id FROM offering WHERE session_id = in_session_id;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
 
-		DELETE FROM session_description WHERE session_id = in_session_id;
-		DELETE FROM session_x_discipline WHERE session_id = in_session_id;
-		DELETE FROM session_x_mesh WHERE session_id = in_session_id;
+    DELETE FROM session_description WHERE session_id = in_session_id;
+    DELETE FROM session_x_discipline WHERE session_id = in_session_id;
+    DELETE FROM session_x_mesh WHERE session_id = in_session_id;
 
-		CALL nuke_learning_material_associations(in_session_id, 'session');
+    CALL nuke_learning_material_associations(in_session_id, 'session');
 
-		CALL nuke_objective_associations(in_session_id, 'session');
+    CALL nuke_objective_associations(in_session_id, 'session');
 
-		SELECT ilm_session_facet_id FROM session WHERE session_id = in_session_id
-			INTO ilm_id;
-
-
-		OPEN offering_cursor;
-
-		REPEAT
-			SET out_of_rows = 0;
-			FETCH offering_cursor INTO oid;
-
-			IF NOT out_of_rows THEN
-				CALL nuke_offering(oid);
-			END IF;
-
-		UNTIL out_of_rows END REPEAT;
-
-		CLOSE offering_cursor;
+    SELECT ilm_session_facet_id FROM session WHERE session_id = in_session_id INTO ilm_id;
 
 
-		DELETE FROM session WHERE session_id = in_session_id;
+    OPEN offering_cursor;
+
+    REPEAT
+        SET out_of_rows = 0;
+        FETCH offering_cursor INTO oid;
+
+        IF NOT out_of_rows THEN
+            CALL nuke_offering(oid);
+        END IF;
+
+    UNTIL out_of_rows END REPEAT;
+
+    CLOSE offering_cursor;
+
+    DELETE FROM session WHERE session_id = in_session_id;
 
 
-		IF ilm_id IS NOT NULL THEN
-			DELETE FROM ilm_session_facet WHERE ilm_session_facet_id = ilm_id;
-			DELETE FROM ilm_session_facet_learner WHERE ilm_session_facet_id = ilm_id;
-			DELETE FROM ilm_session_facet_instructor WHERE ilm_session_facet_id = ilm_id;
-		END IF;
-	END;
-	//
+    IF ilm_id IS NOT NULL THEN
+        DELETE FROM ilm_session_facet WHERE ilm_session_facet_id = ilm_id;
+    END IF;
+END;
+//
 DELIMITER ;
 
 
