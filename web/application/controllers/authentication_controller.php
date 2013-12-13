@@ -177,7 +177,7 @@ class Authentication_Controller extends Ilios_Base_Controller
                 && $authenticationRow->password_sha256 === Ilios_PasswordUtils::hashPassword($password, $salt)) { // password comparison
 
                 // load the user record
-                $user = $this->user->getEnabledUsersById($authenticationRow->person_id);
+                $user = $this->user->getEnabledUserById($authenticationRow->person_id);
             }
         }
 
@@ -317,7 +317,7 @@ class Authentication_Controller extends Ilios_Base_Controller
             $authenticationRow = $this->authentication->getByUsername($username);
             if ($authenticationRow) {
                 // load the user record
-                $user = $this->user->getEnabledUsersById($authenticationRow->person_id);
+                $user = $this->user->getEnabledUserById($authenticationRow->person_id);
             }
 
             if ($user) {

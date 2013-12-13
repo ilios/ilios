@@ -1223,9 +1223,9 @@ EOL;
      * @param int $id the user id
      * @return array|boolean the user record as associative array, or FALSE if none could be found.
      */
-    public function getEnabledUsersById ($id)
+    public function getEnabledUserById ($id)
     {
-        $rhett = array();
+        $rhett = false;
 
         $this->db->where('user_id', $id);
         $this->db->where('enabled', 1);
