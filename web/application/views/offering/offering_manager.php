@@ -112,10 +112,7 @@ $viewsPath = getServerFilePath('views');
                             </a>
                         </h3>
                         <div class="calendar_tools clearfix">
-<?php
-    include $viewsPath . 'common/progress_div.php';
-    echo generateProgressDivMarkup();
-?>
+<?php echo generateProgressDivMarkup(); ?>
                         </div>
                         <div class="calendar-filters clearfix">
                             <ul>

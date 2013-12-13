@@ -2,7 +2,6 @@
 /**
  * Includes-script that rigs the "course picker" dialog to the user management page.
  */
-require_once getServerFilePath('views') . 'common/picker_dialog_generator.php';
 
 $dialogDivId = 'course_picker_dialog';
 $modelName = 'SimpleCourseModel';

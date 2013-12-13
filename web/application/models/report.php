@@ -3010,8 +3010,7 @@ EOL;
         if (! $programRow) {
             return false;
         }
-        $lang =  $this->getLangToUse();
-        $classOfStr = $this->languagemap->getI18NString('general.phrases.class_title_prefix', $lang);
+        $classOfStr = $this->languagemap->getI18NString('general.phrases.class_title_prefix');
         $classYear = $programRow->duration + $programYearRow->start_year;
         return $programRow->title . ' - ' . $classOfStr . ' ' . $classYear;
     }

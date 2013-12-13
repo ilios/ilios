@@ -9,34 +9,6 @@
 --
 
 
-DROP FUNCTION IF EXISTS root_group_of_group;
-DELIMITER //
-	CREATE FUNCTION root_group_of_group (in_gid INT)
-		RETURNS INT
-		READS SQL DATA
-	BEGIN
-		DECLARE gid INT DEFAULT in_gid;
-		DECLARE pgid INT DEFAULT 0;
-
-		WHILE gid IS NOT NULL DO
-			SELECT parent_group_id
-				INTO pgid
-				FROM `group`
-				WHERE group_id = gid;
-
-			IF pgid IS NULL THEN
-				RETURN gid;
-			ELSE
-				SET gid = pgid;
-			END IF;
-		END WHILE;
-
-		RETURN 0;
-	END;
-	//
-DELIMITER ;
-
-
 DROP FUNCTION IF EXISTS group_is_child_of_group;
 DELIMITER //
 	CREATE FUNCTION group_is_child_of_group (in_potential_child_gid INT, in_potential_parent_gid INT)
@@ -394,45 +366,6 @@ DELIMITER //
     END;
 //
 DELIMITER ;
-
-
-DROP PROCEDURE IF EXISTS disciplines_for_title_restricted_by_school;
-DELIMITER //
-	CREATE PROCEDURE disciplines_for_title_restricted_by_school (in_title_query VARCHAR(30), in_school_id INT)
-		READS SQL DATA
-	BEGIN
-		DECLARE out_of_rows INT DEFAULT 0;
-		DECLARE did INT DEFAULT 0;
-		DECLARE discipline_owner_school_id INT DEFAULT 0;
-		DECLARE flag INT DEFAULT 0;
-		DECLARE did_cursor CURSOR FOR SELECT discipline_id, owning_school_id FROM discipline WHERE title LIKE in_title_query;
-		DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET out_of_rows = 1;
-
-		CREATE TEMPORARY TABLE IF NOT EXISTS tt_disciplines (`discipline_id` INT(14) UNSIGNED, `title` VARCHAR(60) COLLATE utf8_unicode_ci, `owning_school_id` INT(10) UNSIGNED);
-
-
-		OPEN did_cursor;
-
-		REPEAT
-			FETCH did_cursor INTO did, discipline_owner_school_id;
-
-			IF NOT out_of_rows THEN
-				IF discipline_owner_school_id = in_school_id THEN
-					INSERT INTO tt_disciplines SELECT * FROM discipline WHERE discipline_id = did;
-				END IF;
-			END IF;
-
-		UNTIL out_of_rows END REPEAT;
-
-		CLOSE did_cursor;
-
-
-		SELECT * FROM tt_disciplines ORDER BY `title`;
-		DROP TABLE tt_disciplines;
-	END;
-	//
-DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS mesh_search;
 DELIMITER //

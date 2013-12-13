@@ -133,9 +133,7 @@ $viewsPath = getServerFilePath('views');
     endif;
 ?>
                         <div class="calendar_tools clearfix">
-                           <?php include $viewsPath . 'common/progress_div.php';
-                                echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;');
-                           ?>
+<?php echo generateProgressDivMarkup('position:absolute; left: 25%;float:none;margin:0;'); ?>
                             <ul class="buttons right">
                                 <li>
                                     <span id="calendar_filters_btn" title="<?php echo $calendar_filters_title; ?>" class="medium radius button">
@@ -258,7 +256,7 @@ $viewsPath = getServerFilePath('views');
 ?>
                                     <li>
                                         <a href="<?php echo $curriculumInventoryManagerUrl; ?>">
-                                            <?php echo $this->languagemap->t('curriculum_inventory.title_bar', $lang); ?>
+                                            <?php echo t('curriculum_inventory.title_bar'); ?>
                                         </a>
                                     </li>
 <?php
@@ -310,44 +308,44 @@ $viewsPath = getServerFilePath('views');
             <div class="dialog_wrap" id="ap_dialog_wrap" style="height: 216px;">
                 <form action="#">
                     <div style="padding: 9px; font-weight: bold; position: relative;">
-                        <?php echo $this->languagemap->t('preferences.archiving.text', $lang); ?>
+                        <?php echo t('preferences.archiving.text'); ?>
                         <div style="margin-top: 24px;">
                             <div style="margin-bottom: 9px;">
                                 <div style="width: 49%; text-align: right; float: left; padding-top: 3px;">
-                                    <?php echo $this->languagemap->t('preferences.archiving.program_year', $lang); ?>
+                                    <?php echo t('preferences.archiving.program_year'); ?>
                                 </div>
                                 <div style="width: 49%; float: right;">
                                     <input type="radio" name="py_radio" id="ap_py_radio_inactive" checked
                                         onclick="ilios.ui.radioButtonSelected(this);"/>
                                     <label for="ap_py_radio_inactive" id="ap_py_radio_inactive_label">
-                                        <?php echo $this->languagemap->t('general.terms.inactive', $lang); ?>
+                                        <?php echo t('general.terms.inactive'); ?>
                                     </label>
                                     <br/>
                                     <input type="radio" name="py_radio" id="ap_py_radio_active"
                                         onclick="ilios.ui.radioButtonSelected(this);"/>
                                     <label for="ap_py_radio_active" id="ap_py_radio_active_label"
                                         style="font-weight: normal;">
-                                        <?php echo $this->languagemap->t('general.terms.active', $lang); ?>
+                                        <?php echo t('general.terms.active'); ?>
                                     </label>
                                 </div>
                                 <div class="clear"></div>
                             </div>
 
                             <div style="width: 49%; text-align: right; float: left; padding-top: 3px;">
-                                <?php echo $this->languagemap->t('preferences.archiving.course', $lang); ?>
+                                <?php echo t('preferences.archiving.course'); ?>
                             </div>
                             <div style="width: 49%; float: right;">
                                 <input type="radio" name="course_radio" id="ap_course_radio_inactive" checked
                                     onclick="ilios.ui.radioButtonSelected(this);"/>
                                 <label for="ap_course_radio_inactive" id="ap_course_radio_inactive_label">
-                                    <?php echo $this->languagemap->t('general.terms.inactive', $lang); ?>
+                                    <?php echo t('general.terms.inactive'); ?>
                                 </label>
                                 <br/>
                                 <input type="radio" name="course_radio" id="ap_course_radio_active"
                                     onclick="ilios.ui.radioButtonSelected(this);"/>
                                 <label for="ap_course_radio_active" id="ap_course_radio_active_label"
                                     style="font-weight: normal;">
-                                    <?php echo $this->languagemap->t('general.terms.active', $lang); ?>
+                                    <?php echo t('general.terms.active'); ?>
                                 </label>
                             </div>
                             <div class="clear"></div>
@@ -360,12 +358,8 @@ $viewsPath = getServerFilePath('views');
     </div><!-- end archiving_permissions_dialog -->
 <?php
     include $viewsPath . 'common/course_summary_view_include.php';
-    include $viewsPath . 'common/calendar_filters_include.php';
+    include $viewsPath . 'home/calendar_filters_dialog.inc.php';;
 ?>
-    <div class="tabdialog" id="calendar_filters_dialog">
-        <?php echo generateCalendarFiltersFormContent($calendar_filters_data, true); ?>
-    </div>
-
     <div class="tabdialog" id="report_competency_pick_dialog"></div>
 
     <div class="tabdialog" id="calendar_event_details_dialog">
@@ -383,7 +377,7 @@ $viewsPath = getServerFilePath('views');
 
     <div class="tabdialog" id="report_results_dialog">
         <div class="hd" id="report_results_dialog_title">
-            <?php echo $this->languagemap->t('dashboard.report.result.dialog_title', $lang); ?>
+            <?php echo t('dashboard.report.result.dialog_title'); ?>
         </div>
         <div class="bd">
             <div class="dialog_wrap" id="report_results_dialog_wrap">
@@ -410,16 +404,16 @@ $viewsPath = getServerFilePath('views');
                         <input type="text" id="title" size="50"> <br/><br/>
                         <?php echo $word_all_string; ?>
                         <select id='report_noun_1'>
-                            <option value="course"><?php echo $this->languagemap->t('general.terms.courses', $lang); ?></option>
-                            <option value="session"><?php echo $this->languagemap->t('general.terms.sessions', $lang); ?></option>
-                            <option value="program"><?php echo $this->languagemap->t('general.terms.programs', $lang); ?></option>
-                            <option value="program year"><?php echo $this->languagemap->t('general.terms.program_years', $lang); ?></option>
-                            <option value="instructor"><?php echo $this->languagemap->t('general.terms.instructors', $lang); ?></option>
-                            <option value="instructor group"><?php echo $this->languagemap->t('general.phrases.instructor_groups', $lang); ?></option>
-                            <option value="learning material"><?php echo $this->languagemap->t('general.phrases.learning_materials', $lang); ?></option>
-                            <option value="competency"><?php echo $this->languagemap->t('general.terms.competencies', $lang); ?></option>
-                            <option value="topic"><?php echo $this->languagemap->t('general.terms.topics', $lang); ?></option>
-                            <option value="mesh term"><?php echo $this->languagemap->t('general.phrases.mesh_terms', $lang); ?></option>
+                            <option value="course"><?php echo t('general.terms.courses'); ?></option>
+                            <option value="session"><?php echo t('general.terms.sessions'); ?></option>
+                            <option value="program"><?php echo t('general.terms.programs'); ?></option>
+                            <option value="program year"><?php echo t('general.terms.program_years'); ?></option>
+                            <option value="instructor"><?php echo t('general.terms.instructors'); ?></option>
+                            <option value="instructor group"><?php echo t('general.phrases.instructor_groups'); ?></option>
+                            <option value="learning material"><?php echo t('general.phrases.learning_materials'); ?></option>
+                            <option value="competency"><?php echo t('general.terms.competencies'); ?></option>
+                            <option value="topic"><?php echo t('general.terms.topics'); ?></option>
+                            <option value="mesh term"><?php echo t('general.phrases.mesh_terms'); ?></option>
                         </select>
 
                         <input type="checkbox" checked="checked"
@@ -470,7 +464,7 @@ $viewsPath = getServerFilePath('views');
                     <div style="padding: 9px;">
                         <div style="margin-bottom: 20px; margin-right: 6px; position: relative; padding: 24px 0px 0px;">
                             <div style="padding: 12px 6px; border: 1px solid #AAAAAA; height: 266px;">
-                                <?php echo $this->languagemap->t('learning_material.search.title', $lang); ?>
+                                <?php echo t('learning_material.search.title'); ?>
                                 <input type="text" name="alm_search" id="rlm_search_textfield"
                                     style="width: 482px;">
                                 <div style="width: 780px; height: 230px; overflow: auto; margin: 6px 0px 15px;">
@@ -520,14 +514,14 @@ $viewsPath = getServerFilePath('views');
             <div class="dialog_wrap" id="rp_dialog_wrap">
                 <form action="#">
                     <p>
-                    <?php echo $this->languagemap->t('preferences.rollover.text', $lang); ?>
+                    <?php echo t('preferences.rollover.text'); ?>
                     </p>
                     <ul class="no-bullets margin-l">
                         <li>
                             <input type="radio" name="rp_radio" id="rp_radio_inactive" checked
                                 onclick="ilios.ui.radioButtonSelected(this);"/>
                             <label for="rp_radio_inactive" id="rp_radio_inactive_label">
-                                <?php echo $this->languagemap->t('general.terms.inactive', $lang); ?>
+                                <?php echo t('general.terms.inactive'); ?>
                             </label>
                         </li>
                         <li>
@@ -535,7 +529,7 @@ $viewsPath = getServerFilePath('views');
                                 onclick="ilios.ui.radioButtonSelected(this);"/>
                             <label for="rp_radio_active" id="rp_radio_active_label"
                                 style="font-weight: normal;">
-                                <?php echo $this->languagemap->t('general.terms.active', $lang); ?>
+                                <?php echo t('general.terms.active'); ?>
                             </label>
                         </li>
                     </ul>

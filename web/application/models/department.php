@@ -7,16 +7,20 @@ include_once "ilios_base_model.php";
  */
 class Department extends Ilios_Base_Model
 {
-
+    /**
+     * Constructor.
+     */
     public function __construct ()
     {
         parent::__construct('department', array('department_id'));
     }
 
     /**
-     * @return a non-associative array of department objects, each object being an associative array
-     *              with keys 'department_id' and 'title'. departments which have their deleted bit
-     *              set will not be returned.
+     * Retrieves a list of all departments in a given school.
+     * Departments flagged as "deleted" are excluded.
+     *
+     * @param int $schoolId The school id.
+     * @return array An array of assoc. arrays. Each item is representing a department, with keys "department_id" and "title".
      */
     public function getDepartmentsForSchoolId ($schoolId)
     {
@@ -26,17 +30,17 @@ class Department extends Ilios_Base_Model
         $this->db->where('school_id', $schoolId);
         $this->db->order_by('title', 'desc');
 
-        $queryResults = $this->db->get($this->databaseTableName);
-        foreach ($queryResults->result_array() as $row) {
+        $query = $this->db->get($this->databaseTableName);
+        foreach ($query->result_array() as $row) {
             $model = array();
 
             $model['department_id'] = $row['department_id'];
             $model['title'] = $row['title'];
 
-            array_push($rhett, $model);
+            $rhett[] = $model;
         }
 
+        $query->free_result();
         return $rhett;
     }
-
 }

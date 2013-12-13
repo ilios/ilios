@@ -26,15 +26,12 @@ class Instructor_Group_Management extends Ilios_Web_Controller
      */
     public function index ()
     {
-        $lang = $this->getLangToUse();
-
         $data = array();
-        $data['lang'] = $lang;
         $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_viewAccessForbiddenPage($lang, $data);
+            $this->_viewAccessForbiddenPage($data);
             return;
         }
 
@@ -52,7 +49,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
             $data['viewbar_title'] = $data['institution_name'];
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
-                $schoolOfStr = $this->languagemap->getI18NString($key, $lang);
+                $schoolOfStr = $this->languagemap->getI18NString($key);
                 $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
             }
 
@@ -61,12 +58,10 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                 Ilios_Json::JSON_ENC_SINGLE_QUOTES);
 
             $key = 'instructor_groups.page_header';
-            $data['page_header_string'] = $this->languagemap->getI18NString($key, $lang);
+            $data['page_header_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'instructor_groups.title_bar';
-            $data['title_bar_string'] = $this->languagemap->getI18NString($key, $lang);
-
-            $this->populateForAddNewMembersDialog($data, $lang);
+            $data['title_bar_string'] = $this->languagemap->getI18NString($key);
 
             $this->load->view('instructor/instructor_group_manager', $data);
         } else {
@@ -77,11 +72,10 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     public function getAssociatedCourses ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -118,11 +112,10 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     public function uploadInstructorListCSVFile ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -137,9 +130,8 @@ class Instructor_Group_Management extends Ilios_Web_Controller
         $this->load->library('upload', $config);
 
         if (! $this->upload->do_upload()) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.upload_fail', $lang);
-            $msg2 = $this->languagemap->getI18NString('general.phrases.found_mime_type', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.upload_fail');
+            $msg2 = $this->languagemap->getI18NString('general.phrases.found_mime_type');
             $uploadData = $this->upload->data();
 
             $rhett['error'] = $msg . ': ' . $this->upload->display_errors() . '. ' . $msg2 . ': ' . $uploadData['file_type'];
@@ -168,8 +160,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
             // MAY RETURN THIS BLOCK
             if (count($foundDuplicates) > 0) {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found');
 
                 $rhett['duplicates'] = $foundDuplicates;
                 $rhett['error'] = $msg;
@@ -207,8 +198,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                         $email, $ucUID, $otherId, $primarySchoolId, $auditAtoms);
 
                     if (($newId <= 0) || $this->user->transactionAtomFailed()) {
-                        $lang = $this->getLangToUse();
-                        $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                        $msg = $this->languagemap->getI18NString('general.error.db_insert');
                         $rhett['error'] = $msg;
                         break;
                     }
@@ -263,11 +253,10 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     public function addNewUserToGroup ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -282,8 +271,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found');
 
             $rhett['error'] = $msg;
 
@@ -311,8 +299,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                                                    $auditAtoms);
 
             if (($newId <= 0) || $this->user->transactionAtomFailed()) {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
                 $rhett['error'] = $msg;
 
@@ -325,8 +312,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
                 if (! $this->instructorGroup->makeUserGroupAssociations($userIds, $groupId,
                                                                         $auditAtoms)) {
-                    $lang = $this->getLangToUse();
-                    $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+                    $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
                     $rhett['error'] = $msg;
 
@@ -368,11 +354,10 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     public function addNewEmptyGroup ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -428,11 +413,10 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     public function deleteGroup ()
     {
         $rhett = array();
-        $lang =  $this->getLangToUse();
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 
@@ -446,7 +430,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
         // if this is the case then this instructor group must be considered "locked down".
         // we reject the deletion request and return an error message stating just that.
         if ($this->instructorGroup->isAssociatedWithLockedAndArchivedCourses($groupId)) {
-            $msg = $this->languagemap->getI18NString('instructor_groups.error.group_deletion.locked_course', $lang);
+            $msg = $this->languagemap->getI18NString('instructor_groups.error.group_deletion.locked_course');
             $rhett['error'] = $msg;
             header("Content-Type: text/plain");
             echo json_encode($rhett);
@@ -481,7 +465,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                     $this->auditEvent->commitTransaction();
                 }
             } else {
-                $rhett['error'] = $this->languagemap->getI18NString('general.error.fatal', $lang);
+                $rhett['error'] = $this->languagemap->getI18NString('general.error.fatal');
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->instructorGroup);
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -503,11 +487,9 @@ class Instructor_Group_Management extends Ilios_Web_Controller
      */
     public function saveGroup ()
     {
-        $lang =  $this->getLangToUse();
-
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
-            $this->_printAuthorizationFailedXhrResponse($lang);
+            $this->_printAuthorizationFailedXhrResponse();
             return;
         }
 

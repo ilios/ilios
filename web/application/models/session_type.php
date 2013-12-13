@@ -46,7 +46,7 @@ class Session_Type extends Ilios_Base_Model
      */
     public function getList ($schoolId)
     {
-    	$rhett = array();
+        $rhett = array();
 
         $this->db->where('owning_school_id', $schoolId);
         $this->db->order_by('title');

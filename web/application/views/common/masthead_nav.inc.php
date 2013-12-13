@@ -2,32 +2,30 @@
 /**
  * Includes-template.
  * Prints out the markup for the admin navigation.
- *
- * @todo replace direct calls to i18nVendor model with calls to helper function. see ticket #2567
  */
 $tabs = array(
     array(
-        'label' => $this->languagemap->getI18NString('general.terms.home', $lang),
+        'label' => t('general.terms.home'),
         'target' => 'dashboard_controller',
         'id' => 't-home'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.terms.programs', $lang),
+        'label' => t('general.terms.programs'),
         'target' => 'program_management',
         'id' => 't-program'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.terms.instructors', $lang),
+        'label' => t('general.terms.instructors'),
         'target' => 'instructor_group_management',
         'id' => 't-instructor'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.phrases.learner_groups', $lang),
+        'label' => t('general.phrases.learner_groups'),
         'target' => 'group_management',
         'id' => 't-learner'
     ),
     array(
-        'label' => $this->languagemap->getI18NString('general.phrases.courses_and_sessions', $lang),
+        'label' => t('general.phrases.courses_and_sessions'),
         'target' => 'course_management',
         'id' => 't-course'
     )

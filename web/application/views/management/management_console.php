@@ -97,10 +97,7 @@ $viewsPath = getServerFilePath('views');
                 <div class="content_container">
                     <div class="column primary clearfix">
                         <div style="position: absolute; top: 24px; right: 9px;">
-    <?php
-        include getServerFilePath('views') . 'common/progress_div.php';
-        echo generateProgressDivMarkup();
-    ?>
+<?php echo generateProgressDivMarkup(); ?>
                             <div class="clear"></div>
                         </div>
                         <div id="management_center_content">
@@ -168,7 +165,7 @@ $viewsPath = getServerFilePath('views');
         <?php if ($password_required) : ?>
                 <label for="ua_edit_login_password_tf">New Password</label>:<br />
                 <input id="ua_edit_login_password_tf" name="ua_edit_login_password_tf" type="password" value="" />
-                <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+                <div class="small"><?php echo t('management.user_accounts.password_strength_requirements'); ?></div>
         <?php endif; ?>
             </form>
         </div>
@@ -184,7 +181,7 @@ $viewsPath = getServerFilePath('views');
             <?php if ($password_required) : ?>
                 <label for="ua_add_login_password_tf">Password</label>:<br />
                 <input id="ua_add_login_password_tf" name="ua_add_login_password_tf" type="password" value="" />
-                <div class="small"><?php echo $this->languagemap->t('management.user_accounts.password_strength_requirements', $lang); ?></div>
+                <div class="small"><?php echo t('management.user_accounts.password_strength_requirements'); ?></div>
             <?php endif; ?>
             </form>
         </div>

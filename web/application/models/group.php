@@ -83,7 +83,7 @@ class Group extends Ilios_Base_Model
 
         $rhett['group_title'] = $this->makeDefaultGroupTitleForSuffix($masterGroupId, $groupNameSuffix);
 
-        $rhett['group_id'] = $this->makeNewRow($rhett['group_title'], $masterGroupId, $auditAtoms);
+        $rhett['group_id'] = $this->makeNewRow($rhett['group_title'], $masterGroupId, $cohortId, $auditAtoms);
 
         $queryResults = $this->db->query($queryString);
         $rhett['enrollment'] = $queryResults->num_rows();
@@ -167,11 +167,10 @@ class Group extends Ilios_Base_Model
         $rhett = array();
 
         $title = $this->makeDefaultGroupTitleForSuffix($parentGroupId, $newContainerNumber);
-        $newId = $this->makeNewRow($title, $parentGroupId, $auditAtoms);
+        $newId = $this->makeNewRow($title, $parentGroupId, $cohortId, $auditAtoms);
 
         if (($newId == null) || ($newId == -1) || ($newId == 0)) {
-            $lang = $this->getLangToUse();
-            $msg = $this->languagemap->getI18NString('general.error.db_insert', $lang);
+            $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
             $rhett['error'] = $msg;
         }
@@ -180,11 +179,6 @@ class Group extends Ilios_Base_Model
                 $newRow = array();
                 $newRow['cohort_id'] = $cohortId;
                 $newRow['group_id'] = $newId;
-
-                $this->db->insert('cohort_master_group', $newRow);
-                array_push($auditAtoms,
-                           $this->auditEvent->wrapAtom($newId, 'group_id', 'cohort_master_group',
-                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
                 $queryResults = $this->user->getUsersForCohort($cohortId);
                 foreach ($queryResults->result_array() as $row) {
@@ -430,13 +424,7 @@ EOL;
         $this->db->delete('group_x_user');
 
         $this->db->where('group_id', $groupId);
-        $this->db->delete('cohort_master_group');
-
-        $this->db->where('group_id', $groupId);
         $this->db->delete('offering_x_group');
-
-        $this->db->where('group_id', $groupId);
-        // $this->db->delete('ilm_session_facet_x_group');
 
         $this->db->where('group_id', $groupId);
         $this->db->delete($this->databaseTableName);
@@ -463,8 +451,7 @@ EOL;
             $this->db->where('group_id !=', $groupId);
             $queryResults = $this->db->get($this->databaseTableName);
             if ($queryResults->num_rows() > 0) {
-                $lang = $this->getLangToUse();
-                $msg = $this->languagemap->getI18NString('groups.error.preexisting_title', $lang);
+                $msg = $this->languagemap->getI18NString('groups.error.preexisting_title');
 
                 return $msg . " '" . $title . "'";
             }
@@ -546,12 +533,13 @@ EOL;
         return $rhett;
     }
 
-    protected function makeNewRow ($title, $parentGroupId, &$auditAtoms) {
+    protected function makeNewRow ($title, $parentGroupId, $cohortId, &$auditAtoms) {
         $newRow = array();
         $newRow['group_id'] = null;
 
         $newRow['title'] = $title;
         $newRow['parent_group_id'] = (($parentGroupId < 1) ? null : $parentGroupId);
+        $newRow['cohort_id'] = $cohortId;
 
         $this->db->insert($this->databaseTableName, $newRow);
 
@@ -575,8 +563,7 @@ EOL;
         }
 
         if ($parentGroupName == null) {
-            $lang = $this->getLangToUse();
-            $groupNamePrefix = $this->languagemap->getI18NString('groups.name_prefix', $lang);
+            $groupNamePrefix = $this->languagemap->getI18NString('groups.name_prefix');
         }
         else {
             $groupNamePrefix = $parentGroupName;

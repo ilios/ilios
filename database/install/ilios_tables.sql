@@ -89,6 +89,60 @@ CREATE TABLE `school` (
 	  PRIMARY KEY (`user_role_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+	-- Table program
+	--
+
+DROP TABLE IF EXISTS `program`;
+SET character_set_client = utf8;
+CREATE TABLE `program` (
+    `program_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
+    `short_title` VARCHAR(10) COLLATE utf8_unicode_ci NOT NULL,
+    `publish_event_id` INT(14) UNSIGNED,		-- if null, the row is still in draft mode
+    `duration` TINYINT(1) UNSIGNED NOT NULL,
+    `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
+    `owning_school_id` INT(10) UNSIGNED NOT NULL,
+    `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
+    PRIMARY KEY (`program_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+--
+	-- Table program_year
+	--
+
+DROP TABLE IF EXISTS `program_year`;
+SET character_set_client = utf8;
+CREATE TABLE `program_year` (
+    `program_year_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `publish_event_id` INT(14) UNSIGNED,			-- if null, the row is still in draft mode
+    `start_year` SMALLINT(4) UNSIGNED NOT NULL,
+    `program_id` INT(14) UNSIGNED NOT NULL,
+    `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
+    `locked` TINYINT(1) NOT NULL,			-- marked as locked prevents it from being modified
+    `archived` TINYINT(1) NOT NULL,		-- marked as archived prevents it from being found in searches - but is different semantically from 'deleted'
+    `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
+    PRIMARY KEY (`program_year_id`) USING BTREE,
+    CONSTRAINT `fkey_program_year_program_id` FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+--
+	-- Table cohort
+	--
+
+DROP TABLE IF EXISTS `cohort`;
+SET character_set_client = utf8;
+CREATE TABLE `cohort` (
+    `cohort_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
+    `program_year_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`cohort_id`) USING BTREE,
+    KEY `whole_k` USING BTREE (`program_year_id`,`cohort_id`,`title`),
+    CONSTRAINT `fkey_cohort_program_year_id` FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 	--
@@ -103,6 +157,8 @@ CREATE TABLE `school` (
 	  `instructors` VARCHAR(120) COLLATE utf8_unicode_ci,
 	  `location` VARCHAR(100) COLLATE utf8_unicode_ci,
 	  `parent_group_id` INT(14) UNSIGNED,
+	  `cohort_id` INT(14) UNSIGNED NOT NULL,
+    CONSTRAINT `fkey_group_cohort_id` FOREIGN KEY (`cohort_id`) REFERENCES `cohort` (`cohort_id`) ON DELETE CASCADE,
 	  PRIMARY KEY (`group_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -160,60 +216,6 @@ CREATE TABLE `school` (
 
 
 
-	--
-	-- Table program
-	--
-
-	DROP TABLE IF EXISTS `program`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program` (
-	  `program_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `title` VARCHAR(200) COLLATE utf8_unicode_ci NOT NULL,
-	  `short_title` VARCHAR(10) COLLATE utf8_unicode_ci NOT NULL,
-	  `publish_event_id` INT(14) UNSIGNED,		-- if null, the row is still in draft mode
-	  `duration` TINYINT(1) UNSIGNED NOT NULL,
-	  `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
-	  `owning_school_id` INT(10) UNSIGNED NOT NULL,
-	  `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
-	  PRIMARY KEY (`program_id`) USING BTREE
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-
-	--
-	-- Table program_year
-	--
-
-	DROP TABLE IF EXISTS `program_year`;
-	SET character_set_client = utf8;
-	CREATE TABLE `program_year` (
-	  `program_year_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `publish_event_id` INT(14) UNSIGNED,			-- if null, the row is still in draft mode
-	  `start_year` SMALLINT(4) UNSIGNED NOT NULL,
-	  `program_id` INT(14) UNSIGNED NOT NULL,
-	  `deleted` TINYINT(1) NOT NULL,		-- nothing is ever 'deleted', but marked as deleted prevents it from being found in searches
-	  `locked` TINYINT(1) NOT NULL,			-- marked as locked prevents it from being modified
-	  `archived` TINYINT(1) NOT NULL,		-- marked as archived prevents it from being found in searches - but is different semantically from 'deleted'
-	  `published_as_tbd` TINYINT(1) NOT NULL,	-- this value is ignored if publish_event_id is NULL
-	  PRIMARY KEY (`program_year_id`) USING BTREE,
-	  CONSTRAINT `fkey_program_year_program_id` FOREIGN KEY (`program_id`) REFERENCES `program` (`program_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-	--
-	-- Table cohort
-	--
-
-	DROP TABLE IF EXISTS `cohort`;
-	SET character_set_client = utf8;
-	CREATE TABLE `cohort` (
-	  `cohort_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `title` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
-	  `program_year_id` INT(14) UNSIGNED NOT NULL,
-	  PRIMARY KEY (`cohort_id`) USING BTREE,
-	  KEY `whole_k` USING BTREE (`program_year_id`,`cohort_id`,`title`),
-	  CONSTRAINT `fkey_cohort_program_year_id` FOREIGN KEY (`program_year_id`) REFERENCES `program_year` (`program_year_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 	--
@@ -759,26 +761,6 @@ ENGINE=InnoDB;
 	  CONSTRAINT `fkey_user_x_user_role_user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`user_role_id`) ON DELETE CASCADE ON UPDATE RESTRICT
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
-	--
-	-- Table cohort_master_group
-	--
-	--	This embodies the 1-N relationship
-	--	between a cohort table row and 0-N
-	--	group table rows (for group instances
-	--	that are top-level-groups).
-	--
-
-	DROP TABLE IF EXISTS `cohort_master_group`;
-	SET character_set_client = utf8;
-	CREATE TABLE `cohort_master_group` (
-	  `cohort_id` INT(14) UNSIGNED NOT NULL,
-	  `group_id` INT(14) UNSIGNED NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
 	--
 	-- Table group_x_group
 	--
@@ -1200,7 +1182,7 @@ CREATE TABLE `ilm_session_facet_x_group` (
       FOREIGN KEY (`ilm_session_facet_id`)
       REFERENCES `ilm_session_facet` (`ilm_session_facet_id`)
       ON DELETE CASCADE,
-  CONSTRAINT `fkey_ilm_session_facet_x_group_grouo_id`
+  CONSTRAINT `fkey_ilm_session_facet_x_group_group_id`
       FOREIGN KEY (`group_id`)
       REFERENCES `group` (`group_id`)
       ON DELETE CASCADE

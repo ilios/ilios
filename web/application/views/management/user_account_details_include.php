@@ -18,43 +18,43 @@
     <div class="bd">
         <div class="dialog_wrap">
             <div class="read_only_data title">
-            <?php echo $this->languagemap->t('management.user_accounts.details.title', $lang); ?>
+            <?php echo t('management.user_accounts.details.title'); ?>
             </div>
             <form method="GET" action="#">
                 <div class="dialog_inner_wrap">
                     <div class="ua_detail_sync_exceptions" >
-                        <h3><?php echo $this->languagemap->t('management.user_accounts.sync_exceptions.title', $lang); ?></h3>
+                        <h3><?php echo t('management.user_accounts.sync_exceptions.title'); ?></h3>
                         <div id="ua_detail_sync_exceptions_messages" class="ua_sync_errors"></div>
                     </div>
-                    <h3><?php echo $this->languagemap->t('management.user_accounts.details.subtitle', $lang); ?></h3>
+                    <h3><?php echo t('management.user_accounts.details.subtitle'); ?></h3>
                     <div class="ua_detail_section">
-                           <label for="ua_detail_name" class="ua_detail_name"><?php echo $this->languagemap->t('general.user.full_name', $lang); ?>:</label>
+                           <label for="ua_detail_name" class="ua_detail_name"><?php echo t('general.user.full_name'); ?>:</label>
                            <div class="ua_detail_value">
                             <span id="ua_detail_name" class="read_only_data"></span>
                            </div>
-                        <label for="ua_detail_uid" class="ua_detail_name"><?php echo $this->languagemap->t('general.user.uc_id', $lang); ?>:</label>
+                        <label for="ua_detail_uid" class="ua_detail_name"><?php echo t('general.user.uc_id'); ?>:</label>
                         <div class="ua_detail_value">
                             <span id="ua_detail_uid" class="read_only_data"></span>
                             <span id="ua_detail_directory_uid" class="directory_mismatch_value" style="display:none;"></span>
                         </div>
-                        <label for="ua_detail_email" class="ua_detail_name"><?php echo $this->languagemap->t('general.user.email', $lang); ?>:</label>
+                        <label for="ua_detail_email" class="ua_detail_name"><?php echo t('general.user.email'); ?>:</label>
                         <div class="ua_detail_value">
                             <span id="ua_detail_email" class="read_only_data"></span>
                                <span id="ua_detail_directory_email" class="directory_mismatch_value" style="display:none;"></span>
                            </div>
                     </div>
                     <div class="clear ua_detail_section">
-                        <label for="ua_detail_school" class="ua_detail_name"><?php echo $this->languagemap->t('management.user_accounts.details.primary_school', $lang); ?>:</label>
+                        <label for="ua_detail_school" class="ua_detail_name"><?php echo t('management.user_accounts.details.primary_school'); ?>:</label>
                         <div class="ua_detail_value">
                             <span id="ua_detail_school" class="read_only_data"></span>
                         </div>
-                        <label for="ua_detail_ilios_roles" class="ua_detail_name"><?php echo $this->languagemap->t('management.user_accounts.details.roles', $lang); ?>:</label>
+                        <label for="ua_detail_ilios_roles" class="ua_detail_name"><?php echo t('management.user_accounts.details.roles'); ?>:</label>
                         <div class="ua_detail_value">
                             <span id="ua_detail_ilios_roles" class="read_only_data"></span>
                         </div>
                         </div>
                         <div class="clear ua_detail_section">
-                        <label for="ua_detail_cohort_name" class="ua_detail_name"><?php echo $this->languagemap->t('management.user_accounts.details.cohort', $lang); ?>:</label>
+                        <label for="ua_detail_cohort_name" class="ua_detail_name"><?php echo t('management.user_accounts.details.cohort'); ?>:</label>
                         <div class="ua_detail_value">
                             <span id="ua_detail_cohort_name" class="read_only_data"></span>
                         </div>
