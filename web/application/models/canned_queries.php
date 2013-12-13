@@ -1072,7 +1072,7 @@ EOL;
  * @param int $begin UNIX timestamp when to begin search
  * @param int $end UNIX timestamp when to end search
  * @return array
- * @todo Check into whether this method can be consolidated with <code>getOfferingsForCalendar</code>, or further slimmed down. [ST 2013/12/11]
+ * @todo Dial this method in to ONLY retrieve data that actually get exported. [ST 2013/12/12]
  */
     protected function _getOfferingsForCalendarWithinDateRange ($schoolId = null, $userId = null,
                                                                 $roles = array(), $year = null, $includeArchived = false,
