@@ -55,16 +55,6 @@ class Calendar_Exporter extends Ilios_Web_Controller
             header('HTTP/1.1 403 Forbidden'); // VERBOTEN!
         }
     }
-
-    /**
-     * Transform HTML formatted string into plain text
-     *
-     * @param string $s
-     */
-    private function _unHTML($s) {
-      return str_replace("\n", ' ', trim(strip_tags($s)));
-    }
-
     /**
      * @todo add code docs
      * @param string $role
@@ -153,7 +143,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
             $details = '';
 
             if ($offering['description'])
-                $details = $this->_unHTML($offering['description']) . "\n";
+                $details = unHTML($offering['description']) . "\n";
 
             // Taught by
             if (is_array($offering['instructors'])) {
@@ -189,7 +179,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
                 $details .= $this->languagemap->getI18NString(
                         'general.terms.objectives') . "\n";
                 foreach ($offering['session_objectives'] as $objective)
-                    $details .= $this->_unHTML($objective) . "\n";
+                    $details .= unHTML($objective) . "\n";
             }
             if (count($offering['session_materials']) > 0) {
                 $details .= "\n";
@@ -198,7 +188,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
                 $details .= $this->languagemap->getI18NString(
                         'general.phrases.learning_materials') . "\n";
                 foreach ($offering['session_materials'] as $material) {
-                    $details .= $this->_unHTML($material['title']);
+                    $details .= unHTML($material['title']);
                     if ($material['required']) {
                         $details .= ' (' . $this->languagemap->getI18NString(
                                 'general.terms.required'). ')';
@@ -206,7 +196,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
                     $details .= ' (' . base_url()
                         . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
                         . ')';
-                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
+                    $details .= ': ' . unHTML($material['description']) . "\n";
                 }
             }
             if (count($offering['course_objectives']) > 0) {
@@ -216,7 +206,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
                 $details .= $this->languagemap->getI18NString(
                         'general.terms.objectives') . "\n";
                 foreach ($offering['course_objectives'] as $objective)
-                    $details .= $this->_unHTML($objective) . "\n";
+                    $details .= unHTML($objective) . "\n";
             }
             if (count($offering['course_materials']) > 0) {
                 $details .= "\n";
@@ -225,7 +215,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
                 $details .= $this->languagemap->getI18NString(
                         'general.phrases.learning_materials') . "\n";
                 foreach ($offering['course_materials'] as $material) {
-                    $details .= $this->_unHTML($material['title']);
+                    $details .= unHTML($material['title']);
                     $details .= ' (' . base_url()
                         . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
                         . ')';
@@ -233,7 +223,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
                         $details .= ' (' . $this->languagemap->getI18NString(
                                 'general.phrases.learning_materials') . ')';
                     }
-                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
+                    $details .= ': ' . unHTML($material['description']) . "\n";
                 }
             }
 
