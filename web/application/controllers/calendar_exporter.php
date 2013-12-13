@@ -261,4 +261,19 @@ class Calendar_Exporter extends Ilios_Web_Controller
 
         echo $ical;
     }
+
+    /**
+     * @param int $userId
+     * @param int $schoolId
+     * @param array $userRoles
+     * @return array
+     *
+     * @todo improve code docs.
+     */
+    protected function _exportCalendar($userId, $schoolId, array $userRoles)
+    {
+        $events = array();
+        // @todo implement
+        return  $events;
+     }
 }
