@@ -115,7 +115,6 @@ EOL;
      * @param array $roles an array of user-role ids
      * @param int $year
      * @param bool $includeArchived
-     * @param int $lastUpdatedOffset
      * @param int $begin UNIX timestamp when to begin search
      * @param int $end UNIX timestamp when to end search
      * @return array
@@ -123,11 +122,10 @@ EOL;
     public function getOfferingsDetailsForCalendar ($schoolId = null,
             $userId = null, $roles = array(), $year = null,
             $includeArchived = false,
-            $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
             $begin = null, $end = null)
     {
         $offerings = $this->_getOfferingsForCalendarWithinDateRange($schoolId, $userId, $roles,
-         $year, $includeArchived, $lastUpdatedOffset, $begin, $end);
+         $year, $includeArchived, $begin, $end);
         $offeringIDs = $courses = $sessions = array();
         foreach($offerings as $offering) {
           $offeringIDs[] = $offering['offering_id'];
@@ -1076,30 +1074,14 @@ EOL;
  */
     protected function _getOfferingsForCalendarWithinDateRange ($schoolId = null, $userId = null,
                                                                 $roles = array(), $year = null, $includeArchived = false,
-                                                                $lastUpdatedOffset = Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS,
                                                                 $begin = null, $end = null)
     {
         // Sanitize input
         $schoolId = (int) $schoolId;
         $userId = (int) $userId;
         $year = (int) $year;
-        $lastUpdatedOffset = (int) $lastUpdatedOffset;
         $begin = (int) $begin;
         $end = (int) $end;
-
-        // if a negative value has been given for the "last updated offset"
-        // then treat this as "off-switch" and just return FALSE for the
-        // "recently_updated" value.  otherwise, calculate whether the given
-        // offering or its parent session have been updated in the last X
-        // given days.  see redmine tickets #1010 and #2447
-        if (0 > $lastUpdatedOffset) {
-            $recentlyUpdated = 'false AS recently_updated';
-        } else {
-            $recentlyUpdated =<<< EOL
-GREATEST(session.last_updated_on, offering.last_updated_on)
- >= DATE_SUB(NOW(), INTERVAL $lastUpdatedOffset DAY) AS recently_updated
-EOL;
-        }
 
         $archivedWhere = $schoolWhere = $yearWhere = $dateWhere = '';
         if (! $includeArchived)
@@ -1164,7 +1146,6 @@ SELECT DISTINCT
     offering.room, offering.start_date, offering.end_date, offering.offering_id,
     course.title as course_title, course.course_id, course.year,
     course.course_level, course.published_as_tbd AS course_published_as_tbd,
-    $recentlyUpdated
 FROM offering
     JOIN session ON offering.session_id = session.session_id
     JOIN session_type ON session.session_type_id = session_type.session_type_id

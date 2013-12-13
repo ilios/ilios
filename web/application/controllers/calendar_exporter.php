@@ -126,7 +126,7 @@ class Calendar_Exporter extends Ilios_Web_Controller
         $timeend   = strtotime("+2 months");   // next 2 months (~60 days)
 
         $offerings = $this->queries->getOfferingsDetailsForCalendar($schoolId, $userId, $userRoles, null, false,
-            Ilios_Config_Defaults::DEFAULT_VISUAL_ALERT_THRESHOLD_IN_DAYS, $timestart, $timeend);
+            $timestart, $timeend);
         $ilm_sessions = $this->queries->getSILMsForCalendar( $schoolId, $userId, $userRoles);
 
         $hostaddress = str_replace('http://', '', base_url());
