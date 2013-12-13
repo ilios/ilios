@@ -1155,31 +1155,31 @@ EOL;
 
         $sql =<<< EOL
 SELECT DISTINCT
- session.title as session_title, session.attire_required,
-  session.equipment_required, session.supplemental, session.session_id,
-  session.published_as_tbd,
- session_description.description,
- session_type.title as session_type, session_type.session_type_id,
-  session_type.session_type_css_class,
- offering.room, offering.start_date, offering.end_date, offering.offering_id,
- course.title as course_title, course.course_id, course.year,
-  course.course_level, course.published_as_tbd AS course_published_as_tbd,
- $recentlyUpdated
+    session.title as session_title, session.attire_required,
+    session.equipment_required, session.supplemental, session.session_id,
+    session.published_as_tbd,
+    session_description.description,
+    session_type.title as session_type, session_type.session_type_id,
+    session_type.session_type_css_class,
+    offering.room, offering.start_date, offering.end_date, offering.offering_id,
+    course.title as course_title, course.course_id, course.year,
+    course.course_level, course.published_as_tbd AS course_published_as_tbd,
+    $recentlyUpdated
 FROM offering
-JOIN session ON offering.session_id=session.session_id
-JOIN session_type ON session.session_type_id=session_type.session_type_id
-LEFT JOIN session_description ON session.session_id=session_description.session_id
-JOIN course ON session.course_id=course.course_id
-$userJoins
+    JOIN session ON offering.session_id = session.session_id
+    JOIN session_type ON session.session_type_id = session_type.session_type_id
+    LEFT JOIN session_description ON session.session_id = session_description.session_id
+    JOIN course ON session.course_id = course.course_id
+    $userJoins
 WHERE
- offering.deleted=0 AND session.deleted=0 AND course.deleted=0
- AND course.publish_event_id IS NOT NULL
- AND session.publish_event_id IS NOT NULL
- $archivedWhere
- $yearWhere
- $schoolWhere
- $dateWhere
- $userWhere
+    offering.deleted=0 AND session.deleted=0 AND course.deleted=0
+    AND course.publish_event_id IS NOT NULL
+    AND session.publish_event_id IS NOT NULL
+    $archivedWhere
+    $yearWhere
+    $schoolWhere
+    $dateWhere
+    $userWhere
 ORDER BY offering.start_date ASC, offering.offering_id ASC
 EOL;
         $queryResults = $this->db->query($sql);
