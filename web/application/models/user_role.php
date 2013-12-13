@@ -77,4 +77,35 @@ class User_Role extends Ilios_Base_Model
 
         return ($qResults->num_rows() > 0) ? $qResults->first_row()->user_role_id : null;
     }
+
+    /**
+     * Retrieves all user roles assigned to a given user.
+     *
+     * @param int $userId The user id.
+     * @return array An associative array, keys are user role ids and values are role titles.
+     */
+    public function getUserRolesForUser ($userId)
+    {
+        $rhett = array();
+        $clean = array();
+        $clean['user_id'] = (int) $userId;
+
+        $sql =<<< EOL
+SELECT
+ur.*
+FROM user u
+JOIN user_x_user_role uxur ON uxur.user_id = u.user_id
+JOIN user_role ur ON ur.user_role_id = uxur.user_role_id
+WHERE u.user_id = {$clean['user_id']};
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[$row['user_role_id']] = $row['title'];
+            }
+        }
+        $query->free_result();
+
+        return $rhett;
+    }
 }
