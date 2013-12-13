@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once 'base_authentication_controller.php';
+require_once 'lios_web_controller.php';
 
 /**
  * @package Ilios
