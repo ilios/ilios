@@ -71,7 +71,7 @@ class CalendarFeedDataProvider
             $details = '';
 
             if ($offering['description'])
-                $details = unHTML($offering['description']) . "\n";
+                $details = $this->_unHTML($offering['description']) . "\n";
 
             // Taught by
             if (is_array($offering['instructors'])) {
@@ -107,7 +107,7 @@ class CalendarFeedDataProvider
                 $details .= $this->_ci->languagemap->getI18NString(
                         'general.terms.objectives') . "\n";
                 foreach ($offering['session_objectives'] as $objective)
-                    $details .= unHTML($objective) . "\n";
+                    $details .= $this->_unHTML($objective) . "\n";
             }
             if (count($offering['session_materials']) > 0) {
                 $details .= "\n";
@@ -116,7 +116,7 @@ class CalendarFeedDataProvider
                 $details .= $this->_ci->languagemap->getI18NString(
                         'general.phrases.learning_materials') . "\n";
                 foreach ($offering['session_materials'] as $material) {
-                    $details .= unHTML($material['title']);
+                    $details .= $this->_unHTML($material['title']);
                     if ($material['required']) {
                         $details .= ' (' . $this->_ci->languagemap->getI18NString(
                                 'general.terms.required'). ')';
@@ -124,7 +124,7 @@ class CalendarFeedDataProvider
                     $details .= ' (' . base_url()
                         . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
                         . ')';
-                    $details .= ': ' . unHTML($material['description']) . "\n";
+                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
                 }
             }
             if (count($offering['course_objectives']) > 0) {
@@ -134,7 +134,7 @@ class CalendarFeedDataProvider
                 $details .= $this->_ci->languagemap->getI18NString(
                         'general.terms.objectives') . "\n";
                 foreach ($offering['course_objectives'] as $objective)
-                    $details .= unHTML($objective) . "\n";
+                    $details .= $this->_unHTML($objective) . "\n";
             }
             if (count($offering['course_materials']) > 0) {
                 $details .= "\n";
@@ -143,7 +143,7 @@ class CalendarFeedDataProvider
                 $details .= $this->_ci->languagemap->getI18NString(
                         'general.phrases.learning_materials') . "\n";
                 foreach ($offering['course_materials'] as $material) {
-                    $details .= unHTML($material['title']);
+                    $details .= $this->_unHTML($material['title']);
                     $details .= ' (' . base_url()
                         . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id=' . $material['learning_material_id']
                         . ')';
@@ -151,7 +151,7 @@ class CalendarFeedDataProvider
                         $details .= ' (' . $this->_ci->languagemap->getI18NString(
                                 'general.phrases.learning_materials') . ')';
                     }
-                    $details .= ': ' . unHTML($material['description']) . "\n";
+                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
                 }
             }
 
@@ -192,5 +192,16 @@ class CalendarFeedDataProvider
             }
         }
         return array_values($events);
+    }
+
+    /**
+     * Helper method that transform a given HTML formatted string into plain text.
+     *
+     * @param string $s The markup.
+     * @return string The plain text.
+     */
+    protected function _unHTML ($s)
+    {
+        return str_replace("\n", ' ', trim(strip_tags($s)));
     }
 }
