@@ -1247,6 +1247,7 @@ EOL;
     public function getEnabledUserByToken ($key)
     {
         $rhett = false;
+        $clean = array();
         $clean['key'] = $this->db->escape($key);
 
         $sql =<<< EOL
