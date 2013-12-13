@@ -49,6 +49,7 @@ class Authentication extends Ilios_Base_Model
 
     /**
      * Updates the api key for a given user.
+     *
      * @param int $userId the user id
      * @param string $key the api key
      * @return boolean TRUE on update, FALSE otherwise
@@ -58,8 +59,8 @@ class Authentication extends Ilios_Base_Model
         $updateRow = array();
         $updateRow['api_key'] = $key;
 
-        $this->db->where('person_id', $userId);
-        $this->db->update($this->databaseTableName, $updateRow);
+        $this->db->where('user_id', $userId);
+        $this->db->update('api_key', $updateRow);
 
         return ($this->db->affected_rows() == 1);
     }
