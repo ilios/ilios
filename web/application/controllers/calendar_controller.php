@@ -564,8 +564,8 @@ class Calendar_Controller extends Ilios_Web_Controller
      */
     public function getApiKey ()
     {
-        $key = $this->authentication->getByUserId($this->session->userdata('uid'))->api_key;
-        if ($key) {
+        $key = $this->authentication->getApiToken($this->session->userdata('uid'));
+        if (false !== $key) {
             header('Content-type: text/plain');
             print json_encode(array('key' => $key));
         } else {
