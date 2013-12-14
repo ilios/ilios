@@ -1258,7 +1258,7 @@ WHERE u.enabled = 1
 AND ak.api_key = {$clean['key']}
 EOL;
 
-        $query = $this->db->get($sql);
+        $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             $rhett = $query->first_row('array');
         }
