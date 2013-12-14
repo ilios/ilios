@@ -12,7 +12,6 @@ class Migration_Create_api_key_table extends CI_Migration
     {
         $this->db->trans_start();
         $sql =<<< EOL
-DROP TABLE IF EXISTS `api_key`;
 CREATE TABLE `api_key` (
     `user_id` INT(10) UNSIGNED NOT NULL,
     `api_key` VARCHAR(64) NOT NULL COLLATE 'utf8_unicode_ci',
@@ -22,7 +21,7 @@ CREATE TABLE `api_key` (
 )
 DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
-ENGINE=InnoDB;
+ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
         $this->db->trans_complete();
