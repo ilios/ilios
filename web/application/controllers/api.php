@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once 'lios_base_controller.php';
+require_once 'ilios_base_controller.php';
 
 /**
  * Ilios API controller.
@@ -11,9 +11,15 @@ class Api extends Ilios_Base_Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->load->library("ICalExporter");
         $this->load->library("CalendarFeedDataProvider");
-        parent::__construct();
+    }
+
+    public function index ()
+    {
+        header('HTTP/1.1 404 Not Found'); // nothing here
+        return;
     }
 
     /**
