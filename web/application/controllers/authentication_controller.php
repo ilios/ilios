@@ -368,7 +368,6 @@ class Authentication_Controller extends Ilios_Base_Controller
             'school_id' => $user['primary_school_id'],
             'login' => $now,
             'last' => $now,
-            'lang_locale' => $this->getLangToUse(),
             'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
             'display_last' => date('F j, Y G:i T', $now)
         );
