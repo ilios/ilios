@@ -18,7 +18,7 @@ class CalendarFeedDataProvider
     public function __construct ()
     {
         // hold on to the CI instance
-        $this->_ci &= get_instance();
+        $this->_ci =& get_instance();
 
         // load the models that we need.
         // chances are that they are already loaded, but better safe than sorry.
