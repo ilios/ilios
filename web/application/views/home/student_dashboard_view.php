@@ -83,7 +83,7 @@ $viewsPath = getServerFilePath('views');
                                     </span>
                                 </li>
                                 <li>
-                                    <a href="<?php echo $siteUrl; ?>/calendar_exporter/exportICalendar/student" class="medium radius button" title="<?php echo $ical_download_title; ?>">
+                                    <a href="<?php echo $siteUrl; ?>/calendar_controller/exportICalendar/student" class="medium radius button" title="<?php echo $ical_download_title; ?>">
                                         <span class="icon-download icon-alone"></span>
                                         <span class="screen-reader-text"><?php echo $ical_download_button; ?></span>
                                     </a>
