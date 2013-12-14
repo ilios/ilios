@@ -3,7 +3,7 @@
 /**
  * Creates a table for storing API keys to the db schema.
  */
-class Migration_Add_api_key_column_to_auth_table extends CI_Migration
+class Migration_Create_api_key_table extends CI_Migration
 {
     /**
      * @see CI_Migration::up()
