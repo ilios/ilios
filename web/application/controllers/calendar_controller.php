@@ -555,7 +555,8 @@ class Calendar_Controller extends Ilios_Web_Controller
     }
 
     /**
-     * This action retrieves and prints the user's API key. If none exists, create one before printing it.
+     * This action retrieves and prints the current user's API key. If none exists yet then the key will be created
+     * as part of the process.
      *
      * This method prints out a result object as JSON-formatted text.
      *
@@ -574,27 +575,43 @@ class Calendar_Controller extends Ilios_Web_Controller
     }
 
     /**
-     * Create and store a new API key for the current user.
+     * This action updates or creates the API key for the current user.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "key", which contains the API key as its value.
+     * On failure, the object contains a property "error", which contains an error message as its value.
+     *
+     * @todo Refactor the actual key generation algorithm out into a utility class/method. [ST 2013/12/13]
      */
     public function createNewApiKey ()
     {
-        if ($this->session->userdata('uid')) {
-            if (function_exists('openssl_random_pseudo_bytes')) {
-                $key = bin2hex(openssl_random_pseudo_bytes(32));
-            } else {
-                $key = '';
-                for ($i=0;$i<32;$i++) {
-                    $key = $key . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
-                }
-            }
-            header('Content-type: text/plain');
-            if ($this->authentication->changeApiKey($this->session->userdata('uid'), $key)) {
-                print json_encode(array('key' => $key));
-            } else {
-                print json_encode(array('error' => 'Error'));
-            }
+        $userId = $this->session->userdata('uid');
+
+        // generate new key
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            $key = bin2hex(openssl_random_pseudo_bytes(32));
         } else {
-            header('HTTP/1.1 403 Forbidden');
+            $key = '';
+            for ($i = 0; $i < 32; $i++) {
+                $key = $key . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+            }
+        }
+
+        // check if key already exists.
+        if (false === $this->authentication->getApiKey($userId)) {
+            // create new key
+            $success = $this->authentication->createApiKey($userId, $key);
+        } else {
+            // update key
+            $success = $this->authentication->changeApiKey($userId, $key);
+        }
+
+        header('Content-type: text/plain');
+        if ($success) {
+            print json_encode(array('key' => $key));
+        } else {
+            print json_encode(array('error' => 'Error'));
         }
     }
 
