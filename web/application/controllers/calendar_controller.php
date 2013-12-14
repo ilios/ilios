@@ -588,7 +588,7 @@ class Calendar_Controller extends Ilios_Web_Controller
                 }
             }
             header('Content-type: text/plain');
-            if ($this->authentication->changeAPIKey($this->session->userdata('uid'), $key)) {
+            if ($this->authentication->changeApiKey($this->session->userdata('uid'), $key)) {
                 print json_encode(array('key' => $key));
             } else {
                 print json_encode(array('error' => 'Error'));
