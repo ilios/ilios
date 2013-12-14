@@ -48,11 +48,11 @@ class Authentication extends Ilios_Base_Model
     }
 
     /**
-     * Updates the api key for a given user.
+     * Updates a given API key for a given user.
      *
-     * @param int $userId the user id
-     * @param string $key the api key
-     * @return boolean TRUE on update, FALSE otherwise
+     * @param int $userId The user id.
+     * @param string $key The api key.
+     * @return boolean TRUE on update, FALSE otherwise.
      */
     public function changeApiKey ($userId, $key)
     {
@@ -61,6 +61,24 @@ class Authentication extends Ilios_Base_Model
 
         $this->db->where('user_id', $userId);
         $this->db->update('api_key', $updateRow);
+
+        return ($this->db->affected_rows() == 1);
+    }
+
+    /**
+     * Adds a given API key for a given user.
+     *
+     * @param int $userId The user id.
+     * @param string $key The api key.
+     * @return boolean TRUE on update, FALSE otherwise.
+     */
+    public function addApiKey ($userId, $key)
+    {
+        $newRow = array();
+        $newRow['user_id'] = $userId;
+        $newRow['api_key'] = $key;
+
+        $this->db->insert('api_key', $newRow);
 
         return ($this->db->affected_rows() == 1);
     }
