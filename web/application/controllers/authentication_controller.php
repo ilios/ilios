@@ -370,8 +370,7 @@ class Authentication_Controller extends Ilios_Base_Controller
             'last' => $now,
             'lang_locale' => $this->getLangToUse(),
             'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
-            'display_last' => date('F j, Y G:i T', $now),
-            'api_key' => @$user['api_key']
+            'display_last' => date('F j, Y G:i T', $now)
         );
 
         $this->session->set_userdata($sessionData);
