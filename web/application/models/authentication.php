@@ -144,6 +144,9 @@ class Authentication extends Ilios_Base_Model
         if (0 < $query->num_rows()) {
             $rhett = $query->first_row();
         }
+               
+        $query->free_result();
+
         return $rhett;
     }
 
@@ -162,6 +165,9 @@ class Authentication extends Ilios_Base_Model
         if (0 < $query->num_rows()) {
             $rhett = $query->first_row();
         }
+
+        $query->free_result();
+
         return $rhett;
     }
 }
