@@ -40,10 +40,10 @@ class Api extends Ilios_Base_Controller
 
         // kludge the applicable user roles together.
         $userRoles = array();
-        if ($this->_ci->userIsLearner($user['user_id'])) {
+        if ($this->user->userIsLearner($user['user_id'])) {
             $userRoles[] = User_Role::STUDENT_ROLE_ID;
         }
-        if ($this->_ci->user->userHasInstructorAccess($user['user_id'])) {
+        if ($this->user->userHasInstructorAccess($user['user_id'])) {
             $userRoles[] = User_Role::FACULTY_ROLE_ID;
             $userRoles[] = User_role::COURSE_DIRECTOR_ROLE_ID;
         }
