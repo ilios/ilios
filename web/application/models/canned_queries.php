@@ -157,31 +157,53 @@ EOL;
         return $offerings;
     }
 
-    public function getOfferingsInstructors($offerings)
+    /**
+     * @param array $offerings An array of offering ids.
+     * @return array
+     */
+    public function getOfferingsInstructors (array $offerings)
     {
+        $rhett = array();
+
+        if (empty($offerings)) {
+            return $rhett;
+        }
         $offerings = implode(',', $offerings);
         $sql =<<< EOL
 SELECT
  user.first_name, user.last_name,
- offering_instructor.offering_id
-FROM offering_instructor
-JOIN user ON offering_instructor.user_id=user.user_id
-WHERE offering_instructor.offering_id IN ($offerings);
+ offering_x_instructor.offering_id
+FROM offering_x_instructor
+JOIN user ON offering_x_instructor.user_id=user.user_id
+WHERE offering_x_instructor.offering_id IN ($offerings);
 EOL;
-        $queryResults = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-        $rhett = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (! isset($rhett[$row['offering_id']]))
-              $rhett[$row['offering_id']] = array();
-            $rhett[$row['offering_id']][] = $row['first_name'] . ' ' . $row['last_name'];
+
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['offering_id']])) {
+                    $rhett[$row['offering_id']] = array();
+                }
+                $rhett[$row['offering_id']][] = $row['first_name'] . ' ' . $row['last_name'];
+            }
         }
+
+        $query->free_result();
 
         return $rhett;
     }
 
-    public function getCoursesObjectives($courses)
+    /**
+     * @param array $courses An array of course ids.
+     * @return array
+     */
+    public function getCoursesObjectives(array $courses)
     {
+        $rhett = array();
+        if (empty($courses)) {
+            return $rhett;
+        }
         $courses = implode(',', $courses);
         $sql =<<< EOL
 SELECT objective.title, course.course_id
@@ -190,20 +212,33 @@ JOIN course_x_objective ON course.course_id=course_x_objective.course_id
 JOIN objective ON course_x_objective.objective_id=objective.objective_id
 WHERE course.course_id IN ($courses);
 EOL;
-        $queryResults = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-        $rhett = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (! isset($rhett[$row['course_id']]))
-              $rhett[$row['course_id']] = array();
-            $rhett[$row['course_id']][] = $row['title'];
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['course_id']])) {
+                    $rhett[$row['course_id']] = array();
+                }
+                $rhett[$row['course_id']][] = $row['title'];
+            }
         }
+
+        $query->free_result();
 
         return $rhett;
     }
 
-    public function getCoursesMaterials($courses)
+    /**
+     * @param array $courses An array of course ids.
+     * @return array
+     */
+    public function getCoursesMaterials(array $courses)
     {
+        $rhett = array();
+        if (empty($courses)) {
+            return $rhett;
+        }
+
         $courses = implode(',', $courses);
         $sql =<<< EOL
 SELECT
@@ -218,20 +253,33 @@ JOIN learning_material
  ON course_learning_material.learning_material_id=learning_material.learning_material_id
 WHERE course.course_id IN ($courses);
 EOL;
-        $queryResults = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-        $rhett = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (! isset($rhett[$row['course_id']]))
-              $rhett[$row['course_id']] = array();
-            $rhett[$row['course_id']][] = $row;
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['course_id']])) {
+                    $rhett[$row['course_id']] = array();
+                }
+                $rhett[$row['course_id']][] = $row;
+            }
         }
+
+        $query->free_result();
 
         return $rhett;
     }
 
-    public function getSessionsMaterials($sessions)
+    /**
+     * @param array $sessions An array of session ids.
+     * @return array
+     */
+    public function getSessionsMaterials(array $sessions)
     {
+        $rhett = array();
+
+        if (empty($sessions)) {
+            return $rhett;
+        }
         $sessions = implode(',', $sessions);
         $sql =<<< EOL
 SELECT
@@ -246,20 +294,33 @@ JOIN learning_material
  ON session_learning_material.learning_material_id=learning_material.learning_material_id
 WHERE session.session_id IN ($sessions);
 EOL;
-        $queryResults = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-        $rhett = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (! isset($rhett[$row['session_id']]))
-              $rhett[$row['session_id']] = array();
-            $rhett[$row['session_id']][] = $row;
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['session_id']])) {
+                    $rhett[$row['session_id']] = array();
+                }
+                $rhett[$row['session_id']][] = $row;
+            }
         }
+
+        $query->free_result();
 
         return $rhett;
     }
 
-    public function getSessionsObjectives($sessions)
+    /**
+     * @param array $sessions An array of session ids.
+     * @return array
+     */
+    public function getSessionsObjectives (array $sessions)
     {
+        $rhett = array();
+
+        if (empty($sessions)) {
+            return $rhett;
+        }
         $sessions = implode(',', $sessions);
         $sql =<<< EOL
 SELECT objective.title, session.session_id
@@ -268,14 +329,18 @@ JOIN session_x_objective on session.session_id=session_x_objective.session_id
 JOIN objective on session_x_objective.objective_id=objective.objective_id
 WHERE session.session_id in ($sessions);
 EOL;
-        $queryResults = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-        $rhett = array();
-        foreach ($queryResults->result_array() as $row) {
-            if (! isset($rhett[$row['session_id']]))
-              $rhett[$row['session_id']] = array();
-            $rhett[$row['session_id']][] = $row['title'];
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['session_id']])) {
+                    $rhett[$row['session_id']] = array();
+                }
+                $rhett[$row['session_id']][] = $row['title'];
+            }
         }
+
+        $query->free_result();
 
         return $rhett;
     }
@@ -1092,7 +1157,7 @@ EOL;
             $yearWhere = "AND course.year = $year";
         if (!empty($begin) && !empty($end)) {
             $dateWhere =<<< EOL
-AND offering.start_date > FROM_UNIXTIME($begin)
+ AND offering.start_date > FROM_UNIXTIME($begin)
 AND offering.end_date < FROM_UNIXTIME($end)
 EOL;
         }
@@ -1102,37 +1167,37 @@ EOL;
             $userWhere = array();
             if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
                 $userJoins .=<<< EOL
-LEFT JOIN offering_x_learner
+ LEFT JOIN offering_x_learner
 ON offering_x_learner.offering_id = offering.offering_id AND offering_x_learner.user_id = {$userId}
 EOL;
                 $userJoins .=<<< EOL
-LEFT JOIN offering_x_learner_group
-ON offering_x_learner_group.offering_id = offering.offering_id AND offering_x_learner_group.group_id IN (
+ LEFT JOIN offering_x_group
+ON offering_x_group.offering_id = offering.offering_id AND offering_x_group.group_id IN (
     SELECT group_id from group_x_user WHERE user_id = {$userId}
 )
 EOL;
-                $userWhere[] = 'offering_learner.offering_id IS NOT NULL';
+                $userWhere[] = 'offering_x_learner.offering_id IS NOT NULL';
             }
             if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
                 $userJoins .=<<< EOL
-LEFT JOIN offering_x_instructor
+ LEFT JOIN offering_x_instructor
 ON offering_x_instructor.offering_id = offering.offering_id AND offering_x_instructor.user_id = {$userId}
 EOL;
                 $userJoins .=<<< EOL
-LEFT JOIN offering_x_instructor_group
+ LEFT JOIN offering_x_instructor_group
 ON offering_x_instructor_group.offering_id = offering.offering_id AND offering_x_instructor_group.instructor_group_id IN (
     SELECT instructor_group_id FROM instructor_group_x_user WHERE user_id= {$userId})
 EOL;
-                $userWhere[] = 'offering_instructor.offering_id IS NOT NULL';
+                $userWhere[] = 'offering_x_instructor.offering_id IS NOT NULL';
             }
             if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
                 $userJoins .=<<< EOL
-LEFT JOIN course_director ON course_director.course_id = course.course_id
+ LEFT JOIN course_director ON course_director.course_id = course.course_id
 AND course_director.user_id = $userId
 EOL;
                 $userWhere[] = 'course_director.course_id IS NOT NULL';
             }
-            $userWhere='AND (' . implode(' OR ', $userWhere) . ')';
+            $userWhere = 'AND (' . implode(' OR ', $userWhere) . ')';
         }
 
         $sql =<<< EOL
@@ -1145,7 +1210,7 @@ SELECT DISTINCT
     session_type.session_type_css_class,
     offering.room, offering.start_date, offering.end_date, offering.offering_id,
     course.title as course_title, course.course_id, course.year,
-    course.course_level, course.published_as_tbd AS course_published_as_tbd,
+    course.course_level, course.published_as_tbd AS course_published_as_tbd
 FROM offering
     JOIN session ON offering.session_id = session.session_id
     JOIN session_type ON session.session_type_id = session_type.session_type_id
@@ -1166,8 +1231,10 @@ EOL;
         $queryResults = $this->db->query($sql);
 
         $rhett = array();
-        foreach ($queryResults->result_array() as $row) {
-            array_push($rhett, $row);
+        if (0 < $queryResults->num_rows()) {
+            foreach ($queryResults->result_array() as $row) {
+                array_push($rhett, $row);
+            }
         }
 
         return $rhett;
