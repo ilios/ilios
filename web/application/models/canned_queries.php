@@ -109,7 +109,7 @@ EOL;
      * Similar to <code>getOfferingsForCalendar</code>, but look up additional details about
      * the entries
      *
-     * Returns learning-session offerings with fields that are needed for Calendar.
+     * Returns learning-session offerings with fields that are needed for the calendar feeds.
      * @param int $schoolId
      * @param int $userId
      * @param array $roles an array of user-role ids
@@ -119,12 +119,12 @@ EOL;
      * @param int $end UNIX timestamp when to end search
      * @return array
      */
-    public function getOfferingsDetailsForCalendar ($schoolId = null,
+    public function getOfferingsDetailsForCalendarFeed ($schoolId = null,
             $userId = null, $roles = array(), $year = null,
             $includeArchived = false,
             $begin = null, $end = null)
     {
-        $offerings = $this->_getOfferingsForCalendarWithinDateRange($schoolId, $userId, $roles,
+        $offerings = $this->_getOfferingsForCalendarFeed($schoolId, $userId, $roles,
          $year, $includeArchived, $begin, $end);
         $offeringIDs = $courses = $sessions = array();
         foreach($offerings as $offering) {
@@ -1121,7 +1121,7 @@ EOL;
 
     /*
  * This is function returns all the learning session offerings with fields that are
- * required by the calendar to display properly.  We only include some calendar filters'
+ * required by the calendar feed to display properly.  We only include some calendar filters'
  * arguments here, only those that are reused often enough for MySQL to be able to cache
  * the query efficiently.
  *
@@ -1137,9 +1137,8 @@ EOL;
  * @return array
  * @todo Dial this method in to ONLY retrieve data that actually get exported. [ST 2013/12/12]
  */
-    protected function _getOfferingsForCalendarWithinDateRange ($schoolId = null, $userId = null,
-                                                                $roles = array(), $year = null, $includeArchived = false,
-                                                                $begin = null, $end = null)
+    protected function _getOfferingsForCalendarFeed ($schoolId = null, $userId = null, $roles = array(),
+                                                     $year = null, $includeArchived = false, $begin = null, $end = null)
     {
         // Sanitize input
         $schoolId = (int) $schoolId;
