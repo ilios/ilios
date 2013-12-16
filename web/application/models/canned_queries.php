@@ -1119,7 +1119,7 @@ EOL;
 
     }
 
-    /*
+/**
  * This is function returns all the learning session offerings with fields that are
  * required by the calendar feed to display properly.  We only include some calendar filters'
  * arguments here, only those that are reused often enough for MySQL to be able to cache
@@ -1130,15 +1130,13 @@ EOL;
  * @param int $userId
  * @param array $roles an array of user-role ids
  * @param int $year
- * @param bool $includeArchived
- * @param int $lastUpdatedOffset
  * @param int $begin UNIX timestamp when to begin search
  * @param int $end UNIX timestamp when to end search
  * @return array
  * @todo Dial this method in to ONLY retrieve data that actually get exported. [ST 2013/12/12]
  */
     protected function _getOfferingsForCalendarFeed ($schoolId = null, $userId = null, $roles = array(),
-                                                     $year = null, $includeArchived = false, $begin = null, $end = null)
+                                                     $year = null, $begin = null, $end = null)
     {
         // Sanitize input
         $schoolId = (int) $schoolId;
@@ -1147,9 +1145,8 @@ EOL;
         $begin = (int) $begin;
         $end = (int) $end;
 
-        $archivedWhere = $schoolWhere = $yearWhere = $dateWhere = '';
-        if (! $includeArchived)
-            $archivedWhere = 'AND course.archived = 0';
+        $schoolWhere = $yearWhere = $dateWhere = '';
+
         if (!empty($schoolId))
             $schoolWhere = "AND course.owning_school_id=$schoolId";
         if (!empty($year))
@@ -1220,7 +1217,7 @@ WHERE
     offering.deleted=0 AND session.deleted=0 AND course.deleted=0
     AND course.publish_event_id IS NOT NULL
     AND session.publish_event_id IS NOT NULL
-    $archivedWhere
+    AND course.archived = 0
     $yearWhere
     $schoolWhere
     $dateWhere
