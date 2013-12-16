@@ -1129,28 +1129,23 @@ EOL;
  * @param int $schoolId
  * @param int $userId
  * @param array $roles an array of user-role ids
- * @param int $year
  * @param int $begin UNIX timestamp when to begin search
  * @param int $end UNIX timestamp when to end search
  * @return array
  * @todo Dial this method in to ONLY retrieve data that actually get exported. [ST 2013/12/12]
  */
-    protected function _getOfferingsForCalendarFeed ($schoolId = null, $userId = null, $roles = array(),
-                                                     $year = null, $begin = null, $end = null)
+    protected function _getOfferingsForCalendarFeed ($schoolId = null, $userId = null, $roles = array(), $begin = null, $end = null)
     {
         // Sanitize input
         $schoolId = (int) $schoolId;
         $userId = (int) $userId;
-        $year = (int) $year;
         $begin = (int) $begin;
         $end = (int) $end;
 
-        $schoolWhere = $yearWhere = $dateWhere = '';
+        $schoolWhere = $dateWhere = '';
 
         if (!empty($schoolId))
             $schoolWhere = "AND course.owning_school_id=$schoolId";
-        if (!empty($year))
-            $yearWhere = "AND course.year = $year";
         if (!empty($begin) && !empty($end)) {
             $dateWhere =<<< EOL
  AND offering.start_date > FROM_UNIXTIME($begin)
@@ -1218,7 +1213,6 @@ WHERE
     AND course.publish_event_id IS NOT NULL
     AND session.publish_event_id IS NOT NULL
     AND course.archived = 0
-    $yearWhere
     $schoolWhere
     $dateWhere
     $userWhere

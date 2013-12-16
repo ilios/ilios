@@ -42,7 +42,7 @@ class CalendarFeedDataProvider
         $timestart = strtotime("-5 days");     // last 5 days
         $timeend   = strtotime("+2 months");   // next 2 months (~60 days)
 
-        $offerings = $this->_ci->queries->getOfferingsDetailsForCalendarFeed($schoolId, $userId, $userRoles, null,
+        $offerings = $this->_ci->queries->getOfferingsDetailsForCalendarFeed($schoolId, $userId, $userRoles,
             $timestart, $timeend);
         $ilm_sessions = $this->_ci->queries->getSILMsForCalendar($schoolId, $userId, $userRoles);
 
