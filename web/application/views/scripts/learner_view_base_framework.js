@@ -468,6 +468,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
     var hasCompetencyAssociation = false;
     var i, j, m, n = 0;
     var objectiveIds;
+    var competencyKey;
 
     // create the catch-all "unassociated" competency
     competencySessionObjectiveMap['unassociated'] = {
