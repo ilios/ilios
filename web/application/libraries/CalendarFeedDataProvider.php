@@ -31,19 +31,19 @@ class CalendarFeedDataProvider
      * for a given user in the context of a given school and given user role(s).
      *
      * @param int $userId The user id.
-     * @param int $schoolId The school id.
-     * @param array $userRoles An list of user role ids.
+     * @param int|null $schoolId An "owning" school id. If NULL is given then offerings across all schools are queried.
+     * @param array $userRoles An list of user role ids providing.
      * @return array A list of calendar events.
      * @todo Improve code docs, elaborate on the return value of this method. [ST 2013/12/13]
      */
-    public function getData ($userId, $schoolId, array $userRoles)
+    public function getData ($userId, $schoolId = null, array $userRoles = array())
     {
         // Specify the period of events to be included in the export.
         $timestart = strtotime("-5 days");     // last 5 days
-        $timeend   = strtotime("+2 months");   // next 2 months (~60 days)
+        $timeend = strtotime("+2 months");   // next 2 months (~60 days)
 
-        $offerings = $this->_ci->queries->getOfferingsDetailsForCalendarFeed($schoolId, $userId, $userRoles,
-            $timestart, $timeend);
+        $offerings = $this->_ci->queries->getOfferingsDetailsForCalendarFeed($userId, $schoolId, $userRoles, $timestart,
+            $timeend);
         $ilm_sessions = $this->_ci->queries->getSILMsForCalendar($schoolId, $userId, $userRoles);
 
         $hostaddress = str_replace('http://', '', base_url());
