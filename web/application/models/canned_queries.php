@@ -1258,13 +1258,13 @@ EOL;
 
         // SELECT clause
         $sql = "SELECT DISTINCT "
-            . "s.session_id, i.due_date, s.title AS session_title, s.session_type_id, "
+            . "s.session_id, i.ilm_session_facet_id, i.hours, i.due_date, s.title AS session_title, s.session_type_id, "
             . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details ";
 
         if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
             $sql .= ", s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
         }
-
+        
         // FROM clause
         $sql .= "FROM session s "
             . "JOIN course c ON c.course_id = s.course_id "

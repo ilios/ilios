@@ -58,15 +58,18 @@ class CalendarFeedDataProvider
         // also combine offerings with same offering_ids.
         $events = array();
         foreach ($offerings as $offering) {
+            $event = array();
             $id = $offering['offering_id'];
 
-            $offering['event_id'] = $id . '@' . $hostaddress; // UID
-            $offering['text'] = $offering['session_title']; // SUMMARY
-            $offering['location'] = array_key_exists('room', $offering) ? $offering['room'] : null;  // LOCATION
-            $offering['utc_time'] = true;
-            $offering['event_pid'] = null;
-            $offering['rec_type'] = null;
-            $offering['event_length'] = null;
+            $event['event_id'] = $id . '@' . $hostaddress; // UID
+            $event['text'] = $offering['session_title']; // SUMMARY
+            $event['location'] = array_key_exists('room', $offering) ? $offering['room'] : null;  // LOCATION
+            $event['utc_time'] = true;
+            $event['event_pid'] = null;
+            $event['rec_type'] = null;
+            $event['event_length'] = null;
+            $event['start_date'] = $offering['start_date'];
+            $event['end_date'] = $offering['end_date'];
             $details = '';
 
             if ($offering['description']) {
@@ -142,37 +145,33 @@ class CalendarFeedDataProvider
                 }
             }
 
-            $offering['event_details'] = $details;
+            $event['event_details'] = $details;
 
-            $events[$id] = $offering;
+            $events[$id] = $event;
         }
 
         foreach ($ilm_sessions as $session) {
-            $ilm_session = $this->_ci->iliosSession->getSILMBySessionId($session['session_id']);
 
-            if (empty($ilm_session)) {
-                continue;
-            }
-
+            $event = array();
             // Add a 'ilm-' prefex to the ilm_session id in case it conflicts with offering id.
-            $id = 'ilm-' . $ilm_session['ilm_session_facet'];
+            $id = 'ilm-' . $session['ilm_session_facet_id'];
 
-            $session['event_id'] = $id . '@' . $hostaddress; // UID
+            $event['event_id'] = $id . '@' . $hostaddress; // UID
 
-            $session['text'] = $this->_ci->languagemap->getI18NString('course_management.session.independent_learning_short') . ': ';
-            $session['text'] .= $ilm_session['hours'] . ' ';
-            $session['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.terms.hours')) . ' ';
-            $session['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.phrases.due_by')) . ' ';
-            $session['text'] .= strftime('%a, %b %d', strtotime($session['due_date'])) . ' - ';
-            $session['text'] .= $session['course_title'].' - '.$session['session_title']; // SUMMARY
-            $session['start_date'] = $session['due_date'] . ' 17:00:00';
-            $session['end_date'] = $session['due_date'] . ' 17:30:00';
-            $session['location'] = null;
-            $session['event_pid'] = null;
-            $session['rec_type'] = null;
-            $session['event_length'] = null;
+            $event['text'] = $this->_ci->languagemap->getI18NString('course_management.session.independent_learning_short') . ': ';
+            $event['text'] .= $session['hours'] . ' ';
+            $event['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.terms.hours')) . ' ';
+            $event['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.phrases.due_by')) . ' ';
+            $event['text'] .= strftime('%a, %b %d', strtotime($session['due_date'])) . ' - ';
+            $event['text'] .= $session['course_title'].' - '.$session['session_title']; // SUMMARY
+            $event['start_date'] = $session['due_date'] . ' 17:00:00';
+            $event['end_date'] = $session['due_date'] . ' 17:30:00';
+            $event['location'] = null;
+            $event['event_pid'] = null;
+            $event['rec_type'] = null;
+            $event['event_length'] = null;
 
-            $events[$id] = $session;
+            $events[$id] = $event;
 
         }
         return array_values($events);
