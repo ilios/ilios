@@ -1232,4 +1232,100 @@ EOL;
 
         return $rhett;
     }
+
+    /**
+     * This function returns all the independent learning sessions with fields that are
+     * required by the calendar feed to display properly.  We only include some calendar filters'
+     * arguments here, only those that are reused often enough for MySQL to be able to cache
+     * the query efficiently.
+     *
+     * @param int $schoolId
+     * @param int $userId
+     * @param array $roles
+     * @param int $begin UNIX timestamp when to begin search
+     * @param int $end UNIX timestamp when to end search
+     * @return array
+     */
+    public function getSILMsForCalendarFeed ($userId, $schoolId = null, $roles = null, $begin = null, $end = null)
+    {
+
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
+        $clean['user_id'] = (int) $userId;
+        $clean['roles'] = empty($roles) ? null : (is_array($roles) ? $roles : array($roles));
+        $clean['begin'] = (int) $begin;
+        $clean['end'] = (int) $end;
+
+        // SELECT clause
+        $sql = "SELECT DISTINCT "
+            . "s.session_id, i.due_date, s.title AS session_title, s.session_type_id, "
+            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details ";
+
+        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+            $sql .= ", s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
+        }
+
+        // FROM clause
+        $sql .= "FROM session s "
+            . "JOIN course c ON c.course_id = s.course_id "
+            . "JOIN ilm_session_facet i ON i.ilm_session_facet_id = s.ilm_session_facet_id "
+            . "LEFT JOIN session_description sd ON sd.session_id = s.session_id ";
+
+        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+            $sql .= "LEFT JOIN ilm_session_facet_x_learner ON ilm_session_facet_x_learner.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_group ON ilm_session_facet_x_group.ilm_session_facet_id = s.ilm_session_facet_id ";
+        }
+
+        if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor ON ilm_session_facet_x_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor_group ON ilm_session_facet_x_instructor_group.ilm_session_facet_id = s.ilm_session_facet_id ";
+        }
+
+        if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
+            $sql .= "LEFT JOIN course_director ON course_director.course_id = c.course_id ";
+        }
+
+        // WHERE clause
+        $sql .= "WHERE s.deleted = 0 AND c.deleted = 0 AND c.archived = 0 AND c.owning_school_id = {$clean['school_id']} ";
+        $sql .= "AND s.publish_event_id IS NOT NULL AND c.publish_event_id IS NOT NULL ";
+
+        if (! empty($begin) && ! empty($end)) {
+            $sql .= "AND ilm_session_facet.due_date > FROM_UNIXTIME({$clean['begin']}) AND ilm_session_facet.end_date < FROM_UNIXTIME({$clean['end']})";
+        }
+
+        $clause = "( 0 ";
+        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+            $clause .= "OR ( ilm_session_facet_x_learner.user_id = {$clean['user_id']} "
+                . "OR EXISTS (SELECT group_x_user.user_id FROM group_x_user "
+                . "WHERE group_x_user.group_id = ilm_session_facet_x_group.group_id "
+                . "AND group_x_user.user_id = {$clean['user_id']}) ) ";
+        }
+        if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
+            $clause .= "OR ( ilm_session_facet_x_instructor.user_id = {$clean['user_id']} "
+                ."OR EXISTS (SELECT instructor_group_x_user.user_id FROM instructor_group_x_user "
+                . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id "
+                . "AND instructor_group_x_user.user_id = {$clean['user_id']}) ) ";
+        }
+        if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
+            $clause .= "OR course_director.user_id = {$clean['user_id']} ";
+        }
+        $clause .= " )";
+        $sql .= "AND  $clause ";
+
+        // ORDER BY clause
+        $sql .= "ORDER BY i.due_date ASC, s.session_id ASC";
+
+        $query = $this->db->query($sql);
+
+        $rhett = array();
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[] = $row;
+            }
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
 }

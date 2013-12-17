@@ -44,7 +44,7 @@ class CalendarFeedDataProvider
 
         $offerings = $this->_ci->queries->getOfferingsDetailsForCalendarFeed($userId, $schoolId, $userRoles, $timestart,
             $timeend);
-        $ilm_sessions = $this->_ci->queries->getSILMsForCalendar($schoolId, $userId, $userRoles);
+        $ilm_sessions = $this->_ci->queries->getSILMsForCalendarFeed($userId, $schoolId, $userRoles, $timestart, $timeend);
 
         $hostaddress = str_replace('http://', '', base_url());
         $hostaddress = str_replace('https://', '', $hostaddress);
@@ -150,32 +150,30 @@ class CalendarFeedDataProvider
         foreach ($ilm_sessions as $session) {
             $ilm_session = $this->_ci->iliosSession->getSILMBySessionId($session['session_id']);
 
-            if (empty($ilm_session))
+            if (empty($ilm_session)) {
                 continue;
-
-            if ($timestart <= strtotime($session['due_date']) && $timeend >= strtotime($session['due_date'])) {
-
-                // Add a 'ilm-' prefex to the ilm_session id in case it conflicts with offering id.
-                $id = 'ilm-' . $ilm_session['ilm_session_facet'];
-
-                $session['event_id'] = $id . '@' . $hostaddress; // UID
-
-                $session['text'] = $this->_ci->languagemap->getI18NString('course_management.session.independent_learning_short') . ': ';
-                $session['text'] .= $ilm_session['hours'] . ' ';
-                $session['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.terms.hours')) . ' ';
-                $session['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.phrases.due_by')) . ' ';
-                $session['text'] .= strftime('%a, %b %d', strtotime($session['due_date'])) . ' - ';
-                $session['text'] .= $session['course_title'].' - '.$session['session_title']; // SUMMARY
-                $session['event_details'] = $this->_ci->iliosSession->getDescription($session['session_id']); // DESCRIPTION
-                $session['start_date'] = $session['due_date'] . ' 17:00:00';
-                $session['end_date'] = $session['due_date'] . ' 17:30:00';
-                $session['location'] = null;
-                $session['event_pid'] = null;
-                $session['rec_type'] = null;
-                $session['event_length'] = null;
-
-                $events[$id] = $session;
             }
+
+            // Add a 'ilm-' prefex to the ilm_session id in case it conflicts with offering id.
+            $id = 'ilm-' . $ilm_session['ilm_session_facet'];
+
+            $session['event_id'] = $id . '@' . $hostaddress; // UID
+
+            $session['text'] = $this->_ci->languagemap->getI18NString('course_management.session.independent_learning_short') . ': ';
+            $session['text'] .= $ilm_session['hours'] . ' ';
+            $session['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.terms.hours')) . ' ';
+            $session['text'] .= strtolower($this->_ci->languagemap->getI18NString('general.phrases.due_by')) . ' ';
+            $session['text'] .= strftime('%a, %b %d', strtotime($session['due_date'])) . ' - ';
+            $session['text'] .= $session['course_title'].' - '.$session['session_title']; // SUMMARY
+            $session['start_date'] = $session['due_date'] . ' 17:00:00';
+            $session['end_date'] = $session['due_date'] . ' 17:30:00';
+            $session['location'] = null;
+            $session['event_pid'] = null;
+            $session['rec_type'] = null;
+            $session['event_length'] = null;
+
+            $events[$id] = $session;
+
         }
         return array_values($events);
     }
