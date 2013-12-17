@@ -53,8 +53,7 @@ class Api extends Ilios_Base_Controller
         }
 
         // load the calendar events
-        // @todo Right now, we only retrieve events from the user's primary school. Make it work with multiple schools. [ST 2013/12/13]
-        $events = $this->calendarfeeddataprovider->getData($user['user_id'], $user['primary_school_id'], $userRoles);
+        $events = $this->calendarfeeddataprovider->getData($user['user_id'], null, $userRoles);
 
         $calendar_title = 'Ilios Calendar';
         $this->icalexporter->setTitle($calendar_title);
