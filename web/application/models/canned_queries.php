@@ -106,10 +106,9 @@ EOL;
     }
 
     /**
-     * Similar to <code>getOfferingsForCalendar</code>, but look up additional details about
-     * the entries
-     *
+     * Similar to <code>getOfferingsForCalendar</code>, but look up additional details about the entries.
      * Returns learning-session offerings with fields that are needed for the calendar feeds.
+     *
      * @param int $schoolId
      * @param int $userId
      * @param array $roles an array of user-role ids
@@ -119,41 +118,42 @@ EOL;
      * @param int $end UNIX timestamp when to end search
      * @return array
      */
-    public function getOfferingsDetailsForCalendarFeed ($schoolId = null,
-            $userId = null, $roles = array(), $year = null,
-            $includeArchived = false,
-            $begin = null, $end = null)
+    public function getOfferingsDetailsForCalendarFeed ($schoolId = null, $userId = null, $roles = array(), $year = null,
+                                                        $includeArchived = false, $begin = null, $end = null)
     {
-        $offerings = $this->_getOfferingsForCalendarFeed($userId, $schoolId, $roles,
-         $year, $includeArchived, $begin, $end);
-        $offeringIDs = $courses = $sessions = array();
-        foreach($offerings as $offering) {
-          $offeringIDs[] = $offering['offering_id'];
-          $courses[] = $offering['course_id'];
-          $sessions[] = $offering['session_id'];
-        }
-        $offeringIDs = array_unique($offeringIDs);
-        $courses = array_unique($courses);
-        $sessions = array_unique($sessions);
+        // get the offerings
+        $offerings = $this->_getOfferingsForCalendarFeed($userId, $schoolId, $roles, $year, $includeArchived, $begin, $end);
 
-        $instructors = $this->getOfferingsInstructors($offeringIDs);
-        $courseObjectives = $this->getCoursesObjectives($courses);
-        $courseMaterials = $this->getCoursesMaterials($courses);
-        $sessionObjectives = $this->getSessionsObjectives($sessions);
-        $sessionMaterials = $this->getSessionsMaterials($sessions);
+        // extract course/session/offering ids
+        $offeringIds = array();
+        $courseIds =  array();
+        $sessionIds = array();
 
-        for($i=0;$i<count($offerings);$i++) {
-          @$offerings[$i]['instructors'] =
-           $instructors[$offerings[$i]['offering_id']];
-          @$offerings[$i]['course_objectives'] =
-           $courseObjectives[$offerings[$i]['course_id']];
-          @$offerings[$i]['course_materials'] =
-           $courseMaterials[$offerings[$i]['course_id']];
-          @$offerings[$i]['session_objectives'] =
-           $sessionObjectives[$offerings[$i]['session_id']];
-          @$offerings[$i]['session_materials'] =
-           $sessionMaterials[$offerings[$i]['session_id']];
+        foreach ($offerings as $offering) {
+            $offeringIds[] = $offering['offering_id'];
+            $courseIds[] = $offering['course_id'];
+            $sessionIds[] = $offering['session_id'];
         }
+        $offeringIds = array_unique($offeringIds);
+        $courseIds = array_unique($courseIds);
+        $sessionIds = array_unique($sessionIds);
+
+        // retrieve associated instructors/objectives/learning materials
+        $instructors = $this->getOfferingsInstructors($offeringIds);
+        $courseObjectives = $this->getCoursesObjectives($courseIds);
+        $courseMaterials = $this->getCoursesMaterials($courseIds);
+        $sessionObjectives = $this->getSessionsObjectives($sessionIds);
+        $sessionMaterials = $this->getSessionsMaterials($sessionIds);
+
+        // attach the instructors/objectives/learning materials to the appropriate offerings
+        for ($i = 0, $n = count($offerings); $i < $n; $i++) {
+            @$offerings[$i]['instructors'] = $instructors[$offerings[$i]['offering_id']];
+            @$offerings[$i]['course_objectives'] = $courseObjectives[$offerings[$i]['course_id']];
+            @$offerings[$i]['course_materials'] = $courseMaterials[$offerings[$i]['course_id']];
+            @$offerings[$i]['session_objectives'] = $sessionObjectives[$offerings[$i]['session_id']];
+            @$offerings[$i]['session_materials'] = $sessionMaterials[$offerings[$i]['session_id']];
+        }
+
         return $offerings;
     }
 
