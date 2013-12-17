@@ -1223,9 +1223,7 @@ EOL;
         $query = $this->db->query($sql);
 
         if (0 < $query->num_rows()) {
-            foreach ($query->result_array() as $row) {
-                array_push($rhett, $row);
-            }
+            $rhett = $query->result_array();
         }
 
         $query->free_result();
@@ -1248,6 +1246,8 @@ EOL;
      */
     public function getSILMsForCalendarFeed ($userId, $schoolId = null, $roles = null, $begin = null, $end = null)
     {
+
+        $rhett = array();
 
         $clean = array();
         $clean['school_id'] = (int) $schoolId;
@@ -1290,7 +1290,7 @@ EOL;
         $sql .= "AND s.publish_event_id IS NOT NULL AND c.publish_event_id IS NOT NULL ";
 
         if (! empty($begin) && ! empty($end)) {
-            $sql .= "AND ilm_session_facet.due_date > FROM_UNIXTIME({$clean['begin']}) AND ilm_session_facet.end_date < FROM_UNIXTIME({$clean['end']})";
+            $sql .= "AND i.due_date > FROM_UNIXTIME({$clean['begin']}) AND i.due_date < FROM_UNIXTIME({$clean['end']})";
         }
 
         $clause = "( 0 ";
@@ -1317,11 +1317,8 @@ EOL;
 
         $query = $this->db->query($sql);
 
-        $rhett = array();
         if (0 < $query->num_rows()) {
-            foreach ($query->result_array() as $row) {
-                $rhett[] = $row;
-            }
+            $rhett = $query->result_array();
         }
 
         $query->free_result();
