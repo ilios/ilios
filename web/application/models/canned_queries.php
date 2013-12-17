@@ -1116,20 +1116,38 @@ EOL;
 
     }
 
-/**
- * This is function returns a given user's learning session offerings with fields that are
- * required by the calendar feed to display properly.
- * We only include some calendar filters' arguments here, only those that are reused often enough for MySQL to be able
- * to cache the query efficiently.
- *
- * @param int $userId
- * @param int $schoolId
- * @param array $roles an array of user-role ids
- * @param int $begin UNIX timestamp when to begin search
- * @param int $end UNIX timestamp when to end search
- * @return array
- * @todo Dial this method in to ONLY retrieve data that actually get exported. [ST 2013/12/12]
- */
+    /**
+     * This is function returns a given user's learning session offerings with fields that are
+     * required by the calendar feed to display properly.
+     * We only include some calendar filters' arguments here, only those that are reused often enough for MySQL to be able
+     * to cache the query efficiently.
+     *
+     * @param int $userId
+     * @param int $schoolId
+     * @param array $roles an array of user-role ids
+     * @param int $begin UNIX timestamp when to begin search
+     * @param int $end UNIX timestamp when to end search
+     * @return array
+     * @return array An array of associative arrays. Each sub-array contains course/session/ilm-event data, keyed off by:
+     *     'offering_id'              ... The offering id.
+     *     'room'                     ... The location where the offering is being taught/given.
+     *     'start_date'               ... The offering start date.
+     *     'end_date'                 ... The offering end date.
+     *     'session_id'               ... The session id.
+     *     'session_title'            ... The session title.
+     *     'session_type'             ... The session type.
+     *     'session_type_id'          ... The session type id.
+     *     'description'              ... The session description.
+     *     'attire_required'          ... Flag indicating whether special attire is required for this session or not.
+     *     'equipment_required'       ... Flag indicating whether special equipment is required for this session or not.
+     *     'supplemental'             ... Flag indicating whether this session is supplemental or not.
+     *     'published_as_tbd'         ... Flag indicating whether the session is published as "scheduled as TBD".
+     *     'course_id'                ... The course id.
+     *     'course_title'             ... The course title.
+     *     'year'                     ... The course year.
+     *     'course_level'             ... The course level.
+     *     'course_published_as_tbd'  ... Flag indicating whether the course is published as "scheduled as TBD".
+     */
     protected function _getOfferingsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $begin = null, $end = null)
     {
         $rhett = array();
@@ -1200,7 +1218,6 @@ SELECT DISTINCT
     session.published_as_tbd,
     session_description.description,
     session_type.title as session_type, session_type.session_type_id,
-    session_type.session_type_css_class,
     offering.room, offering.start_date, offering.end_date, offering.offering_id,
     course.title as course_title, course.course_id, course.year,
     course.course_level, course.published_as_tbd AS course_published_as_tbd
@@ -1242,7 +1259,7 @@ EOL;
      * @param array $roles
      * @param int $begin UNIX timestamp when to begin search
      * @param int $end UNIX timestamp when to end search
-     * @return array An array of associative arrays. Each subarray contains course/session/ilm-event data, keyed off by:
+     * @return array An array of associative arrays. Each sub-array contains course/session/ilm-event data, keyed off by:
      *     'ilm_session_facet_id'     ... The ILM-event id.
      *     'hours'                    ... The ILM-event duration (in hours).
      *     'due_date'                 ... The ILM-event due date.
