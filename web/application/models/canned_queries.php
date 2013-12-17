@@ -124,7 +124,7 @@ EOL;
             $includeArchived = false,
             $begin = null, $end = null)
     {
-        $offerings = $this->_getOfferingsForCalendarFeed($schoolId, $userId, $roles,
+        $offerings = $this->_getOfferingsForCalendarFeed($userId, $schoolId, $roles,
          $year, $includeArchived, $begin, $end);
         $offeringIDs = $courses = $sessions = array();
         foreach($offerings as $offering) {
@@ -1120,21 +1120,20 @@ EOL;
     }
 
 /**
- * This is function returns all the learning session offerings with fields that are
- * required by the calendar feed to display properly.  We only include some calendar filters'
- * arguments here, only those that are reused often enough for MySQL to be able to cache
- * the query efficiently.
+ * This is function returns a given user's learning session offerings with fields that are
+ * required by the calendar feed to display properly.
+ * We only include some calendar filters' arguments here, only those that are reused often enough for MySQL to be able
+ * to cache the query efficiently.
  *
- * Returns learning-session offerings with fields that are needed for Calendar.
- * @param int $schoolId
  * @param int $userId
+ * @param int $schoolId
  * @param array $roles an array of user-role ids
  * @param int $begin UNIX timestamp when to begin search
  * @param int $end UNIX timestamp when to end search
  * @return array
  * @todo Dial this method in to ONLY retrieve data that actually get exported. [ST 2013/12/12]
  */
-    protected function _getOfferingsForCalendarFeed ($schoolId = null, $userId = null, $roles = array(), $begin = null, $end = null)
+    protected function _getOfferingsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $begin = null, $end = null)
     {
         $rhett = array();
 
@@ -1147,55 +1146,55 @@ EOL;
 
         $schoolWhere = '';
         $dateWhere = '';
+        $userJoins = array();
+        $userWhere = array();
 
         if (! empty($schoolId)) {
             $schoolWhere = "AND course.owning_school_id = {$clean['school_id']}";
         }
         if (! empty($begin) && ! empty($end)) {
             $dateWhere =<<< EOL
- AND offering.start_date > FROM_UNIXTIME({$clean['begin']})
+AND offering.start_date > FROM_UNIXTIME({$clean['begin']})
 AND offering.end_date < FROM_UNIXTIME({$clean['end']})
 EOL;
         }
 
-        $userJoins = $userWhere = '';
-        if (!empty($userId)) {
-            $userWhere = array();
-            if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
-                $userJoins .=<<< EOL
- LEFT JOIN offering_x_learner
+        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_learner
 ON offering_x_learner.offering_id = offering.offering_id AND offering_x_learner.user_id = {$clean['user_id']}
 EOL;
-                $userJoins .=<<< EOL
- LEFT JOIN offering_x_group
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_group
 ON offering_x_group.offering_id = offering.offering_id AND offering_x_group.group_id IN (
-    SELECT group_id from group_x_user WHERE user_id = {$clean['user_id']}
+SELECT group_id from group_x_user WHERE user_id = {$clean['user_id']}
 )
 EOL;
-                $userWhere[] = 'offering_x_learner.offering_id IS NOT NULL';
-            }
-            if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
-                $userJoins .=<<< EOL
- LEFT JOIN offering_x_instructor
+            $userWhere[] = 'offering_x_learner.offering_id IS NOT NULL';
+        }
+        if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_instructor
 ON offering_x_instructor.offering_id = offering.offering_id AND offering_x_instructor.user_id = {$clean['user_id']}
 EOL;
-                $userJoins .=<<< EOL
- LEFT JOIN offering_x_instructor_group
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_instructor_group
 ON offering_x_instructor_group.offering_id = offering.offering_id AND offering_x_instructor_group.instructor_group_id IN (
-    SELECT instructor_group_id FROM instructor_group_x_user WHERE user_id= {$clean['user_id']}
+SELECT instructor_group_id FROM instructor_group_x_user WHERE user_id= {$clean['user_id']}
 )
 EOL;
-                $userWhere[] = 'offering_x_instructor.offering_id IS NOT NULL';
-            }
-            if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
-                $userJoins .=<<< EOL
- LEFT JOIN course_director ON course_director.course_id = course.course_id
+            $userWhere[] = 'offering_x_instructor.offering_id IS NOT NULL';
+        }
+        if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
+            $userJoins[] =<<< EOL
+LEFT JOIN course_director ON course_director.course_id = course.course_id
 AND course_director.user_id = {$clean['user_id']}
 EOL;
-                $userWhere[] = 'course_director.course_id IS NOT NULL';
-            }
-            $userWhere = 'AND (' . implode(' OR ', $userWhere) . ')';
+            $userWhere[] = 'course_director.course_id IS NOT NULL';
         }
+        // flatten arrays out
+        $userWhere = 'AND (' . implode(' OR ', $userWhere) . ')';
+        $userJoins = implode(' ', $userJoins);
 
         $sql =<<< EOL
 SELECT DISTINCT
