@@ -112,17 +112,14 @@ EOL;
      * @param int $userId
      * @param int $schoolId
      * @param array $roles an array of user-role ids
-     * @param int $year
-     * @param bool $includeArchived
      * @param int $begin UNIX timestamp when to begin search
      * @param int $end UNIX timestamp when to end search
      * @return array
      */
-    public function getOfferingsDetailsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $year = null,
-                                                        $includeArchived = false, $begin = null, $end = null)
+    public function getOfferingsDetailsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $begin = null, $end = null)
     {
         // get the offerings
-        $offerings = $this->_getOfferingsForCalendarFeed($userId, $schoolId, $roles, $year, $includeArchived, $begin, $end);
+        $offerings = $this->_getOfferingsForCalendarFeed($userId, $schoolId, $roles, $begin, $end);
 
         // extract course/session/offering ids
         $offeringIds = array();
