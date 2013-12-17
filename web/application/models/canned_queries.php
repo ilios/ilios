@@ -1264,7 +1264,7 @@ EOL;
         if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
             $sql .= ", s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
         }
-        
+
         // FROM clause
         $sql .= "FROM session s "
             . "JOIN course c ON c.course_id = s.course_id "
@@ -1290,7 +1290,7 @@ EOL;
         $sql .= "AND s.publish_event_id IS NOT NULL AND c.publish_event_id IS NOT NULL ";
 
         if (! empty($begin) && ! empty($end)) {
-            $sql .= "AND i.due_date > FROM_UNIXTIME({$clean['begin']}) AND i.due_date < FROM_UNIXTIME({$clean['end']})";
+            $sql .= "AND i.due_date > FROM_UNIXTIME({$clean['begin']}) AND i.due_date < FROM_UNIXTIME({$clean['end']}) ";
         }
 
         $clause = "( 0 ";
