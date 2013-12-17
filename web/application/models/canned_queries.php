@@ -109,8 +109,8 @@ EOL;
      * Similar to <code>getOfferingsForCalendar</code>, but look up additional details about the entries.
      * Returns learning-session offerings with fields that are needed for the calendar feeds.
      *
-     * @param int $schoolId
      * @param int $userId
+     * @param int $schoolId
      * @param array $roles an array of user-role ids
      * @param int $year
      * @param bool $includeArchived
@@ -118,7 +118,7 @@ EOL;
      * @param int $end UNIX timestamp when to end search
      * @return array
      */
-    public function getOfferingsDetailsForCalendarFeed ($schoolId = null, $userId = null, $roles = array(), $year = null,
+    public function getOfferingsDetailsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $year = null,
                                                         $includeArchived = false, $begin = null, $end = null)
     {
         // get the offerings
