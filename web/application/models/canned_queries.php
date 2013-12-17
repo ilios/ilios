@@ -1242,7 +1242,20 @@ EOL;
      * @param array $roles
      * @param int $begin UNIX timestamp when to begin search
      * @param int $end UNIX timestamp when to end search
-     * @return array
+     * @return array An array of associative arrays. Each subarray contains course/session/ilm-event data, keyed off by:
+     *     'ilm_session_facet_id'     ... The ILM-event id.
+     *     'hours'                    ... The ILM-event duration (in hours).
+     *     'due_date'                 ... The ILM-event due date.
+     *     'session_id'               ... The session id.
+     *     'session_title'            ... The session title.
+     *     'session_type_id'          ... The session type id.
+     *     'event_details'            ... The session description.
+     *     'published_as_tbd'         ... Flag indicating whether the session is published as "scheduled as TBD".
+     *     'course_id'                ... The course id.
+     *     'course_title'             ... The course title.
+     *     'year'                     ... The course year.
+     *     'course_level'             ... The course level.
+     *     'course_published_as_tbd'  ... Flag indicating whether the course is published as "scheduled as TBD".
      */
     public function getSILMsForCalendarFeed ($userId, $schoolId = null, $roles = null, $begin = null, $end = null)
     {
@@ -1259,11 +1272,9 @@ EOL;
         // SELECT clause
         $sql = "SELECT DISTINCT "
             . "s.session_id, i.ilm_session_facet_id, i.hours, i.due_date, s.title AS session_title, s.session_type_id, "
-            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details ";
+            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details "
+            . "s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
 
-        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
-            $sql .= ", s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
-        }
 
         // FROM clause
         $sql .= "FROM session s "
