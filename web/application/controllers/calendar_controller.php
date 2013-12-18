@@ -22,6 +22,7 @@ class Calendar_Controller extends Ilios_Web_Controller
         $this->load->model('School', 'school', TRUE);
         $this->load->model('User', 'user', TRUE);
         $this->load->model('User_Made_Reminder', 'reminder', TRUE);
+        $this->load->model('Authentication', 'authentication', TRUE);
 
         $this->load->library("ICalExporter");
         $this->load->library('CalendarFeedDataProvider');
@@ -568,7 +569,7 @@ class Calendar_Controller extends Ilios_Web_Controller
      */
     public function getApiKey ()
     {
-        $key = $this->authentication->getApiToken($this->session->userdata('uid'));
+        $key = $this->authentication->getApiKey($this->session->userdata('uid'));
         if (false !== $key) {
             header('Content-type: text/plain');
             print json_encode(array('key' => $key));
