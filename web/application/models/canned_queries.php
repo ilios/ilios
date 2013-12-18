@@ -1289,7 +1289,7 @@ EOL;
         // SELECT clause
         $sql = "SELECT DISTINCT "
             . "s.session_id, i.ilm_session_facet_id, i.hours, i.due_date, s.title AS session_title, s.session_type_id, "
-            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details "
+            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details, "
             . "s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
 
 
