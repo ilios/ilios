@@ -60,10 +60,8 @@ class CalendarFeedDataProvider
         $hostaddress = str_replace('http://', '', base_url());
         $hostaddress = str_replace('https://', '', $hostaddress);
 
-        if ("/" == substr($hostaddress, strlen($hostaddress) - 1)) {
-            // strip the slash at the end of the string.
-            $hostaddress = substr($hostaddress, 0, strlen($hostaddress) - 1);
-        }
+        // strip the slash at the end of the string.
+        $hostaddress = rtrim($hostaddress, '/');
 
         // Create an array of events for iCalendar from offerings array;
         // also combine offerings with same offering_ids.
