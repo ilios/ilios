@@ -72,7 +72,7 @@ class Authentication extends Ilios_Base_Model
      * @param string $key The api key.
      * @return boolean TRUE on update, FALSE otherwise.
      */
-    public function addApiKey ($userId, $key)
+    public function createApiKey ($userId, $key)
     {
         $newRow = array();
         $newRow['user_id'] = $userId;
