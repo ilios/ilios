@@ -44,7 +44,7 @@ class CalendarFeedDataProvider
      *     'rec_type'   ... Recurrence type.
      *     'rec_length' ... The event duration in seconds.
      *     'location'   ... Event location.
-     * 
+     *
      * @see ICalExporter::toICal()
      */
     public function getData ($userId, $schoolId = null, array $userRoles = array())

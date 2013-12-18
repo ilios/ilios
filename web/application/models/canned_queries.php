@@ -1316,9 +1316,12 @@ EOL;
         }
 
         // WHERE clause
-        $sql .= "WHERE s.deleted = 0 AND c.deleted = 0 AND c.archived = 0 AND c.owning_school_id = {$clean['school_id']} ";
+        $sql .= "WHERE s.deleted = 0 AND c.deleted = 0 AND c.archived = 0 ";
         $sql .= "AND s.publish_event_id IS NOT NULL AND c.publish_event_id IS NOT NULL ";
 
+        if (! empty($schoolId)) {
+            $sql .= "AND c.owning_school_id = {$clean['school_id']} ";
+        }
         if (! empty($begin) && ! empty($end)) {
             $sql .= "AND i.due_date > FROM_UNIXTIME({$clean['begin']}) AND i.due_date < FROM_UNIXTIME({$clean['end']}) ";
         }
@@ -1334,7 +1337,7 @@ EOL;
             $clause .= "OR ilm_session_facet_x_instructor.user_id = {$clean['user_id']} "
                 ."OR EXISTS (SELECT instructor_group_x_user.user_id FROM instructor_group_x_user "
                 . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id "
-                . "AND instructor_group_x_user.user_id = {$clean['user_id']})";
+                . "AND instructor_group_x_user.user_id = {$clean['user_id']}) ";
         }
         if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
             $clause .= "OR course_director.user_id = {$clean['user_id']} ";
