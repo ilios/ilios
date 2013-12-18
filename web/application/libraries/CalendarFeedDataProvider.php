@@ -30,11 +30,22 @@ class CalendarFeedDataProvider
      * Retrieves calendar events comprised of offerings and independent learning sessions
      * for a given user in the context of a given school and given user role(s).
      *
+     * The output of this method can be fed into <code>ICalExporter::toICal()</code> to produce an iCalendar feed.
+     *
      * @param int $userId The user id.
      * @param int|null $schoolId An "owning" school id. If NULL is given then offerings across all schools are queried.
      * @param array $userRoles An list of user role ids providing.
-     * @return array A list of calendar events.
-     * @todo Improve code docs, elaborate on the return value of this method. [ST 2013/12/13]
+     * @return array An array of assoc. arrays. Each item represents a calendar event, containing values keyed off by:
+     *     'event_id'   ... A unique event id.
+     *     'text'       ... Event description/summary.
+     *     'start_date' ... Event start date.
+     *     'end_date'   ... Event end date.
+     *     'event_pid'  ... The parent event id of this event (in a series of event).
+     *     'rec_type'   ... Recurrence type.
+     *     'rec_length' ... The event duration in seconds.
+     *     'location'   ... Event location.
+     * 
+     * @see ICalExporter::toICal()
      */
     public function getData ($userId, $schoolId = null, array $userRoles = array())
     {
@@ -166,6 +177,7 @@ class CalendarFeedDataProvider
             $event['text'] .= $session['course_title'].' - '.$session['session_title']; // SUMMARY
             $event['start_date'] = $session['due_date'] . ' 17:00:00';
             $event['end_date'] = $session['due_date'] . ' 17:30:00';
+            $event['event_details'] = $session['event_details'];
             $event['location'] = null;
             $event['event_pid'] = null;
             $event['rec_type'] = null;
