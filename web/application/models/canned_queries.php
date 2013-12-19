@@ -218,7 +218,7 @@ SELECT objective.title, course.course_id
 FROM course
 JOIN course_x_objective ON course.course_id=course_x_objective.course_id
 JOIN objective ON course_x_objective.objective_id=objective.objective_id
-WHERE course.course_id IN ($courses);
+WHERE course.course_id IN ($courses)
 EOL;
         $query = $this->db->query($sql);
 
@@ -259,7 +259,7 @@ JOIN course_learning_material
  ON course.course_id=course_learning_material.course_id
 JOIN learning_material
  ON course_learning_material.learning_material_id=learning_material.learning_material_id
-WHERE course.course_id IN ($courses);
+WHERE course.course_id IN ($courses)
 EOL;
         $query = $this->db->query($sql);
 
@@ -300,7 +300,7 @@ JOIN session_learning_material
  ON session.session_id=session_learning_material.session_id
 JOIN learning_material
  ON session_learning_material.learning_material_id=learning_material.learning_material_id
-WHERE session.session_id IN ($sessions);
+WHERE session.session_id IN ($sessions)
 EOL;
         $query = $this->db->query($sql);
 
@@ -335,7 +335,7 @@ SELECT objective.title, session.session_id
 FROM session
 JOIN session_x_objective on session.session_id=session_x_objective.session_id
 JOIN objective on session_x_objective.objective_id=objective.objective_id
-WHERE session.session_id in ($sessions);
+WHERE session.session_id in ($sessions)
 EOL;
         $query = $this->db->query($sql);
 
