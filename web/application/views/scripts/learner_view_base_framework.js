@@ -468,6 +468,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
     var hasCompetencyAssociation = false;
     var i, j, m, n = 0;
     var objectiveIds;
+    var competencyKey;
 
     // create the catch-all "unassociated" competency
     competencySessionObjectiveMap['unassociated'] = {
@@ -488,7 +489,7 @@ ilios.learner_view.buildCollatedSessionObjectives = function (parsedObject, cont
                 competencyMap[competencies[0].competency_id] = {
                     'title' : competencies[0].title,
                     'parentTitle' : (2 == competencies.length ? competencies[1].title : '')
-                }
+                };
             }
         }
         // add the course objective map to the lookup table
