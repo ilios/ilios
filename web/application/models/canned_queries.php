@@ -168,11 +168,22 @@ EOL;
         $offerings = implode(',', $offerings);
         $sql =<<< EOL
 SELECT
- user.first_name, user.last_name,
- offering_x_instructor.offering_id
+user.first_name, user.last_name,
+offering_x_instructor.offering_id
 FROM offering_x_instructor
 JOIN user ON offering_x_instructor.user_id=user.user_id
-WHERE offering_x_instructor.offering_id IN ($offerings);
+WHERE offering_x_instructor.offering_id IN ($offerings)
+
+UNION DISTINCT
+
+SELECT
+user.first_name, user.last_name,
+offering_x_instructor_group.offering_id
+FROM offering_x_instructor_group
+JOIN instructor_group_x_user
+    ON instructor_group_x_user.instructor_group_id = offering_x_instructor_group.instructor_group_id
+JOIN user ON user.user_id = instructor_group_x_user.user_id
+WHERE offering_x_instructor_group.offering_id IN ($offerings)
 EOL;
         $query = $this->db->query($sql);
 
