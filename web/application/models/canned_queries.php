@@ -1197,6 +1197,7 @@ SELECT group_id from group_x_user WHERE user_id = {$clean['user_id']}
 )
 EOL;
             $userWhere[] = 'offering_x_learner.offering_id IS NOT NULL';
+            $userWhere[] = 'offering_x_group.offering_id IS NOT NULL';
         }
         if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
             $userJoins[] =<<< EOL
@@ -1210,6 +1211,7 @@ SELECT instructor_group_id FROM instructor_group_x_user WHERE user_id= {$clean['
 )
 EOL;
             $userWhere[] = 'offering_x_instructor.offering_id IS NOT NULL';
+            $userWhere[] = 'offering_x_instructor_group.offering_id IS NOT NULL';
         }
         if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
             $userJoins[] =<<< EOL
@@ -1325,25 +1327,28 @@ EOL;
         }
 
         // WHERE clause
-        $sql .= "WHERE s.deleted = 0 AND c.deleted = 0 AND c.archived = 0 AND c.owning_school_id = {$clean['school_id']} ";
+        $sql .= "WHERE s.deleted = 0 AND c.deleted = 0 AND c.archived = 0 ";
         $sql .= "AND s.publish_event_id IS NOT NULL AND c.publish_event_id IS NOT NULL ";
 
+        if (! empty($schoolId)) {
+            $sql .= "AND c.owning_school_id = {$clean['school_id']} ";
+        }
         if (! empty($begin) && ! empty($end)) {
             $sql .= "AND i.due_date > FROM_UNIXTIME({$clean['begin']}) AND i.due_date < FROM_UNIXTIME({$clean['end']}) ";
         }
 
         $clause = "( 0 ";
         if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
-            $clause .= "OR ( ilm_session_facet_x_learner.user_id = {$clean['user_id']} "
+            $clause .= "OR ilm_session_facet_x_learner.user_id = {$clean['user_id']} "
                 . "OR EXISTS (SELECT group_x_user.user_id FROM group_x_user "
                 . "WHERE group_x_user.group_id = ilm_session_facet_x_group.group_id "
-                . "AND group_x_user.user_id = {$clean['user_id']}) ) ";
+                . "AND group_x_user.user_id = {$clean['user_id']}) ";
         }
         if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
-            $clause .= "OR ( ilm_session_facet_x_instructor.user_id = {$clean['user_id']} "
+            $clause .= "OR ilm_session_facet_x_instructor.user_id = {$clean['user_id']} "
                 ."OR EXISTS (SELECT instructor_group_x_user.user_id FROM instructor_group_x_user "
                 . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id "
-                . "AND instructor_group_x_user.user_id = {$clean['user_id']}) ) ";
+                . "AND instructor_group_x_user.user_id = {$clean['user_id']}) ";
         }
         if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
             $clause .= "OR course_director.user_id = {$clean['user_id']} ";
