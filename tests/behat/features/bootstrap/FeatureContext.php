@@ -17,7 +17,7 @@ class FeatureContext extends MinkContext
     /**
      * @Given /^I am on the Ilios home page$/
      */
-    public function iAmOnTheIliosHomePage()
+    public function iAmOnTheIliosHomePage ()
     {
         throw new PendingException();
     }
@@ -25,7 +25,7 @@ class FeatureContext extends MinkContext
     /**
      * @Then /^I should see "(.*?)"$/
      */
-    public function iShouldSee($text)
+    public function iShouldSee ($text)
     {
         throw new PendingException();
     }
@@ -33,7 +33,7 @@ class FeatureContext extends MinkContext
     /**
      * @Then /^"(.*?)" should contain "(.*?)"/
      */
-    public function shouldHaveContent($id, $content)
+    public function shouldContain ($id, $content)
     {
         throw new PendingException();
     }
@@ -41,7 +41,7 @@ class FeatureContext extends MinkContext
     /**
      * @Given /^I navigate to the "(.*?)" tab$/
      */
-    public function iNavigateToTheTab($tabName) {
+    public function iNavigateToTheTab ($tabName) {
         throw new PendingException();
     }
 
