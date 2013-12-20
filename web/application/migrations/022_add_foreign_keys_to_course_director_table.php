@@ -32,7 +32,7 @@ ALTER IGNORE TABLE `course_director`
     ADD CONSTRAINT `fkey_course_director_user_id`
         FOREIGN KEY (`user_id`)
         REFERENCES `user` (`user_id`)
-        ON UPDATE CASCADE ON DELETE CASCADE;
+        ON UPDATE CASCADE ON DELETE CASCADE
 EOL;
         $this->db->query($sql);
         $this->db->trans_complete();
@@ -49,7 +49,7 @@ ALTER TABLE `course_director`
     DROP INDEX `fkey_course_director_user_id`,
     DROP FOREIGN KEY `fkey_course_director_user_id`,
     DROP FOREIGN KEY `fkey_course_director_course_id`,
-    DROP PRIMARY KEY;
+    DROP PRIMARY KEY
 EOL;
         $this->db->query($sql);
         $this->db->trans_complete();
