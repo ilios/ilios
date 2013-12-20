@@ -19,16 +19,9 @@ class FeatureContext extends MinkContext
      */
     public function iAmOnTheIliosHomePage ()
     {
-        throw new PendingException();
+        $this->getSession()->visit('/');
     }
 
-    /**
-     * @Then /^I should see "(.*?)"$/
-     */
-    public function iShouldSee ($text)
-    {
-        throw new PendingException();
-    }
 
     /**
      * @Then /^"(.*?)" should contain "(.*?)"/
