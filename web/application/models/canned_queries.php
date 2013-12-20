@@ -856,7 +856,7 @@ EOL;
             $queryString = <<<EOL
 SELECT `owning_school_id` FROM `group` JOIN `cohort` USING(`cohort_id`)
 JOIN `program_year` USING(`program_year_id`) JOIN `program` USING(`program_id`)
-WHERE `group_id` = {$groupId};
+WHERE `group_id` = {$groupId}
 EOL;
             $queryResults = $this->db->query($queryString);
 
