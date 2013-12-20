@@ -241,7 +241,7 @@ CREATE TABLE `ilm_session_facet_instructor` (
         ON DELETE CASCADE
 )
 COLLATE='utf8_general_ci'
-ENGINE=InnoDB;
+ENGINE=InnoDB
 EOL;
         $this->db->query($sql);
 

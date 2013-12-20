@@ -83,10 +83,16 @@ $viewsPath = getServerFilePath('views');
                                     </span>
                                 </li>
                                 <li>
-                                    <a href="<?php echo $siteUrl; ?>/calendar_exporter/exportICalendar/student" class="medium radius button" title="<?php echo $ical_download_title; ?>">
+                                    <a href="<?php echo $siteUrl; ?>/calendar_controller/exportICalendar/student" class="medium radius button" title="<?php echo $ical_download_title; ?>">
                                         <span class="icon-download icon-alone"></span>
                                         <span class="screen-reader-text"><?php echo $ical_download_button; ?></span>
                                     </a>
+                                </li>
+                                <li>
+                                    <span id="ical_feed_btn" title="<?php echo t("dashboard.icalendar.feed_title", false); ?>" class="medium radius button">
+                                        <span class="icon-feed icon-alone"></span>
+                                        <span class="screen-reader-text"><?php echo t("dashboard.icalendar.feed_title"); ?></span>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -126,6 +132,7 @@ $viewsPath = getServerFilePath('views');
 <?php
     include $viewsPath . 'common/course_summary_view_include.php';
     include $viewsPath . 'home/calendar_filters_dialog.inc.php';
+    include $viewsPath . 'home/calendar_feed_dialog.inc.php';
 ?>
     <div class="tabdialog" id="report_competency_pick_dialog"></div>
 
@@ -162,6 +169,7 @@ $viewsPath = getServerFilePath('views');
         YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadAllOfferings);
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.assembleCalendarEventDetailsDialog);
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.initFilterHooks);
+        YAHOO.util.Event.onDOMReady(ilios.home.calendar.initFeedHooks);
     </script>
 </body>
 </html>

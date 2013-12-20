@@ -407,6 +407,133 @@ ilios.home.calendar.selectAllCheckboxes = function (elContainer, checked) {
     return false;
 };
 
+ilios.home.calendar.getFeedURL = function (f, field) {
+    var method = "GET";
+    var ajaxURL = baseURL + "calendar_controller/" + f;
+    var feedURL = baseURL.replace(/^https?/,'webcal') + "api/calendar/";
+    var paramString = '';
+    var message = 'Error fetching feed URL';
+
+    var ajaxCallback = {
+            success: function (resultObject) {
+                var parsedObject = null;
+
+                try {
+                    parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
+                }
+                catch (e) {
+                    ilios.global.defaultAJAXFailureHandler(null, e);
+                    field.value = message;
+                    return;
+                }
+                if (parsedObject.error != null) {
+                    field.value = message;
+                    return;
+                }
+
+                field.value = feedURL + parsedObject['key'];
+                field.select();
+
+                ilios.home.transaction.activeRequests['getFeedURL'] = null;
+            },
+
+            failure: function (resultObject) {
+                ilios.global.defaultAJAXFailureHandler(resultObject);
+                ilios.home.transaction.activeRequests['getFeedURL'] = null;
+                field.value = message;
+            },
+
+            argument: {}
+    };
+
+    // Abort any previous request.
+    if ((typeof ilios.home.transaction.activeRequests['getFeedURL'] != undefined) &&
+        (ilios.home.transaction.activeRequests['getFeedURL'] != null)) {
+
+        var request = ilios.home.transaction.activeRequests['getFeedURL'];
+        if (YAHOO.util.Connect.isCallInProgress(request)) {
+            YAHOO.util.Connect.abort(request);
+        }
+    }
+
+    ilios.home.transaction.activeRequests['getFeedURL'] = YAHOO.util.Connect.asyncRequest(method, ajaxURL, ajaxCallback, paramString);
+}
+
+ilios.home.calendar.initFeedHooks = function () {
+    var Dom = YAHOO.util.Dom;
+    var Event = YAHOO.util.Event;
+    // Initialize the toggle button for the feed dialog
+    var btntoggle = Dom.get('ical_feed_btn');
+    var dialogid = 'ical_feed_dialog';
+    var panelid = "dashboard_ical_feed_content";
+    var panel = Dom.get(panelid);
+    var apiURLField = Dom.get("apiurl");
+
+    if (null != btntoggle) {
+        if (null != Dom.get(dialogid)) {
+            var dialog = new YAHOO.widget.Dialog( dialogid, {
+                width: "800px",
+                height: "250px",
+                modal: true,
+                visible: false,
+                constraintoviewport: false,
+                buttons: [
+                    {
+                        text: ilios_i18nVendor.getI18NString('general.terms.generate'),
+                        handler: function () {
+                            ilios.home.calendar.getFeedURL('createNewApiKey', apiURLField);
+                            return false;
+                        }
+                    },
+                    {
+                        text: ilios_i18nVendor.getI18NString('general.terms.close'),
+                        handler: function () {
+                            this.cancel();
+                        },
+                        isDefault: true
+                    }
+                ]
+            });
+
+            dialog.showDialogPane = function() {
+                this.cfg.setProperty("x", Math.floor((YAHOO.util.Dom.getViewportWidth() - 800) / 2));
+                this.cfg.setProperty("y", Math.floor((YAHOO.util.Dom.getViewportHeight() - 250) / 2));
+                ilios.home.calendar.getFeedURL('getApiKey', apiURLField);
+                this.show();
+            };
+
+            dialog.render();
+
+            ilios.home.calendar.feedDialog = dialog;
+
+            Event.addListener( btntoggle, "click", function () {
+                ilios.home.calendar.feedDialog.showDialogPane();
+                return false;
+            });
+        } else {
+            Event.addListener( btntoggle, "click", function () {
+                ilios.home.calendar.togglePanel( panelid,  true );
+                // return false;
+            });
+        }
+    }
+
+    // Initialize 'Regenerate' button
+    var regenbutton = Dom.get("ical_feed_search_button");
+
+    if (null != regembutton) {
+        if (null != ilios.home.calendar.feedDialog) {
+            Event.addListener( regenbutton, "click", function () {
+                return false;
+            });
+        } else {
+            Event.addListener( regenbutton, "click", function () {
+                return false;
+            });
+        }
+    }
+};
+
 ilios.home.calendar.initFilterHooks = function () {
     var Dom = YAHOO.util.Dom;
     var Event = YAHOO.util.Event;
@@ -426,7 +553,7 @@ ilios.home.calendar.initFilterHooks = function () {
                 y: 0,
                 buttons: [
                     {
-                        text: "Search",
+                        text: ilios_i18nVendor.getI18NString('general.terms.search'),
                         handler: function () {
                             ilios.home.calendar.filtersDialog.submit();
                             ilios.home.calendar.applyCalendarFilters();
@@ -435,7 +562,7 @@ ilios.home.calendar.initFilterHooks = function () {
                         isDefault: true
                     },
                     {
-                        text: "Cancel",
+                        text: ilios_i18nVendor.getI18NString('general.terms.cancel'),
                         handler: function () {
                             this.cancel();
                         }

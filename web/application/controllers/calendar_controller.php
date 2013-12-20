@@ -22,6 +22,10 @@ class Calendar_Controller extends Ilios_Web_Controller
         $this->load->model('School', 'school', TRUE);
         $this->load->model('User', 'user', TRUE);
         $this->load->model('User_Made_Reminder', 'reminder', TRUE);
+        $this->load->model('Authentication', 'authentication', TRUE);
+
+        $this->load->library("ICalExporter");
+        $this->load->library('CalendarFeedDataProvider');
     }
 
     /**
@@ -552,6 +556,111 @@ class Calendar_Controller extends Ilios_Web_Controller
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
+    }
+
+    /**
+     * This action retrieves and prints the current user's API key. If none exists yet then the key will be created
+     * as part of the process.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "key", which contains the API key as its value.
+     * On failure, the object contains a property "error", which contains an error message as its value.
+     */
+    public function getApiKey ()
+    {
+        $key = $this->authentication->getApiKey($this->session->userdata('uid'));
+        if (false !== $key) {
+            header('Content-type: text/plain');
+            print json_encode(array('key' => $key));
+        } else {
+            $this->createNewApiKey();
+        }
+    }
+
+    /**
+     * This action updates or creates the API key for the current user.
+     *
+     * This method prints out a result object as JSON-formatted text.
+     *
+     * On success, the object contains a property "key", which contains the API key as its value.
+     * On failure, the object contains a property "error", which contains an error message as its value.
+     *
+     * @todo Refactor the actual key generation algorithm out into a utility class/method. [ST 2013/12/13]
+     */
+    public function createNewApiKey ()
+    {
+        $userId = $this->session->userdata('uid');
+
+        // generate new key
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            $key = bin2hex(openssl_random_pseudo_bytes(32));
+        } else {
+            $key = '';
+            for ($i = 0; $i < 32; $i++) {
+                $key = $key . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+            }
+        }
+
+        // check if key already exists.
+        if (false === $this->authentication->getApiKey($userId)) {
+            // create new key
+            $success = $this->authentication->createApiKey($userId, $key);
+        } else {
+            // update key
+            $success = $this->authentication->changeApiKey($userId, $key);
+        }
+
+        header('Content-type: text/plain');
+        if ($success) {
+            print json_encode(array('key' => $key));
+        } else {
+            print json_encode(array('error' => 'Error'));
+        }
+    }
+
+    /**
+     * @todo add code docs
+     * @param string $role
+     */
+    public function exportICalendar ($role='all')
+    {
+        $userRoles = array();
+
+        // authorization check and capture of user requested/available user roles
+        if ($this->session->userdata('is_learner') && ($role == 'all' || $role == 'student')) {
+            $userRoles[] = User_Role::STUDENT_ROLE_ID;
+        }
+        if ($this->session->userdata('has_instructor_access') && ($role == 'all' || $role == 'instructor')) {
+            $userRoles[] = User_Role::FACULTY_ROLE_ID;
+            $userRoles[] = User_Role::COURSE_DIRECTOR_ROLE_ID;
+        }
+        if (! count($userRoles)) {
+            header('HTTP/1.1 403 Forbidden'); // VERBOTEN!
+            return;
+        }
+
+        $userId = $this->session->userdata('uid');
+
+        $schoolId = $this->session->userdata('school_id');
+
+        $events = $this->calendarfeeddataprovider->getData($userId, $schoolId, $userRoles);
+
+        $calendar_title = 'Ilios Calendar';
+        $this->icalexporter->setTitle($calendar_title);
+        $ical = $this->icalexporter->toICal($events);
+
+        $filename="ilios_calendar.ics";
+        header('Last-Modified: '. gmdate('D, d M Y H:i:s', time()) .' GMT');
+        header('Cache-Control: private, must-revalidate, pre-check=0, post-check=0, max-age=0');
+        header('Expires: '. gmdate('D, d M Y H:i:s', 0) .'GMT');
+        header('Pragma: no-cache');
+        header('Accept-Ranges: none');
+        header('Content-disposition: attachment; filename='.$filename);
+        header('Content-length: '.strlen($ical));
+        header('Content-type: text/calendar');
+
+        echo $ical;
     }
 
     /**

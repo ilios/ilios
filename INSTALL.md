@@ -90,6 +90,12 @@ We recommend the following exposure scheme; this is assuming Ilios is installed 
       Allow from all
     </LocationMatch>
 
+    <!-- API controller -->
+    <LocationMatch "/ilios.php/api">
+      Satisfy Any
+      Allow from all
+    </LocationMatch>
+
     <Location /index.php>
       Satisfy Any
       Allow from all

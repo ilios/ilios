@@ -77,6 +77,22 @@ CREATE TABLE `school` (
     CONSTRAINT `fkey_authentication_user` FOREIGN KEY (`person_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Table api_key
+--
+DROP TABLE IF EXISTS `api_key`;
+CREATE TABLE `api_key` (
+    `user_id` INT(10) UNSIGNED NOT NULL,
+    `api_key` VARCHAR(64) NOT NULL COLLATE 'utf8_unicode_ci',
+    PRIMARY KEY (`user_id`),
+    UNIQUE INDEX `api_key` (`api_key`),
+    CONSTRAINT `fk_api_key_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
+
 	--
 	-- Table user_role
 	--
@@ -1051,18 +1067,27 @@ ENGINE=InnoDB;
 
 
 
-	--
-	-- Table course_director
-	--
-
-	DROP TABLE IF EXISTS `course_director`;
-	SET character_set_client = utf8;
-	CREATE TABLE `course_director` (
-	  `course_id` INT(14) UNSIGNED NOT NULL,
-	  `user_id` INT(14) UNSIGNED NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
+--
+-- Table course_director
+--
+DROP TABLE IF EXISTS `course_director`;
+CREATE TABLE `course_director` (
+    `course_id` INT(14) UNSIGNED NOT NULL,
+    `user_id` INT(14) UNSIGNED NOT NULL,
+    PRIMARY KEY (`course_id`, `user_id`),
+    INDEX `fkey_course_director_user_id` (`user_id`),
+    CONSTRAINT `fkey_course_director_course_id`
+        FOREIGN KEY (`course_id`)
+        REFERENCES `course` (`course_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT `fkey_course_director_user_id`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`user_id`)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+DEFAULT CHARSET='utf8'
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
 
 	--
 	-- Table session_x_discipline

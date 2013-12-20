@@ -28,7 +28,7 @@ class Authentication_Controller extends Ilios_Base_Controller
         $this->load->library('session');
 
         $this->load->model('Authentication', 'authentication', true);
-        $this->load->model('User', 'user', TRUE);
+        $this->load->model('User', 'user', true);
 
         // set the authentication subsystem to use
         $authn = $this->config->item('ilios_authentication');
@@ -177,30 +177,12 @@ class Authentication_Controller extends Ilios_Base_Controller
                 && $authenticationRow->password_sha256 === Ilios_PasswordUtils::hashPassword($password, $salt)) { // password comparison
 
                 // load the user record
-                $user = $this->user->getEnabledUsersById($authenticationRow->person_id);
+                $user = $this->user->getEnabledUserById($authenticationRow->person_id);
             }
         }
 
         if ($user) { // authentication succeeded. log the user in.
-
-            $now = time();
-
-            $sessionData = array(
-                'uid' => $user['user_id'],
-                'username' => $user['email'],
-                'is_learner' => $this->user->userIsLearner($user['user_id']),
-                'has_instructor_access' => $this->user->userHasInstructorAccess($user['user_id']),
-                'has_admin_access' => $this->user->userHasAdminAccess($user['user_id']),
-                'primary_school_id' => $user['primary_school_id'],
-                'school_id' => $user['primary_school_id'],
-                'login' => $now,
-                'last' => $now,
-                'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
-                'display_last' => date('F j, Y G:i T', $now)
-            );
-
-            $this->session->set_userdata($sessionData);
-            $rhett['success'] = 'huzzah';
+            $rhett['success'] = $this->_log_in_user($user);
         } else { // login failed
             $msg = $this->languagemap->getI18NString('login.error.bad_login');
             $rhett['error'] = $msg;
@@ -263,21 +245,7 @@ class Authentication_Controller extends Ilios_Base_Controller
                     $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
                     $this->load->view('common/forbidden', $data);
                 } else {
-                    $now = time();
-                    $sessionData = array(
-                        'uid' => $user['user_id'],
-                        'username' => $emailAddress,
-                        'is_learner' => $this->user->userIsLearner($user['user_id']),
-                        'has_instructor_access' => $this->user->userHasInstructorAccess($user['user_id']),
-                        'has_admin_access' => $this->user->userHasAdminAccess($user['user_id']),
-                        'primary_school_id' => $user['primary_school_id'],
-                        'school_id' => $user['primary_school_id'],
-                        'login' => $now,
-                        'last' => $now,
-                        'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
-                        'display_last' => date('F j, Y G:i T', $now)
-                    );
-                    $this->session->set_userdata($sessionData);
+                    $this->_log_in_user($user);
                     $this->session->set_flashdata('logged_in', 'jo');
                     if ($this->session->userdata('last_url')) {
                         $this->output->set_header("Location: " . $this->session->userdata('last_url'));
@@ -347,31 +315,13 @@ class Authentication_Controller extends Ilios_Base_Controller
         if ($authenticated) { // login succeeded
             // get the user record from the database
             $authenticationRow = $this->authentication->getByUsername($username);
-            $user = false;
             if ($authenticationRow) {
                 // load the user record
-                $user = $this->user->getEnabledUsersById($authenticationRow->person_id);
+                $user = $this->user->getEnabledUserById($authenticationRow->person_id);
             }
 
             if ($user) {
-                $now = time();
-
-                $sessionData = array(
-                    'uid' => $user['user_id'],
-                    'username' => $user['email'],
-                    'is_learner' => $this->user->userIsLearner($user['user_id']),
-                    'has_instructor_access' => $this->user->userHasInstructorAccess($user['user_id']),
-                    'has_admin_access' => $this->user->userHasAdminAccess($user['user_id']),
-                    'primary_school_id' => $user['primary_school_id'],
-                    'school_id' => $user['primary_school_id'],
-                    'login' => $now,
-                    'last' => $now,
-                    'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
-                    'display_last' => date('F j, Y G:i T', $now)
-                );
-
-                $this->session->set_userdata($sessionData);
-                $rhett['success'] = 'huzzah';
+                $rhett['success'] = $this->_log_in_user($user);
             } else {
                 //  login was success but we don't have a corresponding user record on file
                 // or the user is disabled
@@ -400,5 +350,29 @@ class Authentication_Controller extends Ilios_Base_Controller
     public function _ldap_index ()
     {
         $this->_default_index(); // piggy-back on the default index method for displaying the login form
+    }
+
+    /**
+     * Common log-in functionality across all methods
+     */
+    protected function _log_in_user($user) {
+        $now = time();
+
+        $sessionData = array(
+            'uid' => $user['user_id'],
+            'username' => $user['email'],
+            'is_learner' => $this->user->userIsLearner($user['user_id']),
+            'has_instructor_access' => $this->user->userHasInstructorAccess($user['user_id']),
+            'has_admin_access' => $this->user->userHasAdminAccess($user['user_id']),
+            'primary_school_id' => $user['primary_school_id'],
+            'school_id' => $user['primary_school_id'],
+            'login' => $now,
+            'last' => $now,
+            'display_fullname' => $user['first_name'] . ' ' . $user['last_name'],
+            'display_last' => date('F j, Y G:i T', $now)
+        );
+
+        $this->session->set_userdata($sessionData);
+        return 'huzzah';
     }
 }

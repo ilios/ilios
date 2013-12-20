@@ -105,8 +105,255 @@ EOL;
         return $rhett;
     }
 
+    /**
+     * Similar to <code>getOfferingsForCalendar</code>, but look up additional details about the entries.
+     * Returns learning-session offerings with fields that are needed for the calendar feeds.
+     *
+     * @param int $userId
+     * @param int $schoolId
+     * @param array $roles an array of user-role ids
+     * @param int $begin UNIX timestamp when to begin search
+     * @param int $end UNIX timestamp when to end search
+     * @return array
+     */
+    public function getOfferingsDetailsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $begin = null, $end = null)
+    {
+        // get the offerings
+        $offerings = $this->_getOfferingsForCalendarFeed($userId, $schoolId, $roles, $begin, $end);
+
+        // extract course/session/offering ids
+        $offeringIds = array();
+        $courseIds =  array();
+        $sessionIds = array();
+
+        foreach ($offerings as $offering) {
+            $offeringIds[] = $offering['offering_id'];
+            $courseIds[] = $offering['course_id'];
+            $sessionIds[] = $offering['session_id'];
+        }
+        $offeringIds = array_unique($offeringIds);
+        $courseIds = array_unique($courseIds);
+        $sessionIds = array_unique($sessionIds);
+
+        // retrieve associated instructors/objectives/learning materials
+        $instructors = $this->getOfferingsInstructors($offeringIds);
+        $courseObjectives = $this->getCoursesObjectives($courseIds);
+        $courseMaterials = $this->getCoursesMaterials($courseIds);
+        $sessionObjectives = $this->getSessionsObjectives($sessionIds);
+        $sessionMaterials = $this->getSessionsMaterials($sessionIds);
+
+        // attach the instructors/objectives/learning materials to the appropriate offerings
+        for ($i = 0, $n = count($offerings); $i < $n; $i++) {
+            @$offerings[$i]['instructors'] = $instructors[$offerings[$i]['offering_id']];
+            @$offerings[$i]['course_objectives'] = $courseObjectives[$offerings[$i]['course_id']];
+            @$offerings[$i]['course_materials'] = $courseMaterials[$offerings[$i]['course_id']];
+            @$offerings[$i]['session_objectives'] = $sessionObjectives[$offerings[$i]['session_id']];
+            @$offerings[$i]['session_materials'] = $sessionMaterials[$offerings[$i]['session_id']];
+        }
+
+        return $offerings;
+    }
 
     /**
+     * @param array $offerings An array of offering ids.
+     * @return array
+     */
+    public function getOfferingsInstructors (array $offerings)
+    {
+        $rhett = array();
+
+        if (empty($offerings)) {
+            return $rhett;
+        }
+        $offerings = implode(',', $offerings);
+        $sql =<<< EOL
+SELECT
+user.first_name, user.last_name,
+offering_x_instructor.offering_id
+FROM offering_x_instructor
+JOIN user ON offering_x_instructor.user_id=user.user_id
+WHERE offering_x_instructor.offering_id IN ($offerings)
+
+UNION DISTINCT
+
+SELECT
+user.first_name, user.last_name,
+offering_x_instructor_group.offering_id
+FROM offering_x_instructor_group
+JOIN instructor_group_x_user
+    ON instructor_group_x_user.instructor_group_id = offering_x_instructor_group.instructor_group_id
+JOIN user ON user.user_id = instructor_group_x_user.user_id
+WHERE offering_x_instructor_group.offering_id IN ($offerings)
+EOL;
+        $query = $this->db->query($sql);
+
+
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['offering_id']])) {
+                    $rhett[$row['offering_id']] = array();
+                }
+                $rhett[$row['offering_id']][] = $row['first_name'] . ' ' . $row['last_name'];
+            }
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * @param array $courses An array of course ids.
+     * @return array
+     */
+    public function getCoursesObjectives(array $courses)
+    {
+        $rhett = array();
+        if (empty($courses)) {
+            return $rhett;
+        }
+        $courses = implode(',', $courses);
+        $sql =<<< EOL
+SELECT objective.title, course.course_id
+FROM course
+JOIN course_x_objective ON course.course_id=course_x_objective.course_id
+JOIN objective ON course_x_objective.objective_id=objective.objective_id
+WHERE course.course_id IN ($courses)
+EOL;
+        $query = $this->db->query($sql);
+
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['course_id']])) {
+                    $rhett[$row['course_id']] = array();
+                }
+                $rhett[$row['course_id']][] = $row['title'];
+            }
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * @param array $courses An array of course ids.
+     * @return array
+     */
+    public function getCoursesMaterials(array $courses)
+    {
+        $rhett = array();
+        if (empty($courses)) {
+            return $rhett;
+        }
+
+        $courses = implode(',', $courses);
+        $sql =<<< EOL
+SELECT
+ learning_material.title, learning_material.description,
+  learning_material.learning_material_id, learning_material.filename,
+ course_learning_material.required, course_learning_material.notes,
+ course.course_id
+FROM course
+JOIN course_learning_material
+ ON course.course_id=course_learning_material.course_id
+JOIN learning_material
+ ON course_learning_material.learning_material_id=learning_material.learning_material_id
+WHERE course.course_id IN ($courses)
+EOL;
+        $query = $this->db->query($sql);
+
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['course_id']])) {
+                    $rhett[$row['course_id']] = array();
+                }
+                $rhett[$row['course_id']][] = $row;
+            }
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * @param array $sessions An array of session ids.
+     * @return array
+     */
+    public function getSessionsMaterials(array $sessions)
+    {
+        $rhett = array();
+
+        if (empty($sessions)) {
+            return $rhett;
+        }
+        $sessions = implode(',', $sessions);
+        $sql =<<< EOL
+SELECT
+ learning_material.title, learning_material.description,
+  learning_material.learning_material_id, learning_material.filename,
+ session_learning_material.required, session_learning_material.notes,
+ session.session_id
+FROM session
+JOIN session_learning_material
+ ON session.session_id=session_learning_material.session_id
+JOIN learning_material
+ ON session_learning_material.learning_material_id=learning_material.learning_material_id
+WHERE session.session_id IN ($sessions)
+EOL;
+        $query = $this->db->query($sql);
+
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['session_id']])) {
+                    $rhett[$row['session_id']] = array();
+                }
+                $rhett[$row['session_id']][] = $row;
+            }
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * @param array $sessions An array of session ids.
+     * @return array
+     */
+    public function getSessionsObjectives (array $sessions)
+    {
+        $rhett = array();
+
+        if (empty($sessions)) {
+            return $rhett;
+        }
+        $sessions = implode(',', $sessions);
+        $sql =<<< EOL
+SELECT objective.title, session.session_id
+FROM session
+JOIN session_x_objective on session.session_id=session_x_objective.session_id
+JOIN objective on session_x_objective.objective_id=objective.objective_id
+WHERE session.session_id in ($sessions)
+EOL;
+        $query = $this->db->query($sql);
+
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['session_id']])) {
+                    $rhett[$row['session_id']] = array();
+                }
+                $rhett[$row['session_id']][] = $row['title'];
+            }
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /*
      * This function returns all the learning session offerings with fields that are
      * required by the calendar to display properly.  We only include some calendar filters'
      * arguments here, only those that are reused often enough for MySQL to be able to cache
@@ -193,6 +440,7 @@ EOL;
         if (!empty($clean['year'])) {
             $sql .= " AND c.year = {$clean['year']}";
         }
+
         if (!empty($clean['user_id'])) {
             if ($student_role) {
                 $subqueries[] = $sql . " AND `offering_x_learner`.`user_id` = {$clean['user_id']}";
@@ -228,7 +476,7 @@ EOL;
                 break;
             default :
                 if ($student_role) {
-                    $sql =<<< EOL
+        $sql =<<< EOL
 SELECT DISTINCT d.offering_id, d.start_date, d.end_date, d.session_id, d.room,
 d.course_id, d.course_title, d.year, d.course_level,
 d.session_type_id, d.session_title, d.session_type_css_class, d.recently_updated,
@@ -608,7 +856,7 @@ EOL;
             $queryString = <<<EOL
 SELECT `owning_school_id` FROM `group` JOIN `cohort` USING(`cohort_id`)
 JOIN `program_year` USING(`program_year_id`) JOIN `program` USING(`program_id`)
-WHERE `group_id` = {$groupId};
+WHERE `group_id` = {$groupId}
 EOL;
             $queryResults = $this->db->query($queryString);
 
@@ -877,5 +1125,248 @@ EOL;
 
         return $queryResults->result_array();
 
+    }
+
+    /**
+     * This is function returns a given user's learning session offerings with fields that are
+     * required by the calendar feed to display properly.
+     * We only include some calendar filters' arguments here, only those that are reused often enough for MySQL to be able
+     * to cache the query efficiently.
+     *
+     * @param int $userId
+     * @param int $schoolId
+     * @param array $roles an array of user-role ids
+     * @param int $begin UNIX timestamp when to begin search
+     * @param int $end UNIX timestamp when to end search
+     * @return array
+     * @return array An array of associative arrays. Each sub-array contains course/session/ilm-event data, keyed off by:
+     *     'offering_id'              ... The offering id.
+     *     'room'                     ... The location where the offering is being taught/given.
+     *     'start_date'               ... The offering start date.
+     *     'end_date'                 ... The offering end date.
+     *     'session_id'               ... The session id.
+     *     'session_title'            ... The session title.
+     *     'session_type'             ... The session type.
+     *     'session_type_id'          ... The session type id.
+     *     'description'              ... The session description.
+     *     'attire_required'          ... Flag indicating whether special attire is required for this session or not.
+     *     'equipment_required'       ... Flag indicating whether special equipment is required for this session or not.
+     *     'supplemental'             ... Flag indicating whether this session is supplemental or not.
+     *     'published_as_tbd'         ... Flag indicating whether the session is published as "scheduled as TBD".
+     *     'course_id'                ... The course id.
+     *     'course_title'             ... The course title.
+     *     'year'                     ... The course year.
+     *     'course_level'             ... The course level.
+     *     'course_published_as_tbd'  ... Flag indicating whether the course is published as "scheduled as TBD".
+     */
+    protected function _getOfferingsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $begin = null, $end = null)
+    {
+        $rhett = array();
+
+        // Sanitize input
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
+        $clean['user_id'] = (int) $userId;
+        $clean['begin'] = (int) $begin;
+        $clean['end'] = (int) $end;
+
+        $schoolWhere = '';
+        $dateWhere = '';
+        $userJoins = array();
+        $userWhere = array();
+
+        if (! empty($schoolId)) {
+            $schoolWhere = "AND course.owning_school_id = {$clean['school_id']}";
+        }
+        if (! empty($begin) && ! empty($end)) {
+            $dateWhere =<<< EOL
+AND offering.start_date > FROM_UNIXTIME({$clean['begin']})
+AND offering.end_date < FROM_UNIXTIME({$clean['end']})
+EOL;
+        }
+
+        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_learner
+ON offering_x_learner.offering_id = offering.offering_id AND offering_x_learner.user_id = {$clean['user_id']}
+EOL;
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_group
+ON offering_x_group.offering_id = offering.offering_id AND offering_x_group.group_id IN (
+SELECT group_id from group_x_user WHERE user_id = {$clean['user_id']}
+)
+EOL;
+            $userWhere[] = 'offering_x_learner.offering_id IS NOT NULL';
+            $userWhere[] = 'offering_x_group.offering_id IS NOT NULL';
+        }
+        if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_instructor
+ON offering_x_instructor.offering_id = offering.offering_id AND offering_x_instructor.user_id = {$clean['user_id']}
+EOL;
+            $userJoins[] =<<< EOL
+LEFT JOIN offering_x_instructor_group
+ON offering_x_instructor_group.offering_id = offering.offering_id AND offering_x_instructor_group.instructor_group_id IN (
+SELECT instructor_group_id FROM instructor_group_x_user WHERE user_id= {$clean['user_id']}
+)
+EOL;
+            $userWhere[] = 'offering_x_instructor.offering_id IS NOT NULL';
+            $userWhere[] = 'offering_x_instructor_group.offering_id IS NOT NULL';
+        }
+        if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
+            $userJoins[] =<<< EOL
+LEFT JOIN course_director ON course_director.course_id = course.course_id
+AND course_director.user_id = {$clean['user_id']}
+EOL;
+            $userWhere[] = 'course_director.course_id IS NOT NULL';
+        }
+        // flatten arrays out
+        $userWhere = 'AND (' . implode(' OR ', $userWhere) . ')';
+        $userJoins = implode(' ', $userJoins);
+
+        $sql =<<< EOL
+SELECT DISTINCT
+    session.title as session_title, session.attire_required,
+    session.equipment_required, session.supplemental, session.session_id,
+    session.published_as_tbd,
+    session_description.description,
+    session_type.title as session_type, session_type.session_type_id,
+    offering.room, offering.start_date, offering.end_date, offering.offering_id,
+    course.title as course_title, course.course_id, course.year,
+    course.course_level, course.published_as_tbd AS course_published_as_tbd
+FROM offering
+    JOIN session ON offering.session_id = session.session_id
+    JOIN session_type ON session.session_type_id = session_type.session_type_id
+    LEFT JOIN session_description ON session.session_id = session_description.session_id
+    JOIN course ON session.course_id = course.course_id
+    $userJoins
+WHERE
+    offering.deleted=0 AND session.deleted=0 AND course.deleted=0
+    AND course.publish_event_id IS NOT NULL
+    AND session.publish_event_id IS NOT NULL
+    AND course.archived = 0
+    $schoolWhere
+    $dateWhere
+    $userWhere
+ORDER BY offering.start_date ASC, offering.offering_id ASC
+EOL;
+        $query = $this->db->query($sql);
+
+        if (0 < $query->num_rows()) {
+            $rhett = $query->result_array();
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
+     * This function returns all the independent learning sessions with fields that are
+     * required by the calendar feed to display properly.  We only include some calendar filters'
+     * arguments here, only those that are reused often enough for MySQL to be able to cache
+     * the query efficiently.
+     *
+     * @param int $schoolId
+     * @param int $userId
+     * @param array $roles
+     * @param int $begin UNIX timestamp when to begin search
+     * @param int $end UNIX timestamp when to end search
+     * @return array An array of associative arrays. Each sub-array contains course/session/ilm-event data, keyed off by:
+     *     'ilm_session_facet_id'     ... The ILM-event id.
+     *     'hours'                    ... The ILM-event duration (in hours).
+     *     'due_date'                 ... The ILM-event due date.
+     *     'session_id'               ... The session id.
+     *     'session_title'            ... The session title.
+     *     'session_type_id'          ... The session type id.
+     *     'event_details'            ... The session description.
+     *     'published_as_tbd'         ... Flag indicating whether the session is published as "scheduled as TBD".
+     *     'course_id'                ... The course id.
+     *     'course_title'             ... The course title.
+     *     'year'                     ... The course year.
+     *     'course_level'             ... The course level.
+     *     'course_published_as_tbd'  ... Flag indicating whether the course is published as "scheduled as TBD".
+     */
+    public function getSILMsForCalendarFeed ($userId, $schoolId = null, $roles = null, $begin = null, $end = null)
+    {
+
+        $rhett = array();
+
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
+        $clean['user_id'] = (int) $userId;
+        $clean['roles'] = empty($roles) ? null : (is_array($roles) ? $roles : array($roles));
+        $clean['begin'] = (int) $begin;
+        $clean['end'] = (int) $end;
+
+        // SELECT clause
+        $sql = "SELECT DISTINCT "
+            . "s.session_id, i.ilm_session_facet_id, i.hours, i.due_date, s.title AS session_title, s.session_type_id, "
+            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details, "
+            . "s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
+
+
+        // FROM clause
+        $sql .= "FROM session s "
+            . "JOIN course c ON c.course_id = s.course_id "
+            . "JOIN ilm_session_facet i ON i.ilm_session_facet_id = s.ilm_session_facet_id "
+            . "LEFT JOIN session_description sd ON sd.session_id = s.session_id ";
+
+        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+            $sql .= "LEFT JOIN ilm_session_facet_x_learner ON ilm_session_facet_x_learner.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_group ON ilm_session_facet_x_group.ilm_session_facet_id = s.ilm_session_facet_id ";
+        }
+
+        if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor ON ilm_session_facet_x_instructor.ilm_session_facet_id = s.ilm_session_facet_id ";
+            $sql .= "LEFT JOIN ilm_session_facet_x_instructor_group ON ilm_session_facet_x_instructor_group.ilm_session_facet_id = s.ilm_session_facet_id ";
+        }
+
+        if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
+            $sql .= "LEFT JOIN course_director ON course_director.course_id = c.course_id ";
+        }
+
+        // WHERE clause
+        $sql .= "WHERE s.deleted = 0 AND c.deleted = 0 AND c.archived = 0 ";
+        $sql .= "AND s.publish_event_id IS NOT NULL AND c.publish_event_id IS NOT NULL ";
+
+        if (! empty($schoolId)) {
+            $sql .= "AND c.owning_school_id = {$clean['school_id']} ";
+        }
+        if (! empty($begin) && ! empty($end)) {
+            $sql .= "AND i.due_date > FROM_UNIXTIME({$clean['begin']}) AND i.due_date < FROM_UNIXTIME({$clean['end']}) ";
+        }
+
+        $clause = "( 0 ";
+        if (in_array(User_Role::STUDENT_ROLE_ID, $roles)) {
+            $clause .= "OR ilm_session_facet_x_learner.user_id = {$clean['user_id']} "
+                . "OR EXISTS (SELECT group_x_user.user_id FROM group_x_user "
+                . "WHERE group_x_user.group_id = ilm_session_facet_x_group.group_id "
+                . "AND group_x_user.user_id = {$clean['user_id']}) ";
+        }
+        if (in_array(User_Role::FACULTY_ROLE_ID, $roles)) {
+            $clause .= "OR ilm_session_facet_x_instructor.user_id = {$clean['user_id']} "
+                ."OR EXISTS (SELECT instructor_group_x_user.user_id FROM instructor_group_x_user "
+                . "WHERE instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id "
+                . "AND instructor_group_x_user.user_id = {$clean['user_id']}) ";
+        }
+        if (in_array(User_Role::COURSE_DIRECTOR_ROLE_ID, $roles)) {
+            $clause .= "OR course_director.user_id = {$clean['user_id']} ";
+        }
+        $clause .= " )";
+        $sql .= "AND  $clause ";
+
+        // ORDER BY clause
+        $sql .= "ORDER BY i.due_date ASC, s.session_id ASC";
+
+        $query = $this->db->query($sql);
+
+        if (0 < $query->num_rows()) {
+            $rhett = $query->result_array();
+        }
+
+        $query->free_result();
+
+        return $rhett;
     }
 }

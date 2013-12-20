@@ -1,4 +1,4 @@
-/* Use this script if you need to support IE 7 and IE 6. */
+/* Load this script using conditional IE comments if you need to support IE 7 and IE 6. */
 
 window.onload = function() {
 	function addIcon(el, entity) {
@@ -6,7 +6,6 @@ window.onload = function() {
 		el.innerHTML = '<span style="font-family: \'ilios-icons\'">' + entity + '</span>' + html;
 	}
 	var icons = {
-			'icon-home' : '&#xe00f;',
 			'icon-edit' : '&#x270e;',
 			'icon-search' : '&#x26b2;',
 			'icon-actions' : '&#xe015;',
@@ -19,7 +18,7 @@ window.onload = function() {
 			'icon-star' : '&#xe011;',
 			'icon-plus' : '&#xe001;',
 			'icon-minus' : '&#xe01e;',
-			'icon-help' : '&#xe000;',
+			'icon-help' : '&#xe002;',
 			'icon-info' : '&#x2014;',
 			'icon-blocked' : '&#x26d4;',
 			'icon-cancel' : '&#x2715;',
@@ -52,19 +51,23 @@ window.onload = function() {
 			'icon-user' : '&#xe014;',
 			'icon-users' : '&#xe01d;',
 			'icon-add-user' : '&#xe01f;',
-			'icon-locked' : '&#xe018;'
+			'icon-locked' : '&#xe018;',
+			'icon-feed' : '&#xe000;'
 		},
 		els = document.getElementsByTagName('*'),
-		i, attr, html, c, el;
-	for (i = 0; i < els.length; i += 1) {
+		i, attr, c, el;
+	for (i = 0; ; i += 1) {
 		el = els[i];
+		if(!el) {
+			break;
+		}
 		attr = el.getAttribute('data-icon');
 		if (attr) {
 			addIcon(el, attr);
 		}
 		c = el.className;
 		c = c.match(/icon-[^\s'"]+/);
-		if (c) {
+		if (c && icons[c[0]]) {
 			addIcon(el, icons[c[0]]);
 		}
 	}
