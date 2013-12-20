@@ -11,3 +11,5 @@ web/application/config/config.php
 web/application/config/database.php
 web/application/config/ilios.php
 tests/phpunit/phpunit.xml
+tests/behat/bin
+tests/behat/vendor
