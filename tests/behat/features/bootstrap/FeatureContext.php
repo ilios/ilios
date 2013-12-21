@@ -19,7 +19,7 @@ class FeatureContext extends MinkContext
      */
     public function iAmOnTheIliosHomePage ()
     {
-        $this->getSession()->visit('/');
+        $this->visit("/");
     }
 
 
@@ -83,7 +83,6 @@ class FeatureContext extends MinkContext
      */
     public function iEnterInto ($content, $field)
     {
-        //fill_in field, :with => content
         $this->fillField($field, $content);
     }
 
