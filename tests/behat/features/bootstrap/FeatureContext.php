@@ -83,7 +83,8 @@ class FeatureContext extends MinkContext
      */
     public function iEnterInto ($content, $field)
     {
-        throw new PendingException();
+        //fill_in field, :with => content
+        $this->fillField($field, $content);
     }
 
     /**
@@ -99,7 +100,10 @@ class FeatureContext extends MinkContext
      */
     public function iLogInAsWithPassword ($user, $login)
     {
-        throw new PendingException();
+        $this->clickLink("Login");
+        $this->iEnterInto($user, "User Name");
+        $this->iEnterInto($login, "Password");
+        $this->pressButton("Login");
     }
 
     /**
