@@ -62,19 +62,21 @@ $viewsPath = getServerFilePath('views');
                 <div id="login_panel_div"
                      style="margin: auto;  padding: 0.5em; width: 17em;
                              background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
-                    <label for="user_name"><?php echo $word_username; ?></label>
-                    <input type="text" id="user_name" name="user_name" value=""
-                            style="margin-right: 2px; float: right; width: 160px;"
-                            onkeypress="return handleUserNameFieldInput(this, event);"/>
-                    <div style="height: 9px;" class="clear"></div>
-                    <label for="password"><?php echo $word_password; ?></label>
-                    <input type="password" id="password" name="password" value=""
-                            style="margin-right: 2px; float: right; width: 160px;"
-                            onkeypress="return handlePasswordFieldInput(this, event);"/>
-                    <div style="height: 6px;" class="clear"></div>
-                    <button id="login_button" style="margin-right: 9px; float: right;"
-                            onclick="attemptLogin(); return false;"><?php echo $word_login; ?></button>
-                    <div class="clear"></div>
+                    <form method="POST" action="#">
+                        <label for="user_name"><?php echo $word_username; ?></label>
+                        <input type="text" id="user_name" name="user_name" value=""
+                                style="margin-right: 2px; float: right; width: 160px;"
+                                onkeypress="return handleUserNameFieldInput(this, event);"/>
+                        <div style="height: 9px;" class="clear"></div>
+                        <label for="password"><?php echo $word_password; ?></label>
+                        <input type="password" id="password" name="password" value=""
+                                style="margin-right: 2px; float: right; width: 160px;"
+                                onkeypress="return handlePasswordFieldInput(this, event);"/>
+                        <div style="height: 6px;" class="clear"></div>
+                        <button id="login_button" style="margin-right: 9px; float: right;"
+                                onclick="attemptLogin(); return false;"><?php echo $word_login; ?></button>
+                        <div class="clear"></div>
+                    </form>
                 </div>
             </div>
         </div>
