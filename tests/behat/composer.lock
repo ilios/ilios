@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "bf6b264752a1cca3aa195c8dcf0ab79c",
+    "hash": "da3e30ffd001e403f26bbcd64906b60e",
     "packages": [
         {
             "name": "behat/behat",
