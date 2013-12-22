@@ -1,6 +1,8 @@
 default:
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost
-            goutte: ~
+            base_url: https://localhost
+            goutte:
+                guzzle_parameters:
+                     ssl.certificate_authority: false
             selenium2: ~
