@@ -34,7 +34,8 @@ class FeatureContext extends MinkContext
     /**
      * @Given /^I navigate to the "(.*?)" tab$/
      */
-    public function iNavigateToTheTab ($tabName) {
+    public function iNavigateToTheTab ($tabName)
+    {
         throw new PendingException();
     }
 
@@ -79,14 +80,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I enter "(.*?)" into "(.*?)"$/
-     */
-    public function iEnterInto ($content, $field)
-    {
-        $this->fillField($field, $content);
-    }
-
-    /**
      * @Given /^I set "(.*?)" to "(.*?)"$/
      */
     public function iSetTo ($content, $field)
@@ -100,9 +93,9 @@ class FeatureContext extends MinkContext
     public function iLogInAsWithPassword ($user, $login)
     {
         $this->clickLink("Login");
-        $this->iEnterInto($user, "User Name");
-        $this->iEnterInto($login, "Password");
-        $this->pressButton("Login");
+        $this->fillField("User Name", $user);
+        $this->fillField("Password", $login);
+        $this->pressButton("login_button");
     }
 
     /**
