@@ -2,15 +2,16 @@ default:
     extensions:
         Behat\MinkExtension\Extension:
             base_url: https://localhost
+            default_session: goutte
+            javascript_session: selenium2
+            browser_name: 'firefox'
             goutte:
                 guzzle_parameters:
                      ssl.certificate_authority: false
-browser:
-    extensions:
-        Behat\MinkExtension\Extension:
-            base_url: https://localhost
-            default_session: selenium2
-            browser_name: 'firefox'
             selenium2:
-                capabilities: { "browser": "firefox", "version": "14"}
+                     capabilities: { "browser": "firefox", "version": "14"}
+
+
+
+
 
