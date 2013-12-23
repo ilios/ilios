@@ -8,8 +8,8 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I log in as "zero_user" with password "Ch4nge_m3"
     And I navigate to the "Programs" tab
     And I click the "Add Program" link
-    And I enter "Test Med Program" into "new_program_title"
-    And I enter "TMP" into "new_short_title"
+    And I fill in "Test Med Program" for "new_program_title"
+    And I fill in "TMP" for "new_short_title"
     And I click the "Done" button
     Then I should see "Test Med Program"
     And I click the "Add New Program Year" button
