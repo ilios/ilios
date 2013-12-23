@@ -3,6 +3,7 @@ Feature: Access, program creation, cohort creation, course creation (independent
   Admins should be able engage in evidence-based curriculum management
   Which requires adding and interacting with curricular content
 
+  @javascript
   Scenario: Add program
     Given I am on the Ilios home page
     And I log in as "zero_user" with password "Ch4nge_m3"
