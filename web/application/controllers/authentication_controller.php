@@ -174,7 +174,7 @@ class Authentication_Controller extends Ilios_Base_Controller
 
         // authentication succeeded. log the user in, then redirect to the dashboard.
         if (! empty($user)) {
-            $this->_log_in_user($user);
+            $this->_storeUserInSession($user);
             $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
             return;
         }
@@ -239,7 +239,7 @@ class Authentication_Controller extends Ilios_Base_Controller
                     $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
                     $this->load->view('common/forbidden', $data);
                 } else {
-                    $this->_log_in_user($user);
+                    $this->_storeUserInSession($user);
                     $this->session->set_flashdata('logged_in', 'jo');
                     if ($this->session->userdata('last_url')) {
                         $this->output->set_header("Location: " . $this->session->userdata('last_url'));
@@ -320,7 +320,7 @@ class Authentication_Controller extends Ilios_Base_Controller
             }
 
             if ($user) {
-                $this->_log_in_user($user);
+                $this->_storeUserInSession($user);
             } else {
                 //  login was success but we don't have a corresponding user record on file
                 // or the user is disabled
@@ -364,7 +364,7 @@ class Authentication_Controller extends Ilios_Base_Controller
      *
      * @method array $user An associative array representing a user record.
      */
-    protected function _log_in_user (array $user) {
+    protected function _storeUserInSession (array $user) {
         $now = time();
 
         $sessionData = array(
