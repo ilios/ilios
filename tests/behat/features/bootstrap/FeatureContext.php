@@ -36,7 +36,7 @@ class FeatureContext extends MinkContext
      */
     public function iNavigateToTheTab ($tabName)
     {
-        throw new PendingException();
+        $this->getSession()->getPage()->find('css', '.tabs')->findLink($tabName)->click();
     }
 
     /**
