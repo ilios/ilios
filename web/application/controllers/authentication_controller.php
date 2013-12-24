@@ -108,16 +108,9 @@ class Authentication_Controller extends Ilios_Base_Controller
     protected function _default_index ()
     {
         $logout = $this->input->get_post('logout');
-
         $username = $this->session->userdata('username');
 
         $data['login_message'] = $this->languagemap->getI18NString('login.default_status');
-        $data['login_title'] = $this->languagemap->getI18NString('login.title');
-        $data['word_login'] = $this->languagemap->getI18NString('general.terms.login');
-        $data['word_password'] = $this->languagemap->getI18NString('general.terms.password');
-        $data['word_username'] = $this->languagemap->getI18NString('general.terms.username');
-        $data['last_url'] = '';
-        $data['param_string'] = '';
 
         if(! $username) { // not logged in
              $this->load->view('login/login', $data);
@@ -152,25 +145,23 @@ class Authentication_Controller extends Ilios_Base_Controller
      *     'username' ... the user account login handle
      *     'password' ... the  corresponding password in plain text
      *
-     * Prints out an result-array as JSON-formatted text.
-     * On success, the result-array will contain a success message, keyed off by "success".
-     * On failure, the result-array will contain an error message, keyed off by "error".
+     * On successful login, the user will be redirected to the dashboard.
+     * On login failure, the user will be thrown back onto the login screen.
      *
      * @see Authentication_Controller::login()
+     * @todo Add proper input validation. [ST 2013/12/23]
+     * @todo Add CSRF token to login form. [ST 2013/12/23]
      */
     protected function _default_login ()
     {
-        $rhett = array();
-
-        $username = $this->input->get_post('username');
-
-        $password = $this->input->get_post('password');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
 
         $salt = $this->config->item('ilios_authentication_internal_auth_salt');
 
         $authenticationRow = $this->authentication->getByUsername($username);
 
-        $user = false;
+        $user = array();
 
         if ($authenticationRow) {
             if ('' !== trim($authenticationRow->password_sha256) // ensure that we have a password on file
@@ -181,15 +172,18 @@ class Authentication_Controller extends Ilios_Base_Controller
             }
         }
 
-        if ($user) { // authentication succeeded. log the user in.
-            $rhett['success'] = $this->_log_in_user($user);
-        } else { // login failed
-            $msg = $this->languagemap->getI18NString('login.error.bad_login');
-            $rhett['error'] = $msg;
+        // authentication succeeded. log the user in, then redirect to the dashboard.
+        if (! empty($user)) {
+            $this->_storeUserInSession($user);
+            $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
+            return;
         }
 
-        header("Content-Type: text/plain");
-        echo json_encode($rhett);
+        // handle login error
+        $this->output->set_header('Expires: 0');
+        $this->load->view('login/login', array(
+            'login_message' => $this->languagemap->getI18NString('login.error.bad_login'))
+        );
     }
 
     /**
@@ -245,8 +239,7 @@ class Authentication_Controller extends Ilios_Base_Controller
                     $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
                     $this->load->view('common/forbidden', $data);
                 } else {
-                    $this->_log_in_user($user);
-                    $this->session->set_flashdata('logged_in', 'jo');
+                    $this->_storeUserInSession($user);
                     if ($this->session->userdata('last_url')) {
                         $this->output->set_header("Location: " . $this->session->userdata('last_url'));
                         $this->session->unset_userdata('last_url');
@@ -286,14 +279,20 @@ class Authentication_Controller extends Ilios_Base_Controller
 
     /**
      * Implements the "login" action for the ldap authn system.
+     *
+     * @todo Provide proper docblock. [ST 2013/12/23]
+     * @todo Provider proper input validation [ST 2013/12/23]
+     * @todo Add CSRF token to login form. [ST 2013/12/23]
+     * @todo Translate error messages. [ST 2013/12/23]
+     * @todo Handle LDAP connectivity failure more graceful. [ST 2012/12/23]
      */
     public function _ldap_login ()
     {
-        $rhett = array();
+        $errMsg = false;
 
         // get login credentials from user input
-        $username = $this->input->get_post('username');
-        $password = $this->input->get_post('password');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
 
         $authenticated = false;
 
@@ -308,8 +307,7 @@ class Authentication_Controller extends Ilios_Base_Controller
                 $authenticated = true; // auth. successful
             }
         } else {
-            die('couldnt connect to ldap server');
-            // @todo log connectivity failure
+            die("couldn't connect to ldap server");
         }
 
         if ($authenticated) { // login succeeded
@@ -321,19 +319,27 @@ class Authentication_Controller extends Ilios_Base_Controller
             }
 
             if ($user) {
-                $rhett['success'] = $this->_log_in_user($user);
+                $this->_storeUserInSession($user);
             } else {
                 //  login was success but we don't have a corresponding user record on file
                 // or the user is disabled
-                $rhett['error']  = 'Your username does not match any active user records in Ilios. If you need further assistance, please contact your Ilios administrator. Thank you.';
+                $errMsg = 'Your username does not match any active user records in Ilios. If you need further assistance, please contact your Ilios administrator. Thank you.';
             }
         } else { // login failed
-            $msg = $this->i18nVendor->getI18NString('login.error.bad_login');
-            $rhett['error'] = $msg;
+            $errMsg = $this->languagemap->getI18NString('login.error.bad_login');
         }
 
-        header("Content-Type: text/plain");
-        echo json_encode($rhett);
+        // login succeeded. redirect to dashboard.
+        if (false === $errMsg) {
+            $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
+            return;
+        }
+
+        // handle login error.
+        $this->output->set_header('Expires: 0');
+        $this->load->view('login/login', array(
+            'login_message' => $errMsg)
+        );
     }
 
     /**
@@ -353,9 +359,11 @@ class Authentication_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Common log-in functionality across all methods
+     * Takes a user record and populates the user session from it.
+     *
+     * @method array $user An associative array representing a user record.
      */
-    protected function _log_in_user($user) {
+    protected function _storeUserInSession (array $user) {
         $now = time();
 
         $sessionData = array(
@@ -373,6 +381,5 @@ class Authentication_Controller extends Ilios_Base_Controller
         );
 
         $this->session->set_userdata($sessionData);
-        return 'huzzah';
     }
 }

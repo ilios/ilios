@@ -15,7 +15,7 @@ $viewsPath = getServerFilePath('views');
 <head>
     <meta charset="utf-8">
 
-    <title><?php echo $login_title; ?></title>
+    <title><?php echo t('login.title'); ?></title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -54,30 +54,27 @@ $viewsPath = getServerFilePath('views');
         </header>
         <div id="main" role="main">
             <div id="content" class="clearfix">
-
-                <div style="font-size: 16pt; margin-top: 12px; margin-bottom: 12px; position: relative;">
-                    <center id="login_status_message"><?php echo $login_message; ?></center>
-                </div>
-
-                <div id="login_panel_div"
-                     style="margin: auto;  padding: 0.5em; width: 17em;
-                             background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
-                    <form method="POST" action="#">
-                        <label for="user_name"><?php echo $word_username; ?></label>
+                <form method="post" action="<?php echo $controllerURL. '/login'; ?>">
+                    <div style="font-size: 16pt; margin-top: 12px; margin-bottom: 12px; position: relative;">
+                        <center id="login_status_message"><?php echo $login_message; ?></center>
+                    </div>
+                    <div id="login_panel_div"
+                         style="margin: auto;  padding: 0.5em; width: 17em;
+                                 background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
+                        <label for="user_name"><?php echo t('general.terms.username'); ?></label>
                         <input type="text" id="user_name" name="user_name" value=""
-                                style="margin-right: 2px; float: right; width: 160px;"
-                                onkeypress="return handleUserNameFieldInput(this, event);"/>
+                                style="margin-right: 2px; float: right; width: 160px;" />
                         <div style="height: 9px;" class="clear"></div>
-                        <label for="password"><?php echo $word_password; ?></label>
+                        <label for="password"><?php echo t('general.terms.password'); ?></label>
                         <input type="password" id="password" name="password" value=""
-                                style="margin-right: 2px; float: right; width: 160px;"
-                                onkeypress="return handlePasswordFieldInput(this, event);"/>
+                                style="margin-right: 2px; float: right; width: 160px;" />
                         <div style="height: 6px;" class="clear"></div>
-                        <button id="login_button" style="margin-right: 9px; float: right;"
-                                onclick="attemptLogin(); return false;"><?php echo $word_login; ?></button>
+                        <button type="submit" id="login_button" style="margin-right: 9px; float: right;">
+                            <?php echo t('general.terms.login'); ?>
+                        </button>
                         <div class="clear"></div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
