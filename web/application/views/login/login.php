@@ -7,6 +7,7 @@
  * Expects the following variables to be present:
  *    'login_message' ... May contain info- or error-messages to the user regarding the login form/process.
  */
+$controllerURL = site_url() . '/authentication_controller';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
