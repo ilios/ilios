@@ -699,28 +699,6 @@ ENGINE=InnoDB;
 	  PRIMARY KEY (`publish_event_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-
-
-	--
-	-- Table database_metadata
-	--
-	--	the row with the highest id will represent the current state of the db
-	--
-
-	DROP TABLE IF EXISTS `database_metadata`;
-	SET character_set_client = utf8;
-	CREATE TABLE `database_metadata` (
-	  `database_metadata_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `time_stamp` TIMESTAMP NOT NULL,
-	  `mesh_release_version` VARCHAR(60) COLLATE utf8_unicode_ci NOT NULL,
-	  `last_som_feed` TIMESTAMP NOT NULL,
-	  `last_sis_feed` TIMESTAMP NOT NULL,
-	  `last_cp_feed` TIMESTAMP NOT NULL,
-	  PRIMARY KEY (`database_metadata_id`) USING BTREE
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-
 	--
 	-- Table permission
 	--
