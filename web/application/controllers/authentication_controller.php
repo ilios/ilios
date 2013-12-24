@@ -152,25 +152,23 @@ class Authentication_Controller extends Ilios_Base_Controller
      *     'username' ... the user account login handle
      *     'password' ... the  corresponding password in plain text
      *
-     * Prints out an result-array as JSON-formatted text.
-     * On success, the result-array will contain a success message, keyed off by "success".
-     * On failure, the result-array will contain an error message, keyed off by "error".
+     * On successful login, the user will be redirected to the dashboard.
+     * On login failure, the user will be thrown back onto the login screen.
      *
      * @see Authentication_Controller::login()
+     * @todo Add proper input validation. [ST 2013/12/23]
+     * @todo Add CSRF token to login form. [ST 2013/12/23]
      */
     protected function _default_login ()
     {
-        $rhett = array();
-
-        $username = $this->input->get_post('username');
-
-        $password = $this->input->get_post('password');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
 
         $salt = $this->config->item('ilios_authentication_internal_auth_salt');
 
         $authenticationRow = $this->authentication->getByUsername($username);
 
-        $user = false;
+        $user = array();
 
         if ($authenticationRow) {
             if ('' !== trim($authenticationRow->password_sha256) // ensure that we have a password on file
@@ -181,16 +179,18 @@ class Authentication_Controller extends Ilios_Base_Controller
             }
         }
 
-        if ($user) { // authentication succeeded. log the user in.
+        // authentication succeeded. log the user in, then redirect to the dashboard.
+        if (! empty($user)) {
             $this->_log_in_user($user);
-            $rhett['success'] = 'huzzah';
-        } else { // login failed
-            $msg = $this->languagemap->getI18NString('login.error.bad_login');
-            $rhett['error'] = $msg;
+            $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
+            return;
         }
 
-        header("Content-Type: text/plain");
-        echo json_encode($rhett);
+        // handle login error
+        $this->output->set_header('Expires: 0');
+        $this->load->view('login/login', array(
+            'login_message' => $this->languagemap->getI18NString('login.error.bad_login'))
+        );
     }
 
     /**
