@@ -1,12 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
+ * @file login.php
+ *
  * Login page template.
  *
- * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
- * @license http://www.iliosproject.org/license GNU GPL v3
+ * Expects the following variables to be present:
+ *    'login_message' ... May contain info- or error-messages to the user regarding the login form/process.
  */
-$controllerURL = site_url() . '/authentication_controller'; // TODO: consider how to avoid this coupling
-$dashboardControllerUrl = site_url() . '/dashboard_controller';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
@@ -35,11 +35,6 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
-    <script type="text/javascript">
-        var controllerURL = "<?php echo $controllerURL; ?>/";                 // expose this to our *.js
-        var dashboardControllerUrl = "<?php echo $dashboardControllerUrl; ?>";
-    </script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "login/login_transaction.js"); ?>"></script>
 </head>
 <body class="yui-skin-sam">
     <div id="wrapper">
@@ -91,30 +86,6 @@ $viewsPath = getServerFilePath('views');
             window.alert = ilios.alert.alert;
             window.inform = ilios.alert.inform;
         });
-
-        function handleUserNameFieldInput (inputField, event) {
-            var charCode = event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode);
-            if (charCode == 13) {
-                var passwordField = document.getElementById('password');
-                passwordField.focus();
-                event.cancelBubble = true;
-                event.returnValue = false;
-                return false;
-            }
-            return true;
-        }
-
-        function handlePasswordFieldInput (inputField, event) {
-            var charCode = event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode);
-            if (charCode == 13) {
-                var button = document.getElementById('login_button');
-                button.click();
-                event.cancelBubble = true;
-                event.returnValue = false;
-                return false;
-            }
-            return true;
-        }
     </script>
 </body>
 </html>
