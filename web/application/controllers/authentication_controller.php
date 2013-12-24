@@ -240,7 +240,6 @@ class Authentication_Controller extends Ilios_Base_Controller
                     $this->load->view('common/forbidden', $data);
                 } else {
                     $this->_storeUserInSession($user);
-                    $this->session->set_flashdata('logged_in', 'jo');
                     if ($this->session->userdata('last_url')) {
                         $this->output->set_header("Location: " . $this->session->userdata('last_url'));
                         $this->session->unset_userdata('last_url');
