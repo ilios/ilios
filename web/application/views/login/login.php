@@ -2,6 +2,9 @@
 /**
  * Login page template.
  *
+ * Expects the following variables to be present:
+ *    'login_message' ... May contain info- or error-messages to the user regarding the login form/process.
+ *
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
  * @license http://www.iliosproject.org/license GNU GPL v3
  */
@@ -14,7 +17,7 @@ $viewsPath = getServerFilePath('views');
 <head>
     <meta charset="utf-8">
 
-    <title><?php echo $login_title; ?></title>
+    <title><?php echo t('login.title'); ?></title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -55,15 +58,17 @@ $viewsPath = getServerFilePath('views');
                     <div id="login_panel_div"
                          style="margin: auto;  padding: 0.5em; width: 17em;
                                  background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
-                        <label for="user_name"><?php echo $word_username; ?></label>
+                        <label for="user_name"><?php echo t('general.terms.username'); ?></label>
                         <input type="text" id="user_name" name="user_name" value=""
                                 style="margin-right: 2px; float: right; width: 160px;" />
                         <div style="height: 9px;" class="clear"></div>
-                        <label for="password"><?php echo $word_password; ?></label>
+                        <label for="password"><?php echo t('general.terms.password'); ?></label>
                         <input type="password" id="password" name="password" value=""
                                 style="margin-right: 2px; float: right; width: 160px;" />
                         <div style="height: 6px;" class="clear"></div>
-                        <button type="submit" id="login_button" style="margin-right: 9px; float: right;"><?php echo $word_login; ?></button>
+                        <button type="submit" id="login_button" style="margin-right: 9px; float: right;">
+                            <?php echo t('general.terms.login'); ?>
+                        </button>
                         <div class="clear"></div>
                     </div>
                 </form>

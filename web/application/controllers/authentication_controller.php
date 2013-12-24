@@ -108,16 +108,9 @@ class Authentication_Controller extends Ilios_Base_Controller
     protected function _default_index ()
     {
         $logout = $this->input->get_post('logout');
-
         $username = $this->session->userdata('username');
 
         $data['login_message'] = $this->languagemap->getI18NString('login.default_status');
-        $data['login_title'] = $this->languagemap->getI18NString('login.title');
-        $data['word_login'] = $this->languagemap->getI18NString('general.terms.login');
-        $data['word_password'] = $this->languagemap->getI18NString('general.terms.password');
-        $data['word_username'] = $this->languagemap->getI18NString('general.terms.username');
-        $data['last_url'] = '';
-        $data['param_string'] = '';
 
         if(! $username) { // not logged in
              $this->load->view('login/login', $data);
