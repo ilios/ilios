@@ -10,8 +10,3 @@ default:
                      ssl.certificate_authority: false
             selenium2:
                      capabilities: { "browser": "firefox", "version": "14"}
-
-
-
-
-
