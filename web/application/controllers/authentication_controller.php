@@ -280,14 +280,20 @@ class Authentication_Controller extends Ilios_Base_Controller
 
     /**
      * Implements the "login" action for the ldap authn system.
+     *
+     * @todo Provide proper docblock. [ST 2013/12/23]
+     * @todo Provider proper input validation [ST 2013/12/23]
+     * @todo Add CSRF token to login form. [ST 2013/12/23]
+     * @todo Translate error messages. [ST 2013/12/23]
+     * @todo Handle LDAP connectivity failure more graceful. [ST 2012/12/23]
      */
     public function _ldap_login ()
     {
-        $rhett = array();
+        $errMsg = false;
 
         // get login credentials from user input
-        $username = $this->input->get_post('username');
-        $password = $this->input->get_post('password');
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
 
         $authenticated = false;
 
@@ -302,8 +308,7 @@ class Authentication_Controller extends Ilios_Base_Controller
                 $authenticated = true; // auth. successful
             }
         } else {
-            die('couldnt connect to ldap server');
-            // @todo log connectivity failure
+            die("couldn't connect to ldap server");
         }
 
         if ($authenticated) { // login succeeded
@@ -316,19 +321,26 @@ class Authentication_Controller extends Ilios_Base_Controller
 
             if ($user) {
                 $this->_log_in_user($user);
-                $rhett['success'] = 'huzzah';
             } else {
                 //  login was success but we don't have a corresponding user record on file
                 // or the user is disabled
-                $rhett['error']  = 'Your username does not match any active user records in Ilios. If you need further assistance, please contact your Ilios administrator. Thank you.';
+                $errMsg = 'Your username does not match any active user records in Ilios. If you need further assistance, please contact your Ilios administrator. Thank you.';
             }
         } else { // login failed
-            $msg = $this->i18nVendor->getI18NString('login.error.bad_login');
-            $rhett['error'] = $msg;
+            $errMsg = $this->languagemap->getI18NString('login.error.bad_login');
         }
 
-        header("Content-Type: text/plain");
-        echo json_encode($rhett);
+        // login succeeded. redirect to dashboard.
+        if (false === $errMsg) {
+            $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
+            return;
+        }
+
+        // handle login error.
+        $this->output->set_header('Expires: 0');
+        $this->load->view('login/login', array(
+            'login_message' => $errMsg)
+        );
     }
 
     /**
