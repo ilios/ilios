@@ -182,7 +182,8 @@ class Authentication_Controller extends Ilios_Base_Controller
         }
 
         if ($user) { // authentication succeeded. log the user in.
-            $rhett['success'] = $this->_log_in_user($user);
+            $this->_log_in_user($user);
+            $rhett['success'] = 'huzzah';
         } else { // login failed
             $msg = $this->languagemap->getI18NString('login.error.bad_login');
             $rhett['error'] = $msg;
@@ -321,7 +322,8 @@ class Authentication_Controller extends Ilios_Base_Controller
             }
 
             if ($user) {
-                $rhett['success'] = $this->_log_in_user($user);
+                $this->_log_in_user($user);
+                $rhett['success'] = 'huzzah';
             } else {
                 //  login was success but we don't have a corresponding user record on file
                 // or the user is disabled
@@ -353,9 +355,11 @@ class Authentication_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Common log-in functionality across all methods
+     * Takes a user record and populates the user session from it.
+     *
+     * @method array $user An associative array representing a user record.
      */
-    protected function _log_in_user($user) {
+    protected function _log_in_user (array $user) {
         $now = time();
 
         $sessionData = array(
@@ -373,6 +377,5 @@ class Authentication_Controller extends Ilios_Base_Controller
         );
 
         $this->session->set_userdata($sessionData);
-        return 'huzzah';
     }
 }
