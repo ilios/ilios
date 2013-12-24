@@ -2,11 +2,13 @@
 /**
  * Login page template.
  *
+ * Expects the following variables to be present:
+ *    'login_message' ... May contain info- or error-messages to the user regarding the login form/process.
+ *
  * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
  * @license http://www.iliosproject.org/license GNU GPL v3
  */
-$controllerURL = site_url() . '/authentication_controller'; // TODO: consider how to avoid this coupling
-$dashboardControllerUrl = site_url() . '/dashboard_controller';
+$controllerURL = site_url() . '/authentication_controller';
 $viewsUrlRoot = getViewsURLRoot();
 $viewsPath = getServerFilePath('views');
 
@@ -15,7 +17,7 @@ $viewsPath = getServerFilePath('views');
 <head>
     <meta charset="utf-8">
 
-    <title><?php echo $login_title; ?></title>
+    <title><?php echo t('login.title'); ?></title>
     <meta name="description" content="">
 
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
@@ -35,11 +37,6 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
-    <script type="text/javascript">
-        var controllerURL = "<?php echo $controllerURL; ?>/";                 // expose this to our *.js
-        var dashboardControllerUrl = "<?php echo $dashboardControllerUrl; ?>";
-    </script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "login/login_transaction.js"); ?>"></script>
 </head>
 <body class="yui-skin-sam">
     <div id="wrapper">
@@ -54,28 +51,27 @@ $viewsPath = getServerFilePath('views');
         </header>
         <div id="main" role="main">
             <div id="content" class="clearfix">
-
-                <div style="font-size: 16pt; margin-top: 12px; margin-bottom: 12px; position: relative;">
-                    <center id="login_status_message"><?php echo $login_message; ?></center>
-                </div>
-
-                <div id="login_panel_div"
-                     style="margin: auto;  padding: 0.5em; width: 17em;
-                             background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
-                    <label for="user_name"><?php echo $word_username; ?></label>
-                    <input type="text" id="user_name" name="user_name" value=""
-                            style="margin-right: 2px; float: right; width: 160px;"
-                            onkeypress="return handleUserNameFieldInput(this, event);"/>
-                    <div style="height: 9px;" class="clear"></div>
-                    <label for="password"><?php echo $word_password; ?></label>
-                    <input type="password" id="password" name="password" value=""
-                            style="margin-right: 2px; float: right; width: 160px;"
-                            onkeypress="return handlePasswordFieldInput(this, event);"/>
-                    <div style="height: 6px;" class="clear"></div>
-                    <button id="login_button" style="margin-right: 9px; float: right;"
-                            onclick="attemptLogin(); return false;"><?php echo $word_login; ?></button>
-                    <div class="clear"></div>
-                </div>
+                <form method="post" action="<?php echo $controllerURL. '/login'; ?>">
+                    <div style="font-size: 16pt; margin-top: 12px; margin-bottom: 12px; position: relative;">
+                        <center id="login_status_message"><?php echo $login_message; ?></center>
+                    </div>
+                    <div id="login_panel_div"
+                         style="margin: auto;  padding: 0.5em; width: 17em;
+                                 background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
+                        <label for="user_name"><?php echo t('general.terms.username'); ?></label>
+                        <input type="text" id="user_name" name="user_name" value=""
+                                style="margin-right: 2px; float: right; width: 160px;" />
+                        <div style="height: 9px;" class="clear"></div>
+                        <label for="password"><?php echo t('general.terms.password'); ?></label>
+                        <input type="password" id="password" name="password" value=""
+                                style="margin-right: 2px; float: right; width: 160px;" />
+                        <div style="height: 6px;" class="clear"></div>
+                        <button type="submit" id="login_button" style="margin-right: 9px; float: right;">
+                            <?php echo t('general.terms.login'); ?>
+                        </button>
+                        <div class="clear"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -92,30 +88,6 @@ $viewsPath = getServerFilePath('views');
             window.alert = ilios.alert.alert;
             window.inform = ilios.alert.inform;
         });
-
-        function handleUserNameFieldInput (inputField, event) {
-            var charCode = event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode);
-            if (charCode == 13) {
-                var passwordField = document.getElementById('password');
-                passwordField.focus();
-                event.cancelBubble = true;
-                event.returnValue = false;
-                return false;
-            }
-            return true;
-        }
-
-        function handlePasswordFieldInput (inputField, event) {
-            var charCode = event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode);
-            if (charCode == 13) {
-                var button = document.getElementById('login_button');
-                button.click();
-                event.cancelBubble = true;
-                event.returnValue = false;
-                return false;
-            }
-            return true;
-        }
     </script>
 </body>
 </html>
