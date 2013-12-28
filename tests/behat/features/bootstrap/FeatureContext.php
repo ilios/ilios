@@ -44,7 +44,7 @@ class FeatureContext extends MinkContext
      */
     public function iClickTheLink ($linkText)
     {
-        throw new PendingException();
+        $this->clickLink($linkText);
     }
 
     /**
