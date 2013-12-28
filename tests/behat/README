@@ -1,0 +1,28 @@
+PhantomJS + Selenium + Behat/Mink
+=======================
+
+1. Install PhantomJS via NPM
+----------------------------------------
+
+sudo npm install -g phantomjs
+
+2. Run Selenium as hub
+----------------------------------
+
+java -jar /path/to/your/selenium-server-standalone.jar -role hub
+
+3. Start PhantomJS and register it with Selenium
+--------------------------------------------------------------------
+
+phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true
+
+4. Run Behat Tests with the PhantomJS profile
+-----------------------------------------------------------------
+
+cd <iliosroot>/tests/behat
+bin/behat -p phantomjs
+
+
+See also:
+------------
+https://kippt.com/alexisjanvier/programmation/clips/13052904
