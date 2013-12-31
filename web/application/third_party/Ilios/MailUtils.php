@@ -2,8 +2,6 @@
 
 /**
  * Static class providing mail utilities.
- * @author stopfstedt
- *
  */
 class Ilios_MailUtils
 {
@@ -26,10 +24,11 @@ class Ilios_MailUtils
      * Utility function.
      * Flattens out a given array of strings to a one text string, think <code>implode()</code>.
      * In addition to that, it breaks the strings according to a given char. limit.
-     * @param array $list array of strings
-     * @param string $separator the text separator between list items
+     * 
+     * @param array $list Lines of text.
+     * @param string $separator The text separator between list items.
      * @param int $maxLineLength max. line length, the default is recommended line length according to RFC-2822
-     * @return string the text
+     * @return string The aggregated text.
      */
     public static function implodeListForMail (array $list, $separator = ', ',
         $maxLineLength = Ilios_MailUtils::RFC2822_RECOMMENDED_LINE_LENGTH)
