@@ -6,14 +6,16 @@
 class Ilios_MailUtils
 {
     /**
-     * max. line length limit
+     * Maximum line length limit.
+     * 
      * @link http://tools.ietf.org/html/rfc2822#section-2.1.1
      * @var int
      */
     const RFC2822_MAX_LINE_LENGTH = 998;
 
     /**
-     * recommended line length limit
+     * Recommended line length limit.
+     * 
      * @link http://tools.ietf.org/html/rfc2822#section-2.1.1
      * @var int
      */
