@@ -14,7 +14,5 @@ default:
 phantomjs:
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: https://localhost
-            default_session: selenium2
             selenium2:
                 wd_host: "http://localhost:8080/wd/hub"
