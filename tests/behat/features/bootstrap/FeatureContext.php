@@ -68,7 +68,7 @@ class FeatureContext extends MinkContext
      */
     public function iClickTheButton ($buttonText)
     {
-        throw new PendingException();
+        $this->pressButton($buttonText);
     }
 
     /**
@@ -139,6 +139,14 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given /^I wait (\d+) seconds$/
+     */
+    public function iWaitSeconds($seconds)
+    {
+        $this->getSession()->wait($seconds * 1000);
+    }
+
+    /**
       *@AfterScenario
       *
       * PhantomJS does not clear the session properly, so we must
@@ -149,4 +157,7 @@ class FeatureContext extends MinkContext
     {
         $this->getSession()->reset();
     }
+
+
+
 }
