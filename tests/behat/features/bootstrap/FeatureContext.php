@@ -99,22 +99,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then /^there is a "(.*?)" class$/
-     */
-    public function thereIsAClass ($class)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then /^there is no "(.*?)" class$/
-     */
-    public function thereIsNoClass ($class)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Then /^I click the "(.*?)" button for "(.*?)"$/
      */
     public function iClickTheButtonFor ($buttonText, $section)
