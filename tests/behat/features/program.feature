@@ -12,6 +12,7 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I fill in "Test Med Program" for "new_program_title"
     And I fill in "TMP" for "new_short_title"
     And I click the "Done" button
+    And I wait 3 seconds
     Then I should see "Test Med Program"
     And I click the "Add New Program Year" button
     Then there is a "dirty_state" class
