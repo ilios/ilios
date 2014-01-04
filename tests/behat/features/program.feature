@@ -15,7 +15,7 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I wait 3 seconds
     Then I should see "Test Med Program"
     And I click the "Add New Program Year" button
-    Then there is a "dirty_state" class
+    Then I should see an ".dirty_state" element
     And I click the "Publish" button
     Then I should see "Test Med Program"
     And there is no "dirty_state" class
@@ -32,7 +32,7 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I set "eot_competency_pulldown" to "Inquiry and Discovery (Medical Knowledge"
     And I click the "Done" button
     And I click the "Publish" button
-    Then there is no "dirty_state" class
+    Then I should not see an ".dirty_state" element
     And I navigate to the "Learner Groups" tab
     And I click the "Select Program and Cohort" link
     And I click "Test Med Program"
@@ -42,7 +42,7 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I click the "Add New Course" button
     And I set "new_course_title" to "Sample Course"
     And I click the "Done" button
-    Then there is no "dirty_state" class
+    Then I should not see an ".dirty_state" element
     And I should see "Sample Course"
     And I click the "Search" button
     And I set "course_search_terms" to "Sample Course"
