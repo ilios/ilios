@@ -64,14 +64,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I click the "(.*?)" button$/
-     */
-    public function iClickTheButton ($buttonText)
-    {
-        $this->pressButton($buttonText);
-    }
-
-    /**
      * @Given /^I click the first element with class "(.*?)"$/
      */
     public function iClickTheFirstElementWithClass ($elementText)
