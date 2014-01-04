@@ -11,40 +11,42 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I click the "Add Program" link
     And I fill in "Test Med Program" for "new_program_title"
     And I fill in "TMP" for "new_short_title"
-    And I click the "Done" button
+    And I press "Done"
     And I wait 3 seconds
     Then I should see "Test Med Program"
-    And I click the "Add New Program Year" button
-    Then I should see an ".dirty_state" element
-    And I click the "Publish" button
+    And I press "Add New Program Year"
+    Then I should see a ".dirty_state" element
+    # 'And I press "Publish"' does not work, hence the workaround of specifying the element id instead.
+    And I press "1_child_publish"
     Then I should see "Test Med Program"
-    And there is no "dirty_state" class
+    And I wait 3 seconds
+    And I should not see a ".dirty_state" element
     And I click all expanded toggles
-    And I click the "Add New Program Year" button
+    And I press "Add New Program Year"
     And I click the "Edit" button for "Competencies"
     And I click "Medical Knowledge"
-    And I click the "Done" button
+    And I press "Done"
     And I click the "Edit" button for "Stewarding Departments or School"
     And I click "Medicine"
-    And I click the "Done" button
+    And I press "Done"
     And I click the "Add Objective" link
     And I set "eot_textarea_editor" to "Test Objective"
     And I set "eot_competency_pulldown" to "Inquiry and Discovery (Medical Knowledge"
-    And I click the "Done" button
-    And I click the "Publish" button
-    Then I should not see an ".dirty_state" element
+    And I press "Done"
+    And I press "Publish"
+    Then I should not see a ".dirty_state" element
     And I navigate to the "Learner Groups" tab
     And I click the "Select Program and Cohort" link
     And I click "Test Med Program"
     And I click the first "Class of "
-    And I click the "Add a New Student Group" button
+    And I press "Add a New Student Group"
     And I navigate to the "Courses and Sessions" tab
-    And I click the "Add New Course" button
+    And I press "Add New Course"
     And I set "new_course_title" to "Sample Course"
-    And I click the "Done" button
-    Then I should not see an ".dirty_state" element
+    And I press "Done"
+    Then I should not see a ".dirty_state" element
     And I should see "Sample Course"
-    And I click the "Search" button
+    And I press "Search"
     And I set "course_search_terms" to "Sample Course"
     And I click the first element with class "search_icon_button"
     Then "course_search_results_list" should contain "Sample Course"
