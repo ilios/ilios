@@ -23,10 +23,10 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I should not see a ".dirty_state" element
     And I click all expanded toggles
     And I press "Add New Program Year"
-    And I click the "Edit" button for "Competencies"
+    And I press the "Edit" button for "Competencies"
     And I click "Medical Knowledge"
     And I press "Done"
-    And I click the "Edit" button for "Stewarding Departments or School"
+    And I press the "Edit" button for "Stewarding Departments or School"
     And I click "Medicine"
     And I press "Done"
     And I click the "Add Objective" link
@@ -36,7 +36,7 @@ Feature: Access, program creation, cohort creation, course creation (independent
     And I press "Publish"
     Then I should not see a ".dirty_state" element
     And I navigate to the "Learner Groups" tab
-    And I click the "Select Program and Cohort" link
+    And I click "Select Program and Cohort"
     And I click "Test Med Program"
     And I click the first "Class of "
     And I press "Add a New Student Group"
