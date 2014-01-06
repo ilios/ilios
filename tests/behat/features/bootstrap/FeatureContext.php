@@ -123,17 +123,14 @@ class FeatureContext extends MinkContext
     }
 
     /**
-      *@AfterScenario
-      *
-      * PhantomJS does not clear the session properly, so we must
-      * implicitly do so.
-      * @see http://stackoverflow.com/a/17306831/307333
-      */
+     * @AfterScenario
+     *
+     * PhantomJS does not clear the session properly, so we must
+     * implicitly do so.
+     * @see http://stackoverflow.com/a/17306831/307333
+     */
     public function after ($event)
     {
         $this->getSession()->reset();
     }
-
-
-
 }
