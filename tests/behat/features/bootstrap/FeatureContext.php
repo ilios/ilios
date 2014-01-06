@@ -93,7 +93,7 @@ class FeatureContext extends MinkContext
     /**
      * @Then /^I click the "(.*?)" button for "(.*?)"$/
      */
-    public function iClickTheButtonFor ($buttonText, $section)
+    public function iPressTheButtonFor ($buttonText, $section)
     {
         throw new PendingException();
     }
@@ -111,7 +111,10 @@ class FeatureContext extends MinkContext
      */
     public function iClickAllExpandedToggles ()
     {
-        throw new PendingException();
+        $links = $this->getSession()->getPage()->findAll('css', '.expanded .toggle');
+        foreach ($links as $link) {
+            $link->click();
+        }
     }
 
     /**
