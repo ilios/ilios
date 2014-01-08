@@ -1,28 +1,40 @@
-PhantomJS + Selenium + Behat/Mink
-=======================
+How-to run Behat tests with a headless browser
+==============================================
 
-1. Install PhantomJS via NPM
-----------------------------------------
+The assumption is that you are doing this on a recent Fedora/RHEL (or derivative) Linux distro.
 
-sudo npm install -g phantomjs
+Prerequisites
+-------------
 
-2. Run Selenium as hub
-----------------------------------
+1. Install npm
 
-java -jar /path/to/your/selenium-server-standalone.jar -role hub
+    sudo yum install node npm
 
-3. Start PhantomJS and register it with Selenium
---------------------------------------------------------------------
+2. Install the phantomjs NPM module globally
 
-phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true
+    sudo npm install -g phantomjs
 
-4. Run Behat Tests with the PhantomJS profile
------------------------------------------------------------------
+3. Install the Oracle JDK, see: http://www.if-not-true-then-false.com/2010/install-sun-oracle-java-jdk-jre-7-on-fedora-centos-red-hat-rhel/
 
-cd <iliosroot>/tests/behat
-bin/behat -p phantomjs
+4. Download the latest Selenium Server JAR file from http://docs.seleniumhq.org/download/
+
+Run tests
+---------
+
+1. Run Selenium as hub
+
+    java -jar /path/to/your/selenium-server-standalone.jar -role hub
+
+2. Start PhantomJS and register it with Selenium
+
+    phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true
+
+3. Run Behat Tests with the "phantomjs" profile
+
+    cd <iliosroot>/tests/behat
+    bin/behat -p phantomjs
 
 
-See also:
-------------
+See also
+--------
 https://kippt.com/alexisjanvier/programmation/clips/13052904
