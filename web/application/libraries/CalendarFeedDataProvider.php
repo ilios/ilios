@@ -73,90 +73,87 @@ class CalendarFeedDataProvider
 
             $event['event_id'] = $id . '@' . $hostaddress; // UID
             $event['text'] = $offering['session_title']; // SUMMARY
-            $event['location'] = array_key_exists('room', $offering) ? $offering['room'] : null;  // LOCATION
             $event['utc_time'] = true;
             $event['event_pid'] = null;
             $event['rec_type'] = null;
             $event['event_length'] = null;
             $event['start_date'] = $offering['start_date'];
             $event['end_date'] = $offering['end_date'];
-            $details = '';
+            $event['location'] = array_key_exists('room', $offering) ? $offering['room'] : null;  // LOCATION
+            $event['event_details'] = '';
 
             if ($offering['description']) {
-                $details = $this->_unHTML($offering['description']) . "\n";
+                $event['event_details'] .= $this->_unHTML($offering['description']) . "\n";
             }
 
             // Taught by
             if (is_array($offering['instructors'])) {
-                $details .= $this->_ci->languagemap->getI18NString('general.phrases.taught_by') . ' '
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.phrases.taught_by') . ' '
                     . implode(', ', $offering['instructors']) . "\n";
             }
 
             // This offering is a(n)
-            $details .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.offering_type')
+            $event['event_details'] .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.offering_type')
                 . ' ' . $offering['session_type'];
 
             if ($offering['supplemental']) {
-                $details .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.offering_supplemental_suffix') . "\n";
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.offering_supplemental_suffix') . "\n";
             } else {
-                $details .= "\n";
+                $event['event_details'] .= "\n";
             }
             if ($offering['attire_required']) {
-                $details .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.special_attire'). "\n";
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.special_attire'). "\n";
             }
             if ($offering['equipment_required']) {
-                $details .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.special_equipment'). "\n";
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('dashboard.offering_description.special_equipment'). "\n";
             }
             if (count($offering['session_objectives']) > 0) {
-                $details .= "\n";
-                $details .= $this->_ci->languagemap->getI18NString('general.terms.session') . ' ';
-                $details .= $this->_ci->languagemap->getI18NString('general.terms.objectives') . "\n";
+                $event['event_details'] .= "\n";
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.terms.session') . ' ';
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.terms.objectives') . "\n";
                 foreach ($offering['session_objectives'] as $objective)
-                    $details .= $this->_unHTML($objective) . "\n";
+                    $event['event_details'] .= $this->_unHTML($objective) . "\n";
             }
             if (count($offering['session_materials']) > 0) {
-                $details .= "\n";
-                $details .= $this->_ci->languagemap->getI18NString('general.terms.session') . ' ';
-                $details .= $this->_ci->languagemap->getI18NString('general.phrases.learning_materials') . "\n";
+                $event['event_details'] .= "\n";
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.terms.session') . ' ';
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.phrases.learning_materials') . "\n";
                 foreach ($offering['session_materials'] as $material) {
-                    $details .= $this->_unHTML($material['title']);
+                    $event['event_details'] .= $this->_unHTML($material['title']);
                     if ($material['required']) {
-                        $details .= ' (' . $this->_ci->languagemap->getI18NString('general.terms.required'). ')';
+                        $event['event_details'] .= ' (' . $this->_ci->languagemap->getI18NString('general.terms.required'). ')';
                     }
-                    $details .= ' (' . base_url()
+                    $$event['event_details'] .= ' (' . base_url()
                         . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
                         . $material['learning_material_id']
                         . ')';
-                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
+                    $event['event_details'] .= ': ' . $this->_unHTML($material['description']) . "\n";
                 }
             }
             if (count($offering['course_objectives']) > 0) {
-                $details .= "\n";
-                $details .= $this->_ci->languagemap->getI18NString('general.terms.course') . ' ';
-                $details .= $this->_ci->languagemap->getI18NString('general.terms.objectives') . "\n";
+                $event['event_details'] .= "\n";
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.terms.course') . ' ';
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.terms.objectives') . "\n";
                 foreach ($offering['course_objectives'] as $objective) {
-                    $details .= $this->_unHTML($objective) . "\n";
+                    $event['event_details'] .= $this->_unHTML($objective) . "\n";
                 }
             }
             if (count($offering['course_materials']) > 0) {
-                $details .= "\n";
-                $details .= $this->_ci->languagemap->getI18NString('general.terms.course') . ' ';
-                $details .= $this->_ci->languagemap->getI18NString('general.phrases.learning_materials') . "\n";
+                $event['event_details'] .= "\n";
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.terms.course') . ' ';
+                $event['event_details'] .= $this->_ci->languagemap->getI18NString('general.phrases.learning_materials') . "\n";
                 foreach ($offering['course_materials'] as $material) {
-                    $details .= $this->_unHTML($material['title']);
-                    $details .= ' (' . base_url()
+                    $event['event_details'] .= $this->_unHTML($material['title']);
+                    $event['event_details'] .= ' (' . base_url()
                         . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
                         . $material['learning_material_id']
                         . ')';
                     if ($material['required']) {
-                        $details .= ' (' . $this->_ci->languagemap->getI18NString('general.phrases.learning_materials') . ')';
+                        $event['event_details'] .= ' (' . $this->_ci->languagemap->getI18NString('general.phrases.learning_materials') . ')';
                     }
-                    $details .= ': ' . $this->_unHTML($material['description']) . "\n";
+                    $event['event_details'] .= ': ' . $this->_unHTML($material['description']) . "\n";
                 }
             }
-
-            $event['event_details'] = $details;
-
             $events[$id] = $event;
         }
 
@@ -176,11 +173,11 @@ class CalendarFeedDataProvider
             $event['text'] .= $session['course_title'].' - '.$session['session_title']; // SUMMARY
             $event['start_date'] = $session['due_date'] . ' 17:00:00';
             $event['end_date'] = $session['due_date'] . ' 17:30:00';
-            $event['event_details'] = $session['event_details'];
-            $event['location'] = null;
             $event['event_pid'] = null;
             $event['rec_type'] = null;
             $event['event_length'] = null;
+            $event['location'] = null;
+            $event['event_details'] = $session['event_details'];
 
             $events[$id] = $event;
 
