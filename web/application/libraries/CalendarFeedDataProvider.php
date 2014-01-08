@@ -55,7 +55,8 @@ class CalendarFeedDataProvider
 
         $offerings = $this->_ci->queries->getOfferingsDetailsForCalendarFeed($userId, $schoolId, $userRoles, $timestart,
             $timeend);
-        $ilm_sessions = $this->_ci->queries->getSILMsForCalendarFeed($userId, $schoolId, $userRoles, $timestart, $timeend);
+        $ilm_sessions = $this->_ci->queries->getSILMsDetailsForCalendarFeed($userId, $schoolId, $userRoles, $timestart,
+            $timeend);
 
         $hostaddress = str_replace('http://', '', base_url());
         $hostaddress = str_replace('https://', '', $hostaddress);
