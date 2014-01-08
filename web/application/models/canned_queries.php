@@ -1382,8 +1382,12 @@ EOL;
      *     'due_date'                 ... The ILM-event due date.
      *     'session_id'               ... The session id.
      *     'session_title'            ... The session title.
+     *     'session_type'             ... The session type.
      *     'session_type_id'          ... The session type id.
-     *     'event_details'            ... The session description.
+     *     'description'              ... The session description.
+     *     'attire_required'          ... Flag indicating whether special attire is required for this session or not.
+     *     'equipment_required'       ... Flag indicating whether special equipment is required for this session or not.
+     *     'supplemental'             ... Flag indicating whether this session is supplemental or not.
      *     'published_as_tbd'         ... Flag indicating whether the session is published as "scheduled as TBD".
      *     'course_id'                ... The course id.
      *     'course_title'             ... The course title.
@@ -1405,9 +1409,9 @@ EOL;
         // SELECT clause
         $sql = "SELECT DISTINCT "
             . "s.session_id, i.ilm_session_facet_id, i.hours, i.due_date, s.title AS session_title, s.session_type_id, "
-            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details, "
+            . "s.attire_required, s.equipment_required, s.supplemental, session.session_id, "
+            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description, "
             . "s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
-
 
         // FROM clause
         $sql .= "FROM session s "
