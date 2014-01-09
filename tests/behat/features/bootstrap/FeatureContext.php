@@ -22,15 +22,6 @@ class FeatureContext extends MinkContext
         $this->visit("/");
     }
 
-
-    /**
-     * @Then /^"(.*?)" should contain "(.*?)"/
-     */
-    public function shouldContain ($id, $content)
-    {
-        throw new PendingException();
-    }
-
     /**
      * @When /^I navigate to the "(.*?)" tab$/
      */
@@ -110,7 +101,18 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @When /^I wait (\d+) second(s?)$/
+     * @When /^I click all collapsed toggles$/
+     */
+    public function iClickCollapsedToggles ()
+    {
+        $links = $this->getSession()->getPage()->findAll('css', '.collapsed .toggle');
+        foreach ($links as $link) {
+            $link->click();
+        }
+    }
+
+    /**
+     * @When /^I wait (\d+) second(?:s?)$/
      */
     public function iWaitSeconds($seconds)
     {
@@ -124,6 +126,14 @@ class FeatureContext extends MinkContext
     public function iSetTo($id, $text)
     {
         $this->getSession()->getPage()->find('css', "#{$id}")->setValue($text);
+    }
+
+    /**
+     * @When /^I publish the (\d+)(?:st|nd|rd|th) program year$/
+     */
+    public function iPublishProgramYear ($cnumber)
+    {
+        $this->pressButton("{$cnumber}_child_publish");
     }
 
     /**
