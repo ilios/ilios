@@ -1,12 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
+ * @file login.php
+ *
  * Login page template.
  *
  * Expects the following variables to be present:
  *    'login_message' ... May contain info- or error-messages to the user regarding the login form/process.
- *
- * @copyright Copyright (c) 2010-2012 The Regents of the University of California.
- * @license http://www.iliosproject.org/license GNU GPL v3
  */
 $controllerURL = site_url() . '/authentication_controller';
 $viewsUrlRoot = getViewsURLRoot();
