@@ -159,6 +159,10 @@ class Authentication extends Ilios_Base_Model
     {
         $rhett = false;
 
+        if ('' === trim($username)) {
+            return $rhett;
+        }
+
         $this->db->where('username', $username);
         $query = $this->db->get($this->databaseTableName);
 

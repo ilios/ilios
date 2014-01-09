@@ -58,7 +58,7 @@ $viewsPath = getServerFilePath('views');
                          style="margin: auto;  padding: 0.5em; width: 17em;
                                  background-color: #696B61; color: #FCF8E2; border: 1px solid #3A325A;">
                         <label for="user_name"><?php echo t('general.terms.username'); ?></label>
-                        <input type="text" id="user_name" name="user_name" value=""
+                        <input type="text" id="user_name" name="username" value=""
                                 style="margin-right: 2px; float: right; width: 160px;" />
                         <div style="height: 9px;" class="clear"></div>
                         <label for="password"><?php echo t('general.terms.password'); ?></label>
