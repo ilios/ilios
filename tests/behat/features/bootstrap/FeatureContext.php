@@ -32,7 +32,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I navigate to the "(.*?)" tab$/
+     * @When /^I navigate to the "(.*?)" tab$/
      */
     public function iNavigateToTheTab ($tabName)
     {
@@ -40,23 +40,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I click the "(.*?)" link$/
-     */
-    public function iClickTheLink ($linkText)
-    {
-        $this->clickLink($linkText);
-    }
-
-    /**
-     * @Given /^I click "(.*?)"$/
-     */
-    public function iClick ($linkText)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given /^I click the first "(.*?)"$/
+     * @When /^I click the first "(.*?)"$/
      */
     public function iClickTheFirst ($linkText)
     {
@@ -64,7 +48,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I click the first element with class "(.*?)"$/
+     * @When /^I click the first element with class "(.*?)"$/
      */
     public function iClickTheFirstElementWithClass ($elementText)
     {
@@ -72,15 +56,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I set "(.*?)" to "(.*?)"$/
-     */
-    public function iSetTo ($content, $field)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given /^I log in as "(.*?)" with password "(.*?)"$/
+     * @When /^I log in as "(.*?)" with password "(.*?)"$/
      */
     public function iLogInAsWithPassword ($user, $login)
     {
@@ -91,23 +67,39 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then /^I click the "(.*?)" button for "(.*?)"$/
+     * @When /^I click the "(.*?)" link for "(.*?)"$/
      */
     public function iPressTheButtonFor ($buttonText, $section)
     {
-        throw new PendingException();
+        $session = $this->getSession();
+        //find('.row', {:visible => true, :text => section}).click_link(button_text)
+        $row = $session->getPage()->find(
+            'xpath', "//*[contains(.,'{$section}') and contains(@class,'row')]");
+        $row->clickLink($buttonText);
     }
 
     /**
-     * @Then /^I select "(.*?)" from "(.*?)"$/
+     * @When /^I click "([^"]*)" tree picker item in "([^"]*)" dialog$/
      */
-    public function iSelectFrom ($arg1, $arg2)
+    public function iClickTreePickerItemInDialog ($itemText, $dialogId)
     {
-       throw new PendingException();
+        $dialog = $this->getSession()->getPage()->find('css', "#{$dialogId}");
+        $node = $dialog->find('xpath', "//span[contains(.,'{$itemText}') and contains(@class,'ygtvlabel')]");
+        $node->click();
     }
 
     /**
-     * @Then /^I click all expanded toggles$/
+     * @When /^I press the "([^"]*)" button in "([^"]*)" dialog$/
+     */
+    public function iPressTheButtonInDialog ($buttonText, $dialogId)
+    {
+        $dialog = $this->getSession()->getPage()->find('css', "#{$dialogId}");
+        $button = $dialog->find('xpath', "//button[contains(.,'{$buttonText}')]");
+        $button->press();
+    }
+
+    /**
+     * @When /^I click all expanded toggles$/
      */
     public function iClickAllExpandedToggles ()
     {
@@ -118,11 +110,20 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^I wait (\d+) seconds$/
+     * @When /^I wait (\d+) second(s?)$/
      */
     public function iWaitSeconds($seconds)
     {
         $this->getSession()->wait($seconds * 1000);
+    }
+
+
+    /**
+     * @When /^I set "([^"]*)" to "([^"]*)"$/
+     */
+    public function iSetTo($id, $text)
+    {
+        $this->getSession()->getPage()->find('css', "#{$id}")->setValue($text);
     }
 
     /**
