@@ -28,7 +28,7 @@ Feature: Program management
     # Add a program year
     #
     When I press "Add New Program Year"
-    Then I should see a ".dirty_state" element
+    Then I should see dirty state
 
     #
     # Publish program year
@@ -37,7 +37,7 @@ Feature: Program management
     And I wait 1 second
     Then I should see "Test Med Program"
     And I should see "Matriculation Year:"
-    But I should not see a ".dirty_state" element
+    But I should not see dirty state
 
     #
     # Pick a competency
@@ -70,7 +70,7 @@ Feature: Program management
     And I publish the 1st program year
     And I wait 1 second
     Then I should see "Objectives (1)"
-    But I should not see a ".dirty_state" element
+    But I should not see dirty state
 
     #
     # Add another program objective
@@ -83,7 +83,7 @@ Feature: Program management
     And I publish the 1st program year
     And I wait 1 second
     Then I should see "Objectives (2)"
-    But I should not see a ".dirty_state" element
+    But I should not see dirty state
 
     #
     # Now reload the page and check that everything we entered previously is on there.

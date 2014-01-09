@@ -137,6 +137,23 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Then /^I should see dirty state$/
+     */
+    public function iShouldSeeDirtyState ()
+    {
+        $this->assertElementOnPage('.dirty_state');
+    }
+
+    /**
+     * @Then /^I should not see dirty state$/
+     */
+    public function iShouldNotSeeDirtyState ()
+    {
+        $this->assertElementNotOnPage('.dirty_state');
+    }
+
+
+    /**
      * @AfterScenario
      *
      * PhantomJS does not clear the session properly, so we must
