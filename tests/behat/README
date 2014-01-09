@@ -18,6 +18,13 @@ Prerequisites
 
 4. Download the latest Selenium Server JAR file from http://docs.seleniumhq.org/download/
 
+5. Install Composer. See http://getcomposer.org/doc/00-intro.md for instructions.
+
+6. Install Behat and co. via Composer.
+
+    cd <iliosroot>/tests/behat
+    composer install
+
 Run tests
 ---------
 
