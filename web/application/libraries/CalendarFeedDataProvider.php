@@ -114,6 +114,7 @@ class CalendarFeedDataProvider
             $event['start_date'] = $session['due_date'] . ' 17:00:00';
             $event['end_date'] = $session['due_date'] . ' 17:30:00';
             $event['event_pid'] = null;
+            $event['utc_time'] = true;
             $event['rec_type'] = null;
             $event['event_length'] = null;
             $event['location'] = null;
