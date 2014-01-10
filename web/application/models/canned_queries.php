@@ -106,6 +106,75 @@ EOL;
     }
 
     /**
+     * Similar to <code>getSILMsForCalendar</code>, but look up additional details about the entries.
+     * Returns independent learning session events with fields that are needed for the calendar feeds.
+     *
+     * @param int $userId
+     * @param int $schoolId
+     * @param array $roles an array of user-role ids
+     * @param int $begin UNIX timestamp when to begin search
+     * @param int $end UNIX timestamp when to end search
+     * @return array
+     */
+    public function getSILMsDetailsForCalendarFeed ($userId, $schoolId = null, $roles = array(), $begin = null, $end = null)
+    {
+        // get the offerings
+        $silms = $this->_getSILMsForCalendarFeed($userId, $schoolId, $roles, $begin, $end);
+
+        // extract course/session/offering ids
+        $silmIds = array();
+        $courseIds =  array();
+        $sessionIds = array();
+
+        foreach ($silms as $offering) {
+            $silmIds[] = $offering['ilm_session_facet_id'];
+            $courseIds[] = $offering['course_id'];
+            $sessionIds[] = $offering['session_id'];
+        }
+        $silmIds = array_unique($silmIds);
+        $courseIds = array_unique($courseIds);
+        $sessionIds = array_unique($sessionIds);
+
+        // retrieve associated instructors/objectives/learning materials
+        $instructors = $this->getSILMsInstructors($silmIds);
+        $courseObjectives = $this->getCoursesObjectives($courseIds);
+        $courseMaterials = $this->getCoursesMaterials($courseIds);
+        $sessionObjectives = $this->getSessionsObjectives($sessionIds);
+        $sessionMaterials = $this->getSessionsMaterials($sessionIds);
+
+        // attach the instructors/objectives/learning materials to the appropriate offerings
+        for ($i = 0, $n = count($silms); $i < $n; $i++) {
+            if (array_key_exists($silms[$i]['ilm_session_facet_id'], $instructors)) {
+                $silms[$i]['instructors'] = $instructors[$silms[$i]['ilm_session_facet_id']];
+            } else {
+                $silms[$i]['instructors'] = array();
+            }
+            if (array_key_exists($silms[$i]['course_id'], $courseObjectives)) {
+                $silms[$i]['course_objectives'] =  $courseObjectives[$silms[$i]['course_id']];
+            } else {
+                $silms[$i]['course_objectives'] = array();
+            }
+            if (array_key_exists($silms[$i]['course_id'], $courseMaterials)) {
+                $silms[$i]['course_materials'] = $courseMaterials[$silms[$i]['course_id']];
+            } else {
+                $silms[$i]['course_materials'] = array();
+            }
+            if (array_key_exists($silms[$i]['session_id'], $sessionObjectives)) {
+                $silms[$i]['session_objectives'] = $sessionObjectives[$silms[$i]['session_id']];
+            } else {
+                $silms[$i]['session_objectives'] = array();
+            }
+            if (array_key_exists($silms[$i]['session_id'], $sessionMaterials)) {
+                $silms[$i]['session_materials'] = $sessionMaterials[$silms[$i]['session_id']];
+            } else {
+                $silms[$i]['session_materials'] = array();
+            }
+        }
+
+        return $silms;
+    }
+
+    /**
      * Similar to <code>getOfferingsForCalendar</code>, but look up additional details about the entries.
      * Returns learning-session offerings with fields that are needed for the calendar feeds.
      *
@@ -144,19 +213,94 @@ EOL;
 
         // attach the instructors/objectives/learning materials to the appropriate offerings
         for ($i = 0, $n = count($offerings); $i < $n; $i++) {
-            @$offerings[$i]['instructors'] = $instructors[$offerings[$i]['offering_id']];
-            @$offerings[$i]['course_objectives'] = $courseObjectives[$offerings[$i]['course_id']];
-            @$offerings[$i]['course_materials'] = $courseMaterials[$offerings[$i]['course_id']];
-            @$offerings[$i]['session_objectives'] = $sessionObjectives[$offerings[$i]['session_id']];
-            @$offerings[$i]['session_materials'] = $sessionMaterials[$offerings[$i]['session_id']];
+            if (array_key_exists($offerings[$i]['offering_id'], $instructors)) {
+                $offerings[$i]['instructors'] = $instructors[$offerings[$i]['offering_id']];
+            } else {
+                $offerings[$i]['instructors'] = array();
+            }
+            if (array_key_exists($offerings[$i]['course_id'], $courseObjectives)) {
+                $offerings[$i]['course_objectives'] =  $courseObjectives[$offerings[$i]['course_id']];
+            } else {
+                $offerings[$i]['course_objectives'] = array();
+            }
+            if (array_key_exists($offerings[$i]['course_id'], $courseMaterials)) {
+                $offerings[$i]['course_materials'] = $courseMaterials[$offerings[$i]['course_id']];
+            } else {
+                $offerings[$i]['course_materials'] = array();
+            }
+            if (array_key_exists($offerings[$i]['session_id'], $sessionObjectives)) {
+                $offerings[$i]['session_objectives'] = $sessionObjectives[$offerings[$i]['session_id']];
+            } else {
+                $offerings[$i]['session_objectives'] = array();
+            }
+            if (array_key_exists($offerings[$i]['session_id'], $sessionMaterials)) {
+                $offerings[$i]['session_materials'] = $sessionMaterials[$offerings[$i]['session_id']];
+            } else {
+                $offerings[$i]['session_materials'] = array();
+            }
         }
 
         return $offerings;
     }
 
     /**
+     * Retrieves a list of users that are associated as instructors (directly or via instructor groups)
+     * with a given list of independent learning session events.
+     *
+     * @param array $ilms An array of independent learning session event ids.
+     * @return array An array of associative arrays. Each item contains a key/value pair of event-ids/instructor names.
+     */
+    public function getSILMsInstructors (array $ilms)
+    {
+        $rhett = array();
+
+        if (empty($offerings)) {
+            return $rhett;
+        }
+        $ilms = implode(',', $ilms);
+        $sql =<<< EOL
+SELECT
+  user.first_name, user.last_name,
+  ilm_session_facet_x_instructor.ilm_session_facet_id
+FROM ilm_session_facet_x_instructor
+  JOIN user ON ilm_session_facet_x_instructor.user_id=user.user_id
+WHERE ilm_session_facet_x_instructor.ilm_session_facet_id IN ({$ilms})
+
+UNION DISTINCT
+
+SELECT
+  user.first_name, user.last_name,
+  ilm_session_facet_x_instructor_group.ilm_session_facet_id
+FROM ilm_session_facet_x_instructor_group
+  JOIN instructor_group_x_user
+    ON instructor_group_x_user.instructor_group_id = ilm_session_facet_x_instructor_group.instructor_group_id
+  JOIN user ON user.user_id = instructor_group_x_user.user_id
+WHERE ilm_session_facet_x_instructor_group.ilm_session_facet_id IN ({$ilms})
+EOL;
+        $query = $this->db->query($sql);
+
+
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                if (! isset($rhett[$row['offering_id']])) {
+                    $rhett[$row['ilm_session_facet_id']] = array();
+                }
+                $rhett[$row['ilm_session_facet_id']][] = $row['first_name'] . ' ' . $row['last_name'];
+            }
+        }
+
+        $query->free_result();
+
+        return $rhett;
+    }
+
+
+    /**
+     * Retrieves a list of users that are associated as instructors (directly or via instructor groups)
+     * with a given list of offerings.
+     *
      * @param array $offerings An array of offering ids.
-     * @return array
+     * @return array An array of associative arrays. Each item contains a key/value pair of offering-ids/instructor names.
      */
     public function getOfferingsInstructors (array $offerings)
     {
@@ -1278,8 +1422,12 @@ EOL;
      *     'due_date'                 ... The ILM-event due date.
      *     'session_id'               ... The session id.
      *     'session_title'            ... The session title.
+     *     'session_type'             ... The session type.
      *     'session_type_id'          ... The session type id.
-     *     'event_details'            ... The session description.
+     *     'description'              ... The session description.
+     *     'attire_required'          ... Flag indicating whether special attire is required for this session or not.
+     *     'equipment_required'       ... Flag indicating whether special equipment is required for this session or not.
+     *     'supplemental'             ... Flag indicating whether this session is supplemental or not.
      *     'published_as_tbd'         ... Flag indicating whether the session is published as "scheduled as TBD".
      *     'course_id'                ... The course id.
      *     'course_title'             ... The course title.
@@ -1287,9 +1435,8 @@ EOL;
      *     'course_level'             ... The course level.
      *     'course_published_as_tbd'  ... Flag indicating whether the course is published as "scheduled as TBD".
      */
-    public function getSILMsForCalendarFeed ($userId, $schoolId = null, $roles = null, $begin = null, $end = null)
+    protected function _getSILMsForCalendarFeed ($userId, $schoolId = null, $roles = null, $begin = null, $end = null)
     {
-
         $rhett = array();
 
         $clean = array();
@@ -1302,12 +1449,13 @@ EOL;
         // SELECT clause
         $sql = "SELECT DISTINCT "
             . "s.session_id, i.ilm_session_facet_id, i.hours, i.due_date, s.title AS session_title, s.session_type_id, "
-            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description AS event_details, "
+            . "s.attire_required, s.equipment_required, s.supplemental, st.title AS session_type, "
+            . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description, "
             . "s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
-
 
         // FROM clause
         $sql .= "FROM session s "
+            . "JOIN session_type st ON s.session_type_id = st.session_type_id "
             . "JOIN course c ON c.course_id = s.course_id "
             . "JOIN ilm_session_facet i ON i.ilm_session_facet_id = s.ilm_session_facet_id "
             . "LEFT JOIN session_description sd ON sd.session_id = s.session_id ";
