@@ -381,7 +381,7 @@ EOL;
     }
 
     /**
-     * Retrieves learning materials (LM) associated with given courses.
+     * Retrieves all non-draft learning materials (LM) associated with given courses.
      *
      * @param array $courses An array of course ids.
      * @return array An associative array, keyed off by course id. The value is an array of arrays,
@@ -410,6 +410,7 @@ SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citati
 FROM course_learning_material clm
   JOIN learning_material lm ON lm.learning_material_id = clm.learning_material_id
 WHERE clm.course_id IN ($courses)
+AND lm.learning_material_status_id != 1
 EOL;
         $query = $this->db->query($sql);
 
@@ -428,7 +429,7 @@ EOL;
     }
 
     /**
-     * Retrieves learning materials (LM) associated with given sessions.
+     * Retrieves all non-draft learning materials (LM) associated with given sessions.
      *
      * @param array $sessions An array of session ids.
      * @return array An associative array, keyed off by course id. The value is an array of arrays,
@@ -457,6 +458,7 @@ SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citati
 FROM session_learning_material slm
   JOIN learning_material lm ON lm.learning_material_id = slm.learning_material_id
 WHERE slm.session_id IN ($sessions)
+AND lm.learning_material_status_id != 1
 EOL;
         $query = $this->db->query($sql);
 
