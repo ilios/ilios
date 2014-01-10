@@ -210,17 +210,8 @@ class CalendarFeedDataProvider
             $rhett .= "\n";
             $rhett .= $this->_ci->languagemap->t('general.terms.session') . ' ';
             $rhett .= $this->_ci->languagemap->t('general.phrases.learning_materials') . "\n";
-            foreach ($sessionMaterials as $material) {
-                $rhett .= $this->_unHTML($material['title']);
-                if ($material['required']) {
-                    $rhett .= ' (' . $this->_ci->languagemap->t('general.terms.required'). ')';
-                }
-                $rhett .= ' (' . base_url()
-                    . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
-                    . $material['learning_material_id']
-                    . ')';
-                $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
-            }
+            $rhett .= $this->_learningMaterialsToText($sessionMaterials);
+            $rhett .= "\n";
         }
 
         // flatten out course objectives
@@ -238,17 +229,34 @@ class CalendarFeedDataProvider
             $rhett .= "\n";
             $rhett .= $this->_ci->languagemap->t('general.terms.course') . ' ';
             $rhett .= $this->_ci->languagemap->t('general.phrases.learning_materials') . "\n";
-            foreach ($courseMaterials as $material) {
-                $rhett .= $this->_unHTML($material['title']);
-                $rhett .= ' (' . base_url()
-                    . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
-                    . $material['learning_material_id']
-                    . ')';
-                if ($material['required']) {
-                    $rhett.= ' (' . $this->_ci->languagemap->t('general.phrases.learning_materials') . ')';
-                }
-                $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
+            $rhett .= $this->_learningMaterialsToText($courseMaterials);
+        }
+        return $rhett;
+    }
+
+    /**
+     * Converts a given list of learning materials (LMs) to flat text.
+     *
+     * @param array $learningMaterials A list of LMs.
+     * @return string The LMs as text.
+     *
+     * @see Canned_Queries::getCourseMaterials()
+     * @see Canned_Queries::geSessionMaterials()
+     * @see CalendarFeedDataProvider::_eventDetailsToText()
+     */
+    private function _learningMaterialsToText (array $learningMaterials)
+    {
+        $rhett = '';
+        foreach ($learningMaterials as $material) {
+            $rhett .= $this->_unHTML($material['title']);
+            $rhett .= ' (' . base_url()
+                . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
+                . $material['learning_material_id']
+                . ')';
+            if ($material['required']) {
+                $rhett.= ' (' . $this->_ci->languagemap->t('general.terms.required') . ')';
             }
+            $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
         }
         return $rhett;
     }
