@@ -210,7 +210,7 @@ EOL;
      * @param array $ilms An array of independent learning session event ids.
      * @return array An array of associative arrays. Each item contains a key/value pair of event-ids/instructor names.
      */
-    public function getILMsInstructors (array $ilms)
+    public function getSILMsInstructors (array $ilms)
     {
         $rhett = array();
 
