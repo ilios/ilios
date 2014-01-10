@@ -248,7 +248,10 @@ class CalendarFeedDataProvider
     {
         $rhett = '';
         foreach ($learningMaterials as $material) {
+
+            // append title
             $rhett .= $this->_unHTML($material['title']);
+
             // check the LM type by attribute sniffing
             if (isset($material['citation'])) { // it's a citation!
                 //@todo append citation content.
@@ -260,10 +263,18 @@ class CalendarFeedDataProvider
                     . $material['learning_material_id'] . ')';
             }
 
+            // if the LM is required then say so.
             if ($material['required']) {
                 $rhett .= ' (' . $this->_ci->languagemap->t('general.terms.required') . ')';
             }
+            // description
             $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
+
+            // if notes are public and present then append them.
+            if ($material['notes'] && $material['notes_are_public']) {
+                $rhett .= $this->_ci->languagemap->t('general.terms.notes') . ':'
+                    . $this->_unHTML($material['notes']) . "\n";
+            }
         }
         return $rhett;
     }
