@@ -144,14 +144,34 @@ EOL;
 
         // attach the instructors/objectives/learning materials to the appropriate offerings
         for ($i = 0, $n = count($silms); $i < $n; $i++) {
-            @$offerings[$i]['instructors'] = $instructors[$silms[$i]['ilm_session_facet_id']];
-            @$offerings[$i]['course_objectives'] = $courseObjectives[$silms[$i]['course_id']];
-            @$offerings[$i]['course_materials'] = $courseMaterials[$silms[$i]['course_id']];
-            @$offerings[$i]['session_objectives'] = $sessionObjectives[$silms[$i]['session_id']];
-            @$offerings[$i]['session_materials'] = $sessionMaterials[$silms[$i]['session_id']];
+            if (array_key_exists($silms[$i]['ilm_session_facet_id'], $instructors)) {
+                $silms[$i]['instructors'] = $instructors[$silms[$i]['ilm_session_facet_id']];
+            } else {
+                $silms[$i]['instructors'] = array();
+            }
+            if (array_key_exists($silms[$i]['course_id'], $courseObjectives)) {
+                $silms[$i]['course_objectives'] =  $courseObjectives[$silms[$i]['course_id']];
+            } else {
+                $silms[$i]['course_objectives'] = array();
+            }
+            if (array_key_exists($silms[$i]['course_id'], $courseMaterials)) {
+                $silms[$i]['course_materials'] = $courseMaterials[$silms[$i]['course_id']];
+            } else {
+                $silms[$i]['course_materials'] = array();
+            }
+            if (array_key_exists($silms[$i]['session_id'], $sessionObjectives)) {
+                $silms[$i]['session_objectives'] = $sessionObjectives[$silms[$i]['session_id']];
+            } else {
+                $silms[$i]['session_objectives'] = array();
+            }
+            if (array_key_exists($silms[$i]['session_id'], $sessionMaterials)) {
+                $silms[$i]['session_materials'] = $sessionMaterials[$silms[$i]['session_id']];
+            } else {
+                $silms[$i]['session_materials'] = array();
+            }
         }
 
-        return $offerings;
+        return $silms;
     }
 
     /**
@@ -193,11 +213,31 @@ EOL;
 
         // attach the instructors/objectives/learning materials to the appropriate offerings
         for ($i = 0, $n = count($offerings); $i < $n; $i++) {
-            @$offerings[$i]['instructors'] = $instructors[$offerings[$i]['offering_id']];
-            @$offerings[$i]['course_objectives'] = $courseObjectives[$offerings[$i]['course_id']];
-            @$offerings[$i]['course_materials'] = $courseMaterials[$offerings[$i]['course_id']];
-            @$offerings[$i]['session_objectives'] = $sessionObjectives[$offerings[$i]['session_id']];
-            @$offerings[$i]['session_materials'] = $sessionMaterials[$offerings[$i]['session_id']];
+            if (array_key_exists($offerings[$i]['offering_id'], $instructors)) {
+                $offerings[$i]['instructors'] = $instructors[$offerings[$i]['offering_id']];
+            } else {
+                $offerings[$i]['instructors'] = array();
+            }
+            if (array_key_exists($offerings[$i]['course_id'], $courseObjectives)) {
+                $offerings[$i]['course_objectives'] =  $courseObjectives[$offerings[$i]['course_id']];
+            } else {
+                $offerings[$i]['course_objectives'] = array();
+            }
+            if (array_key_exists($offerings[$i]['course_id'], $courseMaterials)) {
+                $offerings[$i]['course_materials'] = $courseMaterials[$offerings[$i]['course_id']];
+            } else {
+                $offerings[$i]['course_materials'] = array();
+            }
+            if (array_key_exists($offerings[$i]['session_id'], $sessionObjectives)) {
+                $offerings[$i]['session_objectives'] = $sessionObjectives[$offerings[$i]['session_id']];
+            } else {
+                $offerings[$i]['session_objectives'] = array();
+            }
+            if (array_key_exists($offerings[$i]['session_id'], $sessionMaterials)) {
+                $offerings[$i]['session_materials'] = $sessionMaterials[$offerings[$i]['session_id']];
+            } else {
+                $offerings[$i]['session_materials'] = array();
+            }
         }
 
         return $offerings;
@@ -1409,12 +1449,13 @@ EOL;
         // SELECT clause
         $sql = "SELECT DISTINCT "
             . "s.session_id, i.ilm_session_facet_id, i.hours, i.due_date, s.title AS session_title, s.session_type_id, "
-            . "s.attire_required, s.equipment_required, s.supplemental, "
+            . "s.attire_required, s.equipment_required, s.supplemental, st.title AS session_type, "
             . "c.course_id, c.title AS course_title, c.year, c.course_level, sd.description, "
             . "s.published_as_tbd, c.published_as_tbd AS course_published_as_tbd ";
 
         // FROM clause
         $sql .= "FROM session s "
+            . "JOIN session_type st ON s.session_type_id = st.session_type_id "
             . "JOIN course c ON c.course_id = s.course_id "
             . "JOIN ilm_session_facet i ON i.ilm_session_facet_id = s.ilm_session_facet_id "
             . "LEFT JOIN session_description sd ON sd.session_id = s.session_id ";

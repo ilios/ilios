@@ -90,8 +90,8 @@ class CalendarFeedDataProvider
                 $event['location'] = array_key_exists('room', $offering) ? $offering['room'] : null;  // LOCATION
                 $event['event_details'] = $this->_eventDetailsToText($offering['description'], $offering['session_type'],
                     $offering['supplemental'], $offering['attire_required'], $offering['equipment_required'],
-                    $offering['session_objectives'], $offering['session_materials'], $offering['course_objectives'],
-                    $offerings['course_materials']
+                    $offering['instructors'], $offering['session_objectives'], $offering['session_materials'],
+                    $offering['course_objectives'], $offering['course_materials']
                 );
             }
             $events[$id] = $event;
@@ -120,10 +120,10 @@ class CalendarFeedDataProvider
             if ($session['published_as_tbd'] || $session['course_published_as_tbd']) {
                 $event['event_details'] = $this->_ci->languagemap->t('general.acronyms.to_be_decided');
             } else {
-                $event['event_details'] = $event['event_details'] = $this->_eventDetailsToText($session['description'], $session['session_type'],
-                    $session['supplemental'], $session['attire_required'], $session['equipment_required'],
-                    $session['session_objectives'], $session['session_materials'], $session['course_objectives'],
-                    $session['course_materials']
+                $event['event_details'] = $event['event_details'] = $this->_eventDetailsToText($session['description'],
+                    $session['session_type'], $session['supplemental'], $session['attire_required'],
+                    $session['equipment_required'], $session['instructors'], $session['session_objectives'],
+                    $session['session_materials'], $session['course_objectives'], $session['course_materials']
                 );
             }
             $events[$id] = $event;
