@@ -254,7 +254,7 @@ class CalendarFeedDataProvider
 
             // check the LM type by attribute sniffing
             if (isset($material['citation'])) { // it's a citation!
-                //@todo append citation content.
+                $rhett .= ' "' . $this->_unHTML($material['citation']) . '"';
             } elseif (isset($material['web_link'])) { // oh look, it's a web link. append the target url.
                 $rhett .= ' (' . $material['web_link'] . ')';
             } else { // ... guess its a file then. link to it.
