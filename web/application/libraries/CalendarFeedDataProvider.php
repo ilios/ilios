@@ -249,12 +249,19 @@ class CalendarFeedDataProvider
         $rhett = '';
         foreach ($learningMaterials as $material) {
             $rhett .= $this->_unHTML($material['title']);
-            $rhett .= ' (' . base_url()
-                . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
-                . $material['learning_material_id']
-                . ')';
+            // check the LM type by attribute sniffing
+            if (isset($material['citation'])) { // it's a citation!
+                //@todo append citation content.
+            } elseif (isset($material['web_link'])) { // oh look, it's a web link. append the target url.
+                $rhett .= ' (' . $material['web_link'] . ')';
+            } else { // ... guess its a file then. link to it.
+                $rhett .= ' (' . base_url()
+                    . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
+                    . $material['learning_material_id'] . ')';
+            }
+
             if ($material['required']) {
-                $rhett.= ' (' . $this->_ci->languagemap->t('general.terms.required') . ')';
+                $rhett .= ' (' . $this->_ci->languagemap->t('general.terms.required') . ')';
             }
             $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
         }
