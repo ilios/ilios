@@ -111,8 +111,16 @@ class CalendarFeedDataProvider
             $event['text'] .= strtolower($this->_ci->languagemap->t('general.phrases.due_by')) . ' ';
             $event['text'] .= strftime('%a, %b %d', strtotime($session['due_date'])) . ' - ';
             $event['text'] .= $session['course_title'].' - ' . $session['session_title']; // SUMMARY
-            $event['start_date'] = $session['due_date'] . ' 17:00:00';
-            $event['end_date'] = $session['due_date'] . ' 17:30:00';
+
+            // gotta convert start/end date to UTC
+            // @see http://stackoverflow.com/a/5841145
+            $startDate  = new DateTime($session['due_date'] . ' 17:00:00');
+            $startDate->setTimezone(new DateTimeZone('UTC'));
+            $event['start_date'] = $startDate->format('Y-m-d H:i:s');
+
+            $endDate = new DateTime($session['due_date'] . ' 17:30:00');
+            $endDate->setTimezone(new DateTimeZone('UTC'));
+            $event['end_date'] = $endDate->format('Y-m-d H:i:s');
             $event['event_pid'] = null;
             $event['utc_time'] = true;
             $event['rec_type'] = null;
