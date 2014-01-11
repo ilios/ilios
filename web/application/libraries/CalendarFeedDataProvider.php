@@ -111,8 +111,16 @@ class CalendarFeedDataProvider
             $event['text'] .= strtolower($this->_ci->languagemap->t('general.phrases.due_by')) . ' ';
             $event['text'] .= strftime('%a, %b %d', strtotime($session['due_date'])) . ' - ';
             $event['text'] .= $session['course_title'].' - ' . $session['session_title']; // SUMMARY
-            $event['start_date'] = $session['due_date'] . ' 17:00:00';
-            $event['end_date'] = $session['due_date'] . ' 17:30:00';
+
+            // gotta convert start/end date to UTC
+            // @see http://stackoverflow.com/a/5841145
+            $startDate  = new DateTime($session['due_date'] . ' 17:00:00');
+            $startDate->setTimezone(new DateTimeZone('UTC'));
+            $event['start_date'] = $startDate->format('Y-m-d H:i:s');
+
+            $endDate = new DateTime($session['due_date'] . ' 17:30:00');
+            $endDate->setTimezone(new DateTimeZone('UTC'));
+            $event['end_date'] = $endDate->format('Y-m-d H:i:s');
             $event['event_pid'] = null;
             $event['utc_time'] = true;
             $event['rec_type'] = null;
@@ -210,17 +218,8 @@ class CalendarFeedDataProvider
             $rhett .= "\n";
             $rhett .= $this->_ci->languagemap->t('general.terms.session') . ' ';
             $rhett .= $this->_ci->languagemap->t('general.phrases.learning_materials') . "\n";
-            foreach ($sessionMaterials as $material) {
-                $rhett .= $this->_unHTML($material['title']);
-                if ($material['required']) {
-                    $rhett .= ' (' . $this->_ci->languagemap->t('general.terms.required'). ')';
-                }
-                $rhett .= ' (' . base_url()
-                    . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
-                    . $material['learning_material_id']
-                    . ')';
-                $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
-            }
+            $rhett .= $this->_learningMaterialsToText($sessionMaterials);
+            $rhett .= "\n";
         }
 
         // flatten out course objectives
@@ -238,16 +237,51 @@ class CalendarFeedDataProvider
             $rhett .= "\n";
             $rhett .= $this->_ci->languagemap->t('general.terms.course') . ' ';
             $rhett .= $this->_ci->languagemap->t('general.phrases.learning_materials') . "\n";
-            foreach ($courseMaterials as $material) {
-                $rhett .= $this->_unHTML($material['title']);
+            $rhett .= $this->_learningMaterialsToText($courseMaterials);
+        }
+        return $rhett;
+    }
+
+    /**
+     * Converts a given list of learning materials (LMs) to flat text.
+     *
+     * @param array $learningMaterials A list of LMs.
+     * @return string The LMs as text.
+     *
+     * @see Canned_Queries::getCourseMaterials()
+     * @see Canned_Queries::geSessionMaterials()
+     * @see CalendarFeedDataProvider::_eventDetailsToText()
+     */
+    private function _learningMaterialsToText (array $learningMaterials)
+    {
+        $rhett = '';
+        foreach ($learningMaterials as $material) {
+
+            // append title
+            $rhett .= $this->_unHTML($material['title']);
+
+            // check the LM type by attribute sniffing
+            if (isset($material['citation'])) { // it's a citation!
+                $rhett .= ' "' . $this->_unHTML($material['citation']) . '"';
+            } elseif (isset($material['web_link'])) { // oh look, it's a web link. append the target url.
+                $rhett .= ' (' . $material['web_link'] . ')';
+            } else { // ... guess its a file then. link to it.
                 $rhett .= ' (' . base_url()
                     . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
-                    . $material['learning_material_id']
-                    . ')';
-                if ($material['required']) {
-                    $rhett.= ' (' . $this->_ci->languagemap->t('general.phrases.learning_materials') . ')';
-                }
-                $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
+                    . $material['learning_material_id'] . ')';
+            }
+
+            // if the LM is required then say so.
+            if ($material['required']) {
+                $rhett .= ' (' . $this->_ci->languagemap->t('general.terms.required') . ')';
+            }
+            // description
+            $rhett .= ': ' . $this->_unHTML($material['description']) . "\n";
+
+            // if notes are public and present then append them.
+            if ($material['notes'] && $material['notes_are_public']) {
+                $rhett .= $this->_ci->languagemap->t('general.terms.notes') . ':'
+                    . $this->_unHTML($material['notes']) . "\n";
             }
         }
         return $rhett;

@@ -381,8 +381,20 @@ EOL;
     }
 
     /**
+     * Retrieves all non-draft learning materials (LM) associated with given courses.
+     *
      * @param array $courses An array of course ids.
-     * @return array
+     * @return array An associative array, keyed off by course id. The value is an array of arrays,
+     *    with each item representing a course learning material as an assoc. array. Values are keyed off by:
+     *    'learning_material_id' ... The LM id.
+     *    'title'                ... The title of the LM.
+     *    'description'          ... The description of the LM.
+     *    'web_link'             ... If the LM is a link, then this is the target URL. Otherwise NULL.
+     *    'citation'             ... If the LM is a citation, then the citation text. Otherwise NULL.
+     *    'notes'                ... Notes on the LM in the context of the associated course.
+     *    'required'             ... Indicates whether the LM is required in the context of the associated course or not.
+     *    'notes_are_public'     ... Indicates whether the LM/course notes should be visible or not.
+     *    'course_id'            ... The id of the associated course.
      */
     public function getCoursesMaterials(array $courses)
     {
@@ -393,17 +405,12 @@ EOL;
 
         $courses = implode(',', $courses);
         $sql =<<< EOL
-SELECT
- learning_material.title, learning_material.description,
-  learning_material.learning_material_id, learning_material.filename,
- course_learning_material.required, course_learning_material.notes,
- course.course_id
-FROM course
-JOIN course_learning_material
- ON course.course_id=course_learning_material.course_id
-JOIN learning_material
- ON course_learning_material.learning_material_id=learning_material.learning_material_id
-WHERE course.course_id IN ($courses)
+SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citation,
+  clm.notes, clm.required, clm.notes_are_public, clm.course_id
+FROM course_learning_material clm
+  JOIN learning_material lm ON lm.learning_material_id = clm.learning_material_id
+WHERE clm.course_id IN ($courses)
+AND lm.learning_material_status_id != 1
 EOL;
         $query = $this->db->query($sql);
 
@@ -422,8 +429,20 @@ EOL;
     }
 
     /**
+     * Retrieves all non-draft learning materials (LM) associated with given sessions.
+     *
      * @param array $sessions An array of session ids.
-     * @return array
+     * @return array An associative array, keyed off by course id. The value is an array of arrays,
+     *    with each item representing a session learning material as an assoc. array. Values are keyed off by:
+     *    'learning_material_id' ... The LM id.
+     *    'title'                ... The title of the LM.
+     *    'description'          ... The description of the LM.
+     *    'web_link'             ... If the LM is a link, then this is the target URL. Otherwise NULL.
+     *    'citation'             ... If the LM is a citation, then the citation text. Otherwise NULL.
+     *    'notes'                ... Notes on the LM in the context of the associated session.
+     *    'required'             ... Indicates whether the LM is required in the context of the associated session or not.
+     *    'notes_are_public'     ... Indicates whether the LM/session notes should be visible or not.
+     *    'session_id'           ... The id of the associated session.
      */
     public function getSessionsMaterials(array $sessions)
     {
@@ -434,17 +453,12 @@ EOL;
         }
         $sessions = implode(',', $sessions);
         $sql =<<< EOL
-SELECT
- learning_material.title, learning_material.description,
-  learning_material.learning_material_id, learning_material.filename,
- session_learning_material.required, session_learning_material.notes,
- session.session_id
-FROM session
-JOIN session_learning_material
- ON session.session_id=session_learning_material.session_id
-JOIN learning_material
- ON session_learning_material.learning_material_id=learning_material.learning_material_id
-WHERE session.session_id IN ($sessions)
+SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citation,
+  slm.notes, slm.required, slm.notes_are_public, slm.session_id
+FROM session_learning_material slm
+  JOIN learning_material lm ON lm.learning_material_id = slm.learning_material_id
+WHERE slm.session_id IN ($sessions)
+AND lm.learning_material_status_id != 1
 EOL;
         $query = $this->db->query($sql);
 
