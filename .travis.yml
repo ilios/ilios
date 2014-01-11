@@ -4,12 +4,14 @@ php:
   - "5.4"
   - "5.3"
 
-before_script: 
-  - pear -q channel-discover pear.phpunit.de
-  - pear -q install phpunit/DbUnit
-  - pear -q channel-discover pear.phing.info
-  - pear -q install phing/phing
+install:
+  - pear channel-discover pear.phpunit.de
+  - pear install phpunit/DbUnit
+  - pear channel-discover pear.phing.info
+  - pear install phing/phing
   - phpenv rehash
+
+before_script:
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
