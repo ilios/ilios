@@ -85,16 +85,16 @@ We recommend the following exposure scheme; this is assuming Ilios is installed 
     </LocationMatch>
 
     # status controller
-    <LocationMatch "/ilios.php/status$">
+    <Location /ilios.php/status>
       Satisfy Any
       Allow from all
-    </LocationMatch>
+    </Location>
 
     # API controller
-    <LocationMatch "/ilios.php/api">
+    <Location /ilios.php/api>
       Satisfy Any
       Allow from all
-    </LocationMatch>
+    </Location>
 
     <Location /index.php>
       Satisfy Any
