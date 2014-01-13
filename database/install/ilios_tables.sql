@@ -1001,7 +1001,7 @@ ENGINE=InnoDB;
 	  `course_learning_material_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
 	  `course_id` INT(14) UNSIGNED NOT NULL,
 	  `learning_material_id` INT(14) UNSIGNED NOT NULL,
-	  `notes` VARCHAR(500) COLLATE utf8_unicode_ci,
+	  `notes` TEXT COLLATE utf8_unicode_ci,
 	  `required` TINYINT(1) NOT NULL,				-- 1 == required, 0 == recommended
 	  `notes_are_public` TINYINT(1) NOT NULL,			-- 1 == can be seen in learner view, 0 == cannot
 	  PRIMARY KEY (`course_learning_material_id`) USING BTREE,
@@ -1094,7 +1094,7 @@ ENGINE=InnoDB;
 	  `session_learning_material_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
 	  `session_id` INT(14) UNSIGNED NOT NULL,
 	  `learning_material_id` INT(14) UNSIGNED NOT NULL,
-	  `notes` VARCHAR(500) COLLATE utf8_unicode_ci,
+	  `notes` TEXT COLLATE utf8_unicode_ci,
 	  `required` TINYINT(1) NOT NULL,				-- 1 == required, 0 == recommended
 	  `notes_are_public` TINYINT(1) NOT NULL,			-- 1 == can be seen in learner view, 0 == cannot
 	  PRIMARY KEY (`session_learning_material_id`) USING BTREE,
