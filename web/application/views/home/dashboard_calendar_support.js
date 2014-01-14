@@ -850,7 +850,7 @@ ilios.home.calendar.applyCalendarFilters = function () {
 
     if (null != breadcrumb) {
         var bccontent = Dom.get("calendar_filters_breadcrumb_content");
-        var bcstring = filters.academicYear + "-" + (parseInt(filters.academicYear) + 1);
+        var bcstring = filters.academicYear + "-" + (parseInt(filters.academicYear, 10) + 1);
 
         if (typeof filters.disciplineIds != 'undefined' && filters.disciplineIds.length > 0) {
             bcstring += " &gt; " + getcheckboxestitles("calendar_filters_topic_list");
