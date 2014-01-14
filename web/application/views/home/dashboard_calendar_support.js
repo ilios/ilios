@@ -789,14 +789,14 @@ ilios.home.calendar.applyCalendarFilters = function () {
     var showallactivities = Dom.get("calendar_filters_showallactivities").checked;
     var filters = {};
     var getcheckboxesvalues = function ( containerid ) {
-    var checkeditems = Dom.getElementsBy( function (el) {
-        return el.checked;
-    }, "input", Dom.get(containerid));
-    var values = [];
-    for (var i in checkeditems) {
-        values.push(checkeditems[i].value);
-    }
-    return values;
+        var checkeditems = Dom.getElementsBy( function (el) {
+            return el.checked;
+        }, "input", Dom.get(containerid));
+        var values = [];
+        for (var i in checkeditems) {
+            values.push(checkeditems[i].value);
+        }
+        return values;
     };
 
     filters.academicYear = academicyear;
