@@ -410,7 +410,7 @@ ilios.home.calendar.selectAllCheckboxes = function (elContainer, checked) {
 ilios.home.calendar.getFeedURL = function (f, field) {
     var method = "GET";
     var ajaxURL = baseURL + "calendar_controller/" + f;
-    var feedURL = baseURL.replace(/^https?/,'webcal') + "api/calendar/";
+    var feedURL = baseURL.replace(/^https?/,'webcals') + "api/calendar/";
     var paramString = '';
     var message = 'Error fetching feed URL';
 
