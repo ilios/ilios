@@ -183,7 +183,7 @@ ilios.home.calendar.generateEventObjectDisplayTextForModel = function (model) {
  * @param viewMode one of the three dhtmlx scheduler mode strings: 'day', 'week', 'month'
  */
 ilios.home.calendar.addEventsFromModelToScheduler = function (viewStartDate, viewMode) {
-    var modelsToAdd = new Array();
+    var modelsToAdd = [];
     var model = null;
     var viewEndDate = null;
     var i = 0;
@@ -789,7 +789,7 @@ ilios.home.calendar.applyCalendarFilters = function () {
     var checkeditems = Dom.getElementsBy( function (el) {
         return el.checked;
     }, "input", Dom.get(containerid));
-    var values = new Array();
+    var values = [];
     for (var i in checkeditems) {
         values.push(checkeditems[i].value);
     }
