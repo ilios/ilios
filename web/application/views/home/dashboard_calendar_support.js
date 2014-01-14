@@ -457,7 +457,7 @@ ilios.home.calendar.getFeedURL = function (f, field) {
     }
 
     ilios.home.transaction.activeRequests['getFeedURL'] = YAHOO.util.Connect.asyncRequest(method, ajaxURL, ajaxCallback, paramString);
-}
+};
 
 ilios.home.calendar.initFeedHooks = function () {
     var Dom = YAHOO.util.Dom;
