@@ -20,7 +20,7 @@ ilios.home.calendar.insertingCalendarEvents = false;
 
 /**
  * This is called onDOMReady. This sets up the configuration of the DHTMLX scheduler canvas
- * 	including registering for event notifications from that canvas.
+ *  including registering for event notifications from that canvas.
  */
 ilios.home.calendar.initCalendar = function () {
     var weekColumnFormat = scheduler.date.date_to_str("%M %j, %D");
@@ -101,8 +101,8 @@ ilios.home.calendar.calendarEventSelected = function (eventId, domEventElement) 
 
 /**
  * This method sets the displayed calendar date to either the first day of the course, or the
- * 	first day of all offerings for this session (if this session has offerings); the view mode
- * 	is set as 'week'.
+ *  first day of all offerings for this session (if this session has offerings); the view mode
+ *  is set as 'week'.
  */
 ilios.home.calendar.resetCurrentCalendarViewToStart = function () {
     var dateZero = new Date();
@@ -127,9 +127,9 @@ ilios.home.calendar.resetCurrentCalendarViewToStart = function () {
 
 /**
  * This is messaged via the canvas' onViewChange which notifies us that the user's view of the
- * 	calendar has changed; we take this opportunity to populate the calendar view with just the
- * 	events which are visible in the given time window display (in order to keep the scheduler's
- * 	state store as light as possible)
+ *  calendar has changed; we take this opportunity to populate the calendar view with just the
+ *  events which are visible in the given time window display (in order to keep the scheduler's
+ *  state store as light as possible)
  *
  * http://docs.dhtmlx.com/doku.php?id=dhtmlxscheduler:event_onviewchange
  */
@@ -183,7 +183,7 @@ ilios.home.calendar.generateEventObjectDisplayTextForModel = function (model) {
  * @param viewMode one of the three dhtmlx scheduler mode strings: 'day', 'week', 'month'
  */
 ilios.home.calendar.addEventsFromModelToScheduler = function (viewStartDate, viewMode) {
-    var modelsToAdd = new Array();
+    var modelsToAdd = [];
     var model = null;
     var viewEndDate = null;
     var i = 0;
@@ -272,9 +272,9 @@ ilios.home.calendar.addEventsFromModelToScheduler = function (viewStartDate, vie
 
 /*
  * This function will be passed to Array.sort() when an array instance is homogenous in
- * 	OfferingModel and we want that array sorted for earliest start -> latest start; in the case
- * 	of two OM with the same start, and a secondary comparison is performed to sort the one with the
- * 	earlier end-date as the 'before' element.
+ *  OfferingModel and we want that array sorted for earliest start -> latest start; in the case
+ *  of two OM with the same start, and a secondary comparison is performed to sort the one with the
+ *  earlier end-date as the 'before' element.
  */
 ilios.home.calendar.offeringModelComparator = function (om1, om2) {
     var t1 = om1.getStartDate().getTime();
@@ -457,7 +457,7 @@ ilios.home.calendar.getFeedURL = function (f, field) {
     }
 
     ilios.home.transaction.activeRequests['getFeedURL'] = YAHOO.util.Connect.asyncRequest(method, ajaxURL, ajaxCallback, paramString);
-}
+};
 
 ilios.home.calendar.initFeedHooks = function () {
     var Dom = YAHOO.util.Dom;
@@ -633,34 +633,37 @@ ilios.home.calendar.initFilterHooks = function () {
     // Initialize all the 'select all' toggles
     var selectalltoggles = Dom.getElementsByClassName( "select_all_toggle", "A");
 
+    var clearToggle = function () {
+        var Dom = YAHOO.util.Dom;
+        ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode) );
+        var clearalltoggles = Dom.getElementsByClassName("clear_all_toggle", "A", this.parentNode);
+        this.style.display = "none";
+        clearalltoggles[0].style.display = "";
+        return false;
+    };
+    var toggle;
     for (var key in selectalltoggles) {
-        var toggle = selectalltoggles[key];
+        toggle = selectalltoggles[key];
 
-        Event.addListener( toggle, "click", function () {
-            var Dom = YAHOO.util.Dom;
-            ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode) );
-            var clearalltoggles = Dom.getElementsByClassName("clear_all_toggle", "A", this.parentNode);
-            this.style.display = "none";
-            clearalltoggles[0].style.display = "";
-            return false;
-        });
+        Event.addListener( toggle, "click", clearToggle);
     }
 
     // Initialize all the 'clear all' toggles
     var clearalltoggles = Dom.getElementsByClassName( "clear_all_toggle", "A");
 
+    var selectToggle = function () {
+        var Dom = YAHOO.util.Dom;
+        ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode), false );
+        var selectalltoggles = Dom.getElementsByClassName( "select_all_toggle", "A", this.parentNode );
+        this.style.display = "none";
+        selectalltoggles[0].style.display = "";
+
+        return false;
+    };
     for (key in clearalltoggles) {
-        var toggle = clearalltoggles[key];
+        toggle = clearalltoggles[key];
 
-        Event.addListener( toggle, "click", function () {
-            var Dom = YAHOO.util.Dom;
-            ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode), false );
-            var selectalltoggles = Dom.getElementsByClassName( "select_all_toggle", "A", this.parentNode );
-            this.style.display = "none";
-            selectalltoggles[0].style.display = "";
-
-            return false;
-        });
+        Event.addListener( toggle, "click", selectToggle);
     }
 
     // Initialize 'Search' button
@@ -789,7 +792,7 @@ ilios.home.calendar.applyCalendarFilters = function () {
     var checkeditems = Dom.getElementsBy( function (el) {
         return el.checked;
     }, "input", Dom.get(containerid));
-    var values = new Array();
+    var values = [];
     for (var i in checkeditems) {
         values.push(checkeditems[i].value);
     }
@@ -828,10 +831,11 @@ ilios.home.calendar.applyCalendarFilters = function () {
             return el.checked;
         }, "input", Dom.get(containerid));
         var values = "";
+        var checkedItemsCallback = function (el) {
+            return el.htmlFor == checkeditems[i].id;
+        };
         for (var i in checkeditems) {
-            var olabel = Dom.getNextSiblingBy(checkeditems[i], function(el) {
-                return el.htmlFor == checkeditems[i].id;
-            });
+            var olabel = Dom.getNextSiblingBy(checkeditems[i], checkedItemsCallback);
             if (typeof olabel != 'undefined') {
                 if (values.length > 0) {
                     values += ", ";
@@ -846,7 +850,7 @@ ilios.home.calendar.applyCalendarFilters = function () {
 
     if (null != breadcrumb) {
         var bccontent = Dom.get("calendar_filters_breadcrumb_content");
-        var bcstring = filters.academicYear + "-" + (parseInt(filters.academicYear) + 1);
+        var bcstring = filters.academicYear + "-" + (parseInt(filters.academicYear, 10) + 1);
 
         if (typeof filters.disciplineIds != 'undefined' && filters.disciplineIds.length > 0) {
             bcstring += " &gt; " + getcheckboxestitles("calendar_filters_topic_list");
@@ -903,13 +907,14 @@ ilios.home.calendar.clearCalendarFilters = function () {
 
     // Reset Clear All toggles to Select All
     var toggles = Dom.getElementsByClassName("clear_all_toggle", "A");
+    var toggle;
     for (var key in toggles) {
-        var toggle = toggles[key];
+        toggle = toggles[key];
         toggle.style.display = "none";
     }
     toggles = Dom.getElementsByClassName("select_all_toggle", "A");
     for (key in toggles) {
-        var toggle = toggles[key];
+        toggle = toggles[key];
         toggle.style.display = "";
     }
 
