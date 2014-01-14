@@ -20,7 +20,7 @@ ilios.home.calendar.insertingCalendarEvents = false;
 
 /**
  * This is called onDOMReady. This sets up the configuration of the DHTMLX scheduler canvas
- * 	including registering for event notifications from that canvas.
+ *  including registering for event notifications from that canvas.
  */
 ilios.home.calendar.initCalendar = function () {
     var weekColumnFormat = scheduler.date.date_to_str("%M %j, %D");
@@ -101,8 +101,8 @@ ilios.home.calendar.calendarEventSelected = function (eventId, domEventElement) 
 
 /**
  * This method sets the displayed calendar date to either the first day of the course, or the
- * 	first day of all offerings for this session (if this session has offerings); the view mode
- * 	is set as 'week'.
+ *  first day of all offerings for this session (if this session has offerings); the view mode
+ *  is set as 'week'.
  */
 ilios.home.calendar.resetCurrentCalendarViewToStart = function () {
     var dateZero = new Date();
@@ -127,9 +127,9 @@ ilios.home.calendar.resetCurrentCalendarViewToStart = function () {
 
 /**
  * This is messaged via the canvas' onViewChange which notifies us that the user's view of the
- * 	calendar has changed; we take this opportunity to populate the calendar view with just the
- * 	events which are visible in the given time window display (in order to keep the scheduler's
- * 	state store as light as possible)
+ *  calendar has changed; we take this opportunity to populate the calendar view with just the
+ *  events which are visible in the given time window display (in order to keep the scheduler's
+ *  state store as light as possible)
  *
  * http://docs.dhtmlx.com/doku.php?id=dhtmlxscheduler:event_onviewchange
  */
@@ -272,9 +272,9 @@ ilios.home.calendar.addEventsFromModelToScheduler = function (viewStartDate, vie
 
 /*
  * This function will be passed to Array.sort() when an array instance is homogenous in
- * 	OfferingModel and we want that array sorted for earliest start -> latest start; in the case
- * 	of two OM with the same start, and a secondary comparison is performed to sort the one with the
- * 	earlier end-date as the 'before' element.
+ *  OfferingModel and we want that array sorted for earliest start -> latest start; in the case
+ *  of two OM with the same start, and a secondary comparison is performed to sort the one with the
+ *  earlier end-date as the 'before' element.
  */
 ilios.home.calendar.offeringModelComparator = function (om1, om2) {
     var t1 = om1.getStartDate().getTime();
