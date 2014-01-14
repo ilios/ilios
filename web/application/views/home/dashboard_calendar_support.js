@@ -633,34 +633,36 @@ ilios.home.calendar.initFilterHooks = function () {
     // Initialize all the 'select all' toggles
     var selectalltoggles = Dom.getElementsByClassName( "select_all_toggle", "A");
 
+    var clearToggle = function () {
+        var Dom = YAHOO.util.Dom;
+        ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode) );
+        var clearalltoggles = Dom.getElementsByClassName("clear_all_toggle", "A", this.parentNode);
+        this.style.display = "none";
+        clearalltoggles[0].style.display = "";
+        return false;
+    };
     for (var key in selectalltoggles) {
         var toggle = selectalltoggles[key];
 
-        Event.addListener( toggle, "click", function () {
-            var Dom = YAHOO.util.Dom;
-            ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode) );
-            var clearalltoggles = Dom.getElementsByClassName("clear_all_toggle", "A", this.parentNode);
-            this.style.display = "none";
-            clearalltoggles[0].style.display = "";
-            return false;
-        });
+        Event.addListener( toggle, "click", clearToggle);
     }
 
     // Initialize all the 'clear all' toggles
     var clearalltoggles = Dom.getElementsByClassName( "clear_all_toggle", "A");
 
+    var selectToggle = function () {
+        var Dom = YAHOO.util.Dom;
+        ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode), false );
+        var selectalltoggles = Dom.getElementsByClassName( "select_all_toggle", "A", this.parentNode );
+        this.style.display = "none";
+        selectalltoggles[0].style.display = "";
+
+        return false;
+    };
     for (key in clearalltoggles) {
         var toggle = clearalltoggles[key];
 
-        Event.addListener( toggle, "click", function () {
-            var Dom = YAHOO.util.Dom;
-            ilios.home.calendar.selectAllCheckboxes(Dom.getNextSibling(this.parentNode), false );
-            var selectalltoggles = Dom.getElementsByClassName( "select_all_toggle", "A", this.parentNode );
-            this.style.display = "none";
-            selectalltoggles[0].style.display = "";
-
-            return false;
-        });
+        Event.addListener( toggle, "click", selectToggle);
     }
 
     // Initialize 'Search' button
@@ -828,10 +830,11 @@ ilios.home.calendar.applyCalendarFilters = function () {
             return el.checked;
         }, "input", Dom.get(containerid));
         var values = "";
+        var checkedItemsCallback = function (el) {
+            return el.htmlFor == checkeditems[i].id;
+        };
         for (var i in checkeditems) {
-            var olabel = Dom.getNextSiblingBy(checkeditems[i], function(el) {
-                return el.htmlFor == checkeditems[i].id;
-            });
+            var olabel = Dom.getNextSiblingBy(checkeditems[i], checkedItemsCallback);
             if (typeof olabel != 'undefined') {
                 if (values.length > 0) {
                     values += ", ";
