@@ -641,8 +641,9 @@ ilios.home.calendar.initFilterHooks = function () {
         clearalltoggles[0].style.display = "";
         return false;
     };
+    var toggle;
     for (var key in selectalltoggles) {
-        var toggle = selectalltoggles[key];
+        toggle = selectalltoggles[key];
 
         Event.addListener( toggle, "click", clearToggle);
     }
@@ -660,7 +661,7 @@ ilios.home.calendar.initFilterHooks = function () {
         return false;
     };
     for (key in clearalltoggles) {
-        var toggle = clearalltoggles[key];
+        toggle = clearalltoggles[key];
 
         Event.addListener( toggle, "click", selectToggle);
     }
@@ -906,13 +907,14 @@ ilios.home.calendar.clearCalendarFilters = function () {
 
     // Reset Clear All toggles to Select All
     var toggles = Dom.getElementsByClassName("clear_all_toggle", "A");
+    var toggle;
     for (var key in toggles) {
-        var toggle = toggles[key];
+        toggle = toggles[key];
         toggle.style.display = "none";
     }
     toggles = Dom.getElementsByClassName("select_all_toggle", "A");
     for (key in toggles) {
-        var toggle = toggles[key];
+        toggle = toggles[key];
         toggle.style.display = "";
     }
 
