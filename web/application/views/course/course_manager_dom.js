@@ -117,7 +117,7 @@ ilios.cm.dirtyStateListener = {
         ilios.cm.updatePublishAllUI();
     }
 
-}
+};
 
 /**
  * Dirty-state change-listener for objective models.
@@ -169,7 +169,7 @@ ilios.cm.sessionDescriptionDirtyStateListener = {
             }
         }
     }
-}
+};
 
 
 ilios.cm.displayAddNewCourseDialog = function () {
@@ -268,7 +268,7 @@ ilios.cm.setCalendarToDate = function (dateObject) {
 // @private
 ilios.cm.moveCalendarToDOMElement = function (element) {
     var xyCoordinates = YAHOO.util.Dom.getXY(element);
-    var element = new YAHOO.util.Element(document.getElementById('date_picking_calendar_container'));
+    element = new YAHOO.util.Element(document.getElementById('date_picking_calendar_container'));
 
     element.setStyle('left', (xyCoordinates[0] + 'px'));
     element.setStyle('top', (xyCoordinates[1] + 'px'));
@@ -611,7 +611,7 @@ ilios.cm.populateCourseAndSetEnable = function (title, startDate, endDate, yearS
     element.innerHTML = externalId;
 
     element = document.getElementById('summary-course-year');
-    element.innerHTML = "" + yearStart + "-" + (parseInt(yearStart) + 1);
+    element.innerHTML = "" + yearStart + "-" + (parseInt(yearStart, 10) + 1);
 
     element = document.getElementById('summary-course-level');
     element.innerHTML = "Level" + courseLevel;
@@ -620,7 +620,7 @@ ilios.cm.populateCourseAndSetEnable = function (title, startDate, endDate, yearS
     element.value = externalId;
 
     element = document.getElementById('course_year_start');
-    element.innerHTML = "" + yearStart + "-" + (parseInt(yearStart) + 1);
+    element.innerHTML = "" + yearStart + "-" + (parseInt(yearStart, 10) + 1);
 
     element = document.getElementById('course_start_date');
     dateObject = ilios.utilities.mySQLTimelessDateToDateObject(startDate);
@@ -876,7 +876,7 @@ ilios.cm.deleteObjective = function (event) {
     var args = {
         "cnumber": target.getAttribute("cnumber"),
         "onumber": target.getAttribute("onumber")
-    }
+    };
     ilios.alert.inform(deleteObjectiveStr, yesStr, ilios.cm.continueDeletingObjective, args);
 };
 
@@ -899,7 +899,7 @@ ilios.cm.continueDeletingObjective = function(event, obj) {
     model.removeObjectiveForContainer(objectiveNumber);
     ilios.cm.updateObjectiveCountText(containerNumber);
     this.hide();
-}
+};
 
 /**
  * Initiates the addition of a new objective to a course by firing up the "session objective" dialog.
@@ -1082,9 +1082,9 @@ ilios.cm.domForEditCourseParentObjectiveElement = function (objectiveModel, sele
 };
 
 ilios.cm.getArrayOfCurrentlySelectedParentObjectives = function () {
-    var rhett = new Array();
+    var rhett = [];
     var objectivesDiv = document.getElementById('eco_parent_objectives_div');
-    var selectedObjectiveModel = null
+    var selectedObjectiveModel = null;
     var children = objectivesDiv.children;
 
     for (var i = 0; i < children.length; i++) {
@@ -1186,7 +1186,7 @@ ilios.cm.buildAndPopulateObjective = function (containerNumber, objectiveNumber,
     var scratchInput = null;
     var Event = YAHOO.util.Event;
     var Element = YAHOO.util.Element;
-    var isLocked = isLocked || false;
+    isLocked = isLocked || false;
 
     newObjectiveContainer.setAttribute('class', 'objective_container');
     newObjectiveContainer.setAttribute('cnumber', containerNumber);
