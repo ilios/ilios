@@ -5,7 +5,9 @@
  */
 class Migration_Remove_table_database_metadata extends CI_Migration
 {
-
+    /**
+     * @see CI_Migration::up()
+     */
     public function up()
     {
         $this->db->trans_start();
@@ -14,6 +16,9 @@ class Migration_Remove_table_database_metadata extends CI_Migration
 
     }
 
+    /**
+     * @see CI_Migration::down()
+     */
     public function down()
     {
         $this->db->trans_start();
