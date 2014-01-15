@@ -29,10 +29,10 @@
 CREATE TABLE `school` (
   `school_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `template_prefix` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',
-  `title` VARCHAR(60) NOT NULL COLLATE 'utf8_unicode_ci',
-  `ilios_administrator_email` VARCHAR(100) NOT NULL COLLATE 'utf8_unicode_ci',
+  `title` VARCHAR(60) COLLATE 'utf8_unicode_ci' NOT NULL,
+  `ilios_administrator_email` VARCHAR(100) COLLATE 'utf8_unicode_ci' NOT NULL,
   `deleted` TINYINT(1) NOT NULL,
-  `change_alert_recipients` TEXT NULL COLLATE 'utf8_unicode_ci',
+  `change_alert_recipients` TEXT COLLATE 'utf8_unicode_ci' NULL,
   PRIMARY KEY (`school_id`),
   UNIQUE INDEX `template_prefix` (`template_prefix`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -83,7 +83,7 @@ CREATE TABLE `school` (
 DROP TABLE IF EXISTS `api_key`;
 CREATE TABLE `api_key` (
     `user_id` INT(10) UNSIGNED NOT NULL,
-    `api_key` VARCHAR(64) NOT NULL COLLATE 'utf8_unicode_ci',
+    `api_key` VARCHAR(64) COLLATE 'utf8_unicode_ci' NOT NULL,
     PRIMARY KEY (`user_id`),
     UNIQUE INDEX `api_key` (`api_key`),
     CONSTRAINT `fk_api_key_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
@@ -1403,9 +1403,9 @@ DROP TABLE IF EXISTS `user_sync_exception`;
 CREATE TABLE `user_sync_exception` (
 	`exception_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`process_id` INT(10) UNSIGNED NOT NULL,
-	`process_name` VARCHAR(100) NOT NULL COLLATE 'utf8_unicode_ci',
+	`process_name` VARCHAR(100) COLLATE 'utf8_unicode_ci' NOT NULL,
 	`user_id` INT(10) UNSIGNED NOT NULL,
-	`exception_code` INT(10) UNSIGNED NOT NULL COLLATE 'utf8_unicode_ci',
+	`exception_code` INT(10) UNSIGNED NOT NULL,
 	`mismatched_property_name` VARCHAR(30) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',
 	`mismatched_property_value` VARCHAR(150) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',
 	PRIMARY KEY (`exception_id`),
