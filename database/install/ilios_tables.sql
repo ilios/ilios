@@ -638,8 +638,8 @@ CREATE TABLE `audit_atom` (
     `table_name` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
     `event_type` TINYINT(1) UNSIGNED NOT NULL,
     `root_atom` TINYINT(1) NOT NULL,
-    `created_by` INT(14) UNSIGNED,
-    `created_at` TIMESTAMP NOT NULL,
+    `created_by` INT(14) UNSIGNED NULL DEFAULT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`audit_atom_id`) USING BTREE,
     INDEX `idx_audit_atom_created_at` (`created_at`),
     CONSTRAINT `fkey_audit_atom_created_by`
