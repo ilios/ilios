@@ -740,7 +740,7 @@ ilios.cm.session.buildAndPopulateSession = function (containerNumber, model, ses
     var deselectIdString = null;
     var selectIdStringBase = null;
     var elementId = null;
-    var isLocked = isLocked || false;
+    isLocked = isLocked || false;
 
     formDOMElement.get('element').setAttribute('cnumber', containerNumber);
 
