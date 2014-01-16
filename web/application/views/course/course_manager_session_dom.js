@@ -564,7 +564,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     i18nStr = ilios_i18nVendor.getI18NString('general.terms.description');
     //label column
     scratchLabel= document.createElement('label');
-    scratchLabel.appendChild(document.createTextNode(i18nStr))
+    scratchLabel.appendChild(document.createTextNode(i18nStr));
     ilios.dom.createLabelCol(rowElement, scratchLabel);
     //data column
     scratchElement = document.createElement('div');
