@@ -6,7 +6,9 @@
  */
 class Migration_Change_learning_materials_notes_datatype extends CI_Migration
 {
-
+    /**
+     * @see CI_Migration::up()
+     */
     public function up()
     {
         //change `session_learning_material`.`notes` from type 'VARCHAR(500)' to type 'TEXT'
@@ -21,6 +23,9 @@ class Migration_Change_learning_materials_notes_datatype extends CI_Migration
 
     }
 
+    /**
+     * @see CI_Migration::down()
+     */ 
     public function down()
     {
         //change `session_learning_material`.`notes` type from 'TEXT' back to its original 'VARCHAR(500)' type
