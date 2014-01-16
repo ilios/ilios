@@ -106,7 +106,7 @@ ilios.cm.session.generateIdStringForSessionOfferingExpandWidget = function (cont
 
 ilios.cm.session.generateIdStringForSessionSupplementalRadio = function (containerNumber) {
     return '' + containerNumber + '_session_supplemental_radio';
-}
+};
 
 ilios.cm.session.generateIdStringForSessionTitle = function (containerNumber) {
     return '' + containerNumber + '_session_title';
@@ -564,11 +564,11 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     i18nStr = ilios_i18nVendor.getI18NString('general.terms.description');
     //label column
     scratchLabel= document.createElement('label');
-    scratchLabel.appendChild(document.createTextNode(i18nStr))
+    scratchLabel.appendChild(document.createTextNode(i18nStr));
     ilios.dom.createLabelCol(rowElement, scratchLabel);
     //data column
     scratchElement = document.createElement('div');
-    scratchElement.setAttribute('class', 'session_description')
+    scratchElement.setAttribute('class', 'session_description');
     scratchElementId = ilios.cm.session.generateIdStringForSessionDescription(containerNumber);
     scratchElement.setAttribute('id', scratchElementId);
     dataCol = ilios.dom.createDataCol(rowElement, scratchElement);
@@ -740,7 +740,7 @@ ilios.cm.session.buildAndPopulateSession = function (containerNumber, model, ses
     var deselectIdString = null;
     var selectIdStringBase = null;
     var elementId = null;
-    var isLocked = isLocked || false;
+    isLocked = isLocked || false;
 
     formDOMElement.get('element').setAttribute('cnumber', containerNumber);
 
@@ -1030,7 +1030,7 @@ ilios.cm.session.alterSessionUIToReflectLockedState = function (session) {
 ilios.cm.session.reorderSessionDivs = function () {
     var element = document.getElementById('session_container');
     var children = element.childNodes;
-    var sortingArray = new Array();
+    var sortingArray = [];
     var divCount = children.length;
     var i = 0;
 
