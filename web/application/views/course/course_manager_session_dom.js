@@ -568,7 +568,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     ilios.dom.createLabelCol(rowElement, scratchLabel);
     //data column
     scratchElement = document.createElement('div');
-    scratchElement.setAttribute('class', 'session_description')
+    scratchElement.setAttribute('class', 'session_description');
     scratchElementId = ilios.cm.session.generateIdStringForSessionDescription(containerNumber);
     scratchElement.setAttribute('id', scratchElementId);
     dataCol = ilios.dom.createDataCol(rowElement, scratchElement);
