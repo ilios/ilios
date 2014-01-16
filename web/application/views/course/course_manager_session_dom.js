@@ -106,7 +106,7 @@ ilios.cm.session.generateIdStringForSessionOfferingExpandWidget = function (cont
 
 ilios.cm.session.generateIdStringForSessionSupplementalRadio = function (containerNumber) {
     return '' + containerNumber + '_session_supplemental_radio';
-}
+};
 
 ilios.cm.session.generateIdStringForSessionTitle = function (containerNumber) {
     return '' + containerNumber + '_session_title';
