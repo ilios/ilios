@@ -1030,7 +1030,7 @@ ilios.cm.session.alterSessionUIToReflectLockedState = function (session) {
 ilios.cm.session.reorderSessionDivs = function () {
     var element = document.getElementById('session_container');
     var children = element.childNodes;
-    var sortingArray = new Array();
+    var sortingArray = [];
     var divCount = children.length;
     var i = 0;
 
