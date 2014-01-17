@@ -361,7 +361,7 @@ ilios.global.installPreferencesModel = function () {
  */
 ilios.global.startIdleTimer = function (timeout, logoutUrl) {
     var idleTimer = YAHOO.util.IdleTimer;
-    var timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
+    timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
     idleTimer.subscribe("idle", function () {
         if (! YAHOO.util.IdleTimer.isIdle()) {
             return;
