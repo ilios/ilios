@@ -406,12 +406,12 @@ ilios.cm.lm.clearLearningMaterialsDialogFields = function (clearTransactionStatu
 
     element = document.getElementById('alm_roles_selector');
     if (element != null) {
-        element.selectedIndex = 0
+        element.selectedIndex = 0;
     }
 
     element = document.getElementById('alm_statuses_selector');
     if (element != null) {
-        element.selectedIndex = 0
+        element.selectedIndex = 0;
     }
 
     ilios.cm.lm.learningMaterialLightboxIsDirty = false;
