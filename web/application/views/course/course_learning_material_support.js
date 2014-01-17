@@ -29,7 +29,7 @@ ilios.cm.lm.generateIdStringForLearningMaterialList = function (containerNumber)
  */
 ilios.cm.lm.generateIdStringForLearningMaterialSearchLink = function (containerNumber) {
     return '' + containerNumber + '_session_learning_material_search_link';
-}
+};
 
 // @private
 ilios.cm.lm.setLearningMaterialLightboxDirty = function () {
