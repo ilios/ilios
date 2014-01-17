@@ -23,7 +23,6 @@ describe("ilios_base", function() {
     });
 
     describe("namespace()", function () {
-
       afterEach(function () {
         delete ilios.foo;
       });
@@ -49,5 +48,41 @@ describe("ilios_base", function() {
         expect(typeof ilios.foo.baz).toBe("object");
       });
     });
+
+    describe("lang", function () {
+      describe("trim()", function () {
+        it("should remove leading white space", function () {
+          expect(ilios.lang.trim(" foo")).toBe("foo");
+        });
+
+        it("should remove trailing white space", function () {
+          expect(ilios.lang.trim("foo  ")).toBe("foo");
+        });
+
+        it("should remove leading and trailing white space", function () {
+          expect(ilios.lang.trim("  foo   ")).toBe("foo");
+        });
+
+        it("should not affect strings without leading or trailing spaces", function () {
+          expect(ilios.lang.trim("foo")).toBe("foo");
+        });
+
+        it("should not affect spaces that are not leading or trailing", function () {
+          expect(ilios.lang.trim("foo bar")).toBe("foo bar");
+        });
+      });
+
+      describe("startsWith()", function () {
+        it("should return true if str starts with prefix", function () {
+          expect(ilios.lang.startsWith("food", "foo")).toBe(true);
+        });
+
+        it("should return false if str does not start with prefix", function () {
+          expect(ilios.lang.startsWith("salad", "bar")).toBe(false);
+        });
+      });
+
+    });
   });
+
 });
