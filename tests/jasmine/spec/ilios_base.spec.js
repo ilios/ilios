@@ -82,6 +82,16 @@ describe("ilios_base", function() {
         });
       });
 
+      describe("endsWith()", function () {
+        it("should return true if str ends with suffix", function () {
+          expect(ilios.lang.endsWith("salad bar", "bar")).toBe(true);
+        });
+
+        it("should return false if str does not end with suffix", function () {
+          expect(ilios.lang.endsWith("salad", "bar")).toBe(false);
+        });
+      });
+
     });
   });
 
