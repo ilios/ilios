@@ -23,12 +23,15 @@ describe("ilios_base", function() {
     });
 
     describe("namespace()", function () {
+
+      afterEach(function () {
+        delete ilios.foo;
+      });
+
       it("should create the supplied namespace", function () {
         expect(typeof ilios.foo).toBe("undefined");
         ilios.namespace('foo');
         expect(typeof ilios.foo).toBe("object");
-        // cleanup
-        delete ilios.foo;
       });
 
       it("should create namespaces with depth > 1", function () {
@@ -36,8 +39,14 @@ describe("ilios_base", function() {
         ilios.namespace('foo.bar');
         expect(typeof ilios.foo).toBe("object");
         expect(typeof ilios.foo.bar).toBe("object");
-        // cleanup
-        delete ilios.foo;
+      });
+
+      it("should allow you to create a space twice", function () {
+        expect(typeof ilios.foo).toBe("undefined");
+        ilios.namespace('foo.bar');
+        ilios.namespace('foo.baz');
+        expect(typeof ilios.foo.bar).toBe("object");
+        expect(typeof ilios.foo.baz).toBe("object");
       });
     });
   });
