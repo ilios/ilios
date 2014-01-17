@@ -106,7 +106,7 @@ ilios.cm.lm.createListElementForLearningMaterial = function (model, showAddIcon,
         }
 
         innerHTML += ' &nbsp; <span style="font-size: 8pt; color: ' + colorCoding + ';">('
-                        + statusString + ')</span>'
+                        + statusString + ')</span>';
 
         innerHTML += '<br/><span style="font-size: 8pt; font-weight: bold;">' + descriptionI18NStr;
         innerHTML += ': </span> <span style="font-size: 8pt;">';
