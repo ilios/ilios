@@ -770,7 +770,7 @@ ilios.cm.lm.makeTabPaneDiv = function (tabPaneContentFunction, showCopyrightInfo
 ilios.cm.lm.handleLearningMaterialAddTypeClick = function (tabNumber) {
     var Element = YAHOO.util.Element;
     if (('undefined' != typeof event) && ('undefined' != typeof event.preventDefault)) {
-    	event.preventDefault();
+        event.preventDefault();
     }
 
     var element = null;
