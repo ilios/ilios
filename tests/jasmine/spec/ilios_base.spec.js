@@ -27,6 +27,17 @@ describe("ilios_base", function() {
         expect(typeof ilios.foo).toBe("undefined");
         ilios.namespace('foo');
         expect(typeof ilios.foo).toBe("object");
+        // cleanup
+        delete ilios.foo;
+      });
+
+      it("should create namespaces with depth > 1", function () {
+        expect(typeof ilios.foo).toBe("undefined");
+        ilios.namespace('foo.bar');
+        expect(typeof ilios.foo).toBe("object");
+        expect(typeof ilios.foo.bar).toBe("object");
+        // cleanup
+        delete ilios.foo;
       });
     });
   });
