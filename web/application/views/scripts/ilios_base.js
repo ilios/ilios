@@ -110,10 +110,9 @@ ilios.lang.startsWith = function (str, prefix) {
  * @param {String} str text
  * @param {String} suffix
  * @return {Boolean} TRUE if the given text ends with the given suffix, otherwise FALSE
- * @todo buggy implementation, fix it
  */
 ilios.lang.endsWith = function (str, suffix) {
-    return (str.match(suffix + "$") == suffix);
+    return (str.indexOf(suffix) !== -1 && str.indexOf(suffix) === str.length - suffix.length);
 };
 
 /**
