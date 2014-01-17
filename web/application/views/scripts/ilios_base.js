@@ -301,7 +301,7 @@ ilios.alert.createConfirmDialog = function () {
     confirmDialog.setHeader(ilios_i18nVendor.getI18NString('general.terms.alert') + "!");
     confirmDialog.setBody('');
     return confirmDialog;
-}
+};
 
 /**
  * Creates and returns a simple "info" ("Alert!") dialog.
@@ -328,7 +328,7 @@ ilios.alert.createInformDialog = function () {
     informDialog.setHeader(ilios_i18nVendor.getI18NString('general.notification.dialog_title'));
     informDialog.setBody('');
     return informDialog;
-}
+};
 
 /**
  * All kinds of crazy went into this object.
