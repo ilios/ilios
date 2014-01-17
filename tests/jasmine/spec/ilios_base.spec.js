@@ -104,6 +104,16 @@ describe("ilios_base", function() {
         });
       });
 
+      describe("ellipsisedOfLength()", function () {
+        it("should truncate str to specified number of characters and add an ellipsis", function () {
+          expect(ilios.lang.ellipsisedOfLength("abcdefghijklmnopqrstuvwxyz", 10)).toBe("abcdefghij...");
+        });
+
+        it("should return str if it is shorter than length", function () {
+          expect(ilios.lang.ellipsisedOfLength("abc", 10)).toBe("abc");
+        });
+      });
+
     });
   });
 
