@@ -16,7 +16,7 @@ abstract class Ilios_Base_Controller extends CI_Controller
     {
         parent::__construct();
 
-        $this->load->model('Audit_Event', 'auditEvent', TRUE);
+        $this->load->model('Audit_Atom', 'auditAtom', TRUE);
         $this->load->model('Canned_Queries', 'queries', TRUE);
         $this->load->model('Cohort', 'cohort', TRUE);
         $this->load->model('Competency', 'competency', TRUE);

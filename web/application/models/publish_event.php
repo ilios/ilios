@@ -33,7 +33,7 @@ class Publish_Event extends Ilios_Base_Model {
 
         $newId = $this->db->insert_id();
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'publish_event_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'publish_event_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 

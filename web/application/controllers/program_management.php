@@ -304,12 +304,12 @@ class Program_Management extends Ilios_Web_Controller
                     $this->program->commitTransaction();
 
                     // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
+                    $this->auditAtom->startTransaction();
+                    $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                        $this->auditAtom->rollbackTransaction();
                     } else {
-                        $this->auditEvent->commitTransaction();
+                        $this->auditAtom->commitTransaction();
                     }
 
                     $failedTransaction = false;
@@ -386,12 +386,12 @@ class Program_Management extends Ilios_Web_Controller
                     $this->program->commitTransaction();
 
                     // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
+                    $this->auditAtom->startTransaction();
+                    $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                        $this->auditAtom->rollbackTransaction();
                     } else {
-                        $this->auditEvent->commitTransaction();
+                        $this->auditAtom->commitTransaction();
                     }
 
                     $failedTransaction = false;
@@ -452,12 +452,12 @@ class Program_Management extends Ilios_Web_Controller
                     $this->programYear->commitTransaction();
 
                     // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
+                    $this->auditAtom->startTransaction();
+                    $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                        $this->auditAtom->rollbackTransaction();
                     } else {
-                        $this->auditEvent->commitTransaction();
+                        $this->auditAtom->commitTransaction();
                     }
 
                     $failedTransaction = false;
@@ -517,12 +517,12 @@ class Program_Management extends Ilios_Web_Controller
                 $this->programYear->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
 
                 $failedTransaction = false;
@@ -655,12 +655,12 @@ class Program_Management extends Ilios_Web_Controller
                 $this->programYear->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));

@@ -96,7 +96,7 @@ class Objective extends Ilios_Base_Model
 
         $objectiveId = $this->db->insert_id();
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveId, 'objective_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($objectiveId, 'objective_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
@@ -131,7 +131,7 @@ class Objective extends Ilios_Base_Model
         $this->db->where('objective_id', $objectiveObject['dbId']);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveObject['dbId'],
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($objectiveObject['dbId'],
                                                             'objective_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));

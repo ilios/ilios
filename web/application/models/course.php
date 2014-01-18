@@ -97,7 +97,7 @@ class Course extends Ilios_Base_Model
 
         if ($newCourseId > 0) {
             array_push($auditAtoms,
-                       $this->auditEvent->wrapAtom($newCourseId, 'course_id',
+                       $this->auditAtom->wrapAtom($newCourseId, 'course_id',
                                                    $this->databaseTableName,
                                                    Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
@@ -281,7 +281,7 @@ class Course extends Ilios_Base_Model
         $this->db->insert($this->databaseTableName, $newRow);
 
         $newId = $this->db->insert_id();
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'course_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'course_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
@@ -332,7 +332,7 @@ class Course extends Ilios_Base_Model
         $this->db->where('course_id', $courseId);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($courseId, 'course_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($courseId, 'course_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
@@ -392,7 +392,7 @@ class Course extends Ilios_Base_Model
         $this->db->update($this->databaseTableName, $updateRow);
 
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($courseId, 'course_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($courseId, 'course_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
     }

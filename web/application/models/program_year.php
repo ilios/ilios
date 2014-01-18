@@ -293,7 +293,7 @@ EOL;
         $this->db->update($this->databaseTableName, $updateRow);
 
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($programYearId, 'program_year_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
     }
@@ -330,16 +330,16 @@ EOL;
             return false;
         }
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($programYearId, 'program_year_id',
                                                             'program_year_director',
                                                             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($programYearId, 'program_year_id',
                                                             'program_year_x_competency',
                                                             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($programYearId, 'program_year_id',
                                                             'program_year_x_discipline',
                                                             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($programYearId, 'program_year_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
 
@@ -357,9 +357,9 @@ EOL;
                 return false;
             }
 
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id', 'group',
+            array_push($auditAtoms, $this->auditAtom->wrapAtom($groupId, 'group_id', 'group',
                                                                 Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'parent_group_id',
+            array_push($auditAtoms, $this->auditAtom->wrapAtom($groupId, 'parent_group_id',
                                                                 'group',
                                                                 Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
         }
@@ -404,7 +404,7 @@ EOL;
 
         $newId = $this->db->insert_id();
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'program_year_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'program_year_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
@@ -418,7 +418,7 @@ EOL;
         $newRow['program_year_id'] = $newId;
         $this->db->insert('cohort', $newRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($this->db->insert_id(), 'cohort_id', 'cohort',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($this->db->insert_id(), 'cohort_id', 'cohort',
                                                             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
 
         // TODO audit events for the cross table transactions?
@@ -472,7 +472,7 @@ EOL;
         $this->db->where('program_year_id', $programYearId);
         $this->db->update($this->databaseTableName, $updateValues);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($programYearId, 'program_year_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 
@@ -489,7 +489,7 @@ EOL;
         $this->db->where('cohort_id', $cohortId);
         $this->db->update('cohort', $updateValues);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($cohortId, 'cohort_id', 'cohort',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($cohortId, 'cohort_id', 'cohort',
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
 
         $rhett = $this->objective->saveObjectives($objectivesArray, 'program_year_x_objective', 'program_year_id',

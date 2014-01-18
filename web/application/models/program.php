@@ -57,7 +57,7 @@ class Program extends Ilios_Base_Model
         $this->db->insert($this->databaseTableName, $newRow);
 
         $newId = $this->db->insert_id();
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'program_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'program_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
 
@@ -90,7 +90,7 @@ class Program extends Ilios_Base_Model
         // todo pick up warnings -- research
         $rhett = $this->db->update($this->databaseTableName, $updateValues);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programId, 'program_id',
+        array_push($auditAtoms, $this->auditAtom->wrapAtom($programId, 'program_id',
                                                             $this->databaseTableName,
                                                             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
 

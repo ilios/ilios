@@ -55,7 +55,7 @@ class Recurring_Event extends Ilios_Base_Model {
             }
             else {
                 array_push($auditAtoms,
-                           $this->auditEvent->wrapAtom($recurringEventId, 'recurring_event_id',
+                           $this->auditAtom->wrapAtom($recurringEventId, 'recurring_event_id',
                                                        $this->databaseTableName,
                                                        Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
             }
@@ -64,7 +64,7 @@ class Recurring_Event extends Ilios_Base_Model {
             $this->db->where('recurring_event_id', $recurringEventId);
             $this->db->update($this->databaseTableName, $rowData);
 
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($recurringEventId,
+            array_push($auditAtoms, $this->auditAtom->wrapAtom($recurringEventId,
                                                                 'recurring_event_id',
                                                                 $this->databaseTableName,
                                                                 Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));

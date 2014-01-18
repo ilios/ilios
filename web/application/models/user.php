@@ -99,7 +99,7 @@ class User extends Ilios_Base_Model
         $newId = $this->db->insert_id();
 
         if (is_array($auditAtoms)) {
-            $auditAtoms[] = $this->auditEvent->wrapAtom($newId, 'user_id', $this->databaseTableName,
+            $auditAtoms[] = $this->auditAtom->wrapAtom($newId, 'user_id', $this->databaseTableName,
                 Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
         }
 
@@ -111,7 +111,7 @@ class User extends Ilios_Base_Model
             $this->db->insert('user_x_user_role', $newRow);
 
             if (is_array($auditAtoms)) {
-                $auditAtoms[] = $this->auditEvent->wrapAtom($newId, 'user_id', 'user_x_user_role',
+                $auditAtoms[] = $this->auditAtom->wrapAtom($newId, 'user_id', 'user_x_user_role',
                    Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
             }
         }

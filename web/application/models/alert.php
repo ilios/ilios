@@ -61,7 +61,7 @@ class Alert extends Ilios_Base_Model
     public function __construct ()
     {
         parent::__construct('alert', array('alert_id'));
-        $this->load->model('Audit_Event', 'auditEvent', TRUE);
+        $this->load->model('Audit_Atom', 'auditAtom', TRUE);
         $this->load->model('User', 'user', TRUE);
     }
 
@@ -291,9 +291,9 @@ EOL;
         }
 
         $atoms = array();
-        array_push($atoms, $this->auditEvent->wrapAtom($alertId, 'alert_id', 'alert',
+        array_push($atoms, $this->auditAtom->wrapAtom($alertId, 'alert_id', 'alert',
                                                        Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
-        $this->auditEvent->saveAuditEvent($atoms, $userId);
+        $this->auditAtom->saveAuditEvent($atoms, $userId);
 
         return null;
     }

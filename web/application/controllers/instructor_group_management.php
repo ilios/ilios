@@ -224,12 +224,12 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                     $this->instructorGroup->commitTransaction();
 
                     // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
+                    $this->auditAtom->startTransaction();
+                    $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                        $this->auditAtom->rollbackTransaction();
                     } else {
-                        $this->auditEvent->commitTransaction();
+                        $this->auditAtom->commitTransaction();
                     }
                 }
             } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -325,12 +325,12 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                     $this->instructorGroup->commitTransaction();
 
                     // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
+                    $this->auditAtom->startTransaction();
+                    $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                        $this->auditAtom->rollbackTransaction();
                     } else {
-                        $this->auditEvent->commitTransaction();
+                        $this->auditAtom->commitTransaction();
                     }
 
                     $rhett['container_number'] = $containerNumber;
@@ -384,12 +384,12 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                 $this->instructorGroup->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
             else {
@@ -457,12 +457,12 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                 $this->instructorGroup->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             } else {
                 $rhett['error'] = $this->languagemap->getI18NString('general.error.fatal');
@@ -522,12 +522,12 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                 $this->instructorGroup->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
             else {

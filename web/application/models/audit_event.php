@@ -3,16 +3,16 @@
 include_once "ilios_base_model.php";
 
 /**
- * Data Access Object (DAO) to the audit tables.
+ * Data Access Object (DAO) to the audit atom table.
  */
-class Audit_Event extends Ilios_Base_Model
+class Audit_Atom extends Ilios_Base_Model
 {
     /**
      * Constructor.
      */
     public function __construct ()
     {
-        parent::__construct('audit_event', array('audit_event_id'));
+        parent::__construct('audit_atom', array('audit_atom_id'));
     }
 
     /**
