@@ -529,7 +529,7 @@ ilios.utilities.searchListElementForModel = function (listElement, candidateMode
     }
 
     return false;
-}
+};
 
 // @private
 ilios.utilities.scratchTextArea = document.createElement('textarea');
