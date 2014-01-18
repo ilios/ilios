@@ -22,13 +22,7 @@ class Audit_Event extends Ilios_Base_Model
      */
     public function wrapAtom ($tableId, $tableColumn, $tableName, $type)
     {
-        $rhett = array();
-
-        $rhett['table_row_id'] = $tableId;
-        $rhett['table_column'] = $tableColumn;
-        $rhett['table_name'] = $tableName;
-        $rhett['event_type'] = $type;
-        return $rhett;
+        return Ilios_Model_AuditUtils::wrapAuditAtom($tableId, $tableColumn, $tableName, $type);
     }
 
     /**
