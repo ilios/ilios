@@ -637,7 +637,6 @@ CREATE TABLE `audit_atom` (
     `table_column` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
     `table_name` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
     `event_type` TINYINT(1) UNSIGNED NOT NULL,
-    `root_atom` TINYINT(1) NOT NULL,
     `created_by` INT(14) UNSIGNED NULL DEFAULT NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`audit_atom_id`) USING BTREE,

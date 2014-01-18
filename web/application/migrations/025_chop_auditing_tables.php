@@ -46,10 +46,11 @@ EOL;
         $sql = "ALTER TABLE `audit_atom` DROP INDEX `aeid_ra_k`";
         $this->db->query($sql);
 
-        // remove audit_event_id column from audit_atom table
+        // remove audit_event_id and root_atom columns from audit_atom table
         $sql =<<< EOL
 ALTER TABLE `audit_atom`
     DROP COLUMN `audit_event_id`,
+    DROP COLUMN `root_atom`,
     DROP FOREIGN KEY `audit_atom_ibfk_1`
 EOL;
         $this->db->query($sql);
