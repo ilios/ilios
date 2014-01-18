@@ -801,7 +801,7 @@ ilios.utilities.getTimeRangeString = function (beginning, end) {
 
 // Prepends a 0 if the value is a single digit
 ilios.utilities.paddedTimeValue = function (value) {
-    var intVal = parseInt(value);
+    var intVal = parseInt(value, 10);
 
     if (intVal < 10) {
         return '0' + intVal;
