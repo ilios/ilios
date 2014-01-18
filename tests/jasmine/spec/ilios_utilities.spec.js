@@ -31,6 +31,9 @@ describe("ilios_utilities", function() {
     var div;
 
     beforeEach(function () {
+      // Don't use real events. Let those get found in integration tests.
+      // Just use a simple object for testing instead. We're just testing
+      // the logic in the method, not browser quirks, etc.
       event = {};
       div = document.createElement('div');
     });
@@ -43,6 +46,41 @@ describe("ilios_utilities", function() {
     it("should return srcElement attribute if target attribute does not exist", function () {
       event.srcElement = div;
       expect(ilios.utilities.getEventTarget(event)).toEqual(div);
+    });
+  });
+
+  describe("getParsedResponseObjectFromFormUploadResponseText()", function () {
+    it("should strip off leading and trailing <pre> tags", function () {
+      var responseText = "<pre>{\"foo\": \"bar\"}</pre>";
+      var parsed = ilios.utilities.getParsedResponseObjectFromFormUploadResponseText(responseText);
+      expect(parsed).toEqual({foo: "bar"});
+    });
+
+    it("should strip off leading and trailing <PRE> tags", function () {
+      var responseText = "<PRE>{\"foo\": \"bar\"}</PRE>";
+      var parsed = ilios.utilities.getParsedResponseObjectFromFormUploadResponseText(responseText);
+      expect(parsed).toEqual({foo: "bar"});
+    });
+
+    it("should handle the string if there are no pre elements", function () {
+      var responseText = "{\"foo\": \"bar\"}";
+      var parsed = ilios.utilities.getParsedResponseObjectFromFormUploadResponseText(responseText);
+      expect(parsed).toEqual({foo: "bar"});
+    });
+
+    it("should call ilios.global.defaultAJAXFailureHandler and return null if JSON is invalid", function () {
+      var responseText = "invalid JSON!";
+      spyOn(ilios.global, "defaultAJAXFailureHandler");
+      var parsed = ilios.utilities.getParsedResponseObjectFromFormUploadResponseText(responseText);
+      expect(ilios.global.defaultAJAXFailureHandler).toHaveBeenCalled();
+      expect(parsed).toBe(null);
+    });
+
+    it("should not call ilios.global.defaultAJAXFailureHandler if JSON is valid", function () {
+      var responseText = "{\"foo\": \"bar\"}";
+      spyOn(ilios.global, "defaultAJAXFailureHandler");
+      ilios.utilities.getParsedResponseObjectFromFormUploadResponseText(responseText);
+      expect(ilios.global.defaultAJAXFailureHandler).not.toHaveBeenCalled();
     });
   });
 });
