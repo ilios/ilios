@@ -120,7 +120,7 @@ ilios.utilities.parseIntIgnoringLeadingZeros = function (str) {
 
     for (var i = 0; ((i < len) && (rhett == 0)); i++) {
         if (str.charAt(i) != '0') {
-            rhett = parseInt(str.substr(i));
+            rhett = parseInt(str.substr(i), 10);
         }
     }
 
@@ -380,7 +380,7 @@ ilios.utilities.cloneAssociativeArray = function (originalArray) {
     var rhett = null;
 
     if (originalArray != null) {
-        rhett = new Array();
+        rhett = [];
 
         for (var key in originalArray) {
             rhett[key] = originalArray[key];
@@ -408,7 +408,7 @@ ilios.utilities.deepCloneAssociativeArray = function (originalArray) {
     var rhett = null;
 
     if (originalArray != null) {
-        rhett = new Array();
+        rhett = [];
 
         for (var key in originalArray) {
             rhett[key] = originalArray[key].clone();
@@ -529,7 +529,7 @@ ilios.utilities.searchListElementForModel = function (listElement, candidateMode
     }
 
     return false;
-}
+};
 
 // @private
 ilios.utilities.scratchTextArea = document.createElement('textarea');
@@ -801,7 +801,7 @@ ilios.utilities.getTimeRangeString = function (beginning, end) {
 
 // Prepends a 0 if the value is a single digit
 ilios.utilities.paddedTimeValue = function (value) {
-    var intVal = parseInt(value);
+    var intVal = parseInt(value, 10);
 
     if (intVal < 10) {
         return '0' + intVal;
