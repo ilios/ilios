@@ -120,7 +120,7 @@ ilios.utilities.parseIntIgnoringLeadingZeros = function (str) {
 
     for (var i = 0; ((i < len) && (rhett == 0)); i++) {
         if (str.charAt(i) != '0') {
-            rhett = parseInt(str.substr(i));
+            rhett = parseInt(str.substr(i), 10);
         }
     }
 
