@@ -36,30 +36,18 @@ class Audit_Event extends Ilios_Base_Model
      */
     public function saveAuditEvent ($wrappedAtomArray, $userId)
     {
-        $newRow = array();
-        $newRow['audit_event_id'] = null;
-
         $dtTimeStamp = new DateTime('now', new DateTimeZone('UTC'));
-        $newRow['time_stamp'] = $dtTimeStamp->format('Y-m-d H:i:s');
-        $newRow['user_id'] = $userId;
-
-        $this->db->insert($this->databaseTableName, $newRow);
-
-        $newEventId = $this->db->insert_id();
-        if ((! $newEventId) || ($newEventId == 0)) {
-            return false;
-        }
+        $createdAt = $dtTimeStamp->format('Y-m-d H:i:s');
 
         foreach ($wrappedAtomArray as $wrappedAtom) {
             $newRow = array();
             $newRow['audit_atom_id'] = null;
-
             $newRow['table_row_id'] = $wrappedAtom['table_row_id'];
             $newRow['table_column'] = $wrappedAtom['table_column'];
             $newRow['table_name'] = $wrappedAtom['table_name'];
             $newRow['event_type'] = $wrappedAtom['event_type'];
-            $newRow['root_atom'] = $wrappedAtom['root_atom'];
-            $newRow['audit_event_id'] = $newEventId;
+            $newRow['created_at'] = $createdAt;
+            $newRow['created_by'] = $userId;
 
             $this->db->insert('audit_atom', $newRow);
 
