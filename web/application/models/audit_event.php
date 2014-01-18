@@ -17,8 +17,8 @@ class Audit_Event extends Ilios_Base_Model
 
     /**
      * @deprecated
-     * Use <code>Ilios_Model_AuditUtils::wrapAtom() instead.
-     * @see Ilios_Model_AuditUtils::wrapAtom()
+     * Use <code>Ilios_Model_AuditUtils::wrapAuditAtom() instead.
+     * @see Ilios_Model_AuditUtils::wrapAuditAtom()
      */
     public function wrapAtom ($tableId, $tableColumn, $tableName, $type)
     {
