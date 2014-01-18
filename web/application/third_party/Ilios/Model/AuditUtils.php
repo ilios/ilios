@@ -32,28 +32,19 @@ class Ilios_Model_AuditUtils
      * @param string $tableColumn
      * @param string $tableName
      * @param int $type audit event type
-     * @param int $rootAtom
-     * @param string $serializedBlob
      * @return array an associative array with values keyed off by
      *   'table_row_id' ... (int)
      *   'table_column' ... (string)
      *   'table_name' ... (string)
      *   'event_type' ... (int)
-     *   'root_atom' ... (int)
-     *   'blob' ... (string|NULL)
      */
-    public static function wrapAuditAtom ($tableId, $tableColumn, $tableName,
-            $type, $rootAtom = 0, $serializedBlob = null)
+    public static function wrapAuditAtom ($tableId, $tableColumn, $tableName, $type)
     {
-    	$rhett = array();
-
-    	$rhett['table_row_id'] = $tableId;
-    	$rhett['table_column'] = $tableColumn;
-    	$rhett['table_name'] = $tableName;
-    	$rhett['event_type'] = $type;
-    	$rhett['root_atom'] = $rootAtom;
-    	$rhett['blob'] = $serializedBlob;
-
-    	return $rhett;
+        $rhett = array();
+        $rhett['table_row_id'] = $tableId;
+        $rhett['table_column'] = $tableColumn;
+        $rhett['table_name'] = $tableName;
+        $rhett['event_type'] = $type;
+        return $rhett;
     }
 }

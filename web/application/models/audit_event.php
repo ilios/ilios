@@ -20,8 +20,7 @@ class Audit_Event extends Ilios_Base_Model
      * Use <code>Ilios_Model_AuditUtils::wrapAtom() instead.
      * @see Ilios_Model_AuditUtils::wrapAtom()
      */
-    public function wrapAtom ($tableId, $tableColumn, $tableName, $type, $rootAtom = 0,
-                       $serializedBlob = null)
+    public function wrapAtom ($tableId, $tableColumn, $tableName, $type)
     {
         $rhett = array();
 
@@ -29,9 +28,6 @@ class Audit_Event extends Ilios_Base_Model
         $rhett['table_column'] = $tableColumn;
         $rhett['table_name'] = $tableName;
         $rhett['event_type'] = $type;
-        $rhett['root_atom'] = $rootAtom;
-        $rhett['blob'] = $serializedBlob;
-
         return $rhett;
     }
 
