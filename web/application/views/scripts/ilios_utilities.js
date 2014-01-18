@@ -408,7 +408,7 @@ ilios.utilities.deepCloneAssociativeArray = function (originalArray) {
     var rhett = null;
 
     if (originalArray != null) {
-        rhett = new Array();
+        rhett = [];
 
         for (var key in originalArray) {
             rhett[key] = originalArray[key].clone();
