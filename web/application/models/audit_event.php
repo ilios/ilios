@@ -77,15 +77,6 @@ class Audit_Event extends Ilios_Base_Model
             if ((! $newId) || ($newId == 0)) {
                 return false;
             }
-            else if (isset($wrappedAtom['blob']) && (! is_null($wrappedAtom['blob']))) {
-                $newRow = array();
-                $newRow['audit_atom_id'] = $newId;
-                $newRow['serialized_state_event'] = $wrappedAtom['blob'];
-                $this->db->insert('audit_content', $newRow);
-                if ($this->db->affected_rows() == 0) {
-                    return false;
-                }
-            }
         }
         return true;
     }
