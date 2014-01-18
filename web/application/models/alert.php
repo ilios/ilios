@@ -164,14 +164,13 @@ class Alert extends Ilios_Base_Model
         $clean['alert_id'] = (int) $alertId;
         $sql =<<< EOL
 SELECT DISTINCT
-ae.time_stamp,
+aa.created_at AS time_stamp,
 u.user_id,
 u.last_name,
 u.first_name
 FROM alert a
 JOIN audit_atom aa ON aa.table_row_id = a.alert_id
-JOIN audit_event ae ON ae.audit_event_id = aa.audit_event_id
-JOIN user u ON u.user_id = ae.user_id
+JOIN user u ON u.user_id = aa.created_by
 WHERE aa.table_name = 'alert'
 AND a.alert_id = {$clean['alert_id']}
 EOL;
