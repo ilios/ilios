@@ -346,7 +346,7 @@ class Ilios_ChangeAlert_NotificationProcess
         	$rows = array();
         	foreach ($changeHistory as $change) {
         		// change time is stored in UTC in database, convert it to local tz
-        		$changeTime = new DateTime($change['time_stamp'], $this->_utcTz);
+        		$changeTime = new DateTime($change['created_at'], $this->_utcTz);
         		$changeTime->setTimeZone($this->_localTz); // TZ adjustment
         		$row = '    - Updates made ' . $changeTime->format('m/d/Y') . ' at '
         		    . $changeTime->format('h:i a') . ' by ' . trim($change['first_name'] . ' ' . $change['last_name']);

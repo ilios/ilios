@@ -152,7 +152,7 @@ class Alert extends Ilios_Base_Model
      * audit and user tables.
      * @param int $alertId
      * @return array a nested array of arrays, each sub-array containing data keyed off by the following
-     *     'time_stamp' ... timestamp of when the change was made
+     *     'created_at' ... timestamp of when the change was made
      *     'user_id'     ... id of the user who made the change
      *     'first_name'  ... first name of the user who made the change
      *     'last_name'   ... last name of the user who made the change
@@ -164,7 +164,7 @@ class Alert extends Ilios_Base_Model
         $clean['alert_id'] = (int) $alertId;
         $sql =<<< EOL
 SELECT DISTINCT
-aa.created_at AS time_stamp,
+aa.created_at,
 u.user_id,
 u.last_name,
 u.first_name
