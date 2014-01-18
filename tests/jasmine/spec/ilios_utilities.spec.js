@@ -83,4 +83,29 @@ describe("ilios_utilities", function() {
       expect(ilios.global.defaultAJAXFailureHandler).not.toHaveBeenCalled();
     });
   });
+
+  describe("dateObjectToMySQLFriendly()", function () {
+    var utcDate = new Date("2010-06-28 15:26:02 UTC");
+    var pdtDate = new Date("2010-06-28 15:26:02 PDT");
+
+    it("should return MySQL-formatted date string for date object", function () {
+      var mysqlFriendly = ilios.utilities.dateObjectToMySQLFriendly(utcDate);
+      expect(mysqlFriendly).toBe("2010-06-28");
+    });
+
+    it("should return date but not time if includeTime is false", function () {
+      var mysqlFriendly = ilios.utilities.dateObjectToMySQLFriendly(utcDate, false);
+      expect(mysqlFriendly).toBe("2010-06-28");
+    });
+
+    it("should return the date and time if includeTime is true", function () {
+      var mysqlFriendly = ilios.utilities.dateObjectToMySQLFriendly(utcDate, true);
+      expect(mysqlFriendly).toBe("2010-06-28 15:26:02");
+    });
+
+    it("should convert time to UTC", function () {
+      var mysqlFriendly = ilios.utilities.dateObjectToMySQLFriendly(pdtDate, true);
+      expect(mysqlFriendly).toBe("2010-06-28 22:26:02");
+    });
+  });
 });
