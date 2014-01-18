@@ -25,4 +25,24 @@ describe("ilios_utilities", function() {
       expect(element.getAttribute('title')).toBe(tooltip);
     });
   });
+
+  describe("getEventTarget()", function () {
+    var event;
+    var div;
+
+    beforeEach(function () {
+      event = {};
+      div = document.createElement('div');
+    });
+
+    it("should return target attribute if it exists", function () {
+      event.target = div;
+      expect(ilios.utilities.getEventTarget(event)).toEqual(div);
+    });
+
+    it("should return srcElement attribute if target attribute does not exist", function () {
+      event.srcElement = div;
+      expect(ilios.utilities.getEventTarget(event)).toEqual(div);
+    });
+  });
 });

@@ -28,7 +28,7 @@ ilios.utilities.setToolTipForElement = function (element, toolTipText) {
 };
 
 ilios.utilities.getEventTarget = function (e) {
-    var event = (e || window.event);
+    var event = (e || window.event); // window.event is for IE8 support
 
     return (event.target || event.srcElement);
 };
