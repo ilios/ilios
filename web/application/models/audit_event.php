@@ -29,10 +29,10 @@ class Audit_Event extends Ilios_Base_Model
      * Saves a given list of audit atoms related to actions taken by a given user.
      *
      * @param array $wrappedAtomArray An array of assoc. arrays, each sub-array
-     *     as returned by the Ilios_Model_AuditUtils::wrapAtom() method.
+     *     as returned by the Ilios_Model_AuditUtils::wrapAuditAtom() method.
      * @param int $userId The user id.
      * @return boolean TRUE on success, FALSE on failure.
-     * @see Ilios_Model_AuditUtils::wrapAtom()
+     * @see Ilios_Model_AuditUtils::wrapAuditAtom()
      */
     public function saveAuditEvent ($wrappedAtomArray, $userId)
     {
