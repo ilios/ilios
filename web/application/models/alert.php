@@ -176,9 +176,7 @@ AND a.alert_id = {$clean['alert_id']}
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
-            foreach ($query->result_array() as $row) {
-                $rhett[] = $row;
-            }
+            $rhett = $query->result_array();
         }
         $query->free_result();
         return $rhett;
