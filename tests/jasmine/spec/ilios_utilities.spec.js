@@ -189,7 +189,7 @@ describe("ilios_utilities", function() {
     var makeModelTestDouble = function (publishEventId, modelDirty) {
       return {
         getPublishEventId: function () { return publishEventId; },
-        isModelDirty: function () { return modelDirty; },
+        isModelDirty: function () { return modelDirty; }
       };
     };
 
@@ -211,6 +211,37 @@ describe("ilios_utilities", function() {
     it("should return true if model.getPublishEventId() is 1 or greater and isModelDirty() returns true", function () {
       var model = makeModelTestDouble(1, true);
       expect(ilios.utilities.modelItemNeedsPublishing(model)).toBe(true);
+    });
+  });
+
+  describe("canPublishModelItem()", function () {
+    var makeModelTestDouble = function (modelItemNeedsPublishing, getPublishability, CANNOT_BE_PUBLISHED) {
+      var rv = {};
+      if (modelItemNeedsPublishing === true) {
+        rv.getPublishEventId = function () { return null; };
+        rv.isModelDirty = function () { return true; };
+      } else {
+        rv.getPublishEventId = function () { return 1; };
+        rv.isModelDirty = function () { return false; };
+      }
+      rv.getPublishability = function () { return getPublishability; };
+      rv.CANNOT_BE_PUBLISHED = CANNOT_BE_PUBLISHED;
+      return rv;
+    };
+
+    it("should be false if modelItemNeedsPublishing() is false", function () {
+      var model = makeModelTestDouble(false, 1, 0);
+      expect(ilios.utilities.canPublishModelItem(model)).toBe(false);
+    });
+
+    it("should be false if mobileItemNeedsPublishing() is true but getPublishability() is CANNOT_BE_PUBLISHED", function () {
+      var model = makeModelTestDouble(true, 0, 0);
+      expect(ilios.utilities.canPublishModelItem(model)).toBe(false);
+    });
+
+    it("should be true if mobileItemNeedsPublishing() is true and getPublishability() is not CANNOT_BE_PUBLISHED", function () {
+      var model = makeModelTestDouble(true, 1, 0);
+      expect(ilios.utilities.canPublishModelItem(model)).toBe(true);
     });
   });
 });
