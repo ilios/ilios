@@ -379,4 +379,47 @@ describe("ilios_utilities", function() {
       expect(linkChild.getAttribute("class")).toBe("classy icon-plus");
     });
   });
+
+  describe("selectOptionWithValue()", function () {
+    var selectElement;
+
+    beforeEach(function () {
+      selectElement = document.createElement('select');
+      var options = [];
+      // Generate option0, option1, and option2.
+      for (var i=0; i<3; i++) {
+        options[i] = document.createElement('option');
+        options[i].value = "option" + (i);
+        options[i].text = "Option #" + (i);
+        selectElement.appendChild(options[i]);
+      }
+    });
+
+    it("should select the option with the requested value", function () {
+      ilios.utilities.selectOptionWithValue(selectElement, "option1");
+      expect(selectElement.selectedIndex).toBe(1);
+    });
+
+    it("should return true if requested value exists", function () {
+      expect(ilios.utilities.selectOptionWithValue(selectElement, "option1")).toBe(true);
+    });
+
+    it("should select the first option if null is sent for the requested value", function () {
+      ilios.utilities.selectOptionWithValue(selectElement, null);
+      expect(selectElement.selectedIndex).toBe(0);
+    });
+
+    it("should return true if null is requested value", function () {
+      expect(ilios.utilities.selectOptionWithValue(selectElement, null)).toBe(true);
+    });
+
+    it("should select the first option if requested value is not found", function () {
+      ilios.utilities.selectOptionWithValue(selectElement, "option10");
+      expect(selectElement.selectedIndex).toBe(0);
+    });
+
+    it("should return false if requested valueis not found", function () {
+      expect(ilios.utilities.selectOptionWithValue(selectElement, "option10")).toBe(false);
+    });
+  });
 });
