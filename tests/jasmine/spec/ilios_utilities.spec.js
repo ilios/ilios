@@ -184,4 +184,33 @@ describe("ilios_utilities", function() {
       expect(container.hasChildNodes()).toBe(false);
     });
   });
+
+  describe("modelItemNeedsPublishing()", function () {
+    var makeModelTestDouble = function (publishEventId, modelDirty) {
+      return {
+        getPublishEventId: function () { return publishEventId; },
+        isModelDirty: function () { return modelDirty; },
+      };
+    };
+
+    it("should return true if model.getPublishEventId() returns null", function () {
+      var model = makeModelTestDouble(null, false);
+      expect(ilios.utilities.modelItemNeedsPublishing(model)).toBe(true);
+    });
+
+    it("should return true if model.getPublishEventId() returns less than 1", function () {
+      var model = makeModelTestDouble(0, true);
+      expect(ilios.utilities.modelItemNeedsPublishing(model)).toBe(true);
+    });
+
+    it("should return false if model.getPublishEventId() is 1 or greater and isModelDirty() returns false", function () {
+      var model = makeModelTestDouble(1, false);
+      expect(ilios.utilities.modelItemNeedsPublishing(model)).toBe(false);
+    });
+
+    it("should return true if model.getPublishEventId() is 1 or greater and isModelDirty() returns true", function () {
+      var model = makeModelTestDouble(1, true);
+      expect(ilios.utilities.modelItemNeedsPublishing(model)).toBe(true);
+    });
+  });
 });
