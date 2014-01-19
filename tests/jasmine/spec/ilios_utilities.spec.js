@@ -115,4 +115,39 @@ describe("ilios_utilities", function() {
       expect(mySqlTime).toEqual(new Date("2010-06-28 00:00:00"));
     });
   });
+
+  describe("mySQLDateToDateObject()", function () {
+    it("should work with a two-digit year", function () {
+      // Current implementation requires a trailing space. Bug?
+      // Current implementation accepts a two-digit year, but treats it like a two-digit year. 10 = 10 AD. Bug?
+      // I'm guessing two-digit years and date-only (no time) just simply really aren't supported.
+      var mySQLDateString = "10-06-28 ";
+      var DateObject = ilios.utilities.mySQLDateToDateObject(mySQLDateString);
+      var expected = new Date("June 28");
+      expected.setFullYear(10);
+      expect(DateObject).toEqual(expected);
+    });
+
+    it("should work without a timestamp", function () {
+      // Current implementation requires a trailing space. Bug?
+      var mySQLDateString = "2010-06-28 ";
+      var DateObject = ilios.utilities.mySQLDateToDateObject(mySQLDateString);
+      var expected = new Date("June 28, 2010");
+      expect(DateObject).toEqual(expected);
+    });
+
+    it("should work with a timestamp", function () {
+      var mySQLDateString = "2010-06-28 15:26:02";
+      var DateObject = ilios.utilities.mySQLDateToDateObject(mySQLDateString);
+      var expected = new Date("2010-06-28 15:26:02");
+      expect(DateObject).toEqual(expected);
+    });
+
+    it("should use UTC time if valueIsUTC is true", function () {
+      var mySQLDateString = "2010-06-28 15:26:02";
+      var DateObject = ilios.utilities.mySQLDateToDateObject(mySQLDateString, true);
+      var expected = new Date("2010-06-28 15:26:02 UTC");
+      expect(DateObject).toEqual(expected);
+    });
+  });
 });
