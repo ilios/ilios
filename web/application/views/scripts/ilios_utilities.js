@@ -193,7 +193,7 @@ ilios.utilities.toggle = function (containerIdToToggle, toggleLinkElement) {
         container.setStyle('display', 'none');
     }
 
-    if (toggleLinkElement != null) {
+    if (toggleLinkElement) {
         YAHOO.util.Dom.removeClass(icon, 'icon-minus');
         YAHOO.util.Dom.removeClass(icon, 'icon-plus');
         YAHOO.util.Dom.addClass(icon, newClass);
