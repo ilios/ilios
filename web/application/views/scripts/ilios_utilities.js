@@ -167,7 +167,7 @@ ilios.utilities.toggleShowMoreOrLess = function (containerIdToToggle, toggleLink
         container.setStyle('display', 'none');
     }
 
-    if (toggleLinkElement != null) {
+    if (toggleLinkElement) {
         toggleLinkElement.innerHTML = str;
     }
 };
