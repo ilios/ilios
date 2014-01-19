@@ -150,4 +150,21 @@ describe("ilios_utilities", function() {
       expect(DateObject).toEqual(expected);
     });
   });
+
+  describe("convertMimeTypeToCSSClassName()", function () {
+    it("should return an empty string if mimeType is not a string", function () {
+      var mimeType = 5;
+      expect(ilios.utilities.convertMimeTypeToCSSClassName(mimeType)).toBe('');
+    });
+
+    it("should replace / with --", function () {
+      var mimeType = "text/plain";
+      expect(ilios.utilities.convertMimeTypeToCSSClassName(mimeType)).toBe('text--plain');
+    });
+
+    it("should replace . with __", function () {
+      var mimeType = "image/vnd.adobe.photoshop";
+      expect(ilios.utilities.convertMimeTypeToCSSClassName(mimeType)).toBe('image--vnd__adobe__photoshop');
+    });
+  });
 });
