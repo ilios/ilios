@@ -258,4 +258,50 @@ describe("ilios_utilities", function() {
       expect(container.get("element").innerHTML).toBe("<div class=\"clear\"></div>");
     });
   });
+
+  describe("toggleShowMoreOrLess()", function () {
+    var container;
+    var getI18NStringTestDouble = function (phrase) {
+      return phrase === "general.phrases.show_less" ? "Show Less" : "Show More";
+    };
+
+    beforeEach(function () {
+      container = document.createElement('div');
+      container.setAttribute("id", "foo");
+      document.body.appendChild(container);
+      window.ilios_i18nVendor = {getI18NString: getI18NStringTestDouble};
+    });
+
+    afterEach(function () {
+      container.parentNode.removeChild(container);
+      delete window.ilios_i18nVendor;
+    });
+
+    it("should toggle display:none to display:block", function () {
+      container.setAttribute("style", "display: none;");
+      ilios.utilities.toggleShowMoreOrLess("foo", null);
+      expect(container.getAttribute("style")).toEqual("display: block;");
+    });
+
+    it("should toggle display:block to display:none", function () {
+      container.setAttribute("style", "display: block;");
+      ilios.utilities.toggleShowMoreOrLess("foo", null);
+    });
+
+    it("should change text to lowercased show_less when toggling from display:none", function () {
+      container.setAttribute("style", "display: none;");
+      var linkElement = document.createElement('a');
+      expect(linkElement.innerHTML).toBe("");
+      ilios.utilities.toggleShowMoreOrLess("foo", linkElement);
+      expect(linkElement.innerHTML).toBe("show less");
+    });
+
+    it("should change text to lowercased show_more when toggling from display:block", function () {
+      container.setAttribute("style", "display: block;");
+      var linkElement = document.createElement('a');
+      expect(linkElement.innerHTML).toBe("");
+      ilios.utilities.toggleShowMoreOrLess("foo", linkElement);
+      expect(linkElement.innerHTML).toBe("show more");
+    });
+  });
 });
