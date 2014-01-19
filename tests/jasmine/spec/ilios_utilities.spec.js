@@ -286,6 +286,7 @@ describe("ilios_utilities", function() {
     it("should toggle display:block to display:none", function () {
       container.setAttribute("style", "display: block;");
       ilios.utilities.toggleShowMoreOrLess("foo", null);
+      expect(container.getAttribute("style")).toEqual("display: none;");
     });
 
     it("should change text to lowercased show_less when toggling from display:none", function () {
@@ -302,6 +303,80 @@ describe("ilios_utilities", function() {
       expect(linkElement.innerHTML).toBe("");
       ilios.utilities.toggleShowMoreOrLess("foo", linkElement);
       expect(linkElement.innerHTML).toBe("show more");
+    });
+  });
+
+  describe("toggle()", function () {
+    var container;
+
+    beforeEach(function () {
+      container = document.createElement('div');
+      container.setAttribute("id", "foo");
+      document.body.appendChild(container);
+    });
+
+    afterEach(function () {
+      container.parentNode.removeChild(container);
+    });
+
+    it("should toggle display:none to display:block", function () {
+      container.setAttribute("style", "display: none;");
+      ilios.utilities.toggle("foo", null);
+      expect(container.getAttribute("style")).toEqual("display: block;");
+    });
+
+    it("should toggle display:block to display:none", function () {
+      container.setAttribute("style", "display: block;");
+      ilios.utilities.toggle("foo", null);
+      expect(container.getAttribute("style")).toEqual("display: none;");
+    });
+
+    it("should set class to icon-minus when toggling from display:none", function () {
+      var linkElement = document.createElement("div");
+      var linkChild = document.createElement("span");
+      linkElement.appendChild(linkChild);
+      container.setAttribute("style", "display: none;");
+      ilios.utilities.toggle("foo", linkElement);
+      expect(linkChild.getAttribute("class")).toBe("icon-minus");
+    });
+
+    it("should set class to icon-plus when toggling from display:block", function () {
+      var linkElement = document.createElement("div");
+      var linkChild = document.createElement("span");
+      linkElement.appendChild(linkChild);
+      container.setAttribute("style", "display: block;");
+      ilios.utilities.toggle("foo", linkElement);
+      expect(linkChild.getAttribute("class")).toBe("icon-plus");
+    });
+
+    it("should remove icon-plus when toggling from display:none", function () {
+      var linkElement = document.createElement("div");
+      var linkChild = document.createElement("span");
+      linkChild.setAttribute("class", "icon-plus");
+      linkElement.appendChild(linkChild);
+      container.setAttribute("style", "display: none;");
+      ilios.utilities.toggle("foo", linkElement);
+      expect(linkChild.getAttribute("class")).toBe("icon-minus");
+    });
+
+    it("should remove icon-minus when toggling from display:block", function () {
+      var linkElement = document.createElement("div");
+      var linkChild = document.createElement("span");
+      linkChild.setAttribute("class", "icon-minus");
+      linkElement.appendChild(linkChild);
+      container.setAttribute("style", "display: block;");
+      ilios.utilities.toggle("foo", linkElement);
+      expect(linkChild.getAttribute("class")).toBe("icon-plus");
+    });
+
+    it("should leave existing non-icon-plus/minus classes alone", function () {
+      var linkElement = document.createElement("div");
+      var linkChild = document.createElement("span");
+      linkChild.setAttribute("class", "classy");
+      linkElement.appendChild(linkChild);
+      container.setAttribute("style", "display: block;");
+      ilios.utilities.toggle("foo", linkElement);
+      expect(linkChild.getAttribute("class")).toBe("classy icon-plus");
     });
   });
 });
