@@ -167,4 +167,21 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.convertMimeTypeToCSSClassName(mimeType)).toBe('image--vnd__adobe__photoshop');
     });
   });
+
+  describe("removeAllChildren()", function () {
+    it("should return a childless element if passed a childless element", function () {
+      var container = document.createElement('div');
+      expect(container.hasChildNodes()).toBe(false);
+      ilios.utilities.removeAllChildren(container);
+      expect(container.hasChildNodes()).toBe(false);
+    });
+
+    it("should remove children from an element with children", function () {
+      var container = document.createElement('div');
+      container.appendChild(document.createElement('span'));
+      expect(container.hasChildNodes()).toBe(true);
+      ilios.utilities.removeAllChildren(container);
+      expect(container.hasChildNodes()).toBe(false);
+    });
+  });
 });
