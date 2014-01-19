@@ -154,7 +154,7 @@ ilios.utilities.appendClearingDivToContainer = function (container) {
 
 ilios.utilities.toggleShowMoreOrLess = function (containerIdToToggle, toggleLinkElement) {
     var container = new YAHOO.util.Element(document.getElementById(containerIdToToggle));
-    var str = null;
+    var str;
 
     if (container.getStyle('display') == 'none') {
         str = ilios_i18nVendor.getI18NString('general.phrases.show_less').toLowerCase();
