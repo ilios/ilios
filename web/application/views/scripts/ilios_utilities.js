@@ -234,7 +234,7 @@ ilios.utilities.getXMLHttpRequest = function () {
     if (window.XMLHttpRequest) {
         xmlHTTPRequest = new XMLHttpRequest();
 
-        if ('undefined' !== typeof xmlHTTPRequest.overrideMimeType) {
+        if (xmlHTTPRequest.overrideMimeType) {
             xmlHTTPRequest.overrideMimeType('text/xml');
         }
     } else {
