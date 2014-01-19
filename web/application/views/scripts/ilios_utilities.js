@@ -116,19 +116,6 @@ ilios.utilities.convertMimeTypeToCSSClassName = function (mimeType) {
     return rhett.replace(new RegExp('\\.', 'g'), "__");
 };
 
-ilios.utilities.parseIntIgnoringLeadingZeros = function (str) {
-    var rhett = 0;
-    var len = str.length;
-
-    for (var i = 0; ((i < len) && (rhett == 0)); i++) {
-        if (str.charAt(i) != '0') {
-            rhett = parseInt(str.substr(i), 10);
-        }
-    }
-
-    return rhett;
-};
-
 ilios.utilities.removeAllChildren = function (container) {
     if (container.hasChildNodes()) {
         while (container.childNodes.length >= 1) {
