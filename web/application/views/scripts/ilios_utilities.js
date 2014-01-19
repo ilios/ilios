@@ -237,8 +237,6 @@ ilios.utilities.getXMLHttpRequest = function () {
         if ('undefined' !== typeof xmlHTTPRequest.overrideMimeType) {
             xmlHTTPRequest.overrideMimeType('text/xml');
         }
-    } else if (window.ActiveXObject) {
-        xmlHTTPRequest = new ActiveXObject("Microsoft.XMLHTTP");
     } else {
         ilios.alert.alert('It appears that your browser does not support XMLHTTPRequests. ...?');
     }
