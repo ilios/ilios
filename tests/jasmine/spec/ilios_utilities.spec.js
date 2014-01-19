@@ -108,4 +108,11 @@ describe("ilios_utilities", function() {
       expect(mysqlFriendly).toBe("2010-06-28 22:26:02");
     });
   });
+
+  describe("mySQLTimelessDateToDateObject()", function () {
+    it("should return a Date object for midnight local time of the yyyyMMDDStr", function () {
+      var mySqlTime = ilios.utilities.mySQLTimelessDateToDateObject("2010-06-28");
+      expect(mySqlTime).toEqual(new Date("2010-06-28 00:00:00"));
+    });
+  });
 });
