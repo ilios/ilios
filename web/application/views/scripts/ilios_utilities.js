@@ -133,7 +133,7 @@ ilios.utilities.modelItemNeedsPublishing = function (model) {
 ilios.utilities.canPublishModelItem = function (model) {
     if (ilios.utilities.modelItemNeedsPublishing(model)) {
         return (model.getPublishability()
-                                    != AbstractJavaScriptModelForm.prototype.CANNOT_BE_PUBLISHED);
+                                    != model.CANNOT_BE_PUBLISHED);
     }
 
     return false;
