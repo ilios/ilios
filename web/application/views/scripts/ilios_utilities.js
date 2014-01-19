@@ -182,7 +182,7 @@ ilios.utilities.toggleShowMoreOrLess = function (containerIdToToggle, toggleLink
 ilios.utilities.toggle = function (containerIdToToggle, toggleLinkElement) {
     var container = new YAHOO.util.Element(document.getElementById(containerIdToToggle));
     var icon = YAHOO.util.Dom.getFirstChild(toggleLinkElement);
-    var newClass = null;
+    var newClass;
 
     if (container.getStyle('display') == 'none') {
         newClass = 'icon-minus';
