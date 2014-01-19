@@ -244,4 +244,18 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.canPublishModelItem(model)).toBe(true);
     });
   });
+
+  describe("appendClearingDivToContainer()", function () {
+    it("should add a div with class clear as a child to HTMLElement container", function () {
+      var container = document.createElement("div");
+      ilios.utilities.appendClearingDivToContainer(container);
+      expect(container.innerHTML).toBe("<div class=\"clear\"></div>");
+    });
+
+    it("should add a div with class clear as a child to YAHOO.util.Element container", function () {
+      var container = new YAHOO.util.Element(document.createElement("div"), {});
+      ilios.utilities.appendClearingDivToContainer(container);
+      expect(container.get("element").innerHTML).toBe("<div class=\"clear\"></div>");
+    });
+  });
 });
