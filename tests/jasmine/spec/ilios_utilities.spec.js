@@ -423,54 +423,54 @@ describe("ilios_utilities", function() {
     });
   });
 
-    describe("getXMLHttpRequest()", function () {
-      /* TODO: Use dependency injection or a wrapper to make getXMLHttpRequest() more testable.
-               Better yet, get rid of it entirely and use a library/framework abstraction like YUI or jQuery.
-      */
-      it("should return an XMLHTTPRequest object in a supported browser", function () {
-        expect(ilios.utilities.getXMLHttpRequest() instanceof XMLHttpRequest).toBe(true);
-      });
+  describe("getXMLHttpRequest()", function () {
+    /* TODO: Use dependency injection or a wrapper to make getXMLHttpRequest() more testable.
+             Better yet, get rid of it entirely and use a library/framework abstraction like YUI or jQuery.
+    */
+    it("should return an XMLHTTPRequest object in a supported browser", function () {
+      expect(ilios.utilities.getXMLHttpRequest() instanceof XMLHttpRequest).toBe(true);
+    });
+  });
+
+  describe("arrayContains()", function () {
+    it("should return true if value is in array", function () {
+      expect(ilios.utilities.arrayContains(["a","b","c"], "b")).toBe(true);
     });
 
-    describe("arrayContains()", function () {
-      it("should return true if value is in array", function () {
-        expect(ilios.utilities.arrayContains(["a","b","c"], "b")).toBe(true);
-      });
+    it("should return false if value is not in array", function () {
+      expect(ilios.utilities.arrayContains(["a","b","c"], "d")).toBe(false);
+    });
+  });
 
-      it("should return false if value is not in array", function () {
-        expect(ilios.utilities.arrayContains(["a","b","c"], "d")).toBe(false);
-      });
+  describe("makeUniqueArray()", function () {
+    it("should return an array with duplicate values removed", function () {
+      expect(ilios.utilities.makeUniqueArray(["a","b","b","c","c","d"])).toEqual(["a","b","c","d"]);
     });
 
-    describe("makeUniqueArray()", function () {
-      it("should return an array with duplicate values removed", function () {
-        expect(ilios.utilities.makeUniqueArray(["a","b","b","c","c","d"])).toEqual(["a","b","c","d"]);
-      });
+    it("should not alter an array that does not have duplicate values", function () {
+      expect(ilios.utilities.makeUniqueArray(["a","b"])).toEqual(["a","b"]);
+    });
+  });
 
-      it("should not alter an array that does not have duplicate values", function () {
-        expect(ilios.utilities.makeUniqueArray(["a","b"])).toEqual(["a","b"]);
-      });
+  describe("simplyArrayEquality()", function () {
+    it("should return false if arrays are of different sizes", function () {
+      expect(ilios.utilities.simplyArrayEquality(["a"], ["a","a"])).toBe(false);
     });
 
-    describe("simplyArrayEquality()", function () {
-      it("should return false if arrays are of different sizes", function () {
-        expect(ilios.utilities.simplyArrayEquality(["a"], ["a","a"])).toBe(false);
-      });
-
-      it("should return true if arrays are the same", function () {
-        expect(ilios.utilities.simplyArrayEquality(["a","b","c"], ["a","b","c"])).toBe(true);
-      });
-
-      it("should return true if arrays have the same contents in a different order", function () {
-        expect(ilios.utilities.simplyArrayEquality(["a","b"], ["b","a"])).toBe(true);
-      });
-
-      it("should return false if arrays are the same length but have the different contents", function () {
-        expect(ilios.utilities.simplyArrayEquality(["a","b"], ["b","b"])).toBe(false);
-      });
-
-      it("should return false if arr1 and arr2 are the same length but arr1 doesn't contain everything in arr2", function () {
-        expect(ilios.utilities.simplyArrayEquality(["a","a"], ["a","b"])).toBe(false);
-      });
+    it("should return true if arrays are the same", function () {
+      expect(ilios.utilities.simplyArrayEquality(["a","b","c"], ["a","b","c"])).toBe(true);
     });
+
+    it("should return true if arrays have the same contents in a different order", function () {
+      expect(ilios.utilities.simplyArrayEquality(["a","b"], ["b","a"])).toBe(true);
+    });
+
+    it("should return false if arrays are the same length but have the different contents", function () {
+      expect(ilios.utilities.simplyArrayEquality(["a","b"], ["b","b"])).toBe(false);
+    });
+
+    it("should return false if arr1 and arr2 are the same length but arr1 doesn't contain everything in arr2", function () {
+      expect(ilios.utilities.simplyArrayEquality(["a","a"], ["a","b"])).toBe(false);
+    });
+  });
 });
