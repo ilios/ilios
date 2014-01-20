@@ -418,8 +418,17 @@ describe("ilios_utilities", function() {
       expect(selectElement.selectedIndex).toBe(0);
     });
 
-    it("should return false if requested valueis not found", function () {
+    it("should return false if requested value is not found", function () {
       expect(ilios.utilities.selectOptionWithValue(selectElement, "option10")).toBe(false);
     });
   });
+
+    describe("getXMLHttpRequest()", function () {
+      /* TODO: Use dependency injection or a wrapper to make getXMLHttpRequest() more testable.
+               Better yet, get rid of it entirely and use a library/framework abstraction like YUI or jQuery.
+      */
+      it("should return an XMLHTTPRequest object in a supported browser", function () {
+        expect(ilios.utilities.getXMLHttpRequest() instanceof XMLHttpRequest).toBe(true);
+      });
+    });
 });
