@@ -531,6 +531,7 @@ ilios.utilities.htmlEntitiesDecode = function (str) {
 
 /**
  * @todo get rid of this.
+ * @todo this is only called in one place and without quote_style so get rid of quote_style
  */
 ilios.utilities.htmlEntities = function (string, quote_style) {
     // http://kevin.vanzonneveld.net
