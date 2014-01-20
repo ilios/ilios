@@ -282,7 +282,8 @@ ilios.utilities.makeUniqueArray = function (a) {
 
 // WAT?! This is horribly inefficient and doesn't work at all.
 // E.g., this returns true: simplyArrayEquality(["a","a","a"],["a","b","c"])
-// @todo Replace with something like YAHOO.Array.every(arr1, function(item,index) {return arr2[index]===item;});
+// @todo Replace with sorting the arrays followed by something like:
+//   YAHOO.Array.every(arr1, function(item,index) {return arr2[index]===item;});
 ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
     var size = ilios.utilities.arraySize(arr1);
     var element = null;

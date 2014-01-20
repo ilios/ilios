@@ -451,4 +451,27 @@ describe("ilios_utilities", function() {
         expect(ilios.utilities.makeUniqueArray(["a","b"])).toEqual(["a","b"]);
       });
     });
+
+    describe("simplyArrayEquality()", function () {
+      it("should return false if arrays are of different sizes", function () {
+        expect(ilios.utilities.simplyArrayEquality(["a"], ["a","a"])).toBe(false);
+      });
+
+      it("should return true if arrays are the same", function () {
+        expect(ilios.utilities.simplyArrayEquality(["a","b","c"], ["a","b","c"])).toBe(true);
+      });
+
+      it("should return true if arrays have the same contents in a different order", function () {
+        expect(ilios.utilities.simplyArrayEquality(["a","b"], ["b","a"])).toBe(true);
+      });
+
+      it("should return false if arrays are the same length but have the different contents", function () {
+        expect(ilios.utilities.simplyArrayEquality(["a","b"], ["b","b"])).toBe(false);
+      });
+
+      // Bug that should be fixed next commit
+      // it("should return false if arr1 and arr2 are the same length but arr1 doesn't contain everything in arr2", function () {
+      //   expect(ilios.utilities.simplyArrayEquality(["a","a"], ["a","b"])).toBe(false);
+      // });
+    });
 });
