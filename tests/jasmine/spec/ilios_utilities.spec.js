@@ -440,5 +440,5 @@ describe("ilios_utilities", function() {
       it("should return false if value is not in array", function () {
         expect(ilios.utilities.arrayContains(["a","b","c"], "d")).toBe(false);
       });
-    })
+    });
 });
