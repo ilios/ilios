@@ -705,4 +705,22 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.percentUnicodeToHTML("Change all of these, please: %u! %u! %u!")).toBe("Change all of these, please: &#x! &#x! &#x!");
     });
   });
+
+  describe("htmlEntitiesDecode()", function () {
+    it("should decode &lt; as <", function () {
+      expect(ilios.utilities.htmlEntitiesDecode("&lt;")).toBe("<");
+    });
+
+    it("should decode &gt; as >", function () {
+      expect(ilios.utilities.htmlEntitiesDecode("&gt;")).toBe(">");
+    });
+
+    it("should not alter a string with no entities", function () {
+      expect(ilios.utilities.htmlEntitiesDecode("Entity-free!")).toBe("Entity-free!");
+    });
+
+    it("should decode &amp; as &", function () {
+      expect(ilios.utilities.htmlEntitiesDecode("&amp;")).toBe("&");
+    });
+  });
 });
