@@ -263,6 +263,7 @@ ilios.utilities.arrayContains = function (arr, value) {
  * @param {Array} a an array of strings or numbers.
  * @return {Array} the de-duped array.
  * @static
+ * @todo Replace with YAHOO.Array.unique() or YAHOO.Array.dedupe()
  */
 ilios.utilities.makeUniqueArray = function (a) {
     var map = {};
@@ -279,6 +280,9 @@ ilios.utilities.makeUniqueArray = function (a) {
     return rhett;
 };
 
+// WAT?! This is horribly inefficient and doesn't work at all.
+// E.g., this returns true: simplyArrayEquality(["a","a","a"],["a","b","c"])
+// @todo Replace with something like YAHOO.Array.every(arr1, function(item,index) {return arr2[index]===item;});
 ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
     var size = ilios.utilities.arraySize(arr1);
     var element = null;
