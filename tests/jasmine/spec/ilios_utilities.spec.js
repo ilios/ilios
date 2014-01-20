@@ -531,7 +531,7 @@ describe("ilios_utilities", function() {
   });
 
   describe("deepCloneAssociativeArray()", function () {
-    // And this one spec is all I can muster for this horrible method.
+    // And this one inadequate spec is all I can muster for this horrible method.
     it("should return different instance of array with different instances of values", function () {
       var myThing = [];
       myThing.foo = [];
@@ -544,6 +544,24 @@ describe("ilios_utilities", function() {
       expect(newThing).not.toBe(myThing);
       expect(newThing.length).toBe(1);
       expect(myThing.foo.clone).toHaveBeenCalled();
+    });
+  });
+
+  describe("arrayHasElementsMissingInArray()", function () {
+    it("should return false if arrays have all the same key/value pairs", function () {
+      expect(ilios.utilities.arrayHasElementsMissingInArray([1,2,3], [1,2,3])).toBe(false);
+    });
+
+    it("should return false if arrays have all the same values but in different orders", function () {
+      expect(ilios.utilities.arrayHasElementsMissingInArray([1,2,3], [3,2,1])).toBe(false);
+    });
+
+    it("should return false if reference array has a subset of the values in other array", function () {
+      expect(ilios.utilities.arrayHasElementsMissingInArray([1,2,], [3,1,2])).toBe(false);
+    });
+
+    it("should return true if a value in reference array is missing in other array", function () {
+      expect(ilios.utilities.arrayHasElementsMissingInArray([1,2,3], [1,2])).toBe(true);
     });
   });
 });
