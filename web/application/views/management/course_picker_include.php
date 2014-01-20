@@ -92,7 +92,7 @@ $localModelSetterName = '';
 
 $submitHandlerCode = '
     ilios.management.preDialogSelectedCourseModels
-         = ilios.utilities.cloneObject(ilios.management.selectedPermissionCourses);
+         = ilios.utilities.cloneAssociativeArray(ilios.management.selectedPermissionCourses);
 
     ilios.management.selectedPermissionCourses = [];
 

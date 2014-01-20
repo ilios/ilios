@@ -785,9 +785,9 @@ SessionModel.prototype.clone = function () {
     rhett.meshTerms = this.meshTerms.concat();
 
     rhett.objectiveCount = this.objectiveCount;
-    rhett.objectives = ilios.utilities.deepcloneObject(this.objectives);
+    rhett.objectives = ilios.utilities.deepCloneAssociativeArray(this.objectives);
 
-    rhett.offerings = ilios.utilities.cloneObject(this.offerings);
+    rhett.offerings = ilios.utilities.cloneAssociativeArray(this.offerings);
 
     // (should still be clean.. but just in case future coders accidentally add code that dirties
     //      above..)

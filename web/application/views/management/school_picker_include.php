@@ -76,7 +76,7 @@ $localModelSetterName = '';
 
 $submitHandlerCode = '
     ilios.management.preDialogSelectedSchoolModels
-          = ilios.utilities.cloneObject(ilios.management.permissions.selectedPermissionSchools);
+          = ilios.utilities.cloneAssociativeArray(ilios.management.permissions.selectedPermissionSchools);
 
     ilios.management.permissions.selectedPermissionSchools = new Array();
 

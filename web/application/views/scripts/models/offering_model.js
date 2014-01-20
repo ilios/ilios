@@ -399,9 +399,9 @@ OfferingModel.prototype.clone = function () {
     rhett.startDate = this.startDate;
     rhett.endDate = this.endDate;
 
-    rhett.instructors = ilios.utilities.cloneObject(this.instructors);
+    rhett.instructors = ilios.utilities.cloneAssociativeArray(this.instructors);
 
-    rhett.studentGroups = ilios.utilities.cloneObject(this.studentGroups);
+    rhett.studentGroups = ilios.utilities.cloneAssociativeArray(this.studentGroups);
 
     rhett.offerIsRecurring = this.offerIsRecurring;
     if (this.recurringEvent != null) {

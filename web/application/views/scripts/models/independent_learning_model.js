@@ -200,9 +200,9 @@ IndependentLearningModel.prototype.clone = function () {
 
     rhett.dueDate = (this.dueDate != null) ? new Date(this.dueDate.getTime()) : null;
 
-    rhett.instructors = ilios.utilities.cloneObject(this.instructors);
+    rhett.instructors = ilios.utilities.cloneAssociativeArray(this.instructors);
 
-    rhett.learnerGroups = ilios.utilities.cloneObject(this.learnerGroups);
+    rhett.learnerGroups = ilios.utilities.cloneAssociativeArray(this.learnerGroups);
 
     // (should still be clean.. but just in case future coders accidentally add code that dirties
     //      above..)
