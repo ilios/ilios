@@ -583,15 +583,15 @@ describe("ilios_utilities", function() {
     });
   });
 
-  describe("objectToArrayToJSONString()", function () {
+  describe("stringifyObjectAsArray()", function () {
     it("should return an object as a JSON array because...I don't know...what is this nonsense?", function() {
       var myObj = {rock: "lobster", love: "shack"};
-      expect(ilios.utilities.objectToArrayToJSONString(myObj)).toBe("[\"lobster\",\"shack\"]");
+      expect(ilios.utilities.stringifyObjectAsArray(myObj)).toBe("[\"lobster\",\"shack\"]");
     });
 
     it("should wrap YUI stringify, passing whitelist and spaces", function () {
       spyOn(YAHOO.lang.JSON, "stringify");
-      ilios.utilities.objectToArrayToJSONString({}, ["a","b","c"], 5);
+      ilios.utilities.stringifyObjectAsArray({}, ["a","b","c"], 5);
       expect(YAHOO.lang.JSON.stringify).toHaveBeenCalledWith([], ["a","b","c"], 5);
     });
   });

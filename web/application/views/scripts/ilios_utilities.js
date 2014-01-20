@@ -450,7 +450,7 @@ ilios.utilities.titledNaturalComparator = function (a, b) {
  * @return {String} JSON string representation of the input
  * @static
  */
-ilios.utilities.objectToArrayToJSONString = function (o, w, s) {
+ilios.utilities.stringifyObjectAsArray = function (o, w, s) {
     var a = [],
         stringify = YAHOO.lang.JSON.stringify,
         rhett;
