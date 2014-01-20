@@ -307,7 +307,7 @@ ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
     return true;
 };
 
-ilios.utilities.associativeArrayEquality = function (arr1, arr2) {
+ilios.utilities.objectEquality = function (arr1, arr2) {
     var element = null;
 
     if (ilios.utilities.arraySize(arr1) != ilios.utilities.arraySize(arr2)) {
