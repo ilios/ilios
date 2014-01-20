@@ -108,7 +108,7 @@ ilios.home.calendar.resetCurrentCalendarViewToStart = function () {
     var dateZero = new Date();
 
     // per DASHBOARD-1, the desired behaviour is to show the current day as dateZero
-    // if (ilios.utilities.arraySize(ilios.home.transaction.loadedOfferingModels) > 0) {
+    // if (ilios.utilities.objectPropertyCount(ilios.home.transaction.loadedOfferingModels) > 0) {
     //     var model = null;
     //
     //     dateZero = new Date(2999, 12, 14);

@@ -203,7 +203,7 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
         str += ' ' + offeringModel.getStartDate().format("dddd, mmmm d, yyyy");
         str += " " + ilios_i18nVendor.getI18NString('general.phrases.starting_at').toLowerCase() + " ";
         str += offeringModel.getStartDate().format("h:MM TT");
-        if (ilios.utilities.arraySize(parsedObject.offering_instructors) > 0) {
+        if (ilios.utilities.objectPropertyCount(parsedObject.offering_instructors) > 0) {
             var firstDone = false;
             var userModel = false;
 
@@ -286,7 +286,7 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
         courseInfo.appendChild(container);
     }
 
-    if (ilios.utilities.arraySize(parsedObject.course_objectives) > 0) {
+    if (ilios.utilities.objectPropertyCount(parsedObject.course_objectives) > 0) {
         container = document.createElement('div');
         container.setAttribute('class', 'row lv-objectives');
         str = ilios_i18nVendor.getI18NString('general.terms.course') + ' ';
@@ -314,7 +314,7 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
         courseInfo.appendChild(container);
     }
 
-    if (ilios.utilities.arraySize(parsedObject.course_learning_materials) > 0) {
+    if (ilios.utilities.objectPropertyCount(parsedObject.course_learning_materials) > 0) {
         container = document.createElement('div');
         container.setAttribute('class','row lv-learning-materials');
         str = ilios_i18nVendor.getI18NString('general.terms.course') + ' ';
@@ -361,8 +361,8 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
     container.appendChild(element);
     inspectorContainer.appendChild(container);
 
-    if ((ilios.utilities.arraySize(parsedObject.session_objectives) > 0)
-        || (ilios.utilities.arraySize(parsedObject.session_learning_materials) > 0)
+    if ((ilios.utilities.objectPropertyCount(parsedObject.session_objectives) > 0)
+        || (ilios.utilities.objectPropertyCount(parsedObject.session_learning_materials) > 0)
         || ((parsedObject.session_description != null)
             && (parsedObject.session_description.length > 0))) {
         sessionInfo = document.createElement('fieldset');
@@ -395,7 +395,7 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
         sessionInfo.appendChild(container);
     }
 
-    if (ilios.utilities.arraySize(parsedObject.session_objectives) > 0) {
+    if (ilios.utilities.objectPropertyCount(parsedObject.session_objectives) > 0) {
         container = document.createElement('div');
         container.setAttribute('class','row');
         str = ilios_i18nVendor.getI18NString('general.terms.session') + ' ';
@@ -416,7 +416,7 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
         sessionInfo.appendChild(container);
     }
 
-    if (ilios.utilities.arraySize(parsedObject.session_learning_materials) > 0) {
+    if (ilios.utilities.objectPropertyCount(parsedObject.session_learning_materials) > 0) {
         container = document.createElement('div');
         container.setAttribute('class','row');
         str = ilios_i18nVendor.getI18NString('general.terms.session') + ' ';

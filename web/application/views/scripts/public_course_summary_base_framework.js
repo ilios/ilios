@@ -393,7 +393,7 @@ ilios.course_summary.populateDOMForCourse = function (courseModel) {
 
     element = document.getElementById('summary_course_objective_content');
     anArray = courseModel.getObjectives();
-    if (ilios.utilities.arraySize(anArray) > 0) {
+    if (ilios.utilities.objectPropertyCount(anArray) > 0) {
         listElement = document.createElement('ul');
         for (key in anArray) {
             itemElement = document.createElement('li');
@@ -405,7 +405,7 @@ ilios.course_summary.populateDOMForCourse = function (courseModel) {
 
     element = document.getElementById('summary_course_lm_content');
     anArray = courseModel.getLearningMaterials();
-    if (ilios.utilities.arraySize(anArray) > 0) {
+    if (ilios.utilities.objectPropertyCount(anArray) > 0) {
         listElement = document.createElement('ul');
         listElement.setAttribute('class', 'learning_material_list');
         for (key in anArray) {
@@ -451,7 +451,7 @@ ilios.course_summary.populateDOMForSession = function (sessionModel, sessionNumb
     } else {
         sessionModel.sortOfferings();
         anArray = sessionModel.getOfferings();
-        if (ilios.utilities.arraySize(anArray) > 0) {
+        if (ilios.utilities.objectPropertyCount(anArray) > 0) {
             element.innerHTML = sessionModel.getOfferingsEnumerationFormattedHTML();
         }
     }
@@ -461,7 +461,7 @@ ilios.course_summary.populateDOMForSession = function (sessionModel, sessionNumb
 
     element = document.getElementById('summary_session_' + sessionNumber + '_objective_content');
     anArray = sessionModel.getObjectives();
-    if (ilios.utilities.arraySize(anArray) > 0) {
+    if (ilios.utilities.objectPropertyCount(anArray) > 0) {
         listElement = document.createElement('ul');
         for (key in anArray) {
             itemElement = document.createElement('li');
@@ -473,7 +473,7 @@ ilios.course_summary.populateDOMForSession = function (sessionModel, sessionNumb
 
     element = document.getElementById('summary_session_' + sessionNumber + '_lm_content');
     anArray = sessionModel.getLearningMaterials();
-    if (ilios.utilities.arraySize(anArray) > 0) {
+    if (ilios.utilities.objectPropertyCount(anArray) > 0) {
         listElement = document.createElement('ul');
         listElement.setAttribute('class', 'learning_material_list');
         for (key in anArray) {

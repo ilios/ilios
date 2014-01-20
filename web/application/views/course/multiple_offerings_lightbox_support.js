@@ -29,11 +29,11 @@ ilios.cm.session.mo.showMultiOfferingLightbox = function (containerNumber) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.error.multi_offering_launch'));
 
         return;
-    } else if (ilios.utilities.arraySize(ilios.cm.currentCourseModel.getCohorts()) == 0) {
+    } else if (ilios.utilities.objectPropertyCount(ilios.cm.currentCourseModel.getCohorts()) == 0) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.warning.multi_offering.no_cohorts'));
 
         return;
-    } else if (ilios.utilities.arraySize(ilios.lg.picker.learnerTreeModel) == 0) {
+    } else if (ilios.utilities.objectPropertyCount(ilios.lg.picker.learnerTreeModel) == 0) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.warning.multi_offering.no_learners'));
 
         return;

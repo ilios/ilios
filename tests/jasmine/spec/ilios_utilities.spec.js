@@ -492,13 +492,13 @@ describe("ilios_utilities", function() {
     });
   });
 
-  describe("arraySize()", function () {
+  describe("objectPropertyCount()", function () {
     it("should return the length of an array", function () {
-      expect(ilios.utilities.arraySize([1,2,3])).toBe(3);
+      expect(ilios.utilities.objectPropertyCount([1,2,3])).toBe(3);
     });
 
     it("should return the number of property/value pairs in an object", function () {
-      expect(ilios.utilities.arraySize({a:1,b:2,c:3})).toBe(3);
+      expect(ilios.utilities.objectPropertyCount({a:1,b:2,c:3})).toBe(3);
     });
-  })
+  });
 });

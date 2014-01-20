@@ -1272,7 +1272,7 @@ ilios.cm.updateObjectiveCountText = function (containerNumber) {
     var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.learning_objectives');
     var element = document.getElementById(idString);
 
-    element.innerHTML = i18nStr + ' (' + ilios.utilities.arraySize(model.getObjectives()) + ')';
+    element.innerHTML = i18nStr + ' (' + ilios.utilities.objectPropertyCount(model.getObjectives()) + ')';
 };
 
 // @private

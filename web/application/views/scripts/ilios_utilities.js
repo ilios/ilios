@@ -245,7 +245,7 @@ ilios.utilities.getXMLHttpRequest = function () {
 
 // move to indexOf usage -- TODO (use YAHOO.Array.indexOf for IE8 support, otherwise use native Array.indexOf)
 ilios.utilities.arrayContains = function (arr, value) {
-    var size = ilios.utilities.arraySize(arr);
+    var size = ilios.utilities.objectPropertyCount(arr);
 
     for (var i = 0; i < size; i++) {
         if (value == arr[i]) {
@@ -281,9 +281,9 @@ ilios.utilities.makeUniqueArray = function (a) {
 };
 
 ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
-    var size = ilios.utilities.arraySize(arr1);
+    var size = ilios.utilities.objectPropertyCount(arr1);
 
-    if (size != ilios.utilities.arraySize(arr2)) {
+    if (size != ilios.utilities.objectPropertyCount(arr2)) {
         return false;
     }
 
@@ -310,7 +310,7 @@ ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
 ilios.utilities.objectEquality = function (obj1, obj2) {
     var element = null;
 
-    if (ilios.utilities.arraySize(obj1) != ilios.utilities.arraySize(obj2)) {
+    if (ilios.utilities.objectPropertyCount(obj1) != ilios.utilities.objectPropertyCount(obj2)) {
         return false;
     }
 
@@ -325,7 +325,7 @@ ilios.utilities.objectEquality = function (obj1, obj2) {
     return true;
 };
 
-ilios.utilities.arraySize = function (arr) {
+ilios.utilities.objectPropertyCount = function (arr) {
     var rhett = 0;
 
     for (var key in arr) {

@@ -904,7 +904,7 @@ ilios.cm.session.removeSessionUIWithContainerNumber = function (containerNumber)
 };
 
 ilios.cm.session.setSessionsSummaryText = function () {
-    var sessionCount = ilios.utilities.arraySize(ilios.cm.currentCourseModel.getSessions());
+    var sessionCount = ilios.utilities.objectPropertyCount(ilios.cm.currentCourseModel.getSessions());
     var element = document.getElementById('sessions_summary');
     var i18nString
             = ilios_i18nVendor.getI18NString('course_management.notification.sessions_exist');
