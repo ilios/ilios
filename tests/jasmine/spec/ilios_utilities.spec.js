@@ -441,4 +441,14 @@ describe("ilios_utilities", function() {
         expect(ilios.utilities.arrayContains(["a","b","c"], "d")).toBe(false);
       });
     });
+
+    describe("makeUniqueArray()", function () {
+      it("should return an array with duplicate values removed", function () {
+        expect(ilios.utilities.makeUniqueArray(["a","b","b","c","c","d"])).toEqual(["a","b","c","d"]);
+      });
+
+      it("should not alter an array that does not have duplicate values", function () {
+        expect(ilios.utilities.makeUniqueArray(["a","b"])).toEqual(["a","b"]);
+      });
+    });
 });
