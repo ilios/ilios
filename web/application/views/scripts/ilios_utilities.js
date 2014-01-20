@@ -353,25 +353,22 @@ ilios.utilities.removeElementWithValue = function (anArray, value) {
 };
 
 /**
- * Written because slice() is dysfunctional with associative arrays.
- *
- * @return a shallow copy of the associative array (the returned array is its own unique
- *              Array instance, but the objects it contains are the same instances as in
- *              the original array). If originalArray is null, null is returned.
+ * @return a shallow copy of the object (the object is its own unique
+ *              instance, but the objects it contains are the same instances as in
+ *              the original object). If originalObject is null, null is returned.
  * ACHTUNG:
  *   going forward, DO NOT USE THIS FUNCTION!
- *   There are no associative arrays in JavaScript, use objects instead.
  *   [ST 2012/07/14]
  * @todo find and replace all function calls to this nonsense
  */
-ilios.utilities.cloneObject = function (originalArray) {
+ilios.utilities.cloneObject = function (originalObject) {
     var rhett = null;
 
-    if (originalArray != null) {
-        rhett = [];
+    if (originalObject != null) {
+        rhett = []; // wat?
 
-        for (var key in originalArray) {
-            rhett[key] = originalArray[key];
+        for (var key in originalObject) {
+            rhett[key] = originalObject[key];
 
             rhett.length++;
         }
