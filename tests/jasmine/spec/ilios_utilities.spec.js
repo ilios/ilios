@@ -691,4 +691,18 @@ describe("ilios_utilities", function() {
       expect(listItem.iliosModel.compareTo).toHaveBeenCalledWith(candidateModel);
     });
   });
+
+  describe("percentUnicodeToHTML()", function () {
+    it("should leave text without %u unchanged", function () {
+      expect(ilios.utilities.percentUnicodeToHTML("I am a string.")).toBe("I am a string.");
+    });
+
+    it("should convert %u to &#x", function () {
+      expect(ilios.utilities.percentUnicodeToHTML("Change this, please: %u.")).toBe("Change this, please: &#x.");
+    });
+
+    it("should replace multiple instances of %u", function () {
+      expect(ilios.utilities.percentUnicodeToHTML("Change all of these, please: %u! %u! %u!")).toBe("Change all of these, please: &#x! &#x! &#x!");
+    });
+  });
 });
