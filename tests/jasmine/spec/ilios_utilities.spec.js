@@ -491,4 +491,14 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.objectEquality({a:1,b:2}, {b:2,a:1})).toBe(true);
     });
   });
+
+  describe("arraySize()", function () {
+    it("should return the length of an array", function () {
+      expect(ilios.utilities.arraySize([1,2,3])).toBe(3);
+    });
+
+    it("should return the number of property/value pairs in an object", function () {
+      expect(ilios.utilities.arraySize({a:1,b:2,c:3})).toBe(3);
+    });
+  })
 });
