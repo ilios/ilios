@@ -747,7 +747,7 @@ CourseModel.prototype.removeObjectiveForContainer = function (containerNumber) {
  *                          object is cloned and so may be disposed of after this method returns.
  */
 CourseModel.prototype.setCompetencies = function (competencyArray) {
-    this.competencies = ilios.utilities.cloneAssociativeArray(competencyArray);
+    this.competencies = ilios.utilities.cloneObject(competencyArray);
 
     this.setDirtyAndNotify();
 };
@@ -905,13 +905,13 @@ CourseModel.prototype.clone = function () {
     rhett.endDate = this.endDate;
     rhett.endDateDO = new Date(this.endDateDO.getTime());
 
-    rhett.cohorts = ilios.utilities.cloneAssociativeArray(this.cohorts);
+    rhett.cohorts = ilios.utilities.cloneObject(this.cohorts);
 
-    rhett.competencies = ilios.utilities.cloneAssociativeArray(this.competencies);
+    rhett.competencies = ilios.utilities.cloneObject(this.competencies);
 
     rhett.disciplines = this.disciplines.slice(0);
 
-    rhett.directors = ilios.utilities.cloneAssociativeArray(this.directors);
+    rhett.directors = ilios.utilities.cloneObject(this.directors);
 
     rhett.meshTerms = this.meshTerms.concat();
 
@@ -928,7 +928,7 @@ CourseModel.prototype.clone = function () {
     }
 
     rhett.objectiveCount = this.objectiveCount;
-    rhett.objectives = ilios.utilities.deepCloneAssociativeArray(this.objectives);
+    rhett.objectives = ilios.utilities.deepcloneObject(this.objectives);
 
     // (should still be clean.. but just in case future coders accidentally add code that dirties
     //      above..)

@@ -349,7 +349,7 @@ if (! function_exists('generatePickerMarkupAndScript')) {
             } else {
                 var model = null;
                 var liElement = null;
-                <?php echo $uniquer; ?>currentlySelectedModels = ilios.utilities.cloneAssociativeArray(localModels);
+                <?php echo $uniquer; ?>currentlySelectedModels = ilios.utilities.cloneObject(localModels);
 
                 // repopulate picker list to reflect the display
                 for (var key2 in <?php echo $uniquer; ?>currentlySelectedModels) {

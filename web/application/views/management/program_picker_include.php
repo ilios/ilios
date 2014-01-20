@@ -75,7 +75,7 @@ $localModelSetterName = '';
 
 $submitHandlerCode = '
 ilios.management.preDialogSelectedProgramModels
-    = ilios.utilities.cloneAssociativeArray(ilios.management.permissions.selectedPermissionPrograms);
+    = ilios.utilities.cloneObject(ilios.management.permissions.selectedPermissionPrograms);
 
 ilios.management.permissions.selectedPermissionPrograms = [];
 

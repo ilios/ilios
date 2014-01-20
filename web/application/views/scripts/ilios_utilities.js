@@ -364,7 +364,7 @@ ilios.utilities.removeElementWithValue = function (anArray, value) {
  *   [ST 2012/07/14]
  * @todo find and replace all function calls to this nonsense
  */
-ilios.utilities.cloneAssociativeArray = function (originalArray) {
+ilios.utilities.cloneObject = function (originalArray) {
     var rhett = null;
 
     if (originalArray != null) {
@@ -392,7 +392,7 @@ ilios.utilities.cloneAssociativeArray = function (originalArray) {
  *   [ST 2012/07/14]
  * @todo find and replace all function calls to this nonsense
  */
-ilios.utilities.deepCloneAssociativeArray = function (originalArray) {
+ilios.utilities.deepcloneObject = function (originalArray) {
     var rhett = null;
 
     if (originalArray != null) {

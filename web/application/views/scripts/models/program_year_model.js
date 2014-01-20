@@ -292,7 +292,7 @@ ProgramYearModel.prototype.setStewardArray = function (stewards) {
 	}
 
 	if (shouldReplace) {
-		this.stewardArray = ilios.utilities.cloneAssociativeArray(stewards);
+		this.stewardArray = ilios.utilities.cloneObject(stewards);
 
 		this.setDirtyAndNotify();
 	}
