@@ -501,4 +501,18 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.objectPropertyCount({a:1,b:2,c:3})).toBe(3);
     });
   });
+
+  describe("removeElementWithValue()", function () {
+    it("should remove the first element with the value", function () {
+      var anArray = ["a","b","c","a","c","a","b"];
+      ilios.utilities.removeElementWithValue(anArray, "c");
+      expect(anArray).toEqual(["a","b","a","c","a","b"]);
+    });
+
+    it("should not modify an array that does not have the value", function () {
+      var anArray = ["a","b","a","c","a","b"];
+      ilios.utilities.removeElementWithValue(anArray, "d");
+      expect(anArray).toEqual(["a","b","a","c","a","b"]);
+    });
+  });
 });
