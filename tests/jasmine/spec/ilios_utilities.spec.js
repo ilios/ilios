@@ -515,4 +515,35 @@ describe("ilios_utilities", function() {
       expect(anArray).toEqual(["a","b","a","c","a","b"]);
     });
   });
+
+  // Wow. Just wow. Total facepalm wat going on with this and deepcloneAssociativeArray().
+  describe("cloneAssociativeArray()", function () {
+    // This one spec is all I can really muster for this horrible method.
+    it("should return different instance of array with same instances of values", function () {
+      var myThing = [];
+      myThing.foo = [];
+      myThing.foo.bar = "baz";
+      var newThing = ilios.utilities.cloneAssociativeArray(myThing);
+      expect(newThing.foo).toBe(myThing.foo);
+      expect(newThing).not.toBe(myThing);
+      expect(newThing.length).toBe(1);
+    });
+  });
+
+  describe("deepCloneAssociativeArray()", function () {
+    // And this one spec is all I can muster for this horrible method.
+    it("should return different instance of array with different instances of values", function () {
+      var myThing = [];
+      myThing.foo = [];
+      myThing.foo.bar = "baz";
+      // It's dependent on a clone method being predefined. It just keeps getting worse.
+      myThing.foo.clone = function () {return;};
+      spyOn(myThing.foo, "clone");
+      var newThing = ilios.utilities.deepCloneAssociativeArray(myThing);
+      expect(newThing.foo).not.toBe(myThing.foo);
+      expect(newThing).not.toBe(myThing);
+      expect(newThing.length).toBe(1);
+      expect(myThing.foo.clone).toHaveBeenCalled();
+    });
+  });
 });
