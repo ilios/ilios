@@ -473,4 +473,22 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.simplyArrayEquality(["a","a"], ["a","b"])).toBe(false);
     });
   });
+
+  describe("objectEquality()", function () {
+    it("should return false if objects have a different number of keys", function () {
+      expect(ilios.utilities.objectEquality({a:1}, {a:1,b:2})).toBe(false);
+    });
+
+    it("should return false if objects have same number of keys but the keys are different", function () {
+      expect(ilios.utilities.objectEquality({a:1}, {b:1})).toBe(false);
+    });
+
+    it("should return false if objects have the same keys but different values", function () {
+      expect(ilios.utilities.objectEquality({a:1}, {a:2})).toBe(false);
+    });
+
+    it("should return true if objects have the same key/value pairs, even in different 'order'", function () {
+      expect(ilios.utilities.objectEquality({a:1,b:2}, {b:2,a:1})).toBe(true);
+    });
+  });
 });

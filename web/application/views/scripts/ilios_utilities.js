@@ -307,17 +307,17 @@ ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
     return true;
 };
 
-ilios.utilities.objectEquality = function (arr1, arr2) {
+ilios.utilities.objectEquality = function (obj1, obj2) {
     var element = null;
 
-    if (ilios.utilities.arraySize(arr1) != ilios.utilities.arraySize(arr2)) {
+    if (ilios.utilities.arraySize(obj1) != ilios.utilities.arraySize(obj2)) {
         return false;
     }
 
-    for (var key in arr1) {
-        element = arr1[key];
+    for (var key in obj1) {
+        element = obj1[key];
 
-        if ((arr2[key] == null) || (arr2[key] != element)) {
+        if ((obj2[key] == null) || (obj2[key] != element)) {
             return false;
         }
     }
