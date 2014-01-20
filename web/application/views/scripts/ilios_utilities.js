@@ -243,7 +243,7 @@ ilios.utilities.getXMLHttpRequest = function () {
     return xmlHTTPRequest;
 };
 
-// move to indexOf usage -- TODO
+// move to indexOf usage -- TODO (use YAHOO.Array.indexOf for IE8 support, otherwise use native Array.indexOf)
 ilios.utilities.arrayContains = function (arr, value) {
     var size = ilios.utilities.arraySize(arr);
 

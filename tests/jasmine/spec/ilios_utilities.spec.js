@@ -431,4 +431,14 @@ describe("ilios_utilities", function() {
         expect(ilios.utilities.getXMLHttpRequest() instanceof XMLHttpRequest).toBe(true);
       });
     });
+
+    describe("arrayContains()", function () {
+      it("should return true if value is in array", function () {
+        expect(ilios.utilities.arrayContains(["a","b","c"], "b")).toBe(true);
+      });
+
+      it("should return false if value is not in array", function () {
+        expect(ilios.utilities.arrayContains(["a","b","c"], "d")).toBe(false);
+      });
+    })
 });
