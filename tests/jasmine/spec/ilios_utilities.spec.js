@@ -595,4 +595,47 @@ describe("ilios_utilities", function() {
       expect(YAHOO.lang.JSON.stringify).toHaveBeenCalledWith([], ["a","b","c"], 5);
     });
   });
+
+  describe("delimitedStringOfTitledObjects()", function () {
+    it("should return an empty string if given an empty array", function () {
+      expect(ilios.utilities.delimitedStringOfTitledObjects([], ",")).toBe("");
+    });
+
+    it("should return an empty string if given an empty object", function () {
+      expect(ilios.utilities.delimitedStringOfTitledObjects({}, ",")).toBe("");
+    });
+
+    it("should return just the one title and no delimiter if given an array of length 1", function () {
+      expect(ilios.utilities.delimitedStringOfTitledObjects([{title: "Abbey Road"}], ",")).toBe("Abbey Road");
+    });
+
+    it("should return just the one title and no delimiter if given an object of length 1", function () {
+      expect(ilios.utilities.delimitedStringOfTitledObjects({a: {title: "Rubber Soul"}}, ",")).toBe("Rubber Soul");
+    });
+
+    it("should return titles separated by delimiter+space if given an array", function () {
+      var myArr = [{title: "The Trees"}, {title: "Tom Sawyer"}];
+      expect(ilios.utilities.delimitedStringOfTitledObjects(myArr, ",")).toBe("The Trees, Tom Sawyer");
+    });
+
+    it("should return title separated by delimiter+space if given an object", function () {
+      var myObj = {a: {title: "Xanadu"}, b: {title: "2112"}};
+      expect(ilios.utilities.delimitedStringOfTitledObjects(myObj, ",")).toBe("Xanadu, 2112");
+    });
+
+    it("should handle a title property", function () {
+      var myArr = [{title: "A Farewell To Kings"}];
+      expect(ilios.utilities.delimitedStringOfTitledObjects(myArr, ",")).toBe("A Farewell To Kings");
+    });
+
+    it("should handle a getTitle() function", function () {
+      var myArr = [{getTitle: function () { return "By-Tor and the Snow Dog"; }}];
+      expect(ilios.utilities.delimitedStringOfTitledObjects(myArr, ",")).toBe("By-Tor and the Snow Dog");
+    });
+
+    it("should favor getTitle() over title if both exist", function () {
+      var myArr = [{title: "A Passage To Bangkok", getTitle: function () { return "The Spirit of Radio"; }}];
+      expect(ilios.utilities.delimitedStringOfTitledObjects(myArr, ",")).toBe("The Spirit of Radio");
+    });
+  });
 });
