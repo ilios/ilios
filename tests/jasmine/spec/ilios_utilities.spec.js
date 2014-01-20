@@ -638,4 +638,57 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.delimitedStringOfTitledObjects(myArr, ",")).toBe("The Spirit of Radio");
     });
   });
+
+  describe("searchListElementForModel()", function () {
+    var listElement;
+    var listItem;
+    var compareToTestDoubleMatch = function () { return 0; };
+    var compareToTestDoubleNoMatch = function () { return 1; };
+
+    beforeEach(function () {
+      listElement = document.createElement("ul");
+      listItem = document.createElement("li");
+      listItem.innerHTML = "foo";
+    });
+
+    it("should return false if listElement has no list items", function () {
+      expect(ilios.utilities.searchListElementForModel(listElement, {})).toBe(false);
+    });
+
+    it("should return false if list item has no iliosModel attribute", function () {
+      listElement.appendChild(listItem);
+      expect(ilios.utilities.searchListElementForModel(listElement, {})).toBe(false);
+    });
+
+    it("should return false if list item has iliosModel.compareTo() that returns non-zero;", function () {
+      listItem.iliosModel = {compareTo: compareToTestDoubleNoMatch};
+      listElement.appendChild(listItem);
+      expect(ilios.utilities.searchListElementForModel(listElement, {})).toBe(false);
+    });
+
+    it("should return true if list item has iliosModel.compareTo() that returns zero", function () {
+      listItem.iliosModel = {compareTo: compareToTestDoubleMatch};
+      listElement.appendChild(listItem);
+      expect(ilios.utilities.searchListElementForModel(listElement, {})).toBe(true);
+    });
+
+    it("should return true if at least one (but not all) list items has iliosModel.compareTo() that returns zero", function () {
+      listItem.iliosModel = {compareTo: compareToTestDoubleNoMatch};
+      listElement.appendChild(listItem);
+      var secondItem = document.createElement("li");
+      secondItem.innerHTML = "bar";
+      secondItem.iliosModel = {compareTo: compareToTestDoubleMatch};
+      listElement.appendChild(secondItem);
+      expect(ilios.utilities.searchListElementForModel(listElement, {})).toBe(true);
+    });
+
+    it("should pass candidateModel to compareTo()", function () {
+      var candidateModel = {hello: "I am a fake model object"};
+      listItem.iliosModel = {compareTo: function () {}};
+      spyOn(listItem.iliosModel, "compareTo");
+      listElement.appendChild(listItem);
+      ilios.utilities.searchListElementForModel(listElement, candidateModel);
+      expect(listItem.iliosModel.compareTo).toHaveBeenCalledWith(candidateModel);
+    });
+  });
 });
