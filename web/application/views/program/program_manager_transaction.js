@@ -432,7 +432,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 // @private
 ilios.pm.transaction.performProgramYearSave = function (containerNumber, shouldPublish) {
     var replacer = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer,
-        stringify = ilios.utilities.yahooJSONStringForAssociativeArray,
+        stringify = ilios.utilities.objectToArrayToJSONString,
         url = controllerURL + "saveProgramYear",
         method = "POST",
         paramString = null,

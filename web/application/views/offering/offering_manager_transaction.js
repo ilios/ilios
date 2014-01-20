@@ -185,7 +185,7 @@ ilios.om.transaction.saveCalendarEventToServer = function (calendarEvent) {
             + "&parent_publish_event_id=" + offeringModel.getPublishEventId()
             + "&is_recurring=" + (offeringModel.isRecurring() ? 'true' : 'false'),
         replacer = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer,
-        stringify = ilios.utilities.yahooJSONStringForAssociativeArray;
+        stringify = ilios.utilities.objectToArrayToJSONString;
 
     var ajaxCallback = {
         success: function (resultObject) {

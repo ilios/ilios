@@ -449,9 +449,8 @@ ilios.utilities.titledNaturalComparator = function (a, b) {
  *     depthy of spaces to format the output (optional)
  * @return {String} JSON string representation of the input
  * @static
- * @todo change terrible name to something that does not contain the term "Associative Array"
  */
-ilios.utilities.yahooJSONStringForAssociativeArray = function (o, w, s) {
+ilios.utilities.objectToArrayToJSONString = function (o, w, s) {
     var a = [],
         stringify = YAHOO.lang.JSON.stringify,
         rhett;
