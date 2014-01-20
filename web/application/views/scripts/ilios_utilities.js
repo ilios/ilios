@@ -518,17 +518,15 @@ ilios.utilities.searchListElementForModel = function (listElement, candidateMode
     return false;
 };
 
-// @private
-ilios.utilities.scratchTextArea = document.createElement('textarea');
-
 ilios.utilities.percentUnicodeToHTML = function (str) {
     return str.replace(/\%u/g, "&#x");
 };
 
 ilios.utilities.htmlEntitiesDecode = function (str) {
-    ilios.utilities.scratchTextArea.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    var scratchTextArea = document.createElement("textArea");
+    scratchTextArea.innerHTML = str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
-    return ilios.utilities.scratchTextArea.value;
+    return scratchTextArea.value;
 };
 
 /**
