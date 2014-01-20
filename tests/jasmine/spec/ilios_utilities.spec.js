@@ -469,9 +469,8 @@ describe("ilios_utilities", function() {
         expect(ilios.utilities.simplyArrayEquality(["a","b"], ["b","b"])).toBe(false);
       });
 
-      // Bug that should be fixed next commit
-      // it("should return false if arr1 and arr2 are the same length but arr1 doesn't contain everything in arr2", function () {
-      //   expect(ilios.utilities.simplyArrayEquality(["a","a"], ["a","b"])).toBe(false);
-      // });
+      it("should return false if arr1 and arr2 are the same length but arr1 doesn't contain everything in arr2", function () {
+        expect(ilios.utilities.simplyArrayEquality(["a","a"], ["a","b"])).toBe(false);
+      });
     });
 });

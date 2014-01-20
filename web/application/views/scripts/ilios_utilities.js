@@ -280,30 +280,26 @@ ilios.utilities.makeUniqueArray = function (a) {
     return rhett;
 };
 
-// WAT?! This is horribly inefficient and doesn't work at all.
-// E.g., this returns true: simplyArrayEquality(["a","a","a"],["a","b","c"])
-// @todo Replace with sorting the arrays followed by something like:
-//   YAHOO.Array.every(arr1, function(item,index) {return arr2[index]===item;});
 ilios.utilities.simplyArrayEquality = function (arr1, arr2) {
     var size = ilios.utilities.arraySize(arr1);
-    var element = null;
-    var found = false;
 
     if (size != ilios.utilities.arraySize(arr2)) {
         return false;
     }
 
+    // Copy arrays so we don't mutate the originals
+    var a = arr1.concat();
+    var b = arr2.concat();
+
+    // Sort the arrays because we want [1,2,3] to be treated as equal to [3,2,1]
+    // Or at least that's what I got from the original algorithm.
+    a.sort();
+    b.sort();
+
     for (var i = 0; i < size; i++) {
-        element = arr1[i];
-
-        found = false;
-        for (var j = 0; ((j < size) && (! found)); j++) {
-            if (element == arr2[j]) {
-                found = true;
-            }
-        }
-
-        if (! found) {
+        // Using not-equal (!=) instead of strict not-equal (!==) because original algorithm used that.
+        // Existing code might depend on that. I haven't looked.
+        if (a[i] != b[i]) {
             return false;
         }
     }
