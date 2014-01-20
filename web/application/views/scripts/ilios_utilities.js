@@ -472,7 +472,7 @@ ilios.utilities.isNumber = function (str) {
 
 /**
  * Given an array (arr) of objects which each have the method 'getTitle()' or attribute 'title',
- *  generate a delimited (plus a space after the delimiter) string of all of those array
+ *  generate a delimited (plus a space after the delimiter) string of all of those titles
  *  elements' titles.
  */
 ilios.utilities.delimitedStringOfTitledObjects = function (arr, delimiter) {
