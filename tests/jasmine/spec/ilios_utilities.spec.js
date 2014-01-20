@@ -564,4 +564,22 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.arrayHasElementsMissingInArray([1,2,3], [1,2])).toBe(true);
     });
   });
+
+  describe("titledNaturalComparator()", function () {
+    var a = {getTitle: function () { return "a";}};
+    var b = {getTitle: function () { return "b";}};
+    var b2 = {getTitle: function () { return "b";}};
+
+    it("should return negative if first arg sorts before second arg", function () {
+      expect(ilios.utilities.titledNaturalComparator(a,b)).toBeLessThan(0);
+    });
+
+    it("should return positive if first arg sorts after second arg", function () {
+      expect(ilios.utilities.titledNaturalComparator(b,a)).toBeGreaterThan(0);
+    });
+
+    it("should return 0 if first arg sorts neither before nor after second arg", function () {
+      expect(ilios.utilities.titledNaturalComparator(b,b2)).toBe(0);
+    });
+  });
 });
