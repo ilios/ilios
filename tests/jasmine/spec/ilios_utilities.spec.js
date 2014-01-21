@@ -819,7 +819,11 @@ describe("ilios_utilities", function() {
     });
 
     it("should return any value of 10 or greater as is", function () {
-      expect(ilios.utilities.paddedTimeValue(59)).toBe(59);
+      expect(ilios.utilities.paddedTimeValue(59)).toBe("59");
+    });
+
+    it("should work for string arguments", function () {
+      expect(ilios.utilities.paddedTimeValue("10")).toBe("10");
     });
   });
 });
