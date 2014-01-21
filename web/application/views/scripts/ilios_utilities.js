@@ -668,12 +668,12 @@ ilios.utilities.createFormattedUserName = function (firstName, middleName, lastN
     var rhett = '';
     if (ilios.utilities.USER_NAME_FORMAT_LAST_FIRST == userNameFormatType) {
         rhett = lastName + ', ' + firstName;
-        if ((middleName != '') && (middleName != null))  {
+        if (middleName) {
             rhett += ' ' + middleName;
         }
     } else if (ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST == userNameFormatType) {
         rhett = firstName;
-        if ((middleName != '') && (middleName != null)) {
+        if (middleName) {
             rhett += ' ' + middleName;
         }
         rhett += ' ' + lastName;

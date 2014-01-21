@@ -749,4 +749,45 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.htmlEntities(5)).toBe("5");
     });
   });
+
+  describe("createFormattedUserName()", function () {
+    var firstName = "Jane";
+    var middleName = "Quinn";
+    var lastName = "Public";
+
+    it("should return last name first if requested", function () {
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+      expect(formattedName).toBe("Public, Jane Quinn");
+    });
+
+    it("should have correct spacing if middle name is empty string for last name first format", function () {
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, "", lastName, ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+      expect(formattedName).toBe("Public, Jane");
+    });
+
+    it("should have correct spacing if middle name is null for last name first format", function () {
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, null, lastName, ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+      expect(formattedName).toBe("Public, Jane");
+    });
+
+    it("should return first name first if requested", function () {
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST);
+      expect(formattedName).toBe("Jane Quinn Public");
+    });
+
+    it("should have correct spacing if middle name is empty string for first name first format", function () {
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, "", lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST);
+      expect(formattedName).toBe("Jane Public");
+    });
+
+    it("should have correct spacing if middle name is null for first name first format", function () {
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, null, lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST);
+      expect(formattedName).toBe("Jane Public");
+    });
+
+    it("should return first initial first (omitting middle name) if requested", function () {
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST);
+      expect(formattedName).toBe("J. Public");
+    });
+  });
 });
