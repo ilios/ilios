@@ -588,7 +588,7 @@ ilios.utilities.getHTMLTranslationTable = function () {
     // *     example 1: get_html_translation_table('HTML_SPECIALCHARS');
     // *     returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
 
-    var entities = {}, hash_map = {}, decimal = 0, symbol = '';
+    var entities = {}, decimal = 0, symbol = '';
     var constMappingTable = {}, constMappingQuoteStyle = {};
     var useTable = {}, useQuoteStyle = {};
 
@@ -704,14 +704,6 @@ ilios.utilities.getHTMLTranslationTable = function () {
     entities['62'] = '&gt;';
 
     return entities;
-
-    // // ascii decimals to real symbols
-    // for (decimal in entities) {
-    //     symbol = String.fromCharCode(decimal);
-    //     hash_map[symbol] = entities[decimal];
-    // }
-
-    // return hash_map;
 };
 
 /**
