@@ -533,21 +533,6 @@ ilios.utilities.htmlEntitiesDecode = function (str) {
  * @todo get rid of this.
  */
 ilios.utilities.htmlEntities = function (string) {
-    // http://kevin.vanzonneveld.net
-    // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +   improved by: nobbler
-    // +    tweaked by: Jack
-    // +   bugfixed by: Onno Marsman
-    // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +    bugfixed by: Brett Zamir (http://brett-zamir.me)
-    // +      input by: Ratheous
-    // -    depends on: get_html_translation_table
-    // *     example 1: htmlentities('Kevin & van Zonneveld');
-    // *     returns 1: 'Kevin &amp; van Zonneveld'
-    // *     example 2: htmlentities("foo'bar","ENT_QUOTES");
-    // *     returns 2: 'foo&#039;bar'
-
     var entities = [
         {decimal: 38, entity: '&amp;'},
         {decimal: 160, entity: '&nbsp;'},
