@@ -709,6 +709,7 @@ ilios.utilities.getTimeRangeString = function (beginning, end) {
 };
 
 // Prepends a 0 if the value is a single digit
+// Buggy: returns a string if value is less than 10 but returns value as-is (usually a number) otherwise
 ilios.utilities.paddedTimeValue = function (value) {
     var intVal = parseInt(value, 10);
 

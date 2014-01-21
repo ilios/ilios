@@ -813,4 +813,13 @@ describe("ilios_utilities", function() {
     });
   });
 
+  describe("paddedTimeValue()", function () {
+    it("should prepend any value less than 10 with a 0", function () {
+      expect(ilios.utilities.paddedTimeValue(0)).toBe("00");
+    });
+
+    it("should return any value of 10 or greater as is", function () {
+      expect(ilios.utilities.paddedTimeValue(59)).toBe(59);
+    });
+  });
 });
