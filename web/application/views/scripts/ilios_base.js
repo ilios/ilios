@@ -94,28 +94,6 @@ ilios.lang.trim = function (str) {
 };
 
 /**
- * Checks if a given text starts with a given prefix.
- * @method startsWith
- * @param {String} str
- * @param {String} prefix
- * @return {Boolean} TRUE if the given text stars with the given prefix
- */
-ilios.lang.startsWith = function (str, prefix) {
-    return (str.indexOf(prefix) === 0);
-};
-
-/**
- * Checks if a given text ends with a given suffix.
- * @method endsWith
- * @param {String} str text
- * @param {String} suffix
- * @return {Boolean} TRUE if the given text ends with the given suffix, otherwise FALSE
- */
-ilios.lang.endsWith = function (str, suffix) {
-    return (str.indexOf(suffix) !== -1 && str.indexOf(suffix) === str.length - suffix.length);
-};
-
-/**
  * Truncates a given text string after a given number of characters
  * and appends an ellipsis (...).
  * If the given text's length is less then the given number of characters
