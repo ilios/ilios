@@ -873,4 +873,46 @@ describe("ilios_utilities", function() {
       expect(element.getAttribute("style")).not.toMatch(/display:\s*none\b/);
     });
   });
+
+  describe("checkPasswordStrength()", function () {
+    it("should return PASSWORD_STRENGTH_CHECK_TOO_SHORT if password less than 8 characters", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("1234567");
+      expect(passwordStrength & ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_SHORT).toBeTruthy();
+    });
+
+    it("should return PASSWORD_STRENGTH_CHECK_TOO_LONG if password more than 12 characters", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("123456789abcd");
+      expect(passwordStrength & ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_LONG).toBeTruthy();
+    });
+
+    it("should return PASSWORD_STRENGTH_CHECK_INVALID_CHARS if password contains something that isn't [a-zA-Z0-9$*_-]", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("#password");
+      expect(passwordStrength & ilios.utilities.PASSWORD_STRENGTH_CHECK_INVALID_CHARS).toBeTruthy();
+    });
+
+    it("should return PASSWORD_STRENGTH_CHECK_DIGIT_MISSING if password does not contain [0-9]", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("Passw*rd");
+      expect(passwordStrength & ilios.utilities.PASSWORD_STRENGTH_CHECK_DIGIT_MISSING).toBeTruthy();
+    });
+
+    it("should return PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING if password does not contain [a-z]", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("PASSW*RD");
+      expect(passwordStrength & ilios.utilities.PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING).toBeTruthy();
+    });
+
+    it("should return PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING if password does not conatin [A-Z]", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("passw*rd1");
+      expect(passwordStrength & ilios.utilities.PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING).toBeTruthy();
+    });
+
+    it("should return PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING if password does not contain [$*_-]", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("Password1");
+      expect(passwordStrength & ilios.utilities.PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING).toBeTruthy();
+    });
+
+    it("should return PASSWORD_STRENGTH_CHECK_OK if password meets all critiera", function () {
+      var passwordStrength = ilios.utilities.checkPasswordStrength("Passw*rd1");
+      expect(passwordStrength).toEqual(ilios.utilities.PASSWORD_STRENGTH_CHECK_OK);
+    });
+  });
 });
