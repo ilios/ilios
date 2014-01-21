@@ -804,4 +804,13 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.getDomainFromURL("abcd//efgh/ijkl")).toBe("efgh");
     });
   });
+
+  describe("getTimeRangeString()", function () {
+    it("should return the times as HH:MM separated by \" - \"", function () {
+      var beginning = new Date("May 1 9:05");
+      var end = new Date("May 1 10:10");
+      expect(ilios.utilities.getTimeRangeString(beginning, end)).toBe("09:05 - 10:10");
+    });
+  });
+
 });
