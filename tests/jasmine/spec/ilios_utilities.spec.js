@@ -826,4 +826,16 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.paddedTimeValue("10")).toBe("10");
     });
   });
+
+  describe("yahooJSONStringifyStateChangeListenerArgumentsReplacer()", function () {
+    it("should return null if key is \"stateChangeListenerArguments\"", function () {
+      var value = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer("stateChangeListenerArguments", "whatever");
+      expect(value).toBeNull();
+    });
+
+    it("should return the second argument if key is not \"stateChangeListenerArguments\"", function () {
+      var value = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer("whatever", "passed value");
+      expect(value).toBe("passed value");
+    });
+  });
 });
