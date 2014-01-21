@@ -602,11 +602,6 @@ ilios.utilities.getHTMLTranslationTable = function () {
     useTable = 'HTML_ENTITIES';
     useQuoteStyle = 'ENT_COMPAT';
 
-    if (useTable !== 'HTML_SPECIALCHARS' && useTable !== 'HTML_ENTITIES') {
-        throw new Error("Table: "+useTable+' not supported');
-        // return false;
-    }
-
     entities['38'] = '&amp;';
     if (useTable === 'HTML_ENTITIES') {
         entities['160'] = '&nbsp;';
