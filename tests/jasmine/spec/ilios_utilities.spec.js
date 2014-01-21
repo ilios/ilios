@@ -838,4 +838,18 @@ describe("ilios_utilities", function() {
       expect(value).toBe("passed value");
     });
   });
+
+  describe("scrollElementIntoView()", function () {
+    it("should do nothing if passed element is actually null", function () {
+      // Will throw TypeError if we attempt to call scrollIntoView on null
+      expect(function () {ilios.utilities.scrollElementIntoView(null);}).not.toThrow();
+    });
+
+    it("should call scrollIntoView on passed element", function () {
+      var element = document.createElement("div");
+      spyOn(element, "scrollIntoView");
+      ilios.utilities.scrollElementIntoView(element);
+      expect(element.scrollIntoView).toHaveBeenCalled();
+    });
+  });
 });
