@@ -280,13 +280,13 @@ describe("ilios_utilities", function() {
     it("should toggle display:none to display:block", function () {
       container.setAttribute("style", "display: none;");
       ilios.utilities.toggleShowMoreOrLess("foo", null);
-      expect(container.getAttribute("style")).toEqual("display: block;");
+      expect(container.getAttribute("style")).toMatch(/display:\s*block\b/);
     });
 
     it("should toggle display:block to display:none", function () {
       container.setAttribute("style", "display: block;");
       ilios.utilities.toggleShowMoreOrLess("foo", null);
-      expect(container.getAttribute("style")).toEqual("display: none;");
+      expect(container.getAttribute("style")).toMatch(/display:\s*none\b/);
     });
 
     it("should change text to lowercased show_less when toggling from display:none", function () {
@@ -322,13 +322,13 @@ describe("ilios_utilities", function() {
     it("should toggle display:none to display:block", function () {
       container.setAttribute("style", "display: none;");
       ilios.utilities.toggle("foo", null);
-      expect(container.getAttribute("style")).toEqual("display: block;");
+      expect(container.getAttribute("style")).toMatch(/display:\s*block\b/);
     });
 
     it("should toggle display:block to display:none", function () {
       container.setAttribute("style", "display: block;");
       ilios.utilities.toggle("foo", null);
-      expect(container.getAttribute("style")).toEqual("display: none;");
+      expect(container.getAttribute("style")).toMatch(/display:\s*none\b/);
     });
 
     it("should set class to icon-minus when toggling from display:none", function () {
@@ -854,6 +854,14 @@ describe("ilios_utilities", function() {
 
     it("should do nothing if passed anything that has no scrollIntoView()", function () {
       expect(function () {ilios.utilities.scrollElementIntoView("foo");}).not.toThrow();
+    });
+  });
+
+  describe("hide()", function () {
+    it("should set display to none", function () {
+      var element = document.createElement("div");
+      ilios.utilities.hide(element);
+      expect(element.getAttribute("style")).toMatch(/display:\s*none\b/);
     });
   });
 });
