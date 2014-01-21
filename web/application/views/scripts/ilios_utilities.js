@@ -531,9 +531,8 @@ ilios.utilities.htmlEntitiesDecode = function (str) {
 
 /**
  * @todo get rid of this.
- * @todo this is only called in one place and without quote_style so get rid of quote_style
  */
-ilios.utilities.htmlEntities = function (string, quote_style) {
+ilios.utilities.htmlEntities = function (string) {
     // http://kevin.vanzonneveld.net
     // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
     // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
@@ -552,12 +551,13 @@ ilios.utilities.htmlEntities = function (string, quote_style) {
     var hash_map = {}, symbol = '', tmp_str = '', entity = '';
     tmp_str = string.toString();
 
-    if (false === (hash_map = ilios.utilities.getHTMLTranslationTable('HTML_ENTITIES', quote_style))) {
+    if (false === (hash_map = ilios.utilities.getHTMLTranslationTable('HTML_ENTITIES'))) {
         return false;
     }
     hash_map["'"] = '&#039;';
     // TODO: bug: It will double encode any entities that are encoded before encoding &. So & should be
-    //    encoded first, then everything else.
+    //    encoded first, then everything else. As it stands now, it never encodes quotation marks correctly.
+    //    Can that even be right?
     for (symbol in hash_map) {
         entity = hash_map[symbol];
         tmp_str = tmp_str.split(symbol).join(entity);
@@ -567,7 +567,7 @@ ilios.utilities.htmlEntities = function (string, quote_style) {
 };
 
 // TODO this is super memory wasteful
-ilios.utilities.getHTMLTranslationTable = function (table, quote_style) {
+ilios.utilities.getHTMLTranslationTable = function (table) {
     // http://kevin.vanzonneveld.net
     // +   original by: Philip Peterson
     // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
@@ -601,9 +601,7 @@ ilios.utilities.getHTMLTranslationTable = function (table, quote_style) {
 
     useTable = !isNaN(table) ? constMappingTable[table]
                              : table ? table.toUpperCase() : 'HTML_SPECIALCHARS';
-    useQuoteStyle = !isNaN(quote_style) ? constMappingQuoteStyle[quote_style]
-                                        : quote_style ? quote_style.toUpperCase()
-                                                      : 'ENT_COMPAT';
+    useQuoteStyle = 'ENT_COMPAT';
 
     if (useTable !== 'HTML_SPECIALCHARS' && useTable !== 'HTML_ENTITIES') {
         throw new Error("Table: "+useTable+' not supported');
