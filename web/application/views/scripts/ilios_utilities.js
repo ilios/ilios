@@ -699,13 +699,7 @@ ilios.utilities.getHTMLTranslationTable = function () {
     entities['253'] = '&yacute;';
     entities['254'] = '&thorn;';
     entities['255'] = '&yuml;';
-
-    if (useQuoteStyle !== 'ENT_NOQUOTES') {
-        entities['34'] = '&quot;';
-    }
-    if (useQuoteStyle === 'ENT_QUOTES') {
-        entities['39'] = '&#39;';
-    }
+    entities['34'] = '&quot;';
     entities['60'] = '&lt;';
     entities['62'] = '&gt;';
 
