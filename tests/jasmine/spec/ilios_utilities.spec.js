@@ -723,4 +723,26 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.htmlEntitiesDecode("&amp;")).toBe("&");
     });
   });
+
+  describe("htmlEntities()", function () {
+    it("should encode & as &amp;", function () {
+      expect(ilios.utilities.htmlEntities("&")).toBe("&amp;");
+    });
+
+    it("should double-encode quotation mark after an ampersand (bug?)", function () {
+      expect(ilios.utilities.htmlEntities("&\"")).toBe("&amp;&amp;quot;");
+    });
+
+    it("should encode apostrophe", function () {
+      expect(ilios.utilities.htmlEntities("'")).toBe("&#039;");
+    });
+
+    it("should encode HTML characters", function () {
+      expect(ilios.utilities.htmlEntities("<p>Encode me!</p>")).toBe("&lt;p&gt;Encode me!&lt;/p&gt;");
+    });
+
+    it("should encode ©", function () {
+      expect(ilios.utilities.htmlEntities("©")).toBe(("&copy;"));
+    });
+  });
 });
