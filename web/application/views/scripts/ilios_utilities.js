@@ -551,7 +551,7 @@ ilios.utilities.htmlEntities = function (string) {
     var hash_map = {}, symbol = '', tmp_str = '', entity = '';
     tmp_str = string.toString();
 
-    if (false === (hash_map = ilios.utilities.getHTMLTranslationTable('HTML_ENTITIES'))) {
+    if (false === (hash_map = ilios.utilities.getHTMLTranslationTable())) {
         return false;
     }
     hash_map["'"] = '&#039;';
@@ -567,7 +567,7 @@ ilios.utilities.htmlEntities = function (string) {
 };
 
 // TODO this is super memory wasteful
-ilios.utilities.getHTMLTranslationTable = function (table) {
+ilios.utilities.getHTMLTranslationTable = function () {
     // http://kevin.vanzonneveld.net
     // +   original by: Philip Peterson
     // +    revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
@@ -599,8 +599,7 @@ ilios.utilities.getHTMLTranslationTable = function (table) {
     constMappingQuoteStyle[2] = 'ENT_COMPAT';
     constMappingQuoteStyle[3] = 'ENT_QUOTES';
 
-    useTable = !isNaN(table) ? constMappingTable[table]
-                             : table ? table.toUpperCase() : 'HTML_SPECIALCHARS';
+    useTable = 'HTML_ENTITIES';
     useQuoteStyle = 'ENT_COMPAT';
 
     if (useTable !== 'HTML_SPECIALCHARS' && useTable !== 'HTML_ENTITIES') {
