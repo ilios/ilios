@@ -550,14 +550,16 @@ ilios.utilities.htmlEntities = function (string) {
 
     var hash_map = {}, symbol = '', tmp_str = '', entity = '';
     tmp_str = string.toString();
+    var decimal;
 
     hash_map = ilios.utilities.getHTMLTranslationTable();
-    hash_map["'"] = '&#039;';
+    hash_map['39'] = '&#039;';
     // TODO: bug: It will double encode any entities that are encoded before encoding &. So & should be
     //    encoded first, then everything else. As it stands now, it never encodes quotation marks correctly.
     //    Can that even be right?
-    for (symbol in hash_map) {
-        entity = hash_map[symbol];
+    for (decimal in hash_map) {
+        entity = hash_map[decimal];
+        symbol = String.fromCharCode(decimal);
         tmp_str = tmp_str.split(symbol).join(entity);
     }
 
@@ -701,14 +703,15 @@ ilios.utilities.getHTMLTranslationTable = function () {
     entities['60'] = '&lt;';
     entities['62'] = '&gt;';
 
+    return entities;
 
-    // ascii decimals to real symbols
-    for (decimal in entities) {
-        symbol = String.fromCharCode(decimal);
-        hash_map[symbol] = entities[decimal];
-    }
+    // // ascii decimals to real symbols
+    // for (decimal in entities) {
+    //     symbol = String.fromCharCode(decimal);
+    //     hash_map[symbol] = entities[decimal];
+    // }
 
-    return hash_map;
+    // return hash_map;
 };
 
 /**
