@@ -864,4 +864,13 @@ describe("ilios_utilities", function() {
       expect(element.getAttribute("style")).toMatch(/display:\s*none\b/);
     });
   });
+
+  describe("show()", function () {
+    it("should remove the display value", function () {
+      var element = document.createElement("div");
+      ilios.utilities.hide(element);
+      ilios.utilities.show(element);
+      expect(element.getAttribute("style")).not.toMatch(/display:\s*none\b/);
+    });
+  });
 });
