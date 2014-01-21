@@ -548,8 +548,10 @@ ilios.utilities.htmlEntities = function (string) {
     // *     example 2: htmlentities("foo'bar","ENT_QUOTES");
     // *     returns 2: 'foo&#039;bar'
 
-    var hash_map = {}, symbol = '', tmp_str = '', entity = '';
-    tmp_str = string.toString();
+    var hash_map;
+    var symbol;
+    var entity;
+    var tmp_str = string.toString();
     var decimal;
 
     hash_map = ilios.utilities.getHTMLTranslationTable();
