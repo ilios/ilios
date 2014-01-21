@@ -744,5 +744,9 @@ describe("ilios_utilities", function() {
     it("should encode ©", function () {
       expect(ilios.utilities.htmlEntities("©")).toBe(("&copy;"));
     });
+
+    it("should convert non-strings to strings", function () {
+      expect(ilios.utilities.htmlEntities(5)).toBe("5");
+    });
   });
 });
