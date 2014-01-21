@@ -729,8 +729,8 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.htmlEntities("&")).toBe("&amp;");
     });
 
-    it("should double encode \" (bug)", function () {
-      expect(ilios.utilities.htmlEntities("\"")).toBe("&amp;quot;");
+    it("should encode \"", function () {
+      expect(ilios.utilities.htmlEntities("\"")).toBe("&quot;");
     });
 
     it("should encode apostrophe", function () {

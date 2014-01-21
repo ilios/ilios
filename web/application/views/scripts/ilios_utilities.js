@@ -548,20 +548,19 @@ ilios.utilities.htmlEntities = function (string) {
     // *     example 2: htmlentities("foo'bar","ENT_QUOTES");
     // *     returns 2: 'foo&#039;bar'
 
-    var hash_map;
+    var entities;
     var symbol;
     var entity;
     var tmp_str = string.toString();
     var decimal;
 
-    hash_map = ilios.utilities.getHTMLTranslationTable();
-    hash_map['39'] = '&#039;';
+    entities = ilios.utilities.getHTMLTranslationTable();
     // TODO: bug: It will double encode any entities that are encoded before encoding &. So & should be
     //    encoded first, then everything else. As it stands now, it never encodes quotation marks correctly.
     //    Can that even be right?
-    for (decimal in hash_map) {
-        entity = hash_map[decimal];
-        symbol = String.fromCharCode(decimal);
+    for (var i=0, l=entities.length; i<l; i++) {
+        entity = entities[i].entity;
+        symbol = String.fromCharCode(entities[i].decimal);
         tmp_str = tmp_str.split(symbol).join(entity);
     }
 
@@ -570,108 +569,113 @@ ilios.utilities.htmlEntities = function (string) {
 
 // TODO this is super memory wasteful
 ilios.utilities.getHTMLTranslationTable = function () {
-    var entities = {};
+    // Ampersand must be encoded first or else you will encode ampersands in other entities.
+    // So, to avoid double encoding, make sure ampersands is always the first element in the entities array.
+    var entities = [
+        {decimal: 38, entity: '&amp;'},
+        {decimal: 160, entity: '&nbsp;'},
+        {decimal: 161, entity: '&iexcl;'},
+        {decimal: 162, entity: '&cent;'},
+        {decimal: 163, entity: '&pound;'},
+        {decimal: 164, entity: '&curren;'},
+        {decimal: 165, entity: '&yen;'},
+        {decimal: 166, entity: '&brvbar;'},
+        {decimal: 167, entity: '&sect;'},
+        {decimal: 168, entity: '&uml;'},
+        {decimal: 169, entity: '&copy;'},
+        {decimal: 170, entity: '&ordf;'},
+        {decimal: 171, entity: '&laquo;'},
+        {decimal: 172, entity: '&not;'},
+        {decimal: 173, entity: '&shy;'},
+        {decimal: 174, entity: '&reg;'},
+        {decimal: 175, entity: '&macr;'},
+        {decimal: 176, entity: '&deg;'},
+        {decimal: 177, entity: '&plusmn;'},
+        {decimal: 178, entity: '&sup2;'},
+        {decimal: 179, entity: '&sup3;'},
+        {decimal: 180, entity: '&acute;'},
+        {decimal: 181, entity: '&micro;'},
+        {decimal: 182, entity: '&para;'},
+        {decimal: 183, entity: '&middot;'},
+        {decimal: 184, entity: '&cedil;'},
+        {decimal: 185, entity: '&sup1;'},
+        {decimal: 186, entity: '&ordm;'},
+        {decimal: 187, entity: '&raquo;'},
+        {decimal: 188, entity: '&frac14;'},
+        {decimal: 189, entity: '&frac12;'},
+        {decimal: 190, entity: '&frac34;'},
+        {decimal: 191, entity: '&iquest;'},
+        {decimal: 192, entity: '&Agrave;'},
+        {decimal: 193, entity: '&Aacute;'},
+        {decimal: 194, entity: '&Acirc;'},
+        {decimal: 195, entity: '&Atilde;'},
+        {decimal: 196, entity: '&Auml;'},
+        {decimal: 197, entity: '&Aring;'},
+        {decimal: 198, entity: '&AElig;'},
+        {decimal: 199, entity: '&Ccedil;'},
+        {decimal: 200, entity: '&Egrave;'},
+        {decimal: 201, entity: '&Eacute;'},
+        {decimal: 202, entity: '&Ecirc;'},
+        {decimal: 203, entity: '&Euml;'},
+        {decimal: 204, entity: '&Igrave;'},
+        {decimal: 205, entity: '&Iacute;'},
+        {decimal: 206, entity: '&Icirc;'},
+        {decimal: 207, entity: '&Iuml;'},
+        {decimal: 208, entity: '&ETH;'},
+        {decimal: 209, entity: '&Ntilde;'},
+        {decimal: 210, entity: '&Ograve;'},
+        {decimal: 211, entity: '&Oacute;'},
+        {decimal: 212, entity: '&Ocirc;'},
+        {decimal: 213, entity: '&Otilde;'},
+        {decimal: 214, entity: '&Ouml;'},
+        {decimal: 215, entity: '&times;'},
+        {decimal: 216, entity: '&Oslash;'},
+        {decimal: 217, entity: '&Ugrave;'},
+        {decimal: 218, entity: '&Uacute;'},
+        {decimal: 219, entity: '&Ucirc;'},
+        {decimal: 220, entity: '&Uuml;'},
+        {decimal: 221, entity: '&Yacute;'},
+        {decimal: 222, entity: '&THORN;'},
+        {decimal: 223, entity: '&szlig;'},
+        {decimal: 224, entity: '&agrave;'},
+        {decimal: 225, entity: '&aacute;'},
+        {decimal: 226, entity: '&acirc;'},
+        {decimal: 227, entity: '&atilde;'},
+        {decimal: 228, entity: '&auml;'},
+        {decimal: 229, entity: '&aring;'},
+        {decimal: 230, entity: '&aelig;'},
+        {decimal: 231, entity: '&ccedil;'},
+        {decimal: 232, entity: '&egrave;'},
+        {decimal: 233, entity: '&eacute;'},
+        {decimal: 234, entity: '&ecirc;'},
+        {decimal: 235, entity: '&euml;'},
+        {decimal: 236, entity: '&igrave;'},
+        {decimal: 237, entity: '&iacute;'},
+        {decimal: 238, entity: '&icirc;'},
+        {decimal: 239, entity: '&iuml;'},
+        {decimal: 240, entity: '&eth;'},
+        {decimal: 241, entity: '&ntilde;'},
+        {decimal: 242, entity: '&ograve;'},
+        {decimal: 243, entity: '&oacute;'},
+        {decimal: 244, entity: '&ocirc;'},
+        {decimal: 245, entity: '&otilde;'},
+        {decimal: 246, entity: '&ouml;'},
+        {decimal: 247, entity: '&divide;'},
+        {decimal: 248, entity: '&oslash;'},
+        {decimal: 249, entity: '&ugrave;'},
+        {decimal: 250, entity: '&uacute;'},
+        {decimal: 251, entity: '&ucirc;'},
+        {decimal: 252, entity: '&uuml;'},
+        {decimal: 253, entity: '&yacute;'},
+        {decimal: 254, entity: '&thorn;'},
+        {decimal: 255, entity: '&yuml;'},
+        {decimal: 34, entity:'&quot;'},
+        {decimal: 60, entity:'&lt;'},
+        {decimal: 62, entity:'&gt;'},
+        {decimal: 39, entity:'&#039;'}
+    ];
 
-    entities['38'] = '&amp;';
-    entities['160'] = '&nbsp;';
-    entities['161'] = '&iexcl;';
-    entities['162'] = '&cent;';
-    entities['163'] = '&pound;';
-    entities['164'] = '&curren;';
-    entities['165'] = '&yen;';
-    entities['166'] = '&brvbar;';
-    entities['167'] = '&sect;';
-    entities['168'] = '&uml;';
-    entities['169'] = '&copy;';
-    entities['170'] = '&ordf;';
-    entities['171'] = '&laquo;';
-    entities['172'] = '&not;';
-    entities['173'] = '&shy;';
-    entities['174'] = '&reg;';
-    entities['175'] = '&macr;';
-    entities['176'] = '&deg;';
-    entities['177'] = '&plusmn;';
-    entities['178'] = '&sup2;';
-    entities['179'] = '&sup3;';
-    entities['180'] = '&acute;';
-    entities['181'] = '&micro;';
-    entities['182'] = '&para;';
-    entities['183'] = '&middot;';
-    entities['184'] = '&cedil;';
-    entities['185'] = '&sup1;';
-    entities['186'] = '&ordm;';
-    entities['187'] = '&raquo;';
-    entities['188'] = '&frac14;';
-    entities['189'] = '&frac12;';
-    entities['190'] = '&frac34;';
-    entities['191'] = '&iquest;';
-    entities['192'] = '&Agrave;';
-    entities['193'] = '&Aacute;';
-    entities['194'] = '&Acirc;';
-    entities['195'] = '&Atilde;';
-    entities['196'] = '&Auml;';
-    entities['197'] = '&Aring;';
-    entities['198'] = '&AElig;';
-    entities['199'] = '&Ccedil;';
-    entities['200'] = '&Egrave;';
-    entities['201'] = '&Eacute;';
-    entities['202'] = '&Ecirc;';
-    entities['203'] = '&Euml;';
-    entities['204'] = '&Igrave;';
-    entities['205'] = '&Iacute;';
-    entities['206'] = '&Icirc;';
-    entities['207'] = '&Iuml;';
-    entities['208'] = '&ETH;';
-    entities['209'] = '&Ntilde;';
-    entities['210'] = '&Ograve;';
-    entities['211'] = '&Oacute;';
-    entities['212'] = '&Ocirc;';
-    entities['213'] = '&Otilde;';
-    entities['214'] = '&Ouml;';
-    entities['215'] = '&times;';
-    entities['216'] = '&Oslash;';
-    entities['217'] = '&Ugrave;';
-    entities['218'] = '&Uacute;';
-    entities['219'] = '&Ucirc;';
-    entities['220'] = '&Uuml;';
-    entities['221'] = '&Yacute;';
-    entities['222'] = '&THORN;';
-    entities['223'] = '&szlig;';
-    entities['224'] = '&agrave;';
-    entities['225'] = '&aacute;';
-    entities['226'] = '&acirc;';
-    entities['227'] = '&atilde;';
-    entities['228'] = '&auml;';
-    entities['229'] = '&aring;';
-    entities['230'] = '&aelig;';
-    entities['231'] = '&ccedil;';
-    entities['232'] = '&egrave;';
-    entities['233'] = '&eacute;';
-    entities['234'] = '&ecirc;';
-    entities['235'] = '&euml;';
-    entities['236'] = '&igrave;';
-    entities['237'] = '&iacute;';
-    entities['238'] = '&icirc;';
-    entities['239'] = '&iuml;';
-    entities['240'] = '&eth;';
-    entities['241'] = '&ntilde;';
-    entities['242'] = '&ograve;';
-    entities['243'] = '&oacute;';
-    entities['244'] = '&ocirc;';
-    entities['245'] = '&otilde;';
-    entities['246'] = '&ouml;';
-    entities['247'] = '&divide;';
-    entities['248'] = '&oslash;';
-    entities['249'] = '&ugrave;';
-    entities['250'] = '&uacute;';
-    entities['251'] = '&ucirc;';
-    entities['252'] = '&uuml;';
-    entities['253'] = '&yacute;';
-    entities['254'] = '&thorn;';
-    entities['255'] = '&yuml;';
-    entities['34'] = '&quot;';
-    entities['60'] = '&lt;';
-    entities['62'] = '&gt;';
+
 
     return entities;
 };
