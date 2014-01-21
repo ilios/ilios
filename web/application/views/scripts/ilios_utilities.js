@@ -589,18 +589,6 @@ ilios.utilities.getHTMLTranslationTable = function () {
     // *     returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
 
     var entities = {};
-    var constMappingTable = {}, constMappingQuoteStyle = {};
-    var useTable = {}, useQuoteStyle = {};
-
-    // Translate arguments
-    constMappingTable[0]      = 'HTML_SPECIALCHARS';
-    constMappingTable[1]      = 'HTML_ENTITIES';
-    constMappingQuoteStyle[0] = 'ENT_NOQUOTES';
-    constMappingQuoteStyle[2] = 'ENT_COMPAT';
-    constMappingQuoteStyle[3] = 'ENT_QUOTES';
-
-    useTable = 'HTML_ENTITIES';
-    useQuoteStyle = 'ENT_COMPAT';
 
     entities['38'] = '&amp;';
     entities['160'] = '&nbsp;';
