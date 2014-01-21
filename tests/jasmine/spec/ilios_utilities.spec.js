@@ -915,4 +915,23 @@ describe("ilios_utilities", function() {
       expect(passwordStrength).toEqual(ilios.utilities.PASSWORD_STRENGTH_CHECK_OK);
     });
   });
+
+  describe("getPasswordStrengthCheckWarnings()", function () {
+    it("should return an empty array if PASSWORD_STRENGTH_CHECK_OK", function () {
+      var msgs = ilios.utilities.getPasswordStrengthCheckWarnings(ilios.utilities.PASSWORD_STRENGTH_CHECK_OK);
+      expect(msgs).toEqual([]);
+    });
+
+    it("should return a message for each problem identified by the password strength checker", function () {
+      var impossiblyWeak = ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_SHORT ^
+        ilios.utilities.PASSWORD_STRENGTH_CHECK_TOO_LONG ^
+        ilios.utilities.PASSWORD_STRENGTH_CHECK_DIGIT_MISSING ^
+        ilios.utilities.PASSWORD_STRENGTH_CHECK_INVALID_CHARS ^
+        ilios.utilities.PASSWORD_STRENGTH_CHECK_SPECIAL_CHAR_MISSING ^
+        ilios.utilities.PASSWORD_STRENGTH_CHECK_UPPERCASE_CHAR_MISSING ^
+        ilios.utilities.PASSWORD_STRENGTH_CHECK_LOWERCASE_CHAR_MISSING;
+      var msgs = ilios.utilities.getPasswordStrengthCheckWarnings(impossiblyWeak);
+      expect(msgs.length).toBe(7);
+    });
+  });
 });
