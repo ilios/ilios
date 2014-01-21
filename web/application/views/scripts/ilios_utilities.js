@@ -551,9 +551,7 @@ ilios.utilities.htmlEntities = function (string) {
     var hash_map = {}, symbol = '', tmp_str = '', entity = '';
     tmp_str = string.toString();
 
-    if (false === (hash_map = ilios.utilities.getHTMLTranslationTable())) {
-        return false;
-    }
+    hash_map = ilios.utilities.getHTMLTranslationTable();
     hash_map["'"] = '&#039;';
     // TODO: bug: It will double encode any entities that are encoded before encoding &. So & should be
     //    encoded first, then everything else. As it stands now, it never encodes quotation marks correctly.
