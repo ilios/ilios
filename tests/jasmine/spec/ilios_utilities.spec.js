@@ -729,7 +729,7 @@ describe("ilios_utilities", function() {
       expect(ilios.utilities.htmlEntities("&")).toBe("&amp;");
     });
 
-    it("should double-encode quotation mark after an ampersand (bug?)", function () {
+    it("should double-encode quotation mark after an ampersand (bug)", function () {
       expect(ilios.utilities.htmlEntities("&\"")).toBe("&amp;&amp;quot;");
     });
 

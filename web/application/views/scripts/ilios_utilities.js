@@ -556,6 +556,8 @@ ilios.utilities.htmlEntities = function (string, quote_style) {
         return false;
     }
     hash_map["'"] = '&#039;';
+    // TODO: bug: It will double encode any entities that are encoded before encoding &. So & should be
+    //    encoded first, then everything else.
     for (symbol in hash_map) {
         entity = hash_map[symbol];
         tmp_str = tmp_str.split(symbol).join(entity);
