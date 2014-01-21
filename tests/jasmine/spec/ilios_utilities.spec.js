@@ -790,4 +790,18 @@ describe("ilios_utilities", function() {
       expect(formattedName).toBe("J. Public");
     });
   });
+
+  describe("getDomainFromURL()", function () {
+    it("should return the url in full if it does not contain //", function () {
+      expect(ilios.utilities.getDomainFromURL("abcdefg")).toBe("abcdefg");
+    });
+
+    it("should return everything after the // if there is no / after that", function () {
+      expect(ilios.utilities.getDomainFromURL("abcd//efg")).toBe("efg");
+    });
+
+    it("should return everything after the // and before the next /", function () {
+      expect(ilios.utilities.getDomainFromURL("abcd//efgh/ijkl")).toBe("efgh");
+    });
+  });
 });
