@@ -588,7 +588,7 @@ ilios.utilities.getHTMLTranslationTable = function () {
     // *     example 1: get_html_translation_table('HTML_SPECIALCHARS');
     // *     returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
 
-    var entities = {}, decimal = 0, symbol = '';
+    var entities = {};
     var constMappingTable = {}, constMappingQuoteStyle = {};
     var useTable = {}, useQuoteStyle = {};
 
