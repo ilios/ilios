@@ -548,29 +548,6 @@ ilios.utilities.htmlEntities = function (string) {
     // *     example 2: htmlentities("foo'bar","ENT_QUOTES");
     // *     returns 2: 'foo&#039;bar'
 
-    var entities;
-    var symbol;
-    var entity;
-    var tmp_str = string.toString();
-    var decimal;
-
-    entities = ilios.utilities.getHTMLTranslationTable();
-    // TODO: bug: It will double encode any entities that are encoded before encoding &. So & should be
-    //    encoded first, then everything else. As it stands now, it never encodes quotation marks correctly.
-    //    Can that even be right?
-    for (var i=0, l=entities.length; i<l; i++) {
-        entity = entities[i].entity;
-        symbol = String.fromCharCode(entities[i].decimal);
-        tmp_str = tmp_str.split(symbol).join(entity);
-    }
-
-    return tmp_str;
-};
-
-// TODO this is super memory wasteful
-ilios.utilities.getHTMLTranslationTable = function () {
-    // Ampersand must be encoded first or else you will encode ampersands in other entities.
-    // So, to avoid double encoding, make sure ampersands is always the first element in the entities array.
     var entities = [
         {decimal: 38, entity: '&amp;'},
         {decimal: 160, entity: '&nbsp;'},
@@ -674,10 +651,18 @@ ilios.utilities.getHTMLTranslationTable = function () {
         {decimal: 62, entity:'&gt;'},
         {decimal: 39, entity:'&#039;'}
     ];
+    var symbol;
+    var entity;
+    var tmp_str = string.toString();
+    var decimal;
 
+    for (var i=0, l=entities.length; i<l; i++) {
+        entity = entities[i].entity;
+        symbol = String.fromCharCode(entities[i].decimal);
+        tmp_str = tmp_str.split(symbol).join(entity);
+    }
 
-
-    return entities;
+    return tmp_str;
 };
 
 /**
