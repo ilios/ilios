@@ -749,7 +749,7 @@ ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer = functio
 * simple utility to scroll the window to a specific element - not smooth, but functional
 */
 ilios.utilities.scrollElementIntoView = function(element){
-    if(element != null){
+    if (element && typeof element.scrollIntoView === "function") {
         element.scrollIntoView();
     }
 };

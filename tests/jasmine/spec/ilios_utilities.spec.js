@@ -851,5 +851,9 @@ describe("ilios_utilities", function() {
       ilios.utilities.scrollElementIntoView(element);
       expect(element.scrollIntoView).toHaveBeenCalled();
     });
+
+    it("should do nothing if passed anything that has no scrollIntoView()", function () {
+      expect(function () {ilios.utilities.scrollElementIntoView("foo");}).not.toThrow();
+    });
   });
 });
