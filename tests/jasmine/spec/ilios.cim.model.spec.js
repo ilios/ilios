@@ -16,7 +16,7 @@ describe("ilios.cim.model", function () {
         describe('generateClientId()', function () {
 
             it("should be a method", function () {
-                expect(typeof ilios.cim.model.BaseModel.prototype.generateClientId()).toBe("function");
+                expect(typeof ilios.cim.model.BaseModel.prototype.generateClientId).toBe("function");
             });
 
             it('should return a different value on each call', function () {
