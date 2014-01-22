@@ -8,11 +8,26 @@ describe("ilios.cim.model", function () {
 
         it("should be an constructor function", function () {
             var obj = new ilios.cim.model.BaseModel();
-
             expect(typeof ilios.cim.model.BaseModel).toBe("function");
             expect(typeof obj).toBe("object");
             expect(obj instanceof ilios.cim.model.BaseModel).toEqual(true);
         });
+
+        describe('generateClientId()', function () {
+
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.BaseModel.prototype.generateClientId()).toBe("function");
+            });
+
+            it('should return a different value on each call', function () {
+                var id1 = ilios.cim.model.BaseModel.prototype.generateClientId();
+                var id2 = ilios.cim.model.BaseModel.prototype.generateClientId();
+                var id3 = ilios.cim.model.BaseModel.prototype.generateClientId();
+                expect(id1).not.toBe(id2);
+                expect(id1).not.toBe(id3);
+                expect(id2).not.toBe(id3);
+            });
+        })
 
         describe("getName()", function () {
 
@@ -56,6 +71,13 @@ describe("ilios.cim.model", function () {
                 var obj = new ilios.cim.model.BaseModel({'dbId': 10});
                 expect(obj.getId()).toEqual(10);
             });
+
+            it("should return NULL, if not set", function () {
+                var obj = new ilios.cim.model.BaseModel();
+                expect(obj.getId()).toBeNull();
+            });
         });
+
+
     });
 });
