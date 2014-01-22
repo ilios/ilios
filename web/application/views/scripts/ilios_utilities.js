@@ -84,7 +84,7 @@ ilios.utilities.mySQLDateToDateObject = function (mySQLDateString, valueIsUTC) {
     // regex demands a space after the date string even if the optional time string is not there. Bug?
     // regex permits two-digit date but then sets it to the literal date, so 10 => 10 A.D., not 2010. Bug?
     var regex
-           = /^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?$/;
+           = /^([0-9]{4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?$/;
     var parts = mySQLDateString.replace(regex, "$1 $2 $3 $4 $5 $6").split(' ');
     var rhett = new Date();
 
@@ -716,7 +716,7 @@ ilios.utilities.paddedTimeValue = function (value) {
         return '0' + intVal;
     }
 
-    return value.toString();
+    return intVal.toString();
 };
 
 /**
