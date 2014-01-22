@@ -72,38 +72,6 @@ describe("ilios_base", function() {
         });
       });
 
-      describe("startsWith()", function () {
-        it("should return true if str starts with prefix", function () {
-          expect(ilios.lang.startsWith("food", "foo")).toBe(true);
-        });
-
-        it("should return false if str does not start with prefix", function () {
-          expect(ilios.lang.startsWith("salad", "bar")).toBe(false);
-        });
-
-        it("should treat prefix as a string and not a regexp", function () {
-          expect(ilios.lang.startsWith("$alad bar", "$a")).toBe(true);
-        });
-      });
-
-      describe("endsWith()", function () {
-        it("should return true if str ends with suffix", function () {
-          expect(ilios.lang.endsWith("salad bar", "bar")).toBe(true);
-        });
-
-        it("should return false if str does not end with suffix", function () {
-          expect(ilios.lang.endsWith("salad", "bar")).toBe(false);
-        });
-
-        it("should treat suffix as a string and not a regexp", function () {
-          expect(ilios.lang.endsWith("salad bar^", "^")).toBe(true);
-        });
-
-        it("should return false if suffix is one character longer than str", function () {
-          expect(ilios.lang.endsWith("foo", "food")).toBe(false);
-        });
-      });
-
       describe("ellipsisedOfLength()", function () {
         it("should truncate str to specified number of characters and add an ellipsis", function () {
           expect(ilios.lang.ellipsisedOfLength("abcdefghijklmnopqrstuvwxyz", 10)).toBe("abcdefghij...");
@@ -113,8 +81,6 @@ describe("ilios_base", function() {
           expect(ilios.lang.ellipsisedOfLength("abc", 10)).toBe("abc");
         });
       });
-
     });
   });
-
 });

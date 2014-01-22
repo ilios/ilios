@@ -38,16 +38,8 @@ ilios.utilities.getEventTarget = function (e) {
  *  method digs out the good stuff, de-json's it, and hands the object back.
  */
 ilios.utilities.getParsedResponseObjectFromFormUploadResponseText = function (responseText) {
-    var whatWeWant = responseText;
     var rhett = null;
-
-    if (ilios.lang.startsWith(whatWeWant, '<pre>') || ilios.lang.startsWith(whatWeWant, '<PRE>')) {
-        whatWeWant = whatWeWant.substring(5);
-
-        if (ilios.lang.endsWith(whatWeWant, '</pre>') || ilios.lang.endsWith(whatWeWant, '</PRE>')) {
-            whatWeWant = whatWeWant.substring(0, (whatWeWant.length - 6));
-        }
-    }
+    var whatWeWant = responseText.replace(/^<pre>|<\/pre>$/gi, '');
 
     try {
         rhett = YAHOO.lang.JSON.parse(whatWeWant);
