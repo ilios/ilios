@@ -82,5 +82,13 @@ describe("ilios_base", function() {
         });
       });
     });
+
+    describe("alert", function () {
+      describe("networkActivityI18NStrings", function () {
+        it("should initialize networkActivityI18NStrings to an empty array", function () {
+          expect(ilios.alert.networkActivityI18NStrings).toEqual([]);
+        });
+      });
+    });
   });
 });
