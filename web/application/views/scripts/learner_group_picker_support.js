@@ -109,10 +109,10 @@ ilios.lg.picker.pruneTreeOfEmptyNodes = function (owningTree, parentNode) {
         // to other distracted developers: this should NOT be 'else if (node.children.length == ...'
         if (node.children.length == 0) {
             if (node.iliosModel instanceof SimplifiedGroupModel) {
-                removeNode = (ilios.utilities.arraySize(node.iliosModel.getSubgroups()) > 0);
+                removeNode = (ilios.utilities.objectPropertyCount(node.iliosModel.getSubgroups()) > 0);
             }
             else if (node.iliosModel != null) {
-                removeNode = (ilios.utilities.arraySize(node.iliosModel.groups) > 0);
+                removeNode = (ilios.utilities.objectPropertyCount(node.iliosModel.groups) > 0);
             }
             else {
                 removeNode = true;
@@ -165,7 +165,7 @@ ilios.lg.picker.buildTreeFromModel = function (parentNode, subgroups, selectStat
         model = subgroups[i];
 
         if (model instanceof SimplifiedGroupModel) {
-            if ((model.userSelected == selectStatus) || (ilios.utilities.arraySize(model.getSubgroups()) > 0)) {
+            if ((model.userSelected == selectStatus) || (ilios.utilities.objectPropertyCount(model.getSubgroups()) > 0)) {
                 node = new TextNode(model.getGroupTitle(), parentNode, true);
                 node.iliosModel = model;
 

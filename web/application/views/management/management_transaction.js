@@ -102,7 +102,7 @@ ilios.management.transaction.setPermissionsForSelectedModels = function (selecte
     var container = null;
     var key = null;
 
-    if (ilios.utilities.associativeArrayEquality(selectedModels, priorSelection)) {
+    if (ilios.utilities.objectEquality(selectedModels, priorSelection)) {
         return;
     }
 
