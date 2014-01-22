@@ -85,8 +85,8 @@ describe("ilios_utilities", function() {
   });
 
   describe("dateObjectToMySQLFriendly()", function () {
-    var utcDate = new Date("2010-06-28 15:26:02 UTC");
-    var pdtDate = new Date("2010-06-28 15:26:02 PDT");
+    var utcDate = new Date("28 Jun 2010 15:26:02 -0000");
+    var pdtDate = new Date("28 Jun 2010 15:26:02 -0700");
 
     it("should return MySQL-formatted date string for date object", function () {
       var mysqlFriendly = ilios.utilities.dateObjectToMySQLFriendly(utcDate);
@@ -112,22 +112,11 @@ describe("ilios_utilities", function() {
   describe("mySQLTimelessDateToDateObject()", function () {
     it("should return a Date object for midnight local time of the yyyyMMDDStr", function () {
       var mySqlTime = ilios.utilities.mySQLTimelessDateToDateObject("2010-06-28");
-      expect(mySqlTime).toEqual(new Date("2010-06-28 00:00:00"));
+      expect(mySqlTime).toEqual(new Date("28 Jun 2010 00:00:00"));
     });
   });
 
   describe("mySQLDateToDateObject()", function () {
-    it("should work with a two-digit year", function () {
-      // Current implementation requires a trailing space. Bug?
-      // Current implementation accepts a two-digit year, but treats it like a two-digit year. 10 = 10 AD. Bug?
-      // I'm guessing two-digit years and date-only (no time) just simply really aren't supported.
-      var mySQLDateString = "10-06-28 ";
-      var DateObject = ilios.utilities.mySQLDateToDateObject(mySQLDateString);
-      var expected = new Date("June 28");
-      expected.setFullYear(10);
-      expect(DateObject).toEqual(expected);
-    });
-
     it("should work without a timestamp", function () {
       // Current implementation requires a trailing space. Bug?
       var mySQLDateString = "2010-06-28 ";
@@ -139,14 +128,15 @@ describe("ilios_utilities", function() {
     it("should work with a timestamp", function () {
       var mySQLDateString = "2010-06-28 15:26:02";
       var DateObject = ilios.utilities.mySQLDateToDateObject(mySQLDateString);
-      var expected = new Date("2010-06-28 15:26:02");
+      var expected = new Date(2010, 5, 28, 15, 26, 02);
       expect(DateObject).toEqual(expected);
     });
 
     it("should use UTC time if valueIsUTC is true", function () {
       var mySQLDateString = "2010-06-28 15:26:02";
       var DateObject = ilios.utilities.mySQLDateToDateObject(mySQLDateString, true);
-      var expected = new Date("2010-06-28 15:26:02 UTC");
+      var expected = new Date();
+      expected.setTime(1277738762000);
       expect(DateObject).toEqual(expected);
     });
   });
@@ -807,8 +797,8 @@ describe("ilios_utilities", function() {
 
   describe("getTimeRangeString()", function () {
     it("should return the times as HH:MM separated by \" - \"", function () {
-      var beginning = new Date("May 1 9:05");
-      var end = new Date("May 1 10:10");
+      var beginning = new Date("May 1, 1995 09:05:00");
+      var end = new Date("May 1, 1995 10:10:00");
       expect(ilios.utilities.getTimeRangeString(beginning, end)).toBe("09:05 - 10:10");
     });
   });
