@@ -89,6 +89,48 @@ describe("ilios_base", function() {
           expect(ilios.alert.networkActivityI18NStrings).toEqual([]);
         });
       });
+
+      describe("updateServerInteractionProgress()", function () {
+        var div;
+        var text;
+
+        beforeEach(function () {
+          div = document.createElement("div");
+          div.setAttribute("id", "save_in_progress_div");
+
+          text = document.createElement("span");
+          text.setAttribute("id", "save_in_progress_text");
+
+          div.appendChild(text);
+
+          document.body.appendChild(div);
+
+          // test double
+          window.ilios_i18nVendor = {getI18NString: function (string) { return string; }};
+        });
+
+        afterEach(function () {
+          div.parentNode.removeChild(div);
+          // reset alert queue to empty
+          ilios.alert.networkActivityI18NStrings = [];
+
+          // delete test double
+          delete window.ilios_i18nVendor;
+        });
+
+        it("should hide save_in_progress_div if no messages in queue", function () {
+          div.setAttribute("style", "display:block");
+          ilios.alert.updateServerInteractionProgress();
+          expect(div.getAttribute("style")).toMatch(/display:\s*none;?/);
+        });
+
+        it("should show save_in_progress_div a message is in the queue", function () {
+          div.setAttribute("style", "display:none");
+          ilios.alert.networkActivityI18NStrings = ["Whoa! Something's happening!"];
+          ilios.alert.updateServerInteractionProgress();
+          expect(div.getAttribute("style")).toMatch(/display:\s*block;?/);
+        });
+      });
     });
   });
 });
