@@ -130,6 +130,12 @@ describe("ilios_base", function() {
           ilios.alert.updateServerInteractionProgress();
           expect(div.getAttribute("style")).toMatch(/display:\s*block;?/);
         });
+
+        it("should update text with first message in queue", function () {
+          ilios.alert.networkActivityI18NStrings = ["I am Spartacus!", "No, I am Spartacus!"];
+          ilios.alert.updateServerInteractionProgress();
+          expect(text.innerHTML).toBe("I am Spartacus!");
+        });
       });
     });
   });
