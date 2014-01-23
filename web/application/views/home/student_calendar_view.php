@@ -75,12 +75,6 @@ endif;
                                 </span>
                             </li>
                             <li>
-                                <a href="<?php echo $siteUrl; ?>/calendar_controller/exportICalendar/student" class="medium radius button" title="<?php echo $ical_download_title; ?>">
-                                    <span class="icon-download icon-alone"></span>
-                                    <span class="screen-reader-text"><?php echo $ical_download_button; ?></span>
-                                </a>
-                            </li>
-                            <li>
                                 <span id="ical_feed_btn" title="<?php echo t("dashboard.icalendar.feed_title", false); ?>" class="medium radius button">
                                     <span class="icon-feed icon-alone"></span>
                                     <span class="screen-reader-text"><?php echo t("dashboard.icalendar.feed_title"); ?></span>
