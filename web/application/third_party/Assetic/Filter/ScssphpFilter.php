@@ -12,6 +12,7 @@
 namespace Assetic\Filter;
 
 use Assetic\Asset\AssetInterface;
+use Assetic\Factory\AssetFactory;
 
 /**
  * Loads SCSS files using the PHP implementation of scss, scssphp.
@@ -22,7 +23,7 @@ use Assetic\Asset\AssetInterface;
  *
  * @author Bart van den Burg <bart@samson-it.nl>
  */
-class ScssphpFilter implements FilterInterface
+class ScssphpFilter implements DependencyExtractorInterface
 {
     private $compass = false;
 
@@ -40,15 +41,12 @@ class ScssphpFilter implements FilterInterface
 
     public function filterLoad(AssetInterface $asset)
     {
-        $root = $asset->getSourceRoot();
-        $path = $asset->getSourcePath();
-
         $lc = new \scssc();
         if ($this->compass) {
             new \scss_compass($lc);
         }
-        if ($root && $path) {
-            $lc->addImportPath(dirname($root.'/'.$path));
+        if ($dir = $asset->getSourceDirectory()) {
+            $lc->addImportPath($dir);
         }
         foreach ($this->importPaths as $path) {
             $lc->addImportPath($path);
@@ -69,5 +67,11 @@ class ScssphpFilter implements FilterInterface
 
     public function filterDump(AssetInterface $asset)
     {
+    }
+
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    {
+        // todo
+        return array();
     }
 }

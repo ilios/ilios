@@ -13,6 +13,7 @@ namespace Assetic\Filter;
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Exception\FilterException;
+use Assetic\Factory\AssetFactory;
 
 /**
  * CSSEmbed filter
@@ -20,7 +21,7 @@ use Assetic\Exception\FilterException;
  * @link https://github.com/nzakas/cssembed
  * @author Maxime Thirouin <maxime.thirouin@gmail.com>
  */
-class CssEmbedFilter extends BaseProcessFilter
+class CssEmbedFilter extends BaseProcessFilter implements DependencyExtractorInterface
 {
     private $jarPath;
     private $javaPath;
@@ -99,11 +100,8 @@ class CssEmbedFilter extends BaseProcessFilter
 
         // automatically define root if not already defined
         if (null === $this->root) {
-            $root = $asset->getSourceRoot();
-            $path = $asset->getSourcePath();
-
-            if ($root && $path) {
-                $pb->add('--root')->add(dirname($root.'/'.$path));
+            if ($dir = $asset->getSourceDirectory()) {
+                $pb->add('--root')->add($dir);
             }
         } else {
             $pb->add('--root')->add($this->root);
@@ -134,5 +132,11 @@ class CssEmbedFilter extends BaseProcessFilter
         }
 
         $asset->setContent($proc->getOutput());
+    }
+
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    {
+        // todo
+        return array();
     }
 }

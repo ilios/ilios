@@ -11,7 +11,10 @@
 
 namespace Assetic\Factory\Worker;
 
+use Assetic\Asset\AssetCollectionInterface;
 use Assetic\Asset\AssetInterface;
+use Assetic\Factory\AssetFactory;
+use Assetic\Factory\LazyAssetManager;
 
 /**
  * Adds cache busting code
@@ -20,59 +23,49 @@ use Assetic\Asset\AssetInterface;
  */
 class CacheBustingWorker implements WorkerInterface
 {
-    const STRATEGY_CONTENT = 1;
-    const STRATEGY_MODIFICATION = 2;
+    private $separator;
 
-    private $strategy;
-
-    public function __construct($strategy = self::STRATEGY_CONTENT)
+    public function __construct($separator = '-')
     {
-        $this->strategy = $strategy;
+        $this->separator = $separator;
     }
 
-    public function process(AssetInterface $asset)
+    public function process(AssetInterface $asset, AssetFactory $factory)
     {
-        $hash = hash_init('sha1');
-
-        switch($this->strategy) {
-            case self::STRATEGY_MODIFICATION:
-                hash_update($hash, $asset->getLastModified());
-                break;
-            case self::STRATEGY_CONTENT:
-                hash_update($hash, $asset->dump());
-                break;
-        }
-
-        foreach ($asset as $i => $leaf) {
-            if ($sourcePath = $leaf->getSourcePath()) {
-                hash_update($hash, $sourcePath);
-            } else {
-                hash_update($hash, $i);
-            }
-        }
-
-        $hash = substr(hash_final($hash), 0, 7);
-        $url = $asset->getTargetPath();
-
-        $oldExt = pathinfo($url, PATHINFO_EXTENSION);
-        $newExt = '-'.$hash.'.'.$oldExt;
-
-        if (!$oldExt || 0 < preg_match('/'.preg_quote($newExt, '/').'$/', $url)) {
+        if (!$path = $asset->getTargetPath()) {
+            // no path to work with
             return;
         }
 
-        $asset->setTargetPath(substr($url, 0, (strlen($oldExt) + 1) * -1).$newExt);
+        if (!$search = pathinfo($path, PATHINFO_EXTENSION)) {
+            // nothing to replace
+            return;
+        }
+
+        $replace = $this->separator.$this->getHash($asset, $factory).'.'.$search;
+        if (preg_match('/'.preg_quote($replace, '/').'$/', $path)) {
+            // already replaced
+            return;
+        }
+
+        $asset->setTargetPath(
+            preg_replace('/\.'.preg_quote($search, '/').'$/', $replace, $path)
+        );
     }
 
-    public function getStrategy()
+    protected function getHash(AssetInterface $asset, AssetFactory $factory)
     {
-        return $this->strategy;
-    }
+        $hash = hash_init('sha1');
 
-    public function setStrategy($strategy)
-    {
-        $this->strategy = $strategy;
+        hash_update($hash, $factory->getLastModified($asset));
 
-        return $this;
+        if ($asset instanceof AssetCollectionInterface) {
+            foreach ($asset as $i => $leaf) {
+                $sourcePath = $leaf->getSourcePath();
+                hash_update($hash, $sourcePath ?: $i);
+            }
+        }
+
+        return substr(hash_final($hash), 0, 7);
     }
 }
