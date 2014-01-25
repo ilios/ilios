@@ -137,6 +137,15 @@ describe("ilios_base", function() {
           expect(text.innerHTML).toBe("I am Spartacus!");
         });
       });
+
+      describe('simpleHidingHandler', function () {
+        it("should call hide() on the element", function () {
+          var testDouble = {hide: function () {}};
+          spyOn(testDouble, "hide");
+          ilios.alert.simpleHidingHandler.call(testDouble);
+          expect(testDouble.hide).toHaveBeenCalled();
+        });
+      });
     });
   });
 });
