@@ -12,6 +12,7 @@
 namespace Assetic\Filter;
 
 use Assetic\Asset\AssetInterface;
+use Assetic\Factory\AssetFactory;
 use CssEmbed\CssEmbed;
 
 /**
@@ -20,7 +21,7 @@ use CssEmbed\CssEmbed;
  * @author Pierre Tachoire <pierre.tachoire@gmail.com>
  * @link https://github.com/krichprollsch/phpCssEmbed
  */
-class PhpCssEmbedFilter implements FilterInterface
+class PhpCssEmbedFilter implements DependencyExtractorInterface
 {
     private $presets = array();
 
@@ -31,12 +32,9 @@ class PhpCssEmbedFilter implements FilterInterface
 
     public function filterLoad(AssetInterface $asset)
     {
-        $root = $asset->getSourceRoot();
-        $path = $asset->getSourcePath();
-
         $pce = new CssEmbed();
-        if ($root && $path) {
-            $pce->setRootDir(dirname($root.'/'.$path));
+        if ($dir = $asset->getSourceDirectory()) {
+            $pce->setRootDir($dir);
         }
 
         $asset->setContent($pce->embedString($asset->getContent()));
@@ -44,5 +42,11 @@ class PhpCssEmbedFilter implements FilterInterface
 
     public function filterDump(AssetInterface $asset)
     {
+    }
+
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    {
+        // todo
+        return array();
     }
 }

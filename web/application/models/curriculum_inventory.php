@@ -249,7 +249,7 @@ EOL;
         $clean = array();
         $clean['report_id'] = (int) $reportId;
         $sql =<<< EOL
-SELECT sb.sequence_block_id, s.session_id AS 'event_id', s.supplemental AS 'required'
+SELECT sb.sequence_block_id, s.session_id AS 'event_id', !s.supplemental AS 'required'
 FROM `session` s
 JOIN `course` c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id

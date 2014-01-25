@@ -11,8 +11,9 @@
 
 namespace Assetic\Filter;
 
-use Assetic\Exception\FilterException;
 use Assetic\Asset\AssetInterface;
+use Assetic\Exception\FilterException;
+use Assetic\Factory\AssetFactory;
 
 /**
  * Loads Compass files.
@@ -20,7 +21,7 @@ use Assetic\Asset\AssetInterface;
  * @link http://compass-style.org/
  * @author Maxime Thirouin <maxime.thirouin@gmail.com>
  */
-class CompassFilter extends BaseProcessFilter
+class CompassFilter extends BaseProcessFilter implements DependencyExtractorInterface
 {
     private $compassPath;
     private $rubyPath;
@@ -189,12 +190,9 @@ class CompassFilter extends BaseProcessFilter
 
     public function filterLoad(AssetInterface $asset)
     {
-        $root = $asset->getSourceRoot();
-        $path = $asset->getSourcePath();
-
         $loadPaths = $this->loadPaths;
-        if ($root && $path) {
-            $loadPaths[] = dirname($root.'/'.$path);
+        if ($dir = $asset->getSourceDirectory()) {
+            $loadPaths[] = $dir;
         }
 
         // compass does not seems to handle symlink, so we use realpath()
@@ -210,7 +208,6 @@ class CompassFilter extends BaseProcessFilter
         }
 
         $pb = $this->createProcessBuilder($compassProcessArgs);
-        $pb->inheritEnvironmentVariables();
 
         if ($this->force) {
             $pb->add('--force');
@@ -318,7 +315,7 @@ class CompassFilter extends BaseProcessFilter
         // compass choose the type (sass or scss from the filename)
         if (null !== $this->scss) {
             $type = $this->scss ? 'scss' : 'sass';
-        } elseif ($path) {
+        } elseif ($path = $asset->getSourcePath()) {
             // FIXME: what if the extension is something else?
             $type = pathinfo($path, PATHINFO_EXTENSION);
         } else {
@@ -345,6 +342,7 @@ class CompassFilter extends BaseProcessFilter
         if ($this->homeEnv) {
             // it's not really usefull but... https://github.com/chriseppstein/compass/issues/376
             $pb->setEnv('HOME', sys_get_temp_dir());
+            $this->mergeEnv($pb);
         }
 
         $proc = $pb->getProcess();
@@ -370,6 +368,12 @@ class CompassFilter extends BaseProcessFilter
 
     public function filterDump(AssetInterface $asset)
     {
+    }
+
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    {
+        // todo
+        return array();
     }
 
     private function formatArrayToRuby($array)

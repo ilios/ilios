@@ -96,7 +96,7 @@ ilios.om.calendar.resetCurrentCalendarViewToStart = function () {
     var dateEnd = ilios.om.calendarStartDate;
     var offeringModels = sessionModel.getOfferings();
 
-    if (ilios.utilities.arraySize(offeringModels) > 0) {
+    if (ilios.utilities.objectPropertyCount(offeringModels) > 0) {
     var model = null;
 
     dateBegin = new Date(offeringModels[0].getStartDate().getTime());

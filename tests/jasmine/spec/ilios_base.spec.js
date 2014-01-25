@@ -72,38 +72,6 @@ describe("ilios_base", function() {
         });
       });
 
-      describe("startsWith()", function () {
-        it("should return true if str starts with prefix", function () {
-          expect(ilios.lang.startsWith("food", "foo")).toBe(true);
-        });
-
-        it("should return false if str does not start with prefix", function () {
-          expect(ilios.lang.startsWith("salad", "bar")).toBe(false);
-        });
-
-        it("should treat prefix as a string and not a regexp", function () {
-          expect(ilios.lang.startsWith("$alad bar", "$a")).toBe(true);
-        });
-      });
-
-      describe("endsWith()", function () {
-        it("should return true if str ends with suffix", function () {
-          expect(ilios.lang.endsWith("salad bar", "bar")).toBe(true);
-        });
-
-        it("should return false if str does not end with suffix", function () {
-          expect(ilios.lang.endsWith("salad", "bar")).toBe(false);
-        });
-
-        it("should treat suffix as a string and not a regexp", function () {
-          expect(ilios.lang.endsWith("salad bar^", "^")).toBe(true);
-        });
-
-        it("should return false if suffix is one character longer than str", function () {
-          expect(ilios.lang.endsWith("foo", "food")).toBe(false);
-        });
-      });
-
       describe("ellipsisedOfLength()", function () {
         it("should truncate str to specified number of characters and add an ellipsis", function () {
           expect(ilios.lang.ellipsisedOfLength("abcdefghijklmnopqrstuvwxyz", 10)).toBe("abcdefghij...");
@@ -113,8 +81,62 @@ describe("ilios_base", function() {
           expect(ilios.lang.ellipsisedOfLength("abc", 10)).toBe("abc");
         });
       });
+    });
 
+    describe("alert", function () {
+      describe("networkActivityI18NStrings", function () {
+        it("should initialize networkActivityI18NStrings to an empty array", function () {
+          expect(ilios.alert.networkActivityI18NStrings).toEqual([]);
+        });
+      });
+
+      describe("updateServerInteractionProgress()", function () {
+        var div;
+        var text;
+
+        beforeEach(function () {
+          div = document.createElement("div");
+          div.setAttribute("id", "save_in_progress_div");
+
+          text = document.createElement("span");
+          text.setAttribute("id", "save_in_progress_text");
+
+          div.appendChild(text);
+
+          document.body.appendChild(div);
+
+          // test double
+          window.ilios_i18nVendor = {getI18NString: function (string) { return string; }};
+        });
+
+        afterEach(function () {
+          div.parentNode.removeChild(div);
+          // reset alert queue to empty
+          ilios.alert.networkActivityI18NStrings = [];
+
+          // delete test double
+          delete window.ilios_i18nVendor;
+        });
+
+        it("should hide save_in_progress_div if no messages in queue", function () {
+          div.setAttribute("style", "display:block");
+          ilios.alert.updateServerInteractionProgress();
+          expect(div.getAttribute("style")).toMatch(/display:\s*none;?/);
+        });
+
+        it("should show save_in_progress_div a message is in the queue", function () {
+          div.setAttribute("style", "display:none");
+          ilios.alert.networkActivityI18NStrings = ["Whoa! Something's happening!"];
+          ilios.alert.updateServerInteractionProgress();
+          expect(div.getAttribute("style")).toMatch(/display:\s*block;?/);
+        });
+
+        it("should update text with first message in queue", function () {
+          ilios.alert.networkActivityI18NStrings = ["I am Spartacus!", "No, I am Spartacus!"];
+          ilios.alert.updateServerInteractionProgress();
+          expect(text.innerHTML).toBe("I am Spartacus!");
+        });
+      });
     });
   });
-
 });
