@@ -174,11 +174,7 @@ describe("ilios_base", function() {
           ilios.alert.alert("foo", "bar");
           var expected = [[{
             text: "bar",
-            handler: {
-              fn: ilios.alert.simpleHidingHandler,
-              obj: {},
-              scope: undefined
-            },
+            handler: jasmine.objectContaining({fn: ilios.alert.simpleHidingHandler}),
             isDefault: true
           }]];
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
@@ -189,32 +185,20 @@ describe("ilios_base", function() {
           ilios.alert.alert("foo", "bar", acceptHandler);
           var expected = [[{
             text: "bar",
-            handler: {
-              fn: acceptHandler,
-              obj: {},
-              scope:undefined
-            },
+            handler: jasmine.objectContaining({fn: acceptHandler}),
             isDefault: true
           }]];
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
         it("should use general.terms.ok if no button text provided", function () {
-          var expected = [[{
-            text: "general.terms.ok",
-            handler: jasmine.any(Object),
-            isDefault: true
-          }]];
+          var expected = [[jasmine.objectContaining({text: "general.terms.ok"})]];
           ilios.alert.alert("foo");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
         it("should use button text if provided", function () {
-          var expected = [[{
-            text: "button text",
-            handler: jasmine.any(Object),
-            isDefault: true
-          }]];
+          var expected = [[jasmine.objectContaining({text: "button text"})]];
           ilios.alert.alert("foo", "button text");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
