@@ -171,7 +171,12 @@ describe("ilios_base", function() {
           delete window.ilios_i18nVendor;
         });
 
-        it("should use simpleHidingHandler() if we do not send an acceptHandler", function () {
+        it("should call configButtons()", function () {
+          ilios.alert.alert();
+          expect(testDouble.configButtons).toHaveBeenCalled();
+        });
+
+        it("should call configButtons() using simpleHidingHandler() if we do not send an acceptHandler", function () {
           ilios.alert.alert("foo", "bar");
           var expected = [[{
             text: "bar",
@@ -181,7 +186,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use acceptHandler if specified", function () {
+        it("should call configButtons() using acceptHandler if specified", function () {
           var acceptHandler = function () { return "I am the handler!";};
           ilios.alert.alert("foo", "bar", acceptHandler);
           var expected = [[{
@@ -192,7 +197,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use simpleHidingHandler() if acceptHandler specified but it is not a function", function () {
+        it("should call ConfigButtons() using simpleHidingHandler() if acceptHandler specified but it is not a function", function () {
           var acceptHandler = "Not a function";
           ilios.alert.alert("foo", "bar", acceptHandler);
           var expected = [[{
@@ -203,19 +208,19 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use general.terms.ok if no button text provided", function () {
+        it("should call configButtons() using general.terms.ok if no button text provided", function () {
           var expected = [[jasmine.objectContaining({text: "general.terms.ok"})]];
           ilios.alert.alert("foo");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use button text if provided", function () {
+        it("should call configButtons() using button text if provided", function () {
           var expected = [[jasmine.objectContaining({text: "button text"})]];
           ilios.alert.alert("foo", "button text");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use an empty object if no handler args provided", function () {
+        it("should call configButtons() using an empty object if no handler args provided", function () {
           var expected = [[{
             text: "bar",
             handler: jasmine.objectContaining({obj: {}}),
@@ -225,7 +230,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use provided object if handler args object provided", function () {
+        it("should call configButtons() using provided object if handler args object provided", function () {
           var expected = [[{
             text: "bar",
             handler: jasmine.objectContaining({obj: {arg1: "arg1"}}),
@@ -235,7 +240,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use provided value if handler args provided as an array", function () {
+        it("should call configButtons() using provided value if handler args provided as an array", function () {
           var expected = [[{
             text: "bar",
             handler: jasmine.objectContaining({obj: ["array"]}),
@@ -245,7 +250,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should use empty object if non-object provided for handler args", function () {
+        it("should call configButtons() using empty object if non-object provided for handler args", function () {
           var expected = [[{
             text: "bar",
             handler: jasmine.objectContaining({obj: {}}),
@@ -255,7 +260,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should have a scope with value undefined if confirmDialog does not already exist (bug?)", function () {
+        it("should call configButtons() with a scope with value undefined if confirmDialog does not already exist (bug?)", function () {
           var expected = [[{
             text: "bar",
             handler: jasmine.objectContaining({scope: undefined}),
@@ -265,7 +270,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should have a scope of the confirmDialog if it exists", function () {
+        it("should call configButtons() with a scope of the confirmDialog if it exists", function () {
           ilios.alert.confirmDialog = testDouble;
           var scope = testDouble;
           var expected = [[{
@@ -277,7 +282,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should set isDefault to true", function () {
+        it("should call configButtons with isDefault set to true", function () {
           var expected = [[jasmine.objectContaining({isDefault: true})]];
           ilios.alert.alert("foo", "bar");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
@@ -308,6 +313,31 @@ describe("ilios_base", function() {
           ilios.alert.confirmDialog = testDouble;
           ilios.alert.alert("foo", "bar");
           expect(ilios.alert.confirmDialog.render).not.toHaveBeenCalled();
+        });
+
+        it("should call setBody() with provided str", function () {
+          ilios.alert.alert("foo");
+          expect(testDouble.setBody).toHaveBeenCalledWith("foo");
+        });
+
+        it("should call cfg.setProperty('icon', YAHOO.widget.SimpleDialog.ICON_WARN)", function () {
+          ilios.alert.alert();
+          expect(testDouble.cfg.setProperty).toHaveBeenCalledWith("icon", YAHOO.widget.SimpleDialog.ICON_WARN);
+        });
+
+        it("should call cfg.queueProperty('zIndex', 9999)", function () {
+          ilios.alert.alert();
+          expect(testDouble.cfg.queueProperty).toHaveBeenCalledWith("zIndex", 9999);
+        });
+
+        it("should call bringToTop()", function () {
+          ilios.alert.alert();
+          expect(testDouble.bringToTop).toHaveBeenCalled();
+        });
+
+        it("should call show()", function () {
+          ilios.alert.alert();
+          expect(testDouble.show).toHaveBeenCalled();
         });
       });
     });
