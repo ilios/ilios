@@ -80,7 +80,7 @@ describe("ilios.cim.model", function () {
         });
     });
 
-    describe('ilios.com.model.ObjectMap', function () {
+    describe('ilios.cim.model.ObjectMap', function () {
 
         it("should be an constructor function", function () {
             var map = new ilios.cim.model.ObjectMap();
