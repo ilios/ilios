@@ -138,12 +138,59 @@ describe("ilios_base", function() {
         });
       });
 
-      describe('simpleHidingHandler', function () {
+      describe("simpleHidingHandler()", function () {
         it("should call hide() on the element", function () {
           var testDouble = {hide: function () {}};
           spyOn(testDouble, "hide");
           ilios.alert.simpleHidingHandler.call(testDouble);
           expect(testDouble.hide).toHaveBeenCalled();
+        });
+      });
+
+      describe("alert()", function () {
+        beforeEach(function () {
+          testDouble = {
+            render: jasmine.createSpy(),
+            configButtons: jasmine.createSpy(),
+            setBody: jasmine.createSpy(),
+            cfg: {
+              setProperty: jasmine.createSpy(),
+              queueProperty: jasmine.createSpy()
+            },
+            bringToTop: jasmine.createSpy(),
+            show: jasmine.createSpy()
+          };
+          spyOn(ilios.alert, "createConfirmDialog").and.returnValue(testDouble);
+          delete ilios.alert.confirmDialog;
+        });
+
+        it("should use simpleHidingHandler() if we do not send an acceptHandler", function () {
+          ilios.alert.alert("foo", "bar");
+          var expected = [[{
+            text: "bar",
+            handler: {
+              fn: ilios.alert.simpleHidingHandler,
+              obj: {},
+              scope: undefined
+            },
+            isDefault: true
+          }]];
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should use acceptHandler if specified", function () {
+          var acceptHandler = function () { return "I am the handler!";};
+          ilios.alert.alert("foo", "bar", acceptHandler);
+          var expected = [[{
+            text: "bar",
+            handler: {
+              fn: acceptHandler,
+              obj: {},
+              scope:undefined
+            },
+            isDefault: true
+          }]];
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
       });
     });
