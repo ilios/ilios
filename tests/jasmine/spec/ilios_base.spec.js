@@ -149,6 +149,7 @@ describe("ilios_base", function() {
 
       describe("alert()", function () {
         beforeEach(function () {
+          window.ilios_i18nVendor = {getI18NString: function (string) { return string; }};
           testDouble = {
             render: jasmine.createSpy(),
             configButtons: jasmine.createSpy(),
@@ -162,6 +163,11 @@ describe("ilios_base", function() {
           };
           spyOn(ilios.alert, "createConfirmDialog").and.returnValue(testDouble);
           delete ilios.alert.confirmDialog;
+        });
+
+        afterEach(function () {
+          delete ilios.alert.confirmDialog;
+          delete window.ilios_i18nVendor;
         });
 
         it("should use simpleHidingHandler() if we do not send an acceptHandler", function () {
@@ -190,6 +196,26 @@ describe("ilios_base", function() {
             },
             isDefault: true
           }]];
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should use general.terms.ok if no button text provided", function () {
+          var expected = [[{
+            text: "general.terms.ok",
+            handler: jasmine.any(Object),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should use button text if provided", function () {
+          var expected = [[{
+            text: "button text",
+            handler: jasmine.any(Object),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo", "button text");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
       });
