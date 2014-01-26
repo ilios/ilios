@@ -159,11 +159,36 @@ describe("ilios.cim.model", function () {
             });
         });
 
-        xdescribe("add()", function () {
-            // @todo pending implementation.
+        describe("add()", function () {
+
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.ObjectMap.prototype.add).toBe("function");
+            });
+
+            it("should add a given object to the map", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var obj = { "id": "foo" };
+                map.add(obj);
+                expect(map.exists("foo")).toBe(true);
+                expect(map.get("foo")).toBe(obj);
+            });
+
+            it("should return the given object", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var obj = { "id": "foo" };
+                expect(map.add(obj)).toBe(obj);
+            });
+
+            it("should raise an error if the given object already exists in the map", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var obj = { "id": "foo" };
+                var obj2 = { "id": "foo" };
+                map.add(obj);
+                expect(function(){ map.add(obj2) }).toThrow();
+            });
         });
 
-        xdescribe("remove()", function () {
+        describe("remove()", function () {
             // @todo pending implementation.
         });
 
