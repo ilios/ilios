@@ -150,12 +150,12 @@ describe("ilios.cim.model", function () {
 
             it("should raise an error if no object exists in the map under the given key", function () {
                 var map = new ilios.cim.model.ObjectMap();
-                expect(function(){ map.get("foo") }).toThrow();
+                expect(function(){ map.get("foo"); }).toThrow();
             });
 
             it("should raise an error if no key was given", function () {
                 var map = new ilios.cim.model.ObjectMap();
-                expect(function(){ map.get() }).toThrow();
+                expect(function(){ map.get(); }).toThrow();
             });
         });
 
@@ -184,20 +184,115 @@ describe("ilios.cim.model", function () {
                 var obj = { "id": "foo" };
                 var obj2 = { "id": "foo" };
                 map.add(obj);
-                expect(function(){ map.add(obj2) }).toThrow();
+                expect(function(){ map.add(obj2); }).toThrow();
             });
         });
 
         describe("remove()", function () {
-            // @todo pending implementation.
+
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.ObjectMap.prototype.remove).toBe("function");
+            });
+
+            it("should remove an object from the map by its given key", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var obj = { "id": "foo" };
+                map.add(obj);
+                expect(map.exists("foo")).toBe(true);
+                map.remove("foo");
+                expect(map.exists("foo")).toBe(false);
+
+            });
+
+            it("should return the removed object", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var obj = { "id": "foo" };
+                map.add(obj);
+                expect(map.remove("foo")).toBe(obj);
+            });
+
+            it("should raise an error if no object can be found for the given id", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                expect(function(){ map.remove("foo"); }).toThrow();
+            }) ;
+
         });
 
-        xdescribe("list()", function () {
-            // @todo pending implementation.
+        describe("list()", function () {
+
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.ObjectMap.prototype.list).toBe("function");
+            });
+            it("should return an empty array if the map contains no items", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var list = map.list();
+                expect(list).toEqual([]);
+            });
+
+            it("should return an array of items in the map", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var values = ["foo", "bar", "baz"];
+                var i, n, obj, list;
+
+                for (i = 0, n = values.length; i < n; i++) {
+                    map.add({ "id" : values[i] });
+                }
+
+                list = map.list();
+
+                expect(list.length).toBe(map.size());
+                expect(list.length).toBe(values.length);
+
+                for (i = 0, n = list.length; i < n; i++) {
+                    obj = list[i];
+                    expect(map.get(obj.id)).toBe(obj);
+                }
+            });
+
+            it("should apply a given filtering function as second argument", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var values = ["foo", "bar", "baz"];
+                var i, n, list;
+                var fn = function (item) { return ("foo" === item.id); };
+
+                for (i = 0, n = values.length; i < n; i++) {
+                    map.add({ "id" : values[i] });
+                }
+
+                list = map.list(fn);
+
+                expect(list.length).toBe(1);
+                expect(list[0].id).toBe("foo");
+            });
         });
 
-        xdescribe("walk()", function () {
-            // @todo pending implementation.
+        describe("walk()", function () {
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.ObjectMap.prototype.walk).toBe("function");
+            });
+
+            it("should apply a given function with given arguments to each object in the map", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var values = ["foo", "bar", "baz"];
+                var i, n, list, obj;
+                var fn = function (args) {
+                    this.price = args.price;
+                    this.visible = args.visible;
+                };
+
+                for (i = 0, n = values.length; i < n; i++) {
+                    map.add({ "id" : values[i], "price": 10, "visible": true });
+                }
+
+                map.walk(fn, { "price": 500, "visible": false });
+
+                list = map.list();
+                for (i = 0, n = list.length; i < n; i++) {
+                    obj = list[i];
+                    expect(obj.price).toBe(500);
+                    expect(obj.visible).toBe(false);
+                }
+            });
         });
     })
 });
