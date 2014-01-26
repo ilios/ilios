@@ -42,6 +42,7 @@ describe("ilios.cim.model", function () {
         });
 
         describe("getClientId()", function () {
+
             it("should be a method", function () {
                 expect(typeof ilios.cim.model.BaseModel.prototype.getClientId).toBe("function");
             });
@@ -116,12 +117,46 @@ describe("ilios.cim.model", function () {
             });
         });
 
-        xdescribe("exists()", function () {
-            // @todo pending implementation.
+        describe("exists()", function () {
+
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.ObjectMap.prototype.exists).toBe("function");
+            });
+
+            it("should return FALSE if the map does not contain an object under a given key", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                expect(map.exists("foo")).toBe(false);
+            });
+
+            it("should return TRUE if the map does not contain an object under a given key", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                map.add({ "id": "foo" });
+                expect(map.exists("foo")).toBe(true);
+            });
         });
 
-        xdescribe("get()", function () {
-            // @todo pending implementation.
+        describe("get()", function () {
+
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.ObjectMap.prototype.get).toBe("function");
+            });
+
+            it("should retrieve an object from the map by it's id", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                var obj = { "id": "foo" };
+                map.add(obj);
+                expect(map.get("foo")).toBe(obj);
+            });
+
+            it("should raise an error if no object exists in the map under the given key", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                expect(function(){ map.get("foo") }).toThrow();
+            });
+
+            it("should raise an error if no key was given", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                expect(function(){ map.get() }).toThrow();
+            });
         });
 
         xdescribe("add()", function () {
