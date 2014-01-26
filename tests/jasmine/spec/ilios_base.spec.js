@@ -203,7 +203,6 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-
         it("should use general.terms.ok if no button text provided", function () {
           var expected = [[jasmine.objectContaining({text: "general.terms.ok"})]];
           ilios.alert.alert("foo");
@@ -282,6 +281,33 @@ describe("ilios_base", function() {
           var expected = [[jasmine.objectContaining({isDefault: true})]];
           ilios.alert.alert("foo", "bar");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should call createConfirmDialog() if confirmDialog does not exist", function () {
+          ilios.alert.alert("foo", "bar");
+          expect(ilios.alert.createConfirmDialog).toHaveBeenCalled();
+        });
+
+        it("should not call createConfirmDialog() if confirmDialog already exists", function () {
+          ilios.alert.confirmDialog = testDouble;
+          ilios.alert.alert("foo", "bar");
+          expect(ilios.alert.createConfirmDialog).not.toHaveBeenCalled();
+        });
+
+        it("should create confirmDialog if it does not exist", function () {
+          ilios.alert.alert("foo", "bar");
+          expect(ilios.alert.confirmDialog).toEqual(jasmine.any(Object));
+        });
+
+        it("should call render(document.body) on confirmDialog when it creates confirmDialog", function () {
+          ilios.alert.alert("foo", "bar");
+          expect(ilios.alert.confirmDialog.render).toHaveBeenCalledWith(document.body);
+        });
+
+        it("should not call render() if confirmDialog already exists", function () {
+          ilios.alert.confirmDialog = testDouble;
+          ilios.alert.alert("foo", "bar");
+          expect(ilios.alert.confirmDialog.render).not.toHaveBeenCalled();
         });
       });
     });
