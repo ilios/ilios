@@ -68,7 +68,7 @@ describe("ilios.cim.model", function () {
             });
 
             it("should return the model's 'id' attribute, if set", function () {
-                var obj = new ilios.cim.model.BaseModel({'dbId': 10});
+                var obj = new ilios.cim.model.BaseModel({ 'dbId': 10 });
                 expect(obj.getId()).toEqual(10);
             });
 
@@ -77,7 +77,67 @@ describe("ilios.cim.model", function () {
                 expect(obj.getId()).toBeNull();
             });
         });
-
-
     });
+
+    describe('ilios.com.model.ObjectMap', function () {
+
+        it("should be an constructor function", function () {
+            var map = new ilios.cim.model.ObjectMap();
+            expect(typeof ilios.cim.model.ObjectMap).toBe("function");
+            expect(typeof map).toBe("object");
+            expect(map instanceof ilios.cim.model.ObjectMap).toEqual(true);
+        });
+
+        describe("size()", function () {
+
+            it("should be a method", function () {
+                expect(typeof ilios.cim.model.ObjectMap.prototype.size).toBe("function");
+            });
+
+            it("should return the current number of objects in the map", function () {
+                var map = new ilios.cim.model.ObjectMap();
+                expect(map.size()).toEqual(0); // should return 0 if the map is empty.
+
+                var obj1 = { "id": "foo" };
+                var obj2 = { "id": "bar" };
+
+                // add objects, see the return value of size() go up accordingly.
+                map.add(obj1);
+                expect(map.size()).toEqual(1);
+                map.add(obj2);
+                expect(map.size()).toEqual(2);
+
+                // remove objects from the map, see the number go down again.
+
+                map.remove('foo');
+                expect(map.size()).toEqual(1);
+                map.remove('bar');
+                expect(map.size()).toEqual(0);
+            });
+        });
+
+        xdescribe("exists()", function () {
+            // @todo pending implementation.
+        });
+
+        xdescribe("get()", function () {
+            // @todo pending implementation.
+        });
+
+        xdescribe("add()", function () {
+            // @todo pending implementation.
+        });
+
+        xdescribe("remove()", function () {
+            // @todo pending implementation.
+        });
+
+        xdescribe("list()", function () {
+            // @todo pending implementation.
+        });
+
+        xdescribe("walk()", function () {
+            // @todo pending implementation.
+        });
+    })
 });
