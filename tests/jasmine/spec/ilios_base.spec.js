@@ -191,6 +191,18 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
+        it("should use simpleHidingHandler() if acceptHandler specified but it is not a function", function () {
+          var acceptHandler = "Not a function";
+          ilios.alert.alert("foo", "bar", acceptHandler);
+          var expected = [[{
+            text: "bar",
+            handler: jasmine.objectContaining({fn: ilios.alert.simpleHidingHandler}),
+            isDefault: true
+          }]];
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+
         it("should use general.terms.ok if no button text provided", function () {
           var expected = [[jasmine.objectContaining({text: "general.terms.ok"})]];
           ilios.alert.alert("foo");
@@ -200,6 +212,46 @@ describe("ilios_base", function() {
         it("should use button text if provided", function () {
           var expected = [[jasmine.objectContaining({text: "button text"})]];
           ilios.alert.alert("foo", "button text");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should use an empty object if no handler args provided", function () {
+          var expected = [[{
+            text: "bar",
+            handler: jasmine.objectContaining({obj: {}}),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo", "bar");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should use provided object if handler args object provided", function () {
+          var expected = [[{
+            text: "bar",
+            handler: jasmine.objectContaining({obj: {arg1: "arg1"}}),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo", "bar", null, {arg1: "arg1"});
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should use provided value if handler args provided as an array", function () {
+          var expected = [[{
+            text: "bar",
+            handler: jasmine.objectContaining({obj: ["array"]}),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo", "bar", null, ["array"]);
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should use empty object if non-object provided for handler args", function () {
+          var expected = [[{
+            text: "bar",
+            handler: jasmine.objectContaining({obj: {}}),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo", "bar", null, "not an object");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
       });
