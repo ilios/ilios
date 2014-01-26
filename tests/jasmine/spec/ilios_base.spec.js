@@ -148,6 +148,7 @@ describe("ilios_base", function() {
       });
 
       describe("alert()", function () {
+        var testDouble;
         beforeEach(function () {
           window.ilios_i18nVendor = {getI18NString: function (string) { return string; }};
           testDouble = {
@@ -252,6 +253,34 @@ describe("ilios_base", function() {
             isDefault: true
           }]];
           ilios.alert.alert("foo", "bar", null, "not an object");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should have a scope with value undefined if confirmDialog does not already exist (bug?)", function () {
+          var expected = [[{
+            text: "bar",
+            handler: jasmine.objectContaining({scope: undefined}),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo", "bar");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should have a scope of the confirmDialog if it exists", function () {
+          ilios.alert.confirmDialog = testDouble;
+          var scope = testDouble;
+          var expected = [[{
+            text: "bar",
+            handler: jasmine.objectContaining({scope: scope}),
+            isDefault: true
+          }]];
+          ilios.alert.alert("foo", "bar");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should set isDefault to true", function () {
+          var expected = [[jasmine.objectContaining({isDefault: true})]];
+          ilios.alert.alert("foo", "bar");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
       });
