@@ -433,15 +433,27 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        xit("should call configButtons() using general.terms.ok if no button text provided", function () {
-          var expected = [[jasmine.objectContaining({text: "general.terms.ok"})]];
-          ilios.alert.alert("foo");
+        it("should call configButtons() using general.terms.yes if no accept button text provided", function () {
+          var expected = [[jasmine.objectContaining({text: "general.terms.yes"}), jasmine.any(Object)]];
+          ilios.alert.inform("foo");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        xit("should call configButtons() using button text if provided", function () {
-          var expected = [[jasmine.objectContaining({text: "button text"})]];
-          ilios.alert.alert("foo", "button text");
+        it("should call configButtons() using general.terms.no if no decline button text provided", function () {
+          var expected = [[jasmine.any(Object), jasmine.objectContaining({text: "general.terms.no"})]];
+          ilios.alert.inform("foo");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should call configButtons() using accept button text if provided", function () {
+          var expected = [[jasmine.objectContaining({text: "accept button text"}), jasmine.any(Object)]];
+          ilios.alert.inform("foo", "accept button text");
+          expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+        });
+
+        it("should call configButtons() using decline button text if provided", function () {
+          var expected = [[jasmine.any(Object), jasmine.objectContaining({text: "decline button text"})]];
+          ilios.alert.inform("foo", null, null, null, "decline button text");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
