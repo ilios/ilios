@@ -27,7 +27,7 @@ describe("ilios.cim.model", function () {
                 expect(id1).not.toBe(id3);
                 expect(id2).not.toBe(id3);
             });
-        })
+        });
 
         describe("getName()", function () {
 
@@ -294,5 +294,5 @@ describe("ilios.cim.model", function () {
                 }
             });
         });
-    })
+    });
 });
