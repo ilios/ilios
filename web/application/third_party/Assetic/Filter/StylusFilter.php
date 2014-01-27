@@ -13,6 +13,7 @@ namespace Assetic\Filter;
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Exception\FilterException;
+use Assetic\Factory\AssetFactory;
 
 /**
  * Loads STYL files.
@@ -20,10 +21,11 @@ use Assetic\Exception\FilterException;
  * @link http://learnboost.github.com/stylus/
  * @author Konstantin Kudryashov <ever.zet@gmail.com>
  */
-class StylusFilter extends BaseNodeFilter
+class StylusFilter extends BaseNodeFilter implements DependencyExtractorInterface
 {
     private $nodeBin;
     private $compress;
+    private $useNib;
 
     /**
      * Constructs filter.
@@ -48,6 +50,16 @@ class StylusFilter extends BaseNodeFilter
     }
 
     /**
+     * Enable the use of Nib
+     *
+     * @param boolean $useNib
+     */
+    public function setUseNib($useNib)
+    {
+        $this->useNib = $useNib;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function filterLoad(AssetInterface $asset)
@@ -56,7 +68,7 @@ class StylusFilter extends BaseNodeFilter
 var stylus = require('stylus');
 var sys    = require(process.binding('natives').util ? 'util' : 'sys');
 
-stylus(%s, %s).render(function(e, css){
+stylus(%s, %s)%s.render(function(e, css){
     if (e) {
         throw e;
     }
@@ -67,14 +79,11 @@ stylus(%s, %s).render(function(e, css){
 
 EOF;
 
-        $root = $asset->getSourceRoot();
-        $path = $asset->getSourcePath();
-
         // parser options
         $parserOptions = array();
-        if ($root && $path) {
-            $parserOptions['paths'] = array(dirname($root.'/'.$path));
-            $parserOptions['filename'] = basename($path);
+        if ($dir = $asset->getSourceDirectory()) {
+            $parserOptions['paths'] = array($dir);
+            $parserOptions['filename'] = basename($asset->getSourcePath());
         }
 
         if (null !== $this->compress) {
@@ -82,12 +91,12 @@ EOF;
         }
 
         $pb = $this->createProcessBuilder();
-        $pb->inheritEnvironmentVariables();
 
         $pb->add($this->nodeBin)->add($input = tempnam(sys_get_temp_dir(), 'assetic_stylus'));
         file_put_contents($input, sprintf($format,
             json_encode($asset->getContent()),
-            json_encode($parserOptions)
+            json_encode($parserOptions),
+            $this->useNib ? '.use(require(\'nib\')())' : ''
         ));
 
         $proc = $pb->getProcess();
@@ -106,5 +115,11 @@ EOF;
      */
     public function filterDump(AssetInterface $asset)
     {
+    }
+
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    {
+        // todo
+        return array();
     }
 }

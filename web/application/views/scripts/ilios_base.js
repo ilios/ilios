@@ -94,29 +94,6 @@ ilios.lang.trim = function (str) {
 };
 
 /**
- * Checks if a given text starts with a given prefix.
- * @method startsWith
- * @param {String} str
- * @param {String} prefix
- * @return {Boolean} TRUE if the given text stars with the given prefix
- */
-ilios.lang.startsWith = function (str, prefix) {
-    return (str.indexOf(prefix) === 0);
-};
-
-/**
- * Checks if a given text ends with a given suffix.
- * @method endsWith
- * @param {String} str text
- * @param {String} suffix
- * @return {Boolean} TRUE if the given text ends with the given suffix, otherwise FALSE
- * @todo buggy implementation, fix it
- */
-ilios.lang.endsWith = function (str, suffix) {
-    return (str.match(suffix + "$") == suffix);
-};
-
-/**
  * Truncates a given text string after a given number of characters
  * and appends an ellipsis (...).
  * If the given text's length is less then the given number of characters
@@ -301,7 +278,7 @@ ilios.alert.createConfirmDialog = function () {
     confirmDialog.setHeader(ilios_i18nVendor.getI18NString('general.terms.alert') + "!");
     confirmDialog.setBody('');
     return confirmDialog;
-}
+};
 
 /**
  * Creates and returns a simple "info" ("Alert!") dialog.
@@ -328,7 +305,7 @@ ilios.alert.createInformDialog = function () {
     informDialog.setHeader(ilios_i18nVendor.getI18NString('general.notification.dialog_title'));
     informDialog.setBody('');
     return informDialog;
-}
+};
 
 /**
  * All kinds of crazy went into this object.
@@ -361,7 +338,7 @@ ilios.global.installPreferencesModel = function () {
  */
 ilios.global.startIdleTimer = function (timeout, logoutUrl) {
     var idleTimer = YAHOO.util.IdleTimer;
-    var timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
+    timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
     idleTimer.subscribe("idle", function () {
         if (! YAHOO.util.IdleTimer.isIdle()) {
             return;

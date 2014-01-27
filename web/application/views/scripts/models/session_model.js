@@ -167,7 +167,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
                                     + ilios_i18nVendor.getI18NString('general.phrases.due_date');
     }
 
-    value = ilios.utilities.arraySize(this.offerings);
+    value = ilios.utilities.objectPropertyCount(this.offerings);
     if ((value == 0) && (this.independentLearningModel == null)) {
         rhett = false;
 
@@ -246,7 +246,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
                                                             'general.terms.objective_indefinite');
     }
 
-    value = ilios.utilities.arraySize(this.objectives);
+    value = ilios.utilities.objectPropertyCount(this.objectives);
     if (value == 0) {
         rhett = false;
 
@@ -275,7 +275,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
                                                             'general.phrases.mesh_term_indefinite');
     }
 
-    value = ilios.utilities.arraySize(this.meshTerms);
+    value = ilios.utilities.objectPropertyCount(this.meshTerms);
     if (value == 0) {
         rhett = false;
 
@@ -565,7 +565,7 @@ SessionModel.prototype.setOfferingCount = function (count) {
 };
 
 SessionModel.prototype.getOfferingCount = function () {
-    return ((this.offeringCount == -1) ? ilios.utilities.arraySize(this.offerings)
+    return ((this.offeringCount == -1) ? ilios.utilities.objectPropertyCount(this.offerings)
                                        : this.offeringCount);
 };
 
@@ -576,7 +576,7 @@ SessionModel.prototype.getOfferingCount = function () {
  *  as is done in OM). This returns true if we have the offering model instances actually stored.
  */
 SessionModel.prototype.offeringStorageIsShallow = function () {
-    return (this.offeringCount != ilios.utilities.arraySize(this.offerings));
+    return (this.offeringCount != ilios.utilities.objectPropertyCount(this.offerings));
 };
 
 SessionModel.prototype.setILMAttributes = function (hours, dueDate, learnerGroups, instructors) {
@@ -829,18 +829,18 @@ SessionModel.prototype.compareTo = function (otherModel) {
         return 1;           // arbitrary but consistent
     }
 
-    if (ilios.utilities.arraySize(this.meshTerms)
-                            != ilios.utilities.arraySize(otherModel.meshTerms)) {
+    if (ilios.utilities.objectPropertyCount(this.meshTerms)
+                            != ilios.utilities.objectPropertyCount(otherModel.meshTerms)) {
         return 1;           // arbitrary but consistent
     }
 
-    if (ilios.utilities.arraySize(this.objectives)
-                            != ilios.utilities.arraySize(otherModel.objectives)) {
+    if (ilios.utilities.objectPropertyCount(this.objectives)
+                            != ilios.utilities.objectPropertyCount(otherModel.objectives)) {
         return 1;           // arbitrary but consistent
     }
 
-    if (ilios.utilities.arraySize(this.offerings)
-                            != ilios.utilities.arraySize(otherModel.offerings)) {
+    if (ilios.utilities.objectPropertyCount(this.offerings)
+                            != ilios.utilities.objectPropertyCount(otherModel.offerings)) {
         return 1;           // arbitrary but consistent
     }
 

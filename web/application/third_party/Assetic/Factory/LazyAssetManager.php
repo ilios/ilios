@@ -11,6 +11,7 @@
 
 namespace Assetic\Factory;
 
+use Assetic\Asset\AssetInterface;
 use Assetic\AssetManager;
 use Assetic\Factory\Loader\FormulaLoaderInterface;
 use Assetic\Factory\Resource\ResourceInterface;
@@ -200,5 +201,10 @@ class LazyAssetManager extends AssetManager
     public function isDebug()
     {
         return $this->factory->isDebug();
+    }
+
+    public function getLastModified(AssetInterface $asset)
+    {
+        return $this->factory->getLastModified($asset);
     }
 }

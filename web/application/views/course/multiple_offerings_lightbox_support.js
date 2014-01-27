@@ -29,11 +29,11 @@ ilios.cm.session.mo.showMultiOfferingLightbox = function (containerNumber) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.error.multi_offering_launch'));
 
         return;
-    } else if (ilios.utilities.arraySize(ilios.cm.currentCourseModel.getCohorts()) == 0) {
+    } else if (ilios.utilities.objectPropertyCount(ilios.cm.currentCourseModel.getCohorts()) == 0) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.warning.multi_offering.no_cohorts'));
 
         return;
-    } else if (ilios.utilities.arraySize(ilios.lg.picker.learnerTreeModel) == 0) {
+    } else if (ilios.utilities.objectPropertyCount(ilios.lg.picker.learnerTreeModel) == 0) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.warning.multi_offering.no_learners'));
 
         return;
@@ -334,7 +334,7 @@ ilios.cm.session.mo.getSelectedLearnerGroupAssignmentStrategy = function () {
  */
 ilios.cm.session.mo.resetLearnerGroupAssignmentStrategySelection = function () {
     document.getElementById("learner_assignment_strategy_select").selectedIndex = 0;
-}
+};
 
 
 ilios.cm.session.mo.getTimeMarker = function (startTime) {
@@ -346,8 +346,8 @@ ilios.cm.session.mo.getTimeMarker = function (startTime) {
     var selectElement = document.getElementById(selectElementId);
     var selectedTimeValue = selectElement.options[selectElement.selectedIndex].value;
     var timeChunks = selectedTimeValue.split(':');
-    var hours = ilios.utilities.parseIntIgnoringLeadingZeros(timeChunks[0]);
-    var minutes = ilios.utilities.parseIntIgnoringLeadingZeros(timeChunks[1]);
+    var hours = parseInt(timeChunks[0], 10);
+    var minutes = parseInt(timeChunks[1], 10);
 
     rhett.setHours(hours, minutes, 0, 0);
 

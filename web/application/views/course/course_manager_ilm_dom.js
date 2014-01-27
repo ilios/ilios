@@ -176,11 +176,11 @@ ilios.cm.session.ilm.showILMLightbox = function (containerNumber) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.error.independent_learning_edit'));
 
         return;
-    } else if (ilios.utilities.arraySize(ilios.cm.currentCourseModel.getCohorts()) == 0) {
+    } else if (ilios.utilities.objectPropertyCount(ilios.cm.currentCourseModel.getCohorts()) == 0) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.warning.independent_learning.no_cohorts'));
 
         return;
-    } else if (ilios.utilities.arraySize(ilios.lg.picker.learnerTreeModel) == 0) {
+    } else if (ilios.utilities.objectPropertyCount(ilios.lg.picker.learnerTreeModel) == 0) {
         ilios.alert.alert(ilios_i18nVendor.getI18NString('course_management.warning.independent_learning.no_learners'));
         return;
     }

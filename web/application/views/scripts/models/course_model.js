@@ -187,7 +187,7 @@ CourseModel.prototype.meetsMinimumPublishingRequirements = function (reviewArray
                                                             'general.terms.cohort_indefinite');
     }
 
-    value = ilios.utilities.arraySize(this.cohorts);
+    value = ilios.utilities.objectPropertyCount(this.cohorts);
     if (value == 0) {
         rhett = false;
 
@@ -266,7 +266,7 @@ CourseModel.prototype.meetsSecondaryPublishingRequirements = function (reviewArr
                                                             'general.terms.objective_indefinite');
     }
 
-    value = ilios.utilities.arraySize(this.objectives);
+    value = ilios.utilities.objectPropertyCount(this.objectives);
     if (value == 0) {
         rhett = false;
 
@@ -295,7 +295,7 @@ CourseModel.prototype.meetsSecondaryPublishingRequirements = function (reviewArr
                                                             'general.phrases.mesh_term_indefinite');
     }
 
-    value = ilios.utilities.arraySize(this.meshTerms);
+    value = ilios.utilities.objectPropertyCount(this.meshTerms);
     if (value == 0) {
         rhett = false;
 
@@ -988,8 +988,8 @@ CourseModel.prototype.compareTo = function (otherModel) {
         return (this.courseLevel - otherModel.courseLevel);
     }
 
-    if (ilios.utilities.arraySize(this.directors)
-                                            != ilios.utilities.arraySize(otherModel.directors)) {
+    if (ilios.utilities.objectPropertyCount(this.directors)
+                                            != ilios.utilities.objectPropertyCount(otherModel.directors)) {
         return 1;           // arbitrary but consistent
     }
 
@@ -1008,12 +1008,12 @@ CourseModel.prototype.compareTo = function (otherModel) {
         }
     }
 
-    if (ilios.utilities.arraySize(this.competencies)
-                            != ilios.utilities.arraySize(otherModel.competencies)) {
+    if (ilios.utilities.objectPropertyCount(this.competencies)
+                            != ilios.utilities.objectPropertyCount(otherModel.competencies)) {
         return 1;           // arbitrary but consistent
     }
 
-    if (ilios.utilities.arraySize(this.cohorts) != ilios.utilities.arraySize(otherModel.cohorts)) {
+    if (ilios.utilities.objectPropertyCount(this.cohorts) != ilios.utilities.objectPropertyCount(otherModel.cohorts)) {
         return 1;           // arbitrary but consistent
     }
 
@@ -1021,18 +1021,18 @@ CourseModel.prototype.compareTo = function (otherModel) {
         return 1;           // arbitrary but consistent
     }
 
-    if (ilios.utilities.arraySize(this.meshTerms)
-                            != ilios.utilities.arraySize(otherModel.meshTerms)) {
+    if (ilios.utilities.objectPropertyCount(this.meshTerms)
+                            != ilios.utilities.objectPropertyCount(otherModel.meshTerms)) {
         return 1;           // arbitrary but consistent
     }
 
-    if (ilios.utilities.arraySize(this.sessions)
-                            != ilios.utilities.arraySize(otherModel.sessions)) {
+    if (ilios.utilities.objectPropertyCount(this.sessions)
+                            != ilios.utilities.objectPropertyCount(otherModel.sessions)) {
         return 1;           // arbitrary but consistent
     }
 
-    if (ilios.utilities.arraySize(this.objectives)
-                            != ilios.utilities.arraySize(otherModel.objectives)) {
+    if (ilios.utilities.objectPropertyCount(this.objectives)
+                            != ilios.utilities.objectPropertyCount(otherModel.objectives)) {
         return 1;           // arbitrary but consistent
     }
 

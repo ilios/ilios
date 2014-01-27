@@ -14,13 +14,14 @@ namespace Assetic\Filter;
 use Assetic\Asset\AssetInterface;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\HttpAsset;
+use Assetic\Factory\AssetFactory;
 
 /**
  * Inlines imported stylesheets.
  *
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  */
-class CssImportFilter extends BaseCssFilter
+class CssImportFilter extends BaseCssFilter implements DependencyExtractorInterface
 {
     private $importFilter;
 
@@ -55,7 +56,7 @@ class CssImportFilter extends BaseCssFilter
             } elseif (0 === strpos($matches['url'], '//')) {
                 // protocol-relative
                 list($importHost, $importPath) = explode('/', substr($matches['url'], 2), 2);
-                $importHost = '//'.$importHost;
+                $importRoot = '//'.$importHost;
             } elseif ('/' == $matches['url'][0]) {
                 // root-relative
                 $importPath = substr($matches['url'], 1);
@@ -69,16 +70,11 @@ class CssImportFilter extends BaseCssFilter
                 return $matches[0];
             }
 
-            // ignore other imports
-            if ('css' != pathinfo($importPath, PATHINFO_EXTENSION)) {
-                return $matches[0];
-            }
-
             $importSource = $importRoot.'/'.$importPath;
             if (false !== strpos($importSource, '://') || 0 === strpos($importSource, '//')) {
                 $import = new HttpAsset($importSource, array($importFilter), true);
-            } elseif (!file_exists($importSource)) {
-                // ignore not found imports
+            } elseif ('css' != pathinfo($importPath, PATHINFO_EXTENSION) || !file_exists($importSource)) {
+                // ignore non-css and non-existant imports
                 return $matches[0];
             } else {
                 $import = new FileAsset($importSource, array($importFilter), $importRoot, $importPath);
@@ -102,5 +98,11 @@ class CssImportFilter extends BaseCssFilter
 
     public function filterDump(AssetInterface $asset)
     {
+    }
+
+    public function getChildren(AssetFactory $factory, $content, $loadPath = null)
+    {
+        // todo
+        return array();
     }
 }

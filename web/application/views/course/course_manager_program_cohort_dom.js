@@ -220,7 +220,7 @@ ilios.cm.handleProgramCohortDialogSubmit = function () {
     var denyModification = false;
 
     // check for missing cohorts
-    if (ilios.utilities.arraySize(ilios.cm.currentCourseModel.getAssociatedLearners()) > 0) {
+    if (ilios.utilities.objectPropertyCount(ilios.cm.currentCourseModel.getAssociatedLearners()) > 0) {
         denyModification
             = ilios.utilities.arrayHasElementsMissingInArray(ilios.cm.currentCourseModel.getCohorts(),
                                                              ilios.cm.programCohortWorkingArray);

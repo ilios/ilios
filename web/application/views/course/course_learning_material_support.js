@@ -29,7 +29,7 @@ ilios.cm.lm.generateIdStringForLearningMaterialList = function (containerNumber)
  */
 ilios.cm.lm.generateIdStringForLearningMaterialSearchLink = function (containerNumber) {
     return '' + containerNumber + '_session_learning_material_search_link';
-}
+};
 
 // @private
 ilios.cm.lm.setLearningMaterialLightboxDirty = function () {
@@ -106,7 +106,7 @@ ilios.cm.lm.createListElementForLearningMaterial = function (model, showAddIcon,
         }
 
         innerHTML += ' &nbsp; <span style="font-size: 8pt; color: ' + colorCoding + ';">('
-                        + statusString + ')</span>'
+                        + statusString + ')</span>';
 
         innerHTML += '<br/><span style="font-size: 8pt; font-weight: bold;">' + descriptionI18NStr;
         innerHTML += ': </span> <span style="font-size: 8pt;">';
@@ -406,12 +406,12 @@ ilios.cm.lm.clearLearningMaterialsDialogFields = function (clearTransactionStatu
 
     element = document.getElementById('alm_roles_selector');
     if (element != null) {
-        element.selectedIndex = 0
+        element.selectedIndex = 0;
     }
 
     element = document.getElementById('alm_statuses_selector');
     if (element != null) {
-        element.selectedIndex = 0
+        element.selectedIndex = 0;
     }
 
     ilios.cm.lm.learningMaterialLightboxIsDirty = false;
@@ -770,7 +770,7 @@ ilios.cm.lm.makeTabPaneDiv = function (tabPaneContentFunction, showCopyrightInfo
 ilios.cm.lm.handleLearningMaterialAddTypeClick = function (tabNumber) {
     var Element = YAHOO.util.Element;
     if (('undefined' != typeof event) && ('undefined' != typeof event.preventDefault)) {
-    	event.preventDefault();
+        event.preventDefault();
     }
 
     var element = null;

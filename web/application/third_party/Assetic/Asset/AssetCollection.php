@@ -54,6 +54,12 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
         $this->values = array();
     }
 
+    public function __clone()
+    {
+        $this->filters = clone $this->filters;
+        $this->clones = new \SplObjectStorage();
+    }
+
     public function all()
     {
         return $this->assets;
@@ -122,6 +128,7 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
     public function clearFilters()
     {
         $this->filters->clear();
+        $this->clones = new \SplObjectStorage();
     }
 
     public function load(FilterInterface $additionalFilter = null)
@@ -163,6 +170,10 @@ class AssetCollection implements \IteratorAggregate, AssetCollectionInterface
     }
 
     public function getSourcePath()
+    {
+    }
+
+    public function getSourceDirectory()
     {
     }
 

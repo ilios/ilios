@@ -20,7 +20,7 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
         paramString = '',
         modelArray = null,
         replacer = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer,
-        stringify = ilios.utilities.yahooJSONStringForAssociativeArray;
+        stringify = ilios.utilities.stringifyObjectAsArray;
 
     var ajaxCallback = {
             success: function (resultObject) {
@@ -288,7 +288,7 @@ ilios.cm.transaction.performSessionSave = function (containerNumber, shouldPubli
         modelArray = null,
         errorString = sessionModel.saveAttemptWarningMessage(),
         replacer = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer,
-        stringify = ilios.utilities.yahooJSONStringForAssociativeArray;
+        stringify = ilios.utilities.stringifyObjectAsArray;
         reloadLearnerGroupsOnSuccess = reloadLearnerGroupsOnSuccess || false;
 
     if (errorString != null) {

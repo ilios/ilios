@@ -178,8 +178,8 @@ ObjectiveModel.prototype.compareTo = function (otherModel) {
     }
 
     // TODO better comparison needed
-    if (ilios.utilities.arraySize(this.meshTerms)
-                            != ilios.utilities.arraySize(otherModel.meshTerms)) {
+    if (ilios.utilities.objectPropertyCount(this.meshTerms)
+                            != ilios.utilities.objectPropertyCount(otherModel.meshTerms)) {
         return 1;           // arbitrary but consistent
     }
 

@@ -101,7 +101,7 @@ ilios.mesh.performMeSHSearch = function (searchTerms, filterSelectedItems, store
                     return;
                 }
                 resultsObject = parsedObject.results;
-                universeSearchCount = ilios.utilities.arraySize(resultsObject.search_results);
+                universeSearchCount = ilios.utilities.objectPropertyCount(resultsObject.search_results);
 
                 document.getElementById('mesh_search_status').innerHTML = i18nString + '&hellip;';
 
