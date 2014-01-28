@@ -864,16 +864,16 @@ AND `table_name` IN ('offering', 'session', 'course', 'program_year', 'program',
 ORDER BY `created_at`
 LIMIT {$clean['event_count']}
 EOL;
-        return $this->getMostRecentAuditEvents($query, $eventCount, $schoolId);
+        return $this->_getMostRecentAuditEvents($query, $eventCount, $schoolId);
     }
 
-    protected function getMostRecentAuditEvents ($queryString, $eventCount, $schoolId)
+    protected function _getMostRecentAuditEvents ($queryString, $eventCount, $schoolId)
     {
         $rhett = array();
 
         $queryResults = $this->db->query($queryString);
         foreach ($queryResults->result_array() as $row) {
-            $auditEvent = $this->getReturnableAuditEvent($row, $schoolId);
+            $auditEvent = $this->_getReturnableAuditEvent($row, $schoolId);
 
             if (! is_null($auditEvent)) {
                 array_push($rhett, $auditEvent);
@@ -886,7 +886,7 @@ EOL;
         return $rhett;
     }
 
-    protected function getReturnableAuditEvent ($auditRow, $schoolId)
+    protected function _getReturnableAuditEvent ($auditRow, $schoolId)
     {
         $tableName = $auditRow['table_name'];
         $rhett = null;
@@ -935,16 +935,16 @@ EOL;
             $rhett['table_name'] = $tableName;
             $rhett['table_column'] = $tableColumn;
             $rhett['table_row_id'] = $rowId;
-            $rhett['relative_url'] = $this->buildRelativeURLForAuditEvent($tableName, $rowId, $schoolId);
+            $rhett['relative_url'] = $this->_buildRelativeURLForAuditEvent($tableName, $rowId, $schoolId);
 
-            $rhett['title'] = $this->displayTitleForAuditEvent($tableName, $rowId,
+            $rhett['title'] = $this->_displayTitleForAuditEvent($tableName, $rowId,
                                                                $queryResults->first_row()->title);
         }
 
         return $rhett;
     }
 
-    protected function buildRelativeURLForAuditEvent ($tableName, $rowId, $schoolId)
+    protected function _buildRelativeURLForAuditEvent ($tableName, $rowId, $schoolId)
     {
         if (($tableName == 'session') || ($tableName == 'course')) {
             $sessionId = null;
@@ -1037,7 +1037,7 @@ EOL;
         return '';
     }
 
-    protected function displayTitleForAuditEvent ($tableName, $rowId, $rowTitleValue)
+    protected function _displayTitleForAuditEvent ($tableName, $rowId, $rowTitleValue)
     {
         if ($tableName == 'session') {
             $queryString = 'SELECT course_id FROM session WHERE session_id = ' . $rowId;
