@@ -533,7 +533,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should call configButtons() with a scope with value undefined if confirmDialog does not already exist (bug?)", function () {
+        it("should call configButtons() with a scope with value undefined if informDialog does not already exist (bug?)", function () {
           var expected = [[
             {
               text: "bar",
@@ -549,7 +549,7 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        it("should call configButtons() with a scope of the confirmDialog if it exists", function () {
+        it("should call configButtons() with a scope of the informDialog if it exists", function () {
           ilios.alert.informDialog = testDouble;
           var scope = testDouble;
           var expected = [[
@@ -575,15 +575,15 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).not.toHaveBeenCalledWith(null, notExpected, null);
         });
 
-        xit("should call createConfirmDialog() if confirmDialog does not exist", function () {
-          ilios.alert.alert("foo", "bar");
-          expect(ilios.alert.createConfirmDialog).toHaveBeenCalled();
+        it("should call createInformDialog() if informDialog does not exist", function () {
+          ilios.alert.inform("foo", "bar");
+          expect(ilios.alert.createInformDialog).toHaveBeenCalled();
         });
 
-        xit("should not call createConfirmDialog() if confirmDialog already exists", function () {
-          ilios.alert.confirmDialog = testDouble;
-          ilios.alert.alert("foo", "bar");
-          expect(ilios.alert.createConfirmDialog).not.toHaveBeenCalled();
+        it("should not call createInformDialog() if informDialog already exists", function () {
+          ilios.alert.informDialog = testDouble;
+          ilios.alert.inform("foo", "bar");
+          expect(ilios.alert.createInformDialog).not.toHaveBeenCalled();
         });
 
         xit("should create confirmDialog if it does not exist", function () {
