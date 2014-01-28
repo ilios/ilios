@@ -612,18 +612,18 @@ describe("ilios_base", function() {
           expect(testDouble.cfg.setProperty).toHaveBeenCalledWith("icon", YAHOO.widget.SimpleDialog.ICON_WARN);
         });
 
-        xit("should call cfg.queueProperty('zIndex', 9999)", function () {
-          ilios.alert.alert();
+        it("should call cfg.queueProperty('zIndex', 9999)", function () {
+          ilios.alert.inform();
           expect(testDouble.cfg.queueProperty).toHaveBeenCalledWith("zIndex", 9999);
         });
 
-        xit("should call bringToTop()", function () {
-          ilios.alert.alert();
+        it("should call bringToTop()", function () {
+          ilios.alert.inform();
           expect(testDouble.bringToTop).toHaveBeenCalled();
         });
 
-        xit("should call show()", function () {
-          ilios.alert.alert();
+        it("should call show()", function () {
+          ilios.alert.inform();
           expect(testDouble.show).toHaveBeenCalled();
         });
       });
