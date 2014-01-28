@@ -68,7 +68,7 @@ ilios.home.transaction.loadRecentActivity = function () {
             activities = parsedObject.events;
             for (var i = 0; i < activities.length; i++) {
                 activity = activities[i];
-                jsDate = ilios.utilities.mySQLDateToDateObject(activity.time_stamp, true);
+                jsDate = ilios.utilities.mySQLDateToDateObject(activity.created_at, true);
                 dateString = jsDate.format('mmm d yyyy, h:MM t');
 
                 liElement = document.createElement('li');

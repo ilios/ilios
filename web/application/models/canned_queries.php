@@ -930,8 +930,7 @@ EOL;
         if ($queryResults->num_rows() > 0) {
             $rhett = array();
 
-            $rhett['time_stamp'] = $auditRow['time_stamp'];
-            $rhett['event_type'] = $auditRow['event_type'];
+            $rhett['created_at'] = $auditRow['created_at'];
             $rhett['table_name'] = $tableName;
             $rhett['table_column'] = $tableColumn;
             $rhett['table_row_id'] = $rowId;
