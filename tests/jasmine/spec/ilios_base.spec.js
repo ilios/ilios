@@ -591,19 +591,19 @@ describe("ilios_base", function() {
           expect(ilios.alert.informDialog).toEqual(jasmine.any(Object));
         });
 
-        xit("should call render(document.body) on confirmDialog when it creates confirmDialog", function () {
-          ilios.alert.alert("foo", "bar");
-          expect(ilios.alert.confirmDialog.render).toHaveBeenCalledWith(document.body);
+        it("should call render(document.body) on informDialog when it creates informDialog", function () {
+          ilios.alert.inform("foo", "bar");
+          expect(ilios.alert.informDialog.render).toHaveBeenCalledWith(document.body);
         });
 
-        xit("should not call render() if confirmDialog already exists", function () {
-          ilios.alert.confirmDialog = testDouble;
-          ilios.alert.alert("foo", "bar");
-          expect(ilios.alert.confirmDialog.render).not.toHaveBeenCalled();
+        it("should not call render() if informDialog already exists", function () {
+          ilios.alert.informDialog = testDouble;
+          ilios.alert.inform("foo", "bar");
+          expect(ilios.alert.informDialog.render).not.toHaveBeenCalled();
         });
 
-        xit("should call setBody() with provided str", function () {
-          ilios.alert.alert("foo");
+        it("should call setBody() with provided str", function () {
+          ilios.alert.inform("foo");
           expect(testDouble.setBody).toHaveBeenCalledWith("foo");
         });
 
