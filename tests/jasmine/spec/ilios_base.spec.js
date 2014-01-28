@@ -533,25 +533,37 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        xit("should call configButtons() with a scope with value undefined if confirmDialog does not already exist (bug?)", function () {
-          var expected = [[{
-            text: "bar",
-            handler: jasmine.objectContaining({scope: undefined}),
-            isDefault: true
-          }]];
-          ilios.alert.alert("foo", "bar");
+        it("should call configButtons() with a scope with value undefined if confirmDialog does not already exist (bug?)", function () {
+          var expected = [[
+            {
+              text: "bar",
+              handler: jasmine.objectContaining({scope: undefined})
+            },
+            {
+              text: "baz",
+              handler: jasmine.objectContaining({scope: undefined}),
+              isDefault: true
+            }
+          ]];
+          ilios.alert.inform("foo", "bar", null, null, "baz");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        xit("should call configButtons() with a scope of the confirmDialog if it exists", function () {
-          ilios.alert.confirmDialog = testDouble;
+        it("should call configButtons() with a scope of the confirmDialog if it exists", function () {
+          ilios.alert.informDialog = testDouble;
           var scope = testDouble;
-          var expected = [[{
-            text: "bar",
-            handler: jasmine.objectContaining({scope: scope}),
-            isDefault: true
-          }]];
-          ilios.alert.alert("foo", "bar");
+          var expected = [[
+            {
+              text: "bar",
+              handler: jasmine.objectContaining({scope: scope})
+            },
+            {
+              text: "baz",
+              handler: jasmine.objectContaining({scope: scope}),
+              isDefault: true
+            }
+          ]];
+          ilios.alert.inform("foo", "bar", null, null, "baz");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
