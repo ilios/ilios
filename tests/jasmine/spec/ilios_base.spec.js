@@ -567,10 +567,12 @@ describe("ilios_base", function() {
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
         });
 
-        xit("should call configButtons with isDefault set to true", function () {
-          var expected = [[jasmine.objectContaining({isDefault: true})]];
-          ilios.alert.alert("foo", "bar");
+        it("should call configButtons with isDefault set to true for decline only", function () {
+          var expected = [[jasmine.any(Object), jasmine.objectContaining({isDefault: true})]];
+          var notExpected = [[jasmine.objectContaining({isDefault: true}, jasmine.any(Object))]];
+          ilios.alert.inform("foo", "bar", null, null, "baz");
           expect(testDouble.configButtons).toHaveBeenCalledWith(null, expected, null);
+          expect(testDouble.configButtons).not.toHaveBeenCalledWith(null, notExpected, null);
         });
 
         xit("should call createConfirmDialog() if confirmDialog does not exist", function () {
