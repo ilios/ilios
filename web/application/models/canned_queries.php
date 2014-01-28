@@ -852,8 +852,8 @@ EOL;
      * Returns a list of tracked entities (sessions/courses/groups etc.) that most recently were created or modified by
      * the given user in the context of their owning school.
      *
-     * @param $userId The user id.
-     * @param $schoolId The school id.
+     * @param int $userId The user id.
+     * @param int $schoolId The school id.
      * @param int $eventCount The max. number of entities to return. (Could be less)
      * @return array An array of associative array. Each item is representing an audit atom, its properties are:
      *     'table_name'   ... The entity table name.
@@ -867,6 +867,7 @@ EOL;
      */
     public function getMostRecentAuditEventsForUser ($userId, $schoolId, $eventCount = 10)
     {
+        $rhett = array();
         $clean = array();
         $clean['event_count'] = (int) $eventCount;
         $clean['user_id'] = (int) $userId;
@@ -876,33 +877,30 @@ EOL;
 SELECT `table_name`, `table_column`, `table_row_id`, `created_at`
 FROM `audit_atom`
 WHERE `created_by` = {$clean['user_id']}
-AND `event_type` != ${clean['deleted']}
+AND `event_type` != {$clean['deleted']}
 AND `table_name` NOT IN ('user', 'alert')
 ORDER BY `created_at`
 LIMIT {$clean['event_count']}
 EOL;
-        return $this->_getMostRecentAuditEvents($query, $eventCount, $schoolId);
-    }
-
-    protected function _getMostRecentAuditEvents ($queryString, $eventCount, $schoolId)
-    {
-        $rhett = array();
-
-        $queryResults = $this->db->query($queryString);
-        foreach ($queryResults->result_array() as $row) {
-            $auditEvent = $this->_getReturnableAuditEvent($row, $schoolId);
-
-            if (! is_null($auditEvent)) {
-                array_push($rhett, $auditEvent);
-
-                if (count($rhett) == $eventCount) {
-                    return $rhett;
+        $this->db->query($query);
+        if ($query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $auditEvent = $this->_getReturnableAuditEvent($row, $schoolId);
+                if ($auditEvent) {
+                    $rhett[] = $auditEvent;
                 }
             }
         }
+        $query->free_result();
         return $rhett;
     }
 
+    /**
+     * @todo add code docs
+     * @param array $auditRow
+     * @param int $schoolId
+     * @return array|null
+     */
     protected function _getReturnableAuditEvent ($auditRow, $schoolId)
     {
         $tableName = $auditRow['table_name'];
@@ -956,6 +954,13 @@ EOL;
         return $rhett;
     }
 
+    /**
+     * @todo add code docs
+     * @param string $tableName
+     * @param int $rowId
+     * @param int $schoolId
+     * @return string
+     */
     protected function _buildRelativeURLForAuditEvent ($tableName, $rowId, $schoolId)
     {
         if (($tableName == 'session') || ($tableName == 'course')) {
@@ -1049,6 +1054,13 @@ EOL;
         return '';
     }
 
+    /**
+     * @todo add code docs.
+     * @param string $tableName
+     * @param int $rowId
+     * @param string $rowTitleValue
+     * @return string
+     */
     protected function _displayTitleForAuditEvent ($tableName, $rowId, $rowTitleValue)
     {
         if ($tableName == 'session') {
