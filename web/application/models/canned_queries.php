@@ -856,7 +856,7 @@ EOL;
         $clean['deleted'] = Ilios_Model_AuditUtils::DELETE_EVENT_TYPE;
 
         $query =<<< EOL
-SELECT DISTINCT ON `table_name`, `table_column`, `table_row_id`
+SELECT DISTINCT `table_name`, `table_column`, `table_row_id`
 FROM `audit_atom`
 WHERE `created_by` = {$clean['user_id']}
 AND `event_type` != ${clean['deleted']}
