@@ -586,9 +586,9 @@ describe("ilios_base", function() {
           expect(ilios.alert.createInformDialog).not.toHaveBeenCalled();
         });
 
-        xit("should create confirmDialog if it does not exist", function () {
-          ilios.alert.alert("foo", "bar");
-          expect(ilios.alert.confirmDialog).toEqual(jasmine.any(Object));
+        it("should create informDialog if it does not exist", function () {
+          ilios.alert.inform("foo", "bar");
+          expect(ilios.alert.informDialog).toEqual(jasmine.any(Object));
         });
 
         xit("should call render(document.body) on confirmDialog when it creates confirmDialog", function () {
