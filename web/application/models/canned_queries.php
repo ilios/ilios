@@ -853,18 +853,18 @@ EOL;
         $clean = array();
         $clean['event_count'] = (int) $eventCount;
         $clean['user_id'] = (int) $userId;
+        $clean['deleted'] = Ilios_Model_AuditUtils::DELETE_EVENT_TYPE;
 
-        $queryString = 'SELECT `audit_event`.`time_stamp`, `audit_atom`.`table_name`, '
-                        .       '`audit_atom`.`table_column`, `audit_atom`.`table_row_id`, '
-                        .       '`audit_atom`.`event_type`, `audit_atom`.`audit_atom_id`  '
-                        .   'FROM `audit_atom`, `audit_event` '
-                        .   'WHERE (`audit_event`.`user_id` = ' . $clean['user_id'] . ') '
-                        .           'AND (`audit_event`.`audit_event_id` = `audit_atom`.`audit_event_id`) '
-                        .           'AND (`audit_atom`.`root_atom` = 1) '
-                        .   'ORDER BY `audit_event`.`time_stamp` DESC '
-                        .   'LIMIT ' . $clean['event_count'];
-
-        return $this->getMostRecentAuditEvents($queryString, $eventCount, $schoolId);
+        $query =<<< EOL
+SELECT DISTINCT ON `table_name`, `table_column`, `table_row_id`
+FROM `audit_atom`
+WHERE `created_by` = {$clean['user_id']}
+AND `event_type` != ${clean['deleted']}
+AND `table_name` IN ('offering', 'session', 'course', 'program_year', 'program', 'group', 'instructor_group')
+ORDER BY `created_at`
+LIMIT {$clean['event_count']}
+EOL;
+        return $this->getMostRecentAuditEvents($query, $eventCount, $schoolId);
     }
 
     protected function getMostRecentAuditEvents ($queryString, $eventCount, $schoolId)
