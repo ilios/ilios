@@ -848,6 +848,23 @@ EOL;
         return strcmp($a['title'], $b['title']);
     }
 
+    /**
+     * Returns a list of tracked entities (sessions/courses/groups etc.) that most recently were created or modified by
+     * the given user in the context of their owning school.
+     *
+     * @param $userId The user id.
+     * @param $schoolId The school id.
+     * @param int $eventCount The max. number of entities to return. (Could be less)
+     * @return array An array of associative array. Each item is representing an audit atom, its properties are:
+     *     'table_name'   ... The entity table name.
+     *     'table_column' ... The name of the
+     *     'table_row_id' ... The entity id.
+     *     'created_at'   ... The tracking event's timestamp.
+     *     'relative_url' ... A relative URL to the entity.
+     *     'title'        ... The entity title.
+     *
+     * @todo All of this is total shit. Decouple the auditing trail from recent activity reporting [ST 2014/01/28]
+     */
     public function getMostRecentAuditEventsForUser ($userId, $schoolId, $eventCount = 10)
     {
         $clean = array();
@@ -856,11 +873,11 @@ EOL;
         $clean['deleted'] = Ilios_Model_AuditUtils::DELETE_EVENT_TYPE;
 
         $query =<<< EOL
-SELECT DISTINCT `table_name`, `table_column`, `table_row_id`
+SELECT `table_name`, `table_column`, `table_row_id`, `created_at`
 FROM `audit_atom`
 WHERE `created_by` = {$clean['user_id']}
 AND `event_type` != ${clean['deleted']}
-AND `table_name` IN ('offering', 'session', 'course', 'program_year', 'program', 'group', 'instructor_group')
+AND `table_name` NOT IN ('user', 'alert')
 ORDER BY `created_at`
 LIMIT {$clean['event_count']}
 EOL;
@@ -890,10 +907,6 @@ EOL;
     {
         $tableName = $auditRow['table_name'];
         $rhett = null;
-
-        if (($tableName == 'alert') || ($tableName == 'user')) {
-            return $rhett;
-        }
 
         $tableColumn = $auditRow['table_column'];
         $rowId = $auditRow['table_row_id'];
