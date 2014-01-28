@@ -854,7 +854,7 @@ EOL;
      *
      * @param int $userId The user id.
      * @param int $schoolId The school id.
-     * @param int $eventCount The max. number of entities to return. (Could be less)
+     * @param int $eventCount The max. number of entities to return. (The actual # of returned items could be less.)
      * @return array An array of associative array. Each item is representing an audit atom, its properties are:
      *     'table_name'   ... The entity table name.
      *     'table_column' ... The name of the
