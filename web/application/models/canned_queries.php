@@ -865,15 +865,19 @@ EOL;
      *
      * @todo All of this is total shit. Decouple the auditing trail from recent activity reporting [ST 2014/01/28]
      */
-    public function getMostRecentAuditEventsForUser ($userId, $schoolId, $eventCount = 10)
+    public function getMostRecentAuditEventsForUser ($userId, $schoolId, $eventCount = 5)
     {
         $rhett = array();
         $clean = array();
-        $clean['event_count'] = (int) $eventCount;
+
+        // *DOUBLE PICARD*
+        // pull twice as many events as specified from the db to compensate for the fact that
+        // not all events muster for display.
+        $clean['event_count'] = 2 * (int) $eventCount;
         $clean['user_id'] = (int) $userId;
         $clean['deleted'] = Ilios_Model_AuditUtils::DELETE_EVENT_TYPE;
 
-        $query =<<< EOL
+        $sql =<<< EOL
 SELECT `table_name`, `table_column`, `table_row_id`, `created_at`
 FROM `audit_atom`
 WHERE `created_by` = {$clean['user_id']}
@@ -882,15 +886,24 @@ AND `table_name` NOT IN ('user', 'alert')
 ORDER BY `created_at`
 LIMIT {$clean['event_count']}
 EOL;
-        $this->db->query($query);
-        if ($query->num_rows()) {
-            foreach ($query->result_array() as $row) {
-                $auditEvent = $this->_getReturnableAuditEvent($row, $schoolId);
-                if ($auditEvent) {
-                    $rhett[] = $auditEvent;
-                }
+        $query = $this->db->query($sql);
+
+
+        $n = $query->num_rows();
+        $rows = $query->result_array();
+        $reachedLimit = false;
+        $i = 0;
+        // at the max, add $eventCount items to the return value of this function.
+        while (! $reachedLimit && $i < $n) {
+            $auditEvent = $this->_getReturnableAuditEvent($rows[$i], $schoolId);
+            if ($auditEvent) { // could be NULL, hence this check here.
+                $rhett[] = $auditEvent;
+                // early loop exit flag.
+                $reachedLimit = ($eventCount <= count($rhett)) ? true : false;
             }
+            $i++;
         }
+
         $query->free_result();
         return $rhett;
     }
