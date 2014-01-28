@@ -607,8 +607,8 @@ describe("ilios_base", function() {
           expect(testDouble.setBody).toHaveBeenCalledWith("foo");
         });
 
-        xit("should call cfg.setProperty('icon', YAHOO.widget.SimpleDialog.ICON_WARN)", function () {
-          ilios.alert.alert();
+        it("should call cfg.setProperty('icon', YAHOO.widget.SimpleDialog.ICON_WARN)", function () {
+          ilios.alert.inform();
           expect(testDouble.cfg.setProperty).toHaveBeenCalledWith("icon", YAHOO.widget.SimpleDialog.ICON_WARN);
         });
 
