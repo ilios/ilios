@@ -673,6 +673,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.fixedcenter.value).toBe("contained");
         });
+
+        it("should set modal to true", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.modal.value).toBe(true);
+        });
       });
     });
   });
