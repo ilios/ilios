@@ -85,9 +85,8 @@ EOL;
                 return false;
             }
 
-            array_push($auditAtoms, $this->auditAtom->wrapAtom($uid, 'user_id',
-                                                                'instructor_group_x_user',
-                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($uid, 'user_id', 'instructor_group_x_user',
+                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
 
         return true;
@@ -113,9 +112,8 @@ EOL;
             $rhett['title'] = $title;
             $rhett['school_id'] = $schoolId;
 
-            array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'instructor_group_id',
-                                                                $this->databaseTableName,
-                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'instructor_group_id',
+                $this->databaseTableName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
 
         return $rhett;
@@ -240,8 +238,8 @@ EOL;
             return false;
         }
         if (0 < $this->db->affected_rows()) {
-            $auditAtoms[] = $this->auditAtom->wrapAtom($groupId, 'instructor_group_id',
-                $this->databaseTableName, Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1);
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($groupId, 'instructor_group_id',
+                $this->databaseTableName, Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return true;
     }
@@ -274,9 +272,8 @@ EOL;
             return "There was a Database Deadlock error.";
         }
 
-        array_push($auditAtoms, $this->auditAtom->wrapAtom($groupId, 'instructor_group_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($groupId, 'instructor_group_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
         if (! $this->_deleteUserAssociationsToGroup($groupId, $auditAtoms)) {
             return "There was a Database Deadlock error.";
@@ -349,7 +346,7 @@ EOL;
         }
 
         if (0 < $this->db->affected_rows()) {
-            $auditAtoms[] = $this->auditAtom->wrapAtom($groupId, 'instructor_group_id',
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($groupId, 'instructor_group_id',
                 'instructor_group_x_user', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return true;
@@ -371,7 +368,7 @@ EOL;
         }
 
         if (0 < $this->db->affected_rows()) {
-            $auditAtoms[] = $this->auditAtom->wrapAtom($groupId, 'instructor_group_id',
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($groupId, 'instructor_group_id',
                 'offering_x_instructor_group', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return true;

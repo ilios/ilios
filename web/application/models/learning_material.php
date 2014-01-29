@@ -445,10 +445,8 @@ EOL;
                         return false;
                     }
 
-                    array_push($auditAtoms,
-                               $this->auditAtom->wrapAtom($clmId, 'course_learning_material_id',
-                                                           'course_learning_material_x_mesh',
-                                                           Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+                    $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($clmId, 'course_learning_material_id',
+                        'course_learning_material_x_mesh', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
                 }
             }
         }
@@ -469,10 +467,8 @@ EOL;
                         return false;
                     }
 
-                    array_push($auditAtoms,
-                               $this->auditAtom->wrapAtom($slmId, 'session_learning_material_id',
-                                                           'session_learning_material_x_mesh',
-                                                           Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+                    $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($slmId, 'session_learning_material_id',
+                        'session_learning_material_x_mesh', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
                 }
             }
         }
@@ -507,11 +503,9 @@ EOL;
                     return false;
                 }
 
-                array_push($auditAtoms,
-                           $this->auditAtom->wrapAtom($row['course_learning_material_id'],
-                                                       'course_learning_material_id',
-                                                       'course_learning_material_x_mesh',
-                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($row['course_learning_material_id'],
+                    'course_learning_material_id', 'course_learning_material_x_mesh',
+                    Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
             }
 
             if (! $meshOnly) {
@@ -526,10 +520,8 @@ EOL;
                     return false;
                 }
 
-                array_push($auditAtoms,
-                           $this->auditAtom->wrapAtom($dbId, 'course_id',
-                                                       'course_learning_material',
-                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($dbId, 'course_id', 'course_learning_material',
+                    Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
             }
         }
         else {
@@ -543,11 +535,9 @@ EOL;
                     return false;
                 }
 
-                array_push($auditAtoms,
-                           $this->auditAtom->wrapAtom($row['session_learning_material_id'],
-                                                       'session_learning_material_id',
-                                                       'session_learning_material_x_mesh',
-                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($row['session_learning_material_id'],
+                    'session_learning_material_id', 'session_learning_material_x_mesh',
+                    Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
             }
 
             if (! $meshOnly) {
@@ -562,10 +552,8 @@ EOL;
                     return false;
                 }
 
-                array_push($auditAtoms,
-                           $this->auditAtom->wrapAtom($dbId, 'session_id',
-                                                       'session_learning_material',
-                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($dbId, 'session_id', 'session_learning_material',
+                    Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
             }
         }
 
@@ -589,10 +577,8 @@ EOL;
         $updatedRow['learning_material_status_id'] = $statusId;
         $this->db->update($this->databaseTableName, $updatedRow);
 
-        array_push($auditAtoms, $this->auditAtom->wrapAtom($learningMaterialId,
-                                                            'learning_material_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($learningMaterialId, 'learning_material_id',
+            $this->databaseTableName, Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
         if (($this->db->affected_rows() == 0) || $this->transactionAtomFailed()) {
             $msg = $this->languagemap->getI18NString('general.error.db_insert');
@@ -649,9 +635,8 @@ EOL;
                 }
             }
 
-            array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'learning_material_id',
-                                                                $this->databaseTableName,
-                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'learning_material_id',
+                $this->databaseTableName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
         else {
             $newId = -1;
@@ -702,9 +687,8 @@ EOL;
                 }
             }
 
-            array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'learning_material_id',
-                                                                $this->databaseTableName,
-                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'learning_material_id',
+                $this->databaseTableName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
         else {
             $newId = -1;
@@ -757,9 +741,8 @@ EOL;
                 }
             }
 
-            array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'learning_material_id',
-                                                                $this->databaseTableName,
-                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'learning_material_id',
+                $this->databaseTableName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         }
         else {
             $newId = -1;

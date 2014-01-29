@@ -288,8 +288,8 @@ EOL;
         }
 
         $atoms = array();
-        array_push($atoms, $this->auditAtom->wrapAtom($alertId, 'alert_id', 'alert',
-                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+        $atoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($alertId, 'alert_id', 'alert',
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
         $this->auditAtom->saveAuditEvent($atoms, $userId);
 
         return null;

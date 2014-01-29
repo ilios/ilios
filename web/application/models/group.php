@@ -187,9 +187,8 @@ class Group extends Ilios_Base_Model
                     $newRow['group_id'] = $newId;
 
                     $this->db->insert('group_x_user', $newRow);
-                    array_push($auditAtoms,
-                               $this->auditAtom->wrapAtom($newId, 'group_id', 'group_x_user',
-                                                           Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+                    $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'group_id', 'group_x_user',
+                        Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
                 }
             }
 
@@ -467,8 +466,8 @@ EOL;
         $this->db->update($this->databaseTableName, $updatedRow);
 
         if (0 < $this->db->affected_rows()) {
-            $auditAtoms[] = $this->auditAtom->wrapAtom($groupId, 'group_id', $this->databaseTableName,
-                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1);
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($groupId, 'group_id', $this->databaseTableName,
+                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
         }
         return null;
     }
@@ -544,9 +543,8 @@ EOL;
         $this->db->insert($this->databaseTableName, $newRow);
 
         $newId = $this->db->insert_id();
-        array_push($auditAtoms, $this->auditAtom->wrapAtom($newId, 'group_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'group_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
         return $newId;
     }

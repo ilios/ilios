@@ -1233,8 +1233,8 @@ class Management_Console extends Ilios_Web_Controller
             } else {
                 $this->user->commitTransaction();
 
-                $atoms[] = $this->auditAtom->wrapAtom($newUserId, 'user_id', 'user',
-                    Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
+                $atoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newUserId, 'user_id', 'user',
+                    Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
                 // save audit trail
                 $this->auditAtom->startTransaction();
@@ -1283,8 +1283,8 @@ class Management_Console extends Ilios_Web_Controller
         } else {
             $this->user->commitTransaction();
 
-             $atoms[] = $this->auditAtom->wrapAtom($newUserId, 'user_id', 'user',
-                 Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1);
+             $atoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newUserId, 'user_id', 'user',
+                 Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
 
             // save audit trail
