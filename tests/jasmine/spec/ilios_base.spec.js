@@ -663,6 +663,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.zindex.value).toBe(9999);
         });
+
+        it("should set close to false", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.close.value).toBe(false);
+        });
       });
     });
   });
