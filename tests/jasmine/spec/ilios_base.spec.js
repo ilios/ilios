@@ -653,6 +653,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.visible.value).toBe(false);
         });
+
+        it("should be 350px wide", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.width.value).toBe("350px");
+        });
       });
     });
   });
