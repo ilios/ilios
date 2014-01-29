@@ -708,6 +708,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.header.textContent).toBe("general.terms.alert!");
         });
+
+        it("should set body to empty string", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.body.textContent).toBe("");
+        });
       });
     });
   });
