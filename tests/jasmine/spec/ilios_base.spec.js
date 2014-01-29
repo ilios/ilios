@@ -683,6 +683,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.draggable.value).toBe(true);
         });
+
+        it("should set constraintoviewport to true", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.constraintoviewport.value).toBe(true);
+        });
       });
     });
   });
