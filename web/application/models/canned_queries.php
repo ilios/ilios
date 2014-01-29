@@ -849,7 +849,7 @@ EOL;
     }
 
     /**
-     * Returns a list of tracked entities (sessions/courses/groups etc.) that most recently were created or modified by
+     * Returns a list of tracked and linkable entities (sessions/courses/groups etc.) that most recently were created or modified by
      * the given user in the context of their owning school.
      *
      * @param int $userId The user id.
@@ -882,12 +882,11 @@ SELECT `table_name`, `table_column`, `table_row_id`, `created_at`
 FROM `audit_atom`
 WHERE `created_by` = {$clean['user_id']}
 AND `event_type` != {$clean['deleted']}
-AND `table_name` NOT IN ('user', 'alert')
+AND `table_name` IN ('course', 'session', 'offering', 'program', 'program_year', 'group', 'instructor_group')
 ORDER BY `created_at` DESC
 LIMIT {$clean['event_count']}
 EOL;
         $query = $this->db->query($sql);
-
 
         $n = $query->num_rows();
         $rows = $query->result_array();
