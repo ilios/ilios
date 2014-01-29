@@ -693,6 +693,21 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.icon.value).toBe(YAHOO.widget.SimpleDialog.ICON_WARN);
         });
+
+        it("should set buttons to a default OK button with handler simpleHidingHandler()", function () {
+          var expected = [{
+            text: ilios_i18nVendor.getI18NString('general.terms.ok'),
+            handler: ilios.alert.simpleHidingHandler,
+            isDefault: true
+          }];
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.buttons.value).toEqual(expected);
+        });
+
+        it("should set header to general.terms.alert!", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.header.textContent).toBe("general.terms.alert!");
+        });
       });
     });
   });
