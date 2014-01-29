@@ -658,6 +658,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.width.value).toBe("350px");
         });
+
+        it("should have zIndex of 9999", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.zindex.value).toBe(9999);
+        });
       });
     });
   });
