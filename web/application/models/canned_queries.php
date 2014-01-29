@@ -883,7 +883,7 @@ FROM `audit_atom`
 WHERE `created_by` = {$clean['user_id']}
 AND `event_type` != {$clean['deleted']}
 AND `table_name` NOT IN ('user', 'alert')
-ORDER BY `created_at`
+ORDER BY `created_at` DESC
 LIMIT {$clean['event_count']}
 EOL;
         $query = $this->db->query($sql);
