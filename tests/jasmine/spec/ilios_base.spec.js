@@ -668,6 +668,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.close.value).toBe(false);
         });
+
+        it("should set fixedcenter to 'contained'", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.fixedcenter.value).toBe("contained");
+        });
       });
     });
   });
