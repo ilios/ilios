@@ -678,6 +678,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.modal.value).toBe(true);
         });
+
+        it("should set draggable to true", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.draggable.value).toBe(true);
+        });
       });
     });
   });
