@@ -688,6 +688,11 @@ describe("ilios_base", function() {
           var dialog = ilios.alert.createConfirmDialog();
           expect(dialog.cfg.config.constraintoviewport.value).toBe(true);
         });
+
+        it("should set icon to YAHOO.widget.SimpleDialog.ICON_WARN", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.icon.value).toBe(YAHOO.widget.SimpleDialog.ICON_WARN);
+        });
       });
     });
   });
