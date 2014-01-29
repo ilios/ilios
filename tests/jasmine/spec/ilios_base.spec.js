@@ -628,7 +628,32 @@ describe("ilios_base", function() {
         });
       });
 
+      describe("createConfirmDialog()", function () {
+        beforeEach(function () {
+          // test double of ilios_i18nVendor global
+          window.ilios_i18nVendor = {getI18NString: function (str) { return str; }};
+        });
 
+        afterEach(function () {
+          // clean up test double
+          delete window.ilios_i18nVendor;
+        });
+
+        it("should return an instance of YAHOO.widget.SimpleDialog", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog instanceof YAHOO.widget.SimpleDialog).toBe(true);
+        });
+
+        it("should set the id to 'ilios_alert_panel'", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.id).toBe("ilios_alert_panel");
+        });
+
+        it("should set visible to false", function () {
+          var dialog = ilios.alert.createConfirmDialog();
+          expect(dialog.cfg.config.visible.value).toBe(false);
+        });
+      });
     });
   });
 });
