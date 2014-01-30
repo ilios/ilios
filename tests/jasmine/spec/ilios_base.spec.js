@@ -947,6 +947,14 @@ describe("ilios_base", function() {
           expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
           expect(ilios.global.longDayOfWeekI18NStrings).not.toBe(null);
         });
+
+        it("should return short string if requested", function () {
+          expect(ilios.global.getI18NStringForDayOfWeek(0, true)).toBe("general.calendar.sunday_short");
+        });
+
+        it("should return long string if requested", function () {
+          expect(ilios.global.getI18NStringForDayOfWeek(0, false)).toBe("general.calendar.sunday_long");
+        });
       });
     });
   });
