@@ -921,7 +921,7 @@ EOL;
         $tableColumn = $auditRow['table_column'];
         $rowId = $auditRow['table_row_id'];
 
-        if ($tableName == 'offering') {
+        if ('offering' === $tableName && 'offering_id' === $auditRow['table_column']) {
             $queryString = 'SELECT session_id FROM offering WHERE offering_id = ' . $rowId;
 
             $tableName = 'session';
@@ -932,8 +932,10 @@ EOL;
                 return $rhett;
             }
             $rowId = $queryResults->first_row()->session_id;
-        }
-        else if ($tableName == 'program_year') {
+        } else if ('offering' === $tableName && 'session_id' === $auditRow['table_column']) {
+            $tableName = 'session';
+            $tableColumn = 'session_id';
+        } else if ($tableName == 'program_year') {
             $queryString = 'SELECT program_id FROM program_year WHERE program_year_id = ' . $rowId;
 
             $tableName = 'program';
