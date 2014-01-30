@@ -906,7 +906,7 @@ describe("ilios_base", function() {
       describe("shortDayOfWeekI18NStrings", function () {
         it("should be initialized to null", function () {
           expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
-        })
+        });
       })
     });
   });
