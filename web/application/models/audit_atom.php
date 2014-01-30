@@ -16,16 +16,6 @@ class Audit_Atom extends Ilios_Base_Model
     }
 
     /**
-     * @deprecated
-     * Use <code>Ilios_Model_AuditUtils::wrapAuditAtom() instead.
-     * @see Ilios_Model_AuditUtils::wrapAuditAtom()
-     */
-    public function wrapAtom ($tableId, $tableColumn, $tableName, $type)
-    {
-        return Ilios_Model_AuditUtils::wrapAuditAtom($tableId, $tableColumn, $tableName, $type);
-    }
-
-    /**
      * Saves a given list of audit atoms related to actions taken by a given user.
      *
      * @param array $wrappedAtomArray An array of assoc. arrays, each sub-array
