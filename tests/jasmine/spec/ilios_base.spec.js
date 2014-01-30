@@ -931,6 +931,22 @@ describe("ilios_base", function() {
         it("should return empty string if day is greatern than 6", function () {
           expect(ilios.global.getI18NStringForDayOfWeek(7)).toBe("");
         });
+
+        it("should load shortDayOfWeekI18NStrings and not longDayOfWeekI18NStrings if shortString is true", function () {
+          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
+          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
+          ilios.global.getI18NStringForDayOfWeek(0, true);
+          expect(ilios.global.shortDayOfWeekI18NStrings).not.toBe(null);
+          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
+        });
+
+        it("should not load shortDayOfWeekI18NStrings and load longDayOfWeekI18NStrings if shortString is false", function () {
+          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
+          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
+          ilios.global.getI18NStringForDayOfWeek(0, false);
+          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
+          expect(ilios.global.longDayOfWeekI18NStrings).not.toBe(null);
+        });
       });
     });
   });
