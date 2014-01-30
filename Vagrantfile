@@ -31,8 +31,8 @@ Vagrant.configure("2") do |config|
 
   # Share an additional folder to the guest VM.
   config.vm.synced_folder "web", "/var/www"
-  config.vm.synced_folder "web/learning_materials", "/var/www/learning_materials", :mount_options => "uid=33,gid=33"
-  config.vm.synced_folder "web/tmp_uploads", "/var/www/tmp_uploads", :mount_options => "uid=33,gid=33"
-  config.vm.synced_folder "web/application/logs", "/var/www/application/logs", :mount_options => "uid=33,gid=33"
-  config.vm.synced_folder "web/application/cache", "/var/www/application/cache", :mount_options => "uid=33,gid=33"
+  config.vm.synced_folder "web/learning_materials", "/var/www/learning_materials", :mount_options => ["uid=33,gid=33"]
+  config.vm.synced_folder "web/tmp_uploads", "/var/www/tmp_uploads", :mount_options => ["uid=33,gid=33"]
+  config.vm.synced_folder "web/application/logs", "/var/www/application/logs", :mount_options => ["uid=33,gid=33"]
+  config.vm.synced_folder "web/application/cache", "/var/www/application/cache", :mount_options => ["uid=33,gid=33"]
 end
