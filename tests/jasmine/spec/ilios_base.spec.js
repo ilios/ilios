@@ -802,5 +802,13 @@ describe("ilios_base", function() {
         });
       });
     });
+
+    describe("global", function () {
+      describe("preferencesModel", function () {
+        it("should initialize preferencesModel to null", function () {
+          expect(ilios.global.preferencesModel).toBe(null);
+        });
+      });
+    });
   });
 });
