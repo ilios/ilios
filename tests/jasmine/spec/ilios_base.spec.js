@@ -836,6 +836,38 @@ describe("ilios_base", function() {
           expect(ilios.global.preferencesModel instanceof PreferencesModel).toBe(true);
         });
       });
+
+      describe("startIdleTimer()", function () {
+        beforeEach(function () {
+          // test double
+          YAHOO.util.IdleTimer = {subscribe: function () {}, start: function () {}};
+          spyOn(YAHOO.util.IdleTimer, "subscribe");
+          spyOn(YAHOO.util.IdleTimer, "start");
+        });
+
+        afterEach(function () {
+          // clean up test double
+          delete YAHOO.util.IdleTimer;
+        });
+
+        it("should use the supplied timeout", function () {
+          var timeout = 9999999;
+          ilios.global.startIdleTimer(timeout);
+          expect(YAHOO.util.IdleTimer.start).toHaveBeenCalledWith(timeout, document);
+        });
+
+        it("should use default timeout if supplied timeout is not a number", function () {
+          var timeout = "totally not a number";
+          ilios.global.startIdleTimer(timeout);
+          expect(YAHOO.util.IdleTimer.start).not.toHaveBeenCalledWith(timeout, document);
+          expect(YAHOO.util.IdleTimer.start).toHaveBeenCalledWith(2700000, document);
+        });
+
+        it("should call subscribe with the hardcoded callback", function () {
+          ilios.global.startIdleTimer();
+          expect(YAHOO.util.IdleTimer.subscribe).toHaveBeenCalledWith("idle", jasmine.any(Function));
+        });
+      });
     });
   });
 });
