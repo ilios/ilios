@@ -42,7 +42,7 @@ class Audit_Atom extends Ilios_Base_Model
             $this->db->insert('audit_atom', $newRow);
 
             $newId = $this->db->insert_id();
-            if ((! $newId) || ($newId == 0)) {
+            if (! $newId) {
                 return false;
             }
         }
