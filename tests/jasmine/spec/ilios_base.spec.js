@@ -809,6 +809,33 @@ describe("ilios_base", function() {
           expect(ilios.global.preferencesModel).toBe(null);
         });
       });
+
+      describe("installPreferencesModel", function () {
+        beforeEach(function () {
+          // test double
+          window.PreferencesModel = function () {};
+        });
+
+        afterEach(function () {
+          // clean up test double
+          delete window.PreferencesModel;
+          // reset global.preferencesModel
+          ilios.global.preferencesModel = null;
+        });
+
+        it("should call constructor on global PreferencesModel", function () {
+          spyOn(window, "PreferencesModel");
+          ilios.global.installPreferencesModel();
+          expect(window.PreferencesModel).toHaveBeenCalled();
+        });
+
+        it("should return PreferencesModel object", function () {
+          expect(ilios.global.preferencesModel).toBe(null);
+          ilios.global.installPreferencesModel();
+          expect(ilios.global.preferencesModel).not.toBe(null);
+          expect(ilios.global.preferencesModel instanceof PreferencesModel).toBe(true);
+        });
+      });
     });
   });
 });
