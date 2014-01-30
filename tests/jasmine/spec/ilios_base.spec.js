@@ -908,6 +908,30 @@ describe("ilios_base", function() {
           expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
         });
       });
+
+      describe("getI18NStringForDayOfWeek()", function () {
+        beforeEach(function () {
+          // test double
+          window.ilios_i18nVendor = {getI18NString: function (string) { return string; }};
+        });
+
+        afterEach(function () {
+          // clean up test double
+          delete window.ilios_i18nVendor;
+
+          // reset property side effects
+          ilios.global.longDayOfWeekI18NStrings = null;
+          ilios.global.shortDayOfWeekI18NStrings = null;
+        });
+
+        it("should return empty string if day is less than 0", function () {
+          expect(ilios.global.getI18NStringForDayOfWeek(-1)).toBe("");
+        });
+
+        it("should return empty string if day is greatern than 6", function () {
+          expect(ilios.global.getI18NStringForDayOfWeek(7)).toBe("");
+        });
+      });
     });
   });
 });
