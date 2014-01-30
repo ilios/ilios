@@ -896,6 +896,12 @@ describe("ilios_base", function() {
           expect(ilios.alert.alert).toHaveBeenCalledWith("general.error.fatal (foo)");
         });
       });
+
+      describe("longDayOfWeekI18NStrings", function () {
+        it("should be initialized to null", function () {
+          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
+        });
+      })
     });
   });
 });
