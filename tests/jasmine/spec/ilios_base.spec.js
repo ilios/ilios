@@ -868,6 +868,24 @@ describe("ilios_base", function() {
           expect(YAHOO.util.IdleTimer.subscribe).toHaveBeenCalledWith("idle", jasmine.any(Function));
         });
       });
+
+      describe("defaultAJAXFailureHandler()", function () {
+        beforeEach(function () {
+          spyOn(ilios.alert, "alert");
+          // test double
+          window.ilios_i18nVendor = {getI18NString: function (string) { return string; }};
+        });
+
+        afterEach(function () {
+          // clean up test double
+          delete window.ilios_i18nVendor;
+        });
+
+        it("should call ilios.alert.alert()", function () {
+          ilios.global.defaultAJAXFailureHandler({responseText: "foo"}, {description: "bar"});
+          expect(ilios.alert.alert).toHaveBeenCalled();
+        });
+      });
     });
   });
 });
