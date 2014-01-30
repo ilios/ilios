@@ -1,10 +1,17 @@
 How-to run Behat tests with a headless browser
 ==============================================
 
-The assumption is that you are doing this on a recent Fedora/RHEL (or derivative) Linux distro.
+The assumption is that you are doing this on a recent Fedora/RHEL (or derivative) Linux distro. These isntructions also seem to work for Mac OS X.
 
 Prerequisites
 -------------
+
+0. DO NOT RUN THESE TESTS AGAINST A PRODUCTION INSTANCE. These tests will pollute your database.
+
+   a. Have a default Ilios installation running at https://localhost.
+   b. Alternatively, if you have vagrant installed, create an Ilios installation running on port 443:
+
+      vagrant up
 
 1. Install npm
 
@@ -36,10 +43,15 @@ Run tests
 
     phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true
 
-3. Run Behat Tests with the "phantomjs" profile
+3. Run Behat Tests with the "phantomjs" profile for a local Ilios install or the "vagrant" profile for the Vagrant-based install.
 
     cd <iliosroot>/tests/behat
     bin/behat -p phantomjs
+
+    OR
+
+    cd <iliosroot/tests/behat
+    bin/behat -p vagrant
 
 
 See also
