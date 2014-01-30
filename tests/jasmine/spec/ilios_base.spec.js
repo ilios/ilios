@@ -907,7 +907,7 @@ describe("ilios_base", function() {
         it("should be initialized to null", function () {
           expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
         });
-      })
+      });
     });
   });
 });
