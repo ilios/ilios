@@ -1,7 +1,7 @@
 How-to run Behat tests with a headless browser
 ==============================================
 
-The assumption is that you are doing this on a recent Fedora/RHEL (or derivative) Linux distro. These isntructions also seem to work for Mac OS X.
+The assumption is that you are doing this on a recent Fedora/RHEL (or derivative) Linux distro. These instructions also seem to work for Mac OS X.
 
 Prerequisites
 -------------
