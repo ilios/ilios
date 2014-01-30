@@ -885,6 +885,16 @@ describe("ilios_base", function() {
           ilios.global.defaultAJAXFailureHandler({responseText: "foo"}, {description: "bar"});
           expect(ilios.alert.alert).toHaveBeenCalled();
         });
+
+        it("should use the rootException.description if root expection is defined", function () {
+          ilios.global.defaultAJAXFailureHandler({responseText: "foo"}, {description: "bar"});
+          expect(ilios.alert.alert).toHaveBeenCalledWith("general.error.fatal (bar)");
+        });
+
+        it("should use the resultObject.responseText if rootException is undefined", function () {
+          ilios.global.defaultAJAXFailureHandler({responseText: "foo"});
+          expect(ilios.alert.alert).toHaveBeenCalledWith("general.error.fatal (foo)");
+        });
       });
     });
   });
