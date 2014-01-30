@@ -714,6 +714,93 @@ describe("ilios_base", function() {
           expect(dialog.body.textContent).toBe("");
         });
       });
+
+      describe("createInformDialog()", function () {
+        beforeEach(function () {
+          // test double of ilios_i18nVendor global
+          window.ilios_i18nVendor = {getI18NString: function (str) { return str; }};
+        });
+
+        afterEach(function () {
+          // clean up test double
+          delete window.ilios_i18nVendor;
+        });
+
+        it("should return an instance of YAHOO.widget.SimpleDialog", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog instanceof YAHOO.widget.SimpleDialog).toBe(true);
+        });
+
+        it("should set the id to 'ilios_inform_panel'", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.id).toBe("ilios_inform_panel");
+        });
+
+        it("should set visible to false", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.visible.value).toBe(false);
+        });
+
+        it("should be 350px wide", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.width.value).toBe("350px");
+        });
+
+        it("should have zIndex of 9999", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.zindex.value).toBe(9999);
+        });
+
+        it("should set close to false", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.close.value).toBe(false);
+        });
+
+        it("should set fixedcenter to 'contained'", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.fixedcenter.value).toBe("contained");
+        });
+
+        it("should set modal to true", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.modal.value).toBe(true);
+        });
+
+        it("should set draggable to true", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.draggable.value).toBe(true);
+        });
+
+        it("should set constraintoviewport to true", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.constraintoviewport.value).toBe(true);
+        });
+
+        it("should set icon to YAHOO.widget.SimpleDialog.ICON_WARN", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.icon.value).toBe(YAHOO.widget.SimpleDialog.ICON_WARN);
+        });
+
+        it("should set buttons to a default OK button with handler simpleHidingHandler()", function () {
+          var expected = [{
+            text: ilios_i18nVendor.getI18NString('general.terms.ok'),
+            handler: ilios.alert.simpleHidingHandler,
+            isDefault: true
+          }];
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.cfg.config.buttons.value).toEqual(expected);
+        });
+
+        it("should set header to general.terms.alert!", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.header.textContent).toBe("general.notification.dialog_title");
+        });
+
+        it("should set body to empty string", function () {
+          var dialog = ilios.alert.createInformDialog();
+          expect(dialog.body.textContent).toBe("");
+        });
+      });
     });
   });
 });
