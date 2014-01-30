@@ -54,22 +54,17 @@ class Recurring_Event extends Ilios_Base_Model {
                 return -1;
             }
             else {
-                array_push($auditAtoms,
-                           $this->auditAtom->wrapAtom($recurringEventId, 'recurring_event_id',
-                                                       $this->databaseTableName,
-                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($recurringEventId, 'recurring_event_id',
+                    $this->databaseTableName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
             }
         }
         else {
             $this->db->where('recurring_event_id', $recurringEventId);
             $this->db->update($this->databaseTableName, $rowData);
 
-            array_push($auditAtoms, $this->auditAtom->wrapAtom($recurringEventId,
-                                                                'recurring_event_id',
-                                                                $this->databaseTableName,
-                                                                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($recurringEventId, 'recurring_event_id',
+                $this->databaseTableName, Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
         }
-
         return $recurringEventId;
     }
 }
