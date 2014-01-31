@@ -10,6 +10,7 @@ function PreferencesModel (serverDispatchedObject) {
     /**
      * @property canArchiveProgramYears
      * @type {Boolean}
+     * @default false
      */
     this.canArchiveProgramYears = false;
 
@@ -34,7 +35,6 @@ function PreferencesModel (serverDispatchedObject) {
 /**
  * @method showCourseArchiving
  * @return {Boolean}
- * @default false
  */
 PreferencesModel.prototype.showCourseArchiving = function () {
     return this.canArchiveCourses;
