@@ -78,20 +78,9 @@ ilios.namespace("lang");
  * @method trim
  * @param {String} str text
  * @return {String} the trimmed text
- * @todo Check if YAHOO.lang.trim will cut it.
+ * @todo Replace all calls to this with calls to YAHOO.lang.trim
  */
-ilios.lang.trim = function (str) {
-    var rhett = str.replace(/^\s+/, '');
-
-    for (var i = (rhett.length - 1); i >= 0; i--) {
-        if (/\S/.test(rhett.charAt(i))) {
-            rhett = rhett.substring(0, (i + 1));
-
-            break;
-        }
-    }
-    return rhett;
-};
+ilios.lang.trim = YAHOO.lang.trim;
 
 /**
  * Truncates a given text string after a given number of characters
