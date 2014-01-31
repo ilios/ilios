@@ -50,28 +50,6 @@ describe("ilios_base", function() {
     });
 
     describe("lang", function () {
-      describe("trim()", function () {
-        it("should remove leading white space", function () {
-          expect(ilios.lang.trim(" foo")).toBe("foo");
-        });
-
-        it("should remove trailing white space", function () {
-          expect(ilios.lang.trim("foo  ")).toBe("foo");
-        });
-
-        it("should remove leading and trailing white space", function () {
-          expect(ilios.lang.trim("  foo   ")).toBe("foo");
-        });
-
-        it("should not affect strings without leading or trailing spaces", function () {
-          expect(ilios.lang.trim("foo")).toBe("foo");
-        });
-
-        it("should not affect spaces that are not leading or trailing", function () {
-          expect(ilios.lang.trim("foo bar")).toBe("foo bar");
-        });
-      });
-
       describe("ellipsisedOfLength()", function () {
         it("should truncate str to specified number of characters and add an ellipsis", function () {
           expect(ilios.lang.ellipsisedOfLength("abcdefghijklmnopqrstuvwxyz", 10)).toBe("abcdefghij...");

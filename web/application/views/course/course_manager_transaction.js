@@ -97,7 +97,7 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
             }};
 
     // MAY RETURN THIS BLOCK
-    if (ilios.lang.trim(ilios.cm.currentCourseModel.getTitle()).length < 3) {
+    if (YAHOO.lang.trim(ilios.cm.currentCourseModel.getTitle()).length < 3) {
         var msg = ilios_i18nVendor.getI18NString('course_management.error.course_name_too_short');
 
         ilios.alert.alert(msg);
