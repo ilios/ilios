@@ -132,7 +132,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.title');
     }
 
-    if ((this.title == null) || (ilios.lang.trim(this.title) == '')) {
+    if ((this.title == null) || (YAHOO.lang.trim(this.title) == '')) {
         rhett = false;
 
         if (! populateReviewArray) {
@@ -338,7 +338,7 @@ SessionModel.prototype.getReviewArray = function () {
 SessionModel.prototype.saveAttemptWarningMessage = function () {
     var str = null;
 
-    if ((this.title == null) || (ilios.lang.trim(this.title) == '')) {
+    if ((this.title == null) || (YAHOO.lang.trim(this.title) == '')) {
         str = ilios_i18nVendor.getI18NString('course_management.error.session_save.no_title');
 
         return ilios_i18nVendor.getI18NString('course_management.error.session_save.no_title');
@@ -347,7 +347,7 @@ SessionModel.prototype.saveAttemptWarningMessage = function () {
     for (var key in this.objectives) {
         str = this.objectives[key].getTitle();
 
-        if ((str == null) || (ilios.lang.trim(str) == '')) {
+        if ((str == null) || (YAHOO.lang.trim(str) == '')) {
             return ilios_i18nVendor.getI18NString(
                                         'course_management.error.session_save.blank_objective');
         }

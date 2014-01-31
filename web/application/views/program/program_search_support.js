@@ -38,7 +38,7 @@ ilios.pm.cs.continueDisplayProgramSearchPanel = function () {
 ilios.pm.cs.performProgramSearch = function (searchTerms) {
     var searchInfoElement = document.getElementById('program_search_status');
 
-	if (ilios.lang.trim(searchTerms).length < 2) {
+	if (YAHOO.lang.trim(searchTerms).length < 2) {
 		searchInfoElement.innerHTML = ilios_i18nVendor.getI18NString('general.error.query_length');
 	}
 	else {

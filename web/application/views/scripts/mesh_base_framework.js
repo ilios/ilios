@@ -70,7 +70,7 @@ ilios.mesh.currentSearchTransactionASyncObject = null;
 ilios.mesh.performMeSHSearch = function (searchTerms, filterSelectedItems, storeQueryTerms) {
     var searchInfoElement = document.getElementById('mesh_search_status');
 
-    if (ilios.lang.trim(searchTerms).length < 3) {
+    if (YAHOO.lang.trim(searchTerms).length < 3) {
         searchInfoElement.innerHTML = ilios_i18nVendor.getI18NString('general.error.query_length');
     }
     else {

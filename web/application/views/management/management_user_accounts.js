@@ -1724,25 +1724,25 @@ ilios.management.user_accounts.checkUserData = function () {
     var msg;
 
     element = document.getElementById('ua_first_name_tf');
-    if ((element != null) && (ilios.lang.trim(element.value).length == 0)) {
+    if ((element != null) && (YAHOO.lang.trim(element.value).length == 0)) {
         divsToStyle.push('ua_first_name_tf');
         divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.first_name'));
     }
 
     element = document.getElementById('ua_last_name_tf');
-    if ((element != null) && (ilios.lang.trim(element.value).length == 0)) {
+    if ((element != null) && (YAHOO.lang.trim(element.value).length == 0)) {
         divsToStyle.push('ua_last_name_tf');
         divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.last_name'));
     }
 
     element = document.getElementById('ua_uc_id_tf');
-    if ((element != null) && (ilios.lang.trim(element.value).length != 9)) {
+    if ((element != null) && (YAHOO.lang.trim(element.value).length != 9)) {
         divsToStyle.push('ua_uc_id_tf');
         divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.uc_id'));
     }
 
     element = document.getElementById('ua_email_tf');
-    if ((element != null) && (ilios.lang.trim(element.value).length == 0)) {
+    if ((element != null) && (YAHOO.lang.trim(element.value).length == 0)) {
         divsToStyle.push('ua_email_tf');
         divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.email'));
     }
@@ -1756,7 +1756,7 @@ ilios.management.user_accounts.checkUserData = function () {
 
     if (ilios.management.user_accounts.manageLoginCredentials) {
         element = document.getElementById('ua_login_username_tf');
-        if ((element != null) && (ilios.lang.trim(element.value).length == 0)) {
+        if ((element != null) && (YAHOO.lang.trim(element.value).length == 0)) {
             divsToStyle.push('ua_login_username_tf');
             divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.login_username'));
         }

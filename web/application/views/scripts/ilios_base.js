@@ -74,15 +74,6 @@ if (YAHOO.lang.JSON) {
 ilios.namespace("lang");
 
 /**
- * Trims whitespace off a given text.
- * @method trim
- * @param {String} str text
- * @return {String} the trimmed text
- * @todo Replace all calls to this with calls to YAHOO.lang.trim
- */
-ilios.lang.trim = YAHOO.lang.trim;
-
-/**
  * Truncates a given text string after a given number of characters
  * and appends an ellipsis (...).
  * If the given text's length is less then the given number of characters
