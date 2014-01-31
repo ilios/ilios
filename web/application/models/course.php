@@ -96,10 +96,8 @@ class Course extends Ilios_Base_Model
         $newCourseId = $this->db->insert_id();
 
         if ($newCourseId > 0) {
-            array_push($auditAtoms,
-                       $this->auditEvent->wrapAtom($newCourseId, 'course_id',
-                                                   $this->databaseTableName,
-                                                   Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newCourseId, 'course_id', $this->databaseTableName,
+                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
             $dtOriginalCourseStartTime = new DateTime($courseRow->start_date);
             $dtRolledOverCourseStartTime = new DateTime($newRow['start_date']);
@@ -281,9 +279,8 @@ class Course extends Ilios_Base_Model
         $this->db->insert($this->databaseTableName, $newRow);
 
         $newId = $this->db->insert_id();
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'course_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'course_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
         return $newId;
     }
@@ -332,9 +329,8 @@ class Course extends Ilios_Base_Model
         $this->db->where('course_id', $courseId);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($courseId, 'course_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseId, 'course_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
         $this->performCrossTableInserts($cohortArray, 'course_x_cohort', 'cohort_id', 'course_id',
                                         $courseId, 'cohortId');
@@ -392,9 +388,8 @@ class Course extends Ilios_Base_Model
         $this->db->update($this->databaseTableName, $updateRow);
 
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($courseId, 'course_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseId, 'course_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
     }
 
     /**

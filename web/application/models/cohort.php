@@ -466,7 +466,7 @@ EOL;
         }
 
         if ($rhett) {
-            $auditAtoms[] = $this->auditEvent->wrapAtom($cohortId, 'cohort_id', $this->databaseTableName,
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($cohortId, 'cohort_id', $this->databaseTableName,
                 Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
         return $rhett;

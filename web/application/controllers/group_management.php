@@ -268,12 +268,12 @@ class Group_Management extends Ilios_Web_Controller
                         $this->group->commitTransaction();
 
                         // save audit trail
-                        $this->auditEvent->startTransaction();
-                        $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                        if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                            $this->auditEvent->rollbackTransaction();
+                        $this->auditAtom->startTransaction();
+                        $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                        if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                            $this->auditAtom->rollbackTransaction();
                         } else {
-                            $this->auditEvent->commitTransaction();
+                            $this->auditAtom->commitTransaction();
                         }
                     }
                 } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -385,12 +385,12 @@ class Group_Management extends Ilios_Web_Controller
                 $this->group->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             } else {
                 $msg = $this->languagemap->getI18NString('groups.error.failed_group_delete');
@@ -474,12 +474,12 @@ class Group_Management extends Ilios_Web_Controller
                 $this->group->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             } else {
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->group);
@@ -627,12 +627,12 @@ class Group_Management extends Ilios_Web_Controller
                         $failedTransaction = false;
 
                         // save audit trail
-                        $this->auditEvent->startTransaction();
-                        $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                        if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                            $this->auditEvent->rollbackTransaction();
+                        $this->auditAtom->startTransaction();
+                        $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                        if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                            $this->auditAtom->rollbackTransaction();
                         } else {
-                            $this->auditEvent->commitTransaction();
+                            $this->auditAtom->commitTransaction();
                         }
 
                         $rhett['users'] = $newUsers;
@@ -719,12 +719,12 @@ class Group_Management extends Ilios_Web_Controller
                 $this->user->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
         }
@@ -784,12 +784,12 @@ class Group_Management extends Ilios_Web_Controller
                 $this->group->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));

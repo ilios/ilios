@@ -618,9 +618,8 @@ EOL;
         $this->db->where('session_id', $sessionId);
         $this->db->update('offering', $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-            'offering',
-            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($sessionId, 'session_id', 'offering',
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
     }
 
     /**
@@ -745,9 +744,8 @@ EOL;
             return $rhett;
         }
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($newSessionId, 'session_id',
-            $this->databaseTableName,
-            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newSessionId, 'session_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
         // associate learning materials with session
         $this->learningMaterial->saveSessionLearningMaterialAssociations($newSessionId, $learningMaterialArray,
@@ -823,9 +821,8 @@ EOL;
         $this->db->where('session_id', $sessionId);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-            $this->databaseTableName,
-            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($sessionId, 'session_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
         // update session/learning material associations
         $this->learningMaterial->saveSessionLearningMaterialAssociations($sessionId, $learningMaterialArray,
@@ -899,18 +896,14 @@ EOL;
         $this->db->where('session_id', $sessionId);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-            'session_x_discipline',
-            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-            'session_x_mesh',
-            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-            'session_x_objective',
-            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($sessionId, 'session_id',
-            $this->databaseTableName,
-            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($sessionId, 'session_id', 'session_x_discipline',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($sessionId, 'session_id', 'session_x_mesh',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($sessionId, 'session_id', 'session_x_objective',
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($sessionId, 'session_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
 
         if ($this->db->affected_rows() == 0) {
             $rhett['error']  = $this->languagemap->getI18NString('general.error.db_delete');

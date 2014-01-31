@@ -848,53 +848,80 @@ EOL;
         return strcmp($a['title'], $b['title']);
     }
 
+    /**
+     * Returns a list of tracked and linkable entities (sessions/courses/groups etc.) that most recently were created or modified by
+     * the given user in the context of their owning school.
+     *
+     * @param int $userId The user id.
+     * @param int $schoolId The school id.
+     * @param int $eventCount The max. number of entities to return. (The actual # of returned items could be less.)
+     * @return array An array of associative array. Each item is representing an audit atom, its properties are:
+     *     'table_name'   ... The entity table name.
+     *     'table_column' ... The name of the
+     *     'table_row_id' ... The entity id.
+     *     'created_at'   ... The tracking event's timestamp.
+     *     'relative_url' ... A relative URL to the entity.
+     *     'title'        ... The entity title.
+     *
+     * @todo All of this is total shit. Decouple the auditing trail from recent activity reporting [ST 2014/01/28]
+     */
     public function getMostRecentAuditEventsForUser ($userId, $schoolId, $eventCount = 5)
     {
-        $queryString = 'SELECT `audit_event`.`time_stamp`, `audit_atom`.`table_name`, '
-                        .       '`audit_atom`.`table_column`, `audit_atom`.`table_row_id`, '
-                        .       '`audit_atom`.`event_type`, `audit_atom`.`audit_atom_id`  '
-                        .   'FROM `audit_atom`, `audit_event` '
-                        .   'WHERE (`audit_event`.`user_id` = ' . $userId . ') '
-                        .           'AND (`audit_event`.`audit_event_id` = `audit_atom`.`audit_event_id`) '
-                        .           'AND (`audit_atom`.`root_atom` = 1) '
-                        .   'ORDER BY `audit_event`.`time_stamp` DESC '
-                        .   'LIMIT ' . ($eventCount * 2);
-
-        return $this->getMostRecentAuditEvents($queryString, $eventCount, $schoolId);
-    }
-
-    protected function getMostRecentAuditEvents ($queryString, $eventCount, $schoolId)
-    {
         $rhett = array();
+        $clean = array();
 
-        $queryResults = $this->db->query($queryString);
-        foreach ($queryResults->result_array() as $row) {
-            $auditEvent = $this->getReturnableAuditEvent($row, $schoolId);
+        // *DOUBLE PICARD*
+        // pull twice as many events as specified from the db to compensate for the fact that
+        // not all events muster for display.
+        $clean['event_count'] = 2 * (int) $eventCount;
+        $clean['user_id'] = (int) $userId;
+        $clean['deleted'] = Ilios_Model_AuditUtils::DELETE_EVENT_TYPE;
 
-            if (! is_null($auditEvent)) {
-                array_push($rhett, $auditEvent);
+        $sql =<<< EOL
+SELECT `table_name`, `table_column`, `table_row_id`, `created_at`
+FROM `audit_atom`
+WHERE `created_by` = {$clean['user_id']}
+AND `event_type` != {$clean['deleted']}
+AND `table_name` IN ('course', 'session', 'offering', 'program', 'program_year', 'group', 'instructor_group')
+ORDER BY `created_at` DESC
+LIMIT {$clean['event_count']}
+EOL;
+        $query = $this->db->query($sql);
 
-                if (count($rhett) == $eventCount) {
-                    return $rhett;
-                }
+        $n = $query->num_rows();
+        $rows = $query->result_array();
+        $reachedLimit = false;
+        $i = 0;
+        // at the max, add $eventCount items to the return value of this function.
+        while (! $reachedLimit && $i < $n) {
+            $auditEvent = $this->_getReturnableAuditEvent($rows[$i], $schoolId);
+            if ($auditEvent) { // could be NULL, hence this check here.
+                $rhett[] = $auditEvent;
+                // early loop exit flag.
+                $reachedLimit = ($eventCount <= count($rhett)) ? true : false;
             }
+            $i++;
         }
+
+        $query->free_result();
         return $rhett;
     }
 
-    protected function getReturnableAuditEvent ($auditRow, $schoolId)
+    /**
+     * @todo add code docs
+     * @param array $auditRow
+     * @param int $schoolId
+     * @return array|null
+     */
+    protected function _getReturnableAuditEvent ($auditRow, $schoolId)
     {
         $tableName = $auditRow['table_name'];
         $rhett = null;
 
-        if (($tableName == 'alert') || ($tableName == 'user')) {
-            return $rhett;
-        }
-
         $tableColumn = $auditRow['table_column'];
         $rowId = $auditRow['table_row_id'];
 
-        if ($tableName == 'offering') {
+        if ('offering' === $tableName && 'offering_id' === $auditRow['table_column']) {
             $queryString = 'SELECT session_id FROM offering WHERE offering_id = ' . $rowId;
 
             $tableName = 'session';
@@ -905,8 +932,10 @@ EOL;
                 return $rhett;
             }
             $rowId = $queryResults->first_row()->session_id;
-        }
-        else if ($tableName == 'program_year') {
+        } else if ('offering' === $tableName && 'session_id' === $auditRow['table_column']) {
+            $tableName = 'session';
+            $tableColumn = 'session_id';
+        } else if ($tableName == 'program_year') {
             $queryString = 'SELECT program_id FROM program_year WHERE program_year_id = ' . $rowId;
 
             $tableName = 'program';
@@ -926,21 +955,27 @@ EOL;
         if ($queryResults->num_rows() > 0) {
             $rhett = array();
 
-            $rhett['time_stamp'] = $auditRow['time_stamp'];
-            $rhett['event_type'] = $auditRow['event_type'];
+            $rhett['created_at'] = $auditRow['created_at'];
             $rhett['table_name'] = $tableName;
             $rhett['table_column'] = $tableColumn;
             $rhett['table_row_id'] = $rowId;
-            $rhett['relative_url'] = $this->buildRelativeURLForAuditEvent($tableName, $rowId, $schoolId);
+            $rhett['relative_url'] = $this->_buildRelativeURLForAuditEvent($tableName, $rowId, $schoolId);
 
-            $rhett['title'] = $this->displayTitleForAuditEvent($tableName, $rowId,
+            $rhett['title'] = $this->_displayTitleForAuditEvent($tableName, $rowId,
                                                                $queryResults->first_row()->title);
         }
 
         return $rhett;
     }
 
-    protected function buildRelativeURLForAuditEvent ($tableName, $rowId, $schoolId)
+    /**
+     * @todo add code docs
+     * @param string $tableName
+     * @param int $rowId
+     * @param int $schoolId
+     * @return string
+     */
+    protected function _buildRelativeURLForAuditEvent ($tableName, $rowId, $schoolId)
     {
         if (($tableName == 'session') || ($tableName == 'course')) {
             $sessionId = null;
@@ -1033,7 +1068,14 @@ EOL;
         return '';
     }
 
-    protected function displayTitleForAuditEvent ($tableName, $rowId, $rowTitleValue)
+    /**
+     * @todo add code docs.
+     * @param string $tableName
+     * @param int $rowId
+     * @param string $rowTitleValue
+     * @return string
+     */
+    protected function _displayTitleForAuditEvent ($tableName, $rowId, $rowTitleValue)
     {
         if ($tableName == 'session') {
             $queryString = 'SELECT course_id FROM session WHERE session_id = ' . $rowId;

@@ -61,7 +61,7 @@ class Alert extends Ilios_Base_Model
     public function __construct ()
     {
         parent::__construct('alert', array('alert_id'));
-        $this->load->model('Audit_Event', 'auditEvent', TRUE);
+        $this->load->model('Audit_Atom', 'auditAtom', TRUE);
         $this->load->model('User', 'user', TRUE);
     }
 
@@ -152,7 +152,7 @@ class Alert extends Ilios_Base_Model
      * audit and user tables.
      * @param int $alertId
      * @return array a nested array of arrays, each sub-array containing data keyed off by the following
-     *     'time_stamp' ... timestamp of when the change was made
+     *     'created_at' ... timestamp of when the change was made
      *     'user_id'     ... id of the user who made the change
      *     'first_name'  ... first name of the user who made the change
      *     'last_name'   ... last name of the user who made the change
@@ -164,22 +164,19 @@ class Alert extends Ilios_Base_Model
         $clean['alert_id'] = (int) $alertId;
         $sql =<<< EOL
 SELECT DISTINCT
-ae.time_stamp,
+aa.created_at,
 u.user_id,
 u.last_name,
 u.first_name
 FROM alert a
 JOIN audit_atom aa ON aa.table_row_id = a.alert_id
-JOIN audit_event ae ON ae.audit_event_id = aa.audit_event_id
-JOIN user u ON u.user_id = ae.user_id
+JOIN user u ON u.user_id = aa.created_by
 WHERE aa.table_name = 'alert'
 AND a.alert_id = {$clean['alert_id']}
 EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
-            foreach ($query->result_array() as $row) {
-                $rhett[] = $row;
-            }
+            $rhett = $query->result_array();
         }
         $query->free_result();
         return $rhett;
@@ -291,9 +288,9 @@ EOL;
         }
 
         $atoms = array();
-        array_push($atoms, $this->auditEvent->wrapAtom($alertId, 'alert_id', 'alert',
-                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
-        $this->auditEvent->saveAuditEvent($atoms, $userId);
+        $atoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($alertId, 'alert_id', 'alert',
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+        $this->auditAtom->saveAuditEvent($atoms, $userId);
 
         return null;
     }

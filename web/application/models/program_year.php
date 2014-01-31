@@ -293,9 +293,8 @@ EOL;
         $this->db->update($this->databaseTableName, $updateRow);
 
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($programYearId, 'program_year_id',
+            $this->databaseTableName, Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
     }
 
     /**
@@ -330,18 +329,14 @@ EOL;
             return false;
         }
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
-                                                            'program_year_director',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
-                                                            'program_year_x_competency',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
-                                                            'program_year_x_discipline',
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($programYearId, 'program_year_id',
+            'program_year_director', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($programYearId, 'program_year_id',
+            'program_year_x_competency', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($programYearId, 'program_year_id',
+            'program_year_x_discipline', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($programYearId, 'program_year_id',
+            $this->databaseTableName, Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
 
         if (! $this->cohort->deleteCohortAndAssociationsForProgramYear($programYearId,
                                                                        $auditAtoms)) {
@@ -357,11 +352,10 @@ EOL;
                 return false;
             }
 
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'group_id', 'group',
-                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($groupId, 'parent_group_id',
-                                                                'group',
-                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($groupId, 'group_id', 'group',
+                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($groupId, 'parent_group_id', 'group',
+                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
         }
 
         return true;
@@ -404,9 +398,8 @@ EOL;
 
         $newId = $this->db->insert_id();
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($newId, 'program_year_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'program_year_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
 
         $duration = $this->program->getDurationForProgramWithId($programId);
@@ -418,8 +411,8 @@ EOL;
         $newRow['program_year_id'] = $newId;
         $this->db->insert('cohort', $newRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($this->db->insert_id(), 'cohort_id', 'cohort',
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($this->db->insert_id(), 'cohort_id', 'cohort',
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
         // TODO audit events for the cross table transactions?
         $this->processCrossTableTransactions('program_year_x_competency', 'competency_id', $newId,
@@ -472,9 +465,8 @@ EOL;
         $this->db->where('program_year_id', $programYearId);
         $this->db->update($this->databaseTableName, $updateValues);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($programYearId, 'program_year_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($programYearId, 'program_year_id',
+            $this->databaseTableName, Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
 
         $duration = $this->program->getDurationForProgramWithId($programId);
@@ -489,8 +481,8 @@ EOL;
         $this->db->where('cohort_id', $cohortId);
         $this->db->update('cohort', $updateValues);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($cohortId, 'cohort_id', 'cohort',
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($cohortId, 'cohort_id', 'cohort',
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
         $rhett = $this->objective->saveObjectives($objectivesArray, 'program_year_x_objective', 'program_year_id',
             $programYearId, $auditAtoms);

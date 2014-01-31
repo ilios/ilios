@@ -626,60 +626,26 @@ ENGINE=InnoDB;
 	  PRIMARY KEY (`alert_change_type_id`) USING BTREE
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
-
-	--
-	-- Table audit_event
-	--
-
-	DROP TABLE IF EXISTS `audit_event`;
-	SET character_set_client = utf8;
-	CREATE TABLE `audit_event` (
-	  `audit_event_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `time_stamp` TIMESTAMP NOT NULL,
-	  `user_id` INT(14) UNSIGNED,
-	  PRIMARY KEY (`audit_event_id`) USING BTREE,
-	  KEY `user_id_k` USING BTREE (`user_id`),
-	  KEY `ae_u_ts_k` USING BTREE (`audit_event_id`,`user_id`,`time_stamp`),
-	  CONSTRAINT `audit_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-	--
-	-- Table audit_atom
-	--
-
-	DROP TABLE IF EXISTS `audit_atom`;
-	SET character_set_client = utf8;
-	CREATE TABLE `audit_atom` (
-	  `audit_atom_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
-	  `table_row_id` INT(14) UNSIGNED NOT NULL,
-	  `table_column` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
-	  `table_name` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
-	  `event_type` TINYINT(1) UNSIGNED NOT NULL,	-- Cr, U, D
-	  `root_atom` TINYINT(1) NOT NULL,		-- nearly every audit event should have one root atom, the 'cause' of the audit event (multi-save-offerings will not)
-	  `audit_event_id` INT(14) UNSIGNED NOT NULL,
-	  PRIMARY KEY (`audit_atom_id`) USING BTREE,
-	  KEY `audit_event_id_k` USING BTREE (`audit_event_id`),
-	  KEY `aeid_ra_k` USING BTREE (`audit_event_id`,`root_atom`),
-	  CONSTRAINT `audit_atom_ibfk_1` FOREIGN KEY (`audit_event_id`) REFERENCES `audit_event` (`audit_event_id`)
-	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-	--
-	-- Table audit_content
-	--
-
-	DROP TABLE IF EXISTS `audit_content`;
-	SET character_set_client = utf8;
-	CREATE TABLE `audit_content` (
-	  `audit_atom_id` INT(14) UNSIGNED NOT NULL,
-	  `serialized_state_event` MEDIUMBLOB NOT NULL,
-	  KEY `audit_atom_id_k` USING BTREE (`audit_atom_id`),
-	  CONSTRAINT `audit_content_ibfk_1` FOREIGN KEY (`audit_atom_id`) REFERENCES `audit_atom` (`audit_atom_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
+--
+-- Table audit_atom
+--
+DROP TABLE IF EXISTS `audit_atom`;
+SET character_set_client = utf8;
+CREATE TABLE `audit_atom` (
+    `audit_atom_id` INT(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `table_row_id` INT(14) UNSIGNED NOT NULL,
+    `table_column` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+    `table_name` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
+    `event_type` TINYINT(1) UNSIGNED NOT NULL,
+    `created_by` INT(14) UNSIGNED NULL DEFAULT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`audit_atom_id`) USING BTREE,
+    INDEX `idx_audit_atom_created_at` (`created_at`),
+    CONSTRAINT `fkey_audit_atom_created_by`
+        FOREIGN KEY (`created_by`) REFERENCES `user` (`user_id`)
+)
+DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+ENGINE=InnoDB;
 
 	--
 	-- Table publish_event

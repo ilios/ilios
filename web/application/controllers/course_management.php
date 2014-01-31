@@ -547,12 +547,12 @@ class Course_Management extends Ilios_Web_Controller
                 $this->course->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
 
                 $failedTransaction = false;
@@ -672,12 +672,12 @@ class Course_Management extends Ilios_Web_Controller
                         $this->course->commitTransaction();
 
                         // save audit trail
-                        $this->auditEvent->startTransaction();
-                        $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                        if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                            $this->auditEvent->rollbackTransaction();
+                        $this->auditAtom->startTransaction();
+                        $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                        if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                            $this->auditAtom->rollbackTransaction();
                         } else {
-                            $this->auditEvent->commitTransaction();
+                            $this->auditAtom->commitTransaction();
                         }
 
                         $failedTransaction = false;
@@ -830,12 +830,12 @@ class Course_Management extends Ilios_Web_Controller
                 $this->course->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -879,12 +879,12 @@ class Course_Management extends Ilios_Web_Controller
                 $this->course->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
 
                 $failedTransaction = false;
@@ -1137,12 +1137,12 @@ class Course_Management extends Ilios_Web_Controller
                     $this->iliosSession->commitTransaction();
 
                     // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
+                    $this->auditAtom->startTransaction();
+                    $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                        $this->auditAtom->rollbackTransaction();
                     } else {
-                        $this->auditEvent->commitTransaction();
+                        $this->auditAtom->commitTransaction();
                     }
 
                     /*
@@ -1234,12 +1234,12 @@ class Course_Management extends Ilios_Web_Controller
                     $failedTransaction = false;
 
                     // save audit trail
-                    $this->auditEvent->startTransaction();
-                    $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                    if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                        $this->auditEvent->rollbackTransaction();
+                    $this->auditAtom->startTransaction();
+                    $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                    if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                        $this->auditAtom->rollbackTransaction();
                     } else {
-                        $this->auditEvent->commitTransaction();
+                        $this->auditAtom->commitTransaction();
                     }
 
                     $rhett['container'] = $containerNumber;
@@ -1374,12 +1374,12 @@ class Course_Management extends Ilios_Web_Controller
                 $this->offering->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
         }

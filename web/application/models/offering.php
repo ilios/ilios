@@ -194,9 +194,8 @@ class Offering extends Ilios_Base_Model
                 return -1;
             }
 
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($newOfferingId, 'offering_id',
-                                                                $this->databaseTableName,
-                                                                Ilios_Model_AuditUtils::CREATE_EVENT_TYPE, 1));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newOfferingId, 'offering_id',
+                $this->databaseTableName, Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
             if ($recurringEventId != -1) {
                 $newRow = array();
@@ -204,10 +203,8 @@ class Offering extends Ilios_Base_Model
                 $newRow['recurring_event_id'] = $recurringEventId;
                 $this->db->insert('offering_x_recurring_event', $newRow);
 
-                array_push($auditAtoms,
-                           $this->auditEvent->wrapAtom($newOfferingId, 'offering_id',
-                                                       'offering_x_recurring_event',
-                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newOfferingId, 'offering_id',
+                    'offering_x_recurring_event', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
             }
 
             if (is_null($instructors)) {
@@ -256,9 +253,8 @@ class Offering extends Ilios_Base_Model
             $this->db->where('offering_id', $offeringId);
             $this->db->update($this->databaseTableName, $updateRow);
 
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                                $this->databaseTableName,
-                                                                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE, 1));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id', $this->databaseTableName,
+                Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
             $previousRecurringEventId = $this->getRecurringEventIdForOffering($offeringId);
             if ($previousRecurringEventId != -1) {
@@ -276,10 +272,8 @@ class Offering extends Ilios_Base_Model
                 $newRow['recurring_event_id'] = $recurringEventId;
                 $this->db->insert('offering_x_recurring_event', $newRow);
 
-                array_push($auditAtoms,
-                           $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                       'offering_x_recurring_event',
-                                                       Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id',
+                    'offering_x_recurring_event', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
             }
 
             $existingInstructorIds = $this->_getInstructorIds($offeringId);
@@ -359,16 +353,16 @@ class Offering extends Ilios_Base_Model
         $this->db->update($this->databaseTableName, $updateRow);
 
         // capture the delete/update events in the audit trail
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor',
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id','offering_x_instructor',
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id','offering_x_instructor_group',
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id','offering_x_instructor_group',
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_x_learner',
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id', 'offering_x_learner',
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', 'offering_x_group',
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id', 'offering_x_group',
             Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
-        $auditAtoms[] = $this->auditEvent->wrapAtom($offeringId, 'offering_id', $this->databaseTableName,
-            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE, ($deleteIsRootEvent ? 1 : 0));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
 
         // transaction checkpoint
         return (! $this->transactionAtomFailed());
@@ -398,9 +392,8 @@ class Offering extends Ilios_Base_Model
         if ($recurringEventId != -1) {
             $this->db->where('offering_id', $offeringId);
             $this->db->delete('offering_x_recurring_event');
-            array_push($auditAtoms, $this->auditEvent->wrapAtom($offeringId, 'offering_id',
-                                                                'offering_x_recurring_event',
-                                                                Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($offeringId, 'offering_id',
+                'offering_x_recurring_event', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
 
             $this->db->where('recurring_event_id', $recurringEventId);
             $queryResults = $this->db->get('offering_x_recurring_event');
@@ -408,10 +401,8 @@ class Offering extends Ilios_Base_Model
                 $this->db->where('recurring_event_id', $recurringEventId);
                 $this->db->delete('recurring_event');
 
-                array_push($auditAtoms,
-                           $this->auditEvent->wrapAtom($recurringEventId, 'recurring_event_id',
-                                                       'recurring_event',
-                                                       Ilios_Model_AuditUtils::DELETE_EVENT_TYPE));
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($recurringEventId, 'recurring_event_id',
+                    'recurring_event', Ilios_Model_AuditUtils::DELETE_EVENT_TYPE);
             }
         }
     }

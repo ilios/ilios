@@ -97,12 +97,12 @@ class Learning_Materials extends Ilios_Web_Controller
                 $this->learningMaterial->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
             else {
@@ -222,17 +222,17 @@ class Learning_Materials extends Ilios_Web_Controller
                 $this->learningMaterial->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
 
                 // save change alerts
                 $alertChangeTypes = array(Alert::CHANGE_TYPE_LEARNING_MATERIAL);
-                $this->auditEvent->startTransaction();
+                $this->auditAtom->startTransaction();
                 $success = false;
                 if (! $sessionId) {
                     if ($this->course->isPublished($courseId)) {
@@ -248,10 +248,10 @@ class Learning_Materials extends Ilios_Web_Controller
                 } else {
                     $success = $this->_alertAllOfferingsAsAppropriate($sessionId, $sessionId, 'session', $alertChangeTypes, $school);
                 }
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
         } while ($failedTransaction && ($transactionRetryCount > 0));
@@ -337,17 +337,17 @@ class Learning_Materials extends Ilios_Web_Controller
                 $this->learningMaterial->commitTransaction();
 
                 // save audit trail
-                $this->auditEvent->startTransaction();
-                $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
 
                 // save change alerts
                 $alertChangeTypes = array(Alert::CHANGE_TYPE_LEARNING_MATERIAL);
-                $this->auditEvent->startTransaction();
+                $this->auditAtom->startTransaction();
                 $success = false;
                 if (! $sessionId) {
                     if ($this->course->isPublished($courseId)) {
@@ -366,10 +366,10 @@ class Learning_Materials extends Ilios_Web_Controller
                     $success = $this->_alertAllOfferingsAsAppropriate($sessionId, $sessionId, 'session',
                             $alertChangeTypes, $school);
                 }
-                if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                    $this->auditEvent->rollbackTransaction();
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
                 } else {
-                    $this->auditEvent->commitTransaction();
+                    $this->auditAtom->commitTransaction();
                 }
             }
         }
@@ -552,12 +552,12 @@ class Learning_Materials extends Ilios_Web_Controller
                         $this->learningMaterial->commitTransaction();
 
                         // save audit trail
-                        $this->auditEvent->startTransaction();
-                        $success = $this->auditEvent->saveAuditEvent($auditAtoms, $userId);
-                        if ($this->auditEvent->transactionAtomFailed() || ! $success) {
-                            $this->auditEvent->rollbackTransaction();
+                        $this->auditAtom->startTransaction();
+                        $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                        if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                            $this->auditAtom->rollbackTransaction();
                         } else {
-                            $this->auditEvent->commitTransaction();
+                            $this->auditAtom->commitTransaction();
                         }
 
                         $rhett['learning_material_id'] = $newLearningMaterialId;

@@ -96,9 +96,8 @@ class Objective extends Ilios_Base_Model
 
         $objectiveId = $this->db->insert_id();
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveId, 'objective_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE));
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($objectiveId, 'objective_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
 
         if ($objectiveId != -1) {
             $mockObjectArray = array();
@@ -131,10 +130,8 @@ class Objective extends Ilios_Base_Model
         $this->db->where('objective_id', $objectiveObject['dbId']);
         $this->db->update($this->databaseTableName, $updateRow);
 
-        array_push($auditAtoms, $this->auditEvent->wrapAtom($objectiveObject['dbId'],
-                                                            'objective_id',
-                                                            $this->databaseTableName,
-                                                            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE));
+        $auditAtoms[] =Ilios_Model_AuditUtils::wrapAuditAtom($objectiveObject['dbId'], 'objective_id',
+            $this->databaseTableName, Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
         $this->performCrossTableInserts($objectiveObject['meshTerms'], 'objective_x_mesh',
                                         'mesh_descriptor_uid', 'objective_id',
