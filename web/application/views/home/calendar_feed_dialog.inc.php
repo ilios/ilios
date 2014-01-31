@@ -10,9 +10,9 @@
     <div class="hd"><?php echo t('calendar.feed_title'); ?></div>
     <div class="bd">
         <p><?php echo t('calendar.feed_about'); ?></p>
+        <p><?php echo t('calendar.feed_like_a_password'); ?></p>
         <p>
             <input style="font-size: smaller; width: 100%" id="apiurl" readonly="readonly" />
         </p>
-        <p><?php echo t('calendar.feed_new_key'); ?></p>
     </div>
 </div>

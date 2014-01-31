@@ -90,6 +90,15 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @When /^I press the element with id "([^"]*)"$/
+     */
+    public function iPressTheElementWithId ($id)
+    {
+        $element = $this->getSession()->getPage()->find('css', "#{$id}");
+        $element->press();
+    }
+
+    /*
      * @When /^I click all expanded toggles$/
      */
     public function iClickAllExpandedToggles ()
