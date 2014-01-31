@@ -16,12 +16,14 @@ function PreferencesModel (serverDispatchedObject) {
     /**
      * @property canArchiveCourses
      * @type {Boolean}
+     * @default false
      */
     this.canArchiveCourses = false;
 
     /**
      * @property canRolloverCourses
      * @type {Boolean}
+     * @default false
      */
     this.canRolloverCourses = false;
 
@@ -32,6 +34,7 @@ function PreferencesModel (serverDispatchedObject) {
 /**
  * @method showCourseArchiving
  * @return {Boolean}
+ * @default false
  */
 PreferencesModel.prototype.showCourseArchiving = function () {
     return this.canArchiveCourses;
