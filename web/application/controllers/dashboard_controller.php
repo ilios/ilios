@@ -260,7 +260,7 @@ class Dashboard_Controller extends Calendar_Controller
         $key = 'mesh.dialog.title';
         $data['mesh_dialog_title']= $this->languagemap->getI18NString($key);
 
-        $data['preference_array'] = $this->getPreferencesArrayForUser();
+        $data['preference_array'] = $this->_getUserPreferences();
 
         $data['render_headerless'] = false;
         $data['show_view_switch'] = false;
@@ -681,7 +681,7 @@ class Dashboard_Controller extends Calendar_Controller
         $this->session->set_userdata('py_archiving', ($allowProgramYearArchiving == 'true'));
         $this->session->set_userdata('course_archiving', ($allowCourseArchiving == 'true'));
 
-        $rhett['prefs'] = $this->getPreferencesArrayForUser();
+        $rhett['prefs'] = $this->_getUserPreferences();
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -704,7 +704,7 @@ class Dashboard_Controller extends Calendar_Controller
 
         $this->session->set_userdata('course_rollover', ($allowCourseRollover == 'true'));
 
-        $rhett['prefs'] = $this->getPreferencesArrayForUser();
+        $rhett['prefs'] = $this->_getUserPreferences();
 
         header("Content-Type: text/plain");
         echo json_encode($rhett);

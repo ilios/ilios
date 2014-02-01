@@ -410,7 +410,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     /**
      * @todo add code docs
      */
-    protected function getPreferencesArrayForUser ()
+    protected function _getUserPreferences ()
     {
         $rhett = array();
 

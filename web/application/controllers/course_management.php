@@ -411,7 +411,7 @@ class Course_Management extends Ilios_Web_Controller
                                         = $this->learningMaterial->getLearningMaterialStatuses();
 
 
-        $data['preference_array'] = $this->getPreferencesArrayForUser();
+        $data['preference_array'] = $this->_getUserPreferences();
 
         $this->load->view('course/course_manager', $data);
     }
