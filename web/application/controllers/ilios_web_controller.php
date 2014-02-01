@@ -418,22 +418,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     protected function _getUserPreferences ()
     {
         $rhett = array();
-
-        if (! $this->session->userdata('username')) {
-            $rhett['py_archiving'] = 'false';
-            $rhett['course_archiving'] = 'false';
-            $rhett['course_rollover'] = 'false';
-        } else {
-            // $userId setting left for future developers should they want to have prefs stored in
-            //          the db keyed by user_id
-            // $userId = $this->session->userdata('uid');
-
-            $rhett['py_archiving'] = $this->session->userdata('py_archiving') ? 'true' : 'false';
-            $rhett['course_archiving'] = $this->session->userdata('course_archiving') ? 'true'
-                : 'false';
-            $rhett['course_rollover'] = $this->session->userdata('course_rollover') ? 'true'
-                : 'false';
-        }
+        $rhett['py_archiving'] = $this->session->userdata('py_archiving');
+        $rhett['course_archiving'] = $this->session->userdata('course_archiving');
+        $rhett['course_rollover'] = $this->session->userdata('course_rollover');
         return $rhett;
     }
 }
