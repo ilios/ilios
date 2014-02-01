@@ -147,7 +147,7 @@ class Program_Management extends Ilios_Web_Controller
             $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
         }
 
-        $data['preference_array'] = $this->_getUserPreferences();
+        $data['user_preferences_json'] = Ilios_Json::encodeForJavascriptEmbedding($this->_getUserPreferences(), Ilios_Json::JSON_ENC_DOUBLE_QUOTES);
 
         $this->load->view('program/program_manager', $data);
     }

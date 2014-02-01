@@ -249,7 +249,7 @@ class Calendar_Controller extends Ilios_Web_Controller
         $key = 'mesh.dialog.title';
         $data['mesh_dialog_title']= $this->languagemap->getI18NString($key);
 
-        $data['preference_array'] = $this->_getUserPreferences();
+        $data['user_preferences_json'] = Ilios_Json::encodeForJavascriptEmbedding($this->_getUserPreferences(), Ilios_Json::JSON_ENC_DOUBLE_QUOTES);
 
         $data['render_headerless'] = false;
         $data['show_view_switch'] = false;
