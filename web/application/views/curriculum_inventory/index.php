@@ -126,7 +126,6 @@ include 'edit_sequence_block_dialog.inc.php';
         window.alert = ilios.alert.alert;
         window.inform = ilios.alert.inform;
     });
-    ilios.global.installPreferencesModel();
 
     YAHOO.util.Event.onDOMReady(function() {
         var payload;
