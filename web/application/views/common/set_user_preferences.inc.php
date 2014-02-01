@@ -14,7 +14,7 @@
 YAHOO.util.Event.onDOMReady(function () {
     ilios.global.installPreferencesModel();
     try {
-        ilios.global.preferencesModel.updateWithServerDispatchedObject(YAHOO.lang.JSON.parse('<?php echo $user_preferences_json; ?>'));
+        ilios.global.preferencesModel.updateWithServerDispatchedObject(YAHOO.lang.JSON.parse("<?php echo $user_preferences_json; ?>"));
     }  catch (e) {
         // SOL
         ilios.global.defaultAJAXFailureHandler(null, e);
