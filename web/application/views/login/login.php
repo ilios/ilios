@@ -28,14 +28,6 @@ $viewsPath = getServerFilePath('views');
 
     <!-- Third party JS -->
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/html5shiv.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/yui_kitchensink.js"); ?>"></script>
-
-    <!-- Ilios JS -->
-    <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_base.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_ui.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_utilities.js"); ?>"></script>
 </head>
 <body class="yui-skin-sam">
     <div id="wrapper">
@@ -80,13 +72,5 @@ $viewsPath = getServerFilePath('views');
     </footer>
     <!-- overlays at the bottom - avoid z-index issues -->
     <div id="view-menu"></div>
-
-    <script type="text/javascript">
-        // register alert/inform overrides on window load
-        YAHOO.util.Event.on(window, 'load', function() {
-            window.alert = ilios.alert.alert;
-            window.inform = ilios.alert.inform;
-        });
-    </script>
 </body>
 </html>
