@@ -59,12 +59,12 @@ PreferencesModel.prototype.showCourseRollover = function () {
 /**
  * @method updateWithServerDispatchedObject
  * @param {Object} serverDispatchedObject
- *   @param {String} serverDispatchedObject.py_archiving
- *   @param {String} serverDispatchedObject.course_archiving
- *   @param {String} serverDispatchedObject.course_rollover
+ *   @param {Boolean} serverDispatchedObject.py_archiving
+ *   @param {Boolean} serverDispatchedObject.course_archiving
+ *   @param {Boolean} serverDispatchedObject.course_rollover
  */
 PreferencesModel.prototype.updateWithServerDispatchedObject = function (serverDispatchedObject) {
-    this.canArchiveProgramYears = (serverDispatchedObject.py_archiving === 'true');
-    this.canArchiveCourses = (serverDispatchedObject.course_archiving === 'true');
-    this.canRolloverCourses = (serverDispatchedObject.course_rollover === 'true');
+    this.canArchiveProgramYears = serverDispatchedObject.py_archiving;
+    this.canArchiveCourses = serverDispatchedObject.course_archiving;
+    this.canRolloverCourses = serverDispatchedObject.course_rollover;
 };

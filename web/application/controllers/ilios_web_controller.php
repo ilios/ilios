@@ -405,4 +405,22 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
         header("Content-Type: text/plain");
         echo json_encode($results);
     }
+
+
+    /**
+     * Retrieves various application preferences from the user session.
+     *
+     * @return array An associative array containing user-set preferences under the following keys:
+     *     'py_archiving'     ... A boolean indicating whether program-year archiving has been enabled or not.
+     *     'course_archiving' ... A boolean indicating whether course archiving has been enabled or not.
+     *     'course_rollover'  ... A boolean indicating whether course rollover has been turned on or not.
+     */
+    protected function _getUserPreferences ()
+    {
+        $rhett = array();
+        $rhett['py_archiving'] = $this->session->userdata('py_archiving');
+        $rhett['course_archiving'] = $this->session->userdata('course_archiving');
+        $rhett['course_rollover'] = $this->session->userdata('course_rollover');
+        return $rhett;
+    }
 }

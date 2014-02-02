@@ -593,16 +593,10 @@ $viewsPath = getServerFilePath('views');
             window.inform = ilios.alert.inform;
         });
 <?php
-    generateJavascriptRepresentationCodeOfPHPArray($preference_array, 'dbObjectRepresentation', false);
-?>
-        ilios.global.installPreferencesModel();
-        ilios.global.preferencesModel.updateWithServerDispatchedObject(dbObjectRepresentation);
-
-<?php
+    include_once $viewsPath . 'common/set_user_preferences.inc.php';
     include_once $viewsPath . 'common/load_school_competencies.inc.php';
     include_once $viewsPath . 'common/start_idle_page_timer.inc.php';
 ?>
-
         YAHOO.util.Event.onDOMReady(ilios.dom.generateTreeSelectionDialogMarkupAndWireContent, {
             trigger: 'competency_picker_show_dialog',
             single_selection: 'yup',

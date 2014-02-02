@@ -113,31 +113,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
 
     /**
      * @todo add code docs
-     */
-    protected function getPreferencesArrayForUser ()
-    {
-        $rhett = array();
-
-        if (! $this->session->userdata('username')) {
-            $rhett['py_archiving'] = 'false';
-            $rhett['course_archiving'] = 'false';
-            $rhett['course_rollover'] = 'false';
-        } else {
-            // $userId setting left for future developers should they want to have prefs stored in
-            //          the db keyed by user_id
-            // $userId = $this->session->userdata('uid');
-
-            $rhett['py_archiving'] = $this->session->userdata('py_archiving') ? 'true' : 'false';
-            $rhett['course_archiving'] = $this->session->userdata('course_archiving') ? 'true'
-                                                                                      : 'false';
-            $rhett['course_rollover'] = $this->session->userdata('course_rollover') ? 'true'
-                                                                                    : 'false';
-        }
-        return $rhett;
-    }
-
-    /**
-     * @todo add code docs
      * taken from http://roshanbh.com.np/2007/12/getting-real-ip-address-in-php.html
      */
     protected function getClientIPAddress ()

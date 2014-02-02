@@ -142,14 +142,7 @@ endif;
             window.alert = ilios.alert.alert;
             window.inform = ilios.alert.inform;
         });
-<?php
-    generateJavascriptRepresentationCodeOfPHPArray($preference_array, 'dbObjectRepresentation', false);
-?>
-        ilios.global.installPreferencesModel();
-        ilios.global.preferencesModel.updateWithServerDispatchedObject(dbObjectRepresentation);
-
 <?php include_once $viewsPath . 'common/load_school_competencies.inc.php'; ?>
-
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.initCalendar);
         YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadAllOfferings);
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.assembleCalendarEventDetailsDialog);
