@@ -6,6 +6,12 @@ function fullyEscapedText ($text) {
             preg_replace('/\n/', ' ', $text)));
 }
 
+/**
+ * @deprecated
+ * Do not use this junk going forward. Instead, properly (de)serialize your values from/to JSON your values
+ * when passing them from PHP to JS-land. [ST 2014/02/01]
+ * @see https://github.com/ilios/ilios/issues/406
+ */ 
 function generateJavascriptRepresentationCodeOfPHPArray ($anArray, $variableName,
                                                          $declareVariable = true) {
     echo ($declareVariable ? "var " : "") . $variableName . " = new Object();\n";
