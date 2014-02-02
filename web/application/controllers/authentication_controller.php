@@ -266,7 +266,7 @@ class Authentication_Controller extends Ilios_Base_Controller
             $redirect = '/Shibboleth.sso/Logout';
         }
         $this->session->sess_destroy();
-        $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
+        $this->output->set_header("Location: " . $redirect);
     }
 
     /**
