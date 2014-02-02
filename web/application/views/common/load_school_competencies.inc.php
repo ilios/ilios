@@ -1,12 +1,16 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
+ * @file load_school_competencies.inc.php
+ * 
  * Includes template.
+ * 
  * Populates the school competencies map on page load.
  * Put this inside the javascript-block at the bottom of each page template where applicable.
  *
  * Expects the following template variables to be present:
  *
- * $school_competencies ... a JSON-formatted representation of competenies/subdomains, grouped by their owning schools.
+ *     $school_competencies ... a JSON-formatted representation of competencies/subdomains, 
+ *                              grouped by their owning schools.
  */
 ?>
 
