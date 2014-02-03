@@ -679,7 +679,7 @@ ilios.pm.setGraduatingClassOfText = function (containerNumber, academicStartYear
 	var duration = ilios.pm.currentProgramModel.getDuration();
     var currentYearSelector = document.getElementById(containerNumber+'_program_year_title');
     if(academicStartYear){
-    	var academicStartYear = academicStartYear;
+        var academicStartYear = academicStartYear;
     } else {
     	var academicStartYear = currentYearSelector.options[currentYearSelector.selectedIndex].value;
     }
