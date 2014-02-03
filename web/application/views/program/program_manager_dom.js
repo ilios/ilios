@@ -660,7 +660,7 @@ ilios.pm.handleProgramYearStartYearSelect = function (containerNumber) {
 
     if (selectElement != null) {
         var option = selectElement.options[selectElement.selectedIndex];
-        var startYear = parseInt(option.value);
+        var startYear = parseInt(option.value, 10);
         var model = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(containerNumber);
 
         model.setStartYear(startYear);
