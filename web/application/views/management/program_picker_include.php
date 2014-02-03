@@ -94,7 +94,7 @@ generatePickerMarkupAndScript($uniquer, $dialogDivId, $modelName, $modelSpecific
     $localModelGetterInvocation, $localModelSetterName, $modelSettingCode,
     $autolistContainerId, $autoCompleteTextFieldId, $i18nKeyForSelectedLabel,
     $i18nKeyForInstructions, $autoCompleteTabId, $dialogDisplayingEventTriggerName,
-    'YAHOO.util.XHRDataSource.TYPE_XML', null, null, null, 75, null,
+    'YAHOO.util.XHRDataSource.TYPE_XML', null, null, 75, null,
     $selectHandlerCode, $deselectHandlerCode, $submitHandlerCode, null, $displayVetoer);
 ?>
 
