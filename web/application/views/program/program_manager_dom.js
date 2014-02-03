@@ -826,10 +826,11 @@ ilios.pm.addNewProgramYear = function () {
 
         container.appendChild(newProgramYearDOMTree.get('element'));
 
+        var newStartYear;
         if ((containerNumber == 1) || (ilios.pm.currentProgramModel.getProgramYearCount() == 0)) {
 
             //set the newStartYear equal to the current year for the matriculation summary...
-            var newStartYear = (new Date()).getFullYear();
+            newStartYear = (new Date()).getFullYear();
 
             programYearModel = new ProgramYearModel();
 
@@ -844,7 +845,7 @@ ilios.pm.addNewProgramYear = function () {
             var textListContent = null;
             var modelArray = null;
             var currentYear = (new Date()).getFullYear();
-            var newStartYear = 0;
+            newStartYear = 0;
             var maximumProgramYears = ilios.pm.getMaximumProgramYearCount();
             var i = containerNumber - 1;
             var previousProgramYearModel = null;
