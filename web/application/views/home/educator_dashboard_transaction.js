@@ -557,7 +557,7 @@ ilios.home.transaction.loadReminderAlerts = function () {
                 aElement.setAttribute('href', '');
                 aElement.setAttribute('onclick', 'return false;');
                 aElement.setAttribute('title', reminder.note);
-                aElement.innerHTML = ilios.lang.ellipsisedOfLength(reminder.note, 26);
+                aElement.appendChild(document.createTextNode(ilios.lang.ellipsisedOfLength(reminder.note, 26)));
                 aElement.iliosModel = reminderModel;
                 YAHOO.util.Event.addListener(aElement, 'click', function () {
                     IEvent.fire({
