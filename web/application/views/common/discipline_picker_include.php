@@ -167,7 +167,6 @@ generatePickerMarkupAndScript(
     'YAHOO.util.XHRDataSource.TYPE_XML',
     null,
     null,
-    null,
     150,
     $displayDialogHandlerCode,
     $selectHandlerCode,

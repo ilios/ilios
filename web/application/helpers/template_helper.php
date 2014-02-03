@@ -249,7 +249,6 @@ if (! function_exists('generatePickerMarkupAndScript')) {
      * @param string $autoCompleteTabId
      * @param string $dialogDisplayingEventTriggerName
      * @param string $dataResponseType
-     * @param string $alternativeAutoCompleteRequestGenerator
      * @param string $alternativeAutoCompleteFilterer
      * @param string $alternativeAutoCompleteFormatter
      * @param int $maxResultsDisplay
@@ -284,7 +283,6 @@ if (! function_exists('generatePickerMarkupAndScript')) {
         $autoCompleteTabId,
         $dialogDisplayingEventTriggerName,
         $dataResponseType = 'YAHOO.util.XHRDataSource.TYPE_XML',
-        $alternativeAutoCompleteRequestGenerator = null,
         $alternativeAutoCompleteFilterer = null,
         $alternativeAutoCompleteFormatter = null,
         $maxResultsDisplay = 500,
@@ -500,10 +498,6 @@ if (! function_exists('generatePickerMarkupAndScript')) {
                 remote_data: <?php echo $uniquer; ?>dataSource,
                 select_handler: <?php echo $uniquer; ?>handleSelect,
                 <?php
-                    if ($alternativeAutoCompleteRequestGenerator != null) :
-                        echo "request_generator: " . $alternativeAutoCompleteRequestGenerator . ",\n";
-                    endif;
-
                     if ($alternativeAutoCompleteFilterer != null) :
                         echo "filter_results_handler: " . $alternativeAutoCompleteFilterer . ",\n";
                     endif;
