@@ -1284,7 +1284,7 @@ ilios.pm.alterProgramYearUIToReflectLockedState = function (containerNumber, upd
         element = childElement.parentNode;
         element.removeChild(childElement);
         childElement = document.createElement('span');
-        childElement.setAttribute('style', 'font-weight: bold; font-size: 9pt;')
+        childElement.setAttribute('style', 'font-weight: bold; font-size: 9pt;');
         childElement.innerHTML = ('' + model.getStartYear() + '-' + (model.getStartYear() + 1));
         element.appendChild(childElement);
     }
