@@ -561,7 +561,7 @@ ilios.pm.appendObjectivesBlockToDOM = function (parentElement, containerNumber) 
     scratchElement = document.createElement('span');
     scratchElement.setAttribute('id', ilios.pm.generateIdStringForObjectiveCountSpan(containerNumber));
     scratchElement.innerHTML = '(0)';
-    textNode.appendChild(scratchElement)
+    textNode.appendChild(scratchElement);
     labelCol.appendChild(textNode);
 
 
