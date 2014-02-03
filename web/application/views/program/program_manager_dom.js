@@ -650,7 +650,7 @@ ilios.pm.generateIdStringForStewardContent = function (containerNumber) {
 ilios.pm.getMaximumProgramYearCount = function () {
     var programDuration = ilios.pm.currentProgramModel.getDuration();
 
-    return parseInt(programDuration) + 2;
+    return parseInt(programDuration, 10) + 2;
 };
 
 // @private
