@@ -1059,7 +1059,7 @@ ilios.pm.continueDeletingObjective = function(event, args) {
     model.removeObjectiveForContainer(objectiveNumber);
     ilios.pm.updateObjectiveCountText(containerNumber);
     this.hide();
-}
+};
 
 /**
  * Initiates the addition of a new objective to a program year by firing up the "objective" dialog.
