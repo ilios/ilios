@@ -855,7 +855,7 @@ ilios.pm.addNewProgramYear = function () {
             var length = 0;
 
             for (; i > 0; i--) {
-            	 previousProgramYearModel = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(i);
+                previousProgramYearModel = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(i);
 
                 if (previousProgramYearModel != null) {
                     programYearModel = previousProgramYearModel.clone();
