@@ -71,4 +71,27 @@ class Api extends Ilios_Base_Controller
 
         echo $ical;
     }
+
+    /**
+     * Downloads a requested learning material file.
+     *
+     * @param string $op The operation to perform. Currently, only "dl" (download) is supported.
+     * @param string $token The pseudo key of the learning material.
+     */
+    public function lm ($op, $token)
+    {
+        if ('dl' !== $op) {
+            header('HTTP/1.1 400 Bad Request'); // not supported operation
+        }
+
+        if (! $token) {
+            header('HTTP/1.1 400 Bad Request'); // falsy token given
+        }
+
+        // @todo implement
+        // 1. retrieve the lm record by the pseudo key. filter out LMs that are flagged as non-public
+        // 2. find the LM file in the file system.
+        // 3. set the proper response headers and stream down the file
+        //    see Learning_Material::getLearningMaterialWithId()
+    }
 }
