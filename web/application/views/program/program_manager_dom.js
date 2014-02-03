@@ -404,7 +404,7 @@ ilios.pm.handleProgramYearDivCollapse = function (containerNumber, summaryTextDi
 };
 
 ilios.pm.getCollapseTrioForFirstChildLevelDiv = function (firstChildLevelDiv) {
-    var rhett = new Array();
+    var rhett = [];
     var parent = firstChildLevelDiv.parentNode.parentNode;
     var children = parent.getElementsByClassName('py_summary_shpeel');
 
