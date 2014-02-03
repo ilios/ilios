@@ -1324,4 +1324,4 @@ ilios.pm.getGraduatingClassOfString = function (startYear, duration) {
 	var graduatingClassOfStr = ilios_i18nVendor.getI18NString('general.phrases.graduating_class_of');
 	var rhett = graduatingClassOfStr+" "+(parseInt(startYear, 10) + parseInt(duration, 10));
     return rhett;
-}
+};
