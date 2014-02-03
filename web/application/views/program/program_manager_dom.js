@@ -678,11 +678,8 @@ ilios.pm.setGraduatingClassOfText = function (containerNumber, academicStartYear
 	var collapseSummaryTextSelector = document.getElementById(containerNumber+'_collapse_summary_text');
 	var duration = ilios.pm.currentProgramModel.getDuration();
     var currentYearSelector = document.getElementById(containerNumber+'_program_year_title');
-    if(academicStartYear){
-        var academicStartYear = academicStartYear;
-    } else {
-    	var academicStartYear = currentYearSelector.options[currentYearSelector.selectedIndex].value;
-    }
+    academicStartYear = academicStartYear || currentYearSelector.options[currentYearSelector.selectedIndex].value;
+
     //calculate the graduation year based on the duration and get the i18N string
     var graduatingClassOfString = ilios.pm.getGraduatingClassOfString(academicStartYear, duration);
     var yearText = academicStartYear + "-" + (parseInt(academicStartYear) + 1);
