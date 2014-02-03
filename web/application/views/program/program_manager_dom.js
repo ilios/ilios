@@ -805,7 +805,7 @@ ilios.pm.addNewProgramYear = function () {
     var str;
     var userCanAdd = ((ilios.pm.currentProgramModel.getDBId() != null)
         && (ilios.pm.currentProgramModel.getDBId() != '')
-        && (parseInt(ilios.pm.currentProgramModel.getDBId()) > 0));
+        && (parseInt(ilios.pm.currentProgramModel.getDBId(), 10) > 0));
 
     if (userCanAdd) {
         var container = document.getElementById('program_year_container');
