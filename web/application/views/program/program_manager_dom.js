@@ -682,7 +682,7 @@ ilios.pm.setGraduatingClassOfText = function (containerNumber, academicStartYear
 
     //calculate the graduation year based on the duration and get the i18N string
     var graduatingClassOfString = ilios.pm.getGraduatingClassOfString(academicStartYear, duration);
-    var yearText = academicStartYear + "-" + (parseInt(academicStartYear) + 1);
+    var yearText = academicStartYear + "-" + (parseInt(academicStartYear, 10) + 1);
     //wrap the text in parentheses..
     graduatingClassString = "("+graduatingClassOfString+")";
     //update the collapse div
