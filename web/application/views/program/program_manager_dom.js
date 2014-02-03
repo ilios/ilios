@@ -828,8 +828,8 @@ ilios.pm.addNewProgramYear = function () {
 
         if ((containerNumber == 1) || (ilios.pm.currentProgramModel.getProgramYearCount() == 0)) {
 
-        	//set the newStartYear equal to the current year for the matriculation summary...
-        	var newStartYear = (new Date()).getFullYear();
+            //set the newStartYear equal to the current year for the matriculation summary...
+            var newStartYear = (new Date()).getFullYear();
 
             programYearModel = new ProgramYearModel();
 
