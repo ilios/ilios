@@ -1036,7 +1036,7 @@ ilios.pm.deleteObjective = function (event) {
     var args = {
         "cnumber": target.getAttribute("cnumber"),
         "onumber": target.getAttribute("onumber")
-    }
+    };
     ilios.alert.inform(deleteObjectiveStr, yesStr, ilios.pm.continueDeletingObjective, args);
 };
 
