@@ -581,7 +581,7 @@ ilios.pm.appendObjectivesBlockToDOM = function (parentElement, containerNumber) 
 
     //action column
     scratchInput = new Element(document.createElement('a'), {href: ''});
-    scratchInput.addClass('tiny radius button')
+    scratchInput.addClass('tiny radius button');
     scratchInput.get('element').setAttribute('onclick', 'return false;');
     scratchInput.addListener('click', function (e) {
         ilios.pm.addNewObjective(containerNumber);
