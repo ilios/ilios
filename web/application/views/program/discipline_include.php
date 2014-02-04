@@ -1,4 +1,4 @@
-    <div class="tabdialog" id="discipline_picker_dialog"></div>
+
 
     <script type="text/javascript">
     ;

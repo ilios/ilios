@@ -142,6 +142,7 @@ $viewsPath = getServerFilePath('views');
             </div>
         </div>
     </div> <!-- end #program_add_dialog -->
+    <div class="tabdialog" id="discipline_picker_dialog"></div>
 <?php
     include $viewsPath . 'common/mesh_picker_include.php';
     include 'program_search_include.php';
