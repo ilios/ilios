@@ -1882,6 +1882,3 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         max_displayed_results: 150
     });
 }; // end function
-
-
-
