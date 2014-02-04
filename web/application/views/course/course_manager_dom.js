@@ -1774,7 +1774,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         textFieldContent = modelTitles.join(";");
 
         element = document.getElementById(inputTextId + "_full");
-        if (element != null) {
+        if (element) {
             element.innerHTML = textFieldContent;
             element = document.getElementById(inputTextId);
             element.innerHTML = ilios.lang.ellipsisedOfLength(textFieldContent, 75);
