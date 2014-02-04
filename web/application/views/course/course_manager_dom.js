@@ -1483,7 +1483,7 @@ ilios.cm.populateReviewForFullReview = function () {
 
     heading.innerHTML = ilios.cm.currentCourseModel.getTitle() + ' - '
                         + ilios.cm.currentCourseModel.getYear() + '-'
-                        + (parseInt(ilios.cm.currentCourseModel.getYear()) + 1);
+                        + (parseInt(ilios.cm.currentCourseModel.getYear(), 10) + 1);
     level.innerHTML = ilios_i18nVendor.getI18NString('general.phrases.course_level')
                         + ':  <span>' + ilios.cm.currentCourseModel.getCourseLevel() + '</span>';
 
