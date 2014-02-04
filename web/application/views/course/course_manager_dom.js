@@ -1849,7 +1849,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
     });
 
     ilios.dom.buildDialogPanel({}, {}, {
-        trigger: args['trigger'],
+        trigger: args.trigger,
         target: disc_selectedItemContainer,
         hidden: disc_hiddenFormElement,
         input: disc_listingTextField,
