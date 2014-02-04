@@ -59,22 +59,17 @@ ilios.cm.dirtyStateListener = {
             }
             ilios.dom.setElementEnabled(element, enable);
 
-            //idStr = ilios.cm.generateIdStringForPublishWarning(containerNumber);
-            //element = new Element(document.getElementById(idStr));
             publishability = model.getPublishability();
 
             if ((! enable) || (publishability != model.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS)) {
-//                element.setStyle('display', 'none');
                 YAHOO.util.Dom.removeClass(element, 'icon-warning');
             } else {
-//                element.setStyle('display', 'inline-block');
                 YAHOO.util.Dom.addClass(element, 'icon-warning');
             }
 
             element = document.getElementById('reset_button');
             ilios.dom.setElementEnabled(element, enabled);
 
-            //element = document.getElementById('course_title').parentNode;
             element = YAHOO.util.Dom.getElementsByClassName('level-1', 'div', document.getElementById('course_form'))[0];
 
             if (enabled) {
@@ -213,7 +208,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     var selected = null;
     var selectedDate = null;
     var formattedDate = null;
-    var element = null;
+    var element;
 
     // 'this' is the calendar
     if (this.isProgrammaticallySelectingDates) {
@@ -238,7 +233,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
         ilios.cm.rollover.setRolloverStartDate(selectedDate);
     }
 
-    if (element != null) {
+    if (element) {
         element.innerHTML = selectedDate.format('ddd mmm dd yyyy');
     }
 
@@ -443,14 +438,11 @@ ilios.cm.courseLoader = function (courseModelStub) {
         enable = (publishability != ilios.cm.currentCourseModel.CANNOT_BE_PUBLISHED);
     }
     ilios.dom.setElementEnabled(element, enable);
-    //element = new Element(document.getElementById(ilios.cm.generateIdStringForPublishWarning("-1")));
     if ((! enable)
          || (publishability != ilios.cm.currentCourseModel.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS)) {
-    //    element.setStyle('display', 'none');
         YAHOO.util.Dom.removeClass(element, 'icon-warning');
     }
     else {
-    //    element.setStyle('display', 'inline-block');
         YAHOO.util.Dom.addClass(element, 'icon-warning');
     }
 
@@ -474,14 +466,11 @@ ilios.cm.updatePublishAllUI = function () {
 
     ilios.dom.setElementEnabled(element, enable);
 
-    //element = new YAHOO.util.Element(document.getElementById('publish_all_warning'));
     if ((! enable)
          || (publishability != ilios.cm.currentCourseModel.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS)) {
-        //element.setStyle('display', 'none');
         YAHOO.util.Dom.removeClass(element,'icon-warning');
     }
     else {
-        //element.setStyle('display', 'inline-block');
         YAHOO.util.Dom.addClass(element,'icon-warning');
     }
 };
@@ -1455,7 +1444,7 @@ ilios.common.picker.mesh.handleMeSHPickerSave = function (dialogPanel) {
             var model = null;
 
             element = document.getElementById('ilios_lm_mesh');
-            if (element != null) {
+            if (element) {
                 element.innerHTML
                                 = ilios.mesh.meshInEditReferenceModel.getMeSHItemsAsFormattedText();
             }
@@ -1494,7 +1483,7 @@ ilios.cm.populateReviewForFullReview = function () {
 
     heading.innerHTML = ilios.cm.currentCourseModel.getTitle() + ' - '
                         + ilios.cm.currentCourseModel.getYear() + '-'
-                        + (parseInt(ilios.cm.currentCourseModel.getYear()) + 1);
+                        + (parseInt(ilios.cm.currentCourseModel.getYear(), 10) + 1);
     level.innerHTML = ilios_i18nVendor.getI18NString('general.phrases.course_level')
                         + ':  <span>' + ilios.cm.currentCourseModel.getCourseLevel() + '</span>';
 
@@ -1558,9 +1547,6 @@ ilios.cm.populateReviewForFullReview = function () {
 
     container = new YAHOO.util.Element(document.getElementById('full_review'));
     container.setStyle('display', 'block');
-
-//    element = new Element(document.getElementById('r_dialog_wrap'));
-//    element.setStyle('height', '626px');
 };
 
 ilios.cm.populateReviewForCourseReview = function () {
@@ -1570,7 +1556,7 @@ ilios.cm.populateReviewForCourseReview = function () {
 
     heading.innerHTML = ilios.cm.currentCourseModel.getTitle() + ' - '
                         + ilios.cm.currentCourseModel.getYear() + '-'
-                        + (parseInt(ilios.cm.currentCourseModel.getYear()) + 1);
+                        + (parseInt(ilios.cm.currentCourseModel.getYear(), 10) + 1);
     level.innerHTML = ilios_i18nVendor.getI18NString('general.phrases.course_level')
                         + ':  <span>' + ilios.cm.currentCourseModel.getCourseLevel() + '</span>';
 
@@ -1610,7 +1596,7 @@ ilios.cm.populateReviewForSessionReviewForContainer = function (containerNumber)
 
     heading.innerHTML = ilios.cm.currentCourseModel.getTitle() + ' - '
                         + ilios.cm.currentCourseModel.getYear() + '-'
-                        + (parseInt(ilios.cm.currentCourseModel.getYear()) + 1);
+                        + (parseInt(ilios.cm.currentCourseModel.getYear(), 10) + 1);
     level.innerHTML = ilios_i18nVendor.getI18NString('general.phrases.course_level')
                         + ':  <span>' + ilios.cm.currentCourseModel.getCourseLevel() + '</span>';
 
@@ -1738,7 +1724,6 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         var picker = document.getElementById( disc_selectedItemContainer);
         var localModels = parentModel.getDisciplines();
         var selectedModels = [];
-        disc_currentlySelectedModels;
         picker.innerHTML = "";
 
         selectedModels = null;
@@ -1788,7 +1773,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         textFieldContent = modelTitles.join(";");
 
         element = document.getElementById(inputTextId + "_full");
-        if (element != null) {
+        if (element) {
             element.innerHTML = textFieldContent;
             element = document.getElementById(inputTextId);
             element.innerHTML = ilios.lang.ellipsisedOfLength(textFieldContent, 75);
@@ -1855,7 +1840,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         deselect_handler: disc_handleDeselect,
         selected_label: "general.terms.topics",
         instructions: "general.text.discipline_search_instructions",
-        container: args['container'],
+        container: args.container,
         hidden: disc_hiddenFormElement,
         tabs: {autocomplete: "discipline_autocomplete_tab"},
         acinput: textInputFieldForAutoComplete,
@@ -1864,13 +1849,13 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
     });
 
     ilios.dom.buildDialogPanel({}, {}, {
-        trigger: args['trigger'],
+        trigger: args.trigger,
         target: disc_selectedItemContainer,
         hidden: disc_hiddenFormElement,
         input: disc_listingTextField,
         submit_override: disc_submitMethod,
         display_handler: disc_handleDialogDisplay,
-        container: args['container']
+        container: args.container
     });
 
     ilios.ui.setupDialogAutoComplete({
@@ -1882,6 +1867,3 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         max_displayed_results: 150
     });
 }; // end function
-
-
-
