@@ -59,22 +59,17 @@ ilios.cm.dirtyStateListener = {
             }
             ilios.dom.setElementEnabled(element, enable);
 
-            //idStr = ilios.cm.generateIdStringForPublishWarning(containerNumber);
-            //element = new Element(document.getElementById(idStr));
             publishability = model.getPublishability();
 
             if ((! enable) || (publishability != model.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS)) {
-//                element.setStyle('display', 'none');
                 YAHOO.util.Dom.removeClass(element, 'icon-warning');
             } else {
-//                element.setStyle('display', 'inline-block');
                 YAHOO.util.Dom.addClass(element, 'icon-warning');
             }
 
             element = document.getElementById('reset_button');
             ilios.dom.setElementEnabled(element, enabled);
 
-            //element = document.getElementById('course_title').parentNode;
             element = YAHOO.util.Dom.getElementsByClassName('level-1', 'div', document.getElementById('course_form'))[0];
 
             if (enabled) {
@@ -443,14 +438,11 @@ ilios.cm.courseLoader = function (courseModelStub) {
         enable = (publishability != ilios.cm.currentCourseModel.CANNOT_BE_PUBLISHED);
     }
     ilios.dom.setElementEnabled(element, enable);
-    //element = new Element(document.getElementById(ilios.cm.generateIdStringForPublishWarning("-1")));
     if ((! enable)
          || (publishability != ilios.cm.currentCourseModel.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS)) {
-    //    element.setStyle('display', 'none');
         YAHOO.util.Dom.removeClass(element, 'icon-warning');
     }
     else {
-    //    element.setStyle('display', 'inline-block');
         YAHOO.util.Dom.addClass(element, 'icon-warning');
     }
 
@@ -474,14 +466,11 @@ ilios.cm.updatePublishAllUI = function () {
 
     ilios.dom.setElementEnabled(element, enable);
 
-    //element = new YAHOO.util.Element(document.getElementById('publish_all_warning'));
     if ((! enable)
          || (publishability != ilios.cm.currentCourseModel.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS)) {
-        //element.setStyle('display', 'none');
         YAHOO.util.Dom.removeClass(element,'icon-warning');
     }
     else {
-        //element.setStyle('display', 'inline-block');
         YAHOO.util.Dom.addClass(element,'icon-warning');
     }
 };
@@ -1558,9 +1547,6 @@ ilios.cm.populateReviewForFullReview = function () {
 
     container = new YAHOO.util.Element(document.getElementById('full_review'));
     container.setStyle('display', 'block');
-
-//    element = new Element(document.getElementById('r_dialog_wrap'));
-//    element.setStyle('height', '626px');
 };
 
 ilios.cm.populateReviewForCourseReview = function () {
