@@ -142,13 +142,13 @@ $viewsPath = getServerFilePath('views');
             </div>
         </div>
     </div> <!-- end #program_add_dialog -->
+    <div class="tabdialog" id="discipline_picker_dialog"></div>
 <?php
     include $viewsPath . 'common/mesh_picker_include.php';
     include 'program_search_include.php';
     include 'archiving_dialog.php';
     include 'competency_include.php';
     include 'edit_objective_text_dialog.php';
-    include 'discipline_include.php';
     include 'director_include.php';
     include 'steward_include.php';
 ?>
@@ -165,6 +165,14 @@ $viewsPath = getServerFilePath('views');
     include_once $viewsPath . 'common/load_school_competencies.inc.php';
     include_once $viewsPath . 'common/start_idle_page_timer.inc.php';
 ?>
+        YAHOO.util.Event.onDOMReady(ilios.pm.disc_initDialog, {
+            // unique event that triggers opening of the dialog fired
+            // from search link near course mesh form element
+            trigger: "discipline_picker_show_dialog",
+            // unique id of the div where the dialog xhtml can be
+            // generated (once)
+            container: "discipline_picker_dialog"
+        });
 
         YAHOO.util.Event.onDOMReady(ilios.dom.buildDialogPanel, {
             trigger: 'add_new_program',
