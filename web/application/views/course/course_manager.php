@@ -117,6 +117,7 @@ $viewsPath = getServerFilePath('views');
     <div id="view-menu"></div>
     <div id="date_picking_calendar_container" style="z-index: 10999;"></div>
     <div class="tabdialog" id="cohort_pick_dialog"></div>    <!-- edit session description dialog -->
+    <div class="tabdialog" id="discipline_picker_dialog"></div>
 <?php
     include $viewsPath . 'common/course_summary_view_include.php';
     include $viewsPath . 'common/mesh_picker_include.php';
@@ -125,7 +126,6 @@ $viewsPath = getServerFilePath('views');
     include 'add_learning_materials_dialog.php';
     include 'archiving_dialog.php';
     include 'course_search_include.php';
-    include 'discipline_include.php';
     include 'director_include.php';
     include 'edit_learning_material_notes_dialog.php';
     include 'edit_course_objective_dialog.php';
@@ -239,6 +239,15 @@ $viewsPath = getServerFilePath('views');
                     ilios.cm.editSessionDescriptionDialog.show();
                 }
             });
+        });
+
+        YAHOO.util.Event.onDOMReady(ilios.cm.disc_initDialog, {
+            // unique event that triggers opening of the dialog fired
+            // from search link near course mesh form element
+            trigger: "discipline_picker_show_dialog",
+            // unique id of the div where the dialog xhtml can be
+            // generated (once)
+            container: "discipline_picker_dialog"
         });
 
 <?php
