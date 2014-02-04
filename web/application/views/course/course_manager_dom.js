@@ -1444,7 +1444,7 @@ ilios.common.picker.mesh.handleMeSHPickerSave = function (dialogPanel) {
             var model = null;
 
             element = document.getElementById('ilios_lm_mesh');
-            if (element != null) {
+            if (element) {
                 element.innerHTML
                                 = ilios.mesh.meshInEditReferenceModel.getMeSHItemsAsFormattedText();
             }
