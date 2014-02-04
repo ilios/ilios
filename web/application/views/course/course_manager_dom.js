@@ -1855,7 +1855,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         input: disc_listingTextField,
         submit_override: disc_submitMethod,
         display_handler: disc_handleDialogDisplay,
-        container: args['container']
+        container: args.container
     });
 
     ilios.ui.setupDialogAutoComplete({
