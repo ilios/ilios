@@ -1840,7 +1840,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         deselect_handler: disc_handleDeselect,
         selected_label: "general.terms.topics",
         instructions: "general.text.discipline_search_instructions",
-        container: args['container'],
+        container: args.container,
         hidden: disc_hiddenFormElement,
         tabs: {autocomplete: "discipline_autocomplete_tab"},
         acinput: textInputFieldForAutoComplete,
