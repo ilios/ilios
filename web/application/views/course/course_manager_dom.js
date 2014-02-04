@@ -208,7 +208,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
     var selected = null;
     var selectedDate = null;
     var formattedDate = null;
-    var element = null;
+    var element;
 
     // 'this' is the calendar
     if (this.isProgrammaticallySelectingDates) {
@@ -233,7 +233,7 @@ ilios.cm.calendarSelectionHandler = function (type, args, obj) {
         ilios.cm.rollover.setRolloverStartDate(selectedDate);
     }
 
-    if (element != null) {
+    if (element) {
         element.innerHTML = selectedDate.format('ddd mmm dd yyyy');
     }
 
