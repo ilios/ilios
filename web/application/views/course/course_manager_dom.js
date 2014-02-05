@@ -1772,15 +1772,8 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         modelTitles.sort();
         textFieldContent = modelTitles.join(";");
 
-        element = document.getElementById(inputTextId + "_full");
-        if (element) {
-            element.innerHTML = textFieldContent;
-            element = document.getElementById(inputTextId);
-            element.innerHTML = ilios.lang.ellipsisedOfLength(textFieldContent, 75);
-        } else {
-            element = document.getElementById(inputTextId);
-            element.innerHTML = textFieldContent;
-        }
+        element = document.getElementById(inputTextId);
+        element.innerHTML = textFieldContent;
     }; // end function
 
     /*
