@@ -1,8 +1,8 @@
 /**
  * DEPENDENCIES:
- * 		YUI lib (at least YAHOO.widget and its dependencies)
- * 		scripts/ilios_dom.js
- * 		scripts/ilios_utilities.js
+ *    YUI lib (at least YAHOO.widget and its dependencies)
+ *    scripts/ilios_dom.js
+ *    scripts/ilios_utilities.js
  *		program_manager_dom.js
  */
 
