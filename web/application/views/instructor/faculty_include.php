@@ -105,7 +105,7 @@ generatePickerMarkupAndScript("facu_", $dialogDivId, $modelName, $modelSpecifica
                               $i18nKeyForInstructions,
                               $autoCompleteTabId,
                               $dialogDisplayingEventTriggerName,
-                              'YAHOO.util.XHRDataSource.TYPE_XML', null,
+                              'YAHOO.util.XHRDataSource.TYPE_XML',
                               $autoCompleteFilterer, $autoCompleteFormatter, 2500,
                               $displayHandlerCode, $selectHandlerCode,
                               $deselectHandlerCode, $submitHandlerCode);

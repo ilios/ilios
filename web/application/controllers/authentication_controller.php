@@ -211,56 +211,62 @@ class Authentication_Controller extends Ilios_Base_Controller
 
         if ($logout == 'yes') {
             $this->_shibboleth_logout();
-            $data['logout_in_progress'] = $this->languagemap->getI18NString('logout.logout_in_progress');
-            $this->load->view('login/logout', $data);
+            return;
+        }
+
+        $emailAddress = "illegal_em4!l_addr3ss";
+        $shibbUserIdAttribute = $this->config->item('ilios_authentication_shibboleth_user_id_attribute');
+        $shibUserId = array_key_exists($shibbUserIdAttribute, $_SERVER) ? $_SERVER[$shibbUserIdAttribute] : null; // passed in by Shibboleth
+        if (! empty($shibUserId)) {
+            $emailAddress = $shibUserId;
+        }
+
+
+        $authenticatedUsers = $this->user->getEnabledUsersWithEmailAddress($emailAddress);
+        $userCount = count($authenticatedUsers);
+
+        if ($userCount == 0) {
+            $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.no_match_1')
+                . ' (' . $emailAddress . ') ' . $this->languagemap->getI18NString('login.error.no_match_2');
+            $this->load->view('common/forbidden', $data);
+        } else if ($userCount > 1) {
+            $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match')
+                . ' (' . $emailAddress . ' [' . $userCount . '])';
+            $this->load->view('common/forbidden', $data);
         } else {
-            $emailAddress = "illegal_em4!l_addr3ss";
-            $shibbUserIdAttribute = $this->config->item('ilios_authentication_shibboleth_user_id_attribute');
-            $shibUserId = array_key_exists($shibbUserIdAttribute, $_SERVER) ? $_SERVER[$shibbUserIdAttribute] : null; // passed in by Shibboleth
-            if (! empty($shibUserId)) {
-                $emailAddress = $shibUserId;
-            }
-
-
-            $authenticatedUsers = $this->user->getEnabledUsersWithEmailAddress($emailAddress);
-            $userCount = count($authenticatedUsers);
-
-            if ($userCount == 0) {
-                $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.no_match_1')
-                    . ' (' . $emailAddress . ') ' . $this->languagemap->getI18NString('login.error.no_match_2');
-                $this->load->view('common/forbidden', $data);
-            } else if ($userCount > 1) {
-                $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match')
-                    . ' (' . $emailAddress . ' [' . $userCount . '])';
+            $user = $authenticatedUsers[0];
+            if ($this->user->userAccountIsDisabled($user['user_id'])) {
+                $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
                 $this->load->view('common/forbidden', $data);
             } else {
-                $user = $authenticatedUsers[0];
-                if ($this->user->userAccountIsDisabled($user['user_id'])) {
-                    $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
-                    $this->load->view('common/forbidden', $data);
+                $this->_storeUserInSession($user);
+                if ($this->session->userdata('last_url')) {
+                    $this->output->set_header("Location: " . $this->session->userdata('last_url'));
+                    $this->session->unset_userdata('last_url');
                 } else {
-                    $this->_storeUserInSession($user);
-                    if ($this->session->userdata('last_url')) {
-                        $this->output->set_header("Location: " . $this->session->userdata('last_url'));
-                        $this->session->unset_userdata('last_url');
-                    } else {
-                        $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
-                    }
+                    $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
                 }
             }
         }
+
     }
 
     /**
      * Implements the "logout" action for the shibboleth authentication system.
      *
-     * This method destroys the current user-session.
+     * This method destroys the current user-session and redirects the user
+     * to the external logout URL.
      *
      * @see Authentication_Controller::logout()
      */
     protected function _shibboleth_logout ()
     {
+        $redirect = $this->config->item("ilios_authentication_shibboleth_logout_path");
+        if (! $redirect) {
+            $redirect = '/Shibboleth.sso/Logout';
+        }
         $this->session->sess_destroy();
+        $this->output->set_header("Location: " . $redirect);
     }
 
     /**

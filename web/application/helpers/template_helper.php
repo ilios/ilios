@@ -249,7 +249,6 @@ if (! function_exists('generatePickerMarkupAndScript')) {
      * @param string $autoCompleteTabId
      * @param string $dialogDisplayingEventTriggerName
      * @param string $dataResponseType
-     * @param string $alternativeAutoCompleteRequestGenerator
      * @param string $alternativeAutoCompleteFilterer
      * @param string $alternativeAutoCompleteFormatter
      * @param int $maxResultsDisplay
@@ -284,7 +283,6 @@ if (! function_exists('generatePickerMarkupAndScript')) {
         $autoCompleteTabId,
         $dialogDisplayingEventTriggerName,
         $dataResponseType = 'YAHOO.util.XHRDataSource.TYPE_XML',
-        $alternativeAutoCompleteRequestGenerator = null,
         $alternativeAutoCompleteFilterer = null,
         $alternativeAutoCompleteFormatter = null,
         $maxResultsDisplay = 500,
@@ -381,34 +379,7 @@ if (! function_exists('generatePickerMarkupAndScript')) {
          * @see ilios.dom.buildDialogPanel
          */
         var <?php echo $uniquer; ?>submitMethod = function () {
-            <?php
-                if ($alternativeSubmitHandlerCode != null) :
-                    echo $alternativeSubmitHandlerCode;
-                else :
-            ?>
-            var textFieldContent = '';
-            var containerNumber = this.containerNumber; // 'this' should be the Dialog instance
-            var inputTextId = containerNumber + '_' + <?php echo $uniquer; ?>listingTextField;
-            var parentModel = <?php echo $parentModelGetterName; ?>(this);
-            var element = null;
-
-            parentModel.<?php echo $localModelSetterName; ?>(<?php echo $uniquer; ?>currentlySelectedModels);
-
-            textFieldContent = ilios.utilities.delimitedStringOfTitledObjects(
-                <?php echo $uniquer ?>currentlySelectedModels, ';');
-
-            element = document.getElementById(inputTextId + "_full");
-            if (element != null) {
-                element.innerHTML = textFieldContent;
-                element = document.getElementById(inputTextId);
-                element.innerHTML = ilios.lang.ellipsisedOfLength(textFieldContent, 75);
-            } else {
-                element = document.getElementById(inputTextId);
-                element.innerHTML = textFieldContent;
-            }
-            <?php
-                endif;
-            ?>
+            <?php echo $alternativeSubmitHandlerCode; ?>
         }; // end function
 
 
@@ -500,10 +471,6 @@ if (! function_exists('generatePickerMarkupAndScript')) {
                 remote_data: <?php echo $uniquer; ?>dataSource,
                 select_handler: <?php echo $uniquer; ?>handleSelect,
                 <?php
-                    if ($alternativeAutoCompleteRequestGenerator != null) :
-                        echo "request_generator: " . $alternativeAutoCompleteRequestGenerator . ",\n";
-                    endif;
-
                     if ($alternativeAutoCompleteFilterer != null) :
                         echo "filter_results_handler: " . $alternativeAutoCompleteFilterer . ",\n";
                     endif;
