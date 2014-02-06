@@ -30,8 +30,9 @@ class Ilios_Ldap_Iterator implements Iterator, Countable
 
     /**
      * Constructor
-     * @param resource $ldap LDAP bind handle
+     * @param Ilios_Ldap $ldap The LDAP client.
      * @param resource $currentResult LDAP result-set handle
+     * @throws Ilios_Ldap_Exception If an error occurred when trying to count up the items in the given result-set.
      */
     public function __construct (Ilios_Ldap $ldap, $currentResult)
     {
@@ -104,6 +105,7 @@ class Ilios_Ldap_Iterator implements Iterator, Countable
      * Returns the result item key.
      * @return string|null
      * @see Iterator::key()
+     * @throws Ilios_Ldap_Exception When the DN of the current result entry can't be retrieved.
      */
     public function key()
     {
