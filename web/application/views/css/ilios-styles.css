@@ -2496,16 +2496,18 @@ ul.week_list li.selected_day {
 }
 
 .alert-due-date {
-    font-size: 8pt;
+    padding-left: .5em;
+    font-size: .7em;
     color: #a1a3a3;
-    display: inline-block;
+    vertical-align: top;
 }
 
 .alert-due-date-late {
-    font-size: 8pt;
+    padding-left: .5em;
+    font-size: .7em;
     font-weight: bold;
     color: #ee0a0a;
-    display: inline-block;
+    vertical-align: top;
 }
 
 /*******************************/
