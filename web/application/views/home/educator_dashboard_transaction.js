@@ -504,12 +504,15 @@ ilios.home.transaction.loadReminderAlerts = function () {
             var container = null;
             var reminders = null;
             var reminder = null;
-            var ulElement = null;
-            var liElement = null;
-            var aElement = null;
+            var ulElement;
+            var liElement;
+            var aElement;
+            var spanElement;
             var overdueContainer = null;
             var overdueAlertFound = false;
             var reminderModel = null;
+            var overdueText;
+            var dateText;
 
             try {
                 parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
@@ -554,10 +557,11 @@ ilios.home.transaction.loadReminderAlerts = function () {
                 liElement = document.createElement('li');
 
                 aElement = document.createElement('a');
+                aElement.setAttribute('class', 'alert-list-item-text truncate');
                 aElement.setAttribute('href', '');
                 aElement.setAttribute('onclick', 'return false;');
                 aElement.setAttribute('title', reminder.note);
-                aElement.appendChild(document.createTextNode(ilios.lang.ellipsisedOfLength(reminder.note, 26)));
+                aElement.appendChild(document.createTextNode(reminder.note));
                 aElement.iliosModel = reminderModel;
                 YAHOO.util.Event.addListener(aElement, 'click', function () {
                     IEvent.fire({
@@ -566,25 +570,20 @@ ilios.home.transaction.loadReminderAlerts = function () {
                     });
                 });
 
-                liElement.appendChild(aElement);
-
-                aElement = document.createElement('span');
+                spanElement = document.createElement('span');
                 if (reminderModel.isOverdue()) {
                     overdueAlertFound = true;
-                    aElement.setAttribute('style',
-                        'font-size: 8pt; font-weight: bold; color: #ee0a0a;');
-                    aElement.innerHTML
-                        = ' ('
-                        + ilios_i18nVendor.getI18NString('general.terms.overdue').toLowerCase()
-                        + ')';
+                    spanElement.setAttribute('class', 'alert-due-date-late');
+                    overdueText = ilios_i18nVendor.getI18NString('general.terms.overdue').toLowerCase();
+                    spanElement.appendChild(document.createTextNode('(' + overdueText + ')'));
                 }
                 else {
-                    aElement.setAttribute('style', 'font-size: 8pt; color: #A1A3A3;');
-                    aElement.innerHTML = ' (' + reminderModel.getDueDate().format('m/dd/yyyy')
-                        + ')';
+                    spanElement.setAttribute('class', 'alert-due-date');
+                    dateText = reminderModel.getDueDate().format('m/dd/yyyy');
+                    spanElement.appendChild(document.createTextNode('(' + dateText + ')'));
                 }
                 liElement.appendChild(aElement);
-
+                liElement.appendChild(spanElement);
                 container.appendChild(liElement);
             }
 
