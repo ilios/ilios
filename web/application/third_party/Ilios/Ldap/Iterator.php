@@ -34,33 +34,33 @@ class Ilios_Ldap_Iterator implements Iterator, Countable
      * @param resource $currentResult LDAP result-set handle
      */
     public function __construct (Ilios_Ldap $ldap, $currentResult)
-	{
-	    $this->_ldap = $ldap;
-	    $this->_currentResult = $currentResult;
-	    $this->_count = @ldap_count_entries($this->_ldap->getResource(), $this->_currentResult); // count the results
-	    // throw an error if we couldn't get a proper count
-	    if (false === $this->_count) {
-	        throw new Ilios_Ldap_Exception('Failed counting entries in LDAP search result set.', @ldap_errno($this->_ldap->getResource()));
-	    }
-	}
+    {
+        $this->_ldap = $ldap;
+        $this->_currentResult = $currentResult;
+        $this->_count = @ldap_count_entries($this->_ldap->getResource(), $this->_currentResult); // count the results
+        // throw an error if we couldn't get a proper count
+        if (false === $this->_count) {
+            throw new Ilios_Ldap_Exception('Failed counting entries in LDAP search result set.', @ldap_errno($this->_ldap->getResource()));
+        }
+    }
 
-	/**
-	 * Destructor.
-	 */
-	public function __destruct ()
-	{
-	    // cleanup:
-	    // close result set
-	    if (is_resource($this->_currentResult)) {
-	        @ldap_free_result($this->_currentResult);
-	    }
+    /**
+     * Destructor.
+     */
+    public function __destruct ()
+    {
+        // cleanup:
+        // close result set
+        if (is_resource($this->_currentResult)) {
+            @ldap_free_result($this->_currentResult);
+        }
         $this->_currentEntry = null;
         $this->_currentResult = null;
-	}
+    }
 
-	/**
-	 * Returns the attributes of a given LDAP result set entry.
-	 * @return array
+    /**
+     * Returns the attributes of a given LDAP result set entry.
+     * @return array
      * @see Iterator::current()
      * @throws Ilios_Ldap_Exception
      */
@@ -79,8 +79,8 @@ class Ilios_Ldap_Iterator implements Iterator, Countable
         return $attributes;
     }
 
-	/**
-	 * Move on to the next search result item.
+    /**
+     * Move on to the next search result item.
      * @see Iterator::next()
      * @throws Ilios_Ldap_Exception
      */
@@ -121,8 +121,8 @@ class Ilios_Ldap_Iterator implements Iterator, Countable
         }
     }
 
-	/**
-	 * Verifies if there the internal current result item exists.
+    /**
+     * Verifies if there the internal current result item exists.
      * @return boolean
      * @see Iterator::valid()
      */
@@ -131,8 +131,8 @@ class Ilios_Ldap_Iterator implements Iterator, Countable
         return (is_resource($this->_currentEntry));
     }
 
-	/**
-	 * Rewinds the Iterator to the first result item.
+    /**
+     * Rewinds the Iterator to the first result item.
      * @throws Ilios_Ldap_Exception
      * @see Iterator::rewind()
      */
@@ -146,9 +146,9 @@ class Ilios_Ldap_Iterator implements Iterator, Countable
         }
     }
 
-	/**
-	 * Results the total number of items in the result set.
-	 * @return int
+    /**
+     * Results the total number of items in the result set.
+     * @return int
      * @see Countable::count()
      */
     public function count ()

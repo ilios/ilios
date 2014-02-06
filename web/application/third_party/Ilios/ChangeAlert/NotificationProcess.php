@@ -179,11 +179,11 @@ class Ilios_ChangeAlert_NotificationProcess
      */
     protected function _processOfferingChangeAlerts ($processId, Ilios_Logger $logger, $debug = false)
     {
-    	// process undispatched change alerts on a per-school basis
-    	$schools = $this->_schoolDao->getSchoolsMap();
-    	foreach ($schools as $school) {
-    		$this->_processOfferingChangeAlertsBySchool($processId, $logger, $school, $debug);
-    	}
+        // process undispatched change alerts on a per-school basis
+        $schools = $this->_schoolDao->getSchoolsMap();
+        foreach ($schools as $school) {
+            $this->_processOfferingChangeAlertsBySchool($processId, $logger, $school, $debug);
+        }
     }
 
     /**
@@ -197,61 +197,61 @@ class Ilios_ChangeAlert_NotificationProcess
     {
         $logger->info("Started processing offering change alerts for School of {$school['title']}.", $processId);
         // load unprocessed offering change alerts
-    	$changeAlerts = $this->_alertDao->getUndispatchedAlertsBySchoolAndTable($school['school_id'], 'offering');
+        $changeAlerts = $this->_alertDao->getUndispatchedAlertsBySchoolAndTable($school['school_id'], 'offering');
 
-    	$alertCount = count($changeAlerts);
-    	if (! $alertCount) {
-    	    $logger->info("There are no offering change alerts queued for processing.", $processId);
-    	    $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
-    	    return;
-    	}
-    	$mailTo = $school['change_alert_recipients'];
+        $alertCount = count($changeAlerts);
+        if (! $alertCount) {
+            $logger->info("There are no offering change alerts queued for processing.", $processId);
+            $logger->info(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+            return;
+        }
+        $mailTo = $school['change_alert_recipients'];
 
-    	if (! empty($mailTo)) {
+        if (! empty($mailTo)) {
 
-    	    $mailBodyTemplate = $this->_getMessageTemplateContent('offering_change_template.txt');
-    	    $mailSubjectTemplate = '%%COURSE_EXT_ID%%: %%OFFERING_START_DATE_SHORT%%';
-    	    $mailFrom = $school['ilios_administrator_email'];
+            $mailBodyTemplate = $this->_getMessageTemplateContent('offering_change_template.txt');
+            $mailSubjectTemplate = '%%COURSE_EXT_ID%%: %%OFFERING_START_DATE_SHORT%%';
+            $mailFrom = $school['ilios_administrator_email'];
 
-    	    $placeholderTokens = array(
-    	    		'%%SCHOOL_NAME%%', '%%SCHOOL_ILIOS_ADMIN_EMAIL%%',
-    	    		'%%OFFERING_LOCATION%%', '%%OFFERING_DATE%%',
-    	    		'%%OFFERING_START_DATE%%', '%%OFFERING_END_DATE%%',
-    	    		'%%OFFERING_START_TIME%%', '%%OFFERING_END_TIME%%',
-    	    		'%%CHANGE_TYPE_LIST%%', '%%CHANGE_HISTORY_LIST%%',
-    	    		'%%COURSE_TITLE%%', '%%LEARNING_OBJECTIVES_LIST%%',
-    	            '%%SESSION_TITLE%%', '%%SESSION_TYPE%%',
-    	    		'%%STUDENT_GROUP_LIST%%', '%%INSTRUCTOR_LIST%%'
-    	    );
+            $placeholderTokens = array(
+                    '%%SCHOOL_NAME%%', '%%SCHOOL_ILIOS_ADMIN_EMAIL%%',
+                    '%%OFFERING_LOCATION%%', '%%OFFERING_DATE%%',
+                    '%%OFFERING_START_DATE%%', '%%OFFERING_END_DATE%%',
+                    '%%OFFERING_START_TIME%%', '%%OFFERING_END_TIME%%',
+                    '%%CHANGE_TYPE_LIST%%', '%%CHANGE_HISTORY_LIST%%',
+                    '%%COURSE_TITLE%%', '%%LEARNING_OBJECTIVES_LIST%%',
+                    '%%SESSION_TITLE%%', '%%SESSION_TYPE%%',
+                    '%%STUDENT_GROUP_LIST%%', '%%INSTRUCTOR_LIST%%'
+            );
 
-    	    $logger->info("Processing {$alertCount} queued offering change alerts.", $processId);
+            $logger->info("Processing {$alertCount} queued offering change alerts.", $processId);
 
-    	    foreach ($changeAlerts as $alert) {
-    	        //
+            foreach ($changeAlerts as $alert) {
+                //
                 $substitutions =  $this->_getValuesForOfferingChangeAlertNotification($alert, $school, $placeholderTokens);
-    			$mailBody = $this->_populateTemplate($mailBodyTemplate, $substitutions);
-    			$mailSubject = $this->_populateTemplate($mailSubjectTemplate, $substitutions);
+                $mailBody = $this->_populateTemplate($mailBodyTemplate, $substitutions);
+                $mailSubject = $this->_populateTemplate($mailSubjectTemplate, $substitutions);
 
-    			if ($debug) {
-    			    // log message
-    			    $logger->debug(Ilios_Logger::LOG_SEPARATION_LINE, $processId, 1);
-    			    $logger->debug("FROM: {$mailFrom}", $processId, 1);
-    			    $logger->debug("TO: {$mailTo}", $processId, 1);
-    			    $logger->debug("SUBJECT: {$mailSubject}", $processId, 1);
-    			    $logger->debug("BODY:" . PHP_EOL . $mailBody, $processId, 1);
-    			}
-   			    $this->_mailNotification($mailFrom, $mailTo, $mailSubject, $mailBody);
-    		}
-    	} else {
-    	   $logger->warn("No change alert recipients are configured for this school, so no messages were sent.", $processId);
-    	}
+                if ($debug) {
+                    // log message
+                    $logger->debug(Ilios_Logger::LOG_SEPARATION_LINE, $processId, 1);
+                    $logger->debug("FROM: {$mailFrom}", $processId, 1);
+                    $logger->debug("TO: {$mailTo}", $processId, 1);
+                    $logger->debug("SUBJECT: {$mailSubject}", $processId, 1);
+                    $logger->debug("BODY:" . PHP_EOL . $mailBody, $processId, 1);
+                }
+                   $this->_mailNotification($mailFrom, $mailTo, $mailSubject, $mailBody);
+            }
+        } else {
+           $logger->warn("No change alert recipients are configured for this school, so no messages were sent.", $processId);
+        }
 
-    	// flag all retrieved change alerts as processed
-    	$logger->info("Flagging {$alertCount} offering change alerts as dispatched.", $processId);
-    	$changeAlertIds = array();
-    	foreach ($changeAlerts as $changeAlert) {
-    		$changeAlertIds[] = $changeAlert['alert_id'];
-    	}
+        // flag all retrieved change alerts as processed
+        $logger->info("Flagging {$alertCount} offering change alerts as dispatched.", $processId);
+        $changeAlertIds = array();
+        foreach ($changeAlerts as $changeAlert) {
+            $changeAlertIds[] = $changeAlert['alert_id'];
+        }
         $this->_alertDao->startTransaction();
         $this->_alertDao->markAlertsAsDispatched($changeAlertIds);
         if ($this->_alertDao->transactionAtomFailed()) {
@@ -323,9 +323,9 @@ class Ilios_ChangeAlert_NotificationProcess
         $rhett['%%OFFERING_START_DATE%%'] =  $offeringStartDate->format('D M d, Y');
         $rhett['%%OFFERING_END_DATE%%'] =  $offeringEndDate->format('D M d, Y');
         if (strcmp($rhett['%%OFFERING_START_DATE%%'], $rhett['%%OFFERING_END_DATE%%'])) {
-        	$rhett['%%OFFERING_DATE%%'] = $rhett['%%OFFERING_START_DATE%%'] . ' - ' . $rhett['%%OFFERING_END_DATE%%'];
+            $rhett['%%OFFERING_DATE%%'] = $rhett['%%OFFERING_START_DATE%%'] . ' - ' . $rhett['%%OFFERING_END_DATE%%'];
         } else { // only show start-date if start- and end-date are the same
-        	$rhett['%%OFFERING_DATE%%'] = $rhett['%%OFFERING_START_DATE%%'];
+            $rhett['%%OFFERING_DATE%%'] = $rhett['%%OFFERING_START_DATE%%'];
         }
         $rhett['%%OFFERING_START_TIME%%'] = $offeringStartDate->format('h:i a');
         $rhett['%%OFFERING_END_TIME%%'] = $offeringEndDate->format('h:i a');
@@ -337,36 +337,36 @@ class Ilios_ChangeAlert_NotificationProcess
         // change types
         $changeTypes = $this->_alertDao->getChangeTypesForAlert($alert['alert_id']);
         if (! empty($changeTypes)) {
-        	$rhett['%%CHANGE_TYPE_LIST%%'] = '    - ' . implode(PHP_EOL . '    - ', $changeTypes);
+            $rhett['%%CHANGE_TYPE_LIST%%'] = '    - ' . implode(PHP_EOL . '    - ', $changeTypes);
         }
 
         // change history
         $changeHistory = $this->_alertDao->getChangeHistoryForAlert($alert['alert_id']);
         if (! empty($changeHistory)) {
-        	$rows = array();
-        	foreach ($changeHistory as $change) {
-        		// change time is stored in UTC in database, convert it to local tz
-        		$changeTime = new DateTime($change['created_at'], $this->_utcTz);
-        		$changeTime->setTimeZone($this->_localTz); // TZ adjustment
-        		$row = '    - Updates made ' . $changeTime->format('m/d/Y') . ' at '
-        		    . $changeTime->format('h:i a') . ' by ' . trim($change['first_name'] . ' ' . $change['last_name']);
-        		$rows[] =  $row;
-        	}
-        	$rhett['%%CHANGE_HISTORY_LIST%%'] = implode(PHP_EOL, $rows);
+            $rows = array();
+            foreach ($changeHistory as $change) {
+                // change time is stored in UTC in database, convert it to local tz
+                $changeTime = new DateTime($change['created_at'], $this->_utcTz);
+                $changeTime->setTimeZone($this->_localTz); // TZ adjustment
+                $row = '    - Updates made ' . $changeTime->format('m/d/Y') . ' at '
+                    . $changeTime->format('h:i a') . ' by ' . trim($change['first_name'] . ' ' . $change['last_name']);
+                $rows[] =  $row;
+            }
+            $rhett['%%CHANGE_HISTORY_LIST%%'] = implode(PHP_EOL, $rows);
         }
 
         // student list
         $learners = $this->_offeringDao->getLearnersAndLearnerGroupsForOffering($alert['table_row_id']);
         $rows = array();
         foreach ($learners as $learner) {
-        	if (isset($learner['user_id'])) { // is user record
-        		$rows[] = trim($learner['first_name'] . ' ' . $learner['last_name']);
-        	} else { // is learner group otherwise
-        		$rows[] = $learner['title'];
-        	}
+            if (isset($learner['user_id'])) { // is user record
+                $rows[] = trim($learner['first_name'] . ' ' . $learner['last_name']);
+            } else { // is learner group otherwise
+                $rows[] = $learner['title'];
+            }
         }
         if (! empty($rows)) {
-        	$rhett['%%STUDENT_GROUP_LIST%%'] = Ilios_MailUtils::implodeListForMail($rows, '; ');
+            $rhett['%%STUDENT_GROUP_LIST%%'] = Ilios_MailUtils::implodeListForMail($rows, '; ');
         }
 
         // session
@@ -386,24 +386,24 @@ class Ilios_ChangeAlert_NotificationProcess
         $instructors = $this->_offeringDao->getIndividualInstructorsForOffering($offering->offering_id);
         $rows = array();
         foreach ($instructors as $instructor) {
-        	if (isset($instructor['user_id'])) { // is user record
-        		$rows[] = trim($instructor['first_name'] . ' ' . $instructor['last_name']);
-        	} else { // is learner group otherwise
-        		$rows[] = $instructor['title'];
-        	}
+            if (isset($instructor['user_id'])) { // is user record
+                $rows[] = trim($instructor['first_name'] . ' ' . $instructor['last_name']);
+            } else { // is learner group otherwise
+                $rows[] = $instructor['title'];
+            }
         }
         if (! empty($rows)) {
-        	$rhett['%%INSTRUCTOR_LIST%%']  = Ilios_MailUtils::implodeListForMail($rows, '; ');
+            $rhett['%%INSTRUCTOR_LIST%%']  = Ilios_MailUtils::implodeListForMail($rows, '; ');
         }
 
         // learning materials list
         $objectives = $this->_getSessionObjectives($offering->session_id);
         $rows = array();
         foreach ($objectives as $objective) {
-        	$rows[] = $objective['title'];
+            $rows[] = $objective['title'];
         }
         if (! empty($rows)) {
-        	$rhett['%%LEARNING_OBJECTIVES_LIST%%'] = '    - ' . implode(PHP_EOL . PHP_EOL . '    - ', $rows);
+            $rhett['%%LEARNING_OBJECTIVES_LIST%%'] = '    - ' . implode(PHP_EOL . PHP_EOL . '    - ', $rows);
         }
         return $rhett;
     }
@@ -418,9 +418,9 @@ class Ilios_ChangeAlert_NotificationProcess
         $cacheName = 'sessions';
         $cache = $this->_getCache($cacheName);
         if (! array_key_exists($sessionId, $cache)) {
-        	$session = $this->_sessionDao->getRowForPrimaryKeyId($sessionId);
-        	$cache[$sessionId] = $session;
-        	$this->_setCache($cacheName, $cache);
+            $session = $this->_sessionDao->getRowForPrimaryKeyId($sessionId);
+            $cache[$sessionId] = $session;
+            $this->_setCache($cacheName, $cache);
         }
         return $cache[$sessionId];
     }
@@ -433,13 +433,13 @@ class Ilios_ChangeAlert_NotificationProcess
     protected function _getSessionType ($sessionId)
     {
         $cacheName = 'session_types';
-    	$cache = $this->_getCache($cacheName);
-    	if (! array_key_exists($sessionId, $cache)) {
-    		$sessionType = $this->_sessionTypeDao->getRowForPrimaryKeyId($sessionId);
-    		$cache[$sessionId] = $sessionType;
-    		$this->_setCache($cacheName, $cache);
-    	}
-    	return $cache[$sessionId];
+        $cache = $this->_getCache($cacheName);
+        if (! array_key_exists($sessionId, $cache)) {
+            $sessionType = $this->_sessionTypeDao->getRowForPrimaryKeyId($sessionId);
+            $cache[$sessionId] = $sessionType;
+            $this->_setCache($cacheName, $cache);
+        }
+        return $cache[$sessionId];
     }
 
     /**
@@ -452,9 +452,9 @@ class Ilios_ChangeAlert_NotificationProcess
         $cacheName = 'courses';
         $cache = $this->_getCache($cacheName);
         if (! array_key_exists($courseId, $cache)) {
-        	$course = $this->_courseDao->getRowForPrimaryKeyId($courseId);
-        	$cache[$courseId] = $course;
-        	$this->_setCache($cacheName, $cache);
+            $course = $this->_courseDao->getRowForPrimaryKeyId($courseId);
+            $cache[$courseId] = $course;
+            $this->_setCache($cacheName, $cache);
         }
         return $cache[$courseId];
     }
