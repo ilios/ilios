@@ -121,7 +121,7 @@ ilios.pm.competencyModelIsSelected = function (candidateModel) {
 ilios.pm.competencyTreeFilterResults = function (queryString, fullResponse, parsedResponse,
                          callback, autoCompleter, idUniquer) {
   var len = parsedResponse.results.length;
-  var filteredResults = new Array();
+  var filteredResults = [];
   var i = 0;
   var model = null;
   var regex = new RegExp(queryString, "gi");
@@ -241,7 +241,7 @@ ilios.pm.competencyRedrawTreeAndCSS = function (tree) {
 // @private
 ilios.pm.handleCompetencyTreeDeselection = function (clickObject) {
   var node = clickObject.node;
-  var modelsToDeselect = new Array();
+  var modelsToDeselect = [];
   var nodeToPop = node;
     var i = 0;
 
@@ -277,7 +277,7 @@ ilios.pm.handleCompetencyTreeDeselection = function (clickObject) {
 // @private
 ilios.pm.handleCompetencyTreeSelection = function (clickObject) {
   var node = clickObject.node;
-  var modelsToSelect = new Array();
+  var modelsToSelect = [];
   var nodeToPop = node;
   var rootNode = ilios.pm.competencyDialogSelectedTreeView.getRoot();
     var i = 0;
