@@ -46,7 +46,7 @@ ilios.pm.resetCompetencyTree = function (dialog) {
 
     rootNode = ilios.pm.competencyDialogSelectedTreeView.getRoot();
 
-    ilios.pm.competencySelectedModels = new Array();
+    ilios.pm.competencySelectedModels = [];
 
     if (! ilios.pm.subscribedToSelectedCompetencyLabelClick) {
       ilios.pm.competencyDialogSelectedTreeView.subscribe("clickEvent", ilios.pm.handleCompetencyTreeDeselection);
