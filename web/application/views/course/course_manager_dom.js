@@ -1773,7 +1773,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         textFieldContent = modelTitles.join(";");
 
         element = document.getElementById(inputTextId);
-        element.innerHTML = textFieldContent;
+        element.addChild(document.createTextNode(textFieldContent));
     }; // end function
 
     /*
