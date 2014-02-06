@@ -35,8 +35,8 @@ class Ilios_CourseUtils
      */
     public static function extractCourseIdFromHash ($hash)
     {
-    	$val = (int) substr(base_convert(substr($hash, strlen(self::COURSE_ID_HASH_PREFIX)), 36, 10), 0, 0 - strlen(self::COURSE_ID_HASH_POSTFIX));
-    	return  $val;
+        $val = (int) substr(base_convert(substr($hash, strlen(self::COURSE_ID_HASH_PREFIX)), 36, 10), 0, 0 - strlen(self::COURSE_ID_HASH_POSTFIX));
+        return  $val;
     }
 
 }

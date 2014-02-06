@@ -357,13 +357,13 @@ class Ilios_UserSync_Process_NonStudentProcess extends Ilios_UserSync_Process
         $uid = $user->getUid();
         if (empty($uid)) {
             throw new Ilios_UserSync_Process_ExternalUserException(
-            			'Missing UID for inbound user: ' . $user,
+                        'Missing UID for inbound user: ' . $user,
                         Ilios_UserSync_Process_ExternalUserException::INVALID_UID);
         }
         $email = $user->getEmail();
         if (empty($email) || false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Ilios_UserSync_Process_ExternalUserException(
-            			'Missing or invalid email for inbound user: ' . $user,
+                        'Missing or invalid email for inbound user: ' . $user,
                         Ilios_UserSync_Process_ExternalUserException::INVALID_EMAIL);
         }
     }
