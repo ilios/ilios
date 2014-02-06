@@ -357,7 +357,7 @@ ilios.pm.competencySubmitMethod = function () {
     var containerNumber = this.containerNumber; // 'this' should be the Dialog instance
     var programYearModel = ilios.pm.currentProgramModel.getProgramYearForContainerNumber(containerNumber);
     var textField = document.getElementById(ilios.pm.generateIdStringForCompetencyContent(containerNumber));
-    var collapseTrio = null;
+    var collapseTrio;
     var str;
 
     programYearModel.setCompetencyArray(ilios.pm.competencySelectedModels);
