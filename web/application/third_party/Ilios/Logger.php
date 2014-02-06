@@ -61,11 +61,11 @@ class Ilios_Logger
      */
     static public function getInstance ($logFilePath)
     {
-    	if (! array_key_exists($logFilePath, self::$_registry)) {
-    		$logger = new Ilios_Logger($logFilePath);
-    		self::$_registry[$logFilePath] = $logger;
-    	}
-    	return self::$_registry[$logFilePath];
+        if (! array_key_exists($logFilePath, self::$_registry)) {
+            $logger = new Ilios_Logger($logFilePath);
+            self::$_registry[$logFilePath] = $logger;
+        }
+        return self::$_registry[$logFilePath];
 
     }
 
@@ -122,11 +122,11 @@ class Ilios_Logger
      */
     protected function _getLogFileHandle ($logFilePath)
     {
-    	$fh = @fopen($logFilePath, 'a');
-    	if (false === $fh) {
-    		throw new Ilios_Log_Exception('Could not open cron tasks log file ' . $logFilePath, Ilios_Log_Exception::OPENING_FILE_FAILED);
-    	}
-    	return $fh;
+        $fh = @fopen($logFilePath, 'a');
+        if (false === $fh) {
+            throw new Ilios_Log_Exception('Could not open cron tasks log file ' . $logFilePath, Ilios_Log_Exception::OPENING_FILE_FAILED);
+        }
+        return $fh;
     }
 
     /**
@@ -140,14 +140,14 @@ class Ilios_Logger
      */
     protected function _writeToLogFile ($logFileHandle, $message, $processId = 0, $indentationLevel = 0, $logLevel = self::LOG_LEVEL_INFO)
     {
-    	$indent = str_repeat("  ", (int) $indentationLevel);
-    	$now = date('d/M/Y:H:i:s O'); // get the current datetime
-    	$out = "[{$now}][{$logLevel}]";
-    	if (! empty($processId)) {
-    	    $out .= "[p:{$processId}]";
-    	}
-    	$out .= "  {$indent}{$message}\n";
-    	return fwrite($logFileHandle, $out);
+        $indent = str_repeat("  ", (int) $indentationLevel);
+        $now = date('d/M/Y:H:i:s O'); // get the current datetime
+        $out = "[{$now}][{$logLevel}]";
+        if (! empty($processId)) {
+            $out .= "[p:{$processId}]";
+        }
+        $out .= "  {$indent}{$message}\n";
+        return fwrite($logFileHandle, $out);
     }
 
     /**
@@ -157,7 +157,7 @@ class Ilios_Logger
      */
     protected function _closeLogFile ($logFileHandle)
     {
-    	return fclose($logFileHandle);
+        return fclose($logFileHandle);
     }
 
     /**
@@ -182,7 +182,7 @@ class Ilios_Logger
      */
     public function warn ($message, $processId = 0, $indentationLevel = 0)
     {
-    	$this->log($message, $processId, $indentationLevel, self::LOG_LEVEL_WARN);
+        $this->log($message, $processId, $indentationLevel, self::LOG_LEVEL_WARN);
     }
 
     /**
@@ -195,7 +195,7 @@ class Ilios_Logger
      */
     public function error ($message, $processId = 0, $indentationLevel = 0)
     {
-    	$this->log($message, $processId, $indentationLevel, self::LOG_LEVEL_ERROR);
+        $this->log($message, $processId, $indentationLevel, self::LOG_LEVEL_ERROR);
     }
 
     /**
@@ -208,6 +208,6 @@ class Ilios_Logger
      */
     public function debug ($message, $processId = 0, $indentationLevel = 0)
     {
-    	$this->log($message, $processId, $indentationLevel, self::LOG_LEVEL_DEBUG);
+        $this->log($message, $processId, $indentationLevel, self::LOG_LEVEL_DEBUG);
     }
 }

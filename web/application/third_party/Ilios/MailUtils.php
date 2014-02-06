@@ -35,25 +35,25 @@ class Ilios_MailUtils
     public static function implodeListForMail (array $list, $separator = ', ',
         $maxLineLength = Ilios_MailUtils::RFC2822_RECOMMENDED_LINE_LENGTH)
     {
-    	$lines = array();
-    	$line = '';
-    	$lineLength = 0;
-    	$delimLength = strlen($separator);
-    	for ($i = 0, $n = count($list); $i < $n; $i++) {
-    		$item = $i < ($n - 1) ? $list[$i] . $separator : $list[$i];
-    		$itemLength = strlen($item);
-    		if ($maxLineLength < $lineLength + $itemLength) {
-    			$lines[] = $line;
-    			$line = $item;
-    			$lineLength = $itemLength;
-    		} else {
-    			$line .= $item;
-    			$lineLength += $itemLength;
-    		}
-    	}
-    	if ($lineLength) {
-    	    $lines[] = $line;
-    	}
-    	return implode(PHP_EOL, $lines);
+        $lines = array();
+        $line = '';
+        $lineLength = 0;
+        $delimLength = strlen($separator);
+        for ($i = 0, $n = count($list); $i < $n; $i++) {
+            $item = $i < ($n - 1) ? $list[$i] . $separator : $list[$i];
+            $itemLength = strlen($item);
+            if ($maxLineLength < $lineLength + $itemLength) {
+                $lines[] = $line;
+                $line = $item;
+                $lineLength = $itemLength;
+            } else {
+                $line .= $item;
+                $lineLength += $itemLength;
+            }
+        }
+        if ($lineLength) {
+            $lines[] = $line;
+        }
+        return implode(PHP_EOL, $lines);
     }
 }
