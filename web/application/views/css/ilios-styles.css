@@ -332,7 +332,7 @@ textarea.validation-failed {
     content: "\e01f";
 }
 .icon-feed:before {
-    content: "\e000";  
+    content: "\e000";
 }
 
 .collapsed_widget, .expanded_widget {
@@ -2477,6 +2477,35 @@ ul.week_list li.selected_day {
     height:24px;
     width:24px;
     background:url("../images/checkbox_full.png") no-repeat;
+}
+
+/*******************************
+ * Truncate text with ellipsis *
+ *if it overflows container    */
+.truncate {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*******************************/
+/* Alert (Reminders)           */
+.alert-list-item-text {
+    max-width: 75%;
+}
+
+.alert-due-date {
+    font-size: 8pt;
+    color: #a1a3a3;
+    display: inline-block;
+}
+
+.alert-due-date-late {
+    font-size: 8pt;
+    font-weight: bold;
+    color: #ee0a0a;
+    display: inline-block;
 }
 
 /*******************************/
