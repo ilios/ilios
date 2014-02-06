@@ -51,64 +51,64 @@ class Ilios_UserSync_UserSource_Array implements Ilios_UserSync_UserSource
      * @return Ilios_UserSync_ExternalUser_Iterator_Array
      * @see Ilios_UserSync_UserSource::getUserByEmail()
      */
-	public function getUserByEmail ($email)
-	{
-	    $users = array();
-	    foreach ($this->_users as $user) {
-	        if (0 === strcasecmp($email, $user['email'])) { // case-insensitive comparison
-	            $users[] = $user;
-	        }
-	    }
-	    return new Ilios_UserSync_ExternalUser_Iterator_Array(
+    public function getUserByEmail ($email)
+    {
+        $users = array();
+        foreach ($this->_users as $user) {
+            if (0 === strcasecmp($email, $user['email'])) { // case-insensitive comparison
+                $users[] = $user;
+            }
+        }
+        return new Ilios_UserSync_ExternalUser_Iterator_Array(
                     new Ilios_UserSync_ExternalUser_Factory_Array(), $users);
-	}
+    }
 
-	/**
+    /**
      * @param string $uid
      * @return Ilios_UserSync_ExternalUser_Iterator_Array
-	 * @see Ilios_UserSync_UserSource::getUserByUid()
-	 */
-	public function getUserByUid ($uid)
-	{
-	    $users = array();
-	    foreach ($this->_users as $user) {
-	        if (0 === strcasecmp($uid, $user['uid'])) { // case-insensitive comparison
-	            $users[] = $user;
-	        }
-	    }
-	    return new Ilios_UserSync_ExternalUser_Iterator_Array(
+     * @see Ilios_UserSync_UserSource::getUserByUid()
+     */
+    public function getUserByUid ($uid)
+    {
+        $users = array();
+        foreach ($this->_users as $user) {
+            if (0 === strcasecmp($uid, $user['uid'])) { // case-insensitive comparison
+                $users[] = $user;
+            }
+        }
+        return new Ilios_UserSync_ExternalUser_Iterator_Array(
                     new Ilios_UserSync_ExternalUser_Factory_Array(), $users);
-	}
+    }
 
-	/**
-	 * @param string $uid
-	 * @return boolean
-	 * @see Ilios_UserSync_UserSource::hasStudent()
-	 */
-	public function hasStudent ($uid)
-	{
-	    foreach ($this->_users as $user) {
-	        if (0 === strcasecmp($uid, $user['uid']) && true === $user['is_student']) {
-	            return true; // student with UID found!
-	        }
-	    }
-	    return false; // no student found
-	}
+    /**
+     * @param string $uid
+     * @return boolean
+     * @see Ilios_UserSync_UserSource::hasStudent()
+     */
+    public function hasStudent ($uid)
+    {
+        foreach ($this->_users as $user) {
+            if (0 === strcasecmp($uid, $user['uid']) && true === $user['is_student']) {
+                return true; // student with UID found!
+            }
+        }
+        return false; // no student found
+    }
 
-	/**
-	 * @param string $uid
-	 * @return boolean
-	 * @see Ilios_UserSync_UserSource::hasUser()
-	 */
-	public function hasUser ($uid)
-	{
-	    foreach ($this->_users as $user) {
-	        if (0 === strcasecmp($uid, $user['uid'])) {
-	            return true; // user with UID found!
-	        }
-	    }
-	    return false; // no user found
-	}
+    /**
+     * @param string $uid
+     * @return boolean
+     * @see Ilios_UserSync_UserSource::hasUser()
+     */
+    public function hasUser ($uid)
+    {
+        foreach ($this->_users as $user) {
+            if (0 === strcasecmp($uid, $user['uid'])) {
+                return true; // user with UID found!
+            }
+        }
+        return false; // no user found
+    }
 
 
 }
