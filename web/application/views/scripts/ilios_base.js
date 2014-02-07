@@ -92,6 +92,21 @@ ilios.lang.ellipsisedOfLength = function (str, length) {
 };
 
 /**
+ * Discards any existing text within an element and assigns it with the given text.
+ * For IE8 support. All other relevant browsers use textContent. IE8 uses innerText.
+ * @method replaceText
+ * @param {Element} el element that we are setting text on
+ * @param {String} str text string to set as text content for el
+ */
+ilios.lang.replaceText = function ( el, str ) {
+    if (el.textContent !== undefined) {
+        el.textContent = str;
+    } else {
+        el.innerText = str;
+    }
+};
+
+/**
  * Provides overrides for the window object's various dialog-functions.
  * @class ilios.alert
  * @static
