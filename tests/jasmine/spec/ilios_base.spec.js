@@ -59,6 +59,31 @@ describe("ilios_base", function() {
           expect(ilios.lang.ellipsisedOfLength("abc", 10)).toBe("abc");
         });
       });
+
+      describe("replaceText()", function () {
+        var el;
+
+
+        beforeEach(function () {
+          el = document.createElement('span');
+        });
+
+        it("should set the textContent/innerText of el to str", function () {
+          ilios.lang.replaceText(el, "My string!");
+          expect(el.innerHTML).toBe("My string!");
+        });
+
+        it("should discard any existing text content on the element", function () {
+          el.innerHTML = "foo bar baz";
+          ilios.lang.replaceText(el, "My string!");
+          expect(el.innerHTML).toBe("My string!");
+        });
+
+        it("should not permit injection of HTML", function () {
+          ilios.lang.replaceText(el, "<i>Italics!</i>");
+          expect(el.innerHTML).toBe("&lt;i&gt;Italics!&lt;/i&gt;");
+        });
+      });
     });
 
     describe("alert", function () {
