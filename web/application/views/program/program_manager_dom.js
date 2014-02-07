@@ -1423,7 +1423,6 @@ ilios.pm.disc_initDialog = function (who, knows, args) {
         var picker = document.getElementById( disc_selectedItemContainer);
         var localModels = parentModel.getDisciplineArray();
         var selectedModels = [];
-        disc_currentlySelectedModels;
         picker.innerHTML = "";
 
         selectedModels = null;
