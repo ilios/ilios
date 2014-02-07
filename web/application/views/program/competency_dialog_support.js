@@ -364,7 +364,7 @@ ilios.pm.competencySubmitMethod = function () {
 
     collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(textField);
     str = ilios.competencies.generateSummaryStringForSelectedCompetencies(ilios.pm.competencySelectedModels);
-    collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(str, 75);
+    ilios.lang.replaceText(collapseTrio[0], ilios.lang.ellipsisedOfLength(str, 75));
     str = ilios.competencies.generateListHTMLForSelectedCompetencies(ilios.pm.competencySelectedModels);
     collapseTrio[1].innerHTML = str;
 };
