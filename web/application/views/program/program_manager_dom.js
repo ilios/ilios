@@ -878,8 +878,7 @@ ilios.pm.addNewProgramYear = function () {
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                 str = ilios.competencies.generateSummaryStringForSelectedCompetencies(modelArray);
                 collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(str, 75);
-                str = ilios.competencies.generateListHTMLForSelectedCompetencies(modelArray);
-                collapseTrio[1].innerHTML = str;
+                ilios.competencies.appendListForSelectedCompetencies(collapseTrio[1], modelArray);
             }
 
             modelArray = programYearModel.getDisciplineArray();

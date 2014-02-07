@@ -378,8 +378,7 @@ ilios.course_summary.populateDOMForCourse = function (courseModel) {
     element.innerHTML = courseModel.getDirectorsAsFormattedText();
 
     element = document.getElementById('summary_course_competency_content');
-    element.innerHTML
-        = ilios.competencies.generateListHTMLForSelectedCompetencies(courseModel.getCompetencies());
+    ilios.competencies.appendListForSelectedCompetencies(element, courseModel.getCompetencies());
 
     element = document.getElementById('summary_course_discipline_content');
     anArray = courseModel.getDisciplines();

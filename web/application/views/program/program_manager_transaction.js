@@ -258,8 +258,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                         collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                         str = ilios.competencies.generateSummaryStringForSelectedCompetencies(childModelArray);
                         collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(str, 75);
-                        str = ilios.competencies.generateListHTMLForSelectedCompetencies(childModelArray);
-                        collapseTrio[1].innerHTML = str;
+                        ilios.competencies.appendListForSelectedCompetencies(collapseTrio[1], childModelArray);
                         programYearModel.setCompetencyArray(childModelArray);
                     }
 

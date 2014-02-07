@@ -752,7 +752,7 @@ ilios.cm.repopulateListedCourseCompetencies = function (initialPopulation) {
     var objectives = initialPopulation ? null : ilios.cm.currentCourseModel.getObjectives();
     var boundingObjectives = initialPopulation ? null : ilios.cm.programCohortObjectives;
 
-    element.innerHTML = ilios.competencies.generateListHTMLForSelectedCompetencies(
+    ilios.competencies.appendListForSelectedCompetencies(element,
         ilios.cm.currentCourseModel.getCompetencies(), objectives, boundingObjectives);
 };
 
