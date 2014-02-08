@@ -749,6 +749,11 @@ ilios.cm.populateCourseAndSetEnable = function (title, startDate, endDate, yearS
 
 ilios.cm.repopulateListedCourseCompetencies = function (initialPopulation) {
     var element = document.getElementById('-1_competency_picker_selected_text_list');
+
+    // If this is called twice, we want to replace the list, not append it again.
+    // So remove anything that's already in the element.
+    element.innerHTML = '';
+
     var objectives = initialPopulation ? null : ilios.cm.currentCourseModel.getObjectives();
     var boundingObjectives = initialPopulation ? null : ilios.cm.programCohortObjectives;
 
