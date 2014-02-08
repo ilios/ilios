@@ -651,24 +651,6 @@ ilios.home.report.handleCompetencyTreeSelection = function (clickObject) {
     var nodeToPop = node;
     var element = document.getElementById('report_noun_2_readonly_span');
 
-    // If we start allowing multiple values for a prepositional object's value, uncomment this.
-//  if (node.isCompetency) {
-//      var children = node.children;
-//
-//      for (var i = 0; i < children.length; i++) {
-//          modelsToSelect.push(children[i].iliosModel.getDBId());
-//      }
-//  }
-//  else {
-//      modelsToSelect.push(node.iliosModel.getDBId());
-//
-//      if (node.getSiblings() == null) {
-//          nodeToPop = node.parent;
-//      }
-//  }
-//
-//  element.innerHTML = ilios.competencies.generateListHTMLForSelectedCompetencies(modelsToSelect);
-
     // get rid of these two for multiple po values
     modelsToSelect.push(node.iliosModel.getDBId());
     element.innerHTML = node.iliosModel.getCompetencyTitle();
