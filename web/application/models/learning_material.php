@@ -891,9 +891,10 @@ EOL;
      * @param array|NULL $associatedMeshTermIds ids of mesh terms already associated with the given session
      * @param array $auditAtoms audit trail
      */
-    protected function _saveSessionLearningMaterialMeshTermAssociations (
-            $sessionLearningMaterialId, $meshTerms = array(), $associatedMeshTermIds = array(),
-            array &$auditAtoms = array())
+    protected function _saveSessionLearningMaterialMeshTermAssociations ($sessionLearningMaterialId,
+                                                                         $meshTerms = array(),
+                                                                         $associatedMeshTermIds = array(),
+                                                                         array &$auditAtoms = array())
     {
         $this->_saveJoinTableAssociations('session_learning_material_x_mesh',
                 'session_learning_material_id', $sessionLearningMaterialId,
