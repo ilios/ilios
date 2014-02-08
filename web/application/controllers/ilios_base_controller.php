@@ -203,34 +203,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
     }
 
     /**
-     * Prints out a given file in chunks.
-     *
-     * @param string $filename Path to the file.
-     * @return boolean TRUE on success, FALSE on failure.
-     */
-    protected function streamFileContentsChunked ($filename)
-    {
-        $chunkSizeInBytes = 1024 * 1024;
-
-        $handle = @fopen($filename, 'rb');
-
-        if ($handle === false) {
-            return false;
-        }
-
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunkSizeInBytes);
-            echo $buffer;
-            ob_flush();
-            flush();
-        }
-
-        fclose($handle);
-
-        return true;
-    }
-
-    /**
      * Aggregates a complete representation of a course for a given id
      * from its various sub-components (sessions, cohorts etc.)
      * @param integer $courseId
