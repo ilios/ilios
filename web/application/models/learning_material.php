@@ -846,9 +846,10 @@ EOL;
 
     /**
      * Updates given session/learning materials associations.
+     *
+     * @param int $sessionId
      * @param array $sessionLearningMaterials
      * @param array $auditAtoms
-     * @todo implement audit trail
      */
     protected function _updateSessionLearningMaterialAssociations ( $sessionId,
             $sessionLearningMaterials = array(), &$auditAtoms = array())
@@ -886,9 +887,9 @@ EOL;
      * Saves the session-learning-material/mesh-term associations for a given session learning material
      * and given mesh terms, taken given pre-existings associations into account.
      *
-     * @param int $sessionId the session id
+     * @param int $sessionLearningMaterialId the session id
      * @param array $meshTerms nested array of mesh terms
-     * @param array|NULL $associatedMeshTermIds ids of mesh terms already associated with the given session
+     * @param array $associatedMeshTermIds ids of mesh terms already associated with the given session
      * @param array $auditAtoms audit trail
      */
     protected function _saveSessionLearningMaterialMeshTermAssociations ($sessionLearningMaterialId,
