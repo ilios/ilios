@@ -144,17 +144,16 @@
 
 
     /**
-     * Creates and returns markup rendering selected competencies.
+     * Populates an element with selected competencies.
+     * @param {Element} el element into which to append the results
      * @param {Array} selectedCompetencies a list of selected competencies
      * @param {Array} objectivesArray
      * @param {Array} boundingCohortObjectives
-     * @returns {String} the generated markup, a nested unordered list showing the selected competencies and subdomains
      * @todo clean this mess up
      */
-    var generateListHTMLForSelectedCompetencies = function (selectedCompetencies, objectivesArray, boundingCohortObjectivesArray) {
+    var appendListForSelectedCompetencies = function (el, selectedCompetencies, objectivesArray, boundingCohortObjectivesArray) {
         var lang = YAHOO.lang;
         var competencyMap = _schoolCompetencies;
-        var rhett = '';
         var displayMap = {};
         var displayArray = [];
         var stubObject = null;
@@ -166,6 +165,10 @@
         var parentObject;
         var objectives = lang.isArray(objectivesArray) ? objectivesArray : [];
         var boundingCohortObjectives = lang.isArray(boundingCohortObjectivesArray) ? boundingCohortObjectivesArray : [];
+        var competencyList;
+        var competencyListItem;
+        var competencySecondaryList;
+        var competencySecondaryListItem;
 
         if (objectives.length) {
             var parentObjectives = null;
@@ -273,30 +276,32 @@
             return a.competencyTitle.localeCompare(b.competencyTitle);
         });
 
-        // finally, generate the list markup
+        // finally, generate the list
         for (i = 0, n = displayArray.length; i < n; i++) {
             stubObject = displayArray[i];
             if (0 === i) {
-                rhett += '<ul class="competency-list">';
+                competencyList = document.createElement('ul');
+                competencyList.setAttribute('class', 'competency-list');
             }
-            rhett += '<li>' + stubObject.competencyTitle + '</li>';
+            competencyListItem = document.createElement('li');
+            competencyListItem.appendChild(document.createTextNode(stubObject.competencyTitle));
+            competencyList.appendChild(competencyListItem);
             for (j = 0, o = stubObject.subdomains.length; j < o; j++) {
                 if (0 === j) {
-                    rhett += '<ul>';
+                    competencySecondaryList = document.createElement('ul');
                 }
-                rhett += '<li>';
-                rhett += stubObject.subdomains[j] + '</li>';
+                competencySecondaryListItem = document.createElement('li');
+                competencySecondaryListItem.appendChild(document.createTextNode(stubObject.subdomains[j]));
+                competencySecondaryList.appendChild(competencySecondaryListItem);
             }
             if (j > 0) {
-                rhett += '</ul>';
+                competencyList.appendChild(competencySecondaryList);
             }
         }
 
         if (i > 0) {
-            rhett += '</ul>';
+            el.appendChild(competencyList);
         }
-
-        return rhett;
     };
 
     /**
@@ -361,7 +366,7 @@
             }
         }
 
-        for (key in titles) {
+        for (var key in titles) {
             sortedNames.push(key);
         }
 
@@ -407,14 +412,14 @@
             }
         }
         return map;
-    }
+    };
 
     // define public interface of this module/namespace.
     competencies.getActiveSchoolCompetenciesList = getActiveSchoolCompetenciesList;
     competencies.setSchoolCompetencies = setSchoolCompetencies;
     competencies.getCompetency = getCompetency;
     competencies.getSubdomains = getSubdomains;
-    competencies.generateListHTMLForSelectedCompetencies = generateListHTMLForSelectedCompetencies;
+    competencies.appendListForSelectedCompetencies = appendListForSelectedCompetencies;
     competencies.verifyChildlessUnselectedCompetencyNodes = verifyChildlessUnselectedCompetencyNodes;
     competencies.generateSummaryStringForSelectedCompetencies = generateSummaryStringForSelectedCompetencies;
     competencies.convertSchoolCompetencyHierarchiesIntoLookupMap = convertSchoolCompetencyHierarchiesIntoLookupMap;
