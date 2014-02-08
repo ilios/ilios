@@ -201,7 +201,7 @@ ilios.pm.dirtyStateListener = {
                 idStr = ilios.pm.generateIdStringForDirectorContent(containerNumber);
                 element = document.getElementById(idStr);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(element);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(directorString, 75);
+                collapseTrio[0].innerHTML = directorString;
                 collapseTrio[1].innerHTML = directorString;
 
                 if (ilios.global.preferencesModel.showProgramYearArchiving()
