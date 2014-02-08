@@ -355,7 +355,7 @@ EOL;
         $this->db->where('learning_material_id', $learningMaterialId);
         $queryResults = $this->db->get('session_learning_material');
         if ($queryResults->num_rows() > 0) {
-        	return $queryResults->first_row()->session_learning_material_id;
+            return $queryResults->first_row()->session_learning_material_id;
         }
         return null;
     }
@@ -759,36 +759,36 @@ EOL;
      * @param array $auditAtoms
      */
     public function saveSessionLearningMaterialAssociations ($sessionId, $sessionLearningMaterials = array(),
-    		$associatedLearningMaterialIds = array(), &$auditAtoms = array())
+            $associatedLearningMaterialIds = array(), &$auditAtoms = array())
     {
-    	// figure out which associations need to be added, updated or removed.
-    	$keepAssocIds = array();
-    	$removeAssocIds = array();
-    	$addSessionLearningMaterials = array();
-    	$updateSessionLearningMaterials = array();
-    	if (! empty($associatedLearningMaterialIds)) {
-    		foreach ($sessionLearningMaterials as $item) {
-    			if (in_array($item['dbId'], $associatedLearningMaterialIds)) { // exists?
-    				$keepAssocIds[] = $item['dbId']; // flag as "to keep"
-    				$updateSessionLearningMaterials[] = $item;
-    			} else {
-    				$addSessionLearningMaterials[] = $item; // mark as to add
-    			}
-    		}
-    		$removeAssocIds = array_diff($associatedLearningMaterialIds, $keepAssocIds); // find the assoc. to remove
-    	} else {
-    	    $addSessionLearningMaterials = $sessionLearningMaterials; // mark all as "to be added"
-    	}
+        // figure out which associations need to be added, updated or removed.
+        $keepAssocIds = array();
+        $removeAssocIds = array();
+        $addSessionLearningMaterials = array();
+        $updateSessionLearningMaterials = array();
+        if (! empty($associatedLearningMaterialIds)) {
+            foreach ($sessionLearningMaterials as $item) {
+                if (in_array($item['dbId'], $associatedLearningMaterialIds)) { // exists?
+                    $keepAssocIds[] = $item['dbId']; // flag as "to keep"
+                    $updateSessionLearningMaterials[] = $item;
+                } else {
+                    $addSessionLearningMaterials[] = $item; // mark as to add
+                }
+            }
+            $removeAssocIds = array_diff($associatedLearningMaterialIds, $keepAssocIds); // find the assoc. to remove
+        } else {
+            $addSessionLearningMaterials = $sessionLearningMaterials; // mark all as "to be added"
+        }
 
-    	if (count($addSessionLearningMaterials)) { // add learning materials to session
-    		$this->_addSessionLearningMaterialAssociations($sessionId, $sessionLearningMaterials, $auditAtoms);
-    	}
-    	if (count($updateSessionLearningMaterials)) { // update session/learning materials assoc.
-    		$this->_updateSessionLearningMaterialAssociations($sessionId, $updateSessionLearningMaterials, $auditAtoms);
-    	}
-    	if (count($removeAssocIds)) { // remove learning materials from session
-    		$this->_deleteSessionLearningMaterialAssociations($sessionId, $removeAssocIds, $auditAtoms);
-    	}
+        if (count($addSessionLearningMaterials)) { // add learning materials to session
+            $this->_addSessionLearningMaterialAssociations($sessionId, $sessionLearningMaterials, $auditAtoms);
+        }
+        if (count($updateSessionLearningMaterials)) { // update session/learning materials assoc.
+            $this->_updateSessionLearningMaterialAssociations($sessionId, $updateSessionLearningMaterials, $auditAtoms);
+        }
+        if (count($removeAssocIds)) { // remove learning materials from session
+            $this->_deleteSessionLearningMaterialAssociations($sessionId, $removeAssocIds, $auditAtoms);
+        }
     }
 
     /**
@@ -798,36 +798,36 @@ EOL;
      * @param array $auditAtoms
      */
     protected function _addSessionLearningMaterialAssociations ( $sessionId,
-    		$sessionLearningMaterials = array(), &$auditAtoms = array())
+            $sessionLearningMaterials = array(), &$auditAtoms = array())
     {
-    	$lmiCache = array();
-    	foreach ($sessionLearningMaterials as $material) {
-    		// SANITY CHECK
-    		// prevent the same learning material from
-    		// being associated with the given session twice
-    	    if (in_array($material['dbId'], $lmiCache)) {
-    		    continue;
-    		}
+        $lmiCache = array();
+        foreach ($sessionLearningMaterials as $material) {
+            // SANITY CHECK
+            // prevent the same learning material from
+            // being associated with the given session twice
+            if (in_array($material['dbId'], $lmiCache)) {
+                continue;
+            }
 
-    	    $row = array();
-    		$row['session_id'] = $sessionId;
-    		$row['learning_material_id'] = $material['dbId'];
-    		$row['notes'] = $material['notes'];
-    		$row['required'] = (int ) $material['required'];
-    		$row['notes_are_public'] = (int) $material['notesArePubliclyViewable'];
-    		$this->db->insert('session_learning_material', $row);
+            $row = array();
+            $row['session_id'] = $sessionId;
+            $row['learning_material_id'] = $material['dbId'];
+            $row['notes'] = $material['notes'];
+            $row['required'] = (int ) $material['required'];
+            $row['notes_are_public'] = (int) $material['notesArePubliclyViewable'];
+            $this->db->insert('session_learning_material', $row);
 
-    		// @todo add error handling
-    		$sessionLearningMaterialId = $this->db->insert_id();
+            // @todo add error handling
+            $sessionLearningMaterialId = $this->db->insert_id();
 
-    		$lmiCache[] = $material['dbId'];
+            $lmiCache[] = $material['dbId'];
 
-    		// add mesh term associations
-    		if ($sessionLearningMaterialId && ! empty($material['meshTerms'])) {
-    			$this->_saveSessionLearningMaterialMeshTermAssociations($sessionLearningMaterialId,
-    					$material['meshTerms'], array(), $auditAtoms);
-    		}
-    	}
+            // add mesh term associations
+            if ($sessionLearningMaterialId && ! empty($material['meshTerms'])) {
+                $this->_saveSessionLearningMaterialMeshTermAssociations($sessionLearningMaterialId,
+                        $material['meshTerms'], array(), $auditAtoms);
+            }
+        }
     }
 
     /**
@@ -838,7 +838,7 @@ EOL;
      * @todo implement audit trail
      */
     protected function _deleteSessionLearningMaterialAssociations ($sessionId,
-    		$learningMaterialIds = array(), &$auditAtoms = array())
+            $learningMaterialIds = array(), &$auditAtoms = array())
     {
         $this->_disassociateFromJoinTable('session_learning_material', 'session_id',
                 $sessionId, 'learning_material_id', $learningMaterialIds);
@@ -851,35 +851,35 @@ EOL;
      * @todo implement audit trail
      */
     protected function _updateSessionLearningMaterialAssociations ( $sessionId,
-    		$sessionLearningMaterials = array(), &$auditAtoms = array())
+            $sessionLearningMaterials = array(), &$auditAtoms = array())
     {
-    	foreach ($sessionLearningMaterials as $material) {
-    		// retrieve the identifier of the given session learning material
-    		$sessionLearningMaterialId = $this->_getSessionLearningMaterialId($sessionId, $material['dbId']);
-    		// if no session learning material id was found, then we are essentially hosed.
-    		// this should have been caught further upstream.
-    		// for now, we just ignore this record and move on.
-    		// @todo implement better exception handling
-    		if (empty($sessionLearningMaterialId)) {
-    			continue;
-    		}
+        foreach ($sessionLearningMaterials as $material) {
+            // retrieve the identifier of the given session learning material
+            $sessionLearningMaterialId = $this->_getSessionLearningMaterialId($sessionId, $material['dbId']);
+            // if no session learning material id was found, then we are essentially hosed.
+            // this should have been caught further upstream.
+            // for now, we just ignore this record and move on.
+            // @todo implement better exception handling
+            if (empty($sessionLearningMaterialId)) {
+                continue;
+            }
 
-    		$row = array();
-    		$row['notes'] = $material['notes'];
-    		$row['required'] = $material['required'] ? 1 : 0;
-    		$row['notes_are_public'] = $material['notesArePubliclyViewable'] ? 1 : 0;
+            $row = array();
+            $row['notes'] = $material['notes'];
+            $row['required'] = $material['required'] ? 1 : 0;
+            $row['notes_are_public'] = $material['notesArePubliclyViewable'] ? 1 : 0;
 
-    		$this->db->where('session_learning_material_id', $sessionLearningMaterialId);
-    		$this->db->update('session_learning_material', $row);
+            $this->db->where('session_learning_material_id', $sessionLearningMaterialId);
+            $this->db->update('session_learning_material', $row);
 
-    		// update mesh term associations
-    		if (! empty($material['meshTerms'])) {
-    			$associatedMeshTermIds = $this->getIdArrayFromCrossTable('session_learning_material_x_mesh',
-    					'mesh_descriptor_uid', 'session_learning_material_id', $sessionLearningMaterialId);
-    			$this->_saveSessionLearningMaterialMeshTermAssociations($sessionLearningMaterialId,
-    					$material['meshTerms'], $associatedMeshTermIds, $auditAtoms);
-    		}
-    	}
+            // update mesh term associations
+            if (! empty($material['meshTerms'])) {
+                $associatedMeshTermIds = $this->getIdArrayFromCrossTable('session_learning_material_x_mesh',
+                        'mesh_descriptor_uid', 'session_learning_material_id', $sessionLearningMaterialId);
+                $this->_saveSessionLearningMaterialMeshTermAssociations($sessionLearningMaterialId,
+                        $material['meshTerms'], $associatedMeshTermIds, $auditAtoms);
+            }
+        }
     }
 
     /**
@@ -892,11 +892,11 @@ EOL;
      * @param array $auditAtoms audit trail
      */
     protected function _saveSessionLearningMaterialMeshTermAssociations (
-    		$sessionLearningMaterialId, $meshTerms = array(), $associatedMeshTermIds = array(),
+            $sessionLearningMaterialId, $meshTerms = array(), $associatedMeshTermIds = array(),
             array &$auditAtoms = array())
     {
-    	$this->_saveJoinTableAssociations('session_learning_material_x_mesh',
-    			'session_learning_material_id', $sessionLearningMaterialId,
-    			'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds, 'dbId', $auditAtoms);
+        $this->_saveJoinTableAssociations('session_learning_material_x_mesh',
+                'session_learning_material_id', $sessionLearningMaterialId,
+                'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds, 'dbId', $auditAtoms);
     }
 }
