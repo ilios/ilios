@@ -877,7 +877,7 @@ ilios.pm.addNewProgramYear = function () {
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                 str = ilios.competencies.generateSummaryStringForSelectedCompetencies(modelArray);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(str, 75);
+                collapseTrio[0].innerHTML = str;
                 ilios.competencies.appendListForSelectedCompetencies(collapseTrio[1], modelArray);
             }
 
@@ -888,6 +888,7 @@ ilios.pm.addNewProgramYear = function () {
                 titleId = ilios.pm.generateIdStringForDisciplineContent(containerNumber);
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
+                console.log(textListContent);
                 collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
                 collapseTrio[1].innerHTML = textListContent;
             }
@@ -899,6 +900,7 @@ ilios.pm.addNewProgramYear = function () {
                 titleId = ilios.pm.generateIdStringForDirectorContent(containerNumber);
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
+                console.log(textListContent);
                 collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
                 collapseTrio[1].innerHTML = textListContent;
             }
@@ -918,6 +920,7 @@ ilios.pm.addNewProgramYear = function () {
                 titleId = ilios.pm.generateIdStringForStewardContent(containerNumber);
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
+                console.log(textListContent);
                 collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
                 collapseTrio[1].innerHTML = textListContent;
             }
