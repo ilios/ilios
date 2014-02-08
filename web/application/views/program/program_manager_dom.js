@@ -1474,7 +1474,7 @@ ilios.pm.disc_initDialog = function (who, knows, args) {
         if (element != null) {
             element.innerHTML = textFieldContent;
             element = document.getElementById(inputTextId);
-            element.innerHTML = ilios.lang.ellipsisedOfLength(textFieldContent, 75);
+            element.innerHTML = textFieldContent;
         } else {
             element = document.getElementById(inputTextId);
             element.innerHTML = textFieldContent;
