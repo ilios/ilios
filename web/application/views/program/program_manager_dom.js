@@ -918,8 +918,7 @@ ilios.pm.addNewProgramYear = function () {
                 titleId = ilios.pm.generateIdStringForStewardContent(containerNumber);
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
-                console.log(textListContent);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
+                collapseTrio[0].innerHTML = textListContent;
                 collapseTrio[1].innerHTML = textListContent;
             }
 
