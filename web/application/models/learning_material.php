@@ -851,8 +851,8 @@ EOL;
      * @param array $sessionLearningMaterials
      * @param array $auditAtoms
      */
-    protected function _updateSessionLearningMaterialAssociations ( $sessionId,
-            $sessionLearningMaterials = array(), &$auditAtoms = array())
+    protected function _updateSessionLearningMaterialAssociations ($sessionId, $sessionLearningMaterials = array(),
+                                                                   &$auditAtoms = array())
     {
         foreach ($sessionLearningMaterials as $material) {
             // retrieve the identifier of the given session learning material
