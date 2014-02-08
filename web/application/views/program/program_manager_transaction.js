@@ -493,7 +493,7 @@ ilios.pm.transaction.performProgramYearSave = function (containerNumber, shouldP
                 model.clearDirtyState();
 
                 element = document.getElementById('' + containerNumber + '_child_draft_text');
-                if ((parsedObject.publish == null) || (parseInt(parsedObject.publish) < 1)) {
+                if ((parsedObject.publish == null) || (parseInt(parsedObject.publish, 10) < 1)) {
                     element.innerHTML = '<span class="status is-draft">' + ilios_i18nVendor.getI18NString('general.terms.draft') + '</span>';
                 }
                 else {
@@ -651,7 +651,7 @@ ilios.pm.transaction.continueProgramYearDelete = function (event, args) {
                     return;
                 }
 
-                ilios.pm.removeProgramYearAssociatedToContainer(parseInt(parsedObject.container));
+                ilios.pm.removeProgramYearAssociatedToContainer(parseInt(parsedObject.container, 10));
             },
 
             failure: function (resultObject) {
