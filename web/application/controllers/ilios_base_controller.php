@@ -203,18 +203,16 @@ abstract class Ilios_Base_Controller extends CI_Controller
     }
 
     /**
-     * @todo add code docs
-     * @param string $filename
-     * @param boolean $returnByteCount
-     * @return boolean|number
+     * Prints out a given file in chunks.
+     *
+     * @param string $filename Path to the file.
+     * @return boolean TRUE on success, FALSE on failure.
      */
-    protected function streamFileContentsChunked ($filename, $returnByteCount = true)
+    protected function streamFileContentsChunked ($filename)
     {
-        $chunkSizeInBytes = 1 * (1024 * 1024);
-        $buffer = '';
-        $bytesStreamed = 0;
+        $chunkSizeInBytes = 1024 * 1024;
 
-        $handle = fopen($filename, 'rb');
+        $handle = @fopen($filename, 'rb');
 
         if ($handle === false) {
             return false;
@@ -225,19 +223,11 @@ abstract class Ilios_Base_Controller extends CI_Controller
             echo $buffer;
             ob_flush();
             flush();
-
-            if ($returnByteCount) {
-                $bytesStreamed += strlen($buffer);
-            }
         }
 
-        $status = fclose($handle);
+        fclose($handle);
 
-        if ($returnByteCount && $status) {
-            return $bytesStreamed;
-        }
-
-        return $status;
+        return true;
     }
 
     /**
