@@ -61,9 +61,9 @@ class Learning_Material extends Ilios_Base_Model
 
     /**
      * For any title, filename, and/or description which match the match string, return the row as a
-     *  model in the returned array. Each model will contain 'learning_material_id', 'title',
-     *  'filename', 'filesize', 'upload_date', 'copyright_ownership',
-     *  'copyright_rationale', 'mime_type', 'owning_user_id' and 'owning_user_name'
+     * model in the returned array. Each model will contain 'learning_material_id', 'title',
+     * 'filename', 'filesize', 'upload_date', 'copyright_ownership',
+     * 'copyright_rationale', 'mime_type', 'owning_user_id' and 'owning_user_name'
      */
     public function getLearningMaterialsMatchingString ($matchString)
     {
