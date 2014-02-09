@@ -590,15 +590,7 @@ class Calendar_Controller extends Ilios_Web_Controller
     {
         $userId = $this->session->userdata('uid');
 
-        // generate new key
-        if (function_exists('openssl_random_pseudo_bytes')) {
-            $key = bin2hex(openssl_random_pseudo_bytes(32));
-        } else {
-            $key = '';
-            for ($i = 0; $i < 32; $i++) {
-                $key = $key . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
-            }
-        }
+       $key = Ilios_PasswordUtils::generateToken();
 
         // check if key already exists.
         if (false === $this->authentication->getApiKey($userId)) {
