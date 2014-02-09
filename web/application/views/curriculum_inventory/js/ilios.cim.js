@@ -6,6 +6,7 @@
  *
  *  Dependencies:
  *     application/views/scripts/ilios_base.js
+ *     application/views/scripts/ilios_alert.js
  *     ilios_i18nVendor
  *     YUI Dom/Event/Element libs
  *     YUI Container libs
