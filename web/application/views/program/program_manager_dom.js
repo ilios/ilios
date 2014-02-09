@@ -201,7 +201,7 @@ ilios.pm.dirtyStateListener = {
                 idStr = ilios.pm.generateIdStringForDirectorContent(containerNumber);
                 element = document.getElementById(idStr);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(element);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(directorString, 75);
+                collapseTrio[0].innerHTML = directorString;
                 collapseTrio[1].innerHTML = directorString;
 
                 if (ilios.global.preferencesModel.showProgramYearArchiving()
@@ -877,7 +877,7 @@ ilios.pm.addNewProgramYear = function () {
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
                 str = ilios.competencies.generateSummaryStringForSelectedCompetencies(modelArray);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(str, 75);
+                collapseTrio[0].innerHTML = str;
                 ilios.competencies.appendListForSelectedCompetencies(collapseTrio[1], modelArray);
             }
 
@@ -888,7 +888,7 @@ ilios.pm.addNewProgramYear = function () {
                 titleId = ilios.pm.generateIdStringForDisciplineContent(containerNumber);
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
+                collapseTrio[0].innerHTML = textListContent;
                 collapseTrio[1].innerHTML = textListContent;
             }
 
@@ -899,7 +899,7 @@ ilios.pm.addNewProgramYear = function () {
                 titleId = ilios.pm.generateIdStringForDirectorContent(containerNumber);
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
+                collapseTrio[0].innerHTML = textListContent;
                 collapseTrio[1].innerHTML = textListContent;
             }
 
@@ -918,7 +918,7 @@ ilios.pm.addNewProgramYear = function () {
                 titleId = ilios.pm.generateIdStringForStewardContent(containerNumber);
                 scratchElement = document.getElementById(titleId);
                 collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
-                collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
+                collapseTrio[0].innerHTML = textListContent;
                 collapseTrio[1].innerHTML = textListContent;
             }
 
@@ -1474,7 +1474,7 @@ ilios.pm.disc_initDialog = function (who, knows, args) {
         if (element != null) {
             element.innerHTML = textFieldContent;
             element = document.getElementById(inputTextId);
-            element.innerHTML = ilios.lang.ellipsisedOfLength(textFieldContent, 75);
+            element.innerHTML = textFieldContent;
         } else {
             element = document.getElementById(inputTextId);
             element.innerHTML = textFieldContent;

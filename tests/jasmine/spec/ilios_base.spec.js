@@ -10,10 +10,6 @@ describe("ilios_base", function() {
       expect(typeof ilios.namespace).toBe("function");
     });
 
-    it("should have a lang namespace", function () {
-      expect(typeof ilios.lang).toBe("object");
-    });
-
     it("should have an alert namespace", function () {
       expect(typeof ilios.alert).toBe("object");
     });
@@ -46,18 +42,6 @@ describe("ilios_base", function() {
         ilios.namespace('foo.baz');
         expect(typeof ilios.foo.bar).toBe("object");
         expect(typeof ilios.foo.baz).toBe("object");
-      });
-    });
-
-    describe("lang", function () {
-      describe("ellipsisedOfLength()", function () {
-        it("should truncate str to specified number of characters and add an ellipsis", function () {
-          expect(ilios.lang.ellipsisedOfLength("abcdefghijklmnopqrstuvwxyz", 10)).toBe("abcdefghij...");
-        });
-
-        it("should return str if it is shorter than length", function () {
-          expect(ilios.lang.ellipsisedOfLength("abc", 10)).toBe("abc");
-        });
       });
     });
 

@@ -7,7 +7,6 @@
  *
  * ilios.alert
  * ilios.global
- * ilios.lang
  *
  * Dependencies:
  *
@@ -67,31 +66,6 @@ if (YAHOO.lang.JSON) {
 }
 
 /**
- * Extensions to core JavaScript functionality, such as additional text processing methods.
- * @class ilios.lang
- * @static
- */
-ilios.namespace("lang");
-
-/**
- * Truncates a given text string after a given number of characters
- * and appends an ellipsis (...).
- * If the given text's length is less then the given number of characters
- * then no truncation is performed and no ellipsis is appended.
- * @method ellipsisedOfLength
- * @param {String} str text
- * @param {Number} length number of characters
- * @return {String} the ellipsified string
- */
-ilios.lang.ellipsisedOfLength = function (str, length) {
-    var rhett = str;
-    if (str.length > length) {
-        rhett = str.substring(0, length) + "...";
-    }
-    return rhett;
-};
-
-/**
  * Provides overrides for the window object's various dialog-functions.
  * @class ilios.alert
  * @static
@@ -118,7 +92,7 @@ ilios.alert.updateServerInteractionProgress = function () {
 
         element = document.getElementById('save_in_progress_text');
         if (element) {
-            element.appendChild(document.createTextNode(i18nStr));
+            element.textContent = i18nStr;
             element = document.getElementById('save_in_progress_div');
             (new Element(element)).setStyle('display', 'block');
         }
