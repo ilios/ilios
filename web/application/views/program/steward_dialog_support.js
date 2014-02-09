@@ -419,7 +419,7 @@ ilios.pm.stewardSubmitMethod = function () {
     }
 
     collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(textField);
-    collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textFieldString, 75);
+    collapseTrio[0].innerHTML = textFieldString;
     collapseTrio[1].innerHTML = textFieldString;
 };
 
