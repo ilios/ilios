@@ -338,7 +338,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                         titleId = ilios.pm.generateIdStringForDirectorContent(containerNumber);
                         scratchElement = document.getElementById(titleId);
                         collapseTrio = ilios.pm.getCollapseTrioForFirstChildLevelDiv(scratchElement);
-                        collapseTrio[0].innerHTML = ilios.lang.ellipsisedOfLength(textListContent, 75);
+                        collapseTrio[0].innerHTML = textListContent;
                         collapseTrio[1].innerHTML = textListContent;
                         programYearModel.setDirectors(childModelArray);
                     }
