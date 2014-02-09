@@ -93,12 +93,12 @@ ilios.alert.updateServerInteractionProgress = function () {
         if (element) {
             element.textContent = i18nStr;
             element = document.getElementById('save_in_progress_div');
-            element.setAttribute('style', 'display: block');
+            element.style.display = 'block';
         }
     } else { // no messages, hide the display container
         element = document.getElementById('save_in_progress_div');
         if (element) {
-            element.setAttribute('style', 'display: none');
+            element.style.display = 'none';
         }
     }
 };
