@@ -92,7 +92,7 @@ ilios.alert.updateServerInteractionProgress = function () {
 
         element = document.getElementById('save_in_progress_text');
         if (element) {
-            element.appendChild(document.createTextNode(i18nStr));
+            element.textContent = i18nStr;
             element = document.getElementById('save_in_progress_div');
             (new Element(element)).setStyle('display', 'block');
         }
