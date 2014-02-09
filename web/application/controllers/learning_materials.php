@@ -475,6 +475,7 @@ class Learning_Materials extends Ilios_Web_Controller
             $creator = $clean['content_creator'];
             $ownerRoleId = $this->input->post('owner_role');
             $statusId = $this->input->post('status');
+            $token = Ilios_PasswordUtils::generateToken();
 
             switch ($displayedTab) {
                 case 1:
@@ -529,21 +530,21 @@ class Learning_Materials extends Ilios_Web_Controller
                             $newLearningMaterialId = $this->learningMaterial->storeFileUploadLearningMaterialMeta(
                                 $title, $mimeType, $uploadFilePath, $filename, $filesize, $haveCopyrightOwnership,
                                 $copyrightRationale, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $userId, $auditAtoms);
+                                $sessionId, $userId, $token, $auditAtoms);
                             break;
                         case 2:
                             $link = $this->input->get_post('web_link');
 
                             $newLearningMaterialId = $this->learningMaterial->storeLinkLearningMaterialMeta(
                                 $title, $link, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $userId, $auditAtoms);
+                                $sessionId, $userId, $token, $auditAtoms);
                             $rhett['web_link'] = $link;
                             break;
                         case 3:
                             $citation = $this->input->get_post('citation');
                             $newLearningMaterialId = $this->learningMaterial->storeCitationLearningMaterialMeta(
                                 $title, $citation, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $userId, $auditAtoms);
+                                $sessionId, $userId, $token, $auditAtoms);
                             $rhett['citation'] = $citation;
                             break;
                         default:
