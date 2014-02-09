@@ -5,7 +5,7 @@
  * @param {Object} [serverDispatchedObject]
  * @constructor
  */
-function PreferencesModel (serverDispatchedObject) {
+function PreferencesModel () {
 
     /**
      * @property canArchiveProgramYears
@@ -27,10 +27,6 @@ function PreferencesModel (serverDispatchedObject) {
      * @default false
      */
     this.canRolloverCourses = false;
-
-    if (typeof serverDispatchedObject !== 'undefined') {
-        this.updateWithServerDispatchedObject(serverDispatchedObject);
-    }
 }
 /**
  * @method showCourseArchiving
