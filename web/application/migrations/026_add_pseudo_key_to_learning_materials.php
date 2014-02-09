@@ -21,21 +21,20 @@ class Migration_Add_pseudo_key_to_learning_materials extends CI_Migration
         $this->db->query($sql);
 
         //
-        // generate a new token for each existing learning material
+        // generate and save a new token for each existing learning material
         //
         $sql = "SELECT `learning_material_id` FROM `learning_material`";
         $query = $this->db->query($sql);
-        $ids = false;
+        $rows = false;
         if ($query->num_rows()) {
-            $ids = $query->result_array();
+            $rows = $query->result_array();
         }
         $query->free_result();
-        if ($ids) {
-            foreach ($ids as $id) {
-                /* @todo
-                $token = Ilios_LearningMaterialsUtils::generateToken($id);
-                $this->query("UPDATE `learning_material` SET `token` = {$token} WHERE learning_material_id = {$id}");
-                */
+        if ($rows) {
+            foreach ($rows as $row) {
+                $id = $row['learning_material_id'];
+                $token = Ilios_PasswordUtils::generateToken();
+                $this->db->query($sql);
             }
         }
         $this->db->trans_complete();
