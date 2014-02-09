@@ -86,11 +86,26 @@ describe("ilios_base", function() {
           expect(div.getAttribute("style")).toMatch(/display:\s*none;?/);
         });
 
+        it("should preserve pre-existing styles when hiding", function () {
+          div.setAttribute("style", "display:block; float:right;");
+          ilios.alert.updateServerInteractionProgress();
+          expect(div.getAttribute("style")).toMatch(/display:\s*none;?/);
+          expect(div.getAttribute("style")).toMatch(/float:\s*right;?/);
+        });
+
         it("should show save_in_progress_div a message is in the queue", function () {
           div.setAttribute("style", "display:none");
           ilios.alert.networkActivityI18NStrings = ["Whoa! Something's happening!"];
           ilios.alert.updateServerInteractionProgress();
           expect(div.getAttribute("style")).toMatch(/display:\s*block;?/);
+        });
+
+        it("should preserve pre-existing styles when showing", function () {
+          div.setAttribute("style", "display:none; float:right;");
+          ilios.alert.networkActivityI18NStrings = ["Whoa! Something's happening!"];
+          ilios.alert.updateServerInteractionProgress();
+          expect(div.getAttribute("style")).toMatch(/display:\s*block;?/);
+          expect(div.getAttribute("style")).toMatch(/float:\s*right;?/);
         });
 
         it("should update text with first message in queue", function () {
