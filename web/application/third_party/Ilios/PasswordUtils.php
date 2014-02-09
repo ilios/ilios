@@ -180,7 +180,7 @@ class Ilios_PasswordUtils
     }
 
     /**
-     * Generates a random 32 char-long string token.
+     * Generates a random 64 char-long string token.
      *
      * @return string The generated token.
      */

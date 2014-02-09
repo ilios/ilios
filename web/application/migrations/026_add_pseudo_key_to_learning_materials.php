@@ -13,7 +13,7 @@ class Migration_Add_pseudo_key_to_learning_materials extends CI_Migration
         $this->db->trans_start();
 
         // add a new column "token"
-        $sql ="ALTER TABLE `learning_material` ADD COLUMN `token` CHAR(32) COLLATE utf8_unicode_ci DEFAULT NULL";
+        $sql ="ALTER TABLE `learning_material` ADD COLUMN `token` CHAR(64) COLLATE utf8_unicode_ci DEFAULT NULL";
         $this->db->query($sql);
 
         // create a unique index on "token"
