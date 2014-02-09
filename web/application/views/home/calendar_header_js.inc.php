@@ -28,6 +28,7 @@ $js = array(
     ),
     'ilios' => array( // ilios js
         'application/views/scripts/ilios_base.js',
+        'application/views/scripts/ilios_alert.js',
         'application/views/scripts/ilios_utilities.js',
         'application/views/scripts/ilios_ui.js',
         'application/views/scripts/ilios_dom.js',
