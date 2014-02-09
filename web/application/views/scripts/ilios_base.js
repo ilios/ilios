@@ -83,7 +83,6 @@ ilios.alert.networkActivityI18NStrings = [];
  * @method updateServerInteractionProgress
  */
 ilios.alert.updateServerInteractionProgress = function () {
-    var Element = YAHOO.util.Element;
     var element;
     var i18nStr;
 
@@ -94,12 +93,12 @@ ilios.alert.updateServerInteractionProgress = function () {
         if (element) {
             element.appendChild(document.createTextNode(i18nStr));
             element = document.getElementById('save_in_progress_div');
-            (new Element(element)).setStyle('display', 'block');
+            element.setAttribute('style', 'display: block');
         }
     } else { // no messages, hide the display container
         element = document.getElementById('save_in_progress_div');
         if (element) {
-            (new Element(element)).setStyle('display', 'none');
+            element.setAttribute('style', 'display: none');
         }
     }
 };
