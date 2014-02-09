@@ -49,14 +49,8 @@ describe("ilios_base", function() {
       });
 
       describe("installPreferencesModel", function () {
-        beforeEach(function () {
-          // test double
-          window.PreferencesModel = function () {};
-        });
 
         afterEach(function () {
-          // clean up test double
-          delete window.PreferencesModel;
           // reset global.preferencesModel
           ilios.global.preferencesModel = null;
         });

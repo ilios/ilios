@@ -5,66 +5,63 @@
  * @param {Object} [serverDispatchedObject]
  * @constructor
  */
-function PreferencesModel (serverDispatchedObject) {
+function PreferencesModel () {
 
     /**
      * @property canArchiveProgramYears
      * @type {Boolean}
      * @default false
      */
-    this.canArchiveProgramYears = false;
+    var canArchiveProgramYears = false;
 
     /**
      * @property canArchiveCourses
      * @type {Boolean}
      * @default false
      */
-    this.canArchiveCourses = false;
+    var canArchiveCourses = false;
 
     /**
      * @property canRolloverCourses
      * @type {Boolean}
      * @default false
      */
-    this.canRolloverCourses = false;
+    var canRolloverCourses = false;
 
-    if (typeof serverDispatchedObject !== 'undefined') {
-        this.updateWithServerDispatchedObject(serverDispatchedObject);
-    }
+    /**
+     * @method showCourseArchiving
+     * @return {Boolean}
+     */
+    this.showCourseArchiving = function () {
+        return canArchiveCourses;
+    };
+
+    /**
+     * @method showProgramYearArchiving
+     * @return {Boolean}
+     */
+    this.showProgramYearArchiving = function () {
+        return canArchiveProgramYears;
+    };
+
+    /**
+     * @method showCourseRollover
+     * @return {Boolean}
+     */
+    this.showCourseRollover = function () {
+        return canRolloverCourses;
+    };
+
+    /**
+     * @method updateWithServerDispatchedObject
+     * @param {Object} serverDispatchedObject
+     *   @param {Boolean} serverDispatchedObject.py_archiving
+     *   @param {Boolean} serverDispatchedObject.course_archiving
+     *   @param {Boolean} serverDispatchedObject.course_rollover
+     */
+    this.updateWithServerDispatchedObject = function (serverDispatchedObject) {
+        canArchiveProgramYears = serverDispatchedObject.py_archiving;
+        canArchiveCourses = serverDispatchedObject.course_archiving;
+        canRolloverCourses = serverDispatchedObject.course_rollover;
+    };
 }
-/**
- * @method showCourseArchiving
- * @return {Boolean}
- */
-PreferencesModel.prototype.showCourseArchiving = function () {
-    return this.canArchiveCourses;
-};
-
-/**
- * @method showProgramYearArchiving
- * @return {Boolean}
- */
-PreferencesModel.prototype.showProgramYearArchiving = function () {
-    return this.canArchiveProgramYears;
-};
-
-/**
- * @method showCourseRollover
- * @return {Boolean}
- */
-PreferencesModel.prototype.showCourseRollover = function () {
-    return this.canRolloverCourses;
-};
-
-/**
- * @method updateWithServerDispatchedObject
- * @param {Object} serverDispatchedObject
- *   @param {Boolean} serverDispatchedObject.py_archiving
- *   @param {Boolean} serverDispatchedObject.course_archiving
- *   @param {Boolean} serverDispatchedObject.course_rollover
- */
-PreferencesModel.prototype.updateWithServerDispatchedObject = function (serverDispatchedObject) {
-    this.canArchiveProgramYears = serverDispatchedObject.py_archiving;
-    this.canArchiveCourses = serverDispatchedObject.course_archiving;
-    this.canRolloverCourses = serverDispatchedObject.course_rollover;
-};
