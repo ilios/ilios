@@ -7,7 +7,6 @@
  *
  * ilios.alert
  * ilios.global
- * ilios.lang
  *
  * Dependencies:
  *
@@ -65,13 +64,6 @@ if (YAHOO.lang.JSON) {
     YAHOO.lang.JSON.useNativeStringify = false;
     YAHOO.lang.JSON.useNativeParse = false;
 }
-
-/**
- * Extensions to core JavaScript functionality, such as additional text processing methods.
- * @class ilios.lang
- * @static
- */
-ilios.namespace("lang");
 
 /**
  * Provides overrides for the window object's various dialog-functions.

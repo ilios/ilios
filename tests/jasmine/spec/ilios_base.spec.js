@@ -10,10 +10,6 @@ describe("ilios_base", function() {
       expect(typeof ilios.namespace).toBe("function");
     });
 
-    it("should have a lang namespace", function () {
-      expect(typeof ilios.lang).toBe("object");
-    });
-
     it("should have an alert namespace", function () {
       expect(typeof ilios.alert).toBe("object");
     });
