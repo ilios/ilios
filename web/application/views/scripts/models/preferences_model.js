@@ -60,8 +60,8 @@ function PreferencesModel () {
      *   @param {Boolean} serverDispatchedObject.course_rollover
      */
     this.updateWithServerDispatchedObject = function (serverDispatchedObject) {
-        this.canArchiveProgramYears = serverDispatchedObject.py_archiving;
-        this.canArchiveCourses = serverDispatchedObject.course_archiving;
-        this.canRolloverCourses = serverDispatchedObject.course_rollover;
+        canArchiveProgramYears = serverDispatchedObject.py_archiving;
+        canArchiveCourses = serverDispatchedObject.course_archiving;
+        canRolloverCourses = serverDispatchedObject.course_rollover;
     };
 }

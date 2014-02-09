@@ -7,4 +7,19 @@ describe("PreferencesModel", function () {
       expect(prefs.showCourseRollover()).toBe(false);
     });
   });
+
+  describe("updateWithServerDispatchedObject()", function () {
+    it("should update from provided object", function () {
+      var prefs = new PreferencesModel();
+      var updateObject = {
+        py_archiving: true,
+        course_archiving: true,
+        course_rollover: true
+      };
+      prefs.updateWithServerDispatchedObject(updateObject);
+      expect(prefs.showCourseArchiving()).toBe(true);
+      expect(prefs.showProgramYearArchiving()).toBe(true);
+      expect(prefs.showCourseRollover()).toBe(true);
+    });
+  });
 });
