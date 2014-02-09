@@ -628,7 +628,7 @@ EOL;
                                                   $filesize, $haveCopyrightOwnership,
                                                   $copyrightRationale, $description, $statusId,
                                                   $creator, $ownerRoleId, $courseId, $sessionId,
-                                                  $userId, &$auditAtoms)
+                                                  $userId, $token, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -649,6 +649,7 @@ EOL;
         $newRow['description'] = $description;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
+        $newRow['token'] = $token;
 
         $this->db->insert($this->databaseTableName, $newRow);
         $newId = $this->db->insert_id();
@@ -681,7 +682,7 @@ EOL;
      * @return the learning material id, or -1 on failure
      */
     public function storeLinkLearningMaterialMeta ($title, $link, $description, $statusId, $creator,
-                                            $ownerRoleId, $courseId, $sessionId, $userId, &$auditAtoms)
+                                            $ownerRoleId, $courseId, $sessionId, $userId, $token, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -701,6 +702,7 @@ EOL;
         $newRow['description'] = $description;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
+        $newRow['token'] = $token;
 
         $this->db->insert($this->databaseTableName, $newRow);
         $newId = $this->db->insert_id();
@@ -735,7 +737,7 @@ EOL;
      */
     public function storeCitationLearningMaterialMeta ($title, $citation, $description, $statusId,
                                                 $creator, $ownerRoleId, $courseId, $sessionId,
-                                                $userId, &$auditAtoms)
+                                                $userId, $token, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -755,6 +757,7 @@ EOL;
         $newRow['description'] = $description;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
+        $newRow['token'] = $token;
 
         $this->db->insert($this->databaseTableName, $newRow);
         $newId = $this->db->insert_id();
