@@ -86,7 +86,7 @@ ilios.alert.updateServerInteractionProgress = function () {
     var element;
     var i18nStr;
 
-    if (0 < ilios.alert.networkActivityI18NStrings.length) { // message queued for display, show the first
+    if (ilios.alert.networkActivityI18NStrings.length) { // message queued for display, show the first
         i18nStr = ilios_i18nVendor.getI18NString(ilios.alert.networkActivityI18NStrings[0]);
 
         element = document.getElementById('save_in_progress_text');
