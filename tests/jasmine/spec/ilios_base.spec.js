@@ -49,18 +49,6 @@ describe("ilios_base", function() {
       });
     });
 
-    describe("lang", function () {
-      describe("ellipsisedOfLength()", function () {
-        it("should truncate str to specified number of characters and add an ellipsis", function () {
-          expect(ilios.lang.ellipsisedOfLength("abcdefghijklmnopqrstuvwxyz", 10)).toBe("abcdefghij...");
-        });
-
-        it("should return str if it is shorter than length", function () {
-          expect(ilios.lang.ellipsisedOfLength("abc", 10)).toBe("abc");
-        });
-      });
-    });
-
     describe("alert", function () {
       describe("networkActivityI18NStrings", function () {
         it("should initialize networkActivityI18NStrings to an empty array", function () {

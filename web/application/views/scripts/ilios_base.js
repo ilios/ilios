@@ -74,24 +74,6 @@ if (YAHOO.lang.JSON) {
 ilios.namespace("lang");
 
 /**
- * Truncates a given text string after a given number of characters
- * and appends an ellipsis (...).
- * If the given text's length is less then the given number of characters
- * then no truncation is performed and no ellipsis is appended.
- * @method ellipsisedOfLength
- * @param {String} str text
- * @param {Number} length number of characters
- * @return {String} the ellipsified string
- */
-ilios.lang.ellipsisedOfLength = function (str, length) {
-    var rhett = str;
-    if (str.length > length) {
-        rhett = str.substring(0, length) + "...";
-    }
-    return rhett;
-};
-
-/**
  * Provides overrides for the window object's various dialog-functions.
  * @class ilios.alert
  * @static
