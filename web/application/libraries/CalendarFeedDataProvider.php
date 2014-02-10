@@ -266,9 +266,11 @@ class CalendarFeedDataProvider
             } elseif (isset($material['web_link'])) { // oh look, it's a web link. append the target url.
                 $rhett .= ' (' . $material['web_link'] . ')';
             } else { // ... guess its a file then. link to it.
-                $rhett .= ' (' . base_url()
-                    . 'ilios.php/learning_materials/getLearningMaterialWithId?learning_material_id='
-                    . $material['learning_material_id'] . ')';
+                if ($material['token']) { // no token? no link.
+                    $rhett .= ' (' . base_url() . 'ilios.php/api/dl/' . $material['token'] . ')';
+                } else {
+                    $rhett .= ' (' . $this->_ci->languagemap->t('general.phrases.no_public_link') . ')';
+                }
             }
 
             // if the LM is required then say so.

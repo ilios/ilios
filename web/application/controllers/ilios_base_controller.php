@@ -203,44 +203,6 @@ abstract class Ilios_Base_Controller extends CI_Controller
     }
 
     /**
-     * @todo add code docs
-     * @param string $filename
-     * @param boolean $returnByteCount
-     * @return boolean|number
-     */
-    protected function streamFileContentsChunked ($filename, $returnByteCount = true)
-    {
-        $chunkSizeInBytes = 1 * (1024 * 1024);
-        $buffer = '';
-        $bytesStreamed = 0;
-
-        $handle = fopen($filename, 'rb');
-
-        if ($handle === false) {
-            return false;
-        }
-
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunkSizeInBytes);
-            echo $buffer;
-            ob_flush();
-            flush();
-
-            if ($returnByteCount) {
-                $bytesStreamed += strlen($buffer);
-            }
-        }
-
-        $status = fclose($handle);
-
-        if ($returnByteCount && $status) {
-            return $bytesStreamed;
-        }
-
-        return $status;
-    }
-
-    /**
      * Aggregates a complete representation of a course for a given id
      * from its various sub-components (sessions, cohorts etc.)
      * @param integer $courseId

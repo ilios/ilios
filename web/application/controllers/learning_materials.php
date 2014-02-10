@@ -10,6 +10,11 @@ require_once 'ilios_web_controller.php';
 class Learning_Materials extends Ilios_Web_Controller
 {
     /**
+     * @var Ilios_FileUtils
+     */
+    protected $_fileUtils;
+
+    /**
      * Constructor
      */
     public function __construct ()
@@ -17,6 +22,8 @@ class Learning_Materials extends Ilios_Web_Controller
         parent::__construct();
         $this->load->model('Alert', 'alert', TRUE);
         $this->load->model('School', 'school', TRUE);
+
+        $this->_fileUtils = new Ilios_FileUtils();
     }
 
     /**
@@ -46,7 +53,7 @@ class Learning_Materials extends Ilios_Web_Controller
           //if the file exists, start streaming!
           header("Content-Type: " . $rhett[0]);
           header('Content-Disposition: attachment; filename="' . $rhett[1] . '"');
-          $this->streamFileContentsChunked($rhett[2], false);
+          $this->_fileUtils->streamFileContentsChunked($rhett[2]);
         } else {
           //otherwise, the file isn't where is should be, so throw a 404 with the filename ($rhett[1])
           show_error("Learning Material '" . $rhett[1] . "' was not found.", 404);
@@ -468,6 +475,7 @@ class Learning_Materials extends Ilios_Web_Controller
             $creator = $clean['content_creator'];
             $ownerRoleId = $this->input->post('owner_role');
             $statusId = $this->input->post('status');
+            $token = Ilios_PasswordUtils::generateToken();
 
             switch ($displayedTab) {
                 case 1:
@@ -522,21 +530,21 @@ class Learning_Materials extends Ilios_Web_Controller
                             $newLearningMaterialId = $this->learningMaterial->storeFileUploadLearningMaterialMeta(
                                 $title, $mimeType, $uploadFilePath, $filename, $filesize, $haveCopyrightOwnership,
                                 $copyrightRationale, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $userId, $auditAtoms);
+                                $sessionId, $userId, $token, $auditAtoms);
                             break;
                         case 2:
                             $link = $this->input->get_post('web_link');
 
                             $newLearningMaterialId = $this->learningMaterial->storeLinkLearningMaterialMeta(
                                 $title, $link, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $userId, $auditAtoms);
+                                $sessionId, $userId, $token, $auditAtoms);
                             $rhett['web_link'] = $link;
                             break;
                         case 3:
                             $citation = $this->input->get_post('citation');
                             $newLearningMaterialId = $this->learningMaterial->storeCitationLearningMaterialMeta(
                                 $title, $citation, $description, $statusId, $creator, $ownerRoleId, $courseId,
-                                $sessionId, $userId, $auditAtoms);
+                                $sessionId, $userId, $token, $auditAtoms);
                             $rhett['citation'] = $citation;
                             break;
                         default:

@@ -178,4 +178,30 @@ class Ilios_PasswordUtils
         }
         return hash('sha256', $password);
     }
+
+    /**
+     * Generates a random 64 char-long string token.
+     *
+     * @return string The generated token.
+     */
+    public static function generateToken ()
+    {
+        // generate random 64-char string.
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            $key = bin2hex(openssl_random_pseudo_bytes(32));
+        } else {
+            for ($i = 0; $i < 32; $i++) {
+                $key = '';
+                $key = $key . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+            }
+        }
+
+        // prepend current time to make it unique
+        $key = microtime() . '_' . $key;
+
+        // hash the string
+        $key = hash('sha256', $key);
+
+        return $key;
+    }
 }

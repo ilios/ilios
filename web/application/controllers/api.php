@@ -71,4 +71,67 @@ class Api extends Ilios_Base_Controller
 
         echo $ical;
     }
+
+    /**
+     * Performs a requested operation a given learning material.
+     *
+     * @param string $op The operation to perform. Currently, only "dl" (download) is supported.
+     * @param string $token The pseudo key of the learning material.
+     */
+    public function lm ($op, $token = null)
+    {
+        if ('dl' !== $op) {
+            header('HTTP/1.1 400 Bad Request'); // not supported operation
+            return;
+        }
+
+        if (! $token) {
+            header('HTTP/1.1 400 Bad Request'); // falsy token given
+            return;
+        }
+
+        // retrieve the lm record by the pseudo key.
+        $lm = $this->learningMaterial->getByToken($token);
+
+        //
+        if (! $lm) {
+            header('HTTP/1.1 404 Not Found');
+            return;
+        }
+
+        // no path? must not be a file asset then.
+        if (! $lm['relative_file_system_location']) {
+            header('HTTP/1.1 404 Not Found');
+            return;
+        }
+
+        // build the absolute path to the file.
+        // @todo this is hokey, find a better way to assemble the file path. [ST 2014/02/08]
+        $file = getcwd() . $lm['relative_file_system_location'];
+
+        // sanity check
+        if (! is_file($file) || ! is_readable($file)) {
+            header('HTTP/1.1 404 Not Found');
+            return;
+        }
+        // set the proper response headers and stream down the file
+        header("Content-Type: " . $lm['mime_type']);
+        header('Content-Disposition: attachment; filename="' . $lm['filename'] . '"');
+
+        $fileUtils = new Ilios_FileUtils();
+        $fileUtils->streamFileContentsChunked($file);
+    }
+
+    /**
+     * Downloads a requested learning material file.
+     * This is a shortcut for calling <code>lm('dl', $token)</code>
+     *
+     * @param string $token The pseudo key of the learning material.
+
+     * @see Api::lm()
+     */
+    public function dl ($token = null)
+    {
+        $this->lm('dl', $token);
+    }
 }

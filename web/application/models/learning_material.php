@@ -60,6 +60,36 @@ class Learning_Material extends Ilios_Base_Model
     }
 
     /**
+     * Retrieves a learning material (LM) record by its given pseudo key.
+     *
+     * @param string $token The pseudo key.
+     * @return boolean|array An associative array representing the LM record, or FALSE if none was found.
+     *
+     */
+    public function getByToken($token)
+    {
+        $rhett = false;
+        // exit early if falsy token was given.
+        if (empty($token)) {
+            return $rhett;
+        }
+
+        $clean = array();
+        $clean['token'] = $this->db->escape($token);
+
+        $sql = "SELECT * FROM `learning_material` WHERE `token` = {$clean['token']}";
+
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows()) {
+            $rhett = $query->first_row('array');
+        }
+        $query->free_result();
+
+        return $rhett;
+    }
+
+    /**
      * For any title, filename, and/or description which match the match string, return the row as a
      * model in the returned array. Each model will contain 'learning_material_id', 'title',
      * 'filename', 'filesize', 'upload_date', 'copyright_ownership',
@@ -598,7 +628,7 @@ EOL;
                                                   $filesize, $haveCopyrightOwnership,
                                                   $copyrightRationale, $description, $statusId,
                                                   $creator, $ownerRoleId, $courseId, $sessionId,
-                                                  $userId, &$auditAtoms)
+                                                  $userId, $token, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -619,6 +649,7 @@ EOL;
         $newRow['description'] = $description;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
+        $newRow['token'] = $token;
 
         $this->db->insert($this->databaseTableName, $newRow);
         $newId = $this->db->insert_id();
@@ -651,7 +682,7 @@ EOL;
      * @return the learning material id, or -1 on failure
      */
     public function storeLinkLearningMaterialMeta ($title, $link, $description, $statusId, $creator,
-                                            $ownerRoleId, $courseId, $sessionId, $userId, &$auditAtoms)
+                                            $ownerRoleId, $courseId, $sessionId, $userId, $token, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -671,6 +702,7 @@ EOL;
         $newRow['description'] = $description;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
+        $newRow['token'] = $token;
 
         $this->db->insert($this->databaseTableName, $newRow);
         $newId = $this->db->insert_id();
@@ -705,7 +737,7 @@ EOL;
      */
     public function storeCitationLearningMaterialMeta ($title, $citation, $description, $statusId,
                                                 $creator, $ownerRoleId, $courseId, $sessionId,
-                                                $userId, &$auditAtoms)
+                                                $userId, $token, &$auditAtoms)
     {
         $newRow = array();
         $newRow['learning_material_id'] = null;
@@ -725,6 +757,7 @@ EOL;
         $newRow['description'] = $description;
         $newRow['learning_material_status_id'] = $statusId;
         $newRow['learning_material_user_role_id'] = $ownerRoleId;
+        $newRow['token'] = $token;
 
         $this->db->insert($this->databaseTableName, $newRow);
         $newId = $this->db->insert_id();

@@ -498,7 +498,9 @@ ENGINE=InnoDB;
 	  `citation` VARCHAR(512) COLLATE utf8_unicode_ci,
 	  `learning_material_status_id` INT(2) UNSIGNED NOT NULL,
 	  `learning_material_user_role_id` INT(2) UNSIGNED NOT NULL,
-	  PRIMARY KEY (`learning_material_id`) USING BTREE
+    `token` CHAR(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+	  PRIMARY KEY (`learning_material_id`) USING BTREE,
+    UNIQUE INDEX `idx_learning_material_token_unique` (`token`)
 	) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
