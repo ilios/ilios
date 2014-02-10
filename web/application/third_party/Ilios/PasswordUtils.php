@@ -186,7 +186,7 @@ class Ilios_PasswordUtils
      */
     public static function generateToken ()
     {
-        // generate random 32-char string.
+        // generate random 64-char string.
         if (function_exists('openssl_random_pseudo_bytes')) {
             $key = bin2hex(openssl_random_pseudo_bytes(32));
         } else {
