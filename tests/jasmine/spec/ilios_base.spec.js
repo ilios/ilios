@@ -49,6 +49,7 @@ describe("ilios_base", function() {
       });
 
       describe("installPreferencesModel()", function () {
+        var container;
 
         beforeEach(function () {
           container = document.createElement('script');
