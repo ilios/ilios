@@ -199,7 +199,7 @@ class Ilios_PasswordUtils
         // prepend current time to make it unique
         $key = microtime() . $key;
 
-        // hash the string to reduce entropy
+        // hash the string
         $key = hash('sha256', $key);
 
         return $key;
