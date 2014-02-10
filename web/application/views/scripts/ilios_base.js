@@ -86,7 +86,7 @@ ilios.global.preferencesModel = null;
 ilios.global.installPreferencesModel = function () {
     ilios.global.preferencesModel = new PreferencesModel();
 
-    var domData = document.getElementById("preferencesModel");
+    var domData = document.getElementById("iliosPreferencesModel");
     if (domData) {
         try {
             ilios.global.preferencesModel.updateWithServerDispatchedObject(JSON.parse(domData.innerHTML));

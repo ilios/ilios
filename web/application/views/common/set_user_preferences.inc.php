@@ -11,6 +11,6 @@
  *
  */
 ?>
-<script type="application/json" id="preferencesModel">
+<script type="application/json" id="iliosPreferencesModel">
 <?php echo $user_preferences_json; ?>
 </script>

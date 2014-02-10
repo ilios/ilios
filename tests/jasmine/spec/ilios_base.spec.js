@@ -53,7 +53,7 @@ describe("ilios_base", function() {
 
         beforeEach(function () {
           container = document.createElement('script');
-          container.setAttribute("id", "preferencesModel");
+          container.setAttribute("id", "iliosPreferencesModel");
           container.setAttribute("type", "application/json");
         });
 
