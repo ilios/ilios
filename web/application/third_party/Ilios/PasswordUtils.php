@@ -195,6 +195,13 @@ class Ilios_PasswordUtils
                 $key = $key . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
             }
         }
+
+        // prepend current time to make it unique
+        $key = microtime() . $key;
+
+        // hash the string to reduce entropy
+        $key = hash('sha256', $key);
+
         return $key;
     }
 }
