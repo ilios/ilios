@@ -106,5 +106,8 @@ class Ilios_PasswordUtilsTest extends Ilios_TestCase
 
         // 64 char length.
         $this->assertEquals(strlen($token), 64);
+
+        // check if the key contains only (lowercase) hexadecimal chars
+        $this->assertEquals(preg_match('/^[\da-f]+$/', $token), 1);
     }
 }
