@@ -395,6 +395,7 @@ EOL;
      *    'required'             ... Indicates whether the LM is required in the context of the associated course or not.
      *    'notes_are_public'     ... Indicates whether the LM/course notes should be visible or not.
      *    'course_id'            ... The id of the associated course.
+     *    'token'                ... The LM's pseudo-key.
      */
     public function getCoursesMaterials(array $courses)
     {
@@ -405,7 +406,7 @@ EOL;
 
         $courses = implode(',', $courses);
         $sql =<<< EOL
-SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citation,
+SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citation, lm.token,
   clm.notes, clm.required, clm.notes_are_public, clm.course_id
 FROM course_learning_material clm
   JOIN learning_material lm ON lm.learning_material_id = clm.learning_material_id
@@ -443,6 +444,7 @@ EOL;
      *    'required'             ... Indicates whether the LM is required in the context of the associated session or not.
      *    'notes_are_public'     ... Indicates whether the LM/session notes should be visible or not.
      *    'session_id'           ... The id of the associated session.
+     *    'token'                ... The LM's pseudo-key.
      */
     public function getSessionsMaterials(array $sessions)
     {
@@ -453,7 +455,7 @@ EOL;
         }
         $sessions = implode(',', $sessions);
         $sql =<<< EOL
-SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citation,
+SELECT lm.learning_material_id, lm.title, lm.description, lm.web_link, lm.citation, lm.token,
   slm.notes, slm.required, slm.notes_are_public, slm.session_id
 FROM session_learning_material slm
   JOIN learning_material lm ON lm.learning_material_id = slm.learning_material_id
