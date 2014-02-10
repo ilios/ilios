@@ -34,6 +34,7 @@ class Migration_Add_pseudo_key_to_learning_materials extends CI_Migration
             foreach ($rows as $row) {
                 $id = $row['learning_material_id'];
                 $token = Ilios_PasswordUtils::generateToken();
+                $sql = "UPDATE `learning_material` SET token = '{$token}' WHERE `learning_material_id` = {$id}";
                 $this->db->query($sql);
             }
         }
