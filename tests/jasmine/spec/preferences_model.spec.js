@@ -1,5 +1,7 @@
 describe("PreferencesModel", function () {
   describe("constructor", function () {
+    var container;
+
     it("should default all properties to false", function () {
       var prefs = new PreferencesModel();
       expect(prefs.showCourseArchiving()).toBe(false);

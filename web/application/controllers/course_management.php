@@ -411,7 +411,7 @@ class Course_Management extends Ilios_Web_Controller
                                         = $this->learningMaterial->getLearningMaterialStatuses();
 
 
-        $data['user_preferences_json'] = Ilios_Json::encodeForJavascriptEmbedding($this->_getUserPreferences(), Ilios_Json::JSON_ENC_DOUBLE_QUOTES);
+        $data['user_preferences_json'] = json_encode($this->_getUserPreferences());
 
         $this->load->view('course/course_manager', $data);
     }

@@ -103,6 +103,7 @@ $viewsPath = getServerFilePath('views');
     );
     writeJsScripts($js, 'educator_dashboard', $this->config->item('script_aggregation_enabled'), $this->config->item('ilios_revision'));
 ?>
+<?php include_once $viewsPath . 'common/set_user_preferences.inc.php'; ?>
 </head>
 <body class="home yui-skin-sam">
     <div id="wrapper">
@@ -594,7 +595,6 @@ $viewsPath = getServerFilePath('views');
             window.inform = ilios.alert.inform;
         });
 <?php
-    include_once $viewsPath . 'common/set_user_preferences.inc.php';
     include_once $viewsPath . 'common/load_school_competencies.inc.php';
     include_once $viewsPath . 'common/start_idle_page_timer.inc.php';
 ?>

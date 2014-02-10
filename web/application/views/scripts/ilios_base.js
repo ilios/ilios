@@ -79,13 +79,22 @@ ilios.namespace('global');
  */
 ilios.global.preferencesModel = null;
 
-
 /**
  * Instantiates <code>ilios.global.preferencesModel</code>.
  * @method installPreferencesModel
  */
 ilios.global.installPreferencesModel = function () {
     ilios.global.preferencesModel = new PreferencesModel();
+
+    var domData = document.getElementById("preferencesModel");
+    if (domData) {
+        try {
+            ilios.global.preferencesModel.updateWithServerDispatchedObject(JSON.parse(domData.innerHTML));
+        }  catch (e) {
+            // SOL
+            ilios.global.defaultAJAXFailureHandler(null, e);
+        }
+    }
 };
 
 /**

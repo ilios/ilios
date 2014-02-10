@@ -7,33 +7,18 @@
  */
 function PreferencesModel () {
 
-    /**
-     * @property canArchiveProgramYears
-     * @type {Boolean}
-     * @default false
-     */
-    var canArchiveProgramYears = false;
-
-    /**
-     * @property canArchiveCourses
-     * @type {Boolean}
-     * @default false
-     */
-    var canArchiveCourses = false;
-
-    /**
-     * @property canRolloverCourses
-     * @type {Boolean}
-     * @default false
-     */
-    var canRolloverCourses = false;
+    var prefs = {
+        py_archiving: false,
+        course_archiving: false,
+        course_rollover: false
+    };
 
     /**
      * @method showCourseArchiving
      * @return {Boolean}
      */
     this.showCourseArchiving = function () {
-        return canArchiveCourses;
+        return prefs.course_archiving;
     };
 
     /**
@@ -41,7 +26,7 @@ function PreferencesModel () {
      * @return {Boolean}
      */
     this.showProgramYearArchiving = function () {
-        return canArchiveProgramYears;
+        return prefs.py_archiving;
     };
 
     /**
@@ -49,7 +34,7 @@ function PreferencesModel () {
      * @return {Boolean}
      */
     this.showCourseRollover = function () {
-        return canRolloverCourses;
+        return prefs.course_rollover;
     };
 
     /**
@@ -60,8 +45,8 @@ function PreferencesModel () {
      *   @param {Boolean} serverDispatchedObject.course_rollover
      */
     this.updateWithServerDispatchedObject = function (serverDispatchedObject) {
-        canArchiveProgramYears = serverDispatchedObject.py_archiving;
-        canArchiveCourses = serverDispatchedObject.course_archiving;
-        canRolloverCourses = serverDispatchedObject.course_rollover;
+        prefs.py_archiving = serverDispatchedObject.py_archiving;
+        prefs.course_archiving = serverDispatchedObject.course_archiving;
+        prefs.course_rollover = serverDispatchedObject.course_rollover;
     };
 }
