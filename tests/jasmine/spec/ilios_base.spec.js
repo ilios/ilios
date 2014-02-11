@@ -43,15 +43,24 @@ describe("ilios_base", function() {
 
     describe("global", function () {
       describe("preferencesModel", function () {
-        it("should initialize preferencesModel to null", function () {
+        it("should initialize preferencesModel to null if no prefs data in DOM", function () {
           expect(ilios.global.preferencesModel).toBe(null);
         });
       });
 
-      describe("installPreferencesModel", function () {
+      describe("installPreferencesModel()", function () {
+        var container;
+
+        beforeEach(function () {
+          container = document.createElement('script');
+          container.setAttribute("id", "iliosPreferencesModel");
+          container.setAttribute("type", "application/json");
+        });
 
         afterEach(function () {
-          // reset global.preferencesModel
+          if (container && container.parentNode) {
+            container.parentNode.removeChild(container);
+          }
           ilios.global.preferencesModel = null;
         });
 
@@ -62,10 +71,29 @@ describe("ilios_base", function() {
         });
 
         it("should return PreferencesModel object", function () {
-          expect(ilios.global.preferencesModel).toBe(null);
           ilios.global.installPreferencesModel();
           expect(ilios.global.preferencesModel).not.toBe(null);
           expect(ilios.global.preferencesModel instanceof PreferencesModel).toBe(true);
+        });
+
+        it("should intialize preferencesModel with prefs data in DOM", function () {
+          container.innerHTML = "{\"py_archiving\":true,\"course_archiving\":true,\"course_rollover\":true}";
+          document.body.appendChild(container);
+          ilios.global.installPreferencesModel();
+          expect(ilios.global.preferencesModel.showProgramYearArchiving()).toBe(true);
+          expect(ilios.global.preferencesModel.showCourseArchiving()).toBe(true);
+          expect(ilios.global.preferencesModel.showCourseRollover()).toBe(true);
+        });
+
+        it("should call failure handler and act as if no object passed if preferencesModel in DOM is invalid JSON", function () {
+          spyOn(ilios.global, 'defaultAJAXFailureHandler');
+          container.innerHTML = "fjkldjlsf{over\":true}";
+          document.body.appendChild(container);
+          ilios.global.installPreferencesModel();
+          expect(ilios.global.defaultAJAXFailureHandler).toHaveBeenCalled();
+          expect(ilios.global.preferencesModel.showProgramYearArchiving()).toBe(false);
+          expect(ilios.global.preferencesModel.showCourseArchiving()).toBe(false);
+          expect(ilios.global.preferencesModel.showCourseRollover()).toBe(false);
         });
       });
 

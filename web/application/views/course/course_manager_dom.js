@@ -446,6 +446,7 @@ ilios.cm.courseLoader = function (courseModelStub) {
         YAHOO.util.Dom.addClass(element, 'icon-warning');
     }
 
+    ilios.global.installPreferencesModel();
     ilios.cm.handleArchivingLinkVisibility();
     ilios.cm.handleRolloverLinkVisibility();
 

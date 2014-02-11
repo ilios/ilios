@@ -35,10 +35,15 @@ ilios.home.resetUserReminderDialog = function (dialog) {
 
 ilios.home.populateArchivingPermissionsDialog = function () {
     var Element = YAHOO.util.Element;
-    var preferencesModel = ilios.global.preferencesModel;
+    var preferencesModel;
     var deselectIdString = null;
     var selectIdStringBase = null;
     var element = null;
+
+    if (! ilios.global.preferencesModel) {
+        ilios.global.installPreferencesModel();
+    }
+    preferencesModel = ilios.global.preferencesModel;
 
     if (preferencesModel.showProgramYearArchiving()) {
         deselectIdString = "ap_py_radio_inactive_label";
@@ -76,10 +81,15 @@ ilios.home.populateArchivingPermissionsDialog = function () {
 
 ilios.home.populateRolloverPermissionsDialog = function () {
     var Element = YAHOO.util.Element;
-    var preferencesModel = ilios.global.preferencesModel;
+    var preferencesModel;
     var deselectIdString = null;
     var selectIdStringBase = null;
     var element = null;
+
+    if (! ilios.global.preferencesModel) {
+        ilios.global.installPreferencesModel();
+    }
+    preferencesModel = ilios.global.preferencesModel;
 
     if (preferencesModel.showCourseRollover()) {
         deselectIdString = "rp_radio_inactive_label";
