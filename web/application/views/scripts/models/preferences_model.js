@@ -14,26 +14,26 @@ function PreferencesModel () {
     };
 
     /**
-     * @method showCourseArchiving
+     * @method getCourseArchiving
      * @return {Boolean}
      */
-    this.showCourseArchiving = function () {
+    this.getCourseArchiving = function () {
         return prefs.course_archiving;
     };
 
     /**
-     * @method showProgramYearArchiving
+     * @method getProgramYearArchiving
      * @return {Boolean}
      */
-    this.showProgramYearArchiving = function () {
+    this.getProgramYearArchiving = function () {
         return prefs.py_archiving;
     };
 
     /**
-     * @method showCourseRollover
+     * @method getCourseRollover
      * @return {Boolean}
      */
-    this.showCourseRollover = function () {
+    this.getCourseRollover = function () {
         return prefs.course_rollover;
     };
 

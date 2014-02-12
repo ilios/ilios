@@ -45,7 +45,7 @@ ilios.home.populateArchivingPermissionsDialog = function () {
     }
     preferencesModel = ilios.global.preferencesModel;
 
-    if (preferencesModel.showProgramYearArchiving()) {
+    if (preferencesModel.getProgramYearArchiving()) {
         deselectIdString = "ap_py_radio_inactive_label";
         selectIdStringBase = "ap_py_radio_active";
     } else {
@@ -62,7 +62,7 @@ ilios.home.populateArchivingPermissionsDialog = function () {
     element.setAttribute('checked', 'true');
 
 
-    if (preferencesModel.showCourseArchiving()) {
+    if (preferencesModel.getCourseArchiving()) {
         deselectIdString = "ap_course_radio_inactive_label";
         selectIdStringBase = "ap_course_radio_active";
     } else {
@@ -91,7 +91,7 @@ ilios.home.populateRolloverPermissionsDialog = function () {
     }
     preferencesModel = ilios.global.preferencesModel;
 
-    if (preferencesModel.showCourseRollover()) {
+    if (preferencesModel.getCourseRollover()) {
         deselectIdString = "rp_radio_inactive_label";
         selectIdStringBase = "rp_radio_active";
     } else {

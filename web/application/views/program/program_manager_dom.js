@@ -207,7 +207,7 @@ ilios.pm.dirtyStateListener = {
                 if (!ilios.global.preferencesModel) {
                     ilios.global.installPreferencesModel();
                 }
-                if (ilios.global.preferencesModel.showProgramYearArchiving()
+                if (ilios.global.preferencesModel.getProgramYearArchiving()
                             && model.isPublished()) {
                     idStr = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
                     element = new Element(document.getElementById(idStr));
@@ -786,7 +786,7 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
     if (! ilios.global.preferencesModel) {
         ilios.global.installPreferencesModel();
     }
-    if (ilios.global.preferencesModel.showProgramYearArchiving()) {
+    if (ilios.global.preferencesModel.getProgramYearArchiving()) {
         scratchInput = document.createElement('a');
         scratchInput.setAttribute('href', '');
         scratchInput.setAttribute('onclick', 'return false;');
