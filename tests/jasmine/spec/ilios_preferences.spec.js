@@ -1,3 +1,3 @@
-describe("PreferencesModel", function () {
+describe("ilios.preferences", function () {
 
 });
