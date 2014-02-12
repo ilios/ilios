@@ -1,3 +1,0 @@
-describe("ilios.preferences", function () {
-
-});
