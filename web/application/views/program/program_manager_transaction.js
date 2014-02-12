@@ -378,7 +378,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                     if (! ilios.global.preferencesModel) {
                         ilios.global.installPreferencesModel();
                     }
-                    if (ilios.global.preferencesModel.getProgramYearArchiving()
+                    if (ilios.global.preferencesModel.programYearArchiving
                                                         && programYearModel.isPublished()) {
                         idString = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
 

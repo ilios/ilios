@@ -7,35 +7,9 @@
  */
 function PreferencesModel () {
 
-    var prefs = {
-        py_archiving: false,
-        course_archiving: false,
-        course_rollover: false
-    };
-
-    /**
-     * @method getCourseArchiving
-     * @return {Boolean}
-     */
-    this.getCourseArchiving = function () {
-        return prefs.course_archiving;
-    };
-
-    /**
-     * @method getProgramYearArchiving
-     * @return {Boolean}
-     */
-    this.getProgramYearArchiving = function () {
-        return prefs.py_archiving;
-    };
-
-    /**
-     * @method getCourseRollover
-     * @return {Boolean}
-     */
-    this.getCourseRollover = function () {
-        return prefs.course_rollover;
-    };
+    this.programYearArchiving = false;
+    this.courseArchiving = false;
+    this.courseRollover = false;
 
     /**
      * @method updateWithServerDispatchedObject
@@ -45,8 +19,8 @@ function PreferencesModel () {
      *   @param {Boolean} serverDispatchedObject.course_rollover
      */
     this.updateWithServerDispatchedObject = function (serverDispatchedObject) {
-        prefs.py_archiving = serverDispatchedObject.py_archiving;
-        prefs.course_archiving = serverDispatchedObject.course_archiving;
-        prefs.course_rollover = serverDispatchedObject.course_rollover;
+        this.programYearArchiving = serverDispatchedObject.py_archiving;
+        this.courseArchiving = serverDispatchedObject.course_archiving;
+        this.courseRollover = serverDispatchedObject.course_rollover;
     };
 }

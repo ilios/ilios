@@ -478,7 +478,7 @@ ilios.cm.updatePublishAllUI = function () {
 
 ilios.cm.handleArchivingLinkVisibility = function () {
     var element = document.getElementById('archiving_link_div');
-    var showArchiveLink = (ilios.global.preferencesModel.getCourseArchiving()
+    var showArchiveLink = (ilios.global.preferencesModel.courseArchiving
                                     && ilios.cm.currentCourseModel.isPublished());
 
     if (showArchiveLink) {
@@ -512,7 +512,7 @@ ilios.cm.handleArchivingLinkVisibility = function () {
 
 ilios.cm.handleRolloverLinkVisibility = function () {
     var element = document.getElementById('rollover_link_div');
-    var showRolloverLink = ilios.global.preferencesModel.getCourseRollover();
+    var showRolloverLink = ilios.global.preferencesModel.courseRollover;
 
     if (showRolloverLink) {
         showRolloverLink = ilios.cm.currentCourseModel.isPublished();

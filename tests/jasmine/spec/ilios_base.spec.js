@@ -80,9 +80,9 @@ describe("ilios_base", function() {
           container.innerHTML = "{\"py_archiving\":true,\"course_archiving\":true,\"course_rollover\":true}";
           document.body.appendChild(container);
           ilios.global.installPreferencesModel();
-          expect(ilios.global.preferencesModel.getProgramYearArchiving()).toBe(true);
-          expect(ilios.global.preferencesModel.getCourseArchiving()).toBe(true);
-          expect(ilios.global.preferencesModel.getCourseRollover()).toBe(true);
+          expect(ilios.global.preferencesModel.programYearArchiving).toBe(true);
+          expect(ilios.global.preferencesModel.courseArchiving).toBe(true);
+          expect(ilios.global.preferencesModel.courseRollover).toBe(true);
         });
 
         it("should call failure handler and act as if no object passed if preferencesModel in DOM is invalid JSON", function () {
@@ -91,9 +91,9 @@ describe("ilios_base", function() {
           document.body.appendChild(container);
           ilios.global.installPreferencesModel();
           expect(ilios.global.defaultAJAXFailureHandler).toHaveBeenCalled();
-          expect(ilios.global.preferencesModel.getProgramYearArchiving()).toBe(false);
-          expect(ilios.global.preferencesModel.getCourseArchiving()).toBe(false);
-          expect(ilios.global.preferencesModel.getCourseRollover()).toBe(false);
+          expect(ilios.global.preferencesModel.programYearArchiving).toBe(false);
+          expect(ilios.global.preferencesModel.courseArchiving).toBe(false);
+          expect(ilios.global.preferencesModel.courseRollover).toBe(false);
         });
       });
 

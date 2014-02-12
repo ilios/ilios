@@ -2,9 +2,9 @@ describe("PreferencesModel", function () {
   describe("constructor", function () {
     it("should default all properties to false", function () {
       var prefs = new PreferencesModel();
-      expect(prefs.getCourseArchiving()).toBe(false);
-      expect(prefs.getProgramYearArchiving()).toBe(false);
-      expect(prefs.getCourseRollover()).toBe(false);
+      expect(prefs.courseArchiving).toBe(false);
+      expect(prefs.programYearArchiving).toBe(false);
+      expect(prefs.courseRollover).toBe(false);
     });
   });
 
@@ -17,9 +17,9 @@ describe("PreferencesModel", function () {
         course_rollover: true
       };
       prefs.updateWithServerDispatchedObject(updateObject);
-      expect(prefs.getCourseArchiving()).toBe(true);
-      expect(prefs.getProgramYearArchiving()).toBe(true);
-      expect(prefs.getCourseRollover()).toBe(true);
+      expect(prefs.courseArchiving).toBe(true);
+      expect(prefs.programYearArchiving).toBe(true);
+      expect(prefs.courseRollover).toBe(true);
     });
   });
 });
