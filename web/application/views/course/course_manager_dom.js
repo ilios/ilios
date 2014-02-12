@@ -1702,7 +1702,6 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
     var disc_listingTextField = "discipline_picker_selected_text_list";
     var disc_selectedItemContainer = "discipline_picked";
 
-
     disc_dataSource.responseType = YAHOO.util.XHRDataSource.TYPE_XML;
     disc_dataSource.responseSchema = { resultNode: "Result", fields: ["title", "discipline_id"] };
     /*
@@ -1779,7 +1778,7 @@ ilios.cm.disc_initDialog = function (who, knows, args) {
         textFieldContent = modelTitles.join(";");
 
         element = document.getElementById(inputTextId);
-        element.addChild(document.createTextNode(textFieldContent));
+        element.textContent = textFieldContent;
     }; // end function
 
     /*
