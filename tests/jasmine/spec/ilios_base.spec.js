@@ -64,16 +64,12 @@ describe("ilios_base", function() {
           ilios.global.preferencesModel = null;
         });
 
-        it("should call constructor on global PreferencesModel", function () {
-          spyOn(window, "PreferencesModel");
+        it("should return object with expected properties", function () {
           ilios.global.installPreferencesModel();
-          expect(window.PreferencesModel).toHaveBeenCalled();
-        });
-
-        it("should return PreferencesModel object", function () {
-          ilios.global.installPreferencesModel();
-          expect(ilios.global.preferencesModel).not.toBe(null);
-          expect(ilios.global.preferencesModel instanceof PreferencesModel).toBe(true);
+          expect(typeof ilios.global.preferencesModel.courseArchiving).toBe("boolean");
+          expect(typeof ilios.global.preferencesModel.courseRollover).toBe("boolean");
+          expect(typeof ilios.global.preferencesModel.programYearArchiving).toBe("boolean");
+          expect(typeof ilios.global.preferencesModel.updateWithServerDispatchedObject).toBe("function");
         });
 
         it("should intialize preferencesModel with prefs data in DOM", function () {

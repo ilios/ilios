@@ -84,7 +84,24 @@ ilios.global.preferencesModel = null;
  * @method installPreferencesModel
  */
 ilios.global.installPreferencesModel = function () {
-    ilios.global.preferencesModel = new PreferencesModel();
+    ilios.global.preferencesModel = {
+        programYearArchiving: false,
+        courseArchiving: false,
+        courseRollover: false,
+
+        /**
+         * @method updateWithServerDispatchedObject
+         * @param {Object} serverDispatchedObject
+         *   @param {Boolean} serverDispatchedObject.py_archiving
+         *   @param {Boolean} serverDispatchedObject.course_archiving
+         *   @param {Boolean} serverDispatchedObject.course_rollover
+         */
+        updateWithServerDispatchedObject: function (serverDispatchedObject) {
+            this.programYearArchiving = serverDispatchedObject.py_archiving;
+            this.courseArchiving = serverDispatchedObject.course_archiving;
+            this.courseRollover = serverDispatchedObject.course_rollover;
+        }
+    };
 
     var domData = document.getElementById("iliosPreferencesModel");
     if (domData) {
