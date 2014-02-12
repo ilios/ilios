@@ -71,7 +71,7 @@ $viewsPath = getServerFilePath('views');
             'application/views/scripts/ilios_ui.js',
             'application/views/scripts/ilios_dom.js',
             'application/views/scripts/models/abstract_js_model_form.js',
-            'application/views/scripts/models/preferences_model.js',
+            'application/views/scripts/ilios_preferences.js',
             'application/views/scripts/models/competency_model.js',
             'application/views/scripts/models/school_competency_model.js',
             'application/views/scripts/models/discipline_model.js',
