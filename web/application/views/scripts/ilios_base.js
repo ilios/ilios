@@ -90,7 +90,7 @@ ilios.global.installPreferencesModel = function () {
     if (domData) {
         try {
             ilios.global.preferencesModel.updateWithServerDispatchedObject(JSON.parse(domData.innerHTML));
-        }  catch (e) {
+        } catch (e) {
             // SOL
             ilios.global.defaultAJAXFailureHandler(null, e);
         }
