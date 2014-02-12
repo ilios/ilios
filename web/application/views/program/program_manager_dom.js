@@ -204,10 +204,10 @@ ilios.pm.dirtyStateListener = {
                 collapseTrio[0].innerHTML = directorString;
                 collapseTrio[1].innerHTML = directorString;
 
-                if (!ilios.global.preferencesModel) {
-                    ilios.global.installPreferencesModel();
+                if (!ilios.preferences.preferencesModel) {
+                    ilios.preferences.installPreferencesModel();
                 }
-                if (ilios.global.preferencesModel.showProgramYearArchiving()
+                if (ilios.preferences.preferencesModel.programYearArchiving
                             && model.isPublished()) {
                     idStr = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
                     element = new Element(document.getElementById(idStr));
@@ -783,10 +783,10 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
         ilios.pm.generateIdStringForStewardContent(containerNumber),
         i18nStr, 'steward_picker_show_dialog', '366', containerNumber, 'gen_dialog_open');
 
-    if (! ilios.global.preferencesModel) {
-        ilios.global.installPreferencesModel();
+    if (! ilios.preferences.preferencesModel) {
+        ilios.preferences.installPreferencesModel();
     }
-    if (ilios.global.preferencesModel.showProgramYearArchiving()) {
+    if (ilios.preferences.preferencesModel.programYearArchiving) {
         scratchInput = document.createElement('a');
         scratchInput.setAttribute('href', '');
         scratchInput.setAttribute('onclick', 'return false;');

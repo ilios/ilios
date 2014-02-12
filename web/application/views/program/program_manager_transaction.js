@@ -375,10 +375,10 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
 
                     programYearModel.setLocked(modelTree['locked'] == '1');
 
-                    if (! ilios.global.preferencesModel) {
-                        ilios.global.installPreferencesModel();
+                    if (! ilios.preferences.preferencesModel) {
+                        ilios.preferences.installPreferencesModel();
                     }
-                    if (ilios.global.preferencesModel.showProgramYearArchiving()
+                    if (ilios.preferences.preferencesModel.programYearArchiving
                                                         && programYearModel.isPublished()) {
                         idString = ilios.pm.generateIdStringForArchivingDiv(containerNumber);
 

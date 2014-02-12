@@ -73,31 +73,6 @@ if (YAHOO.lang.JSON) {
 ilios.namespace('global');
 
 /**
- * The page's preferences model.
- * Should be instantiated by calling <code>ilios.global.installPreferencesModel()</code>.
- * @property {PreferencesModel} preferencesModel
- */
-ilios.global.preferencesModel = null;
-
-/**
- * Instantiates <code>ilios.global.preferencesModel</code>.
- * @method installPreferencesModel
- */
-ilios.global.installPreferencesModel = function () {
-    ilios.global.preferencesModel = new PreferencesModel();
-
-    var domData = document.getElementById("iliosPreferencesModel");
-    if (domData) {
-        try {
-            ilios.global.preferencesModel.updateWithServerDispatchedObject(JSON.parse(domData.innerHTML));
-        }  catch (e) {
-            // SOL
-            ilios.global.defaultAJAXFailureHandler(null, e);
-        }
-    }
-};
-
-/**
  * Instantiates and starts the idle timer, subscribes a timeout-handler function to it.
  * @method startIdleTimer
  * @param {Number} Timeout period in milliseconds
