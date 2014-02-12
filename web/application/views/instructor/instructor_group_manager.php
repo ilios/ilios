@@ -117,7 +117,7 @@ $viewsPath = getServerFilePath('views');
             window.alert = ilios.alert.alert;
             window.inform = ilios.alert.inform;
         });
-        ilios.global.installPreferencesModel();
+        ilios.preferences.installPreferencesModel();
 
 <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 

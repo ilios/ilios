@@ -40,10 +40,10 @@ ilios.home.populateArchivingPermissionsDialog = function () {
     var selectIdStringBase = null;
     var element = null;
 
-    if (! ilios.global.preferencesModel) {
-        ilios.global.installPreferencesModel();
+    if (! ilios.preferences.preferencesModel) {
+        ilios.preferences.installPreferencesModel();
     }
-    preferencesModel = ilios.global.preferencesModel;
+    preferencesModel = ilios.preferences.preferencesModel;
 
     if (preferencesModel.programYearArchiving) {
         deselectIdString = "ap_py_radio_inactive_label";
@@ -86,10 +86,10 @@ ilios.home.populateRolloverPermissionsDialog = function () {
     var selectIdStringBase = null;
     var element = null;
 
-    if (! ilios.global.preferencesModel) {
-        ilios.global.installPreferencesModel();
+    if (! ilios.preferences.preferencesModel) {
+        ilios.preferences.installPreferencesModel();
     }
-    preferencesModel = ilios.global.preferencesModel;
+    preferencesModel = ilios.preferences.preferencesModel;
 
     if (preferencesModel.courseRollover) {
         deselectIdString = "rp_radio_inactive_label";

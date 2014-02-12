@@ -1,16 +1,32 @@
 /**
- * The page's preferences model.
- * Should be instantiated by calling <code>ilios.global.installPreferencesModel()</code>.
- * @property {PreferencesModel} preferencesModel
+ * Preferences settings.
+ * @todo Rename privileges or something more accurate than preferences
+ * Defines the following namespace
+ *
+ * ilios.preferences
+ *
+ * Dependencies:
+ *
+ * YUI utilities
+ * scripts/ilios_base.js
  */
-ilios.global.preferencesModel = null;
+
+ilios.namespace('preferences');
 
 /**
- * Instantiates <code>ilios.global.preferencesModel</code>.
+ * The page's preferences model.
+ * Should be instantiated by calling <code>ilios.preferences.installPreferencesModel()</code>.
+ * @property {Object}
+ */
+ilios.preferences.preferencesModel = null;
+
+/**
+ * Instantiates <code>ilios.preferences.preferencesModel</code>.
+ * @todo rename with init instead of install
  * @method installPreferencesModel
  */
-ilios.global.installPreferencesModel = function () {
-    ilios.global.preferencesModel = {
+ilios.preferences.installPreferencesModel = function () {
+    ilios.preferences.preferencesModel = {
         programYearArchiving: false,
         courseArchiving: false,
         courseRollover: false,
@@ -32,7 +48,7 @@ ilios.global.installPreferencesModel = function () {
     var domData = document.getElementById("iliosPreferencesModel");
     if (domData) {
         try {
-            ilios.global.preferencesModel.updateWithServerDispatchedObject(JSON.parse(domData.innerHTML));
+            ilios.preferences.preferencesModel.updateWithServerDispatchedObject(JSON.parse(domData.innerHTML));
         } catch (e) {
             // SOL
             ilios.global.defaultAJAXFailureHandler(null, e);

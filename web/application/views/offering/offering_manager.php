@@ -187,7 +187,7 @@ $viewsPath = getServerFilePath('views');
             window.inform = ilios.alert.inform;
         });
 
-        ilios.global.installPreferencesModel();
+        ilios.preferences.installPreferencesModel();
 
 <?php
     include_once $viewsPath . 'common/load_school_competencies.inc.php';

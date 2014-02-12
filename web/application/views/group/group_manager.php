@@ -105,7 +105,7 @@ $viewsPath = getServerFilePath('views');
             + ilios_i18nVendor.getI18NString('general.phrases.school_of')
             + ' <?php echo $school_name; ?>';
 
-        ilios.global.installPreferencesModel();
+        ilios.preferences.installPreferencesModel();
 
         YAHOO.util.Event.onDOMReady(ilios.dom.generateGenericDialogMarkupAndWireContent, {
             trigger : 'manage_member_picker_show_dialog',
