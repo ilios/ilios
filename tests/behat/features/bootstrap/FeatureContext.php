@@ -55,8 +55,6 @@ class FeatureContext extends MinkContext
         $this->fillField("User Name", $user);
         $this->fillField("Password", $login);
         $this->pressButton("login_button");
-        // @todo: fix this garbage hack
-        $this->getSession()->wait(10000);
     }
 
     /**
