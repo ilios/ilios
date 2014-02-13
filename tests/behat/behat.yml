@@ -37,3 +37,14 @@ vagrant:
                     curl.options: { "CURLOPT_SSLVERSION": 3, "CURLOPT_PORT": 8443 }
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
+
+# Use this profile to run tests against the Travis-CI instance
+vagrant:
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: https://precise64
+            goutte:
+                guzzle_parameters:
+                    curl.options: { "CURLOPT_SSLVERSION": 3, "CURLOPT_PORT": 8443 }
+            selenium2:
+                wd_host:    "http://localhost:8080/wd/hub"
