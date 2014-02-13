@@ -34,5 +34,7 @@ before_script:
 
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
-  - ls /var/www
+  - ls web
+  - grep /web /etc/apache2/sites-enabled/*
+  - curl https://localhost
   - "(cd tests/behat && bin/behat -p phantomjs)"
