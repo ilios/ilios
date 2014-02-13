@@ -17,7 +17,7 @@ before_script:
 
 # Get Selenium standalone server and run it for Behat tests
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
-  - "java -jar selenium-server-standalone-2.39.0.jar > /dev/null &"
+  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
 # Install Behat tests
   - composer install -d tests/behat --prefer-dist
