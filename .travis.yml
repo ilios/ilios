@@ -33,7 +33,7 @@ before_script:
   - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
 
 # Install Behat tests
-  - composer install -d tests/behat --prefer-dist
+  - composer install -d tests/behat
 
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
