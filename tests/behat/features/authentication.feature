@@ -6,8 +6,12 @@ Feature: User authentication
   @insulated
   Scenario: Login
     Given I am on the Ilios home page
-    When I log in as "zero_user" with password "Ch4nge_m3"
+    # When I log in as "zero_user" with password "Ch4nge_m3"
     # post-login you should be on the dashboard
+    And I follow "Login"
+    And I fill in "zero_user" for "User Name"
+    And I fill in "Ch4nge_m3" for "Password"
+    And I press "login_button"
     Then I should be on "/dashboard_controller"
 
   @insulated
