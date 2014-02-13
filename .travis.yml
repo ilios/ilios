@@ -22,21 +22,21 @@ before_script:
   - echo "127.0.0.1 precise64" | sudo tee -a /etc/hosts
   - "sudo /etc/init.d/apache2 restart"
 
-# Get Selenium standalone server and run it for Behat tests
-  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
-  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
+# # Get Selenium standalone server and run it for Behat tests
+#   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+#   - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
 # Install the Ilios PHP app locally for PHPUnit testing
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
-# Start Phantom for headless Behat tests
-#  - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
+# # Start Phantom for headless Behat tests
+#   - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
 
-# Install Behat tests
-  - composer install -d tests/behat
+# # Install Behat tests
+#   - composer install -d tests/behat
 
 script:
-  - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
-  - "(cd tests/behat && bin/behat -p travis)"
-  - curl https://precise64
+  # - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
+  # - "(cd tests/behat && bin/behat -p travis)"
+  - curl -k https://precise64
 
