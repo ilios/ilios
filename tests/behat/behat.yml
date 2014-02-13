@@ -42,7 +42,7 @@ vagrant:
 travis:
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: https://localhost
+            base_url: https://precise64
             goutte:
                 guzzle_parameters:
                     curl.options: { "CURLOPT_SSLVERSION": 3 }
