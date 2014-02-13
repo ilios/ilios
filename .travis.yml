@@ -36,5 +36,7 @@ before_script:
 
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
-  - curl -k https://precise64
   - "(cd tests/behat && bin/behat -p travis)"
+  - "sudo ls /var/log/httpd"
+  - "sudo cat /var/log/httpd/*"
+
