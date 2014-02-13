@@ -19,15 +19,13 @@ before_script:
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s#AllowOverride None#AllowOverride All#}' {} \\;)"
   - "sudo rm -rf /var/www && sudo /bin/ln -s web /var/www"
   - "sudo /etc/init.d/mysql restart && sudo /etc/init.d/apache2 restart"
-  - "(cd database/install && /bin/sed 's/XXXXXX/ilios_db/g' make_new_ilios_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/mysql -uroot -e \"GRANT ALL ON ilios_db.* TO 'ilios_user'@'localhost' identified by '';\" && /usr/bin/expect user_zero.exp ilios_db ilios_user '' root@example.com)"
 
 # Get Selenium standalone server and run it for Behat tests
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
   - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
 # Install the Ilios PHP app locally for PHPUnit testing
-  - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=ilios_user -Ddb.password=ilios_pass -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
-
+  - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 # Start Phantom for headless Behat tests
   - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
 
