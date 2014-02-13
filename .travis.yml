@@ -18,6 +18,7 @@ before_script:
   - "sudo /bin/ln -s /etc/apache2/sites-available/default-ssl /etc/apache2/sites-enabled/000-default-ssl"
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s,AllowOverride None,AllowOverride All,}' {} \\;)"
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i 's,/var/www,$(pwd)/web,g' {} \\;)"
+  - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/DocumentRoot/i\ServerName precise64' {} \\;)"
   - echo "127.0.0.1 precise64" | sudo tee -a /etc/hosts
   - "sudo restart mysql && sudo /etc/init.d/apache2 restart"
 
