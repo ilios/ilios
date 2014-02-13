@@ -20,14 +20,15 @@ before_script:
   - "sudo /usr/bin/find /etc/apache2/sites-enabled -! -type d -exec /bin/sed -i \"s,/var/www,${PWD}/web,g\" {} \\;"
   - sudo sed -i -e "/DocumentRoot/i\ServerName precise64" /etc/apache2/sites-available/default
   - echo "127.0.0.1 precise64" | sudo tee -a /etc/hosts
-  - "sudo restart mysql && sudo /etc/init.d/apache2 restart"
+  - "sudo /etc/init.d/apache2 restart"
 
 # Get Selenium standalone server and run it for Behat tests
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
   - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
 # Install the Ilios PHP app locally for PHPUnit testing
-  - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+  - phing -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+
 # Start Phantom for headless Behat tests
   - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
 
@@ -37,7 +38,4 @@ before_script:
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
   - "(cd tests/behat && bin/behat -p travis)"
-  - "ls /etc/apache2/sites-enabled"
-  - "cat /etc/apache2/sites-enabled/000-default"
-  - "cat /etc/apache2/sites-enabled/000-default-ssl"
 
