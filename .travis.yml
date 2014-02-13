@@ -25,4 +25,6 @@ before_script:
 # Install Behat tests
   - composer install -d tests/behat --prefer-dist
 
-script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
+script:
+  - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
+  - "(cd tests/behat && bin/behat -p phantomjs)"
