@@ -16,6 +16,7 @@ before_script:
   - "sudo apt-get install -y --force-yes mysql-server apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect"
   - "sudo /usr/sbin/a2enmod rewrite && sudo /usr/sbin/a2enmod headers"
   - "sudo /etc/init.d/mysql restart && sudo /etc/init.d/apache2 restart"
+  - "(cd database/install && /bin/sed 's/XXXXXX/ilios_db/g' make_new_ilios_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/mysql -uroot -e \"GRANT ALL ON ilios_db.* TO 'ilios_user'@'localhost' identified by 'ilios_pass';\" && /usr/bin/expect user_zero.exp ilios_db ilios_user ilios_pass root@example.com)"
 
 # Get Selenium standalone server and run it for Behat tests
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
