@@ -14,6 +14,11 @@ install:
 before_script:
 # Install the Ilios PHP app
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+
+# Get Selenium standalone server and run it for Behat tests
+  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+  - "java -jar selenium-server-standalone-2.39.0.jar > /dev/null &"
+
 # Install Behat tests
   - composer install -d tests/behat --prefer-dist
 
