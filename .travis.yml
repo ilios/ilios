@@ -12,8 +12,8 @@ install:
   - phpenv rehash
 
 before_script:
-# Provision app hosting the app for Behat tests
-  - "puppet apply --manifestdir=puppet_manifests --modulepath=puppet_modules puppet_manifests/ilios.pp"
+# Provision web server for Behat tests
+  - "sudo apt-get install -y --force-yes mysql-server apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect"
 
 # Get Selenium standalone server and run it for Behat tests
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
