@@ -17,7 +17,7 @@ before_script:
   - "sudo /usr/sbin/a2enmod rewrite && sudo /usr/sbin/a2enmod headers && sudo /usr/sbin/a2enmod ssl"
   - "sudo /bin/ln -s /etc/apache2/sites-available/default-ssl /etc/apache2/sites-enabled/000-default-ssl"
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s#AllowOverride None#AllowOverride All#}' {} \\;)"
-  - "sudo /bin/ln -s web /var/www"
+  - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i 's,/var/www,$(pwd)/web,g' {} \;"
   - "sudo restart mysql && sudo /etc/init.d/apache2 restart"
 
 # Get Selenium standalone server and run it for Behat tests
@@ -35,5 +35,4 @@ before_script:
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
   - ls /var/www
-  - curl https://localhost
-#  - "(cd tests/behat && bin/behat -p phantomjs)"
+  - "(cd tests/behat && bin/behat -p phantomjs)"
