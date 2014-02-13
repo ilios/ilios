@@ -37,6 +37,6 @@ before_script:
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
   - "(cd tests/behat && bin/behat -p travis)"
-  - "sudo ls /var/log/httpd"
-  - "sudo cat /var/log/httpd/*"
+  - "sudo ls /var/log/apache2"
+  - "sudo cat /var/log/apache2/*"
 
