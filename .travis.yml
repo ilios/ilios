@@ -12,7 +12,9 @@ install:
   - phpenv rehash
 
 before_script:
+# Install the Ilios PHP app
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+# Install Behat tests
   - composer install -d tests/behat --prefer-dist
 
 script: "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
