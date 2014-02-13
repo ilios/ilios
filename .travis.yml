@@ -12,11 +12,14 @@ install:
   - phpenv rehash
 
 before_script:
+# Set up Vagrant VM hosting the app for Behat tests
+  - "vagrant up"
+
 # Get Selenium standalone server and run it for Behat tests
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
   - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
-# Install the Ilios PHP app
+# Install the Ilios PHP app locally for PHPUnit testing
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Start Phantom for headless Behat tests
