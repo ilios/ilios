@@ -14,6 +14,7 @@ install:
 before_script:
 # Provision web server for Behat tests
   - "sudo apt-get install -y --force-yes mysql-server apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect"
+  - "sudo /usr/sbin/a2enmod rewrite && sudo /usr/sbin/a2enmod headers"
   - "sudo /etc/init.d/mysql restart && sudo /etc/init.d/apache2 restart"
 
 # Get Selenium standalone server and run it for Behat tests
