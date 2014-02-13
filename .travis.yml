@@ -19,7 +19,7 @@ before_script:
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s#AllowOverride None#AllowOverride All#}' {} \\;)"
   - "sudo rm -rf /var/www && sudo /bin/ln -s web /var/www"
   - "sudo /etc/init.d/mysql restart && sudo /etc/init.d/apache2 restart"
-  #- "(cd database/install && /bin/sed 's/XXXXXX/ilios_db/g' make_new_ilios_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/mysql -uroot -e \"GRANT ALL ON ilios_db.* TO 'ilios_user'@'localhost' identified by 'ilios_pass';\" && /usr/bin/expect user_zero.exp ilios_db ilios_user ilios_pass root@example.com)"
+  - "(cd database/install && /bin/sed 's/XXXXXX/ilios_db/g' make_new_ilios_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/mysql -uroot -e \"GRANT ALL ON ilios_db.* TO 'ilios_user'@'localhost' identified by '';\" && /usr/bin/expect user_zero.exp ilios_db ilios_user '' root@example.com)"
 
 # Get Selenium standalone server and run it for Behat tests
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
