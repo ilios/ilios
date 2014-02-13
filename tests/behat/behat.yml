@@ -42,9 +42,9 @@ vagrant:
 travis:
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: https://precise64
+            base_url: https://localhost
             goutte:
                 guzzle_parameters:
-                    curl.options: { "CURLOPT_SSLVERSION": 3, "CURLOPT_PORT": 8443 }
+                    curl.options: { "CURLOPT_SSLVERSION": 3 }
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
