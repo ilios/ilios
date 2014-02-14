@@ -38,6 +38,6 @@ before_script:
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
 # Because the PHPUnit tests unfortunately pollute the database, do a clean reinstall before running Behat tests.
-  - phing -propertyfile build.properties.sample -Dskip-setup-zero-user=true -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n` db-install"
+  - phing db-install -propertyfile build.properties.sample -Dskip-setup-zero-user=true -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
   - "(cd tests/behat && bin/behat -v -p travis)"
 
