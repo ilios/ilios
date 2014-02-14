@@ -41,7 +41,6 @@ script:
 # Because the PHPUnit tests unfortunately pollute the database, do a clean reinstall before running Behat tests.
   - phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
-
 # Run Behat tests
   - "(cd tests/behat && bin/behat -p travis)"
 
