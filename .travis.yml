@@ -27,7 +27,7 @@ before_script:
   - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
 # Install the Ilios PHP app locally for PHPUnit testing
-  - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+  - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Start Phantom for headless Behat tests
   - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
@@ -38,6 +38,6 @@ before_script:
 script:
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
 # Because the PHPUnit tests unfortunately pollute the database, do a clean reinstall before running Behat tests.
-  - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+  - phing -q -propertyfile build.properties.sample -Dskip-setup-zero-user=true -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dwebuser=${USER} -Dwebgroup="`id -g -n` db-install"
   - "(cd tests/behat && bin/behat -v -p travis)"
 
