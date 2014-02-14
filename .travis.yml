@@ -43,5 +43,5 @@ script:
 
 
 # Run Behat tests
-  - "(cd tests/behat && bin/behat -v -p travis)"
+  - "(cd tests/behat && bin/behat -p travis)"
 
