@@ -42,4 +42,3 @@ Feature: User authentication
     Given I am on the Ilios home page
     When I go to "/ilios.php/dashboard_controller"
     Then I should be on "/authentication_controller"
-
