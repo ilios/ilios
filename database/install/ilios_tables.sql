@@ -26,6 +26,8 @@
 	-- Table school
 	--
 
+DROP TABLE IF EXISTS `school`;
+SET character_set_client = utf8;
 CREATE TABLE `school` (
   `school_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `template_prefix` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci',

@@ -15,6 +15,7 @@
     mysql -u ilios -p <  make_new_ilios_database.sql
 */
 
+DROP DATABASE IF EXISTS XXXXXX
 CREATE DATABASE XXXXXX DEFAULT CHARACTER SET = latin1 DEFAULT COLLATE = latin1_swedish_ci;
 USE XXXXXX;
 
