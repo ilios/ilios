@@ -59,3 +59,4 @@ sauce_ff26_win81:
             selenium2:
                 browser: firefox
                 capabilities: { platform:"Windows 8.1", version:26}
+                wd_host: SAUCE_USERNAME:SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub
