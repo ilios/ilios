@@ -51,10 +51,11 @@ travis:
 
 # Use this profile to run tests on Sauce against the Travis-CI instance using Firefox 26 on Windows 8.1
 sauce_ff26_win81:
+    context:
+        class: "FeatureContext"
     extensions:
         Behat\MinkExtension\Extension:
             default_session: selenium2
             selenium2:
                 browser: firefox
-                wd_host: SAUCE-USERNAME:SAUCE-API-KEY@localhost:4445
                 capabilities: { platform:"Windows 8.1", version:26}
