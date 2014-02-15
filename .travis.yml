@@ -40,18 +40,18 @@ before_script:
 
 script:
 # Run PHPUnit tests
-  - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
+#  - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
 # Because the PHPUnit tests unfortunately pollute the database, do a clean reinstall before running Behat tests.
-  - phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+#  - phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Run Behat tests on headless browsers
-  - "(cd tests/behat && bin/behat -p travis)"
+#  - "(cd tests/behat && bin/behat -p travis)"
 
 # Set up Behat parameters for Sauce
   - if [ "$SAUCE_USERNAME" ] ; then export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub"; fi
 
 # Run Behat tests on GUI browsers via Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p ff26_win81); fi
+  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -v -c sauce.yml -p ff26_win81); fi
 
 # Kill Sauce Connect now that we're done.
   - if [ "$SAUCE_USERNAME" ] ; then kill $(ps aux | grep "Sauce-Connect" | grep -v 'grep' | awk '{print $2}'); fi
