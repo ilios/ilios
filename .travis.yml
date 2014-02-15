@@ -44,3 +44,10 @@ script:
 # Run Behat tests
   - "(cd tests/behat && bin/behat -p travis)"
 
+# env variables for Sauce credentials, see https://saucelabs.com/opensource/travis
+env:
+  global:
+    - secure: alzy+bShe22tWtRKIoF3qiWTFz2e5SawqIy1MNo5uPyft4KPWzBuH6ujg/CFLEB6BIwO9CFPPNUrnV0MwCXZ51+oTHyEDWpQdX9gvzL8b1tG0yt6Lx3qeQnLmrR28qOaDqe7GD/yi8Pula3sob4MiucOCYOCRhKvPOSNYWefKRw=
+    - secure: iSmY1HlcUZZwjmzKz4pb4pNqgM1vlY6YSZ7ZL77Sr19ddGFT3SFoBRESBMjmdI51VbkmaAZSbkTIuLyTUwvvlTqUZMg5cSiGtZvfV0BPUAAW1WN9aryI+6sa1NmMfgp6sqoS6zf2/dSwT81SjREvsiTCgTznDgEoVKjot1gq2i4=
+
+
