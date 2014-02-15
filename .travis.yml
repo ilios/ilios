@@ -50,6 +50,5 @@ script:
 # env variables for Sauce credentials, see https://saucelabs.com/opensource/travis
 env:
   global:
-    secure: "J1J/8Lbne4XDU2tQMiZOObmUXrZJXg613R6FCGXPWjV4BSy4Ud6jLOByZcO9rphTJIjqwflzlhZcfL/5y6Tg7eCszGpoC5CAb8K/ymmAOb5KJ4vAlR2O1LMmikbpLdZJwG5EJeRLHhOMtycaMHxhH76QzMzOGKjCS1Mqebg+iOg="
-    secure: "Iw42eP/mf6yRTuOpb9LtWAzRVwbRBW1J/NuxAkIrSjy1YyYj9EMEqAKklK5WyiX339u5D13wKD/bPOYgFi2A2ZLTRiDTdIFDUMDQ7kqfkurSlbKoqazlY8QYme3+QdmcA2FAhlmsj+AU4baloRJKddeFzWTpWV84dnUyl4aWP9s="
-
+  secure: "HBCGWRn5muKtkRnVQRKkLbhNFSoPL/JcI6bkFqx/GDG87WqDWGmCQHkfQjPl8Z0t72nagmoPN0KbM5dRjlputSfT4EPPqZP4KOnJmHK/KCJrgzCBsiaBSqM8kphYzm4c+fqRSAJ4r/qvL9or9MsLP/LuZtdUlu2dBLdi1a02DhQ="
+  secure: "ZmDvn10+9P6VBhm5Od6Znqkhfnjp7htH1DeCcY6Bs8J0Zl1zkd99PkaUXaGnS3KNwWUUxnZVqcrmo3GZZNt1Xg8Uta22+BHqmcnBzxr4KjqzXMK2DiUW2GiGvPr+7bQzsmi+xmcUqIiMJkBC/du/X+3dcY2MreTYDN8h+RxtXNk="
