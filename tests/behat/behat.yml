@@ -56,5 +56,5 @@ sauce_ff26_win81:
             default_session: selenium2
             selenium2:
                 browser: firefox
-                wd_host: SAUCE-USERNAME:SAUCE-API-KEY@ondemand.saucelabs.com/wd/hub
+                wd_host: SAUCE-USERNAME:SAUCE-API-KEY@localhost:4445
                 capabilities: { platform:"Windows 8.1", version:26}
