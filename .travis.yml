@@ -30,17 +30,20 @@ before_script:
   - "sudo /etc/init.d/apache2 restart"
 
 # Get Selenium standalone server and run it for Behat tests
-  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
-  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
+#  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+#  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
 # Sauce Connect, see https://saucelabs.com/opensource/travis
   - if [ "$SAUCE_USERNAME" ] ; then (curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
+
+# Set up display for Sauce tests
+  - if [ "$SAUCE_USERNAME" ] ; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
 
 # Install the Ilios PHP app locally for PHPUnit testing
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Start Phantom for headless Behat tests
-  - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
+#  - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
 
 # Install Behat tests
   - composer install -d tests/behat
@@ -58,7 +61,7 @@ script:
   - if [ "$SAUCE_USERNAME" ] ; then export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub"; fi
 
 # Run Behat tests on GUI browsers via Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -v -c sauce.yml -p ff26_win81); fi
+  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p ff26_win81); fi
 
 # Kill Sauce Connect now that we're done.
   - if [ "$SAUCE_USERNAME" ] ; then kill $(ps aux | grep "Sauce-Connect" | grep -v 'grep' | awk '{print $2}'); fi
