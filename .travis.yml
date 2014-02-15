@@ -4,6 +4,13 @@ php:
   - "5.4"
   - "5.3"
 
+env:
+  global:
+    # env variables for Sauce credentials, see https://saucelabs.com/opensource/travis
+    - secure: "XWO/3KBLV8qf8qF1mRmyX8t+gSLLoyBCEAUz7xjL5X9cMlO+XxaUSLWKfWO42tHAOEoqmKha3cora4ukURn3M8Y9bYotkfWmIeYPtzhWfwK5m8sn9JnQreSFwID06KOavglfnXdIjy9zPnO1i/NsGwB++8g4gyVp9XUbqurGcF4="
+    - secure: "GdhFXs/AwEXh7qUqJf4FQOUKnqD60Jg4JHSybiKX84lm+CMqzT3QQg8k2KqMxXKWICoflxGqM4WhqM2DfxCgUXdssKxPntcV6Xs+g8Vxj/vpRKSPO/HC5H0Ih8Mv7wNYn/ay5VPJFB9Tk2u7QP0IH3MGXYLj2dUVCVMUa7gtD4k="
+
+
 install:
   - pear channel-discover pear.phpunit.de
   - pear install phpunit/DbUnit
@@ -56,8 +63,3 @@ script:
 # Kill Sauce Connect now that we're done.
   - if [ "$SAUCE_USERNAME" ] ; then kill $(ps aux | grep "Sauce-Connect" | grep -v 'grep' | awk '{print $2}'); fi
 
-# env variables for Sauce credentials, see https://saucelabs.com/opensource/travis
-env:
-  global:
-    - secure: "XWO/3KBLV8qf8qF1mRmyX8t+gSLLoyBCEAUz7xjL5X9cMlO+XxaUSLWKfWO42tHAOEoqmKha3cora4ukURn3M8Y9bYotkfWmIeYPtzhWfwK5m8sn9JnQreSFwID06KOavglfnXdIjy9zPnO1i/NsGwB++8g4gyVp9XUbqurGcF4="
-    - secure: "GdhFXs/AwEXh7qUqJf4FQOUKnqD60Jg4JHSybiKX84lm+CMqzT3QQg8k2KqMxXKWICoflxGqM4WhqM2DfxCgUXdssKxPntcV6Xs+g8Vxj/vpRKSPO/HC5H0Ih8Mv7wNYn/ay5VPJFB9Tk2u7QP0IH3MGXYLj2dUVCVMUa7gtD4k="
