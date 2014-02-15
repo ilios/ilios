@@ -36,7 +36,7 @@ before_script:
   - composer install -d tests/behat
 
 # Sauce Connect, see https://saucelabs.com/opensource/travis
-  - if [ "$TRAVIS_SECURE_ENV_VARS" == "true" ] ; then (curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
+  - if [ "$SAUCE_USERNAME" ] ; then (curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
 
 script:
 # Run PHPUnit tests
