@@ -53,6 +53,7 @@ travis:
 sauce_ff26_win81:
     extensions:
         Behat\MinkExtension\Extension:
+            default_session: selenium2
             selenium2:
                 browser: firefox
                 wd_host: SAUCE-USERNAME:SAUCE-API-KEY@ondemand.saucelabs.com/wd/hub
