@@ -35,6 +35,9 @@ before_script:
 # Install Behat tests
   - composer install -d tests/behat
 
+# Sauce Connect, see https://saucelabs.com/opensource/travis
+  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+
 script:
 # Run PHPUnit tests
   - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
