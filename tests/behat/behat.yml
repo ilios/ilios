@@ -38,7 +38,7 @@ vagrant:
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
 
-# Use this profile to run tests against the Travis-CI instance
+# Use this profile to run tests on Travis-CI against the Travis-CI instance
 travis:
     extensions:
         Behat\MinkExtension\Extension:
@@ -48,3 +48,12 @@ travis:
                     curl.options: { "CURLOPT_SSLVERSION": 3 }
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
+
+# Use this profile to run tests on Sauce against the Travis-CI instance using Firefox 26 on Windows 8.1
+sauce_ff26_win81:
+    extensions:
+        Behat\MinkExtension\Extension:
+            selenium2:
+                browser: firefox
+                wd_host: SAUCE-USERNAME:SAUCE-API-KEY@ondemand.saucelabs.com/wd/hub
+                capabilities: { platform:"Windows 8.1", version:26}

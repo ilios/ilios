@@ -46,6 +46,7 @@ script:
 
 # Run Behat tests
   - "(cd tests/behat && bin/behat -p travis)"
+  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -p sauce); fi
 
 # env variables for Sauce credentials, see https://saucelabs.com/opensource/travis
 env:
