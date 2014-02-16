@@ -8,4 +8,6 @@ ie9:
             default_session: selenium2
             selenium2:
                 browser: "internet explorer"
-                capabilities: { platform: "Windows 7", version: 9}
+                capabilities:
+                  platform: "Windows 7"
+                  version: 9

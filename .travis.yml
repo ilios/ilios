@@ -10,6 +10,11 @@ env:
     - secure: "XWO/3KBLV8qf8qF1mRmyX8t+gSLLoyBCEAUz7xjL5X9cMlO+XxaUSLWKfWO42tHAOEoqmKha3cora4ukURn3M8Y9bYotkfWmIeYPtzhWfwK5m8sn9JnQreSFwID06KOavglfnXdIjy9zPnO1i/NsGwB++8g4gyVp9XUbqurGcF4="
     - secure: "GdhFXs/AwEXh7qUqJf4FQOUKnqD60Jg4JHSybiKX84lm+CMqzT3QQg8k2KqMxXKWICoflxGqM4WhqM2DfxCgUXdssKxPntcV6Xs+g8Vxj/vpRKSPO/HC5H0Ih8Mv7wNYn/ay5VPJFB9Tk2u7QP0IH3MGXYLj2dUVCVMUa7gtD4k="
 
+addons:
+  sauce_connect: true
+
+  hosts:
+    - precise64
 
 install:
   - pear channel-discover pear.phpunit.de
@@ -26,15 +31,11 @@ before_script:
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s,AllowOverride None,AllowOverride All,}' {} \\;)"
   - "sudo /usr/bin/find /etc/apache2/sites-enabled -! -type d -exec /bin/sed -i \"s,/var/www,${PWD}/web,g\" {} \\;"
 #  - sudo sed -i -e "/DocumentRoot/i\ServerName precise64" /etc/apache2/sites-available/default
-#  - echo "127.0.0.1 precise64" | sudo tee -a /etc/hosts
   - "sudo /etc/init.d/apache2 restart"
 
 # Get Selenium standalone server and run it for Behat tests
 #  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
 #  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
-
-# Sauce Connect, see https://saucelabs.com/opensource/travis
-  - if [ "$SAUCE_USERNAME" ] ; then (curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
 
 # Set up display for Sauce tests
   - if [ "$SAUCE_USERNAME" ] ; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
@@ -58,7 +59,7 @@ script:
 #  - "(cd tests/behat && bin/behat -p travis)"
 
 # Set up Behat parameters for Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub"; fi
+  - if [ "$SAUCE_USERNAME" ] ; then export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub&extensions[Behat\MinkExtension\Extension][selenium2][capabilities][tunnel-identifier]=$TRAVIS_JOB_NUMBER"; fi
 
 # Run Behat tests on GUI browsers via Sauce
   - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p ie9); fi
