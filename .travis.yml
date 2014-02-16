@@ -26,7 +26,7 @@ before_script:
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s,AllowOverride None,AllowOverride All,}' {} \\;)"
   - "sudo /usr/bin/find /etc/apache2/sites-enabled -! -type d -exec /bin/sed -i \"s,/var/www,${PWD}/web,g\" {} \\;"
   - sudo sed -i -e "/DocumentRoot/i\ServerName precise64" /etc/apache2/sites-available/default
-  - echo "127.0.0.1 precise64" | sudo tee -a /etc/hosts
+#  - echo "127.0.0.1 precise64" | sudo tee -a /etc/hosts
   - "sudo /etc/init.d/apache2 restart"
 
 # Get Selenium standalone server and run it for Behat tests
