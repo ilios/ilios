@@ -54,5 +54,5 @@ Do not run this these tests against your regular development, stage or productio
 Change to @tests/phpunit@ directory and run this command:
  
 ```
-$ vendor/bin/phpunit Ilios
+$ bin/phpunit Ilios
 ```
