@@ -30,21 +30,21 @@ before_script:
   - "sudo /bin/ln -s /etc/apache2/sites-available/default-ssl /etc/apache2/sites-enabled/000-default-ssl"
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s,AllowOverride None,AllowOverride All,}' {} \\;)"
   - "sudo /usr/bin/find /etc/apache2/sites-enabled -! -type d -exec /bin/sed -i \"s,/var/www,${PWD}/web,g\" {} \\;"
-#  - sudo sed -i -e "/DocumentRoot/i\ServerName precise64" /etc/apache2/sites-available/default
+  - sudo sed -i -e "/DocumentRoot/i\ServerName precise64" /etc/apache2/sites-available/default
   - "sudo /etc/init.d/apache2 restart"
 
 # Get Selenium standalone server and run it for Behat tests
-#  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
-#  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
+  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
 # Set up display for Sauce tests
-  - if [ "$SAUCE_USERNAME" ] ; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
+#  - if [ "$SAUCE_USERNAME" ] ; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
 
 # Install the Ilios PHP app locally for PHPUnit testing
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Start Phantom for headless Behat tests
-#  - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
+  - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
 
 # Install Behat tests
   - composer install -d tests/behat
@@ -56,14 +56,8 @@ script:
 #  - phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Run Behat tests on headless browsers
-#  - "(cd tests/behat && bin/behat -p travis)"
-
-# Set up Behat parameters for Sauce
-#  - if [ "$SAUCE_USERNAME" ] ; then export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub"; fi
+  - "(cd tests/behat && bin/behat -p travis)"
 
 # Run Behat tests on GUI browsers via Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p sauce); fi
-
-# Kill Sauce Connect now that we're done.
-#  - if [ "$SAUCE_USERNAME" ] ; then kill $(ps aux | grep "Sauce-Connect" | grep -v 'grep' | awk '{print $2}'); fi
+  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p sauce > /dev/null); fi
 
