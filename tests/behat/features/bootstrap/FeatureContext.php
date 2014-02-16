@@ -52,7 +52,7 @@ class FeatureContext extends MinkContext
         // @todo: remove unnecessary elements, move elements that don't need to be in the critical path out of the critical path, and get rid of this
         $context = $this;
         $this->spin(function($context) {
-            return ($context->getSession()->getPage()->findById('content')->isVisible());
+            return (count($context->getSession()->getPage()->findById('content')) > 0);
         });
     }
 
@@ -88,7 +88,7 @@ class FeatureContext extends MinkContext
         $this->clickLink("Login");
         $context = $this;
         $this->spin(function($context) {
-            return ($context->getSession()->getPage()->findById('login_panel_div')->isVisible());
+            return (count($context->getSession()->getPage()->findField('username')) > 0);
         });
         $this->fillField("User Name", $user);
         $this->fillField("Password", $login);
