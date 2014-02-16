@@ -46,7 +46,7 @@ before_script:
   - composer install -d tests/behat
 
 # Install PHPUnit
-  -composer install -d tests/phpunit
+  - composer install -d tests/phpunit
 
 script:
 # Run PHPUnit tests
