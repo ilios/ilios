@@ -59,5 +59,5 @@ script:
   - "(cd tests/behat && bin/behat -p travis)"
 
 # Run Behat tests on GUI browsers via Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p sauce > /dev/null); fi
+  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p sauce 2>/dev/null); fi
 
