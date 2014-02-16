@@ -59,11 +59,11 @@ script:
 #  - "(cd tests/behat && bin/behat -p travis)"
 
 # Set up Behat parameters for Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub"; fi
+#  - if [ "$SAUCE_USERNAME" ] ; then export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub"; fi
 
 # Run Behat tests on GUI browsers via Sauce
   - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p ie9); fi
 
 # Kill Sauce Connect now that we're done.
-  - if [ "$SAUCE_USERNAME" ] ; then kill $(ps aux | grep "Sauce-Connect" | grep -v 'grep' | awk '{print $2}'); fi
+#  - if [ "$SAUCE_USERNAME" ] ; then kill $(ps aux | grep "Sauce-Connect" | grep -v 'grep' | awk '{print $2}'); fi
 
