@@ -4,7 +4,7 @@ ie9:
         class: "FeatureContext"
     extensions:
         Behat\MinkExtension\Extension:
-        		base_url: https://precise64
+            base_url: https://precise64
             default_session: selenium2
             selenium2:
                 browser: "internet explorer"
