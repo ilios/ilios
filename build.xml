@@ -9,7 +9,7 @@
 
         Example:
             $ cp build.properties.sample ~/ilios-stage.properties
-            $ phing -propertyfile ~/iios-stage.properties build
+            $ bin/phing -propertyfile ~/iios-stage.properties build
 
     3. Certain sub-targets may be omitted by setting "skip" properties.
 
@@ -26,12 +26,12 @@
     3. Run the "deploy" and "build-and-deploy" targets with elevated privileges ('sudo') if your deployment directory is owned by 'root'
 
         Example:
-            $ sudo phing -propertyfile build.properties build-and-deploy
+            $ sudo bin/phing -propertyfile build.properties build-and-deploy
 
     4. You can directly provide the package bundle as command line argument "packagefilepath" to the "deploy" target
 
         Example:
-            $ phing -propertyfile build.properties -Dpackagefilepath=/path/to/your/ilios/package.tar.gz deploy
+            $ bin/phing -propertyfile build.properties -Dpackagefilepath=/path/to/your/ilios/package.tar.gz deploy
 
     Todo:
         PHPDoc integration
