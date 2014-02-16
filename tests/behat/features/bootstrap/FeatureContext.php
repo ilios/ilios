@@ -35,8 +35,7 @@ class FeatureContext extends MinkContext
         $backtrace = debug_backtrace();
 
         throw new Exception(
-            "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
-            $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+            "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()"
         );
     }
 
