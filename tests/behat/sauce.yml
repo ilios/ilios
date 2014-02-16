@@ -5,7 +5,7 @@ ie9:
     extensions:
         Behat\MinkExtension\Extension:
             base_url: https://localhost
-            default_session: selenium
+            default_session: selenium2
             selenium2:
                 browser: "internet explorer"
                 capabilities: { platform: "Windows 7", version: 9}
