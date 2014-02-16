@@ -48,7 +48,8 @@ class FeatureContext extends MinkContext
         $this->visit("/");
         // Initial page load includes a lot of resources and may need some extra time to complete.
         // @todo: remove unnecessary elements, move elements that don't need to be in the critical path out of the critical path, and get rid of this
-        $this->spin(function($this) {
+        $context = $this;
+        $this->spin(function($context) {
             return ($context->getSession()->getPage()->findById('content')->isVisible());
         });
     }
