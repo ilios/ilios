@@ -43,6 +43,7 @@ vagrant:
 travis:
     extensions:
         Behat\MinkExtension\Extension:
+            default_session: selenium2
             base_url: https://precise64
             goutte:
                 guzzle_parameters:
