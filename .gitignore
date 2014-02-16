@@ -16,3 +16,5 @@ tests/behat/bin
 tests/behat/vendor
 tests/phpunit/bin
 tests/phpunit/vendor
+/bin
+/vendor
