@@ -15,11 +15,42 @@ use Behat\MinkExtension\Context\MinkContext;
 class FeatureContext extends MinkContext
 {
     /**
+     * Helper function for slow loading pages. http://docs.behat.org/cookbook/using_spin_functions.html
+     */
+    public function spin ($lambda, $wait = 60)
+    {
+        for ($i = 0; $i < $wait; $i++)
+        {
+            try {
+                if ($lambda($this)) {
+                    return true;
+                }
+            } catch (Exception $e) {
+                // do nothing
+            }
+
+            sleep(1);
+        }
+
+        $backtrace = debug_backtrace();
+
+        throw new Exception(
+            "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
+            $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+        );
+    }
+
+    /**
      * @Given /^I am on the Ilios home page$/
      */
     public function iAmOnTheIliosHomePage ()
     {
         $this->visit("/");
+        // Initial page load includes a lot of resources and may need some extra time to complete.
+        // @todo: remove unnecessary elements, move elements that don't need to be in the critical path out of the critical path, and get rid of this
+        $this->spin(function($this) {
+            return ($context->getSession()->getPage()->findById('content')->isVisible());
+        });
     }
 
     /**
