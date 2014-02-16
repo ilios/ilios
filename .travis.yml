@@ -37,9 +37,6 @@ before_script:
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
   - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
 
-# Set up display for Sauce tests
-#  - if [ "$SAUCE_USERNAME" ] ; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
-
 # Install the Ilios PHP app locally for PHPUnit testing
   - phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
@@ -51,13 +48,12 @@ before_script:
 
 script:
 # Run PHPUnit tests
-#  - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
+  - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
 # Because the PHPUnit tests unfortunately pollute the database, do a clean reinstall before running Behat tests.
-#  - phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+  - phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Run Behat tests on headless browsers
   - "(cd tests/behat && bin/behat -p travis)"
 
 # Run Behat tests on GUI browsers via Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p sauce 2>/dev/null); fi
-
+  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat -c sauce.yml -p sauce); fi
