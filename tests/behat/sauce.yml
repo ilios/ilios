@@ -6,7 +6,7 @@ ie9:
         Behat\MinkExtension\Extension:
             base_url: https://localhost
             default_session: saucelabs
-            selenium2:
+            saucelabs:
                 browser: "internet explorer"
                 capabilities:
                   platform: "Windows 7"

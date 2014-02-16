@@ -13,6 +13,7 @@ default:
                     ssl.certificate_authority: false
             selenium2:
                     capabilities: { "browser": "firefox", "version": "14" }
+            saucelabs: ~
 
 # Use this profile for running tests with JS-dependencies in a headless browser.
 phantomjs:
