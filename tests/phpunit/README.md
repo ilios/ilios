@@ -1,11 +1,10 @@
 # Installing PHPUnit
  
-You will need to install PHPUnit (version 3.6.10 or later) and DbUnit
+You will need to install PHPUnit and DbUnit. We recommend doing so via [Composer](http://getcomposer.org).
  
 ```
-sudo pear config-set auto_discover 1
-sudo pear install pear.phpunit.de/PHPUnit
-sudo pear install phpunit/DbUnit
+cd tests/phpunit
+composer install
 ```
  
 See the [official manual](http://www.phpunit.de/manual/current/en/installation.html#installation.pear) for more details.
@@ -55,5 +54,5 @@ Do not run this these tests against your regular development, stage or productio
 Change to @tests/phpunit@ directory and run this command:
  
 ```
-$ phpunit .
+$ vendor/bin/phpunit Ilios
 ```
