@@ -13,6 +13,7 @@ default:
                     ssl.certificate_authority: false
             selenium2:
                     capabilities: { "browser": "firefox", "version": "14" }
+            saucelabs: ~
 
 # Use this profile for running tests with JS-dependencies in a headless browser.
 phantomjs:
@@ -38,11 +39,12 @@ vagrant:
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
 
-# Use this profile to run tests against the Travis-CI instance
+# Use this profile to run tests on Travis-CI against the Travis-CI instance
 travis:
     extensions:
         Behat\MinkExtension\Extension:
             base_url: https://precise64
+            default_session: selenium2
             goutte:
                 guzzle_parameters:
                     curl.options: { "CURLOPT_SSLVERSION": 3 }

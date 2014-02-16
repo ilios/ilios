@@ -1,0 +1,14 @@
+# Use this profile to run tests on Sauce against the Travis-CI instance
+sauce:
+    context:
+        class: "FeatureContext"
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: https://localhost
+            default_session: saucelabs
+            javascript_session: saucelabs
+            saucelabs:
+                #browser: "internet explorer"
+                capabilities:
+                    #platform: "Windows 7"
+                    #version: 9
