@@ -1,10 +1,10 @@
-# Use this profile to run tests on Sauce against the Travis-CI instance using Firefox 26 on Windows 8.1
-ff26_win81:
+# Use this profile to run tests on Sauce against the Travis-CI instance using Internet Explorer 9 on Windows 7
+ie9:
     context:
         class: "FeatureContext"
     extensions:
         Behat\MinkExtension\Extension:
             default_session: selenium2
             selenium2:
-                browser: firefox
-                capabilities: { platform:"Windows 8.1", version:26}
+                browser: "internet explorer"
+                capabilities: { platform: "Windows 7", version: 9}
