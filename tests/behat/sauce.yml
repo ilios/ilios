@@ -6,6 +6,7 @@ sauce:
         Behat\MinkExtension\Extension:
             base_url: https://localhost
             default_session: saucelabs
+            javascript_session: saucelabs
             saucelabs:
                 #browser: "internet explorer"
                 capabilities:
