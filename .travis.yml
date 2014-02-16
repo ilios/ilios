@@ -15,8 +15,6 @@ addons:
     - precise64
 
 install:
-  - pear channel-discover pear.phpunit.de
-  - pear install phpunit/DbUnit
   - pear channel-discover pear.phing.info
   - pear install phing/phing
   - phpenv rehash
@@ -47,9 +45,12 @@ before_script:
 # Install Behat tests
   - composer install -d tests/behat
 
+# Install PHPUnit
+  -composer install -d tests/phpunit
+
 script:
 # Run PHPUnit tests
-  - "phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
+  - "${PWD}/tests/phpunit/vendor/bin/phpunit -c ${PWD}/tests/phpunit/default.phpunit.xml --include-path ${PWD}/tests/phpunit --exclude-group ldap tests/phpunit/Ilios"
 # Because the PHPUnit tests unfortunately pollute the database, do a clean reinstall before running Behat tests.
   - phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
