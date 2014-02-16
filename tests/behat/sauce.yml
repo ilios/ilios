@@ -5,7 +5,7 @@ ie9:
     extensions:
         Behat\MinkExtension\Extension:
             base_url: https://localhost
-            default_session: selenium2
+            default_session: saucelabs
             selenium2:
                 browser: "internet explorer"
                 capabilities:
