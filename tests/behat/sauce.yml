@@ -1,5 +1,5 @@
-# Use this profile to run tests on Sauce against the Travis-CI instance using Internet Explorer 9 on Windows 7
-ie9:
+# Use this profile to run tests on Sauce against the Travis-CI instance
+sauce:
     context:
         class: "FeatureContext"
     extensions:
@@ -7,7 +7,7 @@ ie9:
             base_url: https://localhost
             default_session: saucelabs
             saucelabs:
-                browser: "internet explorer"
+                #browser: "internet explorer"
                 capabilities:
-                  platform: "Windows 7"
-                  version: 9
+                    #platform: "Windows 7"
+                    #version: 9
