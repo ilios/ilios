@@ -43,8 +43,8 @@ vagrant:
 travis:
     extensions:
         Behat\MinkExtension\Extension:
-            default_session: selenium2
             base_url: https://precise64
+            default_session: selenium2
             goutte:
                 guzzle_parameters:
                     curl.options: { "CURLOPT_SSLVERSION": 3 }
