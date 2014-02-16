@@ -11,7 +11,7 @@ env:
     - secure: "GdhFXs/AwEXh7qUqJf4FQOUKnqD60Jg4JHSybiKX84lm+CMqzT3QQg8k2KqMxXKWICoflxGqM4WhqM2DfxCgUXdssKxPntcV6Xs+g8Vxj/vpRKSPO/HC5H0Ih8Mv7wNYn/ay5VPJFB9Tk2u7QP0IH3MGXYLj2dUVCVMUa7gtD4k="
 
 addons:
-  sauce_connect: true
+  sauce_connect: <%= ENV['TRAVIS_SECURE_ENV_VARS'] %>
 
   hosts:
     - precise64
