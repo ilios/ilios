@@ -20,6 +20,8 @@ class FeatureContext extends MinkContext
     public function iAmOnTheIliosHomePage ()
     {
         $this->visit("/");
+        $this->assertPageContainsText("Ilios");
+        $this->assertPageContainsText("Login");
     }
 
     /**
