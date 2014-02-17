@@ -83,6 +83,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_lightbox_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_dom.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_transaction.js"); ?>"></script>
+    <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </head>
 
 <body class="offerings yui-skin-sam">
@@ -178,7 +179,6 @@ $viewsPath = getServerFilePath('views');
     include $viewsPath . 'common/course_summary_view_include.php';
     include 'learner_view_dialog.php';
 ?>
-
     <script type="text/javascript">
 
         // register alert/inform overrides on window load
@@ -191,7 +191,6 @@ $viewsPath = getServerFilePath('views');
 
 <?php
     include_once $viewsPath . 'common/load_school_competencies.inc.php';
-    include_once $viewsPath . 'common/start_idle_page_timer.inc.php';
 ?>
 
         YAHOO.util.Event.onDOMReady(ilios.om.calendar.initCalendar);

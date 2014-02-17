@@ -45,7 +45,8 @@ $viewsPath = getServerFilePath('views');
 <?php
     include $viewsPath . 'home/calendar_header_js.inc.php';
 ?>
- </head>
+<?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
+</head>
 
 <body class="home yui-skin-sam">
     <div id="wrapper">
@@ -158,7 +159,6 @@ $viewsPath = getServerFilePath('views');
         });
 <?php
     include_once $viewsPath . 'common/load_school_competencies.inc.php';
-    include_once $viewsPath . 'common/start_idle_page_timer.inc.php';
 ?>
         YAHOO.util.Event.onDOMReady(ilios.home.calendar.initCalendar);
         YAHOO.util.Event.onDOMReady(ilios.home.transaction.loadAllOfferings);

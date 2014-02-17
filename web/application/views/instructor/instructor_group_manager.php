@@ -55,6 +55,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "instructor/instructor_group_model.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "instructor/instructor_dom.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "instructor/instructor_transaction.js"); ?>"></script>
+    <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </head>
 
 <body class="instructor yui-skin-sam">
@@ -118,8 +119,6 @@ $viewsPath = getServerFilePath('views');
             window.inform = ilios.alert.inform;
         });
         ilios.preferences.installPreferencesModel();
-
-<?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 
         ilios.igm.buildPreExistingGroupDivs = function (un, imp, ortant) {
             var groupJSONBlob = '<?php echo $groups_json; ?>';

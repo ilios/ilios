@@ -71,7 +71,4 @@ describe("ilios.preferences", function () {
           expect(ilios.preferences.preferencesModel.courseRollover).toBe(false);
         });
       });
-
-
-
 });
