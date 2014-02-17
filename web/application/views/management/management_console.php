@@ -78,6 +78,7 @@ $viewsPath = getServerFilePath('views');
             ilios.management.user_accounts.passwordRequired = <?php echo ($password_required ? "true" : "false"); ?>;
             YAHOO.util.Event.onDOMReady(ilios.management.user_accounts.startUserAccountsWorkflow);
     </script>
+    <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </head>
 <body class="admin yui-skin-sam">
     <div id="wrapper">
@@ -200,8 +201,6 @@ $viewsPath = getServerFilePath('views');
             window.alert = ilios.alert.alert;
             window.inform = ilios.alert.inform;
         });
-
-<?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 
         // load school cohorts
         YAHOO.util.Event.onDOMReady(function () {

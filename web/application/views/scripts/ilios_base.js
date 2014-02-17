@@ -75,24 +75,50 @@ ilios.namespace('global');
 /**
  * Instantiates and starts the idle timer, subscribes a timeout-handler function to it.
  * @method startIdleTimer
- * @param {Number} Timeout period in milliseconds
- * @param {String} logoutUrl logout action URL to redirect to on timeout
  */
-ilios.global.startIdleTimer = function (timeout, logoutUrl) {
-    var idleTimer = YAHOO.util.IdleTimer;
-    timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
-    idleTimer.subscribe("idle", function () {
-        if (! YAHOO.util.IdleTimer.isIdle()) {
-            return;
-        }
-        ilios.alert.alert(
-            ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
-            ilios_i18nVendor.getI18NString('general.terms.ok'),
-            function () { window.location.href = logoutUrl; }
-        );
-    });
-    idleTimer.start(timeout, document);
-};
+ilios.global.startIdleTimer = (function () {
+    var me = function () {
+        YAHOO.util.Event.onDOMReady(function () {
+            var idleTimer = YAHOO.util.IdleTimer;
+            var data;
+
+            // @todo: DRY this out. This is used in ilios_preferences.js too.
+            // Might be a reasonable function for ilios.base.
+            var domData = document.getElementById("iliosIdleTimer");
+            if (domData) {
+                try {
+                    data = JSON.parse(domData.innerHTML);
+                } catch (e) {
+                    // SOL
+                    ilios.global.defaultAJAXFailureHandler(null, e);
+                }
+            }
+
+            if (data) {
+                data.timeout = YAHOO.lang.isNumber(data.timeout) ? data.timeout : 2700000; // default to 45 mins
+
+                idleTimer.subscribe("idle", function () {
+                    if (! YAHOO.util.IdleTimer.isIdle()) {
+                        return;
+                    }
+                    ilios.alert.alert(
+                        ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
+                        ilios_i18nVendor.getI18NString('general.terms.ok'),
+                        function () { window.location.href = data.logoutUrl; }
+                    );
+                });
+                idleTimer.start(data.timeout, document);
+            }
+        });
+    };
+
+    // Run automatically onDOMReady.
+    me();
+
+    // Return so it can be run again for testing. Might also be useful for other use cases
+    // although we don't have any right now.
+    return me;
+}());
 
 /**
  * Default handler function for failed XHR calls.

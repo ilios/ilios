@@ -53,6 +53,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "group/group_manager_transaction.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "group/subgroup_dom_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "group/manage_member_dialog_support.js"); ?>"></script>
+    <?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
 </head>
 <body class="learner yui-skin-sam">
     <div id="wrapper">
@@ -125,7 +126,6 @@ $viewsPath = getServerFilePath('views');
             load_finish_listener : ilios.gm.mm.userGroupTreeFinishedPopulation
         });
 
-<?php include_once $viewsPath . 'common/start_idle_page_timer.inc.php'; ?>
         YAHOO.util.Event.onDOMReady(ilios.dom.generateSelectAndCloseDialogMarkupAndWireContent, {
             trigger : 'find_cohort_and_program',
             display_handler : ilios.ui.handleProgramCohortSelectionDialogDisplay,
