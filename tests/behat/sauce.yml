@@ -1,5 +1,5 @@
 # Use this profile to run tests on Sauce against the Travis-CI instance
-sauce:
+default:
     context:
         class: "FeatureContext"
     extensions:
