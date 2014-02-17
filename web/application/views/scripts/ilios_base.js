@@ -79,19 +79,21 @@ ilios.namespace('global');
  * @param {String} logoutUrl logout action URL to redirect to on timeout
  */
 ilios.global.startIdleTimer = function (timeout, logoutUrl) {
-    var idleTimer = YAHOO.util.IdleTimer;
-    timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
-    idleTimer.subscribe("idle", function () {
-        if (! YAHOO.util.IdleTimer.isIdle()) {
-            return;
-        }
-        ilios.alert.alert(
-            ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
-            ilios_i18nVendor.getI18NString('general.terms.ok'),
-            function () { window.location.href = logoutUrl; }
-        );
+    YAHOO.util.Event.onDOMReady(function () {
+        var idleTimer = YAHOO.util.IdleTimer;
+        timeout = YAHOO.lang.isNumber(timeout) ? timeout : 2700000; // default to 45 mins
+        idleTimer.subscribe("idle", function () {
+            if (! YAHOO.util.IdleTimer.isIdle()) {
+                return;
+            }
+            ilios.alert.alert(
+                ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
+                ilios_i18nVendor.getI18NString('general.terms.ok'),
+                function () { window.location.href = logoutUrl; }
+            );
+        });
+        idleTimer.start(timeout, document);
     });
-    idleTimer.start(timeout, document);
 };
 
 /**

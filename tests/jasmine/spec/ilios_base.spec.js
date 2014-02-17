@@ -145,6 +145,12 @@ describe("startIdleTimer()", function () {
     ilios.global.startIdleTimer();
     expect(YAHOO.util.IdleTimer.subscribe).toHaveBeenCalledWith("idle", jasmine.any(Function));
   });
+
+  it("should be called through YAHOO.util.Event.onDOMReady()", function () {
+    spyOn(YAHOO.util.Event, "onDOMReady");
+    ilios.global.startIdleTimer();
+    expect(YAHOO.util.Event.onDOMReady).toHaveBeenCalled();
+  });
 });
 
 describe("defaultAJAXFailureHandler()", function () {
