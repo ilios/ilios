@@ -138,7 +138,7 @@ class FeatureContext extends MinkContext
     {
         // Wait for element to appear before trying to press it.
         $this->spin(function ($context) use ($id) {
-            return $this->getSession()->getPage()->find('css', "#{$id}");
+            return $context->getSession()->getPage()->find('css', "#{$id}");
         });
 
         $element = $this->getSession()->getPage()->find('css', "#{$id}");
