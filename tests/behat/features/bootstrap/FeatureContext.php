@@ -93,6 +93,10 @@ class FeatureContext extends MinkContext
         $this->fillField("User Name", $user);
         $this->fillField("Password", $login);
         $this->pressButton("login_button");
+        // Wait for login/logout link to reappear before continuing. Always id logout_link, yeah, misleading.
+        $this->spin(function($context) {
+            return ($context->getSession()->getPage()->findById('logout_link'));
+        });
     }
 
     /**
@@ -132,6 +136,11 @@ class FeatureContext extends MinkContext
      */
     public function iPressTheElementWithId ($id)
     {
+        // Wait for element to appear before trying to press it.
+        $this->spin(function ($context) use ($id) {
+            return $context->getSession()->getPage()->find('css', "#{$id}");
+        });
+
         $element = $this->getSession()->getPage()->find('css', "#{$id}");
         $element->press();
     }
