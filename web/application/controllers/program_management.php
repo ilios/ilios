@@ -28,7 +28,6 @@ class Program_Management extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['user_id'] = $this->session->userdata('uid');
 
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_viewAccessForbiddenPage($data);

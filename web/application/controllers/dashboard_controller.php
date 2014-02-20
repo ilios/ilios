@@ -34,7 +34,6 @@ class Dashboard_Controller extends Calendar_Controller
     public function index ()
     {
         $data = array();
-        $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
         $isStudent = $this->session->userdata('is_learner');

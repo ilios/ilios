@@ -34,7 +34,6 @@ class Calendar_Controller extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
         $isStudent = $this->session->userdata('is_learner');
@@ -60,7 +59,7 @@ class Calendar_Controller extends Ilios_Web_Controller
             $schoolId = $this->session->userdata('school_id');
         }
 
-        $userRow = $this->user->getRowForPrimaryKeyId($data['user_id']);
+        $userRow = $this->user->getRowForPrimaryKeyId($this->session->userdata('uid'));
 
 
         $schoolTitle = null;

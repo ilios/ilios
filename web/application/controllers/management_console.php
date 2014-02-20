@@ -31,7 +31,6 @@ class Management_Console extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
@@ -103,7 +102,7 @@ class Management_Console extends Ilios_Web_Controller
                 // do nothing;
         }
 
-        $userRow = $this->user->getRowForPrimaryKeyId($data['user_id']);
+        $userRow = $this->user->getRowForPrimaryKeyId($this->session->userdata('uid'));
 
         $cohorts = $this->cohort->getProgramCohortsGroupedBySchool();
 
