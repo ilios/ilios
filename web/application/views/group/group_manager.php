@@ -100,12 +100,6 @@ $viewsPath = getServerFilePath('views');
             window.inform = ilios.alert.inform;
         });
 
-        var tmpStr = '<?php echo $institution_name; ?> '
-            + ilios_i18nVendor.getI18NString('general.terms.programs')
-            + ' - '
-            + ilios_i18nVendor.getI18NString('general.phrases.school_of')
-            + ' <?php echo $school_name; ?>';
-
         ilios.preferences.installPreferencesModel();
 
         YAHOO.util.Event.onDOMReady(ilios.dom.generateGenericDialogMarkupAndWireContent, {
@@ -130,9 +124,9 @@ $viewsPath = getServerFilePath('views');
             trigger : 'find_cohort_and_program',
             display_handler : ilios.ui.handleProgramCohortSelectionDialogDisplay,
             widget_dom_generator : ilios.ui.programCohortDialogTreeDOMGenerator,
-            tab_title : ilios_i18nVendor.getI18NString('general.phrases.select_cohort'),
+            tab_title : ilios_i18nVendor.getI18NString('general.phrases.available_cohorts'),
             id_uniquer : 'dme_',
-            panel_title_text : tmpStr,
+            title: ilios_i18nVendor.getI18NString('groups.select_program'),
             dom_root : 'cohort_pick_dialog'
         });
 

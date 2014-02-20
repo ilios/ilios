@@ -969,9 +969,8 @@ ilios.dom.generateTreeSelectionDialogMarkupAndWireContent = function (use, less,
  *                                          whose id is provided; the elements represent the UI
  *                                          single-selection widget
  *          tab_title:                  the title for the tab containing the selection widget
- *          panel_title_text:           the header title text for the panel (not to be
- *                                          confused with the title bar text which will
- *                                          be "Please select items")
+ *          title:                      the widget title (optional, defaults to "Please select items")
+ *          panel_title_text:           the header title text for the panel (optional, not displayed when not given)
  *          dom_root:                   the id of the DOM element into which this markup should
  *                                          be inserted
  *          panel_width:                if this is non-null, it is expected to a valid CSS
@@ -996,13 +995,15 @@ ilios.dom.generateSelectAndCloseDialogMarkupAndWireContent = function (use, less
     var panelWidth = (args['panel_width'] != null) ? args['panel_width'] : "600px";
     var dialog = null;
     var displayOnTriggerHandler = null;
-    var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.select_items');
+    var i18nStr = args['title'] || ilios_i18nVendor.getI18NString('general.phrases.select_items');
+    var panelTitleText = args['panel_title_text'] || '';
 
     contents += '<div class="hd">' + i18nStr + '</div>\n';
     contents += '<div class="bd">\n';
 
-    contents += '<p>' + args['panel_title_text'] + '</p>';
-
+    if (panelTitleText) {
+        contents += '<p>' + panelTitleText + '</p>';
+    }
 
     // YUI -- IF THERE'S NO FORM INSIDE A DIALOG DOM, IT REVEALS A YUI BUG
     contents += '<form method="POST" action="matters not at all">\n';
