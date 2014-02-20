@@ -181,7 +181,7 @@ $viewsPath = getServerFilePath('views');
             id_uniquer : 'scde_',
             dom_root : 'cohort_pick_dialog',
             title: ilios_i18nVendor.getI18NString('course_management.select_cohorts'),
-            selected_items_title: ilios_i18nVendor.getI18NString('general.phrases.selected_cohort'),
+            selected_items_title: ilios_i18nVendor.getI18NString('general.phrases.selected_cohorts'),
             deselect_handler : ilios.cm.handleProgramCohortDialogDeselection,
             max_displayed_results: 250,
             panel_width: '700px'
