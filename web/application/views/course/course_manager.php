@@ -48,7 +48,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript">
         var controllerURL = "<?php echo $controllerURL; ?>/";
         <?php // @todo YEAH, if we could go ahead and stop doing this [v], that would be great. Ok? Thanks. [ST 2014/02/20] ?>
-        var currentUserId = "<?php $this->session->userdata('uid'); ?>";
+        var currentUserId = "<?php echo $this->session->userdata('uid'); ?>";
         var offeringControllerURL = "<?php echo $offeringControllerURL; ?>";
         var learningMaterialsControllerURL = "<?php echo $learningMaterialsControllerURL; ?>/";
         var adminUserDisplayName = "<?php echo $admin_user_short_name; ?>";
