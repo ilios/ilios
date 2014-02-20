@@ -20,7 +20,7 @@ install:
 
 before_script:
 # Set up Sauce Connect if we have a Sauce username set
-  - if [ "$SAUCE_USERNAME" ] ; then (curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
+  - if [ "$SAUCE_USERNAME" ] ; then (curl -L https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
 
 # Provision web server for Behat tests
   - "sudo apt-get install -y --force-yes mysql-server apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect > /dev/null"
