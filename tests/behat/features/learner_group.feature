@@ -47,17 +47,21 @@ Feature: Learner Groups
     And I click on the text "Default Group Number 1"
     And I follow "1_add_members"
     And I wait for "manage_member_pick_dialog" to be enabled
+    # remove Jane Smith
     Then I should see "Smith, Jane"
     And I click on the text "Smith, Jane"
     And I press the "Done" button in "manage_member_pick_dialog" dialog
-    # Then "Total Members" should be "0"
-    # And I edit "Total Members" for "Default Group Number 1"
-    # And I select "Smith, Jane" from "Eligible Members"
-    # And I press "Done"
+    And I follow "1_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    # now re-add Jane Smith
+    Then I should see "Smith, Jane"
+    And I click on the text "Smith, Jane"
+    And I press the "Done" button in "manage_member_pick_dialog" dialog
 
     And I press "Add a New Student Group"
     And I wait for "2_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 2"
     And I follow "2_add_members"
     And I wait for "manage_member_pick_dialog" to be enabled
+    # Look for bug #199 where student would no longer appear in the next group's picker
     Then I should see "Smith, Jane"
