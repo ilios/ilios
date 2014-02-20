@@ -59,9 +59,6 @@ class Calendar_Controller extends Ilios_Web_Controller
             $schoolId = $this->session->userdata('school_id');
         }
 
-        $userRow = $this->user->getRowForPrimaryKeyId($this->session->userdata('uid'));
-
-
         $schoolTitle = null;
 
         if ($schoolId) {
