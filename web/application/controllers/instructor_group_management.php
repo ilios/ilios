@@ -35,8 +35,6 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
         $this->output->set_header('Expires: 0');
 
-        $user = $this->user->getRowForPrimaryKeyId($this->session->userdata('uid'));
-
         $schoolId = $this->session->userdata('school_id');
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
 
