@@ -47,6 +47,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
     <script type="text/javascript">
         var controllerURL = "<?php echo $controllerURL; ?>/";
+        <?php // @todo YEAH, if we could go ahead and stop doing this [v], that would be great. Ok? Thanks. [ST 2014/02/20] ?>
         var currentUserId = "<?php $this->session->userdata('uid'); ?>";
         var offeringControllerURL = "<?php echo $offeringControllerURL; ?>";
         var learningMaterialsControllerURL = "<?php echo $learningMaterialsControllerURL; ?>/";
