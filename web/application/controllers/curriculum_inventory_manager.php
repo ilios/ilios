@@ -145,8 +145,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         
         $rhett = array();
 
-        $data = array();
-
         // authorization check
         if (! $this->session->userdata('has_admin_access')) {
             $this->_printAuthorizationFailedXhrResponse();
