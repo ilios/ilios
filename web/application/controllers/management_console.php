@@ -31,7 +31,6 @@ class Management_Console extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
@@ -62,8 +61,7 @@ class Management_Console extends Ilios_Web_Controller
             $schoolTitle = $schoolRow->title;
         }
 
-        $institution = $this->config->item('ilios_institution_name');
-        $data['viewbar_title'] = $data['institution_name'];
+        $data['viewbar_title'] = $this->config->item('ilios_institution_name');
 
         // add school title (and school switcher if applicable) to viewbar
         if ($schoolTitle != null) {

@@ -30,7 +30,6 @@ class Course_Management extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
@@ -86,7 +85,7 @@ class Course_Management extends Ilios_Web_Controller
 
         $data['admin_user_short_name'] = $userRow->first_name . ' ' . $userRow->last_name;
 
-        $data['viewbar_title'] = $data['institution_name'];
+        $data['viewbar_title'] = $this->config->item('ilios_institution_name');
 
         $schoolId =  $this->session->userdata('school_id');
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
