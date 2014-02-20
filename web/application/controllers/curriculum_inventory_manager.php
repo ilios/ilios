@@ -69,7 +69,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
@@ -148,7 +147,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $rhett = array();
 
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
@@ -292,7 +290,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     public function export ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
@@ -398,7 +395,6 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
     public function download ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
         $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check

@@ -329,10 +329,10 @@ ilios.dom.generateAutoCompleteDialogMarkup = function (args) {
  *                                          whose id is provided; the elements represent the UI
  *                                          single-selection widget
  *          hide_autocomplete_input:    if non-null, then the autocomplete input will be hidden
- *          tab_title:                  the title for the tab containing the selection widget;
- *          panel_title_text:           the header title text for the panel (not to be
- *                                          confused with the title bar text which will
- *                                          be "Please select items")
+ *          tab_title:                  the title for the tab containing the selection widget (optional, defaults to "Available items")
+ *          selected_items_title:       the title for the selected items list (optional, defaults to "Selected items")
+ *          title:                      the widget title (optional, defaults to "Please select items")
+ *          panel_title_text:           the header title text for the panel (optional, not displayed when not given)
  *          dom_root:                   the id of the DOM element into which this markup should
  *                                          be inserted
  *          panel_width:                if this is non-null, it is expected to a valid CSS
@@ -374,9 +374,10 @@ ilios.dom.generateGenericDialogMarkupAndWireContent = function (use, less, args)
     var autoCompleteTextFieldId = args['id_uniquer'] + '_auto_comp_input';
     var selectedItemListElement = args['id_uniquer'] + '_selected_item_list';
     var autoCompleter = null;
-    var aStr = ilios_i18nVendor.getI18NString('general.phrases.select_items');
+    var aStr = args['title'] || ilios_i18nVendor.getI18NString('general.phrases.select_items');
     var noAutoCompleter = (args['remote_data'] == null);
     var showAutoCompleteInput = (args['hide_autocomplete_input'] == null);
+    var panelTitle = args['panel_title_text'] || '';
 
     contents += '<div class="visuallyhidden" id="' + autoCompleteHiddenContainerId + '"></div>\n';
 
@@ -384,7 +385,9 @@ ilios.dom.generateGenericDialogMarkupAndWireContent = function (use, less, args)
     contents += '<div class="bd">\n';
     contents += '<div class="dialog_wrap">';
 
-    contents += '<p>' + args['panel_title_text'] + '</p>';
+    if (panelTitle) {
+        contents += '<p>' + panelTitle + '</p>';
+    }
 
     if (args['indeterminate_loading_id'] != null) {
         contents += '<div id="' + args['indeterminate_loading_id']
@@ -396,7 +399,7 @@ ilios.dom.generateGenericDialogMarkupAndWireContent = function (use, less, args)
 
     contents += '<div class="dialog_left">';
 
-    aStr = ilios_i18nVendor.getI18NString('general.phrases.selected_items');
+    aStr = args['selected_items_title'] || ilios_i18nVendor.getI18NString('general.phrases.selected_items');
     contents += '<label class="picked_label" for="' + selectedItemListElement + '">';
     contents += aStr;
     contents += '</label>';
