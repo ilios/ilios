@@ -47,7 +47,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_dom.js"); ?>"></script>
     <script type="text/javascript">
         var controllerURL = "<?php echo $controllerURL; ?>/";
-        var currentUserId = "<?php echo $user_id; ?>";
+        var currentUserId = "<?php $this->session->userdata('uid'); ?>";
         var offeringControllerURL = "<?php echo $offeringControllerURL; ?>";
         var learningMaterialsControllerURL = "<?php echo $learningMaterialsControllerURL; ?>/";
         var adminUserDisplayName = "<?php echo $admin_user_short_name; ?>";
