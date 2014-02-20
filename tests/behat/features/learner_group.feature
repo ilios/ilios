@@ -48,6 +48,7 @@ Feature: Learner Groups
     And I follow "1_add_members"
     And I wait for "manage_member_pick_dialog" to be enabled
     Then I should see "Smith, Jane"
+    And I click on the text "Smith, Jane"
     And I press the "Done" button in "manage_member_pick_dialog" dialog
     # Then "Total Members" should be "0"
     # And I edit "Total Members" for "Default Group Number 1"
@@ -55,6 +56,7 @@ Feature: Learner Groups
     # And I press "Done"
 
     And I press "Add a New Student Group"
+    And I wait for "2_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 2"
     And I follow "2_add_members"
     And I wait for "manage_member_pick_dialog" to be enabled
