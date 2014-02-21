@@ -53,7 +53,7 @@
                 <input type="hidden" name="container_number" id="em_container_number" value="" />
                 <input type="hidden" name="cohort_id" id="em_cohort_id" value="" />
                 <input type="hidden" name="full_file_path" id="em_filepath_value" value="" />
-                <input type="file" name="userfile" id="em_csv_file_field" size="50" />
+                <input type="file" name="userfile" id="em_csv_file_field" />
                 <button id="em_upload_button" style="margin-left: 18px;" onclick="return false;">
                     <?php echo t('general.terms.upload'); ?></button>
  <?php
