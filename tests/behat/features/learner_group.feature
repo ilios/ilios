@@ -24,8 +24,8 @@ Feature: Learner Groups
     And I press "1_child_publish"
     And I follow "show_more_or_less_link"
     And I press "Publish Now"
-    And I follow "Learner Groups"
     And I wait 2 seconds
+    And I go to "/ilios.php/group_management"
     And I follow "Select Program and Cohort"
     And I wait for "cohort_pick_dialog" to be enabled
     And I wait 2 seconds
