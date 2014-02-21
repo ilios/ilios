@@ -24,7 +24,7 @@ Feature: Learner Groups
     And I press "1_child_publish"
     And I follow "show_more_or_less_link"
     And I press "Publish Now"
-    And I wait for "t-learner" to be enabled
+    And I wait for "t-learner" to be visible
     And I navigate to the "Learner Groups" tab
     And I wait 2 seconds
     And I follow "Select Program and Cohort"
@@ -32,9 +32,9 @@ Feature: Learner Groups
     And I wait 2 seconds
     And I click on the text "Foo"
     And I click on the text starting with "Class of "
-    And I wait for "all_edit_member_link" to be enabled
-    And I wait 2 seconds
+    And I wait for "1_collapse_summary_text" to be visible
     And I press "Add New Members to Cohort"
+    And I wait for "em_last_name" to be visible
     And I fill in "em_last_name" with "Smith"
     And I fill in "em_first_name" with "Jane"
     And I fill in "em_email" with "Jane.Smith@example.edu"

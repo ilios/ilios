@@ -236,6 +236,21 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given /^I wait for "([^"]*)" to be visible$/
+     */
+    public function iWaitForToBeVisible($id)
+    {
+        $context = $this;
+        $this->spin(function($context) use ($id) {
+            $el = $context->getSession()->getPage()->find('css', "#{$id}");
+            if ($el) {
+                return $el->isVisible();
+            }
+            return false;
+        });
+    }
+
+    /**
      * @AfterScenario
      *
      * PhantomJS does not clear the session properly, so we must
