@@ -12,7 +12,7 @@
     <div class="hd"><?php echo $instructor_picker_title; ?></div>
     <div class="bd">
         <div class="dialog_wrap">
-            <form method="GET" action="only needed because YUI crashes without a form element">
+            <form method="GET">
                 <div class="dialog_left">
                     <ul class="picked" id="instructor_picker_selected"></ul>
                 </div>

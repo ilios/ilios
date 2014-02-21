@@ -13,7 +13,7 @@
 <div class="tabdialog" id="add_new_members_dialog">
     <div class="hd"><?php echo t('general.phrases.add_members'); ?></div>
         <div class="bd">
-            <form method="post" action="matters not at all">
+            <form method="post">
                 <div style="padding: 9px; border: 1px solid #3c3c3c;">
                     <p><?php echo t('add_members_dialog.manual_entry'); ?></p>
                     <table style="width: 100%; align: center;">
