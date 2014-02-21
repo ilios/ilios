@@ -31,8 +31,6 @@ class Group_Management extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
         if (! $this->session->userdata('has_instructor_access')) {
@@ -42,8 +40,6 @@ class Group_Management extends Ilios_Web_Controller
 
         $this->output->set_header('Expires: 0');
 
-        $user = $this->user->getRowForPrimaryKeyId($data['user_id']);
-
         $schoolId = $this->session->userdata('school_id');
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
 
@@ -51,7 +47,8 @@ class Group_Management extends Ilios_Web_Controller
             $data['school_id'] = $schoolId;
             $data['school_name'] = $schoolRow->title;
 
-            $data['viewbar_title'] = $data['institution_name'];
+            $data['viewbar_title'] = $this->config->item('ilios_institution_name');
+
             if ($schoolRow->title != null) {
                 $key = 'general.phrases.school_of';
                 $schoolOfStr = $this->languagemap->getI18NString($key);

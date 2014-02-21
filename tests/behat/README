@@ -15,7 +15,7 @@ Prerequisites
 
 1. Install npm
 
-    sudo yum install node npm
+    sudo yum install nodejs npm
 
 2. Install the phantomjs NPM module globally
 
@@ -50,10 +50,32 @@ Run tests
 
     OR
 
-    cd <iliosroot/tests/behat
+    cd <iliosroot>/tests/behat
     bin/behat -p vagrant
 
 
 See also
 --------
 https://kippt.com/alexisjanvier/programmation/clips/13052904
+
+
+Troubleshooting
+---------------
+
+1. Why am I getting "PHP Fatal error:  Class 'DOMDocument' not found..."?
+
+   Make sure your php-xml is installed or up-to-date.
+
+    sudo yum install php-xml
+
+2. Why am I getting "PHP Fatal error:  Call to undefined function Behat\Behat\DependencyInjection\mb_internal_encoding()..."?
+
+   Make sure you have installed php-mbstring.
+
+    sudo yum install php-mbstring
+
+3. Why I am not getting colored output from behat tests?
+
+   Behat is probably not picking up the type of terminal you're using.  Forcing it to run in ANSI mode will probably fix it.
+
+    bin/behat --ansi -p <phantomjs/vagrant>

@@ -28,8 +28,6 @@ class Program_Management extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
 
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_viewAccessForbiddenPage($data);
@@ -40,10 +38,10 @@ class Program_Management extends Ilios_Web_Controller
 
         $programId = $this->input->get_post('program_id');
 
-        $data['viewbar_title'] = $data['institution_name'];
-
         $schoolId =  $this->session->userdata('school_id');
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
+
+        $data['viewbar_title'] = $this->config->item('ilios_institution_name');
 
         if ($schoolRow != null) {
             $data['school_id'] = $schoolId;
@@ -57,7 +55,6 @@ class Program_Management extends Ilios_Web_Controller
             // not sure how to proceed if user is not tied to a particular school.
             // for now, we just proceed.
         }
-
 
         if ($programId != '') {
             $data['program_row'] = $this->convertStdObjToArray($this->program->getRowForPrimaryKeyId($programId));
@@ -138,14 +135,6 @@ class Program_Management extends Ilios_Web_Controller
 
         $key = 'general.phrases.show_more';
         $data['phrase_show_more_string'] = strtolower($this->languagemap->getI18NString($key));
-
-        $institution = $this->config->item('ilios_institution_name');
-        $data['viewbar_title'] = $institution;
-        if ($schoolRow->title != null) {
-            $key = 'general.phrases.school_of';
-            $schoolOfStr = $this->languagemap->getI18NString($key);
-            $data['viewbar_title'] .= ' ' . $schoolOfStr . ' ' . $schoolRow->title;
-        }
 
         $data['user_preferences_json'] = json_encode($this->_getUserPreferences());
 

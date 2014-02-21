@@ -30,8 +30,6 @@ class Offering_Management extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
 
         if (!$this->session->userdata('has_instructor_access')) {
             $this->_viewAccessForbiddenPage($data);
@@ -43,9 +41,7 @@ class Offering_Management extends Ilios_Web_Controller
 
         $data['session_id'] = (int) $this->input->get_post('session_id');
 
-        $userRow = $this->user->getRowForPrimaryKeyId($data['user_id']);
-
-        $data['viewbar_title'] = $data['institution_name'];
+        $data['viewbar_title'] = $this->config->item('ilios_institution_name');
 
         $schoolId =  $this->session->userdata('school_id');
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);

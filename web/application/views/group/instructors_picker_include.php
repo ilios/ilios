@@ -23,7 +23,7 @@
                         <div class="autolist" id="instructor_picker_autolist"></div>
                         <div id="instructor_picker_ac_progress" class="invisible"
                             style="position:absolute; left: 0; top: 326px;">
-                            <img src="<?php echo $viewsUrlRoot . 'images/loading.gif' ?>" border="0" />
+                            <img src="<?php echo $viewsUrlRoot . 'images/loading.gif' ?>" border="0" alt="Loading&hellip;" />
                         </div>
                     </div>
                 </div>

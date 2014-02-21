@@ -121,9 +121,9 @@ if (! function_exists('createContentContainerMarkup')) {
                     <li>
                         <?php
                         echo $addNewEntityLink;
-                        endif;
                         ?>
                     </li>
+                <?php endif; ?>
                 </ul>
                 <ul class="buttons right">
                     <?php
