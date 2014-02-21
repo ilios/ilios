@@ -38,8 +38,8 @@
                         <button class="small secondary radius button"
                             onclick="ilios.gm.subgroup.changeBreadcrumbViewLevelOrSidestep(\'-1\'); return false;"
                                 id="open_cohort" style="display: none;">' . $open_cohort_string . '</button>
-                        <button class="small secondary radius button" onclick="ilios.gm.collapseOrExpandGroups(false, false); return false;"
-                                class="groups_collapsed" id="expand_groups_link"
+                        <button class="small secondary radius button groups_collapsed" onclick="ilios.gm.collapseOrExpandGroups(false, false); return false;"
+                                id="expand_groups_link"
                                 style="display: none;">' . $expand_groups_string . '</button>
                     </div>
 

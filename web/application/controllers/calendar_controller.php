@@ -34,8 +34,6 @@ class Calendar_Controller extends Ilios_Web_Controller
     public function index ()
     {
         $data = array();
-        $data['institution_name'] = $this->config->item('ilios_institution_name');
-        $data['user_id'] = $this->session->userdata('uid');
 
         // authorization check
         $isStudent = $this->session->userdata('is_learner');
@@ -61,9 +59,6 @@ class Calendar_Controller extends Ilios_Web_Controller
             $schoolId = $this->session->userdata('school_id');
         }
 
-        $userRow = $this->user->getRowForPrimaryKeyId($data['user_id']);
-
-
         $schoolTitle = null;
 
         if ($schoolId) {
@@ -73,7 +68,7 @@ class Calendar_Controller extends Ilios_Web_Controller
             }
         }
 
-        $data['viewbar_title'] = $data['institution_name'];
+        $data['viewbar_title'] = $this->config->item('ilios_institution_name');
 
         if ($schoolTitle != null) {
             $key = 'general.phrases.school_of';
