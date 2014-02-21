@@ -68,10 +68,10 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
 		var liElement = null;
 		var textNode = null;
 		var yElement = null;
-        var key = null;
-        var children = null;
-        var i, n;
-        var sortingArray = [];
+    var key = null;
+    var children = null;
+    var i, n;
+    var sortingArray = [];
 
 		ilios.gm.mm.ugtSelectedModel = new GroupModel();
 		ilios.gm.mm.ugtSelectedModel.setDBId(groupModel.getDBId());
@@ -143,7 +143,6 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
         ilios.gm.mm.selectedItemListElement.appendChild(sortingArray[i]);
     }
 	}
-	ilios.gm.mm.redrawTreeAndUpdateCSS();
 };
 
 /*
