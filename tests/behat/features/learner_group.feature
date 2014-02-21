@@ -31,7 +31,7 @@ Feature: Learner Groups
     And I wait 2 seconds
     And I click on the text "Foo"
     And I click on the text starting with "Class of "
-    And I wait for "1_collapse_summary_text" to be visible
+    And I wait 2 seconds
     And I press "Add New Members to Cohort"
     And I wait for "em_last_name" to be visible
     And I fill in "em_last_name" with "Smith"
