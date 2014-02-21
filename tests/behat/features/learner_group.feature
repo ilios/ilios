@@ -24,7 +24,7 @@ Feature: Learner Groups
     And I press "1_child_publish"
     And I follow "show_more_or_less_link"
     And I press "Publish Now"
-    And I wait 2 seconds
+    And I wait for "t-learner" to be enabled
     And I navigate to the "Learner Groups" tab
     And I wait 2 seconds
     And I follow "Select Program and Cohort"
