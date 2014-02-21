@@ -108,7 +108,7 @@
      *        assigned as property 'containerNumber' as
      *        dialog.containerNumber
      */
-    ilios.common.assembleAddNewMembersDialog = function (use, less, args) {
+    ilios.common.assembleAddNewMembersDialog = function () {
         var Event = YAHOO.util.Event;
         var handleCancel = function () {
             IEvent.fire({object: 'modal_em_dialog_panel', action: 'cancel', event: 'closing'});
