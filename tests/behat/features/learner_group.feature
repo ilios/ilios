@@ -9,6 +9,7 @@ Feature: Learner Groups
     Given I am on the Ilios home page
     And I log in as "zero_user" with password "Ch4nge_m3"
 
+  # issue #199 tagged @ignore until a fix is put in
   @ignore @javascript @insulated
   Scenario: Student added to one group appears in picker for other groups
     When I navigate to the "Programs" tab
