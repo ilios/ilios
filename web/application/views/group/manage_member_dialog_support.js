@@ -116,32 +116,32 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
 			ilios.gm.mm.selectedItemListElement.appendChild(liElement);
 		}
 
-        //
-        // sort list items
-        //
-        children = ilios.gm.mm.selectedItemListElement.children;
-        for (i = 0, n = children.length; i < n; i++) {
-            sortingArray.push(children[i]);
+    //
+    // sort list items
+    //
+    children = ilios.gm.mm.selectedItemListElement.children;
+    for (i = 0, n = children.length; i < n; i++) {
+        sortingArray.push(children[i]);
+    }
+
+    sortingArray.sort(function(a, b) {
+        var Dom = YAHOO.util.Dom;
+        // figure out if the given list element represents a group or user
+        // by checking its class attribute
+        var aIsGroup = Dom.hasClass(a, 'tree_group_name');
+        var bIsGroup = Dom.hasClass(b, 'tree_group_name');
+
+        if (! (aIsGroup ^ bIsGroup)) { // compare group-to-group or user-to-user
+            return (a.innerHTML.localeCompare(b.innerHTML));
+        } else {
+            return (aIsGroup ? -1 : 1); // sort groups before users
         }
+    });
 
-        sortingArray.sort(function(a, b) {
-            var Dom = YAHOO.util.Dom;
-            // figure out if the given list element represents a group or user
-            // by checking its class attribute
-            var aIsGroup = Dom.hasClass(a, 'tree_group_name');
-            var bIsGroup = Dom.hasClass(b, 'tree_group_name');
-
-            if (! (aIsGroup ^ bIsGroup)) { // compare group-to-group or user-to-user
-                return (a.innerHTML.localeCompare(b.innerHTML));
-            } else {
-                return (aIsGroup ? -1 : 1); // sort groups before users
-            }
-        });
-
-        ilios.utilities.removeAllChildren(ilios.gm.mm.selectedItemListElement);
-        for (i = 0, n = sortingArray.length; i < n; i++) {
-            ilios.gm.mm.selectedItemListElement.appendChild(sortingArray[i]);
-        }
+    ilios.utilities.removeAllChildren(ilios.gm.mm.selectedItemListElement);
+    for (i = 0, n = sortingArray.length; i < n; i++) {
+        ilios.gm.mm.selectedItemListElement.appendChild(sortingArray[i]);
+    }
 	}
 	ilios.gm.mm.redrawTreeAndUpdateCSS();
 };
