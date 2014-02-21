@@ -1,5 +1,28 @@
 ------- VERSION CHANGES --------
 
+Version 2.4.0
+
+Bug Fixes:
+
+Issue #339: Notes field in Learning Materials does not alert user if max char length is exceeded
+Issue #354: DB install instructions incomplete
+Issue #375: 'required' in CI export for sessions
+Issue #380: Inability to access learning materials in shibboleth enabled systems
+
+Feature Changes:
+
+Issue #332: improved footer link usability
+Issue #334: deleted table 'database_meta'
+Issue #335: de-ajaxified the login "form"
+Issue #336: converted cucumber tests to behat
+Issue #337: streamlined auditing system
+Issue #342: rigged-up behat tests to CI process
+Issue #380: Added ability to access learning materials in shibboleth-enabled systems
+Issue #394: Enabled behat tests against vagrant
+Issue #397: Added warning for users that their calendar feed should be treated like a password
+
+---
+
 Version 2.3.2
 
 Bug Fixes:
