@@ -28,7 +28,7 @@ selenium:
         Behat\MinkExtension\Extension:
           default_session: selenium2
 
-# Use this profile to run tests against the Ilios instance created by vagrant up using phantomjs.
+# Use this profile to run tests against the Ilios instance created by Vagrant.
 vagrant:
     extensions:
         Behat\MinkExtension\Extension:

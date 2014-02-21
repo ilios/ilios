@@ -65,22 +65,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @When /^I click the first "(.*?)"$/
-     */
-    public function iClickTheFirst ($linkText)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When /^I click the first element with class "(.*?)"$/
-     */
-    public function iClickTheFirstElementWithClass ($elementText)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @When /^I log in as "(.*?)" with password "(.*?)"$/
      */
     public function iLogInAsWithPassword ($user, $login)
@@ -168,6 +152,34 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given /^I click on the text "([^"]*)"$/
+     */
+    public function iClickOnTheText($text)
+    {
+        $el = $this->getSession()->getPage()->find('xpath', "//*[text()='$text']");
+
+        if ($el === null) {
+            throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
+        }
+
+        $el->click();
+    }
+
+    /**
+     * @Given /^I click on the text starting with "([^"]*)"$/
+     */
+    public function iClickOnTheTextStartingWith($text)
+    {
+        $el = $this->getSession()->getPage()->find('xpath', "//*[starts-with(.,'$text')]");
+
+        if ($el === null) {
+            throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
+        }
+
+        $el->click();
+    }
+
+    /**
      * @When /^I wait (\d+) second(?:s?)$/
      */
     public function iWaitSeconds($seconds)
@@ -208,6 +220,35 @@ class FeatureContext extends MinkContext
         $this->assertElementNotOnPage('.dirty_state');
     }
 
+    /**
+     * @Given /^I wait for "([^"]*)" to be enabled$/
+     */
+    public function iWaitForToBeEnabled($id)
+    {
+        $context = $this;
+        $this->spin(function($context) use ($id) {
+            $el = $context->getSession()->getPage()->find('css', "#{$id}");
+            if ($el) {
+                return ! $el->hasAttribute('disabled');
+            }
+            return false;
+        });
+    }
+
+    /**
+     * @Given /^I wait for "([^"]*)" to be visible$/
+     */
+    public function iWaitForToBeVisible($id)
+    {
+        $context = $this;
+        $this->spin(function($context) use ($id) {
+            $el = $context->getSession()->getPage()->find('css', "#{$id}");
+            if ($el) {
+                return $el->isVisible();
+            }
+            return false;
+        });
+    }
 
     /**
      * @AfterScenario
