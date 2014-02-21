@@ -143,6 +143,7 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
             ilios.gm.mm.selectedItemListElement.appendChild(sortingArray[i]);
         }
 	}
+	ilios.gm.mm.redrawTreeAndUpdateCSS();
 };
 
 /*
