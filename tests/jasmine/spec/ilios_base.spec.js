@@ -42,6 +42,42 @@ describe("ilios_base", function() {
     });
 
     describe("global", function () {
+      describe("readJsonFromDom()", function () {
+        var container;
+
+        beforeEach(function () {
+          container = document.createElement('script');
+          container.setAttribute("id", "readJsonFromDom-testData");
+          container.setAttribute("type", "application/json");
+
+          spyOn(ilios.global, "defaultAJAXFailureHandler");
+        });
+
+        afterEach(function () {
+          if (container && container.parentNode) {
+            container.parentNode.removeChild(container);
+          }
+        });
+
+        it("should return null if the specified id does not exist", function () {
+          expect(ilios.global.readJsonFromDom('this id does not exist')).toBe(null);
+          expect(ilios.global.defaultAJAXFailureHandler).not.toHaveBeenCalled();
+        });
+
+        it("should return an object described by the JSON in the element", function () {
+          container.innerHTML = "{\"foo\": 1, \"bar\": [2,3]}";
+          document.body.appendChild(container);
+          expect(ilios.global.readJsonFromDom('readJsonFromDom-testData')).toEqual({foo: 1, bar: [2,3]});
+          expect(ilios.global.defaultAJAXFailureHandler).not.toHaveBeenCalled();
+        });
+
+        it("should call defaultAJAXFailureHandler() and return null if the JSON in the element is invalid", function () {
+          container.innerHTML = "{ajkdfljalkfdja";
+          document.body.appendChild(container);
+          expect(ilios.global.readJsonFromDom('readJsonFromDom-testData')).toBe(null);
+          expect(ilios.global.defaultAJAXFailureHandler).toHaveBeenCalled();
+        });
+      });
 
       describe("startIdleTimer()", function () {
         var container;
