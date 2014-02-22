@@ -73,6 +73,26 @@ if (YAHOO.lang.JSON) {
 ilios.namespace('global');
 
 /**
+ * Reads JSON data in element with id and returns an object
+ * @method readJsonFromDom
+ * @param {String} id
+ * @return {Object}
+ */
+ilios.global.readJsonFromDom = function (id) {
+    var el = document.getElementById(id);
+    var data = null;
+
+    if (el) {
+        try {
+            data = JSON.parse(el.innerHTML);
+        } catch (e) {
+            ilios.global.defaultAJAXFailureHandler(null, e);
+        }
+    }
+    return data;
+};
+
+/**
  * Instantiates and starts the idle timer, subscribes a timeout-handler function to it.
  * @method startIdleTimer
  */
@@ -82,18 +102,7 @@ ilios.global.startIdleTimer = (function () {
             var idleTimer = YAHOO.util.IdleTimer;
             var data;
 
-            // @todo: DRY this out. This is used in ilios_preferences.js too.
-            // Might be a reasonable function for ilios.base.
-            var domData = document.getElementById("iliosIdleTimer");
-            if (domData) {
-                try {
-                    data = JSON.parse(domData.innerHTML);
-                } catch (e) {
-                    // SOL
-                    ilios.global.defaultAJAXFailureHandler(null, e);
-                }
-            }
-
+            data = ilios.global.readJsonFromDom('iliosIdleTimer');
             if (data) {
                 data.timeout = YAHOO.lang.isNumber(data.timeout) ? data.timeout : 2700000; // default to 45 mins
 
