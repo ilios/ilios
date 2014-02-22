@@ -212,7 +212,7 @@
                 // wire up "add sequence block" button in the bottom toolbar
                 Event.addListener(this._sequenceBlockBottomToolbar.getAddButton(), 'click',
                     this.onSequenceBlockAddButtonClick, { report_id: this._reportModel.getId(), parent: null }, this);
-            };
+            }
 
             // show views and widgets
             this._reportView.show();
