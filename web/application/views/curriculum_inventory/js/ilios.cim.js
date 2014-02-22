@@ -159,7 +159,7 @@
                     var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.delete.confirm.warning')
                         + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
-                    var args = {};
+                    args = {};
                     args.model = this._reportModel;
                     args.dataSource = dataSource;
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
