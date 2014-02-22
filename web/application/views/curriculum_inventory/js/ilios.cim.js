@@ -549,8 +549,8 @@
                 this._createSequenceBlockDialog.render();
                 // wire the dialog's success/failure events up to the application
                 this._createSequenceBlockDialog.sequenceBlockCreationSucceededEvent.subscribe(function (type, args, me) {
-                    var data = args[0]['data'];
-                    var map = args[0]['updated_siblings_order'];
+                    var data = args[0].data;
+                    var map = args[0].updated_siblings_order;
                     me._updateBlockOrderInSequence(map);
                     me.addSequenceBlock(data, false);
                     me.getStatusBar().show(
@@ -573,7 +573,7 @@
                 this._editSequenceBlockDialog.render();
                 // wire the dialog's success/failure events up to the application
                 this._editSequenceBlockDialog.sequenceBlockUpdateSucceededEvent.subscribe(function (type, args, me) {
-                    var data = args[0]['data'];
+                    var data = args[0].data;
                     me._updateBlockOrderInSequence(args[0].updated_children_order);
                     me._updateBlockOrderInSequence(args[0].updated_siblings_order);
                     me.updateSequenceBlock(data);
@@ -671,14 +671,14 @@
             var course, parent, view, parentView;
             var block = this.getSequenceBlockModelMap().get(oData.sequence_block_id);
             var levels = this.getAcademicLevels();
-            oData['academic_level_model'] = levels[oData.academic_level_id];
-            if (oData['course_id']) {
+            oData.academic_level_model = levels[oData.academic_level_id];
+            if (oData.course_id) {
                 course = block.get('course');
                 if (! course  || (course.getId() != oData.course_id)) {
-                    oData['course_model'] = this.getCourseRepository().checkOut(oData.course_id);
+                    oData.course_model = this.getCourseRepository().checkOut(oData.course_id);
                 }
             } else {
-                oData['course_model'] = null;
+                oData.course_model = null;
             }
 
             block.update(oData);
