@@ -22,7 +22,7 @@
 
     var Lang = YAHOO.lang,
         Event = YAHOO.util.Event,
-        Dom = YAHOO.util.Dom
+        Dom = YAHOO.util.Dom;
 
     /**
      * Creates a client-side application.
