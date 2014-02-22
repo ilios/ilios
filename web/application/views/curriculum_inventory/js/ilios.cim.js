@@ -22,7 +22,7 @@
 
     var Lang = YAHOO.lang,
         Event = YAHOO.util.Event,
-        Dom = YAHOO.util.Dom
+        Dom = YAHOO.util.Dom;
 
     /**
      * Creates a client-side application.
@@ -159,7 +159,7 @@
                     var continueStr = ilios_i18nVendor.getI18NString('curriculum_inventory.delete.confirm.warning')
                         + '<br /><br />' + ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
                     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
-                    var args = {};
+                    args = {};
                     args.model = this._reportModel;
                     args.dataSource = dataSource;
                     ilios.alert.inform(continueStr, yesStr, function (event, args) {
@@ -212,7 +212,7 @@
                 // wire up "add sequence block" button in the bottom toolbar
                 Event.addListener(this._sequenceBlockBottomToolbar.getAddButton(), 'click',
                     this.onSequenceBlockAddButtonClick, { report_id: this._reportModel.getId(), parent: null }, this);
-            };
+            }
 
             // show views and widgets
             this._reportView.show();
@@ -549,8 +549,8 @@
                 this._createSequenceBlockDialog.render();
                 // wire the dialog's success/failure events up to the application
                 this._createSequenceBlockDialog.sequenceBlockCreationSucceededEvent.subscribe(function (type, args, me) {
-                    var data = args[0]['data'];
-                    var map = args[0]['updated_siblings_order'];
+                    var data = args[0].data;
+                    var map = args[0].updated_siblings_order;
                     me._updateBlockOrderInSequence(map);
                     me.addSequenceBlock(data, false);
                     me.getStatusBar().show(
@@ -573,7 +573,7 @@
                 this._editSequenceBlockDialog.render();
                 // wire the dialog's success/failure events up to the application
                 this._editSequenceBlockDialog.sequenceBlockUpdateSucceededEvent.subscribe(function (type, args, me) {
-                    var data = args[0]['data'];
+                    var data = args[0].data;
                     me._updateBlockOrderInSequence(args[0].updated_children_order);
                     me._updateBlockOrderInSequence(args[0].updated_siblings_order);
                     me.updateSequenceBlock(data);
@@ -671,14 +671,14 @@
             var course, parent, view, parentView;
             var block = this.getSequenceBlockModelMap().get(oData.sequence_block_id);
             var levels = this.getAcademicLevels();
-            oData['academic_level_model'] = levels[oData.academic_level_id];
-            if (oData['course_id']) {
+            oData.academic_level_model = levels[oData.academic_level_id];
+            if (oData.course_id) {
                 course = block.get('course');
                 if (! course  || (course.getId() != oData.course_id)) {
-                    oData['course_model'] = this.getCourseRepository().checkOut(oData.course_id);
+                    oData.course_model = this.getCourseRepository().checkOut(oData.course_id);
                 }
             } else {
-                oData['course_model'] = null;
+                oData.course_model = null;
             }
 
             block.update(oData);
