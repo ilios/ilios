@@ -42,10 +42,10 @@ ilios.cm.rollover.setRolloverStartDate = function (startDate) {
 
     if (newDOW != originalDOW) {
         var msg = ilios_i18nVendor.getI18NString('course_management.rollover.warning.start_date_dow_1')
-                        + " " + ilios.global.getI18NStringForDayOfWeek(newDOW, false)
+                        + " " + ilios.global.getI18NStringForDayOfWeek(newDOW)
                         + " "
                         + ilios_i18nVendor.getI18NString('course_management.rollover.warning.start_date_dow_2')
-                        + ", " + ilios.global.getI18NStringForDayOfWeek(originalDOW, false)
+                        + ", " + ilios.global.getI18NStringForDayOfWeek(originalDOW)
                         + ", "
                         + ilios_i18nVendor.getI18NString('course_management.rollover.warning.start_date_dow_3');
 
