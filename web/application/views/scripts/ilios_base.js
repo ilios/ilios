@@ -111,51 +111,31 @@ ilios.global.defaultAJAXFailureHandler = function (resultObject, rootException) 
 ilios.global.longDayOfWeekI18NStrings = null;
 
 /**
- * Abbreviated names of week days (e.g. "Sun", ..., "Sat")
- * @property {Array} shortDayOfWeekI18NStrings
- */
-ilios.global.shortDayOfWeekI18NStrings = null;
-
-/**
  * Returns the I18Ned name of a given week day.
  * @method getI18NStringForDayOfWeek
  * @param {Number} day of the week index. Sunday = 0, ... , Saturday = 6
  * @param {Boolean} shortString TRUE to return an abbreviated name, FALSE for full name
  * @return {String} the name of the week day.
  */
-ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek, shortString) {
+ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek) {
     var dayArray = null;
 
     if ((dayOfWeek < 0) || (dayOfWeek > 6)) { // boundary check
         return '';
     }
 
-    if (shortString) { // full
-        if (ilios.global.shortDayOfWeekI18NStrings == null) { // lazy load
-            ilios.global.shortDayOfWeekI18NStrings = [
-                ilios_i18nVendor.getI18NString('general.calendar.sunday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.monday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.tuesday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.wednesday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.thursday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.friday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.saturday_short')
-            ];
-        }
-        dayArray = ilios.global.shortDayOfWeekI18NStrings;
-    } else { // abbrev
-        if (ilios.global.longDayOfWeekI18NStrings == null) { // lazy load
-            ilios.global.longDayOfWeekI18NStrings = [
-                ilios_i18nVendor.getI18NString('general.calendar.sunday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.monday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.tuesday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.wednesday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.thursday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.friday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.saturday_long')
-            ];
-        }
-        dayArray = ilios.global.longDayOfWeekI18NStrings;
+    if (ilios.global.longDayOfWeekI18NStrings === null) { // lazy load
+        ilios.global.longDayOfWeekI18NStrings = [
+            ilios_i18nVendor.getI18NString('general.calendar.sunday_long'),
+            ilios_i18nVendor.getI18NString('general.calendar.monday_long'),
+            ilios_i18nVendor.getI18NString('general.calendar.tuesday_long'),
+            ilios_i18nVendor.getI18NString('general.calendar.wednesday_long'),
+            ilios_i18nVendor.getI18NString('general.calendar.thursday_long'),
+            ilios_i18nVendor.getI18NString('general.calendar.friday_long'),
+            ilios_i18nVendor.getI18NString('general.calendar.saturday_long')
+        ];
     }
+    dayArray = ilios.global.longDayOfWeekI18NStrings;
+
     return dayArray[dayOfWeek]; // return the weekday
 };
