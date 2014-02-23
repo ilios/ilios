@@ -5,11 +5,11 @@
  *
  * Defines the following namespaces:
  *
- * ilios.alert
  * ilios.global
  *
  * Dependencies:
  *
+ * ilios.alert
  * Ilios i18n utility
  * YUI utilities
  * YUI containers
