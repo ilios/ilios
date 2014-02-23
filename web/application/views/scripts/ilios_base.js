@@ -5,11 +5,11 @@
  *
  * Defines the following namespaces:
  *
- * ilios.alert
  * ilios.global
  *
  * Dependencies:
  *
+ * ilios.alert
  * Ilios i18n utility
  * YUI utilities
  * YUI containers
@@ -91,43 +91,6 @@ ilios.global.readJsonFromDom = function (id) {
     }
     return data;
 };
-
-/**
- * Instantiates and starts the idle timer, subscribes a timeout-handler function to it.
- * @method startIdleTimer
- */
-ilios.global.startIdleTimer = (function () {
-    var me = function () {
-        YAHOO.util.Event.onDOMReady(function () {
-            var idleTimer = YAHOO.util.IdleTimer;
-            var data;
-
-            data = ilios.global.readJsonFromDom('iliosIdleTimer');
-            if (data) {
-                data.timeout = YAHOO.lang.isNumber(data.timeout) ? data.timeout : 2700000; // default to 45 mins
-
-                idleTimer.subscribe("idle", function () {
-                    if (! YAHOO.util.IdleTimer.isIdle()) {
-                        return;
-                    }
-                    ilios.alert.alert(
-                        ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
-                        ilios_i18nVendor.getI18NString('general.terms.ok'),
-                        function () { window.location.href = data.logoutUrl; }
-                    );
-                });
-                idleTimer.start(data.timeout, document);
-            }
-        });
-    };
-
-    // Run automatically onDOMReady.
-    me();
-
-    // Return so it can be run again for testing. Might also be useful for other use cases
-    // although we don't have any right now.
-    return me;
-}());
 
 /**
  * Default handler function for failed XHR calls.
