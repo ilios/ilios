@@ -118,9 +118,6 @@ ilios.global.longDayOfWeekI18NStrings = null;
  * @return {String} the name of the week day.
  */
 ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek) {
-    if ((dayOfWeek < 0) || (dayOfWeek > 6)) { // boundary check
-        return '';
-    }
 
     if (ilios.global.longDayOfWeekI18NStrings === null) { // lazy load
         ilios.global.longDayOfWeekI18NStrings = [
@@ -134,5 +131,5 @@ ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek) {
         ];
     }
 
-    return ilios.global.longDayOfWeekI18NStrings[dayOfWeek];
+    return ilios.global.longDayOfWeekI18NStrings[dayOfWeek] || '';
 };
