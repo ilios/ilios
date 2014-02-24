@@ -116,10 +116,6 @@ describe("ilios_base", function() {
         afterEach(function () {
                 // clean up test double
                 delete window.ilios_i18nVendor;
-
-                // reset property side effects
-                ilios.global.longDayOfWeekI18NStrings = null;
-                ilios.global.shortDayOfWeekI18NStrings = null;
               });
 
         it("should return empty string if day is less than 0", function () {
