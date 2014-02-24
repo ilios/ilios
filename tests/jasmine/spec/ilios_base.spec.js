@@ -107,12 +107,6 @@ describe("ilios_base", function() {
         });
       });
 
-      describe("longDayOfWeekI18NStrings", function () {
-        it("should be initialized to null", function () {
-          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
-        });
-      });
-
       describe("getI18NStringForDayOfWeek()", function () {
         beforeEach(function () {
                 // test double
@@ -136,16 +130,14 @@ describe("ilios_base", function() {
           expect(ilios.global.getI18NStringForDayOfWeek(7)).toBe("");
         });
 
-        it("should not load shortDayOfWeekI18NStrings and load longDayOfWeekI18NStrings if shortString is false", function () {
-          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
-          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
-          ilios.global.getI18NStringForDayOfWeek(0);
-          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
-          expect(ilios.global.longDayOfWeekI18NStrings).not.toBe(null);
-        });
-
-        it("should return long string if requested", function () {
+        it("should return string for requested day", function () {
           expect(ilios.global.getI18NStringForDayOfWeek(0)).toBe("general.calendar.sunday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(1)).toBe("general.calendar.monday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(2)).toBe("general.calendar.tuesday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(3)).toBe("general.calendar.wednesday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(4)).toBe("general.calendar.thursday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(5)).toBe("general.calendar.friday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(6)).toBe("general.calendar.saturday_long");
         });
       });
     });
