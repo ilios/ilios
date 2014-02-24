@@ -105,12 +105,6 @@ ilios.global.defaultAJAXFailureHandler = function (resultObject, rootException) 
 };
 
 /**
- * Full names of week days (e.g. "Sunday", ..., "Saturday")
- * @property {Array} longDayOfWeekI18NStrings
- */
-ilios.global.longDayOfWeekI18NStrings = null;
-
-/**
  * Returns the I18Ned name of a given week day.
  * @method getI18NStringForDayOfWeek
  * @param {Number} day of the week index. Sunday = 0, ... , Saturday = 6
@@ -118,24 +112,16 @@ ilios.global.longDayOfWeekI18NStrings = null;
  * @return {String} the name of the week day.
  */
 ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek) {
-    var dayArray = null;
 
-    if ((dayOfWeek < 0) || (dayOfWeek > 6)) { // boundary check
-        return '';
-    }
+    var stringIdentifiers = [
+        'general.calendar.sunday_long',
+        'general.calendar.monday_long',
+        'general.calendar.tuesday_long',
+        'general.calendar.wednesday_long',
+        'general.calendar.thursday_long',
+        'general.calendar.friday_long',
+        'general.calendar.saturday_long'
+    ];
 
-    if (ilios.global.longDayOfWeekI18NStrings === null) { // lazy load
-        ilios.global.longDayOfWeekI18NStrings = [
-            ilios_i18nVendor.getI18NString('general.calendar.sunday_long'),
-            ilios_i18nVendor.getI18NString('general.calendar.monday_long'),
-            ilios_i18nVendor.getI18NString('general.calendar.tuesday_long'),
-            ilios_i18nVendor.getI18NString('general.calendar.wednesday_long'),
-            ilios_i18nVendor.getI18NString('general.calendar.thursday_long'),
-            ilios_i18nVendor.getI18NString('general.calendar.friday_long'),
-            ilios_i18nVendor.getI18NString('general.calendar.saturday_long')
-        ];
-    }
-    dayArray = ilios.global.longDayOfWeekI18NStrings;
-
-    return dayArray[dayOfWeek]; // return the weekday
+    return ilios_i18nVendor.getI18NString(stringIdentifiers[dayOfWeek]) || '';
 };
