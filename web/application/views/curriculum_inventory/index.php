@@ -48,6 +48,7 @@ $js = array(
         'application/views/scripts/ilios_ui.js',
         'application/views/scripts/ilios_dom.js',
         'application/views/scripts/ilios_preferences.js',
+        'application/views/scripts/ilios_timer.js',
         'application/views/curriculum_inventory/js/ilios.cim.model.js',
         'application/views/curriculum_inventory/js/ilios.cim.widget.js',
         'application/views/curriculum_inventory/js/ilios.cim.view.js',

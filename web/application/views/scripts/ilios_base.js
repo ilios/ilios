@@ -5,11 +5,11 @@
  *
  * Defines the following namespaces:
  *
- * ilios.alert
  * ilios.global
  *
  * Dependencies:
  *
+ * ilios.alert
  * Ilios i18n utility
  * YUI utilities
  * YUI containers
@@ -73,52 +73,24 @@ if (YAHOO.lang.JSON) {
 ilios.namespace('global');
 
 /**
- * Instantiates and starts the idle timer, subscribes a timeout-handler function to it.
- * @method startIdleTimer
+ * Reads JSON data in element with id and returns an object
+ * @method readJsonFromDom
+ * @param {String} id
+ * @return {Object}
  */
-ilios.global.startIdleTimer = (function () {
-    var me = function () {
-        YAHOO.util.Event.onDOMReady(function () {
-            var idleTimer = YAHOO.util.IdleTimer;
-            var data;
+ilios.global.readJsonFromDom = function (id) {
+    var el = document.getElementById(id);
+    var data = null;
 
-            // @todo: DRY this out. This is used in ilios_preferences.js too.
-            // Might be a reasonable function for ilios.base.
-            var domData = document.getElementById("iliosIdleTimer");
-            if (domData) {
-                try {
-                    data = JSON.parse(domData.innerHTML);
-                } catch (e) {
-                    // SOL
-                    ilios.global.defaultAJAXFailureHandler(null, e);
-                }
-            }
-
-            if (data) {
-                data.timeout = YAHOO.lang.isNumber(data.timeout) ? data.timeout : 2700000; // default to 45 mins
-
-                idleTimer.subscribe("idle", function () {
-                    if (! YAHOO.util.IdleTimer.isIdle()) {
-                        return;
-                    }
-                    ilios.alert.alert(
-                        ilios_i18nVendor.getI18NString('general.notification.idle_timeout_message'),
-                        ilios_i18nVendor.getI18NString('general.terms.ok'),
-                        function () { window.location.href = data.logoutUrl; }
-                    );
-                });
-                idleTimer.start(data.timeout, document);
-            }
-        });
-    };
-
-    // Run automatically onDOMReady.
-    me();
-
-    // Return so it can be run again for testing. Might also be useful for other use cases
-    // although we don't have any right now.
-    return me;
-}());
+    if (el) {
+        try {
+            data = JSON.parse(el.innerHTML);
+        } catch (e) {
+            ilios.global.defaultAJAXFailureHandler(null, e);
+        }
+    }
+    return data;
+};
 
 /**
  * Default handler function for failed XHR calls.
@@ -133,57 +105,23 @@ ilios.global.defaultAJAXFailureHandler = function (resultObject, rootException) 
 };
 
 /**
- * Full names of week days (e.g. "Sunday", ..., "Saturday")
- * @property {Array} longDayOfWeekI18NStrings
- */
-ilios.global.longDayOfWeekI18NStrings = null;
-
-/**
- * Abbreviated names of week days (e.g. "Sun", ..., "Sat")
- * @property {Array} shortDayOfWeekI18NStrings
- */
-ilios.global.shortDayOfWeekI18NStrings = null;
-
-/**
  * Returns the I18Ned name of a given week day.
  * @method getI18NStringForDayOfWeek
  * @param {Number} day of the week index. Sunday = 0, ... , Saturday = 6
  * @param {Boolean} shortString TRUE to return an abbreviated name, FALSE for full name
  * @return {String} the name of the week day.
  */
-ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek, shortString) {
-    var dayArray = null;
+ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek) {
 
-    if ((dayOfWeek < 0) || (dayOfWeek > 6)) { // boundary check
-        return '';
-    }
+    var stringIdentifiers = [
+        'general.calendar.sunday_long',
+        'general.calendar.monday_long',
+        'general.calendar.tuesday_long',
+        'general.calendar.wednesday_long',
+        'general.calendar.thursday_long',
+        'general.calendar.friday_long',
+        'general.calendar.saturday_long'
+    ];
 
-    if (shortString) { // full
-        if (ilios.global.shortDayOfWeekI18NStrings == null) { // lazy load
-            ilios.global.shortDayOfWeekI18NStrings = [
-                ilios_i18nVendor.getI18NString('general.calendar.sunday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.monday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.tuesday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.wednesday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.thursday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.friday_short'),
-                ilios_i18nVendor.getI18NString('general.calendar.saturday_short')
-            ];
-        }
-        dayArray = ilios.global.shortDayOfWeekI18NStrings;
-    } else { // abbrev
-        if (ilios.global.longDayOfWeekI18NStrings == null) { // lazy load
-            ilios.global.longDayOfWeekI18NStrings = [
-                ilios_i18nVendor.getI18NString('general.calendar.sunday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.monday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.tuesday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.wednesday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.thursday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.friday_long'),
-                ilios_i18nVendor.getI18NString('general.calendar.saturday_long')
-            ];
-        }
-        dayArray = ilios.global.longDayOfWeekI18NStrings;
-    }
-    return dayArray[dayOfWeek]; // return the weekday
+    return ilios_i18nVendor.getI18NString(stringIdentifiers[dayOfWeek]) || '';
 };

@@ -13,7 +13,7 @@
 <div class="tabdialog" id="add_new_members_dialog">
     <div class="hd"><?php echo t('general.phrases.add_members'); ?></div>
         <div class="bd">
-            <form method="post" action="matters not at all">
+            <form method="post">
                 <div style="padding: 9px; border: 1px solid #3c3c3c;">
                     <p><?php echo t('add_members_dialog.manual_entry'); ?></p>
                     <table style="width: 100%; align: center;">
@@ -53,7 +53,7 @@
                 <input type="hidden" name="container_number" id="em_container_number" value="" />
                 <input type="hidden" name="cohort_id" id="em_cohort_id" value="" />
                 <input type="hidden" name="full_file_path" id="em_filepath_value" value="" />
-                <input type="file" name="userfile" id="em_csv_file_field" size="50" />
+                <input type="file" name="userfile" id="em_csv_file_field" />
                 <button id="em_upload_button" style="margin-left: 18px;" onclick="return false;">
                     <?php echo t('general.terms.upload'); ?></button>
  <?php
@@ -108,7 +108,7 @@
      *        assigned as property 'containerNumber' as
      *        dialog.containerNumber
      */
-    ilios.common.assembleAddNewMembersDialog = function (use, less, args) {
+    ilios.common.assembleAddNewMembersDialog = function (unused1, unused2, args) {
         var Event = YAHOO.util.Event;
         var handleCancel = function () {
             IEvent.fire({object: 'modal_em_dialog_panel', action: 'cancel', event: 'closing'});

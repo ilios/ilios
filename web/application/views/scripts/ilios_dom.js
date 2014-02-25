@@ -411,7 +411,7 @@ ilios.dom.generateGenericDialogMarkupAndWireContent = function (use, less, args)
     contents += '<div class="dialog_right">';
 
     // YUI -- IF THERE'S NO FORM INSIDE A DIALOG DOM, IT REVEALS A YUI BUG
-    contents += '<form method="POST" action="matters not at all">\n';
+    contents += '<form method="POST">\n';
 
 
     contents += '<div id="' + args['id_uniquer'] + 'nav_tabs" class="yui-navset">\n';
@@ -773,7 +773,7 @@ ilios.dom.generateTreeSelectionDialogMarkupAndWireContent = function (use, less,
     }
 
     // YUI -- IF THERE'S NO FORM INSIDE A DIALOG DOM, IT REVEALS A YUI BUG
-    contents += '<form method="POST" action="matters not at all">\n';
+    contents += '<form method="POST">\n';
 
 
     contents += '<div id="' + args['id_uniquer'] + 'nav_tabs" class="yui-navset">\n';
@@ -1006,7 +1006,7 @@ ilios.dom.generateSelectAndCloseDialogMarkupAndWireContent = function (use, less
     }
 
     // YUI -- IF THERE'S NO FORM INSIDE A DIALOG DOM, IT REVEALS A YUI BUG
-    contents += '<form method="POST" action="matters not at all">\n';
+    contents += '<form method="POST">\n';
 
 
     contents += '<div id="' + args['id_uniquer'] + 'nav_tabs" class="yui-navset">\n';

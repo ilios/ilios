@@ -42,61 +42,40 @@ describe("ilios_base", function() {
     });
 
     describe("global", function () {
-
-      describe("startIdleTimer()", function () {
+      describe("readJsonFromDom()", function () {
         var container;
 
         beforeEach(function () {
-          // test double
-          YAHOO.util.IdleTimer = {subscribe: function () {}, start: function () {}};
-          spyOn(YAHOO.util.IdleTimer, "subscribe");
-          spyOn(YAHOO.util.IdleTimer, "start");
-
           container = document.createElement('script');
-          container.setAttribute("id", "iliosIdleTimer");
+          container.setAttribute("id", "readJsonFromDom-testData");
           container.setAttribute("type", "application/json");
+
+          spyOn(ilios.global, "defaultAJAXFailureHandler");
         });
 
         afterEach(function () {
-          // clean up test double
-          delete YAHOO.util.IdleTimer;
-
           if (container && container.parentNode) {
             container.parentNode.removeChild(container);
           }
         });
 
-        it("should use the timeout specified in the idle timer data in the DOM", function () {
-          container.innerHTML = "{\"timeout\":9999999}";
+        it("should return null if the specified id does not exist", function () {
+          expect(ilios.global.readJsonFromDom('this id does not exist')).toBe(null);
+          expect(ilios.global.defaultAJAXFailureHandler).not.toHaveBeenCalled();
+        });
+
+        it("should return an object described by the JSON in the element", function () {
+          container.innerHTML = "{\"foo\": 1, \"bar\": [2,3]}";
           document.body.appendChild(container);
-          ilios.global.startIdleTimer();
-          expect(YAHOO.util.IdleTimer.start).toHaveBeenCalledWith(9999999, document);
+          expect(ilios.global.readJsonFromDom('readJsonFromDom-testData')).toEqual({foo: 1, bar: [2,3]});
+          expect(ilios.global.defaultAJAXFailureHandler).not.toHaveBeenCalled();
         });
 
-        it("should use default timeout if supplied timeout is not a number", function () {
-          container.innerHTML = "{\"timeout\":\"totally not a number\"}";
+        it("should call defaultAJAXFailureHandler() and return null if the JSON in the element is invalid", function () {
+          container.innerHTML = "{ajkdfljalkfdja";
           document.body.appendChild(container);
-          ilios.global.startIdleTimer();
-          expect(YAHOO.util.IdleTimer.start).not.toHaveBeenCalledWith("totally not a number", document);
-          expect(YAHOO.util.IdleTimer.start).toHaveBeenCalledWith(2700000, document);
-        });
-
-        it("should call subscribe with the hardcoded callback", function () {
-          container.innerHTML = "{}";
-          document.body.appendChild(container);
-          ilios.global.startIdleTimer();
-          expect(YAHOO.util.IdleTimer.subscribe).toHaveBeenCalledWith("idle", jasmine.any(Function));
-        });
-
-        it("should be called through YAHOO.util.Event.onDOMReady()", function () {
-          spyOn(YAHOO.util.Event, "onDOMReady");
-          ilios.global.startIdleTimer();
-          expect(YAHOO.util.Event.onDOMReady).toHaveBeenCalled();
-        });
-
-        it("should not set an IdleTimer if no DOM data object is present", function () {
-          ilios.global.startIdleTimer();
-          expect(YAHOO.util.IdleTimer.subscribe).not.toHaveBeenCalled();
+          expect(ilios.global.readJsonFromDom('readJsonFromDom-testData')).toBe(null);
+          expect(ilios.global.defaultAJAXFailureHandler).toHaveBeenCalled();
         });
       });
 
@@ -128,18 +107,6 @@ describe("ilios_base", function() {
         });
       });
 
-      describe("longDayOfWeekI18NStrings", function () {
-        it("should be initialized to null", function () {
-          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
-        });
-      });
-
-      describe("shortDayOfWeekI18NStrings", function () {
-        it("should be initialized to null", function () {
-          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
-        });
-      });
-
       describe("getI18NStringForDayOfWeek()", function () {
         beforeEach(function () {
                 // test double
@@ -149,10 +116,6 @@ describe("ilios_base", function() {
         afterEach(function () {
                 // clean up test double
                 delete window.ilios_i18nVendor;
-
-                // reset property side effects
-                ilios.global.longDayOfWeekI18NStrings = null;
-                ilios.global.shortDayOfWeekI18NStrings = null;
               });
 
         it("should return empty string if day is less than 0", function () {
@@ -163,28 +126,14 @@ describe("ilios_base", function() {
           expect(ilios.global.getI18NStringForDayOfWeek(7)).toBe("");
         });
 
-        it("should load shortDayOfWeekI18NStrings and not longDayOfWeekI18NStrings if shortString is true", function () {
-          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
-          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
-          ilios.global.getI18NStringForDayOfWeek(0, true);
-          expect(ilios.global.shortDayOfWeekI18NStrings).not.toBe(null);
-          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
-        });
-
-        it("should not load shortDayOfWeekI18NStrings and load longDayOfWeekI18NStrings if shortString is false", function () {
-          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
-          expect(ilios.global.longDayOfWeekI18NStrings).toBe(null);
-          ilios.global.getI18NStringForDayOfWeek(0, false);
-          expect(ilios.global.shortDayOfWeekI18NStrings).toBe(null);
-          expect(ilios.global.longDayOfWeekI18NStrings).not.toBe(null);
-        });
-
-        it("should return short string if requested", function () {
-          expect(ilios.global.getI18NStringForDayOfWeek(0, true)).toBe("general.calendar.sunday_short");
-        });
-
-        it("should return long string if requested", function () {
-          expect(ilios.global.getI18NStringForDayOfWeek(0, false)).toBe("general.calendar.sunday_long");
+        it("should return string for requested day", function () {
+          expect(ilios.global.getI18NStringForDayOfWeek(0)).toBe("general.calendar.sunday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(1)).toBe("general.calendar.monday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(2)).toBe("general.calendar.tuesday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(3)).toBe("general.calendar.wednesday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(4)).toBe("general.calendar.thursday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(5)).toBe("general.calendar.friday_long");
+          expect(ilios.global.getI18NStringForDayOfWeek(6)).toBe("general.calendar.saturday_long");
         });
       });
     });

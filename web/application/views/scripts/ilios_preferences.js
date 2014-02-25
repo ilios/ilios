@@ -45,13 +45,8 @@ ilios.preferences.installPreferencesModel = function () {
         }
     };
 
-    var domData = document.getElementById("iliosPreferencesModel");
-    if (domData) {
-        try {
-            ilios.preferences.preferencesModel.updateWithServerDispatchedObject(JSON.parse(domData.innerHTML));
-        } catch (e) {
-            // SOL
-            ilios.global.defaultAJAXFailureHandler(null, e);
-        }
+    var prefs = ilios.global.readJsonFromDom('iliosPreferencesModel');
+    if (prefs) {
+        ilios.preferences.preferencesModel.updateWithServerDispatchedObject(prefs);
     }
 };
