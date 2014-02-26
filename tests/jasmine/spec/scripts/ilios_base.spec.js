@@ -106,36 +106,6 @@ describe("ilios_base", function() {
           expect(ilios.alert.alert).toHaveBeenCalledWith("general.error.fatal (foo)");
         });
       });
-
-      describe("getI18NStringForDayOfWeek()", function () {
-        beforeEach(function () {
-                // test double
-                window.ilios_i18nVendor = {getI18NString: function (string) { return string; }};
-              });
-
-        afterEach(function () {
-                // clean up test double
-                delete window.ilios_i18nVendor;
-              });
-
-        it("should return empty string if day is less than 0", function () {
-          expect(ilios.global.getI18NStringForDayOfWeek(-1)).toBe("");
-        });
-
-        it("should return empty string if day is greatern than 6", function () {
-          expect(ilios.global.getI18NStringForDayOfWeek(7)).toBe("");
-        });
-
-        it("should return string for requested day", function () {
-          expect(ilios.global.getI18NStringForDayOfWeek(0)).toBe("general.calendar.sunday_long");
-          expect(ilios.global.getI18NStringForDayOfWeek(1)).toBe("general.calendar.monday_long");
-          expect(ilios.global.getI18NStringForDayOfWeek(2)).toBe("general.calendar.tuesday_long");
-          expect(ilios.global.getI18NStringForDayOfWeek(3)).toBe("general.calendar.wednesday_long");
-          expect(ilios.global.getI18NStringForDayOfWeek(4)).toBe("general.calendar.thursday_long");
-          expect(ilios.global.getI18NStringForDayOfWeek(5)).toBe("general.calendar.friday_long");
-          expect(ilios.global.getI18NStringForDayOfWeek(6)).toBe("general.calendar.saturday_long");
-        });
-      });
     });
   });
 });

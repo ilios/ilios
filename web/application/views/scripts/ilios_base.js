@@ -103,25 +103,3 @@ ilios.global.defaultAJAXFailureHandler = function (resultObject, rootException) 
     var cause = (typeof rootException == 'undefined') ? resultObject.responseText : rootException.description;
     ilios.alert.alert(ilios_i18nVendor.getI18NString('general.error.fatal')  + " (" + cause + ")");
 };
-
-/**
- * Returns the I18Ned name of a given week day.
- * @method getI18NStringForDayOfWeek
- * @param {Number} day of the week index. Sunday = 0, ... , Saturday = 6
- * @param {Boolean} shortString TRUE to return an abbreviated name, FALSE for full name
- * @return {String} the name of the week day.
- */
-ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek) {
-
-    var stringIdentifiers = [
-        'general.calendar.sunday_long',
-        'general.calendar.monday_long',
-        'general.calendar.tuesday_long',
-        'general.calendar.wednesday_long',
-        'general.calendar.thursday_long',
-        'general.calendar.friday_long',
-        'general.calendar.saturday_long'
-    ];
-
-    return ilios_i18nVendor.getI18NString(stringIdentifiers[dayOfWeek]) || '';
-};
