@@ -2,6 +2,7 @@
  * DEPENDENCY: YUI lib (at least YAHOO.util and its dependencies)
  * DEPENDENCY: scripts/ilios_ui.js
  * DEPENDENCY: scripts/ilios_utilities.js
+ * DEPENDENCY: course/course_manager_dom.js
  */
 
 ilios.namespace('cm.rollover');
