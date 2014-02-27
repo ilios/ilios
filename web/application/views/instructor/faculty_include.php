@@ -125,7 +125,8 @@ generatePickerMarkupAndScript("facu_", $dialogDivId, $modelName, $modelSpecifica
         element.iliosModel = userModel;
         element.appendChild(textNode);
 
-        ilios.utilities.setToolTipForElement(element, userModel.getEmailAddress());
+        //tooltip
+        element.setAttribute('title', userModel.getEmailAddress());
 
         return element;
     }

@@ -17,15 +17,6 @@ describe("ilios_utilities", function() {
     expect(formats[1]).not.toEqual(formats[2]);
   });
 
-  describe("setToolTipForElement()", function () {
-    it("should set the title attribute of the element", function () {
-      var element = document.createElement('div');
-      var tooltip = "Should tooltip text really go in the title attribute?";
-      ilios.utilities.setToolTipForElement(element, tooltip);
-      expect(element.getAttribute('title')).toBe(tooltip);
-    });
-  });
-
   describe("getEventTarget()", function () {
     var event;
     var div;
