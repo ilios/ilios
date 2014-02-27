@@ -18,7 +18,6 @@
  */
 ilios.namespace('utilities');
 
-
 ilios.utilities.USER_NAME_FORMAT_LAST_FIRST = 0;
 ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST = 1;
 ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST = 2;
