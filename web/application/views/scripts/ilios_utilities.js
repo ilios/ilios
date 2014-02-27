@@ -9,7 +9,6 @@
  * YUI utilities
  * scripts/ilios_base.js
  * scripts/ilios_alert.js
- * scripts/ilios_dom.js
  */
 
 /**
