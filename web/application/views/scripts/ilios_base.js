@@ -90,7 +90,7 @@ ilios.global.readJsonFromDom = function (id) {
 
 /**
  * Default handler function for failed XHR calls.
- * Pops up an dialog displaying the given error message and exception.
+ * Pops up a dialog displaying the given error message and exception.
  * @method defaultAJAXFailureHandler
  * @param {Object} resultObject the response object
  * @param {Exception} rootException a thrown exception
