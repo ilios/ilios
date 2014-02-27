@@ -17,6 +17,11 @@ describe("ilios_utilities", function() {
       expect(formats[0]).not.toEqual(formats[2]);
       expect(formats[1]).not.toEqual(formats[2]);
     });
+
+    it("should not allow the enum to be modified", function () {
+      ilios.utilities.UserNameFormatEnum.DO_THE_HUSTLE = "should fail silently-ish";
+      expect(ilios.utilities.UserNameFormatEnum.DO_THE_HUSTLE).not.toBeDefined();
+    });
   });
 
   describe("getEventTarget()", function () {
