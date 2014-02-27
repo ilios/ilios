@@ -3,18 +3,20 @@ describe("ilios_utilities", function() {
     expect(typeof ilios.utilities).toBe("object");
   });
 
-  it("should define 3 different user name formats", function () {
-    var formats = [
-      ilios.utilities.UserNameFormatEnum.LAST_FIRST,
-      ilios.utilities.UserNameFormatEnum.FIRST_FIRST,
-      ilios.utilities.UserNameFormatEnum.FIRST_INITIAL_FIRST
-    ];
-    expect(formats[0]).toBeDefined();
-    expect(formats[1]).toBeDefined();
-    expect(formats[2]).toBeDefined();
-    expect(formats[0]).not.toEqual(formats[1]);
-    expect(formats[0]).not.toEqual(formats[2]);
-    expect(formats[1]).not.toEqual(formats[2]);
+  describe("UserNameFormatEnum", function () {
+    it("should define 3 different user name formats", function () {
+      var formats = [
+        ilios.utilities.UserNameFormatEnum.LAST_FIRST,
+        ilios.utilities.UserNameFormatEnum.FIRST_FIRST,
+        ilios.utilities.UserNameFormatEnum.FIRST_INITIAL_FIRST
+      ];
+      expect(formats[0]).toBeDefined();
+      expect(formats[1]).toBeDefined();
+      expect(formats[2]).toBeDefined();
+      expect(formats[0]).not.toEqual(formats[1]);
+      expect(formats[0]).not.toEqual(formats[2]);
+      expect(formats[1]).not.toEqual(formats[2]);
+    });
   });
 
   describe("getEventTarget()", function () {
