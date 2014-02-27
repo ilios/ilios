@@ -393,7 +393,7 @@ ilios.dom.generateGenericDialogMarkupAndWireContent = function (use, less, args)
         contents += '<div id="' + args['indeterminate_loading_id']
                         + '" style="position: absolute; top: 15px; right: 12px; display: none;"'
                         + ' class="indeterminate_progress_text">';
-        contents += '<div class="indeterminate_progress" style="display: inline-block;"></div> '
+        contents += '<div class="indeterminate_progress" style="display: inline-block;"></div> ';
         contents += ilios_i18nVendor.getI18NString('general.terms.loading') + '...</div>';
     }
 
@@ -579,7 +579,7 @@ ilios.dom.generateGenericDialogMarkupAndWireContent = function (use, less, args)
         }
 
         return rhett;
-    }
+    };
 
     autoCompleter.resultTypeList = false;
 
@@ -749,7 +749,7 @@ ilios.dom.generateTreeSelectionDialogMarkupAndWireContent = function (use, less,
         contents += '<div id="' + args['indeterminate_loading_id']
                         + '" style="position: absolute; top: 15px; right: 12px; display: none;"'
                         + ' class="indeterminate_progress_text">';
-        contents += '<div class="indeterminate_progress" style="display: inline-block;"></div> '
+        contents += '<div class="indeterminate_progress" style="display: inline-block;"></div> ';
         contents += ilios_i18nVendor.getI18NString('general.terms.loading') + '...</div>';
     }
     if (args['single_selection'] == null) {
@@ -796,7 +796,7 @@ ilios.dom.generateTreeSelectionDialogMarkupAndWireContent = function (use, less,
     else {
         i18nStr = 'default_tree_div';
     }
-    contents += '<div id="' + widgetParentDivId + '" class="'+ i18nStr + '">\n'
+    contents += '<div id="' + widgetParentDivId + '" class="'+ i18nStr + '">\n';
 
     contents += '</div></div>\n';   // closes through single_selector_tab div
 
@@ -914,7 +914,7 @@ ilios.dom.generateTreeSelectionDialogMarkupAndWireContent = function (use, less,
         }
 
         return rhett;
-    }
+    };
 
     autoCompleter.resultTypeList = false;
 
@@ -1246,7 +1246,7 @@ ilios.dom.buildChildContainerDOMTree = function (containerNumber, saveText, save
         id: '' + containerNumber + '_child_draft_text'
     });
     scratchElement.addClass('child_publish_status');
-    hdElement.appendChild(scratchElement.get('element'))
+    hdElement.appendChild(scratchElement.get('element'));
 
     // Delete widget
     deleteEl = new Element(document.createElement('div'));

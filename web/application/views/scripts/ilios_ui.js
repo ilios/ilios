@@ -7,7 +7,8 @@
  *
  * Dependencies:
  *
- * scripts/ilios_dom.js
+ * scripts/ilios_base.js
+ * scripts/ilios_utilities.js
  */
 
 ilios.namespace('ui');

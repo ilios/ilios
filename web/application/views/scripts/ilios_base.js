@@ -1,7 +1,7 @@
 /*
  * Base script of the Ilios JavaScript library.
  *
- * Contains the foundation of the library, but also a variety of seemingly arbitrary (yet commonly used) functionality.
+ * Contains the foundation of the library.
  *
  * Defines the following namespaces:
  *
@@ -12,11 +12,8 @@
  * ilios.alert
  * Ilios i18n utility
  * YUI utilities
- * YUI containers
- * YUI IdleTimer
  *
  * @todo move YUI custom configuration into separate file
- * @todo modularize related code
  */
 
 /**
@@ -68,7 +65,6 @@ if (YAHOO.lang.JSON) {
 /**
  * All kinds of crazy went into this object.
  * @class ilios.global
- * @todo clean up this mess.
  */
 ilios.namespace('global');
 
@@ -94,7 +90,7 @@ ilios.global.readJsonFromDom = function (id) {
 
 /**
  * Default handler function for failed XHR calls.
- * Pops up an dialog displaying the given error message and exception.
+ * Pops up a dialog displaying the given error message and exception.
  * @method defaultAJAXFailureHandler
  * @param {Object} resultObject the response object
  * @param {Exception} rootException a thrown exception
@@ -102,26 +98,4 @@ ilios.global.readJsonFromDom = function (id) {
 ilios.global.defaultAJAXFailureHandler = function (resultObject, rootException) {
     var cause = (typeof rootException == 'undefined') ? resultObject.responseText : rootException.description;
     ilios.alert.alert(ilios_i18nVendor.getI18NString('general.error.fatal')  + " (" + cause + ")");
-};
-
-/**
- * Returns the I18Ned name of a given week day.
- * @method getI18NStringForDayOfWeek
- * @param {Number} day of the week index. Sunday = 0, ... , Saturday = 6
- * @param {Boolean} shortString TRUE to return an abbreviated name, FALSE for full name
- * @return {String} the name of the week day.
- */
-ilios.global.getI18NStringForDayOfWeek = function (dayOfWeek) {
-
-    var stringIdentifiers = [
-        'general.calendar.sunday_long',
-        'general.calendar.monday_long',
-        'general.calendar.tuesday_long',
-        'general.calendar.wednesday_long',
-        'general.calendar.thursday_long',
-        'general.calendar.friday_long',
-        'general.calendar.saturday_long'
-    ];
-
-    return ilios_i18nVendor.getI18NString(stringIdentifiers[dayOfWeek]) || '';
 };

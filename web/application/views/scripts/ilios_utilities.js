@@ -9,7 +9,6 @@
  * YUI utilities
  * scripts/ilios_base.js
  * scripts/ilios_alert.js
- * scripts/ilios_dom.js
  */
 
 /**
@@ -19,14 +18,9 @@
  */
 ilios.namespace('utilities');
 
-
 ilios.utilities.USER_NAME_FORMAT_LAST_FIRST = 0;
 ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST = 1;
 ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST = 2;
-
-ilios.utilities.setToolTipForElement = function (element, toolTipText) {
-    element.setAttribute('title', toolTipText);
-};
 
 ilios.utilities.getEventTarget = function (e) {
     var event = (e || window.event); // window.event is for IE8 support
