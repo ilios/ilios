@@ -24,6 +24,7 @@ ilios.utilities.UserNameFormatEnum = {
     FIRST_INITIAL_FIRST: 2
 };
 
+// Object.freeze is not in IE8
 if (Object.freeze) {
     Object.freeze(ilios.utilities.UserNameFormatEnum);
 }
