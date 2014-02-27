@@ -1,7 +1,7 @@
 /*
  * Base script of the Ilios JavaScript library.
  *
- * Contains the foundation of the library, but also a variety of seemingly arbitrary (yet commonly used) functionality.
+ * Contains the foundation of the library.
  *
  * Defines the following namespaces:
  *
@@ -12,11 +12,8 @@
  * ilios.alert
  * Ilios i18n utility
  * YUI utilities
- * YUI containers
- * YUI IdleTimer
  *
  * @todo move YUI custom configuration into separate file
- * @todo modularize related code
  */
 
 /**
@@ -68,7 +65,6 @@ if (YAHOO.lang.JSON) {
 /**
  * All kinds of crazy went into this object.
  * @class ilios.global
- * @todo clean up this mess.
  */
 ilios.namespace('global');
 
@@ -94,7 +90,7 @@ ilios.global.readJsonFromDom = function (id) {
 
 /**
  * Default handler function for failed XHR calls.
- * Pops up an dialog displaying the given error message and exception.
+ * Pops up a dialog displaying the given error message and exception.
  * @method defaultAJAXFailureHandler
  * @param {Object} resultObject the response object
  * @param {Exception} rootException a thrown exception
