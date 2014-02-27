@@ -5,9 +5,9 @@ describe("ilios_utilities", function() {
 
   it("should define 3 different user name formats", function () {
     var formats = [
-      ilios.utilities.USER_NAME_FORMAT_LAST_FIRST,
-      ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST,
-      ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST
+      ilios.utilities.UserNameFormatEnum.LAST_FIRST,
+      ilios.utilities.UserNameFormatEnum.FIRST_FIRST,
+      ilios.utilities.UserNameFormatEnum.FIRST_INITIAL_FIRST
     ];
     expect(formats[0]).toBeDefined();
     expect(formats[1]).toBeDefined();
@@ -737,37 +737,37 @@ describe("ilios_utilities", function() {
     var lastName = "Public";
 
     it("should return last name first if requested", function () {
-      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.UserNameFormatEnum.LAST_FIRST);
       expect(formattedName).toBe("Public, Jane Quinn");
     });
 
     it("should have correct spacing if middle name is empty string for last name first format", function () {
-      var formattedName = ilios.utilities.createFormattedUserName(firstName, "", lastName, ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, "", lastName, ilios.utilities.UserNameFormatEnum.LAST_FIRST);
       expect(formattedName).toBe("Public, Jane");
     });
 
     it("should have correct spacing if middle name is null for last name first format", function () {
-      var formattedName = ilios.utilities.createFormattedUserName(firstName, null, lastName, ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, null, lastName, ilios.utilities.UserNameFormatEnum.LAST_FIRST);
       expect(formattedName).toBe("Public, Jane");
     });
 
     it("should return first name first if requested", function () {
-      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST);
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.UserNameFormatEnum.FIRST_FIRST);
       expect(formattedName).toBe("Jane Quinn Public");
     });
 
     it("should have correct spacing if middle name is empty string for first name first format", function () {
-      var formattedName = ilios.utilities.createFormattedUserName(firstName, "", lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST);
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, "", lastName, ilios.utilities.UserNameFormatEnum.FIRST_FIRST);
       expect(formattedName).toBe("Jane Public");
     });
 
     it("should have correct spacing if middle name is null for first name first format", function () {
-      var formattedName = ilios.utilities.createFormattedUserName(firstName, null, lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST);
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, null, lastName, ilios.utilities.UserNameFormatEnum.FIRST_FIRST);
       expect(formattedName).toBe("Jane Public");
     });
 
     it("should return first initial first (omitting middle name) if requested", function () {
-      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST);
+      var formattedName = ilios.utilities.createFormattedUserName(firstName, middleName, lastName, ilios.utilities.UserNameFormatEnum.FIRST_INITIAL_FIRST);
       expect(formattedName).toBe("J. Public");
     });
   });

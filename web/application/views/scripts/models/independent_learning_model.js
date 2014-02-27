@@ -139,7 +139,7 @@ IndependentLearningModel.prototype.getInstructorsAsFormattedText = function () {
         }
 
         if (model instanceof UserModel) {
-            rhett += model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            rhett += model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
         }
         else {
             rhett += model.title;

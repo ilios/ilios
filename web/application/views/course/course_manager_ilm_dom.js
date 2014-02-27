@@ -38,7 +38,7 @@ ilios.cm.session.ilm.instructorGroupsForQuery = function (queryString) {
             model = ilios.cm.session.ilm.instructorsModel[i];
 
             if (model instanceof UserModel) {
-                stringToTest = model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST).toLowerCase();
+                stringToTest = model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST).toLowerCase();
             }
             else {
                 stringToTest = model.title.toLowerCase();
@@ -94,7 +94,7 @@ ilios.cm.session.ilm.handleInstructorGroupSelection = function (selectedModel) {
     var displayString = null;
 
     if (selectedModel instanceof UserModel) {
-        displayString = selectedModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+        displayString = selectedModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
     }
     else {
         displayString = selectedModel.title;
@@ -226,7 +226,7 @@ ilios.cm.session.ilm.showILMLightbox = function (containerNumber) {
         tmpModel = tmpArray[key];
 
         if (tmpModel instanceof UserModel) {
-            displayString = tmpModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            displayString = tmpModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
         } else {
             displayString = tmpModel.title;
         }
@@ -421,7 +421,7 @@ ilios.cm.session.registerILMLightboxUIListeners = function () {
         if (resultDataObject instanceof UserModel) {
             var rhett = '<span title="' + resultDataObject.getEmailAddress() + '">';
 
-            rhett += resultDataObject.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            rhett += resultDataObject.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
             rhett += '</span>';
 
             return rhett;

@@ -509,7 +509,7 @@ ilios.gm.displayInstructorPicker = function (containerNumber) {
         tmpModel = instructors[key];
 
         if (tmpModel instanceof UserModel) {
-            displayString = tmpModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            displayString = tmpModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
         }
         else {
             displayString = tmpModel.title;
@@ -537,7 +537,7 @@ ilios.gm.handleInstructorGroupSelection = function (selectedModel) {
     var displayString = null;
 
     if (selectedModel instanceof UserModel) {
-        displayString = selectedModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+        displayString = selectedModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
     }
     else {
         displayString = selectedModel.title;

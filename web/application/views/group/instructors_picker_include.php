@@ -225,7 +225,7 @@
             if (resultDataObject instanceof UserModel) {
                 var rhett = '<span title="' + resultDataObject.getEmailAddress() + '">';
 
-                rhett += resultDataObject.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+                rhett += resultDataObject.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
                 rhett += '</span>';
 
                 return rhett;

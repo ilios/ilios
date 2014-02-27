@@ -265,7 +265,7 @@ ProgramYearModel.prototype.getDirectorsAsFormattedText = function () {
 			rhett += '; ';
 		}
 
-		rhett += this.directors[key].getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+		rhett += this.directors[key].getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
 	}
 
 	return rhett;

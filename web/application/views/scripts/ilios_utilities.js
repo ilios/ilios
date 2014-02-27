@@ -18,9 +18,15 @@
  */
 ilios.namespace('utilities');
 
-ilios.utilities.USER_NAME_FORMAT_LAST_FIRST = 0;
-ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST = 1;
-ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST = 2;
+ilios.utilities.UserNameFormatEnum = {
+    LAST_FIRST: 0,
+    FIRST_FIRST: 1,
+    FIRST_INITIAL_FIRST: 2
+};
+
+if (Object.freeze) {
+    Object.freeze(ilios.utilities.UserNameFormatEnum);
+}
 
 ilios.utilities.getEventTarget = function (e) {
     var event = (e || window.event); // window.event is for IE8 support
@@ -645,26 +651,26 @@ ilios.utilities.htmlEntities = function (string) {
  * @param {String} middleName the middle name
  * @param {String} lastName the last name
  * @param {Number} userFormatType the format id, either one of
- *     ilios.utilities.USER_NAME_FORMAT_LAST_FIRST (Format: "<last name>, <first name> <middle name>")
- *     ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST (Format: "<first name> <middle name> <last name>"")
- *     ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST (Format: "<inital of first name>. <last name>")
+ *     ilios.utilities.UserNameFormatEnum.LAST_FIRST (Format: "<last name>, <first name> <middle name>")
+ *     ilios.utilities.UserNameFormatEnum.FIRST_FIRST (Format: "<first name> <middle name> <last name>"")
+ *     ilios.utilities.UserNameFormatEnum.FIRST_INITIAL_FIRST (Format: "<inital of first name>. <last name>")
  * @return {String} the formatted name, or an empty string if no/invalid format was given
  * @todo provide a default format
  */
 ilios.utilities.createFormattedUserName = function (firstName, middleName, lastName, userNameFormatType) {
     var rhett = '';
-    if (ilios.utilities.USER_NAME_FORMAT_LAST_FIRST == userNameFormatType) {
+    if (ilios.utilities.UserNameFormatEnum.LAST_FIRST == userNameFormatType) {
         rhett = lastName + ', ' + firstName;
         if (middleName) {
             rhett += ' ' + middleName;
         }
-    } else if (ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST == userNameFormatType) {
+    } else if (ilios.utilities.UserNameFormatEnum.FIRST_FIRST == userNameFormatType) {
         rhett = firstName;
         if (middleName) {
             rhett += ' ' + middleName;
         }
         rhett += ' ' + lastName;
-    } else if (ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST == userNameFormatType) {
+    } else if (ilios.utilities.UserNameFormatEnum.FIRST_INITIAL_FIRST == userNameFormatType) {
         rhett = firstName.substr(0, 1) + '. ' + lastName;
     }
     return rhett;

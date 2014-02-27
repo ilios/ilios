@@ -612,7 +612,7 @@ ilios.cm.rollover.populateDOMForCourseSummary = function () {
         if (element.innerHTML.length > 0) {
             element.innerHTML += '<br/>';
         }
-        element.innerHTML += model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+        element.innerHTML += model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
     }
 
     element = document.getElementById('r2_discipline_content');

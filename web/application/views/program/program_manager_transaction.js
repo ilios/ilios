@@ -330,7 +330,7 @@ ilios.pm.transaction.loadProgramYearsForProgramId = function (programId) {
                             if (textListContent.length > 0) {
                                 textListContent += '; ';
                             }
-                            textListContent += childModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+                            textListContent += childModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
 
                             childModelArray[childModel.getUniqueKey()] = childModel;
                             childModelArray.length++;
