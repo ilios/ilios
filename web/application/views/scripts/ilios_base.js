@@ -16,7 +16,6 @@
  * YUI IdleTimer
  *
  * @todo move YUI custom configuration into separate file
- * @todo modularize related code
  */
 
 /**
@@ -68,7 +67,6 @@ if (YAHOO.lang.JSON) {
 /**
  * All kinds of crazy went into this object.
  * @class ilios.global
- * @todo clean up this mess.
  */
 ilios.namespace('global');
 
