@@ -12,8 +12,6 @@
  * ilios.alert
  * Ilios i18n utility
  * YUI utilities
- * YUI containers
- * YUI IdleTimer
  *
  * @todo move YUI custom configuration into separate file
  */
