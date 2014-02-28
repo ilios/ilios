@@ -778,7 +778,7 @@ ilios.home.report.setupInstructorUIElements = function () {
         var lastName = resultDataObject.last_name || '';
         var middleName = resultDataObject.middle_name || '';
         return ilios.utilities.createFormattedUserName(firstName, middleName, lastName,
-            ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            ilios.utilities.UserNameFormatEnum.LAST_FIRST);
     };
 
     ilios.home.report.instructorAutoCompleter.itemSelectEvent.subscribe(function (type, args, me) {
@@ -803,7 +803,7 @@ ilios.home.report.handleInstructorSelection = function (selectedModel) {
     var lastName = selectedModel.last_name || '';
     var middleName = selectedModel.middle_name || '';
     displayString = ilios.utilities.createFormattedUserName(firstName, middleName, lastName,
-            ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            ilios.utilities.UserNameFormatEnum.LAST_FIRST);
 
     ilios.home.report.inEditReportModel.setPrepositionalObjectValues([selectedModel.user_id]);
 

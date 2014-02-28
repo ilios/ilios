@@ -120,7 +120,7 @@ generatePickerMarkupAndScript("facu_", $dialogDivId, $modelName, $modelSpecifica
 
     function createSelectedElementForUserModel (userModel) {
         var element = document.createElement('li');
-        var textNode = document.createTextNode(userModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST));
+        var textNode = document.createTextNode(userModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST));
 
         element.iliosModel = userModel;
         element.appendChild(textNode);
