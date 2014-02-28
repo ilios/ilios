@@ -45,7 +45,7 @@
                 <strong><?php echo t('general.text.csv_user_upload_2'); ?></strong>
             </div>
             <div style="margin-left: 9px; margin-right: 9px;">
-            <form action="https://ilios-demo.ucsf.edu/ilios.php/NOT_USED/BOGUS_URL" method="post" accept-charset="utf-8" id="em_upload_form" enctype="multipart/form-data">
+            <form method="post" accept-charset="utf-8" id="em_upload_form" enctype="multipart/form-data">
                 <input type="hidden" name="instructor_group_id" id="em_instructor_group_id" value="" />
                 <input type="hidden" name="container_number" id="em_container_number" value="" />
                 <input type="hidden" name="cohort_id" id="em_cohort_id" value="" />
