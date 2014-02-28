@@ -1,3 +1,7 @@
+/**
+ * @requires ilios.ui
+ **/
+
 ilios.namespace('common');
 /**
  * @param args
