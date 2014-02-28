@@ -45,10 +45,7 @@
                 <strong><?php echo t('general.text.csv_user_upload_2'); ?></strong>
             </div>
             <div style="margin-left: 9px; margin-right: 9px;">
-<?php
-    $attributes = array('id' => 'em_upload_form');
-    echo form_open_multipart('NOT_USED/BOGUS_URL', $attributes);
-?>
+            <form action="https://ilios-demo.ucsf.edu/ilios.php/NOT_USED/BOGUS_URL" method="post" accept-charset="utf-8" id="em_upload_form" enctype="multipart/form-data">
                 <input type="hidden" name="instructor_group_id" id="em_instructor_group_id" value="" />
                 <input type="hidden" name="container_number" id="em_container_number" value="" />
                 <input type="hidden" name="cohort_id" id="em_cohort_id" value="" />
@@ -56,11 +53,7 @@
                 <input type="file" name="userfile" id="em_csv_file_field" />
                 <button id="em_upload_button" style="margin-left: 18px;" onclick="return false;">
                     <?php echo t('general.terms.upload'); ?></button>
- <?php
-    // done as an 'echo' here to avoid witty IDEs complaining about a closing tag without
-    // an opening one (the opening tag is generated in the php block above
-    echo "</form>\n";
-?>
+            </form>
             </div>
         </div>
         <div id="em_transaction_status" style="position: absolute; left: 12px; bottom: 2px; color: #800000; font-weight: bold;"></div>
