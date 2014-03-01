@@ -13,7 +13,7 @@
  * home/dashboard_calendar_support.js
  */
 
-ilios.namespace('ilios.home.transaction');
+ilios.namespace('home.transaction');
 
 /**
  * This method is called via onDomReady and loads the recent activity of the user who is
