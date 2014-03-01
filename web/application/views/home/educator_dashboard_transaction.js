@@ -568,7 +568,7 @@ ilios.home.transaction.loadReminderAlerts = function () {
                 aElement.appendChild(document.createTextNode(reminder.note));
                 aElement.iliosModel = reminderModel;
                 YAHOO.util.Event.addListener(aElement, 'click', function () {
-                    IEvent.fire({
+                    ilios.ui.onIliosEvent.fire({
                         action: 'ur_dialog_open',
                         reminder_model: this.iliosModel
                     });
@@ -691,7 +691,7 @@ ilios.home.transaction.loadReports = function () {
                 aElement.setAttribute('target', '_new');
                 aElement.setAttribute('onclick', 'return false;');
                 Event.addListener(aElement, 'click', function () {
-                    IEvent.fire({
+                    ilios.ui.onIliosEvent.fire({
                         action: 'report_results_dialog_open',
                         report: this.iliosModel
                     });

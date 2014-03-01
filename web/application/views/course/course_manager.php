@@ -227,7 +227,7 @@ $viewsPath = getServerFilePath('views');
 
 
         YAHOO.util.Event.onDOMReady(function(type, args, obj) {
-            IEvent.subscribe(function (type, args) {
+            ilios.ui.onIliosEvent.subscribe(function (type, args) {
                 var updateRte = true;
                 if ('esd_dialog_open' === args[0].action) {
                     if (! ilios.cm.editSessionDescriptionDialog) {

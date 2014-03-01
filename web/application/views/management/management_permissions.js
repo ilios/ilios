@@ -85,7 +85,7 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
     element.setAttribute('id', 'school_choosing_link');
     element.innerHTML = schoolAccessText;
     Event.addListener(element, 'click', function () {
-    IEvent.fire({
+    ilios.ui.onIliosEvent.fire({
         action: 'default_dialog_open',
             event: 'school_picker_show_dialog',
             container_number: -1
@@ -127,7 +127,7 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
     element.setAttribute('id', 'program_choosing_link');
     element.innerHTML = programAccessText;
     Event.addListener(element, 'click', function () {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'default_dialog_open',
             event: 'program_picker_show_dialog',
             container_number: -1
@@ -169,7 +169,7 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
     element.setAttribute('id', 'course_choosing_link');
     element.innerHTML = courseAccessText;
     Event.addListener(element, 'click', function () {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'default_dialog_open',
             event: 'course_picker_show_dialog',
             container_number: -1

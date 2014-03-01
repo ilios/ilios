@@ -15,10 +15,6 @@ ilios.namespace('ui');
 
 ilios.ui.programCohortDialogTreeView = null;
 
-//actual value assignment is at the end of this file
-var IEvent = null;
-
-
 // Defining a custom event to aid in decoupling these library methods
 ilios.ui.onIliosEvent = new YAHOO.util.CustomEvent("onIliosEvent");
 
@@ -211,7 +207,8 @@ ilios.ui.setupDialogAutoComplete = function (args) {
             autoCompleter.sendQuery('');
         }
     };
-    IEvent.subscribe(forceCandidateListRefreshHandler);
+
+    ilios.ui.onIliosEvent.subscribe(forceCandidateListRefreshHandler);
 
     var handleModalDisplay = function (type, hmdArgs) {
         if (autoCompleter.target == hmdArgs[0].target) {
@@ -222,7 +219,7 @@ ilios.ui.setupDialogAutoComplete = function (args) {
             }
         }
     };
-    IEvent.subscribe(handleModalDisplay);
+    ilios.ui.onIliosEvent.subscribe(handleModalDisplay);
 
     return autoCompleter;
 };
@@ -417,7 +414,3 @@ ilios.ui.handleProgramCohortSelectionDialogDisplay = function (dialog, additiona
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };
-
-IEvent = ilios.ui.onIliosEvent;
-
-

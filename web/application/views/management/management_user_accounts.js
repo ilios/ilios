@@ -1551,7 +1551,7 @@ ilios.management.user_accounts.generateUserCohortsContainerMarkup = function (pa
     btnEl.innerHTML = ilios_i18nVendor.getI18NString('general.terms.edit');
 
     Event.addListener(btnEl, 'click', function (e) {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'gen_dialog_open',
             event: 'find_cohort_and_program'
         });
@@ -1592,7 +1592,7 @@ ilios.management.generateLoginCredentialsContainerMarkup = function (parentEl, u
         btnEl.setAttribute('style', 'display: none');
         btnEl.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.edit_login_credentials_button');
         Event.addListener(btnEl, 'click', function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'elc_dialog_open',
                 model: userModel
             });
@@ -1605,7 +1605,7 @@ ilios.management.generateLoginCredentialsContainerMarkup = function (parentEl, u
         btnEl.setAttribute('style', 'display: none');
         btnEl.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.add_login_credentials_button');
         Event.addListener(btnEl, 'click', function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'alc_dialog_open',
                 model: userModel
             });

@@ -140,7 +140,7 @@
                 dialog.showDialogPane();
             }
         };
-        IEvent.subscribe(displayOnTriggerHandler);
+        ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
         ilios.pm.eot.editObjectiveTextDialog = dialog;
     }

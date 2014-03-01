@@ -95,7 +95,7 @@ ilios.home.calendar.calendarEventSelected = function (eventId, domEventElement) 
         scheduler.setCurrentView(schedulerEvent.iliosModel.getStartDate(), 'day');
         return true;
     }
-    IEvent.fire({action: 'lv_dialog_open', model: iliosModel});
+    ilios.ui.onIliosEvent.fire({action: 'lv_dialog_open', model: iliosModel});
     return false;
 };
 
@@ -997,7 +997,7 @@ ilios.home.calendar.assembleCalendarEventDetailsDialog = function (type, args, m
         }
     };
 
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.learner_view.learnerViewDialog = dialog; // overwrite!
 };

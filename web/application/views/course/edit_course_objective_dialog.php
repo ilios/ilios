@@ -135,7 +135,7 @@
             }
         };
 
-        IEvent.subscribe(displayOnTriggerHandler);
+        ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
         ilios.cm.editCourseObjectiveDialog = dialog;
     };
