@@ -42,12 +42,8 @@ ilios.namespace = function (namespace) {
     var i, n;
 
     for (i = 0, n = token.length; i < n; i++) {
-        if (0 === i && token[0] === "ilios") {
-            // "ilios" namespace is implied as base
-        } else {
-            o[token[i]] = o[token[i]] || {};
-            o = o[token[i]];
-        }
+        o[token[i]] = o[token[i]] || {};
+        o = o[token[i]];
     }
     return o;
 };
