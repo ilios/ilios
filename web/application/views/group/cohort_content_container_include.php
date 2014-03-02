@@ -77,18 +77,19 @@
         <ul class="buttons left">
             <li>
                 <a id="find_cohort_and_program" href="" class="small radius button"
-                   onClick="ilios.ui.onIliosEvent.fire({action: 'sac_dialog_open',
-                                                                    event: 'find_cohort_and_program'});
-                                     return false;">Select Program and Cohort</a>                    </li>
+                   onClick="ilios.ui.onIliosEvent.fire({action: 'sac_dialog_open', event: 'find_cohort_and_program'}); return false;">
+                    <?php echo t('groups.select_program'); ?></a>
+            </li>
         </ul>
         <ul class="buttons right">
             <li>
-                <button id="save_all_dirty_to_draft" class="medium radius button" disabled='disabled'>Save All</button>
+                <button id="save_all_dirty_to_draft" class="medium radius button" disabled='disabled'><?php echo t('general.phrases.save_all'); ?></button>
             </li>
         </ul>
     </div>
     <form id="cohort_form" method="POST" action="http://ilios.local/ilios.php/group_management/willNeverSubmit"
-          onsubmit="return false;">            <div class="entity_container level-1">
+          onsubmit="return false;">
+        <div class="entity_container level-1">
             <div class="hd clearfix">
                 <div class="toggle">
                     <a href="#" id="show_more_or_less_link"
@@ -99,15 +100,15 @@
                 <ul>
 
                     <li class="title">
-                        <span class="data-type">Program and Cohort</span>
+                        <span class="data-type"><?php echo t('groups.program_title'); ?></span>
                         <span class="data" id="program_cohort_title"></span>
                     </li>
                     <li class="short-title">
-                        <span class="data-type">Program Title (Short)</span>
+                        <span class="data-type"><?php echo t('general.phrases.program_title_short'); ?></span>
                         <span class="data" id="program_title_short"></span>
                     </li>
                     <li class="enrollment">
-                        <span class="data-type">Current Enrollment</span>
+                        <span class="data-type"><?php echo t('general.phrases.current_enrollment'); ?></span>
                         <span class="data" id="current_enrollment"></span>
                     </li>
                 </ul>
@@ -118,16 +119,19 @@
             </div><!--close div.bd-->
         </div><!-- entity_container close -->
     </form>
-    <button class="small secondary radius button" disabled="disabled" id="all_edit_member_link" onClick="ilios.ui.onIliosEvent.fire({action: 'em_dialog_open', event: 'add_new_members_picker_show_dialog', container_number: '-1'});">Add New Members to Cohort</button>
-
+    <button class="small secondary radius button"
+            disabled="disabled" id="all_edit_member_link"
+            onClick="ilios.ui.onIliosEvent.fire({action: 'em_dialog_open', event: 'add_new_members_picker_show_dialog', container_number: '-1'});">
+        <?php echo t('groups.add_new_to_all_group'); ?>
+    </button>
 
     <div class="collapse_children_toggle_link">
         <button class="small secondary radius button"
                 onclick="ilios.gm.subgroup.changeBreadcrumbViewLevelOrSidestep('-1'); return false;"
-                id="open_cohort" style="display: none;">Open Cohort</button>
+                id="open_cohort" style="display: none;"><?php echo t('groups.open_cohort'); ?></button>
         <button class="small secondary radius button groups_collapsed" onclick="ilios.gm.collapseOrExpandGroups(false, false); return false;"
                 id="expand_groups_link"
-                style="display: none;">Expand All</button>
+                style="display: none;"><?php echo t('general.phrases.expand_all'); ?></button>
     </div>
 
     <div style="clear: both;"></div>
@@ -139,7 +143,7 @@
 
     <div class="add_primary_child_link">
         <button class="small secondary radius button" onclick="ilios.gm.transaction.handleManualGroupAdd();"
-                id="general_new_add_group_link" disabled="disabled">Add a New Student Group</button>
+                id="general_new_add_group_link" disabled="disabled"><?php echo t('groups.add_new_group'); ?></button>
     </div>
 </div>
 <!-- content_container end -->
