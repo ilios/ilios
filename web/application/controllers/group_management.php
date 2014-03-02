@@ -72,43 +72,17 @@ class Group_Management extends Ilios_Web_Controller
             $key = 'groups.title_bar';
             $data['title_bar_string'] = $this->languagemap->getI18NString($key);
 
-            $key = 'groups.select_program';
-            $data['select_program_link_string'] = $this->languagemap->getI18NString($key);
-
             $key = 'groups.page_header';
             $data['page_header_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.instructor_picker_title';
             $data['instructor_picker_title'] = $this->languagemap->getI18NString($key);
 
-            $key = 'general.phrases.expand_all';
-            $data['expand_groups_string'] = $this->languagemap->getI18NString($key);
-
-            $key = 'groups.open_cohort';
-            $data['open_cohort_string'] = $this->languagemap->getI18NString($key);
-
             $key = 'groups.default_instructor';
             $data['default_instructor_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'groups.default_location';
             $data['default_location_string'] = $this->languagemap->getI18NString($key);
-
-            $key = 'groups.add_new_to_all_group';
-            $data['add_to_all_string'] = $this->languagemap->getI18NString($key);
-
-            $key = 'groups.add_new_group';
-            $data['add_group_string'] = $this->languagemap->getI18NString($key);
-
-            $key = 'general.phrases.current_enrollment';
-            $data['current_enrollment_string'] = $this->languagemap->getI18NString($key);
-
-            $key = 'general.phrases.orphan_members';
-            $data['orphans_string'] = $this->languagemap->getI18NString($key);
-
-            $key = 'general.phrases.program_title_short';
-            $data['program_title_short_string'] = $this->languagemap->getI18NString($key);
-            $key = 'groups.program_title';
-            $data['program_title_full_string'] = $this->languagemap->getI18NString($key);
 
             $key = 'general.terms.filter';
             $data['word_filter_string'] = $this->languagemap->getI18NString($key);
