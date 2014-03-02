@@ -33,7 +33,7 @@ ilios.namespace('common');
  *        the id string of the element which should invoke the
  *        display of this panel; clicking on this id
  *        string must be wired elsewhere to fire thusly:
- *        IEvent.fire({action: 'em_dialog_open', ...});
+ *        ilios.ui.onIliosEvent.fire({action: 'em_dialog_open', ...});
  *        where 'em_dialog_open' is the salient action,
  *        and the event may also contain a key for
  *        'container_number' the value of which will get
@@ -43,7 +43,7 @@ ilios.namespace('common');
 ilios.common.assembleAddNewMembersDialog = function (unused1, unused2, args) {
     var Event = YAHOO.util.Event;
     var handleCancel = function () {
-        IEvent.fire({object: 'modal_em_dialog_panel', action: 'cancel', event: 'closing'});
+        ilios.ui.onIliosEvent.fire({object: 'modal_em_dialog_panel', action: 'cancel', event: 'closing'});
         this.cancel();
     };
     var buttonArray = [{text: ilios_i18nVendor.getI18NString('general.terms.done'), handler: handleCancel, isDefault: true}];
@@ -113,5 +113,5 @@ ilios.common.assembleAddNewMembersDialog = function (unused1, unused2, args) {
         }
     };
 
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 }

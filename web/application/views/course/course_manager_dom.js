@@ -537,7 +537,7 @@ ilios.cm.populateDialogOpeningLink = function (linkDiv, linkStr, dialogOpenActio
     aElement.setAttribute('href', '');
     aElement.setAttribute('onclick', 'return false;');
     YAHOO.util.Event.addListener(aElement, 'click', function (e) {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: dialogOpenAction
         });
     });
@@ -810,7 +810,7 @@ ilios.cm.generateIdStringForPublishWarning = function (containerNumber) {
 ilios.cm.appendAttributeDisplayBlock = function (parentElement, containerNumber, labelString,
                                                  searchEventName, uiTextFieldSuffix, stackVertical,
                                                  textFieldContent) {
-    var clickFunction = function (e) {IEvent.fire({action: 'default_dialog_open',
+    var clickFunction = function (e) {ilios.ui.onIliosEvent.fire({action: 'default_dialog_open',
                                                     event: searchEventName,
                                                     container_number: containerNumber});};
 
@@ -903,7 +903,7 @@ ilios.cm.continueDeletingObjective = function(event, obj) {
  */
 ilios.cm.addNewCourseObjective = function (containerNumber) {
     ilios.cm.inEditObjectiveModel = null;
-    IEvent.fire({
+    ilios.ui.onIliosEvent.fire({
         action: 'eco_dialog_open'
     });
 };
@@ -915,7 +915,7 @@ ilios.cm.addNewCourseObjective = function (containerNumber) {
  */
 ilios.cm.addNewSessionObjective = function (containerNumber) {
     ilios.cm.inEditObjectiveModel = null;
-    IEvent.fire({
+    ilios.ui.onIliosEvent.fire({
         action: 'eso_dialog_open',
         cnumber: containerNumber
     });
@@ -1213,7 +1213,7 @@ ilios.cm.buildAndPopulateObjective = function (containerNumber, objectiveNumber,
             // register click event handler on objective description container
             Event.addListener(scratchElement, "click", function (e) { // pop up the "edit objective" dialog
                 ilios.cm.inEditObjectiveModel = objectiveModel;
-                IEvent.fire({
+                ilios.ui.onIliosEvent.fire({
                     action: 'eco_dialog_open'
                 });
             });
@@ -1221,7 +1221,7 @@ ilios.cm.buildAndPopulateObjective = function (containerNumber, objectiveNumber,
                     // register click event handler on objective description container
             Event.addListener(scratchElement, "click", function (e) { // pop up the "edit objective" dialog
                 ilios.cm.inEditObjectiveModel = objectiveModel;
-                IEvent.fire({
+                ilios.ui.onIliosEvent.fire({
                     action: 'eso_dialog_open',
                     cnumber: containerNumber
                 });
@@ -1237,7 +1237,7 @@ ilios.cm.buildAndPopulateObjective = function (containerNumber, objectiveNumber,
     scratchInput.setAttribute('onclick', 'return false;');
     if (! isLocked) {
         Event.addListener(scratchInput, 'click', function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'mesh_picker_dialog_open',
                 model_in_edit: objectiveModel
             });
@@ -1435,7 +1435,7 @@ ilios.cm.meshLinkText = function (model) {
 };
 
 ilios.cm.displayMeSHDialogForCourse = function () {
-    IEvent.fire({action: 'mesh_picker_dialog_open', model_in_edit: ilios.cm.currentCourseModel});
+    ilios.ui.onIliosEvent.fire({action: 'mesh_picker_dialog_open', model_in_edit: ilios.cm.currentCourseModel});
 };
 
 ilios.common.picker.mesh.handleMeSHPickerSave = function (dialogPanel) {

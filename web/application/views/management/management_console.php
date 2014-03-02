@@ -240,7 +240,7 @@ $viewsPath = getServerFilePath('views');
 
         // register the add/edit login credential dialogs with the pagewide event registry
         YAHOO.util.Event.onDOMReady(function(type, args, obj) {
-            IEvent.subscribe(function (type, args) {
+            ilios.ui.onIliosEvent.subscribe(function (type, args) {
                 if ('elc_dialog_open' === args[0].action) {
                     if (! ilios.management.user_accounts.editLoginCredentialsDialog) {
                         ilios.management.user_accounts.editLoginCredentialsDialog

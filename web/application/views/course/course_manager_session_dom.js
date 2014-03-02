@@ -120,7 +120,7 @@ ilios.cm.session.generateIdStringForSessionTypeSelector = function (containerNum
 ilios.cm.session.appendMeSHBlock = function (parentElement, containerNumber, labelString) {
     var clickFunction = function (e) {
         var sessionModel = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'mesh_picker_dialog_open',
             model_in_edit: sessionModel
         });
@@ -638,7 +638,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     scratchInput.get('element').setAttribute('style', 'display: none;'); // not displayed by default
     scratchInput.addClass('tiny radius button');
     scratchInput.addListener('click', function (e) {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'alm_dialog_open',
             container_number: containerNumber
         });
@@ -775,7 +775,7 @@ ilios.cm.session.buildAndPopulateSession = function (containerNumber, model, ses
         // register onclick event handler on edit button to bring up modal dialog
         Event.addListener(element, 'click', function (e) {
             Event.preventDefault(e);
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'esd_dialog_open',
                 model: sessionModel
             });

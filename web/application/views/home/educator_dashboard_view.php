@@ -211,7 +211,7 @@ $viewsPath = getServerFilePath('views');
                             </div>
                             <div class="widget_collapse_content bd" id="reports_widget_content" style="display:none;">
                                 <div class="buttons">
-                                    <a href="" class="tiny button" id="report_widget_add_new_div" onclick="IEvent.fire({action: 'report_dialog_open', report_model: null}); return false;">
+                                    <a href="" class="tiny button" id="report_widget_add_new_div" onclick="ilios.ui.onIliosEvent.fire({action: 'report_dialog_open', report_model: null}); return false;">
                                         <?php echo $phrase_add_new_string; ?></a>
                                 </div>
                                 <ul id="reports_widget_list_container"></ul>
@@ -240,12 +240,12 @@ $viewsPath = getServerFilePath('views');
                             <div class="widget_collapse_content bd" id="administration_widget_content" style="display: none;">
                                 <ul>
                                     <li>
-                                        <a href="" onclick="IEvent.fire({action: 'ap_dialog_open'}); return false;">
+                                        <a href="" onclick="ilios.ui.onIliosEvent.fire({action: 'ap_dialog_open'}); return false;">
                                             <?php echo $word_archiving_string; ?>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="" onclick="IEvent.fire({action: 'rp_dialog_open'}); return false;">
+                                        <a href="" onclick="ilios.ui.onIliosEvent.fire({action: 'rp_dialog_open'}); return false;">
                                             <?php echo $course_rollover_string; ?>
                                         </a>
                                     </li>
@@ -292,7 +292,7 @@ $viewsPath = getServerFilePath('views');
                             </div>
                             <div class="widget_collapse_content bd" id="alerts_widget_content"  style="display: none;">
                                 <div class="buttons">
-                                    <a href="" class="tiny button" id="alert_widget_add_new" onclick="IEvent.fire({action: 'ur_dialog_open', reminder_model: null }); return false;"><?php echo $phrase_add_new_string; ?></a>
+                                    <a href="" class="tiny button" id="alert_widget_add_new" onclick="ilios.ui.onIliosEvent.fire({action: 'ur_dialog_open', reminder_model: null }); return false;"><?php echo $phrase_add_new_string; ?></a>
                                 </div>
                                 <ul id="alerts_widget_list_container">
                                     <li><?php echo $word_none_string; ?></li>

@@ -165,7 +165,7 @@ ilios.cm.lm.createListElementForLearningMaterial = function (model, showAddIcon,
     if (! showAddIcon) {
         Event.addListener(titleElement, 'click', function (e) {
             ilios.common.lm.learningMaterialsDetailsModel = model;
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'lm_metadata_dialog_open',
                 container_number: containerNumber
             });

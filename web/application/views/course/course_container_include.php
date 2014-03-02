@@ -157,7 +157,7 @@ $entityContainerContent .=<<< EOL
     <div class="column actions">
         <a href=""
            class="tiny radius button"
-           onclick="IEvent.fire({action: 'default_dialog_open', event: 'discipline_picker_show_dialog', container_number: -1}); return false;"
+           onclick="ilios.ui.onIliosEvent.fire({action: 'default_dialog_open', event: 'discipline_picker_show_dialog', container_number: -1}); return false;"
            id="disciplines_search_link">{$word_search_string}</a>
     </div>
 </div>
@@ -171,7 +171,7 @@ $entityContainerContent .=<<< EOL
     </div>
     <div class="column actions">
         <a href="" class="tiny radius button"
-           onclick="IEvent.fire({action: 'default_dialog_open', event: 'director_picker_show_dialog', container_number: -1}); return false;"
+           onclick="ilios.ui.onIliosEvent.fire({action: 'default_dialog_open', event: 'director_picker_show_dialog', container_number: -1}); return false;"
            id="directors_search_link">{$word_search_string}</a>
     </div>
 </div>
@@ -203,7 +203,7 @@ $entityContainerContent .=<<< EOL
     </div>
     <div class="column actions">
         <a href="" class="tiny radius button"
-           onclick="IEvent.fire({action: 'alm_dialog_open', container_number: -1}); return false;"
+           onclick="ilios.ui.onIliosEvent.fire({action: 'alm_dialog_open', container_number: -1}); return false;"
            id="course_learning_material_search_link">{$word_search_string} / {$word_add_string}</a>
     </div>
 </div>

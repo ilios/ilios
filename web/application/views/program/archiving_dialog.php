@@ -100,7 +100,7 @@
 					dialog.showDialogPane();
 				}
 			};
-			IEvent.subscribe(displayOnTriggerHandler);
+			ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
 			ilios.pm.archivingDialog = dialog;
 		}

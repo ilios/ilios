@@ -245,7 +245,7 @@ ilios.cm.transaction.performCoursePublish = function () {
     }
     else if (publishability
                    == AbstractJavaScriptModelForm.prototype.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS) {
-        IEvent.fire({action: 'review_dialog_open', cnumber: 0, // cnumber doesn't matter here
+        ilios.ui.onIliosEvent.fire({action: 'review_dialog_open', cnumber: 0, // cnumber doesn't matter here
                      review_type: 1});
     }
 };
@@ -274,7 +274,7 @@ ilios.cm.transaction.publishAll = function () {
         }
 
     } else if (publishability == AbstractJavaScriptModelForm.prototype.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS) {
-        IEvent.fire({action: 'review_dialog_open', cnumber: 0, review_type: 0});  // cnumber doesn't matter here
+        ilios.ui.onIliosEvent.fire({action: 'review_dialog_open', cnumber: 0, review_type: 0});  // cnumber doesn't matter here
     }
 };
 
@@ -492,7 +492,7 @@ ilios.cm.transaction.publishSession = function (event) {
     }
     else if (publishability
                    == AbstractJavaScriptModelForm.prototype.MEETS_MINIMAL_PUBLISHING_REQUIREMENTS) {
-        IEvent.fire({action: 'review_dialog_open', cnumber: containerNumber,
+        ilios.ui.onIliosEvent.fire({action: 'review_dialog_open', cnumber: containerNumber,
                      review_type: 2});
     }
 };

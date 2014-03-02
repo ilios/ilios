@@ -78,7 +78,7 @@ ilios.home.preferences.assembleArchivingPermissionsDialog = function (type, args
         }
     };
 
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.home.preferences.apDialog = dialog;
 }
@@ -157,7 +157,7 @@ ilios.home.preferences.assembleRolloverPermissionsDialog = function (type, args,
         }
     };
 
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.home.preferences.rpDialog = dialog;
 }
@@ -295,7 +295,7 @@ ilios.home.reminder.finishUserReminderDialogCancel = function (clickButton) {
             dialog.showDialogPane();
         }
     };
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.home.reminder.userReminderDialog = dialog;
 
