@@ -105,6 +105,7 @@ if (! function_exists('createContentContainerMarkup')) {
                                            $showRolloverLinkDiv = false)
     {
         ?>
+<!-- SHIT STARTS HERE -->
         <div class="content_container">
             <div class="master_button_container clearfix">
                 <ul class="buttons left">
@@ -212,7 +213,8 @@ if (! function_exists('createContentContainerMarkup')) {
             echo $suffixingContent;
             ?>
         </div><!-- content_container close -->
-    <?php
+<!-- SHIT ENDS HERE -->
+     <?php
     } // end function
 }
 
