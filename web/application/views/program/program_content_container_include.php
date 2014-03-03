@@ -101,7 +101,7 @@
     $duration = $program_row['duration'] ? (int) $program_row['duration'] : 4;
     for ($i = 1, $n = 10; $i <= $n; $i++) :
 ?>
-    <option value="<?php echo $i; ?>" <?php if ($i === $duration): ?> selected="selected"<?php endif; ?>><?php echo $i; ?></option>
+    <option value="<?php echo $i; ?>"<?php if ($i === $duration): ?> selected="selected"<?php endif; ?>><?php echo $i; ?></option>
 <?php
     endfor;
 ?>
