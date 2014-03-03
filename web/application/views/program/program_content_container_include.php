@@ -165,11 +165,125 @@
             $saveDraftAction = 'ilios.pm.transaction.performProgramSave(false);';
             $publishAction = 'ilios.pm.transaction.performProgramSave(true);';
             $revertAction = 'ilios.pm.revertChanges();';
-
+/*
             createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
                 $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
                 $suffixingContent, $saveDraftAction, $publishAction, $revertAction, true, true, false, false, '',
                 t('general.phrases.save_draft'), '',
                 t('general.phrases.publish_now'),
                 t('general.phrases.reset_form'));
+*/
 ?>
+<!-- content_container start -->
+<div class="content_container">
+    <div class="master_button_container clearfix">
+        <ul class="buttons left">
+            <li>
+                <a href="" class="small radius button" onclick="ilios.pm.cs.displayProgramSearchPanel(); return false;">Search</a>
+            </li>
+            <li>
+                <a id="add_new_program" href="" class="small secondary radius button" onClick="ilios.pm.displayAddNewProgramDialog(); return false;">Add Program</a>
+            </li>
+        </ul>
+        <ul class="buttons right">
+            <li>
+            </li>
+        </ul>
+    </div>
+    <form id="program_form" method="POST" action="no matter" onsubmit="return false;">
+        <input id="working_program_id" name="program_id" value="2" type="hidden" />
+        <div class="entity_container level-1">
+            <div class="hd clearfix">
+                <div class="toggle">
+                    <a href="#" id="show_more_or_less_link"
+                       onclick="ilios.utilities.toggle('course_more_or_less_div', this); return false;" >
+                        <i class="icon-plus" aria-hidden="true"> </i>
+                    </a>
+                </div>
+                <ul>
+                    <li class="title">
+                        <span class="data-type">Program Title (Full)</span>
+                        <span class="data" id="">some other program</span>
+                    </li>
+                    <li class="course-id">
+                        <span class="data-type">Program Title (Short)</span>
+                        <span class="data" id="">prog</span>
+                    </li>
+                    <li class="duration">
+                        <span class="data-type">Duration (In Years)</span>
+                        <span class="data" id="">4</span>
+                    </li>
+                    <li class="publish-status">
+                        <span class="data-type">Publish Status</span>
+                        <span class="data" id="parent_publish_status_text"></span>
+                    </li>
+                </ul>
+            </div>
+            <div id="course_more_or_less_div" class="bd" style="display:none">
+                <div id="edit_program_inputfields" class="bd" style="display:none">
+
+                    <div class="row">
+                        <div class="column label">
+                            <label for="program_title">Program Title (Full)</label>
+                        </div>
+                        <div class="column data">
+                            <input type="text" id="program_title" name="program_title" value="" disabled="disabled" size="50" />
+                        </div>
+                        <div class="column actions">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column label">
+                            <label for="short_title">Program Title (Short)</label>
+                        </div>
+                        <div class="column data">
+                            <input type="text" id="short_title" name="short_title" maxlength="10" value="prog"  />
+                        </div>
+                        <div class="column actions"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column label">
+                            <label for="">Duration (In Years)</label>
+                        </div>
+                        <div class="column data">
+                            <select name="duration" id="duration_selector">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4" selected>4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="column actions"></div>
+                    </div>
+                </div>
+                <div class="buttons bottom">
+                    <button id="draft_button" class="medium radius button" disabled="disabled" onClick="ilios.pm.transaction.performProgramSave(false);">Save Draft</button>
+                    <button id="publish_button" class="medium radius button" disabled="disabled" onClick="ilios.pm.transaction.performProgramSave(true);">Publish Now</button>
+                    <button id="reset_button" class="reset_button small secondary radius button" disabled="disabled" onClick="ilios.pm.revertChanges();">Reset Form</button>
+                </div>
+            </div><!--close div.bd-->
+        </div><!-- entity_container close -->
+    </form>
+    <div class="collapse_children_toggle_link">
+        <button class="small secondary radius button" onclick="ilios.pm.collapseOrExpandProgramYears(false); return false;"
+                id="expand_program_years_link" style="display: none;">Collapse All</button>
+    </div>
+
+    <div style="clear: both;"></div>
+
+    <div id="program_year_container"></div>
+
+    <div class="add_primary_child_link">
+        <button class="small secondary radius button" onclick="ilios.pm.addNewProgramYear();"
+                id="add_new_program_year_link" disabled="disabled">Add New Program Year</button>
+    </div>
+</div>
+<!-- content_container end -->
