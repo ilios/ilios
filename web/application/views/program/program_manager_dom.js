@@ -1331,6 +1331,12 @@ ilios.pm.getGraduatingClassOfString = function (startYear, duration) {
     return rhett;
 };
 
+// @private
+ilios.pm.disableAddProgramYearLink = function (un, deux, trois) {
+    var element = document.getElementById('add_new_program_year_link');
+
+    ilios.dom.setEnableForAElement(element, false);
+};
 
 /**
  * @method ilios.pm.disc_initDialog

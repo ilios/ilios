@@ -173,17 +173,3 @@
                 t('general.phrases.publish_now'),
                 t('general.phrases.reset_form'));
 ?>
-
-    <script type="text/javascript">
-
-        // @private
-        ilios.pm.disableAddProgramYearLink = function (un, deux, trois) {
-            var element = document.getElementById('add_new_program_year_link');
-
-            ilios.dom.setEnableForAElement(element, false);
-        };
-
-        YAHOO.util.Event.onDOMReady(ilios.pm.disableAddProgramYearLink, {});
-
-    </script>
-
