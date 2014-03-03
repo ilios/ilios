@@ -9,7 +9,7 @@
  * Template variables expected to be present are:
  *
  * @var boolean $disabled Set to TRUE if the container's form is in read-only mode.
- * @var array $program_row An associative array representing the program to be rendered in the container.
+ * @var array $program_row An associative array containing the program data to be rendered in the container.
  */
 ?>
 <!-- content_container start -->
@@ -18,11 +18,11 @@
         <ul class="buttons left">
             <li>
                 <a href="" class="small radius button"
-                   onclick="ilios.pm.cs.displayProgramSearchPanel(); return false;"><?php echo $word_search_string; ?></a>
+                   onclick="ilios.pm.cs.displayProgramSearchPanel(); return false;"><?php echo t('general.terms.search'); ?></a>
             </li>
             <li>
                 <a id="add_new_program" href="" class="small secondary radius button"
-                   onClick="ilios.pm.displayAddNewProgramDialog(); return false;"><?php echo $add_program_string; ?></a>
+                   onClick="ilios.pm.displayAddNewProgramDialog(); return false;"><?php echo t('program_management.add_program'); ?></a>
             </li>
         </ul>
         <ul class="buttons right">
@@ -30,7 +30,7 @@
             </li>
         </ul>
     </div>
-    <form id="program_form" method="POST" action="no matter" onsubmit="return false;">
+    <form id="program_form" method="POST" onsubmit="return false;">
         <input id="working_program_id" name="program_id"
                value="<?php echo htmlentities($program_row['program_id'], ENT_COMPAT, 'UTF-8'); ?>" type="hidden" />
         <div class="entity_container level-1">
@@ -43,15 +43,15 @@
                 </div>
                 <ul>
                     <li class="title">
-                        <span class="data-type"><?php echo $program_title_full_string; ?></span>
+                        <span class="data-type"><?php echo t('general.phrases.program_title_full'); ?></span>
                         <span class="data" id=""><?php echo htmlentities($program_row['title'], ENT_COMPAT, 'UTF-8'); ?></span>
                     </li>
                     <li class="course-id">
-                        <span class="data-type"><?php echo $program_title_short_string; ?></span>
+                        <span class="data-type"><?php echo t('general.phrases.program_title_short'); ?></span>
                         <span class="data" id=""><?php echo htmlentities($program_row['short_title'], ENT_COMPAT, 'UTF-8'); ?></span>
                     </li>
                     <li class="duration">
-                        <span class="data-type"><?php echo $duration_string; ?></span>
+                        <span class="data-type"><?php echo t('general.phrases.duration.in_years'); ?></span>
                         <span class="data" id=""><?php echo htmlentities($program_row['duration'], ENT_COMPAT, 'UTF-8'); ?></span>
                     </li>
                     <li class="publish-status">
@@ -65,7 +65,7 @@
 
                     <div class="row">
                         <div class="column label">
-                            <label for="program_title"><?php echo $program_title_full_string; ?></label>
+                            <label for="program_title"><?php echo t('general.phrases.program_title_full'); ?></label>
                         </div>
                         <div class="column data">
                             <input type="text" id="program_title" name="program_title" value="" disabled="disabled" size="50" />
@@ -76,7 +76,7 @@
 
                     <div class="row">
                         <div class="column label">
-                            <label for="short_title"><?php echo $program_title_short_string; ?></label>
+                            <label for="short_title"><?php echo t('general.phrases.program_title_short'); ?></label>
                         </div>
                         <div class="column data">
                             <input type="text"
@@ -91,7 +91,7 @@
 
                     <div class="row">
                         <div class="column label">
-                            <label for=""><?php echo $duration_string; ?></label>
+                            <label for=""><?php echo t('general.phrases.duration.in_years'); ?></label>
                         </div>
                         <div class="column data">
                             <select name="duration"
@@ -120,7 +120,7 @@
     </form>
     <div class="collapse_children_toggle_link">
         <button class="small secondary radius button" onclick="ilios.pm.collapseOrExpandProgramYears(false); return false;"
-                id="expand_program_years_link" style="display: none;"><?php echo $collapse_program_years_string; ?></button>
+                id="expand_program_years_link" style="display: none;"><?php echo t('general.phrases.collapse_all'); ?></button>
     </div>
 
     <div style="clear: both;"></div>
@@ -129,7 +129,7 @@
 
     <div class="add_primary_child_link">
         <button class="small secondary radius button" onclick="ilios.pm.addNewProgramYear();"
-                id="add_new_program_year_link" disabled="disabled"><?php echo $add_program_year_string; ?></button>
+                id="add_new_program_year_link" disabled="disabled"><?php echo t('program_management.add_program_year'); ?></button>
     </div>
 </div>
 <!-- content_container end -->
