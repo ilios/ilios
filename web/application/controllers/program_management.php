@@ -94,29 +94,14 @@ class Program_Management extends Ilios_Web_Controller
         $key = 'general.phrases.duration.in_years';
         $data['duration_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'general.phrases.collapse_all';
-        $data['collapse_program_years_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'program_management.add_program';
-        $data['add_program_string'] = $this->languagemap->getI18NString($key);
-
         $key = 'program_management.add_new_program';
         $data['add_new_program_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'program_management.add_program_year';
-        $data['add_program_year_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'mesh.dialog.search_mesh';
         $data['mesh_search_mesh'] = $this->languagemap->getI18NString($key);
 
         $key = 'mesh.dialog.title';
         $data['mesh_dialog_title'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.program_title_full';
-        $data['program_title_full_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.program_title_short';
-        $data['program_title_short_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.search.clear';
         $data['generic_search_clear'] = $this->languagemap->getI18NString($key);
@@ -126,9 +111,6 @@ class Program_Management extends Ilios_Web_Controller
 
         $key = 'general.terms.help';
         $data['word_help_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.terms.search';
-        $data['word_search_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.show_less';
         $data['phrase_show_less_string'] = strtolower($this->languagemap->getI18NString($key));

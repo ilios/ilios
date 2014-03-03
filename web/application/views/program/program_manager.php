@@ -168,6 +168,8 @@ $viewsPath = getServerFilePath('views');
 <?php
     include_once $viewsPath . 'common/load_school_competencies.inc.php';
 ?>
+        YAHOO.util.Event.onDOMReady(ilios.pm.disableAddProgramYearLink, {});
+
         YAHOO.util.Event.onDOMReady(ilios.pm.disc_initDialog, {
             // unique event that triggers opening of the dialog fired
             // from search link near course mesh form element
