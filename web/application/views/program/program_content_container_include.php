@@ -1,188 +1,28 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-            // This form action is actually used in the code as the url for the AJAX-ian save
-            $formPrefix = '<form id="program_form" method="POST" action="no matter" onsubmit="return false;">
-                <input id="working_program_id" name="program_id" value="' . $program_row['program_id'] . '"';
-
-            $formPrefix .= ' type="hidden" />';
-
-
-            $addNewEntityLink = '<a id="add_new_program" href="" class="small secondary radius button" onClick="ilios.pm.displayAddNewProgramDialog(); return false;">' . $add_program_string . '</a>';
-
-            $searchNewEntityLink = '<a href="" class="small radius button" onclick="ilios.pm.cs.displayProgramSearchPanel(); return false;">'
-                            . $word_search_string . '</a>';
-
-            $entityContainerHeader = '
-                        <li class="title">
-                            <span class="data-type">' . $program_title_full_string . '</span>
-                            <span class="data" id="">' . $program_row['title'] . '</span>
-                        </li>
-                        <li class="course-id">
-                            <span class="data-type">' . $program_title_short_string . '</span>
-                            <span class="data" id="">' . $program_row['short_title'] . '</span>
-                        </li>
-                        <li class="duration">
-                            <span class="data-type">' . $duration_string . '</span>
-                            <span class="data" id="">' . $program_row['duration'] . '</span>
-                        </li>
-                        ';
-
-            $entityContainerContent = '
-                    <div id="edit_program_inputfields" class="bd" style="display:none">
-
-                        <div class="row">
-                            <div class="column label">
-                                <label for="program_title">' . $program_title_full_string . '</label>
-                            </div>
-                            <div class="column data">
-                                <input type="text" id="program_title" name="program_title" value="" disabled="disabled" size="50" />
-                            </div>
-                            <div class="column actions">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="column label">
-                                <label for="short_title">' . $program_title_short_string . '</label>
-                            </div>
-                            <div class="column data">
-                                <input type="text" id="short_title" name="short_title" maxlength="10" value="' . $program_row['short_title'] . '" ';
-
-                            if ($disabled) {
-                                $entityContainerContent .= 'disabled="disabled" ';
-                            }
-                            $entityContainerContent .= ' />
-                            </div>
-                            <div class="column actions"></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="column label">
-                                <label for="">' . $duration_string . '</label>
-                            </div>
-                            <div class="column data">
-                                <select ';
-                                if ($disabled) {
-                                    $entityContainerContent .= 'disabled="uh-huh" ';
-                                }
-
-                                $entityContainerContent .= 'name="duration" id="duration_selector">
-                                            <option value="1"';
-
-                                if ($program_row['duration'] == '1') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>1</option>
-                                            <option value="2"';
-
-                                if ($program_row['duration'] == '2') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>2</option>
-                                            <option value="3"';
-
-                                if (($program_row['duration'] == '3')) {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>3</option>
-                                            <option value="4"';
-
-                                if ($program_row['duration'] == '4' || ($program_row['duration'] == '')) {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>4</option>
-                                            <option value="5"';
-
-                                if ($program_row['duration'] == '5') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>5</option>
-                                            <option value="6"';
-
-                                if ($program_row['duration'] == '6') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>6</option>
-                                            <option value="7"';
-
-                                if ($program_row['duration'] == '7') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>7</option>
-                                                        <option value="8"';
-
-                                if ($program_row['duration'] == '8') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>8</option>
-                                                        <option value="9"';
-
-                                if ($program_row['duration'] == '9') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>9</option>
-                                                        <option value="10"';
-
-                                if ($program_row['duration'] == '10') {
-                                    $entityContainerContent .= ' selected';
-                                }
-
-                                $entityContainerContent .= '>10</option>
-                                </select>
-                            </div>
-                            <div class="column actions"></div>
-                        </div>
-                </div>';
-
-            $addNewSomethingId = '';
-            $addNewSomethingAction = '';
-            $addNewSomethingDisplayText = '';
-
-            $suffixingContent
-                = '<div class="collapse_children_toggle_link">
-                        <button class="small secondary radius button" onclick="ilios.pm.collapseOrExpandProgramYears(false); return false;"
-                                id="expand_program_years_link" style="display: none;">' . $collapse_program_years_string . '</button>
-                    </div>
-
-                    <div style="clear: both;"></div>
-
-                    <div id="program_year_container"></div>
-
-                    <div class="add_primary_child_link">
-                        <button class="small secondary radius button" onclick="ilios.pm.addNewProgramYear();"
-                                    id="add_new_program_year_link" disabled="disabled">' . $add_program_year_string . '</button>
-                    </div>';
-
-            $saveDraftAction = 'ilios.pm.transaction.performProgramSave(false);';
-            $publishAction = 'ilios.pm.transaction.performProgramSave(true);';
-            $revertAction = 'ilios.pm.revertChanges();';
-/*
-            createContentContainerMarkup($formPrefix, $addNewEntityLink, $searchNewEntityLink, $entityContainerHeader,
-                $entityContainerContent, $addNewSomethingId, $addNewSomethingAction, $addNewSomethingDisplayText,
-                $suffixingContent, $saveDraftAction, $publishAction, $revertAction, true, true, false, false, '',
-                t('general.phrases.save_draft'), '',
-                t('general.phrases.publish_now'),
-                t('general.phrases.reset_form'));
-*/
+/**
+ * @file program_content_container_include.php
+ *
+ * Includes-template.
+ *
+ * Renders a given program onto to the page in a container element.
+ *
+ * Template variables expected to be present are:
+ *
+ * @var boolean $disabled Set to TRUE if the container's form is in read-only mode.
+ * @var array $program_row An associative array representing the program to be rendered in the container.
+ */
 ?>
 <!-- content_container start -->
 <div class="content_container">
     <div class="master_button_container clearfix">
         <ul class="buttons left">
             <li>
-                <a href="" class="small radius button" onclick="ilios.pm.cs.displayProgramSearchPanel(); return false;">Search</a>
+                <a href="" class="small radius button"
+                   onclick="ilios.pm.cs.displayProgramSearchPanel(); return false;"><?php echo $word_search_string; ?></a>
             </li>
             <li>
-                <a id="add_new_program" href="" class="small secondary radius button" onClick="ilios.pm.displayAddNewProgramDialog(); return false;">Add Program</a>
+                <a id="add_new_program" href="" class="small secondary radius button"
+                   onClick="ilios.pm.displayAddNewProgramDialog(); return false;"><?php echo $add_program_string; ?></a>
             </li>
         </ul>
         <ul class="buttons right">
@@ -191,7 +31,8 @@
         </ul>
     </div>
     <form id="program_form" method="POST" action="no matter" onsubmit="return false;">
-        <input id="working_program_id" name="program_id" value="2" type="hidden" />
+        <input id="working_program_id" name="program_id"
+               value="<?php echo htmlentities($program_row['program_id'], ENT_COMPAT, 'UTF-8'); ?>" type="hidden" />
         <div class="entity_container level-1">
             <div class="hd clearfix">
                 <div class="toggle">
@@ -202,19 +43,19 @@
                 </div>
                 <ul>
                     <li class="title">
-                        <span class="data-type">Program Title (Full)</span>
-                        <span class="data" id="">some other program</span>
+                        <span class="data-type"><?php echo $program_title_full_string; ?></span>
+                        <span class="data" id=""><?php echo htmlentities($program_row['title'], ENT_COMPAT, 'UTF-8'); ?></span>
                     </li>
                     <li class="course-id">
-                        <span class="data-type">Program Title (Short)</span>
-                        <span class="data" id="">prog</span>
+                        <span class="data-type"><?php echo $program_title_short_string; ?></span>
+                        <span class="data" id=""><?php echo htmlentities($program_row['short_title'], ENT_COMPAT, 'UTF-8'); ?></span>
                     </li>
                     <li class="duration">
-                        <span class="data-type">Duration (In Years)</span>
-                        <span class="data" id="">4</span>
+                        <span class="data-type"><?php echo $duration_string; ?></span>
+                        <span class="data" id=""><?php echo htmlentities($program_row['duration'], ENT_COMPAT, 'UTF-8'); ?></span>
                     </li>
                     <li class="publish-status">
-                        <span class="data-type">Publish Status</span>
+                        <span class="data-type"><?php echo t('general.phrases.publish_status'); ?></span>
                         <span class="data" id="parent_publish_status_text"></span>
                     </li>
                 </ul>
@@ -224,7 +65,7 @@
 
                     <div class="row">
                         <div class="column label">
-                            <label for="program_title">Program Title (Full)</label>
+                            <label for="program_title"><?php echo $program_title_full_string; ?></label>
                         </div>
                         <div class="column data">
                             <input type="text" id="program_title" name="program_title" value="" disabled="disabled" size="50" />
@@ -235,30 +76,35 @@
 
                     <div class="row">
                         <div class="column label">
-                            <label for="short_title">Program Title (Short)</label>
+                            <label for="short_title"><?php echo $program_title_short_string; ?></label>
                         </div>
                         <div class="column data">
-                            <input type="text" id="short_title" name="short_title" maxlength="10" value="prog"  />
+                            <input type="text"
+                                   id="short_title"
+                                   name="short_title" maxlength="10"
+                                   value="<?php echo htmlentities($program_row['short_title'], ENT_COMPAT, 'UTF-8'); ?>"
+                                   <?php if ($disabled) : ?>disabled="disabled"<?php endif; ?>
+                                />
                         </div>
                         <div class="column actions"></div>
                     </div>
 
                     <div class="row">
                         <div class="column label">
-                            <label for="">Duration (In Years)</label>
+                            <label for=""><?php echo $duration_string; ?></label>
                         </div>
                         <div class="column data">
-                            <select name="duration" id="duration_selector">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4" selected>4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
+                            <select name="duration"
+                                    id="duration_selector"<?php if ($disabled): ?> disabled="disabled"<?php endif; ?>>
+<?php
+    // no given duration default to "4"
+    $duration = $program_row['duration'] ? (int) $program_row['duration'] : 4;
+    for ($i = 1, $n = 10; $i <= $n; $i++) :
+?>
+    <option value="<?php echo $i; ?>" <?php if ($i === $duration): ?> selected="selected"<?php endif; ?>><?php echo $i; ?></option>
+<?php
+    endfor;
+?>
                             </select>
                         </div>
                         <div class="column actions"></div>
@@ -274,7 +120,7 @@
     </form>
     <div class="collapse_children_toggle_link">
         <button class="small secondary radius button" onclick="ilios.pm.collapseOrExpandProgramYears(false); return false;"
-                id="expand_program_years_link" style="display: none;">Collapse All</button>
+                id="expand_program_years_link" style="display: none;"><?php echo $collapse_program_years_string; ?></button>
     </div>
 
     <div style="clear: both;"></div>
@@ -283,7 +129,7 @@
 
     <div class="add_primary_child_link">
         <button class="small secondary radius button" onclick="ilios.pm.addNewProgramYear();"
-                id="add_new_program_year_link" disabled="disabled">Add New Program Year</button>
+                id="add_new_program_year_link" disabled="disabled"><?php echo $add_program_year_string; ?></button>
     </div>
 </div>
 <!-- content_container end -->
