@@ -105,7 +105,7 @@ ilios.om.inspector.generateGroupMarkup = function (groupArray) {
 		}
 
 		if (model instanceof UserModel) {
-			rhett += model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+			rhett += model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
 		}
 		else {
 			rhett += ((model.title != null) ? model.title : model.groupTitle);

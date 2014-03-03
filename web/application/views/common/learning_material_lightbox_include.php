@@ -227,7 +227,7 @@
                         dialog.showDialogPane();
                     }
                 };
-                IEvent.subscribe(displayOnTriggerHandler);
+                ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
                 ilios.common.lm.learningMaterialsDetailsDialog = dialog;
 
@@ -250,7 +250,7 @@
 
                 element = document.getElementById('ilios_lm_mesh_link');
                 Event.addListener(element, 'click', function (e) {
-                    IEvent.fire({
+                    ilios.ui.onIliosEvent.fire({
                         action: 'mesh_picker_dialog_open',
                         model_in_edit: ilios.common.lm.learningMaterialsDetailsModel
                     });
@@ -259,7 +259,7 @@
 
                 element = document.getElementById('ilios_lm_notes_link');
                 Event.addListener(element, 'click', function (e) {
-                    IEvent.fire({
+                    ilios.ui.onIliosEvent.fire({
                         action: 'elmn_dialog_open'
                     });
                     return false;

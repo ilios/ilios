@@ -216,7 +216,7 @@ ilios.learner_view.generateCourseAndSessionSummaryFromParsedServerReturn = funct
                     str += ", ";
                 }
 
-                str += userModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_FIRST_INITIAL_FIRST);
+                str += userModel.getFormattedName(ilios.utilities.UserNameFormatEnum.FIRST_INITIAL_FIRST);
 
                 firstDone = true;
             }

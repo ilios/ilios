@@ -20,7 +20,7 @@
                         <script type="text/javascript">
                             ilios_i18nVendor.write(' ', 'course_management.archiving.text_2', '');
                         </script>
-                
+
                         <ul class="no-bullets margin-l">
                             <li>
                                 <input type="radio" name="archive_radio" id="archive_radio_lock" checked />
@@ -99,7 +99,7 @@
                     dialog.showDialogPane();
                 }
             };
-            IEvent.subscribe(displayOnTriggerHandler);
+            ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
             ilios.cm.archivingDialog = dialog;
         }

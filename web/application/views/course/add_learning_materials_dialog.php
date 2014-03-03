@@ -172,7 +172,7 @@
                 dialog.showDialogPane();
             }
         };
-        IEvent.subscribe(displayOnTriggerHandler);
+        ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
         ilios.cm.lm.learningMaterialDialog = dialog;
     }

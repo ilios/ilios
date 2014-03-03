@@ -73,7 +73,7 @@
             }
         };
 
-        IEvent.subscribe(displayOnTriggerHandler);
+        ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
         ilios.learner_view.learnerViewDialog = dialog;
 
@@ -82,7 +82,7 @@
         if (element != null) {
             element = new YAHOO.util.Element(element);
             element.addListener('click', function (e) {
-                IEvent.fire({action: 'lv_dialog_open'});
+                ilios.ui.onIliosEvent.fire({action: 'lv_dialog_open'});
             }, null, this);
         }
     };

@@ -212,7 +212,7 @@ if (! function_exists('createContentContainerMarkup')) {
             echo $suffixingContent;
             ?>
         </div><!-- content_container close -->
-    <?php
+     <?php
     } // end function
 }
 

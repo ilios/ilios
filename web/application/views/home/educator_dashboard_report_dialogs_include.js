@@ -406,7 +406,7 @@ ilios.home.report.populateRestrictiveNounValueDiv = function () {
         ilios.home.report.populatePopup('getAllInstructorGroupsForReportSelection');
     } else if (noun === 'competency') {
         ilios.home.report.setCustomPickerAsValueDivUI(function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 event: 'competency_picker_show_dialog',
                 action: 'gen_dialog_open'
             });
@@ -416,14 +416,14 @@ ilios.home.report.populateRestrictiveNounValueDiv = function () {
         ilios.home.report.setCustomPickerAsValueDivUI(ilios.home.report.displayInstructorDialog);
     } else if (noun === 'learning material') {
         ilios.home.report.setCustomPickerAsValueDivUI(function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'alm_dialog_open'
             });
             return false;
         });
     } else if (noun === 'mesh term') {
         ilios.home.report.setCustomPickerAsValueDivUI(function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'mesh_picker_dialog_open'
             });
             return false;
@@ -778,7 +778,7 @@ ilios.home.report.setupInstructorUIElements = function () {
         var lastName = resultDataObject.last_name || '';
         var middleName = resultDataObject.middle_name || '';
         return ilios.utilities.createFormattedUserName(firstName, middleName, lastName,
-            ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            ilios.utilities.UserNameFormatEnum.LAST_FIRST);
     };
 
     ilios.home.report.instructorAutoCompleter.itemSelectEvent.subscribe(function (type, args, me) {
@@ -803,7 +803,7 @@ ilios.home.report.handleInstructorSelection = function (selectedModel) {
     var lastName = selectedModel.last_name || '';
     var middleName = selectedModel.middle_name || '';
     displayString = ilios.utilities.createFormattedUserName(firstName, middleName, lastName,
-            ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+            ilios.utilities.UserNameFormatEnum.LAST_FIRST);
 
     ilios.home.report.inEditReportModel.setPrepositionalObjectValues([selectedModel.user_id]);
 
@@ -1055,7 +1055,7 @@ ilios.home.report.assembleReportResultsDialog = function (type, args, me) {
         }
     };
 
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.home.report.reportResultsDialog = dialog;
 }
@@ -1128,7 +1128,7 @@ ilios.home.report.assembleReportDialog = function (type, args, me) {
         }
     };
 
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.home.report.reportDialog = dialog;
 }
@@ -1203,7 +1203,7 @@ ilios.home.report.learningMaterialDialog = null;
             dialog.showDialogPane();
         }
     };
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.home.report.learningMaterialDialog = dialog;
 }
@@ -1242,7 +1242,7 @@ ilios.home.report.buildReportMeSHPickerDialogDOM = function (type, args, me) {
             dialog.showDialogPane();
         }
     };
-    IEvent.subscribe(displayOnTriggerHandler);
+    ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
     ilios.mesh.meshPickerDialog = dialog;
 };

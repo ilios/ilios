@@ -108,7 +108,7 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
             liElement.setAttribute('title', model.getEmailAddress());
 
             textNode
-             = document.createTextNode(model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST));
+             = document.createTextNode(model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST));
             liElement.appendChild(textNode);
 
             liElement.iliosModel = model;
@@ -396,7 +396,7 @@ ilios.gm.mm.addDataSourceObjectToNode = function (dataSourceObject, parentNode, 
         model = new StudentModel(dataSourceObject);
 
         nodeAttributes = {
-            label: model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST),
+            label: model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST),
             title: model.getEmailAddress()
         };
 
@@ -505,7 +505,7 @@ ilios.gm.mm.handleUserGroupTreeSelection = function (clickObject) {
     else {
         newLI.setAttribute('title', model.getEmailAddress());
 
-        textNode = document.createTextNode(model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST));
+        textNode = document.createTextNode(model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST));
 
         ilios.gm.mm.ugtSelectedModel.addUser(model);
     }
@@ -549,7 +549,7 @@ ilios.gm.mm.deselectionHandler = function (event) {
         } else {
             var rootNode = ilios.gm.mm.ugtDialogTreeView.getRoot();
             var newNode = new YAHOO.widget.TextNode(
-                model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST), rootNode, false);
+                model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST), rootNode, false);
 
             newNode.iliosModel = model;
         }

@@ -64,7 +64,7 @@
                     dialog.showDialogPane();
                 }
             };
-            IEvent.subscribe(displayOnTriggerHandler);
+            ilios.ui.onIliosEvent.subscribe(displayOnTriggerHandler);
 
             ilios.cm.rolloverDialog = dialog;
         }

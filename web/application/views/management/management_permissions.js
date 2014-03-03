@@ -59,7 +59,7 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
         element = document.createElement('div');
         element.setAttribute('class', 'read_only_data');
         element.setAttribute('style', 'text-align: left; width: 100%; margin: 2px 46px;');
-        element.innerHTML = model.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST)
+        element.innerHTML = model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST)
                                 + ' (' + model.getEmailAddress() + ")";
 
         container.appendChild(element);
@@ -85,7 +85,7 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
     element.setAttribute('id', 'school_choosing_link');
     element.innerHTML = schoolAccessText;
     Event.addListener(element, 'click', function () {
-    IEvent.fire({
+    ilios.ui.onIliosEvent.fire({
         action: 'default_dialog_open',
             event: 'school_picker_show_dialog',
             container_number: -1
@@ -127,7 +127,7 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
     element.setAttribute('id', 'program_choosing_link');
     element.innerHTML = programAccessText;
     Event.addListener(element, 'click', function () {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'default_dialog_open',
             event: 'program_picker_show_dialog',
             container_number: -1
@@ -169,7 +169,7 @@ ilios.management.permissions.permissionsWorkflowStep2 = function () {
     element.setAttribute('id', 'course_choosing_link');
     element.innerHTML = courseAccessText;
     Event.addListener(element, 'click', function () {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'default_dialog_open',
             event: 'course_picker_show_dialog',
             container_number: -1
@@ -289,7 +289,7 @@ ilios.management.permissions.populateUserPickerDOM = function (parentContainer, 
         var rhett = '<span title="' + resultDataObject.getEmailAddress()
                                 + '" style="cursor: pointer;">';
 
-        rhett += resultDataObject.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+        rhett += resultDataObject.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
         rhett += '</span>';
 
         return rhett;
@@ -308,7 +308,7 @@ ilios.management.permissions.populateUserPickerDOM = function (parentContainer, 
 };
 
 ilios.management.permissions.handleUserSelection = function (selectedModel) {
-    var displayString = selectedModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+    var displayString = selectedModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
 
     ilios.dom.addNewLIElementWithIliosModel(document.getElementById('permissions_selected_users'),
                                             selectedModel, displayString);

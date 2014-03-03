@@ -337,7 +337,7 @@ ilios.management.user_accounts.createRowForSearchResultUser = function (user) {
 
     element.setAttribute('style', 'float: left;');
     subElement.setAttribute('style', 'font-weight: bold; float: left;');
-    subElement.innerHTML = userModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_LAST_FIRST);
+    subElement.innerHTML = userModel.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST);
     element.appendChild(subElement);
 
 
@@ -1207,7 +1207,7 @@ ilios.management.user_accounts.buildUserAddAndRolesDOM = function (userModel) {
     } else {
 
         element = document.createElement('div');
-        element.innerHTML = userModel.getFormattedName(ilios.utilities.USER_NAME_FORMAT_FIRST_FIRST);
+        element.innerHTML = userModel.getFormattedName(ilios.utilities.UserNameFormatEnum.FIRST_FIRST);
         element.setAttribute('class', 'read_only_data');
         subContainer.appendChild(element);
 
@@ -1551,7 +1551,7 @@ ilios.management.user_accounts.generateUserCohortsContainerMarkup = function (pa
     btnEl.innerHTML = ilios_i18nVendor.getI18NString('general.terms.edit');
 
     Event.addListener(btnEl, 'click', function (e) {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'gen_dialog_open',
             event: 'find_cohort_and_program'
         });
@@ -1592,7 +1592,7 @@ ilios.management.generateLoginCredentialsContainerMarkup = function (parentEl, u
         btnEl.setAttribute('style', 'display: none');
         btnEl.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.edit_login_credentials_button');
         Event.addListener(btnEl, 'click', function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'elc_dialog_open',
                 model: userModel
             });
@@ -1605,7 +1605,7 @@ ilios.management.generateLoginCredentialsContainerMarkup = function (parentEl, u
         btnEl.setAttribute('style', 'display: none');
         btnEl.innerHTML = ilios_i18nVendor.getI18NString('management.user_accounts.add_login_credentials_button');
         Event.addListener(btnEl, 'click', function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'alc_dialog_open',
                 model: userModel
             });
@@ -1892,7 +1892,7 @@ ilios.management.user_accounts.displayTheAreYouSuperSuperSureYouWantToDisableVie
                 .generateReadOnlyUserAttributePair(i18nStr,
                                                    userModel.getFormattedName(
                                                                     ilios.utilities
-                                                                        .USER_NAME_FORMAT_FIRST_FIRST));
+                                                                        .UserNameFormatEnum.FIRST_FIRST));
     element.appendChild(subElement);
     i18nStr = ilios_i18nVendor.getI18NString('general.user.uc_id');
     subElement

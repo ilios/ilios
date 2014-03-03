@@ -517,7 +517,7 @@ ilios.pm.appendProgramYearComponentToDOM = function (parentElement, contentId, l
         scratchElement.addClass('tiny button radius');
         scratchElement.get('element').setAttribute('onclick', 'return false;');
         scratchElement.addListener('click', function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: dialogAction,
                 event: searchEventName,
                 container_number: containerNumber
@@ -791,7 +791,7 @@ ilios.pm.programYearContentGenerator = function (parentElement, containerNumber)
         scratchInput.setAttribute('href', '');
         scratchInput.setAttribute('onclick', 'return false;');
         YAHOO.util.Event.addListener(scratchInput, 'click', function (e) {
-            IEvent.fire({
+            ilios.ui.onIliosEvent.fire({
                 action: 'archive_dialog_open',
                 container_number: containerNumber}
             );
@@ -996,7 +996,7 @@ ilios.pm.buildAndPopulateObjective = function (containerNumber, objectiveNumber,
     // register click event handler on objective description container
     Event.addListener(scratchElement, "click", function (e) { // pop up the "edit objective" dialog
         ilios.pm.eot.inEditObjectiveModel = objectiveModel;
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'eot_dialog_open',
             cnumber: containerNumber
         });
@@ -1012,7 +1012,7 @@ ilios.pm.buildAndPopulateObjective = function (containerNumber, objectiveNumber,
     scratchInput.setAttribute('href', '');
     scratchInput.setAttribute('onclick', 'return false;');
     Event.addListener(scratchInput, 'click', function (e) {
-        IEvent.fire({
+        ilios.ui.onIliosEvent.fire({
             action: 'mesh_picker_dialog_open',
             model_in_edit: objectiveModel,
             cnumber: containerNumber
@@ -1074,7 +1074,7 @@ ilios.pm.continueDeletingObjective = function(event, args) {
 ilios.pm.addNewObjective = function (containerNumber) {
     ilios.pm.eot.inEditObjectiveModel = null; // reset the objective model
     // fire up the objective dialog
-    IEvent.fire({
+    ilios.ui.onIliosEvent.fire({
         action: 'eot_dialog_open',
         cnumber: containerNumber
     });
@@ -1331,6 +1331,12 @@ ilios.pm.getGraduatingClassOfString = function (startYear, duration) {
     return rhett;
 };
 
+// @private
+ilios.pm.disableAddProgramYearLink = function (un, deux, trois) {
+    var element = document.getElementById('add_new_program_year_link');
+
+    ilios.dom.setEnableForAElement(element, false);
+};
 
 /**
  * @method ilios.pm.disc_initDialog
