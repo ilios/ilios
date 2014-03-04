@@ -25,19 +25,19 @@ ilios.cm.yuiCalendarModificationTarget = { COURSE_START: 'course start',
 
 ilios.cm.cohortTableColumnDefinitions = [{
     key: "program",
-    label: "<?php echo $phrase_program_title_string ?>",
+    label: ilios_i18nVendor.getI18NString('general.phrases.program_title'),
     sortable: true,
     resizeable: true,
     width: 168
 }, {
     key: "cohort",
-    label: "<?php echo $word_cohort_string ?>",
+    label: ilios_i18nVendor.getI18NString('general.terms.cohort'),
     sortable: true,
     resizeable: true,
     width: 155
 }, {
     key: "level",
-    label: "<?php echo $current_level_string ?>",
+    label: ilios_i18nVendor.getI18NString('course_management.current_level'),
     formatter: YAHOO.widget.DataTable.formatNumber,
     sortable: true,
     resizeable: true,

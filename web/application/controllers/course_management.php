@@ -138,9 +138,6 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'general.phrases.collapse_all';
         $data['collapse_sessions_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'course_management.current_level';
-        $data['current_level_string'] = $this->languagemap->getI18NString($key);
-
         $key = 'course_management.external_course_id';
         $data['external_course_id_string'] = $this->languagemap->getI18NString($key);
 
@@ -243,9 +240,6 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'general.phrases.owner_role';
         $data['phrase_owner_role_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'general.phrases.program_title';
-        $data['phrase_program_title_string'] = $this->languagemap->getI18NString($key);
-
         $key = 'general.phrases.program_cohorts';
         $data['phrase_program_cohort_string'] = $this->languagemap->getI18NString($key);
 
@@ -275,9 +269,6 @@ class Course_Management extends Ilios_Web_Controller
 
         $key = 'general.terms.citation';
         $data['word_citation_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.terms.cohort';
-        $data['word_cohort_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.terms.competencies';
         $data['word_competencies_string'] = $this->languagemap->getI18NString($key);
