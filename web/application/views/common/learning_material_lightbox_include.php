@@ -5,6 +5,7 @@
  *      YUI toolkit
  *      scripts/ilios_dom.js
  *      scripts/ilios_utilities.js
+ *      scripts/ilios_common_lm.js
  *
  * Users of this code should make sure they implement a method:
  *          ilios.common.lm.populateLearningMaterialMetadataDialog(containerNumber, learningMaterialId)
