@@ -19,6 +19,9 @@ RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 #
 RewriteRule ^ilios2\.php(.*)$ ilios.php$1 [R=301,QSA,L]
 
+#shorten the url of the calendar feed, so it works witih Google calendar
+RewriteRule ^ilios\.php/iCal/(.*)$ ilios.php/api/calendar/$1 [R,QSA,L]
+
 #
 # deny web access to shell scripts
 #
