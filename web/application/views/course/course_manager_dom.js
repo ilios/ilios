@@ -23,6 +23,29 @@ ilios.cm.yuiCalendarModificationTarget = { COURSE_START: 'course start',
                                            ROLLOVER_START: 'rollover start',
                                            ROLLOVER_END: 'rollover end' };
 
+ilios.cm.cohortTableColumnDefinitions = [{
+    key: "program",
+    label: "<?php echo $phrase_program_title_string ?>",
+    sortable: true,
+    resizeable: true,
+    width: 168
+}, {
+    key: "cohort",
+    label: "<?php echo $word_cohort_string ?>",
+    sortable: true,
+    resizeable: true,
+    width: 155
+}, {
+    key: "level",
+    label: "<?php echo $current_level_string ?>",
+    formatter: YAHOO.widget.DataTable.formatNumber,
+    sortable: true,
+    resizeable: true,
+    width: 110
+}];
+
+ilios.cm.cohortDataTable = null;
+
 /**
  * Dirty-state change-listener for course and session models.
  * @property dirtyStateListener
@@ -1631,6 +1654,48 @@ ilios.cm.populateReviewForSessionReviewForContainer = function (containerNumber)
 
     element = new Element(document.getElementById('session_review'));
     element.setStyle('display', 'block');
+};
+
+ilios.cm.setEnabledStateForCourseContainerUI = function (enabled) {
+    var element;
+
+    element = document.getElementById('add_new_session_link');
+    ilios.dom.setElementEnabled(element, enabled);
+
+    element = document.getElementById('add_objective_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('directors_search_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('disciplines_search_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('mesh_search_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('select_cohorts_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('show_more_or_less_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('show_course_summary_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('course_level_selector');
+    ilios.dom.setElementEnabled(element, enabled);
+
+    element = document.getElementById('course_learning_material_search_link');
+    ilios.dom.setEnableForAElement(element, enabled);
+
+    element = document.getElementById('external_course_id');
+    ilios.dom.setElementEnabled(element, enabled);
+};
+
+// @private
+ilios.cm.setupCourseContainerUIComponents = function (un, deux, trois) {
+    ilios.cm.setEnabledStateForCourseContainerUI(false);
 };
 
 // @private

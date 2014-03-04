@@ -168,6 +168,7 @@ $viewsPath = getServerFilePath('views');
     include_once $viewsPath . 'common/load_school_competencies.inc.php';
 ?>
 
+        YAHOO.util.Event.onDOMReady(ilios.cm.setupCourseContainerUIComponents, {});
         YAHOO.util.Event.onDOMReady(ilios.cm.assembleArchivingDialog, {});
         YAHOO.util.Event.onDOMReady(ilios.cm.assembleRolloverDialog, {});
 
@@ -289,6 +290,19 @@ $viewsPath = getServerFilePath('views');
         // being already created prior to course load and the data table (per Yahoo guidance)
         // gets created on window load, not on dom ready...
         YAHOO.util.Event.addListener(window, "load", ilios.cm.loadCourseIfAppropriate);
+
+        YAHOO.util.Event.addListener(window, "load", function() {
+            var dataSource = new YAHOO.util.FunctionDataSource(ilios.cm.getCohortTableData);
+
+            dataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSARRAY;
+            dataSource.responseSchema = { fields: ["program", "cohort", "level"] };
+
+            ilios.cm.cohortDataTable
+                = new YAHOO.widget.DataTable("cohort_level_table_div",
+                ilios.cm.cohortTableColumnDefinitions,
+                dataSource,
+                { height: "80px"});
+        });
     </script>
 </body>
 </html>
