@@ -1229,7 +1229,7 @@
      * @param {Number} cnumber The container number. Used as suffix when creating unique ID attributes for HTML elements
      *      within the container and of the container itself.
      * @returns {HTMLElement} The generated markup.
-     * @static
+     * @private
      */
     var generateSequenceBlockMarkup = function (cnumber) {
         var rootEl, headerEl, bodyEl, rowEl, el, ulEl, liEl;
