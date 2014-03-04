@@ -173,5 +173,4 @@
             <div class="ft"></div>
         </div>
 
-        <h1>Here we are!</h1>
         <script src="<?php echo appendRevision($viewsUrlRoot . "scripts/ilios_common_lm.js"); ?>"></script>
