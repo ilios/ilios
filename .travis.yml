@@ -14,6 +14,9 @@ addons:
   hosts:
     - precise64
 
+before_install:
+  - sudo apt-get update
+
 install:
   # Install composer packages in the app root. This will set up phing.
   - composer install
