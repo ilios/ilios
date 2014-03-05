@@ -23,6 +23,7 @@ Feature: Calendar Feed
     And I should see "This URL is like a password. Anyone who knows it can view your calendar! If you wish to invalidate this URL and generate a new one, press Generate."
 
     #
-    # Check that the URL length is at or below the 116 character limit of Google Calendar
+    # Google Calendar currently chokes on URLs longer than 116 characters.
+    # Check that ours is less than 100 to give us some room for longer hostnames.
     #
-    And the length of the value of "#apiurl" should be less than 117
+    And the length of the value of "#apiurl" should be less than 100
