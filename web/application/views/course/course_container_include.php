@@ -2,6 +2,15 @@
 /**
  * @file course_container_include.php
  *
+ * Includes template.
+ *
+ * Renders the container element for a course onto the page.
+ *
+ * Template variables assumed to be present are:
+ *
+ * @var array $clerkship_types An associative array, holding clerkship-id and clerkship-title key/value pairs.
+ * @var int $course_id The record id of the currently loaded course.
+ *
  */
 ?>
 <!-- content_container start -->
@@ -9,11 +18,11 @@
 <div class="master_button_container clearfix">
     <ul class="buttons left">
         <li>
-            <button class="small radius button" onclick="ilios.cm.cs.displayCourseSearchPanel();"><?php echo $word_search_string; ?></button>
+            <button class="small radius button" onclick="ilios.cm.cs.displayCourseSearchPanel();"><?php echo t('general.terms.search'); ?></button>
         </li>
         <li>
             <button id="add_new_course" class="small secondary radius button" onClick="ilios.cm.displayAddNewCourseDialog();">
-                <?php echo $add_course_string; ?>
+                <?php echo t('course_management.add_course'); ?>
             </button>
         </li>
     </ul>
@@ -68,7 +77,7 @@
 
     <div class="row">
         <div class="column label">
-            <label class="entity_widget_title" for="course_title"><?php echo $phrase_course_name_string; ?></label>
+            <label class="entity_widget_title" for="course_title"><?php echo t('general.phrases.course_name'); ?></label>
         </div>
         <div class="column data">
             <input type="text" id="course_title" name="course_title" value="" disabled="disabled" size="50"/>
@@ -77,13 +86,13 @@
             <a href=""
                class="tiny white radius button"
                onclick="ilios.course_summary.showCourseSummary(ilios.cm.currentCourseModel); return false;"
-               id="show_course_summary_link"><?php echo $phrase_show_course_summary; ?></a>
+               id="show_course_summary_link"><?php echo t('general.phrases.show_course_summary'); ?></a>
         </div>
     </div>
 
     <div class="row">
         <div class="column label">
-            <label for="external_course_id"><?php echo $external_course_id_string; ?></label>
+            <label for="external_course_id"><?php echo t('course_management.external_course_id'); ?></label>
         </div>
         <div class="column data">
             <input type="text" id="external_course_id" value=""/>
@@ -94,7 +103,7 @@
 
     <div class="row">
         <div class="column label">
-            <label><?php echo $phrase_course_year_string; ?></label>
+            <label><?php echo t('general.phrases.course_year'); ?></label>
         </div>
         <div class="column data">
             <span id="course_year_start" class="read_only_data"></span>
@@ -103,7 +112,7 @@
 
     <div class="row">
         <div class="column label">
-            <label for="course_level_selector"><?php echo $phrase_course_level_string; ?></label>
+            <label for="course_level_selector"><?php echo t('general.phrases.course_level'); ?></label>
         </div>
         <div class="column data">
             <select id="course_level_selector" name="course_level">
@@ -117,11 +126,11 @@
     </div>
     <div class="row">
         <div class="column label">
-            <label for="clerkship_type_selector"><?php echo $phrase_clerkship_type_string; ?></label>
+            <label for="clerkship_type_selector"><?php echo t('course_management.clerkship_type'); ?></label>
         </div>
         <div class="column data">
             <select id="clerkship_type_selector">
-                <option value=""><?php echo $phrase_not_a_clerkship_string; ?></option>
+                <option value=""><?php echo t('course_management.not_a_clerkship'); ?></option>
 <?php foreach ($clerkship_types as $clerkshipTypeId => $clerkshipTypeTitle) : ?>
                 <option value="<?php echo $clerkshipTypeId; ?>"><?php echo htmlentities($clerkshipTypeTitle, ENT_COMPAT, 'UTF-8'); ?></option>
 <?php endforeach; ?>
@@ -130,7 +139,7 @@
     </div>
     <div class="row">
         <div class="column label">
-            <label><?php echo $phrase_program_cohort_string; ?></label>
+            <label><?php echo t('general.phrases.program_cohorts'); ?></label>
         </div>
         <div class="column data">
             <div id="cohort_level_table_div"></div>
@@ -139,13 +148,13 @@
             <a href=""
                class="tiny radius button"
                onclick="ilios.ui.onIliosEvent.fire({action: 'gen_dialog_open', event: 'find_cohort_and_program'}); return false;"
-               id="select_cohorts_link"><?php echo $select_cohorts_string; ?></a>
+               id="select_cohorts_link"><?php echo t('course_management.select_cohorts'); ?></a>
         </div>
     </div>
 
     <div class="row">
         <div class="column label">
-            <label><?php echo $phrase_associated_learners_string; ?></label>
+            <label><?php echo t('general.phrases.associated_learners'); ?></label>
         </div>
         <div class="column data">
             <div id="course_associated_learners" class="read_only_data scroll_list"></div>
@@ -154,7 +163,7 @@
 
     <div class="row">
         <div class="column label">
-            <label for="start_date_calendar_button"><?php echo $phrase_start_date_string; ?></label>
+            <label for="start_date_calendar_button"><?php echo t('general.phrases.start_date'); ?></label>
         </div>
         <div class="column data">
             <span id="course_start_date" class="read_only_data"><?php echo t('general.phrases.no_date_selected'); ?></span>
@@ -165,7 +174,7 @@
 
     <div class="row">
         <div class="column label">
-            <label for="end_date_calendar_button"><?php echo $phrase_end_date_string; ?></label>
+            <label for="end_date_calendar_button"><?php echo t('general.phrases.end_date'); ?></label>
         </div>
         <div class="column data">
             <span id="course_end_date" class="read_only_data"><?php echo t('general.phrases.no_date_selected'); ?></span>
@@ -176,7 +185,7 @@
 
     <div class="row">
         <div class="column label">
-            <label for=""><?php echo $word_competencies_string ?></label>
+            <label for=""><?php echo t('general.terms.competencies'); ?></label>
         </div>
         <div class="column data">
             <div id="-1_competency_picker_selected_text_list" class="read_only_data scroll_list"></div>
@@ -186,7 +195,7 @@
 
     <div class="row">
         <div class="column label">
-            <label for=""><?php echo $word_disciplines_string; ?></label>
+            <label for=""><?php echo t('general.terms.topics'); ?></label>
         </div>
         <div class="column data">
             <div id="-1_discipline_picker_selected_text_list" class="read_only_data scroll_list"></div>
@@ -195,13 +204,13 @@
             <a href=""
                class="tiny radius button"
                onclick="ilios.ui.onIliosEvent.fire({action: 'default_dialog_open', event: 'discipline_picker_show_dialog', container_number: -1}); return false;"
-               id="disciplines_search_link"><?php echo $word_search_string; ?></a>
+               id="disciplines_search_link"><?php echo t('general.terms.search'); ?></a>
         </div>
     </div>
 
     <div class="row">
         <div class="column label">
-            <label for=""><?php echo $word_directors_string; ?></label>
+            <label for=""><?php echo t('general.terms.directors'); ?></label>
         </div>
         <div class="column data">
             <div id="-1_director_picker_selected_text_list" class="read_only_data scroll_list"></div>
@@ -209,13 +218,13 @@
         <div class="column actions">
             <a href="" class="tiny radius button"
                onclick="ilios.ui.onIliosEvent.fire({action: 'default_dialog_open', event: 'director_picker_show_dialog', container_number: -1}); return false;"
-               id="directors_search_link"><?php echo $word_search_string; ?></a>
+               id="directors_search_link"><?php echo t('general.terms.search'); ?></a>
         </div>
     </div>
 
     <div class="row">
         <div class="column label">
-            <label for=""><?php echo $phrase_mesh_terms_string; ?></label>
+            <label for=""><?php echo t('general.phrases.mesh_terms'); ?></label>
         </div>
         <div class="column data">
             <div id="-1_mesh_terms_picker_selected_text_list" class="read_only_data scroll_list"></div>
@@ -223,14 +232,14 @@
         <div class="column actions">
             <a href="" class="tiny radius button"
                onclick="ilios.cm.displayMeSHDialogForCourse(); return false;"
-               id="mesh_search_link"><?php echo $word_search_string; ?></a>
+               id="mesh_search_link"><?php echo t('general.terms.search'); ?></a>
         </div>
     </div>
 
     <div class="row">
         <div class="column label">
             <div class="collapsed_widget" id="-1_learning_material_expand_widget"></div>
-            <label for=""><?php echo $phrase_learning_materials_string; ?></label>
+            <label for=""><?php echo t('general.phrases.learning_materials'); ?></label>
             <span id="-1_learning_material_count" style="margin-right: 9px;"> (0)</span>
         </div>
         <div class="column data">
@@ -241,22 +250,22 @@
         <div class="column actions">
             <a href="" class="tiny radius button"
                onclick="ilios.ui.onIliosEvent.fire({action: 'alm_dialog_open', container_number: -1}); return false;"
-               id="course_learning_material_search_link"><?php echo $word_search_string; ?> / <?php echo $word_add_string; ?></a>
+               id="course_learning_material_search_link"><?php echo t('general.terms.search'); ?> / <?php echo t('general.terms.add'); ?></a>
         </div>
     </div>
 
     <div class="row">
         <div class="column label">
             <div class="collapsed_widget" id="-1_objectives_container_expand_widget"></div>
-            <label id="-1_objectives_container_label" for=""><?php echo $phrase_learning_objectives_string; ?> (0)</label>
+            <label id="-1_objectives_container_label" for=""><?php echo t('general.phrases.learning_objectives'); ?> (0)</label>
         </div>
         <div class="column data">
             <div id="-1_objectives_container" style="display: none;"></div>
         </div>
         <div class="column actions">
             <a href="" class="tiny radius button"
-               onclick="ilios.cm.addNewCourseObjective(-1); return false;"
-               id="add_objective_link"><?php echo $add_objective_string; ?></a>
+               onclick="ilios.cm.addNewCourseObjective('-1'); return false;"
+               id="add_objective_link"><?php echo t('general.phrases.add_objective'); ?></a>
         </div>
     </div>
     <div class="buttons bottom">
@@ -292,15 +301,15 @@ endif;
 ?>
     <div id="course_sessions_toolbar" class="collapse_children_toggle_link hidden">
         <select id="session_ordering_selector" onchange="ilios.cm.session.reorderSessionDivs(); return false;">
-            <option selected="selected"><?php echo $sort_alpha_asc; ?></option>
-            <option><?php echo $sort_alpha_desc; ?></option>
-            <option><?php echo $sort_date_asc; ?></option>
-            <option><?php echo $sort_date_desc; ?></option>
+            <option selected="selected"><?php echo t('course_management.session.sort.alpha_asc'); ?></option>
+            <option><?php echo t('course_management.session.sort.alpha_desc'); ?></option>
+            <option><?php echo t('course_management.session.sort.date_asc'); ?></option>
+            <option><?php echo t('course_management.session.sort.date_desc'); ?></option>
         </select>
 
         <button class="small secondary radius button"
                 onclick="ilios.cm.session.collapseOrExpandSessions(false); return false;"
-                id="expand_sessions_link"><?php echo $collapse_sessions_string; ?>
+                id="expand_sessions_link"><?php echo t('general.phrases.collapse_all'); ?>
         </button>
     </div>
 
@@ -311,7 +320,7 @@ endif;
 
 <div class="add_primary_child_link">
     <button class="small secondary radius button" onclick="ilios.cm.session.userRequestsSessionAddition();"
-            id="add_new_session_link" disabled="disabled"><?php echo $add_session_string; ?>
+            id="add_new_session_link" disabled="disabled"><?php echo t('course_management.add_session'); ?>
     </button>
 </div>
 </div>

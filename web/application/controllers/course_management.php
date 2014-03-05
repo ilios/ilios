@@ -126,21 +126,6 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'course_management.add_course.title';
         $data['add_new_course_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'course_management.add_course';
-        $data['add_course_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.add_objective';
-        $data['add_objective_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.add_session';
-        $data['add_session_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.collapse_all';
-        $data['collapse_sessions_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.external_course_id';
-        $data['external_course_id_string'] = $this->languagemap->getI18NString($key);
-
         $key = 'course_management.objective_edit_title';
         $data['edit_objective_dialog_title'] = $this->languagemap->getI18NString($key);
 
@@ -149,9 +134,6 @@ class Course_Management extends Ilios_Web_Controller
 
         $key = 'course_management.page_header';
         $data['page_header_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.select_cohorts';
-        $data['select_cohorts_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'course_management.select_parent_objectives';
         $data['select_parent_objectives_string'] = $this->languagemap->getI18NString($key);
@@ -165,23 +147,8 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'general.phrases.search.hint';
         $data['generic_search_hint'] = $this->languagemap->getI18NString($key);
 
-        $key = 'course_management.session.sort.alpha_asc';
-        $data['sort_alpha_asc'] = $this->languagemap->getI18NString($key);
-
         $key = 'general.phrases.default_order';
         $data['sort_default_ordering'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.session.sort.alpha_asc';
-        $data['sort_alpha_asc'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.session.sort.alpha_desc';
-        $data['sort_alpha_desc'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.session.sort.date_asc';
-        $data['sort_date_asc'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.session.sort.date_desc';
-        $data['sort_date_desc'] = $this->languagemap->getI18NString($key);
 
         $key = 'course_management.multiple_offerings_generator.parent_group_strategy';
         $data['phrase_parent_group_strategy'] = $this->languagemap->getI18NString($key);
@@ -195,26 +162,8 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'general.phrases.academic_year';
         $data['phrase_academic_year_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'course_management.clerkship_type';
-        $data['phrase_clerkship_type_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'course_management.not_a_clerkship';
-        $data['phrase_not_a_clerkship_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.associated_learners';
-        $data['phrase_associated_learners_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.course_level';
-        $data['phrase_course_level_string'] = $this->languagemap->getI18NString($key);
-
         $key = 'general.phrases.course_name';
         $data['phrase_course_name_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.course_year';
-        $data['phrase_course_year_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.end_date';
-        $data['phrase_end_date_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.end_time';
         $data['phrase_end_time_string'] = $this->languagemap->getI18NString($key);
@@ -225,12 +174,6 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'general.phrases.file_type';
         $data['phrase_file_type_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'general.phrases.learning_materials';
-        $data['phrase_learning_materials_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.learning_objectives';
-        $data['phrase_learning_objectives_string'] = $this->languagemap->getI18NString($key);
-
         $key = 'general.phrases.mesh_terms';
         $data['phrase_mesh_terms_string'] = $this->languagemap->getI18NString($key);
 
@@ -240,20 +183,11 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'general.phrases.owner_role';
         $data['phrase_owner_role_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'general.phrases.program_cohorts';
-        $data['phrase_program_cohort_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.phrases.show_course_summary';
-        $data['phrase_show_course_summary'] = $this->languagemap->getI18NString($key);
-
         $key = 'general.phrases.show_less';
         $data['phrase_show_less_string'] = strtolower($this->languagemap->getI18NString($key));
 
         $key = 'general.phrases.show_more';
         $data['phrase_show_more_string'] = strtolower($this->languagemap->getI18NString($key));
-
-        $key = 'general.phrases.start_date';
-        $data['phrase_start_date_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.start_time';
         $data['phrase_start_time_string'] = $this->languagemap->getI18NString($key);
@@ -264,23 +198,14 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'general.phrases.upload_date';
         $data['phrase_upload_date_string'] = $this->languagemap->getI18NString($key);
 
-        $key = 'general.terms.add';
-        $data['word_add_string'] = $this->languagemap->getI18NString($key);
-
         $key = 'general.terms.citation';
         $data['word_citation_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.terms.competencies';
-        $data['word_competencies_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.terms.description';
         $data['word_description_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.terms.directors';
         $data['word_directors_string'] = $this->languagemap->getI18NString($key);
-
-        $key = 'general.terms.topics';
-        $data['word_disciplines_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.terms.done';
         $data['word_done_string'] = $this->languagemap->getI18NString($key);
