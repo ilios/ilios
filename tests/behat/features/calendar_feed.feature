@@ -21,3 +21,4 @@ Feature: Calendar Feed
     # Check that the like-a-password caution is displayed
     #
     And I should see "This URL is like a password. Anyone who knows it can view your calendar! If you wish to invalidate this URL and generate a new one, press Generate."
+

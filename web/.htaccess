@@ -15,11 +15,6 @@ RewriteCond %{HTTPS} !=on
 RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 
 #
-# Redirect requests for ilios2.php to ilios.php
-#
-RewriteRule ^ilios2\.php(.*)$ ilios.php$1 [R=301,QSA,L]
-
-#
 # deny web access to shell scripts
 #
 <Files ~ "\.sh$">
