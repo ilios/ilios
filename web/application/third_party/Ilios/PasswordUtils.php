@@ -186,8 +186,7 @@ class Ilios_PasswordUtils
      */
     public static function generateToken ()
     {
-        // generate random 40-char string. 64-char (sha256) can too easily result
-        //    in a URL of length > 116 which means Google Calendar will choke on it
+        // generate unpredictable 64-char string
         if (function_exists('openssl_random_pseudo_bytes')) {
             $key = bin2hex(openssl_random_pseudo_bytes(32));
         } else {
@@ -201,7 +200,7 @@ class Ilios_PasswordUtils
         $key = microtime() . '_' . $key;
 
         // hash the string
-        $key = hash('sha1', $key);
+        $key = hash('sha256', $key);
 
         return $key;
     }
