@@ -251,18 +251,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Then /^the length of the value of "([^"]*)" should be less than (\d+)$/
-     */
-    public function theLengthOfTheValueOfShouldBeLessThan($selector, $maxLength)
-    {
-        $el = $this->getSession()->getPage()->find('css', $selector);
-        $length = strlen($el->getValue());
-        if ($length >= $maxLength) {
-            throw new Exception("Length of value of $selector ($length) not less than $maxLength");
-        }
-    }
-
-    /**
      * @AfterScenario
      *
      * PhantomJS does not clear the session properly, so we must
