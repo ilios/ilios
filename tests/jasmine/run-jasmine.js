@@ -6,7 +6,7 @@ if (system.args.length !== 2) {
 }
 
 // Check for console message indicating jasmine is finished running
-var doneRegEx = /^Finished in \d+ second/;
+var doneRegEx = /^\d+ specs, (\d+) failure/;
 
 var page = require('webpage').create();
 
@@ -15,8 +15,9 @@ var page = require('webpage').create();
 
 page.onConsoleMessage = function (msg) {
     system.stdout.write(msg);
-    if (msg.match(doneRegEx)) {
-        phantom.exit();
+    var match = doneRegEx.exec(msg);
+    if (match) {
+        phantom.exit(match[1]);
     }
 };
 
