@@ -521,7 +521,7 @@ ilios.home.calendar.initFeedHooks = function () {
     // Initialize 'Regenerate' button
     var regenbutton = Dom.get("ical_feed_search_button");
 
-    if (null != regembutton) {
+    if (null != regenbutton) {
         if (null != ilios.home.calendar.feedDialog) {
             Event.addListener( regenbutton, "click", function () {
                 return false;
