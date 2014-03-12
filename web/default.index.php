@@ -67,9 +67,6 @@
             <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/about" >Learn More</a></span>
             <span style="margin-right: 18px;"><a href="http://github.com/ilios/ilios" >Collaborate</a></span>
         </div>
-        <div style="margin-top: 66px; font-size: 8pt;">
-            Copyright &copy; 2011 - <?php echo date('Y'); ?> by the Regents of the University of California. Distributed under the <a href="http://opensource.org/licenses/gpl-3.0.html">GNU GPL 3.0 license</a>.
-        </div>
     </div>
 </div> <!--end #wrapper-->
 <footer>
