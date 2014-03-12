@@ -45,11 +45,11 @@
         <div id="main" role="main">
             <div id="content">
                 <div style="margin-top: 50px; text-align: center;">
-                    <a href="ilios.php/dashboard_controller">Enter the UCSF Ilios Application (log in required)</a>
+                    <a href="ilios.php/dashboard_controller">UCSF Ilios (login required)</a>
                 </div>
 
                 <div style="margin-top: 96px; text-align: center;">
-                    <a href="http://www.iliosproject.org/">Go to the Ilios Project Website</a>
+                    <a href="http://www.iliosproject.org/">Ilios Project</a>
                 </div>
 
                 <div style="margin-top: 128px; text-align: center;">
