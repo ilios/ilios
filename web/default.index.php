@@ -60,14 +60,6 @@
              </div>
          </div><!--end #content-->
      </div><!--end #main-->
-
-     <div style="position: relative; width: 100%; bottom: 1em; top: 8em; text-align: center;">
-        <div>
-            <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/" >About us</a></span>
-            <span style="margin-right: 18px;"><a href="http://www.iliosproject.org/about" >Learn More</a></span>
-            <span style="margin-right: 18px;"><a href="http://github.com/ilios/ilios" >Collaborate</a></span>
-        </div>
-    </div>
 </div> <!--end #wrapper-->
 <footer>
     <!-- reserve for later use -->
