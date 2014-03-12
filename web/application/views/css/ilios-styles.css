@@ -159,13 +159,13 @@ textarea.validation-failed {
 /* icons via ilios-icons font   */
 /* http://css-tricks.com/html-for-icon-font-usage/ */
 @font-face {
-	font-family: 'ilios-icons';
-	src: url('../fonts/ilios-icons/ilios-icons.eot?#') format('eot'),
-		url('../fonts/ilios-icons/ilios-icons.svg#ilios-icons') format('svg'),
-		url('../fonts/ilios-icons/ilios-icons.woff') format('woff'),
-		url('../fonts/ilios-icons/ilios-icons.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'ilios-icons';
+    src: url('../fonts/ilios-icons/ilios-icons.eot?#') format('eot'),
+        url('../fonts/ilios-icons/ilios-icons.svg#ilios-icons') format('svg'),
+        url('../fonts/ilios-icons/ilios-icons.woff') format('woff'),
+        url('../fonts/ilios-icons/ilios-icons.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 
