@@ -10,7 +10,6 @@ require_once 'PHPUnit/Extensions/Database/Operation/Exception.php';
 class Ilios_PHPUnit_Extensions_Database_Operation_ResetAutoincrement
     implements PHPUnit_Extensions_Database_Operation_IDatabaseOperation
 {
-
     /*
      * @see PHPUnit_Extensions_Database_Operation_IDatabaseOperation::execute()
      */
@@ -26,7 +25,7 @@ class Ilios_PHPUnit_Extensions_Database_Operation_ResetAutoincrement
                 $connection->getConnection()->query($query);
             } catch (PDOException $e) {
                 throw new PHPUnit_Extensions_Database_Operation_Exception('RESET_AUTOINCREMENT',
-                		$query, array(), $table, $e->getMessage());
+                  $query, array(), $table, $e->getMessage());
             }
         }
     }

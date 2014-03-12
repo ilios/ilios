@@ -66,6 +66,6 @@ class Ilios_CourseUtilsTest extends Ilios_TestCase
      */
     public function testExtractCourseIdFromHash ($expected, $hash)
     {
-    	$this->assertEquals($expected, Ilios_CourseUtils::extractCourseIdFromHash($hash));
+        $this->assertEquals($expected, Ilios_CourseUtils::extractCourseIdFromHash($hash));
     }
 }
