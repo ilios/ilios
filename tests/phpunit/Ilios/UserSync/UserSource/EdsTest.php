@@ -30,8 +30,8 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
      * @group ilios
      * @group ldap
      * @group user_sync
-	 * @covers Ilios_UserSync_UserSource_Eds::getStudentRecords
-	 */
+     * @covers Ilios_UserSync_UserSource_Eds::getStudentRecords
+     */
     public function testGetStudentRecords ()
     {
         $config = $this->_getUserSourceConfiguration();

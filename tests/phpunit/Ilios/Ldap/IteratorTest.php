@@ -12,7 +12,7 @@ class Ilios_Ldap_IteratorTest extends Ilios_TestCase
      */
     protected $_ldap;
 
-	/* (non-PHPdoc)
+    /* (non-PHPdoc)
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp() {
@@ -22,7 +22,7 @@ class Ilios_Ldap_IteratorTest extends Ilios_TestCase
 
     }
 
-	/* (non-PHPdoc)
+    /* (non-PHPdoc)
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown() {

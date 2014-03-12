@@ -118,7 +118,7 @@ class Ilios_LdapTest extends Ilios_TestCase
     public function testSearchSuccess ()
     {
         $ldap = new Ilios_Ldap($this->_ldapConfig);
-	    $filter = '(objectClass=*)';
+        $filter = '(objectClass=*)';
         $ldap->bind();
         $search = $ldap->search(Ilios_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
                         Ilios_Ldap::LDAP_SCOPE_SUBTREE, array(), false, 1, 0);
@@ -139,7 +139,7 @@ class Ilios_LdapTest extends Ilios_TestCase
     public function testSearchFailure ()
     {
         $ldap = new Ilios_Ldap($this->_ldapConfig);
-	    $brokenFilter = '(objectClass=*'; // missing closing parenthesis
+        $brokenFilter = '(objectClass=*'; // missing closing parenthesis
         $ldap->bind();
         // calling search() with the broken filter will barf up an exception
         $search = $ldap->search(Ilios_UserSync_UserSource_Eds::EDS_BASE_DN, $brokenFilter,

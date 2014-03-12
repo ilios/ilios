@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<table name="user_sync_exception">
-		<column>exception_id</column>
-		<column>process_id</column>
-		<column>process_name</column>
-		<column>user_id</column>
-		<column>exception_code</column>
-		<column>mismatched_property_name</column>
-		<column>mismatched_property_value</column>
-		<!--  TEST CASE: uid match but email mismatch (Ilios user id = 8) -->
-		<row>
-			<value>1</value>
-			<value>1319576361</value>
-			<value>Ilios_UserSync_Process_NonStudentProcess</value>
-			<value>8</value>
-			<value>301</value>
-			<value>email</value>
-			<value>michael.mismatch@test.com</value>
-		</row>
-		<!--  TEST CASE: email match but uid mismatch (Ilios user id = 9) -->
-		<row>
-			<value>2</value>
-			<value>1319576361</value>
-			<value>Ilios_UserSync_Process_NonStudentProcess</value>
-			<value>9</value>
-			<value>302</value>
-			<value>uid</value>
-			<value>xxxx111199</value>
-		</row>	
-		<!--  TEST CASE: duplicates on email in Ilios (Ilios user id = 10) -->
-		<row>
-			<value>3</value>
-			<value>1319576361</value>
-			<value>Ilios_UserSync_Process_NonStudentProcess</value>
-			<value>10</value>
-			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
-			<value>303</value>
-			<null />
-			<null />
-		</row>
-		<row>
-			<value>4</value>
-			<value>1319576361</value>
-			<value>Ilios_UserSync_Process_NonStudentProcess</value>
-			<value>11</value>
-			<!--  Ilios_UserSync_Process_UserException::PARTIAL_MISMATCH -->
-			<value>304</value>
-			<null />
-			<null />
-		</row>
-		<!--  TEST CASE: duplicates on uid in Ilios (Ilios user id = 12) -->
-		<row>
-			<value>5</value>
-			<value>1319576361</value>
-			<value>Ilios_UserSync_Process_NonStudentProcess</value>
-			<value>12</value>
-			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
-			<value>303</value>
-			<null />
-			<null />
-		</row>
-		<row>
-			<value>6</value>
-			<value>1319576361</value>
-			<value>Ilios_UserSync_Process_NonStudentProcess</value>
-			<value>13</value>
-			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
-			<value>303</value>
-			<null />
-			<null />
-		</row>
-		<row>
-			<value>7</value>
-			<value>1319576361</value>
-			<value>Ilios_UserSync_Process_NonStudentProcess</value>
-			<value>14</value>
-			<!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
-			<value>303</value>
-			<null />
-			<null />
-		</row>
-	</table>
+    <table name="user_sync_exception">
+        <column>exception_id</column>
+        <column>process_id</column>
+        <column>process_name</column>
+        <column>user_id</column>
+        <column>exception_code</column>
+        <column>mismatched_property_name</column>
+        <column>mismatched_property_value</column>
+        <!--  TEST CASE: uid match but email mismatch (Ilios user id = 8) -->
+        <row>
+            <value>1</value>
+            <value>1319576361</value>
+            <value>Ilios_UserSync_Process_NonStudentProcess</value>
+            <value>8</value>
+            <value>301</value>
+            <value>email</value>
+            <value>michael.mismatch@test.com</value>
+        </row>
+        <!--  TEST CASE: email match but uid mismatch (Ilios user id = 9) -->
+        <row>
+            <value>2</value>
+            <value>1319576361</value>
+            <value>Ilios_UserSync_Process_NonStudentProcess</value>
+            <value>9</value>
+            <value>302</value>
+            <value>uid</value>
+            <value>xxxx111199</value>
+        </row>    
+        <!--  TEST CASE: duplicates on email in Ilios (Ilios user id = 10) -->
+        <row>
+            <value>3</value>
+            <value>1319576361</value>
+            <value>Ilios_UserSync_Process_NonStudentProcess</value>
+            <value>10</value>
+            <!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+            <value>303</value>
+            <null />
+            <null />
+        </row>
+        <row>
+            <value>4</value>
+            <value>1319576361</value>
+            <value>Ilios_UserSync_Process_NonStudentProcess</value>
+            <value>11</value>
+            <!--  Ilios_UserSync_Process_UserException::PARTIAL_MISMATCH -->
+            <value>304</value>
+            <null />
+            <null />
+        </row>
+        <!--  TEST CASE: duplicates on uid in Ilios (Ilios user id = 12) -->
+        <row>
+            <value>5</value>
+            <value>1319576361</value>
+            <value>Ilios_UserSync_Process_NonStudentProcess</value>
+            <value>12</value>
+            <!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+            <value>303</value>
+            <null />
+            <null />
+        </row>
+        <row>
+            <value>6</value>
+            <value>1319576361</value>
+            <value>Ilios_UserSync_Process_NonStudentProcess</value>
+            <value>13</value>
+            <!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+            <value>303</value>
+            <null />
+            <null />
+        </row>
+        <row>
+            <value>7</value>
+            <value>1319576361</value>
+            <value>Ilios_UserSync_Process_NonStudentProcess</value>
+            <value>14</value>
+            <!--  Ilios_UserSync_Process_UserException::NON_STUDENT_SYNC_USER_DUPLICATES -->
+            <value>303</value>
+            <null />
+            <null />
+        </row>
+    </table>
 </dataset>
