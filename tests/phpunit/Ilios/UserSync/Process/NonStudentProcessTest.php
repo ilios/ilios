@@ -10,7 +10,6 @@ class Ilios_UserSync_Process_NonStudentProcessTest extends Ilios_UserSync_Proces
     /**
      * @test
      * @covers Ilios_UserSync_Process_NonStudentProcess
-     * @group non_student_sync
      * @group ilios
      * @group usersync
      * @group ede
