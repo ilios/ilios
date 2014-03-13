@@ -96,7 +96,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * @expectedException Ilios_UserSync_Exception
      * @covers Canned_Queries::__construct
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function testConstructorWithMissingUserData ()
     {
@@ -109,7 +109,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * @covers Ilios_UserSync_UserSource_Array::getAllStudentRecords
      * @dataProvider providerGetAllStudentRecords
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function testGetAllStudentRecords ($studentCount, $users)
     {
@@ -124,7 +124,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_UserSource_Array::getUserByEmail
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function testGetUserByEmail ()
     {
@@ -158,7 +158,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_UserSource_Array::getUserByUid
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function testGetUserByUid ()
     {
@@ -192,7 +192,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_UserSource_Array::hasStudent
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function hasStudent ()
     {
@@ -217,7 +217,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * @test
      * @covers Ilios_UserSync_UserSource_Array::hasUser
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function hasUser ()
     {

@@ -27,7 +27,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::connect
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
      */
     public function testConnectSuccess ()
     {
@@ -44,7 +44,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @expectedException Ilios_Ldap_Exception
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
      */
     public function testConnectFailure ()
     {
@@ -62,7 +62,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::bind
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
      */
     public function testBindSuccess ()
     {
@@ -79,7 +79,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @expectedException Ilios_Ldap_Exception
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
      */
     public function testBindFailure ()
     {
@@ -97,7 +97,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::disconnect
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
      */
     public function testDisconnect ()
     {
@@ -113,7 +113,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::search
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
      */
     public function testSearchSuccess ()
     {
@@ -134,7 +134,7 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @expectedException Ilios_Ldap_Exception
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
      */
     public function testSearchFailure ()
     {
