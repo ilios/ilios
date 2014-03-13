@@ -92,7 +92,7 @@ bin/phpunit --exclude-group e2e,integration Ilios
 
 **ACHTUNG!**  Do not run this these tests against your regular development, stage or production database, otherwise it will get clobbered.
 
-Only run tests in the `ede` group.
+Only run tests in the `e2e` group.
 
 ```bash
 cd <iliosroot>/tests/phpunit
