@@ -116,12 +116,12 @@ $viewsPath = getServerFilePath('views');
                 <form method="post" action="<?php echo current_url(); ?>/addNewProgram">
                     <input id="new_program_hidden" name="new_program_hidden" type="hidden" />
                     <div style="position: relative; margin-bottom: 18px;">
-                        <span class="entity_widget_title"><?php echo $program_title_full_string; ?></span>
+                        <span class="entity_widget_title"><?php echo t('general.phrases.program_title_full'); ?></span>
                         <br/>
                         <input id="new_program_title" name="new_program_title" type="text"  value="" size="50"/>
                     </div>
                     <div style="position: relative; margin-bottom: 6px;">
-                        <span class="entity_widget_title"><?php echo $program_title_short_string; ?></span>
+                        <span class="entity_widget_title"><?php echo t('general.phrases.program_title_short'); ?></span>
                         <br />
                         <input id="new_short_title" name="new_short_title" type="text" value="" size="20"
                             style="margin-bottom: 9px;" />
