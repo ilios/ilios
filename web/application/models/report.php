@@ -1101,7 +1101,7 @@ EOL;
         }
 
 
-        if (! is_null($queryResults)) {
+        if ($queryResults) {
             foreach ($queryResults->result_array() as $row) {
                 $linkObject = array();
 
