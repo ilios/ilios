@@ -12,7 +12,7 @@ class Ilios_UserSync_Process_NonStudentProcessTest extends Ilios_UserSync_Proces
      * @covers Ilios_UserSync_Process_NonStudentProcess
      * @group non_student_sync
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function testRun ()
     {
