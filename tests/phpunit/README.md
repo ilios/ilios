@@ -7,7 +7,7 @@ cd <iliosroot>/tests/phpunit
 composer install
 ```
 
-See the [official manual](http://phpunit.de/manual/current/en/installation.html#installation.composer) for more details.
+See the [official PHPUnit manual](http://phpunit.de/manual/current/en/installation.html#installation.composer) for more details.
 
 # Configuring the test environment
 
