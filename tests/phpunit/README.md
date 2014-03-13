@@ -85,7 +85,7 @@ Exclude the end-to-end and integration tests:
 
 ```bash
 cd <iliosroot>/tests/phpunit
-bin/phpunit --exclude-group ede,integration Ilios
+bin/phpunit --exclude-group e2e,integration Ilios
 ```
 
 ## End-to-end tests
@@ -96,7 +96,7 @@ Only run tests in the `ede` group.
 
 ```bash
 cd <iliosroot>/tests/phpunit
-bin/phpunit  --group ede Ilios
+bin/phpunit  --group e2e Ilios
 ```
 
 ##  Integration tests
