@@ -848,9 +848,9 @@ class Report extends Ilios_Base_Model
                                             SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
                                               FROM `offering`, `offering_x_group`, `group_x_instructor`,
-                                                   `instructor_group_x_user`, `session`
+                                                   `instructor_group_x_user`, `session`, `group_x_instructor_group`
                                              WHERE `offering`.`offering_id` = `offering_x_group`.`offering_id`
-                                               AND `group_x_instructor`.`instructor_group_id`
+                                               AND `group_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                                AND `offering_x_group`.`group_id` = `group_x_instructor`.`group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
@@ -886,10 +886,10 @@ class Report extends Ilios_Base_Model
                                             SELECT DISTINCT `session`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
                                               FROM `ilm_session_facet_x_group`, `instructor_group_x_user`, `session`,
-                                                   `group_x_instructor`
+                                                   `group_x_instructor`, `group_x_instructor_group`
                                              WHERE `ilm_session_facet_x_group`.`ilm_session_facet_id` = `session`.`ilm_session_facet_id`
                                                AND `ilm_session_facet_x_group`.`group_id` = `group_x_instructor`.`group_id`
-                                               AND `group_x_instructor`.`instructor_group_id`
+                                               AND `group_x_instructor_group`.`instructor_group_id`
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = 0
@@ -1101,7 +1101,7 @@ EOL;
         }
 
 
-        if (! is_null($queryResults)) {
+        if ($queryResults) {
             foreach ($queryResults->result_array() as $row) {
                 $linkObject = array();
 
