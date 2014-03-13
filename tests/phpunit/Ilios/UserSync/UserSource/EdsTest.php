@@ -30,6 +30,7 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
      * @group ilios
      * @group ldap
      * @group usersync
+     * @group integration
      * @covers Ilios_UserSync_UserSource_Eds::getStudentRecords
      */
     public function testGetStudentRecords ()
@@ -52,6 +53,7 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
      * @group ilios
      * @group ldap
      * @group usersync
+     * @group integration
      * @covers Ilios_UserSync_UserSource_Eds::hasStudent
      */
     public function testHasStudent ()
@@ -83,6 +85,7 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
      * @group ilios
      * @group ldap
      * @group usersync
+     * @group integration
      * @covers Ilios_UserSync_UserSource_Eds::hasUser
      */
     public function testHasUser ()
@@ -116,6 +119,7 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
      * @group ilios
      * @group ldap
      * @group usersync
+     * @group integration
      * @covers Ilios_UserSync_UserSource_Eds::getUserByUid
      */
     public function testGetUserByUid ()
@@ -147,6 +151,7 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
      * @group ilios
      * @group ldap
      * @group usersync
+     * @group integration
      * @covers Ilios_UserSync_UserSource_Eds::getUserByEmail
      */
     public function testGetUserByEmail ()
