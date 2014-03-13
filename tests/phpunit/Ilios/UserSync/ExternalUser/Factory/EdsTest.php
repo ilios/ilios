@@ -14,33 +14,33 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      */
     public function graduationYearProvider ()
     {
-    	return array(
-    		/* bad input */
-    		array(null, -1),
-    		array('', -1),
-    		array(0, -1),
-    		array('toolong', -1),
-    		array('2$t', -1),
+        return array(
+            /* bad input */
+            array(null, -1),
+            array('', -1),
+            array(0, -1),
+            array('toolong', -1),
+            array('2$t', -1),
 
-    		/* good input */
-    		array('FA11', '2012'), // fall semester, expected graduation year bumped up by 1
-    		array('FA12', '2013'),
-    		array('FA13', '2014'),
-    		array('FA14', '2015'),
+            /* good input */
+            array('FA11', '2012'), // fall semester, expected graduation year bumped up by 1
+            array('FA12', '2013'),
+            array('FA13', '2014'),
+            array('FA14', '2015'),
 
-    		array('SP11', '2011'),
-    		array('SP12', '2012'),
-    		array('SP13', '2013'),
-    		array('SP14', '2014'),
+            array('SP11', '2011'),
+            array('SP12', '2012'),
+            array('SP13', '2013'),
+            array('SP14', '2014'),
 
-    		array('ST11', '2011'),
-    		array('ST12', '2012'),
-    		array('ST13', '2013'),
+            array('ST11', '2011'),
+            array('ST12', '2012'),
+            array('ST13', '2013'),
 
-    		array('WI11', '2011'),
-    		array('WI12', '2012'),
-    		array('WI13', '2013'),
-	   	);
+            array('WI11', '2011'),
+            array('WI12', '2012'),
+            array('WI13', '2013'),
+        );
     }
     /**
      * Data provider function for the school mapping routine.
@@ -48,43 +48,43 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      */
     public function schoolIdProvider ()
     {
-    	return array(
-    		/* good input, 1-to-1 mapping of schools */
-    		array(
-    			Ilios_Config_Eds::SCHOOL_OF_DENTISTRY_ID,
-    			Ilios_Config_Ucsf::SCHOOL_OF_DENTISTRY_ID
-    		),
-    		array(
-    			Ilios_Config_Eds::SCHOOL_OF_MEDICINE_ID,
-    			Ilios_Config_Ucsf::SCHOOL_OF_MEDICINE_ID
-    		),
-    		array(
-    			Ilios_Config_Eds::SCHOOL_OF_NURSING_ID,
-    			Ilios_Config_Ucsf::SCHOOL_OF_NURSING_ID
-    		),
-    		array(
-    			Ilios_Config_Eds::SCHOOL_OF_PHARMACY_ID,
-    			Ilios_Config_Ucsf::SCHOOL_OF_PHARMACY_ID
-    		),
+        return array(
+            /* good input, 1-to-1 mapping of schools */
+            array(
+                Ilios_Config_Eds::SCHOOL_OF_DENTISTRY_ID,
+                Ilios_Config_Ucsf::SCHOOL_OF_DENTISTRY_ID
+            ),
+            array(
+                Ilios_Config_Eds::SCHOOL_OF_MEDICINE_ID,
+                Ilios_Config_Ucsf::SCHOOL_OF_MEDICINE_ID
+            ),
+            array(
+                Ilios_Config_Eds::SCHOOL_OF_NURSING_ID,
+                Ilios_Config_Ucsf::SCHOOL_OF_NURSING_ID
+            ),
+            array(
+                Ilios_Config_Eds::SCHOOL_OF_PHARMACY_ID,
+                Ilios_Config_Ucsf::SCHOOL_OF_PHARMACY_ID
+            ),
 
-    		/* bad/missing input mapping, expected map to -1 */
-    		array(
-    			null,
-    			-1
-    		),
-    		array(
-    			'',
-    			-1
-    		),
-    		array(
-    			-1,
-    			-1
-    		),
-    		array(
-    			'some-other-nonsense',
-    			-1
-    		)
-    	);
+            /* bad/missing input mapping, expected map to -1 */
+            array(
+                null,
+                -1
+            ),
+            array(
+                '',
+                -1
+            ),
+            array(
+                -1,
+                -1
+            ),
+            array(
+                'some-other-nonsense',
+                -1
+            )
+        );
     }
 
 
@@ -100,43 +100,43 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
     public function userProvider ()
     {
         $users = array(
-        	array(
-        		// empty input
-        		array(),
-        		new Ilios_UserSync_ExternalUser('', '', '', '', '', false, -1, -1, '')
-        	),
-        	array(
-        		// full user data input
-        		// student record
-        		array(
-        			'givenName' => array('Herp'),
-        			'sn' => array('McDerp'),
-        			'initials' => array('H'),
-        			'mail' => array('Herp.McDerp@test.com'),
-        			'ucsfEduStuSchoolCode' => array((string) Ilios_Config_Eds::SCHOOL_OF_MEDICINE_ID),
-        			'ucsfEduIDNumber' => array('xxxx111111'),
-        			'telephoneNumber' => array('111-111-1111'),
-        			'eduPersonAffiliation' => array('count' => 2, 'something', 'student'),
-					'ucsfEduStuGraduationTermExpected' => array('FA15'),
-        		),
-        		new Ilios_UserSync_ExternalUser('Herp', 'McDerp', 'H', 'Herp.McDerp@test.com',
-        			'111-111-1111', true, Ilios_Config_Ucsf::SCHOOL_OF_MEDICINE_ID, 2016, 'xxxx111111')
-        	),
-        	array(
-        		// non-student, no exp. graduation year
-        		array(
-        			'givenName' => array('Trevor'),
-        			'sn' => array('Teacher'),
-        			'initials' => array('G'),
-        			'mail' => array('Trevor.Teacher@test.com'),
-        			'ucsfEduStuSchoolCode' => array((string) Ilios_Config_Eds::SCHOOL_OF_PHARMACY_ID),
-        			'ucsfEduIDNumber' => array('xxxx111112'),
-        			'telephoneNumber' => array('111-111-1112'),
-        			'eduPersonAffiliation' => array('count' => 2, 'something', 'else'),
-        		),
-        		new Ilios_UserSync_ExternalUser('Trevor', 'Teacher', 'G', 'Trevor.Teacher@test.com',
-        			'111-111-1112', false, Ilios_Config_Ucsf::SCHOOL_OF_PHARMACY_ID, -1, 'xxxx111112')
-        	)
+            array(
+                // empty input
+                array(),
+                new Ilios_UserSync_ExternalUser('', '', '', '', '', false, -1, -1, '')
+            ),
+            array(
+                // full user data input
+                // student record
+                array(
+                    'givenName' => array('Herp'),
+                    'sn' => array('McDerp'),
+                    'initials' => array('H'),
+                    'mail' => array('Herp.McDerp@test.com'),
+                    'ucsfEduStuSchoolCode' => array((string) Ilios_Config_Eds::SCHOOL_OF_MEDICINE_ID),
+                    'ucsfEduIDNumber' => array('xxxx111111'),
+                    'telephoneNumber' => array('111-111-1111'),
+                    'eduPersonAffiliation' => array('count' => 2, 'something', 'student'),
+                    'ucsfEduStuGraduationTermExpected' => array('FA15'),
+                ),
+                new Ilios_UserSync_ExternalUser('Herp', 'McDerp', 'H', 'Herp.McDerp@test.com',
+                    '111-111-1111', true, Ilios_Config_Ucsf::SCHOOL_OF_MEDICINE_ID, 2016, 'xxxx111111')
+            ),
+            array(
+                // non-student, no exp. graduation year
+                array(
+                    'givenName' => array('Trevor'),
+                    'sn' => array('Teacher'),
+                    'initials' => array('G'),
+                    'mail' => array('Trevor.Teacher@test.com'),
+                    'ucsfEduStuSchoolCode' => array((string) Ilios_Config_Eds::SCHOOL_OF_PHARMACY_ID),
+                    'ucsfEduIDNumber' => array('xxxx111112'),
+                    'telephoneNumber' => array('111-111-1112'),
+                    'eduPersonAffiliation' => array('count' => 2, 'something', 'else'),
+                ),
+                new Ilios_UserSync_ExternalUser('Trevor', 'Teacher', 'G', 'Trevor.Teacher@test.com',
+                    '111-111-1112', false, Ilios_Config_Ucsf::SCHOOL_OF_PHARMACY_ID, -1, 'xxxx111112')
+            )
         );
 
         return $users;
@@ -153,7 +153,7 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      */
     public function testCreateUser (array $userData, Ilios_UserSync_ExternalUser $expectedUser)
     {
-    	$factory = new Ilios_UserSync_ExternalUser_Factory_Eds();
+        $factory = new Ilios_UserSync_ExternalUser_Factory_Eds();
         $actualUser = $factory->createUser($userData);
         // 1. check the type of the returned object
         $this->assertTrue($actualUser instanceof Ilios_UserSync_ExternalUser);
@@ -171,8 +171,8 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      */
     public function testDetermineGraduationYear ($text, $expectedGraduationYear)
     {
-    	$actualGraduationYear = Ilios_UserSync_ExternalUser_Factory_Eds::determineGraduationYear($text);
-    	$this->assertEquals($expectedGraduationYear, $actualGraduationYear);
+        $actualGraduationYear = Ilios_UserSync_ExternalUser_Factory_Eds::determineGraduationYear($text);
+        $this->assertEquals($expectedGraduationYear, $actualGraduationYear);
     }
 
     /**
@@ -186,7 +186,7 @@ class Ilios_UserSync_UserSource_Factory_EdsTest extends Ilios_TestCase
      */
     public function translateEdsSchoolCodeToIliosSchoolCode ($edsSchoolId, $expectedIliosSchoolId)
     {
-    	$actualIliosSchoolId = Ilios_UserSync_ExternalUser_Factory_Eds::translateEdsSchoolCodeToIliosSchoolCode($edsSchoolId);
-    	$this->assertEquals($expectedIliosSchoolId, $actualIliosSchoolId);
+        $actualIliosSchoolId = Ilios_UserSync_ExternalUser_Factory_Eds::translateEdsSchoolCodeToIliosSchoolCode($edsSchoolId);
+        $this->assertEquals($expectedIliosSchoolId, $actualIliosSchoolId);
     }
 }

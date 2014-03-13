@@ -24,27 +24,27 @@ class Ilios_UserSync_UserSource_Iterator_ArrayTest extends Ilios_TestCase
                     array(
                         array( // list of two users
                             array( // fully populated student record
-            					'first_name' => 'student',
-                				'last_name' => 'a',
-                				'middle_name' => '',
-                				'email' => 'a.student@test.com',
-                				'phone' => '111-111-1111',
-                				'is_student' => true,
-                				'school_id' => 2,
-                				'graduation_year' => 2012,
-                				'uid' => '1234567890'
+                                'first_name' => 'student',
+                                'last_name' => 'a',
+                                'middle_name' => '',
+                                'email' => 'a.student@test.com',
+                                'phone' => '111-111-1111',
+                                'is_student' => true,
+                                'school_id' => 2,
+                                'graduation_year' => 2012,
+                                'uid' => '1234567890'
                             ),
                             array( // non-student
-            					'first_name' => 'foo',
-                    			'last_name' => 'bar',
-                    			'middle_name' => 'z',
-                       			'email' => 'foo.bar@test.com',
-                        		'phone' => '111-555-1111',
-                		    	'is_student' => false,
-                    			'school_id' => 7,
-                    			'graduation_year' => 2022,
-                    			'uid' => 'ucsf111111111'
-                    		)
+                                'first_name' => 'foo',
+                                'last_name' => 'bar',
+                                'middle_name' => 'z',
+                                   'email' => 'foo.bar@test.com',
+                                'phone' => '111-555-1111',
+                                'is_student' => false,
+                                'school_id' => 7,
+                                'graduation_year' => 2022,
+                                'uid' => 'ucsf111111111'
+                            )
                         )
                     )
                 );
