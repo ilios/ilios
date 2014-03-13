@@ -11,7 +11,7 @@ class Ilios_UserSync_Process_StudentProcessTest extends Ilios_UserSync_ProcessTe
      * @test
      * @covers Ilios_UserSync_Process_StudentProcess
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function testRun ()
     {
@@ -23,8 +23,9 @@ class Ilios_UserSync_Process_StudentProcessTest extends Ilios_UserSync_ProcessTe
         // instantiate a external user source
         // we use the "Array" source
         $userSource = new Ilios_UserSync_UserSource_Array($this->_config);
+
         $process = new Ilios_UserSync_Process_StudentProcess($userSource,
-        $this->_userDao, $this->_schoolDao, $this->_syncExceptionDao);
+            $this->_userDao, $this->_schoolDao, $this->_syncExceptionDao);
 
         // -------------------------------
         // run the process
