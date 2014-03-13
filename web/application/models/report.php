@@ -815,8 +815,7 @@ class Report extends Ilios_Base_Model
                 case self::REPORT_NOUN_INSTRUCTOR :
                     $queryString = 'SELECT `course`.`course_id`, `course`.`title` AS `course_title`,
                                            `course`.`start_date`, `course`.`end_date`,
-                                           `instructor_session`.`title` AS  `session_title`,
-                                           `instructor_session`.`session_id`
+                                           `session_title`, `session`.`session_id`
                                       FROM `course`,
                                            (SELECT DISTINCT `offering`.`session_id`, `session`.`course_id`,
                                                    `session`.`title`
@@ -893,12 +892,12 @@ class Report extends Ilios_Base_Model
                                                                        = `instructor_group_x_user`.`instructor_group_id`
                                                AND `instructor_group_x_user`.`user_id` = ' . $clean['id'] . '
                                                AND `session`.`deleted` = 0
-                                            ) instructor_session
-                                      WHERE `course`.`course_id` = `instructor_session`.`course_id`
+                                            ) session
+                                      WHERE `course`.`course_id` = `session`.`course_id`
                                         AND `course`.`deleted` = 0
                                         AND `course`.`owning_school_id` = ' . $schoolId . '
                                    ORDER BY `course`.`title`, `course`.`start_date`, `course`.`end_date`,
-                                            `instructor_session`.`title`';
+                                            `session`.`title`';
                     $userName = $this->user->getFormattedUserName($poValues[0], true);
                     if (false !== $userName) {
                         $poDisplayValue = $userName;
