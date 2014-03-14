@@ -516,9 +516,6 @@ legend {
     text-decoration:none;
 }
 
-.tabs > li a:hover {
-}
-
 .success {
     background-color: #5da423;
     color: #FFF;
@@ -572,9 +569,6 @@ html,body {
     padding: 1em 0 0 0;
 }
 
-#content {
-}
-
 .dashboard { /*variant of #content*/
     position: absolute;
     top:1em;
@@ -584,9 +578,6 @@ html,body {
 }
 .headless .dashboard {
     top: 0;
-}
-
-#footer {
 }
 
 /********************************/
@@ -934,9 +925,6 @@ button {
 }
 .summary-header li > .data {white-space: nowrap;}
 .summary-header li:first-child > .data {white-space: normal;}
-.hd > .course_id {}
-.hd > .course_level {}
-.hd > .course_year {}
 .entity_container > .hd .publish-status {
     text-align:left;
     width: 11em;
@@ -1678,7 +1666,6 @@ fieldset > .row {
 .picked li:hover::before {
     color: #C00;
 }
-.autocomplete_tab {}
 
 .single_selector_tab {
     margin-top:.2em;
@@ -2164,7 +2151,6 @@ fieldset > .row {
 #course_summary_view_content_div fieldset {
     margin: .25em 0;
 }
-#course_summary_view_content_div .row {}
 #course_summary_view_content_div .row .collapsed_widget,
 #course_summary_view_content_div .row .expanded_widget {
     margin-left: -1.25em;
