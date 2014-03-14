@@ -11,20 +11,20 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * user data
      * @var array
      */
-	protected $_fixtures = array(
-	    // student records
-	    'students' => array(
+    protected $_fixtures = array(
+        // student records
+        'students' => array(
             array(
-            	'first_name' => 'student',
+                'first_name' => 'student',
                 'last_name' => 'a',
                 'middle_name' => '',
                 'email' => 'a.student@test.com',
                 'phone' => '111-111-1111',
-            	'uid' => 'test111111',
+                'uid' => 'test111111',
                 'is_student' => true
             ),
             array(
-            	'first_name' => 'student',
+                'first_name' => 'student',
                 'last_name' => 'b',
                 'middle_name' => '',
                 'email' => 'b.student@test.com',
@@ -33,16 +33,16 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
                 'is_student' => true
             ),
             array(
-            	'first_name' => 'STUDENT',
+                'first_name' => 'STUDENT',
                 'last_name' => 'DUPLICATE',
                 'middle_name' => 'g',
                 'email' => 'DUPLICATE.STUDENT@TEST.COM',
                 'phone' => '111-111-3333',
-            	'uid' => 'TEST111333',
+                'uid' => 'TEST111333',
                 'is_student' => true
             ),
             array(
-            	'first_name' => 'student',
+                'first_name' => 'student',
                 'last_name' => 'duplicate',
                 'middle_name' => 'g',
                 'email' => 'duplicate.student@test.com',
@@ -54,25 +54,25 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
         // non-student records
         'non_students' => array(
             array(
-            	'first_name' => 'nonstudent',
+                'first_name' => 'nonstudent',
                 'last_name' => 'a',
                 'middle_name' => '',
                 'email' => 'a.nonstudent@test.com',
                 'phone' => '222-222-2222',
-            	'uid' => 'test222222',
+                'uid' => 'test222222',
                 'is_student' => false
             ),
             array(
-            	'first_name' => 'nonstudent',
+                'first_name' => 'nonstudent',
                 'last_name' => 'b',
                 'middle_name' => '',
                 'email' => 'b.nonstudent@test.com',
                 'phone' => '222-222-2223',
-            	'uid' => 'test222223',
+                'uid' => 'test222223',
                 'is_student' => false
             )
         )
-	);
+    );
 
     /**
      * Data provider function.
@@ -96,7 +96,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * @expectedException Ilios_UserSync_Exception
      * @covers Canned_Queries::__construct
      * @group ilios
-     * @group user_sync
+     * @group usersync
      */
     public function testConstructorWithMissingUserData ()
     {
@@ -106,11 +106,11 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
 
     /**
      * @test
-	 * @covers Ilios_UserSync_UserSource_Array::getAllStudentRecords
-	 * @dataProvider providerGetAllStudentRecords
-	 * @group ilios
-     * @group user_sync
-	 */
+     * @covers Ilios_UserSync_UserSource_Array::getAllStudentRecords
+     * @dataProvider providerGetAllStudentRecords
+     * @group ilios
+     * @group usersync
+     */
     public function testGetAllStudentRecords ($studentCount, $users)
     {
         $config = array();
@@ -122,10 +122,10 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
 
     /**
      * @test
-	 * @covers Ilios_UserSync_UserSource_Array::getUserByEmail
-	 * @group ilios
-     * @group user_sync
-	 */
+     * @covers Ilios_UserSync_UserSource_Array::getUserByEmail
+     * @group ilios
+     * @group usersync
+     */
     public function testGetUserByEmail ()
     {
         $config = array();
@@ -154,12 +154,12 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
     }
 
 
-	/**
+    /**
      * @test
-	 * @covers Ilios_UserSync_UserSource_Array::getUserByUid
-	 * @group ilios
-     * @group user_sync
-	 */
+     * @covers Ilios_UserSync_UserSource_Array::getUserByUid
+     * @group ilios
+     * @group usersync
+     */
     public function testGetUserByUid ()
     {
         $config = array();
@@ -188,12 +188,12 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
         $this->assertEquals(2, count($users));
     }
 
-	/**
+    /**
      * @test
-	 * @covers Ilios_UserSync_UserSource_Array::hasStudent
-	 * @group ilios
-     * @group user_sync
-	 */
+     * @covers Ilios_UserSync_UserSource_Array::hasStudent
+     * @group ilios
+     * @group usersync
+     */
     public function hasStudent ()
     {
         $config = array();
@@ -213,12 +213,12 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
         $this->assertFalse($hasStudent);
     }
 
-	/**
+    /**
      * @test
-	 * @covers Ilios_UserSync_UserSource_Array::hasUser
-	 * @group ilios
-     * @group user_sync
-	 */
+     * @covers Ilios_UserSync_UserSource_Array::hasUser
+     * @group ilios
+     * @group usersync
+     */
     public function hasUser ()
     {
         $config = array();

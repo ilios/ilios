@@ -20,7 +20,7 @@ class Ilios_UserSync_UserSource_Factory_ArrayTest extends Ilios_TestCase
         $users = array(
             array(array()), // no user data whatsoever
             array(array( // empty props
-            	'first_name' => null,
+                'first_name' => null,
                 'last_name' => null,
                 'middle_name' => null,
                 'email' => null,
@@ -31,7 +31,7 @@ class Ilios_UserSync_UserSource_Factory_ArrayTest extends Ilios_TestCase
                 'uid' => null
             )),
             array(array( // fully populated student record
-            	'first_name' => 'student',
+                'first_name' => 'student',
                 'last_name' => 'a',
                 'middle_name' => '',
                 'email' => 'a.student@test.com',
@@ -42,7 +42,7 @@ class Ilios_UserSync_UserSource_Factory_ArrayTest extends Ilios_TestCase
                 'uid' => '1234567890'
             )),
             array(array( // non-student
-            	'first_name' => 'foo',
+                'first_name' => 'foo',
                 'last_name' => 'bar',
                 'middle_name' => 'z',
                 'email' => 'foo.bar@test.com',
@@ -62,7 +62,7 @@ class Ilios_UserSync_UserSource_Factory_ArrayTest extends Ilios_TestCase
      * @covers Ilios_UserSync_ExternalUser_Factory_ArrayTest::createUser
      * @dataProvider provider
      * @group ilios
-     * @group user_sync
+     * @group usersync
      * @param array $user a nested array representing a user record
      */
     public function testCreateUser ($user)
@@ -73,8 +73,8 @@ class Ilios_UserSync_UserSource_Factory_ArrayTest extends Ilios_TestCase
         $this->assertTrue($externalUser instanceof Ilios_UserSync_ExternalUser);
         // 2. check user attributes
         $attributeNameToGetterFunctionNameMap = array( // ham-fisted mapping
-        	'first_name' => 'getFirstName',
-        	'last_name' => 'getLastName',
+            'first_name' => 'getFirstName',
+            'last_name' => 'getLastName',
             'middle_name' => 'getMiddleName',
             'email' => 'getEmail',
             'is_student' => 'isStudent',

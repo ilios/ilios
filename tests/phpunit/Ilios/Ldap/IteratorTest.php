@@ -12,7 +12,7 @@ class Ilios_Ldap_IteratorTest extends Ilios_TestCase
      */
     protected $_ldap;
 
-	/* (non-PHPdoc)
+    /* (non-PHPdoc)
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp() {
@@ -22,7 +22,7 @@ class Ilios_Ldap_IteratorTest extends Ilios_TestCase
 
     }
 
-	/* (non-PHPdoc)
+    /* (non-PHPdoc)
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown() {
@@ -36,7 +36,8 @@ class Ilios_Ldap_IteratorTest extends Ilios_TestCase
      * @covers Ilios_Ldap_Iterator
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testIterate ()
     {

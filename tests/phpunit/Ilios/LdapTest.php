@@ -27,7 +27,8 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::connect
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testConnectSuccess ()
     {
@@ -44,7 +45,8 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @expectedException Ilios_Ldap_Exception
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testConnectFailure ()
     {
@@ -62,7 +64,8 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::bind
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testBindSuccess ()
     {
@@ -79,7 +82,8 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @expectedException Ilios_Ldap_Exception
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testBindFailure ()
     {
@@ -97,7 +101,8 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::disconnect
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testDisconnect ()
     {
@@ -113,12 +118,13 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @covers Ilios_Ldap::search
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testSearchSuccess ()
     {
         $ldap = new Ilios_Ldap($this->_ldapConfig);
-	    $filter = '(objectClass=*)';
+        $filter = '(objectClass=*)';
         $ldap->bind();
         $search = $ldap->search(Ilios_UserSync_UserSource_Eds::EDS_BASE_DN, $filter,
                         Ilios_Ldap::LDAP_SCOPE_SUBTREE, array(), false, 1, 0);
@@ -134,12 +140,13 @@ class Ilios_LdapTest extends Ilios_TestCase
      * @expectedException Ilios_Ldap_Exception
      * @group ilios
      * @group ldap
-     * @group user_sync
+     * @group usersync
+     * @group integration
      */
     public function testSearchFailure ()
     {
         $ldap = new Ilios_Ldap($this->_ldapConfig);
-	    $brokenFilter = '(objectClass=*'; // missing closing parenthesis
+        $brokenFilter = '(objectClass=*'; // missing closing parenthesis
         $ldap->bind();
         // calling search() with the broken filter will barf up an exception
         $search = $ldap->search(Ilios_UserSync_UserSource_Eds::EDS_BASE_DN, $brokenFilter,

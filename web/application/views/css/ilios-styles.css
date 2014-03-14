@@ -1416,7 +1416,7 @@ fieldset > .row {
 /* page-status view */
 .status-view-container {
     color: #666;
-    font-size: 0.8em;
+    font-size: .8em;
     margin: 0;
     padding: 0;
     vertical-align: middle;
@@ -1874,7 +1874,7 @@ fieldset > .row {
 }
 #dashboard_calendar_filters_content .bd,
 #calendar_filters_dialog .bd {
-    font-size: 0.8em;
+    font-size: .8em;
 }
 
 #dashboard_inspector_content {
@@ -1960,7 +1960,7 @@ fieldset > .row {
 
 #inspector_pane {
     bottom: 0;
-    font-size: 0.9em;
+    font-size: .9em;
     left: 0;
     overflow: auto;
     padding: 1em 0.5em;
@@ -2622,7 +2622,7 @@ ul.week_list li.selected_day {
 .tiny {font-size: .6em;}
 .no-bullets {list-style-type:none; margin:0;padding:0;}
 .stack {display:block; clear:both;}
-.note {color: #999; font-size: 0.8em;}
+.note {color: #999; font-size: .8em;}
 
 
 /* ==|== print styles =======================================================
