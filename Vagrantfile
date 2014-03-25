@@ -29,6 +29,10 @@ Vagrant.configure("2") do |config|
   # computers to access the VM, whereas host only networking does not.
   config.vm.network "forwarded_port", guest: 443, host: 8443
 
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
   # Share an additional folder to the guest VM.
   config.vm.synced_folder "web", "/var/www"
   config.vm.synced_folder "web/learning_materials", "/var/www/learning_materials", :mount_options => ["uid=33,gid=33"]
