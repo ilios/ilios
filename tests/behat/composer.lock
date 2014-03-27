@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "590bd429ab0b0bca45fe1735b2fd46a7",
+    "hash": "f3ae998f80535b599b209037d0a706ec",
     "packages": [
         {
             "name": "behat/behat",
@@ -755,6 +755,47 @@
             "time": "2013-10-04 15:03:51"
         },
         {
+            "name": "jakoch/phantomjs-installer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jakoch/phantomjs-installer.git",
+                "reference": "41384fcd7b45c1645f5ff0fdfa0f9c9232d47996"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jakoch/phantomjs-installer/zipball/41384fcd7b45c1645f5ff0fdfa0f9c9232d47996",
+                "reference": "41384fcd7b45c1645f5ff0fdfa0f9c9232d47996",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*"
+            },
+            "type": "custom-installer",
+            "autoload": {
+                "psr-0": {
+                    "PhantomInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens-André Koch",
+                    "email": "jakoch@web.de"
+                }
+            ],
+            "description": "A Composer package which installs the PhantomJS binary (Linux, Windows, Mac) into `/bin` of your project.",
+            "keywords": [
+                "binaries",
+                "headless",
+                "phantomjs"
+            ],
+            "time": "2014-03-27 19:11:49"
+        },
+        {
             "name": "symfony/browser-kit",
             "version": "v2.4.2",
             "target-dir": "Symfony/Component/BrowserKit",
@@ -1400,9 +1441,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "jakoch/phantomjs-installer": 20
+    },
     "platform": [
 
     ],

@@ -13,19 +13,11 @@ Prerequisites
 
       vagrant up
 
-1. Install npm
+1. Install the Oracle JDK, see: http://www.if-not-true-then-false.com/2010/install-sun-oracle-java-jdk-jre-7-on-fedora-centos-red-hat-rhel/
 
-    sudo yum install nodejs npm
+2. Install Composer. See http://getcomposer.org/doc/00-intro.md for instructions.
 
-2. Install the phantomjs NPM module globally
-
-    sudo npm install -g phantomjs
-
-3. Install the Oracle JDK, see: http://www.if-not-true-then-false.com/2010/install-sun-oracle-java-jdk-jre-7-on-fedora-centos-red-hat-rhel/
-
-4. Install Composer. See http://getcomposer.org/doc/00-intro.md for instructions.
-
-5. Install Behat and co. via Composer.
+3. Install Behat and co. via Composer.
 
     cd <iliosroot>/tests/behat
     composer install
@@ -36,16 +28,17 @@ Run tests
 1. Run Selenium as hub
 
     cd <iliosroot>/tests/behat
-    java -jar bin/selenium-server-standalone.jar -role hub
+    java -jar bin/selenium-server.jar -role hub
 
 2. Run Selenium as node which connects to the hub (only necessary for running tests in Firefox)
 
     cd <iliosroot>/tests/behat
-    java -jar bin/selenium-server-standalone.jar -role node
+    java -jar bin/selenium-server.jar -role node
 
 3. Start PhantomJS and register it with Selenium
 
-    phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true
+    cd <iliosroot>/tests/behat
+    bin/phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true
 
 4. Run Behat Tests with the "phantomjs" profile for a local Ilios install or the "vagrant" profile for the Vagrant-based install.
 
