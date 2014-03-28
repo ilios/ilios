@@ -34,9 +34,14 @@ before_script:
   - sudo sed -i -e "/DocumentRoot/i\ServerName precise64" /etc/apache2/sites-available/default
   - "sudo /etc/init.d/apache2 restart"
 
-# Get Selenium standalone server and run it for Behat tests
-  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
-  - "java -jar selenium-server-standalone-2.39.0.jar -role hub > /dev/null &"
+# Install Behat
+  - composer install -d tests/behat
+
+# Install PHPUnit
+  - composer install -d tests/phpunit
+  
+  # Start Selenium standalone server for Behat tests
+  - "java -jar ${PWD}/tests/behat/bin/selenium-server.jar -role hub > /dev/null &"
 
 # Install the Ilios PHP app locally for PHPUnit testing
   - bin/phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
@@ -44,11 +49,7 @@ before_script:
 # Start Phantom for headless Behat tests
   - "phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &"
 
-# Install Behat
-  - composer install -d tests/behat
 
-# Install PHPUnit
-  - composer install -d tests/phpunit
 
 script:
 # Run Jasmine tests
