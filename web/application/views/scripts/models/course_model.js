@@ -740,6 +740,12 @@ CourseModel.prototype.removeObjectiveForContainer = function (containerNumber) {
 
         this.setDirtyAndNotify();
     }
+
+    // TODO: OMFG why isn't this just this?
+    // if (this.objectives[containerNumber]) {
+    //     this.objectives.splice(containerNumber, 1);
+    //     this.setDirtyAndNotify();
+    // }
 };
 
 /**
