@@ -18,10 +18,10 @@ Download the [latest distribution](https://github.com/ilios/ilios/releases) or c
 
 For more information on Ilios please contact:
 
-The Ilios Project
-UCSF School of Medicine
-530 Parnassus Avenue
-Box 0840
+The Ilios Project *
+UCSF School of Medicine *
+530 Parnassus Avenue *
+Box 0840 *
 San Francisco, CA 94143  
 
 Email: info@iliosproject.org
