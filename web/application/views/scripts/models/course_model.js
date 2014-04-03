@@ -934,7 +934,7 @@ CourseModel.prototype.clone = function () {
     }
 
     rhett.objectiveCount = this.objectiveCount;
-    rhett.objectives = ilios.utilities.deepCloneAssociativeArray(this.objectives);
+    rhett.objectives = this.objectives.slice(0);
 
     // (should still be clean.. but just in case future coders accidentally add code that dirties
     //      above..)
