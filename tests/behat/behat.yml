@@ -28,7 +28,7 @@ selenium:
         Behat\MinkExtension\Extension:
           default_session: selenium2
 
-# Use this profile to run tests against the Ilios instance created by Vagrant.
+# Use this profile to run tests in a headless browser against the Ilios instance created by Vagrant.
 vagrant:
     extensions:
         Behat\MinkExtension\Extension:
@@ -39,6 +39,7 @@ vagrant:
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
 
+# Use this profile to run tests in Firefox against the Ilios instance created by Vagrant with PhantomJS as the client.
 vagrantselenium:
     extensions:
         Behat\MinkExtension\Extension:
