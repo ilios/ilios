@@ -740,6 +740,12 @@ CourseModel.prototype.removeObjectiveForContainer = function (containerNumber) {
 
         this.setDirtyAndNotify();
     }
+
+    // TODO: OMFG why isn't this just this?
+    // if (this.objectives[containerNumber]) {
+    //     this.objectives.splice(containerNumber, 1);
+    //     this.setDirtyAndNotify();
+    // }
 };
 
 /**
@@ -928,7 +934,7 @@ CourseModel.prototype.clone = function () {
     }
 
     rhett.objectiveCount = this.objectiveCount;
-    rhett.objectives = ilios.utilities.deepCloneAssociativeArray(this.objectives);
+    rhett.objectives = this.objectives.slice(0);
 
     // (should still be clean.. but just in case future coders accidentally add code that dirties
     //      above..)
