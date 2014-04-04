@@ -39,7 +39,7 @@ vagrant:
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
 
-# Use this profile to run tests in Firefox against the Ilios instance created by Vagrant with PhantomJS as the client.
+# Use this profile to run tests in Firefox against the Ilios instance created by Vagrant.
 vagrantselenium:
     extensions:
         Behat\MinkExtension\Extension:
