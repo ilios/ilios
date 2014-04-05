@@ -79,7 +79,7 @@ function SessionModel (dbObject) {
             }
         }
         if ('undefined' != typeof dbObject.is_learner) {
-        	this.is_learner = dbObject.is_learner;
+            this.is_learner = dbObject.is_learner;
         }
     }
 
@@ -382,7 +382,7 @@ SessionModel.prototype.isEquipmentRequired = function () {
 };
 
 SessionModel.prototype.isLearner = function () {
-	return this.is_learner;
+    return this.is_learner;
 }
 
 
@@ -785,7 +785,7 @@ SessionModel.prototype.clone = function () {
     rhett.meshTerms = this.meshTerms.concat();
 
     rhett.objectiveCount = this.objectiveCount;
-    rhett.objectives = ilios.utilities.deepCloneAssociativeArray(this.objectives);
+    rhett.objectives = this.objectives.slice(0);
 
     rhett.offerings = ilios.utilities.cloneAssociativeArray(this.offerings);
 
