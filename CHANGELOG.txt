@@ -1,5 +1,18 @@
 ------- VERSION CHANGES --------
 
+Version 2.4.1
+
+Bug Fixes:
+
+Issue #545: Change in COURSE DIRECTOR or COURSE MESH TERMS causes unlinking of course objectives
+Issue #529: MyReports fails for instructor search
+
+Feature Changes:
+
+Issue #464: Run Jasmine tests on CI server
+
+---
+
 Version 2.4.0
 
 Bug Fixes:
