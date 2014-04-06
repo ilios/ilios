@@ -13,8 +13,6 @@ describe("SessionModel", function () {
   describe("clone()", function () {
 
     var deleteUniques = function (session) {
-      delete session.externalId;
-      delete session.uniqueId;
       // Doesn't clone the dirtyStateListener, not sure if it should
       delete session.dirtyStateListener;
     };
