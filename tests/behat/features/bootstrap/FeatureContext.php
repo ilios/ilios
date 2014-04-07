@@ -41,6 +41,28 @@ class FeatureContext extends MinkContext
             "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()"
         );
     }
+    
+    /**
+     * Duplicates FeatureContext::spin
+     * Looks for exceptions instead of booleans
+     * @param callback $lambda 
+     * @param int $wait
+     */
+    public function exceptionSpin ($lambda, $wait = 60)
+    {
+        for ($i = 1; $i <= $wait; $i++)
+        {
+            try {
+                $lambda($this);
+                return true;
+            } catch (Exception $e) {
+                if($i == $wait){
+                    throw $e;
+                }
+            }
+            sleep(1);
+        }
+    }
 
     /**
      * @Given /^I am on the Ilios home page$/
@@ -156,13 +178,13 @@ class FeatureContext extends MinkContext
      */
     public function iClickOnTheText($text)
     {
-        $el = $this->getSession()->getPage()->find('xpath', "//*[text()='$text']");
-
-        if ($el === null) {
-            throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
-        }
-
-        $el->click();
+        $this->exceptionSpin(function($context) use ($text) {
+            $el = $context->getSession()->getPage()->find('xpath', "//*[text()='$text']");
+            if ($el === null) {
+                throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
+            }
+            $el->click();
+        }, 5);
     }
 
     /**
@@ -170,23 +192,15 @@ class FeatureContext extends MinkContext
      */
     public function iClickOnTheTextStartingWith($text)
     {
-        $el = $this->getSession()->getPage()->find('xpath', "//*[starts-with(.,'$text')]");
-
-        if ($el === null) {
-            throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
-        }
-
-        $el->click();
+        $this->exceptionSpin(function($context) use ($text) {
+            $el = $context->getSession()->getPage()->find('xpath', "//*[starts-with(.,'$text')]");
+            if ($el === null) {
+                throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
+            }
+            $el->click();
+        }, 5);
+        
     }
-
-    /**
-     * @When /^I wait (\d+) second(?:s?)$/
-     */
-    public function iWaitSeconds($seconds)
-    {
-        $this->getSession()->wait($seconds * 1000);
-    }
-
 
     /**
      * @When /^I set "([^"]*)" to "([^"]*)"$/
@@ -209,7 +223,9 @@ class FeatureContext extends MinkContext
      */
     public function iShouldSeeDirtyState ()
     {
-        $this->assertElementOnPage('.dirty_state');
+        $this->exceptionSpin(function($context) {
+            $context->assertElementOnPage('.dirty_state');
+        }, 5);   
     }
 
     /**
@@ -217,7 +233,9 @@ class FeatureContext extends MinkContext
      */
     public function iShouldNotSeeDirtyState ()
     {
-        $this->assertElementNotOnPage('.dirty_state');
+        $this->exceptionSpin(function($context) {
+            $context->assertElementNotOnPage('.dirty_state');
+        }, 5);
     }
 
     /**
@@ -249,6 +267,65 @@ class FeatureContext extends MinkContext
             return false;
         });
     }
+    
+    /**
+     * Override the MinkContext::assertPageContainsText in order to add a 
+     * spin delay to the serach
+     * @param string $text
+     */
+    public function assertPageContainsText($text)
+    {
+        $this->exceptionSpin(function($context) use ($text) {
+            $context->assertSession()->pageTextContains($context->fixStepArgumentPublic($text));
+        }, 5);
+    }
+    
+    /**
+     * Override the MinkContext::pressButton in order to add a 
+     * spin delay to the search
+     * @param string $locator
+     */
+    public function pressButton($locator)
+    {
+        $this->spin(function($context) use ($locator) {
+            $button = $context->getSession()->getPage()->findButton($locator);
+            return !is_null($button);
+        });
+        parent::pressButton($locator);
+    }
+    
+    /**
+     * Override the MinkContext::clickLink in order to add a 
+     * spin delay to the search
+     * @param string $locator
+     */
+    public function clickLink($locator)
+    {
+        $this->spin(function($context) use ($locator) {
+            $link = $context->getSession()->getPage()->findLink($locator);
+            return !is_null($link);
+        });
+        parent::clickLink($locator);
+    }
+    
+    /**
+     * MinkContext::reload to add a built delay to page reloads
+     */
+    public function reload()
+    {
+        $this->getSession()->reload();
+        sleep(5);
+    }
+    
+    /**
+     * MinkContext::visit to add a built delay
+     * @param string $page
+     */
+    public function visit($page)
+    {
+        $this->getSession()->visit($this->locatePath($page));
+        sleep(5);
+    }
 
     /**
      * @AfterScenario
@@ -260,5 +337,17 @@ class FeatureContext extends MinkContext
     public function after ($event)
     {
         $this->getSession()->reset();
+    }
+
+    /**
+     * Returns fixed step argument (with \\" replaced back to ").
+     *
+     * @param string $argument
+     *
+     * @return string
+     */
+    public function fixStepArgumentPublic($argument)
+    {
+        return parent::fixStepArgument($argument);
     }
 }

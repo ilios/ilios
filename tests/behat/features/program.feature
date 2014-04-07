@@ -20,8 +20,6 @@ Feature: Program management
     And I fill in "Test Med Program" for "new_program_title"
     And I fill in "TMP" for "new_short_title"
     And I press "Done"
-    # this triggers a full page refresh, wait for it to complete.
-    And I wait 3 seconds
     Then I should see "Test Med Program"
 
     #
@@ -34,7 +32,6 @@ Feature: Program management
     # Publish program year
     #
     When I publish the 1st program year
-    And I wait 1 second
     Then I should see "Test Med Program"
     And I should see "Matriculation Year:"
     But I should not see dirty state
@@ -44,9 +41,7 @@ Feature: Program management
     #
     When I click the "Edit" link for "Competencies"
     And I click "Medical Knowledge" tree picker item in "competency_pick_dialog" dialog
-    And I wait 1 second
     And I press the "Done" button in "competency_pick_dialog" dialog
-    And I wait 1 second
     Then I should see "Medical Knowledge"
 
     #
@@ -54,9 +49,7 @@ Feature: Program management
     #
     When I click the "Edit" link for "Stewarding Departments or School"
     And I click "Other" tree picker item in "steward_pick_dialog" dialog
-    And I wait 1 second
     And I press the "Done" button in "steward_pick_dialog" dialog
-    And I wait 1 second
     Then I should see "Other"
 
     #
@@ -65,10 +58,8 @@ Feature: Program management
     When I follow "Add Objective"
     And I set "eot_textarea_editor" to "Test Objective"
     And I select "Inquiry and Discovery (Medical Knowledge)" from "eot_competency_pulldown"
-    And I wait 3 seconds
     And I press the "Done" button in "edit_objective_text_dialog" dialog
     And I publish the 1st program year
-    And I wait 1 second
     Then I should see "Objectives (1)"
     But I should not see dirty state
 
@@ -78,10 +69,8 @@ Feature: Program management
     When I follow "Add Objective"
     And I set "eot_textarea_editor" to "Test Objective"
     And I select "Inquiry and Discovery (Medical Knowledge)" from "eot_competency_pulldown"
-    And I wait 3 seconds
     And I press the "Done" button in "edit_objective_text_dialog" dialog
     And I publish the 1st program year
-    And I wait 1 second
     Then I should see "Objectives (2)"
     But I should not see dirty state
 
@@ -89,7 +78,6 @@ Feature: Program management
     # Now reload the page and check that everything we entered previously is on there.
     #
     When I reload the page
-    And I wait 3 seconds
     And I click all collapsed toggles
     Then I should see "Test Med Program"
     And I should see "Matriculation Year:"
