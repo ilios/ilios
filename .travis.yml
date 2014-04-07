@@ -7,8 +7,8 @@ php:
 env:
   global:
     # env variables for Sauce credentials, see https://saucelabs.com/opensource/travis
-    - secure: "XWO/3KBLV8qf8qF1mRmyX8t+gSLLoyBCEAUz7xjL5X9cMlO+XxaUSLWKfWO42tHAOEoqmKha3cora4ukURn3M8Y9bYotkfWmIeYPtzhWfwK5m8sn9JnQreSFwID06KOavglfnXdIjy9zPnO1i/NsGwB++8g4gyVp9XUbqurGcF4="
-    - secure: "GdhFXs/AwEXh7qUqJf4FQOUKnqD60Jg4JHSybiKX84lm+CMqzT3QQg8k2KqMxXKWICoflxGqM4WhqM2DfxCgUXdssKxPntcV6Xs+g8Vxj/vpRKSPO/HC5H0Ih8Mv7wNYn/ay5VPJFB9Tk2u7QP0IH3MGXYLj2dUVCVMUa7gtD4k="
+    - secure: "Yv4XxhqZmX97rRgmG1u9HDdn7tS4zKvMBnUPfZHAlT6DMZ/f2rLIZIkTD3L/s8HmprYn/rFMm4Lunr0dXLwb7sk6fe1s+tiMxikjUJkAFT5BGW5rI1mo9a2DtWm7W0JgcbkByyxGbzthqVPuFBYTb5bfla9cQQ+hgCutoQPeR10="
+    - secure: "UtoSc4twhH97ZH+uH4ybFCD2Hijfs7/sLltOihbrGWrQRl/V+rwo3dMSfJid8KP+LaS9GggXdM8iZhzflf6wyDFX0NWAX6/1bAOK20X25ZGEuq2aPu7lHtvGhl+yLjSJPDCJriQ+yK7utQ0AfT4TnTEca/M/B2/q26GXe62htxk="
 
 addons:
   hosts:
