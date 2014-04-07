@@ -18,21 +18,18 @@ Feature: Learner Groups
     And I fill in "new_short_title" with "Foo"
     And I press "Done"
     And I wait for "expand_program_years_link" to be enabled
-    And I wait 2 seconds
+    And I wait for "add_new_program_year_link" to be enabled
     And I press "Add New Program Year"
+    And I wait for "1_child_publish" to be visible
     And I wait for "1_child_publish" to be enabled
-    And I wait 2 seconds
     And I press "1_child_publish"
     And I follow "show_more_or_less_link"
     And I press "Publish Now"
-    And I wait 2 seconds
     And I go to "/ilios.php/group_management"
     And I follow "Select Program and Cohort"
     And I wait for "cohort_pick_dialog" to be enabled
-    And I wait 2 seconds
     And I click on the text "Foo"
     And I click on the text starting with "Class of "
-    And I wait 2 seconds
     And I press "Add New Members to Cohort"
     And I wait for "em_last_name" to be visible
     And I fill in "em_last_name" with "Smith"
