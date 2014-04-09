@@ -1,22 +1,22 @@
 describe("CourseModel", function () {
-  describe("clone()", function () {
-    var cm;
+  var cm;
 
+  beforeEach(function () {
+    cm = new CourseModel({external_id: 1, unique_id: 2, start_date: '2010-06-28', end_date: '2010-06-29'});
+  });
+
+  it("should be initialized with no objectives", function () {
+    expect(cm.objectives).toEqual([]);
+    expect(cm.objectivesCount).toBeUndefined();
+  });
+
+  describe("clone()", function () {
     var deleteUniques = function (course) {
       delete course.externalId;
       delete course.uniqueId;
       // Doesn't clone the dirtyStateListener, not sure if it should
       delete course.dirtyStateListener;
     };
-
-    beforeEach(function () {
-      cm = new CourseModel({external_id: 1, unique_id: 2, start_date: '2010-06-28', end_date: '2010-06-29'});
-    });
-
-    it("should be initialized with no objectives", function () {
-      expect(cm.objectives).toEqual([]);
-      expect(cm.objectivesCount).toBeUndefined();
-    });
 
     it("should clone the object except the externalId and uniqueId", function () {
       var clone = cm.clone();

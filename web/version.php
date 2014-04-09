@@ -5,4 +5,4 @@
  * @see system/application/views/common/masthead.logo.inc.php
  */
 ?>
-2.4.0
+2.4.2-prerelease

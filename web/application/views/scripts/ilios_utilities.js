@@ -374,34 +374,6 @@ ilios.utilities.cloneAssociativeArray = function (originalArray) {
     return rhett;
 };
 
-/**
- * Written because slice() is dysfunctional with associative arrays.
- *
- * @return a deep copy of the associative array (the returned array is its own unique
- *              Array instance, and the objects in the array have clone() called on them -
- *              so they must implement that). If originalArray is null, null is returned.
- * ACHTUNG:
- *   going forward, DO NOT USE THIS FUNCTION!
- *   There are no associative arrays in JavaScript, use objects instead.
- *   [ST 2012/07/14]
- * @todo find and replace all function calls to this nonsense
- */
-ilios.utilities.deepCloneAssociativeArray = function (originalArray) {
-    var rhett = null;
-
-    if (originalArray != null) {
-        rhett = [];
-
-        for (var key in originalArray) {
-            rhett[key] = originalArray[key].clone();
-
-            rhett.length++;
-        }
-    }
-
-    return rhett;
-};
-
 ilios.utilities.arrayHasElementsMissingInArray = function (referenceArray, possiblyAlteredArray) {
     var object = null;
     var found = false;
