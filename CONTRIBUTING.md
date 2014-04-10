@@ -19,7 +19,7 @@ how you can get started:
 ## Running Tests
 1. [Run PHPUnit tests](tests/phpunit/README.md)
 2. [Run Jasmine tests](tests/jasmine/README)
-3. [Run Behat tests](tests/behat/README.md)
+3. [Run Behat tests](tests/behat/README)
 
 ### Commit Message
 
