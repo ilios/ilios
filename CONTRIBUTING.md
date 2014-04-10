@@ -4,19 +4,29 @@ So you want to help out with Ilios development?  **That's Fantastic**.  Here is
 how you can get started:
 
 ## Overview of the process
+
 1. [Initial Setup](#initial-setup)
 2. Create a branch for your work
-3. Make some changes and write tests
+3. [Make some changes](#writing-code-for-ilios)
 4. Run tests to ensure your changes haven't adversely affected other areas of the system.
 5. Commit your changes with a good [Commit Message](#commit-message)
 5. Push your feature branch to your fork of Ilios on Github
 6. [Create a pull request](#create-a-pull-request-on-github) so we can review, discuss, and merge your changes.
 
-## Initial Setup
+### Initial Setup
+
 1. Make sure you have a [GitHub account](https://github.com/signup/free)
 2. Fork the repository in GitHub with the 'Fork' button
 
-## Running Tests
+### Writing code for Ilios
+
+In order to get your changes accepted you will need do:
+
+ * Follow the [php coding standards](https://github.com/ilios/ilios/wiki/Ilios-Coding-Standards-for-PHP)
+ * Follow the [javascript coding standards](https://github.com/ilios/ilios/wiki/Ilios-Coding-Standards-for-JavaScript)
+ * Write tests which cover your changes 
+ 
+### Running Tests
 1. [Run PHPUnit tests](tests/phpunit/README.md)
 2. [Run Jasmine tests](tests/jasmine/README)
 3. [Run Behat tests](tests/behat/README)
