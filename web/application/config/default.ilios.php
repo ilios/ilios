@@ -267,6 +267,29 @@ $config['tasks']['enrollment_export']['learner_schools'] = range(1,5);
 $config['tasks']['enrollment_export']['participant_role'] = 'participant';
 $config['tasks']['enrollment_export']['participant_schools'] = 1;
 
+/*
+|--------------------------------------------------------------------------
+| Audit log dump, rotate, and prune configuration
+|--------------------------------------------------------------------------
+|
+| * Audit log task specific configuration
+|
+| ['tasks']['audit_log']                            configuration container for user sync process
+| ['tasks']['audit_log']['enabled']                 set to TRUE to enable audit log actions, FALSE to turn it off
+| ['tasks']['audit_log']['daily_log_file_path']     Path to the file to store daily log files, FALSE to not store daily logs
+| ['tasks']['audit_log']['history_log_file_path']   Path to the file to save historic logs before the are moved from the database
+|                                                       FALSE to not keep historic logs
+| ['tasks']['audit_log']['days_to_keep']            How many days of log entries to keep in the database, FALSE to never prune them
+| ['tasks']['audit_log']['rotate_logs']             TRUE ilios will rotate and compress log files, FALSE this can be handled by the OS or sysadmins
+|
+*/
+$config['tasks']['audit_log'] = array();
+$config['tasks']['audit_log']['enabled'] = false;
+$config['tasks']['audit_log']['daily_log_file_path'] = '/web/ilios/cron/daily_audit_logs.txt';
+$config['tasks']['audit_log']['truncate_log_file_path'] = '/web/ilios/cron/audit_logs.txt';
+$config['tasks']['audit_log']['days_to_keep'] = 90;
+$config['tasks']['audit_log']['rotate_logs'] = false;
+
 
 /*
 |--------------------------------------------------------------------------
