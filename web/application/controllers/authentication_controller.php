@@ -99,7 +99,7 @@ class Authentication_Controller extends Ilios_Base_Controller
      *
      * This method will print out the login page.
      *
-     * Accepts the following POST parameters:
+     * Accepts the following GET parameters:
      *     'logout' ... if the value is 'yes' then the current user session will be terminated before the login page is printed.
      *
      * @see Authentication_Controller::index()
@@ -107,7 +107,7 @@ class Authentication_Controller extends Ilios_Base_Controller
      */
     protected function _default_index ()
     {
-        $logout = $this->input->get_post('logout');
+        $logout = $this->input->get('logout');
         $username = $this->session->userdata('username');
 
         $data['login_message'] = $this->languagemap->getI18NString('login.default_status');
@@ -205,7 +205,7 @@ class Authentication_Controller extends Ilios_Base_Controller
      */
     protected function _shibboleth_index ()
     {
-        $logout = $this->input->get_post('logout');
+        $logout = $this->input->get('logout');
 
         $data = array();
 
