@@ -2434,6 +2434,14 @@ ul.week_list li.selected_day {
     background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
 }
 
+/*********************************/
+/* Help                          */
+.help {
+    background: #eee;
+    max-width: 18em;
+    margin: 2em auto;
+}
+
 /********************************/
 /*     Admin Modules            */
 
