@@ -52,9 +52,9 @@
                 <div class="help">
                     <h4 class="margin-0">Help</h4>
                     <ul class="no-bullets">
-                        <li class="margin-b0">Medicine: <a href="mailto:iROCKET@ucsf.edu?subject=Ilios%20Project%20Help%20Request">iROCKET@ucsf.edu</a></li>
-                        <li class="margin-b0">Pharmacy: <a href="mailto:EducationSOP@ucsf.edu?subject=Ilios%20Project%20Help%20Request">EducationSOP@ucsf.edu</a></li>
-                        <li class="margin-b0">Dentistry: <a href="mailto:SODCLEHelp@ucsf.edu?subject=Ilios%20Project%20Help%20Request">SODCLEHelp@ucsf.edu</a></li>
+                        <li class="margin-b0">Medicine:&nbsp;<a href="mailto:iROCKET@ucsf.edu?subject=Ilios%20Project%20Help%20Request">iROCKET@ucsf.edu</a></li>
+                        <li class="margin-b0">Pharmacy:&nbsp;<a href="mailto:EducationSOP@ucsf.edu?subject=Ilios%20Project%20Help%20Request">EducationSOP@ucsf.edu</a></li>
+                        <li class="margin-b0">Dentistry:&nbsp;<a href="mailto:SODCLEHelp@ucsf.edu?subject=Ilios%20Project%20Help%20Request">SODCLEHelp@ucsf.edu</a></li>
                     </ul>
                 </div>
 

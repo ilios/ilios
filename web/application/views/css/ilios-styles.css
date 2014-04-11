@@ -2438,8 +2438,9 @@ ul.week_list li.selected_day {
 /* Help                          */
 .help {
     background: #eee;
-    max-width: 18em;
+    max-width: 19em;
     margin: 2em auto;
+    padding: 1em;
 }
 
 /********************************/
