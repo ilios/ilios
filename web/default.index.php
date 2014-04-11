@@ -49,16 +49,18 @@
                     <a href="ilios.php/dashboard_controller" class="button">UCSF Ilios Login</a>
                 </div>
 
-                <div class="margin-t">
-                    <a href="http://www.iliosproject.org/">Ilios Project</a>
+                <div class="help">
+                    <h4 class="margin-0">Help</h4>
+                    <ul class="no-bullets">
+                        <li class="margin-b0">Medicine: <a href="mailto:irocket@ucsf.edu?subject=Ilios%20Project%20Help%20Request">irocket@ucsf.edu</a></li>
+                        <li class="margin-b0">Pharmacy: <a href="mailto:EducationSOP@ucsf.edu?subject=Ilios%20Project%20Help%20Request">EducationSOP@ucsf.edu</a></li>
+                        <li class="margin-b0">Dentistry: <a href="mailto:SODCLEHelp@ucsf.edu?subject=Ilios%20Project%20Help%20Request">SODCLEHelp@ucsf.edu</a></li>
+                    </ul>
                 </div>
 
-                <h4 class="margin-t margin-b0">Help</h4>
-                <ul class="no-bullets">
-                    <li class="margin-b0">Medicine: <a href="mailto:irocket@ucsf.edu?subject=Ilios%20Project%20Help%20Request">irocket@ucsf.edu</a></li>
-                    <li class="margin-b0">Pharmacy: <a href="mailto:EducationSOP@ucsf.edu?subject=Ilios%20Project%20Help%20Request">EducationSOP@ucsf.edu</a></li>
-                    <li class="margin-b0">Dentistry: <a href="mailto:SODCLEHelp@ucsf.edu?subject=Ilios%20Project%20Help%20Request">SODCLEHelp@ucsf.edu</a></li>
-                </ul>
+                <div class="margin-t">
+                    <a href="http://www.iliosproject.org/">About the Ilios Project</a>
+                </div>
             </div><!--end #content-->
         </div><!--end #main-->
     </div> <!--end #wrapper-->
