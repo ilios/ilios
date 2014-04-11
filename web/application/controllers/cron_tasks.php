@@ -40,6 +40,7 @@ class Cron_Tasks extends Ilios_Base_Controller
         $this->load->model('School', 'school', true);
         $this->load->model('User', 'user', true);
         $this->load->model('User_Sync_Exception', 'userSyncException', true);
+        $this->load->model('Audit_Atom', 'auditAtom', true);
 
         // load tasks configuration
         $tasksConfig = $this->config->item('tasks');
@@ -137,6 +138,24 @@ class Cron_Tasks extends Ilios_Base_Controller
             }
             if ($teachingRemindersEnabled) {
                 $this->_processOfferingReminders();
+            }
+        } catch (Exception $e) {
+            echo $e;
+        }
+
+        // audit log events
+        try {
+            $auditLogConfig = array();
+            if (array_key_exists('audit_log', $this->_tasksConfig)
+                && is_array($this->_tasksConfig['audit_log'])) {
+                $auditLogConfig = $this->_tasksConfig['audit_log'];
+            }
+            $auditLogEnabled = false;
+            if (array_key_exists('enabled', $auditLogConfig) && $auditLogConfig['enabled']) {
+                $auditLogEnabled = true;
+            }
+            if ($auditLogEnabled) {
+                $this->_processAuditLog($auditLogConfig);
             }
         } catch (Exception $e) {
             echo $e;
@@ -539,5 +558,69 @@ class Cron_Tasks extends Ilios_Base_Controller
             echo "<pre>Total email(s) that would have been sent: $count \n\n</pre>";
         }
         return $count;
+    }
+
+    /**
+     * This method works with the audit trail to prune old data from the
+     * database and dump audit trail information into log files
+     * 
+     * @param array $config
+     */
+    protected function _processAuditLog (array $config)
+    {
+        try {
+            if(array_key_exists('daily_log_file_path', $config) && $config['daily_log_file_path'] != false){
+                $logger = Ilios_Logger::getInstance($config['daily_log_file_path']);
+                $from = 'midnight yesterday';
+                $to = 'midnight today';
+                $this->_dumpAuditLogsToDisk("Audit logs from {$from} to {$to}", $from, $to, $logger);
+                if(array_key_exists('rotate_logs', $config) && $config['rotate_logs']){
+                    $logger->rotate();
+                }
+            }
+            if(array_key_exists('days_to_keep', $config) && $config['days_to_keep'] !== false){
+                $logger = false;
+                if(array_key_exists('truncate_log_file_path', $config) && $config['truncate_log_file_path'] != false){
+                    $logger = Ilios_Logger::getInstance($config['truncate_log_file_path']);
+                }
+                $to = "midnight {$config['days_to_keep']} days ago";
+                if($logger){
+                    $this->_dumpAuditLogsToDisk("Logs up to {$to} which are being purged", '0000-00-00', $to, $logger);
+                    if(array_key_exists('rotate_logs', $config) && $config['rotate_logs']){
+                        $logger->rotate();
+                    }
+                }
+                $this->auditAtom->removeEventsOlderThan($to);
+            }
+        } catch (Ilios_Log_Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        } 
+    }
+    
+    /**
+     * This method writes a date bounded portion of the audit trail to disk
+     * @param string $message
+     * @param string $from
+     * @param sting $to
+     * @param Ilios_Logger $logger
+     */
+    protected function _dumpAuditLogsToDisk ($message, $from, $to, Ilios_Logger $logger)
+    {
+        $events = $this->auditAtom->getAuditEvents($from, $to);
+        if(count($events)){
+            $lines = array();
+            $lines[] = $message;
+            $lines[] = '------------------------------------';
+            foreach($events as $event){
+                $lines[] = "at {$event['created_at']} {$event['first_name']} "
+                . "{$event['last_name']} #{$event['created_by']} "
+                . "{$event['nice_event_type']} the {$event['table_column']} column "
+                . "on row {$event['table_row_id']} of the {$event['table_name']} table";
+            }
+            $lines[] = 'Total events: ' . count($events);
+            $lines[] = '---End audit logs output------------';
+            $logger->info(implode("\n", $lines));
+        }
     }
 }

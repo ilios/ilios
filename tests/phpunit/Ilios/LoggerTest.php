@@ -150,6 +150,63 @@ class Ilios_LoggerTest extends Ilios_TestCase
     }
 
     /**
+     * @test
+     * @covers Ilios_Logger::rotate()
+     * @see Ilios_Logger::rotate()
+     * @group ilios
+     * @group log
+     */
+    public function testNoRotate ()
+    {
+        $path = tempnam(sys_get_temp_dir(), 'rotateTest');
+        $length = Ilios_Logger::LOG_FILE_ROTATE_SIZE - 1;
+        $longString = '';
+        for($i = 0; $i < $length; $i++){
+            $longString .= 'a';
+        }
+        file_put_contents($path, $longString);
+        $logger = Ilios_Logger::getInstance($path);
+        $rotated = $logger->rotate();
+        unset($logger);
+        clearstatcache();
+        $this->assertFalse($rotated);
+        $this->assertEquals(filesize($path), $length);
+        unlink($path);
+    }
+
+    /**
+     * @test
+     * @covers Ilios_Logger::rotate()
+     * @see Ilios_Logger::rotate()
+     * @group ilios
+     * @group log
+     */
+    public function testRotate ()
+    {
+        $path = tempnam(sys_get_temp_dir(), 'rotateTest');
+        $length = Ilios_Logger::LOG_FILE_ROTATE_SIZE + 1;
+        $longString = '';
+        for($i = 0; $i < $length; $i++){
+            $longString .= 'a';
+        }
+        file_put_contents($path, $longString);
+        $logger = Ilios_Logger::getInstance($path);
+        $rotated = $logger->rotate();
+        unset($logger);
+        clearstatcache();
+        $this->assertTrue($rotated !== false);
+        $this->assertTrue(file_exists($rotated));
+        $this->assertEquals(filesize($path), 0);
+        $fp = gzopen($rotated, "r");
+        $this->assertTrue($fp !== false);
+        $contents = gzread($fp, $length);
+        $this->assertEquals(strlen($longString), strlen($contents));
+        $this->assertEquals($longString, $contents);
+        unlink($rotated);
+        unlink($path);
+    }
+
+    /**
      * Test-utility function.
      * Returns the static protected "$_registry" property from the Ilios_Logger class
      * by deliberately breaking encapsuling.
