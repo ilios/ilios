@@ -186,6 +186,18 @@ class FeatureContext extends MinkContext
             $el->click();
         }, 5);
     }
+
+    /**
+     * @Given /^I click on the xpath "([^"]*)"$/
+     * 
+     * @param string $xpath
+     */
+    public function iClickOnTheXpath($xpath)
+    {
+        $this->exceptionSpin(function($context) use ($xpath) {
+            $el = $context->getSession()->getPage()->find('xpath', $xpath);
+            if ($el === null) {
+                throw new Exception(sprintf('Could not find xpath: "%s"', $xpath));
             }
             $el->click();
         }, 5);
@@ -270,6 +282,111 @@ class FeatureContext extends MinkContext
             }
             return false;
         });
+    }
+    
+    /**
+     * Use the school selector to see if we already have permissions
+     * If not then attempt to add them
+     * @Given /^I have access in the "([^"]*)" school$/
+     * 
+     * @param string $school
+     */
+    public function iHaveAccessToTheSchool($school)
+    {
+        if($this->accessToSchool($school)){
+            return true;
+        }
+        $this->visit('ilios.php/management_console/');
+        $this->iClickOnTheText('Manage Permissions');
+        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
+        $this->pressButton('permissions_user_picker_continue_button');
+        $this->iClickOnTheText('Change School Access');
+        $this->iClickOnTheXpath("//*[@id='school_autolist']//*[normalize-space(text())='{$school}']");
+        $this->iClickOnTheXpath("//*[@id='school_picker_dialog']//*[normalize-space(text())='Done']");
+        $this->iClickOnTheText('Finished');
+    }
+    
+    /**
+     * Check to see if we are currently viewing a school by name
+     * 
+     * @Given /^I am in the "([^"]*)" school$/
+     * @param string $school
+     */
+    public function iAmInTheSchool($school)
+    {
+        $this->exceptionSpin(function($context) use ($school) {
+            if(!$context->inSchool($school)){
+                throw new Exception(sprintf('Not in the school: "%s"', $school));
+            }
+        }, 5);
+    }
+
+    /**
+     * Change to a school by name
+     * 
+     * @When /^I change to the \"([^\']*)\" school$/
+     * @param string $school
+     */
+    public function iChangeToTheSchool($school)
+    {
+        if(!$this->accessToSchool($school)){
+            throw new Exception(sprintf('No access to the school: "%s"', $school));
+        }
+        if($this->inSchool($school)){
+            return true;
+        }
+        $this->iNavigateToTheTab('Home');
+        $select = $this->getSession()->getPage()->find('css', '#view-switch');
+        $select->selectOption($school);
+    }
+    
+    /**
+     * Check if we are in the school
+     * First we use the school selector, but that is only present when we have
+     * access to multiple schools.  If we are in a single school it could just be 
+     * the default school, so we have to go and look at the permissions specifically
+     * 
+     * @param string $school
+     * @return boolean
+     */
+    public function accessToSchool($school)
+    {
+        $this->iNavigateToTheTab('Home');
+        $select = $this->getSession()->getPage()->findAll('css', '#view-switch');
+        if($select){
+            $options = $this->getSession()->getPage()->findAll('css', '#view-switch option');
+            foreach($options as $option){
+                if(trim($option->getText()) == $school){
+                    return true;
+                }
+            }
+        }
+        $this->visit('ilios.php/management_console/');
+        $this->iClickOnTheText('Manage Permissions');
+        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
+        $this->pressButton('permissions_user_picker_continue_button');
+        $el = $this->getSession()->getPage()
+            ->find(
+                'xpath', 
+                "//*[@id='current_school_permissions_div']//*[normalize-space(text())='{$school}']"
+            );
+
+        return count($el);
+    }
+    
+    /**
+     * Check to see if we are currently in a school
+     * Works be searchign for the school name in the header section 'view-current'
+     *
+     * @param type $school
+     * @return boolean
+     */
+    public function inSchool($school)
+    {
+        $this->iNavigateToTheTab('Home');
+        $el = $this->getSession()->getPage()->findById('view-current');
+        
+        return strpos($el->getText(), $school) !== false;
     }
     
     /**
