@@ -6,15 +6,19 @@ php:
 
 env:
   global:
-    # env variables for Sauce credentials, see https://saucelabs.com/opensource/travis
-    - secure: "Yv4XxhqZmX97rRgmG1u9HDdn7tS4zKvMBnUPfZHAlT6DMZ/f2rLIZIkTD3L/s8HmprYn/rFMm4Lunr0dXLwb7sk6fe1s+tiMxikjUJkAFT5BGW5rI1mo9a2DtWm7W0JgcbkByyxGbzthqVPuFBYTb5bfla9cQQ+hgCutoQPeR10="
-    - secure: "UtoSc4twhH97ZH+uH4ybFCD2Hijfs7/sLltOihbrGWrQRl/V+rwo3dMSfJid8KP+LaS9GggXdM8iZhzflf6wyDFX0NWAX6/1bAOK20X25ZGEuq2aPu7lHtvGhl+yLjSJPDCJriQ+yK7utQ0AfT4TnTEca/M/B2/q26GXe62htxk="
+    #set these here becuase they get pullout by the behat SaucelabsFactory driver
+    SAUCE_USERNAME="ilios"
+    SAUCE_ACCESS_KEY="e7c24f1d-ec10-435d-9cec-d1c38bafa268"
 
 addons:
   hosts:
     - precise64
+  sauce_connect:
+    username: $SAUCE_USERNAME
+    access_key: $SAUCE_ACCESS_KEY
 
 before_install:
+  - composer self-update
   - sudo apt-get update
 
 install:
@@ -22,8 +26,6 @@ install:
   - composer install
 
 before_script:
-# Set up Sauce Connect if we have a Sauce username set
-  - if [ "$SAUCE_USERNAME" ] ; then (curl -L https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
 
 # Provision web server for Behat tests
   - "sudo apt-get install -y --force-yes mysql-server apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect > /dev/null"
@@ -63,4 +65,4 @@ script:
   - "(cd tests/behat && bin/behat --tags ~@ignore -p travis)"
 
 # Run Behat tests on GUI browsers via Sauce
-  - if [ "$SAUCE_USERNAME" ] ; then (cd tests/behat && bin/behat --tags ~@ignore -c sauce.yml); fi
+  - "(cd tests/behat && bin/behat --tags ~@ignore -c sauce.yml)"
