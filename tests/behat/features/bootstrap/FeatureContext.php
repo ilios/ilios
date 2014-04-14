@@ -179,9 +179,13 @@ class FeatureContext extends MinkContext
     public function iClickOnTheText($text)
     {
         $this->exceptionSpin(function($context) use ($text) {
-            $el = $context->getSession()->getPage()->find('xpath', "//*[text()='$text']");
+            $el = $context->getSession()->getPage()->find('xpath', "//*[normalize-space(text())='$text']");
             if ($el === null) {
-                throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
+                throw new Exception(sprintf('Could not find text: "%s"', $text));
+            }
+            $el->click();
+        }, 5);
+    }
             }
             $el->click();
         }, 5);
@@ -193,9 +197,9 @@ class FeatureContext extends MinkContext
     public function iClickOnTheTextStartingWith($text)
     {
         $this->exceptionSpin(function($context) use ($text) {
-            $el = $context->getSession()->getPage()->find('xpath', "//*[starts-with(.,'$text')]");
+            $el = $context->getSession()->getPage()->find('xpath', "//*[starts-with(normalize-space(text()),'$text')]");
             if ($el === null) {
-                throw new \InvalidArgumentException(sprintf('Could not find text: "%s"', $text));
+                throw new Exception(sprintf('Could not find text: "%s"', $text));
             }
             $el->click();
         }, 5);
