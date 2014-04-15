@@ -9,6 +9,7 @@ default:
             javascript_session: saucelabs
             saucelabs:
                 browser: "firefox"
+                connect: ~
                 capabilities:
                     platform: "Windows 7"
                     version: 26
