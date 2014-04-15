@@ -17,14 +17,13 @@ addons:
   # very simple way, instead we need to download sauce_connect manually
   #sauce_connect: true
 
+# This is only necessary while sauce_connect is being disabled in pull requests
+before_script:
+  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+  
 before_install:
   - composer self-update
   - sudo apt-get update
-
-before_script:
-# Set up Sauce Connect if we have a Sauce username set
-# This is only necessary while sauce_connect is being disabled in pull requests
-  - if [ "$SAUCE_USERNAME" ] ; then (curl -L https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
 
 install:
   # Install composer packages in the app root. This will set up phing.
