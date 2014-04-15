@@ -29,8 +29,6 @@ install:
   # Install composer packages in the app root. This will set up phing.
   - composer install
 
-before_script:
-
 # Provision web server for Behat tests
   - "sudo apt-get install -y --force-yes mysql-server apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect > /dev/null"
   - "sudo /usr/sbin/a2enmod rewrite && sudo /usr/sbin/a2enmod headers && sudo /usr/sbin/a2enmod ssl"
