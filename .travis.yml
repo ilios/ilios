@@ -19,7 +19,7 @@ addons:
 
 # This is only necessary while sauce_connect is being disabled in pull requests
 before_script:
-  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+  - curl -L https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
   
 before_install:
   - composer self-update
