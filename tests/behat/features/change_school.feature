@@ -6,7 +6,7 @@ Feature: Change School
     Given I am on the Ilios home page
     And I log in as "zero_user" with password "Ch4nge_m3"
 
-  @ignore @javascript @insulated
+  @javascript @insulated
   Scenario: Change Selected School
     Given I have access in the "Medicine" school
     And I have access in the "Pharmacy" school
