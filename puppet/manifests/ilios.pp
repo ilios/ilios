@@ -7,14 +7,14 @@ class ilios (
   $dbname=$options::dbname,
   $adminemail=$options::adminemail,
 ) inherits options {
-
-  exec { "apt-get update":
-    command => "/usr/bin/apt-get update",
+  exec { "update_upgrade":
+    command => "/usr/bin/apt-get update; /usr/bin/apt-get upgrade -y"
   }
 
+  Exec["update_upgrade"] -> Package <| |>
+
   package { "mysql-server":
-    ensure => present,
-    require => Exec["apt-get update"],
+    ensure => present
   }
 
   package { "apache2":
