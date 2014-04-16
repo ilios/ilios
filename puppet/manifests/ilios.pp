@@ -13,22 +13,45 @@ class ilios (
 
   Exec["update_upgrade"] -> Package <| |>
 
-  package { "mysql-server":
-    ensure => present
+  $users = {
+    'vagrant@localhost' => {
+      ensure        => 'present'
+    },
+    "${dbuser}@localhost" => {
+      ensure        => 'present',
+      password_hash => mysql_password($dbpassword)
+    },
   }
-
+  $grants = {
+    'vagrant@localhost/*.*' => {
+      ensure     => 'present',
+      options    => ['GRANT'],
+      privileges => ['ALL'],
+      table      => '*.*',
+      user       => 'vagrant@localhost',
+    },
+    "${dbuser}@localhost/*.*" => {
+      ensure     => 'present',
+      options    => ['GRANT'],
+      privileges => ['ALL'],
+      table      => "${dbname}.*",
+      user       => "${dbuser}@localhost",
+    },
+  }
+  class { '::mysql::server': 
+    users    => $users,
+    grants  => $grants
+  }
+  class { '::mysql::bindings': 
+    php_enable    => true
+  }
+  
   package { "apache2":
     ensure => present,
   }
 
   package { "libapache2-mod-php5":
     ensure => present,
-    notify => Service["apache2"],
-  }
-
-  package { "php5-mysql":
-    ensure => present,
-    require => Package["libapache2-mod-php5"],
     notify => Service["apache2"],
   }
 
@@ -44,12 +67,6 @@ class ilios (
 
   package { "expect":
     ensure => present,
-  }
-
-  service { "mysql":
-    ensure => running,
-    enable => true,
-    require => Package["mysql-server"],
   }
 
   service { "apache2":
@@ -73,8 +90,8 @@ class ilios (
   exec {"create-db":
     cwd => "${repodir}/database/install",
     unless => "/usr/bin/sudo /bin/ls /var/lib/mysql/${dbname}/mesh_concept_x_term.MYI",
-    command => "/bin/sed 's/XXXXXX/${dbname}/g' make_new_ilios_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/mysql -uroot -e \"GRANT ALL ON ${dbname}.* TO '${dbuser}'@'localhost' identified by '${dbpass}';\" && /usr/bin/expect user_zero.exp ${dbname} ${dbuser} ${dbpass} ${adminemail}",
-    require => [Service["mysql"],Package["expect"]],
+    command => "/bin/sed 's/XXXXXX/${dbname}/g' make_new_ilios_database.sql > /tmp/new.sql && /usr/bin/mysql -uroot < /tmp/new.sql && /usr/bin/expect user_zero.exp ${dbname} ${dbuser} ${dbpass} ${adminemail}",
+    require => [Class["::mysql::server"],Package["expect"]],
   }
 
   exec {"allow-override":

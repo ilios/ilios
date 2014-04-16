@@ -1,0 +1,6 @@
+[submodule "puppet/modules/mysql"]
+	path = puppet/modules/mysql
+	url = git@github.com:puppetlabs/puppetlabs-mysql.git
+[submodule "puppet/modules/stdlib"]
+	path = puppet/modules/stdlib
+	url = git@github.com:puppetlabs/puppetlabs-stdlib.git
