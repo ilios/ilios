@@ -19,7 +19,7 @@ class ilios (
     },
     "${dbuser}@localhost" => {
       ensure        => 'present',
-      password_hash => mysql_password($dbpassword)
+      password_hash => mysql_password($dbpass)
     },
   }
   $grants = {
