@@ -6,8 +6,8 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
   config.vm.provision "puppet" do |puppet|
-    puppet.manifests_path = "puppet_manifests"
-    puppet.module_path = "puppet_modules"
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
     puppet.manifest_file = "ilios.pp"
   end
   
