@@ -10,6 +10,9 @@ Vagrant.configure("2") do |config|
     puppet.module_path = "puppet_modules"
     puppet.manifest_file = "ilios.pp"
   end
+  
+  #use a private network so we can use nfs which speeds up the shared files
+  config.vm.network :private_network, ip: "10.10.10.10"
 
   # Forward a port from the guest to the host, if you wish to allow other people
   # access to this install then remove the host_ip parameter
@@ -17,6 +20,9 @@ Vagrant.configure("2") do |config|
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
+    config.cache.synced_folder_opts = {
+      type: :nfs
+    }
   end
 
   # Share an additional folder to the guest VM.
