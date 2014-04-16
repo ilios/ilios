@@ -80,10 +80,12 @@ class FeatureContext extends MinkContext
 
     /**
      * @When /^I navigate to the "(.*?)" tab$/
+     * 
+     * @param string $tabName
      */
     public function iNavigateToTheTab ($tabName)
     {
-        $this->getSession()->getPage()->find('css', '.tabs')->findLink($tabName)->click();
+        $this->iClickOnTheXpath("//*[@id='topnav']//a[text()[normalize-space(.)='{$tabName}']]");
     }
 
     /**
@@ -110,10 +112,10 @@ class FeatureContext extends MinkContext
      */
     public function iPressTheButtonFor ($buttonText, $section)
     {
-        $session = $this->getSession();
         //find('.row', {:visible => true, :text => section}).click_link(button_text)
-        $row = $session->getPage()->find(
-            'xpath', "//*[contains(.,'{$section}') and contains(@class,'row')]");
+        $row = $this->findXpathElement(
+            "//*[contains(.,'{$section}') and contains(@class,'row')]"
+        );
         $row->clickLink($buttonText);
     }
 
@@ -194,13 +196,8 @@ class FeatureContext extends MinkContext
      */
     public function iClickOnTheXpath($xpath)
     {
-        $this->exceptionSpin(function($context) use ($xpath) {
-            $el = $context->getSession()->getPage()->find('xpath', $xpath);
-            if ($el === null) {
-                throw new Exception(sprintf('Could not find xpath: "%s"', $xpath));
-            }
-            $el->click();
-        }, 5);
+        $el = $this->findXpathElement($xpath);
+        $el->click();
     }
 
     /**
@@ -259,7 +256,6 @@ class FeatureContext extends MinkContext
      */
     public function iWaitForToBeEnabled($id)
     {
-        $context = $this;
         $this->spin(function($context) use ($id) {
             $el = $context->getSession()->getPage()->find('css', "#{$id}");
             if ($el) {
@@ -274,7 +270,6 @@ class FeatureContext extends MinkContext
      */
     public function iWaitForToBeVisible($id)
     {
-        $context = $this;
         $this->spin(function($context) use ($id) {
             $el = $context->getSession()->getPage()->find('css', "#{$id}");
             if ($el) {
@@ -300,6 +295,17 @@ class FeatureContext extends MinkContext
         $this->iClickOnTheText('Manage Permissions');
         $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
         $this->pressButton('permissions_user_picker_continue_button');
+        //we have to wait for the user permissions to load otherwise any previsouly
+        //selected schools will be removed.
+        $count = 0;
+        do{
+            sleep(1);
+            $el = $this->getSession()->getPage()->find(
+                'xpath', 
+                "//*[@id='current_school_permissions_div']//*[text()='None']"
+            );
+            $count++;
+        } while(count($el) > 0 and $count < 5);
         $this->iClickOnTheText('Change School Access');
         $this->iClickOnTheXpath("//*[@id='school_autolist']//*[normalize-space(text())='{$school}']");
         $this->iClickOnTheXpath("//*[@id='school_picker_dialog']//*[normalize-space(text())='Done']");
@@ -336,7 +342,7 @@ class FeatureContext extends MinkContext
             return true;
         }
         $this->iNavigateToTheTab('Home');
-        $select = $this->getSession()->getPage()->find('css', '#view-switch');
+        $select = $this->findXpathElement("//*[@id='view-switch']");
         $select->selectOption($school);
     }
     
@@ -365,13 +371,19 @@ class FeatureContext extends MinkContext
         $this->iClickOnTheText('Manage Permissions');
         $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
         $this->pressButton('permissions_user_picker_continue_button');
-        $el = $this->getSession()->getPage()
-            ->find(
+        
+        //test for the school more than once since it can take a few moments to load
+        $count = 0;
+        do{
+            sleep(1);
+            $el = $this->getSession()->getPage()->find(
                 'xpath', 
-                "//*[@id='current_school_permissions_div']//*[normalize-space(text())='{$school}']"
+                "//*[@id='current_school_permissions_div']//*[text()[contains(.,'{$school}')]]"
             );
+            $count++;
+        } while(count($el) < 1 and $count < 5);
 
-        return count($el);
+        return count($el) > 0;
     }
     
     /**
@@ -384,7 +396,7 @@ class FeatureContext extends MinkContext
     public function inSchool($school)
     {
         $this->iNavigateToTheTab('Home');
-        $el = $this->getSession()->getPage()->findById('view-current');
+        $el = $this->findXpathElement("//*[@id='view-current']");
         
         return strpos($el->getText(), $school) !== false;
     }
@@ -446,6 +458,28 @@ class FeatureContext extends MinkContext
     {
         $this->getSession()->visit($this->locatePath($page));
         sleep(5);
+    }
+    
+    /**
+     * Search for an element by an xpath search with a timeout
+     * This allows other methods to easily ensure an element is present to avoid
+     * Critical errors
+     * 
+     * @todo see if this can replace some of the existing spins
+     * @param string $xpath
+     * @return \Behat\Mink\Element
+     */
+    public function findXpathElement($xpath)
+    {
+        $element = null;
+        $this->exceptionSpin(function($context) use (&$element, $xpath) {
+            $element = $context->getSession()->getPage()->find('xpath', $xpath);
+            if ($element === null) {
+                throw new Exception(sprintf('Could not find xpath: "%s"', $xpath));
+            }
+        });
+        
+        return $element;
     }
 
     /**
