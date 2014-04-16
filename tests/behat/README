@@ -11,6 +11,7 @@ Prerequisites
    a. Have a default Ilios installation running at https://localhost.
    b. Alternatively, if you have vagrant installed, create an Ilios installation running on port 8443:
 
+      git submodule update --init
       vagrant up
 
 1. Install the Oracle JDK, see: http://www.if-not-true-then-false.com/2010/install-sun-oracle-java-jdk-jre-7-on-fedora-centos-red-hat-rhel/
