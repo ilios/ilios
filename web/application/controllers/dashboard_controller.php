@@ -46,7 +46,7 @@ class Dashboard_Controller extends Calendar_Controller
 
         $this->output->set_header('Expires: 0');
 
-        $change_school = $this->input->get_post('schoolselect');
+        $change_school = $this->input->get('schoolselect');
         if ($change_school) {
             $this->_setActiveSchool($change_school);
         }

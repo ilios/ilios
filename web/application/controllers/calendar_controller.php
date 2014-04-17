@@ -46,7 +46,7 @@ class Calendar_Controller extends Ilios_Web_Controller
 
         $this->output->set_header('Expires: 0');
 
-        $change_school = $this->input->get_post('schoolselect');
+        $change_school = $this->input->get('schoolselect');
         if ($change_school) {
             $this->_setActiveSchool($change_school);
         }

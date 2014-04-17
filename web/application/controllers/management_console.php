@@ -39,7 +39,7 @@ class Management_Console extends Ilios_Web_Controller
         }
 
         // switch schools if instructed
-        $change_school = $this->input->get_post('schoolselect');
+        $change_school = $this->input->get('schoolselect');
         if ($change_school) {
             $this->_setActiveSchool($change_school);
         }
