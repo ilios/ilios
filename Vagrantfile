@@ -4,30 +4,26 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
-
+  config.vm.hostname = "iliosdev"
   config.vm.provision "puppet" do |puppet|
-    puppet.manifests_path = "puppet_manifests"
-    puppet.module_path = "puppet_modules"
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
     puppet.manifest_file = "ilios.pp"
   end
+  
+  #use a private network so we can use nfs which speeds up the shared files
+  config.vm.network :private_network, ip: "10.10.10.10"
 
-  # Boot with a GUI so you can see the screen. (Default is headless)
-  # config.vm.boot_mode = :gui
+  # Forward a port from the guest to the host, if you wish to allow other people
+  # access to this install then remove the host_ip parameter
+  config.vm.network "forwarded_port", guest: 443, host: 8443, host_ip: "127.0.0.1"
 
-  # Assign this VM to a host-only network IP, allowing you to access it
-  # via the IP. Host-only networks can talk to the host machine as well as
-  # any other machines on the same network, but cannot be accessed (through this
-  # network interface) by any external networks.
-  # config.vm.network :hostonly, "192.168.33.10"
-
-  # Assign this VM to a bridged network, allowing you to connect directly to a
-  # network using the host's network device. This makes the VM appear as another
-  # physical device on your network.
-  # config.vm.network :bridged
-
-  # Forward a port from the guest to the host, which allows for outside
-  # computers to access the VM, whereas host only networking does not.
-  config.vm.network "forwarded_port", guest: 443, host: 8443
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+    config.cache.synced_folder_opts = {
+      type: :nfs
+    }
+  end
 
   # Share an additional folder to the guest VM.
   config.vm.synced_folder "web", "/var/www"
