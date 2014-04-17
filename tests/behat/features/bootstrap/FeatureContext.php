@@ -368,40 +368,6 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * Check to see if we are currently viewing a school by name
-     *
-     * @Given /^I am in the "([^"]*)" school$/
-     * @param string $school
-     */
-    public function iAmInTheSchool($school)
-    {
-        $this->exceptionSpin(function($context) use ($school) {
-            if(!$context->inSchool($school)){
-                throw new Exception(sprintf('Not in the school: "%s"', $school));
-            }
-        });
-    }
-
-    /**
-     * Change to a school by name
-     *
-     * @When /^I change to the \"([^\']*)\" school$/
-     * @param string $school
-     */
-    public function iChangeToTheSchool($school)
-    {
-        if(!$this->accessToSchool($school)){
-            throw new Exception(sprintf('No access to the school: "%s"', $school));
-        }
-        if($this->inSchool($school)){
-            return true;
-        }
-        $this->iNavigateToTheTab('Home');
-        $select = $this->findXpathElement("//*[@id='view-switch']");
-        $select->selectOption($school);
-    }
-
-    /**
      * Check if we are in the school
      * First we use the school selector, but that is only present when we have
      * access to multiple schools.  If we are in a single school it could just be
@@ -440,21 +406,6 @@ class FeatureContext extends MinkContext
         } while(count($el) < 1 and $count < 5);
 
         return count($el) > 0;
-    }
-
-    /**
-     * Check to see if we are currently in a school
-     * Works be searchign for the school name in the header section 'view-current'
-     *
-     * @param type $school
-     * @return boolean
-     */
-    public function inSchool($school)
-    {
-        $this->iNavigateToTheTab('Home');
-        $el = $this->findXpathElement("//*[@id='view-current']");
-
-        return strpos($el->getText(), $school) !== false;
     }
 
     /**
