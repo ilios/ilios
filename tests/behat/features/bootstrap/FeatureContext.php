@@ -347,7 +347,8 @@ class FeatureContext extends MinkContext
         }
         $this->visit('ilios.php/management_console/');
         $this->iClickOnTheText('Manage Permissions');
-        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
+        $userName = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
+        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[@title='${userName}']");
         $this->pressButton('permissions_user_picker_continue_button');
         //we have to wait for the user permissions to load otherwise any previsouly
         //selected schools will be removed.
@@ -421,9 +422,10 @@ class FeatureContext extends MinkContext
                 }
             }
         }
+        $userName = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
         $this->visit('ilios.php/management_console/');
         $this->iClickOnTheText('Manage Permissions');
-        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
+        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[@title='${userName}']");
         $this->pressButton('permissions_user_picker_continue_button');
 
         //test for the school more than once since it can take a few moments to load

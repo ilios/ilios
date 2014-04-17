@@ -9,7 +9,7 @@
 <nav id="utility">
     <ul>
 <?php if ($this->session->userdata('username')) : // show user session info and logout button ?>
-        <li class="username"><?php echo $this->session->userdata('display_fullname'); ?></li>
+        <li class="username" title="<?php echo $this->session->userdata('username'); ?>"><?php echo $this->session->userdata('display_fullname'); ?></li>
         <li class="last-login"><?php echo t('general.phrases.last_login'); ?>:
             <span><?php echo $this->session->userdata('display_last'); ?></span></li>
         <li><a id="logout_link" class="tiny radius button" href="<?php echo site_url(); ?>/authentication_controller?logout=yes">
