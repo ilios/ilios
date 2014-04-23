@@ -20,7 +20,7 @@ class FeatureContext extends MinkContext
      * ...initial page load includes a lot of resources and may need some extra time to complete.
      * @todo: remove unnecessary elements, move elements that don't need to be in the critical path out of the critical path, and get rid of this
      */
-    public function spin ($lambda, $wait = 60)
+    public function spin ($lambda, $wait = 20)
     {
         for ($i = 0; $i < $wait; $i++)
         {
@@ -48,7 +48,7 @@ class FeatureContext extends MinkContext
      * @param callback $lambda 
      * @param int $wait
      */
-    public function exceptionSpin ($lambda, $wait = 60)
+    public function exceptionSpin ($lambda, $wait = 20)
     {
         for ($i = 1; $i <= $wait; $i++)
         {
