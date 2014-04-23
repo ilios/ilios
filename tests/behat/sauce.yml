@@ -12,4 +12,4 @@ default:
                 connect: ~
                 capabilities:
                     platform: "Windows 7"
-                    version: 26
+                    version: 28
