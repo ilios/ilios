@@ -13,13 +13,29 @@
 
 ilios.namespace('ui');
 
+/**
+ * The treeview widget in a program cohort dialog.
+ *
+ * @property programCohortDialogTreeView
+ * @type {YAHOO.widget.TreeView}
+ * @default NULL
+ */
 ilios.ui.programCohortDialogTreeView = null;
 
-// Defining a custom event to aid in decoupling these library methods
+/**
+ * Custom "Ilios" event used throughout the application.
+ *
+ * @property onIliosEvent
+ * @type {YAHOO.util.CustomEvent}
+ *
+ * @event onIliosEvent
+ */
 ilios.ui.onIliosEvent = new YAHOO.util.CustomEvent("onIliosEvent");
 
 /**
  * Sets the title of a button specified by its given index in a given dialog to a given text.
+ *
+ * @method hackilySetButtonTitleOnYUIDialog
  *
  * @param {String} title The title to set.
  * @param {YAHOO.widget.Dialog} dialog The dialog object containing the button.
