@@ -259,7 +259,7 @@ $viewsPath = getServerFilePath('views');
 ?>
         sessionTypeModel = {};
         sessionTypeModel.dbId = <?php echo $sessionType['session_type_id']; ?>;
-        sessionTypeModel.title = '<?php echo $sessionType['title']; ?>';
+        sessionTypeModel.title = "<?php echo  preg_replace('/"/', '\\"', $sessionType['title']); ?>";
         ilios.cm.loadedSessionTypes.push(sessionTypeModel);
 <?php
     endforeach;
