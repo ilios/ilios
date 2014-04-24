@@ -1,5 +1,17 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * @deprecated
+ *
+ * In a give text, this function will escape single and double quotes in a given text,
+ * and replace newline characters with blank spaces.
+ *
+ * @param string $text The text to escape.
+ * @return string The escaped text.
+ *
+ * @todo Replace this hodgepodge of junk. [ST 2014/04/23]
+ *
+ */
 function fullyEscapedText ($text) {
     return preg_replace('/\'/', '\\\'',
         preg_replace('/"/', '\\"',
