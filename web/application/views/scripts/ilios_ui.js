@@ -301,21 +301,6 @@ ilios.ui.renderIndeterminateInView = function (container) {
     container.appendChild(progressDiv);
 };
 
-ilios.ui.preventEnterKeyPressFromSubmittingForm = function (event) {
-    var charCode = event.keyCode ? event.keyCode
-                                 : event.which ? event.which
-                                               : event.charCode;
-
-    if (charCode == 13) {
-        event.cancelBubble = true;
-        event.returnValue = false;
-
-        return false;
-    }
-
-    return true;
-};
-
 // @private
 ilios.ui.subscribedToPCLabelClick = false;
 
