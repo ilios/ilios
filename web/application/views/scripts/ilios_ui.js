@@ -18,11 +18,20 @@ ilios.ui.programCohortDialogTreeView = null;
 // Defining a custom event to aid in decoupling these library methods
 ilios.ui.onIliosEvent = new YAHOO.util.CustomEvent("onIliosEvent");
 
+/**
+ * Sets the title of a button specified by its given index in a given dialog to a given text.
+ *
+ * @param {String} title The title to set.
+ * @param {YAHOO.widget.Dialog} dialog The dialog object containing the button.
+ * @param {Number} buttonIndex The index of the button in a list of buttons.
+ */
 ilios.ui.hackilySetButtonTitleOnYUIDialog = function (title, dialog, buttonIndex) {
+    // returns the list of buttons in the dialog
     var buttons = dialog.getButtons();
 
+    // existence and boundary checks
     if ((buttons != null) && (buttons.length > buttonIndex)) {
-        buttons[buttonIndex]._button.innerHTML = title;
+        buttons[buttonIndex]._button.innerHTML = title; // set the button title
     }
 };
 
