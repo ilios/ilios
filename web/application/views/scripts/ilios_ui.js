@@ -13,16 +13,41 @@
 
 ilios.namespace('ui');
 
+/**
+ * The treeview widget in a program cohort dialog.
+ *
+ * @property programCohortDialogTreeView
+ * @type {YAHOO.widget.TreeView}
+ * @default NULL
+ */
 ilios.ui.programCohortDialogTreeView = null;
 
-// Defining a custom event to aid in decoupling these library methods
+/**
+ * Custom "Ilios" event used throughout the application.
+ *
+ * @property onIliosEvent
+ * @type {YAHOO.util.CustomEvent}
+ *
+ * @event onIliosEvent
+ */
 ilios.ui.onIliosEvent = new YAHOO.util.CustomEvent("onIliosEvent");
 
+/**
+ * Sets the title of a button specified by its given index in a given dialog to a given text.
+ *
+ * @method hackilySetButtonTitleOnYUIDialog
+ *
+ * @param {String} title The title to set.
+ * @param {YAHOO.widget.Dialog} dialog The dialog object containing the button.
+ * @param {Number} buttonIndex The index of the button in a list of buttons.
+ */
 ilios.ui.hackilySetButtonTitleOnYUIDialog = function (title, dialog, buttonIndex) {
+    // returns the list of buttons in the dialog
     var buttons = dialog.getButtons();
 
+    // existence and boundary checks
     if ((buttons != null) && (buttons.length > buttonIndex)) {
-        buttons[buttonIndex]._button.innerHTML = title;
+        buttons[buttonIndex]._button.innerHTML = title; // set the button title
     }
 };
 
@@ -299,21 +324,6 @@ ilios.ui.renderIndeterminateInView = function (container) {
                              'margin-left: auto; margin-right: auto;  margin-top: 275px;');
 
     container.appendChild(progressDiv);
-};
-
-ilios.ui.preventEnterKeyPressFromSubmittingForm = function (event) {
-    var charCode = event.keyCode ? event.keyCode
-                                 : event.which ? event.which
-                                               : event.charCode;
-
-    if (charCode == 13) {
-        event.cancelBubble = true;
-        event.returnValue = false;
-
-        return false;
-    }
-
-    return true;
 };
 
 // @private
