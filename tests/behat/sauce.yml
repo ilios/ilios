@@ -4,13 +4,14 @@ default:
         class: "FeatureContext"
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: https://localhost
+            base_url: https://precise64
             default_session: saucelabs
             javascript_session: saucelabs
             saucelabs:
                 browser: "firefox"
                 connect: ~
                 capabilities:
+                    name: "win7ff"
                     platform: "Windows 7"
                     version: 28
 
