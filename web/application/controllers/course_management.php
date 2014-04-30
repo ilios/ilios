@@ -25,7 +25,11 @@ class Course_Management extends Ilios_Web_Controller
     }
 
     /**
-     * Required POST or GET parameters:
+     * Expects the following GET parameters:
+     *     'course_id' ... the course identifier
+     *
+      * Expects the following POST parameters:
+      *     'session_id' ... the session identifier
      */
     public function index ()
     {
@@ -42,10 +46,10 @@ class Course_Management extends Ilios_Web_Controller
         $key = 'course_management.title_bar';
         $data['title_bar_string'] = $this->languagemap->getI18NString($key);
 
-        $courseId = $this->input->get_post('course_id');
+        $courseId = $this->input->get('course_id');
         if ($courseId != '') {
             $data['course_id'] = $courseId;
-            $data['session_id'] = $this->input->get_post('session_id');
+            $data['session_id'] = $this->input->post('session_id');
             if ($data['session_id'] == '') {
                 $data['session_id'] = -1;
             }
@@ -335,7 +339,7 @@ class Course_Management extends Ilios_Web_Controller
      * Prints out an JSON-formatted array of all instructors and instructor groups
      * associated with a given course's school and cohorts.
      *
-     * Excepts the following POST parameters:
+     * Expects the following POST parameters:
      *     'course_id' ... the course identifier
      */
     public function getAvailableInstructors ()
@@ -348,7 +352,7 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
 
-        $courseId = $this->input->get_post('course_id');
+        $courseId = $this->input->post('course_id');
 
         // load the course
         $courseRow = $this->course->getRowForPrimaryKeyId($courseId);
@@ -379,6 +383,10 @@ class Course_Management extends Ilios_Web_Controller
         echo json_encode($rhett);
     }
 
+    /**
+     * Expects the following POST parameters:
+     *     'course_id' ... the course identifier
+    */
     public function getStudentGroupTrees ()
     {
         // authorization check
@@ -387,7 +395,7 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
 
-        $courseId = $this->input->get_post('course_id');
+        $courseId = $this->input->post('course_id');
 
         $cohorts = $this->course->getCohortsForCourse($courseId);
         $rhett = $this->getStudentGroupTreesForCohorts($cohorts);
@@ -396,6 +404,11 @@ class Course_Management extends Ilios_Web_Controller
         echo json_encode($rhett);
     }
 
+    /**
+     * Expects the following GET parameters:
+     *     'course_id' ... the course identifier
+     *    'year'       ... the year name
+    */
     public function getRolloverSummaryViewForCourseIdInAcademicYear ()
     {
         // authorization check
@@ -404,8 +417,8 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
 
-        $courseId = $this->input->get_post('course_id');
-        $year = $this->input->get_post('year');
+        $courseId = $this->input->get('course_id');
+        $year = $this->input->get('year');
 
         $rhett = $this->course->getRolloverViewForAcademicYear($courseId, $year);
 
@@ -421,6 +434,13 @@ class Course_Management extends Ilios_Web_Controller
         echo json_encode($rhett);
     }
 
+    /**
+     * Expects the following POST parameters:
+     *     'course_id' ... the course identifier
+     *     'year' ... the new year
+     *     'start_date' ... the start date
+     *     'end_date' ... the end date
+    */
     public function rolloverCourse ()
     {
         $rhett = array();
@@ -433,11 +453,11 @@ class Course_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
         $schoolId = $this->session->userdata('school_id');
-        $courseId = $this->input->get_post('course_id');
-        $newYear = $this->input->get_post('year');
-        $cloneOfferingsToo = ($this->input->get_post('offerings') == 'true');
-        $startDate = $this->input->get_post('start_date');
-        $endDate = $this->input->get_post('end_date');
+        $courseId = $this->input->post('course_id');
+        $newYear = $this->input->post('year');
+        $cloneOfferingsToo = ($this->input->post('offerings') == 'true');
+        $startDate = $this->input->post('start_date');
+        $endDate = $this->input->post('end_date');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -496,7 +516,7 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
 
-        $title = $this->input->get_post('query');
+        $title = $this->input->post('query');
         $schoolId = $this->session->userdata('school_id');
         $uid = $this->session->userdata('uid');
         $queryResults = $this->course->getCoursesFilteredOnTitleMatch($title, $schoolId, $uid);
@@ -512,6 +532,10 @@ class Course_Management extends Ilios_Web_Controller
     }
 
 
+    /**
+     * Expects the following POST parameters:
+     *     'cohort_id' ... the cohort identifier
+    */
     public function getCohortObjectives ()
     {
         // authorization check
@@ -520,7 +544,7 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
 
-        $cohorts = explode(",", $this->input->get_post('cohort_id'));
+        $cohorts = explode(",", $this->input->post('cohort_id'));
         $rhett = $this->_getObjectivesForCohorts($cohorts);
 
         header("Content-Type: text/plain");
@@ -537,6 +561,10 @@ class Course_Management extends Ilios_Web_Controller
      *              'title', 'start_date', 'end_date', 'course_year_start' and 'course_level'. Start
      *              and end dates, and course level, are arbitrary but are passed back so that the
      *              client side model correctly reflects the [arbitrary] database state.
+     *
+     * Expects the following POST parameters:
+     *     'new_course_title' ... string name of the new course
+     *     'new_academic_year' ... the new year
      */
     public function addNewCourse ()
     {
@@ -556,13 +584,13 @@ class Course_Management extends Ilios_Web_Controller
         // TODO i18n error message text
         $this->form_validation->set_rules('new_course_title', 'Course Name', 'trim|required');
 
-        $title = $this->input->get_post('new_course_title');
+        $title = $this->input->post('new_course_title');
 
         if (! $this->form_validation->run()) {
             $msg = $this->languagemap->getI18NString('general.error.data_validation');
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
-            $year = $this->input->get_post('new_academic_year');
+            $year = $this->input->post('new_academic_year');
 
             if ($this->course->courseExistsWithTitleAndYear($title, $year)) {
                 $msg = $this->languagemap->getI18NString('course_management.error.duplicate_title_year');
@@ -758,6 +786,11 @@ class Course_Management extends Ilios_Web_Controller
         echo json_encode($rhett);
     }
 
+    /**
+     * Expects the following POST parameters:
+     *     'course_id' ... the course identifier
+     *     'archive' ... boolean to archive or just lock
+    */
     public function lockCourse ()
     {
         $rhett = array();
@@ -770,8 +803,8 @@ class Course_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $courseId = $this->input->get_post('course_id');
-        $archiveAlso = ($this->input->get_post('archive') == 'true');
+        $courseId = $this->input->post('course_id');
+        $archiveAlso = ($this->input->post('archive') == 'true');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -811,6 +844,12 @@ class Course_Management extends Ilios_Web_Controller
         echo json_encode($rhett);
     }
 
+
+
+    /**
+     * Expects the following POST parameters:
+     *     'course_id' ... the course identifier
+    */
     public function getLearnerGroupIdsAndTitles ()
     {
         $rhett = array();
@@ -821,7 +860,7 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
 
-        $courseId = $this->input->get_post('course_id');
+        $courseId = $this->input->post('course_id');
 
         $rhett['learners'] = $this->queries->getLearnerGroupIdAndTitleForCourse($courseId);
 
@@ -1096,7 +1135,7 @@ class Course_Management extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected POST params:
      *      session_id
      *      cnumber
      *
@@ -1115,8 +1154,8 @@ class Course_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $sessionId = $this->input->get_post('session_id');
-        $containerNumber = $this->input->get_post('cnumber');
+        $sessionId = $this->input->post('session_id');
+        $containerNumber = $this->input->post('cnumber');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -1308,9 +1347,12 @@ class Course_Management extends Ilios_Web_Controller
         echo json_encode($rhett);
     }
 
+
+
     /**
-     * (non-PHPdoc)
-     */
+     * Expects the following GET parameters:
+     *     'course_id' ... the course identifier
+    */
     public function getCourseTree ()
     {
         // authorization check
@@ -1319,7 +1361,7 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
 
-        $courseId = $this->input->get_post('course_id');
+        $courseId = $this->input->get('course_id');
 
         $rhett = $this->_buildCourseTree($courseId, false, false);
 
