@@ -73,5 +73,8 @@ script:
 # Run Behat tests on GUI browsers via Sauce against the default Firefox on windows 7
   - "(cd tests/behat && bin/behat --tags ~@ignore -c sauce.yml)"
 
+# Ensure we have a fresh DB between behat runs
+  - bin/phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+
 # Run Behat tests on GUI browsers via Sauce against IE 9 on windows
   - "(cd tests/behat && bin/behat --tags ~@ignore -c sauce.yml --profile win7ie9)"
