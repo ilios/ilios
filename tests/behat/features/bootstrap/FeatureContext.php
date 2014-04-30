@@ -3,6 +3,8 @@
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
+    Behat\Behat\Context\Step\When,
+    Behat\Behat\Context\Step\Then,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
@@ -41,11 +43,11 @@ class FeatureContext extends MinkContext
             "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()"
         );
     }
-    
+
     /**
      * Duplicates FeatureContext::spin
      * Looks for exceptions instead of booleans
-     * @param callback $lambda 
+     * @param callback $lambda
      * @param int $wait
      */
     public function exceptionSpin ($lambda, $wait = 60)
@@ -80,12 +82,12 @@ class FeatureContext extends MinkContext
 
     /**
      * @When /^I navigate to the "(.*?)" tab$/
-     * 
+     *
      * @param string $tabName
      */
     public function iNavigateToTheTab ($tabName)
     {
-        $this->iClickOnTheXpath("//*[@id='topnav']//a[text()[normalize-space(.)='{$tabName}']]");
+        return new When("I click on the xpath \"//*[@id='topnav']//a[text()[normalize-space(.)='{$tabName}']]\"");
     }
 
     /**
@@ -97,14 +99,14 @@ class FeatureContext extends MinkContext
         $context = $this;
         $this->spin(function($context) {
             return (count($context->getSession()->getPage()->findField('username')) > 0);
-        });
+        }, 5);
         $this->fillField("User Name", $user);
         $this->fillField("Password", $login);
         $this->pressButton("login_button");
         // Wait for login/logout link to reappear before continuing. Always id logout_link, yeah, misleading.
         $this->spin(function($context) {
             return ($context->getSession()->getPage()->findById('logout_link'));
-        });
+        }, 5);
     }
 
     /**
@@ -124,8 +126,25 @@ class FeatureContext extends MinkContext
      */
     public function iClickTreePickerItemInDialog ($itemText, $dialogId)
     {
-        $dialog = $this->getSession()->getPage()->find('css', "#{$dialogId}");
-        $node = $dialog->find('xpath', "//span[contains(.,'{$itemText}') and contains(@class,'ygtvlabel')]");
+        $node = $this->findXpathElement("//*[@id='{$dialogId}']//span[contains(.,'{$itemText}') and contains(@class,'ygtvlabel')]");
+        $node->click();
+    }
+
+    /**
+     * The titles can not be clicked directly in tree pickers
+     * instead we have to click the + button next to them
+     *
+     * @When /^I expand "([^"]*)" tree picker list in "([^"]*)" dialog$/
+     *
+     * @param string $itemText
+     * @param string $dialogId
+     */
+    public function iExpandTreePickerListInDialog ($itemText, $dialogId)
+    {
+        $xpath = "//*[@id='{$dialogId}']" .
+          "//tr[contains(.,'{$itemText}')]" .
+          "//a[@class='ygtvspacer']";
+        $node = $this->findXpathElement($xpath);
         $node->click();
     }
 
@@ -134,8 +153,8 @@ class FeatureContext extends MinkContext
      */
     public function iPressTheButtonInDialog ($buttonText, $dialogId)
     {
-        $dialog = $this->getSession()->getPage()->find('css', "#{$dialogId}");
-        $button = $dialog->find('xpath', "//button[contains(.,'{$buttonText}')]");
+        $button = $this->findXpathElement("//*[@id='{$dialogId}']//button[contains(.,'{$buttonText}')]");
+        $this->waitOnElementVisibility($button);
         $button->press();
     }
 
@@ -150,6 +169,7 @@ class FeatureContext extends MinkContext
         });
 
         $element = $this->getSession()->getPage()->find('css', "#{$id}");
+        $this->waitOnElementVisibility($element);
         $element->press();
     }
 
@@ -186,12 +206,34 @@ class FeatureContext extends MinkContext
                 throw new Exception(sprintf('Could not find text: "%s"', $text));
             }
             $el->click();
-        }, 5);
+        });
+    }
+
+    /**
+     * Click on text inside element
+     *
+     * @param string $test
+     * @param string $elementId
+     * @Given /^I click on the text "([^"]*)" in the "([^"]*)" element$/
+     *
+     */
+    public function iClickOnTheTextInTheElement($text, $elementId)
+    {
+        $this->exceptionSpin(function($context) use ($text, $elementId) {
+            $el = $context->getSession()->getPage()->find(
+                'xpath',
+                "//*[@id='{$elementId}']//*[normalize-space(text())='$text']"
+            );
+            if ($el === null) {
+                throw new Exception(sprintf('Could not find text: "%s"', $text));
+            }
+            $el->click();
+        });
     }
 
     /**
      * @Given /^I click on the xpath "([^"]*)"$/
-     * 
+     *
      * @param string $xpath
      */
     public function iClickOnTheXpath($xpath)
@@ -211,8 +253,8 @@ class FeatureContext extends MinkContext
                 throw new Exception(sprintf('Could not find text: "%s"', $text));
             }
             $el->click();
-        }, 5);
-        
+        });
+
     }
 
     /**
@@ -238,7 +280,7 @@ class FeatureContext extends MinkContext
     {
         $this->exceptionSpin(function($context) {
             $context->assertElementOnPage('.dirty_state');
-        }, 5);   
+        });
     }
 
     /**
@@ -248,7 +290,7 @@ class FeatureContext extends MinkContext
     {
         $this->exceptionSpin(function($context) {
             $context->assertElementNotOnPage('.dirty_state');
-        }, 5);
+        });
     }
 
     /**
@@ -278,12 +320,24 @@ class FeatureContext extends MinkContext
             return false;
         });
     }
-    
+
+    /**
+     * Set the browser window size
+     * @Given /^I set the window size to "([^"]*)" x "([^"]*)"$/
+     *
+     * @param integer $x
+     * @param integer $y
+     */
+    public function iSetTheWindowSizeTo($x, $y)
+    {
+        $this->getSession()->resizeWindow((int)$x, (int)$y, 'current');
+    }
+
     /**
      * Use the school selector to see if we already have permissions
      * If not then attempt to add them
      * @Given /^I have access in the "([^"]*)" school$/
-     * 
+     *
      * @param string $school
      */
     public function iHaveAccessToTheSchool($school)
@@ -301,7 +355,7 @@ class FeatureContext extends MinkContext
         do{
             sleep(1);
             $el = $this->getSession()->getPage()->find(
-                'xpath', 
+                'xpath',
                 "//*[@id='current_school_permissions_div']//*[text()='None']"
             );
             $count++;
@@ -311,10 +365,10 @@ class FeatureContext extends MinkContext
         $this->iClickOnTheXpath("//*[@id='school_picker_dialog']//*[normalize-space(text())='Done']");
         $this->iClickOnTheText('Finished');
     }
-    
+
     /**
      * Check to see if we are currently viewing a school by name
-     * 
+     *
      * @Given /^I am in the "([^"]*)" school$/
      * @param string $school
      */
@@ -324,12 +378,12 @@ class FeatureContext extends MinkContext
             if(!$context->inSchool($school)){
                 throw new Exception(sprintf('Not in the school: "%s"', $school));
             }
-        }, 5);
+        });
     }
 
     /**
      * Change to a school by name
-     * 
+     *
      * @When /^I change to the \"([^\']*)\" school$/
      * @param string $school
      */
@@ -345,13 +399,13 @@ class FeatureContext extends MinkContext
         $select = $this->findXpathElement("//*[@id='view-switch']");
         $select->selectOption($school);
     }
-    
+
     /**
      * Check if we are in the school
      * First we use the school selector, but that is only present when we have
-     * access to multiple schools.  If we are in a single school it could just be 
+     * access to multiple schools.  If we are in a single school it could just be
      * the default school, so we have to go and look at the permissions specifically
-     * 
+     *
      * @param string $school
      * @return boolean
      */
@@ -371,13 +425,13 @@ class FeatureContext extends MinkContext
         $this->iClickOnTheText('Manage Permissions');
         $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
         $this->pressButton('permissions_user_picker_continue_button');
-        
+
         //test for the school more than once since it can take a few moments to load
         $count = 0;
         do{
             sleep(1);
             $el = $this->getSession()->getPage()->find(
-                'xpath', 
+                'xpath',
                 "//*[@id='current_school_permissions_div']//*[text()[contains(.,'{$school}')]]"
             );
             $count++;
@@ -385,7 +439,7 @@ class FeatureContext extends MinkContext
 
         return count($el) > 0;
     }
-    
+
     /**
      * Check to see if we are currently in a school
      * Works be searchign for the school name in the header section 'view-current'
@@ -397,38 +451,105 @@ class FeatureContext extends MinkContext
     {
         $this->iNavigateToTheTab('Home');
         $el = $this->findXpathElement("//*[@id='view-current']");
-        
+
         return strpos($el->getText(), $school) !== false;
     }
-    
+
     /**
-     * Override the MinkContext::assertPageContainsText in order to add a 
-     * spin delay to the serach
+     * Check for a count of elements contained in another element
+     *
+     * @Then /^I should see (\d+) "([^"]*)" elements in the "([^"]*)" element$/
+     * @param integer $num the numbers of elements we are looking for
+     * @param string $countElement the element we are counting
+     * @param string $containingElement the element we are searchign within
+     */
+    public function iShouldSeeElementsInTheElement($num, $countElement, $containingElement)
+    {
+        $el = $this->getSession()->getPage()->find('css', $containingElement);
+        $this->assertSession()->elementsCount('css', $num, $countElement, $el);
+    }
+
+   /**
+    * The YUI editors are in an iframe and the text area is inaccessible so
+    * in order to fill them we have to access the JS object directly and use the
+    * included setEditorHTML method
+    *
+    * @When /^I fill the editor "([^"]*)" with "([^"]*)"$/
+    *
+    * @param string $editorJsObject a fully qualified reference to yui editors object in
+    *        the global namespace eg 'ilios.cm.editCourseObjectiveDialog.ecoEditor'
+    * @param string $text
+    */
+    public function iFillTheEditorWith($editorJsObject, $text)
+    {
+        $this->getSession()->executeScript($editorJsObject . '.setEditorHTML("' . $text . '");');
+    }
+
+    /**
+     * Override the MinkContext::assertPageContainsText in order to add a
+     * spin delay to the search
      * @param string $text
      */
     public function assertPageContainsText($text)
     {
+        $text = $this->fixStepArgument($text);
         $this->exceptionSpin(function($context) use ($text) {
-            $context->assertSession()->pageTextContains($context->fixStepArgumentPublic($text));
-        }, 5);
+            $context->assertSession()->pageTextContains($text);
+        });
     }
-    
+
+
     /**
-     * Override the MinkContext::pressButton in order to add a 
+     * Override the MinkContext::assertElementContainsText in order to add a
+     * spin delay to the search
+     *
+     * @param string $element
+     * @param string $text
+     */
+    public function assertElementContainsText($element, $text)
+    {
+        $text = $this->fixStepArgument($text);
+        $this->exceptionSpin(function($context) use ($element, $text) {
+            $context->assertSession()->elementTextContains('css', $element, $text);
+        });
+    }
+
+    /**
+     * Override the MinkContext::selectOption in order to add a
+     * spin delay to the search
+     *
+     * @param string $element
+     * @param string $text
+     */
+    public function selectOption($select, $option)
+    {
+        $select = $this->fixStepArgument($select);
+        $option = $this->fixStepArgument($option);
+        $this->exceptionSpin(function($context) use ($select, $option) {
+            $context->getSession()->getPage()->selectFieldOption($select, $option);
+        });
+    }
+
+    /**
+     * Override the MinkContext::pressButton in order to add a
      * spin delay to the search
      * @param string $locator
      */
     public function pressButton($locator)
     {
+        $locator = $this->fixStepArgument($locator);
         $this->spin(function($context) use ($locator) {
-            $button = $context->getSession()->getPage()->findButton($locator);
-            return !is_null($button);
+            $el = $context->getSession()->getPage()->findButton($locator);
+            if(is_null($el) or !$el->isVisible()){
+                return false;
+            }
+            $el->press();
+            return true;
         });
-        parent::pressButton($locator);
     }
-    
+
     /**
-     * Override the MinkContext::clickLink in order to add a 
+     * Override the MinkContext::clickLink in order to add a
      * spin delay to the search
      * @param string $locator
      */
@@ -440,7 +561,7 @@ class FeatureContext extends MinkContext
         });
         parent::clickLink($locator);
     }
-    
+
     /**
      * MinkContext::reload to add a built delay to page reloads
      */
@@ -449,7 +570,7 @@ class FeatureContext extends MinkContext
         $this->getSession()->reload();
         sleep(5);
     }
-    
+
     /**
      * MinkContext::visit to add a built delay
      * @param string $page
@@ -459,12 +580,12 @@ class FeatureContext extends MinkContext
         $this->getSession()->visit($this->locatePath($page));
         sleep(5);
     }
-    
+
     /**
      * Search for an element by an xpath search with a timeout
      * This allows other methods to easily ensure an element is present to avoid
      * Critical errors
-     * 
+     *
      * @todo see if this can replace some of the existing spins
      * @param string $xpath
      * @return \Behat\Mink\Element
@@ -478,10 +599,99 @@ class FeatureContext extends MinkContext
                 throw new Exception(sprintf('Could not find xpath: "%s"', $xpath));
             }
         });
-        
+
         return $element;
     }
 
+    /**
+     * See if an element is visible, and spin and try again if not
+     * This comes up with buttons and links that exist in dialogs before they can be
+     * pressed.  So we need to wait for them to be visible first
+     *
+     * @param \Behat\Mink\Element $element
+     */
+    public function waitOnElementVisibility(\Behat\Mink\Element\NodeElement $element)
+    {
+        $this->exceptionSpin(function($context) use ($element) {
+            if (!$element->isVisible()) {
+                throw new Exception(
+                    sprintf('The element at xpath "%s" is not visible', $element->getXpath())
+                );
+            }
+        });
+    }
+
+    /**
+     * Create a test program for use in other features
+     *
+     * @todo - eventually this should be done by directly interacting with the DB
+     * or models, for now just step through the process.
+     * @Given /^I create a test program "([^"]*)"$/
+     *
+     * @param string $programName
+     */
+    public function iCreateATestProgram($programName)
+    {
+        $shortProgramName = substr(strtolower(str_replace(' ', '', $programName)),0,10);
+        return array(
+            new When('I navigate to the "Programs" tab'),
+            new When('I follow "Add Program"'),
+            new When('I fill in "' . $programName . '" for "new_program_title"'),
+            new When('I fill in "' . $shortProgramName . '" for "new_short_title"'),
+            new When('I select "4" from "new_duration_selector"'),
+            new When('I press "Done"'),
+            new When('I wait for "add_new_program_year_link" to be visible'),
+            new When('I should see "' . $shortProgramName . '"'),
+            new When('I follow "show_more_or_less_link"'),
+            new When('I press "Publish Now"'),
+            new When('I should see "Published" in the "#parent_publish_status_text" element'),
+            new When('I press "Add New Program Year"'),
+            new When('I select "2013-2014" from "1_program_year_title"'),
+            //fragile xpath link to the competencies edit button, which has no ID
+            new When('I click on the xpath "//*[@id=\'1_collapser\']/form/div[3]/div[3]/a"'),
+            new When('I expand "Medical Knowledge" tree picker list in "competency_pick_dialog" dialog'),
+            new When('I click "Treatment" tree picker item in "competency_pick_dialog" dialog'),
+            new When('I click "Inquiry and Discovery" tree picker item in "competency_pick_dialog" dialog'),
+            new When('I press the "Done" button in "competency_pick_dialog" dialog'),
+            new When('I follow "Add Objective"'),
+            new When('I fill the editor "ilios.pm.eot.editObjectiveTextDialog.eotEditor" with "Test program objective 1"'),
+            new When('I select "Treatment (Medical Knowledge)" from "eot_competency_pulldown"'),
+            new When('I press the "Done" button in "edit_objective_text_dialog_c" dialog'),
+            new When('I follow "Add Objective"'),
+            new When('I fill the editor "ilios.pm.eot.editObjectiveTextDialog.eotEditor" with "Test program objective 2"'),
+            new When('I select "Inquiry and Discovery (Medical Knowledge)" from "eot_competency_pulldown"'),
+            new When('I press the "Done" button in "edit_objective_text_dialog_c" dialog'),
+            new When('I publish the 1st program year'),
+            new When('I should see "Published" in the "#1_child_draft_text" element')
+        );
+    }
+
+    /**
+     * Create a test program for use in other features
+     *
+     * @todo - eventually this should be done by directly interacting with the DB
+     * or models, for now just step through the process.
+     * @Given /^I create a test learner group for class of "(\d+)" in "([^"]*)"$/
+     *
+     * @param string $classYear
+     * @param string $programName
+     */
+    public function iCreateATestLearnerGroupIn($classYear, $programName)
+    {
+        return array(
+            new When('I navigate to the "Learner Groups" tab'),
+            new When('I follow "Select Program and Cohort"'),
+            new When('I expand "' . $programName . '" tree picker list in "cohort_pick_dialog_c" dialog'),
+            new When('I click "Class of ' . $classYear . '" tree picker item in "cohort_pick_dialog_c" dialog'),
+            new When('I press "Add New Members to Cohort"'),
+            new When('I fill in "Test" for "em_last_name"'),
+            new When('I fill in "Student" for "em_first_name"'),
+            new When('I press "Add User"'),
+            new When('I press the "Done" button in "add_new_members_dialog" dialog'),
+            new When('I press "Add a New Student Group"'),
+            new Then('I should see "Default Group Number 1"')
+        );
+    }
     /**
      * @AfterScenario
      *
@@ -492,17 +702,5 @@ class FeatureContext extends MinkContext
     public function after ($event)
     {
         $this->getSession()->reset();
-    }
-
-    /**
-     * Returns fixed step argument (with \\" replaced back to ").
-     *
-     * @param string $argument
-     *
-     * @return string
-     */
-    public function fixStepArgumentPublic($argument)
-    {
-        return parent::fixStepArgument($argument);
     }
 }

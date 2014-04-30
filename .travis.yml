@@ -20,7 +20,7 @@ addons:
 # This is only necessary while sauce_connect is being disabled in pull requests
 before_script:
   - curl -L https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
-  
+
 before_install:
   - composer self-update
   - sudo apt-get update
@@ -43,7 +43,7 @@ install:
 
 # Install PHPUnit
   - composer install -d tests/phpunit
-  
+
   # Start Selenium standalone server for Behat tests
   - "java -jar ${PWD}/tests/behat/bin/selenium-server.jar -role hub > /dev/null &"
 
@@ -65,6 +65,9 @@ script:
 
 # Run Behat tests on headless browsers
   - "(cd tests/behat && bin/behat --tags ~@ignore -p travis)"
+
+# Ensure we have a fresh DB between behat runs
+  - bin/phing db-install -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${PWD}/web -Dbackupdir=${PWD}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
 
 # Run Behat tests on GUI browsers via Sauce
   - "(cd tests/behat && bin/behat --tags ~@ignore -c sauce.yml)"
