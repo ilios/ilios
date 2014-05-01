@@ -75,7 +75,13 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * @todo add code docs
+     * Retrieve a summary of a specific session offering
+     * Used when someone clicks on a course session in the calendar
+     *
+     * Accepts the following GET parameters:
+     *     "offering_id" ... the id for the offering
+     *
+     * Prints out the summary as a json formated string
      */
     public function getLearnerDashboardSummaryForOffering ()
     {
@@ -89,7 +95,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
             return;
         }
 
-        $offeringId = $this->input->get_post('offering_id');
+        $offeringId = $this->input->post('offering_id');
         $offering = $this->offering->getRowForPrimaryKeyId($offeringId);
         $session = $this->iliosSession->getRowForPrimaryKeyId($offering->session_id);
         $sessionType = $this->sessionType->getRowForPrimaryKeyId($session->session_type_id);
@@ -119,7 +125,13 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * @todo add code docs
+     * Retrieve a summary of an independant learning session offering
+     * Used when someone clicks on and independant learning session in the calendar
+     *
+     * Accepts the following GET parameters:
+     *     "session_id" ... the id for the offering
+     *
+     * Prints out the summary as a json formated string
      */
     public function getLearnerDashboardSummaryForSILM ()
     {
@@ -133,7 +145,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
             return;
         }
 
-        $sessionId = $this->input->get_post('session_id');
+        $sessionId = $this->input->post('session_id');
         $session = $this->iliosSession->getRowForPrimaryKeyId($sessionId);
         $sessionType = $this->sessionType->getRowForPrimaryKeyId($session->session_type_id);
         $course = $this->course->getRowForPrimaryKeyId($session->course_id);
@@ -162,7 +174,9 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     }
 
     /**
-     * Expected parameter:
+     * Called anytime the MeSH picker dialog is used to associate mesh terms with
+     * an objective, course, or session
+     * Expected POST parameter:
      *         query
      *
      * @return a JSON'd array of the following:
@@ -191,7 +205,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
             return;
         }
 
-        $matchString = $this->input->get_post('query');
+        $matchString = $this->input->post('query');
         $rhett = $this->mesh->searchMeSHUniverseForIlios($matchString);
 
         header("Content-Type: text/plain");
@@ -265,7 +279,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     /**
      * Prints a complete course for a given identifier as JSON-formatted text.
      *
-     * Expects the following values to be POSTed:
+     * Expects the following GET values:
      * - "course_id" ... the course id
      *
      * @see Ilios_Base_Controller::_buildCourseTree()
@@ -274,7 +288,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     {
         // no authorization check, this info is needs to be available to all logged in users.
 
-        $courseId = $this->input->get_post('course_id');
+        $courseId = $this->input->get('course_id');
         $rhett = $this->_buildCourseTree($courseId, true, true);
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -292,7 +306,7 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
     {
         // no authorization check, this info is needs to be available to all logged in users.
 
-        $sessionId = $this->input->get_post('session_id');
+        $sessionId = $this->input->post('session_id');
         $rhett = $this->offering->getOfferingsForSession($sessionId, "no", "matter", "at all");
         header("Content-Type: text/plain");
         echo json_encode($rhett);
@@ -388,8 +402,8 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
      */
     public function getCourseListForAcademicYear ()
     {
-        $academicYear = $this->input->get_post('year');
-        $sort = $this->input->get_post('sort');
+        $academicYear = $this->input->post('year');
+        $sort = $this->input->post('sort');
 
         $schoolId = $this->session->userdata('school_id');
         $results = $this->course->getCoursesForAcademicYear($academicYear, $schoolId);
