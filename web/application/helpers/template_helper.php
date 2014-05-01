@@ -20,14 +20,14 @@ if (! function_exists('ilios_print_daytime_options')) {
     function ilios_print_daytime_options ($start = 0, $end = 60, $hoursOffset = 6) {
         for ($i = $start; $i < $end; $i++) {
             $hours = floor($i / 4) + $hoursOffset;
-            $minutes = ($i % 12) * 5;
+            $minutes = ($i % 6) * 10;
 
             if ($hours < 10) {
                 $hours = '0' . $hours;
             }
 
-            if ($minutes < 10) {
-                $minutes = '0' . $minutes;
+	    if ($minutes == 0) {
+                $minutes = '00';
             }
 
             $string = $hours . ':' . $minutes;

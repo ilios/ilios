@@ -31,7 +31,7 @@ ilios.om.calendar.initCalendar = function () {
     scheduler.config.scroll_hour = 8;
 
     scheduler.config.start_on_monday = false;
-    scheduler.config.time_step = 5;
+    scheduler.config.time_step = 10;
 
     scheduler.config.edit_on_create = false;
     scheduler.config.details_on_create = true;
