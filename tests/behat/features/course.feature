@@ -64,7 +64,6 @@ Feature: Course management
     When I click on the xpath "//*[@id='directors_search_link']"
     And I click on the text "User, Zero" in the "director_picker_dialog" element
     And I press the "Done" button in "director_picker_dialog" dialog
-    Then I should see "User, Zero" in the "#-1_director_picker_selected_text_list" element
 
     #add MeSH terms
     When I follow "mesh_search_link"
