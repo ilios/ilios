@@ -1,12 +1,10 @@
 <?php
 
-// require PHP Unit classes.
+// load DbUnit dependencies
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/CompositeDataSet.php';
 
-
-
-// require DbUnit extension
+// load DbUnit customizations
 require_once dirname(dirname(__FILE__)) . '/PHPUnit/Extensions/Database/Operation/ResetAutoincrement.php';
 /**
  * Base class for Ilios/CodeIgniter unit test cases.
