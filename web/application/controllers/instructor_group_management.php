@@ -66,6 +66,14 @@ class Instructor_Group_Management extends Ilios_Web_Controller
         }
     }
 
+    /**
+     * Retrieves the courses for an instructor group
+     *
+     * Accepts the following POST parameters:
+     *     "instructor_group_id" ... The ID for the group
+     *
+     * Prints out an result-array as JSON-formatted text.
+     */
     public function getAssociatedCourses ()
     {
         $rhett = array();
@@ -76,7 +84,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
             return;
         }
 
-        $igId = $this->input->get_post('instructor_group_id');
+        $igId = $this->input->post('instructor_group_id');
 
         $rhett['courses'] = $this->queries->getAssociatedCoursesForInstructorGroup($igId);
 
@@ -244,6 +252,16 @@ class Instructor_Group_Management extends Ilios_Web_Controller
      * Called via the Edit Members (or whatever) dialog for the db addition of a new user (given
      *  an instructor_group_id) -- entries in the tables user and instructor_group_x_user are made.
      *
+     * Accepts the following POST parameters:
+     *     "instructor_group_id"
+     *     "container_number"
+     *     "last_name"
+     *     "first_name"
+     *     "middle_name"
+     *     "phone"
+     *     "email"
+     *     "uc_uid"
+     *
      * @return a json'd array with either the key 'error', or the key pair 'user' and
      *              'container_number' (the latter being a passback from the incoming param)
      */
@@ -257,14 +275,14 @@ class Instructor_Group_Management extends Ilios_Web_Controller
             return;
         }
 
-        $groupId = $this->input->get_post('instructor_group_id');
-        $containerNumber = $this->input->get_post('container_number');
-        $lastName = trim($this->input->get_post('last_name'));
-        $firstName = trim($this->input->get_post('first_name'));
-        $middleName = trim($this->input->get_post('middle_name'));
-        $phone = trim($this->input->get_post('phone'));
-        $email = trim($this->input->get_post('email'));
-        $ucUID = trim($this->input->get_post('uc_uid'));
+        $groupId = $this->input->post('instructor_group_id');
+        $containerNumber = $this->input->post('container_number');
+        $lastName = trim($this->input->post('last_name'));
+        $firstName = trim($this->input->post('first_name'));
+        $middleName = trim($this->input->post('middle_name'));
+        $phone = trim($this->input->post('phone'));
+        $email = trim($this->input->post('email'));
+        $ucUID = trim($this->input->post('uc_uid'));
 
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
@@ -342,7 +360,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     }
 
     /*
-     * Expected parameters:
+     * Expected POST parameters:
      *  . 'next_container'
      *
      * @return a json'd array with either the key 'error', or the keys group_id, title, and
@@ -361,7 +379,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
         $userId = $this->session->userdata('uid');
         $schoolId = $this->session->userdata('school_id');
 
-        $containerNumber = $this->input->get_post('next_container');
+        $containerNumber = $this->input->post('next_container');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -401,7 +419,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected POST params:
      *      'instructor_group_id'
      *      'container_number'
      *
@@ -419,8 +437,8 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $groupId = $this->input->get_post('instructor_group_id');
-        $containerNumber = $this->input->get_post('container_number');
+        $groupId = $this->input->post('instructor_group_id');
+        $containerNumber = $this->input->post('container_number');
 
         // check if the given instructor group is associated with a locked or archived course in
         // any way (e.g. via an offering or independent learning session)
@@ -472,7 +490,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected POST params:
      *      'instructor_group_id'
      *      'container_number'
      *      'title'
@@ -492,11 +510,11 @@ class Instructor_Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $groupId = $this->input->get_post('instructor_group_id');
+        $groupId = $this->input->post('instructor_group_id');
         $schoolId = $this->session->userdata('school_id');
-        $containerNumber = $this->input->get_post('container_number');
-        $title = rawurldecode($this->input->get_post('title'));
-        $users = json_decode($this->input->get_post('users'), true);
+        $containerNumber = $this->input->post('container_number');
+        $title = rawurldecode($this->input->post('title'));
+        $users = json_decode($this->input->post('users'), true);
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -543,6 +561,9 @@ class Instructor_Group_Management extends Ilios_Web_Controller
     /**
      * Required parameter:
      *  . school_id     if the method parameter is undefined, expected via GET or POST
+     *
+     * @todo $schoolId should be required since this is a protected method and not
+     * a controller action
      */
     protected function _getGroups ($schoolId = null)
     {
