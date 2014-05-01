@@ -4,8 +4,8 @@
 // the Ilios code library within the application path.
 require_once 'ci_bootstrap.php';
 
-// load PHP Unit classes.
-require_once 'PHPUnit/Extensions/Database/TestCase.php';
+// load PHPUnit dependencies
+require_once 'TestCase.php';
 
 // load test utils
 require_once 'Ilios/TestUtils.php';
