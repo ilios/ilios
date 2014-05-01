@@ -24,6 +24,8 @@ class Program_Management extends Ilios_Web_Controller
     /**
      * Default controller action.
      * Loads and populates the program manager view.
+      * Required GET parameters:
+      *      program_id
      */
     public function index ()
     {
@@ -36,7 +38,7 @@ class Program_Management extends Ilios_Web_Controller
 
         $this->output->set_header('Expires: 0');
 
-        $programId = $this->input->get_post('program_id');
+        $programId = $this->input->get('program_id');
 
         $schoolId =  $this->session->userdata('school_id');
         $schoolRow = $this->school->getRowForPrimaryKeyId($schoolId);
@@ -138,7 +140,7 @@ class Program_Management extends Ilios_Web_Controller
             return;
         }
 
-        $title = $this->input->get_post('query');
+        $title = $this->input->post('query');
         $schoolId = $this->session->userdata('school_id');
         $uid = $this->session->userdata('uid');
         $queryResults = $this->program->getProgramsFilteredOnTitleMatch($title, $schoolId, $uid);
@@ -156,6 +158,8 @@ class Program_Management extends Ilios_Web_Controller
      * XHR handler.
      * Prints out a JSON-formatted list of programs-years
      * associated with a given program id.
+     * Expects the following values to be POSTed:
+     * - 'program_id'
      */
     public function getProgramYears ()
     {
@@ -165,7 +169,7 @@ class Program_Management extends Ilios_Web_Controller
             return;
         }
 
-        $programId = $this->input->get_post('program_id');
+        $programId = $this->input->post('program_id');
         $row = $this->program->getRowForPrimaryKeyId($programId);
         $schoolOwnsProgram = ($this->session->userdata('school_id') == $row->owning_school_id);
         $yearArray = $this->programYear->getProgramYearsForProgram($programId);
@@ -206,6 +210,12 @@ class Program_Management extends Ilios_Web_Controller
      * XHR handler.
      *
      * Called from the program main entity container via AJAX.
+     * Expects the following values to be POSTed:
+     * - 'program_title'
+     * - 'short_title'
+     * - 'duration'
+     * - 'program_id'
+     * - 'publish'
      *
      * Echos out a JSON'd map;
      * on failure cases it will contain one entry with the key being 'error';
@@ -237,12 +247,12 @@ class Program_Management extends Ilios_Web_Controller
 
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
-            $title = rawurldecode($this->input->get_post('program_title'));
-            $short = rawurldecode($this->input->get_post('short_title'));
-            $duration = $this->input->get_post('duration');
-            $programId = $this->input->get_post('program_id');
+            $title = rawurldecode($this->input->post('program_title'));
+            $short = rawurldecode($this->input->post('short_title'));
+            $duration = $this->input->post('duration');
+            $programId = $this->input->post('program_id');
 
-            $publish = $this->input->get_post('publish');
+            $publish = $this->input->post('publish');
 
             $failedTransaction = true;
             $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -301,6 +311,10 @@ class Program_Management extends Ilios_Web_Controller
     /**
      * XHR handler.
      * Called from the program add dialog on the program_manager.php generated page via AJAX.
+     * Expects the following values to be POSTed:
+     * - 'new_program_title'
+     * - 'new_short_title'
+     * - 'duration'
      *
      * Echos out a JSON'd map;
      * on failure cases it will contain one entry with the key being 'error';
@@ -326,15 +340,15 @@ class Program_Management extends Ilios_Web_Controller
         $this->form_validation->set_rules('new_program_title', 'Program Title (Full)', 'trim|required');
         $this->form_validation->set_rules('new_short_title', 'Program Title (Short)', 'trim|required|max_length[10]');
 
-        $title = $this->input->get_post('new_program_title');
-        $short = $this->input->get_post('new_short_title');
+        $title = $this->input->post('new_program_title');
+        $short = $this->input->post('new_short_title');
 
         if (! $this->form_validation->run()) {
             $msg = $this->languagemap->getI18NString('general.error.data_validation');
 
             $rhett['error'] = $msg . ": " . validation_errors();
         } else {
-            $duration = $this->input->get_post('duration');
+            $duration = $this->input->post('duration');
 
             $failedTransaction = true;
             $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -382,6 +396,9 @@ class Program_Management extends Ilios_Web_Controller
     /**
      * XHR handler.
      * Called from a program year entity container via AJAX.
+     * Expects the following values to be POSTed:
+     * - 'program_year_id'
+     * - 'cnumber'
      *
      * Echos out a JSON'd map;
      * on failure cases it will contain 2 entries with the keys being 'error' and 'container';
@@ -400,9 +417,9 @@ class Program_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $programYearId = $this->input->get_post('program_year_id');
+        $programYearId = $this->input->post('program_year_id');
 
-        $containerNumber = $this->input->get_post('cnumber');
+        $containerNumber = $this->input->post('cnumber');
         $rhett['container'] = $containerNumber;
 
         if ((! isset($programYearId)) || ($programYearId == '')) {
@@ -451,6 +468,9 @@ class Program_Management extends Ilios_Web_Controller
     /**
      * XHR handler.
      * Locks (and optionally archives) a given program year.
+     * Expects the following values to be POSTed:
+     * - 'program_year_id'
+     * - 'archive'
      *
      * Prints out an JSON-formatted array containing 'success' on success,
      * otherwise 'error' with an error msg. on failure.
@@ -467,8 +487,8 @@ class Program_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $programYearId = $this->input->get_post('program_year_id');
-        $archiveAlso = ($this->input->get_post('archive') == 'true');
+        $programYearId = $this->input->post('program_year_id');
+        $archiveAlso = ($this->input->post('archive') == 'true');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
