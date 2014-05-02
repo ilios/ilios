@@ -23,7 +23,7 @@ class Dashboard_Controller extends Calendar_Controller
      * Default action.
      * Prints the user dashboard.
      *
-     * Accepts the following request parameters:
+     * Accepts the following GET parameters:
      *     'schoolselect' ... (optional) The id of the currently selected "active" school.
      *         If provided, then the active school id in the user-session is updated with the given value.
      *     'stripped_view' ... (optional) If any value is provided then the student-dashboard is printed.
@@ -46,7 +46,7 @@ class Dashboard_Controller extends Calendar_Controller
 
         $this->output->set_header('Expires: 0');
 
-        $change_school = $this->input->get_post('schoolselect');
+        $change_school = $this->input->get('schoolselect');
         if ($change_school) {
             $this->_setActiveSchool($change_school);
         }
@@ -318,7 +318,7 @@ class Dashboard_Controller extends Calendar_Controller
         // (sans title and welcome text).
         // this simple rule trumps any role-based display constraints,
         // hence we deal with it first.
-        if ($this->input->get_post('stripped_view') != null) {
+        if ($this->input->get('stripped_view') != null) {
             $data['render_headerless'] == true;
             $this->_viewStudentDashboard($data);
             return;
@@ -396,12 +396,12 @@ class Dashboard_Controller extends Calendar_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $reminderId = $this->input->get_post('reminder_id');
-        $noteText = $this->input->get_post('note');
+        $reminderId = $this->input->post('reminder_id');
+        $noteText = $this->input->post('note');
         // scrub the note text
         $noteText = Ilios_CharEncoding::utf8UrlDecode($noteText);
-        $dueDate = $this->input->get_post('due');
-        $closed = ($this->input->get_post('closed') == 'true');
+        $dueDate = $this->input->post('due');
+        $closed = ($this->input->post('closed') == 'true');
 
 
         $failedTransaction = true;
@@ -476,10 +476,10 @@ class Dashboard_Controller extends Calendar_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $subjectTable = $this->input->get_post('noun1');
-        $prepositionalObjectTable = $this->input->get_post('noun2');
-        $poValues = explode(',', $this->input->get_post('noun2_values'));
-        $title = $this->input->get_post('title');
+        $subjectTable = $this->input->post('noun1');
+        $prepositionalObjectTable = $this->input->post('noun2');
+        $poValues = explode(',', $this->input->post('noun2_values'));
+        $title = $this->input->post('title');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -533,7 +533,7 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $reportId = $this->input->get_post('rid');
+        $reportId = $this->input->post('rid');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -580,7 +580,12 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * @todo add code docs
+     * Runs a report.
+     *
+     * Accepts the following POST parameters:
+     *     "report_id" ... The id of the report to be run.
+     *
+     * Prints out the report as JSON-formatted text.
      */
     public function runReport ()
     {
@@ -590,7 +595,7 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $reportId = $this->input->get_post('report_id');
+        $reportId = $this->input->post('report_id');
         $schoolId = $this->session->userdata('school_id');
 
         $rhett = $this->report->runReport($reportId, $schoolId);
@@ -661,7 +666,15 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * @todo add code docs
+     * Sets the archiving preference
+     * Users on the dashboard can turn on either Program year or course
+     * archives.
+     *
+     * Accepts the following POST parameters:
+     *     "py_archive" ... Boolean for program year archive
+     *     "course_archive" ... Boolean for course archive
+     *
+     * Prints out the user preferences as JSON-formatted text.
      */
     public function setArchivingPreferences ()
     {
@@ -673,8 +686,8 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $allowProgramYearArchiving = $this->input->get_post('py_archive');
-        $allowCourseArchiving = $this->input->get_post('course_archive');
+        $allowProgramYearArchiving = $this->input->post('py_archive');
+        $allowCourseArchiving = $this->input->post('course_archive');
 
         $this->session->set_userdata('py_archiving', ($allowProgramYearArchiving == 'true'));
         $this->session->set_userdata('course_archiving', ($allowCourseArchiving == 'true'));
@@ -686,7 +699,13 @@ class Dashboard_Controller extends Calendar_Controller
     }
 
     /**
-     * @todo add code docs
+     * Sets the course rollover preference
+     * Users on the dashboard can turn on the links for rolling over a course
+     *
+     * Accepts the following POST parameters:
+     *     "course_rollover" ... Boolean for course rollover enabled
+     *
+     * Prints out the user preferences as JSON-formatted text.
      */
     public function setRolloverPreference ()
     {
@@ -698,7 +717,7 @@ class Dashboard_Controller extends Calendar_Controller
             return;
         }
 
-        $allowCourseRollover = $this->input->get_post('course_rollover');
+        $allowCourseRollover = $this->input->post('course_rollover');
 
         $this->session->set_userdata('course_rollover', ($allowCourseRollover == 'true'));
 

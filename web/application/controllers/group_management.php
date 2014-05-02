@@ -95,7 +95,12 @@ class Group_Management extends Ilios_Web_Controller
 
 
     /**
-     * @todo add code docs
+     * Gets the users in a cohort
+     *
+     * Accepts the following GET parameters:
+     *     "cohort_id" ... the id for the cohort
+     *
+     * Prints out the users as a json formated string
      */
     public function getUsersForCohort ()
     {
@@ -107,7 +112,7 @@ class Group_Management extends Ilios_Web_Controller
             return;
         }
 
-        $cohortId = $this->input->get_post('cohort_id');
+        $cohortId = $this->input->get('cohort_id');
 
         $userArray = $this->user->getUsersForCohortAsArray($cohortId);
 
@@ -149,7 +154,7 @@ class Group_Management extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected POST params:
      *      'num_groups'
      *      'cohort_id'
      *      'group_id'
@@ -169,9 +174,9 @@ class Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $cohortId = (int) $this->input->get_post('cohort_id');
-        $groupToDivide = (int) $this->input->get_post('group_id');
-        $numberOfSubgroupsToCreate = (int) $this->input->get_post('num_groups');
+        $cohortId = (int) $this->input->post('cohort_id');
+        $groupToDivide = (int) $this->input->post('group_id');
+        $numberOfSubgroupsToCreate = (int) $this->input->post('num_groups');
 
         if (-1 == $groupToDivide) {
 
@@ -267,7 +272,7 @@ class Group_Management extends Ilios_Web_Controller
      *
      * Retrieves and prints out the groups trees for a given cohort.
      *
-     * Expected request parameters:
+     * Expected GET parameters:
      *     "cohort_id" ... the corort identifier
      *
      * Prints a JSON formatted array of group model arrays keyed off by "XHRDS".
@@ -291,7 +296,7 @@ class Group_Management extends Ilios_Web_Controller
             return;
         }
 
-        $cohortId = $this->input->get_post('cohort_id');
+        $cohortId = $this->input->get('cohort_id');
 
         $groupIds = $this->cohort->getGroupIdsForCohortWithId($cohortId);
         $groups = $this->_getGroupsForGroupIds($groupIds);
@@ -316,7 +321,7 @@ class Group_Management extends Ilios_Web_Controller
     /**
      * XHR Handler.
      * Deletes a given group and its sub-groups.
-     * Expected params:
+     * Expected POST params:
      *      'group_id'
      *      'container_number'
      *
@@ -334,8 +339,8 @@ class Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $groupId = $this->input->get_post('group_id');
-        $containerNumber = $this->input->get_post('container_number');
+        $groupId = $this->input->post('group_id');
+        $containerNumber = $this->input->post('container_number');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -473,7 +478,7 @@ class Group_Management extends Ilios_Web_Controller
      *              GALEN id
      *              Other id
      *
-     * Expected parameters:
+     * Expected POST parameters:
      *          . 'cohort_id'
      *
      * @return a json'd array with either the keys 'error' & potentially 'duplicates',
@@ -508,7 +513,7 @@ class Group_Management extends Ilios_Web_Controller
                                 . $uploadData['file_type'];
         } else {
             $uploadData = $this->upload->data();
-            $cohortId = $this->input->get_post('cohort_id');
+            $cohortId = $this->input->post('cohort_id');
             $newUsers = array();
 
             //get the file contents in order to check that the file is UTF8-encoded...
@@ -622,6 +627,16 @@ class Group_Management extends Ilios_Web_Controller
     /**
      * Called via the Edit Members (or whatever) dialog for the db addition of a new user (given
      *  a cohort_id) -- an entry in the user table is made.
+
+     * Expected POST parameters:
+     *          . 'cohort_id'
+     *          . 'container_number'
+     *          . 'last_name'
+     *          . 'first_name'
+     *          . 'middle_name'
+     *          . 'phone'
+     *          . 'email'
+     *          . 'uc_uid'
      *
      * @return a json'd array with either the key 'error', or the key pair 'user' and
      *              'container_number' (the latter being a passback from the incoming param)
@@ -638,14 +653,14 @@ class Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $cohortId = $this->input->get_post('cohort_id');
-        $containerNumber = $this->input->get_post('container_number');
-        $lastName = trim($this->input->get_post('last_name'));
-        $firstName = trim($this->input->get_post('first_name'));
-        $middleName = trim($this->input->get_post('middle_name'));
-        $phone = trim($this->input->get_post('phone'));
-        $email = trim($this->input->get_post('email'));
-        $ucUID = trim($this->input->get_post('uc_uid'));
+        $cohortId = $this->input->post('cohort_id');
+        $containerNumber = $this->input->post('container_number');
+        $lastName = trim($this->input->post('last_name'));
+        $firstName = trim($this->input->post('first_name'));
+        $middleName = trim($this->input->post('middle_name'));
+        $phone = trim($this->input->post('phone'));
+        $email = trim($this->input->post('email'));
+        $ucUID = trim($this->input->post('uc_uid'));
 
         // MAY RETURN THIS BLOCK
         if ($this->user->userExistsWithEmail($email)) {
@@ -706,7 +721,7 @@ class Group_Management extends Ilios_Web_Controller
     }
 
     /*
-     * Expected parameters:
+     * Expected POST parameters:
      *  . 'group_id'
      *  . 'cohort_id'
      *  . 'next_container'
@@ -727,9 +742,9 @@ class Group_Management extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $cohortId = $this->input->get_post('cohort_id');
-        $groupId = $this->input->get_post('group_id');
-        $containerNumber = $this->input->get_post('next_container');
+        $cohortId = $this->input->post('cohort_id');
+        $groupId = $this->input->post('group_id');
+        $containerNumber = $this->input->post('next_container');
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;

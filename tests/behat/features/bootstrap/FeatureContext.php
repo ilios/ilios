@@ -347,7 +347,8 @@ class FeatureContext extends MinkContext
         }
         $this->visit('ilios.php/management_console/');
         $this->iClickOnTheText('Manage Permissions');
-        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
+        $userName = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
+        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[@title='${userName}']");
         $this->pressButton('permissions_user_picker_continue_button');
         //we have to wait for the user permissions to load otherwise any previsouly
         //selected schools will be removed.
@@ -364,40 +365,6 @@ class FeatureContext extends MinkContext
         $this->iClickOnTheXpath("//*[@id='school_autolist']//*[normalize-space(text())='{$school}']");
         $this->iClickOnTheXpath("//*[@id='school_picker_dialog']//*[normalize-space(text())='Done']");
         $this->iClickOnTheText('Finished');
-    }
-
-    /**
-     * Check to see if we are currently viewing a school by name
-     *
-     * @Given /^I am in the "([^"]*)" school$/
-     * @param string $school
-     */
-    public function iAmInTheSchool($school)
-    {
-        $this->exceptionSpin(function($context) use ($school) {
-            if(!$context->inSchool($school)){
-                throw new Exception(sprintf('Not in the school: "%s"', $school));
-            }
-        });
-    }
-
-    /**
-     * Change to a school by name
-     *
-     * @When /^I change to the \"([^\']*)\" school$/
-     * @param string $school
-     */
-    public function iChangeToTheSchool($school)
-    {
-        if(!$this->accessToSchool($school)){
-            throw new Exception(sprintf('No access to the school: "%s"', $school));
-        }
-        if($this->inSchool($school)){
-            return true;
-        }
-        $this->iNavigateToTheTab('Home');
-        $select = $this->findXpathElement("//*[@id='view-switch']");
-        $select->selectOption($school);
     }
 
     /**
@@ -421,9 +388,10 @@ class FeatureContext extends MinkContext
                 }
             }
         }
+        $userName = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
         $this->visit('ilios.php/management_console/');
         $this->iClickOnTheText('Manage Permissions');
-        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[text()[contains(., 'Zero')]]");
+        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[@title='${userName}']");
         $this->pressButton('permissions_user_picker_continue_button');
 
         //test for the school more than once since it can take a few moments to load
@@ -438,21 +406,6 @@ class FeatureContext extends MinkContext
         } while(count($el) < 1 and $count < 5);
 
         return count($el) > 0;
-    }
-
-    /**
-     * Check to see if we are currently in a school
-     * Works be searchign for the school name in the header section 'view-current'
-     *
-     * @param type $school
-     * @return boolean
-     */
-    public function inSchool($school)
-    {
-        $this->iNavigateToTheTab('Home');
-        $el = $this->findXpathElement("//*[@id='view-current']");
-
-        return strpos($el->getText(), $school) !== false;
     }
 
     /**

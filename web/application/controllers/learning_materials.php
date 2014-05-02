@@ -35,7 +35,7 @@ class Learning_Materials extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected GET params:
      *      . learning_material_id
      *
      * @return a stream with the appropriate content type set
@@ -45,7 +45,7 @@ class Learning_Materials extends Ilios_Web_Controller
         $rhett = array();
 
         // not extra authorization check here, learning materials are readable by all logged in users.
-        $learningMaterialId = $this->input->get_post('learning_material_id');
+        $learningMaterialId = $this->input->get('learning_material_id');
         $rhett = $this->learningMaterial->getAssetPathAndFilenameAndType($learningMaterialId);
 
         //we have the filepath at this point ($rhett[2]), so let's make sure it's there...
@@ -61,7 +61,7 @@ class Learning_Materials extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected POST params:
      *      . learning_material_id
      *      . status_id
      *
@@ -80,8 +80,8 @@ class Learning_Materials extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $learningMaterialId = $this->input->get_post('learning_material_id');
-        $statusId = $this->input->get_post('status_id');
+        $learningMaterialId = $this->input->post('learning_material_id');
+        $statusId = $this->input->post('status_id');
 
         $rhett['learning_material_id'] = $learningMaterialId;
 
@@ -126,7 +126,7 @@ class Learning_Materials extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected POST params:
      *      . search_string
      *
      * @return a JSON'd array of 0 or more models; each model will contain 'learning_material_id',
@@ -145,7 +145,7 @@ class Learning_Materials extends Ilios_Web_Controller
             return;
         }
 
-        $searchString = $this->input->get_post('search_string');
+        $searchString = $this->input->post('search_string');
         if ('' !== trim($searchString)) {
             $rhett = $this->learningMaterial->getLearningMaterialsMatchingString($searchString);
         }
@@ -156,7 +156,7 @@ class Learning_Materials extends Ilios_Web_Controller
 
     /**
      * Associates learning materials with a session or course, based on posted user input.
-     * Expected params:
+     * Expected POST params:
      *      . session_id or course_id
      *      . learning_material_id
      *
@@ -174,9 +174,9 @@ class Learning_Materials extends Ilios_Web_Controller
             return;
         }
 
-        $learningMaterialId = $this->input->get_post('learning_material_id');
-        $sessionId = $this->input->get_post('session_id');
-        $courseId = $this->input->get_post('course_id');
+        $learningMaterialId = $this->input->post('learning_material_id');
+        $sessionId = $this->input->post('session_id');
+        $courseId = $this->input->post('course_id');
 
 
         $school = false;
@@ -268,7 +268,7 @@ class Learning_Materials extends Ilios_Web_Controller
     }
 
     /**
-     * Expected params:
+     * Expected POST params:
      *      . session_id or course_id
      *      . learning_material_id
      *
@@ -287,9 +287,9 @@ class Learning_Materials extends Ilios_Web_Controller
 
         $userId = $this->session->userdata('uid');
 
-        $learningMaterialId = $this->input->get_post('learning_material_id');
-        $sessionId = $this->input->get_post('session_id');
-        $courseId = $this->input->get_post('course_id');
+        $learningMaterialId = $this->input->post('learning_material_id');
+        $sessionId = $this->input->post('session_id');
+        $courseId = $this->input->post('course_id');
 
 
         $school = false;
@@ -451,7 +451,7 @@ class Learning_Materials extends Ilios_Web_Controller
         $filename = null;
         $copyrightRationale = null;
 
-        $displayedTab = $this->input->get_post('displayed_tab');
+        $displayedTab = $this->input->post('displayed_tab');
 
         if (($displayedTab == 1) && (! $this->upload->do_upload())) {
             $msg = $this->languagemap->getI18NString('general.error.upload_fail');
@@ -533,7 +533,7 @@ class Learning_Materials extends Ilios_Web_Controller
                                 $sessionId, $userId, $token, $auditAtoms);
                             break;
                         case 2:
-                            $link = $this->input->get_post('web_link');
+                            $link = $this->input->post('web_link');
 
                             $newLearningMaterialId = $this->learningMaterial->storeLinkLearningMaterialMeta(
                                 $title, $link, $description, $statusId, $creator, $ownerRoleId, $courseId,
@@ -541,7 +541,7 @@ class Learning_Materials extends Ilios_Web_Controller
                             $rhett['web_link'] = $link;
                             break;
                         case 3:
-                            $citation = $this->input->get_post('citation');
+                            $citation = $this->input->post('citation');
                             $newLearningMaterialId = $this->learningMaterial->storeCitationLearningMaterialMeta(
                                 $title, $citation, $description, $statusId, $creator, $ownerRoleId, $courseId,
                                 $sessionId, $userId, $token, $auditAtoms);
