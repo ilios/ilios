@@ -8,7 +8,7 @@
 
 if (! function_exists('ilios_print_daytime_options')) {
     /**
-     * Prints out <code>option</code> tags for day times in 15min intervals
+     * Prints out <code>option</code> tags for day times in 10min intervals
      * within given boundaries.
      *
      * @param int $start
@@ -17,9 +17,9 @@ if (! function_exists('ilios_print_daytime_options')) {
      *
      * @todo improve code docs. [ST 2013/11/22]
      */
-    function ilios_print_daytime_options ($start = 0, $end = 60, $hoursOffset = 6) {
+    function ilios_print_daytime_options ($start = 0, $end = 90, $hoursOffset = 6) {
         for ($i = $start; $i < $end; $i++) {
-            $hours = floor($i / 4) + $hoursOffset;
+            $hours = floor($i / 6) + $hoursOffset;
             $minutes = ($i % 6) * 10;
 
             if ($hours < 10) {
