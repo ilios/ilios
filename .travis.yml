@@ -23,10 +23,10 @@ env:
   matrix:
     - TEST_PHPUNIT=true
     - TEST_JASMINE=true
-    - START_SAUCE_CONNECT=true TEST_BEHAT=true BEHAT_PROFILE='default'
-    - START_SAUCE_CONNECT=true TEST_BEHAT=true BEHAT_PROFILE='win7ie9'
-    - START_SAUCE_CONNECT=true TEST_BEHAT=true BEHAT_PROFILE='osxsafari'
-    - START_LOCAL_SELENIUM=true TEST_BEHAT=true BEHAT_PROFILE='phantomjs'
+    - BEHAT_PROFILE='default' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - BEHAT_PROFILE='win7ie9' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - BEHAT_PROFILE='osxsafari' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - BEHAT_PROFILE='phantomjs' START_LOCAL_SELENIUM=true TEST_BEHAT=true
 
 addons:
   hosts:
