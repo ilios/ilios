@@ -40,10 +40,6 @@ addons:
   # very simple way, instead we need to download sauce_connect manually
   #sauce_connect: true
 
-# This is only necessary while sauce_connect is being disabled in pull requests
-before_script:
-  - if [ "$START_SAUCE_CONNECT" = true ]; then (curl -L https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash); fi
-
 before_install:
   - composer self-update
   - sudo apt-get update -qq
@@ -67,15 +63,20 @@ install:
 # Install PHPUnit
   - if [ "$TEST_PHPUNIT" = true ]; then (composer install -d tests/phpunit); fi
 
+# Install the Ilios PHP app locally for testing
+  - ${TRAVIS_BUILD_DIR}/bin/phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${TRAVIS_BUILD_DIR}/web -Dbackupdir=${TRAVIS_BUILD_DIR}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+
+before_script:
 # Start Selenium standalone server for Behat tests
   - if [ "$START_LOCAL_SELENIUM" = true ]; then (java -jar ${TRAVIS_BUILD_DIR}/tests/behat/bin/selenium-server.jar -role hub > /dev/null &); fi
 
 #Start Phantom for headless Behat tests / have to sleep for a bit to allow selenium hub to start
   - if [ "$START_LOCAL_SELENIUM" = true ]; then (sleep 5; phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &); fi
 
-# Install the Ilios PHP app locally for testing
-  - ${TRAVIS_BUILD_DIR}/bin/phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${TRAVIS_BUILD_DIR}/web -Dbackupdir=${TRAVIS_BUILD_DIR}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
-
+# This is only necessary while sauce_connect is being disabled in pull requests
+  - if [ "$START_SAUCE_CONNECT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/sauce_connect --readyfile /tmp/scready.tmp --tunnel-identifier $TRAVIS_JOB_NUMBER $SAUCE_USERNAME $SAUCE_ACCESS_KEY > /dev/null &); fi
+#sauce connect takes forever to start so we have to use a ready file to wait until the tunnel is open
+  - if [ "$START_SAUCE_CONNECT" = true ]; then (while [ ! -f /tmp/scready.tmp ]; do(sleep .5) done); fi
 
 script:
 # Run Jasmine tests
@@ -85,4 +86,4 @@ script:
   - if [ "$TEST_PHPUNIT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/phpunit/bin/phpunit -c ${TRAVIS_BUILD_DIR}/tests/phpunit/default.phpunit.xml --include-path ${TRAVIS_BUILD_DIR}/tests/phpunit --exclude-group integration ${TRAVIS_BUILD_DIR}/tests/phpunit/Ilios); fi
 
 # Run Behat test for this profile
-  - if [ "$TEST_BEHAT" = true ] ; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/behat -c ${TRAVIS_BUILD_DIR}/tests/behat/behatci.yml --profile $BEHAT_PROFILE); fi
+  - if [ "$TEST_BEHAT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/behat -c ${TRAVIS_BUILD_DIR}/tests/behat/behatci.yml --profile $BEHAT_PROFILE); fi
