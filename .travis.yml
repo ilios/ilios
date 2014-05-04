@@ -1,5 +1,7 @@
 language: php
 
+services: mysql
+
 matrix:
   fast_finish: true
   allow_failures:
@@ -44,14 +46,14 @@ before_script:
 
 before_install:
   - composer self-update
-  - sudo apt-get update
+  - sudo apt-get update -qq
 
 install:
   # Install composer packages in the app root. This will set up phing.
   - composer install
 
 # Provision web server for Behat tests
-  - "sudo apt-get install -y --force-yes mysql-server apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect > /dev/null"
+  - "sudo apt-get install -qq --force-yes apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect > /dev/null"
   - "sudo /usr/sbin/a2enmod rewrite && sudo /usr/sbin/a2enmod headers && sudo /usr/sbin/a2enmod ssl"
   - "sudo /bin/ln -s /etc/apache2/sites-available/default-ssl /etc/apache2/sites-enabled/000-default-ssl"
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s,AllowOverride None,AllowOverride All,}' {} \\;)"
