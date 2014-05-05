@@ -8,19 +8,21 @@
 
 if (! function_exists('ilios_print_daytime_options')) {
     /**
-     * Prints out <code>option</code> tags for day times in 10min intervals
+     * Prints out <code>option</code> tags for day times in specified intervals
      * within given boundaries.
      *
-     * @param int $start
-     * @param int $end
-     * @param int $hoursOffset
+     * @param int $start The starting minutes increment index in each hour
+     * @param int $end Total count of minutes increments in entire range of the options, 60 (@ 4/hr) = 15 hours
+     * @param int $intervalsPerHour The number of minutes increments to show in one our (4 = :00, :15, :30, :45)
+     * @param int $hoursOffset Number of hours from the start-time hour that the selected end-time hour will reflect.
      *
-     * @todo improve code docs. [ST 2013/11/22]
      */
-    function ilios_print_daytime_options ($start = 0, $end = 90, $hoursOffset = 6) {
+    function ilios_print_daytime_options ($start = 0, $end = 60, $intervalsPerHour = 4, $hoursOffset = 6) {
         for ($i = $start; $i < $end; $i++) {
-            $hours = floor($i / 6) + $hoursOffset;
-            $minutes = ($i % 6) * 10;
+
+            $hours = floor($i / $intervalsPerHour) + $hoursOffset;
+            //set the interval multiplier based on number of intervals in one hour (60 mins)
+            $minutes = ($i % $intervalsPerHour) * (60 / $intervalsPerHour);
 
             if ($hours < 10) {
                 $hours = '0' . $hours;
