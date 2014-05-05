@@ -9,37 +9,23 @@ Feature: Learner Groups
     #
     Given I am on the Ilios home page
     And I log in as "zero_user" with password "Ch4nge_m3"
+    And I create a test program "Test Learner Program"
 
   # issue #199 tagged @ignore until a fix is put in
-  @ignore @javascript @insulated
+  @javascript @insulated
   Scenario: Student added to one group appears in picker for other groups
-    When I navigate to the "Programs" tab
-    And I follow "Add Program"
-    And I fill in "new_program_title" with "Foo"
-    And I fill in "new_short_title" with "Foo"
-    And I press "Done"
-    And I wait for "expand_program_years_link" to be enabled
-    And I wait for "add_new_program_year_link" to be enabled
-    And I press "Add New Program Year"
-    And I wait for "1_child_publish" to be visible
-    And I wait for "1_child_publish" to be enabled
-    And I press "1_child_publish"
-    And I follow "show_more_or_less_link"
-    And I press "Publish Now"
-    And I go to "/ilios.php/group_management"
+    When I go to "/ilios.php/group_management"
     And I follow "Select Program and Cohort"
     And I wait for "cohort_pick_dialog" to be enabled
-    And I click on the text "Foo"
-    And I click on the text starting with "Class of "
+    And I expand "Test Learner Program" tree picker list in "cohort_pick_dialog_c" dialog
+    And I click "Class of 2017" tree picker item in "cohort_pick_dialog_c" dialog
     And I press "Add New Members to Cohort"
-    And I wait for "em_last_name" to be visible
     And I fill in "em_last_name" with "Smith"
     And I fill in "em_first_name" with "Jane"
     And I fill in "em_email" with "Jane.Smith@example.edu"
     And I fill in "em_uc_id" with "123456789"
     And I press "Add User"
-    And I wait for "em_transaction_status" to be enabled
-    And I press "Done"
+    And I press the "Done" button in "add_new_members_dialog" dialog
     And I press "Add a New Student Group"
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
