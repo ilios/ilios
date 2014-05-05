@@ -290,6 +290,21 @@ $config['tasks']['audit_log']['truncate_log_file_path'] = '/web/ilios/cron/audit
 $config['tasks']['audit_log']['days_to_keep'] = 90;
 $config['tasks']['audit_log']['rotate_logs'] = false;
 
+/*
+|--------------------------------------------------------------------------
+| "Calender Options Overrides" configuration
+|--------------------------------------------------------------------------
+|
+| Option overrides for the calendar interface
+|
+| ['calendar_option_time_step']
+|   Customize incremental stepping of the dhtmlx calender/lightbox. Default value of 4 will display time step increments
+|   of :00, :15, :30, :45 for each hour.  A value of 6 will provide increments :00, :10, :20, :30, :40, :50 for each
+|   hour.
+|
+*/
+
+$config['calendar_option_time_step'] = 4;
 
 /*
 |--------------------------------------------------------------------------
