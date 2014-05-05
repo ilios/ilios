@@ -18,3 +18,4 @@ tests/phpunit/bin
 tests/phpunit/vendor
 /bin
 /vendor
+sauce_connect.log
