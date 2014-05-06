@@ -462,10 +462,8 @@ ilios.gm.mm.handleUserGroupTreeSelection = function (clickObject) {
     var textNode = null;
     var model = node.iliosModel;
 
-    // per Sascha discussions on 24.mar, groups are no longer selectable items -- if
-    //      this decision stands long term, this method can get cleaned up below as to
-    //      how it is handling the group selection; for the moment we just exit the
-    //      method early if a group has been selected.
+    //groups cannot be selected or handled they are part of the heirarchy of the set
+    //and not selectable at this level, they are displayed in the UI only
     if (node.isGroup) {
         return false;
     }
@@ -474,41 +472,11 @@ ilios.gm.mm.handleUserGroupTreeSelection = function (clickObject) {
 
     newLI.iliosModel = model;
     newLI.oldTreeNode = node;
+    newLI.previousParentNode = node.parent;
 
-    // TODO this is a big problem when the sibling or whatever has subsequently been
-    //          removed from the tree - so for the time being we're just sticking
-    //          it back in the parent where-ever (where 'where-ever' is at the end)
-//  if (node.nextSibling != null) {
-//      newLI.previousNextSibling = node.nextSibling;
-//  }
-//  else if (node.previousSibling != null) {
-//      newLI.previousPreviousSibling = node.previousSibling;
-//  }
-//  else {
-        newLI.previousParentNode = node.parent;
-//  }
-
-    if (node.isGroup) {
-        var yElement = new YAHOO.util.Element(liElement);
-
-        yElement.addClass('tree_group_name');
-        yElement.setStyle('cursor', 'default');
-        yElement.setStyle('list-style', 'none inside url("")');
-        yElement.setStyle('margin-bottom', '3px');
-
-        newLI.isGroup = true;
-
-        textNode = document.createTextNode(model.getTitle());
-
-        ilios.gm.mm.ugtSelectedModel.addSubgroup(model);
-    }
-    else {
-        newLI.setAttribute('title', model.getEmailAddress());
-
-        textNode = document.createTextNode(model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST));
-
-        ilios.gm.mm.ugtSelectedModel.addUser(model);
-    }
+    newLI.setAttribute('title', model.getEmailAddress());
+    textNode = document.createTextNode(model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST));
+    ilios.gm.mm.ugtSelectedModel.addUser(model);
 
     newLI.appendChild(textNode);
     ilios.gm.mm.selectedItemListElement.appendChild(newLI);
@@ -533,35 +501,14 @@ ilios.gm.mm.deselectionHandler = function (event) {
             return false;
         }
 
-        // TODO this is a big problem when the sibling or whatever has subsequently been
-        //          removed from the tree - so for the time being we're just sticking
-        //          it back in the parent where-ever (where 'where-ever' is at the end)
-        if (target.oldTreeNode != null) {   // got on list by user click in the tree
-//          if (target.previousNextSibling != null) {
-//              target.oldTreeNode.insertBefore(target.previousNextSibling);
-//          }
-//          else if (target.previousPreviousSibling != null) {
-//              target.oldTreeNode.insertAfter(target.previousPreviousSibling);
-//          }
-//          else {
-                target.oldTreeNode.appendTo(target.previousParentNode);
-//          }
-        } else {
-            var rootNode = ilios.gm.mm.ugtDialogTreeView.getRoot();
-            var newNode = new YAHOO.widget.TextNode(
-                model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST), rootNode, false);
+        var rootNode = ilios.gm.mm.ugtDialogTreeView.getRoot();
+        var newNode = new YAHOO.widget.TextNode(
+            model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST), rootNode, false);
 
-            newNode.iliosModel = model;
-        }
+        newNode.iliosModel = model;
 
         ilios.gm.mm.redrawTreeAndUpdateCSS();
-
-        if (target.isGroup) {
-            ilios.gm.mm.ugtSelectedModel.removeSubgroupForStub(model);
-        }
-        else {
-            ilios.gm.mm.ugtSelectedModel.removeUser(model);
-        }
+        ilios.gm.mm.ugtSelectedModel.removeUser(model);
     }
 
     return true;
