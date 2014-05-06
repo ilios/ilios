@@ -28,8 +28,8 @@ if (! function_exists('ilios_print_daytime_options')) {
                 $hours = '0' . $hours;
             }
 
-	    if ($minutes == 0) {
-                $minutes = '00';
+	    if ($minutes < 10) {
+                $minutes = '0' . $minutes;
             }
 
             $string = $hours . ':' . $minutes;
