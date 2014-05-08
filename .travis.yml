@@ -6,7 +6,21 @@ matrix:
   fast_finish: true
   allow_failures:
     - env: "BEHAT_PROFILE='osxsafari' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    - env: "BEHAT_PROFILE='osxchrome' START_SAUCE_CONNECT=true TEST_BEHAT=true"
     - env: "BEHAT_PROFILE='win7ie9' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+  exclude:
+    #there is no need to test all the browsers against both versions of PHP, the phantomjs test will show if anything is terribly wrong
+    - php: "5.4"
+      env: BEHAT_PROFILE='default' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - php: "5.4"
+      env: BEHAT_PROFILE='win7ie9' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - php: "5.4"
+      env: BEHAT_PROFILE='osxsafari' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - php: "5.4"
+      env: BEHAT_PROFILE='osxchrome' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    #jasmine tests dont' need to be run against multiple PHP versions
+    - php: "5.4"
+      env: TEST_JASMINE=true
 
 php:
   - "5.4"
@@ -32,6 +46,7 @@ env:
     - BEHAT_PROFILE='default' START_SAUCE_CONNECT=true TEST_BEHAT=true
     - BEHAT_PROFILE='win7ie9' START_SAUCE_CONNECT=true TEST_BEHAT=true
     - BEHAT_PROFILE='osxsafari' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - BEHAT_PROFILE='osxchrome' START_SAUCE_CONNECT=true TEST_BEHAT=true
 
 addons:
   hosts:
