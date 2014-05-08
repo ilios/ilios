@@ -106,7 +106,7 @@ $viewsPath = getServerFilePath('views');
         YAHOO.util.Event.onDOMReady(ilios.dom.generateGenericDialogMarkupAndWireContent, {
             trigger : 'manage_member_picker_show_dialog',
             remote_data : ilios.gm.mm.ugtDataSource,
-            hide_autocomplete_input : 'you bet',
+            hide_autocomplete_input : true,
             display_handler : ilios.gm.mm.resetUserGroupTree,
             submit_override : ilios.gm.mm.ugtSubmitMethod,
             filter_results_handler : ilios.gm.mm.userGroupTreeFilterResults,

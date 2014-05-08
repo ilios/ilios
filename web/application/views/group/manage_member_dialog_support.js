@@ -558,9 +558,7 @@ ilios.gm.mm.ugtSubmitMethod = function () {
 
         // adjust other parentage
         for (key in usersAdded) {
-            userModel = usersAdded[key];
-
-            topLevelGroup.removeUserFromTree(userModel);
+            groupModel.removeUserFromTree(usersAdded[key]);
         }
 
         // deleted users get added to the root group
