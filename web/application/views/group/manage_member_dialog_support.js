@@ -35,6 +35,7 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
         var rootNode = ilios.gm.mm.ugtDialogTreeView.getRoot();
 
         ilios.gm.mm.ugtDialogTreeView.removeChildren(rootNode);
+        ilios.gm.mm.redrawTreeAndUpdateCSS();
     }
 
 
