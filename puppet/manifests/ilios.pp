@@ -13,6 +13,11 @@ class ilios (
 
   Exec["update_upgrade"] -> Package <| |>
 
+  $basepackages = [ "screen", "emacs", "vim", "wget", "curl" ]
+  package { $basepackages:
+    ensure => latest,
+  }
+
   $users = {
     'vagrant@localhost' => {
       ensure        => 'present'
@@ -38,11 +43,11 @@ class ilios (
       user       => "${dbuser}@localhost",
     },
   }
-  class { '::mysql::server': 
+  class { '::mysql::server':
     users    => $users,
     grants  => $grants
   }
-  class { '::mysql::bindings': 
+  class { '::mysql::bindings':
     php_enable    => true
   }
 
@@ -56,7 +61,7 @@ class ilios (
   class {'apache::mod::rewrite': }
   class {'apache::mod::headers': }
   class {'apache::mod::setenvif': }
-  
+
 
    package { "php5-ldap":
     ensure  => present,
