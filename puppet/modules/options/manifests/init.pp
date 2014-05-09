@@ -6,6 +6,6 @@ class options {
   $repodir = "/vagrant"
   $dbuser = "ilios_user"
   $dbpass = "ilios_pass"
-  $dbname = "ilios_db"
+  $dbname = "ilios"
   $adminemail = "root@example.com"
 }

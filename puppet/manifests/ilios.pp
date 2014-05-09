@@ -13,7 +13,16 @@ class ilios (
 
   Exec["update_upgrade"] -> Package <| |>
 
+  $basepackages = [ "screen", "emacs", "vim", "wget", "curl" ]
+  package { $basepackages:
+    ensure => latest,
+  }
+
   $users = {
+    'admin@localhost' => {
+      ensure        => 'present',
+      password_hash => mysql_password('admin'),
+    },
     'vagrant@localhost' => {
       ensure        => 'present'
     },
@@ -24,25 +33,32 @@ class ilios (
   }
   $grants = {
     'vagrant@localhost/*.*' => {
+        ensure     => 'present',
+        options    => ['GRANT', 'WITH GRANT OPTION'],
+        privileges => ['ALL'],
+        table      => '*.*',
+        user       => 'vagrant@localhost',
+    },
+    'admin@localhost/*.*' => {
       ensure     => 'present',
-      options    => ['GRANT'],
+      options    => ['GRANT', 'WITH GRANT OPTION'],
       privileges => ['ALL'],
       table      => '*.*',
-      user       => 'vagrant@localhost',
+      user       => 'admin@localhost',
     },
     "${dbuser}@localhost/*.*" => {
       ensure     => 'present',
-      options    => ['GRANT'],
+      options    => ['GRANT', 'WITH GRANT OPTION'],
       privileges => ['ALL'],
       table      => "${dbname}.*",
       user       => "${dbuser}@localhost",
     },
   }
-  class { '::mysql::server': 
+  class { '::mysql::server':
     users    => $users,
     grants  => $grants
   }
-  class { '::mysql::bindings': 
+  class { '::mysql::bindings':
     php_enable    => true
   }
 
@@ -56,7 +72,7 @@ class ilios (
   class {'apache::mod::rewrite': }
   class {'apache::mod::headers': }
   class {'apache::mod::setenvif': }
-  
+
 
    package { "php5-ldap":
     ensure  => present,
@@ -71,7 +87,12 @@ class ilios (
     override        => ['all'],
     ssl             => true,
     port            => '443',
-    ip              => '*'
+    ip              => '*',
+    aliases             =>
+        {
+            alias      => '/phpmyadmin',
+            path       => '/usr/share/phpmyadmin',
+        },
   }
 
   package { "sendmail":
@@ -113,6 +134,15 @@ class ilios (
   exec {"edit-database.php":
     cwd => "${docroot}/application/config/",
     command => "/bin/sed 's/%%DBGROUP%%/default/;  s/%%DBHOSTNAME%%/localhost/; s/%%DBUSERNAME%%/${dbuser}/; s/%%DBPASSWORD%%/${dbpass}/; s/%%DBNAME%%/${dbname}/' default.database.php > database.php",
+  }
+
+  package {'phpmyadmin':
+    ensure     => latest,
+    require    => Class['::mysql::server']
+  }
+  file {'/etc/phpmyadmin/config.inc.php':
+    content => "<?php\n\$cfg['blowfish_secret'] = 'notsecret';\n\$cfg['Servers'][1]['auth_type'] = 'config';\n\$cfg['Servers'][1]['user'] = 'admin';\n\$cfg['Servers'][1]['password'] = 'admin';",
+    require => Package['phpmyadmin']
   }
 
 }
