@@ -46,6 +46,17 @@ Feature: Learner Groups
     And I wait for "2_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 2"
     And I follow "2_add_members"
-    And I wait for "manage_member_pick_dialog" to be enabled
     # Look for bug #199 where student would no longer appear in the next group's picker
+    Then I should see "Smith, Jane" in the "#ugt__selected_item_list" element
+    But I should not see "Smith, Jane" in the "#ugt_selector_tab" element
+
+    When I press the "Done" button in "manage_member_pick_dialog" dialog
+    And I follow "1_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
     Then I should see "Smith, Jane"
+    When I click on the text "Smith, Jane"
+    And I press the "Done" button in "manage_member_pick_dialog" dialog
+    And I follow "2_add_members"
+    #make sure that student is only in the seelcted picker and not the to-be selected picker
+    Then I should see "Smith, Jane" in the "#ugt__selected_item_list" element
+    But I should not see "Smith, Jane" in the "#ugt_selector_tab" element
