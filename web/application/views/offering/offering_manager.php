@@ -59,6 +59,7 @@ $viewsPath = getServerFilePath('views');
 
         ilios.namespace('om');            // assure the existence of this page's namespace
     </script>
+    <?php include_once $viewsPath . 'common/set_calendar_options.inc.php'; ?>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/abstract_js_model_form.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/competency_model.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/school_competency_model.js"); ?>"></script>

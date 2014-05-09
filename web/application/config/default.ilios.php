@@ -292,19 +292,31 @@ $config['tasks']['audit_log']['rotate_logs'] = false;
 
 /*
 |--------------------------------------------------------------------------
-| "Calender Options Overrides" configuration
+| Calender and Time Selection Option Overrides
 |--------------------------------------------------------------------------
 |
-| Option overrides for the calendar interface
+| Option overrides for the calendar interface and hours selection fields
 |
 | ['calendar_option_time_step']
 |   Customize incremental stepping of the dhtmlx calender/lightbox. Default value of 4 will display time step increments
 |   of :00, :15, :30, :45 for each hour.  A value of 6 will provide increments :00, :10, :20, :30, :40, :50 for each
-|   hour.
+|   hour. This value will also be used in the time-selection dropdown fields.
 |
+| ['time_selection_total_increments']
+|   Set the total number of hours that will appear in the hours select list by setting the grand total of all minutes-
+|   increments in the list. A select list showing '6am - 8pm' would be 15 total hours, so you could choose one of the
+|   following:
+|   60 (@ 4 increments/hour) - :00, :15, :30, :45
+|   90 (@ 6 increments/hour) - :00, :10, :20, :30, :40, :50
+|   180 (@ 12 increments/hour) - :00, :05, :10, :15, :20, :25, :30, :35, :40, :45, :50, :55
+|
+| ['time_selection_hours_offset']
+|    The starting hour of the time selection list, offset from midnight ('6' = 06:00am)
 */
 
 $config['calendar_option_time_step'] = 4;
+$config['time_selection_total_increments'] = 60;
+$config['time_selection_hours_offset'] = 6;
 
 /*
 |--------------------------------------------------------------------------

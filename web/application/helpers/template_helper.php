@@ -12,17 +12,34 @@ if (! function_exists('ilios_print_daytime_options')) {
      * within given boundaries.
      *
      * @param int $start The starting minutes increment index in each hour
-     * @param int $end Total count of minutes increments in entire range of the options, 60 (@ 4/hr) = 15 hours
-     * @param int $intervalsPerHour The number of minutes increments to show in one our (4 = :00, :15, :30, :45)
-     * @param int $hoursOffset Number of hours from the start-time hour that the selected end-time hour will reflect.
+     * @param int $end Total count of minutes increments in entire options list, 60 (@ 4/hr) = 15 hours
+     * @param int $incrementsPerHour The number of minutes increments to show in one our (e.g, 4 = :00, :15, :30, :45)
+     * @param int $hoursOffset The start time of the select list, offset from midnight ('6' = 06:00am)
      *
      */
-    function ilios_print_daytime_options ($start = 0, $end = 60, $intervalsPerHour = 4, $hoursOffset = 6) {
+    function ilios_print_daytime_options ($start = 0, $end = 60, $incrementsPerHour = 4, $hoursOffset = 6) {
+
+        //check for $end override in config file
+        if(isset($this->config->time_selection_total_increments)) {
+            $end = $this->config->time_selection_total_increments;
+        }
+
+        //check for the $hoursOffset override in the config file
+        if(isset($this->config->time_selection_hours_offset)) {
+            $hoursOffset = $this->config->time_selection_hours_offset;
+        }
+
+        //check for the $incrementsPerHour override in the config file, this should be the same value as what is set
+        //for the dhtmlx calendar 'time_step' option...
+        if(isset($this->config->calendar_option_time_step)) {
+            $incrementsPerHour = $this->config->calendar_option_time_step;
+        }
+
         for ($i = $start; $i < $end; $i++) {
 
-            $hours = floor($i / $intervalsPerHour) + $hoursOffset;
-            //set the interval multiplier based on number of intervals in one hour (60 mins)
-            $minutes = ($i % $intervalsPerHour) * (60 / $intervalsPerHour);
+            $hours = floor($i / $incrementsPerHour) + $hoursOffset;
+            //set the increment multiplier based on number of increments in one hour (60 mins)
+            $minutes = ($i % $incrementsPerHour) * (60 / $incrementsPerHour);
 
             if ($hours < 10) {
                 $hours = '0' . $hours;

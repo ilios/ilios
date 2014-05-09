@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * Includes-template.
- * Inserts JSON info for idle timer.
+ * Inserts JSON info for calendar options overrides.
  *
  * Include this snippet in the JavaScript block in the <head> of your page template.
  *
