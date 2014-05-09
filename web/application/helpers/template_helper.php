@@ -13,7 +13,7 @@ if (! function_exists('ilios_print_daytime_options')) {
      *
      * @param int $start The starting minutes increment index in each hour
      * @param int $end Total count of minutes increments in entire options list, 60 (@ 4/hr) = 15 hours
-     * @param int $incrementsPerHour The number of minutes increments to show in one our (e.g, 4 = :00, :15, :30, :45)
+     * @param int $incrementsPerHour The number of minutes increments to show in one hour (e.g, 4 = :00, :15, :30, :45)
      * @param int $hoursOffset The start time of the select list, offset from midnight ('6' = 06:00am)
      *
      */
