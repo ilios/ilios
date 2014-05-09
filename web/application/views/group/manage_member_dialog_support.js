@@ -314,38 +314,6 @@ ilios.gm.mm.userGroupTreeFilterResults = function (queryString, fullResponse, pa
     return parsedResponse;
 };
 
-// We reverse the order of these because the yahoo autocomplete results appear to be
-//      delivered in reverse array order.. :- /
-// @private
-ilios.gm.mm.sortFilteredResults = function (obj1, obj2) {
-    var firstIsStudentModel = ((obj1 instanceof StudentModel) || (obj1.email != null));
-
-    if (firstIsStudentModel != ((obj2 instanceof StudentModel) || (obj2.email != null))) {
-        return firstIsStudentModel ? 1 : -1;
-    }
-    else if (firstIsStudentModel) {
-        var studentModel1 = (obj1 instanceof StudentModel) ? obj1 : new StudentModel(obj1);
-        var studentModel2 = (obj2 instanceof StudentModel) ? obj2 : new StudentModel(obj2);
-
-        return studentModel2.compareTo(studentModel1);
-    }
-    else {
-        if (! obj1.hasBeenSorted) {
-            obj1.matched.sort(ilios.gm.mm.sortFilteredResults);
-
-            obj1.hasBeenSorted = true;
-        }
-
-        if (! obj2.hasBeenSorted) {
-            obj2.matched.sort(ilios.gm.mm.sortFilteredResults);
-
-            obj2.hasBeenSorted = true;
-        }
-
-        return obj2.title.localeCompare(obj1.title);
-    }
-};
-
 ilios.gm.mm.userGroupTreeHandleAutoCompleteResults = function (resultDataObject, queryString,
                                                                resultMatch, autoCompleter,
                                                                idUniquer) {
