@@ -13,28 +13,37 @@ if (! function_exists('ilios_print_daytime_options')) {
      *
      * @param int $start The starting minutes increment index in each hour
      * @param int $end Total count of minutes increments in entire options list, 60 (@ 4/hr) = 15 hours
-     * @param int $incrementsPerHour The number of minutes increments to show in one hour (e.g, 4 = :00, :15, :30, :45)
-     * @param int $hoursOffset The start time of the select list, offset from midnight ('6' = 06:00am)
-     *
      */
-    function ilios_print_daytime_options ($start = 0, $end = 60, $incrementsPerHour = 4, $hoursOffset = 6) {
 
-        //pass in this instance to get the configuration info
+    function ilios_print_daytime_options ($start = 0, $end = null) {
+
+        //pass in the instance to get the configuration info
         $CI =& get_instance();
-        //check for $end override in config file
-        if($CI->config->item('time_selection_total_increments')) {
-            $end = $CI->config->item('time_selection_total_increments');
+
+        //if there is no value set for $end, get it from the config file...
+        if(!isset($end)){
+            //check/set it from the config file
+            if($CI->config->item('time_selection_total_increments')) {
+                $end = $CI->config->item('time_selection_total_increments');
+            } else {
+                //or set the default of 60
+                $end = 60;
+            }
         }
 
         //check for the $hoursOffset override in the config file
         if($CI->config->item('time_selection_hours_offset')) {
             $hoursOffset = $CI->config->item('time_selection_hours_offset');
+        } else {
+            $hoursOffset = 6;
         }
 
-        //check for the $incrementsPerHour override in the config file, this should be the same value as what is set
-        //for the dhtmlx calendar 'time_step' option...
+        //check for the $incrementsPerHour override in the config file
         if($CI->config->item('time_selection_increments_per_hour')) {
             $incrementsPerHour = $CI->config->item('time_selection_increments_per_hour');
+        } else {
+            //Set default of '4' which would reflect :00, :15, :30, :45...
+            $incrementsPerHour = 4;
         }
 
         for ($i = $start; $i < $end; $i++) {

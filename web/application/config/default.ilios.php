@@ -322,7 +322,8 @@ $config['tasks']['audit_log']['rotate_logs'] = false;
 $config['time_selection_increments_per_hour'] = 4;
 $config['time_selection_total_increments'] = 60;
 $config['time_selection_hours_offset'] = 6;
-//no need to set this, calendar_options_time_step is set automatically based on the value above
+
+//NOTE: DO NOT CHANGE! 'calendar_options_time_step' is calculated automatically based on the values above
 $config['calendar_options_time_step'] = (60 / $config['time_selection_increments_per_hour']);
 
 /*

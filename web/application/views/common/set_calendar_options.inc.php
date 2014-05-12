@@ -10,9 +10,17 @@
 
 <script type="application/json" id="calendarOptionsOverrides">
 <?php
+    //check for value in config file...
+    if(isset($this->config->item('calendar_options_time_step'))){
+        $timeStep = $this->config->item('calendar_options_time_step');
+    } else {
+        //set the default step of 15 minutes (:00, :15, :30, :45)
+        $timeStep = 15;
+    }
+
     echo json_encode(array(
 	//set the time_step increment to one defined in ilios.php config file
-	'time_step' => $this->config->item('calendar_options_time_step'),
+	'time_step' => $timeStep,
     ));
 ?>
 </script>
