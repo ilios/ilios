@@ -59,7 +59,6 @@ $viewsPath = getServerFilePath('views');
 
         ilios.namespace('om');            // assure the existence of this page's namespace
     </script>
-    <?php include_once $viewsPath . 'common/set_calendar_options.inc.php'; ?>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/abstract_js_model_form.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/competency_model.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/models/school_competency_model.js"); ?>"></script>
@@ -80,6 +79,7 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/learner_group_picker_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/learner_view_base_framework.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/public_course_summary_base_framework.js"); ?>"></script>
+    <?php include_once $viewsPath . 'common/set_calendar_options.inc.php'; ?>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_calendar_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_inspector_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_lightbox_support.js"); ?>"></script>

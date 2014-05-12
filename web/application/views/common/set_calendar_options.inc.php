@@ -12,7 +12,7 @@
 <?php
     echo json_encode(array(
 	//set the time_step increment to one defined in ilios.php config file
-	'time_step' => $this->config->item('calendar_option_time_step'),
+	'time_step' => $this->config->item('calendar_options_time_step'),
     ));
 ?>
 </script>

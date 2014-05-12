@@ -18,6 +18,9 @@ ilios.home.calendar.lastModeUsedInAddingEvents = null;
 
 ilios.home.calendar.insertingCalendarEvents = false;
 
+//get the calendar option overrides set in the config file
+ilios.home.calendar.optionsOverrides = ilios.global.readJsonFromDom('calendarOptionsOverrides');
+
 /**
  * This is called onDOMReady. This sets up the configuration of the DHTMLX scheduler canvas
  *  including registering for event notifications from that canvas.
@@ -33,7 +36,13 @@ ilios.home.calendar.initCalendar = function () {
     scheduler.config.scroll_hour = 8;
 
     scheduler.config.start_on_monday = false;
-    scheduler.config.time_step = 10;
+    //the time_step may be overridden in the config file
+    if(ilios.home.calendar.optionsOverrides.time_step) {
+        scheduler.config.time_step = ilios.om.calendar.optionsOverrides.time_step;
+    } else {
+        //if it is not set in the config file, default to 15 minutes
+        scheduler.config.time_step = 15;
+    }
 
     scheduler.config.edit_on_create = false;
     scheduler.config.details_on_create = false;

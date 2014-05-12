@@ -39,7 +39,8 @@ ilios.om.calendar.initCalendar = function () {
     if(ilios.om.calendar.optionsOverrides.time_step) {
         scheduler.config.time_step = ilios.om.calendar.optionsOverrides.time_step;
     } else {
-        scheduler.config.time_step = 4;
+        //if it is not set in the config file, default to 15 minutes
+        scheduler.config.time_step = 15;
     }
 
     scheduler.config.edit_on_create = false;

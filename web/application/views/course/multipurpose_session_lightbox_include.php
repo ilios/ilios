@@ -98,7 +98,7 @@
                                 <span style="font-weight: bold;">
                                     <?php echo $phrase_start_time_string; ?></span>
                                 <select id="lightbox_start_time_select" style="float: right;">
-                                    <?php ilios_print_daytime_options(0, 90, 6); ?>
+                                    <?php ilios_print_daytime_options(0, 60); ?>
                                 </select>
                             </div>
                             <br/>
@@ -117,7 +117,7 @@
                                 <span style="font-weight: bold;">
                                     <?php echo $phrase_end_time_string; ?></span>
                                 <select id="lightbox_end_time_select" style="float: right;">
-                                    <?php ilios_print_daytime_options(1, 91, 6); ?>
+                                    <?php ilios_print_daytime_options(1, 61); ?>
                                 </select>
                             </div>
                             <br/>

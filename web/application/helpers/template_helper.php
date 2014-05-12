@@ -19,20 +19,22 @@ if (! function_exists('ilios_print_daytime_options')) {
      */
     function ilios_print_daytime_options ($start = 0, $end = 60, $incrementsPerHour = 4, $hoursOffset = 6) {
 
+        //pass in this instance to get the configuration info
+        $CI =& get_instance();
         //check for $end override in config file
-        if(isset($this->config->time_selection_total_increments)) {
-            $end = $this->config->time_selection_total_increments;
+        if($CI->config->item('time_selection_total_increments')) {
+            $end = $CI->config->item('time_selection_total_increments');
         }
 
         //check for the $hoursOffset override in the config file
-        if(isset($this->config->time_selection_hours_offset)) {
-            $hoursOffset = $this->config->time_selection_hours_offset;
+        if($CI->config->item('time_selection_hours_offset')) {
+            $hoursOffset = $CI->config->item('time_selection_hours_offset');
         }
 
         //check for the $incrementsPerHour override in the config file, this should be the same value as what is set
         //for the dhtmlx calendar 'time_step' option...
-        if(isset($this->config->calendar_option_time_step)) {
-            $incrementsPerHour = $this->config->calendar_option_time_step;
+        if($CI->config->item('time_selection_increments_per_hour')) {
+            $incrementsPerHour = $CI->config->item('time_selection_increments_per_hour');
         }
 
         for ($i = $start; $i < $end; $i++) {
