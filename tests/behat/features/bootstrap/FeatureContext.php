@@ -81,13 +81,26 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * Some of the tabs are not navigatable in some test drivers
+     * so these are handled specially.
+     *
      * @When /^I navigate to the "(.*?)" tab$/
      *
      * @param string $tabName
      */
     public function iNavigateToTheTab ($tabName)
     {
-        return new When("I click on the xpath \"//*[@id='topnav']//a[text()[normalize-space(.)='{$tabName}']]\"");
+        switch($tabName){
+            case 'Learner Groups':
+                return new When('I go to "/ilios.php/group_management"');
+                break;
+            case 'Courses and Sessions':
+                return new When('I go to "/ilios.php/course_management"');
+                break;
+            default:
+                return new When("I click on the xpath \"//*[@id='topnav']//a[text()[normalize-space(.)='{$tabName}']]\"");
+        }
+
     }
 
     /**
