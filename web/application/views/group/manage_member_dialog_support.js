@@ -156,12 +156,6 @@ ilios.gm.mm.buildUGTDataSourceReturnForQuery = function (queryString) {
     var topLevelModel = ilios.gm.mm.getTopLevelGroupForCurrentRootView();
     var rhett = null;
 
-    if (topLevelModel == ilios.gm.currentModel.getRootGroup()) {
-        topLevelModel
-                = ilios.gm.currentModel.getRootGroup()
-                                 .getSubgroupForContainerNumber(ilios.gm.mm.managedContainerNumber);
-    }
-
     rhett = ilios.gm.mm.recursivelyMatchForDataSource(queryString, topLevelModel);
 
     rhett = ilios.gm.mm.appendPostCreationUserAdditions(rhett, topLevelModel);
@@ -495,6 +489,10 @@ ilios.gm.mm.getTopLevelGroupForCurrentRootView = function () {
         rhett = parent;
         parent = rhett.getParentGroup();
     }
+    if (rhett == ilios.gm.currentModel.getRootGroup()) {
+        rhett = ilios.gm.currentModel.getRootGroup()
+            .getSubgroupForContainerNumber(ilios.gm.mm.managedContainerNumber);
+    }
 
     return rhett;
 };
@@ -527,7 +525,7 @@ ilios.gm.mm.ugtSubmitMethod = function () {
 
         // adjust other parentage
         for (key in usersAdded) {
-            groupModel.removeUserFromTree(usersAdded[key]);
+            topLevelGroup.removeUserFromTree(usersAdded[key]);
         }
 
         // deleted users get added to the root group
