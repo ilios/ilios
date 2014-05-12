@@ -34,14 +34,8 @@ ilios.om.calendar.initCalendar = function () {
     scheduler.config.scroll_hour = 8;
 
     scheduler.config.start_on_monday = false;
-
-    //the time_step may be overridden in the config file
-    if(ilios.om.calendar.optionsOverrides.time_step) {
-        scheduler.config.time_step = ilios.om.calendar.optionsOverrides.time_step;
-    } else {
-        //if it is not set in the config file, default to 15 minutes
-        scheduler.config.time_step = 15;
-    }
+    //use the value set in the config file
+    scheduler.config.time_step = ilios.om.calendar.optionsOverrides.time_step;
 
     scheduler.config.edit_on_create = false;
     scheduler.config.details_on_create = true;
