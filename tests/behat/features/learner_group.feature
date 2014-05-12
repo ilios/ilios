@@ -142,6 +142,28 @@ Feature: Learner Groups
     When I expand "Default Group Number 1 1" tree picker list in "manage_member_pick_dialog_c" dialog
     Then I should see "Smith, Jane" in the "#ugt_selector_tab" element
 
+  @javascript @insulated @ignored
+  #test for issue #596 - Third level learner groups reference themselves in the picker
+  Scenario: Sub groups should not list themselves in the picker
+    When I press "Add a New Student Group"
+    And I wait for "1_collapse_summary_text" to be enabled
+    And I click on the text "Default Group Number 1"
+    And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
+    And I press "Add a New Sub-Group"
+    And I wait for "1_collapse_summary_text" to be enabled
+    And I click on the text "Default Group Number 1 1"
+    And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
+    And I press "Add a New Sub-Group"
+    And I click on the text "Default Group Number 1 1 1"
+    And I follow "1_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    And I click on the text "Smith, Jane"
+    And I press the "Done" button in "manage_member_pick_dialog" dialog
+    And I follow "1_add_members"
+    Then I should see "Default Group Number 1 1" in the "#ugt_selector_tab" element
+    When I expand "Default Group Number 1 1" tree picker list in "manage_member_pick_dialog_c" dialog
+    Then I should not see "Default Group Number 1 1 1" in the "#ugt_selector_tab" element
+
   @javascript @insulated
   Scenario: Learner Groups should save correctly
     When I press "Add a New Student Group"
