@@ -16,7 +16,6 @@ if (! function_exists('ilios_print_daytime_options')) {
      */
 
     function ilios_print_daytime_options ($start = 0, $end = null) {
-
         //pass in the instance to get the configuration info
         $CI =& get_instance();
 
@@ -48,7 +47,6 @@ if (! function_exists('ilios_print_daytime_options')) {
         }
 
         for ($i = $start; $i < $end; $i++) {
-
             $hours = floor($i / $incrementsPerHour) + $hoursOffset;
             //set the increment multiplier based on number of increments in one hour (60 mins)
             $minutes = ($i % $incrementsPerHour) * (60 / $incrementsPerHour);
