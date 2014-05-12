@@ -8,26 +8,55 @@
 
 if (! function_exists('ilios_print_daytime_options')) {
     /**
-     * Prints out <code>option</code> tags for day times in 15min intervals
+     * Prints out <code>option</code> tags for day times in specified intervals
      * within given boundaries.
      *
-     * @param int $start
-     * @param int $end
-     * @param int $hoursOffset
-     *
-     * @todo improve code docs. [ST 2013/11/22]
+     * @param int $start The starting minutes increment index in each hour
+     * @param int $end Total count of minutes increments in entire options list, 60 (@ 4/hr) = 15 hours
      */
-    function ilios_print_daytime_options ($start = 0, $end = 60, $hoursOffset = 6) {
+
+    function ilios_print_daytime_options ($start = 0, $end = null) {
+        //pass in the instance to get the configuration info
+        $CI =& get_instance();
+
+        //if there is no value set for $end, get it from the config file...
+        if(!isset($end)){
+            //check/set it from the config file
+            if($CI->config->item('time_selection_total_increments')) {
+                $end = $CI->config->item('time_selection_total_increments');
+            } else {
+                //or set the default of 60
+                $end = 60;
+            }
+        }
+
+        //check for the $hoursOffset override in the config file
+        if($CI->config->item('time_selection_hours_offset')) {
+            $hoursOffset = $CI->config->item('time_selection_hours_offset');
+        } else {
+            //set the start hour default to 6 for a '06:00' start option
+            $hoursOffset = 6;
+        }
+
+        //check for the $incrementsPerHour override in the config file
+        if($CI->config->item('time_selection_increments_per_hour')) {
+            $incrementsPerHour = $CI->config->item('time_selection_increments_per_hour');
+        } else {
+            //Set default of '4' which would reflect :00, :15, :30, :45...
+            $incrementsPerHour = 4;
+        }
+
         for ($i = $start; $i < $end; $i++) {
-            $hours = floor($i / 4) + $hoursOffset;
-            $minutes = ($i % 4) * 15;
+            $hours = floor($i / $incrementsPerHour) + $hoursOffset;
+            //set the increment multiplier based on number of increments in one hour (60 mins)
+            $minutes = ($i % $incrementsPerHour) * (60 / $incrementsPerHour);
 
             if ($hours < 10) {
                 $hours = '0' . $hours;
             }
 
-            if ($minutes == 0) {
-                $minutes = '00';
+	    if ($minutes < 10) {
+                $minutes = '0' . $minutes;
             }
 
             $string = $hours . ':' . $minutes;

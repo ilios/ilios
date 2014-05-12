@@ -17,6 +17,9 @@ ilios.om.calendar.lastStartDateUsedInAddingEvents = null;
 ilios.om.calendar.lastEndDateUsedInAddingEvents = null;
 ilios.om.calendar.lastModeUsedInAddingEvents = null;
 
+//get the calendar option overrides set in the config file
+ilios.om.calendar.optionsOverrides = ilios.global.readJsonFromDom('calendarOptionsOverrides');
+
 /**
  * This is called onDOMReady; added to that event queue in offering_manager.php. This sets
  *     up the configuration of the DHTMLX scheduler canvas including registering for event
@@ -31,7 +34,8 @@ ilios.om.calendar.initCalendar = function () {
     scheduler.config.scroll_hour = 8;
 
     scheduler.config.start_on_monday = false;
-    scheduler.config.time_step = 15;
+    //use the value set in the config file
+    scheduler.config.time_step = ilios.om.calendar.optionsOverrides.time_step;
 
     scheduler.config.edit_on_create = false;
     scheduler.config.details_on_create = true;
