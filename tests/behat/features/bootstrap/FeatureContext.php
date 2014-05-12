@@ -688,16 +688,13 @@ class FeatureContext extends MinkContext
         $this->clickLink('Select Program and Cohort');
         $this->iExpandTreePickerListInDialog($programName, 'cohort_pick_dialog_c');
         $this->iClickTreePickerItemInDialog("Class of {$classYear}", 'cohort_pick_dialog_c');
-        $groupDeleteLinks = $this->getSession()->getPage()->find(
+        $this->iWaitForToBeVisible('program_cohort_title');
+        while($link = $this->getSession()->getPage()->find(
             'xpath',
             "//*[@id='group_container']//div[contains(@class,'delete_widget')]"
-        );
-        if(is_null($groupDeleteLinks)){
-            return true;
-        }
-        foreach($groupDeleteLinks as $link){
-            $link->click();
-            $this->iPressTheButtonInDialog('Yes', 'ilios_inform_panel');
+        )){
+                $link->click();
+                $this->iPressTheButtonInDialog('Yes', 'ilios_inform_panel');
         }
     }
 
