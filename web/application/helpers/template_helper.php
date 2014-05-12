@@ -35,6 +35,7 @@ if (! function_exists('ilios_print_daytime_options')) {
         if($CI->config->item('time_selection_hours_offset')) {
             $hoursOffset = $CI->config->item('time_selection_hours_offset');
         } else {
+            //set the start hour default to 6 for a '06:00' start option
             $hoursOffset = 6;
         }
 

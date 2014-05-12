@@ -79,7 +79,10 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/learner_group_picker_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/learner_view_base_framework.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/public_course_summary_base_framework.js"); ?>"></script>
-    <?php include_once $viewsPath . 'common/set_calendar_options.inc.php'; ?>
+    <?php
+        //add the calendar override options, as set in the the config files, here:
+        include_once $viewsPath . 'common/set_calendar_options.inc.php';
+    ?>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_calendar_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_inspector_support.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "offering/offering_manager_lightbox_support.js"); ?>"></script>
