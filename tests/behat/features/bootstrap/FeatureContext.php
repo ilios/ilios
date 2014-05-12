@@ -693,8 +693,10 @@ class FeatureContext extends MinkContext
             'xpath',
             "//*[@id='group_container']//div[contains(@class,'delete_widget')]"
         )){
-                $link->click();
-                $this->iPressTheButtonInDialog('Yes', 'ilios_inform_panel');
+                if($link->isVisible()){
+                    $link->click();
+                    $this->iPressTheButtonInDialog('Yes', 'ilios_inform_panel');
+                }
         }
     }
 

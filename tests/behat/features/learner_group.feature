@@ -141,3 +141,58 @@ Feature: Learner Groups
     But I should not see "Smith, Jane" in the "#ugt_selector_tab" element
     When I expand "Default Group Number 1 1" tree picker list in "manage_member_pick_dialog_c" dialog
     Then I should see "Smith, Jane" in the "#ugt_selector_tab" element
+
+  @javascript @insulated
+  Scenario: Learner Groups should save correctly
+    When I press "Add a New Student Group"
+    And I wait for "1_collapse_summary_text" to be enabled
+    And I click on the text "Default Group Number 1"
+    And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
+    And I press "Add a New Sub-Group"
+    And I wait for "1_collapse_summary_text" to be enabled
+    And I click on the text "Default Group Number 1 1"
+    And I follow "1_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    And I click on the text "Smith, Jane"
+    And I press the "Done" button in "manage_member_pick_dialog" dialog
+    And I press "Add a New Sub-Group"
+    And I wait for "2_collapse_summary_text" to be enabled
+    And I click on the text "Default Group Number 1 2"
+    And I follow "2_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    And I click on the text "Smith, John"
+    And I press the "Done" button in "manage_member_pick_dialog" dialog
+    And I press "Open Cohort"
+    And I press "Add a New Student Group"
+    And I press "Save All"
+    Then I should not see dirty state
+    When I reload the page
+    Then I should see "Default Group Number 1"
+    And I should see "Default Group Number 2"
+    When I click on the text "Default Group Number 1"
+    And I follow "1_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    Then I should see "Default Group Number 1 1" in the "#ugt__selected_item_list" element
+    And I should see "Smith, Greg" in the "#ugt__selected_item_list" element
+    But I should not see "Smith, Jane" in the "#ugt__selected_item_list" element
+    But I should not see "Smith, John" in the "#ugt__selected_item_list" element
+    When I click on the text "Default Group Number 2"
+    And I follow "2_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    Then I should see "Smith, Jane" in the "#ugt__selected_item_list" element
+    And I should see "Smith, John" in the "#ugt__selected_item_list" element
+    And I should see "Smith, Greg" in the "#ugt__selected_item_list" element
+    When I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
+    And I wait for "1_collapse_summary_text" to be enabled
+    And I click on the text "Default Group Number 1 1"
+    And I follow "1_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    Then I should see "Smith, Jane" in the "#ugt__selected_item_list" element
+    But I should not see "Smith, John" in the "#ugt__selected_item_list" element
+    And I should not see "Smith, Greg" in the "#ugt__selected_item_list" element
+    When I click on the text "Default Group Number 1 2"
+    And I follow "2_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    Then I should see "Smith, John" in the "#ugt__selected_item_list" element
+    But I should not see "Smith, Jane" in the "#ugt__selected_item_list" element
+    And I should not see "Smith, Greg" in the "#ugt__selected_item_list" element
