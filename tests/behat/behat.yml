@@ -1,16 +1,11 @@
-# the default profile. this will run all non-JS dependent tests via Goutte/Guzzle, and all JS-dependent tests via
-# Selenium in the browser.
+# the default profile. this will run all tests via Selenium in the browser.
 default:
     extensions:
         Behat\MinkExtension\Extension:
             base_url: https://localhost
-            default_session: goutte
+            default_session: selenium2
             javascript_session: selenium2
             browser_name: 'firefox'
-            goutte:
-                guzzle_parameters:
-                    curl.options: { "CURLOPT_SSLVERSION": 3 }
-                    ssl.certificate_authority: false
             selenium2:
                     capabilities: { "browser": "firefox", "version": "14" }
             saucelabs: ~
@@ -22,20 +17,11 @@ phantomjs:
             selenium2:
                 wd_host: "http://localhost:8080/wd/hub"
 
-# Use this profile for running ALL tests in the browser (FF).
-selenium:
-    extensions:
-        Behat\MinkExtension\Extension:
-          default_session: selenium2
-
 # Use this profile to run tests in a headless browser against the Ilios instance created by Vagrant.
 vagrant:
     extensions:
         Behat\MinkExtension\Extension:
             base_url: https://localhost:8443
-            goutte:
-                guzzle_parameters:
-                    curl.options: { "CURLOPT_SSLVERSION": 3, "CURLOPT_PORT": 8443 }
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
 
