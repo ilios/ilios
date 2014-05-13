@@ -144,7 +144,7 @@ Feature: Learner Groups
 
     
   #test for issue #596 - Third level learner groups reference themselves in the picker
-  @javascript @insulated @ignored
+  @javascript @insulated @ignore
   Scenario: Sub groups should not list themselves in the picker
     When I press "Add a New Student Group"
     And I wait for "1_collapse_summary_text" to be enabled
