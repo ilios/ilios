@@ -35,7 +35,6 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
         var rootNode = ilios.gm.mm.ugtDialogTreeView.getRoot();
 
         ilios.gm.mm.ugtDialogTreeView.removeChildren(rootNode);
-        ilios.gm.mm.redrawTreeAndUpdateCSS();
     }
 
 
@@ -155,6 +154,12 @@ ilios.gm.mm.resetUserGroupTree = function (dialog) {
 ilios.gm.mm.buildUGTDataSourceReturnForQuery = function (queryString) {
     var topLevelModel = ilios.gm.mm.getTopLevelGroupForCurrentRootView();
     var rhett = null;
+
+    if (topLevelModel == ilios.gm.currentModel.getRootGroup()) {
+        topLevelModel
+                = ilios.gm.currentModel.getRootGroup()
+                                 .getSubgroupForContainerNumber(ilios.gm.mm.managedContainerNumber);
+    }
 
     rhett = ilios.gm.mm.recursivelyMatchForDataSource(queryString, topLevelModel);
 
@@ -463,12 +468,15 @@ ilios.gm.mm.deselectionHandler = function (event) {
         if (target.isGroup) {
             return false;
         }
+        if (target.oldTreeNode != null) {   // got on list by user click in the tree
+                 target.oldTreeNode.appendTo(target.previousParentNode);
+        } else {
+            var rootNode = ilios.gm.mm.ugtDialogTreeView.getRoot();
+            var newNode = new YAHOO.widget.TextNode(
+                model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST), rootNode, false);
 
-        var rootNode = ilios.gm.mm.ugtDialogTreeView.getRoot();
-        var newNode = new YAHOO.widget.TextNode(
-            model.getFormattedName(ilios.utilities.UserNameFormatEnum.LAST_FIRST), rootNode, false);
-
-        newNode.iliosModel = model;
+            newNode.iliosModel = model;
+        }
 
         ilios.gm.mm.redrawTreeAndUpdateCSS();
         ilios.gm.mm.ugtSelectedModel.removeUser(model);
@@ -488,10 +496,6 @@ ilios.gm.mm.getTopLevelGroupForCurrentRootView = function () {
     while ((parent != null) && (parent != ilios.gm.currentModel.getRootGroup())) {
         rhett = parent;
         parent = rhett.getParentGroup();
-    }
-    if (rhett == ilios.gm.currentModel.getRootGroup()) {
-        rhett = ilios.gm.currentModel.getRootGroup()
-            .getSubgroupForContainerNumber(ilios.gm.mm.managedContainerNumber);
     }
 
     return rhett;

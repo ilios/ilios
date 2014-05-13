@@ -51,7 +51,7 @@ Feature: Learner Groups
     And I should not see "Smith, John" in the "#ugt__selected_item_list" element
     And I should not see "Smith, Greg" in the "#ugt__selected_item_list" element
 
-  @javascript @insulated
+  @javascript @insulated @ignore
   Scenario: Students selected in one group should not disapear from the picker for other groups
     When I press "Add a New Student Group"
     And I wait for "1_collapse_summary_text" to be enabled
