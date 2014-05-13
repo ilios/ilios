@@ -710,7 +710,7 @@ class FeatureContext extends MinkContext
      * @param string $programName
      * @param TableNode $learners
      */
-    public function givenTheFollowingUsersExistInTheProgram($classYear, $programName, TableNode $learners)
+    public function givenTheFollowingLearnersExistInTheProgram($classYear, $programName, TableNode $learners)
     {
         $this->visit('/ilios.php/group_management');
         $this->clickLink('Select Program and Cohort');
