@@ -592,7 +592,7 @@ class FeatureContext extends MinkContext
      *
      * @Then /^I should see (?P<num>\d+) "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
      */
-    public function assertNumElements($num, $text, $elementCss)
+    public function iShouldSeeCountTextinElement($num, $text, $elementCss)
     {
         $element = $this->getSession()->getPage()->find('css', $elementCss);
         $count = substr_count($element->getText(), $text);
