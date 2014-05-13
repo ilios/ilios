@@ -142,8 +142,9 @@ Feature: Learner Groups
     When I expand "Default Group Number 1 1" tree picker list in "manage_member_pick_dialog_c" dialog
     Then I should see "Smith, Jane" in the "#ugt_selector_tab" element
 
-  @javascript @insulated @ignored
+    
   #test for issue #596 - Third level learner groups reference themselves in the picker
+  @javascript @insulated @ignored
   Scenario: Sub groups should not list themselves in the picker
     When I press "Add a New Student Group"
     And I wait for "1_collapse_summary_text" to be enabled
