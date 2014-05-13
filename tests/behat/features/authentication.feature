@@ -1,3 +1,4 @@
+@setone
 Feature: User authentication
   In order to ensure access to the application for authorized users only
   Users should be able to log in to the system
