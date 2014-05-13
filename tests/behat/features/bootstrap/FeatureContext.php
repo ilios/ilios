@@ -696,6 +696,7 @@ class FeatureContext extends MinkContext
                 if($link->isVisible()){
                     $link->click();
                     $this->iPressTheButtonInDialog('Yes', 'ilios_inform_panel');
+                    sleep(1); //prevent clicking the same link a few times
                 }
         }
     }
