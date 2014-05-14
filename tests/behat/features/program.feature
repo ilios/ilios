@@ -1,3 +1,4 @@
+@setthree
 Feature: Program management
   In order to create the best possible curriculum for students
   Admins should be able engage in evidence-based curriculum management

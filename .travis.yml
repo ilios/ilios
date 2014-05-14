@@ -5,22 +5,27 @@ services: mysql
 matrix:
   fast_finish: true
   allow_failures:
-    - env: "BEHAT_PROFILE='osxsafari' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxchrome' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win7ie9' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
+    # - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
   exclude:
-    #there is no need to test all the browsers against both versions of PHP, the phantomjs test will show if anything is terribly wrong
+    #only run specific builds against 5.4
     - php: "5.4"
-      env: BEHAT_PROFILE='default' START_SAUCE_CONNECT=true TEST_BEHAT=true
+  include:
     - php: "5.4"
-      env: BEHAT_PROFILE='win7ie9' START_SAUCE_CONNECT=true TEST_BEHAT=true
+      env: TEST_PHPUNIT=true
     - php: "5.4"
-      env: BEHAT_PROFILE='osxsafari' START_SAUCE_CONNECT=true TEST_BEHAT=true
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setone' START_LOCAL_SELENIUM=true TEST_BEHAT=true
     - php: "5.4"
-      env: BEHAT_PROFILE='osxchrome' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    #jasmine tests dont' need to be run against multiple PHP versions
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
     - php: "5.4"
-      env: TEST_JASMINE=true
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
 
 php:
   - "5.4"
@@ -42,11 +47,21 @@ env:
   matrix:
     - TEST_PHPUNIT=true
     - TEST_JASMINE=true
-    - BEHAT_PROFILE='phantomjs' START_LOCAL_SELENIUM=true TEST_BEHAT=true
-    - BEHAT_PROFILE='default' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win7ie9' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxsafari' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxchrome' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setone' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
+    # - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
 
 addons:
   hosts:
@@ -101,4 +116,4 @@ script:
   - if [ "$TEST_PHPUNIT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/phpunit/bin/phpunit -c ${TRAVIS_BUILD_DIR}/tests/phpunit/default.phpunit.xml --include-path ${TRAVIS_BUILD_DIR}/tests/phpunit --exclude-group integration ${TRAVIS_BUILD_DIR}/tests/phpunit/Ilios); fi
 
 # Run Behat test for this profile
-  - if [ "$TEST_BEHAT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/behat -c ${TRAVIS_BUILD_DIR}/tests/behat/behatci.yml --profile $BEHAT_PROFILE); fi
+  - if [ "$TEST_BEHAT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/behat -c ${TRAVIS_BUILD_DIR}/tests/behat/behatci.yml --tags $BEHAT_TAG --profile $BEHAT_PROFILE); fi

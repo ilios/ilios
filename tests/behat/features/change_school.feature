@@ -1,3 +1,4 @@
+@setthree
 Feature: Change School
   In order to provide multiple school support
   Users should be able to change their school
@@ -37,4 +38,3 @@ Feature: Change School
     Then I should see "Pharmacy" in the "#view-current" element
     When I select "Medicine" from "view-switch"
     Then I should see "Medicine" in the "#view-current" element
-
