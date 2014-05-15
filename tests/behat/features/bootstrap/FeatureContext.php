@@ -451,6 +451,23 @@ class FeatureContext extends MinkContext
         $this->getSession()->executeScript($editorJsObject . '.setEditorHTML("' . $text . '");');
     }
 
+   /**
+    * We have to use the JS directly in order to add events to a dhtmlx calendar
+    *
+    * @When /^I add a calendar event from "([^"]*)" to "([^"]*)"$/
+    *
+    * @param string $start a date time string
+    * @param string $end a date time string
+    */
+    public function iAddAnEvent($start, $end)
+    {
+        $script = 'window.scheduler.addEvent({' .
+            'start_date:"' . $start . '",' .
+            'end_date:"' . $end . '"' .
+            '});';
+        $this->getSession()->executeScript($script);
+    }
+
     /**
      * Override the MinkContext::assertPageContainsText in order to add a
      * spin delay to the search
@@ -588,6 +605,34 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * Look for text in an element by its position on the page
+     *
+     * @Then /^I should see "([^"]*)" in the (\d+)(?:st|nd|rd|th) "([^"]*)" element$/
+     *
+     * @param $text string
+     * @param $num integer
+     * @param $css string
+     */
+    public function iShouldSeeInTheNumElement($text, $num, $css)
+    {
+        $this->exceptionSpin(function($context) use ($text, $num, $css) {
+            $i = $num -1; //array index
+            $elements = $context->getSession()->getPage()->findAll('css', $css);
+            if(!array_key_exists($i, $elements)){
+                throw new Exception(
+                    sprintf('There %d element %s was not found on the page', $num, $css)
+                );
+            }
+            $elementText = $elements[$i]->getText();
+            if(strpos($elementText, $text) === FALSE){
+                throw new Exception(
+                    sprintf('The %d element %s does not contain %s', $num, $css, $text)
+                );
+            }
+        });
+    }
+
+    /*
      * Checks, that text appears on the page exactly some number of times
      *
      * @Then /^I should see (?P<num>\d+) "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
@@ -629,7 +674,6 @@ class FeatureContext extends MinkContext
         if(!is_null($searchResult)){
             return true;
         }
-
         $shortProgramName = substr(strtolower(str_replace(' ', '', $programName)),0,10);
         return array(
             new When('I navigate to the "Programs" tab'),
@@ -692,6 +736,36 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * Create a test course for use in other features
+     *
+     * @todo - eventually this should be done by directly interacting with the DB
+     * or models, for now just step through the process.
+     * @Given /^I create a test course "([^"]*)" for class of "([^"]*)" in "([^"]*)"$/
+     *
+     * @param string $courseName
+     * @param string $cohortYear
+     * @param string $programName
+     */
+    public function iCreateATestCourseForClassOfIn($courseName, $cohortYear, $programName)
+    {
+        return array(
+            new When('I navigate to the "Courses and Sessions" tab'),
+            new When('I press "Add New Course"'),
+            new When('I fill in "' . $courseName . '" for "new_course_title"'),
+            new When('I press the "Done" button in "course_add_dialog" dialog'),
+            new Then('I should see "' . $courseName . '"'),
+            new When('I reload the page'), //necessary step to work around issue of the link not showing up all the time
+            new When('I follow "show_more_or_less_link"'),
+            new When('I follow "Select Program Cohorts for Course"'),
+            new When('I expand "' . $programName . '" tree picker list in "cohort_pick_dialog_c" dialog'),
+            new When('I click "Class of ' . $cohortYear . '" tree picker item in "cohort_pick_dialog_c" dialog'),
+            new When('I press the "Done" button in "cohort_pick_dialog_c" dialog'),
+            new When('I press "Save All as Draft"'),
+            new When('I press the "Yes" button in "ilios_inform_panel" dialog')
+        );
+    }
+
+    /*
      * Delete any existing learner groups in a program
      *
      * @todo - eventually this should be done by directly interacting with the DB
