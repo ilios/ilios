@@ -299,7 +299,7 @@ $config['tasks']['audit_log']['rotate_logs'] = false;
 |
 | ['time_selection_increments_per_hour']
 |   This sets the total increments per hour on the time-selection dropdown fields.  To display the time for every
-|   15 minutes of an hour, set this value to '4' (60 / 4 = 15)
+|   15 minutes of an hour, set this value to '4' (60 / 4 = 15), for every 10 minutes, set to '6' (60 / 6 = 10), etc.
 |
 | ['time_selection_total_increments']
 |   Set the total number of hours that will appear in the hours select list by setting the grand total of all minutes-
