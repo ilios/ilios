@@ -290,6 +290,42 @@ $config['tasks']['audit_log']['truncate_log_file_path'] = '/web/ilios/cron/audit
 $config['tasks']['audit_log']['days_to_keep'] = 90;
 $config['tasks']['audit_log']['rotate_logs'] = false;
 
+/*
+|--------------------------------------------------------------------------
+| Calender and Time Selection Option Overrides
+|--------------------------------------------------------------------------
+|
+| Option overrides for the calendar interface and hours selection fields
+|
+| ['time_selection_increments_per_hour']
+|   This sets the total increments per hour on the time-selection dropdown fields.  To display the time for every
+|   15 minutes of an hour, set this value to '4' (60 / 4 = 15), for every 10 minutes, set to '6' (60 / 6 = 10), etc.
+|
+| ['time_selection_total_increments']
+|   Set the total number of hours that will appear in the hours select list by setting the grand total of all minutes-
+|   increments in the list. A select list showing '6am - 8pm' would be 15 total hours, so you could choose one of the
+|   following:
+|   60 (@ 4 increments/hour) - :00, :15, :30, :45
+|   90 (@ 6 increments/hour) - :00, :10, :20, :30, :40, :50
+|   180 (@ 12 increments/hour) - :00, :05, :10, :15, :20, :25, :30, :35, :40, :45, :50, :55
+|
+| ['time_selection_hours_offset']
+|    The starting hour of the time selection list, offset from midnight ('6' = 06:00am)
+|
+| ['calendar_options_time_step']
+|   Customize incremental stepping of the dhtmlx calender. This is calculated by dividing 1 hour (60 minutes) by the
+|   number of increments per hour value set above.  If the increments per hour is 4, then the calendar interface will
+|   allow selections of minutes of :00, :15, :30, :45 for each hour.  6 increments/hour will allow times :00, :10, :20,
+|   :30, :40, :50 for each hour.
+*/
+
+$config['time_selection_increments_per_hour'] = 4;
+$config['time_selection_total_increments'] = 60;
+$config['time_selection_hours_offset'] = 6;
+
+//NOTE: No need to change this value! 'calendar_options_time_step' is calculated automatically based on the values
+//above.  We strongly recommend leaving the default value unchanged, as modification may result in unexpected behavior.
+$config['calendar_options_time_step'] = (60 / $config['time_selection_increments_per_hour']);
 
 /*
 |--------------------------------------------------------------------------

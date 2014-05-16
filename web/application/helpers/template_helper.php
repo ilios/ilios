@@ -8,26 +8,74 @@
 
 if (! function_exists('ilios_print_daytime_options')) {
     /**
-     * Prints out <code>option</code> tags for day times in 15min intervals
+     * Prints out <code>option</code> tags for day times in specified intervals
      * within given boundaries.
      *
-     * @param int $start
-     * @param int $end
-     * @param int $hoursOffset
-     *
-     * @todo improve code docs. [ST 2013/11/22]
+     * @param boolean $is_end_time True if the selection will be setting the 'end' or 'finish' time of an event
+     * @param int $start_increment The starting minutes increment index in each hour
+     * @param int $end_increment Total count of minutes increments in entire options list, 60 (@ 4/hr) = 15 hours
      */
-    function ilios_print_daytime_options ($start = 0, $end = 60, $hoursOffset = 6) {
-        for ($i = $start; $i < $end; $i++) {
-            $hours = floor($i / 4) + $hoursOffset;
-            $minutes = ($i % 4) * 15;
 
+    function ilios_print_daytime_options ($is_end_time = false, $start_increment = null, $end_increment = null) {
+        //pass in the current CI instance to access the configuration info
+        $CI =& get_instance();
+
+        //if there is no value set for $end_increment, get it from the config file...
+        if(!isset($end_increment)) {
+            //check/set it from the config file
+            if($CI->config->item('time_selection_total_increments')) {
+                $end_increment = $CI->config->item('time_selection_total_increments');
+            } else {
+                //if not specified and not in the config file, set default of '60' (15 hours in 15 minute increments)
+                $end_increment = 60;
+            }
+            //if the values will be populating an 'end time' value and no $end_increment has been specified,
+            //increase the default $end_increment by 1 to properly offset itself from its respective 'start' timeslot
+            if($is_end_time) {
+                $end_increment++;
+            }
+        }
+
+        //if there is no value set for $start_increment, set it to the default of 0 (:00)
+        if(!isset($start_increment)) {
+            $start_increment = 0;
+            //if the value will be populating an 'end time' value and no $start_increment has been specified, increase
+            //the default $start_increment by 1 to properly offset itself from the its respective 'start time' timeslot
+            if($is_end_time) {
+                $start_increment++;
+            }
+        }
+
+        //check for the $hoursOffset override in the config file
+        if($CI->config->item('time_selection_hours_offset')) {
+            $hoursOffset = $CI->config->item('time_selection_hours_offset');
+        } else {
+            //set the start hour default to 6 for a '06:00' start time in the options list
+            $hoursOffset = 6;
+        }
+
+        //check for the $incrementsPerHour override in the config file
+        if($CI->config->item('time_selection_increments_per_hour')) {
+            $incrementsPerHour = $CI->config->item('time_selection_increments_per_hour');
+        } else {
+            //Set default of '4' which would reflect :00, :15, :30, :45...
+            $incrementsPerHour = 4;
+        }
+
+        //run the loop that will set all the time options
+        for ($i = $start_increment; $i < $end_increment; $i++) {
+            $hours = floor($i / $incrementsPerHour) + $hoursOffset;
+            //set the increment multiplier based on number of increments in one hour (60 mins)
+            $minutes = ($i % $incrementsPerHour) * (60 / $incrementsPerHour);
+
+            //append a '0' to the front of hours less-than '10'
             if ($hours < 10) {
                 $hours = '0' . $hours;
             }
 
-            if ($minutes == 0) {
-                $minutes = '00';
+            //append a '0' to the front of minutes less-than '10'
+	        if ($minutes < 10) {
+                $minutes = '0' . $minutes;
             }
 
             $string = $hours . ':' . $minutes;
