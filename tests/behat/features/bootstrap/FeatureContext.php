@@ -5,6 +5,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\BehatContext,
     Behat\Behat\Context\Step\When,
     Behat\Behat\Context\Step\Then,
+    Behat\Behat\Context\Step\Given,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
@@ -646,7 +647,7 @@ class FeatureContext extends MinkContext
         });
     }
 
-    /*
+    /**
      * Checks, that text appears on the page exactly some number of times
      *
      * @Then /^I should see (?P<num>\d+) "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
@@ -734,16 +735,16 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestLearnerGroupIn($classYear, $programName)
     {
+        $table = new Behat\Gherkin\Node\TableNode(
+        "\n| first  | last  | email | ucid |" .
+        "\n| Test   | Student | first@example.com | 123456 |"
+        );
         return array(
+            new Given('the following learners exist in the "' . $classYear . '" "' . $programName . '" program:', $table),
             new When('I navigate to the "Learner Groups" tab'),
             new When('I follow "Select Program and Cohort"'),
             new When('I expand "' . $programName . '" tree picker list in "cohort_pick_dialog_c" dialog'),
             new When('I click "Class of ' . $classYear . '" tree picker item in "cohort_pick_dialog_c" dialog'),
-            new When('I press "Add New Members to Cohort"'),
-            new When('I fill in "Test" for "em_last_name"'),
-            new When('I fill in "Student" for "em_first_name"'),
-            new When('I press "Add User"'),
-            new When('I press the "Done" button in "add_new_members_dialog" dialog'),
             new When('I press "Add a New Student Group"'),
             new Then('I should see "Default Group Number 1"')
         );
@@ -779,7 +780,7 @@ class FeatureContext extends MinkContext
         );
     }
 
-    /*
+    /**
      * Delete any existing learner groups in a program
      *
      * @todo - eventually this should be done by directly interacting with the DB

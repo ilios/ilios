@@ -244,7 +244,7 @@ Feature: Course management
       Then I should see "xxx Test Session" in the 3rd ".collapsed_summary_text_div" element
 
       #test for #475 - ILM sessions do not sort by date
-      @javascript @insulated @ignore
+      @javascript @insulated
       Scenario: ILM Sessions sort in order
         Given I create a test course "Test ILM Sort" for class of "2017" in "Test Course Program"
         Then I should see "Test ILM Sort"

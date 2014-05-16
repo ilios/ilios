@@ -742,11 +742,16 @@ SessionModel.prototype.getFirstEventStart = function () {
     var rhett = Number.MAX_VALUE;
     var offering = null;
 
-    for (var key in this.offerings) {
-        offering = this.offerings[key];
+    //ILM sessions do not have offerings, just a single due date
+    if(this.independentLearningModel != null){
+        rhett = this.independentLearningModel.getDueDate().getTime();
+    } else {
+        for (var key in this.offerings) {
+            offering = this.offerings[key];
 
-        if (offering.getStartDate().getTime() < rhett) {
-            rhett = offering.getStartDate().getTime();
+            if (offering.getStartDate().getTime() < rhett) {
+                rhett = offering.getStartDate().getTime();
+            }
         }
     }
 
