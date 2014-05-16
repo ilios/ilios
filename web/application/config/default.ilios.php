@@ -323,7 +323,8 @@ $config['time_selection_increments_per_hour'] = 4;
 $config['time_selection_total_increments'] = 60;
 $config['time_selection_hours_offset'] = 6;
 
-//NOTE: DO NOT CHANGE! 'calendar_options_time_step' is calculated automatically based on the values above
+//NOTE: No need to change this value! 'calendar_options_time_step' is calculated automatically based on the values
+//above.  We strongly recommend leaving the default value unchanged, as modification may result in unexpected behavior.
 $config['calendar_options_time_step'] = (60 / $config['time_selection_increments_per_hour']);
 
 /*
