@@ -243,3 +243,46 @@ Feature: Course management
       Then I should see "aaa Test Session" in the 2nd ".collapsed_summary_text_div" element
       Then I should see "xxx Test Session" in the 3rd ".collapsed_summary_text_div" element
 
+      #test for #475 - ILM sessions do not sort by date
+      @javascript @insulated @ignore
+      Scenario: ILM Sessions sort in order
+        Given I create a test course "Test ILM Sort" for class of "2017" in "Test Course Program"
+        Then I should see "Test ILM Sort"
+        When I press "Add Session"
+        And I fill in "xxx Test Session" for "1_session_title"
+        And I check "1_session_ilm_checkbox"
+        And I click on the xpath "//*[@id='1_session_ilm_div']//div[@class='calendar_button']"
+        And I set yui calendar "ilios.cm.session.ilm.yuiILMDueDateCalendar" to "1/1/2010"
+        When I press the "Save" button in "multipurpose_session_lightbox_c" dialog
+        And I press "Add Session"
+        And I fill in "aaa Test Session" for "2_session_title"
+        And I check "2_session_ilm_checkbox"
+        And I click on the xpath "//*[@id='2_session_ilm_div']//div[@class='calendar_button']"
+        And I set yui calendar "ilios.cm.session.ilm.yuiILMDueDateCalendar" to "1/1/2011"
+        When I press the "Save" button in "multipurpose_session_lightbox_c" dialog
+        And I press "Add Session"
+        And I fill in "mmm Test Session" for "3_session_title"
+        And I check "3_session_ilm_checkbox"
+        And I click on the xpath "//*[@id='3_session_ilm_div']//div[@class='calendar_button']"
+        And I set yui calendar "ilios.cm.session.ilm.yuiILMDueDateCalendar" to "1/1/2012"
+        When I press the "Save" button in "multipurpose_session_lightbox_c" dialog
+        When I press "Save All as Draft"
+        When I press the "Yes" button in "ilios_inform_panel" dialog
+        Then I should not see dirty state
+        When I reload the page
+        And I select "Alpha ascending" from "session_ordering_selector"
+        Then I should see "aaa Test Session" in the 1st ".collapsed_summary_text_div" element
+        Then I should see "mmm Test Session" in the 2nd ".collapsed_summary_text_div" element
+        Then I should see "xxx Test Session" in the 3rd ".collapsed_summary_text_div" element
+        When I select "Alpha descending" from "session_ordering_selector"
+        Then I should see "aaa Test Session" in the 3rd ".collapsed_summary_text_div" element
+        Then I should see "mmm Test Session" in the 2nd ".collapsed_summary_text_div" element
+        Then I should see "xxx Test Session" in the 1st ".collapsed_summary_text_div" element
+        When I select "Date ascending" from "session_ordering_selector"
+        Then I should see "xxx Test Session" in the 1st ".collapsed_summary_text_div" element
+        Then I should see "aaa Test Session" in the 2nd ".collapsed_summary_text_div" element
+        Then I should see "mmm Test Session" in the 3rd ".collapsed_summary_text_div" element
+        When I select "Date descending" from "session_ordering_selector"
+        Then I should see "mmm Test Session" in the 1st ".collapsed_summary_text_div" element
+        Then I should see "aaa Test Session" in the 2nd ".collapsed_summary_text_div" element
+        Then I should see "xxx Test Session" in the 3rd ".collapsed_summary_text_div" element

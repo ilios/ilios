@@ -468,6 +468,20 @@ class FeatureContext extends MinkContext
         $this->getSession()->executeScript($script);
     }
 
+   /**
+    * We have to use the JS directly in order to set yui calendar
+    *
+    * @When /^I set yui calendar "([^"]*)" to "([^"]*)"$/
+    *
+    * @param string $objectName the global reference to the YUI calendar object
+    * @param string $date a date time string
+    */
+    public function iSetYUICalendar($objectName, $date)
+    {
+        $script = "{$objectName}.select('{$date}');";
+        $this->getSession()->executeScript($script);
+    }
+
     /**
      * Override the MinkContext::assertPageContainsText in order to add a
      * spin delay to the search
