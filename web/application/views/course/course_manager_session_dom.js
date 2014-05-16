@@ -327,7 +327,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     scratchInput.setAttribute('type', 'checkbox');
     scratchInput.setAttribute('name', 'independent_learning');
     scratchInput.setAttribute('id', ilios.cm.session.generateIdStringForSessionILMCheckbox(containerNumber));
-    Event.addListener(scratchInput, 'click', function () {
+    Event.addListener(scratchInput, 'change', function () {
         ilios.cm.session.sessionILMCheckboxSelected(this, containerNumber);
     });
     i18nStr = ilios_i18nVendor.getI18NString('course_management.session.independent_learning');
