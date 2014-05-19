@@ -327,7 +327,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     scratchInput.setAttribute('type', 'checkbox');
     scratchInput.setAttribute('name', 'independent_learning');
     scratchInput.setAttribute('id', ilios.cm.session.generateIdStringForSessionILMCheckbox(containerNumber));
-    Event.addListener(scratchInput, 'click', function () {
+    Event.addListener(scratchInput, 'change', function () {
         ilios.cm.session.sessionILMCheckboxSelected(this, containerNumber);
     });
     i18nStr = ilios_i18nVendor.getI18NString('course_management.session.independent_learning');
@@ -1052,32 +1052,23 @@ ilios.cm.session.sessionDivComparator = function (div1, div2) {
     var cn1 = div1.getAttribute('cnumber');
     var cn2 = div2.getAttribute('cnumber');
 
-/*
-    if (selectedIndex == 0) {
-        return parseInt(cn1) - parseInt(cn2);
-    } else {
-*/
-        var sm1 = ilios.cm.currentCourseModel.getSessionForContainer(cn1);
-        var sm2 = ilios.cm.currentCourseModel.getSessionForContainer(cn2);
-        var fe1 = null;
-        var fe2 = null;
+    var sm1 = ilios.cm.currentCourseModel.getSessionForContainer(cn1);
+    var sm2 = ilios.cm.currentCourseModel.getSessionForContainer(cn2);
+    var fe1 = null;
+    var fe2 = null;
 
-        switch (selectedIndex) {
-            case 0:
-                return sm1.getTitle().localeCompare(sm2.getTitle());
-            case 1:
-                return sm2.getTitle().localeCompare(sm1.getTitle());
-            case 2:
-                fe1 = sm1.getFirstEventStart();
-                fe2 = sm2.getFirstEventStart();
-                return fe1 - fe2;
-            case 3:
-                fe1 = sm1.getFirstEventStart();
-                fe2 = sm2.getFirstEventStart();
-                return fe2 - fe1;
-        }
-/*
+    switch (selectedIndex) {
+        case 0:
+            return sm1.getTitle().localeCompare(sm2.getTitle());
+        case 1:
+            return sm2.getTitle().localeCompare(sm1.getTitle());
+        case 2:
+            fe1 = sm1.getFirstEventStart();
+            fe2 = sm2.getFirstEventStart();
+            return fe1 - fe2;
+        case 3:
+            fe1 = sm1.getFirstEventStart();
+            fe2 = sm2.getFirstEventStart();
+            return fe2 - fe1;
     }
-    return 0;
-*/
 };
