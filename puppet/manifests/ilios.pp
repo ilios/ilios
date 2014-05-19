@@ -79,6 +79,14 @@ class ilios (
     require => Class['apache::mod::php']
   }
 
+
+  $_phpAdminValues = [
+    'memory_limit 256M',
+    'upload_max_filesize 128M',
+    'post_max_size 128M',
+    'apc.rfc1867 on',
+  ]
+
   apache::vhost { 'iliosdev':
     default_vhost   => true,
     docroot         => $docroot,
@@ -88,6 +96,7 @@ class ilios (
     ssl             => true,
     port            => '443',
     ip              => '*',
+    php_admin_values    => $_phpAdminValues,
     aliases             =>
         {
             alias      => '/phpmyadmin',
@@ -140,6 +149,11 @@ class ilios (
     ensure     => latest,
     require    => Class['::mysql::server']
   }
+
+  package {'php-apc':
+    ensure     => latest
+  }
+
   file {'/etc/phpmyadmin/config.inc.php':
     content => "<?php\n\$cfg['blowfish_secret'] = 'notsecret';\n\$cfg['Servers'][1]['auth_type'] = 'config';\n\$cfg['Servers'][1]['user'] = 'admin';\n\$cfg['Servers'][1]['password'] = 'admin';",
     require => Package['phpmyadmin']
