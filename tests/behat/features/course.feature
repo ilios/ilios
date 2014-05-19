@@ -11,7 +11,7 @@ Feature: Course management
     And I log in as "zero_user" with password "Ch4nge_m3"
     And I create a test program "Test Program"
     And I create a test learner group for class of "2017" in "Test Program"
-    And I go to "/ilios.php/course_management"
+    And I navigate to the "Courses and Sessions" tab
 
   @javascript @insulated
   Scenario: Add Course and Session

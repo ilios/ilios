@@ -100,7 +100,7 @@ before_script:
 # Start Selenium standalone server for Behat tests
   - if [ "$START_LOCAL_SELENIUM" = true ]; then (java -jar ${TRAVIS_BUILD_DIR}/tests/behat/bin/selenium-server.jar -role hub > /dev/null &); fi
   - if [ "$START_LOCAL_SELENIUM" = true ]; then (until netstat -an 2>/dev/null | grep '4444.*LISTEN'; do true; done); fi
-  
+
 #Start Phantom for headless Behat tests / have to sleep for a bit to allow selenium hub to start
   - if [ "$START_LOCAL_SELENIUM" = true ]; then (phantomjs --webdriver=8080 --webdriver-selenium-grid-hub=http://127.0.0.1:4444 --ignore-ssl-errors=true > /dev/null &); fi
   - if [ "$START_LOCAL_SELENIUM" = true ]; then (until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done); fi

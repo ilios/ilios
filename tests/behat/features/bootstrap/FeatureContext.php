@@ -81,13 +81,26 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * Some of the tabs are not navigatable in some test drivers
+     * so these are handled specially.
+     *
      * @When /^I navigate to the "(.*?)" tab$/
      *
      * @param string $tabName
      */
     public function iNavigateToTheTab ($tabName)
     {
-        return new When("I click on the xpath \"//*[@id='topnav']//a[text()[normalize-space(.)='{$tabName}']]\"");
+        switch($tabName){
+            case 'Learner Groups':
+                return new When('I go to "/ilios.php/group_management"');
+                break;
+            case 'Courses and Sessions':
+                return new When('I go to "/ilios.php/course_management"');
+                break;
+            default:
+                return new When("I click on the xpath \"//*[@id='topnav']//a[text()[normalize-space(.)='{$tabName}']]\"");
+        }
+
     }
 
     /**
@@ -575,6 +588,25 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * Checks, that text appears on the page exactly some number of times
+     *
+     * @Then /^I should see (?P<num>\d+) "(?P<text>(?:[^"]|\\")*)" in the "(?P<element>[^"]*)" element$/
+     */
+    public function iShouldSeeCountTextinElement($num, $text, $elementCss)
+    {
+        $element = $this->getSession()->getPage()->find('css', $elementCss);
+        $count = substr_count($element->getText(), $text);
+        if($count != $num){
+            throw new Exception(
+                sprintf(
+                    'Expected to find %s ocurence of "%s" in "%s", but found %s instead',
+                    $num, $text, $elementCss, $count
+                )
+            );
+        }
+    }
+
+    /**
      * Create a test program for use in other features
      *
      * @todo - eventually this should be done by directly interacting with the DB
@@ -585,6 +617,19 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestProgram($programName)
     {
+        $this->visit('/ilios.php/program_management');
+        $this->clickLink('Search');
+        $this->fillField('program_search_terms', $programName);
+        $this->iClickOnTheXpath('//*[@id="program_search_picker"]//span[@class="search_icon_button"]');
+        sleep(2);
+        $searchResult = $this->getSession()->getPage()->find(
+            'xpath',
+            "//*[@id='program_search_results_list']/li/span[normalize-space(text()) = '{$programName}']"
+        );
+        if(!is_null($searchResult)){
+            return true;
+        }
+
         $shortProgramName = substr(strtolower(str_replace(' ', '', $programName)),0,10);
         return array(
             new When('I navigate to the "Programs" tab'),
@@ -645,6 +690,81 @@ class FeatureContext extends MinkContext
             new Then('I should see "Default Group Number 1"')
         );
     }
+
+    /**
+     * Delete any existing learner groups in a program
+     *
+     * @todo - eventually this should be done by directly interacting with the DB
+     * or models, for now just step through the process.
+     * @Given /^I clear all learner groups in the "([^"]*)" "([^"]*)" program$/
+     *
+     * @param string $classYear
+     * @param string $programName
+     */
+    public function iClearAllLearnerGroupsInTheProgram($classYear, $programName)
+    {
+        $this->visit('/ilios.php/group_management');
+        $this->clickLink('Select Program and Cohort');
+        $this->iExpandTreePickerListInDialog($programName, 'cohort_pick_dialog_c');
+        $this->iClickTreePickerItemInDialog("Class of {$classYear}", 'cohort_pick_dialog_c');
+        $this->iWaitForToBeVisible('program_cohort_title');
+        while($link = $this->getSession()->getPage()->find(
+            'xpath',
+            "//*[@id='group_container']//div[contains(@class,'delete_widget')]"
+        )){
+                if($link->isVisible()){
+                    $link->click();
+                    $this->iPressTheButtonInDialog('Yes', 'ilios_inform_panel');
+                    sleep(1); //prevent clicking the same link a few times
+                }
+        }
+    }
+
+    /**
+     * Add new learners to a group, if they already exist thats ok.
+     *
+     * @Given /^the following learners exist in the "([^"]*)" "([^"]*)" program:$/
+     *
+     * @param string $classYear
+     * @param string $programName
+     * @param TableNode $learners
+     */
+    public function givenTheFollowingLearnersExistInTheProgram($classYear, $programName, TableNode $learners)
+    {
+        $this->visit('/ilios.php/group_management');
+        $this->clickLink('Select Program and Cohort');
+        $this->iExpandTreePickerListInDialog($programName, 'cohort_pick_dialog_c');
+        $this->iClickTreePickerItemInDialog("Class of {$classYear}", 'cohort_pick_dialog_c');
+        foreach($learners->getHash() as $learner){
+            $this->pressButton('Add New Members to Cohort');
+            $this->fillField('em_first_name', $learner['first']);
+            $this->fillField('em_last_name', $learner['last']);
+            $this->fillField('em_email', $learner['email']);
+            $this->fillField('em_uc_id', $learner['ucid']);
+            $this->pressButton("Add User");
+            do{
+                $done = true;
+                $transactionStatus = $this->getSession()->getPage()->find(
+                    'xpath',
+                    '//*[@id="em_transaction_status" and contains(., "User has been added")]'
+                );
+                if ($transactionStatus === null) {
+                    $done = false;
+                    $alert = $this->getSession()->getPage()->find(
+                        'xpath',
+                        '//*[@id="ilios_alert_panel"]'
+                    );
+                    if(!is_null($alert) && $alert->isVisible()){
+                        $this->iPressTheButtonInDialog('Ok', 'ilios_alert_panel');
+                        $done = true;
+                    }
+                }
+            } while(!$done);
+            $this->iPressTheButtonInDialog('Done', 'add_new_members_dialog');
+        }
+
+    }
+
     /**
      * @AfterScenario
      *
