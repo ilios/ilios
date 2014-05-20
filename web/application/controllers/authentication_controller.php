@@ -218,7 +218,14 @@ class Authentication_Controller extends Ilios_Base_Controller
         $shibbUserIdAttribute = $this->config->item('ilios_authentication_shibboleth_user_id_attribute');
         $shibUserId = array_key_exists($shibbUserIdAttribute, $_SERVER) ? $_SERVER[$shibbUserIdAttribute] : null; // passed in by Shibboleth
         if (! empty($shibUserId)) {
-            $emailAddress = $shibUserId;
+            /**
+             * Some schools release the 'mail' attribute twice, urn:mace:dir:attribute-def:mail (SAML1) AND
+             * urn:oid:0.9.2342.19200300.100.1.3 (SAML2), as one string of two email addresses separated by a semi-
+             * colon.  They should always be the same value so, to account for this, explode the returned value on the
+             * semicolon and just use the first one...
+             */
+            $mailAttributes = explode(';',$shibUserId);
+            $emailAddress = $mailAttributes[0];
         }
 
 
