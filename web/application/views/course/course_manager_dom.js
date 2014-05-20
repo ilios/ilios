@@ -303,11 +303,23 @@ ilios.cm.registerSaveAndPublishAll = function () {
     var continueStr = ilios_i18nVendor.getI18NString('general.phrases.want_to_continue');
     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
 
+    // Event.addListener(element, 'click', function () {
+    //     ilios.alert.inform('<p style="margin-bottom:9px; text-align:justify;">'
+    //         + saveAllStr + ':</p><center><b>' + continueStr
+    //         + '</b></center>',
+    //         yesStr, ilios.cm.transaction.saveAllDirty);
+    // });
+
+    //temprarily disalbed the dialog while #609 is un-resolved
+    var disabledString = 'Please save each course and session individually; ' +
+        'this feature has been temporarily disabled for security purposes. ' +
+        'If you need assistance, please contact your Ilios Help Desk.';
+    element.title = disabledString;
     Event.addListener(element, 'click', function () {
-        ilios.alert.inform('<p style="margin-bottom:9px; text-align:justify;">'
-            + saveAllStr + ':</p><center><b>' + continueStr
-            + '</b></center>',
-            yesStr, ilios.cm.transaction.saveAllDirty);
+        ilios.alert.alert(
+            '<p style="margin-bottom:9px; text-align:justify;">' +
+            disabledString
+        );
     });
 
     element = document.getElementById('publish_all');
@@ -449,8 +461,8 @@ ilios.cm.courseLoader = function (courseModelStub) {
                                              document.getElementById('show_more_or_less_link'));
     }
 
-    element = document.getElementById('save_all_dirty_to_draft');
-    ilios.dom.setElementEnabled(element, true);
+    //element = document.getElementById('save_all_dirty_to_draft');
+    // ilios.dom.setElementEnabled(element, true);
 
     ilios.cm.updatePublishAllUI();
 

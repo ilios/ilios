@@ -736,8 +736,8 @@ class FeatureContext extends MinkContext
     public function iCreateATestLearnerGroupIn($classYear, $programName)
     {
         $table = new Behat\Gherkin\Node\TableNode(
-        "\n| first  | last  | email | ucid |" .
-        "\n| Test   | Student | first@example.com | 123456 |"
+        "| first  | last  | email | ucid |\n" .
+        "| Test   | Student | first@example.com | 123456 |"
         );
         return array(
             new Given('the following learners exist in the "' . $classYear . '" "' . $programName . '" program:', $table),
@@ -775,8 +775,7 @@ class FeatureContext extends MinkContext
             new When('I expand "' . $programName . '" tree picker list in "cohort_pick_dialog_c" dialog'),
             new When('I click "Class of ' . $cohortYear . '" tree picker item in "cohort_pick_dialog_c" dialog'),
             new When('I press the "Done" button in "cohort_pick_dialog_c" dialog'),
-            new When('I press "Save All as Draft"'),
-            new When('I press the "Yes" button in "ilios_inform_panel" dialog')
+            new When('I press "draft_button"'),
         );
     }
 

@@ -111,15 +111,15 @@ Feature: Course management
     And I click on the xpath "//*[@id='eco_parent_objectives_div']//div[contains(., '(Inquiry and Discovery)')]/div/input"
     And I press the "Done" button in "edit_course_objective_dialog_c" dialog
 
+    When I press "draft_button"
+    Then I should not see dirty state
+
     ##Now do all the same stuff for a session
     When I press "Add Session"
     And I fill in "Test Session" for "1_session_title"
-    Then I should see dirty state
-    When I press "Save All as Draft"
-    Then I should see "This action will save all work in progress as DRAFT form"
-    When I press the "Yes" button in "ilios_inform_panel" dialog
-    Then I should not see dirty state
 
+    When I press "1_child_save"
+    Then I should not see dirty state
     #add offering by group
     When I press "Create Offerings by Group"
     And I follow "Select Groups"
@@ -185,12 +185,6 @@ Feature: Course management
     And I click on the xpath "//*[@id='eso_parent_objectives_div']//div[contains(., 'Test course objective 2')]/div/input"
     And I press the "Done" button in "edit_session_objective_dialog" dialog
 
-    Then I should see dirty state
-    And I press "Save All as Draft"
-    Then I should see "This action will save all work in progress as DRAFT form"
-    When I press the "Yes" button in "ilios_inform_panel" dialog
-    Then I should not see dirty state
-
     When I press "Publish All"
     And I press the "Yes" button in "ilios_inform_panel" dialog
     Then I should see "Published" in the "#course_form" element
@@ -202,12 +196,15 @@ Feature: Course management
       Then I should see "Test Session Sort"
       When I press "Add Session"
       And I fill in "xxx Test Session" for "1_session_title"
+      When I press "1_child_save"
+      Then I should not see dirty state
       And I press "Add Session"
       And I fill in "aaa Test Session" for "2_session_title"
+      When I press "2_child_save"
+      Then I should not see dirty state
       And I press "Add Session"
       And I fill in "mmm Test Session" for "3_session_title"
-      When I press "Save All as Draft"
-      When I press the "Yes" button in "ilios_inform_panel" dialog
+      When I press "3_child_save"
       Then I should not see dirty state
       When I press "1_session_offerings_link"
       Then I should see "Course: Test Session Sort - Session: xxx Test Session"
@@ -254,20 +251,23 @@ Feature: Course management
         And I click on the xpath "//*[@id='1_session_ilm_div']//div[@class='calendar_button']"
         And I set yui calendar "ilios.cm.session.ilm.yuiILMDueDateCalendar" to "1/1/2010"
         When I press the "Save" button in "multipurpose_session_lightbox_c" dialog
+        And I press "1_child_save"
+        Then I should not see dirty state
         And I press "Add Session"
         And I fill in "aaa Test Session" for "2_session_title"
         And I check "2_session_ilm_checkbox"
         And I click on the xpath "//*[@id='2_session_ilm_div']//div[@class='calendar_button']"
         And I set yui calendar "ilios.cm.session.ilm.yuiILMDueDateCalendar" to "1/1/2011"
         When I press the "Save" button in "multipurpose_session_lightbox_c" dialog
+        And I press "2_child_save"
+        Then I should not see dirty state
         And I press "Add Session"
         And I fill in "mmm Test Session" for "3_session_title"
         And I check "3_session_ilm_checkbox"
         And I click on the xpath "//*[@id='3_session_ilm_div']//div[@class='calendar_button']"
         And I set yui calendar "ilios.cm.session.ilm.yuiILMDueDateCalendar" to "1/1/2012"
         When I press the "Save" button in "multipurpose_session_lightbox_c" dialog
-        When I press "Save All as Draft"
-        When I press the "Yes" button in "ilios_inform_panel" dialog
+        And I press "3_child_save"
         Then I should not see dirty state
         When I reload the page
         And I select "Alpha ascending" from "session_ordering_selector"
