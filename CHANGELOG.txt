@@ -1,10 +1,24 @@
 ------- VERSION CHANGES --------
 
-Version 2.4.2-prerelease
+Version 2.4.2
 
+Bug Fixes:
+ 
+Issue #475: ILM sessions now sort correctly by date.
+Issue #610: Temporarily disabled 'Save All as Draft' button in Course/Session Manager to ensure data security/integrity until underlying issues are resolved.
+Issue #614: Added handling for semicolon-separated values returned by Shibboleth 'mail' attribute to support IDp's that provide the values for both SAML1 and SAML2-named attributes concurrently in the same field 
+ 
 Feature Changes:
-
-Issue #549: Remove deepCloneAssociativeArray() function completely
+ 
+Issue #424: Added script to automate regular dump of audit information to logfile instead of db
+Issue #595: Added ability to customize calendar scheduler time-step increments in configuration file
+ 
+Code Quality and Development:
+ 
+Issue #462: Increased specificity of user input (GET vs. POST)
+Issue #549: Removed deepCloneAssociativeArray() function completely
+Issue #557: Added 'CONTRIBUTING.md' file to assist new developers
+Issue #568: Reverted default 'publicly accessible' port-forwarding setting in the Vagrant configuration
 
 ---
 
