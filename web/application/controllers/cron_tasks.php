@@ -563,7 +563,7 @@ class Cron_Tasks extends Ilios_Base_Controller
     /**
      * This method works with the audit trail to prune old data from the
      * database and dump audit trail information into log files
-     * 
+     *
      * @param array $config
      */
     protected function _processAuditLog (array $config)
@@ -595,11 +595,12 @@ class Cron_Tasks extends Ilios_Base_Controller
         } catch (Ilios_Log_Exception $e) {
             error_log($e->getMessage());
             return false;
-        } 
+        }
     }
-    
+
     /**
      * This method writes a date bounded portion of the audit trail to disk
+     *
      * @param string $message
      * @param string $from
      * @param sting $to
@@ -607,20 +608,32 @@ class Cron_Tasks extends Ilios_Base_Controller
      */
     protected function _dumpAuditLogsToDisk ($message, $from, $to, Ilios_Logger $logger)
     {
-        $events = $this->auditAtom->getAuditEvents($from, $to);
-        if(count($events)){
-            $lines = array();
-            $lines[] = $message;
-            $lines[] = '------------------------------------';
+        $total = $this->auditAtom->getCountOfResultsForRange(
+            new DateTime($from, new DateTimeZone('UTC')),
+            new DateTime($to, new DateTimeZone('UTC'))
+        );
+        if($total){
+            $logger->info($message);
+            $logger->info('------------------------------------');
+        }
+        $offset = 0;
+        $count = 0;
+        $limit = 25000;
+        while ($count < $total){
+            $events = $this->auditAtom->getAuditEvents($from, $to, $limit, $offset);
             foreach($events as $event){
-                $lines[] = "at {$event['created_at']} {$event['first_name']} "
+                $count++;
+                $str = "at {$event['created_at']} {$event['first_name']} "
                 . "{$event['last_name']} #{$event['created_by']} "
                 . "{$event['nice_event_type']} the {$event['table_column']} column "
                 . "on row {$event['table_row_id']} of the {$event['table_name']} table";
+                $logger->info($str);
             }
-            $lines[] = 'Total events: ' . count($events);
-            $lines[] = '---End audit logs output------------';
-            $logger->info(implode("\n", $lines));
+            $offset += $limit;
+        }
+        if($total){
+            $logger->info('Total events: ' . $total);
+            $logger->info('---End audit logs output------------');
         }
     }
 }

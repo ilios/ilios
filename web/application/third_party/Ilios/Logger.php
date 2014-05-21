@@ -216,7 +216,7 @@ class Ilios_Logger
     {
         $this->log($message, $processId, $indentationLevel, self::LOG_LEVEL_DEBUG);
     }
-    
+
     /**
      * Rotate and compress the log file if it has grown large enough
      */
@@ -224,24 +224,34 @@ class Ilios_Logger
     {
         fflush($this->_logFileHandle);
         if(filesize($this->_logFilePath) > self::LOG_FILE_ROTATE_SIZE){
-            $fileContents = file_get_contents($this->_logFilePath);
-            ftruncate($this->_logFileHandle, 0);
-            rewind($this->_logFileHandle);
             $now = new DateTime('now', new DateTimeZone('UTC'));
             $pathParts = pathinfo($this->_logFilePath);
-            
-            $newPath = $pathParts['dirname'] . DIRECTORY_SEPARATOR . 
-                       $pathParts['filename'] . '-' . 
+
+            $newPath = $pathParts['dirname'] . DIRECTORY_SEPARATOR .
+                       $pathParts['filename'] . '-' .
                        $now->format('Y-m-d');
             $newPath .= array_key_exists('extension', $pathParts)?'.' . $pathParts['extension']:'';
-            $newPath .= '.gz';
-            //just in case we rotate more than once a day
-            if(file_exists($newPath)){
-                //easier than trying something incremental since this wont ever happen
-                $newPath .= uniqid();
+
+            //ensure we don't overwirte an existing file
+            $i = 1;
+            while(file_exists($newPath . '.gz')){
+                $newPath .= '-' . $i;
+                $i++;
             }
-            file_put_contents("compress.zlib://$newPath", $fileContents);
-            
+            $newPath .= '.gz';
+
+            if ($fout = gzopen($newPath, 'wb9')) {
+                if ($fin = fopen($this->_logFilePath,'r')) {
+                    while (!feof($fin)){
+                        gzwrite($fout, fread($fin, 1024 * 512));
+                    }
+                    fclose($fin);
+                }
+                gzclose($fout);
+            }
+
+            ftruncate($this->_logFileHandle, 0);
+            rewind($this->_logFileHandle);
             return $newPath;
         }
 

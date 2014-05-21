@@ -53,20 +53,30 @@ class Audit_Atom extends Ilios_Base_Model
      * Retrieves audit events
      * @param string $from
      * @param string $to
+     * @param integer $limit maximum results to fetch
+     * @param integer $offset where to start counting the maximum results
      * @return array a nested array of events
      */
-    public function getAuditEvents ($from = false, $to = false)
+    public function getAuditEvents ($from = false, $to = false, $limit = false, $offset = false)
     {
         $events = array();
         $fromTimeStamp = new DateTime($from?$from:'0000-00-00', new DateTimeZone('UTC'));
         $toTimeStamp = new DateTime($to?$to:'now', new DateTimeZone('UTC'));
-        
+
         $this->db->select('*');
         $this->db->from($this->getTableName());
         $this->db->join('user', $this->getTableName() . '.created_by = user.user_id', 'left');
         $this->db->where('created_at >', $fromTimeStamp->format('c'));
         $this->db->where('created_at <', $toTimeStamp->format('c'));
-        $this->db->order_by("created_at", "asc");
+        //since events are inserted by date we can order them by id
+        $this->db->order_by("audit_atom_id", "asc");
+        if($limit){
+            if($offset){
+                $this->db->limit($limit, $offset);
+            } else {
+                $this->db->limit($limit);
+            }
+        }
 
         $query = $this->db->get();
         foreach ($query->result_array() as $row) {
@@ -74,24 +84,67 @@ class Audit_Atom extends Ilios_Base_Model
             $events[] = $row;
         }
         $query->free_result();
+
         return $events;
     }
 
     /**
+     * Count the number of events between two dates
+     * @param DateTime $from
+     * @param DateTime $to
+     * @return integer
+     */
+    public function getCountOfResultsForRange(DateTime $from, DateTime $to)
+    {
+        $this->db->select('count(audit_atom_id) as count');
+        $this->db->from($this->getTableName());
+        $this->db->where('created_at >', $from->format('c'));
+        $this->db->where('created_at <', $to->format('c'));
+        $query = $this->db->get();
+        $row = $query->row_array();
+        $count = $row['count'];
+        $query->free_result();
+
+        return $count;
+    }
+
+    /**
      * Remove old audit events
+     * This table can be quite large so first we get an indexed ID value and then
+     * break the delete up into much smaller peices so it doesn't lock the table for
+     * hours on end.
+     *
      * @param string $to
      * @return array a nested array of events
      */
     public function removeEventsOlderThan ($to)
     {
-        $events = array();
         $toTimeStamp = new DateTime($to, new DateTimeZone('UTC'));
+        $this->db->select('audit_atom_id');
+        $this->db->from($this->getTableName());
         $this->db->where('created_at <', $toTimeStamp->format('c'));
+        $this->db->order_by("audit_atom_id", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get();
+        $row = $query->row_array();
+        if(empty($row)){
+            return 0;
+        }
 
-        $query = $this->db->delete($this->getTableName());
-        return $this->db->affected_rows();
+        $maximumId = $row['audit_atom_id'];
+        $query->free_result();
+        $totalRowsDeleted = 0;
+        do{
+            $start = time();
+            $this->db->where('audit_atom_id <=', $maximumId);
+            $this->db->limit(100000);
+            $this->db->delete($this->getTableName());
+            $totalRowsDeleted += $this->db->affected_rows();
+        } while ($this->db->affected_rows() > 0);
+
+        return $totalRowsDeleted;
     }
-    
+
     protected function _niceEventType($type)
     {
         switch($type){
