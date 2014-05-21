@@ -28,7 +28,7 @@ class Course_Management extends Ilios_Web_Controller
      * Expects the following GET parameters:
      *     'course_id' ... the course identifier
      *
-      * Expects the following POST parameters:
+      * Expects the following GET or POST parameters:
       *     'session_id' ... the session identifier
      */
     public function index ()
@@ -49,7 +49,7 @@ class Course_Management extends Ilios_Web_Controller
         $courseId = $this->input->get('course_id');
         if ($courseId != '') {
             $data['course_id'] = $courseId;
-            $data['session_id'] = $this->input->post('session_id');
+            $data['session_id'] = $this->input->get_post('session_id');
             if ($data['session_id'] == '') {
                 $data['session_id'] = -1;
             }
