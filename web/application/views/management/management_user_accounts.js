@@ -1736,7 +1736,7 @@ ilios.management.user_accounts.checkUserData = function () {
     }
 
     element = document.getElementById('ua_uc_id_tf');
-    if ((element != null) && (YAHOO.lang.trim(element.value).length != 9)) {
+    if ((element != null) && (YAHOO.lang.trim(element.value).length < 3) || (YAHOO.lang.trim(element.value).length > 9)) {
         divsToStyle.push('ua_uc_id_tf');
         divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.uc_id'));
     }
