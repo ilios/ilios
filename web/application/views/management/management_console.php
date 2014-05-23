@@ -71,6 +71,10 @@ $viewsPath = getServerFilePath('views');
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "management/management_dom.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "management/management_permissions.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "management/management_transaction.js"); ?>"></script>
+    <?php
+    //add the uid options, as set in the ilios.php config file
+    include_once $viewsPath . 'management/set_uid_options.inc.php';
+    ?>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "management/management_user_accounts.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "management/permission_model.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "management/program_cohort_dom.js"); ?>"></script>
