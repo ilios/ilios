@@ -518,8 +518,10 @@ class Group_Management extends Ilios_Web_Controller
 
             //get the file contents in order to check that the file is UTF8-encoded...
             $uploadDataContents = file_get_contents($uploadData['full_path']);
-            //get the encoding-type
-            $encoding = mb_detect_encoding($uploadDataContents);
+            //get the encoding-type - explicitly enforce UTF-8 at the top of the detect-order as
+            //UTF-8 contents will return successfully as 'ASCII' if that is set as the priority
+            //by default for 'mbstring.detect_order' in any of PHP_INI_ALL
+            $encoding = mb_detect_encoding($uploadDataContents, 'UTF-8');
 
             //if the file is not UTF-8...
             if ($encoding != 'UTF-8') {
