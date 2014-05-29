@@ -9,6 +9,11 @@ default:
             selenium2:
                     capabilities: { "browser": "firefox", "version": "14" }
             saucelabs: ~
+    context:
+        parameters :
+            database_dsn: "mysql:host=localhost;dbname=ilios"
+            database_user : "ilios_user"
+            database_password: "ilios_pass"
 
 # Use this profile for running tests with JS-dependencies in a headless browser.
 phantomjs:
@@ -24,6 +29,11 @@ vagrant:
             base_url: https://localhost:8443
             selenium2:
                 wd_host:    "http://localhost:8080/wd/hub"
+    context:
+        parameters :
+            database_dsn: "mysql:host=10.10.10.10;dbname=ilios"
+            database_user : "vagrant"
+            database_password: null
 
 # Use this profile to run tests in Firefox against the Ilios instance created by Vagrant.
 vagrantselenium:
@@ -33,3 +43,8 @@ vagrantselenium:
           default_session: selenium2
           selenium2:
               wd_host:    "http://localhost:5555/wd/hub"
+    context:
+        parameters :
+            database_dsn: "mysql:host=10.10.10.10;dbname=ilios"
+            database_user : "vagrant"
+            database_password: null

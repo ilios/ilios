@@ -23,7 +23,7 @@ class ilios (
       ensure        => 'present',
       password_hash => mysql_password('admin'),
     },
-    'vagrant@localhost' => {
+    'vagrant@%' => {
       ensure        => 'present'
     },
     "${dbuser}@localhost" => {
@@ -32,12 +32,12 @@ class ilios (
     },
   }
   $grants = {
-    'vagrant@localhost/*.*' => {
+    'vagrant/*.*' => {
         ensure     => 'present',
         options    => ['GRANT', 'WITH GRANT OPTION'],
         privileges => ['ALL'],
         table      => '*.*',
-        user       => 'vagrant@localhost',
+        user       => 'vagrant@%',
     },
     'admin@localhost/*.*' => {
       ensure     => 'present',
@@ -55,9 +55,11 @@ class ilios (
     },
   }
   class { '::mysql::server':
-    users    => $users,
-    grants  => $grants
+    users            => $users,
+    grants           => $grants,
+    override_options => { 'mysqld' => { 'bind_address' => '0.0.0.0' } }
   }
+
   class { '::mysql::bindings':
     php_enable    => true
   }
