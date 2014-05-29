@@ -18,10 +18,15 @@ use Behat\MinkExtension\Context\MinkContext;
 class FeatureContext extends MinkContext
 {
     /**
-     * @var PDO connection to database
+     * @var array configuration parameters
      *
      */
-    protected $db;
+    protected $params;
+
+    /**
+     * @var \PDO database connection
+     */
+    protected static $databaseConnection;
 
     /**
      * Override the constructor to get access to the configuration params
@@ -29,8 +34,28 @@ class FeatureContext extends MinkContext
      */
     public function __construct(array $arr)
     {
-        $this->db = new PDO($arr['database_dsn'], $arr['database_user'], $arr['database_password']);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->params = $arr;
+    }
+
+    /**
+     * Create and get a connection to the databse
+     * store it statically because this class gets instantiated on every
+     * feature
+     *
+     * @return \PDO
+     */
+    protected function getDbConnection()
+    {
+        if(is_null(self::$databaseConnection)){
+            self::$databaseConnection = new PDO(
+                $this->params['database_dsn'],
+                $this->params['database_user'],
+                $this->params['database_password']
+            );
+            self::$databaseConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+
+        return self::$databaseConnection;
     }
 
     /**
@@ -382,7 +407,7 @@ class FeatureContext extends MinkContext
         $sql = 'INSERT INTO permission (user_id, table_row_id, table_name, can_read, can_write) VAlUES (' .
             '(SELECT user_id FROM user WHERE email=?),' .
             '(SELECT school_id from school WHERE title=?),"school",1,1)';
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->getDbConnection()->prepare($sql);
         $stmt->execute(array($email, $school));
     }
 
@@ -402,7 +427,7 @@ class FeatureContext extends MinkContext
             '(SELECT user_id FROM user WHERE email=?) AND ' .
             'table_name = "school" AND ' .
             'table_row_id =(SELECT school_id from school WHERE title=?)';
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->getDbConnection()->prepare($sql);
         if ($stmt->execute(array($email, $school))) {
             return $stmt->rowCount() > 0;
         }
@@ -665,50 +690,51 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestProgram($programName)
     {
+        $db = $this->getDbConnection();
         try{
-            $stmt = $this->db->prepare('SELECT program_id FROM program WHERE title = ?');
+            $stmt = $db->prepare('SELECT program_id FROM program WHERE title = ?');
             if ($stmt->execute(array($programName)) and $stmt->rowCount()) {
               return true;
             }
 
             $shortProgramName = substr(strtolower(str_replace(' ', '', $programName)),0,10);
-            $this->db->beginTransaction();
-            $programStmt = $this->db->prepare('INSERT INTO program (title, short_title, duration, owning_school_id) VALUES (?,?,4,1)');
+            $db->beginTransaction();
+            $programStmt = $db->prepare('INSERT INTO program (title, short_title, duration, owning_school_id) VALUES (?,?,4,1)');
             $programStmt->execute(array($programName, $shortProgramName));
-            $programId = $this->db->lastInsertId();
-            $programYearStmt = $this->db->prepare('INSERT INTO program_year (start_year, program_id) VALUES ("2013",?)');
+            $programId = $db->lastInsertId();
+            $programYearStmt = $db->prepare('INSERT INTO program_year (start_year, program_id) VALUES ("2013",?)');
             $programYearStmt->execute(array($programId));
-            $programYearId = $this->db->lastInsertId();
+            $programYearId = $db->lastInsertId();
 
-            $cohortStmt = $this->db->prepare('INSERT INTO cohort (title, program_year_id) VALUES (?,?)');
+            $cohortStmt = $db->prepare('INSERT INTO cohort (title, program_year_id) VALUES (?,?)');
             $cohortStmt->execute(array('Class of 2017', $programYearId));
 
-            $publishStmt = $this->db->prepare('INSERT INTO publish_event (administrator_id, machine_ip, table_name, table_row_id) VALUES (1,"10.10.10.10",?,?)');
+            $publishStmt = $db->prepare('INSERT INTO publish_event (administrator_id, machine_ip, table_name, table_row_id) VALUES (1,"10.10.10.10",?,?)');
             $publishStmt->execute(array('program', $programId));
-            $programPublishEventId = $this->db->lastInsertId();
+            $programPublishEventId = $db->lastInsertId();
             $publishStmt->execute(array('program_year', $programYearId));
-            $programYearPublishEventId = $this->db->lastInsertId();
+            $programYearPublishEventId = $db->lastInsertId();
 
-            $this->db->exec("UPDATE program SET publish_event_id = {$programPublishEventId} WHERE program_id = {$programId}");
-            $this->db->exec("UPDATE program_year SET publish_event_id = {$programYearPublishEventId} WHERE program_year_id = {$programYearId}");
+            $db->exec("UPDATE program SET publish_event_id = {$programPublishEventId} WHERE program_id = {$programId}");
+            $db->exec("UPDATE program_year SET publish_event_id = {$programYearPublishEventId} WHERE program_year_id = {$programYearId}");
 
-            $competencyStmt = $this->db->prepare('INSERT INTO program_year_x_competency (program_year_id, competency_id) VALUES (?,?)');
+            $competencyStmt = $db->prepare('INSERT INTO program_year_x_competency (program_year_id, competency_id) VALUES (?,?)');
             $competencyStmt->execute(array($programYearId, 51));
             $competencyStmt->execute(array($programYearId, 52));
 
-            $objectiveStmt = $this->db->prepare('INSERT INTO objective (title, competency_id) VALUES (?,?)');
+            $objectiveStmt = $db->prepare('INSERT INTO objective (title, competency_id) VALUES (?,?)');
             $objectiveStmt->execute(array("{$programName} objective 1", 51));
-            $objective1Id = $this->db->lastInsertId();
+            $objective1Id = $db->lastInsertId();
             $objectiveStmt->execute(array("{$programName} objective 2", 52));
-            $objective2Id = $this->db->lastInsertId();
+            $objective2Id = $db->lastInsertId();
 
-            $objectiveStmt = $this->db->prepare('INSERT INTO program_year_x_objective (program_year_id, objective_id) VALUES (?,?)');
+            $objectiveStmt = $db->prepare('INSERT INTO program_year_x_objective (program_year_id, objective_id) VALUES (?,?)');
             $objectiveStmt->execute(array($programYearId, $objective1Id));
             $objectiveStmt->execute(array($programYearId, $objective2Id));
 
-            $this->db->commit();
+            $db->commit();
         } catch (Exception $e) {
-          $this->db->rollBack();
+          $db->rollBack();
           throw $e;
         }
     }
@@ -731,23 +757,24 @@ class FeatureContext extends MinkContext
         "| first  | last  | email | ucid |\n" .
         "| Test   | Student | {$userEmail} | 123456 |"
         );
+        $db = $this->getDbConnection();
         $this->givenTheFollowingLearnersExistInTheProgram($classYear,$programName, $table);
         try{
-            $this->db->beginTransaction();
-            $createGroupStmt = $this->db->prepare('INSERT INTO `group` (title,cohort_id) VALUES (?,?)');
+            $db->beginTransaction();
+            $createGroupStmt = $db->prepare('INSERT INTO `group` (title,cohort_id) VALUES (?,?)');
             $arr = $this->getProgramAndCohort($classYear, $programName);
-            $stmt = $this->db->prepare('SELECT group_id FROM `group` WHERE title = ? AND cohort_id =?');
+            $stmt = $db->prepare('SELECT group_id FROM `group` WHERE title = ? AND cohort_id =?');
             if (!$stmt->execute(array($groupTitle, $arr['cohort_id'])) OR !$groupId = $stmt->fetchColumn()) {
               $createGroupStmt->execute(array($groupTitle, $arr['cohort_id']));
-              $groupId = $this->db->lastInsertId();
+              $groupId = $db->lastInsertId();
             }
             $sql = 'INSERT IGNORE INTO group_x_user (group_id, user_id) VALUES (?,' .
                 '(SELECT user_id FROM user WHERE email = ?))';
-            $userInGroupStmt = $this->db->prepare($sql);
+            $userInGroupStmt = $db->prepare($sql);
             $userInGroupStmt->execute(array($groupId, $userEmail));
-            $this->db->commit();
+            $db->commit();
         } catch (Exception $e) {
-          $this->db->rollBack();
+          $db->rollBack();
           throw $e;
         }
     }
@@ -765,21 +792,22 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestCourseForClassOfIn($courseName, $cohortYear, $programName)
     {
+        $db = $this->getDbConnection();
         try{
-            $this->db->beginTransaction();
+            $db->beginTransaction();
             $sql = 'INSERT INTO course (title,year, start_date, end_date, owning_school_id) ' .
                 'VALUES (?,"2013", "2013-09-01","2013-12-31", 1)';
-            $createCourseStmt = $this->db->prepare($sql);
+            $createCourseStmt = $db->prepare($sql);
             $createCourseStmt->execute(array($courseName));
-            $courseId = $this->db->lastInsertId();
+            $courseId = $db->lastInsertId();
 
             $sql = 'INSERT INTO course_x_cohort (course_id, cohort_id) VALUES (?,?)';
-            $courseCohortStmt = $this->db->prepare($sql);
+            $courseCohortStmt = $db->prepare($sql);
             $arr = $this->getProgramAndCohort($cohortYear, $programName);
             $courseCohortStmt->execute(array($courseId, $arr['cohort_id']));
-            $this->db->commit();
+            $db->commit();
         } catch (Exception $e) {
-          $this->db->rollBack();
+          $db->rollBack();
           throw $e;
         }
         return new When('I go to "/ilios.php/course_management?course_id=' . $courseId . '"');
@@ -798,15 +826,16 @@ class FeatureContext extends MinkContext
      */
     public function iClearAllLearnerGroupsInTheProgram($classYear, $programName)
     {
+        $db = $this->getDbConnection();
         try{
-            $this->db->beginTransaction();
+            $db->beginTransaction();
             $sql = 'DELETE FROM `group` WHERE group_id=?';
-            $deleteGroupStmt = $this->db->prepare($sql);
+            $deleteGroupStmt = $db->prepare($sql);
             $sql = 'DELETE FROM group_x_user WHERE group_id=?';
-            $deleteUserGroupStmt = $this->db->prepare($sql);
+            $deleteUserGroupStmt = $db->prepare($sql);
             $arr = $this->getProgramAndCohort($classYear, $programName);
             $sql = 'SELECT group_id FROM `group` WHERE cohort_id=?';
-            $stmt = $this->db->prepare($sql);
+            $stmt = $db->prepare($sql);
             if ($stmt->execute(array($arr['cohort_id']))) {
                 while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
                  $groupId = $row[0];
@@ -820,9 +849,9 @@ class FeatureContext extends MinkContext
                   $deleteGroupStmt->execute(array($groupId));
                 }
             }
-            $this->db->commit();
+            $db->commit();
         } catch (Exception $e) {
-          $this->db->rollBack();
+          $db->rollBack();
           throw $e;
         }
 
@@ -833,7 +862,7 @@ class FeatureContext extends MinkContext
     {
         $arr = array();
         $sql = 'SELECT group_id FROM `group` WHERE parent_group_id = ?';
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->getDbConnection()->prepare($sql);
         if ($stmt->execute(array($groupId))) {
             while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
               $arr[] = $row[0];
@@ -855,22 +884,23 @@ class FeatureContext extends MinkContext
      */
     public function givenTheFollowingLearnersExistInTheProgram($classYear, $programName, TableNode $learners)
     {
+        $db = $this->getDbConnection();
         try{
-            $this->db->beginTransaction();
+            $db->beginTransaction();
             $sql = 'SELECT * FROM user u LEFT JOIN ' .
                 'user_x_cohort uxc ON u.user_id = uxc.user_id LEFT JOIN ' .
                 'cohort c ON uxc.cohort_id = c.cohort_id LEFT JOIN ' .
                 'program_year py ON c.program_year_id= py.program_year_id LEFT JOIN ' .
                 'program p ON py.program_id = p.program_id ' .
                 'WHERE u.email = ?';
-            $findUserStmt = $this->db->prepare($sql);
+            $findUserStmt = $db->prepare($sql);
 
             $sql = 'INSERT INTO user (last_name, first_name, email, uc_uid, ' .
                 'primary_school_id, middle_name) values (?,?,?,?,1,"")';
-            $addUserStmt = $this->db->prepare($sql);
+            $addUserStmt = $db->prepare($sql);
 
-            $userCohortStmt = $this->db->prepare('INSERT INTO user_x_cohort (user_id, cohort_id, is_primary) values (?,?,1)');
-            $userRoleStmt = $this->db->prepare('INSERT INTO user_x_user_role (user_id, user_role_id) VALUES (?,4) ON DUPLICATE KEY UPDATE user_role_id = 4');
+            $userCohortStmt = $db->prepare('INSERT INTO user_x_cohort (user_id, cohort_id, is_primary) values (?,?,1)');
+            $userRoleStmt = $db->prepare('INSERT INTO user_x_user_role (user_id, user_role_id) VALUES (?,4) ON DUPLICATE KEY UPDATE user_role_id = 4');
 
             $programCohort = $this->getProgramAndCohort($classYear, $programName);
 
@@ -883,14 +913,14 @@ class FeatureContext extends MinkContext
                     $userId = $user['user_id'];
                 } else {
                     $addUserStmt->execute(array($learner['last'],$learner['first'],$learner['email'],$learner['ucid']));
-                    $userId = $this->db->lastInsertId();
+                    $userId = $db->lastInsertId();
                 }
                 $userCohortStmt->execute(array($userId, $programCohort['cohort_id']));
                 $userRoleStmt->execute(array($userId));
             }
-            $this->db->commit();
+            $db->commit();
         } catch (Exception $e) {
-          $this->db->rollBack();
+          $db->rollBack();
           throw $e;
         }
 
@@ -898,11 +928,12 @@ class FeatureContext extends MinkContext
 
     protected function getProgramAndCohort($classYear, $programName)
     {
-        $findProgramIdStmt = $this->db->prepare('SELECT * FROM program WHERE title=?');
+        $db = $this->getDbConnection();
+        $findProgramIdStmt = $db->prepare('SELECT * FROM program WHERE title=?');
         $sql = 'SELECT cohort_id FROM cohort WHERE program_year_id= ' .
             '(SELECT program_year_id FROM program_year ' .
             'WHERE start_year = ? AND program_id = ?)';
-        $findCohortIdStmt = $this->db->prepare($sql);
+        $findCohortIdStmt = $db->prepare($sql);
         if (!$findProgramIdStmt->execute(array($programName)) OR !$program = $findProgramIdStmt->fetch(PDO::FETCH_ASSOC)) {
             throw new Exception("Unable to find the program {$programName}");
         }
