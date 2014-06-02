@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     puppet.module_path = "puppet/modules"
     puppet.manifest_file = "ilios.pp"
   end
-  
+
   #use a private network so we can use nfs which speeds up the shared files
   config.vm.network :private_network, ip: "10.10.10.10"
 

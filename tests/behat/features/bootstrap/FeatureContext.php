@@ -18,6 +18,40 @@ use Behat\MinkExtension\Context\MinkContext;
 class FeatureContext extends MinkContext
 {
     /**
+     * @var array configuration parameters
+     *
+     */
+    protected $params;
+
+    /**
+     * Override the constructor to get access to the configuration params
+     *
+     */
+    public function __construct(array $arr)
+    {
+        $this->params = $arr;
+    }
+
+    /**
+     * Create and get a connection to the databse
+     * store it statically because this class gets instantiated on every
+     * feature
+     *
+     * @return \PDO
+     */
+    protected function getDbConnection()
+    {
+        $db = new PDO(
+            $this->params['database_dsn'],
+            $this->params['database_user'],
+            $this->params['database_password']
+        );
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        return $db;
+    }
+
+    /**
      * Helper function for slow loading pages. http://docs.behat.org/cookbook/using_spin_functions.html
      * Needed for Sauce Labs integration to work consistently probably because...
      * ...initial page load includes a lot of resources and may need some extra time to complete.
@@ -121,6 +155,9 @@ class FeatureContext extends MinkContext
         $this->spin(function($context) {
             return ($context->getSession()->getPage()->findById('logout_link'));
         }, 5);
+        //we ahve to sleep after login to let the page load, otherwise we get
+        //a transaction error
+        sleep(3);
     }
 
     /**
@@ -359,26 +396,15 @@ class FeatureContext extends MinkContext
         if($this->accessToSchool($school)){
             return true;
         }
-        $this->visit('ilios.php/management_console/');
-        $this->iClickOnTheText('Manage Permissions');
-        $userName = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
-        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[@title='${userName}']");
-        $this->pressButton('permissions_user_picker_continue_button');
-        //we have to wait for the user permissions to load otherwise any previsouly
-        //selected schools will be removed.
-        $count = 0;
-        do{
-            sleep(1);
-            $el = $this->getSession()->getPage()->find(
-                'xpath',
-                "//*[@id='current_school_permissions_div']//*[text()='None']"
-            );
-            $count++;
-        } while(count($el) > 0 and $count < 5);
-        $this->iClickOnTheText('Change School Access');
-        $this->iClickOnTheXpath("//*[@id='school_autolist']//*[normalize-space(text())='{$school}']");
-        $this->iClickOnTheXpath("//*[@id='school_picker_dialog']//*[normalize-space(text())='Done']");
-        $this->iClickOnTheText('Finished');
+        $email = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
+        $sql = 'INSERT INTO permission (user_id, table_row_id, table_name, can_read, can_write) VAlUES (' .
+            '(SELECT user_id FROM user WHERE email=?),' .
+            '(SELECT school_id from school WHERE title=?),"school",1,1)';
+        $db = $this->getDbConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute(array($email, $school));
+        $stmt = null;
+        $db = null;
     }
 
     /**
@@ -392,34 +418,19 @@ class FeatureContext extends MinkContext
      */
     public function accessToSchool($school)
     {
-        $this->iNavigateToTheTab('Home');
-        $select = $this->getSession()->getPage()->findAll('css', '#view-switch');
-        if($select){
-            $options = $this->getSession()->getPage()->findAll('css', '#view-switch option');
-            foreach($options as $option){
-                if(trim($option->getText()) == $school){
-                    return true;
-                }
-            }
-        }
-        $userName = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
-        $this->visit('ilios.php/management_console/');
-        $this->iClickOnTheText('Manage Permissions');
-        $this->iClickOnTheXpath("//*[@id='permissions_autolist']//*[@title='${userName}']");
-        $this->pressButton('permissions_user_picker_continue_button');
+        $email = $this->findXpathElement("//*[@id='utility']/ul/li[1]")->getAttribute('title');
+        $sql = 'SELECT permission_id FROM permission WHERE user_id = ' .
+            '(SELECT user_id FROM user WHERE email=?) AND ' .
+            'table_name = "school" AND ' .
+            'table_row_id =(SELECT school_id from school WHERE title=?)';
+        $db = $this->getDbConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->execute(array($email, $school));
+        $bool = $stmt->rowCount() > 0;
+        $stmt = null;
+        $db = null;
 
-        //test for the school more than once since it can take a few moments to load
-        $count = 0;
-        do{
-            sleep(1);
-            $el = $this->getSession()->getPage()->find(
-                'xpath',
-                "//*[@id='current_school_permissions_div']//*[text()[contains(.,'{$school}')]]"
-            );
-            $count++;
-        } while(count($el) < 1 and $count < 5);
-
-        return count($el) > 0;
+        return $bool;
     }
 
     /**
@@ -677,50 +688,60 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestProgram($programName)
     {
-        $this->visit('/ilios.php/program_management');
-        $this->clickLink('Search');
-        $this->fillField('program_search_terms', $programName);
-        $this->iClickOnTheXpath('//*[@id="program_search_picker"]//span[@class="search_icon_button"]');
-        sleep(2);
-        $searchResult = $this->getSession()->getPage()->find(
-            'xpath',
-            "//*[@id='program_search_results_list']/li/span[normalize-space(text()) = '{$programName}']"
-        );
-        if(!is_null($searchResult)){
-            return true;
+        try{
+            $db = $this->getDbConnection();
+            $results = $db->query("SELECT program_id FROM program WHERE title = '{$programName}'");
+            if ($results->rowCount() > 0) {
+                return true;
+            }
+
+
+            $db->beginTransaction();
+            $shortProgramName = substr(strtolower(str_replace(' ', '', $programName)),0,10);
+
+            $db->exec("INSERT INTO program (title, short_title, duration, owning_school_id) VALUES ('{$programName}','{$shortProgramName}',4,1)");
+            $programId = $db->lastInsertId();
+
+            $db->exec("INSERT INTO program_year (start_year, program_id) VALUES ('2013',{$programId})");
+            $programYearId = $db->lastInsertId();
+
+            $db->exec("INSERT INTO cohort (title, program_year_id) VALUES ('Class of 2017',{$programId})");
+
+            $publishStmt = $db->prepare('INSERT INTO publish_event (administrator_id, machine_ip, table_name, table_row_id) VALUES (1,"10.10.10.10",?,?)');
+            $publishStmt->execute(array('program', $programId));
+            $programPublishEventId = $db->lastInsertId();
+
+            $publishStmt->execute(array('program_year', $programYearId));
+            $programYearPublishEventId = $db->lastInsertId();
+
+            $publishStmt = null;
+
+            $db->exec("UPDATE program SET publish_event_id = {$programPublishEventId} WHERE program_id = {$programId}");
+            $db->exec("UPDATE program_year SET publish_event_id = {$programYearPublishEventId} WHERE program_year_id = {$programYearId}");
+
+            $competencyStmt = $db->prepare('INSERT INTO program_year_x_competency (program_year_id, competency_id) VALUES (?,?)');
+            $competencyStmt->execute(array($programYearId, 51));
+            $competencyStmt->execute(array($programYearId, 52));
+            $competencyStmt = null;
+
+            $objectiveStmt = $db->prepare('INSERT INTO objective (title, competency_id) VALUES (?,?)');
+            $objectiveStmt->execute(array("{$programName} objective 1", 51));
+            $objective1Id = $db->lastInsertId();
+            $objectiveStmt->execute(array("{$programName} objective 2", 52));
+            $objective2Id = $db->lastInsertId();
+            $objectiveStmt = null;
+
+            $pyObjectiveStmt = $db->prepare('INSERT INTO program_year_x_objective (program_year_id, objective_id) VALUES (?,?)');
+            $pyObjectiveStmt->execute(array($programYearId, $objective1Id));
+            $pyObjectiveStmt->execute(array($programYearId, $objective2Id));
+            $pyObjectiveStmt = null;
+
+            $db->commit();
+            $db = null;
+        } catch (Exception $e) {
+          $db->rollBack();
+          throw $e;
         }
-        $shortProgramName = substr(strtolower(str_replace(' ', '', $programName)),0,10);
-        return array(
-            new When('I navigate to the "Programs" tab'),
-            new When('I follow "Add Program"'),
-            new When('I fill in "' . $programName . '" for "new_program_title"'),
-            new When('I fill in "' . $shortProgramName . '" for "new_short_title"'),
-            new When('I select "4" from "new_duration_selector"'),
-            new When('I press "Done"'),
-            new When('I wait for "add_new_program_year_link" to be visible'),
-            new When('I should see "' . $shortProgramName . '"'),
-            new When('I follow "show_more_or_less_link"'),
-            new When('I press "Publish Now"'),
-            new When('I should see "Published" in the "#parent_publish_status_text" element'),
-            new When('I press "Add New Program Year"'),
-            new When('I select "2013-2014" from "1_program_year_title"'),
-            //fragile xpath link to the competencies edit button, which has no ID
-            new When('I click on the xpath "//*[@id=\'1_collapser\']/form/div[3]/div[3]/a"'),
-            new When('I expand "Medical Knowledge" tree picker list in "competency_pick_dialog" dialog'),
-            new When('I click "Treatment" tree picker item in "competency_pick_dialog" dialog'),
-            new When('I click "Inquiry and Discovery" tree picker item in "competency_pick_dialog" dialog'),
-            new When('I press the "Done" button in "competency_pick_dialog" dialog'),
-            new When('I follow "Add Objective"'),
-            new When('I fill the editor "ilios.pm.eot.editObjectiveTextDialog.eotEditor" with "Test program objective 1"'),
-            new When('I select "Treatment (Medical Knowledge)" from "eot_competency_pulldown"'),
-            new When('I press the "Done" button in "edit_objective_text_dialog_c" dialog'),
-            new When('I follow "Add Objective"'),
-            new When('I fill the editor "ilios.pm.eot.editObjectiveTextDialog.eotEditor" with "Test program objective 2"'),
-            new When('I select "Inquiry and Discovery (Medical Knowledge)" from "eot_competency_pulldown"'),
-            new When('I press the "Done" button in "edit_objective_text_dialog_c" dialog'),
-            new When('I publish the 1st program year'),
-            new When('I should see "Published" in the "#1_child_draft_text" element')
-        );
     }
 
     /**
@@ -735,19 +756,31 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestLearnerGroupIn($classYear, $programName)
     {
+        $groupTitle = 'Default Group Number 1';
+        $userEmail = 'lgteststudent@example.com';
         $table = new Behat\Gherkin\Node\TableNode(
         "| first  | last  | email | ucid |\n" .
-        "| Test   | Student | first@example.com | 123456 |"
+        "| Test   | Student | {$userEmail} | 123456 |"
         );
-        return array(
-            new Given('the following learners exist in the "' . $classYear . '" "' . $programName . '" program:', $table),
-            new When('I navigate to the "Learner Groups" tab'),
-            new When('I follow "Select Program and Cohort"'),
-            new When('I expand "' . $programName . '" tree picker list in "cohort_pick_dialog_c" dialog'),
-            new When('I click "Class of ' . $classYear . '" tree picker item in "cohort_pick_dialog_c" dialog'),
-            new When('I press "Add a New Student Group"'),
-            new Then('I should see "Default Group Number 1"')
-        );
+        $this->givenTheFollowingLearnersExistInTheProgram($classYear,$programName, $table);
+        try{
+            $db = $this->getDbConnection();
+            $db->beginTransaction();
+            $arr = $this->getProgramAndCohort($classYear, $programName);
+            $result = $db->query("SELECT group_id FROM `group` WHERE title = '{$groupTitle}' AND cohort_id = {$arr['cohort_id']}");
+            if (!$groupId = $result->fetchColumn()) {
+              $db->exec("INSERT INTO `group` (title,cohort_id) VALUES ('{$groupTitle}',{$arr['cohort_id']})");
+              $groupId = $db->lastInsertId();
+            }
+            $sql = "INSERT IGNORE INTO group_x_user (group_id, user_id) VALUES ({$groupId}," .
+                "(SELECT user_id FROM user WHERE email = '{$userEmail}'))";
+            $db->exec($sql);
+            $db->commit();
+            $db = null;
+        } catch (Exception $e) {
+          $db->rollBack();
+          throw $e;
+        }
     }
 
     /**
@@ -763,20 +796,25 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestCourseForClassOfIn($courseName, $cohortYear, $programName)
     {
-        return array(
-            new When('I navigate to the "Courses and Sessions" tab'),
-            new When('I press "Add New Course"'),
-            new When('I fill in "' . $courseName . '" for "new_course_title"'),
-            new When('I press the "Done" button in "course_add_dialog" dialog'),
-            new Then('I should see "' . $courseName . '"'),
-            new When('I reload the page'), //necessary step to work around issue of the link not showing up all the time
-            new When('I follow "show_more_or_less_link"'),
-            new When('I follow "Select Program Cohorts for Course"'),
-            new When('I expand "' . $programName . '" tree picker list in "cohort_pick_dialog_c" dialog'),
-            new When('I click "Class of ' . $cohortYear . '" tree picker item in "cohort_pick_dialog_c" dialog'),
-            new When('I press the "Done" button in "cohort_pick_dialog_c" dialog'),
-            new When('I press "draft_button"'),
-        );
+        try{
+            $db = $this->getDbConnection();
+            $db->beginTransaction();
+            $sql = 'INSERT INTO course (title,year, start_date, end_date, owning_school_id) ' .
+                "VALUES ('{$courseName}','2013', '2013-09-01','2013-12-31', 1)";
+            $db->exec($sql);
+            $courseId = $db->lastInsertId();
+
+            $arr = $this->getProgramAndCohort($cohortYear, $programName);
+            $sql = "INSERT INTO course_x_cohort (course_id, cohort_id) VALUES ({$courseId},{$arr['cohort_id']})";
+            $db->exec($sql);
+            $db->commit();
+            $db = null;
+        } catch (Exception $e) {
+          $db->rollBack();
+          throw $e;
+        }
+        return new When('I go to "/ilios.php/course_management?course_id=' . $courseId . '"');
+
     }
 
     /**
@@ -791,21 +829,49 @@ class FeatureContext extends MinkContext
      */
     public function iClearAllLearnerGroupsInTheProgram($classYear, $programName)
     {
-        $this->visit('/ilios.php/group_management');
-        $this->clickLink('Select Program and Cohort');
-        $this->iExpandTreePickerListInDialog($programName, 'cohort_pick_dialog_c');
-        $this->iClickTreePickerItemInDialog("Class of {$classYear}", 'cohort_pick_dialog_c');
-        $this->iWaitForToBeVisible('program_cohort_title');
-        while($link = $this->getSession()->getPage()->find(
-            'xpath',
-            "//*[@id='group_container']//div[contains(@class,'delete_widget')]"
-        )){
-                if($link->isVisible()){
-                    $link->click();
-                    $this->iPressTheButtonInDialog('Yes', 'ilios_inform_panel');
-                    sleep(1); //prevent clicking the same link a few times
-                }
+        try{
+            $db = $this->getDbConnection();
+            $db->beginTransaction();
+            $sql = 'DELETE FROM `group` WHERE group_id=?';
+            $deleteGroupStmt = $db->prepare($sql);
+            $sql = 'DELETE FROM group_x_user WHERE group_id=?';
+            $deleteUserGroupStmt = $db->prepare($sql);
+            $arr = $this->getProgramAndCohort($classYear, $programName);
+            $sql = "SELECT group_id FROM `group` WHERE cohort_id={$arr['cohort_id']}";
+            foreach ($db->query($sql) as $row) {
+                $groupId = $row[0];
+                //reverse the array so we get sub before sub parents
+                $subgroups = array_reverse($this->getSubGroupsForGroup($groupId, $db));
+                    foreach($subgroups as $subGroupId){
+                        $deleteUserGroupStmt->execute(array($subGroupId));
+                        $deleteGroupStmt->execute(array($subGroupId));
+                    }
+                $deleteUserGroupStmt->execute(array($groupId));
+                $deleteGroupStmt->execute(array($groupId));
+            }
+            $deleteGroupStmt = null;
+            $deleteUserGroupStmt = null;
+
+            $db->commit();
+            $db = null;
+        } catch (Exception $e) {
+          $db->rollBack();
+          throw $e;
         }
+
+        $this->visit('/ilios.php/group_management');
+    }
+
+    protected function getSubGroupsForGroup($groupId, PDO $db)
+    {
+        $arr = array();
+        $sql = "SELECT group_id FROM `group` WHERE parent_group_id = {$groupId}";
+        foreach($db->query($sql) as $row){
+            $arr[] = $row[0];
+            $arr = array_merge($arr, $this->getSubGroupsForGroup($row[0], $db));
+        }
+
+        return $arr;
     }
 
     /**
@@ -819,38 +885,79 @@ class FeatureContext extends MinkContext
      */
     public function givenTheFollowingLearnersExistInTheProgram($classYear, $programName, TableNode $learners)
     {
-        $this->visit('/ilios.php/group_management');
-        $this->clickLink('Select Program and Cohort');
-        $this->iExpandTreePickerListInDialog($programName, 'cohort_pick_dialog_c');
-        $this->iClickTreePickerItemInDialog("Class of {$classYear}", 'cohort_pick_dialog_c');
-        foreach($learners->getHash() as $learner){
-            $this->pressButton('Add New Members to Cohort');
-            $this->fillField('em_first_name', $learner['first']);
-            $this->fillField('em_last_name', $learner['last']);
-            $this->fillField('em_email', $learner['email']);
-            $this->fillField('em_uc_id', $learner['ucid']);
-            $this->pressButton("Add User");
-            do{
-                $done = true;
-                $transactionStatus = $this->getSession()->getPage()->find(
-                    'xpath',
-                    '//*[@id="em_transaction_status" and contains(., "User has been added")]'
-                );
-                if ($transactionStatus === null) {
-                    $done = false;
-                    $alert = $this->getSession()->getPage()->find(
-                        'xpath',
-                        '//*[@id="ilios_alert_panel"]'
-                    );
-                    if(!is_null($alert) && $alert->isVisible()){
-                        $this->iPressTheButtonInDialog('Ok', 'ilios_alert_panel');
-                        $done = true;
+        $programCohort = $this->getProgramAndCohort($classYear, $programName);
+        try{
+            $db = $this->getDbConnection();
+            $db->beginTransaction();
+            $sql = 'SELECT * FROM user u LEFT JOIN ' .
+                'user_x_cohort uxc ON u.user_id = uxc.user_id LEFT JOIN ' .
+                'cohort c ON uxc.cohort_id = c.cohort_id LEFT JOIN ' .
+                'program_year py ON c.program_year_id= py.program_year_id LEFT JOIN ' .
+                'program p ON py.program_id = p.program_id ' .
+                'WHERE u.email = ?';
+            $findUserStmt = $db->prepare($sql);
+
+            $sql = 'INSERT INTO user (last_name, first_name, email, uc_uid, ' .
+                'primary_school_id, middle_name) values (?,?,?,?,1,"")';
+            $addUserStmt = $db->prepare($sql);
+
+            $userCohortStmt = $db->prepare('INSERT INTO user_x_cohort (user_id, cohort_id, is_primary) values (?,?,1)');
+            $userRoleStmt = $db->prepare('INSERT INTO user_x_user_role (user_id, user_role_id) VALUES (?,4) ON DUPLICATE KEY UPDATE user_role_id = 4');
+
+            foreach($learners->getHash() as $learner){
+                $findUserStmt->execute(array($learner['email']));
+                if ($findUserStmt->rowCount()) {
+                    $user = $findUserStmt->fetch(PDO::FETCH_ASSOC);
+                    if($user['start_year'] == $programCohort['start_year'] and $user['title'] == $programName){
+                        break;
                     }
+                    $userId = $user['user_id'];
+                } else {
+                    $addUserStmt->execute(array($learner['last'],$learner['first'],$learner['email'],$learner['ucid']));
+                    $userId = $db->lastInsertId();
                 }
-            } while(!$done);
-            $this->iPressTheButtonInDialog('Done', 'add_new_members_dialog');
+                $userCohortStmt->execute(array($userId, $programCohort['cohort_id']));
+                $userRoleStmt->execute(array($userId));
+            }
+            $db->commit();
+
+            $findUserStmt = null;
+            $addUserStmt = null;
+            $userCohortStmt = null;
+            $userRoleStmt = null;
+            $db = null;
+        } catch (Exception $e) {
+          $db->rollBack();
+          throw $e;
         }
 
+    }
+
+    protected function getProgramAndCohort($classYear, $programName)
+    {
+        $db = $this->getDbConnection();
+        $results = $db->query("SELECT * FROM program WHERE title='{$programName}'");
+        if (!$results->rowCount()) {
+            throw new Exception("Unable to find the program {$programName}");
+        }
+        $program = $results->fetch(PDO::FETCH_ASSOC);
+        $programStartYear = $classYear - $program['duration'];
+
+        $sql = 'SELECT cohort_id FROM cohort WHERE program_year_id= ' .
+            '(SELECT program_year_id FROM program_year ' .
+            "WHERE start_year = '{$programStartYear}' AND program_id = {$program['program_id']})";
+        $results = $db->query($sql);
+        if (!$results->rowCount()) {
+            throw new Exception("Unable to find the cohort {$classYear} for {$programName}");
+        }
+        $cohort = $results->fetch(PDO::FETCH_ASSOC);
+        $return = array(
+            'program_id' => $program['program_id'],
+            'start_year'  => $programStartYear,
+            'cohort_id'  => $cohort['cohort_id']
+        );
+
+        return $return;
     }
 
     /**

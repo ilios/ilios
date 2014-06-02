@@ -3,7 +3,10 @@ default:
     filters:
         tags: "~@ignore"
     context:
-        class: "FeatureContext"
+        parameters :
+            database_dsn: "mysql:host=localhost;dbname=ilios"
+            database_user : "root"
+            database_password: null
     extensions:
         Behat\MinkExtension\Extension:
             base_url: https://precise64

@@ -9,9 +9,9 @@ Feature: Learner Groups
     And I create a test program "Test Learner Program"
     And the following learners exist in the "2017" "Test Learner Program" program:
     | first  | last  | email | ucid |
-    | Jane   | Smith | first@example.com | 123456 |
-    | John   | Smith | second@example.com | 123457 |
-    | Greg   | Smith | third@example.com | 123458 |
+    | Jane   | Smith | learnergroupjsmith@example.com | LG1234 |
+    | John   | Smith | learnergroupjsmith2@example.com | LG4567 |
+    | Greg   | Smith | learnergroupgsmith@example.com | LG6789 |
     And I clear all learner groups in the "2017" "Test Learner Program" program
     And I navigate to the "Learner Groups" tab
     And I follow "Select Program and Cohort"
