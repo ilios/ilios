@@ -33,7 +33,7 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * Create and get a connection to the databse
+     * Create and get a connection to the database
      * store it statically because this class gets instantiated on every
      * feature
      *
@@ -155,7 +155,7 @@ class FeatureContext extends MinkContext
         $this->spin(function($context) {
             return ($context->getSession()->getPage()->findById('logout_link'));
         }, 5);
-        //we ahve to sleep after login to let the page load, otherwise we get
+        //we have to sleep after login to let the page load, otherwise we get
         //a transaction error
         sleep(3);
     }
