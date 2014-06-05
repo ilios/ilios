@@ -86,7 +86,7 @@ class Ilios_Ldap
 
         // failed to connect
         $errorNumber = @ldap_errno($ldap);
-        $errorMsg = "Failed to connect to {$host}:{$port}";
+        $errorMsg = "Failed to connect to {$host}:{$port}: " . ldap_err2str($errorNumber) . " (#{$errorNumber})";
         $this->disconnect();
         throw new Ilios_Ldap_Exception($errorMsg, $errorNumber);
     }
@@ -106,7 +106,7 @@ class Ilios_Ldap
         }
 
         $errorNumber = @ldap_errno($this->_ldap);
-        $errorMsg = "LDAP bind failed: " . @ldap_error($this->_ldap);
+        $errorMsg = "LDAP bind failed: " . ldap_err2str($errorNumber) . " (#{$errorNumber})";
         $this->disconnect();
         throw new Ilios_Ldap_Exception($errorMsg, $errorNumber);
     }
@@ -159,7 +159,7 @@ class Ilios_Ldap
         }
         if (false === $result) {
             $errorNumber = @ldap_errno($this->_ldap);
-            throw new Ilios_Ldap_Exception('LDAP search failed.', $errorNumber);
+            throw new Ilios_Ldap_Exception('LDAP search failed: ' . ldap_err2str($errorNumber) . " (#{$errorNumber})", $errorNumber);
         }
         return $result;
     }
