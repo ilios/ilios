@@ -24,6 +24,13 @@ class Ilios_Ldap
     const DEFAULT_PORT = 389;
 
     /**
+     * Reset timeout - if more than this many seconds have passed since the
+     * last request we should reset the ldap connection
+     * @var int
+     */
+    const RESET_TIMEOUT = 120;
+
+    /**
      * LDAP configuration options.
      * Processed values include
      * ['host'] ... server-name or URL | mandatory
@@ -40,6 +47,14 @@ class Ilios_Ldap
      * @var resource
      */
     protected $_ldap;
+
+    /**
+     * Keep the time of the last request so we can reset the connection
+     * if too much time has passed
+     *
+     * @var integer
+     */
+    protected $_lastRequest;
 
 
     public function __construct (array $options = array())
@@ -102,6 +117,7 @@ class Ilios_Ldap
         $bindDn = array_key_exists('bind_dn', $this->_options) ? $this->_options['bind_dn'] : null;
         $password = array_key_exists('password', $this->_options) ? $this->_options['password'] : null;
         if (true === @ldap_bind($this->_ldap, $bindDn, $password)) {
+            $this->_lastRequest = time();
             return $this;
         }
 
@@ -149,6 +165,7 @@ class Ilios_Ldap
         if (! is_resource($this->_ldap)) {
             $this->bind();
         }
+        $this->checkConnectionTimeout();
         switch ($scope) {
             case self::LDAP_SCOPE_SUBTREE :
                 $result = @ldap_search($this->_ldap, $baseDn, $filter, $attributes, (int) $attrOnly, $limit, $timeout);
@@ -171,5 +188,21 @@ class Ilios_Ldap
     public function getResource ()
     {
         return $this->_ldap;
+    }
+
+    /**
+     * Check if we have passed the connection timeout and if so reset the
+     * connection
+     */
+    protected function checkConnectionTimeout()
+    {
+        $now = time();
+        if(!is_null($this->_lastRequest) and is_resource($this->_ldap)){
+            if($now - $this->_lastRequest > self::RESET_TIMEOUT){
+                $this->disconnect();
+                $this->bind();
+            }
+        }
+        $this->_lastRequest = $now;
     }
 }
