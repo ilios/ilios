@@ -333,7 +333,7 @@ $config['calendar_options_time_step'] = (60 / $config['time_selection_increments
 |--------------------------------------------------------------------------
 |
 | Option overrides for setting the users uc_uid options.  Currently, the only available options are maximum and minimum
-| length. If the uid for an institution has one standardized length, set the both values to match
+| length. If the uid for an institution has one standardized length, set both values to match.
 |
 | ['uid_min_length']
 |   Sets the minimum length allowed for users' uc_uid
