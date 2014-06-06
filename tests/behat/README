@@ -61,6 +61,8 @@ See also
 --------
 https://kippt.com/alexisjanvier/programmation/clips/13052904
 
+You can run these tests in other browsers using saucelabs, checkout [How-to run tests against any browser using saucelabs](LOCALSAUCE.md)
+
 
 Troubleshooting
 ---------------

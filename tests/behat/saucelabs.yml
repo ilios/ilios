@@ -1,0 +1,91 @@
+# Use this profile to run tests on Sauce locally against vagrant
+default:
+    filters:
+        tags: "~@ignore"
+    context:
+        parameters :
+            database_dsn: "mysql:host=10.10.10.10;dbname=ilios"
+            database_user : "vagrant"
+            database_password: null
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: https://localilios
+            default_session: saucelabs
+            javascript_session: saucelabs
+            saucelabs:
+                browser: "firefox"
+                connect: ~
+                capabilities:
+                    name: "win7ff"
+                    platform: "Windows 7"
+                    version: 29
+
+# Run tests with win7 firefox (the default)
+win7ff:
+    filters:
+        tags: "~@ignore"
+
+# Run tests with win7 ie9
+win7ie9:
+    extensions:
+        Behat\MinkExtension\Extension:
+            saucelabs:
+                browser: "internet explorer"
+                capabilities:
+                    name: "win7ie9"
+                    platform: "Windows 7"
+                    version: 9
+
+# Run tests with win7 ie10
+win7ie10:
+    extensions:
+        Behat\MinkExtension\Extension:
+            saucelabs:
+                browser: "internet explorer"
+                capabilities:
+                    name: "win7ie10"
+                    platform: "Windows 7"
+                    version: 10
+
+# Run tests with win8 ie11
+win8ie11:
+    extensions:
+        Behat\MinkExtension\Extension:
+            saucelabs:
+                browser: "internet explorer"
+                capabilities:
+                    name: "win8ie11"
+                    platform: "Windows 8.1"
+                    version: 11
+
+# Run tests with osx firefox
+osxfirefox:
+    extensions:
+        Behat\MinkExtension\Extension:
+            saucelabs:
+                capabilities:
+                    name: "osxfirefox"
+                    platform: "OS X 10.9"
+                    version: 29
+
+# Run tests with osx chrome
+osxchrome:
+    extensions:
+        Behat\MinkExtension\Extension:
+            saucelabs:
+                browser: "chrome"
+                capabilities:
+                    name: "osxchrome"
+                    platform: "OS X 10.9"
+                    version: 34
+
+# Run tests with osx chrome
+osxsafari:
+    extensions:
+        Behat\MinkExtension\Extension:
+            saucelabs:
+                browser: "safari"
+                capabilities:
+                    name: "osxsafari"
+                    platform: "OS X 10.9"
+                    version: 7
