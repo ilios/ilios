@@ -28,7 +28,7 @@
     echo json_encode(array(
 	//set the uid min/max character lengths as defined in the ilios.php config file
 	'uid_min_length' => $uidMinLength,
-    'uid_max_length' => $uidMaxLength
+    	'uid_max_length' => $uidMaxLength
     ));
 ?>
 </script>
