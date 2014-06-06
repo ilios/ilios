@@ -151,6 +151,16 @@ tasks.user_sync.ldap.password=XXXXXX
 #tasks.enrollment_export.enabled=true
 #tasks.teaching_reminders.enabled=true
 #tasks.user_sync.enabled=true
+#tasks.audit_log.enabled=true
+
+#------------------------------------------------
+# Settings for the audit log cron task
+#------------------------------------------------
+#
+#tasks.audit_log.daily_log_file_path='/web/ilios/cron/daily_audit_logs.txt'
+#tasks.audit_log.truncate_log_file_path='/web/ilios/cron/audit_logs.txt'
+#tasks.audit_log.days_to_keep=90
+#tasks.audit_log.rotate_logs=true
 
 #================================================
 # DB installation
