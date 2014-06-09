@@ -329,6 +329,25 @@ $config['calendar_options_time_step'] = (60 / $config['time_selection_increments
 
 /*
 |--------------------------------------------------------------------------
+| User uc_uid options
+|--------------------------------------------------------------------------
+|
+| Option overrides for setting the users uc_uid options.  Currently, the only available options are maximum and minimum
+| length. If the uid for an institution has one standardized length, set both values to match.
+|
+| ['uid_min_length']
+|   Sets the minimum length allowed for users' uc_uid
+|
+| ['uid_max_length']
+|   Sets the maximum length allowed for users' uc_uid
+|
+*/
+
+$config['uid_min_length'] = 9;
+$config['uid_max_length'] = 9;
+
+/*
+|--------------------------------------------------------------------------
 | Ilios Revision
 |--------------------------------------------------------------------------
 |
