@@ -1514,6 +1514,23 @@ DEFAULT CHARSET='utf8'
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
 
+-- Table curriculum_inventory_sequence_block_session
+DROP TABLE IF EXISTS `curriculum_inventory_sequence_block_session`;
+CREATE TABLE `curriculum_inventory_sequence_block_session` (
+  `sequence_block_session_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `sequence_block_id` INT(10) UNSIGNED NOT NULL,
+  `session_id` INT(14) UNSIGNED NOT NULL,
+  `count_offerings_once` TINYINT default 1 NOT NULL,
+  PRIMARY KEY (`sequence_block_session_id`),
+  CONSTRAINT `fkey_ci_sequence_block_session_sequence_block_id`
+      FOREIGN KEY (`sequence_block_id`) REFERENCES `curriculum_inventory_sequence_block` (`sequence_block_id`)
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `fkey_curriculum_inventory_sequence_block_session_session_id`
+      FOREIGN KEY (`session_id`) REFERENCES `session` (`session_id`)
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  UNIQUE INDEX `report_session` (`sequence_block_id`, `session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- Table curriculum_inventory_export
 DROP TABLE IF EXISTS `curriculum_inventory_export`;
 CREATE TABLE `curriculum_inventory_export` (

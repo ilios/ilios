@@ -618,9 +618,10 @@
                 el = document.getElementById('create-sequence-block-dialog--course-details');
                 courseId = event.target.value;
                 str = '';
+                el.innerHTML = str;
                 if ('' != courseId) {
                     course = this._courseRepo.get(courseId);
-                    str += '<span class="small">';
+                    str += '<span class="small"><p class="margin-0">';
                     str += ilios_i18nVendor.getI18NString('general.terms.level') + ': ' + course.get('level');
                     str += ", " + ilios_i18nVendor.getI18NString('general.phrases.start_date') + ': ' + course.get('startDate');
                     str += ", " + ilios_i18nVendor.getI18NString('general.phrases.end_date') + ': ' + course.get('endDate');
@@ -628,9 +629,22 @@
                         str += ", " + ilios_i18nVendor.getI18NString('general.terms.clerkship');
                         str += ' (' + course.get('clerkshipTypeTitle') + ')';
                     }
+                    str += '</p>';
+                    str += '<p>' + ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.description') + '</p>';
+                    str += '<p class="margin-b0"><label for="sequence-block-dialog--session-filter">Filter sessions:</label> <input type="text" id="sequence-block-dialog--session-filter" value=""></p>';
                     str += '</span>';
+                    str += '<div id="create-sequence-block-dialog--sessions"></div>';
+                    el.innerHTML = str;
+                    var dt = CreateSessionDataTable(course, 'create-sequence-block-dialog--sessions');
+                    Event.on('sequence-block-dialog--session-filter','keyup',function (e) {
+                         dt.getDataSource().sendRequest(YAHOO.util.Dom.get('sequence-block-dialog--session-filter').value,{
+                             success : dt.onDataReturnInitializeTable,
+                             failure : dt.onDataReturnInitializeTable,
+                             scope   : dt,
+                             argument: dt.getState()
+                         });
+                    });
                 }
-                el.innerHTML = str;
                 Event.stopEvent(event);
             }, {}, this);
         });
@@ -1285,8 +1299,9 @@
         _showCourseDetails: function (course) {
             var el = document.getElementById('edit-sequence-block-dialog--course-details');
             var str = '';
+            el.innerHTML = str;
             if (! course.get('deleted')) {
-                str += '<span class="small">';
+                str += '<span class="small"><p class="margin-0">';
                 str += ilios_i18nVendor.getI18NString('general.terms.level') + ': ' + course.get('level');
                 str += ", " + ilios_i18nVendor.getI18NString('general.phrases.start_date') + ': ' + course.get('startDate');
                 str += ", " + ilios_i18nVendor.getI18NString('general.phrases.end_date') + ': ' + course.get('endDate');
@@ -1294,9 +1309,22 @@
                     str += ", " + ilios_i18nVendor.getI18NString('general.terms.clerkship');
                     str += ' (' + course.get('clerkshipTypeTitle') + ')';
                 }
+                str += '</p>';
+                str += '<p>' + ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.description') + '</p>';
+                str += '<p class="margin-b0"><label for="sequence-block-dialog--session-filter">Filter sessions:</label> <input type="text" id="sequence-block-dialog--session-filter" value=""></p>';
                 str += '</span>';
+                str += '<div id="edit-sequence-block-dialog--sessions"></div>';
+                el.innerHTML = str;
+                var dt = CreateSessionDataTable(course, 'edit-sequence-block-dialog--sessions');
+                Event.on('sequence-block-dialog--session-filter','keyup',function (e) {
+                     dt.getDataSource().sendRequest(YAHOO.util.Dom.get('sequence-block-dialog--session-filter').value,{
+                         success : dt.onDataReturnInitializeTable,
+                         failure : dt.onDataReturnInitializeTable,
+                         scope   : dt,
+                         argument: dt.getState()
+                     });
+                });
             }
-            el.innerHTML = str;
         },
 
         /**
@@ -1973,7 +2001,76 @@
         }
     });
 
+    var CreateSessionDataTable = function(course, targetId){
+        var ds = course.getSessionDataSource();
+        var inputUpdatesModel = function(dataTable, el){
+            var record = dataTable.getRecord(el);
+            var session = course.getSessionById(record.getData('id'));
+            if(el.checked){
+                session.set('countOfferingsOnce', true);
+                record.setData('countOfferingsOnce', true);
+                dataTable.updateCell(record, 'offeringDurationHours', session.getOfferingHours());
+                //if all of the boxes are checked the leave the selectallbox checked as well.
+                var nodes = YAHOO.util.Selector.query('input[name^=count_offerings_once_sessions]:not(:checked)');
+                document.getElementById('count_offerings_once_select_all').checked = (nodes.length == 0);
+            } else {
+                session.set('countOfferingsOnce', false);
+                record.setData('countOfferingsOnce', false);
+                dataTable.updateCell(record, 'offeringDurationHours', session.getOfferingHours());
+                document.getElementById('count_offerings_once_select_all').checked = false;
+            }
+        }
+        var formatSessionTableOptionBox = function (elLiner, oRecord, oColumn, oData) {
+            var session = course.getSessionById(oData);
+            var input = new YAHOO.util.Element(document.createElement('input'));
+            var dataTable = this;
+            input.set('type', 'checkbox');
+            input.set('name', 'count_offerings_once_sessions[]');
+            input.set('value', oData);
+            input.set('checked', session.get('countOfferingsOnce'));
+            elLiner.appendChild(input.get('element'));
+            input.on('change', function(e){
+                inputUpdatesModel(dataTable, e.target);
+            });
+        };
+        var formatSessionTableDurationBox = function (elLiner, oRecord, oColumn, oData) {
+            var d = oRecord.getData();
+            var session = course.getSessionById(d.id);
+            elLiner.innerHTML =  session.getOfferingHours() + ' ' + ilios_i18nVendor.getI18NString('general.terms.hours');
+        };
+        var coldefs = [
+            {key: 'id', label: '<input type="checkbox" id="count_offerings_once_select_all"> ' + ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.count_offerings_once'), sortable: false, formatter: formatSessionTableOptionBox},
+            {key: 'sessionTypeTitle', label: ilios_i18nVendor.getI18NString('general.terms.session_type'), sortable: true},
+            {key: 'offeringDurationHours', label: ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.total_offering_time'), sortable: true, formatter: formatSessionTableDurationBox},
+            {key: 'offeringCount', label: ilios_i18nVendor.getI18NString('curriculum_inventory.sequence_block.offering_count'), sortable: true},
+            {key: 'title', label: ilios_i18nVendor.getI18NString('general.terms.title'), sortable: true},
+        ];
+        var properties = {
+            width: '600px'
+        };
+        if(ds.liveData.length > 10){
+            properties.height = '10em';
+        }
+        var dt = new YAHOO.widget.ScrollingDataTable(targetId, coldefs, ds, properties);
+        Event.on('count_offerings_once_select_all','change', function() {
+            var checkValue = this.checked;
+            var nodes = YAHOO.util.Selector.query('input[name^=count_offerings_once_sessions]');
+            for(var i = 0; i < nodes.length; i++){
+                nodes[i].checked = checkValue;
+                inputUpdatesModel(dt, nodes[i]);
+            }
+        });
+        dt.subscribe("renderEvent", function (o) {
+            //if all of the boxes are checked then check selectallbox checked as well.
+            var nodes = YAHOO.util.Selector.query('input[name^=count_offerings_once_sessions]:not(:checked)');
+            document.getElementById('count_offerings_once_select_all').checked = (nodes.length == 0);
+        });
+
+        return dt;
+    };
+
     ilios.cim.widget.StatusBar = StatusBar;
+    ilios.cim.widget.CreateSessionDataTable = CreateSessionDataTable;
     ilios.cim.widget.SequenceBlockTopToolbar = SequenceBlockTopToolbar;
     ilios.cim.widget.SequenceBlockBottomToolbar = SequenceBlockBottomToolbar;
     ilios.cim.widget.CreateReportDialog = CreateReportDialog;
