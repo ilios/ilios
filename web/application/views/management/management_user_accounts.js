@@ -1748,8 +1748,8 @@ ilios.management.user_accounts.checkUserData = function () {
     }
 
     element = document.getElementById('ua_uc_id_tf');
-    if ((element != null) && (YAHOO.lang.trim(element.value).length < ilios.management.user_accounts.uidOptions.uid_min_length)
-        || (YAHOO.lang.trim(element.value).length > ilios.management.user_accounts.uidOptions.uid_max_length)) {
+    if ((element != null) && ((YAHOO.lang.trim(element.value).length < ilios.management.user_accounts.uidOptions.uid_min_length)
+        || (YAHOO.lang.trim(element.value).length > ilios.management.user_accounts.uidOptions.uid_max_length))) {
 	divsToStyle.push('ua_uc_id_tf');
         divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.uc_id') + " " +  uc_id_length + " " + ilios_i18nVendor.getI18NString('management.error.data.uc_id_chars_in_length'));
     }
