@@ -772,7 +772,8 @@ ilios.cm.populateCourseAndSetEnable = function (title, startDate, endDate, yearS
 
     ilios.cm.currentCourseModel.addStateChangeListener(ilios.cm.dirtyStateListener, null);
 
-    ilios.cm.lm.populateLearningMaterialList(-1);
+    //ilios.cm.lm.populateLearningMaterialList(-1);
+    ilios.cm.lm.createLearningMaterialsContainer(-1);
 
     ilios.cm.refreshCohortData();
 
@@ -1698,7 +1699,7 @@ ilios.cm.setEnabledStateForCourseContainerUI = function (enabled) {
     element = document.getElementById('course_level_selector');
     ilios.dom.setElementEnabled(element, enabled);
 
-    element = document.getElementById('course_learning_material_search_link');
+    element = document.getElementById('add_learning_material_link');
     ilios.dom.setEnableForAElement(element, enabled);
 
     element = document.getElementById('external_course_id');
