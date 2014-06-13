@@ -264,7 +264,7 @@
         </div>
         <div class="column actions">
             <a href="" class="tiny radius button"
-               onclick="ilios.cm.addNewLearningMaterial('-1'); return false;"
+               onclick="ilios.cm.lm.addNewLearningMaterial('-1'); return false;"
                id="add_learning_material_link"><?php echo t('general.phrases.add_learning_material_link'); ?></a>
         </div>
     </div>
