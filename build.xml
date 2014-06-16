@@ -283,6 +283,20 @@
                         text="$config['tasks']['audit_log']['rotate_logs'] = ${tasks.audit_log.rotate_logs};${line.separator}" />
             </then>
         </if>
+        <if>
+            <isset property="ga_tracking_id" />
+            <then>
+                <append destFile="${builddir}/application/config/ilios.php"
+                        text="$config['ga_tracking_id'] = ${ga_tracking_id};${line.separator}" />
+            </then>
+        </if>
+        <if>
+            <isset property="ga_cookie_domain" />
+            <then>
+                <append destFile="${builddir}/application/config/ilios.php"
+                        text="$config['ga_cookie_domain'] = ${ga_cookie_domain};${line.separator}" />
+            </then>
+        </if>
     </target>
 
     <!-- ============================================ -->

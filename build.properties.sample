@@ -154,6 +154,13 @@ tasks.user_sync.ldap.password=XXXXXX
 #tasks.audit_log.enabled=true
 
 #------------------------------------------------
+# Settings for Google Analytics
+#------------------------------------------------
+#
+#ga_tracking_id='UA-XXXXXXXX-1'
+#ga_cookie_domain='auto'
+
+#------------------------------------------------
 # Settings for the audit log cron task
 #------------------------------------------------
 #
