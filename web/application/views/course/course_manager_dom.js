@@ -402,7 +402,7 @@ ilios.cm.registerCourseUIListeners = function () {
         ilios.cm.currentCourseModel.setClerkshipTypeId(this.options[this.selectedIndex].value);
     });
 
-    element = document.getElementById('-1_learning_material_expand_widget');
+    element = document.getElementById('-1_learning_materials_container_expand_widget');
     Event.addListener(element, 'click', function () {
         ilios.cm.lm.setLearningMaterialDivVisibility(-1, this, true);
     });
