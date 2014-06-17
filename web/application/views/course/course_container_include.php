@@ -235,25 +235,6 @@
                id="mesh_search_link"><?php echo t('general.terms.search'); ?></a>
         </div>
     </div>
-<!--
-    <div class="row">
-        <div class="column label">
-            <div class="collapsed_widget" id="-1_learning_material_expand_widget"></div>
-            <label for=""><?php //echo t('general.phrases.learning_materials'); ?></label>
-            <span id="-1_learning_material_count" style="margin-right: 9px;"> (0)</span>
-        </div>
-        <div class="column data">
-            <div class="scroll_list" style="display: none;">
-                <ul class="learning_material_list" id="-1_learning_material_list"></ul>
-            </div>
-        </div>
-        <div class="column actions">
-            <a href="" class="tiny radius button"
-               onclick="ilios.ui.onIliosEvent.fire({action: 'alm_dialog_open', container_number: -1}); return false;"
-               id="course_learning_material_search_link"><?php //echo t('general.terms.search'); ?> / <?php //echo t('general.terms.add'); ?></a>
-        </div>
-    </div>
-    -->
     <div class="row">
         <div class="column label">
             <div class="collapsed_widget" id="-1_learning_materials_container_expand_widget"></div>
