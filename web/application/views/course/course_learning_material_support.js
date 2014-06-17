@@ -349,8 +349,8 @@ ilios.cm.lm.setLearningMaterialDivVisibility = function (containerNumber, widget
     }
 
     yElement = new Element(widgetDiv);
-    idString = ilios.cm.lm.generateIdStringForLearningMaterialList(containerNumber);
-    div = new Element(document.getElementById(idString).parentNode);
+    idString = ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber);
+    div = new Element(document.getElementById(idString));
     if ((div.getStyle('display') != 'none') && shouldToggle) {
         yElement.removeClass('expanded_widget');
         yElement.addClass('collapsed_widget');
