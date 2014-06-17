@@ -33,7 +33,7 @@ ilios.cm.lm.generateIdStringForLearningMaterialsContainerExpandWidget = function
     return '' + containerNumber + '_learning_materials_container_expand_widget';
 };
 
-ilios.cm.lm.generateIdStringForLearningMaterialMeSHLink = function (containerNumber, objectiveNumber) {
+ilios.cm.lm.generateIdStringForLearningMaterialMeSHLink = function (containerNumber, learningMaterialNumber) {
     return '' + containerNumber + '_' + learningMaterialNumber + '_learning_materials_mesh_link';
 };
 
@@ -885,21 +885,24 @@ ilios.cm.lm.createLearningMaterialsContainer = function (containerNumber) {
     var isCourse = (containerNumber == -1);
     var model = isCourse ? ilios.cm.currentCourseModel
         : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
-    var divElement = document.getElementById(
+    var lmContainerDiv = document.getElementById(
         ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
     var learningMaterials = model.getLearningMaterials();
     var learningMaterialModel = null;
     //var fixDivSize = (learningMaterials.length > 4);
-    var divElement = new YAHOO.util.Element(divElement.parentNode);
+    //var divElement = new YAHOO.util.Element(listElement.parentNode);
 
     //ilios.utilities.removeAllChildren(divElement);
 
     for (var key in learningMaterials) {
+        lmNumber = ((Number (key)) + 1);
         learningMaterialModel = learningMaterials[key];
 
-        divElement.appendChild(ilios.cm.lm.populateLearningMaterials(learningMaterialModel,
+        ilios.cm.lm.populateLearningMaterials(learningMaterialModel,
             false,
-            containerNumber));
+            containerNumber,
+            lmNumber
+        );
     }
 };
 
@@ -907,8 +910,10 @@ ilios.cm.lm.createLearningMaterialsContainer = function (containerNumber) {
 /*
  * @param model if non-null, the learningMaterialModel will be added to it
  */
-ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerNumber) {
+ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerNumber, lmNumber) {
+    var learningMaterialModel = model;
     var newLearningMaterialContainer = document.createElement('div');
+    var learningMaterialNumber = Number (lmNumber);
     var scratchElement = null;
     var scratchString = null;
     var scratchInput = null;
@@ -919,7 +924,7 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
 
     newLearningMaterialContainer.setAttribute('class', 'learning_material_container');
     newLearningMaterialContainer.setAttribute('cnumber', containerNumber);
-    //newLearningMaterialContainer.setAttribute('lmnumber', learningMaterialNumber);
+    newLearningMaterialContainer.setAttribute('lmnumber', learningMaterialNumber);
 
 
     // Delete widget
@@ -927,10 +932,10 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
     scratchElement.addClass('delete_widget icon-cancel');
     scratchElement.get('element').setAttribute('title', ilios_i18nVendor.getI18NString("general.phrases.delete_objective"));
     scratchElement.get('element').setAttribute('cnumber', containerNumber);
-    //scratchElement.get('element').setAttribute('lmnumber', learningMaterialNumber);
-    /*if (! isLocked) {
-        scratchElement.addListener('click', ilios.cm.deleteLearningMaterial, null, this);
-    }*/
+    scratchElement.get('element').setAttribute('lmnumber', learningMaterialNumber);
+    if (! isLocked) {
+        scratchElement.addListener('click', ilios.cm.lm.deleteLearningMaterial, null, this);
+    }
     newLearningMaterialContainer.appendChild(scratchElement.get('element'));
     ilios.cm.uiElementsToHideOnLockedView.push(scratchElement);
 
@@ -948,22 +953,25 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
             Event.addListener(scratchElement, "click", function (e) { // pop up the "edit objective" dialog
                 //ilios.cm.inEditObjectiveModel = objectiveModel;
                 ilios.ui.onIliosEvent.fire({
-                    action: 'eco_dialog_open'
+                    action: 'alm_dialog_open'
+                    cnumber: containerNumber,
+                    lmnumber: lmnumber
                 });
             });
-        } else { // session objective
-            // register click event handler on objective description container
-            Event.addListener(scratchElement, "click", function (e) { // pop up the "edit objective" dialog
-                ilios.cm.inEditObjectiveModel = objectiveModel;
+        } else { // session learning material
+            // register click event handler on learning material description container
+            Event.addListener(scratchElement, "click", function (e) { // pop up the "add lm" dialog
+                //ilios.cm.inEditObjectiveModel = objectiveModel;
                 ilios.ui.onIliosEvent.fire({
-                    action: 'eso_dialog_open',
-                    cnumber: containerNumber
+                    action: 'alm_dialog_open',
+                    cnumber: containerNumber,
+                    lmnumber: lmnumber
                 });
             });
         }
-        objectiveModel.addStateChangeListener(ilios.cm.objectiveDirtyStateListener, {containerId : scratchString});
+        learningMaterialModel.addStateChangeListener(ilios.cm.learningMaterialDirtyStateListener, {containerId : scratchString});
     }*/
-    //scratchString = ilios.cm.generateIdStringForObjectiveMeSHLink(containerNumber, learningMaterialNumber);
+    scratchString = ilios.cm.lm.generateIdStringForLearningMaterialMeSHLink(containerNumber, learningMaterialNumber);
     scratchInput = document.createElement('a');
     scratchInput.setAttribute('id', scratchString);
     scratchInput.setAttribute('class', 'mesh_btn tiny secondary radius button');
@@ -979,7 +987,7 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
         });
     }*/
 
-    //scratchInput.innerHTML = ilios.cm.meshLinkText(learningMaterialModel);
+    scratchInput.innerHTML = ilios.cm.meshLinkText(learningMaterialModel);
     ilios.cm.uiElementsToHideOnLockedView.push(new Element(scratchInput));
     newLearningMaterialContainer.appendChild(scratchInput);
 
@@ -987,16 +995,16 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
     container.appendChild(newLearningMaterialContainer);
 
     /*if (model != null) {
-        model.addObjectiveForContainer(learningMaterialModel, learningMaterialNumber);
+        model.addLearningMaterialForContainer(learningMaterialModel, learningMaterialNumber);
     }*/
 
-    //ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
+    ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
 };
 
 
 /**
  * Initiates the addition of a new learning material to a course/session by firing up the "add learning materials"
- * dialog.
+ * search popup window.
  * @method addNewLearningMaterial
  * @param {String} containerNumber the learning materials container id
  */
@@ -1004,4 +1012,48 @@ ilios.cm.lm.addNewLearningMaterial = function (containerNumber) {
     ilios.ui.onIliosEvent.fire({
         action: 'alm_dialog_open'
     });
+};
+
+// @private
+ilios.cm.lm.deleteLearningMaterial = function (event) {
+    var target = ilios.utilities.getEventTarget(event);
+    var deleteObjectiveStr = ilios_i18nVendor.getI18NString("general.warning.delete_learning_material");
+    var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
+    var args = {
+        "cnumber": target.getAttribute("cnumber"),
+        "onumber": target.getAttribute("lmnumber")
+    };
+    ilios.alert.inform(deleteLearningMaterialStr, yesStr, ilios.cm.continueDeletingLearningMaterial, args);
+};
+
+/**
+ * "Click" event handler function for the "delete objective" confirmation dialog's "OK" button.
+ * @method ilios.cm.continueDeletingObjective
+ * @param {Event} event
+ * @param {Object} obj handler arguments, expected attributes are the corresponding container id ("cnumber")
+ *    and the id of the objective to delete ("onumber").
+ */
+ilios.cm.lm.continueDeletingLearningMaterial = function(event, obj) {
+    var containerNumber = obj.cnumber;
+    var objectiveNumber = obj.onumber;
+    var isCourse = (containerNumber == -1);
+    var objectiveDescriptionContainerId = ilios.cm.generateIdStringForLearningMaterialTextArea(containerNumber, objectiveNumber);
+    var model = isCourse ? ilios.cm.currentCourseModel : ilios.cm.currentCourseModel.getLearningMaterialForContainer(containerNumber);
+    var element = document.getElementById(objectiveDescriptionContainerId).parentNode;
+
+    element.parentNode.removeChild(element);
+    model.removeObjectiveForContainer(objectiveNumber);
+    ilios.cm.updateObjectiveCountText(containerNumber);
+    this.hide();
+};
+
+ilios.cm.lm.updateLearningMaterialCountText = function (containerNumber) {
+    var isCourse = (containerNumber == -1);
+    var model = isCourse ? ilios.cm.currentCourseModel
+        : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+    var idString = ilios.cm.lm.generateIdStringForLearningMaterialsContainerLabel(containerNumber);
+    var i18nStr = ilios_i18nVendor.getI18NString('general.phrases.learning_materials');
+    var element = document.getElementById(idString);
+
+    element.innerHTML = i18nStr + ' (' + ilios.utilities.objectPropertyCount(model.getLearningMaterials()) + ')';
 };
