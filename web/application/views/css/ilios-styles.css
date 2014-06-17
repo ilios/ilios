@@ -1186,10 +1186,13 @@ fieldset > .row {
     font-size: .9em;
     z-index:3;
 }
+
+.learning_material_container .delete_widget,
 .objective_container .delete_widget {
     right: auto;
     left: .5em;
 }
+
 .delete_widget:hover {
     color: #C00;
 }
@@ -1230,6 +1233,7 @@ fieldset > .row {
     overflow: auto;
 }
 
+.learning_material_container,
 .objective_container {
     position:relative;
     margin:0.2em 0;
@@ -1243,22 +1247,28 @@ fieldset > .row {
     border-radius: 5px;
 }
 
+.learning_material_container .mesh_btn,
 .objective_container .mesh_btn {
     position: absolute;
     right: 1em;
     top: .5em;
 }
 
+.learning_material_description_container,
 .objective_description_container {
     border: none;
     padding: 5px;
     max-height: 50px;
     min-height: 32px;
     overflow: auto;
-    cursor: pointer;
     border-left: 1px solid #EEE;
     border-right: 1px solid #EEE;
 }
+
+.objective_description_container {
+    cursor: pointer;
+}
+
 .objective_description_container:hover {
     background-color: lightBlue;
 }
