@@ -26,6 +26,8 @@ $viewsPath = getServerFilePath('views');
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/ilios-styles.css"); ?>" media="all">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
 
+    <?php include_once $viewsPath . 'common/google_analytics.inc.php'; ?>
+
     <!-- Third party JS -->
     <script type="text/javascript" src="<?php echo appendRevision($viewsUrlRoot . "scripts/third_party/html5shiv.js"); ?>"></script>
 </head>

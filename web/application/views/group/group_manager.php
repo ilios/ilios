@@ -23,6 +23,8 @@ $viewsPath = getServerFilePath('views');
     <style type="text/css"></style>
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
+    <?php include_once $viewsPath . 'common/google_analytics.inc.php'; ?>
+
     <!--[if lt IE 9]>
     <script src="<?php echo $viewsUrlRoot; ?>scripts/third_party/html5shiv.js"></script>
     <![endif]-->

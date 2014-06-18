@@ -32,6 +32,8 @@ $viewsPath = getServerFilePath('views');
     <style type="text/css"></style>
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
+    <?php include_once $viewsPath . 'common/google_analytics.inc.php'; ?>
+
     <script type="text/javascript">
         var baseURL = "<?php echo $siteUrl; ?>/";
         var controllerURL = "<?php echo $controllerURL; ?>/";    // expose this to our javascript land

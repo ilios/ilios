@@ -31,6 +31,8 @@ $viewsPath = getServerFilePath('views');
 
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
+    <?php include_once $viewsPath . 'common/google_analytics.inc.php'; ?>
+
     <script type="text/javascript" src="<?php echo $controllerURL; ?>/getI18NJavascriptVendor"></script>
 <?php
 $js = array(

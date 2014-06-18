@@ -348,6 +348,24 @@ $config['uid_max_length'] = 9;
 
 /*
 |--------------------------------------------------------------------------
+| Google Analytics Options
+|--------------------------------------------------------------------------
+|
+| If you wish to use google Analytics you must specify the tracking id for your site
+|
+| ['ga_tracking_id']
+|   The ID provided by google
+|
+| ['ga_cookie_domain']
+|   Can be left on auto for most sites
+|
+*/
+
+$config['ga_tracking_id'] = null;
+$config['ga_cookie_domain'] = 'auto';
+
+/*
+|--------------------------------------------------------------------------
 | Ilios Revision
 |--------------------------------------------------------------------------
 |
