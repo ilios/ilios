@@ -1,20 +1,41 @@
 ------- VERSION CHANGES --------
 
+Version 2.4.3
+
+Bug Fixes:
+
+#619: Fix detection of UTF-8 which can cause the CSV uploads to fail
+#624: Timeout LDAP connection after 2 minutes to avoid errors
+
+Feature Changes:
+
+#429: Added Support for Google Analytics
+#626: Add uc_uid length limitations to configuration
+
+Code Quality and Development:
+
+#460, #461: Test against IE 9, IE 11, Safari, and Chrome
+#621: Directly manipulate the database to speed up Behat tests
+#623: Add ldap errors to exceptions to make them easier to track
+#629: Upgraded to CodeIgniter 2.2.0
+
+---
+
 Version 2.4.2
 
 Bug Fixes:
- 
+
 Issue #475: ILM sessions now sort correctly by date.
 Issue #610: Temporarily disabled 'Save All as Draft' button in Course/Session Manager to ensure data security/integrity until underlying issues are resolved.
-Issue #614: Added handling for semicolon-separated values returned by Shibboleth 'mail' attribute to support IDp's that provide the values for both SAML1 and SAML2-named attributes concurrently in the same field 
- 
+Issue #614: Added handling for semicolon-separated values returned by Shibboleth 'mail' attribute to support IDp's that provide the values for both SAML1 and SAML2-named attributes concurrently in the same field
+
 Feature Changes:
- 
+
 Issue #424: Added script to automate regular dump of audit information to logfile instead of db
 Issue #595: Added ability to customize calendar scheduler time-step increments in configuration file
- 
+
 Code Quality and Development:
- 
+
 Issue #462: Increased specificity of user input (GET vs. POST)
 Issue #549: Removed deepCloneAssociativeArray() function completely
 Issue #557: Added 'CONTRIBUTING.md' file to assist new developers
