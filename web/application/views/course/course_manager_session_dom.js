@@ -598,7 +598,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     ilios.cm.uiElementsToHideOnLockedView.push(scratchElement);
 
     //Learning Material
-    rowElement = ilios.dom.createEntityContainerInputRow();
+    /*rowElement = ilios.dom.createEntityContainerInputRow();
     i18nStr = ilios_i18nVendor.getI18NString('course_management.learning_materials.title');
 
     //label column
@@ -648,7 +648,53 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     ilios.cm.uiElementsToHideOnLockedView.push(scratchInput);
     actionCol = ilios.dom.createActionCol(rowElement, scratchInput.get('element'));
 
+    parentElement.appendChild(rowElement);*/
+
+    //Learning Materials
+    rowElement = ilios.dom.createEntityContainerInputRow();
+
+    //label column
+    subContainer = document.createElement('div');
+    subContainer.setAttribute('class', 'collapsed_widget');
+    subContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialsContainerExpandWidget(containerNumber));
+    Event.addListener(subContainer, 'click', function () {
+        ilios.cm.lm.setlearningMaterialDivVisibility(containerNumber, this, true);
+    });
+    labelCol = ilios.dom.createLabelCol(rowElement, subContainer);
+
+    scratchLabel = document.createElement('label');
+    scratchLabel.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialsContainerLabel(containerNumber));
+    scratchLabel.innerHTML = ilios_i18nVendor.getI18NString('general.terms.learning_materials') + ' (0)';
+    labelCol.appendChild(scratchLabel);
+
+    //data column
+    scratchContainer = document.createElement('div');
+    scratchContainer.setAttribute('id',
+        ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
+    scratchContainer.setAttribute('style', 'display: none;');
+    dataCol = ilios.dom.createDataCol(rowElement, scratchContainer);
+
+    //action column
+    i18nStr = ilios_i18nVendor.getI18NString('general.phrases.add_learning_material_link');
+    scratchInput = new Element(document.createElement('a'), {href: ''});
+    scratchInput.addClass('tiny radius button');
+    scratchInput.get('element').setAttribute('onclick', 'return false;');
+    scratchInput.addListener('click', function (e) {
+        ilios.cm.lm.addNewSessionLearningMaterial(containerNumber);
+    }, null, this);
+    text = document.createTextNode(i18nStr);
+    scratchInput.appendChild(text);
+    ilios.cm.uiElementsToHideOnLockedView.push(scratchInput);
+
+    ilios.dom.createActionCol(rowElement, scratchInput.get('element'));
+
     parentElement.appendChild(rowElement);
+
+
+
+
+
+
 
     //Objectives
     rowElement = ilios.dom.createEntityContainerInputRow();
@@ -854,7 +900,8 @@ ilios.cm.session.buildAndPopulateSession = function (containerNumber, model, ses
 
     ilios.cm.session.updatePublishButtonForSession(sessionModel, containerNumber);
 
-    ilios.cm.lm.populateLearningMaterialList(containerNumber);
+    //ilios.cm.lm.populateLearningMaterialList(containerNumber);
+    ilios.cm.lm.populateSessionLearningMaterialsContainer(containerNumber);
     // only display the learning materials search link if the corresponding session model has been saved yet
     if (-1 !== sessionModel.getDBId()) { // check db record id
         element = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber));

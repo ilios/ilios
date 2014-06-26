@@ -881,7 +881,7 @@ ilios.cm.lm.clearCachedTabPanes = function () {
 };
 
 
-ilios.cm.lm.createLearningMaterialsContainer = function (containerNumber) {
+ilios.cm.lm.populateCourseLearningMaterialsContainer = function (containerNumber) {
     var isCourse = (containerNumber == -1);
     var model = isCourse ? ilios.cm.currentCourseModel
         : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
@@ -889,48 +889,142 @@ ilios.cm.lm.createLearningMaterialsContainer = function (containerNumber) {
         ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
     var learningMaterials = model.getLearningMaterials();
     var learningMaterialModel = null;
+    var learningMaterialsAll;
     //var fixDivSize = (learningMaterials.length > 4);
     //var divElement = new YAHOO.util.Element(listElement.parentNode);
-
     //ilios.utilities.removeAllChildren(divElement);
+    //now create each learning material
+    /*for (var key in learningMaterials) {
 
-    for (var key in learningMaterials) {
+        //set the lmNumber off the zero-indexed key
         lmNumber = ((Number (key)) + 1);
+        //load the individual learning material as a model
         learningMaterialModel = learningMaterials[key];
 
-        ilios.cm.lm.populateLearningMaterials(learningMaterialModel,
-            false,
-            containerNumber,
-            lmNumber
-        );
+        //now add the individual learning material items
+        ilios.cm.lm.buildIndividualLearningMaterialItem(learningMaterialModel,containerNumber, lmNumber);
+    }*/
+
+    learningMaterialsAll = ilios.cm.lm.buildLearningMaterialItemsForContainer (learningMaterials, containerNumber);
+
+    for (var key in learningMaterialsAll) {
+        lmContainerDiv.appendChild(learningMaterialsAll[key]);
     }
+
+
+    //and finally, update the learning material count
+    ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
 };
+
+ilios.cm.lm.populateSessionLearningMaterialsContainer = function (containerNumber) {
+    var isCourse = (containerNumber == -1);
+    var model = isCourse ? ilios.cm.currentCourseModel
+        : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+    //var lmContainerDiv = document.createElement('div');
+    //lmContainerDiv.setAttribute('class', 'scroll_list five');
+    //lmContainerDiv.setAttribute('style', 'display: none;');
+    //var lmContainerElement = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
+    var lmContainerElement = document.createElement('div');
+    lmContainerElement.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
+    var learningMaterials = model.getLearningMaterials();
+    var learningMaterialModel = null;
+    var learningMaterialsAll;
+    //var fixDivSize = (learningMaterials.length > 4);
+    //var divElement = new YAHOO.util.Element(listElement.parentNode);
+    //ilios.utilities.removeAllChildren(divElement);
+    //now create each learning material
+    /*for (var key in learningMaterials) {
+
+     //set the lmNumber off the zero-indexed key
+     lmNumber = ((Number (key)) + 1);
+     //load the individual learning material as a model
+     learningMaterialModel = learningMaterials[key];
+
+     //now add the individual learning material items
+     ilios.cm.lm.buildIndividualLearningMaterialItem(learningMaterialModel,containerNumber, lmNumber);
+     }*/
+
+    //create each of the learning material items to populate the container
+    learningMaterialsAll = ilios.cm.lm.buildLearningMaterialItemsForContainer (learningMaterials, containerNumber);
+
+    //the lmContainerElement is now built, so we target it for adding the learning materials
+    lmContainer = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
+
+    for (var key in learningMaterialsAll) {
+        lmContainer.appendChild(learningMaterialsAll[key]);
+    }
+
+    //lmContainerDiv.appendChild(lmContainerElement);
+
+    //and finally, update the learning material count
+    ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
+};
+
+ilios.cm.lm.buildLearningMaterialItemsForContainer = function (learningMaterials, containerNumber) {
+
+    var learningMaterialsAll = [];
+
+    //now create each learning material
+    for (var key in learningMaterials) {
+
+        //set the lmNumber off the zero-indexed key
+        lmNumber = ((Number (key)) + 1);
+        //load the individual learning material as a model
+        learningMaterialModel = learningMaterials[key];
+
+        //now add the individual learning material items
+        learningMaterialsAll.push(ilios.cm.lm.buildIndividualLearningMaterialItem(learningMaterialModel,containerNumber,lmNumber));
+    }
+
+    return learningMaterialsAll;
+
+
+}
 
 
 /*
  * @param model if non-null, the learningMaterialModel will be added to it
  */
-ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerNumber, lmNumber) {
+ilios.cm.lm.buildIndividualLearningMaterialItem = function (model, containerNumber, lmNumber, isLocked) {
+
     var learningMaterialModel = model;
-    var newLearningMaterialContainer = document.createElement('div');
     var learningMaterialNumber = Number (lmNumber);
+    var titleElement = document.createElement('a');
+    var mimeTypeClass = null;
+
+    //initialize the
     var scratchElement = null;
     var scratchString = null;
-    var scratchInput = null;
+    var fileSizeElement = null;
+    var downloadURL = learningMaterialsControllerURL
+        + "getLearningMaterialWithId?learning_material_id=" + model.getDBId();
+    var affectingWidget = document.createElement('span');
+    var affectingWidgetClass = null;
+
+
+    var mouseOverBGColor = null;
+    var isLink = (model.getMimeType() == 'link');
+    var isCitation = (model.getMimeType() == 'citation');
     var Event = YAHOO.util.Event;
     var Element = YAHOO.util.Element;
     var isLocked = isLocked || false;
-    var container = document.getElementById(containerNumber+"_learning_materials_container");
 
+    //declare the parent container which will hold all the learning material items
+    var parentContainer = document.getElementById(containerNumber+"_learning_materials_container");
+
+    //set up the container that will hold the entire row
+    var newLearningMaterialContainer = document.createElement('div');
     newLearningMaterialContainer.setAttribute('class', 'learning_material_container');
     newLearningMaterialContainer.setAttribute('cnumber', containerNumber);
     newLearningMaterialContainer.setAttribute('lmnumber', learningMaterialNumber);
 
+    //get the mimeType of the learning material to set the styling
+    mimeTypeClass = ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType());
 
     // Delete widget
     scratchElement = new Element(document.createElement('div'));
     scratchElement.addClass('delete_widget icon-cancel');
-    scratchElement.get('element').setAttribute('title', ilios_i18nVendor.getI18NString("general.phrases.delete_objective"));
+    scratchElement.get('element').setAttribute('title', ilios_i18nVendor.getI18NString("general.phrases.delete_learning_material"));
     scratchElement.get('element').setAttribute('cnumber', containerNumber);
     scratchElement.get('element').setAttribute('lmnumber', learningMaterialNumber);
     if (! isLocked) {
@@ -939,18 +1033,84 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
     newLearningMaterialContainer.appendChild(scratchElement.get('element'));
     ilios.cm.uiElementsToHideOnLockedView.push(scratchElement);
 
-    // objective description container
+    // learning material description container
     scratchElement = document.createElement('div');
     //scratchString = ilios.cm.generateIdStringForLearningMaterialTextArea(containerNumber, learningMaterialNumber);
-    scratchElement.setAttribute('class', 'learning_material_description_container');
+
+    scratchElement.setAttribute('class', 'learning_material_description_container ' + mimeTypeClass);
     scratchElement.setAttribute('id', scratchString);
     scratchElement.innerHTML = model.getTitle();
+
+    //the button/download widgets
+    //the buttonWidget is a div that will contain the button widgets (eg, downloadWidget...)
+    var buttonWidgetDiv = document.createElement('span');
+    buttonWidgetDiv.setAttribute('class', 'buttonset');
+
+    //the downloadWidget will display/handle the download of a lm resoource
+    var downloadWidget = document.createElement('span');
+    downloadWidget.setAttribute('class', 'download_widget');
+
+    //affectingwidget is not used
+    //affectingWidget.setAttribute('class', affectingWidgetClass);
+
+    //if it's not a link or a citation...
+    if ((! isLink) && (! isCitation)) {
+        fileSizeElement = document.createElement('span');
+        fileSizeElement.setAttribute('class', 'filesize');
+        fileSizeElement.innerHTML = ' &nbsp;(' + model.getFileSize() + ' KB)';
+        //add the filesize to lm description container
+        scratchElement.appendChild(fileSizeElement);
+
+        //it's a file, so attach the download widget to the buttonWidget container
+        buttonWidgetDiv.appendChild(downloadWidget);
+    }
+
+
+
+    if (ilios.cm.currentCourseModel.isLocked()) {
+        /*buttonWidgetDiv.appendChild(affectingWidget);
+
+        Event.addListener(affectingWidget, 'click', function (e) {
+            ilios.cm.lm.handleLearningMaterialClick(this, model, showAddIcon);
+        });
+    } else {*/
+        ilios.cm.uiElementsToHideOnLockedView.push(new YAHOO.util.Element(affectingWidget));
+    }
+
+    Event.addListener(downloadWidget, 'click', function (e) {
+        window.location.href = downloadURL;
+    });
+
+    /*if (! showAddIcon) {
+        Event.addListener(titleElement, 'click', function (e) {
+            ilios.common.lm.learningMaterialsDetailsModel = model;
+            ilios.ui.onIliosEvent.fire({
+                action: 'lm_metadata_dialog_open',
+                container_number: containerNumber
+            });
+            return false;
+        });
+    }*/
+    //Event.addListener(rhett, 'mouseover',
+    //                   function (e) { (new YAHOO.util.Element(this)).setStyle('background-color',
+    //                                                                mouseOverBGColor); });
+    //Event.addListener(rhett, 'mouseout',
+    //                   function (e) { (new YAHOO.util.Element(this)).setStyle('background-color', null); });
+
+
+
+    //scratchElement.setAttribute('class', ilios.utilities.convertMimeTypeToCSSClassName(model.getMimeType()));
+    //add the button widget container to the description container
+    scratchElement.appendChild(buttonWidgetDiv);
+
+    //add the description div to the parent container
     newLearningMaterialContainer.appendChild(scratchElement);
 
-    /*if (! isLocked) {
-        if (-1 === containerNumber) {  // course learning material
+
+    if (! isLocked) {
+        /*if (-1 === containerNumber) {  // course learning material
             // register click event handler on learning material description container
-            Event.addListener(scratchElement, "click", function (e) { // pop up the "edit objective" dialog
+            Event.addListener(scratchElement, "click", function (e) { // pop up the "Search/Add" dialog
                 //ilios.cm.inEditObjectiveModel = objectiveModel;
                 ilios.ui.onIliosEvent.fire({
                     action: 'alm_dialog_open'
@@ -958,9 +1118,9 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
                     lmnumber: lmnumber
                 });
             });
-        } else { // session learning material
+        } else { // session learning material */
             // register click event handler on learning material description container
-            Event.addListener(scratchElement, "click", function (e) { // pop up the "add lm" dialog
+            Event.addListener(scratchElement, "click", function (e) { // pop up the "Search/Add" dialog
                 //ilios.cm.inEditObjectiveModel = objectiveModel;
                 ilios.ui.onIliosEvent.fire({
                     action: 'alm_dialog_open',
@@ -968,16 +1128,17 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
                     lmnumber: lmnumber
                 });
             });
-        }
+        //}
+
         learningMaterialModel.addStateChangeListener(ilios.cm.learningMaterialDirtyStateListener, {containerId : scratchString});
-    }*/
+    }
     scratchString = ilios.cm.lm.generateIdStringForLearningMaterialMeSHLink(containerNumber, learningMaterialNumber);
     scratchInput = document.createElement('a');
     scratchInput.setAttribute('id', scratchString);
     scratchInput.setAttribute('class', 'mesh_btn tiny secondary radius button');
     scratchInput.setAttribute('href', '');
     scratchInput.setAttribute('onclick', 'return false;');
-    /*if (! isLocked) {
+    if (! isLocked) {
         Event.addListener(scratchInput, 'click', function (e) {
             ilios.ui.onIliosEvent.fire({
                 action: 'mesh_picker_dialog_open',
@@ -985,20 +1146,26 @@ ilios.cm.lm.populateLearningMaterials = function (model, showAddIcon, containerN
             });
             return false;
         });
-    }*/
+    }
 
     scratchInput.innerHTML = ilios.cm.meshLinkText(learningMaterialModel);
     ilios.cm.uiElementsToHideOnLockedView.push(new Element(scratchInput));
     newLearningMaterialContainer.appendChild(scratchInput);
 
+    //append the clearing div to the newly-created learning material container
     ilios.utilities.appendClearingDivToContainer(newLearningMaterialContainer);
-    container.appendChild(newLearningMaterialContainer);
+
+    //add everything to the parent container
+    //parentContainer.appendChild(newLearningMaterialContainer);
+    return newLearningMaterialContainer;
+
+
 
     /*if (model != null) {
         model.addLearningMaterialForContainer(learningMaterialModel, learningMaterialNumber);
     }*/
 
-    ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
+
 };
 
 
@@ -1017,33 +1184,34 @@ ilios.cm.lm.addNewLearningMaterial = function (containerNumber) {
 // @private
 ilios.cm.lm.deleteLearningMaterial = function (event) {
     var target = ilios.utilities.getEventTarget(event);
-    var deleteObjectiveStr = ilios_i18nVendor.getI18NString("general.warning.delete_learning_material");
+    var deleteLearningMaterialStr = ilios_i18nVendor.getI18NString("general.warning.delete_learning_material");
     var yesStr = ilios_i18nVendor.getI18NString('general.terms.yes');
     var args = {
         "cnumber": target.getAttribute("cnumber"),
-        "onumber": target.getAttribute("lmnumber")
+        "lmnumber": target.getAttribute("lmnumber")
     };
     ilios.alert.inform(deleteLearningMaterialStr, yesStr, ilios.cm.continueDeletingLearningMaterial, args);
 };
 
 /**
- * "Click" event handler function for the "delete objective" confirmation dialog's "OK" button.
- * @method ilios.cm.continueDeletingObjective
+ * "Click" event handler function for the "delete learning material" confirmation dialog's "OK" button.
+ * @method ilios.cm.continueDeletingLearningMaterial
  * @param {Event} event
  * @param {Object} obj handler arguments, expected attributes are the corresponding container id ("cnumber")
- *    and the id of the objective to delete ("onumber").
+ *    and the id of the learning material to delete ("lmnumber").
  */
 ilios.cm.lm.continueDeletingLearningMaterial = function(event, obj) {
     var containerNumber = obj.cnumber;
-    var objectiveNumber = obj.onumber;
+    var lmNumber = obj.onumber;
     var isCourse = (containerNumber == -1);
-    var objectiveDescriptionContainerId = ilios.cm.generateIdStringForLearningMaterialTextArea(containerNumber, objectiveNumber);
-    var model = isCourse ? ilios.cm.currentCourseModel : ilios.cm.currentCourseModel.getLearningMaterialForContainer(containerNumber);
-    var element = document.getElementById(objectiveDescriptionContainerId).parentNode;
+    var learningMaterialDescriptionContainerId = ilios.cm.generateIdStringForLearningMaterialTextArea(containerNumber, lmNumber);
+    var model = isCourse ?
+        ilios.cm.currentCourseModel : ilios.cm.currentCourseModel.getLearningMaterialForContainer(containerNumber);
+    var element = document.getElementById(learningMaterialDescriptionContainerId).parentNode;
 
     element.parentNode.removeChild(element);
-    model.removeObjectiveForContainer(objectiveNumber);
-    ilios.cm.updateObjectiveCountText(containerNumber);
+    model.removeLearningMaterialForContainer(lmNumber);
+    ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
     this.hide();
 };
 
@@ -1056,4 +1224,76 @@ ilios.cm.lm.updateLearningMaterialCountText = function (containerNumber) {
     var element = document.getElementById(idString);
 
     element.innerHTML = i18nStr + ' (' + ilios.utilities.objectPropertyCount(model.getLearningMaterials()) + ')';
+};
+
+/**
+ * Initiates the addition of a new learning material to a session by firing up the "add/search learning material"
+ * dialog.
+ *
+ * @method addNewSessionLearningMaterial
+ * @param {String} containerNumber the session objectives display container id
+ */
+ilios.cm.lm.addNewSessionLearningMaterial = function (containerNumber, lmNumber) {
+    //ilios.cm.inEditObjectiveModel = null;
+    ilios.ui.onIliosEvent.fire({
+        action: 'alm_dialog_open',
+        cnumber: containerNumber,
+        lmnumber: lmNumber
+    });
+};
+
+ilios.cm.lm.addNewCourseLearningMaterialToDom = function (learningMaterialModel) {
+    if (ilios.cm.currentCourseModel != null) {
+        var model = ilios.cm.currentCourseModel;
+        var objectiveNumber = model.getNextLearningMaterialNumber();
+        var containerId = ilios.cm.generateIdStringForLearningMaterialsContainer(-1);
+        var container = document.getElementById(containerId);
+        ilios.cm.lm.buildAndPopulateLearningMaterials(-1, lmNumber, model, learningMaterialModel, container);
+        ilios.cm.lm.setLearningMaterialDivVisibility(-1, null, false);
+    }
+};
+
+ilios.cm.lm.addNewSessionLearningMaterialToDom = function (containerNumber, learningMaterialModel) {
+    if (ilios.cm.currentCourseModel != null) {
+        var model = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+        var objectiveNumber = model.getNextLearningMaterialNumber();
+        var containerId = ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber);
+        var container = document.getElementById(containerId);
+        ilios.cm.lm.buildAndPopulateLearningMaterial(containerNumber, lmNumber, model, learningMaterialModel, container);
+        ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
+    }
+};
+
+/*
+ * @param shouldToggle if true, the current visibility will be toggled; if false, the div will be
+ *                          made visible
+ */
+ilios.cm.lm.setlearningMaterialDivVisibility = function (containerNumber, widgetDiv, shouldToggle) {
+    var Element = YAHOO.util.Element;
+    var element = null;
+    var idString = null;
+    var div = null;
+
+    if (ilios.cm.currentCourseModel == null) {
+        return;
+    }
+
+    if (widgetDiv == null) {
+        idString = ilios.cm.lm.generateIdStringForLearningMaterialsContainerExpandWidget(containerNumber);
+        widgetDiv = document.getElementById(idString);
+    }
+
+    element = new Element(widgetDiv);
+    idString = ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber);
+    div = new Element(document.getElementById(idString));
+    if ((div.getStyle('display') != 'none') && shouldToggle) {
+        element.removeClass('expanded_widget');
+        element.addClass('collapsed_widget');
+        div.setStyle('display', 'none');
+    }
+    else {
+        element.removeClass('collapsed_widget');
+        element.addClass('expanded_widget');
+        div.setStyle('display', 'block');
+    }
 };

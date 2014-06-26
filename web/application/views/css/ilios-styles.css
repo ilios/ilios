@@ -2318,14 +2318,19 @@ ul.week_list li.selected_day {
     padding:0;
 }
 
+.learning_material_description_container,
 .learning_material_list li {
+    padding:.5em .5em .5em 30px;
     position: relative;
+}
+
+.learning_material_list li {
     list-style-type:none;
     list-style-position:inside;
     margin: 0;
-    padding:.5em .5em .5em 30px;
     border-bottom: 1px dotted #CCC;
 }
+
 .learning_material_list > li > .title {
     display: inline-block;
     margin-right: 8em;
@@ -2348,99 +2353,112 @@ ul.week_list li.selected_day {
     overflow:hidden;
 }
 
+.learning_material_description_container .buttonset,
 .learning_material_list .buttonset {
     position: absolute;
     right: 0;
     top: .5em;
 }
 
+.learning_material_description_container .filesize,
 .learning_material_list .filesize {
-    position: absolute;
+   position: absolute;
+}
+
+.learning_material_description_container .filesize {
+    right: 2.5em;
+}
+
+.learning_material_list .filesize {
     right: 6em;
+}
+
+.learning_material_description_container .filesize,
+.learning_materials_list .filesize {
     font-size:.8em;
     color: #999;
 }
 /* consider replacing these with icon font - and perhaps simplifying */
-.learning_material_list li.application--gzip {
+.application--gzip {
     background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--msword,
-.learning_material_list li.application--vnd__ms-word__document__macroEnabled__12,
-.learning_material_list li.application--vnd__openxmlformats-officedocument__wordprocessingml__document,
-.learning_material_list li.application--vnd__ms-word__template__macroEnabled__12,
-.learning_material_list li.application--vnd__openxmlformats-officedocument__wordprocessingml__template {
+.application--msword,
+.application--vnd__ms-word__document__macroEnabled__12,
+.application--vnd__openxmlformats-officedocument__wordprocessingml__document,
+.application--vnd__ms-word__template__macroEnabled__12,
+.application--vnd__openxmlformats-officedocument__wordprocessingml__template {
     background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
 }
 
-.learning_material_list li.application--octet-stream {
+.application--octet-stream {
     background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--pdf {
+.application--pdf {
     background: url("../images/mime_type_icons/pdf.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--vnd__ms-excel,
-.learning_material_list li.application--vnd__openxmlformats-officedocument__spreadsheetml__sheet,
-.learning_material_list li.application--vnd__openxmlformats-officedocument__spreadsheetml__template,
-.learning_material_list li.application--vnd__ms-excel__sheet__macroEnabled__12,
-.learning_material_list li.application--vnd__ms-excel__template__macroEnabled__12,
-.learning_material_list li.application--vnd__ms-excel__addin__macroEnabled__12,
-.learning_material_list li.application--vnd__ms-excel__sheet__binary__macroEnabled__12 {
+.application--vnd__ms-excel,
+.application--vnd__openxmlformats-officedocument__spreadsheetml__sheet,
+.application--vnd__openxmlformats-officedocument__spreadsheetml__template,
+.application--vnd__ms-excel__sheet__macroEnabled__12,
+.application--vnd__ms-excel__template__macroEnabled__12,
+.application--vnd__ms-excel__addin__macroEnabled__12,
+.application--vnd__ms-excel__sheet__binary__macroEnabled__12 {
     background: url("../images/mime_type_icons/x-office-spreadsheet.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--powerpoint,
-.learning_material_list li.application--vnd__ms-powerpoint,
-.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__presentation,
-.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__template,
-.learning_material_list li.application--vnd__openxmlformats-officedocument__presentationml__slideshow,
-.learning_material_list li.application--vnd__ms-powerpoint__addin__macroEnabled__12,
-.learning_material_list li.application--vnd__ms-powerpoint__presentation__macroEnabled__12,
-.learning_material_list li.application--vnd__ms-powerpoint__template__macroEnabled__12,
-.learning_material_list li.application--vnd__ms-powerpoint__slideshow__macroEnabled__12 {
+.application--powerpoint,
+.application--vnd__ms-powerpoint,
+.application--vnd__openxmlformats-officedocument__presentationml__presentation,
+.application--vnd__openxmlformats-officedocument__presentationml__template,
+.application--vnd__openxmlformats-officedocument__presentationml__slideshow,
+.application--vnd__ms-powerpoint__addin__macroEnabled__12,
+.application--vnd__ms-powerpoint__presentation__macroEnabled__12,
+.application--vnd__ms-powerpoint__template__macroEnabled__12,
+.application--vnd__ms-powerpoint__slideshow__macroEnabled__12 {
     background: url("../images/mime_type_icons/x-office-presentation.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--zip {
+.application--zip {
     background: url("../images/mime_type_icons/package-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.audio--mpeg {
+.audio--mpeg {
     background: url("../images/mime_type_icons/audio-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.audio--wav {
+.audio--wav {
     background: url("../images/mime_type_icons/audio-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.citation {
+.citation {
     background: url("../images/mime_type_icons/citation.png") no-repeat 2px .5em;
 }
-.learning_material_list li.image--gif {
+.image--gif {
     background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.image--jpeg {
+.image--jpeg {
     background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.image--png {
+.image--png {
     background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.link {
+.link {
     background: url("../images/mime_type_icons/link.png") no-repeat 2px .5em;
 }
-.learning_material_list li.text--html {
+.text--html {
     background: url("../images/mime_type_icons/text-html.png") no-repeat 2px .5em;
 }
-.learning_material_list li.text--plain {
+.text--plain {
     background: url("../images/mime_type_icons/text-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.video--x-ms-wmv {
+.video--x-ms-wmv {
     background: url("../images/mime_type_icons/video-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.application--x-download {
+.application--x-download {
     background: url("../images/mime_type_icons/x-office-document.png") no-repeat 2px .5em;
 }
-.learning_material_list li.video--quicktime {
+.video--quicktime {
     background: url("../images/mime_type_icons/video-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.audio--mpg {
+.audio--mpg {
     background: url("../images/mime_type_icons/audio-x-generic.png") no-repeat 2px .5em;
 }
-.learning_material_list li.image--jpg {
+.image--jpg {
     background: url("../images/mime_type_icons/image-x-generic.png") no-repeat 2px .5em;
 }
 
