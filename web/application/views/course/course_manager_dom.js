@@ -773,7 +773,7 @@ ilios.cm.populateCourseAndSetEnable = function (title, startDate, endDate, yearS
     ilios.cm.currentCourseModel.addStateChangeListener(ilios.cm.dirtyStateListener, null);
 
     //ilios.cm.lm.populateLearningMaterialList(-1);
-    ilios.cm.lm.populateCourseLearningMaterialsContainer(-1);
+    ilios.cm.lm.populateLearningMaterialsContainer(-1);
 
 
 

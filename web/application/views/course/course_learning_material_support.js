@@ -911,51 +911,31 @@ ilios.cm.lm.populateCourseLearningMaterialsContainer = function (containerNumber
         lmContainerDiv.appendChild(learningMaterialsAll[key]);
     }
 
-
     //and finally, update the learning material count
     ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
 };
 
-ilios.cm.lm.populateSessionLearningMaterialsContainer = function (containerNumber) {
+ilios.cm.lm.populateLearningMaterialsContainer = function (containerNumber) {
+    //only the course should have -1 containerNumber
     var isCourse = (containerNumber == -1);
+    //get the course model or the session model
     var model = isCourse ? ilios.cm.currentCourseModel
         : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
-    //var lmContainerDiv = document.createElement('div');
-    //lmContainerDiv.setAttribute('class', 'scroll_list five');
-    //lmContainerDiv.setAttribute('style', 'display: none;');
-    //var lmContainerElement = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
-    var lmContainerElement = document.createElement('div');
-    lmContainerElement.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
+    //get the learning materials from the course/session model
     var learningMaterials = model.getLearningMaterials();
-    var learningMaterialModel = null;
-    var learningMaterialsAll;
-    //var fixDivSize = (learningMaterials.length > 4);
-    //var divElement = new YAHOO.util.Element(listElement.parentNode);
-    //ilios.utilities.removeAllChildren(divElement);
-    //now create each learning material
-    /*for (var key in learningMaterials) {
-
-     //set the lmNumber off the zero-indexed key
-     lmNumber = ((Number (key)) + 1);
-     //load the individual learning material as a model
-     learningMaterialModel = learningMaterials[key];
-
-     //now add the individual learning material items
-     ilios.cm.lm.buildIndividualLearningMaterialItem(learningMaterialModel,containerNumber, lmNumber);
-     }*/
-
     //create each of the learning material items to populate the container
-    learningMaterialsAll = ilios.cm.lm.buildLearningMaterialItemsForContainer (learningMaterials, containerNumber);
-
-    //the lmContainerElement is now built, so we target it for adding the learning materials
+    var learningMaterialsAll = ilios.cm.lm.buildLearningMaterialItemsForContainer (learningMaterials, containerNumber);
+    //if we're in a session, build the new lmContainer
+    if(!isCourse) {
+        var lmContainerElement = document.createElement('div');
+        lmContainerElement.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
+    }
+    //the lmContainer is now built or it already exists (course), so target it for adding the learning materials
     lmContainer = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
-
+    //loop through all the learning materials to create and append each row to the lmContainer
     for (var key in learningMaterialsAll) {
         lmContainer.appendChild(learningMaterialsAll[key]);
     }
-
-    //lmContainerDiv.appendChild(lmContainerElement);
-
     //and finally, update the learning material count
     ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
 };

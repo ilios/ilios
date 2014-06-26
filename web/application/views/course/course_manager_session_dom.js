@@ -899,9 +899,7 @@ ilios.cm.session.buildAndPopulateSession = function (containerNumber, model, ses
     }
 
     ilios.cm.session.updatePublishButtonForSession(sessionModel, containerNumber);
-
-    //ilios.cm.lm.populateLearningMaterialList(containerNumber);
-    ilios.cm.lm.populateSessionLearningMaterialsContainer(containerNumber);
+    ilios.cm.lm.populateLearningMaterialsContainer(containerNumber);
     // only display the learning materials search link if the corresponding session model has been saved yet
     if (-1 !== sessionModel.getDBId()) { // check db record id
         element = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber));
