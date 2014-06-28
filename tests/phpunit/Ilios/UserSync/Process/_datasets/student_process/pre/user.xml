@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataset>
+    <table name="audit_atom">
+        <column>audit_atom_id</column>
+        <column>table_row_id</column>
+        <column>table_column</column>
+        <column>table_name</column>
+        <column>event_type</column>
+        <column>created_by</column>
+        <column>created_at</column>
+    </table>
     <table name="user">
         <column>user_id</column>
         <column>last_name</column>

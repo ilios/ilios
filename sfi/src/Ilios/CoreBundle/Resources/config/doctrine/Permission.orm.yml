@@ -1,0 +1,36 @@
+Ilios\CoreBundle\Entity\Permission:
+    type: entity
+    table: permission
+    uniqueConstraints:
+        user_table_k:
+            columns:
+                - user_id
+                - table_name
+                - table_row_id
+    id:
+        permissionId:
+            type: integer
+            unsigned: true
+            id: true
+            column: permission_id    
+            generator: { strategy: AUTO }
+    fields:
+        userId:
+            type: integer
+            unsigned: true
+            column: user_id
+        canRead:
+            type: boolean
+            column: can_read
+        canWrite:
+            type: boolean
+            column: can_write
+        tableRowId:
+            type: integer
+            nullable: true
+            unsigned: true
+            column: table_row_id
+        tableName:
+            type: string
+            length: 30
+            column: table_name    

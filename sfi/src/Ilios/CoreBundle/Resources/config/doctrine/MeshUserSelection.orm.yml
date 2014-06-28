@@ -1,0 +1,19 @@
+Ilios\CoreBundle\Entity\MeshUserSelection:
+    type: entity
+    table: mesh_user_selection
+    id:
+        meshUserSelectionId:
+            type: integer
+            unsigned: true
+            id: true
+            column: mesh_user_selection_id
+            generator: { strategy: AUTO }
+    fields:
+        meshDescriptorUid:
+            type: string
+            length: 9
+            column: mesh_descriptor_uid
+        searchPhrase:
+            type: string
+            length: 127
+            column: search_phrase

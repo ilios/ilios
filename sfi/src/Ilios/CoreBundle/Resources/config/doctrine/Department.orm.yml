@@ -1,0 +1,22 @@
+Ilios\CoreBundle\Entity\Department:
+    type: entity
+    table: department
+    id:
+        departmentId:
+            type: integer
+            unsigned: true
+            id: true
+            column: department_id
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 90
+        deleted:
+            type: boolean
+    manyToOne:
+        school:
+            targetEntity: School    
+            joinColumns:
+                school_id:
+                    referencedColumnName: school_id

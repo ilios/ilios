@@ -1,0 +1,17 @@
+Ilios\CoreBundle\Entity\AamcMethod:
+    type: entity
+    table: aamc_method
+    id:
+        methodId:
+            type: string
+            length: 10
+            column: method_id
+            generator: { strategy: NONE }
+    fields:
+    fields:
+        description:
+            type: text
+    manyToMany:
+        sessionTypes:
+            targetEntity: SessionType
+            mappedBy: aamcMethods

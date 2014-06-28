@@ -1,0 +1,10 @@
+Ilios\CoreBundle\Entity\Objective:
+    properties:
+        title:
+            - NotBlank: ~
+            - NotNull: ~
+            - Length:
+                min: 2
+                max: 255
+                minMessage: "Your title must be at least {{ limit }} characters length"
+                maxMessage: "Your title name cannot be longer than {{ limit }} characters length"

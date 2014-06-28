@@ -1,0 +1,62 @@
+Ilios\CoreBundle\Entity\Alert:
+    type: entity
+    table: alert
+    id:
+        alertId:
+            type: integer
+            unsigned: true
+            id: true
+            column: alert_id
+            generator: { strategy: AUTO }
+    fields:
+        tableRowId:
+            type: integer
+            unsigned: true
+            column: table_row_id
+        tableName:
+            type: string
+            length: 30
+            column: table_name
+        additionalText:
+            type: text
+            nullable: true
+            column: additional_text
+        dispatched:
+            type: boolean
+    manyToMany:
+        changeTypes:
+            targetEntity: AlertChangeType
+            inversedBy: alerts
+            joinTable:
+                name: alert_change
+                joinColumns:
+                    alert_id:
+                        referencedColumnName: alert_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    alert_change_type_id:
+                        referencedColumnName: alert_change_type_id
+        instigators:
+            targetEntity: User
+            inversedBy: alerts
+            joinTable:
+                name: alert_instigator
+                joinColumns:
+                    alert_id:
+                        referencedColumnName: alert_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    user_id:
+                        referencedColumnName: user_id
+                        onDelete: CASCADE
+        recipients:
+            targetEntity: School
+            inversedBy: alerts
+            joinTable:
+                name: alert_recipient
+                joinColumns:
+                    alert_id:
+                        referencedColumnName: alert_id
+                inverseJoinColumns:
+                    school_id:
+                        referencedColumnName: school_id

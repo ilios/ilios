@@ -1,0 +1,12 @@
+Ilios\CoreBundle\Entity\Objective:
+    exclusion_policy: ALL
+    xml_root_name: objective
+    properties:
+        objectiveId:
+            expose: true
+        title:
+            expose: true
+    virtual_properties:
+        getCompetencyId:
+            serialized_name: competency
+            type: integer

@@ -1,0 +1,74 @@
+Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock:
+    type: entity
+    table: curriculum_inventory_sequence_block
+    
+    id:
+        sequenceBlockId:
+            type: integer
+            unsigned: true
+            id: true
+            column: sequence_block_id
+            generator: { strategy: AUTO }
+    fields:
+        required:
+            type: boolean
+            default: '0'
+        childSequenceOrder:
+            type: boolean
+            default: '0'
+            column: child_sequence_order
+        orderInSequence:
+            type: integer
+            unsigned: true
+            default: '0'
+            column: order_in_sequence
+        minimum:
+            type: integer
+            unsigned: false
+            default: '-1'
+        maximum:
+            type: integer
+            unsigned: false
+            default: '-1'
+        track:
+            type: boolean
+            default: '0'
+        description:
+            type: text
+            nullable: true
+        title:
+            type: string
+            length: 200
+        startDate:
+            type: date
+            nullable: true
+            column: start_date
+        endDate:
+            type: date
+            nullable: true
+            column: end_date
+        duration:
+            type: integer
+            unsigned: true
+            default: '0'
+    manyToOne:
+        academicLevel:
+            targetEntity: CurriculumInventoryAcademicLevel
+            joinColumns:
+                academic_level_id:
+                    referencedColumnName: academic_level_id
+        course:
+            targetEntity: Course
+            joinColumns:
+                course_id:
+                    referencedColumnName: course_id
+        parentSequenceBlock:
+            targetEntity: CurriculumInventorySequenceBlock
+            joinColumns:
+                parent_sequence_block_id:
+                    referencedColumnName: sequence_block_id
+        report:
+            targetEntity: CurriculumInventoryReport
+            joinColumns:
+                report_id:
+                    referencedColumnName: report_id

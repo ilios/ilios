@@ -1,0 +1,49 @@
+Ilios\CoreBundle\Entity\CurriculumInventoryReport:
+    type: entity
+    table: curriculum_inventory_report
+    indexes:
+        IDX_6E31899E3EB8070A:
+            columns:
+                - program_id
+    uniqueConstraints:
+        program_id_year:
+            columns:
+                - program_id
+                - year
+    id:
+        reportId:
+            type: integer
+            unsigned: true
+            id: true
+            column: report_id
+            generator: { strategy: AUTO }
+    fields:
+        year:
+            type: smallint
+            unsigned: true
+        name:
+            type: string
+            nullable: true
+            length: 200
+        description:
+            type: text
+            nullable: true
+        startDate:
+            type: date
+            column: start_date
+        endDate:
+            type: date
+            column: end_date
+    oneToOne:
+        export:
+            targetEntity: CurriculumInventoryExport
+            mappedBy: report
+        sequence:
+            targetEntity: CurriculumInventorySequence
+            mappedBy: report
+    manyToOne:
+        program:
+            targetEntity: Program    
+            joinColumns:
+                program_id:
+                    referencedColumnName: program_id

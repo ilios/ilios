@@ -1,0 +1,41 @@
+Ilios\CoreBundle\Entity\ProgramYearSteward:
+    type: entity
+    table: program_year_steward
+    indexes:
+        IDX_program_year_school:
+            columns:
+                - program_year_id
+                - school_id
+    uniqueConstraints:
+        program_year_id_school_id_department_id:
+            columns:
+                - program_year_id
+                - school_id
+                - department_id
+    id:
+        programYearStewardId:
+            type: integer
+            unsigned: true
+            id: true
+            column: program_year_steward_id
+            generator:
+                strategy: AUTO
+    manyToOne:
+        department:
+            targetEntity: Department    
+            joinColumns:
+                department_id:
+                    referencedColumnName: department_id
+                    onDelete: CASCADE    
+        programYear:
+            targetEntity: ProgramYear    
+            joinColumns:
+                program_year_id:
+                    referencedColumnName: program_year_id
+                    onDelete: CASCADE    
+        school:
+            targetEntity: School    
+            joinColumns:
+                school_id:
+                    referencedColumnName: school_id
+                    onDelete: CASCADE        

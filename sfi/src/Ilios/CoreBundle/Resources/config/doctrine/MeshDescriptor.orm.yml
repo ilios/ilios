@@ -1,0 +1,40 @@
+Ilios\CoreBundle\Entity\MeshDescriptor:
+    type: entity
+    table: mesh_descriptor
+    id:
+        meshDescriptorUid:
+            type: string
+            length: 9
+            id: true
+            column: mesh_descriptor_uid
+            generator:
+                strategy: NONE
+    fields:
+        name:
+            type: string
+            length: 192
+        annotation:
+            type: text
+            nullable: true
+        createdAt:
+            type: datetime
+            column: created_at
+        updatedAt:
+            type: datetime
+            column: updated_at
+#    manyToMany:
+#        courses:
+#            targetEntity: Course
+#            mappedBy: meshDescriptors
+#        objectives:
+#            targetEntity: Objective
+#            mappedBy: meshDescriptors
+#        sessions:
+#            targetEntity: Session
+#            mappedBy: meshDescriptors
+#        sessionLearningMaterials:
+#            targetEntity: SessionLearningMaterial
+#            mappedBy: meshDescriptors
+#        courseLearningMaterials:
+#            targetEntity: CourseLearningMaterial
+#            mappedBy: meshDescriptors

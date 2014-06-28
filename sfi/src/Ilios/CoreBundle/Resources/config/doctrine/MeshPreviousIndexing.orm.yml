@@ -1,0 +1,15 @@
+Ilios\CoreBundle\Entity\MeshPreviousIndexing:
+    type: entity
+    table: mesh_previous_indexing
+    id:
+        meshDescriptorUid:
+            type: string
+            length: 9
+            id: true
+            column: mesh_descriptor_uid
+            generator:
+                strategy: NONE
+    fields:
+        previousIndexing:
+            type: text
+            column: previous_indexing

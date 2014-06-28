@@ -1,0 +1,18 @@
+Ilios\CoreBundle\Entity\LearningMaterialStatus:
+    type: entity
+    table: learning_material_status
+    id:
+        learningMaterialStatusId:
+            type: integer
+            unsigned: true
+            id: true
+            column: learning_material_status_id    
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 60
+    oneToMany:
+        learningMaterials:
+            targetEntity: LearningMaterial
+            mappedBy: status  

@@ -1,0 +1,18 @@
+Ilios\CoreBundle\Entity\UserRole:
+    type: entity
+    table: user_role
+    id:
+        userRoleId:
+            type: integer
+            unsigned: true
+            id: true
+            column: user_role_id    
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 60
+    manyToMany:
+        users:
+            targetEntity: User
+            mappedBy: roles    
