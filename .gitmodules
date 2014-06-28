@@ -10,3 +10,9 @@
 [submodule "puppet/modules/concat"]
 	path = puppet/modules/concat
 	url = https://github.com/puppetlabs/puppetlabs-concat.git
+[submodule "puppet/modules/nodejs"]
+	path = puppet/modules/nodejs
+	url = https://github.com/puppetlabs/puppetlabs-nodejs.git
+[submodule "puppet/modules/apt"]
+	path = puppet/modules/apt
+	url = https://github.com/puppetlabs/puppetlabs-apt.git

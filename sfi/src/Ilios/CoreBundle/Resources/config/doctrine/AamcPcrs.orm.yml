@@ -1,0 +1,17 @@
+Ilios\CoreBundle\Entity\AamcPcrs:
+    type: entity
+    table: aamc_pcrs
+    id:
+        pcrsId:
+            type: string
+            length: 21
+            column: pcrs_id
+            id: true
+            generator: { strategy: NONE }
+    fields:
+        description:
+            type: text
+    manyToMany:
+        competencies:
+            targetEntity: Competency
+            mappedBy: pcrses

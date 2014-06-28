@@ -1,0 +1,54 @@
+Ilios\CoreBundle\Entity\RecurringEvent:
+    type: entity
+    table: recurring_event
+    id:
+        recurringEventId:
+            type: integer
+            unsigned: true
+            id: true
+            column: recurring_event_id    
+            generator: { strategy: AUTO }
+    fields:
+        onSunday:
+            type: boolean
+            column: on_sunday
+        onMonday:
+            type: boolean
+            column: on_monday
+        onTuesday:
+            type: boolean
+            column: on_tuesday
+        onWednesday:
+            type: boolean
+            column: on_wednesday
+        onThursday:
+            type: boolean
+            column: on_thursday
+        onFriday:
+            type: boolean
+            column: on_friday
+        onSaturday:
+            type: boolean
+            column: on_saturday
+        endDate:
+            type: datetime
+            column: end_date
+        repetitionCount:
+            type: boolean
+            nullable: true
+            column: repetition_count
+    manyToMany:
+        offerings:
+            targetEntity: Offering
+            mappedBy: reccuringEvents
+    manyToOne:
+        previousRecurringEvent:
+            targetEntity: RecurringEvent
+            joinColumns:
+                previous_recurring_event_id:
+                    referencedColumnName: recurring_event_id
+        nextRecurringEvent:
+            targetEntity: RecurringEvent
+            joinColumns:
+                next_recurring_event_id:
+                    referencedColumnName: recurring_event_id

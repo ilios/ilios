@@ -1,0 +1,21 @@
+Ilios\CoreBundle\Entity\MeshSemanticType:
+    type: entity
+    table: mesh_semantic_type
+    id:
+        meshSemanticTypeUid:
+            type: string
+            length: 9
+            id: true
+            column: mesh_semantic_type_uid
+            generator:
+                strategy: NONE
+    fields:
+        name:
+            type: string
+            length: 192
+        createdAt:
+            type: datetime
+            column: created_at
+        updatedAt:
+            type: datetime
+            column: updated_at

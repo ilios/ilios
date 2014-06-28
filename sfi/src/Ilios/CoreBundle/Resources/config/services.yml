@@ -1,0 +1,8 @@
+parameters:
+    ilios_core.objective_handler.class:  Ilios\CoreBundle\Handler\ObjectiveHandler
+    ilios_core.objective_entity.class:   Ilios\CoreBundle\Entity\Objective
+
+services:
+    ilios_core.objective_handler:
+        class:        %ilios_core.objective_handler.class%
+        arguments:    [@doctrine.orm.entity_manager,%ilios_core.objective_entity.class%, @form.factory]

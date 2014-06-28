@@ -1,0 +1,37 @@
+Ilios\CoreBundle\Entity\Program:
+    type: entity
+    table: program
+    id:
+        programId:
+            type: integer
+            unsigned: true
+            id: true
+            column: program_id    
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            nullable: true
+            length: 200
+        shortTitle:
+            type: string
+            length: 10
+            column: short_title
+        duration:
+            type: boolean
+        deleted:
+            type: boolean
+        publishedAsTbd:
+            type: boolean
+            column: published_as_tbd
+    manyToOne:
+        publishEvent:
+            targetEntity: PublishEvent    
+            joinColumns:
+                publish_event_id:
+                    referencedColumnName: publish_event_id
+        owningSchool:
+            targetEntity: School    
+            joinColumns:
+                owning_school_id:
+                    referencedColumnName: school_id

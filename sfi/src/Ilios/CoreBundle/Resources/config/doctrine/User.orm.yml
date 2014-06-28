@@ -1,0 +1,113 @@
+Ilios\CoreBundle\Entity\User:
+    type: entity
+    table: user
+    indexes:
+        fkey_user_primary_school:
+            columns:
+                - primary_school_id
+    id:
+        userId:
+            type: integer
+            unsigned: true
+            id: true
+            column: user_id    
+            generator: { strategy: AUTO }
+    fields:
+        lastName:
+            type: string
+            length: 30
+            column: last_name
+        firstName:
+            type: string
+            length: 20
+            column: first_name
+        middleName:
+            type: string
+            nullable: true
+            length: 20
+            column: middle_name
+        phone:
+            type: string
+            nullable: true
+            length: 30
+        email:
+            type: string
+            length: 100
+        addedViaIlios:
+            type: boolean
+            column: added_via_ilios
+        enabled:
+            type: boolean
+        ucUid:
+            type: string
+            nullable: true
+            length: 16
+            column: uc_uid
+        otherId:
+            type: string
+            nullable: true
+            length: 16
+            column: other_id
+        examined:
+            type: boolean
+        userSyncIgnore:
+            type: boolean
+            column: user_sync_ignore
+    oneToOne:
+        apiKey:
+            targetEntity: ApiKey
+            mappedBy: user
+    oneToMany:
+        reminders:
+            targetEntity: UserMadeReminder
+            mappedBy: user
+        learningMaterials:
+            targetEntity: LearningMaterial
+            mappedBy: owningUser
+        publishEvents:
+            targetEntity: PublishEvent
+            mappedBy: administrator
+        reports:
+            targetEntity: Report
+            mappedBy: user
+    manyToOne:
+        primarySchool:
+            targetEntity: School    
+            joinColumns:
+                primary_school_id:
+                    referencedColumnName: school_id    
+    manyToMany:
+        directedCourses:
+            targetEntity: Course
+            mappedBy: directors
+        userGroups:
+            targetEntity: Group
+            mappedBy: users
+        instructorUserGroups:
+            targetEntity: Group
+            mappedBy: instructorUsers
+        instructorGroups:
+            targetEntity: InstructorGroup
+            mappedBy: users
+        offerings:
+            targetEntity: Offering
+            mappedBy: users
+        programYears:
+            targetEntity: ProgramYear
+            mappedBy: directors
+        alerts:
+            targetEntity: Alert
+            mappedBy: instigators
+        roles:
+            targetEntity: UserRole
+            inversedBy: users
+            joinTable:
+                name: user_x_user_role
+                joinColumns:
+                    user_id:
+                        referencedColumnName: user_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    user_role_id:
+                        referencedColumnName: user_role_id
+                        onDelete: CASCADE    

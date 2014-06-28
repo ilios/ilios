@@ -1,0 +1,30 @@
+Ilios\CoreBundle\Entity\Authentication:
+    type: entity
+    table: authentication
+    uniqueConstraints:
+        username:
+            columns:
+                - username
+    id:
+        personId:
+            type: integer
+            unsigned: true
+            id: true
+            column: person_id
+            generator:
+                strategy: NONE
+    fields:
+        username:
+            type: string
+            length: 100
+        passwordSha256:
+            type: string
+            length: 64
+            column: password_sha256
+    oneToOne:
+        user:
+            targetEntity: User
+            joinColumns:
+                person_id:
+                    referencedColumnName: user_id
+                    onDelete: CASCADE

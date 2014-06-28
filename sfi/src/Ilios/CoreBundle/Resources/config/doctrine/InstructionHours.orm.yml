@@ -1,0 +1,33 @@
+Ilios\CoreBundle\Entity\InstructionHours:
+    type: entity
+    table: instruction_hours
+    id:
+        instructionHoursId:
+            type: integer
+            unsigned: true
+            id: true
+            column: instruction_hours_id    
+            generator: { strategy: AUTO }
+    fields:
+        generationTimeStamp:
+            type: datetime
+            default: CURRENT_TIMESTAMP
+            column: generation_time_stamp
+        hoursAccrued:
+            type: integer
+            unsigned: true
+            column: hours_accrued
+        modified:
+            type: boolean
+        modificationTimeStamp:
+            type: datetime
+            default: '0000-00-00 00:00:00'
+            column: modification_time_stamp
+        userId:
+            type: integer
+            unsigned: true
+            column: user_id
+        sessionId:
+            type: integer
+            unsigned: true
+            column: session_id    

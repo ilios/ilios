@@ -1,0 +1,16 @@
+Ilios\CoreBundle\Entity\IngestionException:
+    type: entity
+    table: ingestion_exception
+    id:
+        userId:
+            type: integer
+            unsigned: true
+            id: true
+            column: user_id
+            generator:
+                strategy: NONE
+    fields:
+        ingestedWideUid:
+            type: string
+            length: 32
+            column: ingested_wide_uid    

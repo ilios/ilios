@@ -1,0 +1,85 @@
+Ilios\CoreBundle\Entity\LearningMaterial:
+    type: entity
+    table: learning_material
+    uniqueConstraints:
+        idx_learning_material_token_unique:
+            columns:
+                - token
+    id:
+        learningMaterialId:
+            type: integer
+            unsigned: true
+            id: true
+            column: learning_material_id    
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 60
+        mimeType:
+            type: string
+            nullable: true
+            length: 96
+            column: mime_type
+        relativeFileSystemLocation:
+            type: string
+            nullable: true
+            length: 128
+            column: relative_file_system_location
+        filename:
+            type: string
+            nullable: true
+            length: 255
+        filesize:
+            type: integer
+            unsigned: true
+        description:
+            type: text
+        copyrightOwnership:
+            type: boolean
+            column: copyright_ownership
+        copyrightRationale:
+            type: text
+            nullable: true
+            column: copyright_rationale
+        uploadDate:
+            type: datetime
+            column: upload_date
+        assetCreator:
+            type: string
+            nullable: true
+            length: 80
+            column: asset_creator
+        webLink:
+            type: string
+            nullable: true
+            length: 256
+            column: web_link
+        citation:
+            type: string
+            nullable: true
+            length: 512
+        token:
+            type: string
+            nullable: true
+            length: 64
+            fixed: true
+    manyToOne:
+        status:
+            targetEntity: LearningMaterialStatus
+            inversedBy: learningMaterials
+            joinColumns:
+                learning_material_status_id:
+                    referencedColumnName: learning_material_status_id
+        owningUser:
+            targetEntity: User
+            inversedBy: learningMaterials
+            joinColumns:
+                owning_user_id:
+                    referencedColumnName: user_id
+        userRole:
+            targetEntity: LearningMaterialUserRole
+            inversedBy: learningMaterials
+            joinColumns:
+                learning_material_user_role_id:
+                    referencedColumnName: learning_material_user_role_id

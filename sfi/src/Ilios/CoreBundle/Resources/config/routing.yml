@@ -1,0 +1,15 @@
+ilios_core_apiinfo:
+    path: /v1
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'IliosCoreBundle::apiinfo.html.twig'
+        _format: 'html'
+    options:
+        expose: true
+
+
+ilios_core_objective:
+    type: rest
+    prefix: /v1
+    resource: "Ilios\CoreBundle\Controller\ObjectiveController"
+    name_prefix:  api_1_

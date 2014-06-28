@@ -17,6 +17,10 @@ class ilios (
   package { $basepackages:
     ensure => latest,
   }
+  file {$docroot:
+      ensure    => 'link',
+      target    => '/vagrant/web'
+  }
 
   $users = {
     'admin@localhost' => {
@@ -68,25 +72,29 @@ class ilios (
     default_mods        => false,
     default_vhost       => false,
     default_confd_files => false,
-    mpm_module => 'prefork'
+    mpm_module          => 'prefork',
+    user                => 'vagrant',
+    group               => 'vagrant',
   }
   class {'apache::mod::php': }
   class {'apache::mod::rewrite': }
   class {'apache::mod::headers': }
   class {'apache::mod::setenvif': }
 
-
-   package { "php5-ldap":
+  package { "php5-ldap":
     ensure  => present,
     require => Class['apache::mod::php']
   }
 
 
   $_phpAdminValues = [
-    'memory_limit 256M',
+    'memory_limit 768M',
     'upload_max_filesize 128M',
     'post_max_size 128M',
     'apc.rfc1867 on',
+    'date.timezone UTC',
+    'short_open_tag off',
+    'html_errors on'
   ]
 
   apache::vhost { 'iliosdev':
@@ -104,9 +112,14 @@ class ilios (
             alias      => '/phpmyadmin',
             path       => '/usr/share/phpmyadmin',
         },
+    require        => [File[$docroot]]
   }
 
   package { "sendmail":
+    ensure => present,
+  }
+
+  package { "php5-intl":
     ensure => present,
   }
 
@@ -122,7 +135,8 @@ class ilios (
   }
 
   file {"${docroot}/application/config/config.php":
-    source => "${docroot}/application/config/default.config.php",
+    source    => "${docroot}/application/config/default.config.php",
+    require   => [File[$docroot]],
   }
 
   exec {"set-version":
@@ -132,33 +146,57 @@ class ilios (
 
   exec {"edit-index.php":
     cwd => "${docroot}/",
-    require => Exec["set-version"],
+    require => [Exec["set-version"],File[$docroot]],
     command => '/bin/sed "s/%%ILIOS_REVISION%%/`cat /tmp/ilios_version.txt`/" default.index.php > index.php',
   }
 
   exec {"edit-ilios.php":
     cwd => "${docroot}/application/config/",
-    require => Exec["set-version"],
+    require => [Exec["set-version"],File[$docroot]],
     command => '/bin/sed "s/%%ILIOS_INSTITUTION_NAME%%/Sweet Valley University/; s/%%ILIOS_REVISION%%/`cat /tmp/ilios_version.txt`/" default.ilios.php > ilios.php',
   }
 
   exec {"edit-database.php":
-    cwd => "${docroot}/application/config/",
+    cwd     => "${docroot}/application/config/",
     command => "/bin/sed 's/%%DBGROUP%%/default/;  s/%%DBHOSTNAME%%/localhost/; s/%%DBUSERNAME%%/${dbuser}/; s/%%DBPASSWORD%%/${dbpass}/; s/%%DBNAME%%/${dbname}/' default.database.php > database.php",
+    require => [File[$docroot]],
   }
 
   package {'phpmyadmin':
     ensure     => latest,
     require    => Class['::mysql::server']
-  }
+}
 
   package {'php-apc':
+    ensure     => latest
+}
+
+  package {'php5-xdebug':
     ensure     => latest
   }
 
   file {'/etc/phpmyadmin/config.inc.php':
     content => "<?php\n\$cfg['blowfish_secret'] = 'notsecret';\n\$cfg['Servers'][1]['auth_type'] = 'config';\n\$cfg['Servers'][1]['user'] = 'admin';\n\$cfg['Servers'][1]['password'] = 'admin';",
     require => Package['phpmyadmin']
+  }
+
+  class { 'nodejs':
+    manage_repo => true,
+}
+
+  package { 'build-essential':
+    ensure  => present
+}
+
+  package { 'git':
+    ensure  => present
+  }
+
+  $devNodePackages = ['bower', 'ember-precompile']
+  package { $devNodePackages:
+    ensure   => present,
+    provider => 'npm',
+    require  => [Class['nodejs'], Package['build-essential']],
   }
 
 }

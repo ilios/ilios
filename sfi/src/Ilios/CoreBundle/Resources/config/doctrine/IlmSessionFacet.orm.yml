@@ -1,0 +1,69 @@
+Ilios\CoreBundle\Entity\IlmSessionFacet:
+    type: entity
+    table: ilm_session_facet
+    id:
+        ilmSessionFacetId:
+            type: integer
+            unsigned: true
+            id: true
+            column: ilm_session_facet_id
+            generator: { strategy: AUTO }
+    fields:
+        hours:
+            type: decimal
+            precision: 6
+            scale: 2
+        dueDate:
+            type: date
+            column: due_date
+    manyToMany:
+        groups:
+            targetEntity: Group
+            inversedBy: ilmSessionFacets
+            joinTable:
+                name: ilm_session_facet_x_group
+                joinColumns:
+                    ilm_session_facet_id:
+                        referencedColumnName: ilm_session_facet_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    group_id:
+                        referencedColumnName: group_id
+                        onDelete: CASCADE    
+        instructorGroups:
+            targetEntity: InstructorGroup
+            inversedBy: ilmSessionFacets
+            joinTable:
+                name: ilm_session_facet_x_instructor_group
+                joinColumns:
+                    ilm_session_facet_id:
+                        referencedColumnName: ilm_session_facet_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    instructor_group_id:
+                        referencedColumnName: instructor_group_id
+                        onDelete: CASCADE    
+        instructors:
+            targetEntity: User
+            joinTable:
+                name: ilm_session_facet_x_instructor
+                joinColumns:
+                    ilm_session_facet_id:
+                        referencedColumnName: ilm_session_facet_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    user_id:
+                        referencedColumnName: user_id
+                        onDelete: CASCADE    
+        learners:
+            targetEntity: User
+            joinTable:
+                name: ilm_session_facet_x_learner
+                joinColumns:
+                    ilm_session_facet_id:
+                        referencedColumnName: ilm_session_facet_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    user_id:
+                        referencedColumnName: user_id
+                        onDelete: CASCADE    
