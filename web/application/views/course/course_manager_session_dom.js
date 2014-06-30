@@ -678,6 +678,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     i18nStr = ilios_i18nVendor.getI18NString('general.phrases.add_learning_material_link');
     scratchInput = new Element(document.createElement('a'), {href: ''});
     scratchInput.addClass('tiny radius button');
+    scratchInput.get('element').setAttribute('id', containerNumber + '_add_learning_material_button');
     scratchInput.get('element').setAttribute('onclick', 'return false;');
     scratchInput.addListener('click', function (e) {
         ilios.cm.lm.addNewSessionLearningMaterial(containerNumber);

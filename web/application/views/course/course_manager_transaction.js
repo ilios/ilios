@@ -1555,12 +1555,12 @@ ilios.cm.transaction.searchLearningMaterials = function () {
                     learningMaterial = new LearningMaterialModel(parsedObject[key]);
 
                     if (! model.containsLearningMaterial(learningMaterial)) {
-                        //element.appendChild(ilios.cm.lm.createListElementForLearningMaterial(learningMaterial,
-                        //                                                                     true,
-                        //                                                                     null));
-                        element.appendChild(ilios.cm.lm.populateLearningMaterials(learningMaterial,
+                        element.appendChild(ilios.cm.lm.createListElementForLearningMaterial(learningMaterial,
                                                                                              true,
                                                                                              null));
+                        //element.appendChild(ilios.cm.lm.populateLearningMaterials(learningMaterial,
+                        //                                                                     true,
+                        //                                                                     null));
                     }
                 }
             },
