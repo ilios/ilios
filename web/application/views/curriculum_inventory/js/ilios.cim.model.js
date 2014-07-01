@@ -321,6 +321,7 @@
      *     @param {String} oData.start_date
      *     @param {String} oData.title
      *     @param {String} oData.year
+     *     @param {Array} oData.sessions
      * @constructor
      */
     var CourseModel = function (oData) {
@@ -348,6 +349,12 @@
             var clerkshipTypeId = Lang.isValue(oData.clerkship_type_id) ? parseInt(oData.clerkship_type_id, 10) : 0;
             var clerkshipTypeTitle = oData.clerkship_type_title;
             var owningSchoolId = parseInt(oData.owning_school_id, 10);
+            var sessions = [];
+            for (var key in oData.sessions) {
+                var session = new SessionModel(oData.sessions[key]);
+                sessions.push(session);
+            }
+
 
 
             /**
@@ -519,7 +526,72 @@
                 value: owningSchoolId,
                 readOnly: true
             });
+
+            /**
+             * Array of all the sessions
+             *
+             * @attribute sessions
+             * @type {Array}
+             * @readOnly
+             */
+            this.setAttributeConfig('sessions', {
+                value: sessions,
+                readOnly: true
+            });
+
         },
+
+
+        /**
+         * Gets a session from a course by its id
+         *
+         * @method getSessionById
+         * @param {Number} sessionId
+         * @return {SessionModel|null}
+         */
+        getSessionById: function (sessionId) {
+            var sessions = this.get('sessions');
+            for (var i = 0, n = sessions.length; i < n; i++) {
+                if(sessions[i].get('id') == sessionId){
+                    return sessions[i];
+                }
+            }
+            return null;
+        },
+
+
+        /**
+         * Gets a datasource of all the sessions for use in a datatable
+         *
+         * @method getSessionDataSource
+         * @return {YAHOO.util.DataSource}
+         */
+        getSessionDataSource: function () {
+            var s = this.get('sessions');
+            var arr = [];
+            for(var i = 0; i<s.length;i++){
+                arr.push(s[i].getPropertiesObject());
+            }
+            var ds = new YAHOO.util.DataSource(arr);
+            //allow the user to filter data
+            ds.doBeforeCallback = function (req,raw,res,cb) {
+                var data = res.results || [];
+                var filtered = [];
+                if (req) {
+                    req = req.toLowerCase();
+                    for (var i = 0; i < data.length; ++i) {
+                        if (data[i].fullText.toLowerCase().indexOf(req) != -1) {
+                            filtered.push(data[i]);
+                        }
+                    }
+                    res.results = filtered;
+                }
+
+                return res;
+            }
+            return ds;
+        },
+
         /*
          * @override
          * @see ilios.cim.model.BaseModel.NAME
@@ -531,6 +603,304 @@
          * @see ilios.cim.model.BaseModel.ID_ATTRIBUTE_NAME
          */
         ID_ATTRIBUTE_NAME: 'course_id'
+    });
+
+
+    /**
+     * The session model.
+     * Sessions are mostly read only.  The only property which can be modified
+     * is countOfferingsOnce
+     *
+     * @extends ilios.cim.model.BaseModel
+     * @namespace cim.model
+     * @class SessionModel
+     * @param {Object} oData A key/value map of initial model data. This following properties are expected:
+     *     @param {String} oData.attire_required
+     *     @param {String} oData.course_id
+     *     @param {String} oData.deleted
+     *     @param {String} oData.equipment_required
+     *     @param {String} oData.ilm_session_facet_id
+     *     @param {String} oData.last_updated_on
+     *     @param {String} oData.offering_count
+     *     @param {String} oData.total_offering_duration
+     *     @param {String} oData.max_single_offering_duration
+     *     @param {String} oData.publish_event_id
+     *     @param {String} oData.published_as_tbd
+     *     @param {String} oData.session_id
+     *     @param {String} oData.session_type_id
+     *     @param {String} oData.session_type_title
+     *     @param {String} oData.supplemental
+     *     @param {String} oData.title
+     * @constructor
+     */
+    var SessionModel = function (oData) {
+        SessionModel.superclass.constructor.call(this, oData);
+    };
+
+    Lang.extend(SessionModel, BaseModel, {
+        /*
+         * @override
+         * @see ilios.cim.model.BaseModel.init
+         */
+        init : function (oData) {
+            SessionModel.superclass.init.call(this, oData);
+            var attireRequired = !! parseInt(oData.attireRequired, 10);
+            var courseId = parseInt(oData.course_id, 10);
+            var deleted = !! parseInt(oData.deleted, 10);
+            var equipmentRequired = !! parseInt(oData.equipmentRequired, 10);
+            var ilmSessionFacetId = parseInt(oData.ilm_session_facet_id, 10);
+            var lastUpdatedOn = oData.last_updated_on;
+            var offeringCount = parseInt(oData.offering_count, 10);
+            var totalOfferingDuration = parseInt(oData.total_offering_duration, 10);
+            var maxSingleOfferingDuration = parseInt(oData.max_single_offering_duration, 10);
+            var isPublished = ! Lang.isNull(oData.publish_event_id);
+            var isPublishedAsTbd = !! parseInt(oData.published_as_tbd, 10);
+            var sessionTypeId = parseInt(oData.session_type_id, 10);
+            var sessionTypeTitle = oData.session_type_title;
+            var supplemental = !! parseInt(oData.supplemental, 10);
+            var title = oData.title;
+            var countOfferingsOnce = false;
+
+            /**
+             * The a flag for whether special attire is required
+             *
+             * @attribute attireRequired
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('attireRequired', {
+                value: attireRequired,
+                readOnly: true
+            });
+
+            /**
+             * The owning course id
+             *
+             * @attribute courseId
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('courseId', {
+                value: courseId,
+                readOnly: true
+            });
+
+            /**
+             * The a flag for whether the session has been deleted
+             *
+             * @attribute delted
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('deleted', {
+                value: deleted,
+                readOnly: true
+            });
+
+            /**
+             * The a flag for whether equiptment is required
+             *
+             * @attribute equipmentRequired
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('equipmentRequired', {
+                value: equipmentRequired,
+                readOnly: true
+            });
+
+            /**
+             * The ILM Facet ID
+             *
+             * @attribute ilmSessionFacetId
+             * @type {Number|null}
+             * @readOnly
+             */
+            this.setAttributeConfig('ilmSessionFacetId', {
+                value: ilmSessionFacetId,
+                readOnly: true
+            });
+
+            /**
+             * The last update date
+             *
+             * @attribute lastUpdatedOn
+             * @type {String}
+             * @readOnly
+             */
+            this.setAttributeConfig('lastUpdatedOn', {
+                value: lastUpdatedOn,
+                readOnly: true
+            });
+
+            /**
+             * The number of offerings for this sessions
+             *
+             * @attribute offeringCount
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('offeringCount', {
+                value: offeringCount,
+                readOnly: true
+            });
+
+            /**
+             * The total duration of all offerings in minutes
+             *
+             * @attribute totalOfferingDuration
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('totalOfferingDuration', {
+                value: totalOfferingDuration,
+                readOnly: true
+            });
+
+            /**
+             * The maximum single duration of any offering in this session
+             *
+             * @attribute maxSingleOfferingDuration
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('maxSingleOfferingDuration', {
+                value: maxSingleOfferingDuration,
+                readOnly: true
+            });
+
+            /**
+             * A flag indicating whether the session has been published or not.
+             *
+             * @attribute isPublished
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('isPublished', {
+                value: isPublished,
+                readOnly: true
+            });
+
+            /**
+             * A flag indicating whether the session has been published in "TBD" mode or not.
+             *
+             * @attribute isPublishedAsTbd
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('isPublishedAsTbd', {
+                value: isPublishedAsTbd,
+                readOnly: true
+            });
+
+            /**
+             * The session type id
+             *
+             * @attribute sessionTypeId
+             * @type {Number}
+             * @readOnly
+             */
+            this.setAttributeConfig('sessionTypeId', {
+                value: sessionTypeId,
+                readOnly: true
+            });
+
+            /**
+             * The session type title
+             *
+             * @attribute sessionTypeTitle
+             * @type {String}
+             * @readOnly
+             */
+            this.setAttributeConfig('sessionTypeTitle', {
+                value: sessionTypeTitle,
+                readOnly: true
+            });
+
+            /**
+             * The a flag for whether the session is supplemental
+             *
+             * @attribute supplemental
+             * @type {Boolean}
+             * @readOnly
+             */
+            this.setAttributeConfig('supplemental', {
+                value: supplemental,
+                readOnly: true
+            });
+
+            /**
+             * The session title.
+             *
+             * @attribute title
+             * @type {String}
+             * @readOnly
+             */
+            this.setAttributeConfig('title', {
+                value: title,
+                readOnly: true
+            });
+
+            /**
+             * Indicates whether this session Counts all offerings seperatly
+             * or as a single offering
+             *
+             * @attribute countOfferingsOnce
+             * @type {Boolean}
+             * @default false
+             */
+            this.setAttributeConfig('countOfferingsOnce', {
+                value: countOfferingsOnce,
+                validator: Lang.isBoolean
+            });
+        },
+
+        /**
+         * Gets a plain object with the session properties
+         *
+         * @method getPropertiesObject
+         * @return {Object}
+         */
+        getPropertiesObject: function () {
+            var obj = {};
+            var keys = this.getAttributeKeys();
+            var fullText = '';
+            for(var i = 0;i<keys.length; i++){
+                obj[keys[i]] = this.get(keys[i]);
+                fullText += this.get(keys[i]);
+            }
+            obj.fullText = fullText;
+
+            return obj;
+        },
+
+        /**
+         * Gets the current offering duration in hours
+         * Takes countOfferingsOnce into account
+         *
+         * @method getOfferingHours
+         * @return {Number}
+         */
+        getOfferingHours: function () {
+            var minutes = this.get('countOfferingsOnce')?this.get('maxSingleOfferingDuration'):this.get('totalOfferingDuration');
+            var hours = minutes/60;
+            if(parseInt(hours, 10) != hours){
+                hours = hours.toFixed(1);
+            }
+            return hours;
+        },
+
+        /*
+         * @override
+         * @see ilios.cim.model.BaseModel.NAME
+         */
+        NAME: 'sessionModel',
+
+        /*
+         * @override
+         * @see ilios.cim.model.BaseModel.ID_ATTRIBUTE_NAME
+         */
+        ID_ATTRIBUTE_NAME: 'session_id'
     });
 
     /**
@@ -674,6 +1044,7 @@
          *    @param {ilios.cim.model.AcademicLevelModel} oData.academic_level_model
          *    @param {String} oData.duration
          *    @param {ilios.cim.model.CourseModel|null} [oData.course_model]
+         *    @param {Array} oData.sessions
          */
         update: function (oData) {
             var required = parseInt(oData.required, 10);
@@ -728,6 +1099,12 @@
             var courseModel = oData.course_model;
             var parentModel = oData.parent_model;
             var children = new ilios.cim.model.SequenceBlockModelMap();
+            for(var i in oData.sessions){
+                var session = courseModel.getSessionById(oData.sessions[i].session_id);
+                if(session){
+                    session.set('countOfferingsOnce', !! parseInt(oData.sessions[i].count_offerings_once));
+                }
+            }
 
             /**
              * The id of the report that this sequence block belongs to.

@@ -38,6 +38,7 @@ EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
+                $row['sessions'] = $this->getSessionsForCourse($row['course_id']);
                 $rhett[$row['course_id']] = $row;
             }
         }
@@ -83,6 +84,7 @@ EOL;
         $query = $this->db->query($sql);
         if (0 < $query->num_rows()) {
             foreach ($query->result_array() as $row) {
+                $row['sessions'] = $this->getSessionsForCourse($row['course_id']);
                 $rhett[$row['course_id']] = $row;
             }
         }
@@ -137,6 +139,48 @@ EOL;
     }
 
     /**
+     * Retrieves a map of sessions for a course
+     * @param int $courseId The course id.
+     * @return array an assoc array of session records, keyed off by session id.
+     */
+    public function getSessionsForCourse ($courseId)
+    {
+        $rhett = array();
+        $courseId = (int) $courseId;
+        $sql =<<<EOL
+SELECT s.*, st.title AS session_type_title,
+COUNT(o.offering_id) AS offering_count,
+(IF(s.ilm_session_facet_id IS NULL,
+SUM(TIMESTAMPDIFF(MINUTE, o.start_date, o.end_date)),
+FLOOR(sf.hours * 60))) AS total_offering_duration,
+(IF(s.ilm_session_facet_id IS NULL,
+TIMESTAMPDIFF(MINUTE, os.start_date, os.end_date),
+FLOOR(sf.hours * 60))) AS max_single_offering_duration
+FROM session s
+LEFT JOIN session_type st on st.session_type_id = s.session_type_id
+LEFT JOIN offering o ON o.session_id = s.session_id
+LEFT JOIN offering os ON os.offering_id = (
+SELECT offering_id FROM offering WHERE offering.session_id = s.session_id AND offering.deleted = 0
+ORDER BY TIMESTAMPDIFF(MINUTE, offering.start_date, offering.end_date) DESC LIMIT 1
+)
+LEFT JOIN ilm_session_facet sf ON sf.ilm_session_facet_id = s.ilm_session_facet_id
+
+WHERE s.course_id = {$courseId}
+AND s.deleted = 0
+AND s.publish_event_id IS NOT NULL
+GROUP BY o.session_id
+EOL;
+        $query = $this->db->query($sql);
+        if (0 < $query->num_rows()) {
+            foreach ($query->result_array() as $row) {
+                $rhett[$row['session_id']] = $row;
+            }
+        }
+        $query->free_result();
+        return $rhett;
+    }
+
+    /**
      * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
      * in a given curriculum inventory report.
      * @param int $reportId the report id
@@ -153,15 +197,23 @@ s.session_id AS 'event_id',
 s.title, sd.description, stxam.method_id,
 st.assessment AS is_assessment_method,
 ao.name AS assessment_option_name,
-SUM(TIMESTAMPDIFF(MINUTE, o.start_date, o.end_date)) AS duration
+(IF(sbs.count_offerings_once,
+TIMESTAMPDIFF(MINUTE, os.start_date, os.end_date),
+SUM(TIMESTAMPDIFF(MINUTE, o.start_date, o.end_date))
+)) AS duration
 FROM `session` s
 LEFT JOIN offering o ON o.session_id = s.session_id AND o.deleted = 0
+LEFT JOIN offering os ON os.offering_id = (
+SELECT offering_id FROM offering WHERE offering.session_id = s.session_id AND offering.deleted = 0
+ORDER BY TIMESTAMPDIFF(MINUTE, offering.start_date, offering.end_date) DESC LIMIT 1
+)
 LEFT JOIN session_description sd ON sd.session_id = s.session_id
 JOIN session_type st ON st.session_type_id = s.session_type_id
 LEFT JOIN session_type_x_aamc_method stxam ON stxam.session_type_id = st.session_type_id
 LEFT JOIN assessment_option ao ON ao.assessment_option_id = st.assessment_option_id
 JOIN course c ON c.course_id = s.course_id
 JOIN curriculum_inventory_sequence_block sb ON sb.course_id = c.course_id
+LEFT JOIN curriculum_inventory_sequence_block_session sbs ON sbs.session_id = s.session_id
 WHERE c.deleted = 0
 AND s.deleted = 0
 AND s.publish_event_id IS NOT NULL
