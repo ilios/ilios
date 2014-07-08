@@ -11,6 +11,8 @@ class Migration_Add_Mesh_Timestamps extends CI_Migration
     public function up ()
     {
         $queries = array();
+        //Create a missing primary key on the mesh term table
+        $queries[] = "ALTER TABLE mesh_term ADD PRIMARY KEY (`mesh_term_uid`, `name`);";
         foreach($this->getTables() as $table){
             /*
                 Becuase of a mysql issues not fixed until 5.6.5 http://dev.mysql.com/doc/relnotes/mysql/5.6/en/news-5-6-5.html
