@@ -474,8 +474,7 @@ class Group_Management extends Ilios_Web_Controller
      *              Middle name
      *              Phone
      *              EMail address
-     *              UC id
-     *              GALEN id
+     *              Campus ID
      *              Other id
      *
      * Expected POST parameters:
@@ -578,13 +577,12 @@ class Group_Management extends Ilios_Web_Controller
                         $middleName = trim($row[2]);
                         $phone = trim($row[3]);
                         $email = trim($row[4]);
-                        $ucUID = trim($row[5]);
-                        $otherId = trim($row[7]);
-
+                        $campusId = trim($row[5]);
+                        $otherId = trim($row[6]);
                         $primarySchoolId = $this->session->userdata('school_id');
 
                         $newId = $this->user->addUserAsStudent($lastName, $firstName, $middleName, $phone,
-                            $email, $ucUID, $otherId, $cohortId, $primarySchoolId, $auditAtoms);
+                            $email, $campusId, $otherId, $cohortId, $primarySchoolId, $auditAtoms);
 
                         if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                             $msg = $this->languagemap->getI18NString('general.error.db_insert');

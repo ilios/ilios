@@ -110,8 +110,7 @@ class Instructor_Group_Management extends Ilios_Web_Controller
      *     Middle name
      *     EMail address
      *     Phone
-     *     UC id
-     *     GALEN id
+     *     Campus id
      *     Other id
      */
     public function uploadInstructorListCSVFile ()
@@ -194,13 +193,13 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                     $middleName = trim($row[2]);
                     $phone = trim($row[3]);
                     $email = trim($row[4]);
-                    $ucUID = trim($row[5]);
-                    $otherId = trim($row[7]);
+                    $campusId = trim($row[5]);
+                    $otherId = trim($row[6]);
 
                     $primarySchoolId = $this->session->userdata('school_id');
 
                     $newId = $this->user->addUserAsFaculty($lastName, $firstName, $middleName, $phone,
-                        $email, $ucUID, $otherId, $primarySchoolId, $auditAtoms);
+                        $email, $campusId, $otherId, $primarySchoolId, $auditAtoms);
 
                     if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                         $msg = $this->languagemap->getI18NString('general.error.db_insert');
