@@ -29,6 +29,8 @@ matrix:
       env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
     - php: "5.4"
       env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - php: "5.4"
+      env: ILIOS_THREE=true
 
 php:
   - "5.4"
@@ -47,9 +49,11 @@ env:
     - TEST_JASMINE=false
     - TEST_BEHAT=false
     - BEHAT_PROFILE=false
+    - ILIOS_THREE=false
   matrix:
     - TEST_PHPUNIT=true
     - TEST_JASMINE=true
+    - ILIOS_THREE=true
     - BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setone' START_LOCAL_SELENIUM=true TEST_BEHAT=true
     - BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
     - BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
@@ -85,7 +89,7 @@ install:
   - composer install
 
 # Provision web server for Behat tests
-  - "sudo apt-get install -qq --force-yes apache2 libapache2-mod-php5 php5-mysql php5-ldap sendmail expect > /dev/null"
+  - "sudo apt-get install -qq --force-yes apache2 libapache2-mod-php5 php5-mysql php5-ldap php5-sqlite sendmail expect > /dev/null"
   - "sudo /usr/sbin/a2enmod rewrite && sudo /usr/sbin/a2enmod headers && sudo /usr/sbin/a2enmod ssl"
   - "sudo /bin/ln -s /etc/apache2/sites-available/default-ssl /etc/apache2/sites-enabled/000-default-ssl"
   - "(cd /etc/apache2/sites-enabled && sudo /usr/bin/find . -! -type d -exec /bin/sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/ { s,AllowOverride None,AllowOverride All,}' {} \\;)"
@@ -99,8 +103,14 @@ install:
 # Install PHPUnit
   - if [ "$TEST_PHPUNIT" = true ]; then (composer install -d tests/phpunit); fi
 
+# Install Ilios 3 deps
+  - if [ "$ILIOS_THREE" = true ]; then npm install -g bower; fi
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; pwd; composer install --no-interaction); fi
+  - if [ "$ILIOS_THREE" = true ]; then (cp ${TRAVIS_BUILD_DIR}/sfi/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/sfi/app/config/parameters.yml); fi
+
 # Install the Ilios PHP app locally for testing
   - ${TRAVIS_BUILD_DIR}/bin/phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${TRAVIS_BUILD_DIR}/web -Dbackupdir=${TRAVIS_BUILD_DIR}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
+  - cd ${TRAVIS_BUILD_DIR}/web; php ilios.php migrate
 
 before_script:
 # Start Selenium standalone server for Behat tests
@@ -115,6 +125,10 @@ before_script:
   - if [ "$START_SAUCE_CONNECT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/sauce_connect --readyfile /tmp/scready.tmp --tunnel-identifier $TRAVIS_JOB_NUMBER $SAUCE_USERNAME $SAUCE_ACCESS_KEY > /dev/null &); fi
 #sauce connect takes forever to start so we have to use a ready file to wait until the tunnel is open
   - if [ "$START_SAUCE_CONNECT" = true ]; then (while [ ! -f /tmp/scready.tmp ]; do(sleep .5) done); fi
+  
+#initialize symfony test db
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:database:create --env=test); fi
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:schema:create --env=test); fi
 
 script:
 # Run Jasmine tests
@@ -125,3 +139,8 @@ script:
 
 # Run Behat test for this profile
   - if [ "$TEST_BEHAT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/behat -c ${TRAVIS_BUILD_DIR}/tests/behat/behatci.yml --tags $BEHAT_TAG --profile $BEHAT_PROFILE); fi
+
+  # Run Ilios 3 tests
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:schema:validate); fi
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/phpunit); fi
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/phpcs --standard=app/phpcs.xml src); fi

@@ -1,0 +1,108 @@
+Ilios\CoreBundle\Entity\Session:
+    type: entity
+    table: session
+    indexes:
+        session_type_id_k:
+            columns:
+                - session_type_id
+        course_id_k:
+            columns:
+                - course_id
+        session_course_type_title_k:
+            columns:
+                - session_id
+                - course_id
+                - session_type_id
+                - title
+        session_ibfk_3:
+            columns:
+                - ilm_session_facet_id
+    id:
+        sessionId:
+            type: integer
+            unsigned: true
+            id: true
+            column: session_id    
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            nullable: true
+            length: 200
+        attireRequired:
+            type: boolean
+            column: attire_required
+        equipmentRequired:
+            type: boolean
+            column: equipment_required
+        supplemental:
+            type: boolean
+        deleted:
+            type: boolean
+        publishedAsTbd:
+            type: boolean
+            column: published_as_tbd
+        lastUpdatedOn:
+            type: datetime
+            default: CURRENT_TIMESTAMP
+            column: last_updated_on
+    manyToOne:
+        sessionType:
+            targetEntity: SessionType    
+            joinColumns:
+                session_type_id:
+                    referencedColumnName: session_type_id    
+        course:
+            targetEntity: Course    
+            joinColumns:
+                course_id:
+                    referencedColumnName: course_id    
+        ilmSessionFacet:
+            targetEntity: IlmSessionFacet    
+            joinColumns:
+                ilm_session_facet_id:
+                    referencedColumnName: ilm_session_facet_id
+        publishEvent:
+            targetEntity: PublishEvent    
+            joinColumns:
+                publish_event_id:
+                    referencedColumnName: publish_event_id
+    manyToMany:
+        disciplines:
+            targetEntity: Discipline
+            inversedBy: sessions
+            joinTable:
+                name: session_x_discipline
+                joinColumns:
+                    session_id:
+                        referencedColumnName: session_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    discipline_id:
+                        referencedColumnName: discipline_id
+                        onDelete: CASCADE    
+        objectives:
+            targetEntity: Objective
+            inversedBy: sessions
+            joinTable:
+                name: session_x_objective
+                joinColumns:
+                    session_id:
+                        referencedColumnName: session_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    objective_id:
+                        referencedColumnName: objective_id
+                        onDelete: CASCADE    
+#        meshDescriptors:
+#            targetEntity: MeshDescriptor
+#            inversedBy: sessions
+#            joinTable:
+#                name: session_x_mesh
+#                joinColumns:
+#                    session_id:
+#                        referencedColumnName: session_id
+#                        onDelete: CASCADE
+#                inverseJoinColumns:
+#                     mesh_descriptor_uid:
+#                        referencedColumnName: mesh_descriptor_uid    

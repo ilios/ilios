@@ -1,0 +1,40 @@
+{# /Ilios/FrontendBundle/Resources/views/layout.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        {% block javascripts %}
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+            {% javascripts output='common.js'
+                '@jquery_js'
+                '@handlebars_js'
+                '@ember_js'
+                '@ember_data_js'
+                %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+
+            {% javascripts filter='?jsmin' output='ilios.js'
+                '@IliosFrontendBundle/Resources/public/app/ilios.js'
+                '@IliosFrontendBundle/Resources/public/app/routes/*.js'
+                %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+
+            {% javascripts filter='emberprecompile' output='hbs.js'
+                '@IliosFrontendBundle/Resources/public/app/templates/*.hbs'
+                %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+
+        {% endblock %}
+    </head>
+    <body>
+        <script type="text/x-handlebars">
+            {% raw %}{{#link-to "index"}}Home{{/link-to}}{% endraw %}
+            {% raw %}{{#link-to "objectives"}}Objectives{{/link-to}}{% endraw %}
+            {% raw %} {{outlet}} {% endraw %}
+        </script>
+    </body>
+</html>

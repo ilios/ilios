@@ -1,0 +1,25 @@
+Ilios\CoreBundle\Entity\ReportPoValue:
+    type: entity
+    table: report_po_value
+    id:
+        reportId:
+            type: integer
+            unsigned: true
+            id: true
+            column: report_id
+            generator:
+                strategy: NONE
+    fields:
+        prepositionalObjectTableRowId:
+            type: string
+            length: 14
+            column: prepositional_object_table_row_id
+        deleted:
+            type: boolean
+    oneToOne:
+        report:
+            targetEntity: Report
+            joinColumns:
+                report_id:
+                    referencedColumnName: report_id
+                    onDelete: CASCADE    

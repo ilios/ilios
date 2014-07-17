@@ -1,0 +1,18 @@
+Ilios\CoreBundle\Entity\AlertChangeType:
+    type: entity
+    table: alert_change_type
+    id:
+        alertChangeTypeId:
+            type: integer
+            unsigned: true
+            id: true
+            column: alert_change_type_id
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 60
+    manyToMany:
+        alerts:
+            targetEntity: Alert
+            mappedBy: changeTypes

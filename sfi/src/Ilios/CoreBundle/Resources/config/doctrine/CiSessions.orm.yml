@@ -1,0 +1,32 @@
+Ilios\CoreBundle\Entity\CiSessions:
+    type: entity
+    table: ci_sessions
+    indexes:
+        last_activity_idx:
+            columns:
+                - last_activity
+    id:
+        sessionId:
+            type: string
+            length: 40
+            default: '0'
+            id: true
+            column: session_id
+    fields:
+        ipAddress:
+            type: string
+            length: 45
+            default: '0'
+            column: ip_address
+        userAgent:
+            type: string
+            length: 120
+            column: user_agent
+        lastActivity:
+            type: integer
+            unsigned: true
+            default: '0'
+            column: last_activity
+        userData:
+            type: text
+            column: user_data

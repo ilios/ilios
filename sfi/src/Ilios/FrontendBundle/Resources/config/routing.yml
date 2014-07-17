@@ -1,0 +1,8 @@
+ilios_frontend_homepage:
+    pattern:     /ilios.html/{url}
+    defaults:
+        url: null
+        _controller: FrameworkBundle:Template:template
+        template:     'IliosFrontendBundle::layout.html.twig'
+    requirements:
+        url: ".+"

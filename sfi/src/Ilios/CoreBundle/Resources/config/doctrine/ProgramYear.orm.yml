@@ -1,0 +1,90 @@
+Ilios\CoreBundle\Entity\ProgramYear:
+    type: entity
+    table: program_year
+    indexes:
+        fkey_program_year_program_id:
+            columns:
+                - program_id
+    id:
+        programYearId:
+            type: integer
+            unsigned: true
+            id: true
+            column: program_year_id    
+            generator: { strategy: AUTO }
+    fields:
+        startYear:
+            type: smallint
+            unsigned: true
+            column: start_year
+        deleted:
+            type: boolean
+        locked:
+            type: boolean
+        archived:
+            type: boolean
+        publishedAsTbd:
+            type: boolean
+            column: published_as_tbd
+    manyToOne:
+        program:
+            targetEntity: Program    
+            joinColumns:
+                program_id:
+                    referencedColumnName: program_id
+        publishEvent:
+            targetEntity: PublishEvent    
+            joinColumns:
+                publish_event_id:
+                    referencedColumnName: publish_event_id   
+    manyToMany:
+        directors:
+            targetEntity: User
+            inversedBy: programYears
+            joinTable:
+                name: program_year_director
+                joinColumns:
+                    program_year_id:
+                        referencedColumnName: program_year_id
+                inverseJoinColumns:
+                    user_id:
+                        referencedColumnName: user_id    
+        competencies:
+            targetEntity: Competency
+            inversedBy: programYears
+            joinTable:
+                name: program_year_x_competency
+                joinColumns:
+                    program_year_id:
+                        referencedColumnName: program_year_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    competency_id:
+                        referencedColumnName: competency_id
+                        onDelete: CASCADE
+        disciplines:
+            targetEntity: Discipline
+            inversedBy: programYears
+            joinTable:
+                name: program_year_x_discipline
+                joinColumns:
+                    program_year_id:
+                        referencedColumnName: program_year_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    discipline_id:
+                        referencedColumnName: discipline_id
+                        onDelete: CASCADE
+        objectives:
+            targetEntity: Objective
+            inversedBy: programYears
+            joinTable:
+                name: program_year_x_objective
+                joinColumns:
+                    program_year_id:
+                        referencedColumnName: program_year_id
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    objective_id:
+                        referencedColumnName: objective_id
+                        onDelete: CASCADE       
