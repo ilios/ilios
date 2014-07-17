@@ -12,12 +12,13 @@
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
-        "symfony/assetic-bundle": "dev-withemberprecompiler as 2.3.x-dev",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
+        "kriswallsmith/assetic": "dev-master as 1.2",
+        "symfony/assetic-bundle": "dev-master",
         "friendsofsymfony/rest-bundle": "1.4.*",
         "jms/serializer-bundle": "0.13.*",
         "nelmio/api-doc-bundle": "2.*",
@@ -26,7 +27,7 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",
-        "phpunit/phpunit": "@stable",
+        "phpunit/phpunit": "3.*",
         "liip/functional-test-bundle": "@stable",
         "doctrine/doctrine-fixtures-bundle": "@stable",
         "lmammino/jsmin4assetic": "@stable",
@@ -35,7 +36,9 @@
         "willdurand/faker-bundle": "@stable",
         "instaclick/base-test-bundle": "@stable",
         "mockery/mockery": "@stable",
-        "sami/sami": "@stable"
+        "sami/sami": "@stable",
+        "matthiasnoback/symfony-dependency-injection-test": "@stable",
+        "matthiasnoback/symfony-config-test": "@stable"
     },
     "scripts": {
         "post-install-cmd": [
@@ -68,9 +71,5 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         }
-    },
-    "repositories": [{
-            "type": "vcs",
-            "url": "http://github.com/jrjohnson/AsseticBundle"
-        }]
+    }
 }

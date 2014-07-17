@@ -1,6 +1,15 @@
 imports:
-    - { resource: config_dev.yml }
+    - { resource: config.yml }
 
+security:
+    firewalls:
+        anonymous:
+            anonymous: ~
+
+    providers:
+        in_memory:
+            memory:
+                
 framework:
     test: ~
     session:
@@ -25,3 +34,19 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
+                
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+
+assetic:
+    use_controller: %use_assetic_controller%
+
+#swiftmailer:
+#    delivery_address: me@example.com

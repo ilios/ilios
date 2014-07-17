@@ -1,0 +1,33 @@
+parameters:
+    ilios_legacy.utilities.class:  Ilios\LegacyCIBundle\Utilities
+    ilios_legacy.session_handler.class:  Ilios\LegacyCIBundle\Session\Handler
+    ilios_legacy.session_extractor.class:  Ilios\LegacyCIBundle\Session\Extractor
+    ilios_legacy.ci_session_entity.class:   Ilios\CoreBundle\Entity\CISession
+    ilios_legacy.authenticate.token.class:   Ilios\LegacyCIBundle\Authentication\Token
+    ilios_legacy.authenticate.provider.class:   Ilios\LegacyCIBundle\Authentication\Provider
+    ilios_legacy.authenticate.listener.class:   Ilios\LegacyCIBundle\Authentication\Listener
+
+services:
+    ilios_legacy.utilities:
+        class:        %ilios_legacy.utilities.class%
+        arguments:    []
+        
+    ilios_legacy.session_extractor:
+        class:        %ilios_legacy.session_extractor.class%
+        arguments:    [%ilios_legacy.session.cookie_name%,%ilios_legacy.session.encryption_key%,%ilios_legacy.session.encrypt_cookie%,@ilios_legacy.utilities, @logger]
+    
+    ilios_legacy.session_handler:
+        class:        %ilios_legacy.session_handler.class%
+        arguments:    [@doctrine.orm.entity_manager,%ilios_legacy.ci_session_entity.class%, @ilios_legacy.session_extractor]
+        
+    ilios_legacy.token:
+        class:        %ilios_legacy.authenticate.token.class%
+        arguments:    ["@ilios_legacy.session_handler"]
+    
+    ilios_legacy_ci.security.authentication.provider:
+        class:        %ilios_legacy.authenticate.provider.class%
+        arguments: ["", "%kernel.cache_dir%/security/nonces"]
+
+    ilios_legacy_ci.security.authentication.listener:
+        class:        %ilios_legacy.authenticate.listener.class%
+        arguments: ["@security.context", "@security.authentication.manager", "@ilios_legacy.token"]

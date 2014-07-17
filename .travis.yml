@@ -105,8 +105,8 @@ install:
 
 # Install Ilios 3 deps
   - if [ "$ILIOS_THREE" = true ]; then npm install -g bower; fi
-  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; pwd; composer install --no-interaction); fi
   - if [ "$ILIOS_THREE" = true ]; then (cp ${TRAVIS_BUILD_DIR}/sfi/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/sfi/app/config/parameters.yml); fi
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; pwd; composer install --no-interaction); fi
 
 # Install the Ilios PHP app locally for testing
   - ${TRAVIS_BUILD_DIR}/bin/phing -q -propertyfile build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${TRAVIS_BUILD_DIR}/web -Dbackupdir=${TRAVIS_BUILD_DIR}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
