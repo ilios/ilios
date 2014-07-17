@@ -1,4 +1,4 @@
-Ilios\CoreBundle\Entity\CiSessions:
+Ilios\CoreBundle\Entity\CISession:
     type: entity
     table: ci_sessions
     indexes:

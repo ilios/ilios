@@ -5,9 +5,9 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CiSessions
+ * CISession
  */
-class CiSessions
+class CISession
 {
     /**
      * @var string
@@ -39,7 +39,7 @@ class CiSessions
      * Set sessionId
      *
      * @param string $sessionId
-     * @return CiSessions
+     * @return CISession
      */
     public function setSessionId($sessionId)
     {
@@ -62,7 +62,7 @@ class CiSessions
      * Set ipAddress
      *
      * @param string $ipAddress
-     * @return CiSessions
+     * @return CISession
      */
     public function setIpAddress($ipAddress)
     {
@@ -85,7 +85,7 @@ class CiSessions
      * Set userAgent
      *
      * @param string $userAgent
-     * @return CiSessions
+     * @return CISession
      */
     public function setUserAgent($userAgent)
     {
@@ -108,7 +108,7 @@ class CiSessions
      * Set lastActivity
      *
      * @param integer $lastActivity
-     * @return CiSessions
+     * @return CISession
      */
     public function setLastActivity($lastActivity)
     {
@@ -131,7 +131,7 @@ class CiSessions
      * Set userData
      *
      * @param string $userData
-     * @return CiSessions
+     * @return CISession
      */
     public function setUserData($userData)
     {

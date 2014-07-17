@@ -2,30 +2,30 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 
-use Ilios\CoreBundle\Entity\CiSessions;
+use Ilios\CoreBundle\Entity\CISession;
 use Mockery as m;
 
 /**
- * Tests for Entity CiSessions
+ * Tests for Entity CISession
  */
-class CiSessionsTest extends EntityBase
+class CISessionTest extends EntityBase
 {
     /**
-     * @var CiSessions
+     * @var CISession
      */
     protected $object;
 
     /**
-     * Instantiate a CiSessions object
+     * Instantiate a CISession object
      */
     protected function setUp()
     {
-        $this->object = new CiSessions;
+        $this->object = new CISession;
     }
     
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setSessionId
+     * @covers Ilios\CoreBundle\Entity\CISession::setSessionId
      */
     public function testSetSessionId()
     {
@@ -33,7 +33,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getSessionId
+     * @covers Ilios\CoreBundle\Entity\CISession::getSessionId
      */
     public function testGetSessionId()
     {
@@ -41,7 +41,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setIpAddress
+     * @covers Ilios\CoreBundle\Entity\CISession::setIpAddress
      */
     public function testSetIpAddress()
     {
@@ -49,7 +49,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getIpAddress
+     * @covers Ilios\CoreBundle\Entity\CISession::getIpAddress
      */
     public function testGetIpAddress()
     {
@@ -57,7 +57,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setUserAgent
+     * @covers Ilios\CoreBundle\Entity\CISession::setUserAgent
      */
     public function testSetUserAgent()
     {
@@ -65,7 +65,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getUserAgent
+     * @covers Ilios\CoreBundle\Entity\CISession::getUserAgent
      */
     public function testGetUserAgent()
     {
@@ -73,7 +73,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setLastActivity
+     * @covers Ilios\CoreBundle\Entity\CISession::setLastActivity
      */
     public function testSetLastActivity()
     {
@@ -81,7 +81,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getLastActivity
+     * @covers Ilios\CoreBundle\Entity\CISession::getLastActivity
      */
     public function testGetLastActivity()
     {
@@ -89,7 +89,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setUserData
+     * @covers Ilios\CoreBundle\Entity\CISession::setUserData
      */
     public function testSetUserData()
     {
@@ -97,7 +97,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getUserData
+     * @covers Ilios\CoreBundle\Entity\CISession::getUserData
      */
     public function testGetUserData()
     {
