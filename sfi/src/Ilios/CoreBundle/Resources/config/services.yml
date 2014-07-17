@@ -1,8 +1,16 @@
 parameters:
     ilios_core.objective_handler.class:  Ilios\CoreBundle\Handler\ObjectiveHandler
     ilios_core.objective_entity.class:   Ilios\CoreBundle\Entity\Objective
+    ilios_core.listener.container_aware.class:   Ilios\CoreBundle\EventListener\ContainerInjector
 
 services:
     ilios_core.objective_handler:
         class:        %ilios_core.objective_handler.class%
         arguments:    [@doctrine.orm.entity_manager,%ilios_core.objective_entity.class%, @form.factory]
+        
+    ilios_core.listener.container_aware:
+        class: %ilios_core.listener.container_aware.class%
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+        calls:
+            - [setContainer, ["@service_container"]]

@@ -4,6 +4,7 @@ Ilios\CoreBundle\Entity\Objective:
     properties:
         objectiveId:
             expose: true
+            serialized_name: id
         title:
             expose: true
     virtual_properties:

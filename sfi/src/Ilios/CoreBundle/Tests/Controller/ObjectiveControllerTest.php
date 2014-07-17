@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase;
-use Ilios\CoreBundle\Tests\Fixtures\LoadObjectiveData;
 use Ilios\CoreBundle\Form\ObjectiveType;
 
 class ObjectiveControllerTest extends ApiTestCase
@@ -22,9 +20,21 @@ class ObjectiveControllerTest extends ApiTestCase
         
         $content = $response->getContent();
         $decoded = json_decode($content, true);
-        $this->assertTrue(isset($decoded['objective']['objective_id']), $content);
-        $this->assertEquals(1, $decoded['objective']['objective_id'], $content);
+        $this->assertTrue(isset($decoded['objective']['id']), $content);
+        $this->assertEquals(1, $decoded['objective']['id'], $content);
         $this->assertEquals('one', $decoded['objective']['title'], $content);
+    }
+
+    public function testJsonGetNotFoundObjectiveAction()
+    {
+        $this->loadFixtures(array('Ilios\CoreBundle\Tests\Fixtures\LoadObjectiveData'));
+        $client = $this->createJsonRequest(
+            'GET',
+            $this->getUrl('api_1_get_objective', array('id' => 999))
+        );
+        
+        $response = $client->getResponse();
+        $this->assertJsonResponse($response, 404);
     }
 
     public function testJsonGetObjectivesAction()
@@ -45,10 +55,10 @@ class ObjectiveControllerTest extends ApiTestCase
         $this->assertTrue(isset($decoded['objectives']));
         $this->assertTrue(count($decoded['objectives']) == 2);
 
-        $this->assertEquals(1, $decoded['objectives'][0]['objective_id']);
+        $this->assertEquals(1, $decoded['objectives'][0]['id']);
         $this->assertEquals('one', $decoded['objectives'][0]['title']);
 
-        $this->assertEquals(2, $decoded['objectives'][1]['objective_id']);
+        $this->assertEquals(2, $decoded['objectives'][1]['id']);
         $this->assertEquals('two', $decoded['objectives'][1]['title']);
     }
 
@@ -129,6 +139,55 @@ class ObjectiveControllerTest extends ApiTestCase
         $decoded = json_decode($content, true);
         $this->assertTrue(isset($decoded['objective']));
         $this->assertEquals('newtitle', $decoded['objective']['title']);
+    }
+
+    public function testJsonPutExistingObjectiveBadData()
+    {
+        $this->loadFixtures(array('Ilios\CoreBundle\Tests\Fixtures\LoadObjectiveData'));
+        $badTitles = array(
+            '',
+            'a',
+            str_pad('a', 256, 'a')
+        );
+        foreach ($badTitles as $title) {
+            $client = $this->createJsonRequest(
+                'PUT',
+                $this->getUrl('api_1_put_objective', array('id' => 1)),
+                $this->createJsonObjective($title)
+            );
+            $this->assertJsonResponse($client->getResponse(), 400);
+        }
+        
+        $client = $this->createJsonRequest(
+            'PUT',
+            $this->getUrl('api_1_put_objective', array('id' => 1)),
+            'baddatanotitle'
+        );
+        $this->assertJsonResponse($client->getResponse(), 400);
+    }
+
+    public function testJsonPutNewObjectiveBadData()
+    {
+        $badTitles = array(
+            '',
+            'a',
+            str_pad('a', 256, 'a')
+        );
+        foreach ($badTitles as $title) {
+            $client = $this->createJsonRequest(
+                'PUT',
+                $this->getUrl('api_1_put_objective', array('id' => 0)),
+                $this->createJsonObjective($title)
+            );
+            $this->assertJsonResponse($client->getResponse(), 400);
+        }
+        
+        $client = $this->createJsonRequest(
+            'PUT',
+            $this->getUrl('api_1_put_objective', array('id' => 0)),
+            'baddatanotitle'
+        );
+        $this->assertJsonResponse($client->getResponse(), 400);
     }
     
     /**

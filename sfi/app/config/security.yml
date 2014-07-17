@@ -1,12 +1,17 @@
 security:
     providers:
-        in_memory:
-            memory: ~
+        default_provider:
+            memory:
+                users:
+                    1:  {roles: 'ROLE_ZERO_USER' }
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        default:
-            anonymous: ~
+        ilios_legacy_secured:
+            pattern:   ^/
+            stateless: true
+            ilios_legacy_ci: true
+    access_control:
+        - { path: ^/api, roles: ROLE_ZERO_USER }

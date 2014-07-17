@@ -1,0 +1,3 @@
+ilios_legacy_ci_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: IliosLegacyCIBundle:Default:index }
