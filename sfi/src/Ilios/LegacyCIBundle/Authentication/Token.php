@@ -68,4 +68,29 @@ class Token extends AbstractToken
     {
         return '';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize(
+            array(
+                is_object($this->getUser()) ? clone $this->getUser() : $this->getUser(),
+                $this->getAuthenticated(),
+                $this->getAttributes()
+            )
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        $arr = unserialize($serialized);
+        $this->setUser($arr[0]);
+        $this->setAuthenticated($arr[1]);
+        $this->setAttributes($arr[2]);
+    }
 }
