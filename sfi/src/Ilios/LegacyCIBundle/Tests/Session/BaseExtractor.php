@@ -47,6 +47,7 @@ abstract class BaseExtractor extends TestCase
     public function tearDown()
     {
         unset($_COOKIE[$this->ciCookieId]);
+        $_SERVER['HTTP_USER_AGENT'] = null;
         parent::tearDown();
     }
 
