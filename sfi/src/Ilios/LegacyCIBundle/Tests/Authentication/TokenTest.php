@@ -74,6 +74,40 @@ class TokenTest extends TestCase
         $this->assertSame('newusername', $this->token->getUser());
     }
 
+    public function testSerializerNew()
+    {
+        $serialized = $this->token->serialize();
+        $handler = m::mock('Ilios\LegacyCIBundle\Session\Handler');
+        $handler->shouldReceive('getUserId')->times(1)->andReturn('testusername');
+        $newToken = new Token($handler);
+        $newToken->unserialize($serialized);
+        $this->assertSame($newToken->getRoles(), $this->token->getRoles());
+        $this->assertSame($newToken->getUser(), $this->token->getUser());
+        $this->assertSame($newToken->getAttributes(), $this->token->getAttributes());
+    }
+
+    public function testSerializerWithUser()
+    {
+        $roles = array('one', 'two', 'three');
+        $user = m::mock('Symfony\Component\Security\Core\User\UserInterface')
+                ->shouldReceive('getRoles')->once()->andReturn($roles)
+                ->getMock();
+        $this->token->setUser($user);
+        $serialized = $this->token->serialize();
+        $handler = m::mock('Ilios\LegacyCIBundle\Session\Handler');
+        $handler->shouldReceive('getUserId')->times(1)->andReturn('testusername');
+        $newToken = new Token($handler);
+        $newToken->unserialize($serialized);
+        
+        $tokenRoles = array();
+        foreach ($newToken->getRoles() as $role) {
+            $tokenRoles[] = $role->getRole();
+        }
+        foreach ($roles as $role) {
+            $this->assertTrue(in_array($role, $tokenRoles));
+        }
+    }
+
     public function testGetUserName()
     {
         $this->assertSame('testusername', $this->token->getUser());
