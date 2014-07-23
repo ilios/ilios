@@ -77,7 +77,7 @@ class Token extends AbstractToken
         return serialize(
             array(
                 is_object($this->getUser()) ? clone $this->getUser() : $this->getUser(),
-                $this->getAuthenticated(),
+                $this->isAuthenticated(),
                 $this->getAttributes()
             )
         );
