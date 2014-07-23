@@ -35,7 +35,7 @@
         "phpunit/phpunit-skeleton-generator": "@stable",
         "willdurand/faker-bundle": "@stable",
         "instaclick/base-test-bundle": "@stable",
-        "mockery/mockery": "@stable",
+        "mockery/mockery": "dev-master",
         "sami/sami": "@stable",
         "matthiasnoback/symfony-dependency-injection-test": "@stable",
         "matthiasnoback/symfony-config-test": "@stable"

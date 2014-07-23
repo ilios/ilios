@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "676875a1dc58311a2e74a804dbff5c12",
+    "hash": "ffea4f254974332df1051798ed2eaba8",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2676,16 +2676,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "0.9.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "17f63ee40ed14a8afb7ba1f0ae15cc4491d719d1"
+                "reference": "33b01619721a925db8b61e8623fa8acf2c2be496"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/17f63ee40ed14a8afb7ba1f0ae15cc4491d719d1",
-                "reference": "17f63ee40ed14a8afb7ba1f0ae15cc4491d719d1",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/33b01619721a925db8b61e8623fa8acf2c2be496",
+                "reference": "33b01619721a925db8b61e8623fa8acf2c2be496",
                 "shasum": ""
             },
             "require": {
@@ -2738,7 +2738,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2014-05-02 12:16:45"
+            "time": "2014-06-27 12:23:08"
         },
         {
             "name": "nikic/php-parser",
@@ -3614,7 +3614,7 @@
         "phpunit/phpunit-skeleton-generator": 0,
         "willdurand/faker-bundle": 0,
         "instaclick/base-test-bundle": 0,
-        "mockery/mockery": 0,
+        "mockery/mockery": 20,
         "sami/sami": 0,
         "matthiasnoback/symfony-dependency-injection-test": 0,
         "matthiasnoback/symfony-config-test": 0
