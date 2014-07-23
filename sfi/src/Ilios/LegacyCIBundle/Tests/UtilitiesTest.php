@@ -60,4 +60,50 @@ class UtilitiesTest extends TestCase
         $unencrypted = $this->util->decrypt($encrypted, $key);
         $this->assertSame($data, $unencrypted);
     }
+    
+    public function testValidator()
+    {
+        $faker = \Faker\Factory::create();
+        $data = $faker->text;
+        $key = $faker->text(32);
+        $hashed = $data . hash_hmac('sha1', $data, $key);
+        $this->assertTrue($this->util->validateHash($key, $hashed));
+    }
+    
+    public function testValidatorNo()
+    {
+        $faker = \Faker\Factory::create();
+        $data = $faker->text;
+        $key = $faker->text(32);
+        $hashed = $data . hash_hmac('sha1', $data, $key) . 'nope';
+        $this->assertFalse($this->util->validateHash($key, $hashed));
+    }
+    
+    public function testGetCookieData()
+    {
+        $faker = \Faker\Factory::create();
+        $data = $faker->text;
+        $key = $faker->text(32);
+        $_COOKIE[$key] = $data;
+        $this->assertSame($data, $this->util->getCookieData($key));
+    }
+    
+    public function testGetCookieDataBlank()
+    {
+        $this->assertFalse($this->util->getCookieData('badkey'));
+    }
+    
+    public function testGetGetUserAgent()
+    {
+        $faker = \Faker\Factory::create();
+        $data = $faker->userAgent;
+        $_SERVER['HTTP_USER_AGENT'] = $data;
+        $this->assertSame($data, $this->util->getUserAgent());
+    }
+    
+    public function testGetGetUserAgentEmpty()
+    {
+        unset($_SERVER['HTTP_USER_AGENT']);
+        $this->assertEmpty($this->util->getUserAgent());
+    }
 }

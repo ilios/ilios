@@ -24,97 +24,88 @@ class EncryptedExtractorTest extends BaseExtractor
             $this->logger
         );
     }
-    
-    public function testGetSessionId()
+
+    public function testBadUserAgent()
     {
+        $badUserAgent = 'baddata';
         $parameters = $this->getCiCookieArray();
-        $this->createCiCookie($parameters);
+        $this->util->shouldReceive('getCookieData')->once()
+            ->with($this->ciCookieId)
+            ->andreturn($this->encryptedData);
+        
+        $this->util->shouldReceive('validateHash')->once()
+                ->with($this->ciEncryptionKey, $this->encryptedData)
+                ->andReturn(true);
+        
         $this->util->shouldReceive('decrypt')
-            ->once()->with($this->garbageEncryptedData, $this->ciEncryptionKey)->andReturn('clean');
-        $this->util->shouldReceive('unserialize')->with('clean')->once()->andReturn($parameters);
-        $this->assertSame($parameters['session_id'], $this->extractor->getSessionId());
-    }
-    
-    public function testMissingIdField()
-    {
-        $key = 'session_id';
-        $parameters = $this->getCiCookieArray();
-        unset($parameters[$key]);
-        $this->util->shouldReceive('decrypt')
-            ->once()->with($this->garbageEncryptedData, $this->ciEncryptionKey)->andReturn('clean');
-        $this->util->shouldReceive('unserialize')->with('clean')->once()->andReturn($parameters);
-        $this->createCiCookie($parameters);
-        $this->logger->shouldReceive('error')->once()
-            ->with('CI Session was missing key: ' . $key);
+            ->once()->with(
+                substr($this->encryptedData, 0, strlen($this->encryptedData) - 40),
+                $this->ciEncryptionKey
+            )
+            ->andReturn($this->cookieData);
+        
+        $this->util->shouldReceive('unserialize')->once()
+            ->with($this->cookieData)
+            ->andReturn($parameters);
+        
+        $this->util->shouldReceive('getUserAgent')
+                ->andreturn($badUserAgent);
+        
+        $this->logger->shouldReceive('info')->once()
+            ->with("/^Mismatched user agents in CI Session \({$badUserAgent}/");
         $this->assertFalse($this->extractor->getSessionId());
     }
-    
-    public function testMissingIpField()
-    {
-        $key = 'ip_address';
-        $parameters = $this->getCiCookieArray();
-        unset($parameters[$key]);
-        $this->util->shouldReceive('decrypt')
-            ->once()->with($this->garbageEncryptedData, $this->ciEncryptionKey)->andReturn('clean');
-        $this->util->shouldReceive('unserialize')->with('clean')->once()->andReturn($parameters);
-        $this->createCiCookie($parameters);
-        $this->logger->shouldReceive('error')->once()
-            ->with('CI Session was missing key: ' . $key);
-        $this->assertFalse($this->extractor->getSessionId());
-    }
-    
-    public function testMissingUserField()
-    {
-        $key = 'user_agent';
-        $parameters = $this->getCiCookieArray();
-        unset($parameters[$key]);
-        $this->util->shouldReceive('decrypt')
-            ->once()->with($this->garbageEncryptedData, $this->ciEncryptionKey)->andReturn('clean');
-        $this->util->shouldReceive('unserialize')->with('clean')->once()->andReturn($parameters);
-        $this->createCiCookie($parameters);
-        $this->logger->shouldReceive('error')->once()
-            ->with('CI Session was missing key: ' . $key);
-        $this->assertFalse($this->extractor->getSessionId());
-    }
-    
-    public function testMissingActivityField()
-    {
-        $key = 'last_activity';
-        $parameters = $this->getCiCookieArray();
-        unset($parameters[$key]);
-        $this->util->shouldReceive('decrypt')
-            ->once()->with($this->garbageEncryptedData, $this->ciEncryptionKey)->andReturn('clean');
-        $this->util->shouldReceive('unserialize')->with('clean')->once()->andReturn($parameters);
-        $this->createCiCookie($parameters);
-        $this->logger->shouldReceive('error')->once()
-            ->with('CI Session was missing key: ' . $key);
-        $this->assertFalse($this->extractor->getSessionId());
-    }
-    
+
     public function testCookieNotArray()
     {
-        $faker = \Faker\Factory::create();
-        $parameters = $this->getCiCookieArray();
-        $this->createCiCookie($parameters);
+        $this->util->shouldReceive('getCookieData')->once()
+            ->with($this->ciCookieId)
+            ->andreturn($this->encryptedData);
+        
+        $this->util->shouldReceive('validateHash')->once()
+                ->with($this->ciEncryptionKey, $this->encryptedData)
+                ->andReturn(true);
+        
         $this->util->shouldReceive('decrypt')
-            ->once()->with($this->garbageEncryptedData, $this->ciEncryptionKey)->andReturn('clean');
-        $this->util->shouldReceive('unserialize')->with('clean')->once()->andReturn($faker->text);
+            ->once()->with(
+                substr($this->encryptedData, 0, strlen($this->encryptedData) - 40),
+                $this->ciEncryptionKey
+            )
+            ->andReturn($this->cookieData);
+        
+        $this->util->shouldReceive('unserialize')->once()
+            ->with($this->cookieData)
+            ->andReturn('a string');
+        
         $this->logger->shouldReceive('error')->once()
             ->with('CI Session was not extracted into an array.');
         $this->assertFalse($this->extractor->getSessionId());
     }
     
-    public function testBadUserAgent()
+    public function setupCalls(array $parameters)
     {
-        $userAgent = 'baddata';
-        $parameters = $this->getCiCookieArray();
-        $this->createCiCookie($parameters);
-        $_SERVER['HTTP_USER_AGENT'] = $userAgent;
+        $this->util->shouldReceive('getCookieData')->once()
+            ->with($this->ciCookieId)
+            ->andreturn($this->encryptedData);
+        
+        $this->util->shouldReceive('validateHash')->once()
+                ->with($this->ciEncryptionKey, $this->encryptedData)
+                ->andReturn(true);
+        
         $this->util->shouldReceive('decrypt')
-            ->once()->with($this->garbageEncryptedData, $this->ciEncryptionKey)->andReturn('clean');
-        $this->util->shouldReceive('unserialize')->with('clean')->once()->andReturn($parameters);
-        $this->logger->shouldReceive('info')->once()
-            ->with("/^Mismatched user agents in CI Session \({$userAgent}/");
-        $this->assertFalse($this->extractor->getSessionId());
+            ->once()->with(
+                substr($this->encryptedData, 0, strlen($this->encryptedData) - 40),
+                $this->ciEncryptionKey
+            )
+            ->andReturn($this->cookieData);
+        
+        $this->util->shouldReceive('unserialize')->once()
+            ->with($this->cookieData)
+            ->andReturn($parameters);
+        
+        if(array_key_exists('user_agent', $parameters)){
+            $this->util->shouldReceive('getUserAgent')
+                ->andreturn($parameters['user_agent']);
+        }
     }
 }

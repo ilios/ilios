@@ -104,11 +104,8 @@ class Extractor
 
     private function getCookieString()
     {
-        if (!array_key_exists($this->sessionCookieName, $_COOKIE)) {
-            return false;
-        }
-        $cookieString = $_COOKIE[$this->sessionCookieName];
-        if (empty($cookieString)) {
+        $cookieString = $this->utilities->getCookieData($this->sessionCookieName);
+        if (!$cookieString or empty($cookieString)) {
             return false;
         }
 
@@ -122,20 +119,7 @@ class Extractor
 
     private function validateCookieString($string)
     {
-        // Check cookie authentication
-        $len = strlen($string) - 40;
-        $hmac = substr($string, $len);
-        $cookieString = substr($string, 0, $len);
-        // Time-attack-safe comparison
-        $hmac_check = hash_hmac('sha1', $cookieString, $this->encryptionKey);
-        $diff = 0;
-
-        for ($i = 0; $i < 40; $i++) {
-            $xor = ord($hmac[$i]) ^ ord($hmac_check[$i]);
-            $diff |= $xor;
-        }
-
-        if ($diff !== 0) {
+        if(!$this->utilities->validateHash($this->encryptionKey, $string)){
             $this->logger->error('Session: HMAC mismatch. The session cookie data did not match what was expected.');
             return false;
         }
@@ -171,7 +155,7 @@ class Extractor
             }
         }
 
-        $userAgent = substr($_SERVER['HTTP_USER_AGENT'], 0, 120);
+        $userAgent = substr($this->utilities->getUserAgent(), 0, 120);
 
         // Does the User Agent Match?
         if (trim($cookieArray['user_agent']) !== trim($userAgent)) {

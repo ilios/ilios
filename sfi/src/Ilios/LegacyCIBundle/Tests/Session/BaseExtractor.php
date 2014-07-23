@@ -22,49 +22,45 @@ abstract class BaseExtractor extends TestCase
     protected $ciCookieId;
     protected $ciEncryptionKey;
     protected $ciIsEncrypted;
-    protected $garbageEncryptedData = 'somegarbagedata';
-
-    /**
-     * This is a real instance of Utilities to do the serialization
-     * @var Utilities
-     */
-    protected $utilities;
+    protected $encryptedData;
+    protected $cookieData;
 
     /**
      * Create Session Extractor
      */
     protected function setUp()
     {
-        $this->utilities = new Utilities();
+        $this->encryptedData = 'startencrypteddataencrypteddataencrypteddataend';
+        $this->cookieData = 'startcookiedatacookiedatacookiedatacookiedataend';
         $this->ciCookieId = 'test_ci_session';
         $this->ciEncryptionKey = 'test_ci_key';
         $this->util = m::mock('Ilios\LegacyCIBundle\Utilities');
         $this->logger = m::mock('Symfony\Bridge\Monolog\Logger');
-
-        unset($_COOKIE[$this->ciCookieId]);
     }
 
     public function tearDown()
     {
-        unset($_COOKIE[$this->ciCookieId]);
-        $_SERVER['HTTP_USER_AGENT'] = null;
         parent::tearDown();
     }
 
     public function testNoCookie()
     {
+        $this->util->shouldReceive('getCookieData')->with($this->ciCookieId)
+            ->andreturn(false);
         $this->assertFalse($this->extractor->getSessionId());
     }
 
     public function testEmptyCookie()
     {
-        $this->createCiCookie();
+        $this->util->shouldReceive('getCookieData')->with($this->ciCookieId)
+            ->andreturn('');
         $this->assertFalse($this->extractor->getSessionId());
     }
 
     public function testShortCookie()
     {
-        $_COOKIE[$this->ciCookieId] = str_pad('', 38, 'a');
+        $this->util->shouldReceive('getCookieData')->with($this->ciCookieId)
+            ->andreturn( str_pad('', 38, 'a'));
         $this->logger->shouldReceive('error')->once()
                 ->with('Session: The Code Igniter session cookie was not signed.');
         $this->assertFalse($this->extractor->getSessionId());
@@ -72,12 +68,78 @@ abstract class BaseExtractor extends TestCase
 
     public function testBadCookieDataField()
     {
-        $parameters = $this->getCiCookieArray();
-        $this->createCiCookie($parameters);
-        $_COOKIE[$this->ciCookieId] .= 'randomgarbage';
+        $this->util->shouldReceive('getCookieData')->with($this->ciCookieId)
+                ->andreturn($this->cookieData);
+        $this->util->shouldReceive('validateHash')
+                ->with($this->ciEncryptionKey, $this->cookieData)
+                ->andReturn(false);
         $this->logger->shouldReceive('error')->once()
                 ->with('/^Session: HMAC mismatch/');
         $this->assertFalse($this->extractor->getSessionId());
+    }
+    
+    public function testGetSessionId()
+    {
+        $parameters = $this->setupCiCookie();
+        $this->assertSame($parameters['session_id'], $this->extractor->getSessionId());
+    }
+    
+    public function testMissingIdField()
+    {
+        $key = 'session_id';
+        $this->setupCiCookie($key);
+        $this->logger->shouldReceive('error')->once()
+            ->with('CI Session was missing key: ' . $key);
+        $this->assertFalse($this->extractor->getSessionId());
+    }
+    
+    public function testMissingIpField()
+    {
+        $key = 'ip_address';
+        $this->setupCiCookie($key);
+        $this->logger->shouldReceive('error')->once()
+            ->with('CI Session was missing key: ' . $key);
+        $this->assertFalse($this->extractor->getSessionId());
+    }
+    
+    public function testMissingUserField()
+    {
+        $key = 'user_agent';
+        $this->setupCiCookie($key);
+        $this->logger->shouldReceive('error')->once()
+            ->with('CI Session was missing key: ' . $key);
+        $this->assertFalse($this->extractor->getSessionId());
+    }
+    
+    public function testMissingActivityField()
+    {
+        $key = 'last_activity';
+        $this->setupCiCookie($key);
+        $this->logger->shouldReceive('error')->once()
+            ->with('CI Session was missing key: ' . $key);
+        $this->assertFalse($this->extractor->getSessionId());
+    }
+    
+    /**
+     * Child classes create their own calls to util
+     * @param array $parameters
+     */
+    abstract protected function setupCalls(array $parameters);
+      
+    /**
+     * Setup cookie and calls to util
+     * @param string $keyToRemove
+     * @return array
+     */
+    protected function setupCiCookie($keyToRemove = false)
+    {
+        $parameters = $this->getCiCookieArray();
+        if($keyToRemove and array_key_exists($keyToRemove, $parameters)){
+            unset($parameters[$keyToRemove]);
+        }
+        $this->setupCalls($parameters);
+        
+        return $parameters;
     }
 
     /**
@@ -95,31 +157,5 @@ abstract class BaseExtractor extends TestCase
         $arr['last_activity'] = $faker->dateTime;
 
         return $arr;
-    }
-
-    /**
-     * Set cookie data like Code Igniter
-     * 
-     * @see CI_Session::_set_cookie()
-     * @param array $parameters
-     * @param string $encryptionKey
-     */
-    protected function createCiCookie(array $parameters = array())
-    {
-        $data = '';
-        if (!empty($parameters)) {
-            // Serialize the userdata for the cookie
-            $data = $this->utilities->serialize($parameters);
-
-            if ($this->ciIsEncrypted) {
-                $data = $this->garbageEncryptedData;
-            }
-
-            $data .= hash_hmac('sha1', $data, $this->ciEncryptionKey);
-        }
-        $_COOKIE[$this->ciCookieId] = $data;
-        if (array_key_exists('user_agent', $parameters)) {
-            $_SERVER['HTTP_USER_AGENT'] = $parameters['user_agent'];
-        }
     }
 }
