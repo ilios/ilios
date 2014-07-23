@@ -176,7 +176,7 @@ class Utilities
      */
     public function getUserAgent()
     {
-        if(array_key_exists('HTTP_USER_AGENT', $_SERVER)){
+        if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
             return $_SERVER['HTTP_USER_AGENT'];
         }
         
@@ -192,7 +192,7 @@ class Utilities
      */
     public function getCookieData($key)
     {
-        if(array_key_exists($key, $_COOKIE)){
+        if (array_key_exists($key, $_COOKIE)) {
             return $_COOKIE[$key];
         }
         

@@ -119,7 +119,7 @@ class Extractor
 
     private function validateCookieString($string)
     {
-        if(!$this->utilities->validateHash($this->encryptionKey, $string)){
+        if (!$this->utilities->validateHash($this->encryptionKey, $string)) {
             $this->logger->error('Session: HMAC mismatch. The session cookie data did not match what was expected.');
             return false;
         }
@@ -155,7 +155,7 @@ class Extractor
             }
         }
 
-        if($userAgent = $this->utilities->getUserAgent()){
+        if ($userAgent = $this->utilities->getUserAgent()) {
             $userAgent = substr($userAgent, 0, 120);
             // Does the User Agent Match?
             if (trim($cookieArray['user_agent']) !== trim($userAgent)) {
