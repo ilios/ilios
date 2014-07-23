@@ -104,6 +104,6 @@ class UtilitiesTest extends TestCase
     public function testGetGetUserAgentEmpty()
     {
         unset($_SERVER['HTTP_USER_AGENT']);
-        $this->assertEmpty($this->util->getUserAgent());
+        $this->assertFalse($this->util->getUserAgent());
     }
 }

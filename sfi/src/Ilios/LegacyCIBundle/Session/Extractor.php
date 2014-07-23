@@ -155,15 +155,16 @@ class Extractor
             }
         }
 
-        $userAgent = substr($this->utilities->getUserAgent(), 0, 120);
-
-        // Does the User Agent Match?
-        if (trim($cookieArray['user_agent']) !== trim($userAgent)) {
-            $this->logger->info(
-                "Mismatched user agents in CI Session ({$userAgent}) vs " .
-                "cookie({$cookieArray['user_agent']})"
-            );
-            return false;
+        if($userAgent = $this->utilities->getUserAgent()){
+            $userAgent = substr($userAgent, 0, 120);
+            // Does the User Agent Match?
+            if (trim($cookieArray['user_agent']) !== trim($userAgent)) {
+                $this->logger->info(
+                    "Mismatched user agents in CI Session ({$userAgent}) vs " .
+                    "cookie({$cookieArray['user_agent']})"
+                );
+                return false;
+            }
         }
 
         return true;

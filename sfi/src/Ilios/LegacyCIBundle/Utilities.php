@@ -180,7 +180,7 @@ class Utilities
             return $_SERVER['HTTP_USER_AGENT'];
         }
         
-        return '';
+        return false;
     }
     
     /**
