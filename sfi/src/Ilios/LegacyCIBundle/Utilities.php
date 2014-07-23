@@ -139,6 +139,65 @@ class Utilities
 
         return rtrim(mcrypt_decrypt($cipher, $key, $data, $mode, $init_vect), "\0");
     }
+    
+    /**
+     * Valdiate string hashes like code igniter does
+     * @param string $key
+     * @param string $string
+     * @return boolean
+     */
+    public function validateHash($key, $string)
+    {
+        $len = strlen($string) - 40;
+        $hmac = substr($string, $len);
+        $checkString = substr($string, 0, $len);
+        // Time-attack-safe comparison
+        $hmac_check = hash_hmac('sha1', $checkString, $key);
+        $diff = 0;
+
+        for ($i = 0; $i < 40; $i++) {
+            $xor = ord($hmac[$i]) ^ ord($hmac_check[$i]);
+            $diff |= $xor;
+        }
+
+        if ($diff !== 0) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Get the user agent from the $_SERVER global
+     * 
+     * Makes it possible to test the extractor without messing with this variables
+     * which is unreliable
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        if(array_key_exists('HTTP_USER_AGENT', $_SERVER)){
+            return $_SERVER['HTTP_USER_AGENT'];
+        }
+        
+        return '';
+    }
+    
+    /**
+     * Get data from the cookie array
+     * 
+     * Done here so we can reliably test the extractor
+     * @param string $key
+     * @return string|false
+     */
+    public function getCookieData($key)
+    {
+        if(array_key_exists($key, $_COOKIE)){
+            return $_COOKIE[$key];
+        }
+        
+        return false;
+    }
 
     /**
      * Strip slashes in code igniters way
