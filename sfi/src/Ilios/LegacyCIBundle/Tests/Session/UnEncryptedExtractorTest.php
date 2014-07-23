@@ -82,7 +82,7 @@ class UnEncryptedExtractorTest extends BaseExtractor
             ->with(substr($this->cookieData, 0, strlen($this->cookieData) - 40))
             ->andReturn($parameters);
         
-        if(array_key_exists('user_agent', $parameters)){
+        if (array_key_exists('user_agent', $parameters)) {
             $this->util->shouldReceive('getUserAgent')
                 ->andreturn($parameters['user_agent']);
         }

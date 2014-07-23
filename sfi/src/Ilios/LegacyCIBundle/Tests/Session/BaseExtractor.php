@@ -60,7 +60,7 @@ abstract class BaseExtractor extends TestCase
     public function testShortCookie()
     {
         $this->util->shouldReceive('getCookieData')->with($this->ciCookieId)
-            ->andreturn( str_pad('', 38, 'a'));
+            ->andreturn(str_pad('', 38, 'a'));
         $this->logger->shouldReceive('error')->once()
                 ->with('Session: The Code Igniter session cookie was not signed.');
         $this->assertFalse($this->extractor->getSessionId());
@@ -134,7 +134,7 @@ abstract class BaseExtractor extends TestCase
     protected function setupCiCookie($keyToRemove = false)
     {
         $parameters = $this->getCiCookieArray();
-        if($keyToRemove and array_key_exists($keyToRemove, $parameters)){
+        if ($keyToRemove and array_key_exists($keyToRemove, $parameters)) {
             unset($parameters[$keyToRemove]);
         }
         $this->setupCalls($parameters);
