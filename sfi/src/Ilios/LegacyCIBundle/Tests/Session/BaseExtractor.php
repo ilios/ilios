@@ -153,7 +153,7 @@ abstract class BaseExtractor extends TestCase
         $arr = array();
         $arr['session_id'] = $faker->sha256;
         $arr['ip_address'] = $faker->ipv4;
-        $arr['user_agent'] = $faker->userAgent;
+        $arr['user_agent'] = substr($faker->userAgent, 0, 120);
         $arr['last_activity'] = $faker->dateTime;
 
         return $arr;
