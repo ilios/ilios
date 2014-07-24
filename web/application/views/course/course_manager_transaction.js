@@ -1290,7 +1290,19 @@ ilios.cm.transaction.associateLearningMaterial = function (learningMaterialId, d
                     return;
                 }
 
-                ilios.cm.lm.populateLearningMaterialList(containerNumber);
+                //TODO: JH - need to comment/document better...
+
+                //JH - need to drop the populateLearningMaterialList and
+                //work with newly-set up div elements...
+                containerNumber = ilios.cm.lm.learningMaterialDialog.cnumber;
+
+                isCourse = (containerNumber == -1);
+                model = isCourse ? ilios.cm.currentCourseModel
+                    : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+
+                learningMaterialId = parsedObject.learning_material_id;
+                //add the learning material to new div-based list in Course/session...
+                ilios.cm.lm.addNewLearningMaterialToDom(containerNumber, learningMaterialId);
             },
 
             failure: function (resultObject) {
@@ -1340,10 +1352,6 @@ ilios.cm.transaction.disassociateLearningMaterial = function (learningMaterialId
                                  : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
 
                 learningMaterialId = parsedObject.learning_material_id;
-
-                model.removeLearningMaterialWithId(learningMaterialId);
-
-                ilios.cm.lm.updateLearningMaterialCount(containerNumber, model);
             },
 
             failure: function (resultObject) {
@@ -1558,9 +1566,6 @@ ilios.cm.transaction.searchLearningMaterials = function () {
                         element.appendChild(ilios.cm.lm.createListElementForLearningMaterial(learningMaterial,
                                                                                              true,
                                                                                              null));
-                        //element.appendChild(ilios.cm.lm.populateLearningMaterials(learningMaterial,
-                        //                                                                     true,
-                        //                                                                     null));
                     }
                 }
             },
