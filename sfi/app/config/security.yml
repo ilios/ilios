@@ -1,10 +1,12 @@
 security:
     providers:
-        default_provider:
-            memory:
-                users:
-                    1:  {roles: 'ROLE_ZERO_USER' }
-
+        main:
+            entity:
+                class: Ilios\CoreBundle\Entity\User
+                property: userId
+    role_hierarchy:
+        ROLE_Course Director:       ROLE_Student
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]        
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -14,4 +16,4 @@ security:
             stateless: true
             ilios_legacy_ci: true
     access_control:
-        - { path: ^/api, roles: ROLE_ZERO_USER }
+        - { path: ^/, roles: ROLE_Student }

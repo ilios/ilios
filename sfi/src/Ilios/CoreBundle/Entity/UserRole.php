@@ -2,12 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * UserRole
  */
-class UserRole
+class UserRole implements RoleInterface
 {
     /**
      * @var integer
@@ -97,4 +97,10 @@ class UserRole
     {
         return $this->users->toArray();
     }
+
+    public function getRole()
+    {
+        return 'ROLE_' . $this->title;
+    }
+
 }
