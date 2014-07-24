@@ -1262,21 +1262,6 @@ ilios.cm.lm.updateLearningMaterialCountText = function (containerNumber) {
     element.innerHTML = i18nStr + ' (' + ilios.utilities.objectPropertyCount(model.getLearningMaterials()) + ')';
 };
 
-/**
- * Initiates the addition of a new learning material to a session by firing up the "add/search learning material"
- * dialog.
- *
- * @method addNewSessionLearningMaterial
- * @param {String} containerNumber the session objectives display container id
- */
-ilios.cm.lm.addNewSessionLearningMaterial = function (containerNumber) {
-    //ilios.cm.inEditObjectiveModel = null;
-    ilios.ui.onIliosEvent.fire({
-        action: 'alm_dialog_open',
-        cnumber: containerNumber
-    });
-};
-
 /*
  * TODO: JH - need to add comments/document
  *

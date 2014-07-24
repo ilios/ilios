@@ -681,7 +681,7 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     scratchInput.get('element').setAttribute('id', containerNumber + '_add_learning_material_button');
     scratchInput.get('element').setAttribute('onclick', 'return false;');
     scratchInput.addListener('click', function (e) {
-        ilios.cm.lm.addNewSessionLearningMaterial(containerNumber);
+        ilios.cm.lm.addNewLearningMaterial(containerNumber);
     }, null, this);
     text = document.createTextNode(i18nStr);
     scratchInput.appendChild(text);
