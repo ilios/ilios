@@ -24,7 +24,6 @@ class Provider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
-        
         if ($user) {
             $token->setUser($user);
             $token->setAuthenticated(true);

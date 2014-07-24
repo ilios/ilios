@@ -2,12 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -861,5 +861,56 @@ class User
     public function getReports()
     {
         return $this->reports->toArray();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->userId,
+            $this->ucUid,
+            $this->email
+        ));
+        
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->userId,
+            $this->ucUid,
+            $this->email
+        ) = unserialize($serialized);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+        
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        return '';
+    }
+
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function getUsername()
+    {
+        return $this->userId;
     }
 }
