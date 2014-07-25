@@ -286,7 +286,8 @@ class Course extends Ilios_Base_Model
     }
 
     /**
-     * Updates a given course and its associated data, such as objectives, learning materials etc.
+     * Updates a given course and its associated data, such as objectives, etc, but not
+     * learning materials (as LM's have been decoupled from course/session CRUD as of #205)
      * Note: Transactionality is expected to be handled outside of this method.
      *
      * @param int $courseId
@@ -300,7 +301,6 @@ class Course extends Ilios_Base_Model
      * @param array $directorsArray
      * @param array $meshTermArray
      * @param array $objectiveArray
-     * @param array $learningMaterialArray
      * @param int $publishId
      * @param int $publishAsTDB
      * @param int $clerkshipTypeId
@@ -312,7 +312,7 @@ class Course extends Ilios_Base_Model
      */
     public function saveCourseWithId ($courseId, $title, $externalId, $startDate, $endDate, $courseLevel,
         array $cohortArray, array $disciplinesArray, array $directorsArray, array $meshTermArray,
-        array $objectiveArray, array $learningMaterialArray, $publishId, $publishAsTBD,
+        array $objectiveArray, $publishId, $publishAsTBD,
         $clerkshipTypeId, array &$auditAtoms)
     {
         $rhett = array();
@@ -343,22 +343,6 @@ class Course extends Ilios_Base_Model
 
         $this->performCrossTableInserts($meshTermArray, 'course_x_mesh', 'mesh_descriptor_uid',
                                         'course_id', $courseId);
-
-        foreach ($learningMaterialArray as $key => $val) {
-            $meshTerms = $val['meshTerms'];
-            $notes = $val['notes'];
-            $required = ($val['required'] == 'true');
-            $notesArePubliclyViewable = ($val['notesArePubliclyViewable'] == 'true');
-
-            if ((! is_null($notes)) && (strlen($notes) == 0)) {
-                $notes = null;
-            }
-
-            $this->learningMaterial->associateLearningMaterial($val['dbId'], $courseId, true,
-                                                               $auditAtoms, $meshTerms, $notes,
-                                                               $required,
-                                                               $notesArePubliclyViewable);
-        }
 
         $rhett['objectives'] = $this->objective->saveObjectives($objectiveArray, 'course_x_objective', 'course_id',
             $courseId, $auditAtoms);
