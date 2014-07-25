@@ -1,0 +1,11 @@
+{# /Ilios/FrontendBundle/Resources/views/stylesheets.html.twig #}
+{% stylesheets filter="sass"
+    "@IliosFrontendBundle/Resources/public/stylesheets/screen.scss"
+%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+{% stylesheets filter="cssrewrite"
+    "@IliosFrontendBundle/Resources/public/components/scheduler/codebase/dhtmlxscheduler_flat.css"
+%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}

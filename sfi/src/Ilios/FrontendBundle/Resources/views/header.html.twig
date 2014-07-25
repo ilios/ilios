@@ -1,0 +1,39 @@
+
+<header class="navigation">
+  <div class="navigation-wrapper">
+    <a href="/ilios.php/dashboard_controller" class="logo">
+        {% image '@IliosFrontendBundle/Resources/public/images/ilios-logo.png' %}
+            <img src="{{ asset_url }}" alt="Ilios Logo" />
+        {% endimage %}
+    </a>
+    <a href="" class="navigation-menu-button" id="js-mobile-menu">MENU</a>
+    <div class="nav">
+      <ul id="navigation-menu">
+        <li class="nav-link">{% raw %}{{#link-to "dashboard"}}Home{{/link-to}}{% endraw %}</li>
+        <li class="nav-link"><a href="/ilios.php/program_management">Programs</a></li>
+        <li class="nav-link"><a href="/ilios.php/instructor_group_management">Instructors</a></li>
+        <li class="nav-link"><a href="/ilios.php/group_management">Learner Groups</a></li>
+        <li class="nav-link"><a href="/ilios.php/course_management">Courses and Sessions</a></li>
+        {#  Placeholder for new administration functions once ilios2 is gone.
+        <li class="nav-link more"><a href="javascript:void(0)">Administration</a>
+          <ul class="submenu">
+            <li><a href="javascript:void(0)">Archiving</a></li>
+            <li><a href="javascript:void(0)">Cource Rollover</a></li>
+            <li><a href="javascript:void(0)">Curricilum Inventory</a></li>
+            <li class="more"><a href="javascript:void(0)">Users</a>
+              <ul class="submenu">
+                <li><a href="javascript:void(0)">Add New User</a></li>
+                <li><a href="javascript:void(0)">Disable User</a></li>
+                <li><a href="javascript:void(0)">Change User Permissions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        #}
+      </ul>
+    </div>
+    <div class="navigation-tools">
+      <a href="ilios.php/authentication_controller?logout=yes" class="authentication">Log Out</a>
+    </div>
+  </div>
+</header>
