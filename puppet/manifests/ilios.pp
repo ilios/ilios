@@ -134,9 +134,10 @@ class ilios (
     require => [Class["::mysql::server"],Package["expect"]],
   }
 
-  file {"${docroot}/application/config/config.php":
-    source    => "${docroot}/application/config/default.config.php",
+  exec {"edit-config.php":
     require   => [File[$docroot]],
+    cwd => "${docroot}/application/config/",
+    command => '/bin/sed "s/%%ENCRYPTION_KEY%%/TEST_KEY/" default.config.php > config.php',
   }
 
   exec {"set-version":
@@ -197,6 +198,15 @@ class ilios (
     ensure   => present,
     provider => 'npm',
     require  => [Class['nodejs'], Package['build-essential']],
+  }
+  class { 'ruby':
+    gems_version  => 'latest'
+  }
+  $devRubyGems = ['sass', 'bourbon', 'neat', 'bitters', 'refills']
+  package { $devRubyGems:
+    ensure   => present,
+    provider => 'gem',
+    require  => [Class['ruby']],
   }
 
 }

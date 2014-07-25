@@ -1,24 +1,30 @@
-window.Ilios = Ember.Application.create();
+window.App = Ember.Application.create();
 
 //Get the URL for the api from symonfy and then drop the leading slash
 var apiurl = Routing.generate(
     'ilios_core_apiinfo'
 ).substr(1);
-Ilios.ApplicationAdapter = DS.RESTAdapter.extend({
+App.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: apiurl
 });
 
-Ilios.Objective = DS.Model.extend({
-  title: DS.attr('string')
-});
-
-Ilios.Router = Ember.Router.extend({
+App.Router = Ember.Router.extend({
     location: 'hash'
 });
 
-Ilios.Router.map(function() {
-    this.route("index", {path: "/"});
-    this.resource('objectives', function() {
-        this.resource('objective', { path: ':objective_id' });
-    });
+App.Router.map(function() {
+    this.route("dashboard", {path: "/"});
+});
+
+/**
+ * Add an afterREnderEvent hook to all views
+ */
+Ember.View.reopen({
+  didInsertElement : function(){
+    this._super();
+    Ember.run.scheduleOnce('afterRender', this, this.afterRenderEvent);
+  },
+  afterRenderEvent : function(){
+    // implement this hook in your own subclasses and run your jQuery logic there
+  }
 });

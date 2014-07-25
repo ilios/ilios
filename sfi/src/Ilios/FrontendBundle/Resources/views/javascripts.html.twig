@@ -1,0 +1,31 @@
+{# /Ilios/FrontendBundle/Resources/views/javascripts.html.twig #}
+{% block javascripts %}
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts output='common.js'
+        '@jquery_js'
+        '@handlebars_js'
+        '@ember_js'
+        '@ember_data_js'
+        '@html5shiv_js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts filter='?jsmin' output='ilios.js'
+        '@IliosFrontendBundle/Resources/public/javascripts/*.js'
+        '@IliosFrontendBundle/Resources/public/app/ilios.js'
+        '@IliosFrontendBundle/Resources/public/app/routes/*.js'
+        '@IliosFrontendBundle/Resources/public/components/scheduler/codebase/dhtmlxscheduler.js'
+        '@IliosFrontendBundle/Resources/public/components/scheduler/codebase/ext/dhtmlxscheduler_container_autoresize.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts filter='emberprecompile' output='hbs.js'
+        '@IliosFrontendBundle/Resources/public/app/templates/*.hbs'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}
