@@ -1284,6 +1284,7 @@ ilios.cm.lm.addNewLearningMaterialToDom = function (containerNumber, learningMat
         var containerId = ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber);
         var container = document.getElementById(containerId);
         container.appendChild(lmItem);
+        ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
         ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
     }
 };
