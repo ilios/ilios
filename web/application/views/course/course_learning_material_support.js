@@ -1240,7 +1240,7 @@ ilios.cm.lm.continueDeletingLearningMaterial = function(event, obj) {
     //this should disassociate the learning material
     ilios.cm.transaction.disassociateLearningMaterial(lmId, assocId, isCourse);
     element.parentNode.removeChild(element);
-    model.removeLearningMaterialFromContainer(lmNumber);
+    model.removeLearningMaterialFromContainer(lmIndex);
     ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
     this.hide();
 };
@@ -1276,8 +1276,8 @@ ilios.cm.lm.addNewLearningMaterialToDom = function (containerNumber, learningMat
         isCourse = (containerNumber == -1);
         model = isCourse ? ilios.cm.currentCourseModel
             : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
-        var learningMaterialItemNumber = model.learningMaterials.length;
-        var nextLearningMaterialItemNumber = (learningMaterialItemNumber + 1);
+        var nextLearningMaterialItemNumber = model.getNextLearningMaterialNumber();
+        //var nextLearningMaterialItemNumber = (learningMaterialItemNumber + 1);
         //ilios.cm.lm.buildAndPopulateLearningMaterial(containerNumber, nextLearningMaterialItemNumber, model, learningMaterialModel, container);
         var learningMaterialModel = ilios.cm.lm.getLearningMaterialModelFromId(model, learningMaterialId);
         var lmItem = ilios.cm.lm.buildLearningMaterialItem (learningMaterialModel, containerNumber, nextLearningMaterialItemNumber, false);

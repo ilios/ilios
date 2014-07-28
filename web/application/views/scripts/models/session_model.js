@@ -17,7 +17,8 @@ function SessionModel (dbObject) {
 
     AbstractJavaScriptModelForm.apply(this, arguments);
 
-    this.learningMaterials = new Array();
+    this.learningMaterials = [];
+    this.learningMaterialCount = 0;
 
     this.description = '';
 
@@ -666,6 +667,11 @@ SessionModel.prototype.containsLearningMaterial = function (learningMaterialMode
     return (this.getLearningMaterialForId(learningMaterialModel.getDBId()) != null);
 };
 
+SessionModel.prototype.getNextLearningMaterialNumber = function () {
+    this.learningMaterialCount += 1;
+    return this.learningMaterialCount;
+};
+
 SessionModel.prototype.getNextObjectiveNumber = function () {
     this.objectiveCount++;
 
@@ -718,6 +724,13 @@ SessionModel.prototype.removeObjectiveForContainer = function (containerNumber) 
         delete this.objectives[containerNumber];
 
         this.setDirtyAndNotify();
+    }
+};
+
+SessionModel.prototype.removeLearningMaterialFromContainer = function (lmIndex) {
+
+    if (this.learningMaterials[lmIndex]) {
+        this.learningMaterials.splice(lmIndex, 1);
     }
 };
 
