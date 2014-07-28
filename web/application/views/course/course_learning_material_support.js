@@ -14,8 +14,8 @@ ilios.cm.lm.generateIdStringForLearningMaterialCount = function (containerNumber
 };
 
 ilios.cm.lm.generateIdStringForLearningMaterialExpandWidget = function (containerNumber) {
-    //return '' + containerNumber + '_learning_material_expand_widget';
-    return '' + containerNumber + '_learning_materials_container_expand_widget';
+    return '' + containerNumber + '_learning_material_expand_widget';
+
 };
 
 ilios.cm.lm.generateIdStringForLearningMaterialList = function (containerNumber) {
@@ -362,7 +362,7 @@ ilios.cm.lm.setLearningMaterialDivVisibility = function (containerNumber, widget
     }
 
     if (widgetDiv == null) {
-        idString = ilios.cm.lm.generateIdStringForLearningMaterialExpandWidget(containerNumber);
+        idString = ilios.cm.lm.generateIdStringForLearningMaterialsContainerExpandWidget(containerNumber);
         widgetDiv = document.getElementById(idString);
     }
 
@@ -1186,18 +1186,34 @@ ilios.cm.lm.newHandleLearningMaterialClick = function (learningMaterialModel, ad
  * TODO: JH - need to add comments/document
  *
  * Initiates the addition of a new learning material to a course/session by firing up the "add learning materials"
- * search popup window.
+ * search popup window. Disallows the addition of a learning material to a session and alerts if the session has not
+ * been saved yet (isDirty).
  *
  * @method addNewLearningMaterial
  * @param {String} containerNumber the learning materials container id
  */
 
 ilios.cm.lm.addNewLearningMaterial = function (containerNumber) {
-    ilios.ui.onIliosEvent.fire({
-        action: 'alm_dialog_open',
-        container_number: containerNumber
-    });
-    return false;
+
+    //check if it is a course..
+    var isCourse = (containerNumber == -1);
+    //a course is saved upon creation, so if it is not a course, check to make sure that the session
+    //is not dirty...
+    model = isCourse ? ilios.cm.currentCourseModel
+        : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+
+    //if the model already exists and is not dirty, open the Add LM dialog...
+    if((model) && (!model.isDirty)){
+        ilios.ui.onIliosEvent.fire({
+            action: 'alm_dialog_open',
+            container_number: containerNumber
+        });
+        return false;
+    } else {
+        //if not, warn the user to save the session first...
+        var i18nString = ilios_i18nVendor.getI18NString('learning_material.error.save_session_first');
+        ilios.alert.alert(i18nString);
+    }
 };
 
 /**
