@@ -85,3 +85,18 @@ Feature: Program management
     And I should see "Medical Knowledge"
     And I should see "Other"
     And I should see "Objectives (2)"
+  
+  @javascript @insulated
+  Scenario: Test mesh search (#617)
+    Given I create a test program "Test Mesh Search Program"
+    And I click on the text "Search"
+    And I fill in "Test Mesh Search Program" for "program_search_terms"
+    And I click on the xpath "//*[@id='program_search_picker']//form/fieldset/span"
+    And I click on the text "Test Mesh Search Program" in the "program_search_results_list" element
+    Then I should see "Graduating Class of 2017"
+    When I click on the xpath "//*[@id='program_year_container']/div//div[@class='toggle']"
+    And I click on the xpath "//*[@id='1_objective_collapser']"
+    And I click on the xpath "//*[@id='1_1_objectives_mesh_link']"
+    Then I should see "Find MeSH Associations"
+    And I should see "Search" in the "#mesh_results_tab" element
+    And I should not see "A PHP Error was encountered"
