@@ -14,7 +14,8 @@ ilios.cm.lm.generateIdStringForLearningMaterialCount = function (containerNumber
 };
 
 ilios.cm.lm.generateIdStringForLearningMaterialExpandWidget = function (containerNumber) {
-    return '' + containerNumber + '_learning_material_expand_widget';
+    //return '' + containerNumber + '_learning_material_expand_widget';
+    return '' + containerNumber + '_learning_materials_container_expand_widget';
 };
 
 ilios.cm.lm.generateIdStringForLearningMaterialList = function (containerNumber) {
@@ -362,7 +363,6 @@ ilios.cm.lm.setLearningMaterialDivVisibility = function (containerNumber, widget
 
     if (widgetDiv == null) {
         idString = ilios.cm.lm.generateIdStringForLearningMaterialExpandWidget(containerNumber);
-
         widgetDiv = document.getElementById(idString);
     }
 
@@ -1171,6 +1171,9 @@ ilios.cm.lm.newHandleLearningMaterialClick = function (learningMaterialModel, ad
 
         ilios.cm.transaction.associateLearningMaterial(learningMaterialModel.getDBId(),
             model.getDBId(), isCourse);
+    //ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
+
+        ilios.cm.lm.clearLearningMaterialsDialogFields(true);
 
         ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
 
