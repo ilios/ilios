@@ -662,15 +662,40 @@ class Group_Management extends Ilios_Web_Controller
         $email = trim($this->input->post('email'));
         $ucUID = trim($this->input->post('uc_uid'));
 
-        // MAY RETURN THIS BLOCK
+        if (empty($lastName)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.lastName_missing');
+            return;
+        }
+        if (empty($firstName)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.firstName_missing');
+            return;
+        }
+        if (empty($email)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.email_missing');
+            return;
+        }
+        if(!$email = filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $this->_printErrorXhrResponse('group_management.validate.error.email_invalid');
+            return;
+        }
+        if (empty($ucUID)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.campusId_missing');
+            return;
+        }
+        $uidMinLength = $this->config->item('uid_min_length')?$this->config->item('uid_min_length'):9;
+        $uidMaxLength = $this->config->item('uid_max_length')?$this->config->item('uid_max_length'):9;
+        
+        if (strlen($ucUID) < $uidMinLength) {
+            $this->_printErrorXhrResponse('group_management.validate.error.campusId_too_short');
+            return;
+        }
+        if (strlen($ucUID) > $uidMaxLength) {
+            $this->_printErrorXhrResponse('group_management.validate.error.campusId_too_long');
+            return;
+        }
+        
         if ($this->user->userExistsWithEmail($email)) {
-            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found');
-
-            $rhett['error'] = $msg;
-
-            header("Content-Type: text/plain");
-            echo json_encode($rhett);
-
+            $this->_printErrorXhrResponse('general.error.duplicate_user_found');
             return;
         }
 

@@ -862,6 +862,44 @@ class FeatureContext extends MinkContext
         $this->visit('/ilios.php/group_management');
     }
 
+    /**
+     * Delete any existing instructor groups in a school
+     * 
+     * @Given /^I clear all instructor groups in the "([^"]*)" school$/
+     *
+     * @param string $schoolName
+     */
+    public function iClearAllInstructorGroupsInTheSchool($schoolName)
+    {        
+        $db = $this->getDbConnection();
+        try{
+            $db->beginTransaction();
+            $sql = 'DELETE FROM `instructor_group` WHERE instructor_group_id=?';
+            $deleteGroupStmt = $db->prepare($sql);
+            $sql = 'DELETE FROM instructor_group_x_user WHERE instructor_group_id=?';
+            $deleteUserGroupStmt = $db->prepare($sql);
+            $sql = 'SELECT instructor_group_id FROM `instructor_group` WHERE school_id IN '
+                . '(SELECT school_id FROM `school` WHERE title = ?)';
+            $selectStatement = $db->prepare($sql);
+            $selectStatement->execute(array($schoolName));
+            foreach ($selectStatement->fetchAll() as $row) {
+                $groupId = $row[0];
+                $deleteUserGroupStmt->execute(array($groupId));
+                $deleteGroupStmt->execute(array($groupId));
+            }
+            $deleteGroupStmt = null;
+            $deleteUserGroupStmt = null;
+
+            $db->commit();
+            $db = null;
+        } catch (Exception $e) {
+          $db->rollBack();
+          throw $e;
+        }
+        
+        
+    }
+
     protected function getSubGroupsForGroup($groupId, PDO $db)
     {
         $arr = array();
