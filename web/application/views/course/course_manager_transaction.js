@@ -1459,8 +1459,6 @@ ilios.cm.transaction.handleAddLearningMaterialUploadClick = function (uploadButt
                 model.addLearningMaterial(learningMaterialModel);
                 //TODO: JH - add comments to change...
                 ilios.cm.lm.addNewLearningMaterialToDom(containerNumber, learningMaterialModel.dbId);
-                ilios.cm.lm.updateLearningMaterialCountText(containerNumber);
-                ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
                 ilios.cm.lm.learningMaterialLightboxIsDirty = false;
 
                 ilios.cm.lm.almLearningMaterialModel = null;
