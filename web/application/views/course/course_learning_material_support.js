@@ -451,8 +451,8 @@ ilios.cm.lm.clearLearningMaterialsDialogFields = function (clearTransactionStatu
     ilios.cm.lm.learningMaterialLightboxIsDirty = false;
 
     ilios.cm.lm.almLearningMaterialModel = new LearningMaterialModel();
-    ilios.cm.lm.almLearningMaterialModel.addStateChangeListener(ilios.cm.lm.almDirtyStateListener,
-                                                                null);
+    //ilios.cm.lm.almLearningMaterialModel.addStateChangeListener(ilios.cm.lm.almDirtyStateListener,
+    //                                                            null);
 };
 
 ilios.cm.lm.resetAddLearningMaterialsDialog = function (dialog, clearTransactionStatus) {
