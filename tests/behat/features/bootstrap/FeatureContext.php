@@ -894,6 +894,7 @@ class FeatureContext extends MinkContext
             $db = null;
         } catch (Exception $e) {
           $db->rollBack();
+          $db = null;
           throw $e;
         }
         
