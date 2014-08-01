@@ -237,12 +237,11 @@ class Instructor_Group_Management extends Ilios_Web_Controller
                     $phone = trim($row[3]);
                     $email = trim($row[4]);
                     $campusId = trim($row[5]);
-                    $otherId = trim($row[6]);
 
                     $primarySchoolId = $this->session->userdata('school_id');
 
                     $newId = $this->user->addUserAsFaculty($lastName, $firstName, $middleName, $phone,
-                        $email, $campusId, $otherId, $primarySchoolId, $auditAtoms);
+                        $email, $campusId, '', $primarySchoolId, $auditAtoms);
 
                     if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                         $msg = $this->languagemap->getI18NString('general.error.db_insert');
