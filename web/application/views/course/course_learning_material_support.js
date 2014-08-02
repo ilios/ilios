@@ -1202,8 +1202,9 @@ ilios.cm.lm.addNewLearningMaterial = function (containerNumber) {
     model = isCourse ? ilios.cm.currentCourseModel
         : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
 
-    //if the model already exists and is not dirty, open the Add LM dialog...
-    if((model) && (!model.isDirty)){
+    //If the session has not been saved, do not permit addition of Learning Materials
+    //the model.courseId will be -1 if the session has not yet been saved
+    if(model.courseId !== -1){
         ilios.ui.onIliosEvent.fire({
             action: 'alm_dialog_open',
             container_number: containerNumber
