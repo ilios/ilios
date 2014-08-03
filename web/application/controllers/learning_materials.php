@@ -642,4 +642,88 @@ class Learning_Materials extends Ilios_Web_Controller
 
         return $rhett;
     }
+
+    /**
+     * XHR handler.
+     *
+     * Expected POST params:
+     *      course_id
+     *      is_course
+     *      learning_materials
+     *
+     * Prints a JSON'd array with key 'error' or keys 'publish_event_id',
+     * 'objectives' which has a value of an array with 0-N arrays - each with
+     * the keys 'dbId' and 'md5'.
+     * the latter being the md5 hash of the descriptive text for the objective.
+     *
+     * @todo clean up code docs
+     */
+    public function updateLearningMaterialProperties ()
+    {
+        $rhett = array();
+
+        //
+        // authorization check
+        //
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse();
+            return;
+        }
+
+        //get the userId for the audit trail
+        $userId = $this->session->userdata('uid');
+
+        //
+        // input processing
+        //get the course
+        $courseOrSessionId = $this->input->post('course_id');
+        $isCourse = $this->input->post('is_course');
+
+        try {
+            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.learning_materials');
+            return;
+        }
+
+        $failedTransaction = true;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
+        do {
+            $auditAtoms = array();
+
+            unset($rhett['error']);
+            $publishId = -1;
+
+
+            $this->learningMaterial->startTransaction();
+
+            $results = $this->learningMaterial->updateLearningMaterialForCourseOrSession($courseOrSessionId, $isCourse,
+                $learningMaterials, $auditAtoms);
+
+            if (isset($results['error']) || $this->learningMaterial->transactionAtomFailed()) {
+                $rhett['error'] = $results['error'];
+
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->learningMaterial);
+            } else {
+                $rhett['publish_event_id'] = $publishId;
+
+                $failedTransaction = false;
+
+                $this->learningMaterial->commitTransaction();
+
+                // save audit trail
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
+                } else {
+                    $this->auditAtom->commitTransaction();
+                }
+            }
+        } while ($failedTransaction && ($transactionRetryCount > 0));
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
 }
