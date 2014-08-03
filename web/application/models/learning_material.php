@@ -934,4 +934,39 @@ EOL;
                 'session_learning_material_id', $sessionLearningMaterialId,
                 'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds, 'dbId', $auditAtoms);
     }
+
+    /**
+     * Updates a given learning material and its associated data, such as associated mesh terms, notes, etc.
+     *
+     * @param int $courseId
+     * @param bool $isCourse if it's not a course, it's a session
+     * @param array $learningMaterialArray
+     * @param array $auditAtoms
+     */
+    public function updateLearningMaterialForCourseOrSession ($courseId, $isCourse, array $learningMaterialArray, array &$auditAtoms)
+    {
+        $rhett = array();
+
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseId, 'learning_material_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+
+        foreach ($learningMaterialArray as $key => $val) {
+            $meshTerms = $val['meshTerms'];
+            $notes = $val['notes'];
+            $required = ($val['required'] == 'true');
+            $notesArePubliclyViewable = ($val['notesArePubliclyViewable'] == 'true');
+
+            if ((! is_null($notes)) && (strlen($notes) == 0)) {
+                $notes = null;
+            }
+
+            $this->learningMaterial->associateLearningMaterial($val['dbId'], $courseId, $isCourse,
+                $auditAtoms, $meshTerms, $notes,
+                $required,
+                $notesArePubliclyViewable);
+        }
+
+        return $rhett;
+    }
+
 }
