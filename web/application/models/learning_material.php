@@ -940,15 +940,15 @@ EOL;
      *
      * @param int $courseId
      * @param bool $isCourse if it's not a course, it's a session
-     * @param array $learningMaterialArray
+     * @param array $learningMaterial
      * @param array $auditAtoms
      */
-    public function updateLearningMaterialForCourseOrSession ($courseId, $isCourse, array $learningMaterialArray, array &$auditAtoms)
+    public function updateLearningMaterialForCourseOrSession ($courseId, $lmDbId, $isCourse, array $learningMaterialArray, array &$auditAtoms)
     {
         $rhett = array();
 
         $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseId, 'learning_material_id', $this->databaseTableName,
-            Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
         foreach ($learningMaterialArray as $key => $val) {
             $meshTerms = $val['meshTerms'];
@@ -960,10 +960,14 @@ EOL;
                 $notes = null;
             }
 
-            $this->learningMaterial->associateLearningMaterial($val['dbId'], $courseId, $isCourse,
-                $auditAtoms, $meshTerms, $notes,
-                $required,
-                $notesArePubliclyViewable);
+            //Because we're dealing with multiple Learning Materials, only update the one that has changed
+            //by comparing the $_POST['lmDbId'] with the dbId in the array.  If it matches, run the update...
+            if($val['dbId'] == $lmDbId) {
+                $this->learningMaterial->_updateSessionLearningMaterialAssociations($val['dbId'], $courseId, $isCourse,
+                    $auditAtoms, $meshTerms, $notes,
+                    $required,
+                    $notesArePubliclyViewable);
+            }
         }
 
         return $rhett;

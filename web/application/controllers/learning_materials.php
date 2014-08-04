@@ -644,7 +644,7 @@ class Learning_Materials extends Ilios_Web_Controller
     }
 
     /**
-     * XHR handler.
+     * XHR handler for updating learning materials and all their associations
      *
      * Expected POST params:
      *      course_id
@@ -658,7 +658,7 @@ class Learning_Materials extends Ilios_Web_Controller
      *
      * @todo clean up code docs
      */
-    public function updateLearningMaterialProperties ()
+    public function updateLearningMaterial ()
     {
         $rhett = array();
 
@@ -678,6 +678,7 @@ class Learning_Materials extends Ilios_Web_Controller
         //get the course
         $courseOrSessionId = $this->input->post('course_id');
         $isCourse = $this->input->post('is_course');
+        $lmId = $this->input->post('lmId');
 
         try {
             $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
@@ -697,7 +698,7 @@ class Learning_Materials extends Ilios_Web_Controller
 
             $this->learningMaterial->startTransaction();
 
-            $results = $this->learningMaterial->updateLearningMaterialForCourseOrSession($courseOrSessionId, $isCourse,
+            $results = $this->learningMaterial->updateLearningMaterialForCourseOrSession($courseOrSessionId, $lmId, $isCourse,
                 $learningMaterials, $auditAtoms);
 
             if (isset($results['error']) || $this->learningMaterial->transactionAtomFailed()) {
