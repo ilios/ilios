@@ -216,7 +216,7 @@ class Authentication_Controller extends Ilios_Base_Controller
 
         $emailAddress = "illegal_em4!l_addr3ss";
         $shibbUserIdAttribute = $this->config->item('ilios_authentication_shibboleth_user_id_attribute');
-        $authFieldToMatch = $this->config->item($config['ilios_authentication_field_to_match']);
+        $authFieldToMatch = $this->config->item('ilios_authentication_field_to_match');
         $shibUserId = array_key_exists($shibbUserIdAttribute, $_SERVER) ? $_SERVER[$shibbUserIdAttribute] : null; // passed in by Shibboleth
         if (! empty($shibUserId)) {
 
