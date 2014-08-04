@@ -243,9 +243,19 @@ class Authentication_Controller extends Ilios_Base_Controller
         $userCount = count($authenticatedUsers);
 
         if ($userCount == 0) {
-            $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.no_match_1')
-                . ' (' . $emailAddress . ') ' . $this->languagemap->getI18NString('login.error.no_match_2');
+            switch($authFieldToMatch) {
+                case 'uc_uid':
+                    $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.uid_no_match_1')
+                        . ' (' . $institutionId . ') ';
+                    break;
+                case 'email':
+                default:
+                    $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.email_no_match_1')
+                        . ' (' . $emailAddress . ') ';
+            }
+            $data['forbidden_warning_text'] .= $this->languagemap->getI18NString('login.error.no_match_2');
             $this->load->view('common/forbidden', $data);
+
         } else if ($userCount > 1) {
             $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match')
                 . ' (' . $emailAddress . ' [' . $userCount . '])';
