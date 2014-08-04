@@ -222,7 +222,7 @@ class Authentication_Controller extends Ilios_Base_Controller
 
             switch($authFieldToMatch) {
                 case 'uc_uid':
-                    $institutionId = trim($shibuserId);
+                    $institutionId = trim($shibUserId);
                     $authenticatedUsers = $this->user->getEnabledUsersWithInstitutionId($institutionId);
                     break;
                 case 'email':
@@ -257,8 +257,10 @@ class Authentication_Controller extends Ilios_Base_Controller
             $this->load->view('common/forbidden', $data);
 
         } else if ($userCount > 1) {
-            $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match')
-                . ' (' . $emailAddress . ' [' . $userCount . '])';
+            $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match');
+            $data['forbidden_warning_text'] .= ' (';
+            $data['forbidden_warning_text'] .= ($authFieldToMatch == 'uc_uid') ? $institutionId : $emailAddress;
+            $data['forbidden_warning_text'] .= ') [' . $userCount . '])';
             $this->load->view('common/forbidden', $data);
         } else {
             $user = $authenticatedUsers[0];
