@@ -9,7 +9,23 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
     var element = null;
 
     var handleCancel = function () {
-        this.cancel();
+
+        //check to see if the learningMaterialDetailsModel is dirty
+        if(ilios.common.lm.learningMaterialsDetailsModel.isDirty){
+            //if it's dirty, it has changed, so add the update learning material process here
+            var isCourse = (this.cnumber == -1);
+            var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
+            var model = isCourse ? ilios.cm.currentCourseModel
+                : ilios.cm.currentCourseModel.getSessionForContainer(this.containerNumber);
+            var courseOrSessionDbId = model.dbId;
+            ilios.cm.transaction.updateLearningMaterial(model, lmDbId, isCourse, courseOrSessionDbId);
+            //then close
+            this.cancel();
+        } else {
+            //it hasn't changed, so just close the window
+            this.cancel();
+        }
+
     };
 
     var doneStr = ilios_i18nVendor.getI18NString('general.terms.done');
@@ -69,7 +85,10 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
 
         ilios.common.lm.learningMaterialsDetailsModel.setRequired(toggle);
 
-        model.setDirtyAndNotify();
+        //instead of setting the course/session to dirty, now that the lm is decoupled, let's just
+        //set the learning material model to dirty, so we can test it for changes when closing the
+        //lm dialog.
+        ilios.common.lm.learningMaterialsDetailsModel.setDirty();
     });
 
     element = document.getElementById('ilios_lm_mesh_link');
@@ -84,7 +103,8 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
     element = document.getElementById('ilios_lm_notes_link');
     Event.addListener(element, 'click', function (e) {
         ilios.ui.onIliosEvent.fire({
-            action: 'elmn_dialog_open'
+            action: 'elmn_dialog_open',
+            model_in_edit: ilios.common.lm.learningMaterialsDetailsModel
         });
         return false;
     });

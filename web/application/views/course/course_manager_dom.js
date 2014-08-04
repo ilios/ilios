@@ -1499,7 +1499,7 @@ ilios.common.picker.mesh.handleMeSHPickerSave = function (dialogPanel) {
             else {
                 model = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
             }
-            model.setDirtyAndNotify();
+            ilios.common.lm.learningMaterialsDetailsModel.setDirty();
         }
     }
 

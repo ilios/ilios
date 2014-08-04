@@ -1619,3 +1619,50 @@ ilios.cm.transaction.addCourseFromModalPanelResponse = function (type, args) {
 };
 
 ilios.ui.onIliosEvent.subscribe(ilios.cm.transaction.addCourseFromModalPanelResponse);
+
+
+ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse, courseOrSessionDbId) {
+    var url = learningMaterialsControllerURL + 'updateLearningMaterial';
+    var method = "POST",
+            paramString = '',
+            replacer = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer,
+            stringify = ilios.utilities.stringifyObjectAsArray;
+
+    var ajaxCallback = {
+        success: function (resultObject) {
+            var parsedObject = null;
+
+            try {
+                parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
+            }
+            catch (e) {
+                ilios.global.defaultAJAXFailureHandler(null, e);
+
+                return;
+            }
+
+            // MAY RETURN THIS BLOCK
+            if (parsedObject.error != null) {
+                var msg
+                    = ilios_i18nVendor.getI18NString('learning_material.error.learning_material_update');
+
+                ilios.alert.alert(msg + ": " + parsedObject.error);
+
+                return;
+            }
+       },
+
+        failure: function (resultObject) {
+            ilios.global.defaultAJAXFailureHandler(resultObject);
+        }};
+
+    paramString += 'is_course=' + isCourse;
+    paramString += '&course_id=' + courseOrSessionDbId;
+    paramString += '&lmId=' + lmDbId;
+    var modelArray = model.getLearningMaterials();
+    paramString += '&learning_materials='
+        + encodeURIComponent(stringify(modelArray, replacer));
+    YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
+
+    return false;
+};

@@ -72,7 +72,8 @@
                 else {
                     model = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
                 }
-                model.setDirtyAndNotify();
+                //model.setDirtyAndNotify();
+                ilios.common.lm.learningMaterialsDetailsModel.setDirty();
 
                 ilios.cm.editLearningMaterialNotesDialog.cancel();
             };
