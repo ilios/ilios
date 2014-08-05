@@ -260,7 +260,7 @@ class Authentication_Controller extends Ilios_Base_Controller
             $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match');
             $data['forbidden_warning_text'] .= ' (';
             $data['forbidden_warning_text'] .= ($authFieldToMatch == 'uc_uid') ? $institutionId : $emailAddress;
-            $data['forbidden_warning_text'] .= ') [' . $userCount . '])';
+            $data['forbidden_warning_text'] .= ') [' . $userCount . ']';
             $this->load->view('common/forbidden', $data);
         } else {
             $user = $authenticatedUsers[0];
