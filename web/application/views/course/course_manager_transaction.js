@@ -1621,6 +1621,15 @@ ilios.cm.transaction.addCourseFromModalPanelResponse = function (type, args) {
 ilios.ui.onIliosEvent.subscribe(ilios.cm.transaction.addCourseFromModalPanelResponse);
 
 
+/*
+ * POSTS learning material updates to controller for update
+ *
+ * @param object model the course/session
+ * @param int lmDbId the learning material DbId
+ * @param string isCourse 'true' if it is a course, 'false' if it is a session
+ * @param int courseOrSessionDbId the dbId of the course or session
+ */
+
 ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse, courseOrSessionDbId) {
     var url = learningMaterialsControllerURL + 'updateLearningMaterial';
     var method = "POST",
@@ -1658,7 +1667,7 @@ ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse,
 
     paramString += 'is_course=' + isCourse;
     paramString += '&course_id=' + courseOrSessionDbId;
-    paramString += '&lmId=' + lmDbId;
+    paramString += '&lmDbId=' + lmDbId;
     var modelArray = model.getLearningMaterials();
     paramString += '&learning_materials='
         + encodeURIComponent(stringify(modelArray, replacer));

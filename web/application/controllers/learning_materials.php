@@ -652,10 +652,6 @@ class Learning_Materials extends Ilios_Web_Controller
      *      learning_materials
      *
      * Prints a JSON'd array with key 'error' or keys 'publish_event_id',
-     * 'objectives' which has a value of an array with 0-N arrays - each with
-     * the keys 'dbId' and 'md5'.
-     * the latter being the md5 hash of the descriptive text for the objective.
-     *
      * @todo clean up code docs
      */
     public function updateLearningMaterial ()
@@ -677,8 +673,8 @@ class Learning_Materials extends Ilios_Web_Controller
         // input processing
         //get the course
         $courseOrSessionId = $this->input->post('course_id');
-        $isCourse = $this->input->post('is_course');
-        $lmId = $this->input->post('lmId');
+        $isCourse = ($this->input->post('is_course') == 'true') ? true : false;
+        $lmDbId = $this->input->post('lmDbId');
 
         try {
             $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
@@ -698,7 +694,7 @@ class Learning_Materials extends Ilios_Web_Controller
 
             $this->learningMaterial->startTransaction();
 
-            $results = $this->learningMaterial->updateLearningMaterialForCourseOrSession($courseOrSessionId, $lmId, $isCourse,
+            $results = $this->learningMaterial->updateLearningMaterial($courseOrSessionId, $lmDbId, $isCourse,
                 $learningMaterials, $auditAtoms);
 
             if (isset($results['error']) || $this->learningMaterial->transactionAtomFailed()) {
