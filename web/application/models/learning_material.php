@@ -1078,23 +1078,55 @@ EOL;
 
         //get the dbId of the learning material
         $lmDbId = $learningMaterial['dbId'];
+
+        //get the unique course/session_learning_material_id that identifies the association between lmId and
+        //a course or session id
+        $courseOrSessionLmId = $this->getCourseOrSessionLearningMaterialId($lmDbId, $courseOrSessionId, $isCourse);
+
         //set up the row for data update
         $row = array();
         $row['notes'] = $learningMaterial['notes'];
         $row['required'] = $learningMaterial['required'] ? 1 : 0;
         $row['notes_are_public'] = $learningMaterial['notesArePubliclyViewable'] ? 1 : 0;
 
+        //update everything but the MeSHTerms
         $this->db->where('learning_material_id', $lmDbId);
         $this->db->where($db_prefix . '_id', $courseOrSessionId);
         $this->db->update($db_prefix . '_learning_material', $row);
         $str = $this->db->last_query();
 
-        // update mesh term associations
-        if (! empty($learningMaterial['meshTerms'])) {
-            $associatedMeshTermIds = $this->getIdArrayFromCrossTable($table_prefix . '_learning_material_x_mesh',
-                'mesh_descriptor_uid', $table_prefix . '_learning_material_id', $lmDbId);
-            $this->_saveLearningMaterialMeshTermAssociations($lmDbId, $isCourse,
-                $learningMaterial['meshTerms'], $associatedMeshTermIds, $auditAtoms);
+        //and then handle the MeSHTerms
+        //to do so without going through a tedious comparison, let's just empty all existing mesh term associations, and
+        //then re-add all of them again on the next step -- this ensures no duplication and that removed items are gone
+        $this->db->where($db_prefix . '_learning_material_id', $courseOrSessionLmId);
+        $this->db->delete($db_prefix . '_learning_material_x_mesh');
+        $delete_query = $this->db->last_query();
+
+        //get the mesh terms as an array
+        $meshTerms = $learningMaterial['meshTerms'];
+
+        //check to see if the values have been set to null by removal and, if so, clear them out of the array
+        foreach ($meshTerms as $index => $value) {
+            if (empty($value)) unset($meshTerms[$index]);
+        }
+
+        //now all mesh terms should have a value, so process the ones that still exist
+        if (! empty($meshTerms)) {
+            $newRow = array();
+            $newRow['course_learning_material_id'] = $courseOrSessionLmId;
+
+            foreach ($meshTerms as $meshTerm) {
+                $newRow['mesh_descriptor_uid'] = $meshTerm['dbId'];
+                $this->db->insert($db_prefix . '_learning_material_x_mesh', $newRow);
+
+                //audit the addition of new terms
+                if ($this->transactionAtomFailed()) {
+                    return false;
+                }
+
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseOrSessionLmId, $db_prefix . '_learning_material_id',
+                    $db_prefix . '_learning_material_x_mesh', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+            }
         }
     }
 
@@ -1119,6 +1151,30 @@ EOL;
         $this->_saveJoinTableAssociations($db_prefix . '_learning_material_x_mesh',
             $db_prefix . '_learning_material_id', $lmDbId,
             'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds, 'dbId', $auditAtoms);
+    }
+
+    /**
+     * retrieves the learning material id from the course/session_learning_material table to
+     * reference for MeSHTerm insertions and updates
+     *
+     * @param int $lmDbId the dbId of the learning material itself
+     * @param int $courseOrSessionId the course or session id
+     * @param bool $isCourse true if it's a course, false if it's a session
+     * @return int|NULL the unique id of the course/session lm association row
+     */
+    protected function getCourseOrSessionLearningMaterialId ($lmDbId, $courseOrSessionId, $isCourse)
+    {
+        $rhett = null;
+
+        //prefix relevant table/column names with either 'course' or 'session' where appropriate
+        $db_prefix = ($isCourse) ? 'course' : 'session';
+
+        $this->db->where($db_prefix . '_id', $courseOrSessionId);
+        $this->db->where('learning_material_id', $lmDbId);
+        $queryResults = $this->db->get($db_prefix . '_learning_material');
+        $rhett = $queryResults->first_row()->{$db_prefix . '_learning_material_id'};
+
+        return $rhett;
     }
 
 }
