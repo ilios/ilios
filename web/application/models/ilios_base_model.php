@@ -317,6 +317,7 @@ abstract class Ilios_Base_Model extends CI_Model
                 $row[$joinColName] = $joinId;
                 $row[$refColName] = $id;
                 $this->db->insert($joinTblName, $row);
+                $query = $this->db->last_query();
             }
             $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($joinId, $joinColName, $joinTblName,
                 Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
