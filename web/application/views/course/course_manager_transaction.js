@@ -1664,10 +1664,8 @@ ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse,
             var lmnumber = parsedObject.lmnumber;
             var cnumber = parsedObject.cnumber;
             var meshTotal = parsedObject.meshTotal;
-            console.log('mesh total' + meshTotal);
-            var lmDbId = parsedObject.lmDbId;
 
-            //update the mesh count
+            //update the mesh count on the course page
             ilios.cm.lm.updateLearningMaterialMeSHCount(cnumber, lmnumber, meshTotal);
        },
 
