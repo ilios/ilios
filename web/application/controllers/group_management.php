@@ -535,30 +535,72 @@ class Group_Management extends Ilios_Web_Controller
                 // false parameter => no named fields on line 0 of the csv
                 $csvData = $this->csvreader->parse_file($uploadData['full_path'], false);
 
-                $foundDuplicates = array();
+                $errorMessages = array();
+            
+                $uidMinLength = $this->config->item('uid_min_length')?$this->config->item('uid_min_length'):9;
+                $uidMaxLength = $this->config->item('uid_max_length')?$this->config->item('uid_max_length'):9;
+                $emailAddresses = array();
+                foreach ($csvData as $i => $row) {
+                    $rowErrors = array();
+                    if(count($row) != 6){
+                        $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.bad_csv_format');
+                    } else {
+                        if (empty($row[0])) {
+                            $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.lastName_missing');
+                        }
+                        if (empty($row[1])) {
+                            $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.firstName_missing');
+                        }
+                        if (empty($row[4])) {
+                            $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.email_missing');
+                        }
+                        if(!$email = filter_var($row[4], FILTER_VALIDATE_EMAIL)){
+                            $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.email_invalid');
+                        } else if ($this->user->userExistsWithEmail($email)) {
+                            $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.duplicate_email');
+                        } else {
+                            if(!array_key_exists($email, $emailAddresses)){
+                                $emailAddresses[$email] = array();
+                            }
+                            $emailAddresses[$email][] = $i+1;
+                        }
 
-                foreach ($csvData as $row) {
-                    $email = $row[4];
+                        if (empty($row[5])) {
+                            $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.campusId_missing');
+                        } else {
+                            if (strlen($row[5]) < $uidMinLength) {
+                                $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.campusId_too_short');
+                            }
+                            if (strlen($row[5]) > $uidMaxLength) {
+                                $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.campusId_too_long');
+                            }
+                        }
 
-                    if ($this->user->userExistsWithEmail($email)) {
-                        array_push($foundDuplicates, ($email . ' ' . $row[0] . ', ' . $row[1] . ' ' . $row[2]));
+
+                    }
+                    if(!empty($rowErrors)){
+                        $errorMessages[$i+1] = $rowErrors;
+                    }
+                }
+                foreach($emailAddresses as $email => $rows){
+                    if(count($rows) > 1){
+                        foreach($rows as $rowId){
+                            $errorMessages[$rowId][] = $this->languagemap->getI18NString('group_management.validate.error.duplicate_email_in_file');
+                        }
                     }
                 }
 
                 // MAY RETURN THIS BLOCK
-                if (count($foundDuplicates) > 0) {
-                    $msg = $this->languagemap->getI18NString('general.error.duplicate_users_found');
+                if (count($errorMessages) > 0) {
 
-                    $rhett['duplicates'] = $foundDuplicates;
-                    $rhett['error'] = $msg;
-
+                    $rhett['rowErrors'] = $errorMessages;
+                    $rhett['error'] = $this->languagemap->getI18NString('groups.error.user_add_csv');
                     if (! unlink($uploadData['full_path'])) {
                         log_message('warning', 'Was unable to delete uploaded CSV file: ' . $uploadData['orig_name']);
                     }
 
                     header("Content-Type: text/plain");
                     echo json_encode($rhett);
-
                     return;
                 }
 
@@ -578,11 +620,10 @@ class Group_Management extends Ilios_Web_Controller
                         $phone = trim($row[3]);
                         $email = trim($row[4]);
                         $campusId = trim($row[5]);
-                        $otherId = trim($row[6]);
                         $primarySchoolId = $this->session->userdata('school_id');
 
                         $newId = $this->user->addUserAsStudent($lastName, $firstName, $middleName, $phone,
-                            $email, $campusId, $otherId, $cohortId, $primarySchoolId, $auditAtoms);
+                            $email, $campusId, '', $cohortId, $primarySchoolId, $auditAtoms);
 
                         if (($newId <= 0) || $this->user->transactionAtomFailed()) {
                             $msg = $this->languagemap->getI18NString('general.error.db_insert');
@@ -662,15 +703,40 @@ class Group_Management extends Ilios_Web_Controller
         $email = trim($this->input->post('email'));
         $ucUID = trim($this->input->post('uc_uid'));
 
-        // MAY RETURN THIS BLOCK
+        if (empty($lastName)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.lastName_missing');
+            return;
+        }
+        if (empty($firstName)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.firstName_missing');
+            return;
+        }
+        if (empty($email)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.email_missing');
+            return;
+        }
+        if(!$email = filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $this->_printErrorXhrResponse('group_management.validate.error.email_invalid');
+            return;
+        }
+        if (empty($ucUID)) {
+            $this->_printErrorXhrResponse('group_management.validate.error.campusId_missing');
+            return;
+        }
+        $uidMinLength = $this->config->item('uid_min_length')?$this->config->item('uid_min_length'):9;
+        $uidMaxLength = $this->config->item('uid_max_length')?$this->config->item('uid_max_length'):9;
+        
+        if (strlen($ucUID) < $uidMinLength) {
+            $this->_printErrorXhrResponse('group_management.validate.error.campusId_too_short');
+            return;
+        }
+        if (strlen($ucUID) > $uidMaxLength) {
+            $this->_printErrorXhrResponse('group_management.validate.error.campusId_too_long');
+            return;
+        }
+        
         if ($this->user->userExistsWithEmail($email)) {
-            $msg = $this->languagemap->getI18NString('general.error.duplicate_user_found');
-
-            $rhett['error'] = $msg;
-
-            header("Content-Type: text/plain");
-            echo json_encode($rhett);
-
+            $this->_printErrorXhrResponse('general.error.duplicate_user_found');
             return;
         }
 
