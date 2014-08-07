@@ -18,7 +18,7 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
             var isCourse = (cnumber == -1);
             var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
             var model = isCourse ? ilios.cm.currentCourseModel
-                : ilios.cm.currentCourseModel.getSessionForContainer(this.containerNumber);
+                : ilios.cm.currentCourseModel.getSessionForContainer(cnumber);
             var courseOrSessionDbId = model.dbId;
             ilios.cm.transaction.updateLearningMaterial(model, lmDbId, isCourse,
                                                                 courseOrSessionDbId, cnumber, lmnumber);
