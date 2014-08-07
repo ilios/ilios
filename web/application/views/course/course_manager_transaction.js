@@ -1663,10 +1663,12 @@ ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse,
             //get the container/lm number to easily update the 'Add Mesh' button total
             var lmnumber = parsedObject.lmnumber;
             var cnumber = parsedObject.cnumber;
+            var meshTotal = parsedObject.meshTotal;
+            console.log('mesh total' + meshTotal);
             var lmDbId = parsedObject.lmDbId;
 
             //update the mesh count
-            ilios.cm.lm.updateLearningMaterialMeSHCounts(lmDbId, cnumber, lmnumber);
+            ilios.cm.lm.updateLearningMaterialMeSHCount(cnumber, lmnumber, meshTotal);
        },
 
         failure: function (resultObject) {

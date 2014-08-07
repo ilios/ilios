@@ -1364,16 +1364,11 @@ ilios.cm.lm.setlearningMaterialDivVisibility = function (containerNumber, widget
     }
 };
 
-ilios.cm.lm.updateLearningMaterialMeSHCounts = function (lmDbId, containerNumber, lmNumber) {
+ilios.cm.lm.updateLearningMaterialMeSHCount = function (containerNumber, lmNumber, meshTotal) {
 
     var idString = null;
     var meshItemCount = null;
-    var isCourse = (containerNumber == -1);
-    var model = isCourse ? ilios.cm.currentCourseModel
-        : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
-
-    var learningMaterialModel = ilios.cm.lm.getLearningMaterialModelFromId(model, lmDbId);
     var idString = ilios.cm.lm.generateIdStringForLearningMaterialMeSHLink(containerNumber, lmNumber);
     lmMeshCountButton = document.getElementById(idString);
-    lmMeshCountButton.innerText = ilios.cm.meshLinkText(learningMaterialModel);
+    lmMeshCountButton.innerText = 'Add MeSH (' + meshTotal + ')';
 };
