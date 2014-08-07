@@ -711,6 +711,9 @@ class Learning_Materials extends Ilios_Web_Controller
                 $rhett['cnumber'] = $containerNumber;
                 $rhett['lmnumber'] = $lmNumber;
                 $rhett['lmDbId'] = $lmDbId;
+                //get the total mesh count from the results
+                $rhett['meshTotal'] = $results['meshTotal'];
+
 
                 $failedTransaction = false;
 
