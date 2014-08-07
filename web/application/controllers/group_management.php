@@ -691,7 +691,7 @@ class Group_Management extends Ilios_Web_Controller
      *          . 'phone'
      *          . 'email'
      *          . 'uc_uid'
-     *          . 'other_uid'
+     *          . 'other_id'
      *
      * @return a json'd array with either the key 'error', or the key pair 'user' and
      *              'container_number' (the latter being a passback from the incoming param)
