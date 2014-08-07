@@ -545,16 +545,25 @@ class Group_Management extends Ilios_Web_Controller
                     if(count($row) != 7){
                         $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.bad_csv_format');
                     } else {
-                        if (empty($row[0])) {
+                        $cleanArr = array(
+                            'lastName' => trim($row[0]),
+                            'firstName' => trim($row[1]),
+                            'middleName' => trim($row[2]),
+                            'phone' => trim($row[3]),
+                            'email' => trim($row[4]),
+                            'campusId' => trim($row[5]),
+                            'otherId' => trim($row[6])
+                        );
+                        if (empty($cleanArr['lastName'])) {
                             $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.lastName_missing');
                         }
-                        if (empty($row[1])) {
+                        if (empty($cleanArr['firstName'])) {
                             $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.firstName_missing');
                         }
-                        if (empty($row[4])) {
+                        if (empty($cleanArr['email'])) {
                             $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.email_missing');
                         }
-                        if(!$email = filter_var($row[4], FILTER_VALIDATE_EMAIL)){
+                        if(!$email = filter_var($cleanArr['email'], FILTER_VALIDATE_EMAIL)){
                             $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.email_invalid');
                         } else if ($this->user->userExistsWithEmail($email)) {
                             $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.duplicate_email');
@@ -563,15 +572,16 @@ class Group_Management extends Ilios_Web_Controller
                                 $emailAddresses[$email] = array();
                             }
                             $emailAddresses[$email][] = $i+1;
+                            $cleanArr['email'] = $email;
                         }
 
-                        if (empty($row[5])) {
+                        if (empty($cleanArr['campusId'])) {
                             $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.campusId_missing');
                         } else {
-                            if (strlen($row[5]) < $uidMinLength) {
+                            if (strlen($cleanArr['campusId']) < $uidMinLength) {
                                 $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.campusId_too_short');
                             }
-                            if (strlen($row[5]) > $uidMaxLength) {
+                            if (strlen($cleanArr['campusId']) > $uidMaxLength) {
                                 $rowErrors[] = $this->languagemap->getI18NString('group_management.validate.error.campusId_too_long');
                             }
                         }
@@ -580,6 +590,8 @@ class Group_Management extends Ilios_Web_Controller
                     }
                     if(!empty($rowErrors)){
                         $errorMessages[$i+1] = $rowErrors;
+                    } else {
+                        $cleanData[] = $cleanArr;
                     }
                 }
                 foreach($emailAddresses as $email => $rows){
@@ -613,14 +625,14 @@ class Group_Management extends Ilios_Web_Controller
 
                     $this->user->startTransaction();
 
-                    foreach ($csvData as $row) {
-                        $lastName = trim($row[0]);
-                        $firstName = trim($row[1]);
-                        $middleName = trim($row[2]);
-                        $phone = trim($row[3]);
-                        $email = trim($row[4]);
-                        $campusId = trim($row[5]);
-                        $otherId = trim($row[6]);
+                    foreach ($cleanData as $arr) {
+                        $lastName = $arr['lastName'];
+                        $firstName = $arr['firstName'];
+                        $middleName = $arr['middleName'];
+                        $phone = $arr['phone'];
+                        $email = $arr['email'];
+                        $campusId = $arr['campusId'];
+                        $otherId = $arr['otherId'];
                         $primarySchoolId = $this->session->userdata('school_id');
 
                         $newId = $this->user->addUserAsStudent($lastName, $firstName, $middleName, $phone,
