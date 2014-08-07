@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Sp\BowerBundle\SpBowerBundle(),
             new Ilios\CoreBundle\IliosCoreBundle(),
             new Ilios\FrontendBundle\IliosFrontendBundle(),
+            new Ilios\LegacyCIBundle\IliosLegacyCIBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -30,6 +31,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+            $bundles[] = new IC\Bundle\Base\TestBundle\ICBaseTestBundle();
         }
 
         return $bundles;

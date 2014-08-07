@@ -1,6 +1,7 @@
 imports:
     - { resource: config.yml }
-
+    - { resource: security.yml }
+            
 framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"

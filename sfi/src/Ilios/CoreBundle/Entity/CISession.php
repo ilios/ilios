@@ -3,12 +3,14 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
- * CiSessions
+ * CISession
  */
-class CiSessions
+class CISession extends ContainerAware
 {
+
     /**
      * @var string
      */
@@ -33,13 +35,13 @@ class CiSessions
      * @var string
      */
     private $userData;
-
+    private $unserializedData;
 
     /**
      * Set sessionId
      *
      * @param string $sessionId
-     * @return CiSessions
+     * @return CISession
      */
     public function setSessionId($sessionId)
     {
@@ -62,7 +64,7 @@ class CiSessions
      * Set ipAddress
      *
      * @param string $ipAddress
-     * @return CiSessions
+     * @return CISession
      */
     public function setIpAddress($ipAddress)
     {
@@ -85,7 +87,7 @@ class CiSessions
      * Set userAgent
      *
      * @param string $userAgent
-     * @return CiSessions
+     * @return CISession
      */
     public function setUserAgent($userAgent)
     {
@@ -108,7 +110,7 @@ class CiSessions
      * Set lastActivity
      *
      * @param integer $lastActivity
-     * @return CiSessions
+     * @return CISession
      */
     public function setLastActivity($lastActivity)
     {
@@ -131,12 +133,13 @@ class CiSessions
      * Set userData
      *
      * @param string $userData
-     * @return CiSessions
+     * @return CISession
      */
     public function setUserData($userData)
     {
-        $this->userData = $userData;
-
+        $this->unserializedData = null;
+        $utilities = $this->container->get('ilios_legacy.utilities');
+        $this->userData = $utilities->serialize($userData);
         return $this;
     }
 
@@ -147,6 +150,36 @@ class CiSessions
      */
     public function getUserData()
     {
-        return $this->userData;
+        return $this->getUnserializedUserData();
+    }
+
+    /**
+     * Retrieves a user data item by its given key.
+     * 
+     * @param string $key
+     * @return mixed The user data value, or FALSE if not found.
+     */
+    public function getUserDataItem($key)
+    {
+        $data = $this->getUnserializedUserData();
+        if (!$data) {
+            return false;
+        }
+        return array_key_exists($key, $data) ? $data[$key] : false;
+    }
+
+    /**
+     * Get unserialized data
+     *
+     * @return mixed 
+     */
+    protected function getUnserializedUserData()
+    {
+        if (!isset($this->unserializedData)) {
+            $utilities = $this->container->get('ilios_legacy.utilities');
+            $this->unserializedData = $utilities->unserialize($this->userData);
+        }
+
+        return $this->unserializedData;
     }
 }

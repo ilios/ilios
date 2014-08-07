@@ -1,31 +1,37 @@
 <?php
 namespace Ilios\CoreBundle\Tests\Entity;
 
-
-use Ilios\CoreBundle\Entity\CiSessions;
 use Mockery as m;
 
+use Ilios\CoreBundle\Entity\CISession;
+
 /**
- * Tests for Entity CiSessions
+ * Tests for Entity CISession
  */
-class CiSessionsTest extends EntityBase
+class CISessionTest extends EntityBase
 {
     /**
-     * @var CiSessions
+     * @var CISession
      */
     protected $object;
+    
+    protected $legacyUtilities;
 
     /**
-     * Instantiate a CiSessions object
+     * Instantiate a CISession object
      */
     protected function setUp()
     {
-        $this->object = new CiSessions;
+        $this->object = new CISession;
+        $this->legacyUtilities = m::mock('Ilios\LegacyCIBundle\Utilities');
+        $container = m::mock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container->shouldReceive('get')->with('ilios_legacy.utilities')->andReturn($this->legacyUtilities);
+        $this->object->setContainer($container);
     }
     
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setSessionId
+     * @covers Ilios\CoreBundle\Entity\CISession::setSessionId
      */
     public function testSetSessionId()
     {
@@ -33,7 +39,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getSessionId
+     * @covers Ilios\CoreBundle\Entity\CISession::getSessionId
      */
     public function testGetSessionId()
     {
@@ -41,7 +47,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setIpAddress
+     * @covers Ilios\CoreBundle\Entity\CISession::setIpAddress
      */
     public function testSetIpAddress()
     {
@@ -49,7 +55,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getIpAddress
+     * @covers Ilios\CoreBundle\Entity\CISession::getIpAddress
      */
     public function testGetIpAddress()
     {
@@ -57,7 +63,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setUserAgent
+     * @covers Ilios\CoreBundle\Entity\CISession::setUserAgent
      */
     public function testSetUserAgent()
     {
@@ -65,7 +71,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getUserAgent
+     * @covers Ilios\CoreBundle\Entity\CISession::getUserAgent
      */
     public function testGetUserAgent()
     {
@@ -73,7 +79,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setLastActivity
+     * @covers Ilios\CoreBundle\Entity\CISession::setLastActivity
      */
     public function testSetLastActivity()
     {
@@ -81,7 +87,7 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getLastActivity
+     * @covers Ilios\CoreBundle\Entity\CISession::getLastActivity
      */
     public function testGetLastActivity()
     {
@@ -89,18 +95,42 @@ class CiSessionsTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::setUserData
+     * @covers Ilios\CoreBundle\Entity\CISession::setUserData
+     * @covers Ilios\CoreBundle\Entity\CISession::getUserData
      */
     public function testSetUserData()
     {
-        $this->basicSetTest('userData', 'string');
+        $faker = \Faker\Factory::create();
+        $data = array();
+        for ($i=0; $i<25; $i++) {
+            $data[$faker->text] = $faker->randomElements();
+        }
+        $this->legacyUtilities->shouldReceive('serialize')->with($data)->times(1);
+        $this->object->setUserData($data);
+        $this->legacyUtilities->shouldReceive('unserialize')->times(1)->andReturn($data);
+        $this->assertSame($data, $this->object->getUserData());
     }
-
+    
     /**
-     * @covers Ilios\CoreBundle\Entity\CiSessions::getUserData
+     * @covers Ilios\CoreBundle\Entity\CISession::getUserDataItem
+     * @covers Ilios\CoreBundle\Entity\CISession::getUnserializedUserData
      */
-    public function testGetUserData()
+    public function testGetUserDataItem()
     {
-        $this->basicGetTest('userData', 'string');
+        $data = array('foo' => 'bar');
+        $this->legacyUtilities->shouldReceive('serialize')->with($data)->times(1);
+        $this->object->setUserData($data);
+        $this->legacyUtilities->shouldReceive('unserialize')->times(1)->andReturn($data);
+        $this->assertSame('bar', $this->object->getUserDataItem('foo'));
+    }
+    
+    /**
+     * @covers Ilios\CoreBundle\Entity\CISession::getUserDataItem
+     * @covers Ilios\CoreBundle\Entity\CISession::getUnserializedUserData
+     */
+    public function testGetUserDataItemNoData()
+    {
+        $this->legacyUtilities->shouldReceive('unserialize')->times(1)->andReturn(array());
+        $this->assertFalse($this->object->getUserDataItem('foo'));
     }
 }
