@@ -962,9 +962,9 @@ ilios.cm.lm.buildLearningMaterialItemsForContainer = function (learningMaterials
  * Builds the individual learning material div for displaying in courses/sessions...
  */
 
-ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialModel, containerNumber, lmNumber, isLocked) {
+ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, containerNumber, lmNumber, isLocked) {
 
-    var learningMaterialItemModel = learningMaterialModel;
+    //var learningMaterialItemModel = learningMaterialModel;
     var learningMaterialItemNumber = Number(lmNumber);
     var learningMaterialItemTitle = learningMaterialItemModel.getTitle();
     //for updating the DOM later, add the container number and lm number to the model
@@ -1005,7 +1005,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialModel, contain
     learningMaterialItem.setAttribute('lmnumber', learningMaterialItemNumber);
 
     //get the mimeType of the learning material to set the styling
-    mimeTypeClass = ilios.utilities.convertMimeTypeToCSSClassName(learningMaterialModel.getMimeType());
+    mimeTypeClass = ilios.utilities.convertMimeTypeToCSSClassName(learningMaterialItemModel.getMimeType());
 
     // Delete widget
     scratchElement = new Element(document.createElement('div'));
@@ -1040,7 +1040,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialModel, contain
     if ((! isLink) && (! isCitation)) {
         fileSizeElement = document.createElement('span');
         fileSizeElement.setAttribute('class', 'filesize');
-        fileSizeElement.innerHTML = ' &nbsp;(' + learningMaterialModel.getFileSize() + ' KB)';
+        fileSizeElement.innerHTML = ' &nbsp;(' + learningMaterialItemModel.getFileSize() + ' KB)';
         //add the filesize to lm description container
         scratchElement.appendChild(fileSizeElement);
 
@@ -1080,7 +1080,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialModel, contain
     var showAddIcon = false;
     if (! showAddIcon) {
         Event.addListener(linkedTitleElement, 'click', function (e) {
-            ilios.common.lm.learningMaterialsDetailsModel = learningMaterialModel;
+            ilios.common.lm.learningMaterialsDetailsModel = learningMaterialItemModel;
             ilios.ui.onIliosEvent.fire({
                 action: 'lm_metadata_dialog_open',
                 cnumber: containerNumber,
@@ -1130,9 +1130,15 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialModel, contain
     scratchInput.setAttribute('onclick', 'return false;');
     if (! isLocked) {
         Event.addListener(scratchInput, 'click', function (e) {
+            ilios.common.lm.learningMaterialsDetailsModel = learningMaterialItemModel;
             ilios.ui.onIliosEvent.fire({
                 action: 'mesh_picker_dialog_open',
-                model_in_edit: learningMaterialItemModel
+                cnumber: containerNumber,
+                lmnumber: learningMaterialItemNumber,
+                //because lm mesh terms can be updated from within their Details dialog
+                //or the mesh-only mesh picker dialog, we need to check for the latter
+                dialog_type: 'learning_material_mesh_only',
+                model_in_edit: ilios.common.lm.learningMaterialsDetailsModel
             });
             return false;
         });

@@ -381,7 +381,7 @@ LearningMaterialModel.prototype.replaceContentWithModel = function (newModel, fo
         this.filesize = newModel.filesize;
 
         this.copyrightRationale = newModel.copyrightRationale;
-        this.hasCopyrightOwnership = newModel.hasCopyrightOwnership;
+        this.hasCopyrightOwnership = newModel.hasCopyrightOwnership;q
 
         this.link = newModel.link;
         this.citation = newModel.citation;
@@ -398,6 +398,6 @@ LearningMaterialModel.prototype.replaceContentWithModel = function (newModel, fo
 
         this.meshTerms = newModel.meshTerms.concat();
 
-        this.setDirtyAndNotify();
+        this.setDirty();
     }
 };

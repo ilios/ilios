@@ -51,6 +51,10 @@
 
     ilios.common.picker.mesh.buildMeSHPickerDialogDOM = function () {
         var handleSave = function () {
+            //because lm mesh terms can be save from within their 'Details' dialogue
+            if(this.dialog_type == 'learning_material_mesh_only'){
+              console.log('do different save here');
+            }
             ilios.common.picker.mesh.handleMeSHPickerSave(this);
             this.cancel();
         };
@@ -92,6 +96,7 @@
                 ilios.mesh.meshInEditReferenceModel = handlerArgs[0].model_in_edit;
                 ilios.mesh.meshInEditModel = ilios.mesh.meshInEditReferenceModel.clone();
                 dialog.cnumber = handlerArgs[0].cnumber;
+                dialog.dialog_type = handlerArgs[0].dialog_type;
                 dialog.showDialogPane();
             }
         };
