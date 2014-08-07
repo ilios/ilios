@@ -375,6 +375,9 @@ ilios.gm.transaction.handleManualUserAdd = function () {
     element = document.getElementById('em_uc_id');
     paramString += '&uc_uid=' + encodeURIComponent(element.value);
 
+    element = document.getElementById('em_other_id');
+    paramString += '&other_id=' + encodeURIComponent(element.value);
+
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };
 

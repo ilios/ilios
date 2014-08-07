@@ -28,6 +28,8 @@
                                 <input id="em_email" style="width:95%" value="" type="text" /></td>
                             <td><?php echo t('general.user.uc_id'); ?>:<br/>
                                 <input id="em_uc_id" style="width:95%" value="" type="text" /></td>
+                            <td><?php echo t('general.user.other_id'); ?>:<br/>
+                                <input id="em_other_id" style="width:95%" value="" type="text" /></td>
                         </tr>
                     </table>
                     <button id="em_add_user_button" style="float: right;" onclick="return false;">
