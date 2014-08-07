@@ -31,7 +31,7 @@ vagrant:
                 wd_host:    "http://localhost:8080/wd/hub"
     context:
         parameters :
-            database_dsn: "mysql:host=10.10.10.10;dbname=ilios"
+            database_dsn: "mysql:host=127.0.0.1;dbname=ilios;port=13306"
             database_user : "vagrant"
             database_password: null
 
@@ -45,6 +45,6 @@ vagrantselenium:
               wd_host:    "http://localhost:5555/wd/hub"
     context:
         parameters :
-            database_dsn: "mysql:host=10.10.10.10;dbname=ilios"
+            database_dsn: "mysql:host=127.0.0.1;dbname=ilios;port=13306"
             database_user : "vagrant"
             database_password: null

@@ -688,8 +688,8 @@ class FeatureContext extends MinkContext
      */
     public function iCreateATestProgram($programName)
     {
+        $db = $this->getDbConnection();
         try{
-            $db = $this->getDbConnection();
             $results = $db->query("SELECT program_id FROM program WHERE title = '{$programName}'");
             if ($results->rowCount() > 0) {
                 return true;
@@ -740,6 +740,7 @@ class FeatureContext extends MinkContext
             $db = null;
         } catch (Exception $e) {
           $db->rollBack();
+          $db = null;
           throw $e;
         }
     }

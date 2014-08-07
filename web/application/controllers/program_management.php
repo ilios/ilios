@@ -104,6 +104,9 @@ class Program_Management extends Ilios_Web_Controller
 
         $key = 'mesh.dialog.title';
         $data['mesh_dialog_title'] = $this->languagemap->getI18NString($key);
+        
+        $key = 'general.terms.search';
+        $data['word_search_string'] = $this->languagemap->getI18NString($key);
 
         $key = 'general.phrases.search.clear';
         $data['generic_search_clear'] = $this->languagemap->getI18NString($key);
