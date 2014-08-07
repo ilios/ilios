@@ -678,6 +678,7 @@ class Group_Management extends Ilios_Web_Controller
      *          . 'phone'
      *          . 'email'
      *          . 'uc_uid'
+     *          . 'other_uid'
      *
      * @return a json'd array with either the key 'error', or the key pair 'user' and
      *              'container_number' (the latter being a passback from the incoming param)
@@ -702,6 +703,7 @@ class Group_Management extends Ilios_Web_Controller
         $phone = trim($this->input->post('phone'));
         $email = trim($this->input->post('email'));
         $ucUID = trim($this->input->post('uc_uid'));
+        $otherId = trim($this->input->post('other_id'));
 
         if (empty($lastName)) {
             $this->_printErrorXhrResponse('group_management.validate.error.lastName_missing');
@@ -752,7 +754,7 @@ class Group_Management extends Ilios_Web_Controller
             $this->user->startTransaction();
 
             $newId = $this->user->addUserAsStudent($lastName, $firstName, $middleName, $phone, $email,
-                                                   $ucUID, '', $cohortId, $primarySchoolId,
+                                                   $ucUID, $otherId, $cohortId, $primarySchoolId,
                                                    $auditAtoms);
 
             if (($newId <= 0) || $this->user->transactionAtomFailed()) {
