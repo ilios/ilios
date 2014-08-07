@@ -967,6 +967,9 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialModel, contain
     var learningMaterialItemModel = learningMaterialModel;
     var learningMaterialItemNumber = Number(lmNumber);
     var learningMaterialItemTitle = learningMaterialItemModel.getTitle();
+    //for updating the DOM later, add the container number and lm number to the model
+    //learningMaterialItemModel.lmnumber = lmNumber;
+    //learningMaterialItemModel.cnumber = containerNumber;
 
 
     //set up the title text as a link, so we can view the learniing materials details
@@ -1080,7 +1083,8 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialModel, contain
             ilios.common.lm.learningMaterialsDetailsModel = learningMaterialModel;
             ilios.ui.onIliosEvent.fire({
                 action: 'lm_metadata_dialog_open',
-                container_number: containerNumber
+                cnumber: containerNumber,
+                lmnumber: lmNumber
             });
             return false;
         });
@@ -1358,4 +1362,18 @@ ilios.cm.lm.setlearningMaterialDivVisibility = function (containerNumber, widget
         element.addClass('expanded_widget');
         div.setStyle('display', 'block');
     }
+};
+
+ilios.cm.lm.updateLearningMaterialMeSHCounts = function (lmDbId, containerNumber, lmNumber) {
+
+    var idString = null;
+    var meshItemCount = null;
+    var isCourse = (containerNumber == -1);
+    var model = isCourse ? ilios.cm.currentCourseModel
+        : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+
+    var learningMaterialModel = ilios.cm.lm.getLearningMaterialModelFromId(model, lmDbId);
+    var idString = ilios.cm.lm.generateIdStringForLearningMaterialMeSHLink(containerNumber, lmNumber);
+    lmMeshCountButton = document.getElementById(idString);
+    lmMeshCountButton.innerText = ilios.cm.meshLinkText(learningMaterialModel);
 };

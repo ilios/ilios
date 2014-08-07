@@ -13,12 +13,15 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
         //check to see if the learningMaterialDetailsModel is dirty
         if(ilios.common.lm.learningMaterialsDetailsModel.isDirty){
             //if it's dirty, it has changed, so add the update learning material process here
-            var isCourse = (this.cnumber == -1);
+            var cnumber = this.cnumber;
+            var lmnumber = this.lmnumber;
+            var isCourse = (cnumber == -1);
             var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
             var model = isCourse ? ilios.cm.currentCourseModel
                 : ilios.cm.currentCourseModel.getSessionForContainer(this.containerNumber);
             var courseOrSessionDbId = model.dbId;
-            ilios.cm.transaction.updateLearningMaterial(model, lmDbId, isCourse, courseOrSessionDbId);
+            ilios.cm.transaction.updateLearningMaterial(model, lmDbId, isCourse,
+                                                                courseOrSessionDbId, cnumber, lmnumber);
             //then close
             this.cancel();
         } else {
@@ -62,8 +65,8 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
 
     displayOnTriggerHandler = function (type, handlerArgs) {
         if (handlerArgs[0].action == 'lm_metadata_dialog_open') {
-            dialog.cnumber = handlerArgs[0].container_number;
-
+            dialog.cnumber = handlerArgs[0].cnumber;
+            dialog.lmnumber = handlerArgs[0].lmnumber;
             dialog.showDialogPane();
         }
     };
@@ -85,9 +88,9 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
 
         ilios.common.lm.learningMaterialsDetailsModel.setRequired(toggle);
 
-        //instead of setting the course/session to dirty, now that the lm is decoupled, let's just
-        //set the learning material model to dirty, so we can test it for changes when closing the
-        //lm dialog.
+        //instead of setting the course/session to dirty and notifying the listeners, now that the lm
+        // is decoupled, let's just set the learning material model to dirty, so we can test it for
+        // changes when closing the lm dialog.
         ilios.common.lm.learningMaterialsDetailsModel.setDirty();
     });
 
