@@ -675,6 +675,9 @@ class Learning_Materials extends Ilios_Web_Controller
         $courseOrSessionId = $this->input->post('course_id');
         $isCourse = ($this->input->post('is_course') == 'true') ? true : false;
         $lmDbId = $this->input->post('lmDbId');
+        $containerNumber = $this->input->post('container_number');
+        $lmNumber = $this->input->post('lm_number');
+
 
         try {
             $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
@@ -703,6 +706,11 @@ class Learning_Materials extends Ilios_Web_Controller
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->learningMaterial);
             } else {
                 $rhett['publish_event_id'] = $publishId;
+
+                //send back the container number and lm number for easily updating the mesh count
+                $rhett['cnumber'] = $containerNumber;
+                $rhett['lmnumber'] = $lmNumber;
+                $rhett['lmDbId'] = $lmDbId;
 
                 $failedTransaction = false;
 

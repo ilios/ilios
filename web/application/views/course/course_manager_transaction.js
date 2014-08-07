@@ -1630,7 +1630,7 @@ ilios.ui.onIliosEvent.subscribe(ilios.cm.transaction.addCourseFromModalPanelResp
  * @param int courseOrSessionDbId the dbId of the course or session
  */
 
-ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse, courseOrSessionDbId) {
+ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse, courseOrSessionDbId, cnumber, lmnumber) {
     var url = learningMaterialsControllerURL + 'updateLearningMaterial';
     var method = "POST",
             paramString = '',
@@ -1659,6 +1659,14 @@ ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse,
 
                 return;
             }
+
+            //get the container/lm number to easily update the 'Add Mesh' button total
+            var lmnumber = parsedObject.lmnumber;
+            var cnumber = parsedObject.cnumber;
+            var lmDbId = parsedObject.lmDbId;
+
+            //update the mesh count
+            ilios.cm.lm.updateLearningMaterialMeSHCounts(lmDbId, cnumber, lmnumber);
        },
 
         failure: function (resultObject) {
@@ -1667,6 +1675,8 @@ ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse,
 
     paramString += 'is_course=' + isCourse;
     paramString += '&course_id=' + courseOrSessionDbId;
+    paramString += '&container_number=' + cnumber;
+    paramString += '&lm_number=' + lmnumber;
     paramString += '&lmDbId=' + lmDbId;
     var modelArray = model.getLearningMaterials();
     paramString += '&learning_materials='
