@@ -1,5 +1,26 @@
 ------- VERSION CHANGES --------
 
+Version 2.4.5
+
+Bug Fixes:
+
+#495 Modify "UC ID" labeling globally to "ID"
+#496 remove "GALEN ID" label and update the csv load
+#617 Fix Error Received While Trying to add MeSH term to Program Year
+#653 Fix upload PPTX file upload
+
+Feature Changes:
+
+#473 Provide method for adjusting "duration" for small group events
+#561 Fix CSV upload / user insert tool for instructor and learner groups
+#649 Validate curriculum inventory upload report against new corrigenda item
+
+Code Quality and Development:
+
+#302 Add Updated and Created timestamp to mesh data tables
+
+---
+
 Version 2.4.3
 
 Bug Fixes:
