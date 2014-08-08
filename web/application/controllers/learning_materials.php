@@ -658,9 +658,7 @@ class Learning_Materials extends Ilios_Web_Controller
     {
         $rhett = array();
 
-        //
         // authorization check
-        //
         if (! $this->session->userdata('has_instructor_access')) {
             $this->_printAuthorizationFailedXhrResponse();
             return;
@@ -669,15 +667,13 @@ class Learning_Materials extends Ilios_Web_Controller
         //get the userId for the audit trail
         $userId = $this->session->userdata('uid');
 
-        //
         // input processing
-        //get the course
+        //get the id of the course or session
         $courseOrSessionId = $this->input->post('course_id');
         $isCourse = ($this->input->post('is_course') == 'true') ? true : false;
         $lmDbId = $this->input->post('lmDbId');
         $containerNumber = $this->input->post('container_number');
         $lmNumber = $this->input->post('lm_number');
-
 
         try {
             $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
@@ -694,7 +690,6 @@ class Learning_Materials extends Ilios_Web_Controller
             unset($rhett['error']);
             $publishId = -1;
 
-
             $this->learningMaterial->startTransaction();
 
             $results = $this->learningMaterial->updateLearningMaterial($courseOrSessionId, $lmDbId, $isCourse,
@@ -702,7 +697,6 @@ class Learning_Materials extends Ilios_Web_Controller
 
             if (isset($results['error']) || $this->learningMaterial->transactionAtomFailed()) {
                 $rhett['error'] = $results['error'];
-
                 Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->learningMaterial);
             } else {
                 $rhett['publish_event_id'] = $publishId;
@@ -713,7 +707,6 @@ class Learning_Materials extends Ilios_Web_Controller
                 $rhett['lmDbId'] = $lmDbId;
                 //get the total mesh count from the results
                 $rhett['meshTotal'] = $results['meshTotal'];
-
 
                 $failedTransaction = false;
 
