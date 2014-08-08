@@ -50,40 +50,51 @@
     ilios.namespace('common.picker.mesh');
 
     ilios.common.picker.mesh.buildMeSHPickerDialogDOM = function () {
+
+        //initialize the vars
+        var displayOnTriggerHandler = null;
+
+        //set up the method for saving/updating the mesh terms upon clicking the 'done' button
         var handleSave = function () {
-            //because lm mesh terms can be save from within their 'Details' dialog - OR - the
-            //standalone mesh picker dialog, we check for the latter and handle it
+            //because lm mesh terms are decoupled from courses/session saves and can now be saved
+            //from within either the lm's 'Details' dialog OR the standalone mesh picker dialog,
+            // let's check for the latter and handle the update the LM upon closing the meshpicker
             if(this.dialog_type == 'learning_material_mesh_only'){
+                //get the clean learning material model
                 var lmModel = ilios.mesh.meshInEditReferenceModel;
+                //replace it with the changed/updated one
                 lmModel.replaceContentWithModel(ilios.mesh.meshInEditModel, true);
                 var cnumber = this.cnumber;
                 var lmnumber = this.lmnumber;
-                var isCourse = (cnumber == -1);
                 var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
-                var model = isCourse ? ilios.cm.currentCourseModel
-                    : ilios.cm.currentCourseModel.getSessionForContainer(cnumber);
-                var courseOrSessionDbId = model.dbId;
-                ilios.cm.transaction.updateLearningMaterial(model, lmDbId, isCourse,
-                    courseOrSessionDbId, cnumber, lmnumber);
+                ilios.cm.transaction.updateLearningMaterial(lmDbId, cnumber, lmnumber);
             } else {
+                //if the MeSH terms are not from the lm mesh picker dialog specifically, handle their
+                //save per the usual method
                 ilios.common.picker.mesh.handleMeSHPickerSave(this);
             }
+            //and close the mesh picker dialog
             this.cancel();
         };
 
         var handleCancel = function () {
             ilios.mesh.handleMeSHPickerCancel(this);
+            //and close the mesh picker dialog
             this.cancel();
         };
 
+        //set up the cancel button's text to 'Cancel'
         var cancelStr = ilios_i18nVendor.getI18NString('general.terms.cancel');
+        //set the save button's text to 'Done'
         var saveStr = ilios_i18nVendor.getI18NString('general.terms.done');
         var buttonArray = [
             {text: saveStr, handler: handleSave, isDefault: true},
             {text: cancelStr, handler: handleCancel}
         ];
 
+        //set the width of the mesh picker
         var panelWidth = "730px";
+        //initialize the mesh picker dialog
         var dialog = new YAHOO.widget.Dialog('ilios_mesh_picker', {
             width: panelWidth,
             modal: true,
@@ -92,8 +103,7 @@
             buttons: buttonArray
         });
 
-        var displayOnTriggerHandler = null;
-
+        //set the function for displaying the mesh picker dialog
         dialog.showDialogPane = function () {
             ilios.mesh.populateMeSHPickerDialog();
             dialog.center();
@@ -103,6 +113,7 @@
         // Render the Dialog
         dialog.render();
 
+        //set the vars provided by the click-handler
         displayOnTriggerHandler = function (type, handlerArgs) {
             if (handlerArgs[0].action == 'mesh_picker_dialog_open') {
                 ilios.mesh.meshInEditReferenceModel = handlerArgs[0].model_in_edit;
@@ -110,6 +121,7 @@
                 dialog.cnumber = handlerArgs[0].cnumber;
                 dialog.lmnumber = handlerArgs[0].lmnumber;
                 dialog.dialog_type = handlerArgs[0].dialog_type;
+                //display the rendered dialog
                 dialog.showDialogPane();
             }
         };
