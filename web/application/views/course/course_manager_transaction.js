@@ -1630,7 +1630,7 @@ ilios.ui.onIliosEvent.subscribe(ilios.cm.transaction.addCourseFromModalPanelResp
  * @param int courseOrSessionDbId the dbId of the course or session
  */
 
-ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse, courseOrSessionDbId, cnumber, lmnumber) {
+ilios.cm.transaction.updateLearningMaterial = function (lmDbId, cnumber, lmnumber) {
     var url = learningMaterialsControllerURL + 'updateLearningMaterial';
     var method = "POST",
             paramString = '',
@@ -1673,14 +1673,24 @@ ilios.cm.transaction.updateLearningMaterial = function (model, lmDbId, isCourse,
             ilios.global.defaultAJAXFailureHandler(resultObject);
         }};
 
-    paramString += 'is_course=' + isCourse;
+    //get the necessary values for the current course/session
+    var isCourse = (cnumber == -1);
+    var model = isCourse ? ilios.cm.currentCourseModel
+        : ilios.cm.currentCourseModel.getSessionForContainer(cnumber);
+    var courseOrSessionDbId = model.dbId;
+
+
+    //set up the POST parameters to send to the controller...
+    //get the lm's and urlencode them to send over
+    var modelArray = model.getLearningMaterials();
+    paramString += 'learning_materials='
+        + encodeURIComponent(stringify(modelArray, replacer));
+    paramString += '&is_course=' + isCourse;
     paramString += '&course_id=' + courseOrSessionDbId;
     paramString += '&container_number=' + cnumber;
     paramString += '&lm_number=' + lmnumber;
     paramString += '&lmDbId=' + lmDbId;
-    var modelArray = model.getLearningMaterials();
-    paramString += '&learning_materials='
-        + encodeURIComponent(stringify(modelArray, replacer));
+
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 
     return false;

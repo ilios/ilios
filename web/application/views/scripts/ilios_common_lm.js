@@ -15,22 +15,19 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
             //if it's dirty, it has changed, so add the update learning material process here
             var cnumber = this.cnumber;
             var lmnumber = this.lmnumber;
-            var isCourse = (cnumber == -1);
             var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
-            var model = isCourse ? ilios.cm.currentCourseModel
-                : ilios.cm.currentCourseModel.getSessionForContainer(cnumber);
-            var courseOrSessionDbId = model.dbId;
-            ilios.cm.transaction.updateLearningMaterial(model, lmDbId, isCourse,
-                                                                courseOrSessionDbId, cnumber, lmnumber);
-            //then close
+            //initiate the update
+            ilios.cm.transaction.updateLearningMaterial(lmDbId, cnumber, lmnumber);
+            //then close the dialog
             this.cancel();
         } else {
-            //it hasn't changed, so just close the window
+            //it hasn't changed, so do nothing and just close the dialog
             this.cancel();
         }
 
     };
 
+    //set the text of the 'save' button to 'Done'
     var doneStr = ilios_i18nVendor.getI18NString('general.terms.done');
 
 /*
