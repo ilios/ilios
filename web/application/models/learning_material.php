@@ -968,100 +968,6 @@ EOL;
         return $rhett;
     }
 
-
-    /**
-     * Adds/updates/deletes given course or session learning material associations and associated meta-data.
-     * @param int $courseOrSessionId
-     * @param array $learningMaterials
-     * @param array $learningMaterialId
-     * @param array $auditAtoms
-     */
-    public function saveLearningMaterialForCourseOrSession ($courseOrSessionId, $learningMaterials = array(),
-                                                             $learningMaterialId = array(), &$auditAtoms = array())
-    {
-        // figure out which associations need to be added, updated or removed.
-        $keepAssocIds = array();
-        $removeAssocIds = array();
-        $addSessionLearningMaterials = array();
-        $updateSessionLearningMaterials = array();
-        if (! empty($learningMaterialId)) {
-            foreach ($learningMaterials as $item) {
-                if (in_array($item['dbId'], $learningMaterialId)) { // exists?
-                    $keepAssocIds[] = $item['dbId']; // flag as "to keep"
-                    $updateSessionLearningMaterials[] = $item;
-                } else {
-                    $addSessionLearningMaterials[] = $item; // mark as to add
-                }
-            }
-            $removeAssocIds = array_diff($learningMaterialId, $keepAssocIds); // find the assoc. to remove
-        } else {
-            $addSessionLearningMaterials = $learningMaterials; // mark all as "to be added"
-        }
-
-        if (count($addSessionLearningMaterials)) { // add learning materials to session
-            $this->_addSessionLearningMaterialAssociations($courseOrSessionId, $learningMaterials, $auditAtoms);
-        }
-        if (count($updateSessionLearningMaterials)) { // update session/learning materials assoc.
-            $this->$courseOrSessionId($courseOrSessionId, $updateSessionLearningMaterials, $auditAtoms);
-        }
-        if (count($removeAssocIds)) { // remove learning materials from session
-            $this->_deleteSessionLearningMaterialAssociations($courseOrSessionId, $removeAssocIds, $auditAtoms);
-        }
-    }
-
-    /**
-     * Adds given session/learning materials associations.
-     * @param int $sessionId
-     * @param array $sessionLearningMaterials
-     * @param array $auditAtoms
-     */
-    protected function _addLearningMaterialForCourseOrSession ( $sessionId,
-                                                                 $sessionLearningMaterials = array(), &$auditAtoms = array())
-    {
-        $lmiCache = array();
-        foreach ($sessionLearningMaterials as $material) {
-            // SANITY CHECK
-            // prevent the same learning material from
-            // being associated with the given session twice
-            if (in_array($material['dbId'], $lmiCache)) {
-                continue;
-            }
-
-            $row = array();
-            $row['session_id'] = $sessionId;
-            $row['learning_material_id'] = $material['dbId'];
-            $row['notes'] = $material['notes'];
-            $row['required'] = (int ) $material['required'];
-            $row['notes_are_public'] = (int) $material['notesArePubliclyViewable'];
-            $this->db->insert('session_learning_material', $row);
-
-            // @todo add error handling
-            $sessionLearningMaterialId = $this->db->insert_id();
-
-            $lmiCache[] = $material['dbId'];
-
-            // add mesh term associations
-            if ($sessionLearningMaterialId && ! empty($material['meshTerms'])) {
-                $this->_saveSessionLearningMaterialMeshTermAssociations($sessionLearningMaterialId,
-                    $material['meshTerms'], array(), $auditAtoms);
-            }
-        }
-    }
-
-    /**
-     * Removes associations between a given session and given learning materials.
-     * @param int $sessionId
-     * @param array $learningMaterialIds
-     * @param array $auditAtoms
-     * @todo implement audit trail
-     */
-    protected function _deleteLearningMaterialForCourseOrSession ($sessionId,
-                                                                   $learningMaterialIds = array(), &$auditAtoms = array())
-    {
-        $this->_disassociateFromJoinTable('session_learning_material', 'session_id',
-            $sessionId, 'learning_material_id', $learningMaterialIds);
-    }
-
     /**
      * Finalizes the updates of given learning material associations for a course/session in the database.
      *
@@ -1149,29 +1055,6 @@ protected function _processLearningMaterialMeshTerms(array $meshTerms, $db_prefi
     }
 
 }
-
-    /**
-     * Saves the learning-material/mesh-term associations for a given learning material
-     * and given mesh terms, taken given pre-existings associations into account.
-     *
-     * @param int $lmDbId the learning material id
-     * @param bool $isCourse true if it's a course, false if it's a session
-     * @param array $meshTerms nested array of mesh terms
-     * @param array $associatedMeshTermIds ids of mesh terms already associated with the given course/session
-     * @param array $auditAtoms audit trail
-     */
-    protected function _saveLearningMaterialMeshTermAssociations ($lmDbId, $isCourse,
-                                                                         $meshTerms = array(),
-                                                                         $associatedMeshTermIds = array(),
-                                                                         array &$auditAtoms = array())
-    {
-        //prefix relevant table/column names with either 'course' or 'session' where appropriate
-        $db_prefix = ($isCourse) ? 'course' : 'session';
-
-        $this->_saveJoinTableAssociations($db_prefix . '_learning_material_x_mesh',
-            $db_prefix . '_learning_material_id', $lmDbId,
-            'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds, 'dbId', $auditAtoms);
-    }
 
     /**
      * retrieves the learning material id from the course/session_learning_material table to
