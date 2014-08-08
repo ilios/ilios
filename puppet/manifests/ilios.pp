@@ -193,6 +193,17 @@ class ilios (
     ensure  => present
   }
 
+  fooacl::conf { 'symfony-var':
+    target => [
+        '/vagrant/sfi/var/cache',
+        '/vagrant/sfi/var/logs',
+    ],
+    permissions => [
+      'user:vagrant:rwX',
+      'user:www-data:rwX',
+    ],
+  }
+
   $devNodePackages = ['bower', 'ember-precompile']
   package { $devNodePackages:
     ensure   => present,

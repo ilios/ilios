@@ -19,3 +19,6 @@
 [submodule "puppet/modules/ruby"]
 	path = puppet/modules/ruby
 	url = https://github.com/puppetlabs/puppetlabs-ruby.git
+[submodule "puppet/modules/fooacl"]
+	path = puppet/modules/fooacl
+	url = https://github.com/thias/puppet-fooacl.git
