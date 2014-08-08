@@ -51,11 +51,23 @@
 
     ilios.common.picker.mesh.buildMeSHPickerDialogDOM = function () {
         var handleSave = function () {
-            //because lm mesh terms can be save from within their 'Details' dialogue
+            //because lm mesh terms can be save from within their 'Details' dialog - OR - the
+            //standalone mesh picker dialog, we check for the latter and handle it
             if(this.dialog_type == 'learning_material_mesh_only'){
-              console.log('do different save here');
+                var lmModel = ilios.mesh.meshInEditReferenceModel;
+                lmModel.replaceContentWithModel(ilios.mesh.meshInEditModel, true);
+                var cnumber = this.cnumber;
+                var lmnumber = this.lmnumber;
+                var isCourse = (cnumber == -1);
+                var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
+                var model = isCourse ? ilios.cm.currentCourseModel
+                    : ilios.cm.currentCourseModel.getSessionForContainer(cnumber);
+                var courseOrSessionDbId = model.dbId;
+                ilios.cm.transaction.updateLearningMaterial(model, lmDbId, isCourse,
+                    courseOrSessionDbId, cnumber, lmnumber);
+            } else {
+                ilios.common.picker.mesh.handleMeSHPickerSave(this);
             }
-            ilios.common.picker.mesh.handleMeSHPickerSave(this);
             this.cancel();
         };
 
@@ -96,6 +108,7 @@
                 ilios.mesh.meshInEditReferenceModel = handlerArgs[0].model_in_edit;
                 ilios.mesh.meshInEditModel = ilios.mesh.meshInEditReferenceModel.clone();
                 dialog.cnumber = handlerArgs[0].cnumber;
+                dialog.lmnumber = handlerArgs[0].lmnumber;
                 dialog.dialog_type = handlerArgs[0].dialog_type;
                 dialog.showDialogPane();
             }

@@ -381,7 +381,7 @@ LearningMaterialModel.prototype.replaceContentWithModel = function (newModel, fo
         this.filesize = newModel.filesize;
 
         this.copyrightRationale = newModel.copyrightRationale;
-        this.hasCopyrightOwnership = newModel.hasCopyrightOwnership;q
+        this.hasCopyrightOwnership = newModel.hasCopyrightOwnership;
 
         this.link = newModel.link;
         this.citation = newModel.citation;
