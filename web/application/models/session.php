@@ -715,11 +715,6 @@ EOL;
     /**
      * Transactionality is assumed to be handled outside of this method.
      */
-
-    //TODO: JH - function call with LearningMaterialArray included may not be necessary with decoupling of #205
-    //public function addSession ($courseId, $title, $sessionTypeId, array $disciplinesArray, array $meshTermArray,
-                                //array $objectiveArray, $supplemental, $attireRequired, $equipmentRequired, $publishId,
-                                //$description, array $learningMaterialArray, $ilmId, array &$auditAtoms)
     public function addSession ($courseId, $title, $sessionTypeId, array $disciplinesArray, array $meshTermArray,
                                 array $objectiveArray, $supplemental, $attireRequired, $equipmentRequired, $publishId,
                                 $description, $ilmId, array &$auditAtoms)
@@ -751,11 +746,6 @@ EOL;
 
         $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newSessionId, 'session_id', $this->databaseTableName,
             Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
-
-        //TODO: JH - may not be necessary with decoupling in #205
-        // associate learning materials with session
-        //$this->learningMaterial->saveSessionLearningMaterialAssociations($newSessionId, $learningMaterialArray,
-            //array(), $auditAtoms);
 
         // associate disciplines with new session
         $this->_saveDisciplineAssociations($newSessionId, $disciplinesArray);
@@ -829,11 +819,6 @@ EOL;
 
         $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($sessionId, 'session_id', $this->databaseTableName,
             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
-
-        // TODO: JH - probably not necssary after decoupling in #205
-        // update session/learning material associations
-        //$this->learningMaterial->saveSessionLearningMaterialAssociations($sessionId, $learningMaterialArray,
-            //$associatedLearningMaterialIds, $auditAtoms);
 
         // update session/discipline associations
         $this->_saveDisciplineAssociations($sessionId, $disciplinesArray, $associatedDisciplinesIds);
