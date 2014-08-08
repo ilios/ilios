@@ -102,5 +102,4 @@ class UserRole implements RoleInterface
     {
         return 'ROLE_' . $this->title;
     }
-
 }
