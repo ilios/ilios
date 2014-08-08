@@ -721,13 +721,6 @@ class Course_Management extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.mesh_terms');
             return;
         }
-        // TODO: JH - should no longer be necessary after #205 decoupling complete... Remove if tests okay...
-        /*try {
-            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
-        } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.learning_materials');
-            return;
-        }*/
         try {
             $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
         } catch (Ilios_Exception $e) {
@@ -944,13 +937,6 @@ class Course_Management extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.mesh_terms');
             return;
         }
-        // TODO: JH - should no longer be necessary after #205 decoupling complete... Remove if tests okay...
-        /*try {
-            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
-        } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.learning_materials');
-            return;
-        }*/
         try {
             $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
         } catch (Ilios_Exception $e) {
@@ -989,11 +975,7 @@ class Course_Management extends Ilios_Web_Controller
 
         $description = Ilios_CharEncoding::utf8UrlDecode($this->input->post('description'));
 
-        //$learningMaterials = $this->_formatSessionLearningMaterialsFromInput($learningMaterials);
-
-        //
         // input processing
-        //
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
