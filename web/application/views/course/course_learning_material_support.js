@@ -1131,7 +1131,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
     scratchInput.setAttribute('class', 'mesh_btn tiny secondary radius button');
     scratchInput.setAttribute('href', '');
     scratchInput.setAttribute('onclick', 'return false;');
-    if (! isLocked) {
+    //if (! isLocked) {
         Event.addListener(scratchInput, 'click', function (e) {
             ilios.common.lm.learningMaterialsDetailsModel = learningMaterialItemModel;
             ilios.ui.onIliosEvent.fire({
@@ -1145,7 +1145,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
             });
             return false;
         });
-    }
+    //}
 
     scratchInput.innerHTML = ilios.cm.meshLinkText(learningMaterialItemModel);
     ilios.cm.uiElementsToHideOnLockedView.push(new Element(scratchInput));
@@ -1217,8 +1217,8 @@ ilios.cm.lm.addNewLearningMaterial = function (containerNumber) {
         : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
 
     //If the session has not been saved, do not permit addition of Learning Materials
-    //the model.courseId will be -1 if the session has not yet been saved
-    if(model.courseId !== -1){
+    //the model.dbId will be -1 if the session has not yet been saved
+    if(model.dbId !== -1){
         ilios.ui.onIliosEvent.fire({
             action: 'alm_dialog_open',
             container_number: containerNumber
