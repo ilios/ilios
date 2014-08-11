@@ -342,6 +342,26 @@ EOL;
     }
 
     /**
+     * Retrieves enabled ("active") user-accounts that match a given institution ID
+     * @param string $institutionId
+     * @return array
+     */
+    public function getEnabledUsersWithInstitutionId ($institutionId)
+    {
+        $rhett = array();
+
+        $this->db->where('uc_uid', $institutionId);
+        $this->db->where('enabled', 1);
+
+        $queryResults = $this->db->get($this->databaseTableName);
+        foreach ($queryResults->result_array() as $row) {
+            array_push($rhett, $row);
+        }
+
+        return $rhett;
+    }
+
+    /**
      * Searches users by name/name fragment and given account status.
      * @param string $name the user name/name-fragment
      * @param boolean $includeDisabled if set to TRUE then disabled accounts will be included.

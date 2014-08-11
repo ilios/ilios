@@ -250,27 +250,29 @@ ilios.gm.transaction.handleAddMemberUploadClick = function (uploadLinkDOMElement
 
                 // MAY RETURN THIS BLOCK
                 if (parsedObject.error != null) {
-                    var msg = ilios_i18nVendor.getI18NString('groups.error.user_add_csv');
-
-                    msg += ": " + parsedObject.error;
-
-                    if (parsedObject.duplicates != null) {
-                        var first = true;
-
-                        msg += '<br/>';
-
-                        for (var key in parsedObject.duplicates) {
-                            if (first) {
-                                first = false;
+                    msg = parsedObject.error;
+                    if(parsedObject.rowErrors != null){
+                        var table = '<table>'
+                                + '<thead><tr>'
+                                + '</tr></thead><tbody>';
+                        for (var key in parsedObject.rowErrors) {
+                            var row = parsedObject.rowErrors[key];
+                            var span = row.length +1;
+                            table += '<tr style="border-bottom: 1px black solid"><td  style="white-space: nowrap; padding-right: 1em; font-weight:bold" rowspan="' + span + '">' 
+                                + ilios_i18nVendor.getI18NString('general.terms.entry') + ' '
+                                + key + '</td></tr>';
+                            for (var i = 0; i < row.length; i++) {
+                                if(i == row.length-1){
+                                    table += '<tr style="border-bottom: 1px black solid">';
+                                } else {
+                                    table += '<tr>';
+                                }
+                                table += '<td>' + row[i] + '</td></tr>';
                             }
-                            else {
-                                msg += '; ';
-                            }
-
-                            msg += parsedObject.duplicates[key];
                         }
+                        table += '</tbody></table>';
+                        msg += table;
                     }
-
                     ilios.alert.alert(msg);
 
                     return;
@@ -372,6 +374,9 @@ ilios.gm.transaction.handleManualUserAdd = function () {
 
     element = document.getElementById('em_uc_id');
     paramString += '&uc_uid=' + encodeURIComponent(element.value);
+
+    element = document.getElementById('em_other_id');
+    paramString += '&other_id=' + encodeURIComponent(element.value);
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 };

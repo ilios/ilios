@@ -111,14 +111,22 @@ $config['ilios_authentication_internal_auth_salt'] = null;
 |--------------------------------------------------------------------------
 |
 | ['ilios_authentication_shibboleth_user_id_attribute']
-|     The name of an attribute passed by the Shibboleth IdP which is used to
-|     authenticate users in Ilios. Since Ilios looks up users by email address,
-|     this attribute is assumed to contain an email address as well.
+|     The name of the attribute passed by the Shibboleth IdP which is used to
+|     authenticate users in Ilios. If users are to authenticate by their email
+|     address, this should be the name of the attribute is assumed
+|     to contain the email address.
+|
+| ['ilios_authentication_field_to_match']
+|    The field in the 'authentication' or 'user' database table in Ilios against
+|    which the received shibboleth value will be compared.  Currently, the allowed
+|    values are 'email' and 'uc_uid', with 'email' being the default value
 |
 | ['ilios_authentication_shibboleth_logout_path']
 |     Absolute path to the Shibboleth Logout Service location.
+|
 */
 $config['ilios_authentication_shibboleth_user_id_attribute'] = 'mail';
+$config['ilios_authentication_field_to_match'] = 'email';
 $config['ilios_authentication_shibboleth_logout_path'] = '/Shibboleth.sso/Logout';
 
 /*
@@ -345,6 +353,24 @@ $config['calendar_options_time_step'] = (60 / $config['time_selection_increments
 
 $config['uid_min_length'] = 9;
 $config['uid_max_length'] = 9;
+
+/*
+|--------------------------------------------------------------------------
+| Google Analytics Options
+|--------------------------------------------------------------------------
+|
+| If you wish to use google Analytics you must specify the tracking id for your site
+|
+| ['ga_tracking_id']
+|   The ID provided by google
+|
+| ['ga_cookie_domain']
+|   Can be left on auto for most sites
+|
+*/
+
+$config['ga_tracking_id'] = null;
+$config['ga_cookie_domain'] = 'auto';
 
 /*
 |--------------------------------------------------------------------------

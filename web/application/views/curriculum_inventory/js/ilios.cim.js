@@ -632,6 +632,8 @@
                 { report_id: model.get('reportId'), parent: model }, this);
                 Event.addListener(view.getEditButton(), 'click', this.onSequenceBlockEditButtonClick,
                     { block: model }, this);
+                Event.addListener(view.getDetailLink(), 'click', this.onSequenceBlockEditButtonClick,
+                    { block: model }, this);
             }
 
             if (oData.children) {
@@ -1301,6 +1303,12 @@
         el = rowEl.appendChild(document.createElement('div'));
         el.setAttribute('class', 'label column');
         el.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('general.terms.course')));
+        el.appendChild(document.createElement('br'));
+        var a = new YAHOO.util.Element(document.createElement('a'));
+        a.appendChild(document.createTextNode(ilios_i18nVendor.getI18NString('curriculum_inventory.summary.details_link')));
+        a.set('id', 'sequence-block-view-edit-link-' + cnumber);
+        a.set('href', '#');
+        el.appendChild(a.get('element'));
         el = rowEl.appendChild(document.createElement('div'));
         el.setAttribute('id', 'sequence-block-view-course-' + cnumber);
         el.setAttribute('class', 'data column');

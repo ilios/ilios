@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
   # Forward a port from the guest to the host, if you wish to allow other people
   # access to this install then remove the host_ip parameter
   config.vm.network "forwarded_port", guest: 443, host: 8443, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 3306, host: 13306, host_ip: "127.0.0.1"
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box

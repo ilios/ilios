@@ -207,6 +207,18 @@
             });
 
             /**
+             * The "Show Session/Hours Details" link of the view.
+             *
+             * @attribute detailLinkE1
+             * @type {HTMLElement}
+             * @writeOnce
+             */
+            this.setAttributeConfig('detailLinkE1', {
+                writeOnce: true,
+                value: Dom.get('sequence-block-view-edit-link-' + cnumber)
+            });
+
+            /**
              * The "add" button of the view.
              *
              * @attribute addBtnEl
@@ -786,6 +798,16 @@
          */
         getEditButton: function () {
             return this.get('editBtnEl');
+        },
+
+        /**
+         * Retrieves the view's "detail" link.
+         *
+         * @method getDetailLinkE1
+         * @return {HTMLElement}
+         */
+        getDetailLink: function () {
+            return this.get('detailLinkE1');
         },
 
         /**

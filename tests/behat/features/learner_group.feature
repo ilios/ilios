@@ -236,3 +236,37 @@ Feature: Learner Groups
     Then I should see "Smith, John" in the "#ugt__selected_item_list" element
     But I should not see "Smith, Jane" in the "#ugt__selected_item_list" element
     And I should not see "Smith, Greg" in the "#ugt__selected_item_list" element
+
+  @javascript @insulated
+  Scenario: New learner users must have valid data
+    And I press "Add New Members to Cohort"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: Last Name is Required"
+    When I press the "Ok" button in "ilios_alert_panel" dialog
+    When I fill in "Last Name" for "em_last_name"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: First Name is Required"
+    When I press the "Ok" button in "ilios_alert_panel" dialog
+    When I fill in "First Name" for "em_first_name"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: Email is Required"
+    When I press the "Ok" button in "ilios_alert_panel" dialog
+    When I fill in "badaddress" for "em_email"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: Email address is not valid"
+    When I press the "Ok" button in "ilios_alert_panel" dialog
+    When I fill in "root@example.com" for "em_email"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: Campus ID is Required"
+    When I press the "Ok" button in "ilios_alert_panel" dialog
+    When I fill in "1234567" for "em_uc_id"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: Campus ID is not long enough"
+    When I press the "Ok" button in "ilios_alert_panel" dialog
+    When I fill in "1234567890" for "em_uc_id"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: Campus ID is too long"
+    When I press the "Ok" button in "ilios_alert_panel" dialog
+    When I fill in "123456789" for "em_uc_id"
+    And I press "Add User"
+    Then I should see "There was a problem adding the user: Sorry, a user with that email is already in the system: Please verify your information and try again."

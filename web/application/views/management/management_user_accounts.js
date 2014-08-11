@@ -1726,6 +1726,15 @@ ilios.management.user_accounts.checkUserData = function () {
     var passwordStrength;
     var msg;
 
+    //set the uc_id length to a single value or a range depending on its settings in the config file
+    var uc_id_length;
+    if(ilios.management.user_accounts.uidOptions.uid_min_length === ilios.management.user_accounts.uidOptions.uid_max_length){
+        uc_id_length = ilios.management.user_accounts.uidOptions.uid_max_length;
+    } else {
+	uc_id_length = ilios.management.user_accounts.uidOptions.uid_min_length + "-" + ilios.management.user_accounts.uidOptions.uid_max_length;
+    }
+
+
     element = document.getElementById('ua_first_name_tf');
     if ((element != null) && (YAHOO.lang.trim(element.value).length == 0)) {
         divsToStyle.push('ua_first_name_tf');
@@ -1739,10 +1748,10 @@ ilios.management.user_accounts.checkUserData = function () {
     }
 
     element = document.getElementById('ua_uc_id_tf');
-    if ((element != null) && (YAHOO.lang.trim(element.value).length < ilios.management.user_accounts.uidOptions.uid_min_length)
-        || (YAHOO.lang.trim(element.value).length > ilios.management.user_accounts.uidOptions.uid_max_length)) {
-        divsToStyle.push('ua_uc_id_tf');
-        divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.uc_id'));
+    if ((element != null) && ((YAHOO.lang.trim(element.value).length < ilios.management.user_accounts.uidOptions.uid_min_length)
+        || (YAHOO.lang.trim(element.value).length > ilios.management.user_accounts.uidOptions.uid_max_length))) {
+	divsToStyle.push('ua_uc_id_tf');
+        divsToHint.push(ilios_i18nVendor.getI18NString('management.error.data.uc_id') + " " +  uc_id_length + " " + ilios_i18nVendor.getI18NString('management.error.data.uc_id_chars_in_length'));
     }
 
     element = document.getElementById('ua_email_tf');

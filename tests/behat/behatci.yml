@@ -42,7 +42,7 @@ win7ie10:
                     platform: "Windows 7"
                     version: 10
 
-# Run tests with win7 ie11
+# Run tests with win8 ie11
 win8ie11:
     extensions:
         Behat\MinkExtension\Extension:
@@ -53,7 +53,7 @@ win8ie11:
                     platform: "Windows 8.1"
                     version: 11
 
-# Run tests with osx chrome
+# Run tests with osx firefox
 osxfirefox:
     extensions:
         Behat\MinkExtension\Extension:
@@ -74,7 +74,7 @@ osxchrome:
                     platform: "OS X 10.9"
                     version: 34
 
-# Run tests with osx chrome
+# Run tests with osx safari
 osxsafari:
     extensions:
         Behat\MinkExtension\Extension:

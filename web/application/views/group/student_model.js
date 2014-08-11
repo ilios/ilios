@@ -79,7 +79,6 @@ StudentModel.prototype.clone = function () {
  * 		first name
  * 		middle name
  * 		uc uid
- * 		galen id
  * 		other id
  * 		email address
  * 		phone number

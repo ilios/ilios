@@ -350,6 +350,9 @@ ilios.igm.resetAddNewMembersDialog = function (dialog) {
 	element = document.getElementById('em_uc_id');
 	element.value = '';
 
+	element = document.getElementById('em_other_id');
+	element.value = '';
+
 	element = document.getElementById('em_csv_file_field');
 	element.value = '';
 

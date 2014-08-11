@@ -27,6 +27,8 @@ $viewsPath = getServerFilePath('views');
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/session-types.css"); ?>" media="all">
     <link rel="stylesheet" href="<?php echo appendRevision($viewsUrlRoot . "css/custom.css"); ?>" media="all">
 
+    <?php include_once $viewsPath . 'common/google_analytics.inc.php'; ?>
+
     <script type="text/javascript">
         var baseURL = "<?php echo $siteUrl; ?>/";
         var controllerURL = "<?php echo $controllerURL; ?>/";    // expose this to our javascript land

@@ -50,6 +50,10 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             $this->load->model('Curriculum_Inventory_Export', 'invExport', true);
         }
 
+        if (! property_exists($this, 'invSequenceBlockSession')) {
+            $this->load->model('Curriculum_Inventory_Sequence_Block_Session', 'invSequenceBlockSession', true);
+        }
+
         if (! property_exists($this, 'program')) {
             $this->load->model('Program', 'program', true);
         }
@@ -142,7 +146,7 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
      */
     public function create ()
     {
-        
+
         $rhett = array();
 
         // authorization check
@@ -721,6 +725,11 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
         $blockId = $this->invSequenceBlock->create($reportId, $parentBlockId, $title, $description, $startDate,
             $endDate, $duration, $academicLevelId, $required, $maximum, $minimum, $track, $courseId, $childSequenceOrder,
             $orderInSequence);
+        if($this->input->post('count_offerings_once_sessions')){
+            foreach($this->input->post('count_offerings_once_sessions') AS $sessionId){
+                $this->invSequenceBlockSession->create($blockId, $sessionId, 1);
+            }
+        }
         $block = $this->invSequenceBlock->get($blockId);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
@@ -1001,6 +1010,12 @@ class Curriculum_Inventory_Manager extends Ilios_Web_Controller
             }
         }
         $this->invSequenceBlock->update($block->sequence_block_id, $data);
+        $this->invSequenceBlockSession->clearSessionsForBlock($blockId);
+        if($this->input->post('count_offerings_once_sessions')){
+            foreach($this->input->post('count_offerings_once_sessions') AS $sessionId){
+                $this->invSequenceBlockSession->create($blockId, $sessionId, 1);
+            }
+        }
         $block = $this->invSequenceBlock->get($blockId);
         $this->db->trans_complete();
         if (false === $this->db->trans_status()) {
