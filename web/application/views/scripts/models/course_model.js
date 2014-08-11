@@ -479,8 +479,7 @@ CourseModel.prototype.containsLearningMaterial = function (learningMaterialModel
 };
 
 CourseModel.prototype.getNextLearningMaterialNumber = function () {
-    this.learningMaterialCount += 1;
-    return this.learningMaterialCount;
+    return this.learningMaterials.length;
 };
 
 CourseModel.prototype.removeLearningMaterial = function (learningMaterialModel) {
