@@ -1130,7 +1130,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
     scratchInput.setAttribute('onclick', 'return false;');
     if (! isLocked) {
         Event.addListener(scratchInput, 'click', function (e) {
-            //ilios.common.lm.learningMaterialsDetailsModel = learningMaterialItemModel;
+            ilios.common.lm.learningMaterialsDetailsModel = learningMaterialItemModel;
             ilios.ui.onIliosEvent.fire({
                 action: 'mesh_picker_dialog_open',
                 cnumber: containerNumber,
@@ -1138,7 +1138,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
                 //because lm mesh terms can be updated from within their Details dialog
                 //or the mesh-only mesh picker dialog, we need to check for the latter
                 dialog_type: 'learning_material_mesh_only',
-                model_in_edit: learningMaterialItemModel
+                model_in_edit: ilios.common.lm.learningMaterialsDetailsModel
             });
             return false;
         });
