@@ -644,16 +644,23 @@ class Learning_Materials extends Ilios_Web_Controller
     }
 
     /**
-     * XHR handler for updating learning materials and all their associations
+     * XHR handler for updating learning materials and all their associations and mesh terms
      *
      * Expected POST params:
      *      course_id
      *      is_course
+     *      lmDbId
      *      learning_materials
      *
-     * Prints a JSON'd array with key 'error' or keys 'publish_event_id',
-     * @todo clean up code docs
+     * Prints a JSON'd array with key 'error' or the following keys
+     *
+     * 'publish_event_id' : the unique id of the publish event
+     * 'cnumber' : the container number that contains the newly-saved learning material for updating the DOM
+     * 'lmnumber': the learning material dbID
+     * 'lmDbId' : the learning material dbID
+     * 'meshTotal' : the total number of mesh terms associated with the learning material
      */
+
     public function updateLearningMaterial ()
     {
         $rhett = array();
