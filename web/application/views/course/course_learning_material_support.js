@@ -1119,25 +1119,21 @@ ilios.cm.lm.handleLearningMaterialClick = function (learningMaterialModel) {
     var model = null;
     var learningMaterialItemId = learningMaterialModel.getDBId();
 
-
-        containerNumber = ilios.cm.lm.learningMaterialDialog.cnumber;
-        isCourse = (containerNumber == -1);
-        model = isCourse ? ilios.cm.currentCourseModel
+    containerNumber = ilios.cm.lm.learningMaterialDialog.cnumber;
+    isCourse = (containerNumber == -1);
+    model = isCourse ? ilios.cm.currentCourseModel
             : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
 
-        //liElement.parentNode.removeChild(liElement);
+    model.addLearningMaterial(learningMaterialModel);
 
-        model.addLearningMaterial(learningMaterialModel);
+    ilios.cm.transaction.associateLearningMaterial(learningMaterialItemId,
+        model.getDBId(), isCourse);
 
-        ilios.cm.transaction.associateLearningMaterial(learningMaterialItemId,
-            model.getDBId(), isCourse);
-    //ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
+    ilios.cm.lm.clearLearningMaterialsDialogFields(true);
 
-        ilios.cm.lm.clearLearningMaterialsDialogFields(true);
+    ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
 
-        ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
-
-        ilios.cm.lm.clearLearningMaterialsDialogFields(true);
+    ilios.cm.lm.clearLearningMaterialsDialogFields(true);
 
 };
 
@@ -1150,7 +1146,7 @@ ilios.cm.lm.handleLearningMaterialClick = function (learningMaterialModel) {
  * been saved yet (isDirty).
  *
  * @method addNewLearningMaterial
- * @param {String} containerNumber the learning materials container id
+ * @param {Int} containerNumber the learning materials container id
  */
 
 ilios.cm.lm.addNewLearningMaterial = function (containerNumber) {
@@ -1213,7 +1209,6 @@ ilios.cm.lm.continueDeletingLearningMaterial = function(event, obj) {
     var element = document.getElementById(lmDescriptionContainerId).parentNode;
 
     var learningMaterials = model.getLearningMaterials();
-    //var lmIndex = (lmNumber - 1);
     var learningMaterialModel = ilios.cm.lm.getLearningMaterialModelFromId(model,lmNumber);
 
     //this should disassociate the learning material
