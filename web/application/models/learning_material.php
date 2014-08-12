@@ -949,16 +949,20 @@ EOL;
     public function updateLearningMaterial ($courseOrSessionId, $lmDbId, $isCourse,
                                                     array $learningMaterials, array &$auditAtoms)
     {
+        //initialize the return value
         $rhett = null;
 
+        //add to the auditAtoms array
         $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseOrSessionId, 'learning_material_id', $this->databaseTableName,
             Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
 
+        //loop through the learning materials to get the one we need
         foreach ($learningMaterials as $learningMaterial) {
             //Because we're receiving ALL of the course or session Learning Materials in the array, we only want to
             //update the one that has changed. Compare the $_POST['lmDbId'] with the dbId in the array and, if it
             //matches, send it to the update process...
             if($learningMaterial['dbId'] == $lmDbId) {
+                //when we find the right one, process its attributes and meshTerms
                 $rhett = $this->learningMaterial->_processLearningMaterialUpdate($learningMaterial,
                                                                                    $courseOrSessionId,
                                                                                    $isCourse, $auditAtoms);
@@ -969,9 +973,9 @@ EOL;
     }
 
     /**
-     * Finalizes the updates of given learning material associations for a course/session in the database.
+     * Finalizes the updates of a given learning material for a course/session in the database.
      *
-     * @param array $learningMaterial the learning material that we're updating
+     * @param array $learningMaterial the single learning material that we're updating
      * @param int $courseOrSessionId the id of the course or session we're dealing with
      * @param bool $isCourse true if it is a course, false if it is a session
      * @param array $auditAtoms - not sure we need this here, but maybe...
@@ -979,6 +983,7 @@ EOL;
     protected function _processLearningMaterialUpdate ($learningMaterial, $courseOrSessionId, $isCourse,
                                                                   &$auditAtoms)
     {
+        //initialize the return array
         $rhett = array();
 
         //prefix relevant table/column names with either 'course' or 'session' where appropriate
@@ -1006,8 +1011,9 @@ EOL;
         //then handle the mesh terms -- separated out in order to work from mesh picker dialog as well.
         $meshTerms = $learningMaterial['meshTerms'];
 
-        //first, to 'update' the MeSH terms without going through a tedious comparison, let's just empty all existing mesh term associations, and
-        //then re-add all of them again on the next step -- this ensures no duplication and that removed items are gone
+        //first, to 'update' the MeSH terms without going through a tedious comparison, let's just empty all existing mesh
+        //term associations, and then re-add all of them again on the next step -- this ensures no duplication
+        //and that nullified/removed items are gone
         $this->db->where($db_prefix . '_learning_material_id', $courseOrSessionLmId);
         $this->db->delete($db_prefix . '_learning_material_x_mesh');
 
