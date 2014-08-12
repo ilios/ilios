@@ -156,6 +156,10 @@ class User implements UserInterface, \Serializable
         $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
         $this->publishEvents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addedViaIlios = false;
+        $this->enabled = true;
+        $this->examined = false;
+        $this->userSyncIgnore = false;
     }
 
     /**
@@ -498,6 +502,16 @@ class User implements UserInterface, \Serializable
     public function getPrimarySchool()
     {
         return $this->primarySchool;
+    }
+
+    /**
+     * Get primarySchool ID
+     *
+     * @return integer
+     */
+    public function getPrimarySchoolId()
+    {
+        return $this->primarySchool->getSchoolId();
     }
 
     /**

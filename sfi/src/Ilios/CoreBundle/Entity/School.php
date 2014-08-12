@@ -50,6 +50,16 @@ class School
     public function __construct()
     {
         $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->deleted = false;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->title;
     }
 
     /**
