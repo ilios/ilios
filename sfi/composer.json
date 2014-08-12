@@ -29,6 +29,7 @@
         "sensio/generator-bundle": "@stable",
         "phpunit/phpunit": "3.*",
         "liip/functional-test-bundle": "@stable",
+        "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "@stable",
         "lmammino/jsmin4assetic": "@stable",
         "squizlabs/php_codesniffer": "@stable",

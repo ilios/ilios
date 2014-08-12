@@ -13,3 +13,8 @@ ilios_core_objective:
     prefix: /v1
     resource: "Ilios\CoreBundle\Controller\ObjectiveController"
     name_prefix:  api_1_
+ilios_core_user:
+    type: rest
+    prefix: /v1
+    resource: "Ilios\CoreBundle\Controller\UserController"
+    name_prefix:  api_1_
