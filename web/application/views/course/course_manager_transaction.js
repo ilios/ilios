@@ -1622,15 +1622,14 @@ ilios.ui.onIliosEvent.subscribe(ilios.cm.transaction.addCourseFromModalPanelResp
 
 
 /*
- * POSTS learning material updates to controller for update
+ * POSTS learning material updates to controller for update and then updates
+ * the learning materials 'Add MeSH (x)' total with the values returned
  *
- * @param object model the course/session
- * @param int lmDbId the learning material DbId
- * @param string isCourse 'true' if it is a course, 'false' if it is a session
- * @param int courseOrSessionDbId the dbId of the course or session
+ * @param {int} cnumber the numeric id of the container in which the LM resides
+ * @param {int} lmnumber the dbId of the learning material that is being updated
  */
 
-ilios.cm.transaction.updateLearningMaterial = function (lmDbId, cnumber, lmnumber) {
+ilios.cm.transaction.updateLearningMaterial = function (cnumber, lmnumber) {
     var url = learningMaterialsControllerURL + 'updateLearningMaterial';
     var method = "POST",
             paramString = '',
@@ -1689,7 +1688,6 @@ ilios.cm.transaction.updateLearningMaterial = function (lmDbId, cnumber, lmnumbe
     paramString += '&course_id=' + courseOrSessionDbId;
     paramString += '&container_number=' + cnumber;
     paramString += '&lm_number=' + lmnumber;
-    paramString += '&lmDbId=' + lmDbId;
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 

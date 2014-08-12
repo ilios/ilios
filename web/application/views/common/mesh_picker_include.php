@@ -66,8 +66,7 @@
                 lmModel.replaceContentWithModel(ilios.mesh.meshInEditModel, true);
                 var cnumber = this.cnumber;
                 var lmnumber = this.lmnumber;
-                var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
-                ilios.cm.transaction.updateLearningMaterial(lmDbId, cnumber, lmnumber);
+                ilios.cm.transaction.updateLearningMaterial(cnumber, lmnumber);
             } else {
                 //if the MeSH terms are not from the lm mesh picker dialog specifically, handle their
                 //save per the usual method

@@ -15,9 +15,8 @@ ilios.common.lm.buildLearningMaterialLightboxDOM = function () {
             //if it's dirty, it has changed, so add the update learning material process here
             var cnumber = this.cnumber;
             var lmnumber = this.lmnumber;
-            var lmDbId = ilios.common.lm.learningMaterialsDetailsModel.getDBId();
             //initiate the update
-            ilios.cm.transaction.updateLearningMaterial(lmDbId, cnumber, lmnumber);
+            ilios.cm.transaction.updateLearningMaterial(cnumber, lmnumber);
             //then close the dialog
             this.cancel();
         } else {
