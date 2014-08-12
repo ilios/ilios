@@ -957,12 +957,15 @@ ilios.cm.lm.buildLearningMaterialItemsForContainer = function (learningMaterials
 
 
 /**
- * TODO: JH - need to add comments/document
+ * returns one fully-built learning material item with its deletion, download and 'Add Learning Material'
+ * buttons
  *
- * Builds the individual learning material div for displaying in courses/sessions...
+ * @param {Object} learningMaterialItemModel the learning material object
+ * @param {Int} containerNumber the numeric id of the container the lm is in, used for determing course/session
+ * @return {String} the fully-built learning material item, ready for placement in the DOM
  */
 
-ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, containerNumber, isLocked) {
+ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, containerNumber) {
 
     var learningMaterialItemTitle = learningMaterialItemModel.getTitle();
     var learningMaterialItemId = learningMaterialItemModel.getDBId();
@@ -974,24 +977,16 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
     linkedTitleElement.setAttribute('onclick','return false;');
     linkedTitleElement.setAttribute('lmnumber',learningMaterialItemId);
     linkedTitleElement.innerText = learningMaterialItemTitle;
-    var mimeTypeClass = null;
-
 
     var scratchElement = null;
-    var scratchString = null;
     var fileSizeElement = null;
     var downloadURL = learningMaterialsControllerURL
         + "getLearningMaterialWithId?learning_material_id=" + learningMaterialItemId;
-    var affectingWidget = document.createElement('span');
 
     var isLink = (learningMaterialItemModel.getMimeType() == 'link');
     var isCitation = (learningMaterialItemModel.getMimeType() == 'citation');
     var Event = YAHOO.util.Event;
     var Element = YAHOO.util.Element;
-    var isLocked = isLocked || false;
-
-    //declare the parent container which will hold all the learning material items
-    //var parentContainer = document.getElementById(containerNumber+"_learning_materials_container");
 
     //set up the container that will hold the entire row
     var learningMaterialItem = document.createElement('div');
@@ -1002,7 +997,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
     //get the mimeType of the learning material to set the styling
     mimeTypeClass = ilios.utilities.convertMimeTypeToCSSClassName(learningMaterialItemModel.getMimeType());
 
-    // Delete widget
+    //Set up the 'delete' widget will will disassociate the lm with its course/session
     if (! ilios.cm.currentCourseModel.isLocked()) {
         scratchElement = new Element(document.createElement('div'));
         scratchElement.addClass('delete_widget icon-cancel');
@@ -1014,23 +1009,22 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
         ilios.cm.uiElementsToHideOnLockedView.push(scratchElement);
     }
 
-    // learning material description container
+    //set up learning material description container to hold the linked title of the LM
     scratchElement = document.createElement('div');
     scratchString = ilios.cm.lm.generateIdStringForLearningMaterialTextArea(containerNumber, learningMaterialItemId);
     scratchElement.setAttribute('class', 'learning_material_description_container ' + mimeTypeClass);
     scratchElement.setAttribute('id', scratchString);
     scratchElement.appendChild(linkedTitleElement);
 
-    //the button/download widgets
-    //the buttonWidget is a div that will contain the button widgets (eg, downloadWidget...)
+    //the buttonWidget is a span container that will hold the download widget
     var buttonWidgetDiv = document.createElement('span');
     buttonWidgetDiv.setAttribute('class', 'buttonset');
 
-    //the downloadWidget will display/handle the download of a lm resoource
+    //the downloadWidget will display/handle the download of a lm filetype resource
     var downloadWidget = document.createElement('span');
     downloadWidget.setAttribute('class', 'download_widget');
 
-    //if it's not a link or a citation...
+    //if the lm is not a link or a citation, add its filesize
     if ((! isLink) && (! isCitation)) {
         fileSizeElement = document.createElement('span');
         fileSizeElement.setAttribute('class', 'filesize');
@@ -1042,8 +1036,9 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
         buttonWidgetDiv.appendChild(downloadWidget);
     }
 
+    //if the course is not locked, add the 'Add Learning Material' button
     if (! ilios.cm.currentCourseModel.isLocked()) {
-        //set up the addLearningMaterialButton
+        //set up the 'Add Learning Material' button
         var alm_button = document.getElementById(containerNumber + '_add_learning_material_link');
         Event.addListener(alm_button, 'click', function (e) {
             ilios.cm.lm.addNewLearningMaterial(containerNumber);
@@ -1087,15 +1082,17 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
                 action: 'mesh_picker_dialog_open',
                 cnumber: containerNumber,
                 lmnumber: learningMaterialItemId,
+                model_in_edit: ilios.common.lm.learningMaterialsDetailsModel,
                 //because lm mesh terms can be updated from within their Details dialog
-                //or the mesh-only mesh picker dialog, we need to check for the latter
-                dialog_type: 'learning_material_mesh_only',
-                model_in_edit: ilios.common.lm.learningMaterialsDetailsModel
+                //OR the mesh-only mesh picker dialog, we need to check for the latter
+                //so we know how to handle the save/cancel buttons
+                dialog_type: 'learning_material_mesh_only'
             });
             return false;
         });
     }
 
+    //add the text for the mesh link button
     scratchInput.innerHTML = ilios.cm.meshLinkText(learningMaterialItemModel);
     ilios.cm.uiElementsToHideOnLockedView.push(new Element(scratchInput));
     learningMaterialItem.appendChild(scratchInput);
@@ -1103,7 +1100,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
     //append the clearing div to the newly-created learning material container
     ilios.utilities.appendClearingDivToContainer(learningMaterialItem);
 
-    //add everything to the parent container
+    //return the now-built lm item to the parent container
     return learningMaterialItem;
 
 };
