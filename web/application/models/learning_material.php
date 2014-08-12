@@ -1002,59 +1002,52 @@ EOL;
         $this->db->where('learning_material_id', $lmDbId);
         $this->db->where($db_prefix . '_id', $courseOrSessionId);
         $this->db->update($db_prefix . '_learning_material', $row);
-        $str = $this->db->last_query();
 
         //then handle the mesh terms -- separated out in order to work from mesh picker dialog as well.
-        //TODO: JH - get mesh picker to work separately
         $meshTerms = $learningMaterial['meshTerms'];
-        $rhett['meshTotal'] = $this->_processLearningMaterialMeshTerms($meshTerms, $db_prefix, $courseOrSessionLmId, $auditAtoms);
+
+        //first, to 'update' the MeSH terms without going through a tedious comparison, let's just empty all existing mesh term associations, and
+        //then re-add all of them again on the next step -- this ensures no duplication and that removed items are gone
+        $this->db->where($db_prefix . '_learning_material_id', $courseOrSessionLmId);
+        $this->db->delete($db_prefix . '_learning_material_x_mesh');
+
+        //clean up the meshTerms array, make sure to filter out duplicate values and ones that have been
+        //set to null upon being removed
+        $meshTermsFinal = array();
+        foreach ($meshTerms as $index => $value) {
+            if (!empty($value) && !in_array($value, $meshTermsFinal)) $meshTermsFinal[] = $value;
+        }
+
+        //now all mesh terms should have a value and there should be no duplicates, so process the
+        //the ones that still exist
+        if (! empty($meshTermsFinal)) {
+
+            $newRow = array();
+            $newRow[$db_prefix . '_learning_material_id'] = $courseOrSessionLmId;
+
+            foreach ($meshTermsFinal as $meshTerm) {
+                $newRow['mesh_descriptor_uid'] = $meshTerm['dbId'];
+                $this->db->insert($db_prefix . '_learning_material_x_mesh', $newRow);
+
+                //audit the addition of new terms
+                if ($this->transactionAtomFailed()) {
+                    return false;
+                }
+
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseOrSessionLmId, $db_prefix . '_learning_material_id',
+                    $db_prefix . '_learning_material_x_mesh', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+            }
+
+            //return the total number of meshterms
+            $rhett['meshTotal'] = count($meshTermsFinal);
+        }
+        else {
+
+            $rhett['meshTotal'] = 0;
+        }
 
         return $rhett;
     }
-
-protected function _processLearningMaterialMeshTerms(array $meshTerms, $db_prefix, $courseOrSessionLmId, &$auditAtoms){
-
-    //to 'update' the MeSH terms without going through a tedious comparison, let's just empty all existing mesh term associations, and
-    //then re-add all of them again on the next step -- this ensures no duplication and that removed items are gone
-    $this->db->where($db_prefix . '_learning_material_id', $courseOrSessionLmId);
-    $this->db->delete($db_prefix . '_learning_material_x_mesh');
-
-    //clean up the meshTerms array, make sure to filter out duplicate values and ones that have been
-    //set to null upon being removed
-    $meshTermsFinal = array();
-    foreach ($meshTerms as $index => $value) {
-        if (!empty($value) && !in_array($value, $meshTermsFinal)) $meshTermsFinal[] = $value;
-    }
-
-    //now all mesh terms should have a value and there should be no duplicates, so process the
-    //the ones that still exist
-    if (! empty($meshTermsFinal)) {
-
-        $newRow = array();
-        $newRow[$db_prefix . '_learning_material_id'] = $courseOrSessionLmId;
-
-        foreach ($meshTermsFinal as $meshTerm) {
-            $newRow['mesh_descriptor_uid'] = $meshTerm['dbId'];
-            $this->db->insert($db_prefix . '_learning_material_x_mesh', $newRow);
-
-            //audit the addition of new terms
-            if ($this->transactionAtomFailed()) {
-                return false;
-            }
-
-            $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseOrSessionLmId, $db_prefix . '_learning_material_id',
-                $db_prefix . '_learning_material_x_mesh', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
-        }
-
-        //return the total number of meshterms
-        return count($meshTermsFinal);
-    }
-    else {
-
-        return 0;
-    }
-
-}
 
     /**
      * retrieves the learning material id from the course/session_learning_material table to
