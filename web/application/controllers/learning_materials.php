@@ -657,7 +657,6 @@ class Learning_Materials extends Ilios_Web_Controller
      * 'publish_event_id' : the unique id of the publish event
      * 'cnumber' : the container number that contains the newly-saved learning material for updating the DOM
      * 'lmnumber': the learning material dbID
-     * 'lmDbId' : the learning material dbID
      * 'meshTotal' : the total number of mesh terms associated with the learning material
      */
 
@@ -678,7 +677,6 @@ class Learning_Materials extends Ilios_Web_Controller
         //get the id of the course or session
         $courseOrSessionId = $this->input->post('course_id');
         $isCourse = ($this->input->post('is_course') == 'true') ? true : false;
-        $lmDbId = $this->input->post('lmDbId');
         $containerNumber = $this->input->post('container_number');
         $lmNumber = $this->input->post('lm_number');
 
@@ -699,7 +697,7 @@ class Learning_Materials extends Ilios_Web_Controller
 
             $this->learningMaterial->startTransaction();
 
-            $results = $this->learningMaterial->updateLearningMaterial($courseOrSessionId, $lmDbId, $isCourse,
+            $results = $this->learningMaterial->updateLearningMaterial($courseOrSessionId, $lmNumber, $isCourse,
                 $learningMaterials, $auditAtoms);
 
             if (isset($results['error']) || $this->learningMaterial->transactionAtomFailed()) {
@@ -711,7 +709,6 @@ class Learning_Materials extends Ilios_Web_Controller
                 //send back the container number and lm number for easily updating the mesh count
                 $rhett['cnumber'] = $containerNumber;
                 $rhett['lmnumber'] = $lmNumber;
-                $rhett['lmDbId'] = $lmDbId;
                 //get the total mesh count from the results
                 $rhett['meshTotal'] = $results['meshTotal'];
 
