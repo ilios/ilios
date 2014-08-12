@@ -478,6 +478,7 @@ CourseModel.prototype.containsLearningMaterial = function (learningMaterialModel
     return (this.getLearningMaterialForId(learningMaterialModel.getDBId()) != null);
 };
 
+//Returns the next learning material number
 CourseModel.prototype.getNextLearningMaterialNumber = function () {
     return this.learningMaterials.length;
 };
