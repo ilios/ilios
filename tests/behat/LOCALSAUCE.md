@@ -30,14 +30,14 @@ here are some examples:
 1. Windows 7 IE9
 
     cd <iliosroot>/tests/behat
-    bin/behat -c saucelabe.yml -p windows7ie9
+    bin/behat -c saucelabs.yml -p windows7ie9
 
 2. Mac OSX Safari
 
     cd <iliosroot>/tests/behat
-    bin/behat -c saucelabe.yml -p osxsafari
+    bin/behat -c saucelabs.yml -p osxsafari
 
 3. Windows 7 Firefox
 
     cd <iliosroot>/tests/behat
-    bin/behat -c saucelabe.yml -p windows7firefox
+    bin/behat -c saucelabs.yml -p windows7firefox
