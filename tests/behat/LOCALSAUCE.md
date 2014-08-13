@@ -8,7 +8,7 @@ Prerequisites
 
 0. **DO NOT RUN THESE TESTS AGAINST A PRODUCTION INSTANCE**. These tests will pollute your database.
 
-1. Add the following line to your `/etc/hosts` file to ensure you can access your Ilios install at https://localilios/. Using `localhost` will not work due to SauceLabs setup.
+1. Add the following line to your `/etc/hosts` file to ensure you can access your Ilios install at "https://localilios". Using `localhost` will not work due to SauceLabs setup.
 
     127.0.0.1 localilios
 
