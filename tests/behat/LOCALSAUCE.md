@@ -27,10 +27,10 @@ Run tests
 ---------
 You now need to setup your Sauce username and accesskey.  These can be found at https://saucelabs.com/account:
 
-    ```bash
-    export SAUCE_USERNAME=<username>
-    export SAUCE_ACCESS_KEY=<accesskey>
-    ```
+```bash
+export SAUCE_USERNAME=<username>
+export SAUCE_ACCESS_KEY=<accesskey>
+```
     
 It is now possible to use Sauce to test your local Ilios environment in many different browsers.  A listing of available setups can be found in `saucelabs.yml`.
 here are some examples:
