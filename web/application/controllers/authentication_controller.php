@@ -214,16 +214,16 @@ class Authentication_Controller extends Ilios_Base_Controller
             return;
         }
 
-        $emailAddress = "illegal_em4!l_addr3ss";
         $shibbUserIdAttribute = $this->config->item('ilios_authentication_shibboleth_user_id_attribute');
         $authFieldToMatch = $this->config->item('ilios_authentication_field_to_match');
         $shibUserId = array_key_exists($shibbUserIdAttribute, $_SERVER) ? $_SERVER[$shibbUserIdAttribute] : null; // passed in by Shibboleth
         if (! empty($shibUserId)) {
-
+            $identifier = '';
+            $authenticatedUsers = array();
             switch($authFieldToMatch) {
                 case 'uc_uid':
-                    $institutionId = trim($shibUserId);
-                    $authenticatedUsers = $this->user->getEnabledUsersWithInstitutionId($institutionId);
+                    $identifier = trim($shibUserId);
+                    $authenticatedUsers = $this->user->getEnabledUsersWithInstitutionId($identifier);
                     break;
                 case 'email':
                 default:
@@ -234,50 +234,49 @@ class Authentication_Controller extends Ilios_Base_Controller
                      * semicolon and just use the first one...
                      */
                     $mailAttributes = explode(';',$shibUserId);
-                    $emailAddress = $mailAttributes[0];
-                    $authenticatedUsers = $this->user->getEnabledUsersWithEmailAddress($emailAddress);
+                    $identifier = $mailAttributes[0];
+                    $authenticatedUsers = $this->user->getEnabledUsersWithEmailAddress($identifier);
                     break;
             }
-        }
+            $userCount = count($authenticatedUsers);
 
-        $userCount = count($authenticatedUsers);
+            if ($userCount == 0) {
+                switch($authFieldToMatch) {
+                    case 'uc_uid':
+                        $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.uid_no_match_1');
+                        break;
+                    case 'email':
+                    default:
+                        $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.email_no_match_1');
+                }
+                $data['forbidden_warning_text'] .= ' (' . $identifier . ') ';
+                $data['forbidden_warning_text'] .= $this->languagemap->getI18NString('login.error.no_match_2');
+                $this->load->view('common/forbidden', $data);
 
-        if ($userCount == 0) {
-            switch($authFieldToMatch) {
-                case 'uc_uid':
-                    $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.uid_no_match_1')
-                        . ' (' . $institutionId . ') ';
-                    break;
-                case 'email':
-                default:
-                    $data['forbidden_warning_text']  = $this->languagemap->getI18NString('login.error.email_no_match_1')
-                        . ' (' . $emailAddress . ') ';
-            }
-            $data['forbidden_warning_text'] .= $this->languagemap->getI18NString('login.error.no_match_2');
-            $this->load->view('common/forbidden', $data);
-
-        } else if ($userCount > 1) {
-            $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match');
-            $data['forbidden_warning_text'] .= ' (';
-            $data['forbidden_warning_text'] .= ($authFieldToMatch == 'uc_uid') ? $institutionId : $emailAddress;
-            $data['forbidden_warning_text'] .= ') [' . $userCount . ']';
-            $this->load->view('common/forbidden', $data);
-        } else {
-            $user = $authenticatedUsers[0];
-            if ($this->user->userAccountIsDisabled($user['user_id'])) {
-                $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
+            } else if ($userCount > 1) {
+                $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.multiple_match');
+                $data['forbidden_warning_text'] .= ' (' . $identifier . ') [' . $userCount . ']';
                 $this->load->view('common/forbidden', $data);
             } else {
-                $this->_storeUserInSession($user);
-                if ($this->session->userdata('last_url')) {
-                    $this->output->set_header("Location: " . $this->session->userdata('last_url'));
-                    $this->session->unset_userdata('last_url');
+                $user = $authenticatedUsers[0];
+                if ($this->user->userAccountIsDisabled($user['user_id'])) {
+                    $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.disabled_account');
+                    $this->load->view('common/forbidden', $data);
                 } else {
-                    $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
+                    $this->_storeUserInSession($user);
+                    if ($this->session->userdata('last_url')) {
+                        $this->output->set_header("Location: " . $this->session->userdata('last_url'));
+                        $this->session->unset_userdata('last_url');
+                    } else {
+                        $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
+                    }
                 }
             }
+        } else {
+          //no id in shib session
+          $data['forbidden_warning_text'] = $this->languagemap->getI18NString('login.error.missing_id');
+          $this->load->view('common/forbidden', $data);
         }
-
     }
 
     /**
