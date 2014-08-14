@@ -597,59 +597,6 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     scratchElement = ilios.cm.session.appendMeSHBlock(parentElement, containerNumber, i18nStr);
     ilios.cm.uiElementsToHideOnLockedView.push(scratchElement);
 
-    //Learning Material
-    /*rowElement = ilios.dom.createEntityContainerInputRow();
-    i18nStr = ilios_i18nVendor.getI18NString('course_management.learning_materials.title');
-
-    //label column
-    subContainer = document.createElement('div');
-    subContainer.setAttribute('class', 'collapsed_widget');
-    subContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialExpandWidget(containerNumber));
-    Event.addListener(subContainer, 'click', function () {
-        ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, this, true);
-    });
-    labelCol = ilios.dom.createLabelCol(rowElement, subContainer);
-
-    text = document.createTextNode(i18nStr);
-    scratchLabel = document.createElement('label');
-    scratchLabel.appendChild(text);
-    count = document.createElement('span');
-    count.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialCount(containerNumber));
-    scratchLabel.appendChild(count);
-    labelCol.appendChild(scratchLabel);
-
-    //data column
-    subContainer = document.createElement('div');
-    subContainer.setAttribute('class', 'scroll_list');
-    subContainer.setAttribute('style', 'display: none;');
-    subSubContainer = document.createElement('ul');
-    subSubContainer.setAttribute('class', 'learning_material_list');
-    subSubContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialList(containerNumber));
-    subContainer.appendChild(subSubContainer);
-    dataCol = ilios.dom.createDataCol(rowElement, subContainer);
-
-    //action column
-    i18nStr = ilios_i18nVendor.getI18NString('general.terms.add');
-    scratchInput = new Element(document.createElement('a'), {
-            href: '',
-            id : ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber)
-        });
-    scratchInput.get('element').setAttribute('onclick', 'return false;');
-    scratchInput.get('element').setAttribute('style', 'display: none;'); // not displayed by default
-    scratchInput.addClass('tiny radius button');
-    scratchInput.addListener('click', function (e) {
-        ilios.ui.onIliosEvent.fire({
-            action: 'alm_dialog_open',
-            container_number: containerNumber
-        });
-    }, null, this);
-    text = document.createTextNode(i18nStr);
-    scratchInput.appendChild(text);
-    ilios.cm.uiElementsToHideOnLockedView.push(scratchInput);
-    actionCol = ilios.dom.createActionCol(rowElement, scratchInput.get('element'));
-
-    parentElement.appendChild(rowElement);*/
-
     //Learning Materials
     rowElement = ilios.dom.createEntityContainerInputRow();
 
