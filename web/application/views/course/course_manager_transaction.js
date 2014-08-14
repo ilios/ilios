@@ -1287,9 +1287,6 @@ ilios.cm.transaction.associateLearningMaterial = function (learningMaterialId, d
                     return;
                 }
 
-                //TODO: JH - need to comment/document better...
-
-                //JH - need to drop the populateLearningMaterialList and
                 //work with newly-set up div elements...
                 containerNumber = ilios.cm.lm.learningMaterialDialog.cnumber;
 
@@ -1451,8 +1448,9 @@ ilios.cm.transaction.handleAddLearningMaterialUploadClick = function (uploadButt
                     learningMaterialModel.addMeSHItem(meshItems[key]);
                 }
 
+                //add the learning material to the model
                 model.addLearningMaterial(learningMaterialModel);
-                //TODO: JH - add comments to change...
+                //add the newly built-out LM to the DOM on the course page
                 ilios.cm.lm.addNewLearningMaterialToDom(containerNumber, learningMaterialModel.dbId);
                 ilios.cm.lm.learningMaterialLightboxIsDirty = false;
 
@@ -1682,7 +1680,7 @@ ilios.cm.transaction.updateLearningMaterial = function (cnumber, lmnumber) {
     paramString += '&is_course=' + isCourse;
     paramString += '&course_id=' + courseOrSessionDbId;
     paramString += '&container_number=' + cnumber;
-    paramString += '&lm_number=' + lmnumber;
+    paramString += '&lmnumber=' + lmnumber;
 
     YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
 

@@ -678,7 +678,7 @@ class Learning_Materials extends Ilios_Web_Controller
         $courseOrSessionId = $this->input->post('course_id');
         $isCourse = ($this->input->post('is_course') == 'true') ? true : false;
         $containerNumber = $this->input->post('container_number');
-        $lmNumber = $this->input->post('lm_number');
+        $lmNumber = $this->input->post('lmnumber');
 
         try {
             $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
