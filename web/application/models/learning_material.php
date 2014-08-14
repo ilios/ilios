@@ -1021,7 +1021,11 @@ EOL;
         //set to null upon being removed
         $meshTermsFinal = array();
         foreach ($meshTerms as $index => $value) {
-            if (!empty($value) && !in_array($value, $meshTermsFinal)) $meshTermsFinal[] = $value;
+            //if the value of each MeSHTerm is not empty and does not already exist in the 'meshTermsFinal' array
+            if (!empty($value) && !in_array($value, $meshTermsFinal)){
+                //add it to the meshTermsFinal array for final processing
+                $meshTermsFinal[] = $value;
+            }
         }
 
         //now all mesh terms should have a value and there should be no duplicates, so process the
