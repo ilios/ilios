@@ -1401,7 +1401,7 @@ ilios.cm.setDisplayAsLocked = function () {
     element = new Element(document.getElementById('mesh_search_link'));
     element.setStyle('display', 'none');
 
-    element = new Element(document.getElementById('course_learning_material_search_link'));
+    element = new Element(document.getElementById('add_learning_material_link'));
     element.setStyle('display', 'none');
 
     element = new Element(document.getElementById('add_objective_link'));
