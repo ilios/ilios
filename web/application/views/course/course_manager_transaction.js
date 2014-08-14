@@ -128,11 +128,6 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
     modelArray = ilios.cm.currentCourseModel.getMeSHItems();
     paramString += '&mesh_term='
                         + encodeURIComponent(stringify(modelArray, replacer));
-
-    // TODO: JH - remove after testing the decoupling for issue #205
-    /*modelArray = ilios.cm.currentCourseModel.getLearningMaterials();
-    paramString += '&learning_materials='
-                        + encodeURIComponent(stringify(modelArray, replacer));*/
     modelArray = ilios.cm.currentCourseModel.getObjectives();
     paramString += '&objective='
                         + encodeURIComponent(stringify(modelArray, replacer));
