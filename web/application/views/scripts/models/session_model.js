@@ -668,8 +668,7 @@ SessionModel.prototype.containsLearningMaterial = function (learningMaterialMode
 };
 
 SessionModel.prototype.getNextLearningMaterialNumber = function () {
-    this.learningMaterialCount += 1;
-    return this.learningMaterialCount;
+    return this.learningMaterials.length;
 };
 
 SessionModel.prototype.getNextObjectiveNumber = function () {
@@ -724,13 +723,6 @@ SessionModel.prototype.removeObjectiveForContainer = function (containerNumber) 
         delete this.objectives[containerNumber];
 
         this.setDirtyAndNotify();
-    }
-};
-
-SessionModel.prototype.removeLearningMaterialFromContainer = function (lmIndex) {
-
-    if (this.learningMaterials[lmIndex]) {
-        this.learningMaterials.splice(lmIndex, 1);
     }
 };
 
