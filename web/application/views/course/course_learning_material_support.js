@@ -948,7 +948,7 @@ ilios.cm.lm.buildLearningMaterialItem = function (learningMaterialItemModel, con
     linkedTitleElement.setAttribute('href','');
     linkedTitleElement.setAttribute('onclick','return false;');
     linkedTitleElement.setAttribute('lmnumber',learningMaterialItemId);
-    linkedTitleElement.innerText = learningMaterialItemTitle;
+    linkedTitleElement.innerHTML = learningMaterialItemTitle;
 
     //build/set the download link
     var downloadURL = learningMaterialsControllerURL
@@ -1333,5 +1333,5 @@ ilios.cm.lm.updateLearningMaterialMeSHCount = function (containerNumber, lmNumbe
     //set the 'Add MeSH (x)' button text, including the meshTotal
     var idString = ilios.cm.lm.generateIdStringForLearningMaterialMeSHLink(containerNumber, lmNumber);
     lmMeshCountButton = document.getElementById(idString);
-    lmMeshCountButton.innerText = 'Add MeSH (' + meshTotal + ')';
+    lmMeshCountButton.innerHTML = 'Add MeSH (' + meshTotal + ')';
 };
