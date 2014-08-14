@@ -754,13 +754,6 @@ CourseModel.prototype.removeObjectiveForContainer = function (objectiveNumber) {
     // }
 };
 
-CourseModel.prototype.removeLearningMaterialFromContainer = function (lmIndex) {
-
-    if (this.learningMaterials[lmIndex]) {
-        this.learningMaterials.splice(lmIndex, 1);
-    }
-};
-
 /**
  * @param competencyArray an array (map) of CompetencyModel instances keyed by their title; the
  *                          object is cloned and so may be disposed of after this method returns.
