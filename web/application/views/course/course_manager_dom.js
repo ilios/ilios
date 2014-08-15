@@ -402,7 +402,7 @@ ilios.cm.registerCourseUIListeners = function () {
         ilios.cm.currentCourseModel.setClerkshipTypeId(this.options[this.selectedIndex].value);
     });
 
-    element = document.getElementById('-1_learning_material_expand_widget');
+    element = document.getElementById('-1_learning_materials_container_expand_widget');
     Event.addListener(element, 'click', function () {
         ilios.cm.lm.setLearningMaterialDivVisibility(-1, this, true);
     });
@@ -772,7 +772,7 @@ ilios.cm.populateCourseAndSetEnable = function (title, startDate, endDate, yearS
 
     ilios.cm.currentCourseModel.addStateChangeListener(ilios.cm.dirtyStateListener, null);
 
-    ilios.cm.lm.populateLearningMaterialList(-1);
+    ilios.cm.lm.populateLearningMaterialsContainer(-1);
 
     ilios.cm.refreshCohortData();
 
@@ -1398,7 +1398,7 @@ ilios.cm.setDisplayAsLocked = function () {
     element = new Element(document.getElementById('mesh_search_link'));
     element.setStyle('display', 'none');
 
-    element = new Element(document.getElementById('course_learning_material_search_link'));
+    element = new Element(document.getElementById('add_learning_material_link'));
     element.setStyle('display', 'none');
 
     element = new Element(document.getElementById('add_objective_link'));
@@ -1496,7 +1496,7 @@ ilios.common.picker.mesh.handleMeSHPickerSave = function (dialogPanel) {
             else {
                 model = ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
             }
-            model.setDirtyAndNotify();
+            ilios.common.lm.learningMaterialsDetailsModel.setDirty();
         }
     }
 
@@ -1698,7 +1698,7 @@ ilios.cm.setEnabledStateForCourseContainerUI = function (enabled) {
     element = document.getElementById('course_level_selector');
     ilios.dom.setElementEnabled(element, enabled);
 
-    element = document.getElementById('course_learning_material_search_link');
+    element = document.getElementById('add_learning_material_link');
     ilios.dom.setEnableForAElement(element, enabled);
 
     element = document.getElementById('external_course_id');

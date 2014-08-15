@@ -128,9 +128,6 @@ ilios.cm.transaction.performCourseSave = function (shouldPublish, publishAsTBD) 
     modelArray = ilios.cm.currentCourseModel.getMeSHItems();
     paramString += '&mesh_term='
                         + encodeURIComponent(stringify(modelArray, replacer));
-    modelArray = ilios.cm.currentCourseModel.getLearningMaterials();
-    paramString += '&learning_materials='
-                        + encodeURIComponent(stringify(modelArray, replacer));
     modelArray = ilios.cm.currentCourseModel.getObjectives();
     paramString += '&objective='
                         + encodeURIComponent(stringify(modelArray, replacer));
@@ -1290,7 +1287,16 @@ ilios.cm.transaction.associateLearningMaterial = function (learningMaterialId, d
                     return;
                 }
 
-                ilios.cm.lm.populateLearningMaterialList(containerNumber);
+                //work with newly-set up div elements...
+                containerNumber = ilios.cm.lm.learningMaterialDialog.cnumber;
+
+                isCourse = (containerNumber == -1);
+                model = isCourse ? ilios.cm.currentCourseModel
+                    : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
+
+                learningMaterialId = parsedObject.learning_material_id;
+                //add the learning material to new div-based list in Course/session...
+                ilios.cm.lm.addNewLearningMaterialToDom(containerNumber, learningMaterialId);
             },
 
             failure: function (resultObject) {
@@ -1340,10 +1346,6 @@ ilios.cm.transaction.disassociateLearningMaterial = function (learningMaterialId
                                  : ilios.cm.currentCourseModel.getSessionForContainer(containerNumber);
 
                 learningMaterialId = parsedObject.learning_material_id;
-
-                model.removeLearningMaterialWithId(learningMaterialId);
-
-                ilios.cm.lm.updateLearningMaterialCount(containerNumber, model);
             },
 
             failure: function (resultObject) {
@@ -1446,11 +1448,10 @@ ilios.cm.transaction.handleAddLearningMaterialUploadClick = function (uploadButt
                     learningMaterialModel.addMeSHItem(meshItems[key]);
                 }
 
-                // TODO these three break closure
+                //add the learning material to the model
                 model.addLearningMaterial(learningMaterialModel);
-                ilios.cm.lm.populateLearningMaterialList(containerNumber);
-                ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, null, false);
-
+                //add the newly built-out LM to the DOM on the course page
+                ilios.cm.lm.addNewLearningMaterialToDom(containerNumber, learningMaterialModel.dbId);
                 ilios.cm.lm.learningMaterialLightboxIsDirty = false;
 
                 ilios.cm.lm.almLearningMaterialModel = null;
@@ -1611,3 +1612,77 @@ ilios.cm.transaction.addCourseFromModalPanelResponse = function (type, args) {
 };
 
 ilios.ui.onIliosEvent.subscribe(ilios.cm.transaction.addCourseFromModalPanelResponse);
+
+
+/*
+ * POSTS learning material updates to controller for update and then updates
+ * the learning materials 'Add MeSH (x)' total with the values returned
+ *
+ * @param {int} cnumber the numeric id of the container in which the LM resides
+ * @param {int} lmnumber the dbId of the learning material that is being updated
+ */
+
+ilios.cm.transaction.updateLearningMaterial = function (cnumber, lmnumber) {
+    var url = learningMaterialsControllerURL + 'updateLearningMaterial';
+    var method = "POST",
+            paramString = '',
+            replacer = ilios.utilities.yahooJSONStringifyStateChangeListenerArgumentsReplacer,
+            stringify = ilios.utilities.stringifyObjectAsArray;
+
+    var ajaxCallback = {
+        success: function (resultObject) {
+            var parsedObject = null;
+
+            try {
+                parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
+            }
+            catch (e) {
+                ilios.global.defaultAJAXFailureHandler(null, e);
+
+                return;
+            }
+
+            // MAY RETURN THIS BLOCK
+            if (parsedObject.error != null) {
+                var msg
+                    = ilios_i18nVendor.getI18NString('learning_material.error.learning_material_update');
+
+                ilios.alert.alert(msg + ": " + parsedObject.error);
+
+                return;
+            }
+
+            //get the container/lm number to easily update the 'Add Mesh' button total
+            var lmnumber = parsedObject.lmnumber;
+            var cnumber = parsedObject.cnumber;
+            var meshTotal = parsedObject.meshTotal;
+
+            //update the mesh count on the course page
+            ilios.cm.lm.updateLearningMaterialMeSHCount(cnumber, lmnumber, meshTotal);
+       },
+
+        failure: function (resultObject) {
+            ilios.global.defaultAJAXFailureHandler(resultObject);
+        }};
+
+    //get the necessary values for the current course/session
+    var isCourse = (cnumber == -1);
+    var model = isCourse ? ilios.cm.currentCourseModel
+        : ilios.cm.currentCourseModel.getSessionForContainer(cnumber);
+    var courseOrSessionDbId = model.dbId;
+
+
+    //set up the POST parameters to send to the controller...
+    //get the lm's and urlencode them to send over
+    var modelArray = model.getLearningMaterials();
+    paramString += 'learning_materials='
+        + encodeURIComponent(stringify(modelArray, replacer));
+    paramString += '&is_course=' + isCourse;
+    paramString += '&course_id=' + courseOrSessionDbId;
+    paramString += '&container_number=' + cnumber;
+    paramString += '&lmnumber=' + lmnumber;
+
+    YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
+
+    return false;
+};

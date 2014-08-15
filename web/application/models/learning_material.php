@@ -934,4 +934,153 @@ EOL;
                 'session_learning_material_id', $sessionLearningMaterialId,
                 'mesh_descriptor_uid', $meshTerms, $associatedMeshTermIds, 'dbId', $auditAtoms);
     }
+
+    /**
+     * Initiates the update of a given learning material and its associated data, such as associated mesh terms,
+     * notes, etc.
+     *
+     * @param int $courseOrSessionId the dbId of the respective course or session
+     * @param int $lmDbId the dbId of the learning material itself
+     * @param bool $isCourse true if it's a course, false if it's a session
+     * @param array $learningMaterials all the current learning materials for the respective course or session
+     * @param array $auditAtoms
+     */
+
+    public function updateLearningMaterial ($courseOrSessionId, $lmDbId, $isCourse,
+                                                    array $learningMaterials, array &$auditAtoms)
+    {
+        //initialize the return value
+        $rhett = null;
+
+        //add to the auditAtoms array
+        $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseOrSessionId, 'learning_material_id', $this->databaseTableName,
+            Ilios_Model_AuditUtils::UPDATE_EVENT_TYPE);
+
+        //loop through the learning materials to get the one we need
+        foreach ($learningMaterials as $learningMaterial) {
+            //Because we're receiving ALL of the course or session Learning Materials in the array, we only want to
+            //update the one that has changed. Compare the $_POST['lmDbId'] with the dbId in the array and, if it
+            //matches, send it to the update process...
+            if($learningMaterial['dbId'] == $lmDbId) {
+                //when we find the right one, process its attributes and meshTerms
+                $rhett = $this->learningMaterial->_processLearningMaterialUpdate($learningMaterial,
+                                                                                   $courseOrSessionId,
+                                                                                   $isCourse, $auditAtoms);
+            }
+        }
+
+        return $rhett;
+    }
+
+    /**
+     * Finalizes the updates of a given learning material for a course/session in the database.
+     *
+     * @param array $learningMaterial the single learning material that we're updating
+     * @param int $courseOrSessionId the id of the course or session we're dealing with
+     * @param bool $isCourse true if it is a course, false if it is a session
+     * @param array $auditAtoms - not sure we need this here, but maybe...
+     */
+    protected function _processLearningMaterialUpdate ($learningMaterial, $courseOrSessionId, $isCourse,
+                                                                  &$auditAtoms)
+    {
+        //initialize the return array
+        $rhett = array();
+
+        //prefix relevant table/column names with either 'course' or 'session' where appropriate
+        $db_prefix = ($isCourse) ? 'course' : 'session';
+
+        //get the dbId of the learning material
+        $lmDbId = $learningMaterial['dbId'];
+
+        //Then handle the MeSHTerms
+        //get the unique course/session_learning_material_id that identifies the association between lmId and
+        //a course or session id
+        $courseOrSessionLmId = $this->_getCourseOrSessionLearningMaterialId($lmDbId, $courseOrSessionId, $isCourse);
+
+        //set up the row for data update
+        $row = array();
+        $row['notes'] = $learningMaterial['notes'];
+        $row['required'] = $learningMaterial['required'] ? 1 : 0;
+        $row['notes_are_public'] = $learningMaterial['notesArePubliclyViewable'] ? 1 : 0;
+
+        //update everything but the MeSHTerms
+        $this->db->where('learning_material_id', $lmDbId);
+        $this->db->where($db_prefix . '_id', $courseOrSessionId);
+        $this->db->update($db_prefix . '_learning_material', $row);
+
+        //then handle the mesh terms -- separated out in order to work from mesh picker dialog as well.
+        $meshTerms = $learningMaterial['meshTerms'];
+
+        //first, to 'update' the MeSH terms without going through a tedious comparison, let's just empty all existing mesh
+        //term associations, and then re-add all of them again on the next step -- this ensures no duplication
+        //and that nullified/removed items are gone
+        $this->db->where($db_prefix . '_learning_material_id', $courseOrSessionLmId);
+        $this->db->delete($db_prefix . '_learning_material_x_mesh');
+
+        //clean up the meshTerms array, make sure to filter out duplicate values and ones that have been
+        //set to null upon being removed
+        $meshTermsFinal = array();
+        foreach ($meshTerms as $index => $value) {
+            //if the value of each MeSHTerm is not empty and does not already exist in the 'meshTermsFinal' array
+            if (!empty($value) && !in_array($value, $meshTermsFinal)){
+                //add it to the meshTermsFinal array for final processing
+                $meshTermsFinal[] = $value;
+            }
+        }
+
+        //now all mesh terms should have a value and there should be no duplicates, so process the
+        //the ones that still exist
+        if (! empty($meshTermsFinal)) {
+
+            $newRow = array();
+            $newRow[$db_prefix . '_learning_material_id'] = $courseOrSessionLmId;
+
+            foreach ($meshTermsFinal as $meshTerm) {
+                $newRow['mesh_descriptor_uid'] = $meshTerm['dbId'];
+                $this->db->insert($db_prefix . '_learning_material_x_mesh', $newRow);
+
+                //audit the addition of new terms
+                if ($this->transactionAtomFailed()) {
+                    return false;
+                }
+
+                $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($courseOrSessionLmId, $db_prefix . '_learning_material_id',
+                    $db_prefix . '_learning_material_x_mesh', Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+            }
+
+            //return the total number of meshterms
+            $rhett['meshTotal'] = count($meshTermsFinal);
+        }
+        else {
+
+            $rhett['meshTotal'] = 0;
+        }
+
+        return $rhett;
+    }
+
+    /**
+     * retrieves the learning material id from the course/session_learning_material table to
+     * reference for MeSHTerm insertions and updates
+     *
+     * @param int $lmDbId the dbId of the learning material itself
+     * @param int $courseOrSessionId the course or session id
+     * @param bool $isCourse true if it's a course, false if it's a session
+     * @return int|NULL the unique id of the course/session lm association row
+     */
+    protected function _getCourseOrSessionLearningMaterialId ($lmDbId, $courseOrSessionId, $isCourse)
+    {
+        $rhett = null;
+
+        //prefix relevant table/column names with either 'course' or 'session' where appropriate
+        $db_prefix = ($isCourse) ? 'course' : 'session';
+
+        $this->db->where($db_prefix . '_id', $courseOrSessionId);
+        $this->db->where('learning_material_id', $lmDbId);
+        $queryResults = $this->db->get($db_prefix . '_learning_material');
+        $rhett = $queryResults->first_row()->{$db_prefix . '_learning_material_id'};
+
+        return $rhett;
+    }
+
 }

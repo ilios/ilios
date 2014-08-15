@@ -17,7 +17,8 @@ function SessionModel (dbObject) {
 
     AbstractJavaScriptModelForm.apply(this, arguments);
 
-    this.learningMaterials = new Array();
+    this.learningMaterials = [];
+    this.learningMaterialCount = 0;
 
     this.description = '';
 
@@ -664,6 +665,10 @@ SessionModel.prototype.getLearningMaterialForId = function (learningMaterialId) 
 
 SessionModel.prototype.containsLearningMaterial = function (learningMaterialModel) {
     return (this.getLearningMaterialForId(learningMaterialModel.getDBId()) != null);
+};
+
+SessionModel.prototype.getNextLearningMaterialNumber = function () {
+    return this.learningMaterials.length;
 };
 
 SessionModel.prototype.getNextObjectiveNumber = function () {

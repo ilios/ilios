@@ -597,58 +597,52 @@ ilios.cm.session.sessionContentGenerator = function (parentElement, containerNum
     scratchElement = ilios.cm.session.appendMeSHBlock(parentElement, containerNumber, i18nStr);
     ilios.cm.uiElementsToHideOnLockedView.push(scratchElement);
 
-    //Learning Material
+    //Learning Materials
     rowElement = ilios.dom.createEntityContainerInputRow();
-    i18nStr = ilios_i18nVendor.getI18NString('course_management.learning_materials.title');
 
     //label column
     subContainer = document.createElement('div');
     subContainer.setAttribute('class', 'collapsed_widget');
-    subContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialExpandWidget(containerNumber));
+    subContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialsContainerExpandWidget(containerNumber));
     Event.addListener(subContainer, 'click', function () {
-        ilios.cm.lm.setLearningMaterialDivVisibility(containerNumber, this, true);
+        ilios.cm.lm.setlearningMaterialDivVisibility(containerNumber, this, true);
     });
     labelCol = ilios.dom.createLabelCol(rowElement, subContainer);
 
-    text = document.createTextNode(i18nStr);
     scratchLabel = document.createElement('label');
-    scratchLabel.appendChild(text);
-    count = document.createElement('span');
-    count.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialCount(containerNumber));
-    scratchLabel.appendChild(count);
+    scratchLabel.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialsContainerLabel(containerNumber));
+    scratchLabel.innerHTML = ilios_i18nVendor.getI18NString('general.terms.learning_materials') + ' (0)';
     labelCol.appendChild(scratchLabel);
 
     //data column
-    subContainer = document.createElement('div');
-    subContainer.setAttribute('class', 'scroll_list');
-    subContainer.setAttribute('style', 'display: none;');
-    subSubContainer = document.createElement('ul');
-    subSubContainer.setAttribute('class', 'learning_material_list');
-    subSubContainer.setAttribute('id', ilios.cm.lm.generateIdStringForLearningMaterialList(containerNumber));
-    subContainer.appendChild(subSubContainer);
-    dataCol = ilios.dom.createDataCol(rowElement, subContainer);
+    scratchContainer = document.createElement('div');
+    scratchContainer.setAttribute('id',
+        ilios.cm.lm.generateIdStringForLearningMaterialsContainer(containerNumber));
+    scratchContainer.setAttribute('style', 'display: none;');
+    dataCol = ilios.dom.createDataCol(rowElement, scratchContainer);
 
     //action column
-    i18nStr = ilios_i18nVendor.getI18NString('general.terms.add');
-    scratchInput = new Element(document.createElement('a'), {
-            href: '',
-            id : ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber)
-        });
-    scratchInput.get('element').setAttribute('onclick', 'return false;');
-    scratchInput.get('element').setAttribute('style', 'display: none;'); // not displayed by default
+    i18nStr = ilios_i18nVendor.getI18NString('general.phrases.add_learning_material_link');
+    scratchInput = new Element(document.createElement('a'), {href: ''});
     scratchInput.addClass('tiny radius button');
+    scratchInput.get('element').setAttribute('id', containerNumber + '_add_learning_material_button');
+    scratchInput.get('element').setAttribute('onclick', 'return false;');
     scratchInput.addListener('click', function (e) {
-        ilios.ui.onIliosEvent.fire({
-            action: 'alm_dialog_open',
-            container_number: containerNumber
-        });
+        ilios.cm.lm.addNewLearningMaterial(containerNumber);
     }, null, this);
     text = document.createTextNode(i18nStr);
     scratchInput.appendChild(text);
     ilios.cm.uiElementsToHideOnLockedView.push(scratchInput);
-    actionCol = ilios.dom.createActionCol(rowElement, scratchInput.get('element'));
+
+    ilios.dom.createActionCol(rowElement, scratchInput.get('element'));
 
     parentElement.appendChild(rowElement);
+
+
+
+
+
+
 
     //Objectives
     rowElement = ilios.dom.createEntityContainerInputRow();
@@ -853,8 +847,7 @@ ilios.cm.session.buildAndPopulateSession = function (containerNumber, model, ses
     }
 
     ilios.cm.session.updatePublishButtonForSession(sessionModel, containerNumber);
-
-    ilios.cm.lm.populateLearningMaterialList(containerNumber);
+    ilios.cm.lm.populateLearningMaterialsContainer(containerNumber);
     // only display the learning materials search link if the corresponding session model has been saved yet
     if (-1 !== sessionModel.getDBId()) { // check db record id
         element = document.getElementById(ilios.cm.lm.generateIdStringForLearningMaterialSearchLink(containerNumber));

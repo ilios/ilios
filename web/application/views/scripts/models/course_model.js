@@ -42,6 +42,7 @@ function CourseModel (dbObject) {
     this.sessions = [];
 
     this.learningMaterials = [];
+    this.learningMaterialCount = 0;
 
     this.learners = [];
 
@@ -477,6 +478,11 @@ CourseModel.prototype.containsLearningMaterial = function (learningMaterialModel
     return (this.getLearningMaterialForId(learningMaterialModel.getDBId()) != null);
 };
 
+//Returns the next learning material number
+CourseModel.prototype.getNextLearningMaterialNumber = function () {
+    return this.learningMaterials.length;
+};
+
 CourseModel.prototype.removeLearningMaterial = function (learningMaterialModel) {
     this.removeLearningMaterialWithId(learningMaterialModel.getDBId());
 };
@@ -732,11 +738,11 @@ CourseModel.prototype.addObjectiveForContainer = function (objectiveModel, conta
     this.setDirtyAndNotify();
 };
 
-CourseModel.prototype.removeObjectiveForContainer = function (containerNumber) {
-    var lovelyJavascript = (containerNumber in this.objectives);
+CourseModel.prototype.removeObjectiveForContainer = function (objectiveNumber) {
+    var lovelyJavascript = (objectiveNumber in this.objectives);
 
     if (lovelyJavascript) {
-        delete this.objectives[containerNumber];
+        delete this.objectives[objectiveNumber];
 
         this.setDirtyAndNotify();
     }

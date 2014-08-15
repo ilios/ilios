@@ -642,4 +642,93 @@ class Learning_Materials extends Ilios_Web_Controller
 
         return $rhett;
     }
+
+    /**
+     * XHR handler for updating learning materials and all their associations and mesh terms
+     *
+     * Expected POST params:
+     *      course_id
+     *      is_course
+     *      lmDbId
+     *      learning_materials
+     *
+     * Prints a JSON'd array with key 'error' or the following keys
+     *
+     * 'publish_event_id' : the unique id of the publish event
+     * 'cnumber' : the container number that contains the newly-saved learning material for updating the DOM
+     * 'lmnumber': the learning material dbID
+     * 'meshTotal' : the total number of mesh terms associated with the learning material
+     */
+
+    public function updateLearningMaterial ()
+    {
+        $rhett = array();
+
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse();
+            return;
+        }
+
+        //get the userId for the audit trail
+        $userId = $this->session->userdata('uid');
+
+        // input processing
+        //get the id of the course or session
+        $courseOrSessionId = $this->input->post('course_id');
+        $isCourse = ($this->input->post('is_course') == 'true') ? true : false;
+        $containerNumber = $this->input->post('container_number');
+        $lmNumber = $this->input->post('lmnumber');
+
+        try {
+            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
+        } catch (Ilios_Exception $e) {
+            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.learning_materials');
+            return;
+        }
+
+        $failedTransaction = true;
+        $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
+        do {
+            $auditAtoms = array();
+
+            unset($rhett['error']);
+            $publishId = -1;
+
+            $this->learningMaterial->startTransaction();
+
+            $results = $this->learningMaterial->updateLearningMaterial($courseOrSessionId, $lmNumber, $isCourse,
+                $learningMaterials, $auditAtoms);
+
+            if (isset($results['error']) || $this->learningMaterial->transactionAtomFailed()) {
+                $rhett['error'] = $results['error'];
+                Ilios_Database_TransactionHelper::failTransaction($transactionRetryCount, $failedTransaction, $this->learningMaterial);
+            } else {
+                $rhett['publish_event_id'] = $publishId;
+
+                //send back the container number and lm number for easily updating the mesh count
+                $rhett['cnumber'] = $containerNumber;
+                $rhett['lmnumber'] = $lmNumber;
+                //get the total mesh count from the results
+                $rhett['meshTotal'] = $results['meshTotal'];
+
+                $failedTransaction = false;
+
+                $this->learningMaterial->commitTransaction();
+
+                // save audit trail
+                $this->auditAtom->startTransaction();
+                $success = $this->auditAtom->saveAuditEvent($auditAtoms, $userId);
+                if ($this->auditAtom->transactionAtomFailed() || ! $success) {
+                    $this->auditAtom->rollbackTransaction();
+                } else {
+                    $this->auditAtom->commitTransaction();
+                }
+            }
+        } while ($failedTransaction && ($transactionRetryCount > 0));
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
+
 }

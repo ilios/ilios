@@ -722,12 +722,6 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
         try {
-            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
-        } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.learning_materials');
-            return;
-        }
-        try {
             $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
         } catch (Ilios_Exception $e) {
             $this->_printErrorXhrResponse('course_management.error.course_save.input_validation.objectives');
@@ -756,7 +750,7 @@ class Course_Management extends Ilios_Web_Controller
             $results = $this->course->saveCourseWithId($courseId, $title,
                 $externalId, $startDate, $endDate, $courseLevel, $cohorts,
                 $disciplines, $directors, $meshTerms, $objectives,
-                $learningMaterials, $publishId, $publishAsTBD, $clerkshipTypeId,
+                $publishId, $publishAsTBD, $clerkshipTypeId,
                 $auditAtoms);
 
             if (isset($results['error']) || $this->course->transactionAtomFailed()) {
@@ -944,12 +938,6 @@ class Course_Management extends Ilios_Web_Controller
             return;
         }
         try {
-            $learningMaterials = Ilios_Json::deserializeJsonArray($this->input->post('learning_materials'), true);
-        } catch (Ilios_Exception $e) {
-            $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.learning_materials');
-            return;
-        }
-        try {
             $objectives = Ilios_Json::deserializeJsonArray($this->input->post('objective'), true);
         } catch (Ilios_Exception $e) {
             $this->_printErrorXhrResponse('course_management.error.session_save.input_validation.objectives');
@@ -987,11 +975,7 @@ class Course_Management extends Ilios_Web_Controller
 
         $description = Ilios_CharEncoding::utf8UrlDecode($this->input->post('description'));
 
-        $learningMaterials = $this->_formatSessionLearningMaterialsFromInput($learningMaterials);
-
-        //
         // input processing
-        //
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
         do {
@@ -1047,8 +1031,7 @@ class Course_Management extends Ilios_Web_Controller
                                                                $disciplines, $meshTerms,
                                                                $objectives, $supplemental,
                                                                $attireRequired, $equipmentRequired,
-                                                               $publishId, $description,
-                                                               $learningMaterials, $ilmId,
+                                                               $publishId, $description, $ilmId,
                                                                $auditAtoms);
                 }
                 else {
@@ -1057,8 +1040,7 @@ class Course_Management extends Ilios_Web_Controller
                                                                   $meshTerms, $objectives,
                                                                   $supplemental, $attireRequired,
                                                                   $equipmentRequired, $publishId,
-                                                                  $publishAsTBD, $description,
-                                                                  $learningMaterials, $ilmId,
+                                                                  $publishAsTBD, $description, $ilmId,
                                                                   $auditAtoms);
                 }
 
