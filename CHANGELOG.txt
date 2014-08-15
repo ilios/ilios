@@ -1,5 +1,17 @@
 ------- VERSION CHANGES --------
 
+Version 2.4.6
+
+Bug Fixes:
+
+#657 An ugly Error msg is returned when no Email address is contained in shibboleth
+
+Code Quality and Development:
+
+#205 Decouple persisting learning materials from sessions/courses
+
+---
+
 Version 2.4.5
 
 Bug Fixes:
