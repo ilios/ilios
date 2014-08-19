@@ -794,6 +794,8 @@ SessionModel.prototype.clone = function () {
 
     rhett.meshTerms = this.meshTerms.concat();
 
+    rhett.learningMaterials = this.learningMaterials;
+
     rhett.objectiveCount = this.objectiveCount;
     rhett.objectives = this.objectives.slice(0);
 
