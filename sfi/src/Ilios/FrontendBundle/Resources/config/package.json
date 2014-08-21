@@ -1,0 +1,11 @@
+{
+  "name": "iliosfrontend",
+  "private": true,
+  "devDependencies": {
+    "karma-qunit": "*",
+    "karma-phantomjs-launcher": "*",
+    "karma-ember-preprocessor":  "*",
+    "karma": "*",
+    "karma-sauce-launcher": "*"
+  }
+}

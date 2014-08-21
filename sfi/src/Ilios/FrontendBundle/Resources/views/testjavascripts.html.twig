@@ -1,23 +1,25 @@
 {# /Ilios/FrontendBundle/Resources/views/javascripts.html.twig #}
-{% block javascripts %}
+{% block testjavascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script>
         var assetsBaseDir = "{{ asset('bundles/iliosfrontend') }}";
     </script>
-    {% javascripts output='common.js'
+    {% javascripts output='commontest.js'
         '@jquery_js'
         '@handlebars_js'
         '@ember_js'
         '@ember_data_js'
         '@html5shiv_js'
+        '@qunit_js'
+        '@IliosFrontendBundle/Resources/public/components/ember-qunit/dist/globals/main.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    {% javascripts filter='?jsmin' output='ilios.js'
+    {% javascripts output='iliostestapp.js'
+        '@IliosFrontendBundle/Resources/public/tests/helpers/qunit-start.js'
         '@IliosFrontendBundle/Resources/public/javascripts/*.js'
-        '@IliosFrontendBundle/Resources/public/app/ilios.js'
         '@IliosFrontendBundle/Resources/public/app/router.js'
         '@IliosFrontendBundle/Resources/public/app/controllers/*.js'
         '@IliosFrontendBundle/Resources/public/app/routes/*.js'
@@ -33,5 +35,14 @@
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+
+    {% javascripts output='tests.js'
+      '@IliosFrontendBundle/Resources/public/tests/controllers/*.js'
+      '@IliosFrontendBundle/Resources/public/tests/models/*.js'
+      '@IliosFrontendBundle/Resources/public/tests/routes/*.js'
+      '@IliosFrontendBundle/Resources/public/tests/acceptance/*.js'
+      %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 
 {% endblock %}
