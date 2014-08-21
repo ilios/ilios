@@ -784,6 +784,7 @@ SessionModel.prototype.clone = function () {
 
     rhett.dbId = this.dbId;
     rhett.title = this.title;
+    rhett.description = this.description;
 
     rhett.publishEventId = this.publishEventId;
     rhett.publishedAsTBD = this.publishedAsTBD;
