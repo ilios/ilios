@@ -81,7 +81,7 @@ sp_bower:
                 - ?jsmin
     bundles:
         IliosFrontendBundle: ~
-        
+
 ilios_legacy_ci:
     session:
         encryption_key: "%code_igniter_session_cookie_name%"

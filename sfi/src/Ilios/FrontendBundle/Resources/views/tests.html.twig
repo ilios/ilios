@@ -1,0 +1,21 @@
+{# /Ilios/FrontendBundle/Resources/views/layout.html.twig #}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        {% stylesheets filter="cssrewrite"
+            '@qunit_css'
+       		 %}
+        	<link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        {% include "IliosFrontendBundle::stylesheets.html.twig" %}
+    </head>
+    <body>
+        <div id="qunit"></div>
+	    <div id="qunit-fixture"></div>
+	    <div id="ember-testing-container">
+        	<div id="ember-testing"></div>
+      	</div>
+        {% include "IliosFrontendBundle::testjavascripts.html.twig" %}
+    </body>
+</html>

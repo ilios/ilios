@@ -7,6 +7,7 @@
     "ember": "1.5.1",
     "ember-data": "v1.0.0-beta.8",
     "html5shiv": "3.7.2",
-    "scheduler": "4.1.0"
+    "qunit": "v1.14.0",
+    "ember-qunit": "v0.1.8"
   }
 }

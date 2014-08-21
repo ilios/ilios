@@ -108,6 +108,7 @@ install:
 
 # Install Ilios 3 deps
   - if [ "$ILIOS_THREE" = true ]; then npm install -g bower; fi
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi/src/Ilios/FrontendBundle/Resources/config; npm install); fi
   - if [ "$ILIOS_THREE" = true ]; then (cp ${TRAVIS_BUILD_DIR}/sfi/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/sfi/app/config/parameters.yml); fi
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; pwd; composer install --no-interaction); fi
 
@@ -143,3 +144,4 @@ script:
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:schema:validate); fi
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/phpunit); fi
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/phpcs --standard=app/phpcs.xml src); fi
+  - if [ "$ILIOS_THREE" = true ]; then (${TRAVIS_BUILD_DIR}/sfi/src/Ilios/FrontendBundle/Resources/config/node_modules/karma/bin/karma start ${TRAVIS_BUILD_DIR}/sfi/src/Ilios/FrontendBundle/Resources/config/karma/karma-ci.conf.js); fi
