@@ -7,11 +7,12 @@ var attributes = {
   rootElement: '#ember-testing',
   LOG_ACTIVE_GENERATION:false,
   LOG_VIEW_LOOKUPS: false
-}
+};
 
 window.App = Ember.Application.create(attributes);
 App.setupForTesting();
 App.injectTestHelpers();
+App.ApplicationAdapter = DS.FixtureAdapter;
 
 //this gate/check is required given that standard practice in Ember tests to is to call
 //Ember.reset() in the afterEach/tearDown for each test.  Doing so, causes the application

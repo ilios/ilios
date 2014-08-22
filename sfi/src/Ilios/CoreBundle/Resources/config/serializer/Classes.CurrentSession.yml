@@ -1,0 +1,7 @@
+Ilios\CoreBundle\Classes\CurrentSession:
+    exclusion_policy: ALL
+    xml_root_name: currentsession
+    virtual_properties:
+        getUserId:
+            serialized_name: userId
+            type: integer

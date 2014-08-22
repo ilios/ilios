@@ -21,6 +21,8 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, Dependen
         $user->setPrimarySchool($this->getReference('school1'));
 
         $manager->persist($user);
+        $manager->flush();
+        $this->addReference('user1', $user);
 
 
         $user = new User();
@@ -32,6 +34,7 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, Dependen
 
         $manager->persist($user);
         $manager->flush();
+        $this->addReference('user2', $user);
     }
 
     public function getDependencies()

@@ -3,13 +3,13 @@ imports:
 
 security:
     firewalls:
-        anonymous:
+        test:
+            pattern:   ^/
             anonymous: ~
-
     providers:
-        in_memory:
-            memory:
-                
+        users:
+            entity: { class: IliosCoreBundle:User, property: username }
+
 framework:
     test: ~
     session:
@@ -34,7 +34,7 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
-                
+
 monolog:
     handlers:
         main:

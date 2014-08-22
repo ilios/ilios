@@ -18,3 +18,8 @@ ilios_core_user:
     prefix: /v1
     resource: "Ilios\CoreBundle\Controller\UserController"
     name_prefix:  api_1_
+ilios_core_currentsession:
+    type: rest
+    prefix: /v1
+    resource: "Ilios\CoreBundle\Controller\CurrentsessionController"
+    name_prefix:  api_1_
