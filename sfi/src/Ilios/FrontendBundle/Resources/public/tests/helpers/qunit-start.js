@@ -11,4 +11,6 @@ window.App = Ember.Application.create(attributes);
 
 App.setupForTesting();
 App.injectTestHelpers();
+App.ApplicationAdapter = DS.FixtureAdapter;
+
 setResolver(Ember.DefaultResolver.create({ namespace: App }));

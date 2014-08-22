@@ -26,7 +26,10 @@ module.exports = function(config) {
       'app/models/*.js',
       'app/controllers/*.js',
       'app/templates/*.hbs',
-      'tests/**/*-test.js',
+      'tests/controllers/*-test.js',
+      'tests/models/*-test.js',
+      'tests/routes/*-test.js',
+      'tests/acceptance/*-test.js',
     ],
 
     plugins: [
