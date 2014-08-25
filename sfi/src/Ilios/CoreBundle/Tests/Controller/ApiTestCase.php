@@ -23,7 +23,7 @@ class ApiTestCase extends WebTestCase
     public function createJsonRequest($method, $url, $content = null, $userId = null)
     {
         $client = static::createClient();
-        if($userId){
+        if ($userId) {
             $this->login($userId, $client);
         }
 
@@ -83,7 +83,7 @@ class ApiTestCase extends WebTestCase
      */
     protected function login($userId, Client $client)
     {
-    	$this->loadFixtures(
+        $this->loadFixtures(
             array(
                 'Ilios\CoreBundle\Tests\Fixtures\LoadUserData'
             )

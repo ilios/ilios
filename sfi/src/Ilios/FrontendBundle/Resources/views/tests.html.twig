@@ -3,12 +3,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="env-environment" value="testing">
+        <meta name="env-assetsBaseDir" value="{{ asset('bundles/iliosfrontend') }}" />
         {% stylesheets filter="cssrewrite"
             '@qunit_css'
        		 %}
         	<link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         {% include "IliosFrontendBundle::stylesheets.html.twig" %}
+      {% include "IliosFrontendBundle::javascripts.html.twig" %}
     </head>
     <body>
         <div id="qunit"></div>

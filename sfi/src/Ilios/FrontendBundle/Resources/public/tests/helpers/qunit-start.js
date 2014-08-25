@@ -1,13 +1,8 @@
 emq.globalize();
-window.assetsBaseDir = "";
 
-var attributes = {
-  rootElement: '#ember-testing',
-  LOG_ACTIVE_GENERATION:false,
-  LOG_VIEW_LOOKUPS: false
-}
-
-window.App = Ember.Application.create(attributes);
+App.set('rootElement', '#ember-testing');
+App.set('LOG_ACTIVE_GENERATION', false);
+App.set('LOG_VIEW_LOOKUPS', false);
 
 App.setupForTesting();
 App.injectTestHelpers();
