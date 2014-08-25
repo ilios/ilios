@@ -1,3 +1,5 @@
 App.ApplicationController = Ember.Controller.extend({
-	logoPath: assetsBaseDir + '/images/ilios-logo.png'
+	logoPath: function(){
+		return App.get('config').get('assetsBaseDir') + '/images/ilios-logo.png';
+	}.property()
 });

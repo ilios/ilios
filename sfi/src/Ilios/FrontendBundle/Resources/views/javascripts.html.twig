@@ -2,9 +2,6 @@
 {% block javascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script>
-        var assetsBaseDir = "{{ asset('bundles/iliosfrontend') }}";
-    </script>
     {% javascripts output='common.js'
         '@jquery_js'
         '@handlebars_js'
@@ -24,7 +21,6 @@
         '@IliosFrontendBundle/Resources/public/app/routes/*.js'
         '@IliosFrontendBundle/Resources/public/app/models/*.js'
         '@IliosFrontendBundle/Resources/public/app/views/*.js'
-        '@IliosFrontendBundle/Resources/public/app/helpers/*.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

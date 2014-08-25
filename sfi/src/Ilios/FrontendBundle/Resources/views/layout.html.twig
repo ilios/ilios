@@ -3,6 +3,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="env-environment" value="{{ app.environment }}" />
+        <meta name="env-assetsBaseDir" value="{{ asset('bundles/iliosfrontend') }}" />
         {% include "IliosFrontendBundle::stylesheets.html.twig" %}
         {% include "IliosFrontendBundle::javascripts.html.twig" %}
     </head>
