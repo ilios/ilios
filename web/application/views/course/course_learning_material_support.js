@@ -406,7 +406,8 @@ ilios.cm.lm.clearLearningMaterialsDialogFields = function (clearTransactionStatu
 
     element = document.getElementById('alm_statuses_selector');
     if (element != null) {
-        element.selectedIndex = 0;
+        //the default status should be 'final', so set the selected index to '1'
+        element.selectedIndex = 1;
     }
 
     ilios.cm.lm.learningMaterialLightboxIsDirty = false;
@@ -606,6 +607,8 @@ ilios.cm.lm.makeTabPaneDiv = function (tabPaneContentFunction, showCopyrightInfo
         option.appendChild(document.createTextNode(ilios.cm.lm.learningMaterialStatuses[key]));
         element.appendChild(option);
     }
+    //set the default selection of the Learning Material's status to 'Final' (or index '1')...
+    element.selectedIndex = 1;
     Event.addListener(element, 'change', ilios.cm.lm.setLearningMaterialLightboxDirty);
     container.appendChild(element);
     subContainer = document.createElement('div');
