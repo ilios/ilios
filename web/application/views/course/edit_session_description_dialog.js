@@ -38,6 +38,15 @@
                         var value;
                         if (this.model) {
                             value = this.rte.get("textarea").value;
+                            // KLUDGE!
+                            // Update the session within the current course model directly.
+                            // This seems redundant, but in fact is not since at this point the session object
+                            // attached to the current course model is NOT the same object as THIS
+                            // session model object.
+                            // In other words, we have two copies of the same data point that need to be kept in sync.
+                            // TODO: consolidate model objects, there should really be only one. [ST 2014/08/28]
+                            var sessionModel2 = ilios.cm.currentCourseModel.getSessionWithId(this.model.getDBId());
+                            sessionModel2.setDescription(value);
                             this.model.setDescription(value);
                         }
                         this.model = null;
