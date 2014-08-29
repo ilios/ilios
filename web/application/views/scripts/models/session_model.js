@@ -799,6 +799,8 @@ SessionModel.prototype.clone = function () {
     rhett.objectiveCount = this.objectiveCount;
     rhett.objectives = this.objectives.slice(0);
 
+    rhett.description = this.description;
+
     rhett.offerings = ilios.utilities.cloneAssociativeArray(this.offerings);
 
     // (should still be clean.. but just in case future coders accidentally add code that dirties
@@ -861,7 +863,7 @@ SessionModel.prototype.compareTo = function (otherModel) {
 
 /**
  * If the newModel differs from this model, then it is replaced by the newModel and this is set
- *      dirty. Comparisons are done by values and not indentical instance.
+ *      dirty. Comparisons are done by values and not identical instance.
  *
  * NOTES / REMINDERS:
  *  . Any modifications to the users held by the parameter after this method is called will also
@@ -885,6 +887,8 @@ SessionModel.prototype.replaceContentWithModel = function (newModel, forceReplac
         this.objectives = newModel.objectives;
 
         this.offerings = newModel.offerings;
+
+        this.description = newModel.description;
 
         this.setDirtyAndNotify();
     }

@@ -240,7 +240,6 @@ $viewsPath = getServerFilePath('views');
                         updateRte = false;
                     }
                     ilios.cm.editSessionDescriptionDialog.setSessionModel(args[0].model, updateRte);
-                    ilios.cm.editSessionDescriptionDialog.setSessionModel(args[0].model);
                     ilios.cm.editSessionDescriptionDialog.center();
                     ilios.cm.editSessionDescriptionDialog.show();
                 }
