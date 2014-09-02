@@ -5,6 +5,13 @@ Version 2.4.6
 Bug Fixes:
 
 #657 An ugly Error msg is returned when no Email address is contained in shibboleth
+#663 Course dirty state interrupts session description save
+#668 Attempting to add Learning Material to course in Firefox closes dialog and refreshes course
+#665 Fix Add Mesh label on Session Learning Materials
+
+Feature Changes
+
+#672 Make "Final" the Default Status for Uploading Learning Materials to Course and / or Session
 
 Code Quality and Development:
 

@@ -5,4 +5,4 @@
  * @see system/application/views/common/masthead.logo.inc.php
  */
 ?>
-2.4.6-rc1
+2.4.6
