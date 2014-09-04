@@ -29,3 +29,6 @@ Ilios\CoreBundle\Entity\User:
         getPrimarySchoolId:
             serialized_name: primarySchool
             type: integer
+        getOfferingIds:
+            serialized_name: offerings
+            type: array

@@ -20,9 +20,10 @@ class LoadSchoolData extends AbstractFixture implements FixtureInterface
         $school2 = new School();
         $school2->setTitle('Second School');
         $school2->setIliosAdministratorEmail('root@example.com');
-        
+
         $manager->persist($school2);
         $manager->flush();
         $this->addReference('school1', $school);
+        $this->addReference('school2', $school2);
     }
 }

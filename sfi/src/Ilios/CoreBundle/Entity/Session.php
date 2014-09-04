@@ -78,7 +78,7 @@ class Session
      * @var \Doctrine\Common\Collections\Collection
      */
     private $meshDescriptors;
-    
+
     /**
      * @var \Ilios\CoreBundle\Entity\PublishEvent
      */
@@ -89,6 +89,12 @@ class Session
      */
     public function __construct()
     {
+        $this->attireRequired = false;
+        $this->equipmentRequired = false;
+        $this->supplemental = false;
+        $this->deleted = false;
+        $this->publishedAsTbd = false;
+
         $this->disciplines = new \Doctrine\Common\Collections\ArrayCollection();
         $this->objectives = new \Doctrine\Common\Collections\ArrayCollection();
         $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
@@ -97,7 +103,7 @@ class Session
     /**
      * Get sessionId
      *
-     * @return integer 
+     * @return integer
      */
     public function getSessionId()
     {
@@ -120,7 +126,7 @@ class Session
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -143,7 +149,7 @@ class Session
     /**
      * Get attireRequired
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAttireRequired()
     {
@@ -166,7 +172,7 @@ class Session
     /**
      * Get equipmentRequired
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEquipmentRequired()
     {
@@ -189,7 +195,7 @@ class Session
     /**
      * Get supplemental
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSupplemental()
     {
@@ -212,7 +218,7 @@ class Session
     /**
      * Get deleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleted()
     {
@@ -235,7 +241,7 @@ class Session
     /**
      * Get publishedAsTbd
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPublishedAsTbd()
     {
@@ -258,7 +264,7 @@ class Session
     /**
      * Get lastUpdatedOn
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastUpdatedOn()
     {
@@ -281,7 +287,7 @@ class Session
     /**
      * Get sessionType
      *
-     * @return \Ilios\CoreBundle\Entity\SessionType 
+     * @return \Ilios\CoreBundle\Entity\SessionType
      */
     public function getSessionType()
     {
@@ -304,7 +310,7 @@ class Session
     /**
      * Get course
      *
-     * @return \Ilios\CoreBundle\Entity\Course 
+     * @return \Ilios\CoreBundle\Entity\Course
      */
     public function getCourse()
     {
@@ -327,7 +333,7 @@ class Session
     /**
      * Get ilmSessionFacet
      *
-     * @return \Ilios\CoreBundle\Entity\IlmSessionFacet 
+     * @return \Ilios\CoreBundle\Entity\IlmSessionFacet
      */
     public function getIlmSessionFacet()
     {
@@ -449,7 +455,7 @@ class Session
     /**
      * Get publishEvent
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent 
+     * @return \Ilios\CoreBundle\Entity\PublishEvent
      */
     public function getPublishEvent()
     {

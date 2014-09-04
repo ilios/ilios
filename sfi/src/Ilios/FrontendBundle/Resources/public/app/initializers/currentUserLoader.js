@@ -30,7 +30,8 @@ Ember.Application.initializer({
               break;
           case 'dev':
           case 'testing':
-              container.lookup('store:main').find('user', 1)
+              container.lookup('store:main').push('user', App.User.FIXTURES[0]);
+              container.lookup('store:main').find('user', 0)
               .then( function(user) {
                   // Register the `user:current` namespace
                   container.register('user:current', user, {instantiate: false, singleton: true});
@@ -39,7 +40,7 @@ Ember.Application.initializer({
                   container.injection('route', 'currentUser', 'user:current');
                   container.injection('controller', 'currentUser', 'user:current');
                   application.advanceReadiness();
-              })
+              });
               break;
           default:
               throw new Ember.Error(environment + ' is not a valid environment');
