@@ -1,7 +1,8 @@
 class profile::ilios (
     $user = 'vagrant',
     $docroot = '/var/www/ilios',
-    $docroot_target = '/vagrant/web'
+    $docroot_target = '/vagrant/web',
+    $node_modules = ['bower', 'ember-precompile']
 ) {
     include profile::common::apache
     include profile::common::mysql
@@ -67,5 +68,19 @@ class profile::ilios (
         access_log_file => "${fqdn}_access.log",
         error_log_file => "${fqdn}_error.log",
         require => [File[$docroot]]
+    }
+
+    class { 'nodejs':
+        manage_repo => true
+    }
+
+    package { 'build-essential':
+        ensure => installed
+    }
+
+    package { $node_modules:
+        ensure => 'present',
+        provider => 'npm',
+        require  => [Class['nodejs'], Package['build-essential']],
     }
 }
