@@ -6,6 +6,5 @@ App.set('LOG_VIEW_LOOKUPS', false);
 
 App.setupForTesting();
 App.injectTestHelpers();
-App.ApplicationAdapter = DS.FixtureAdapter;
 
 setResolver(Ember.DefaultResolver.create({ namespace: App }));

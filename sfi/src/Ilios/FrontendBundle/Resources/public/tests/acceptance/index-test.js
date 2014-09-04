@@ -1,9 +1,8 @@
-module('Acceptances - Index', {
-  setup: function(){
-    App.reset();
-  },
+module('Acceptances - Dashboard Year', {
   teardown: function() {
-    Ember.run(App, 'destroy');
+    Ember.run(function() {
+        App.reset();
+    });
   }
 });
 

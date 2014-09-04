@@ -2,12 +2,12 @@
   "name": "IliosFrontend",
   "private": true,
   "dependencies": {
-    "handlebars": "1.3.0",
-    "jquery": "1.11.1",
-    "ember": "1.5.1",
-    "ember-data": "v1.0.0-beta.8",
-    "html5shiv": "3.7.2",
-    "qunit": "v1.14.0",
-    "ember-qunit": "v0.1.8"
+    "handlebars": "*",
+    "jquery": "*",
+    "ember": "1.7.*",
+    "ember-data": "1.0.0-beta.9",
+    "qunit": "*",
+    "ember-qunit": "*",
+    "moment": "*"
   }
 }

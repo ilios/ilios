@@ -15,9 +15,11 @@ Ember.Application.initializer({
                 namespace: apiurl
               });
               break;
-          case 'dev':
           case 'testing':
-              application.ApplicationAdapter = DS.FixtureAdapter;
+          case 'dev':
+              Ember.Logger.debug('Environment: ' + environment + '.  Using FixtureAdapter');
+              application.ApplicationAdapter = DS.FixtureAdapter.extend({});
+
               break;
           default:
               throw new Ember.Error(environment + ' is not a valid environment');

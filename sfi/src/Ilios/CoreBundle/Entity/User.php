@@ -165,7 +165,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -188,7 +188,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -211,7 +211,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -234,7 +234,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get middleName
      *
-     * @return string 
+     * @return string
      */
     public function getMiddleName()
     {
@@ -257,7 +257,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -280,7 +280,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -303,7 +303,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get addedViaIlios
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAddedViaIlios()
     {
@@ -326,7 +326,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -349,7 +349,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get ucUid
      *
-     * @return string 
+     * @return string
      */
     public function getUcUid()
     {
@@ -372,7 +372,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get otherId
      *
-     * @return string 
+     * @return string
      */
     public function getOtherId()
     {
@@ -395,7 +395,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get examined
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getExamined()
     {
@@ -418,7 +418,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get userSyncIgnore
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getUserSyncIgnore()
     {
@@ -441,7 +441,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get apiKey
      *
-     * @return \Ilios\CoreBundle\Entity\ApiKey 
+     * @return \Ilios\CoreBundle\Entity\ApiKey
      */
     public function getApiKey()
     {
@@ -497,7 +497,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get primarySchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Entity\School
      */
     public function getPrimarySchool()
     {
@@ -677,6 +677,21 @@ class User implements UserInterface, \Serializable
     public function getOfferings()
     {
         return $this->offerings->toArray();
+    }
+
+    /**
+     * Get offering IDs
+     *
+     * @return array
+     */
+    public function getOfferingIds()
+    {
+        $ids = array();
+        foreach ($this->offerings as $offering) {
+            $ids[] = $offering->getOfferingId();
+        }
+
+        return $ids;
     }
 
     /**
@@ -887,7 +902,7 @@ class User implements UserInterface, \Serializable
             $this->ucUid,
             $this->email
         ));
-        
+
     }
 
     /**
@@ -907,7 +922,7 @@ class User implements UserInterface, \Serializable
      */
     public function eraseCredentials()
     {
-        
+
     }
 
     /**
