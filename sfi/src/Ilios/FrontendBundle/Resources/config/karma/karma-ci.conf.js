@@ -54,7 +54,6 @@ module.exports = function(config) {
       'tests/controllers/*-test.js',
       'tests/models/*-test.js',
       'tests/routes/*-test.js',
-      'tests/acceptance/*-test.js',
     ],
 
     plugins: [
