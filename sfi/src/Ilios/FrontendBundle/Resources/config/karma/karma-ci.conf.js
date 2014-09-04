@@ -41,6 +41,7 @@ module.exports = function(config) {
       'components/jquery/dist/jquery.js',
       'components/handlebars/handlebars.js',
       'components/ember/ember.js',
+      'components/moment/moment.js',
       'components/ember-data/ember-data.js',
       'components/ember-qunit/dist/globals/main.js',
       'app/ilios.js',
