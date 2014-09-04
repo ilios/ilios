@@ -4,37 +4,9 @@ services: mysql
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-  exclude:
-    #only run specific builds against 5.4
-    - php: "5.4"
-  include:
-    - php: "5.4"
-      env: TEST_PHPUNIT=true
-    - php: "5.4"
-      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setone' START_LOCAL_SELENIUM=true TEST_BEHAT=true
-    - php: "5.4"
-      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
-    - php: "5.4"
-      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
-    - php: "5.4"
-      env: ILIOS_THREE=true
 
 php:
   - "5.4"
-  - "5.3"
 
 env:
   global:
@@ -60,18 +32,6 @@ env:
     - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
     - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
     - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
 
 addons:
   hosts:
@@ -99,7 +59,7 @@ install:
 # Install the Ilios PHP database locally for testing
   - cd ${TRAVIS_BUILD_DIR}; pwd; ${TRAVIS_BUILD_DIR}/bin/phing -q -propertyfile ${TRAVIS_BUILD_DIR}/build.properties.sample -Dskip-prompt=true -Dskip-db-backup=true -Ddb.username=root -Ddb.password= -Ddb.group=ilios_test -Dencryption_key=lorem_ipsum -Ddeploydir=${TRAVIS_BUILD_DIR}/web -Dbackupdir=${TRAVIS_BUILD_DIR}/backup -Dwebuser=${USER} -Dwebgroup="`id -g -n`"
   - cd ${TRAVIS_BUILD_DIR}/web; php ilios.php migrate
-  
+
 # Install Behat
   - if [ "$TEST_BEHAT" = true ]; then (composer install  --no-interaction -d ${TRAVIS_BUILD_DIR}/tests/behat); fi
 
@@ -125,7 +85,7 @@ before_script:
   - if [ "$START_SAUCE_CONNECT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/sauce_connect --readyfile /tmp/scready.tmp --tunnel-identifier $TRAVIS_JOB_NUMBER $SAUCE_USERNAME $SAUCE_ACCESS_KEY > /dev/null &); fi
 #sauce connect takes forever to start so we have to use a ready file to wait until the tunnel is open
   - if [ "$START_SAUCE_CONNECT" = true ]; then (while [ ! -f /tmp/scready.tmp ]; do(sleep .5) done); fi
-  
+
 #initialize symfony test db
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:database:create --env=test); fi
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:schema:create --env=test); fi
