@@ -63,7 +63,7 @@ class Offering
      * @var \Doctrine\Common\Collections\Collection
      */
     private $reccuringEvents;
-    
+
     /**
      * @var \Ilios\CoreBundle\Entity\PublishEvent
      */
@@ -74,6 +74,7 @@ class Offering
      */
     public function __construct()
     {
+        $this->deleted = false;
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->instructorGroups = new \Doctrine\Common\Collections\ArrayCollection();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
@@ -83,7 +84,7 @@ class Offering
     /**
      * Get offeringId
      *
-     * @return integer 
+     * @return integer
      */
     public function getOfferingId()
     {
@@ -106,7 +107,7 @@ class Offering
     /**
      * Get room
      *
-     * @return string 
+     * @return string
      */
     public function getRoom()
     {
@@ -129,7 +130,7 @@ class Offering
     /**
      * Get startDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDate()
     {
@@ -152,7 +153,7 @@ class Offering
     /**
      * Get endDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -175,7 +176,7 @@ class Offering
     /**
      * Get deleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleted()
     {
@@ -198,7 +199,7 @@ class Offering
     /**
      * Get lastUpdatedOn
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastUpdatedOn()
     {
@@ -221,7 +222,7 @@ class Offering
     /**
      * Get session
      *
-     * @return \Ilios\CoreBundle\Entity\Session 
+     * @return \Ilios\CoreBundle\Entity\Session
      */
     public function getSession()
     {
@@ -376,7 +377,7 @@ class Offering
     /**
      * Get publishEvent
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent 
+     * @return \Ilios\CoreBundle\Entity\PublishEvent
      */
     public function getPublishEvent()
     {

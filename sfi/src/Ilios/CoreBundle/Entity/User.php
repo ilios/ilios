@@ -2,12 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -156,12 +156,16 @@ class User
         $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
         $this->publishEvents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->addedViaIlios = false;
+        $this->enabled = true;
+        $this->examined = false;
+        $this->userSyncIgnore = false;
     }
 
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -184,7 +188,7 @@ class User
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -207,7 +211,7 @@ class User
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -230,7 +234,7 @@ class User
     /**
      * Get middleName
      *
-     * @return string 
+     * @return string
      */
     public function getMiddleName()
     {
@@ -253,7 +257,7 @@ class User
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -276,7 +280,7 @@ class User
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -299,7 +303,7 @@ class User
     /**
      * Get addedViaIlios
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getAddedViaIlios()
     {
@@ -322,7 +326,7 @@ class User
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -345,7 +349,7 @@ class User
     /**
      * Get ucUid
      *
-     * @return string 
+     * @return string
      */
     public function getUcUid()
     {
@@ -368,7 +372,7 @@ class User
     /**
      * Get otherId
      *
-     * @return string 
+     * @return string
      */
     public function getOtherId()
     {
@@ -391,7 +395,7 @@ class User
     /**
      * Get examined
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getExamined()
     {
@@ -414,7 +418,7 @@ class User
     /**
      * Get userSyncIgnore
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getUserSyncIgnore()
     {
@@ -437,7 +441,7 @@ class User
     /**
      * Get apiKey
      *
-     * @return \Ilios\CoreBundle\Entity\ApiKey 
+     * @return \Ilios\CoreBundle\Entity\ApiKey
      */
     public function getApiKey()
     {
@@ -493,11 +497,21 @@ class User
     /**
      * Get primarySchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Entity\School
      */
     public function getPrimarySchool()
     {
         return $this->primarySchool;
+    }
+
+    /**
+     * Get primarySchool ID
+     *
+     * @return integer
+     */
+    public function getPrimarySchoolId()
+    {
+        return $this->primarySchool->getSchoolId();
     }
 
     /**
@@ -663,6 +677,21 @@ class User
     public function getOfferings()
     {
         return $this->offerings->toArray();
+    }
+
+    /**
+     * Get offering IDs
+     *
+     * @return array
+     */
+    public function getOfferingIds()
+    {
+        $ids = array();
+        foreach ($this->offerings as $offering) {
+            $ids[] = $offering->getOfferingId();
+        }
+
+        return $ids;
     }
 
     /**
@@ -861,5 +890,56 @@ class User
     public function getReports()
     {
         return $this->reports->toArray();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->userId,
+            $this->ucUid,
+            $this->email
+        ));
+
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->userId,
+            $this->ucUid,
+            $this->email
+        ) = unserialize($serialized);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        return '';
+    }
+
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function getUsername()
+    {
+        return $this->userId;
     }
 }

@@ -1,0 +1,23 @@
+<header class="navigation">
+  <div class="navigation-wrapper">
+    <a href="/ilios.php/dashboard_controller" class="logo">
+        <img {{bind-attr src=logoPath}} alt="Ilios Logo" />
+    </a>
+    <a href="" class="navigation-menu-button" id="js-mobile-menu">MENU</a>
+    <div class="nav">
+      <ul id="navigation-menu">
+        <li class="nav-link">{{#link-to "dashboard"}}Home{{/link-to}}</li>
+        <li class="nav-link"><a href="/ilios.php/program_management">Programs</a></li>
+        <li class="nav-link"><a href="/ilios.php/instructor_group_management">Instructors</a></li>
+        <li class="nav-link"><a href="/ilios.php/group_management">Learner Groups</a></li>
+        <li class="nav-link"><a href="/ilios.php/course_management">Courses and Sessions</a></li>
+      </ul>
+    </div>
+    <div class="navigation-tools">
+      <a href="ilios.php/authentication_controller?logout=yes" class="authentication">Log Out</a>
+    </div>
+  </div>
+</header>
+<div class='container'>
+    {{outlet}}
+</div>

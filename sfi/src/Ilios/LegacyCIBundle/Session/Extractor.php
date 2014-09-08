@@ -66,9 +66,9 @@ class Extractor
 
     /**
      * Retrieves a value from the user session by its given key.
-     * 
+     *
      * @param string $key
-     * 
+     *
      * @return string|boolean The value or false if non was found.
      */
     protected function get($key)
@@ -83,9 +83,9 @@ class Extractor
 
     /**
      * Gets data from the $_SESSION set by code igniter
-     * 
+     *
      * @see CI_Session::sess_read()
-     * 
+     *
      * @return array
      */
     private function getData()

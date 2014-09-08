@@ -3,7 +3,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -36,6 +36,7 @@ assetic:
         cssrewrite: ~
         jsmin: ~
         emberprecompile: ~
+        sass:    ~
 
 # Doctrine Configuration
 doctrine:
@@ -67,7 +68,7 @@ fos_rest:
     body_listener: true
     format_listener:
         rules:
-          - { path: '^/', priorities: ['html','json','xml'], fallback_format: html, prefer_extension: true }
+          - { path: '^/', priorities: ['html','json','xml','css','js'], fallback_format: html, prefer_extension: true }
     exception:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
@@ -80,7 +81,7 @@ sp_bower:
                 - ?jsmin
     bundles:
         IliosFrontendBundle: ~
-        
+
 ilios_legacy_ci:
     session:
         encryption_key: "%code_igniter_session_cookie_name%"
