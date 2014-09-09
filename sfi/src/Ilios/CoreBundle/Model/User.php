@@ -1,8 +1,23 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Entity\ApiKey;
+use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Entity\UserMadeReminder;
+use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\Group;
+use Ilios\CoreBundle\Entity\InstructorGroup;
+use Ilios\CoreBundle\Entity\Offering;
+use Ilios\CoreBundle\Entity\ProgramYear;
+use Ilios\CoreBundle\Entity\Alert;
+use Ilios\CoreBundle\Entity\UserRole;
+use Ilios\CoreBundle\Entity\LearningMaterial;
+use Ilios\CoreBundle\Entity\PublishEvent;
+use Ilios\CoreBundle\Entity\Report;
 
 /**
  * User
@@ -12,160 +27,169 @@ class User
     /**
      * @var integer
      */
-    private $userId;
+    protected $userId;
 
     /**
      * @var string
      */
-    private $lastName;
+    protected $lastName;
 
     /**
      * @var string
      */
-    private $firstName;
+    protected $firstName;
 
     /**
      * @var string
      */
-    private $middleName;
+    protected $middleName;
 
     /**
      * @var string
      */
-    private $phone;
+    protected $phone;
 
     /**
      * @var string
      */
-    private $email;
+    protected $email;
 
     /**
      * @var boolean
      */
-    private $addedViaIlios;
+    protected $addedViaIlios;
 
     /**
      * @var boolean
      */
-    private $enabled;
+    protected $enabled;
 
     /**
      * @var string
      */
-    private $ucUid;
+    protected $ucUid;
 
     /**
      * @var string
      */
-    private $otherId;
+    protected $otherId;
 
     /**
      * @var boolean
      */
-    private $examined;
+    protected $examined;
 
     /**
      * @var boolean
      */
-    private $userSyncIgnore;
+    protected $userSyncIgnore;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\ApiKey
+     * @var ApiKey
      */
-    private $apiKey;
+    protected $apiKey;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $reminders;
+    protected $reminders;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var School
      */
-    private $primarySchool;
+    protected $primarySchool;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $directedCourses;
+    protected $directedCourses;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $userGroups;
+    protected $userGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $instructorUserGroups;
+    protected $instructorUserGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $instructorGroups;
+    protected $instructorGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $offerings;
+    protected $offerings;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $programYears;
+    protected $programYears;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $alerts;
+    protected $alerts;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $roles;
+    protected $roles;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $learningMaterials;
+    protected $learningMaterials;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $publishEvents;
+    protected $publishEvents;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private $reports;
+    protected $reports;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->reminders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->directedCourses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorUserGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->programYears = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->publishEvents = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reminders            = new ArrayCollection();
+        $this->directedCourses      = new ArrayCollection();
+        $this->userGroups           = new ArrayCollection();
+        $this->instructorUserGroups = new ArrayCollection();
+        $this->instructorGroups     = new ArrayCollection();
+        $this->offerings            = new ArrayCollection();
+        $this->programYears         = new ArrayCollection();
+        $this->alerts               = new ArrayCollection();
+        $this->roles                = new ArrayCollection();
+        $this->learningMaterials    = new ArrayCollection();
+        $this->publishEvents        = new ArrayCollection();
+        $this->reports              = new ArrayCollection();
     }
 
     /**
-     * Get userId
+     * Get ID
      *
      * @return integer 
      */
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Set ID
+     * @param integer $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -424,10 +448,10 @@ class User
     /**
      * Set apiKey
      *
-     * @param \Ilios\CoreBundle\Entity\ApiKey $apiKey
+     * @param ApiKey $apiKey
      * @return User
      */
-    public function setApiKey(\Ilios\CoreBundle\Entity\ApiKey $apiKey = null)
+    public function setApiKey(ApiKey $apiKey = null)
     {
         $this->apiKey = $apiKey;
 
@@ -437,7 +461,7 @@ class User
     /**
      * Get apiKey
      *
-     * @return \Ilios\CoreBundle\Entity\ApiKey 
+     * @return ApiKey
      */
     public function getApiKey()
     {
@@ -447,10 +471,10 @@ class User
     /**
      * Add reminders
      *
-     * @param \Ilios\CoreBundle\Entity\UserMadeReminder $reminders
+     * @param UserMadeReminder $reminders
      * @return User
      */
-    public function addReminder(\Ilios\CoreBundle\Entity\UserMadeReminder $reminders)
+    public function addReminder(UserMadeReminder $reminders)
     {
         $this->reminders[] = $reminders;
 
@@ -460,9 +484,9 @@ class User
     /**
      * Remove reminders
      *
-     * @param \Ilios\CoreBundle\Entity\UserMadeReminder $reminders
+     * @param UserMadeReminder $reminders
      */
-    public function removeReminder(\Ilios\CoreBundle\Entity\UserMadeReminder $reminders)
+    public function removeReminder(UserMadeReminder $reminders)
     {
         $this->reminders->removeElement($reminders);
     }
@@ -470,7 +494,7 @@ class User
     /**
      * Get reminders
      *
-     * @return \Ilios\CoreBundle\Entity\UserMadeReminder[]
+     * @return UserMadeReminder[]
      */
     public function getReminders()
     {
@@ -480,10 +504,10 @@ class User
     /**
      * Set primarySchool
      *
-     * @param \Ilios\CoreBundle\Entity\School $primarySchool
+     * @param School $primarySchool
      * @return User
      */
-    public function setPrimarySchool(\Ilios\CoreBundle\Entity\School $primarySchool = null)
+    public function setPrimarySchool(School $primarySchool = null)
     {
         $this->primarySchool = $primarySchool;
 
@@ -493,7 +517,7 @@ class User
     /**
      * Get primarySchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return School
      */
     public function getPrimarySchool()
     {
@@ -503,10 +527,10 @@ class User
     /**
      * Add directedCourses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $course
+     * @param Course $course
      * @return User
      */
-    public function addDirectedCourse(\Ilios\CoreBundle\Entity\Course $course)
+    public function addDirectedCourse(Course $course)
     {
         $this->directedCourses[] = $course;
 
@@ -516,9 +540,9 @@ class User
     /**
      * Remove directedCourses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $course
+     * @param Course $course
      */
-    public function removeDirectedCourse(\Ilios\CoreBundle\Entity\Course $course)
+    public function removeDirectedCourse(Course $course)
     {
         $this->directedCourses->removeElement($course);
     }
@@ -526,7 +550,7 @@ class User
     /**
      * Get directedCourses
      *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return Course[]
      */
     public function getDirectedCourses()
     {
@@ -536,10 +560,10 @@ class User
     /**
      * Add userGroups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $userGroups
+     * @param Group $userGroups
      * @return User
      */
-    public function addUserGroup(\Ilios\CoreBundle\Entity\Group $userGroups)
+    public function addUserGroup(Group $userGroups)
     {
         $this->userGroups[] = $userGroups;
 
@@ -549,9 +573,9 @@ class User
     /**
      * Remove userGroups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $userGroups
+     * @param Group $userGroups
      */
-    public function removeUserGroup(\Ilios\CoreBundle\Entity\Group $userGroups)
+    public function removeUserGroup(Group $userGroups)
     {
         $this->userGroups->removeElement($userGroups);
     }
@@ -559,7 +583,7 @@ class User
     /**
      * Get userGroups
      *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return Group[]
      */
     public function getUserGroups()
     {
@@ -569,10 +593,10 @@ class User
     /**
      * Add instructorUserGroups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $instructorUserGroups
+     * @param Group $instructorUserGroups
      * @return User
      */
-    public function addInstructorUserGroup(\Ilios\CoreBundle\Entity\Group $instructorUserGroups)
+    public function addInstructorUserGroup(Group $instructorUserGroups)
     {
         $this->instructorUserGroups[] = $instructorUserGroups;
 
@@ -582,9 +606,9 @@ class User
     /**
      * Remove instructorUserGroups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $instructorUserGroups
+     * @param Group $instructorUserGroups
      */
-    public function removeInstructorUserGroup(\Ilios\CoreBundle\Entity\Group $instructorUserGroups)
+    public function removeInstructorUserGroup(Group $instructorUserGroups)
     {
         $this->instructorUserGroups->removeElement($instructorUserGroups);
     }
@@ -592,7 +616,7 @@ class User
     /**
      * Get instructorUserGroups
      *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return Group[]
      */
     public function getInstructorUserGroups()
     {
@@ -602,10 +626,10 @@ class User
     /**
      * Add instructorGroups
      *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
+     * @param InstructorGroup $instructorGroups
      * @return User
      */
-    public function addInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
+    public function addInstructorGroup(InstructorGroup $instructorGroups)
     {
         $this->instructorGroups[] = $instructorGroups;
 
@@ -615,9 +639,9 @@ class User
     /**
      * Remove instructorGroups
      *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
+     * @param InstructorGroup $instructorGroups
      */
-    public function removeInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
+    public function removeInstructorGroup(InstructorGroup $instructorGroups)
     {
         $this->instructorGroups->removeElement($instructorGroups);
     }
@@ -625,7 +649,7 @@ class User
     /**
      * Get instructorGroups
      *
-     * @return \Ilios\CoreBundle\Entity\InstructorGroup[]
+     * @return InstructorGroup[]
      */
     public function getInstructorGroups()
     {
@@ -635,10 +659,10 @@ class User
     /**
      * Add offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param Offering $offerings
      * @return User
      */
-    public function addOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function addOffering(Offering $offerings)
     {
         $this->offerings[] = $offerings;
 
@@ -648,9 +672,9 @@ class User
     /**
      * Remove offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param Offering $offerings
      */
-    public function removeOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function removeOffering(Offering $offerings)
     {
         $this->offerings->removeElement($offerings);
     }
@@ -658,7 +682,7 @@ class User
     /**
      * Get offerings
      *
-     * @return \Ilios\CoreBundle\Entity\Offering[]
+     * @return Offering[]
      */
     public function getOfferings()
     {
@@ -668,10 +692,10 @@ class User
     /**
      * Add programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param ProgramYear $programYears
      * @return User
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(ProgramYear $programYears)
     {
         $this->programYears[] = $programYears;
 
@@ -681,9 +705,9 @@ class User
     /**
      * Remove programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param ProgramYear $programYears
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function removeProgramYear(ProgramYear $programYears)
     {
         $this->programYears->removeElement($programYears);
     }
@@ -691,7 +715,7 @@ class User
     /**
      * Get programYears
      *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return ProgramYear[]
      */
     public function getProgramYears()
     {
@@ -701,10 +725,10 @@ class User
     /**
      * Add alerts
      *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
+     * @param Alert $alerts
      * @return User
      */
-    public function addAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function addAlert(Alert $alerts)
     {
         $this->alerts[] = $alerts;
 
@@ -714,9 +738,9 @@ class User
     /**
      * Remove alerts
      *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
+     * @param Alert $alerts
      */
-    public function removeAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function removeAlert(Alert $alerts)
     {
         $this->alerts->removeElement($alerts);
     }
@@ -724,7 +748,7 @@ class User
     /**
      * Get alerts
      *
-     * @return \Ilios\CoreBundle\Entity\Alert[]
+     * @return Alert[]
      */
     public function getAlerts()
     {
@@ -734,10 +758,10 @@ class User
     /**
      * Add roles
      *
-     * @param \Ilios\CoreBundle\Entity\UserRole $roles
+     * @param UserRole $roles
      * @return User
      */
-    public function addRole(\Ilios\CoreBundle\Entity\UserRole $roles)
+    public function addRole(UserRole $roles)
     {
         $this->roles[] = $roles;
 
@@ -747,9 +771,9 @@ class User
     /**
      * Remove roles
      *
-     * @param \Ilios\CoreBundle\Entity\UserRole $roles
+     * @param UserRole $roles
      */
-    public function removeRole(\Ilios\CoreBundle\Entity\UserRole $roles)
+    public function removeRole(UserRole $roles)
     {
         $this->roles->removeElement($roles);
     }
@@ -757,7 +781,7 @@ class User
     /**
      * Get roles
      *
-     * @return \Ilios\CoreBundle\Entity\UserRole[]
+     * @return UserRole[]
      */
     public function getRoles()
     {
@@ -767,10 +791,10 @@ class User
     /**
      * Add learningMaterial
      *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
+     * @param LearningMaterial $learningMaterial
      * @return User
      */
-    public function addLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
+    public function addLearningMaterial(LearningMaterial $learningMaterial)
     {
         $this->learningMaterials[] = $learningMaterial;
 
@@ -780,9 +804,9 @@ class User
     /**
      * Remove learningMaterial
      *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
+     * @param LearningMaterial $learningMaterial
      */
-    public function removeLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
+    public function removeLearningMaterial(LearningMaterial $learningMaterial)
     {
         $this->learningMaterials->removeElement($learningMaterial);
     }
@@ -790,7 +814,7 @@ class User
     /**
      * Get learningMaterials
      *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial[]
+     * @return LearningMaterial[]
      */
     public function getLearningMaterials()
     {
@@ -800,10 +824,10 @@ class User
     /**
      * Add publishEvent
      *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param PublishEvent $publishEvent
      * @return User
      */
-    public function addPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent)
+    public function addPublishEvent(PublishEvent $publishEvent)
     {
         $this->publishEvents[] = $publishEvent;
 
@@ -813,9 +837,9 @@ class User
     /**
      * Remove publishEvent
      *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param PublishEvent $publishEvent
      */
-    public function removePublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent)
+    public function removePublishEvent(PublishEvent $publishEvent)
     {
         $this->publishEvents->removeElement($publishEvent);
     }
@@ -823,7 +847,7 @@ class User
     /**
      * Get publishEvents
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent[]
+     * @return PublishEvent[]
      */
     public function getPublishEvents()
     {
@@ -833,10 +857,10 @@ class User
     /**
      * Add report
      *
-     * @param \Ilios\CoreBundle\Entity\Report $report
+     * @param Report $report
      * @return User
      */
-    public function addReport(\Ilios\CoreBundle\Entity\Report $report)
+    public function addReport(Report $report)
     {
         $this->reports[] = $report;
 
@@ -846,9 +870,9 @@ class User
     /**
      * Remove report
      *
-     * @param \Ilios\CoreBundle\Entity\Report $report
+     * @param Report $report
      */
-    public function removeReport(\Ilios\CoreBundle\Entity\Report $report)
+    public function removeReport(Report $report)
     {
         $this->reports->removeElement($report);
     }
@@ -856,7 +880,7 @@ class User
     /**
      * Get reports
      *
-     * @return \Ilios\CoreBundle\Entity\Report[]
+     * @return Report[]
      */
     public function getReports()
     {
