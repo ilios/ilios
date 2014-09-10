@@ -9,19 +9,13 @@ interface UserInterface
      *
      * @return integer
      */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
+    public function getUserId();
 
     /**
      * Set ID
      * @param integer $id
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
+    public function setId($id);
 
     /**
      * Set lastName
@@ -29,22 +23,14 @@ interface UserInterface
      * @param string $lastName
      * @return User
      */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
+    public function setLastName($lastName);
 
     /**
      * Get lastName
      *
      * @return string
      */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
+    public function getLastName();
 
     /**
      * Set firstName
@@ -52,22 +38,14 @@ interface UserInterface
      * @param string $firstName
      * @return User
      */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
+    public function setFirstName($firstName);
 
     /**
      * Get firstName
      *
      * @return string
      */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
+    public function getFirstName();
 
     /**
      * Set middleName
