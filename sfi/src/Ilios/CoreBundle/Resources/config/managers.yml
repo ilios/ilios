@@ -3,7 +3,7 @@ parameters:
 
 services:
     ilios_core.manager.user_manager:
-        class: %ilios_core.manager.user_manager.class%
+        class: "%ilios_core.manager.user_manager.class%"
         arguments:
-            - %doctrine.orm.entity_manager%
+            - @doctrine.orm.entity_manager
             - Ilios\CoreBundle\Entity\User
