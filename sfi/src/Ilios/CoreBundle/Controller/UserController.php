@@ -2,23 +2,36 @@
 
 namespace Ilios\CoreBundle\Controller;
 
-use FOS\RestBundle\View\View;
-use FOS\RestBundle\Util\Codes;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\NamePrefix;
+use FOS\RestBundle\Controller\Annotations\Prefix;
+use FOS\RestBundle\Controller\Annotations\Route;
+use FOS\RestBundle\Controller\Annotations\View;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\RestBundle\Util\Codes;
 
-use Ilios\CoreBundle\Entity\User;
 use Ilios\CoreBundle\Form\UserType;
 use Ilios\CoreBundle\Exception\InvalidFormException;
+use Ilios\CoreBundle\Model\UserInterface;
 
+/**
+ * prefix: /v1 name_prefix: api_1_
+ * Class UserController
+ * @package Ilios\CoreBundle\Controller
+ *
+ * @Route("/users")
+ * @Prefix("v1")
+ * @NamePrefix("api_1_")
+ */
 class UserController extends BaseController
 {
     /**
-     * Get single user,
+     * Get a single user
      *
      * @ApiDoc(
      *   resource = true,
@@ -30,27 +43,19 @@ class UserController extends BaseController
      *   }
      * )
      *
+     * @Get("/{userId}.{_format}", defaults={"_format": "html"}, name="get_user", options={"exposed"=true})
+     * @ParamConverter("user", class="IliosCoreBundle:User", options={"userId":"userId"})
+     * @View(templateVar="user")
      *
-     * @return Response
+     * @param UserInterface $user
+     *
+     * @return UserInterface
      * @throws NotFoundHttpException
      */
-    public function getUserAction($id)
+    public function getUserAction(UserInterface $user = null)
     {
-        $user = $this->container
-                ->get('ilios_core.user_handler')
-                ->get($id);
-        if (!$user instanceof User) {
-            throw new NotFoundHttpException(
-                sprintf('The user \'%s\' was not found.', $id)
-            );
-        }
-
-        $view = $this->view(array('user' => $user), Codes::HTTP_OK)
-                ->setTemplate("IliosCoreBundle:User:getUser.html.twig")
-                ->setTemplateVar('user')
-        ;
-
-        return $this->handleView($view);
+        //Is the current user allowed to make this request?
+        return $user;
     }
 
     /**
@@ -62,20 +67,15 @@ class UserController extends BaseController
      *   output = "Ilios\CoreBundle\Entity\User"
      * )
      *
-     * @return Response
+     * @Get(".{_format}", defaults={"_format": "html"}, name="get_users", options={"exposed"=true})
+     * @View(templateVar="users")
+     *
+     * @return UserInterface[]
      */
     public function getUsersAction()
     {
-        $users = $this->container
-                ->get('ilios_core.user_handler')
-                ->getAll();
-
-        $view = $this->view(array('users' => $users), Codes::HTTP_OK)
-                ->setTemplate("IliosCoreBundle:User:getUsers.html.twig")
-                ->setTemplateVar('users')
-        ;
-
-        return $this->handleView($view);
+        $users = $this->getUserManager()->findUsersBy(array());
+        return $users;
     }
 
     /**
@@ -93,12 +93,14 @@ class UserController extends BaseController
      * )
      *
      *
-     * @param Request $request the request object
+     * @param Request $request
+     * @param UserInterface $user
      *
      * @return Response
      */
-    public function postUserAction(Request $request)
+    public function postUserAction(Request $request, UserInterface $user)
     {
+
         try {
             $obj = $this->container->get('ilios_core.user_handler')->post(
                 $request->request->get(UserType::NAME)
@@ -187,7 +189,15 @@ class UserController extends BaseController
             return $this->handleFormException($exception);
         }
     }
-    
+
+    private function processForm(UserInterface $user)
+    {
+        $statusCode = $user->getUserId() ? Codes::HTTP_CREATED : Codes::HTTP_NO_CONTENT;
+
+        $form = $this->createForm(new UserType(), $user, array(
+            'action' => $this->generateUrl('api_1_post_user')
+        ));
+    }
     /**
      * Generate a response for form validation errors
      * 
