@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Entity\Report;
 /**
  * User
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var integer

@@ -2,528 +2,286 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Entity\ApiKey;
+use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Entity\UserMadeReminder;
+use Ilios\CoreBundle\Entity\Course;
+use Ilios\CoreBundle\Entity\Group;
+use Ilios\CoreBundle\Entity\InstructorGroup;
+use Ilios\CoreBundle\Entity\Offering;
+use Ilios\CoreBundle\Entity\ProgramYear;
+use Ilios\CoreBundle\Entity\Alert;
+use Ilios\CoreBundle\Entity\UserRole;
+use Ilios\CoreBundle\Entity\LearningMaterial;
+use Ilios\CoreBundle\Entity\PublishEvent;
+use Ilios\CoreBundle\Entity\Report;
+
 interface UserInterface
 {
     /**
-     * Get ID
-     *
      * @return integer
      */
     public function getUserId();
 
     /**
-     * Set ID
      * @param integer $id
      */
     public function setId($id);
 
     /**
-     * Set lastName
-     *
      * @param string $lastName
      * @return User
      */
     public function setLastName($lastName);
 
     /**
-     * Get lastName
-     *
      * @return string
      */
     public function getLastName();
 
     /**
-     * Set firstName
-     *
      * @param string $firstName
      * @return User
      */
     public function setFirstName($firstName);
 
     /**
-     * Get firstName
-     *
      * @return string
      */
     public function getFirstName();
 
     /**
-     * Set middleName
-     *
      * @param string $middleName
      * @return User
      */
-    public function setMiddleName($middleName)
-    {
-        $this->middleName = $middleName;
-
-        return $this;
-    }
+    public function setMiddleName($middleName);
 
     /**
-     * Get middleName
-     *
      * @return string
      */
-    public function getMiddleName()
-    {
-        return $this->middleName;
-    }
+    public function getMiddleName();
 
     /**
-     * Set phone
-     *
      * @param string $phone
      * @return User
      */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
+    public function setPhone($phone);
 
     /**
-     * Get phone
-     *
      * @return string
      */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
+    public function getPhone();
 
     /**
-     * Set email
-     *
      * @param string $email
      * @return User
      */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
+    public function setEmail($email);
 
     /**
-     * Get email
-     *
      * @return string
      */
-    public function getEmail()
-    {
-        return $this->email;
-    }
+    public function getEmail();
 
     /**
-     * Set addedViaIlios
-     *
      * @param boolean $addedViaIlios
      * @return User
      */
-    public function setAddedViaIlios($addedViaIlios)
-    {
-        $this->addedViaIlios = $addedViaIlios;
-
-        return $this;
-    }
+    public function setAddedViaIlios($addedViaIlios);
 
     /**
-     * Get addedViaIlios
-     *
      * @return boolean
      */
-    public function getAddedViaIlios()
-    {
-        return $this->addedViaIlios;
-    }
+    public function getAddedViaIlios();
 
     /**
-     * Set enabled
-     *
      * @param boolean $enabled
      * @return User
      */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
+    public function setEnabled($enabled);
 
     /**
-     * Get enabled
-     *
      * @return boolean
      */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
+    public function getEnabled();
 
     /**
-     * Set ucUid
-     *
      * @param string $ucUid
      * @return User
      */
-    public function setUcUid($ucUid)
-    {
-        $this->ucUid = $ucUid;
-
-        return $this;
-    }
+    public function setUcUid($ucUid);
 
     /**
-     * Get ucUid
-     *
      * @return string
      */
-    public function getUcUid()
-    {
-        return $this->ucUid;
-    }
+    public function getUcUid();
 
     /**
-     * Set otherId
-     *
      * @param string $otherId
      * @return User
      */
-    public function setOtherId($otherId)
-    {
-        $this->otherId = $otherId;
-
-        return $this;
-    }
+    public function setOtherId($otherId);
 
     /**
-     * Get otherId
-     *
      * @return string
      */
-    public function getOtherId()
-    {
-        return $this->otherId;
-    }
+    public function getOtherId();
 
     /**
-     * Set examined
-     *
      * @param boolean $examined
      * @return User
      */
-    public function setExamined($examined)
-    {
-        $this->examined = $examined;
-
-        return $this;
-    }
+    public function setExamined($examined);
 
     /**
-     * Get examined
-     *
      * @return boolean
      */
-    public function getExamined()
-    {
-        return $this->examined;
-    }
+    public function getExamined();
 
     /**
-     * Set userSyncIgnore
-     *
      * @param boolean $userSyncIgnore
      * @return User
      */
-    public function setUserSyncIgnore($userSyncIgnore)
-    {
-        $this->userSyncIgnore = $userSyncIgnore;
-
-        return $this;
-    }
+    public function setUserSyncIgnore($userSyncIgnore);
 
     /**
-     * Get userSyncIgnore
-     *
      * @return boolean
      */
-    public function getUserSyncIgnore()
-    {
-        return $this->userSyncIgnore;
-    }
+    public function getUserSyncIgnore();
 
     /**
-     * Set apiKey
-     *
      * @param ApiKey $apiKey
      * @return User
      */
-    public function setApiKey(ApiKey $apiKey = null)
-    {
-        $this->apiKey = $apiKey;
-
-        return $this;
-    }
+    public function setApiKey(ApiKey $apiKey = null);
 
     /**
-     * Get apiKey
-     *
      * @return ApiKey
      */
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
+    public function getApiKey();
 
     /**
-     * Add reminders
-     *
      * @param UserMadeReminder $reminders
      * @return User
      */
-    public function addReminder(UserMadeReminder $reminders)
-    {
-        $this->reminders[] = $reminders;
-
-        return $this;
-    }
+    public function addReminder(UserMadeReminder $reminders);
 
     /**
-     * Remove reminders
-     *
      * @param UserMadeReminder $reminders
      */
-    public function removeReminder(UserMadeReminder $reminders)
-    {
-        $this->reminders->removeElement($reminders);
-    }
+    public function removeReminder(UserMadeReminder $reminders);
 
     /**
-     * Get reminders
-     *
      * @return UserMadeReminder[]
      */
-    public function getReminders()
-    {
-        return $this->reminders->toArray();
-    }
+    public function getReminders();
 
     /**
-     * Set primarySchool
-     *
      * @param School $primarySchool
      * @return User
      */
-    public function setPrimarySchool(School $primarySchool = null)
-    {
-        $this->primarySchool = $primarySchool;
-
-        return $this;
-    }
+    public function setPrimarySchool(School $primarySchool = null);
 
     /**
-     * Get primarySchool
-     *
      * @return School
      */
-    public function getPrimarySchool()
-    {
-        return $this->primarySchool;
-    }
+    public function getPrimarySchool();
 
     /**
-     * Add directedCourses
-     *
      * @param Course $course
      * @return User
      */
-    public function addDirectedCourse(Course $course)
-    {
-        $this->directedCourses[] = $course;
-
-        return $this;
-    }
+    public function addDirectedCourse(Course $course);
 
     /**
-     * Remove directedCourses
-     *
      * @param Course $course
      */
-    public function removeDirectedCourse(Course $course)
-    {
-        $this->directedCourses->removeElement($course);
-    }
+    public function removeDirectedCourse(Course $course);
 
     /**
-     * Get directedCourses
-     *
      * @return Course[]
      */
-    public function getDirectedCourses()
-    {
-        return $this->directedCourses->toArray();
-    }
+    public function getDirectedCourses();
 
     /**
-     * Add userGroups
-     *
      * @param Group $userGroups
      * @return User
      */
-    public function addUserGroup(Group $userGroups)
-    {
-        $this->userGroups[] = $userGroups;
-
-        return $this;
-    }
+    public function addUserGroup(Group $userGroups);
 
     /**
-     * Remove userGroups
-     *
      * @param Group $userGroups
      */
-    public function removeUserGroup(Group $userGroups)
-    {
-        $this->userGroups->removeElement($userGroups);
-    }
+    public function removeUserGroup(Group $userGroups);
 
     /**
-     * Get userGroups
-     *
      * @return Group[]
      */
-    public function getUserGroups()
-    {
-        return $this->userGroups->toArray();
-    }
+    public function getUserGroups();
 
     /**
-     * Add instructorUserGroups
-     *
      * @param Group $instructorUserGroups
      * @return User
      */
-    public function addInstructorUserGroup(Group $instructorUserGroups)
-    {
-        $this->instructorUserGroups[] = $instructorUserGroups;
-
-        return $this;
-    }
+    public function addInstructorUserGroup(Group $instructorUserGroups);
 
     /**
-     * Remove instructorUserGroups
-     *
      * @param Group $instructorUserGroups
      */
-    public function removeInstructorUserGroup(Group $instructorUserGroups)
-    {
-        $this->instructorUserGroups->removeElement($instructorUserGroups);
-    }
+    public function removeInstructorUserGroup(Group $instructorUserGroups);
 
     /**
-     * Get instructorUserGroups
-     *
      * @return Group[]
      */
-    public function getInstructorUserGroups()
-    {
-        return $this->instructorUserGroups->toArray();
-    }
+    public function getInstructorUserGroups();
 
     /**
-     * Add instructorGroups
-     *
      * @param InstructorGroup $instructorGroups
      * @return User
      */
-    public function addInstructorGroup(InstructorGroup $instructorGroups)
-    {
-        $this->instructorGroups[] = $instructorGroups;
-
-        return $this;
-    }
+    public function addInstructorGroup(InstructorGroup $instructorGroups);
 
     /**
-     * Remove instructorGroups
-     *
      * @param InstructorGroup $instructorGroups
      */
-    public function removeInstructorGroup(InstructorGroup $instructorGroups)
-    {
-        $this->instructorGroups->removeElement($instructorGroups);
-    }
+    public function removeInstructorGroup(InstructorGroup $instructorGroups);
 
     /**
-     * Get instructorGroups
-     *
      * @return InstructorGroup[]
      */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups->toArray();
-    }
+    public function getInstructorGroups();
 
     /**
-     * Add offerings
-     *
      * @param Offering $offerings
      * @return User
      */
-    public function addOffering(Offering $offerings)
-    {
-        $this->offerings[] = $offerings;
-
-        return $this;
-    }
+    public function addOffering(Offering $offerings);
 
     /**
-     * Remove offerings
-     *
      * @param Offering $offerings
      */
-    public function removeOffering(Offering $offerings)
-    {
-        $this->offerings->removeElement($offerings);
-    }
+    public function removeOffering(Offering $offerings);
 
     /**
-     * Get offerings
-     *
      * @return Offering[]
      */
-    public function getOfferings()
-    {
-        return $this->offerings->toArray();
-    }
+    public function getOfferings();
 
     /**
-     * Add programYears
-     *
      * @param ProgramYear $programYears
      * @return User
      */
-    public function addProgramYear(ProgramYear $programYears)
-    {
-        $this->programYears[] = $programYears;
-
-        return $this;
-    }
+    public function addProgramYear(ProgramYear $programYears);
 
     /**
-     * Remove programYears
-     *
      * @param ProgramYear $programYears
      */
-    public function removeProgramYear(ProgramYear $programYears)
-    {
-        $this->programYears->removeElement($programYears);
-    }
+    public function removeProgramYear(ProgramYear $programYears);
 
     /**
-     * Get programYears
-     *
      * @return ProgramYear[]
      */
     public function getProgramYears();
