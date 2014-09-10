@@ -25,10 +25,3 @@ Ilios\CoreBundle\Entity\User:
             serialized_name: campusId
         otherId:
             expose: true
-    virtual_properties:
-        getPrimarySchoolId:
-            serialized_name: primarySchool
-            type: integer
-        getOfferingIds:
-            serialized_name: offerings
-            type: array
