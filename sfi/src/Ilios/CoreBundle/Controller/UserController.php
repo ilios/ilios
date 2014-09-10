@@ -2,22 +2,26 @@
 
 namespace Ilios\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\Prefix;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\View;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Util\Codes;
 
-use Ilios\CoreBundle\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use JMS\DiExtraBundle\Annotation\Inject;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 use Ilios\CoreBundle\Exception\InvalidFormException;
+use Ilios\CoreBundle\Form\UserType;
 use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\UserManagerInterface;
 
 /**
  * prefix: /v1 name_prefix: api_1_
@@ -28,8 +32,14 @@ use Ilios\CoreBundle\Model\UserInterface;
  * @Prefix("v1")
  * @NamePrefix("api_1_")
  */
-class UserController extends BaseController
+class UserController extends FOSRestController
 {
+    /**
+     * @var UserManagerInterface
+     * @Inject("doctrine.orm.entity_manager")
+     */
+    protected $userManager;
+
     /**
      * Get a single user
      *
@@ -43,7 +53,7 @@ class UserController extends BaseController
      *   }
      * )
      *
-     * @Get("/{userId}.{_format}", defaults={"_format": "html"}, name="get_user", options={"exposed"=true})
+     * @Get("/{userId}.{_format}", defaults={"_format": "html"}, name="get_user")
      * @ParamConverter("user", class="IliosCoreBundle:User", options={"userId":"userId"})
      * @View(templateVar="user")
      *
@@ -67,14 +77,14 @@ class UserController extends BaseController
      *   output = "Ilios\CoreBundle\Entity\User"
      * )
      *
-     * @Get(".{_format}", defaults={"_format": "html"}, name="get_users", options={"exposed"=true})
+     * @Get(".{_format}", defaults={"_format": "html"}, name="get_users")
      * @View(templateVar="users")
      *
      * @return UserInterface[]
      */
     public function getUsersAction()
     {
-        $users = $this->getUserManager()->findUsersBy(array());
+        $users = $this->getUserManager()->findUsersBy([]);
         return $users;
     }
 
@@ -107,8 +117,8 @@ class UserController extends BaseController
             );
 
             $view = $this->view(array('user' => $obj), Codes::HTTP_CREATED)
-                    ->setTemplate("IliosCoreBundle:User:getUser.html.twig")
-                    ->setTemplateVar('user')
+                ->setTemplate("IliosCoreBundle:User:getUser.html.twig")
+                ->setTemplateVar('user')
             ;
 
             return $this->handleView($view);
@@ -133,8 +143,8 @@ class UserController extends BaseController
             )
         );
         $view = $this->view(array('form' => $form))
-                ->setTemplate("IliosCoreBundle:User:newUser.html.twig")
-                ->setTemplateVar('form')
+            ->setTemplate("IliosCoreBundle:User:newUser.html.twig")
+            ->setTemplateVar('form')
         ;
 
         return $this->handleView($view);
@@ -179,13 +189,13 @@ class UserController extends BaseController
             }
 
             $view = $this->view(array('user' => $user), $statusCode)
-                    ->setTemplate("IliosCoreBundle:User:getUser.html.twig")
-                    ->setTemplateVar('user')
+                ->setTemplate("IliosCoreBundle:User:getUser.html.twig")
+                ->setTemplateVar('user')
             ;
 
             return $this->handleView($view);
         } catch (InvalidFormException $exception) {
-            
+
             return $this->handleFormException($exception);
         }
     }
@@ -195,12 +205,13 @@ class UserController extends BaseController
         $statusCode = $user->getUserId() ? Codes::HTTP_CREATED : Codes::HTTP_NO_CONTENT;
 
         $form = $this->createForm(new UserType(), $user, array(
-            'action' => $this->generateUrl('api_1_post_user')
-        ));
+                'action' => $this->generateUrl('api_1_post_user')
+            ));
     }
+
     /**
      * Generate a response for form validation errors
-     * 
+     *
      * @param \Ilios\CoreBundle\Exception\InvalidFormException $exception
      * @return Response
      */
@@ -211,7 +222,9 @@ class UserController extends BaseController
             ->setTemplate("IliosCoreBundle:User:newUser.html.twig")
             ->setTemplateVar('form')
         ;
-        
+
         return $this->handleView($view);
     }
+
+
 }
