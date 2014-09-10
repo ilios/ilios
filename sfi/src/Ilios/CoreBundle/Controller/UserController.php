@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Util\Codes;
 
@@ -16,9 +15,8 @@ use Ilios\CoreBundle\Entity\User;
 use Ilios\CoreBundle\Form\UserType;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 
-class UserController extends FOSRestController
+class UserController extends BaseController
 {
-
     /**
      * Get single user,
      *
@@ -32,11 +30,9 @@ class UserController extends FOSRestController
      *   }
      * )
      *
-     * @param int     $id      the user id
      *
      * @return Response
-     *
-     * @throws NotFoundHttpException when page not exist
+     * @throws NotFoundHttpException
      */
     public function getUserAction($id)
     {

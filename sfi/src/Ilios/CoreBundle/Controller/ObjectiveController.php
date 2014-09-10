@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Util\Codes;
 
@@ -16,7 +15,7 @@ use Ilios\CoreBundle\Entity\Objective;
 use Ilios\CoreBundle\Form\ObjectiveType;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 
-class ObjectiveController extends FOSRestController
+class ObjectiveController extends BaseController
 {
 
     /**
