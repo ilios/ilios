@@ -72,6 +72,9 @@ fos_rest:
     exception:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
 
 ilios_legacy_ci:
     session:
