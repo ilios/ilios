@@ -25,7 +25,7 @@ class Program
     private $shortTitle;
 
     /**
-     * @var boolean
+     * @var integer
      */
     private $duration;
 
