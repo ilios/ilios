@@ -7,7 +7,7 @@ use Mockery as m;
 
 class EntityBase extends TestCase
 {
-    
+
     /**
      * Remove all mock objects
      */
@@ -18,7 +18,7 @@ class EntityBase extends TestCase
 
     /**
      * A generic test for entity getters
-     * 
+     *
      * @param string $property
      * @param string $type
      */
@@ -31,8 +31,22 @@ class EntityBase extends TestCase
     }
 
     /**
+     * A generic test for boolean entity setters
+     *
+     * @param string $property
+     */
+    protected function booleanSetTest($property)
+    {
+        $setMethod = $this->getSetMethodForProperty($property);
+        $isMethod = $this->getIsMethodForProperty($property);
+        $expected = $this->getValueForType('boolean');
+        $this->object->$setMethod($expected);
+        $this->assertSame($expected, $this->object->$isMethod());
+    }
+
+    /**
      * A generic test for entity setters
-     * 
+     *
      * @param string $property
      * @param string $type
      */
@@ -46,8 +60,22 @@ class EntityBase extends TestCase
     }
 
     /**
+     * A generic test for entity getters
+     *
+     * @param string $property
+     * @param string $type
+     */
+    protected function basicIsTest($property, $type)
+    {
+        $expected = $this->getValueForType($type);
+        $isMethod = $this->getIsMethodForProperty($property);
+        $this->setPropertyOnObject($this->object, $property, $expected);
+        $this->assertSame($expected, $this->object->$isMethod());
+    }
+
+    /**
      * A generic test for entity getters which use other entites
-     * 
+     *
      * @param string $property
      * @param string $entityName
      */
@@ -61,7 +89,7 @@ class EntityBase extends TestCase
 
     /**
      * A generic test for entity setters which use other entites
-     * 
+     *
      * @param string $property
      * @param string $entityName
      */
@@ -76,7 +104,7 @@ class EntityBase extends TestCase
 
     /**
      * A generic test for getters which hold collections of other entites
-     * 
+     *
      * @param string $property
      * @param string $entityName
      */
@@ -97,7 +125,7 @@ class EntityBase extends TestCase
 
     /**
      * A generis test for entity setters which hold collections of other entites
-     * 
+     *
      * @param string $property
      * @param string $entityName
      */
@@ -115,7 +143,7 @@ class EntityBase extends TestCase
 
     /**
      * A generis test for entity setters which hold collections of other entites
-     * 
+     *
      * @param string $property
      * @param string $entityName
      */
@@ -160,7 +188,12 @@ class EntityBase extends TestCase
         return 'get' . ucfirst($property);
     }
 
-    protected function getGetMethodForCOllectionProperty($property)
+    protected function getIsMethodForProperty($property)
+    {
+        return 'is' . ucfirst($property);
+    }
+
+    protected function getGetMethodForCollectionProperty($property)
     {
         return 'get' . ucfirst($property) . 's';
     }
