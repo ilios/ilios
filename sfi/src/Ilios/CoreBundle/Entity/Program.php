@@ -38,12 +38,12 @@ class Program
      * @var boolean
      */
     private $publishedAsTbd;
-    
+
     /**
      * @var \Ilios\CoreBundle\Entity\PublishEvent
      */
     private $publishEvent;
-    
+
     /**
      * @var \Ilios\CoreBundle\Entity\School
      */
@@ -53,7 +53,7 @@ class Program
     /**
      * Get programId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProgramId()
     {
@@ -76,7 +76,7 @@ class Program
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -99,7 +99,7 @@ class Program
     /**
      * Get shortTitle
      *
-     * @return string 
+     * @return string
      */
     public function getShortTitle()
     {
@@ -122,7 +122,7 @@ class Program
     /**
      * Get duration
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDuration()
     {
@@ -145,9 +145,9 @@ class Program
     /**
      * Get deleted
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
@@ -168,7 +168,7 @@ class Program
     /**
      * Get publishedAsTbd
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPublishedAsTbd()
     {
@@ -191,7 +191,7 @@ class Program
     /**
      * Get owningSchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Entity\School
      */
     public function getOwningSchool()
     {
@@ -214,7 +214,7 @@ class Program
     /**
      * Get publishEvent
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent 
+     * @return \Ilios\CoreBundle\Entity\PublishEvent
      */
     public function getPublishEvent()
     {
