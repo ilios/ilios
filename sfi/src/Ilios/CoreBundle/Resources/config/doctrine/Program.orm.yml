@@ -6,7 +6,7 @@ Ilios\CoreBundle\Entity\Program:
             type: integer
             unsigned: true
             id: true
-            column: program_id    
+            column: program_id
             generator: { strategy: AUTO }
     fields:
         title:
@@ -18,7 +18,7 @@ Ilios\CoreBundle\Entity\Program:
             length: 10
             column: short_title
         duration:
-            type: boolean
+            type: smallint
         deleted:
             type: boolean
         publishedAsTbd:
@@ -26,12 +26,12 @@ Ilios\CoreBundle\Entity\Program:
             column: published_as_tbd
     manyToOne:
         publishEvent:
-            targetEntity: PublishEvent    
+            targetEntity: PublishEvent
             joinColumns:
                 publish_event_id:
                     referencedColumnName: publish_event_id
         owningSchool:
-            targetEntity: School    
+            targetEntity: School
             joinColumns:
                 owning_school_id:
                     referencedColumnName: school_id
