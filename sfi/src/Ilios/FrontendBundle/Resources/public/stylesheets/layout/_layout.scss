@@ -1,6 +1,0 @@
-div.container {
-    @include outer-container;
-    section.fullwidth {
-        @include span-columns(12);
-    }
-}

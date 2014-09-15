@@ -69,18 +69,4 @@ class profile::ilios (
         error_log_file => "${fqdn}_error.log",
         require => [File[$docroot]]
     }
-
-    class { 'nodejs':
-        manage_repo => true
-    }
-
-    package { 'build-essential':
-        ensure => installed
-    }
-
-    package { $node_modules:
-        ensure => 'present',
-        provider => 'npm',
-        require  => [Class['nodejs'], Package['build-essential']],
-    }
 }

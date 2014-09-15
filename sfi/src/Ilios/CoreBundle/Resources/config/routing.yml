@@ -4,9 +4,6 @@ ilios_core_apiinfo:
         _controller: FrameworkBundle:Template:template
         template:    'IliosCoreBundle::apiinfo.html.twig'
         _format: 'html'
-    options:
-        expose: true
-
 
 ilios_core_objective:
     type: rest
