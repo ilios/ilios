@@ -2,5 +2,4 @@
 <ruleset name="Ilios App">
  <description>Use PSR2, exclde some directories</description>
  <rule ref="PSR2"/>
-  <exclude-pattern>*/FrontendBundle/Resources</exclude-pattern>
 </ruleset>

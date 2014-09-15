@@ -9,16 +9,4 @@ class profile::build::symfony {
             'user:www-data:rwX',
         ],
     }
-
-    class {'ruby':
-        gems_version => 'latest',
-    }
-
-    $gems = ['sass', 'bourbon', 'neat', 'bitters', 'refills']
-
-    package { $gems:
-        ensure => present,
-        provider => 'gem',
-        require => Class['ruby']
-    }
 }
