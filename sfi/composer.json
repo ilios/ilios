@@ -21,9 +21,7 @@
         "symfony/assetic-bundle": "dev-master",
         "friendsofsymfony/rest-bundle": "1.4.*",
         "jms/serializer-bundle": "0.13.*",
-        "nelmio/api-doc-bundle": "2.*",
-        "friendsofsymfony/jsrouting-bundle": "~1.5",
-        "sp/bower-bundle": "dev-master"
+        "nelmio/api-doc-bundle": "2.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",
@@ -31,7 +29,6 @@
         "liip/functional-test-bundle": "@stable",
         "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "@stable",
-        "lmammino/jsmin4assetic": "@stable",
         "squizlabs/php_codesniffer": "@stable",
         "phpunit/phpunit-skeleton-generator": "@stable",
         "willdurand/faker-bundle": "@stable",
@@ -48,8 +45,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -57,8 +53,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
         ]
     },
     "config": {
