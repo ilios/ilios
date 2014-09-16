@@ -1,0 +1,13 @@
+---
+:logger: puppet
+
+:backends:
+    - yaml
+
+:yaml:
+    :datadir: '/vagrant/provision/puppet/environments'
+
+:hierarchy:
+    - '%{environment}/hiera/%{fqdn}'
+    - '%{environment}/hiera/common'
+    - common
