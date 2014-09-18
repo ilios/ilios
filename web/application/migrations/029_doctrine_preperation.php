@@ -11,9 +11,9 @@ class Migration_Doctrine_preperation extends CI_Migration
      */
     public function up()
     {
-    
+
         $queries = array();
-        
+
         $queries = array_merge($queries, $this->getDropForeignKeys());
         $queries = array_merge($queries, $this->getDropIndexes());
         $queries = array_merge($queries, $this->getDropKeys());
@@ -24,7 +24,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $queries = array_merge($queries, $this->getColumnChanges());
         $queries = array_merge($queries, $this->getAddIndexes());
         $queries = array_merge($queries, $this->getAddForeignKeys());
-        
+
         $this->db->trans_start();
         foreach($queries as $sql){
             $this->db->query($sql);
@@ -38,9 +38,9 @@ class Migration_Doctrine_preperation extends CI_Migration
 
     public function down()
     {
-        
+
     }
-    
+
     protected function getDropIndexes()
     {
         $changes = array();
@@ -164,7 +164,7 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'session_type_x_aamc_method',
             'index' => 'session_type_id_method_id'
         );
-        
+
         $queries = array();
         $queries[] = "DROP PROCEDURE IF EXISTS drop_index_if_exists";
         $queries[] = "CREATE PROCEDURE drop_index_if_exists(theTable VARCHAR(128), theIndexName VARCHAR(128))\n"
@@ -179,10 +179,10 @@ class Migration_Doctrine_preperation extends CI_Migration
             $queries[] = "CALL drop_index_if_exists('{$arr['table']}', '{$arr['index']}')";
         }
         $queries[] = "DROP PROCEDURE IF EXISTS drop_index_if_exists";
-        
+
         return $queries;
     }
-    
+
     protected function getDropKeys()
     {
         $changes = array();
@@ -218,7 +218,7 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'program_year_steward',
             'key' => 'py_s_k'
         );
-        
+
         $queries = array();
         $queries[] = "DROP PROCEDURE IF EXISTS drop_key_if_exists";
         $queries[] = "CREATE PROCEDURE drop_key_if_exists(theTable VARCHAR(128), theName VARCHAR(128))\n"
@@ -235,7 +235,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $queries[] ="DROP PROCEDURE IF EXISTS drop_key_if_exists";
         return $queries;
     }
-    
+
     protected function getDropForeignKeys()
     {
         $changes = array();
@@ -652,27 +652,27 @@ class Migration_Doctrine_preperation extends CI_Migration
             $queries[] = "CALL drop_fk_if_exists('{$arr['table']}', '{$arr['key']}')";
         }
         $queries[] ="DROP PROCEDURE IF EXISTS drop_fk_if_exists";
-        
+
         return $queries;
     }
-    
+
     protected function getDropPrimaryKeys()
     {
         $arr = array(
             'session_type_x_aamc_method'
         );
-        
+
         $queries = array();
         foreach($arr as $table){
             $queries[] = "ALTER TABLE `{$table}` DROP PRIMARY KEY";
         }
         return $queries;
     }
-    
+
     protected function getAddColumns()
     {
         $changes = array();
-        
+
         $changes[] = array(
             'table' => 'program_year_steward',
             'column' => 'program_year_steward_id',
@@ -683,12 +683,12 @@ class Migration_Doctrine_preperation extends CI_Migration
         foreach($changes as $arr){
             $queries[] = "ALTER TABLE `{$arr['table']}` ADD `{$arr['column']}` {$arr['definition']}";
         }
-        
+
         return $queries;
     }
-    
-    
-    
+
+
+
     protected function getColumnChanges()
     {
         $changes = array();
@@ -1510,7 +1510,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'program',
             'column' => 'duration',
-            'definition' => 'TINYINT(1) NOT NULL'
+            'definition' => 'SMALLINT NOT NULL'
         );
         $changes[] = array(
             'table' => 'program',
@@ -1872,11 +1872,11 @@ class Migration_Doctrine_preperation extends CI_Migration
         foreach($changes as $arr){
             $queries[] = "ALTER TABLE `{$arr['table']}` CHANGE `{$arr['column']}` `{$arr['column']}` {$arr['definition']}";
         }
-        
+
         return $queries;
     }
-        
-    
+
+
     protected function getAddForeignKeys()
     {
         $changes = array();
@@ -2904,14 +2904,14 @@ class Migration_Doctrine_preperation extends CI_Migration
             'remoteColumn' => 'user_role_id',
             'cascadeDelete' => true
         );
-        
+
         $queries = array();
         $queries[] = "DELETE FROM objective_x_objective WHERE parent_objective_id NOT IN (select objective_id from objective)";
         $queries[] = "DELETE FROM objective_x_objective WHERE objective_id NOT IN (select objective_id from objective)";
         $queries[] = "DELETE FROM program_year_steward WHERE program_year_id NOT IN (select program_year_id from program_year)";
         $queries[] = "DELETE FROM program_year_steward WHERE school_id NOT IN (select school_id from school)";
         $queries[] = "DELETE FROM program_year_steward WHERE department_id IS NOT NULL and department_id NOT IN (select department_id from department)";
-        
+
         foreach($changes as $arr){
             $query = "ALTER TABLE `{$arr['table']}` ADD CONSTRAINT {$arr['key']} FOREIGN KEY (`{$arr['localColumn']}`) REFERENCES `{$arr['remoteTable']}` (`{$arr['remoteColumn']}`)";
             if($arr['cascadeDelete']){
@@ -2921,7 +2921,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         }
         return $queries;
     }
-    
+
     protected function getAddIndexes()
     {
         $changes = array();
@@ -3173,7 +3173,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         }
         return $queries;
     }
-    
+
     protected function getAddPrimaryKeys()
     {
         $arr = array(
@@ -3195,7 +3195,7 @@ class Migration_Doctrine_preperation extends CI_Migration
             'session_learning_material_x_mesh' => 'session_learning_material_id, mesh_descriptor_uid',
             'session_description' => 'session_id'
         );
-        
+
         $queries = array();
         foreach($arr as $table => $key){
             $queries[] = "ALTER TABLE `{$table}` ADD PRIMARY KEY ({$key})";
@@ -3243,10 +3243,10 @@ class Migration_Doctrine_preperation extends CI_Migration
             $queries[] = "ALTER TABLE `{$arr['table']}` DROP COLUMN `id`";
             $queries[] = "ALTER TABLE `{$arr['table']}` ADD PRIMARY KEY (`{$arr['col1']}`, `{$arr['col2']}`)";
         }
-        
+
         return $queries;
     }
-    
+
     protected function getChangeEngine()
     {
         $arr = array(
@@ -3263,7 +3263,7 @@ class Migration_Doctrine_preperation extends CI_Migration
             'mesh_tree_x_descriptor',
             'mesh_user_selection'
         );
-        
+
         $queries = array();
         foreach($arr as $table){
             $queries[] = "ALTER TABLE `{$table}` ENGINE=InnoDB";

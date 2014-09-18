@@ -22,7 +22,7 @@ class ProgramTest extends EntityBase
     {
         $this->object = new Program;
     }
-    
+
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::getProgramId
@@ -85,15 +85,15 @@ class ProgramTest extends EntityBase
      */
     public function testSetDeleted()
     {
-        $this->basicSetTest('deleted', 'boolean');
+        $this->booleanSetTest('deleted', 'boolean');
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Program::getDeleted
+     * @covers Ilios\CoreBundle\Entity\Program::isDeleted
      */
-    public function testGetDeleted()
+    public function testIsDeleted()
     {
-        $this->basicGetTest('deleted', 'boolean');
+        $this->basicIsTest('deleted', 'boolean');
     }
 
     /**
