@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\AopBundle\JMSAopBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Ilios\CoreBundle\IliosCoreBundle(),
             new Ilios\LegacyCIBundle\IliosLegacyCIBundle(),

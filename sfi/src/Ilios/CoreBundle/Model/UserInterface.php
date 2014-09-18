@@ -395,4 +395,9 @@ interface UserInterface
      * @return string
      */
     public function getUsername();
+
+    /**
+     * @return string
+     */
+    public function __toString();
 }

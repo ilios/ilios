@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Controller;
 
+use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Util\Codes;
 
@@ -16,7 +17,7 @@ use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Classes\CurrentSession;
 use Ilios\CoreBundle\Entity\User;
 
-class CurrentsessionController extends BaseController
+class CurrentsessionController extends FOSRestController
 {
 
     /**

@@ -21,7 +21,8 @@
         "symfony/assetic-bundle": "dev-master",
         "friendsofsymfony/rest-bundle": "1.4.*",
         "jms/serializer-bundle": "0.13.*",
-        "nelmio/api-doc-bundle": "2.*"
+        "nelmio/api-doc-bundle": "2.*",
+        "jms/di-extra-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",

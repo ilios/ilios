@@ -947,4 +947,12 @@ class User implements UserInterface, \Serializable
     {
         return (string) $this->userId;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->userId;
+    }
 }
