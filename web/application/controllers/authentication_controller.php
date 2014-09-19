@@ -313,58 +313,68 @@ class Authentication_Controller extends Ilios_Base_Controller
 
     /**
      * Implements the "login" action for the ldap authn system.
+
+     * Accepts the following POST parameters:
+     *     'username' ... the user account login handle
+     *     'password' ... the  corresponding password in plain text
      *
-     * @todo Provide proper docblock. [ST 2013/12/23]
-     * @todo Provider proper input validation [ST 2013/12/23]
      * @todo Add CSRF token to login form. [ST 2013/12/23]
-     * @todo Translate error messages. [ST 2013/12/23]
-     * @todo Handle LDAP connectivity failure more graceful. [ST 2012/12/23]
      */
     public function _ldap_login ()
     {
-        $errMsg = false;
+        $errorMessages = array();
 
         // get login credentials from user input
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $authenticated = false;
-
-        // do LDAP authentication
-        // by connecting and binding to the given ldap server with the user-provided credentials
-        $ldapConf = $this->config->item('ilios_ldap_authentication');
-        $ldapConn = @ldap_connect($ldapConf['host'], $ldapConf['port']);
-        if ($ldapConn) {
-            $ldapRdn = sprintf($ldapConf['bind_dn_template'], $username);
-            $ldapBind = @ldap_bind($ldapConn, $ldapRdn, $password);
-            if ($ldapBind) {
-                $authenticated = true; // auth. successful
-            }
-        } else {
-            die("couldn't connect to ldap server");
+        if (empty($username)) {
+            $errorMessages[] = $this->languagemap->getI18NString('login.error.username_missing');
         }
 
-        if ($authenticated) { // login succeeded
-            // get the user record from the database
-            $authenticationRow = $this->authentication->getByUsername($username);
-            if ($authenticationRow) {
-                // load the user record
-                $user = $this->user->getEnabledUserById($authenticationRow->person_id);
-            }
+        if (empty($password)) {
+            $errorMessages[] = $this->languagemap->getI18NString('login.error.password_missing');
+        }
 
-            if ($user) {
-                $this->_storeUserInSession($user);
+        $authenticated = false;
+
+        if(!empty($username) and !empty($password)){
+            // do LDAP authentication
+            // by connecting and binding to the given ldap server with the user-provided credentials
+            $ldapConf = $this->config->item('ilios_ldap_authentication');
+            $ldapConn = @ldap_connect($ldapConf['host'], $ldapConf['port']);
+            if ($ldapConn) {
+                $ldapRdn = sprintf($ldapConf['bind_dn_template'], $username);
+                $ldapBind = @ldap_bind($ldapConn, $ldapRdn, $password);
+                if ($ldapBind) {
+                    $authenticated = true; // auth. successful
+                }
             } else {
-                //  login was success but we don't have a corresponding user record on file
-                // or the user is disabled
-                $errMsg = 'Your username does not match any active user records in Ilios. If you need further assistance, please contact your Ilios administrator. Thank you.';
+                $errorMessages[] = $this->languagemap->getI18NString('login.error.provider_error');
             }
-        } else { // login failed
-            $errMsg = $this->languagemap->getI18NString('login.error.bad_login');
+            $user = false;
+            if ($authenticated) { // login succeeded
+                // get the user record from the database
+                $authenticationRow = $this->authentication->getByUsername($username);
+                if ($authenticationRow) {
+                    // load the user record
+                    $user = $this->user->getEnabledUserById($authenticationRow->person_id);
+                }
+
+                if ($user) {
+                    $this->_storeUserInSession($user);
+                } else {
+                    //  login was success but we don't have a corresponding user record on file
+                    // or the user is disabled
+                    $errorMessages[] = $username . ' ' . $this->languagemap->getI18NString('login.error.no_match_2');
+                }
+            } else { // login failed
+                $errorMessages[] = $this->languagemap->getI18NString('login.error.bad_login');
+            }
         }
 
         // login succeeded. redirect to dashboard.
-        if (false === $errMsg) {
+        if ($user and empty($errorMessages)) {
             $this->output->set_header("Location: " . base_url() . "ilios.php/dashboard_controller");
             return;
         }
@@ -372,7 +382,7 @@ class Authentication_Controller extends Ilios_Base_Controller
         // handle login error.
         $this->output->set_header('Expires: 0');
         $this->load->view('login/login', array(
-            'login_message' => $errMsg)
+            'login_message' => implode('<br />', $errorMessages))
         );
     }
 
