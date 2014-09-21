@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\ProgramYear as BaseProgramYear;
-
+use Ilios\CoreBundle\Model\ProgramYear as BaseProgramYear;
 
 /**
  * ProgramYear

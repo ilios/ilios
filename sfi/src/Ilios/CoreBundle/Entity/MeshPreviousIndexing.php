@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshPreviousIndexing as BaseMeshPreviousIndexing;
-
+use Ilios\CoreBundle\Model\MeshPreviousIndexing as BaseMeshPreviousIndexing;
 
 /**
  * MeshPreviousIndexing

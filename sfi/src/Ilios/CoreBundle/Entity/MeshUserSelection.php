@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshUserSelection as BaseMeshUserSelection;
-
+use Ilios\CoreBundle\Model\MeshUserSelection as BaseMeshUserSelection;
 
 /**
  * MeshUserSelection

@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\SessionDescription as BaseSessionDescription;
-
+use Ilios\CoreBundle\Model\SessionDescription as BaseSessionDescription;
 
 /**
  * SessionDescription

@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Session as BaseSession;
-
+use Ilios\CoreBundle\Model\Session as BaseSession;
 
 /**
  * Session

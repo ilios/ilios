@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\InstructorGroup as BaseInstructorGroup;
-
+use Ilios\CoreBundle\Model\InstructorGroup as BaseInstructorGroup;
 
 /**
  * InstructorGroup

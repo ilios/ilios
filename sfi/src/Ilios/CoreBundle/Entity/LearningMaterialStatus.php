@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\LearningMaterialStatus as BaseLearningMaterialStatus;
-
+use Ilios\CoreBundle\Model\LearningMaterialStatus as BaseLearningMaterialStatus;
 
 /**
  * LearningMaterialStatus

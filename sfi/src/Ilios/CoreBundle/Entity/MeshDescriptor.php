@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshDescriptor as BaseMeshDescriptor;
-
+use Ilios\CoreBundle\Model\MeshDescriptor as BaseMeshDescriptor;
 
 /**
  * MeshDescriptor

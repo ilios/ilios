@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\CourseLearningMaterial as BaseCourseLearningMaterial;
-
+use Ilios\CoreBundle\Model\CourseLearningMaterial as BaseCourseLearningMaterial;
 
 /**
  * CourseLearningMaterial

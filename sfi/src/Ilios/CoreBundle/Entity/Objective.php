@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Objective as BaseObjective;
-
+use Ilios\CoreBundle\Model\Objective as BaseObjective;
 
 /**
  * Objective

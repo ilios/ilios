@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Cohort as BaseCohort;
-
+use Ilios\CoreBundle\Model\Cohort as BaseCohort;
 
 /**
  * Cohort

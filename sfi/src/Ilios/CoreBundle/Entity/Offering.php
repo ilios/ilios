@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Offering as BaseOffering;
-
+use Ilios\CoreBundle\Model\Offering as BaseOffering;
 
 /**
  * Offering

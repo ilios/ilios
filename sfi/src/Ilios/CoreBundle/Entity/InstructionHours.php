@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\InstructionHours as BaseInstructionHours;
-
+use Ilios\CoreBundle\Model\InstructionHours as BaseInstructionHours;
 
 /**
  * InstructionHours

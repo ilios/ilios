@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshConceptXTerm as BaseMeshConceptXTerm;
-
+use Ilios\CoreBundle\Model\MeshConceptXTerm as BaseMeshConceptXTerm;
 
 /**
  * MeshConceptXTerm

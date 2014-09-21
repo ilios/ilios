@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshTreeXDescriptor as BaseMeshTreeXDescriptor;
-
+use Ilios\CoreBundle\Model\MeshTreeXDescriptor as BaseMeshTreeXDescriptor;
 
 /**
  * MeshTreeXDescriptor

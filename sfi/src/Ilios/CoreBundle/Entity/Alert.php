@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Alert as BaseAlert;
-
+use Ilios\CoreBundle\Model\Alert as BaseAlert;
 
 /**
  * Alert

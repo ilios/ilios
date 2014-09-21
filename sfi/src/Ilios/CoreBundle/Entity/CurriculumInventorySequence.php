@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\CurriculumInventorySequence as BaseCurriculumInventorySequence;
-
+use Ilios\CoreBundle\Model\CurriculumInventorySequence as BaseCurriculumInventorySequence;
 
 /**
  * CurriculumInventorySequence

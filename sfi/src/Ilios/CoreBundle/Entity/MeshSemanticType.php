@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshSemanticType as BaseMeshSemanticType;
-
+use Ilios\CoreBundle\Model\MeshSemanticType as BaseMeshSemanticType;
 
 /**
  * MeshSemanticType

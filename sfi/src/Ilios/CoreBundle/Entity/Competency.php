@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Competency as BaseCompetency;
-
+use Ilios\CoreBundle\Model\Competency as BaseCompetency;
 
 /**
  * Competency

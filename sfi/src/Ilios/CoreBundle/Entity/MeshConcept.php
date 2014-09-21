@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshConcept as BaseMeshConcept;
-
+use Ilios\CoreBundle\Model\MeshConcept as BaseMeshConcept;
 
 /**
  * MeshConcept

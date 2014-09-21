@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Authentication as BaseAuthentication;
-
+use Ilios\CoreBundle\Model\Authentication as BaseAuthentication;
 
 /**
  * Authentication

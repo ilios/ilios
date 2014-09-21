@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\CurriculumInventoryInstitution as BaseCurriculumInventoryInstitution;
-
+use Ilios\CoreBundle\Model\CurriculumInventoryInstitution as BaseCurriculumInventoryInstitution;
 
 /**
  * CurriculumInventoryInstitution

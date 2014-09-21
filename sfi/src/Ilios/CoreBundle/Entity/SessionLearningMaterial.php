@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\SessionLearningMaterial as BaseSessionLearningMaterial;
-
+use Ilios\CoreBundle\Model\SessionLearningMaterial as BaseSessionLearningMaterial;
 
 /**
  * SessionLearningMaterial

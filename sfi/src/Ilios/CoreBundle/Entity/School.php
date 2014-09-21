@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\School as BaseSchool;
-
+use Ilios\CoreBundle\Model\School as BaseSchool;
 
 /**
  * School

@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\CourseClerkshipType as BaseCourseClerkshipType;
-
+use Ilios\CoreBundle\Model\CourseClerkshipType as BaseCourseClerkshipType;
 
 /**
  * CourseClerkshipType

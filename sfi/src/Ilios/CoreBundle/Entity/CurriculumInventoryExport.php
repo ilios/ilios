@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\CurriculumInventoryExport as BaseCurriculumInventoryExport;
-
+use Ilios\CoreBundle\Model\CurriculumInventoryExport as BaseCurriculumInventoryExport;
 
 /**
  * CurriculumInventoryExport

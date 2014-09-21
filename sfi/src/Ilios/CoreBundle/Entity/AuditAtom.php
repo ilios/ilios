@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\AuditAtom as BaseAuditAtom;
-
+use Ilios\CoreBundle\Model\AuditAtom as BaseAuditAtom;
 
 /**
  * AuditAtom

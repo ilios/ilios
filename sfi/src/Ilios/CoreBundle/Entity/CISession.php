@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\CISession as BaseCISession;
-
+use Ilios\CoreBundle\Model\CISession as BaseCISession;
 
 /**
  * CISession

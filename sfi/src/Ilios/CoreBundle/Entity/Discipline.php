@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Discipline as BaseDiscipline;
-
+use Ilios\CoreBundle\Model\Discipline as BaseDiscipline;
 
 /**
  * Discipline

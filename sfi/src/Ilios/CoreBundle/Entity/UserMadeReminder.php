@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\UserMadeReminder as BaseUserMadeReminder;
-
+use Ilios\CoreBundle\Model\UserMadeReminder as BaseUserMadeReminder;
 
 /**
  * UserMadeReminder

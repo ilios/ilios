@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\UserRole as BaseUserRole;
-
+use Ilios\CoreBundle\Model\UserRole as BaseUserRole;
 
 /**
  * UserRole

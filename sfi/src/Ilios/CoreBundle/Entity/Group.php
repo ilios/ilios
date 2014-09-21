@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Group as BaseGroup;
-
+use Ilios\CoreBundle\Model\Group as BaseGroup;
 
 /**
  * Group

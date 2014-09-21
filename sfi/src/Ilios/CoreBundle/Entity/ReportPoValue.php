@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\ReportPoValue as BaseReportPoValue;
-
+use Ilios\CoreBundle\Model\ReportPoValue as BaseReportPoValue;
 
 /**
  * ReportPoValue

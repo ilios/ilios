@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\ApiKey as BaseApiKey;
-
+use Ilios\CoreBundle\Model\ApiKey as BaseApiKey;
 
 /**
  * ApiKey

@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\Department as BaseDepartment;
-
+use Ilios\CoreBundle\Model\Department as BaseDepartment;
 
 /**
  * Department

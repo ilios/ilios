@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\MeshTerm as BaseMeshTerm;
-
+use Ilios\CoreBundle\Model\MeshTerm as BaseMeshTerm;
 
 /**
  * MeshTerm

@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\LearningMaterialUserRole as BaseLearningMaterialUserRole;
-
+use Ilios\CoreBundle\Model\LearningMaterialUserRole as BaseLearningMaterialUserRole;
 
 /**
  * LearningMaterialUserRole

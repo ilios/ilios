@@ -2,9 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-
-use Ilios\CoreBundle\Entity\AamcMethod as BaseAamcMethod;
-
+use Ilios\CoreBundle\Model\AamcMethod as BaseAamcMethod;
 
 /**
  * AamcMethod
