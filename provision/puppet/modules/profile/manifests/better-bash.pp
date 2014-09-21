@@ -13,7 +13,7 @@ class profile::better-bash {
         cwd => '/home/vagrant/',
         command => "git clone https://github.com/vpassapera/candy-alt.git /home/vagrant/.bash_it/themes/candy-alt",
         user => 'vagrant',
-        creates => '/home/vagrant/.bash_it/',
+        creates => '/home/vagrant/.bash_it/themes/candy-alt',
         path => ['/usr/bin', '/usr/sbin', '/usr/local/bin', '/bin'],
         require => Exec['clone_bash_it']
     }
