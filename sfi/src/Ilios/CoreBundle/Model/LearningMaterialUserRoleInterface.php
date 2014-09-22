@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface LearningMaterialUserRoleInterface
  */
@@ -21,3 +19,4 @@ interface LearningMaterialUserRoleInterface
 
     public function getLearningMaterials();
 }
+

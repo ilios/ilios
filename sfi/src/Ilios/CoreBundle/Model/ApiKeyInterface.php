@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface ApiKeyInterface
  */
@@ -21,3 +19,4 @@ interface ApiKeyInterface
 
     public function getUser();
 }
+

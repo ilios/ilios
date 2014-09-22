@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface RecurringEventInterface
  */
@@ -61,3 +59,4 @@ interface RecurringEventInterface
 
     public function getOfferings();
 }
+

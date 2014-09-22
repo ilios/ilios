@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface PublishEventInterface
  */
@@ -31,3 +29,4 @@ interface PublishEventInterface
 
     public function getAdministrator();
 }
+

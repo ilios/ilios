@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface AuditAtomInterface
  */
@@ -35,3 +33,4 @@ interface AuditAtomInterface
 
     public function getCreatedBy();
 }
+

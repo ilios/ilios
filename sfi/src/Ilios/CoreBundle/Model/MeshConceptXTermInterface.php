@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshConceptXTermInterface
  */
@@ -17,3 +15,4 @@ interface MeshConceptXTermInterface
 
     public function getMeshTermUid();
 }
+

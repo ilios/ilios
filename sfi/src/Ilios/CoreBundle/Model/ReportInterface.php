@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface ReportInterface
  */
@@ -35,3 +33,4 @@ interface ReportInterface
 
     public function getUser();
 }
+

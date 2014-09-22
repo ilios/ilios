@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface CompetencyInterface
  */
@@ -35,3 +33,4 @@ interface CompetencyInterface
 
     public function getProgramYears();
 }
+

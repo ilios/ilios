@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface PermissionInterface
  */
@@ -31,3 +29,4 @@ interface PermissionInterface
 
     public function getTableName();
 }
+

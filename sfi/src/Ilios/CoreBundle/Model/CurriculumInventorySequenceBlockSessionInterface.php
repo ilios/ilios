@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface CurriculumInventorySequenceBlockSessionInterface
  */
@@ -23,3 +21,4 @@ interface CurriculumInventorySequenceBlockSessionInterface
 
     public function getSession();
 }
+

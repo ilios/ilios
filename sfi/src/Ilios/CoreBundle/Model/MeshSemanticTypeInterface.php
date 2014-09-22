@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshSemanticTypeInterface
  */
@@ -25,3 +23,4 @@ interface MeshSemanticTypeInterface
 
     public function getUpdatedAt();
 }
+

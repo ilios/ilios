@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface AssessmentOptionInterface
  */
@@ -15,3 +13,4 @@ interface AssessmentOptionInterface
 
     public function getName();
 }
+

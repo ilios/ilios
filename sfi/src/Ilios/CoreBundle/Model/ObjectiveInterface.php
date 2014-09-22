@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface ObjectiveInterface
  */
@@ -57,3 +55,4 @@ interface ObjectiveInterface
 
     public function getParents();
 }
+

@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface CourseInterface
  */
@@ -93,3 +91,4 @@ interface CourseInterface
 
     public function getPublishEvent();
 }
+

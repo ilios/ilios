@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface AamcPcrsInterface
  */
@@ -23,3 +21,4 @@ interface AamcPcrsInterface
 
     public function getCompetencies();
 }
+

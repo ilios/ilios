@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface SessionDescriptionInterface
  */
@@ -21,3 +19,4 @@ interface SessionDescriptionInterface
 
     public function getSession();
 }
+

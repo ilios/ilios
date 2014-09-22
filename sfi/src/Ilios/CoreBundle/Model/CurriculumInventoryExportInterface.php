@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface CurriculumInventoryExportInterface
  */
@@ -29,3 +27,4 @@ interface CurriculumInventoryExportInterface
 
     public function getCreatedBy();
 }
+

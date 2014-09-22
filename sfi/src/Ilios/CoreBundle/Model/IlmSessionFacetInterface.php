@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface IlmSessionFacetInterface
  */
@@ -43,3 +41,4 @@ interface IlmSessionFacetInterface
 
     public function getLearners();
 }
+

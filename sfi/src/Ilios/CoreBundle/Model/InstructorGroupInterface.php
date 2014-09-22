@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface InstructorGroupInterface
  */
@@ -43,3 +41,4 @@ interface InstructorGroupInterface
 
     public function getOfferings();
 }
+

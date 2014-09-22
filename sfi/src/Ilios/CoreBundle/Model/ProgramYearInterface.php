@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface ProgramYearInterface
  */
@@ -63,3 +61,4 @@ interface ProgramYearInterface
 
     public function getPublishEvent();
 }
+

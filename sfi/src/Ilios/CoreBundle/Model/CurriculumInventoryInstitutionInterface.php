@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface CurriculumInventoryInstitutionInterface
  */
@@ -45,3 +43,4 @@ interface CurriculumInventoryInstitutionInterface
 
     public function getSchool();
 }
+

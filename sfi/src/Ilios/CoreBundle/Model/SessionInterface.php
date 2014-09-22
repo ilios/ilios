@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface SessionInterface
  */
@@ -73,3 +71,4 @@ interface SessionInterface
 
     public function getPublishEvent();
 }
+

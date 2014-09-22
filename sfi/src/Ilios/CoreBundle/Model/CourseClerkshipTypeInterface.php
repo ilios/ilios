@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface CourseClerkshipTypeInterface
  */
@@ -15,3 +13,4 @@ interface CourseClerkshipTypeInterface
 
     public function getTitle();
 }
+

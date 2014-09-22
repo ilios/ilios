@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface IngestionExceptionInterface
  */
@@ -21,3 +19,4 @@ interface IngestionExceptionInterface
 
     public function getUser();
 }
+

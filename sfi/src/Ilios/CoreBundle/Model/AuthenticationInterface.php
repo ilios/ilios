@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface AuthenticationInterface
  */
@@ -25,3 +23,4 @@ interface AuthenticationInterface
 
     public function getUser();
 }
+

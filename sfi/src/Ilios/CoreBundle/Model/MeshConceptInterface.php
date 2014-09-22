@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshConceptInterface
  */
@@ -45,3 +43,4 @@ interface MeshConceptInterface
 
     public function getUpdatedAt();
 }
+

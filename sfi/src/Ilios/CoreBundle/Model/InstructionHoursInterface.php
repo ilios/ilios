@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface InstructionHoursInterface
  */
@@ -35,3 +33,4 @@ interface InstructionHoursInterface
 
     public function getSessionId();
 }
+

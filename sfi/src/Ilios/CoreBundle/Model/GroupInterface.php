@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface GroupInterface
  */
@@ -63,3 +61,4 @@ interface GroupInterface
 
     public function getParents();
 }
+

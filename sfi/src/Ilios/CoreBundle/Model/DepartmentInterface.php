@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface DepartmentInterface
  */
@@ -23,3 +21,4 @@ interface DepartmentInterface
 
     public function getDeleted();
 }
+

@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface AamcMethodInterface
  */
@@ -23,3 +21,4 @@ interface AamcMethodInterface
 
     public function getSessionTypes();
 }
+

@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface LearningMaterialStatusInterface
  */
@@ -21,3 +19,4 @@ interface LearningMaterialStatusInterface
 
     public function getLearningMaterials();
 }
+

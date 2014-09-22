@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface AlertChangeTypeInterface
  */
@@ -21,3 +19,4 @@ interface AlertChangeTypeInterface
 
     public function getAlerts();
 }
+

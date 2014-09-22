@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface SchoolInterface
  */
@@ -39,3 +37,4 @@ interface SchoolInterface
 
     public function getAlerts();
 }
+

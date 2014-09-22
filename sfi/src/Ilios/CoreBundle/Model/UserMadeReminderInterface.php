@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface UserMadeReminderInterface
  */
@@ -31,3 +29,4 @@ interface UserMadeReminderInterface
 
     public function getUser();
 }
+

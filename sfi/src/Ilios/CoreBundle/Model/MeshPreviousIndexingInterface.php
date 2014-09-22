@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshPreviousIndexingInterface
  */
@@ -17,3 +15,4 @@ interface MeshPreviousIndexingInterface
 
     public function getPreviousIndexing();
 }
+

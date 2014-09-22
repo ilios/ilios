@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface DisciplineInterface
  */
@@ -37,3 +35,4 @@ interface DisciplineInterface
 
     public function getSessions();
 }
+

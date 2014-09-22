@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshTreeXDescriptorInterface
  */
@@ -17,3 +15,4 @@ interface MeshTreeXDescriptorInterface
 
     public function getMeshDescriptorUid();
 }
+

@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshQualifierInterface
  */
@@ -25,3 +23,4 @@ interface MeshQualifierInterface
 
     public function getUpdatedAt();
 }
+

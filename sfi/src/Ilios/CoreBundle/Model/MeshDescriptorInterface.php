@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshDescriptorInterface
  */
@@ -59,3 +57,4 @@ interface MeshDescriptorInterface
 
     public function getCourseLearningMaterials();
 }
+

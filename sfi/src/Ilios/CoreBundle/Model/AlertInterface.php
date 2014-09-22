@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface AlertInterface
  */
@@ -45,3 +43,4 @@ interface AlertInterface
 
     public function getRecipients();
 }
+

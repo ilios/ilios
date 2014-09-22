@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface OfferingInterface
  */
@@ -63,3 +61,4 @@ interface OfferingInterface
 
     public function getPublishEvent();
 }
+

@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface UserSyncExceptionInterface
  */
@@ -35,3 +33,4 @@ interface UserSyncExceptionInterface
 
     public function getUser();
 }
+

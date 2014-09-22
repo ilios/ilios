@@ -31,3 +31,4 @@ interface CISessionInterface
 
     public function getUserDataItem($key);
 }
+

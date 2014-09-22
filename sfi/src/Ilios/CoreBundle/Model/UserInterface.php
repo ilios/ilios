@@ -165,3 +165,4 @@ interface UserInterface
 
     public function __toString();
 }
+

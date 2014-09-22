@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface MeshUserSelectionInterface
  */
@@ -19,3 +17,4 @@ interface MeshUserSelectionInterface
 
     public function getSearchPhrase();
 }
+

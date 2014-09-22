@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface ReportPoValueInterface
  */
@@ -25,3 +23,4 @@ interface ReportPoValueInterface
 
     public function getReport();
 }
+

@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface ProgramYearStewardInterface
  */
@@ -23,3 +21,4 @@ interface ProgramYearStewardInterface
 
     public function getSchool();
 }
+

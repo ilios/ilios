@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * Interface CurriculumInventorySequenceInterface
  */
@@ -21,3 +19,4 @@ interface CurriculumInventorySequenceInterface
 
     public function getReport();
 }
+
