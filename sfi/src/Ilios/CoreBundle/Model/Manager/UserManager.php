@@ -1,23 +1,22 @@
 <?php
 
-namespace Ilios\CoreBundle\Model\Manager;
+namespace Ilios\CoreBundle\Entity\Manager;
 
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Entity\Manager\UserManagerInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
- * Class UserManager
- * @package Ilios\CoreBundle\Model\Manager
- * @author Victor Passapera <vpassapera@gmail.com>
+ * UserManager
  */
 abstract class UserManager implements UserManagerInterface
 {
     /**
      * @return UserInterface
      */
-    public function createUser()
-    {
-        $class = $this->getClass();
+     public function createUser()
+     {
+         $class = $this->getClass();
 
-        return new $class();
-    }
+         return new $class();
+     }
 }
