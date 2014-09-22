@@ -97,9 +97,7 @@ function SessionModel (dbObject) {
     this.dirtyStateListener = {
 
             modelChanged: function (model, mockedThis) {
-                if (model.isModelDirty && (! mockedThis.isModelDirty())) {
-                    mockedThis.setDirtyAndNotify();
-                }
+                mockedThis.setDirtyAndNotify();
             }
 
     };
