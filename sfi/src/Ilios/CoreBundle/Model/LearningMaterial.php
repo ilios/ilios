@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -80,17 +80,17 @@ class LearningMaterial
     private $token;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var \Ilios\CoreBundle\Model\User
      */
     private $owningUser;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\LearningMaterialUserRole
+     * @var \Ilios\CoreBundle\Model\LearningMaterialUserRole
      */
     private $userRole;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\LearningMaterialStatus
+     * @var \Ilios\CoreBundle\Model\LearningMaterialStatus
      */
     private $status;
 
@@ -407,10 +407,10 @@ class LearningMaterial
     /**
      * Set status
      *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterialStatus $status
+     * @param \Ilios\CoreBundle\Model\LearningMaterialStatus $status
      * @return LearningMaterial
      */
-    public function setStatus(\Ilios\CoreBundle\Entity\LearningMaterialStatus $status = null)
+    public function setStatus(\Ilios\CoreBundle\Model\LearningMaterialStatus $status = null)
     {
         $this->status = $status;
 
@@ -420,7 +420,7 @@ class LearningMaterial
     /**
      * Get status
      *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterialStatus 
+     * @return \Ilios\CoreBundle\Model\LearningMaterialStatus 
      */
     public function getStatus()
     {
@@ -430,10 +430,10 @@ class LearningMaterial
     /**
      * Set owningUser
      *
-     * @param \Ilios\CoreBundle\Entity\User $user
+     * @param \Ilios\CoreBundle\Model\User $user
      * @return LearningMaterial
      */
-    public function setOwningUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setOwningUser(\Ilios\CoreBundle\Model\User $user = null)
     {
         $this->owningUser = $user;
 
@@ -443,7 +443,7 @@ class LearningMaterial
     /**
      * Get owningUser
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getOwningUser()
     {
@@ -453,10 +453,10 @@ class LearningMaterial
     /**
      * Set userRole
      *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterialUserRole $userRole
+     * @param \Ilios\CoreBundle\Model\LearningMaterialUserRole $userRole
      * @return LearningMaterial
      */
-    public function setUserRole(\Ilios\CoreBundle\Entity\LearningMaterialUserRole $userRole = null)
+    public function setUserRole(\Ilios\CoreBundle\Model\LearningMaterialUserRole $userRole = null)
     {
         $this->userRole = $userRole;
 
@@ -466,7 +466,7 @@ class LearningMaterial
     /**
      * Get userRole
      *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterialUserRole 
+     * @return \Ilios\CoreBundle\Model\LearningMaterialUserRole 
      */
     public function getUserRole()
     {

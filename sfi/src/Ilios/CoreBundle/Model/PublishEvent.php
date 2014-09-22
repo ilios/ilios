@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,7 +35,7 @@ class PublishEvent
     private $tableRowId;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var \Ilios\CoreBundle\Model\User
      */
     private $administrator;
 
@@ -145,10 +145,10 @@ class PublishEvent
     /**
      * Set administrator
      *
-     * @param \Ilios\CoreBundle\Entity\User $user
+     * @param \Ilios\CoreBundle\Model\User $user
      * @return PublishEvent
      */
-    public function setAdministrator(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setAdministrator(\Ilios\CoreBundle\Model\User $user = null)
     {
         $this->administrator = $user;
 
@@ -158,7 +158,7 @@ class PublishEvent
     /**
      * Get administrator
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getAdministrator()
     {

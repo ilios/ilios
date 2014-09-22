@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -69,10 +69,10 @@ class LearningMaterialUserRole
     /**
      * Add learningMaterial
      *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
+     * @param \Ilios\CoreBundle\Model\LearningMaterial $learningMaterial
      * @return LearningMaterialUserRole
      */
-    public function addLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
+    public function addLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial)
     {
         $this->learningMaterials[] = $learningMaterial;
 
@@ -82,9 +82,9 @@ class LearningMaterialUserRole
     /**
      * Remove learningMaterial
      *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
+     * @param \Ilios\CoreBundle\Model\LearningMaterial $learningMaterial
      */
-    public function removeLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
+    public function removeLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial)
     {
         $this->learningMaterials->removeElement($learningMaterial);
     }
@@ -92,7 +92,7 @@ class LearningMaterialUserRole
     /**
      * Get learningMaterials
      *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial[]
+     * @return \Ilios\CoreBundle\Model\LearningMaterial[]
      */
     public function getLearningMaterials()
     {

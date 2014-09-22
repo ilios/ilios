@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -114,10 +114,10 @@ class InstructorGroup
     /**
      * Add groups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
+     * @param \Ilios\CoreBundle\Model\Group $groups
      * @return InstructorGroup
      */
-    public function addGroup(\Ilios\CoreBundle\Entity\Group $groups)
+    public function addGroup(\Ilios\CoreBundle\Model\Group $groups)
     {
         $this->groups[] = $groups;
 
@@ -127,9 +127,9 @@ class InstructorGroup
     /**
      * Remove groups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
+     * @param \Ilios\CoreBundle\Model\Group $groups
      */
-    public function removeGroup(\Ilios\CoreBundle\Entity\Group $groups)
+    public function removeGroup(\Ilios\CoreBundle\Model\Group $groups)
     {
         $this->groups->removeElement($groups);
     }
@@ -137,7 +137,7 @@ class InstructorGroup
     /**
      * Get groups
      *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return \Ilios\CoreBundle\Model\Group[]
      */
     public function getGroups()
     {
@@ -147,10 +147,10 @@ class InstructorGroup
     /**
      * Add ilmSessionFacets
      *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets
+     * @param \Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets
      * @return InstructorGroup
      */
-    public function addIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets)
+    public function addIlmSessionFacet(\Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets)
     {
         $this->ilmSessionFacets[] = $ilmSessionFacets;
 
@@ -160,9 +160,9 @@ class InstructorGroup
     /**
      * Remove ilmSessionFacets
      *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets
+     * @param \Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets
      */
-    public function removeIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets)
+    public function removeIlmSessionFacet(\Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets)
     {
         $this->ilmSessionFacets->removeElement($ilmSessionFacets);
     }
@@ -170,7 +170,7 @@ class InstructorGroup
     /**
      * Get ilmSessionFacets
      *
-     * @return \Ilios\CoreBundle\Entity\IlmSessionFacet[]
+     * @return \Ilios\CoreBundle\Model\IlmSessionFacet[]
      */
     public function getIlmSessionFacets()
     {
@@ -180,10 +180,10 @@ class InstructorGroup
     /**
      * Add users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      * @return InstructorGroup
      */
-    public function addUser(\Ilios\CoreBundle\Entity\User $users)
+    public function addUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users[] = $users;
 
@@ -193,9 +193,9 @@ class InstructorGroup
     /**
      * Remove users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      */
-    public function removeUser(\Ilios\CoreBundle\Entity\User $users)
+    public function removeUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users->removeElement($users);
     }
@@ -203,7 +203,7 @@ class InstructorGroup
     /**
      * Get users
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getUsers()
     {
@@ -213,10 +213,10 @@ class InstructorGroup
     /**
      * Add offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param \Ilios\CoreBundle\Model\Offering $offerings
      * @return InstructorGroup
      */
-    public function addOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function addOffering(\Ilios\CoreBundle\Model\Offering $offerings)
     {
         $this->offerings[] = $offerings;
 
@@ -226,9 +226,9 @@ class InstructorGroup
     /**
      * Remove offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param \Ilios\CoreBundle\Model\Offering $offerings
      */
-    public function removeOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function removeOffering(\Ilios\CoreBundle\Model\Offering $offerings)
     {
         $this->offerings->removeElement($offerings);
     }
@@ -236,7 +236,7 @@ class InstructorGroup
     /**
      * Get offerings
      *
-     * @return \Ilios\CoreBundle\Entity\Offering[]
+     * @return \Ilios\CoreBundle\Model\Offering[]
      */
     public function getOfferings()
     {

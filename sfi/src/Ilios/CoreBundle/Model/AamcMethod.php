@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -81,10 +81,10 @@ class AamcMethod
     /**
      * Add sessionTypes
      *
-     * @param \Ilios\CoreBundle\Entity\SessionType $sessionTypes
+     * @param \Ilios\CoreBundle\Model\SessionType $sessionTypes
      * @return AamcMethod
      */
-    public function addSessionType(\Ilios\CoreBundle\Entity\SessionType $sessionTypes)
+    public function addSessionType(\Ilios\CoreBundle\Model\SessionType $sessionTypes)
     {
         $this->sessionTypes[] = $sessionTypes;
 
@@ -94,9 +94,9 @@ class AamcMethod
     /**
      * Remove sessionTypes
      *
-     * @param \Ilios\CoreBundle\Entity\SessionType $sessionTypes
+     * @param \Ilios\CoreBundle\Model\SessionType $sessionTypes
      */
-    public function removeSessionType(\Ilios\CoreBundle\Entity\SessionType $sessionTypes)
+    public function removeSessionType(\Ilios\CoreBundle\Model\SessionType $sessionTypes)
     {
         $this->sessionTypes->removeElement($sessionTypes);
     }
@@ -104,7 +104,7 @@ class AamcMethod
     /**
      * Get sessionTypes
      *
-     * @return array[\Ilios\CoreBundle\Entity\SessionType]
+     * @return array[\Ilios\CoreBundle\Model\SessionType]
      */
     public function getSessionTypes()
     {

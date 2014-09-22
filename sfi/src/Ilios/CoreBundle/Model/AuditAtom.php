@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,7 +40,7 @@ class AuditAtom
     private $createdAt;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var \Ilios\CoreBundle\Model\User
      */
     private $createdBy;
 
@@ -173,10 +173,10 @@ class AuditAtom
     /**
      * Set createdBy
      *
-     * @param \Ilios\CoreBundle\Entity\User $createdBy
+     * @param \Ilios\CoreBundle\Model\User $createdBy
      * @return AuditAtom
      */
-    public function setCreatedBy(\Ilios\CoreBundle\Entity\User $createdBy = null)
+    public function setCreatedBy(\Ilios\CoreBundle\Model\User $createdBy = null)
     {
         $this->createdBy = $createdBy;
 
@@ -186,7 +186,7 @@ class AuditAtom
     /**
      * Get createdBy
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getCreatedBy()
     {

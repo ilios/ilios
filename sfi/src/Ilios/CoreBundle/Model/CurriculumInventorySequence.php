@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class CurriculumInventorySequence
     private $description;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryReport
+     * @var \Ilios\CoreBundle\Model\CurriculumInventoryReport
      */
     private $report;
 
@@ -74,10 +74,10 @@ class CurriculumInventorySequence
     /**
      * Set report
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReport $report
+     * @param \Ilios\CoreBundle\Model\CurriculumInventoryReport $report
      * @return CurriculumInventorySequence
      */
-    public function setReport(\Ilios\CoreBundle\Entity\CurriculumInventoryReport $report = null)
+    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null)
     {
         $this->report = $report;
 
@@ -87,7 +87,7 @@ class CurriculumInventorySequence
     /**
      * Get report
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryReport 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventoryReport 
      */
     public function getReport()
     {

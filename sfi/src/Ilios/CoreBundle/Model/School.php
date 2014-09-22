@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -190,10 +190,10 @@ class School
     /**
      * Add alerts
      *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
+     * @param \Ilios\CoreBundle\Model\Alert $alerts
      * @return School
      */
-    public function addAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function addAlert(\Ilios\CoreBundle\Model\Alert $alerts)
     {
         $this->alerts[] = $alerts;
 
@@ -203,9 +203,9 @@ class School
     /**
      * Remove alerts
      *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
+     * @param \Ilios\CoreBundle\Model\Alert $alerts
      */
-    public function removeAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function removeAlert(\Ilios\CoreBundle\Model\Alert $alerts)
     {
         $this->alerts->removeElement($alerts);
     }
@@ -213,7 +213,7 @@ class School
     /**
      * Get alerts
      *
-     * @return \Ilios\CoreBundle\Entity\Alert[]
+     * @return \Ilios\CoreBundle\Model\Alert[]
      */
     public function getAlerts()
     {

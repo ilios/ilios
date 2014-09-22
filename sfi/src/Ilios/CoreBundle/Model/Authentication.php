@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,7 +25,7 @@ class Authentication
     private $passwordSha256;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var \Ilios\CoreBundle\Model\User
      */
     private $user;
 
@@ -102,10 +102,10 @@ class Authentication
     /**
      * Set user
      *
-     * @param \Ilios\CoreBundle\Entity\User $user
+     * @param \Ilios\CoreBundle\Model\User $user
      * @return Authentication
      */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(\Ilios\CoreBundle\Model\User $user = null)
     {
         $this->user = $user;
 
@@ -115,7 +115,7 @@ class Authentication
     /**
      * Get user
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getUser()
     {

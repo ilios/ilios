@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -70,22 +70,22 @@ class CurriculumInventorySequenceBlock
     private $duration;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel
+     * @var \Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel
      */
     private $academicLevel;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Course
+     * @var \Ilios\CoreBundle\Model\Course
      */
     private $course;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock
+     * @var \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock
      */
     private $parentSequenceBlock;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryReport
+     * @var \Ilios\CoreBundle\Model\CurriculumInventoryReport
      */
     private $report;
 
@@ -356,10 +356,10 @@ class CurriculumInventorySequenceBlock
     /**
      * Set academicLevel
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel $academicLevel
+     * @param \Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel $academicLevel
      * @return CurriculumInventorySequenceBlock
      */
-    public function setAcademicLevel(\Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel $academicLevel = null)
+    public function setAcademicLevel(\Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel $academicLevel = null)
     {
         $this->academicLevel = $academicLevel;
 
@@ -369,7 +369,7 @@ class CurriculumInventorySequenceBlock
     /**
      * Get academicLevel
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel 
      */
     public function getAcademicLevel()
     {
@@ -379,10 +379,10 @@ class CurriculumInventorySequenceBlock
     /**
      * Set course
      *
-     * @param \Ilios\CoreBundle\Entity\Course $course
+     * @param \Ilios\CoreBundle\Model\Course $course
      * @return CurriculumInventorySequenceBlock
      */
-    public function setCourse(\Ilios\CoreBundle\Entity\Course $course = null)
+    public function setCourse(\Ilios\CoreBundle\Model\Course $course = null)
     {
         $this->course = $course;
 
@@ -392,7 +392,7 @@ class CurriculumInventorySequenceBlock
     /**
      * Get course
      *
-     * @return \Ilios\CoreBundle\Entity\Course 
+     * @return \Ilios\CoreBundle\Model\Course 
      */
     public function getCourse()
     {
@@ -402,7 +402,7 @@ class CurriculumInventorySequenceBlock
     /**
      * Set parentSequenceBlock
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock $parentSequenceBlock
+     * @param \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock $parentSequenceBlock
      * @return CurriculumInventorySequenceBlock
      */
     public function setParentSequenceBlock(
@@ -416,7 +416,7 @@ class CurriculumInventorySequenceBlock
     /**
      * Get parentSequenceBlock
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock 
      */
     public function getParentSequenceBlock()
     {
@@ -426,10 +426,10 @@ class CurriculumInventorySequenceBlock
     /**
      * Set report
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReport $report
+     * @param \Ilios\CoreBundle\Model\CurriculumInventoryReport $report
      * @return CurriculumInventorySequenceBlock
      */
-    public function setReport(\Ilios\CoreBundle\Entity\CurriculumInventoryReport $report = null)
+    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null)
     {
         $this->report = $report;
 
@@ -439,7 +439,7 @@ class CurriculumInventorySequenceBlock
     /**
      * Get report
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryReport 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventoryReport 
      */
     public function getReport()
     {

@@ -5,19 +5,19 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Ilios\CoreBundle\Entity\ApiKey;
-use Ilios\CoreBundle\Entity\School;
-use Ilios\CoreBundle\Entity\UserMadeReminder;
-use Ilios\CoreBundle\Entity\Course;
-use Ilios\CoreBundle\Entity\Group;
-use Ilios\CoreBundle\Entity\InstructorGroup;
-use Ilios\CoreBundle\Entity\Offering;
-use Ilios\CoreBundle\Entity\ProgramYear;
-use Ilios\CoreBundle\Entity\Alert;
-use Ilios\CoreBundle\Entity\UserRole;
-use Ilios\CoreBundle\Entity\LearningMaterial;
-use Ilios\CoreBundle\Entity\PublishEvent;
-use Ilios\CoreBundle\Entity\Report;
+use Ilios\CoreBundle\Model\ApiKey;
+use Ilios\CoreBundle\Model\School;
+use Ilios\CoreBundle\Model\UserMadeReminder;
+use Ilios\CoreBundle\Model\Course;
+use Ilios\CoreBundle\Model\Group;
+use Ilios\CoreBundle\Model\InstructorGroup;
+use Ilios\CoreBundle\Model\Offering;
+use Ilios\CoreBundle\Model\ProgramYear;
+use Ilios\CoreBundle\Model\Alert;
+use Ilios\CoreBundle\Model\UserRole;
+use Ilios\CoreBundle\Model\LearningMaterial;
+use Ilios\CoreBundle\Model\PublishEvent;
+use Ilios\CoreBundle\Model\Report;
 
 interface UserInterface
 {

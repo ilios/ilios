@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class Objective
     private $title;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Competency
+     * @var \Ilios\CoreBundle\Model\Competency
      */
     private $competency;
 
@@ -103,10 +103,10 @@ class Objective
     /**
      * Set competency
      *
-     * @param \Ilios\CoreBundle\Entity\Competency $competency
+     * @param \Ilios\CoreBundle\Model\Competency $competency
      * @return Objective
      */
-    public function setCompetency(\Ilios\CoreBundle\Entity\Competency $competency = null)
+    public function setCompetency(\Ilios\CoreBundle\Model\Competency $competency = null)
     {
         $this->competency = $competency;
 
@@ -116,7 +116,7 @@ class Objective
     /**
      * Get competency
      *
-     * @return \Ilios\CoreBundle\Entity\Competency 
+     * @return \Ilios\CoreBundle\Model\Competency 
      */
     public function getCompetency()
     {
@@ -140,10 +140,10 @@ class Objective
     /**
      * Add courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      * @return Objective
      */
-    public function addCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function addCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses[] = $courses;
 
@@ -153,9 +153,9 @@ class Objective
     /**
      * Remove courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      */
-    public function removeCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses->removeElement($courses);
     }
@@ -163,7 +163,7 @@ class Objective
     /**
      * Get courses
      *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return \Ilios\CoreBundle\Model\Course[]
      */
     public function getCourses()
     {
@@ -173,10 +173,10 @@ class Objective
     /**
      * Add programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
      * @return Objective
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
     {
         $this->programYears[] = $programYears;
 
@@ -186,9 +186,9 @@ class Objective
     /**
      * Remove programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function removeProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
     {
         $this->programYears->removeElement($programYears);
     }
@@ -196,7 +196,7 @@ class Objective
     /**
      * Get programYears
      *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return \Ilios\CoreBundle\Model\ProgramYear[]
      */
     public function getProgramYears()
     {
@@ -206,10 +206,10 @@ class Objective
     /**
      * Add sessions
      *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param \Ilios\CoreBundle\Model\Session $sessions
      * @return Objective
      */
-    public function addSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function addSession(\Ilios\CoreBundle\Model\Session $sessions)
     {
         $this->sessions[] = $sessions;
 
@@ -219,9 +219,9 @@ class Objective
     /**
      * Remove sessions
      *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param \Ilios\CoreBundle\Model\Session $sessions
      */
-    public function removeSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function removeSession(\Ilios\CoreBundle\Model\Session $sessions)
     {
         $this->sessions->removeElement($sessions);
     }
@@ -229,7 +229,7 @@ class Objective
     /**
      * Get sessions
      *
-     * @return \Ilios\CoreBundle\Entity\Session[]
+     * @return \Ilios\CoreBundle\Model\Session[]
      */
     public function getSessions()
     {
@@ -239,10 +239,10 @@ class Objective
     /**
      * Add children
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $children
+     * @param \Ilios\CoreBundle\Model\Objective $children
      * @return Objective
      */
-    public function addChild(\Ilios\CoreBundle\Entity\Objective $children)
+    public function addChild(\Ilios\CoreBundle\Model\Objective $children)
     {
         $this->children[] = $children;
 
@@ -252,9 +252,9 @@ class Objective
     /**
      * Remove children
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $children
+     * @param \Ilios\CoreBundle\Model\Objective $children
      */
-    public function removeChild(\Ilios\CoreBundle\Entity\Objective $children)
+    public function removeChild(\Ilios\CoreBundle\Model\Objective $children)
     {
         $this->children->removeElement($children);
     }
@@ -262,7 +262,7 @@ class Objective
     /**
      * Get children
      *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return \Ilios\CoreBundle\Model\Objective[]
      */
     public function getChildren()
     {
@@ -272,10 +272,10 @@ class Objective
     /**
      * Add meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      * @return Objective
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors[] = $meshDescriptors;
 
@@ -285,9 +285,9 @@ class Objective
     /**
      * Remove meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors->removeElement($meshDescriptors);
     }
@@ -295,7 +295,7 @@ class Objective
     /**
      * Get meshDescriptors
      *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return \Ilios\CoreBundle\Model\MeshDescriptor[]
      */
     public function getMeshDescriptors()
     {
@@ -305,10 +305,10 @@ class Objective
     /**
      * Add parents
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $parents
+     * @param \Ilios\CoreBundle\Model\Objective $parents
      * @return Objective
      */
-    public function addParent(\Ilios\CoreBundle\Entity\Objective $parents)
+    public function addParent(\Ilios\CoreBundle\Model\Objective $parents)
     {
         $this->parents[] = $parents;
 
@@ -318,9 +318,9 @@ class Objective
     /**
      * Remove parents
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $parents
+     * @param \Ilios\CoreBundle\Model\Objective $parents
      */
-    public function removeParent(\Ilios\CoreBundle\Entity\Objective $parents)
+    public function removeParent(\Ilios\CoreBundle\Model\Objective $parents)
     {
         $this->parents->removeElement($parents);
     }
@@ -328,7 +328,7 @@ class Objective
     /**
      * Get parents
      *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return \Ilios\CoreBundle\Model\Objective[]
      */
     public function getParents()
     {

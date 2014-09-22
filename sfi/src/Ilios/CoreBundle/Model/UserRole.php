@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
@@ -68,10 +68,10 @@ class UserRole implements RoleInterface
     /**
      * Add users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      * @return UserRole
      */
-    public function addUser(\Ilios\CoreBundle\Entity\User $users)
+    public function addUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users[] = $users;
 
@@ -81,9 +81,9 @@ class UserRole implements RoleInterface
     /**
      * Remove users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      */
-    public function removeUser(\Ilios\CoreBundle\Entity\User $users)
+    public function removeUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users->removeElement($users);
     }
@@ -91,7 +91,7 @@ class UserRole implements RoleInterface
     /**
      * Get users
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getUsers()
     {

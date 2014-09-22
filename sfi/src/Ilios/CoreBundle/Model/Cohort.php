@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class Cohort
     private $title;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\ProgramYear
+     * @var \Ilios\CoreBundle\Model\ProgramYear
      */
     private $programYear;
 
@@ -73,10 +73,10 @@ class Cohort
     /**
      * Set programYear
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYear
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYear
      * @return Cohort
      */
-    public function setProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYear = null)
+    public function setProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYear = null)
     {
         $this->programYear = $programYear;
 
@@ -86,7 +86,7 @@ class Cohort
     /**
      * Get programYear
      *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear 
+     * @return \Ilios\CoreBundle\Model\ProgramYear 
      */
     public function getProgramYear()
     {
@@ -96,10 +96,10 @@ class Cohort
     /**
      * Add courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      * @return Cohort
      */
-    public function addCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function addCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses[] = $courses;
 
@@ -109,9 +109,9 @@ class Cohort
     /**
      * Remove courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      */
-    public function removeCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses->removeElement($courses);
     }
@@ -119,7 +119,7 @@ class Cohort
     /**
      * Get courses
      *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return \Ilios\CoreBundle\Model\Course[]
      */
     public function getCourses()
     {

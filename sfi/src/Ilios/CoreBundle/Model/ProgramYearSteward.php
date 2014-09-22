@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,17 +15,17 @@ class ProgramYearSteward
     private $programYearStewardId;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Department
+     * @var \Ilios\CoreBundle\Model\Department
      */
     private $department;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\ProgramYear
+     * @var \Ilios\CoreBundle\Model\ProgramYear
      */
     private $programYear;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $school;
 
@@ -42,10 +42,10 @@ class ProgramYearSteward
     /**
      * Set department
      *
-     * @param \Ilios\CoreBundle\Entity\Department $department
+     * @param \Ilios\CoreBundle\Model\Department $department
      * @return ProgramYearSteward
      */
-    public function setDepartment(\Ilios\CoreBundle\Entity\Department $department = null)
+    public function setDepartment(\Ilios\CoreBundle\Model\Department $department = null)
     {
         $this->department = $department;
 
@@ -55,7 +55,7 @@ class ProgramYearSteward
     /**
      * Get department
      *
-     * @return \Ilios\CoreBundle\Entity\Department 
+     * @return \Ilios\CoreBundle\Model\Department 
      */
     public function getDepartment()
     {
@@ -65,10 +65,10 @@ class ProgramYearSteward
     /**
      * Set programYear
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYear
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYear
      * @return ProgramYearSteward
      */
-    public function setProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYear = null)
+    public function setProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYear = null)
     {
         $this->programYear = $programYear;
 
@@ -78,7 +78,7 @@ class ProgramYearSteward
     /**
      * Get programYear
      *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear 
+     * @return \Ilios\CoreBundle\Model\ProgramYear 
      */
     public function getProgramYear()
     {
@@ -88,10 +88,10 @@ class ProgramYearSteward
     /**
      * Set school
      *
-     * @param \Ilios\CoreBundle\Entity\School $school
+     * @param \Ilios\CoreBundle\Model\School $school
      * @return ProgramYearSteward
      */
-    public function setSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setSchool(\Ilios\CoreBundle\Model\School $school = null)
     {
         $this->school = $school;
 
@@ -101,7 +101,7 @@ class ProgramYearSteward
     /**
      * Get school
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Model\School 
      */
     public function getSchool()
     {

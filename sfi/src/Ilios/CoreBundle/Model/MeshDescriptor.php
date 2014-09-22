@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -189,10 +189,10 @@ class MeshDescriptor
     /**
      * Add courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      * @return MeshDescriptor
      */
-    public function addCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function addCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses[] = $courses;
 
@@ -202,9 +202,9 @@ class MeshDescriptor
     /**
      * Remove courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      */
-    public function removeCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses->removeElement($courses);
     }
@@ -212,7 +212,7 @@ class MeshDescriptor
     /**
      * Get courses
      *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return \Ilios\CoreBundle\Model\Course[]
      */
     public function getCourses()
     {
@@ -222,10 +222,10 @@ class MeshDescriptor
     /**
      * Add objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      * @return MeshDescriptor
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives[] = $objectives;
 
@@ -235,9 +235,9 @@ class MeshDescriptor
     /**
      * Remove objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function removeObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives->removeElement($objectives);
     }
@@ -245,7 +245,7 @@ class MeshDescriptor
     /**
      * Get objectives
      *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return \Ilios\CoreBundle\Model\Objective[]
      */
     public function getObjectives()
     {
@@ -255,10 +255,10 @@ class MeshDescriptor
     /**
      * Add sessions
      *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param \Ilios\CoreBundle\Model\Session $sessions
      * @return MeshDescriptor
      */
-    public function addSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function addSession(\Ilios\CoreBundle\Model\Session $sessions)
     {
         $this->sessions[] = $sessions;
 
@@ -268,9 +268,9 @@ class MeshDescriptor
     /**
      * Remove sessions
      *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param \Ilios\CoreBundle\Model\Session $sessions
      */
-    public function removeSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function removeSession(\Ilios\CoreBundle\Model\Session $sessions)
     {
         $this->sessions->removeElement($sessions);
     }
@@ -278,7 +278,7 @@ class MeshDescriptor
     /**
      * Get sessions
      *
-     * @return \Ilios\CoreBundle\Entity\Session[]
+     * @return \Ilios\CoreBundle\Model\Session[]
      */
     public function getSessions()
     {
@@ -288,11 +288,11 @@ class MeshDescriptor
     /**
      * Add sessionLearningMaterials
      *
-     * @param \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
+     * @param \Ilios\CoreBundle\Model\SessionLearningMaterial $sessionLearningMaterials
      * @return MeshDescriptor
      */
     public function addSessionLearningMaterial(
-        \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
+        \Ilios\CoreBundle\Model\SessionLearningMaterial $sessionLearningMaterials
     ) {
         $this->sessionLearningMaterials[] = $sessionLearningMaterials;
 
@@ -302,10 +302,10 @@ class MeshDescriptor
     /**
      * Remove sessionLearningMaterials
      *
-     * @param \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
+     * @param \Ilios\CoreBundle\Model\SessionLearningMaterial $sessionLearningMaterials
      */
     public function removeSessionLearningMaterial(
-        \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
+        \Ilios\CoreBundle\Model\SessionLearningMaterial $sessionLearningMaterials
     ) {
         $this->sessionLearningMaterials->removeElement($sessionLearningMaterials);
     }
@@ -313,7 +313,7 @@ class MeshDescriptor
     /**
      * Get sessionLearningMaterials
      *
-     * @return \Ilios\CoreBundle\Entity\SessionLearningMaterial[]
+     * @return \Ilios\CoreBundle\Model\SessionLearningMaterial[]
      */
     public function getSessionLearningMaterials()
     {
@@ -323,10 +323,10 @@ class MeshDescriptor
     /**
      * Add courseLearningMaterials
      *
-     * @param \Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials
+     * @param \Ilios\CoreBundle\Model\CourseLearningMaterial $courseLearningMaterials
      * @return MeshDescriptor
      */
-    public function addCourseLearningMaterial(\Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials)
+    public function addCourseLearningMaterial(\Ilios\CoreBundle\Model\CourseLearningMaterial $courseLearningMaterials)
     {
         $this->courseLearningMaterials[] = $courseLearningMaterials;
 
@@ -336,10 +336,10 @@ class MeshDescriptor
     /**
      * Remove courseLearningMaterials
      *
-     * @param \Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials
+     * @param \Ilios\CoreBundle\Model\CourseLearningMaterial $courseLearningMaterials
      */
     public function removeCourseLearningMaterial(
-        \Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials
+        \Ilios\CoreBundle\Model\CourseLearningMaterial $courseLearningMaterials
     ) {
         $this->courseLearningMaterials->removeElement($courseLearningMaterials);
     }
@@ -347,7 +347,7 @@ class MeshDescriptor
     /**
      * Get courseLearningMaterials
      *
-     * @return \Ilios\CoreBundle\Entity\CourseLearningMaterial[]
+     * @return \Ilios\CoreBundle\Model\CourseLearningMaterial[]
      */
     public function getCourseLearningMaterials()
     {

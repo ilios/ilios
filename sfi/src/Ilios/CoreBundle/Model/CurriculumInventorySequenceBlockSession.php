@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,12 +20,12 @@ class CurriculumInventorySequenceBlockSession
     private $countOfferingsOnce;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock
+     * @var \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock
      */
     private $sequenceBlock;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Session
+     * @var \Ilios\CoreBundle\Model\Session
      */
     private $session;
 
@@ -66,10 +66,10 @@ class CurriculumInventorySequenceBlockSession
     /**
      * Set sequenceBlock
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock $sequenceBlock
+     * @param \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock $sequenceBlock
      * @return CurriculumInventorySequenceBlockSession
      */
-    public function setSequenceBlock(\Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock $sequenceBlock = null)
+    public function setSequenceBlock(\Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock $sequenceBlock = null)
     {
         $this->sequenceBlock = $sequenceBlock;
 
@@ -79,7 +79,7 @@ class CurriculumInventorySequenceBlockSession
     /**
      * Get sequenceBlock
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock 
      */
     public function getSequenceBlock()
     {
@@ -89,10 +89,10 @@ class CurriculumInventorySequenceBlockSession
     /**
      * Set session
      *
-     * @param \Ilios\CoreBundle\Entity\Session $session
+     * @param \Ilios\CoreBundle\Model\Session $session
      * @return CurriculumInventorySequenceBlockSession
      */
-    public function setSession(\Ilios\CoreBundle\Entity\Session $session = null)
+    public function setSession(\Ilios\CoreBundle\Model\Session $session = null)
     {
         $this->session = $session;
 
@@ -102,7 +102,7 @@ class CurriculumInventorySequenceBlockSession
     /**
      * Get session
      *
-     * @return \Ilios\CoreBundle\Entity\Session 
+     * @return \Ilios\CoreBundle\Model\Session 
      */
     public function getSession()
     {

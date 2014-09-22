@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -60,12 +60,12 @@ class RecurringEvent
     private $repetitionCount;
     
     /**
-     * \Ilios\CoreBundle\Entity\RecurringEvent $previousRecurringEvent
+     * \Ilios\CoreBundle\Model\RecurringEvent $previousRecurringEvent
      */
     private $previousRecurringEvent;
     
     /**
-     * \Ilios\CoreBundle\Entity\RecurringEvent $nextRecurringEvent
+     * \Ilios\CoreBundle\Model\RecurringEvent $nextRecurringEvent
      */
     private $nextRecurringEvent;
     
@@ -302,10 +302,10 @@ class RecurringEvent
     /**
      * Set nextRecurringEvent
      *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent
+     * @param \Ilios\CoreBundle\Model\RecurringEvent $recurringEvent
      * @return RecurringEvent
      */
-    public function setNextRecurringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent = null)
+    public function setNextRecurringEvent(\Ilios\CoreBundle\Model\RecurringEvent $recurringEvent = null)
     {
         $this->nextRecurringEvent = $recurringEvent;
 
@@ -315,7 +315,7 @@ class RecurringEvent
     /**
      * Get nextRecurringEvent
      *
-     * @return \Ilios\CoreBundle\Entity\RecurringEvent 
+     * @return \Ilios\CoreBundle\Model\RecurringEvent 
      */
     public function getNextRecurringEvent()
     {
@@ -325,10 +325,10 @@ class RecurringEvent
     /**
      * Set previousRecurringEvent
      *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent
+     * @param \Ilios\CoreBundle\Model\RecurringEvent $recurringEvent
      * @return RecurringEvent
      */
-    public function setPreviousRecurringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent = null)
+    public function setPreviousRecurringEvent(\Ilios\CoreBundle\Model\RecurringEvent $recurringEvent = null)
     {
         $this->previousRecurringEvent = $recurringEvent;
 
@@ -338,7 +338,7 @@ class RecurringEvent
     /**
      * Get previousRecurringEvent
      *
-     * @return \Ilios\CoreBundle\Entity\RecurringEvent 
+     * @return \Ilios\CoreBundle\Model\RecurringEvent 
      */
     public function getPreviousRecurringEvent()
     {
@@ -348,10 +348,10 @@ class RecurringEvent
     /**
      * Add offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param \Ilios\CoreBundle\Model\Offering $offerings
      * @return RecurringEvent
      */
-    public function addOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function addOffering(\Ilios\CoreBundle\Model\Offering $offerings)
     {
         $this->offerings[] = $offerings;
 
@@ -361,9 +361,9 @@ class RecurringEvent
     /**
      * Remove offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param \Ilios\CoreBundle\Model\Offering $offerings
      */
-    public function removeOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function removeOffering(\Ilios\CoreBundle\Model\Offering $offerings)
     {
         $this->offerings->removeElement($offerings);
     }
@@ -371,7 +371,7 @@ class RecurringEvent
     /**
      * Get offerings
      *
-     * @return \Ilios\CoreBundle\Entity\Offering[]
+     * @return \Ilios\CoreBundle\Model\Offering[]
      */
     public function getOfferings()
     {

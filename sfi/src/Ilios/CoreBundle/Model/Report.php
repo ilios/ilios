@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,7 +40,7 @@ class Report
     private $title;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User $user
+     * @var \Ilios\CoreBundle\Model\User $user
      */
     private $user;
 
@@ -172,10 +172,10 @@ class Report
     /**
      * Set user
      *
-     * @param \Ilios\CoreBundle\Entity\User $user
+     * @param \Ilios\CoreBundle\Model\User $user
      * @return Report
      */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(\Ilios\CoreBundle\Model\User $user = null)
     {
         $this->user = $user;
 
@@ -185,7 +185,7 @@ class Report
     /**
      * Get user
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getUser()
     {

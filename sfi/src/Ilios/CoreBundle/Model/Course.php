@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -65,12 +65,12 @@ class Course
     private $publishedAsTbd;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CourseClerkshipType
+     * @var \Ilios\CoreBundle\Model\CourseClerkshipType
      */
     private $clerkshipType;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $owningSchool;
     
@@ -100,7 +100,7 @@ class Course
     private $meshDescriptors;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var \Ilios\CoreBundle\Model\PublishEvent
      */
     private $publishEvent;
 
@@ -359,10 +359,10 @@ class Course
     /**
      * Set clerkshipType
      *
-     * @param \Ilios\CoreBundle\Entity\CourseClerkshipType $clerkshipType
+     * @param \Ilios\CoreBundle\Model\CourseClerkshipType $clerkshipType
      * @return Course
      */
-    public function setClerkshipType(\Ilios\CoreBundle\Entity\CourseClerkshipType $clerkshipType = null)
+    public function setClerkshipType(\Ilios\CoreBundle\Model\CourseClerkshipType $clerkshipType = null)
     {
         $this->clerkshipType = $clerkshipType;
 
@@ -372,7 +372,7 @@ class Course
     /**
      * Get clerkshipType
      *
-     * @return \Ilios\CoreBundle\Entity\CourseClerkshipType 
+     * @return \Ilios\CoreBundle\Model\CourseClerkshipType 
      */
     public function getClerkshipType()
     {
@@ -382,10 +382,10 @@ class Course
     /**
      * Set owningSchool
      *
-     * @param \Ilios\CoreBundle\Entity\School $school
+     * @param \Ilios\CoreBundle\Model\School $school
      * @return ProgramYearSteward
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null)
     {
         $this->owningSchool = $school;
 
@@ -395,7 +395,7 @@ class Course
     /**
      * Get owningSchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Model\School 
      */
     public function getOwningSchool()
     {
@@ -405,10 +405,10 @@ class Course
     /**
      * Add directors
      *
-     * @param \Ilios\CoreBundle\Entity\User $directors
+     * @param \Ilios\CoreBundle\Model\User $directors
      * @return Course
      */
-    public function addDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function addDirector(\Ilios\CoreBundle\Model\User $directors)
     {
         $this->directors[] = $directors;
 
@@ -418,9 +418,9 @@ class Course
     /**
      * Remove directors
      *
-     * @param \Ilios\CoreBundle\Entity\User $directors
+     * @param \Ilios\CoreBundle\Model\User $directors
      */
-    public function removeDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function removeDirector(\Ilios\CoreBundle\Model\User $directors)
     {
         $this->directors->removeElement($directors);
     }
@@ -428,7 +428,7 @@ class Course
     /**
      * Get directors
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getDirectors()
     {
@@ -438,10 +438,10 @@ class Course
     /**
      * Add cohorts
      *
-     * @param \Ilios\CoreBundle\Entity\Cohort $cohorts
+     * @param \Ilios\CoreBundle\Model\Cohort $cohorts
      * @return Course
      */
-    public function addCohort(\Ilios\CoreBundle\Entity\Cohort $cohorts)
+    public function addCohort(\Ilios\CoreBundle\Model\Cohort $cohorts)
     {
         $this->cohorts[] = $cohorts;
 
@@ -451,9 +451,9 @@ class Course
     /**
      * Remove cohorts
      *
-     * @param \Ilios\CoreBundle\Entity\Cohort $cohorts
+     * @param \Ilios\CoreBundle\Model\Cohort $cohorts
      */
-    public function removeCohort(\Ilios\CoreBundle\Entity\Cohort $cohorts)
+    public function removeCohort(\Ilios\CoreBundle\Model\Cohort $cohorts)
     {
         $this->cohorts->removeElement($cohorts);
     }
@@ -461,7 +461,7 @@ class Course
     /**
      * Get cohorts
      *
-     * @return \Ilios\CoreBundle\Entity\Cohort[]
+     * @return \Ilios\CoreBundle\Model\Cohort[]
      */
     public function getCohorts()
     {
@@ -471,10 +471,10 @@ class Course
     /**
      * Add disciplines
      *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
      * @return Course
      */
-    public function addDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function addDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
     {
         $this->disciplines[] = $disciplines;
 
@@ -484,9 +484,9 @@ class Course
     /**
      * Remove disciplines
      *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
      */
-    public function removeDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function removeDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
     {
         $this->disciplines->removeElement($disciplines);
     }
@@ -494,7 +494,7 @@ class Course
     /**
      * Get disciplines
      *
-     * @return \Ilios\CoreBundle\Entity\Discipline[]
+     * @return \Ilios\CoreBundle\Model\Discipline[]
      */
     public function getDisciplines()
     {
@@ -504,10 +504,10 @@ class Course
     /**
      * Add objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      * @return Course
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives[] = $objectives;
 
@@ -517,9 +517,9 @@ class Course
     /**
      * Remove objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function removeObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives->removeElement($objectives);
     }
@@ -527,7 +527,7 @@ class Course
     /**
      * Get objectives
      *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return \Ilios\CoreBundle\Model\Objective[]
      */
     public function getObjectives()
     {
@@ -537,10 +537,10 @@ class Course
     /**
      * Add meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      * @return Course
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors[] = $meshDescriptors;
 
@@ -550,9 +550,9 @@ class Course
     /**
      * Remove meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors->removeElement($meshDescriptors);
     }
@@ -560,7 +560,7 @@ class Course
     /**
      * Get meshDescriptors
      *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return \Ilios\CoreBundle\Model\MeshDescriptor[]
      */
     public function getMeshDescriptors()
     {
@@ -570,10 +570,10 @@ class Course
     /**
      * Set publishEvent
      *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param \Ilios\CoreBundle\Model\PublishEvent $publishEvent
      * @return Course
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(\Ilios\CoreBundle\Model\PublishEvent $publishEvent = null)
     {
         $this->publishEvent = $publishEvent;
 
@@ -583,7 +583,7 @@ class Course
     /**
      * Get publishEvent
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent 
+     * @return \Ilios\CoreBundle\Model\PublishEvent 
      */
     public function getPublishEvent()
     {

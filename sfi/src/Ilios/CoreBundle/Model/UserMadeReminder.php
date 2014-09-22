@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,7 +35,7 @@ class UserMadeReminder
     private $closed;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var \Ilios\CoreBundle\Model\User
      */
     private $user;
 
@@ -145,10 +145,10 @@ class UserMadeReminder
     /**
      * Set user
      *
-     * @param \Ilios\CoreBundle\Entity\User $user
+     * @param \Ilios\CoreBundle\Model\User $user
      * @return UserMadeReminder
      */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(\Ilios\CoreBundle\Model\User $user = null)
     {
         $this->user = $user;
 
@@ -158,7 +158,7 @@ class UserMadeReminder
     /**
      * Get user
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getUser()
     {

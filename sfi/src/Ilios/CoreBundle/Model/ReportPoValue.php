@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,7 +25,7 @@ class ReportPoValue
     private $deleted;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Report
+     * @var \Ilios\CoreBundle\Model\Report
      */
     private $report;
 
@@ -102,10 +102,10 @@ class ReportPoValue
     /**
      * Set report
      *
-     * @param \Ilios\CoreBundle\Entity\Report $report
+     * @param \Ilios\CoreBundle\Model\Report $report
      * @return ReportPoValue
      */
-    public function setReport(\Ilios\CoreBundle\Entity\Report $report = null)
+    public function setReport(\Ilios\CoreBundle\Model\Report $report = null)
     {
         $this->report = $report;
 
@@ -115,7 +115,7 @@ class ReportPoValue
     /**
      * Get report
      *
-     * @return \Ilios\CoreBundle\Entity\Report 
+     * @return \Ilios\CoreBundle\Model\Report 
      */
     public function getReport()
     {

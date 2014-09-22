@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -50,7 +50,7 @@ class CurriculumInventoryInstitution
     private $addressCountryCode;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $school;
 
@@ -242,10 +242,10 @@ class CurriculumInventoryInstitution
     /**
      * Set school
      *
-     * @param \Ilios\CoreBundle\Entity\School $school
+     * @param \Ilios\CoreBundle\Model\School $school
      * @return CurriculumInventoryInstitution
      */
-    public function setSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setSchool(\Ilios\CoreBundle\Model\School $school = null)
     {
         $this->school = $school;
 
@@ -255,7 +255,7 @@ class CurriculumInventoryInstitution
     /**
      * Get school
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Model\School 
      */
     public function getSchool()
     {

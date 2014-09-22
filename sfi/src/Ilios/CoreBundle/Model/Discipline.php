@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class Discipline
     private $title;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $owningSchool;
 
@@ -85,10 +85,10 @@ class Discipline
     /**
      * Set owningSchool
      *
-     * @param \Ilios\CoreBundle\Entity\School $school
+     * @param \Ilios\CoreBundle\Model\School $school
      * @return ProgramYearSteward
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null)
     {
         $this->owningSchool = $school;
 
@@ -98,7 +98,7 @@ class Discipline
     /**
      * Get owningSchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Model\School 
      */
     public function getOwningSchool()
     {
@@ -108,10 +108,10 @@ class Discipline
     /**
      * Add courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      * @return Discipline
      */
-    public function addCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function addCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses[] = $courses;
 
@@ -121,9 +121,9 @@ class Discipline
     /**
      * Remove courses
      *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param \Ilios\CoreBundle\Model\Course $courses
      */
-    public function removeCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses)
     {
         $this->courses->removeElement($courses);
     }
@@ -131,7 +131,7 @@ class Discipline
     /**
      * Get courses
      *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return \Ilios\CoreBundle\Model\Course[]
      */
     public function getCourses()
     {
@@ -141,10 +141,10 @@ class Discipline
     /**
      * Add programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
      * @return Discipline
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
     {
         $this->programYears[] = $programYears;
 
@@ -154,9 +154,9 @@ class Discipline
     /**
      * Remove programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function removeProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
     {
         $this->programYears->removeElement($programYears);
     }
@@ -164,7 +164,7 @@ class Discipline
     /**
      * Get programYears
      *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return \Ilios\CoreBundle\Model\ProgramYear[]
      */
     public function getProgramYears()
     {
@@ -174,10 +174,10 @@ class Discipline
     /**
      * Add sessions
      *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param \Ilios\CoreBundle\Model\Session $sessions
      * @return Discipline
      */
-    public function addSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function addSession(\Ilios\CoreBundle\Model\Session $sessions)
     {
         $this->sessions[] = $sessions;
 
@@ -187,9 +187,9 @@ class Discipline
     /**
      * Remove sessions
      *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param \Ilios\CoreBundle\Model\Session $sessions
      */
-    public function removeSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function removeSession(\Ilios\CoreBundle\Model\Session $sessions)
     {
         $this->sessions->removeElement($sessions);
     }
@@ -197,7 +197,7 @@ class Discipline
     /**
      * Get sessions
      *
-     * @return \Ilios\CoreBundle\Entity\Session[]
+     * @return \Ilios\CoreBundle\Model\Session[]
      */
     public function getSessions()
     {

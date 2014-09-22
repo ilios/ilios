@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class Department
     private $title;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $school;
 
@@ -66,10 +66,10 @@ class Department
     /**
      * Set school
      *
-     * @param \Ilios\CoreBundle\Entity\School $school
+     * @param \Ilios\CoreBundle\Model\School $school
      * @return ProgramYearSteward
      */
-    public function setSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setSchool(\Ilios\CoreBundle\Model\School $school = null)
     {
         $this->school = $school;
 
@@ -79,7 +79,7 @@ class Department
     /**
      * Get school
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Model\School 
      */
     public function getSchool()
     {

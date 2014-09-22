@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,17 +40,17 @@ class CurriculumInventoryReport
     private $endDate;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryExport
+     * @var \Ilios\CoreBundle\Model\CurriculumInventoryExport
      */
     private $export;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventorySequence
+     * @var \Ilios\CoreBundle\Model\CurriculumInventorySequence
      */
     private $sequence;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Program
+     * @var \Ilios\CoreBundle\Model\Program
      */
     private $program;
 
@@ -183,10 +183,10 @@ class CurriculumInventoryReport
     /**
      * Set export
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryExport $export
+     * @param \Ilios\CoreBundle\Model\CurriculumInventoryExport $export
      * @return CurriculumInventoryReport
      */
-    public function setExport(\Ilios\CoreBundle\Entity\CurriculumInventoryExport $export = null)
+    public function setExport(\Ilios\CoreBundle\Model\CurriculumInventoryExport $export = null)
     {
         $this->export = $export;
 
@@ -196,7 +196,7 @@ class CurriculumInventoryReport
     /**
      * Get export
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryExport 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventoryExport 
      */
     public function getExport()
     {
@@ -206,10 +206,10 @@ class CurriculumInventoryReport
     /**
      * Set sequence
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventorySequence $sequence
+     * @param \Ilios\CoreBundle\Model\CurriculumInventorySequence $sequence
      * @return CurriculumInventoryReport
      */
-    public function setSequence(\Ilios\CoreBundle\Entity\CurriculumInventorySequence $sequence = null)
+    public function setSequence(\Ilios\CoreBundle\Model\CurriculumInventorySequence $sequence = null)
     {
         $this->sequence = $sequence;
 
@@ -219,7 +219,7 @@ class CurriculumInventoryReport
     /**
      * Get sequence
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventorySequence 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventorySequence 
      */
     public function getSequence()
     {
@@ -229,10 +229,10 @@ class CurriculumInventoryReport
     /**
      * Set program
      *
-     * @param \Ilios\CoreBundle\Entity\Program $program
+     * @param \Ilios\CoreBundle\Model\Program $program
      * @return CurriculumInventoryReport
      */
-    public function setProgram(\Ilios\CoreBundle\Entity\Program $program = null)
+    public function setProgram(\Ilios\CoreBundle\Model\Program $program = null)
     {
         $this->program = $program;
 
@@ -242,7 +242,7 @@ class CurriculumInventoryReport
     /**
      * Get program
      *
-     * @return \Ilios\CoreBundle\Entity\Program 
+     * @return \Ilios\CoreBundle\Model\Program 
      */
     public function getProgram()
     {

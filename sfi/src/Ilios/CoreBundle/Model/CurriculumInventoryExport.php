@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,12 +25,12 @@ class CurriculumInventoryExport
     private $createdOn;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryReport
+     * @var \Ilios\CoreBundle\Model\CurriculumInventoryReport
      */
     private $report;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var \Ilios\CoreBundle\Model\User
      */
     private $createdBy;
 
@@ -107,10 +107,10 @@ class CurriculumInventoryExport
     /**
      * Set report
      *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReport $report
+     * @param \Ilios\CoreBundle\Model\CurriculumInventoryReport $report
      * @return CurriculumInventoryExport
      */
-    public function setReport(\Ilios\CoreBundle\Entity\CurriculumInventoryReport $report = null)
+    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null)
     {
         $this->report = $report;
 
@@ -120,7 +120,7 @@ class CurriculumInventoryExport
     /**
      * Get report
      *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryReport 
+     * @return \Ilios\CoreBundle\Model\CurriculumInventoryReport 
      */
     public function getReport()
     {
@@ -130,10 +130,10 @@ class CurriculumInventoryExport
     /**
      * Set createdBy
      *
-     * @param \Ilios\CoreBundle\Entity\User $createdBy
+     * @param \Ilios\CoreBundle\Model\User $createdBy
      * @return CurriculumInventoryExport
      */
-    public function setCreatedBy(\Ilios\CoreBundle\Entity\User $createdBy = null)
+    public function setCreatedBy(\Ilios\CoreBundle\Model\User $createdBy = null)
     {
         $this->createdBy = $createdBy;
 
@@ -143,7 +143,7 @@ class CurriculumInventoryExport
     /**
      * Get createdBy
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getCreatedBy()
     {

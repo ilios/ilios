@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,7 +40,7 @@ class ProgramYear
     private $publishedAsTbd;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Program
+     * @var \Ilios\CoreBundle\Model\Program
      */
     private $program;
 
@@ -65,7 +65,7 @@ class ProgramYear
     private $objectives;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var \Ilios\CoreBundle\Model\PublishEvent
      */
     private $publishEvent;
 
@@ -208,10 +208,10 @@ class ProgramYear
     /**
      * Set program
      *
-     * @param \Ilios\CoreBundle\Entity\Program $program
+     * @param \Ilios\CoreBundle\Model\Program $program
      * @return ProgramYear
      */
-    public function setProgram(\Ilios\CoreBundle\Entity\Program $program = null)
+    public function setProgram(\Ilios\CoreBundle\Model\Program $program = null)
     {
         $this->program = $program;
 
@@ -221,7 +221,7 @@ class ProgramYear
     /**
      * Get program
      *
-     * @return \Ilios\CoreBundle\Entity\Program 
+     * @return \Ilios\CoreBundle\Model\Program 
      */
     public function getProgram()
     {
@@ -231,10 +231,10 @@ class ProgramYear
     /**
      * Add directors
      *
-     * @param \Ilios\CoreBundle\Entity\User $directors
+     * @param \Ilios\CoreBundle\Model\User $directors
      * @return ProgramYear
      */
-    public function addDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function addDirector(\Ilios\CoreBundle\Model\User $directors)
     {
         $this->directors[] = $directors;
 
@@ -244,9 +244,9 @@ class ProgramYear
     /**
      * Remove directors
      *
-     * @param \Ilios\CoreBundle\Entity\User $directors
+     * @param \Ilios\CoreBundle\Model\User $directors
      */
-    public function removeDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function removeDirector(\Ilios\CoreBundle\Model\User $directors)
     {
         $this->directors->removeElement($directors);
     }
@@ -254,7 +254,7 @@ class ProgramYear
     /**
      * Get directors
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getDirectors()
     {
@@ -264,10 +264,10 @@ class ProgramYear
     /**
      * Add competencies
      *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
+     * @param \Ilios\CoreBundle\Model\Competency $competencies
      * @return ProgramYear
      */
-    public function addCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
+    public function addCompetency(\Ilios\CoreBundle\Model\Competency $competencies)
     {
         $this->competencies[] = $competencies;
 
@@ -277,9 +277,9 @@ class ProgramYear
     /**
      * Remove competencies
      *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
+     * @param \Ilios\CoreBundle\Model\Competency $competencies
      */
-    public function removeCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
+    public function removeCompetency(\Ilios\CoreBundle\Model\Competency $competencies)
     {
         $this->competencies->removeElement($competencies);
     }
@@ -287,7 +287,7 @@ class ProgramYear
     /**
      * Get competencies
      *
-     * @return \Ilios\CoreBundle\Entity\Competency[]
+     * @return \Ilios\CoreBundle\Model\Competency[]
      */
     public function getCompetencies()
     {
@@ -297,10 +297,10 @@ class ProgramYear
     /**
      * Add disciplines
      *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
      * @return ProgramYear
      */
-    public function addDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function addDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
     {
         $this->disciplines[] = $disciplines;
 
@@ -310,9 +310,9 @@ class ProgramYear
     /**
      * Remove disciplines
      *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
      */
-    public function removeDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function removeDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
     {
         $this->disciplines->removeElement($disciplines);
     }
@@ -320,7 +320,7 @@ class ProgramYear
     /**
      * Get disciplines
      *
-     * @return \Ilios\CoreBundle\Entity\Discipline[]
+     * @return \Ilios\CoreBundle\Model\Discipline[]
      */
     public function getDisciplines()
     {
@@ -330,10 +330,10 @@ class ProgramYear
     /**
      * Add objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      * @return ProgramYear
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives[] = $objectives;
 
@@ -343,9 +343,9 @@ class ProgramYear
     /**
      * Remove objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function removeObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives->removeElement($objectives);
     }
@@ -353,7 +353,7 @@ class ProgramYear
     /**
      * Get objectives
      *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return \Ilios\CoreBundle\Model\Objective[]
      */
     public function getObjectives()
     {
@@ -363,10 +363,10 @@ class ProgramYear
     /**
      * Set publishEvent
      *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param \Ilios\CoreBundle\Model\PublishEvent $publishEvent
      * @return ProgramYear
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(\Ilios\CoreBundle\Model\PublishEvent $publishEvent = null)
     {
         $this->publishEvent = $publishEvent;
 
@@ -376,7 +376,7 @@ class ProgramYear
     /**
      * Get publishEvent
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent 
+     * @return \Ilios\CoreBundle\Model\PublishEvent 
      */
     public function getPublishEvent()
     {

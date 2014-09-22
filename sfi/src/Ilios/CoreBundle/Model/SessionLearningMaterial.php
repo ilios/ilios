@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,12 +30,12 @@ class SessionLearningMaterial
     private $notesArePublic;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Session
+     * @var \Ilios\CoreBundle\Model\Session
      */
     private $session;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\LearningMaterial
+     * @var \Ilios\CoreBundle\Model\LearningMaterial
      */
     private $learningMaterial;
 
@@ -134,10 +134,10 @@ class SessionLearningMaterial
     /**
      * Set session
      *
-     * @param \Ilios\CoreBundle\Entity\Session $session
+     * @param \Ilios\CoreBundle\Model\Session $session
      * @return SessionLearningMaterial
      */
-    public function setSession(\Ilios\CoreBundle\Entity\Session $session = null)
+    public function setSession(\Ilios\CoreBundle\Model\Session $session = null)
     {
         $this->session = $session;
 
@@ -147,7 +147,7 @@ class SessionLearningMaterial
     /**
      * Get session
      *
-     * @return \Ilios\CoreBundle\Entity\Session 
+     * @return \Ilios\CoreBundle\Model\Session 
      */
     public function getSession()
     {
@@ -157,10 +157,10 @@ class SessionLearningMaterial
     /**
      * Set learningMaterial
      *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
+     * @param \Ilios\CoreBundle\Model\LearningMaterial $learningMaterial
      * @return SessionLearningMaterial
      */
-    public function setLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial = null)
+    public function setLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial = null)
     {
         $this->learningMaterial = $learningMaterial;
 
@@ -170,7 +170,7 @@ class SessionLearningMaterial
     /**
      * Get learningMaterial
      *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial 
+     * @return \Ilios\CoreBundle\Model\LearningMaterial 
      */
     public function getLearningMaterial()
     {
@@ -180,10 +180,10 @@ class SessionLearningMaterial
     /**
      * Add meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      * @return SessionLearningMaterial
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors[] = $meshDescriptors;
 
@@ -193,9 +193,9 @@ class SessionLearningMaterial
     /**
      * Remove meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors->removeElement($meshDescriptors);
     }
@@ -203,7 +203,7 @@ class SessionLearningMaterial
     /**
      * Get meshDescriptors
      *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return \Ilios\CoreBundle\Model\MeshDescriptor[]
      */
     public function getMeshDescriptors()
     {

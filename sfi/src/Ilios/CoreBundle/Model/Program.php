@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,12 +40,12 @@ class Program
     private $publishedAsTbd;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var \Ilios\CoreBundle\Model\PublishEvent
      */
     private $publishEvent;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $owningSchool;
 
@@ -178,10 +178,10 @@ class Program
     /**
      * Set owningSchool
      *
-     * @param \Ilios\CoreBundle\Entity\School $school
+     * @param \Ilios\CoreBundle\Model\School $school
      * @return Program
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null)
     {
         $this->owningSchool = $school;
 
@@ -189,9 +189,7 @@ class Program
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Entity\School
+     * @return \Ilios\CoreBundle\Model\School
      */
     public function getOwningSchool()
     {
@@ -201,10 +199,10 @@ class Program
     /**
      * Set publishEvent
      *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param \Ilios\CoreBundle\Model\PublishEvent $publishEvent
      * @return Program
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(\Ilios\CoreBundle\Model\PublishEvent $publishEvent = null)
     {
         $this->publishEvent = $publishEvent;
 
@@ -212,9 +210,7 @@ class Program
     }
 
     /**
-     * Get publishEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent
+     * @return \Ilios\CoreBundle\Model\PublishEvent
      */
     public function getPublishEvent()
     {

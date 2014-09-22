@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,12 +20,12 @@ class Competency
     private $title;
     
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $owningSchool;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Competency
+     * @var \Ilios\CoreBundle\Model\Competency
      */
     private $parentCompetency;
 
@@ -84,10 +84,10 @@ class Competency
     /**
      * Set owningSchool
      *
-     * @param \Ilios\CoreBundle\Entity\School $school
+     * @param \Ilios\CoreBundle\Model\School $school
      * @return ProgramYearSteward
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null)
     {
         $this->owningSchool = $school;
 
@@ -97,7 +97,7 @@ class Competency
     /**
      * Get owningSchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Model\School 
      */
     public function getOwningSchool()
     {
@@ -107,10 +107,10 @@ class Competency
     /**
      * Set parentCompetency
      *
-     * @param \Ilios\CoreBundle\Entity\Competency $parentCompetency
+     * @param \Ilios\CoreBundle\Model\Competency $parentCompetency
      * @return Competency
      */
-    public function setParentCompetency(\Ilios\CoreBundle\Entity\Competency $parentCompetency = null)
+    public function setParentCompetency(\Ilios\CoreBundle\Model\Competency $parentCompetency = null)
     {
         $this->parentCompetency = $parentCompetency;
 
@@ -120,7 +120,7 @@ class Competency
     /**
      * Get parentCompetency
      *
-     * @return \Ilios\CoreBundle\Entity\Competency 
+     * @return \Ilios\CoreBundle\Model\Competency 
      */
     public function getParentCompetency()
     {
@@ -130,10 +130,10 @@ class Competency
     /**
      * Add pcrses
      *
-     * @param \Ilios\CoreBundle\Entity\AamcPcrs $pcrses
+     * @param \Ilios\CoreBundle\Model\AamcPcrs $pcrses
      * @return Competency
      */
-    public function addPcrs(\Ilios\CoreBundle\Entity\AamcPcrs $pcrses)
+    public function addPcrs(\Ilios\CoreBundle\Model\AamcPcrs $pcrses)
     {
         $this->pcrses[] = $pcrses;
 
@@ -143,9 +143,9 @@ class Competency
     /**
      * Remove pcrses
      *
-     * @param \Ilios\CoreBundle\Entity\AamcPcrs $pcrses
+     * @param \Ilios\CoreBundle\Model\AamcPcrs $pcrses
      */
-    public function removePcrs(\Ilios\CoreBundle\Entity\AamcPcrs $pcrses)
+    public function removePcrs(\Ilios\CoreBundle\Model\AamcPcrs $pcrses)
     {
         $this->pcrses->removeElement($pcrses);
     }
@@ -153,7 +153,7 @@ class Competency
     /**
      * Get pcrses
      *
-     * @return \Ilios\CoreBundle\Entity\AamcPcrs[]
+     * @return \Ilios\CoreBundle\Model\AamcPcrs[]
      */
     public function getPcrses()
     {
@@ -163,10 +163,10 @@ class Competency
     /**
      * Add programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
      * @return Competency
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
     {
         $this->programYears[] = $programYears;
 
@@ -176,9 +176,9 @@ class Competency
     /**
      * Remove programYears
      *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function removeProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
     {
         $this->programYears->removeElement($programYears);
     }
@@ -186,7 +186,7 @@ class Competency
     /**
      * Get programYears
      *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return \Ilios\CoreBundle\Model\ProgramYear[]
      */
     public function getProgramYears()
     {

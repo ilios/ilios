@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,7 +30,7 @@ class Group
     private $location;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Cohort
+     * @var \Ilios\CoreBundle\Model\Cohort
      */
     private $cohort;
 
@@ -159,10 +159,10 @@ class Group
     /**
      * Set cohort
      *
-     * @param \Ilios\CoreBundle\Entity\Cohort $cohort
+     * @param \Ilios\CoreBundle\Model\Cohort $cohort
      * @return Group
      */
-    public function setCohort(\Ilios\CoreBundle\Entity\Cohort $cohort = null)
+    public function setCohort(\Ilios\CoreBundle\Model\Cohort $cohort = null)
     {
         $this->cohort = $cohort;
 
@@ -172,7 +172,7 @@ class Group
     /**
      * Get cohort
      *
-     * @return \Ilios\CoreBundle\Entity\Cohort 
+     * @return \Ilios\CoreBundle\Model\Cohort 
      */
     public function getCohort()
     {
@@ -182,10 +182,10 @@ class Group
     /**
      * Add users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      * @return Group
      */
-    public function addUser(\Ilios\CoreBundle\Entity\User $users)
+    public function addUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users[] = $users;
 
@@ -195,9 +195,9 @@ class Group
     /**
      * Remove users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      */
-    public function removeUser(\Ilios\CoreBundle\Entity\User $users)
+    public function removeUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users->removeElement($users);
     }
@@ -205,7 +205,7 @@ class Group
     /**
      * Get users
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getUsers()
     {
@@ -215,10 +215,10 @@ class Group
     /**
      * Add instructorUsers
      *
-     * @param \Ilios\CoreBundle\Entity\User $instructorUsers
+     * @param \Ilios\CoreBundle\Model\User $instructorUsers
      * @return Group
      */
-    public function addInstructorUser(\Ilios\CoreBundle\Entity\User $instructorUsers)
+    public function addInstructorUser(\Ilios\CoreBundle\Model\User $instructorUsers)
     {
         $this->instructorUsers[] = $instructorUsers;
 
@@ -228,9 +228,9 @@ class Group
     /**
      * Remove instructorUsers
      *
-     * @param \Ilios\CoreBundle\Entity\User $instructorUsers
+     * @param \Ilios\CoreBundle\Model\User $instructorUsers
      */
-    public function removeInstructorUser(\Ilios\CoreBundle\Entity\User $instructorUsers)
+    public function removeInstructorUser(\Ilios\CoreBundle\Model\User $instructorUsers)
     {
         $this->instructorUsers->removeElement($instructorUsers);
     }
@@ -238,7 +238,7 @@ class Group
     /**
      * Get instructorUsers
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getInstructorUsers()
     {
@@ -248,10 +248,10 @@ class Group
     /**
      * Add instructorGroups
      *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
+     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
      * @return Group
      */
-    public function addInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
+    public function addInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
     {
         $this->instructorGroups[] = $instructorGroups;
 
@@ -261,9 +261,9 @@ class Group
     /**
      * Remove instructorGroups
      *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
+     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
      */
-    public function removeInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
+    public function removeInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
     {
         $this->instructorGroups->removeElement($instructorGroups);
     }
@@ -271,7 +271,7 @@ class Group
     /**
      * Get instructorGroups
      *
-     * @return \Ilios\CoreBundle\Entity\InstructorGroup[]
+     * @return \Ilios\CoreBundle\Model\InstructorGroup[]
      */
     public function getInstructorGroups()
     {
@@ -281,10 +281,10 @@ class Group
     /**
      * Add ilmSessionFacets
      *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets
+     * @param \Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets
      * @return Group
      */
-    public function addIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets)
+    public function addIlmSessionFacet(\Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets)
     {
         $this->ilmSessionFacets[] = $ilmSessionFacets;
 
@@ -294,9 +294,9 @@ class Group
     /**
      * Remove ilmSessionFacets
      *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets
+     * @param \Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets
      */
-    public function removeIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets)
+    public function removeIlmSessionFacet(\Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets)
     {
         $this->ilmSessionFacets->removeElement($ilmSessionFacets);
     }
@@ -304,7 +304,7 @@ class Group
     /**
      * Get ilmSessionFacets
      *
-     * @return \Ilios\CoreBundle\Entity\IlmSessionFacet[]
+     * @return \Ilios\CoreBundle\Model\IlmSessionFacet[]
      */
     public function getIlmSessionFacets()
     {
@@ -314,10 +314,10 @@ class Group
     /**
      * Add offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param \Ilios\CoreBundle\Model\Offering $offerings
      * @return Group
      */
-    public function addOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function addOffering(\Ilios\CoreBundle\Model\Offering $offerings)
     {
         $this->offerings[] = $offerings;
 
@@ -327,9 +327,9 @@ class Group
     /**
      * Remove offerings
      *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param \Ilios\CoreBundle\Model\Offering $offerings
      */
-    public function removeOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function removeOffering(\Ilios\CoreBundle\Model\Offering $offerings)
     {
         $this->offerings->removeElement($offerings);
     }
@@ -337,7 +337,7 @@ class Group
     /**
      * Get offerings
      *
-     * @return \Ilios\CoreBundle\Entity\Offering[]
+     * @return \Ilios\CoreBundle\Model\Offering[]
      */
     public function getOfferings()
     {
@@ -347,10 +347,10 @@ class Group
     /**
      * Add parent
      *
-     * @param \Ilios\CoreBundle\Entity\Group $parent
+     * @param \Ilios\CoreBundle\Model\Group $parent
      * @return Group
      */
-    public function addParent(\Ilios\CoreBundle\Entity\Group $parent)
+    public function addParent(\Ilios\CoreBundle\Model\Group $parent)
     {
         $this->parents[] = $parent;
 
@@ -360,9 +360,9 @@ class Group
     /**
      * Remove parent
      *
-     * @param \Ilios\CoreBundle\Entity\Group $parent
+     * @param \Ilios\CoreBundle\Model\Group $parent
      */
-    public function removeParent(\Ilios\CoreBundle\Entity\Group $parent)
+    public function removeParent(\Ilios\CoreBundle\Model\Group $parent)
     {
         $this->parents->removeElement($parent);
     }
@@ -370,7 +370,7 @@ class Group
     /**
      * Get parents
      *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return \Ilios\CoreBundle\Model\Group[]
      */
     public function getParents()
     {

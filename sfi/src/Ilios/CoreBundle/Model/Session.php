@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -50,17 +50,17 @@ class Session
     private $lastUpdatedOn;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\SessionType
+     * @var \Ilios\CoreBundle\Model\SessionType
      */
     private $sessionType;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Course
+     * @var \Ilios\CoreBundle\Model\Course
      */
     private $course;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\IlmSessionFacet
+     * @var \Ilios\CoreBundle\Model\IlmSessionFacet
      */
     private $ilmSessionFacet;
 
@@ -80,7 +80,7 @@ class Session
     private $meshDescriptors;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var \Ilios\CoreBundle\Model\PublishEvent
      */
     private $publishEvent;
 
@@ -274,10 +274,10 @@ class Session
     /**
      * Set sessionType
      *
-     * @param \Ilios\CoreBundle\Entity\SessionType $sessionType
+     * @param \Ilios\CoreBundle\Model\SessionType $sessionType
      * @return Session
      */
-    public function setSessionType(\Ilios\CoreBundle\Entity\SessionType $sessionType = null)
+    public function setSessionType(\Ilios\CoreBundle\Model\SessionType $sessionType = null)
     {
         $this->sessionType = $sessionType;
 
@@ -287,7 +287,7 @@ class Session
     /**
      * Get sessionType
      *
-     * @return \Ilios\CoreBundle\Entity\SessionType
+     * @return \Ilios\CoreBundle\Model\SessionType
      */
     public function getSessionType()
     {
@@ -297,10 +297,10 @@ class Session
     /**
      * Set course
      *
-     * @param \Ilios\CoreBundle\Entity\Course $course
+     * @param \Ilios\CoreBundle\Model\Course $course
      * @return Session
      */
-    public function setCourse(\Ilios\CoreBundle\Entity\Course $course = null)
+    public function setCourse(\Ilios\CoreBundle\Model\Course $course = null)
     {
         $this->course = $course;
 
@@ -310,7 +310,7 @@ class Session
     /**
      * Get course
      *
-     * @return \Ilios\CoreBundle\Entity\Course
+     * @return \Ilios\CoreBundle\Model\Course
      */
     public function getCourse()
     {
@@ -320,10 +320,10 @@ class Session
     /**
      * Set ilmSessionFacet
      *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacet
+     * @param \Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacet
      * @return Session
      */
-    public function setIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacet = null)
+    public function setIlmSessionFacet(\Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacet = null)
     {
         $this->ilmSessionFacet = $ilmSessionFacet;
 
@@ -333,7 +333,7 @@ class Session
     /**
      * Get ilmSessionFacet
      *
-     * @return \Ilios\CoreBundle\Entity\IlmSessionFacet
+     * @return \Ilios\CoreBundle\Model\IlmSessionFacet
      */
     public function getIlmSessionFacet()
     {
@@ -343,10 +343,10 @@ class Session
     /**
      * Add disciplines
      *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
      * @return Session
      */
-    public function addDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function addDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
     {
         $this->disciplines[] = $disciplines;
 
@@ -356,9 +356,9 @@ class Session
     /**
      * Remove disciplines
      *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
      */
-    public function removeDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function removeDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
     {
         $this->disciplines->removeElement($disciplines);
     }
@@ -366,7 +366,7 @@ class Session
     /**
      * Get disciplines
      *
-     * @return \Ilios\CoreBundle\Entity\Discipline[]
+     * @return \Ilios\CoreBundle\Model\Discipline[]
      */
     public function getDisciplines()
     {
@@ -376,10 +376,10 @@ class Session
     /**
      * Add objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      * @return Session
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives[] = $objectives;
 
@@ -389,9 +389,9 @@ class Session
     /**
      * Remove objectives
      *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param \Ilios\CoreBundle\Model\Objective $objectives
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function removeObjective(\Ilios\CoreBundle\Model\Objective $objectives)
     {
         $this->objectives->removeElement($objectives);
     }
@@ -399,7 +399,7 @@ class Session
     /**
      * Get objectives
      *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return \Ilios\CoreBundle\Model\Objective[]
      */
     public function getObjectives()
     {
@@ -409,10 +409,10 @@ class Session
     /**
      * Add meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      * @return Session
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors[] = $meshDescriptors;
 
@@ -422,9 +422,9 @@ class Session
     /**
      * Remove meshDescriptors
      *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
     {
         $this->meshDescriptors->removeElement($meshDescriptors);
     }
@@ -432,7 +432,7 @@ class Session
     /**
      * Get meshDescriptors
      *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return \Ilios\CoreBundle\Model\MeshDescriptor[]
      */
     public function getMeshDescriptors()
     {
@@ -442,10 +442,10 @@ class Session
     /**
      * Set publishEvent
      *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param \Ilios\CoreBundle\Model\PublishEvent $publishEvent
      * @return Session
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(\Ilios\CoreBundle\Model\PublishEvent $publishEvent = null)
     {
         $this->publishEvent = $publishEvent;
 
@@ -455,7 +455,7 @@ class Session
     /**
      * Get publishEvent
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent
+     * @return \Ilios\CoreBundle\Model\PublishEvent
      */
     public function getPublishEvent()
     {

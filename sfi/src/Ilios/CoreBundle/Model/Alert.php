@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -164,10 +164,10 @@ class Alert
     /**
      * Add changeTypes
      *
-     * @param \Ilios\CoreBundle\Entity\AlertChangeType $changeTypes
+     * @param \Ilios\CoreBundle\Model\AlertChangeType $changeTypes
      * @return Alert
      */
-    public function addChangeType(\Ilios\CoreBundle\Entity\AlertChangeType $changeTypes)
+    public function addChangeType(\Ilios\CoreBundle\Model\AlertChangeType $changeTypes)
     {
         $this->changeTypes[] = $changeTypes;
 
@@ -177,9 +177,9 @@ class Alert
     /**
      * Remove changeTypes
      *
-     * @param \Ilios\CoreBundle\Entity\AlertChangeType $changeTypes
+     * @param \Ilios\CoreBundle\Model\AlertChangeType $changeTypes
      */
-    public function removeChangeType(\Ilios\CoreBundle\Entity\AlertChangeType $changeTypes)
+    public function removeChangeType(\Ilios\CoreBundle\Model\AlertChangeType $changeTypes)
     {
         $this->changeTypes->removeElement($changeTypes);
     }
@@ -187,7 +187,7 @@ class Alert
     /**
      * Get changeTypes
      *
-     * @return \Ilios\CoreBundle\Entity\AlertChangeType[]
+     * @return \Ilios\CoreBundle\Model\AlertChangeType[]
      */
     public function getChangeTypes()
     {
@@ -197,10 +197,10 @@ class Alert
     /**
      * Add instigators
      *
-     * @param \Ilios\CoreBundle\Entity\User $instigators
+     * @param \Ilios\CoreBundle\Model\User $instigators
      * @return Alert
      */
-    public function addInstigator(\Ilios\CoreBundle\Entity\User $instigators)
+    public function addInstigator(\Ilios\CoreBundle\Model\User $instigators)
     {
         $this->instigators[] = $instigators;
 
@@ -210,9 +210,9 @@ class Alert
     /**
      * Remove instigators
      *
-     * @param \Ilios\CoreBundle\Entity\User $instigators
+     * @param \Ilios\CoreBundle\Model\User $instigators
      */
-    public function removeInstigator(\Ilios\CoreBundle\Entity\User $instigators)
+    public function removeInstigator(\Ilios\CoreBundle\Model\User $instigators)
     {
         $this->instigators->removeElement($instigators);
     }
@@ -220,7 +220,7 @@ class Alert
     /**
      * Get instigators
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getInstigators()
     {
@@ -230,10 +230,10 @@ class Alert
     /**
      * Add recipients
      *
-     * @param \Ilios\CoreBundle\Entity\School $recipients
+     * @param \Ilios\CoreBundle\Model\School $recipients
      * @return Alert
      */
-    public function addRecipient(\Ilios\CoreBundle\Entity\School $recipients)
+    public function addRecipient(\Ilios\CoreBundle\Model\School $recipients)
     {
         $this->recipients[] = $recipients;
 
@@ -243,9 +243,9 @@ class Alert
     /**
      * Remove recipients
      *
-     * @param \Ilios\CoreBundle\Entity\School $recipients
+     * @param \Ilios\CoreBundle\Model\School $recipients
      */
-    public function removeRecipient(\Ilios\CoreBundle\Entity\School $recipients)
+    public function removeRecipient(\Ilios\CoreBundle\Model\School $recipients)
     {
         $this->recipients->removeElement($recipients);
     }
@@ -253,7 +253,7 @@ class Alert
     /**
      * Get recipients
      *
-     * @return \Ilios\CoreBundle\Entity\School[]
+     * @return \Ilios\CoreBundle\Model\School[]
      */
     public function getRecipients()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class ApiKey
     private $apiKey;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var \Ilios\CoreBundle\Model\User
      */
     private $user;
 
@@ -74,10 +74,10 @@ class ApiKey
     /**
      * Set user
      *
-     * @param \Ilios\CoreBundle\Entity\User $user
+     * @param \Ilios\CoreBundle\Model\User $user
      * @return ApiKey
      */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(\Ilios\CoreBundle\Model\User $user = null)
     {
         $this->user = $user;
 
@@ -87,7 +87,7 @@ class ApiKey
     /**
      * Get user
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Model\User 
      */
     public function getUser()
     {

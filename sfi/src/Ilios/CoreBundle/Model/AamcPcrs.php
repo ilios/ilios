@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -81,10 +81,10 @@ class AamcPcrs
     /**
      * Add competencies
      *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
+     * @param \Ilios\CoreBundle\Model\Competency $competencies
      * @return AamcPcrs
      */
-    public function addCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
+    public function addCompetency(\Ilios\CoreBundle\Model\Competency $competencies)
     {
         $this->competencies[] = $competencies;
 
@@ -94,9 +94,9 @@ class AamcPcrs
     /**
      * Remove competencies
      *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
+     * @param \Ilios\CoreBundle\Model\Competency $competencies
      */
-    public function removeCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
+    public function removeCompetency(\Ilios\CoreBundle\Model\Competency $competencies)
     {
         $this->competencies->removeElement($competencies);
     }
@@ -104,7 +104,7 @@ class AamcPcrs
     /**
      * Get competencies
      *
-     * @return Ilios\CoreBundle\Entity\Competency[]
+     * @return Ilios\CoreBundle\Model\Competency[]
      */
     public function getCompetencies()
     {

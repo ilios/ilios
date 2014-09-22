@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,7 +40,7 @@ class Offering
     private $lastUpdatedOn;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Session
+     * @var \Ilios\CoreBundle\Model\Session
      */
     private $session;
 
@@ -65,7 +65,7 @@ class Offering
     private $reccuringEvents;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var \Ilios\CoreBundle\Model\PublishEvent
      */
     private $publishEvent;
 
@@ -209,10 +209,10 @@ class Offering
     /**
      * Set session
      *
-     * @param \Ilios\CoreBundle\Entity\Session $session
+     * @param \Ilios\CoreBundle\Model\Session $session
      * @return Offering
      */
-    public function setSession(\Ilios\CoreBundle\Entity\Session $session = null)
+    public function setSession(\Ilios\CoreBundle\Model\Session $session = null)
     {
         $this->session = $session;
 
@@ -222,7 +222,7 @@ class Offering
     /**
      * Get session
      *
-     * @return \Ilios\CoreBundle\Entity\Session
+     * @return \Ilios\CoreBundle\Model\Session
      */
     public function getSession()
     {
@@ -232,10 +232,10 @@ class Offering
     /**
      * Add groups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
+     * @param \Ilios\CoreBundle\Model\Group $groups
      * @return Offering
      */
-    public function addGroup(\Ilios\CoreBundle\Entity\Group $groups)
+    public function addGroup(\Ilios\CoreBundle\Model\Group $groups)
     {
         $this->groups[] = $groups;
 
@@ -245,9 +245,9 @@ class Offering
     /**
      * Remove groups
      *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
+     * @param \Ilios\CoreBundle\Model\Group $groups
      */
-    public function removeGroup(\Ilios\CoreBundle\Entity\Group $groups)
+    public function removeGroup(\Ilios\CoreBundle\Model\Group $groups)
     {
         $this->groups->removeElement($groups);
     }
@@ -255,7 +255,7 @@ class Offering
     /**
      * Get groups
      *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return \Ilios\CoreBundle\Model\Group[]
      */
     public function getGroups()
     {
@@ -265,10 +265,10 @@ class Offering
     /**
      * Add instructorGroups
      *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
+     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
      * @return Offering
      */
-    public function addInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
+    public function addInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
     {
         $this->instructorGroups[] = $instructorGroups;
 
@@ -278,9 +278,9 @@ class Offering
     /**
      * Remove instructorGroups
      *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
+     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
      */
-    public function removeInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
+    public function removeInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
     {
         $this->instructorGroups->removeElement($instructorGroups);
     }
@@ -288,7 +288,7 @@ class Offering
     /**
      * Get instructorGroups
      *
-     * @return \Ilios\CoreBundle\Entity\InstructorGroup[]
+     * @return \Ilios\CoreBundle\Model\InstructorGroup[]
      */
     public function getInstructorGroups()
     {
@@ -298,10 +298,10 @@ class Offering
     /**
      * Add users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      * @return Offering
      */
-    public function addUser(\Ilios\CoreBundle\Entity\User $users)
+    public function addUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users[] = $users;
 
@@ -311,9 +311,9 @@ class Offering
     /**
      * Remove users
      *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param \Ilios\CoreBundle\Model\User $users
      */
-    public function removeUser(\Ilios\CoreBundle\Entity\User $users)
+    public function removeUser(\Ilios\CoreBundle\Model\User $users)
     {
         $this->users->removeElement($users);
     }
@@ -321,7 +321,7 @@ class Offering
     /**
      * Get users
      *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return \Ilios\CoreBundle\Model\User[]
      */
     public function getUsers()
     {
@@ -331,10 +331,10 @@ class Offering
     /**
      * Add reccuringEvents
      *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents
+     * @param \Ilios\CoreBundle\Model\RecurringEvent $reccuringEvents
      * @return Offering
      */
-    public function addReccuringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents)
+    public function addReccuringEvent(\Ilios\CoreBundle\Model\RecurringEvent $reccuringEvents)
     {
         $this->reccuringEvents[] = $reccuringEvents;
 
@@ -344,9 +344,9 @@ class Offering
     /**
      * Remove reccuringEvents
      *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents
+     * @param \Ilios\CoreBundle\Model\RecurringEvent $reccuringEvents
      */
-    public function removeReccuringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents)
+    public function removeReccuringEvent(\Ilios\CoreBundle\Model\RecurringEvent $reccuringEvents)
     {
         $this->reccuringEvents->removeElement($reccuringEvents);
     }
@@ -354,7 +354,7 @@ class Offering
     /**
      * Get reccuringEvents
      *
-     * @return \Ilios\CoreBundle\Entity\RecurringEvent[]
+     * @return \Ilios\CoreBundle\Model\RecurringEvent[]
      */
     public function getReccuringEvents()
     {
@@ -364,10 +364,10 @@ class Offering
     /**
      * Set publishEvent
      *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param \Ilios\CoreBundle\Model\PublishEvent $publishEvent
      * @return Offering
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(\Ilios\CoreBundle\Model\PublishEvent $publishEvent = null)
     {
         $this->publishEvent = $publishEvent;
 
@@ -377,7 +377,7 @@ class Offering
     /**
      * Get publishEvent
      *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent
+     * @return \Ilios\CoreBundle\Model\PublishEvent
      */
     public function getPublishEvent()
     {

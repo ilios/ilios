@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ class SessionDescription
     private $description;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Session
+     * @var \Ilios\CoreBundle\Model\Session
      */
     private $session;
 
@@ -74,10 +74,10 @@ class SessionDescription
     /**
      * Set session
      *
-     * @param \Ilios\CoreBundle\Entity\Session $session
+     * @param \Ilios\CoreBundle\Model\Session $session
      * @return SessionDescription
      */
-    public function setSession(\Ilios\CoreBundle\Entity\Session $session = null)
+    public function setSession(\Ilios\CoreBundle\Model\Session $session = null)
     {
         $this->session = $session;
 
@@ -87,7 +87,7 @@ class SessionDescription
     /**
      * Get session
      *
-     * @return \Ilios\CoreBundle\Entity\Session 
+     * @return \Ilios\CoreBundle\Model\Session 
      */
     public function getSession()
     {

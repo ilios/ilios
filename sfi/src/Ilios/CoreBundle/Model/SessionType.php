@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity;
+namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,12 +30,12 @@ class SessionType
     private $assessment;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\AssessmentOption
+     * @var \Ilios\CoreBundle\Model\AssessmentOption
      */
     private $assessmentOption;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var \Ilios\CoreBundle\Model\School
      */
     private $owningSchool;
 
@@ -134,10 +134,10 @@ class SessionType
     /**
      * Set assessmentOption
      *
-     * @param \Ilios\CoreBundle\Entity\AssessmentOption $assessmentOption
+     * @param \Ilios\CoreBundle\Model\AssessmentOption $assessmentOption
      * @return SessionType
      */
-    public function setAssessmentOption(\Ilios\CoreBundle\Entity\AssessmentOption $assessmentOption = null)
+    public function setAssessmentOption(\Ilios\CoreBundle\Model\AssessmentOption $assessmentOption = null)
     {
         $this->assessmentOption = $assessmentOption;
 
@@ -147,7 +147,7 @@ class SessionType
     /**
      * Get assessmentOption
      *
-     * @return \Ilios\CoreBundle\Entity\AssessmentOption 
+     * @return \Ilios\CoreBundle\Model\AssessmentOption 
      */
     public function getAssessmentOption()
     {
@@ -157,10 +157,10 @@ class SessionType
     /**
      * Set owningSchool
      *
-     * @param \Ilios\CoreBundle\Entity\School $owningSchool
+     * @param \Ilios\CoreBundle\Model\School $owningSchool
      * @return SessionType
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $owningSchool = null)
+    public function setOwningSchool(\Ilios\CoreBundle\Model\School $owningSchool = null)
     {
         $this->owningSchool = $owningSchool;
 
@@ -170,7 +170,7 @@ class SessionType
     /**
      * Get owningSchool
      *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return \Ilios\CoreBundle\Model\School 
      */
     public function getOwningSchool()
     {
@@ -180,10 +180,10 @@ class SessionType
     /**
      * Add aamcMethods
      *
-     * @param \Ilios\CoreBundle\Entity\AamcMethod $aamcMethods
+     * @param \Ilios\CoreBundle\Model\AamcMethod $aamcMethods
      * @return SessionType
      */
-    public function addAamcMethod(\Ilios\CoreBundle\Entity\AamcMethod $aamcMethods)
+    public function addAamcMethod(\Ilios\CoreBundle\Model\AamcMethod $aamcMethods)
     {
         $this->aamcMethods[] = $aamcMethods;
 
@@ -193,9 +193,9 @@ class SessionType
     /**
      * Remove aamcMethods
      *
-     * @param \Ilios\CoreBundle\Entity\AamcMethod $aamcMethods
+     * @param \Ilios\CoreBundle\Model\AamcMethod $aamcMethods
      */
-    public function removeAamcMethod(\Ilios\CoreBundle\Entity\AamcMethod $aamcMethods)
+    public function removeAamcMethod(\Ilios\CoreBundle\Model\AamcMethod $aamcMethods)
     {
         $this->aamcMethods->removeElement($aamcMethods);
     }
@@ -203,7 +203,7 @@ class SessionType
     /**
      * Get aamcMethods
      *
-     * @return \Ilios\CoreBundle\Entity\AamcMethod[]
+     * @return \Ilios\CoreBundle\Model\AamcMethod[]
      */
     public function getAamcMethods()
     {
