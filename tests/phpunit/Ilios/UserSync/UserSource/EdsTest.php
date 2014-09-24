@@ -31,14 +31,14 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
      * @group ldap
      * @group usersync
      * @group integration
-     * @covers Ilios_UserSync_UserSource_Eds::getStudentRecords
+     * @covers Ilios_UserSync_UserSource_Eds::getActiveStudentRecords
      */
-    public function testGetStudentRecords ()
+    public function testGetActiveStudentRecords ()
     {
         $config = $this->_getUserSourceConfiguration();
         $userSource = new Ilios_UserSync_UserSource_Eds($config);
         // retrieve 10 students from EDS
-        $students = $userSource->getStudentRecords(10); // check correct count
+        $students = $userSource->getActiveStudentRecords(10); // check correct count
         $this->assertEquals(10, count($students));
         $i = 0;
         foreach ($students as $student) { // check that each student is
@@ -60,7 +60,7 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
     {
         $config = $this->_getUserSourceConfiguration();
         $userSource = new Ilios_UserSync_UserSource_Eds($config);
-        $students = $userSource->getStudentRecords(10); // retrieve a bunch of students
+        $students = $userSource->getActiveStudentRecords(10); // retrieve a bunch of students
         // for each retrieved student, check back in EDS by UID
         $tested = false;
         foreach ($students as $student) {
@@ -92,7 +92,7 @@ class Ilios_UserSync_UserSource_EdsTest extends Ilios_TestCase
     {
         $config = $this->_getUserSourceConfiguration();
         $userSource = new Ilios_UserSync_UserSource_Eds($config);
-        $students = $userSource->getStudentRecords(10); // retrieve a bunch of students
+        $students = $userSource->getActiveStudentRecords(10); // retrieve a bunch of students
         // for each retrieved student, check back in EDS by UID
         $tested = false;
         foreach ($students as $student) {

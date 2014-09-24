@@ -34,9 +34,12 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * @param School $schoolDao
      * @param User_Sync_Exception $syncExceptionDao
      */
-    public function __construct (Ilios_UserSync_UserSource $userSource, User $userDao,
-                                    School $schoolDao, User_Sync_Exception $syncExceptionDao)
-    {
+    public function __construct(
+        Ilios_UserSync_UserSource $userSource,
+        User $userDao,
+        School $schoolDao,
+        User_Sync_Exception $syncExceptionDao
+    ) {
         parent::__construct($syncExceptionDao, self::SIGNATURE);
         $this->_userSource = $userSource;
         $this->_userDao = $userDao;
@@ -49,16 +52,14 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * @param Ilios_Logger $logger
      * @return boolean TRUE on success, FALSE otherwise
      */
-    protected function _run ($processId, Ilios_Logger $logger)
+    protected function _run($processId, Ilios_Logger $logger)
     {
-        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE , $processId);
-        $msg = "Kicking off the Student-user synchronization process, here we go ....";
-        $logger->log($msg , $processId);
         // ----------------------
         // 0. Initialization
         // ----------------------
         // remove all recorded sync exceptions from the last run
         $this->_deleteUserSyncExceptionsForProcess();
+
         // reset the "examined" bit on all student records
         try {
             $this->_resetExaminedFlagOnStudents();
@@ -67,7 +68,135 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             $logger->log($e->getMessage(), $processId, 0, Ilios_Logger::LOG_LEVEL_ERROR);
             return false;
         }
+        if (!$this->_processFormerStudents($processId, $logger)) {
+            //if we cannot flag former students then dont attempt to sync current students
+            return false;
+        }
+        if (!$this->_processActiveStudents($processId, $logger)) {
+            //if we were unable to process active students then don't attempt to
+            //process unexamined students
+            return false;
+        }
 
+        // if we've come this far then it's time to
+        // process any remaining student records in Ilios
+        // that did not get flagged as examined.
+        $disabledStudentsCount = $this->_processUnexaminedStudents($processId, $logger);
+        $msg = "# of students disabled: {$disabledStudentsCount}";
+        $logger->log($msg, $processId);
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+        return true;
+    }
+
+    /**
+     * Process former students.
+     * @param int $processId
+     * @param Ilios_Logger $logger
+     * @return boolean TRUE on success, FALSE otherwise
+     */
+    protected function _processFormerStudents($processId, Ilios_Logger $logger)
+    {
+
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+        $msg = "Kicking off the Former Student-user synchronization process, here we go ....";
+        $logger->log($msg, $processId);
+
+        // ----------------------
+        // 1. Student ingestion from internal source
+        // ----------------------
+        try {
+            $updatedStudentsCount = 0;
+
+            // get all student users from the external user source
+            $externalStudents = $this->_userSource->getFormerStudentRecords();
+
+            // count the external users
+            $externalStudentsCount = count($externalStudents);
+
+            $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+            $msg = 'Processing inbound/external former student-records';
+            $logger->log($msg, $processId);
+            $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+
+            // iterate over the retrieved students
+            foreach ($externalStudents as $externalStudent) {
+                $logger->log("Processing external user record " . $externalStudent, $processId);
+                // validate the incoming student record
+                try {
+                    $this->_validateIncomingStudentRecord($externalStudent);
+                } catch (Ilios_UserSync_Process_ExternalUserException $e2) {
+                    // for now, we just log these exceptions and continue
+                    $logger->log($e2->getMessage(), $processId, 1, Ilios_Logger::LOG_LEVEL_ERROR);
+                    continue; // do not process these users any further!
+                }
+                if ($this->_hasMatchingUsersInIlios($externalStudent)) {
+                    $enabledUsers = $this->_getMatchingEnabledUsersFromIlios($externalStudent);
+                    if (! count($enabledUsers)) {
+                        // edge case:
+                        // the external student has matching enabled student-users in Ilios,
+                        // but all of them are either disabled or flagged to be ignored by the sync process
+                        // make a note of that.
+                        $msg = 'Matching users found in Ilios, but all are flagged to be ignored or disabled.';
+                        $logger->log($msg, $processId, 1);
+                        continue;
+
+                    }
+                    foreach ($enabledUsers as $enabledUser) {
+                        try {
+                            $this->_matchEmailStudentAgainstUser($externalStudent, $enabledUser);
+                        } catch (Ilios_UserSync_Process_UserException $e2) {
+                            // mismatch detected!
+                            // save it for later review and processing
+                            $this->_saveUserSyncException($processId, $enabledUser['user_id'], $e2);
+                            $logger->log($e2->getMessage(), $processId, 1, Ilios_Logger::LOG_LEVEL_WARN);
+                            // flag user as examined.
+                            $this->_userDao->setUserExaminedBit($enabledUser['user_id'], true);
+                            continue;
+                        }
+                        // update the Ilios-internal user record
+                        $this->_updateUser($externalStudent, $enabledUser, true);
+                        $updatedStudentsCount++;
+                        // log the update event!
+                        $msg = "Updated user. (Ilios user id: {$enabledUser['user_id']}, UID: {$enabledUser['uc_uid']})";
+                        $logger->log($msg, $processId, 1);
+                    }
+                } else { // add new user record
+                    $msg = "No Ilios Account for: {$externalStudent} -- we will not create one.";
+                    $logger->log($msg, $processId, 1);
+                }
+            }
+        } catch (Ilios_UserSync_Exception $e) {
+            // Something blew up while reading from the external user store.
+            // There's nothing that can be done to recover from such an error.
+            // Log the incident and abort processing.
+            $logger->log($e->getMessage(), $processId, 0, Ilios_Logger::LOG_LEVEL_ERROR);
+            return false;
+        }
+        // ----------------------------------
+        // 3. Post-run Processing
+        // ----------------------------------
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+        $msg  = "Completed former student sync process.";
+        $logger->log($msg, $processId);
+        $msg  = "# of external students processed: {$externalStudentsCount}";
+        $logger->log($msg, $processId);
+        $msg = "# of students updated: {$updatedStudentsCount}";
+        $logger->log($msg, $processId);
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+        return true;
+    }
+
+    /**
+     * Process implementation.
+     * @param int $processId
+     * @param Ilios_Logger $logger
+     * @return boolean TRUE on success, FALSE otherwise
+     */
+    protected function _processActiveStudents($processId, Ilios_Logger $logger)
+    {
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
+        $msg = "Kicking off the Student-user synchronization process, here we go ....";
+        $logger->log($msg, $processId);
         // ----------------------
         // 1. Student ingestion from internal source
         // ----------------------
@@ -77,7 +206,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             $updatedStudentsCount = 0;
 
             // get all student users from the external user source
-            $externalStudents = $this->_userSource->getAllStudentRecords();
+            $externalStudents = $this->_userSource->getActiveStudentRecords();
 
             // load all school ids
             $schoolIds = $this->_schoolDao->getAllSchools();
@@ -92,17 +221,18 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
 
             // iterate over the retrieved students
             foreach ($externalStudents as $externalStudent) {
-                $logger->log("Processing external user record " . $externalStudent  , $processId);
+                $logger->log("Processing external user record " . $externalStudent, $processId);
                 // validate the incoming student record
                 try {
-                    $this->_validateIncomingStudentRecord($externalStudent, $schoolIds);
+                    $this->_validateIncomingStudentRecord($externalStudent);
+                    $this->_validateIncomingStudentSchool($externalStudent, $schoolIds);
                 } catch (Ilios_UserSync_Process_ExternalUserException $e2) {
                     // for now, we just log these exceptions and continue
                     $logger->log($e2->getMessage(), $processId, 1, Ilios_Logger::LOG_LEVEL_ERROR);
                     continue; // do not process these users any further!
                 }
                 if ($this->_hasMatchingUsersInIlios($externalStudent)) {
-                    $enabledUsers = $this->_getMatchingEnabledUsersFromIlios ($externalStudent);
+                    $enabledUsers = $this->_getMatchingEnabledUsersFromIlios($externalStudent);
                     if (! count($enabledUsers)) {
                         // edge case:
                         // the external student has matching enabled student-users in Ilios,
@@ -117,7 +247,8 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
                         try {
                             // match each enabled user against the external one
                             // determine any mismatches
-                            $this->_matchStudentAgainstUser($externalStudent, $enabledUser);
+                            $this->_matchEmailStudentAgainstUser($externalStudent, $enabledUser);
+                            $this->_matchStatusStudentAgainstUser($externalStudent, $enabledUser);
                         } catch (Ilios_UserSync_Process_UserException $e2) {
                             // mismatch detected!
                             // save it for later review and processing
@@ -128,7 +259,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
                             continue;
                         }
                         // update the Ilios-internal user record
-                        $this->_updateUser($externalStudent, $enabledUser);
+                        $this->_updateUser($externalStudent, $enabledUser, false);
                         $updatedStudentsCount++;
                         // log the update event!
                         $msg = "Updated user. (Ilios user id: {$enabledUser['user_id']}, UID: {$enabledUser['uc_uid']})";
@@ -155,20 +286,10 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             return false;
         }
 
-
-        // ----------------------------------
-        // 2. Process exception handling
-        // ----------------------------------
-
-        // if we've come this far then it's time to
-        // process any remaining student records in Ilios
-        // that did not get flagged as examined.
-        $disabledStudentsCount = $this->_processUnexaminedStudents($processId, $logger);
-
         // ----------------------------------
         // 3. Post-run Processing
         // ----------------------------------
-        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE , $processId);
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         $msg  = "Completed student sync process.";
         $logger->log($msg, $processId);
         $msg  = "# of external students processed: {$externalStudentsCount}";
@@ -177,9 +298,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
         $logger->log($msg, $processId);
         $msg = "# of students updated: {$updatedStudentsCount}";
         $logger->log($msg, $processId);
-        $msg = "# of students disabled: {$disabledStudentsCount}";
-        $logger->log($msg, $processId);
-        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE , $processId);
+        $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         return true;
     }
 
@@ -187,7 +306,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * Resets the 'examined' flag on all student records on file.
      * @throws Ilios_UserSync_Exception
      */
-    protected function _resetExaminedFlagOnStudents ()
+    protected function _resetExaminedFlagOnStudents()
     {
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -212,31 +331,44 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * Validates an incoming student record from an external user source.
      * 1. Check if the user has a valid ID
      * 2. Check if the user has a valid email address
-     * 3. Check if the user can be associated to one of the schools in the system
      * If at least one of the criteria above is not met then an exception is thrown.
      * @param Ilios_UserSync_ExternalUser $student
-     * @param array $schoolIds the ids of all school records in the system
      * @throws Ilios_UserSync_Process_ExternalUserException
      */
-    protected function _validateIncomingStudentRecord (Ilios_UserSync_ExternalUser $student, array $schoolIds)
+    protected function _validateIncomingStudentRecord(Ilios_UserSync_ExternalUser $student)
     {
         $uid = $student->getUid();
         if (empty($uid)) {
             throw new Ilios_UserSync_Process_ExternalUserException(
-            			'Missing UID for inbound student: ' . $student,
-                        Ilios_UserSync_Process_ExternalUserException::INVALID_UID);
+                'Missing UID for inbound student: ' . $student,
+                Ilios_UserSync_Process_ExternalUserException::INVALID_UID
+            );
         }
         $email = $student->getEmail();
         if (empty($email) || false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Ilios_UserSync_Process_ExternalUserException(
-            			'Missing or invalid email for inbound student: ' . $student,
-                        Ilios_UserSync_Process_ExternalUserException::INVALID_EMAIL);
+                'Missing or invalid email for inbound student: ' . $student,
+                Ilios_UserSync_Process_ExternalUserException::INVALID_EMAIL
+            );
         }
+    }
+
+
+    /**
+     * Validates the school ID in a student record
+     * Check if the user can be associated to one of the schools in the system
+     * @param Ilios_UserSync_ExternalUser $student
+     * @param array $schoolIds the ids of all school records in the system
+     * @throws Ilios_UserSync_Process_ExternalUserException
+     */
+    protected function _validateIncomingStudentSchool(Ilios_UserSync_ExternalUser $student, array $schoolIds)
+    {
         $schoolId = $student->getSchoolId();
         if (empty($schoolId) || ! in_array($schoolId, $schoolIds)) {
             throw new Ilios_UserSync_Process_ExternalUserException(
-            			'Missing or invalid school id for inbound student: ' . $student,
-                        Ilios_UserSync_Process_ExternalUserException::INVALID_PRIMARY_SCHOOL_ID);
+                'Missing or invalid school id for inbound student: ' . $student,
+                Ilios_UserSync_Process_ExternalUserException::INVALID_PRIMARY_SCHOOL_ID
+            );
         }
     }
 
@@ -248,7 +380,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * @param Ilios_UserSync_ExternalUser $externalUser
      * @return boolean TRUE if user(s) exist(s), FALSE otherwise
      */
-    protected function _hasMatchingUsersInIlios (Ilios_UserSync_ExternalUser $externalUser)
+    protected function _hasMatchingUsersInIlios(Ilios_UserSync_ExternalUser $externalUser)
     {
         return $this->_userDao->hasUsersWithUid($externalUser->getUid(), false, false);
     }
@@ -259,17 +391,19 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * @return int the id for the newly created user record
      * @throws Ilios_UserSync_Exception
      */
-    protected function _addStudentToIlios (Ilios_UserSync_ExternalUser $externalUser)
+    protected function _addStudentToIlios(Ilios_UserSync_ExternalUser $externalUser)
     {
-        $newUserId = $this->_userDao->addUserAsStudent($externalUser->getLastName(),
-                                 $externalUser->getFirstName(),
-                                 $externalUser->getMiddleName(),
-                                 $externalUser->getPhone(),
-                                 $externalUser->getEmail(),
-                                 $externalUser->getUid(),
-                                 null,
-                                 null, // this NULL-assignment for cohort is important!
-                                 $externalUser->getSchoolId());
+        $newUserId = $this->_userDao->addUserAsStudent(
+            $externalUser->getLastName(),
+            $externalUser->getFirstName(),
+            $externalUser->getMiddleName(),
+            $externalUser->getPhone(),
+            $externalUser->getEmail(),
+            $externalUser->getUid(),
+            null,
+            null, // this NULL-assignment for cohort is important!
+            $externalUser->getSchoolId()
+        );
         if (-1 == $newUserId) {
             throw new Ilios_UserSync_Exception('Failed to add external user as student to Ilios' . $externalUser);
         }
@@ -287,7 +421,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * @return int the total number of students that got disabled
      * @throws Ilios_UserSync_Process_UserException
      */
-    protected function _processUnexaminedStudents ($processId, Ilios_Logger $logger)
+    protected function _processUnexaminedStudents($processId, Ilios_Logger $logger)
     {
         $c = 0; // counter for students that get disabled in the process
         $unexaminedStudents = $this->_userDao->getUnexaminedUsers(true, true);
@@ -320,8 +454,10 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
                         if ($externalUserExists) {
                             $msg = "User exists in external user store, but not as a student.";
                             $msg .= " (Ilios user id: {$student['user_id']}, UID: {$student['uc_uid']})";
-                            throw new Ilios_UserSync_Process_UserException($msg,
-                                    Ilios_UserSync_Process_UserException::STUDENT_SYNC_STATUS_MISMATCH_IN_EXTERNAL_USER_STORE);
+                            throw new Ilios_UserSync_Process_UserException(
+                                $msg,
+                                Ilios_UserSync_Process_UserException::STUDENT_SYNC_STATUS_MISMATCH_IN_EXTERNAL_USER_STORE
+                            );
                         }
 
                         // User not found in external user store.
@@ -329,8 +465,10 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
                         $disableUser = true;
                         $msg = "User not found in external user store.";
                         $msg .= " (Ilios user id: {$student['user_id']}, UID: {$student['uc_uid']})";
-                        throw new Ilios_UserSync_Process_UserException($msg,
-                                    Ilios_UserSync_Process_UserException::STUDENT_SYNC_NOT_IN_EXTERNAL_USER_SOURCE);
+                        throw new Ilios_UserSync_Process_UserException(
+                            $msg,
+                            Ilios_UserSync_Process_UserException::STUDENT_SYNC_NOT_IN_EXTERNAL_USER_SOURCE
+                        );
                     }
                     // student found in external user store
                     // something else must be wrong
@@ -338,8 +476,10 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
                     $disableUser = true;
                     $msg = "Student did not get examined during user sync for reasons unknown.";
                     $msg .= " (Ilios user id: {$student['user_id']}, UID: {$student['uc_uid']})";
-                    throw new Ilios_UserSync_Process_UserException($msg,
-                                Ilios_UserSync_Process_UserException::STUDENT_SYNC_UNKNOWN_ERROR);
+                    throw new Ilios_UserSync_Process_UserException(
+                        $msg,
+                        Ilios_UserSync_Process_UserException::STUDENT_SYNC_UNKNOWN_ERROR
+                    );
                 } catch (Ilios_UserSync_Process_UserException $e) {
                     $this->_saveUserSyncException($processId, $student['user_id'], $e);
                     $logger->log($e->getMessage(), $processId, 1, Ilios_Logger::LOG_LEVEL_WARN);
@@ -369,39 +509,55 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * @param Ilios_UserSync_ExternalUser $externalUser
      * @return array nested array of user records
      */
-    protected function _getMatchingEnabledUsersFromIlios (Ilios_UserSync_ExternalUser $externalUser)
+    protected function _getMatchingEnabledUsersFromIlios(Ilios_UserSync_ExternalUser $externalUser)
     {
         return $this->_userDao->getUsersWithUid($externalUser->getUid(), true, true);
     }
 
     /**
-     * Matches a given user record from Ilios against an external student record.
+     * Matches the email in a given user record from Ilios against an external student record.
      * Throws an exception if a mismatch is detected.
      * @param Ilios_UserSync_ExternalUser $externalUser
      * @param array $user
      * @throws Ilios_UserSync_Process_UserException
      */
-    protected function _matchStudentAgainstUser (Ilios_UserSync_ExternalUser $externalUser, array $user)
+    protected function _matchEmailStudentAgainstUser(Ilios_UserSync_ExternalUser $externalUser, array $user)
     {
-        // validation magic goes here
-        // 1. check for email mis/match
         if (0 !== strcasecmp($externalUser->getEmail(), $user['email'])) {
             $msg = "Ext. user email <{$externalUser->getEmail()}> does not match Ilios user email <{$user['email']}>.";
             $msg .= " (Ilios user id: {$user['user_id']}, UID: {$user['uc_uid']})";
-            throw new Ilios_UserSync_Process_UserException($msg,
-                            Ilios_UserSync_Process_UserException::STUDENT_SYNC_EMAIL_MISMATCH,
-                            'email', $externalUser->getEmail());
+            throw new Ilios_UserSync_Process_UserException(
+                $msg,
+                Ilios_UserSync_Process_UserException::STUDENT_SYNC_EMAIL_MISMATCH,
+                'email',
+                $externalUser->getEmail()
+            );
         }
-        // 2. check for student status mis/match
+    }
+
+    /**
+     * Matches the status in a given user record from Ilios against an external student record.
+     * Throws an exception if a mismatch is detected.
+     * @param Ilios_UserSync_ExternalUser $externalUser
+     * @param array $user
+     * @throws Ilios_UserSync_Process_UserException
+     */
+    protected function _matchStatusStudentAgainstUser(Ilios_UserSync_ExternalUser $externalUser, array $user)
+    {
+        $isUserFormerStudent = $this->_userDao->userIsFormerStudent($user['user_id']);
         $isUserStudent = $this->_userDao->userIsStudent($user['user_id']);
         $isExtUserStudent = $externalUser->isStudent();
-        if ($isExtUserStudent != $isUserStudent) {
+        if (($isExtUserStudent != $isUserStudent) and !$isUserFormerStudent) {
             $msg = 'Ext. user is ' . ($isExtUserStudent ? '' : 'not ') . 'a student,';
-            $msg .= ' but Ilios user is ' . ( $isUserStudent ? '' : 'not ') . 'a student.';
+            $msg .= ' but Ilios user is ' . ( $isUserStudent ? '' : 'not ') . 'a student';
+            $msg .= ' and Ilios user is not a former student.';
             $msg .= " (Ilios user id: {$user['user_id']}, UID: {$user['uc_uid']})";
-            throw new Ilios_UserSync_Process_UserException($msg,
-                $isExtUserStudent ? Ilios_UserSync_Process_UserException::STUDENT_SYNC_STATUS_MISMATCH_IN_ILIOS
-                    : Ilios_UserSync_Process_UserException::STUDENT_SYNC_STATUS_MISMATCH_IN_EXTERNAL_USER_STORE);
+            throw new Ilios_UserSync_Process_UserException(
+                $msg,
+                $isExtUserStudent ?
+                Ilios_UserSync_Process_UserException::STUDENT_SYNC_STATUS_MISMATCH_IN_ILIOS :
+                Ilios_UserSync_Process_UserException::STUDENT_SYNC_STATUS_MISMATCH_IN_EXTERNAL_USER_STORE
+            );
         }
     }
 
@@ -411,16 +567,23 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
      * Then flag this user as 'examined'.
      * @param Ilios_UserSync_ExternalUser $externalUser
      * @param array $user
+     * @param boolean $isFormerStudent
      */
-    protected function _updateUser (Ilios_UserSync_ExternalUser $externalUser, array $user)
-    {
+    protected function _updateUser(
+        Ilios_UserSync_ExternalUser $externalUser,
+        array $user,
+        $isFormerStudent
+    ) {
         // update user record
-        $this->_userDao->updateUser($user['user_id'],
-             $externalUser->getFirstName(),
-             $externalUser->getMiddleName(),
-             $externalUser->getLastName(),
-             true,
-             $externalUser->getPhone());
+        $this->_userDao->updateUser(
+            $user['user_id'],
+            $externalUser->getFirstName(),
+            $externalUser->getMiddleName(),
+            $externalUser->getLastName(),
+            true,
+            $isFormerStudent,
+            $externalUser->getPhone()
+        );
 
         // flag user as examined
         $this->_userDao->setUserExaminedBit($user['user_id'], true);

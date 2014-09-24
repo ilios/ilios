@@ -12,5 +12,7 @@
         <const name="ILIOS_TEST_USER_SYNC_EDS_PASSWORD" value="XXXXX" />
         <const name="ILIOS_TEST_USER_SYNC_EDS_HOST" value="ldaps://XXXXX" />
         <const name="ILIOS_TEST_USER_SYNC_EDS_PORT" value="XXXXX" />
+        <const name="ILIOS_TEST_USER_SYNC_ACTIVE_STUDENT_FILTER" value="XXXXX" />
+        <const name="ILIOS_TEST_USER_SYNC_FORMER_STUDENT_FILTER" value="XXXXX" />
     </php>
 </phpunit>

@@ -169,6 +169,8 @@
                     <token key="USERSYNC_LDAP_HOSTNAME" value="${tasks.user_sync.ldap.hostname}" />
                     <token key="USERSYNC_LDAP_BINDDN" value="${tasks.user_sync.ldap.binddn}" />
                     <token key="USERSYNC_LDAP_PASSWORD" value="${tasks.user_sync.ldap.password}" />
+                    <token key="USERSYNC_LDAP_ACTIVE_STUDENT_FILTER" value="${tasks.user_sync.ldap.active_student_filter}" />
+                    <token key="USERSYNC_LDAP_FORMER_STUDENT_FILTER" value="${tasks.user_sync.ldap.former_student_filter}" />
                 </replacetokens>
             </filterchain>
         </copy>

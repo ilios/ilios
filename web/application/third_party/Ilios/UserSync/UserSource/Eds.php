@@ -38,34 +38,30 @@ class Ilios_UserSync_UserSource_Eds implements Ilios_UserSync_UserSource
     }
 
     /**
-     * Retrieves a list containing all students records from EDS.
+     * Retrieves a list containing sctive students records from EDS.
+     * @param int $limit
      * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
-     * @see Ilios_UserSync_UserSource::getAllStudentRecords()
+     * @see Ilios_UserSync_UserSource::getActiveStudentRecords()
      * @throws Ilios_UserSync_Exception
      */
-    public function getAllStudentRecords ()
+    public function getActiveStudentRecords($limit = 0)
     {
-        return $this->getStudentRecords();
+        $filter = $this->_config['ldap']['active_student_filter'];
+
+        return $this->_search($filter, $limit);
     }
 
     /**
-     * Retrieves a list of students from EDS.
+     * Retrieves a list containing former students records from EDS.
      * @param int $limit
      * @return Ilios_UserSync_ExternalUser_Iterator_Ldap
+     * @see Ilios_UserSync_UserSource::getFormerStudentRecords()
      * @throws Ilios_UserSync_Exception
      */
-    public function getStudentRecords ($limit = 0)
+    public function getFormerStudentRecords($limit = 0)
     {
-        // NOTE:
-        // This search filter is something of a "best guess".
-        // The value of the student registration code attribute is not reliable,
-        // so we check for the mere presence of it.
-        $filter =<<<EOL
-(&(objectClass=person)
-  (eduPersonAffiliation=student)
-  (ucsfEduStuRegistrationStatusCode=*)
-)
-EOL;
+        $filter = $this->_config['ldap']['former_student_filter'];
+
         return $this->_search($filter, $limit);
     }
 

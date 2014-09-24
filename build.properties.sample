@@ -94,7 +94,7 @@ db.username=XXXXXX
 db.password=XXXXXX
 
 #------------------------------------------------
-# UCSF user synchronization process settings
+# User synchronization process settings
 #------------------------------------------------
 #
 # LDAP hostname
@@ -108,6 +108,12 @@ tasks.user_sync.ldap.binddn=XXXXXX
 # LDAP password
 #
 tasks.user_sync.ldap.password=XXXXXX
+#
+# LDAP filter for finding current students
+# Defaults to a UCSF value for backwards compatability
+#
+tasks.user_sync.ldap.active_student_filter=(&(objectClass=person)(eduPersonAffiliation=student)(ucsfEduStuRegistrationStatusCode=*))
+tasks.user_sync.ldap.former_student_filter=XXXXXX
 
 #================================================
 # Ilios configuration overwrites (optional)

@@ -245,6 +245,8 @@ $config['tasks']['user_sync']['ldap']['host'] = 'ldaps://%%USERSYNC_LDAP_HOSTNAM
 $config['tasks']['user_sync']['ldap']['port'] = 636;
 $config['tasks']['user_sync']['ldap']['bind_dn'] = '%%USERSYNC_LDAP_BINDDN%%';
 $config['tasks']['user_sync']['ldap']['password'] = '%%USERSYNC_LDAP_PASSWORD%%';
+$config['tasks']['user_sync']['ldap']['active_student_filter'] = '%%USERSYNC_LDAP_ACTIVE_STUDENT_FILTER%%';
+$config['tasks']['user_sync']['ldap']['former_student_filter'] = '%%USERSYNC_LDAP_ACTIVE_STUDENT_FILTER%%';
 
 /*
 |--------------------------------------------------------------------------

@@ -1165,6 +1165,13 @@ ilios.management.user_accounts.buildUserAddAndRolesDOM = function (userModel) {
         element = ilios.management.user_accounts.generateUserRoleDiv(i18nStr,
             'ua_account_sync_ignore_checkbox', false, syncIgnored);
         subContainer.appendChild(element);
+
+        i18nStr = ilios_i18nVendor.getI18NString('management.user_accounts.roles.former_student');
+        element = ilios.management.user_accounts.generateUserRoleDiv(i18nStr,
+                                                                     'ua_former_student_role_checkbox',
+                                                                     userIsDisabled,
+                                                                     false);
+        subContainer.appendChild(element);
     }
 
     contentContainer.appendChild(subContainer);
@@ -1374,6 +1381,9 @@ ilios.management.user_accounts.buildUserAddAndRolesDOM = function (userModel) {
                 case 3:
                     element = document.getElementById('ua_faculty_role_checkbox');
                     break;
+                case 9:
+                    element = document.getElementById('ua_former_student_role_checkbox');
+                    break;
             }
 
             if (element != null) {
@@ -1427,6 +1437,9 @@ ilios.management.user_accounts.commitUserChanges = function (userModel, passback
         }
         if (document.getElementById('ua_faculty_role_checkbox').checked) {
             roleArray.push(3);
+        }
+        if (document.getElementById('ua_former_student_role_checkbox').checked) {
+            roleArray.push(9);
         }
     }
 

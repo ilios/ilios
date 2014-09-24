@@ -81,7 +81,7 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
      * * the second element holds a nested array of arrays, where each sub-array represents a user record
      * @return array
      */
-    public function providerGetAllStudentRecords ()
+    public function providerGetActiveStudentRecords ()
     {
         return array(
             array(0, array()),
@@ -106,17 +106,17 @@ class Ilios_UserSync_UserSource_ArrayTest extends Ilios_TestCase
 
     /**
      * @test
-     * @covers Ilios_UserSync_UserSource_Array::getAllStudentRecords
-     * @dataProvider providerGetAllStudentRecords
+     * @covers Ilios_UserSync_UserSource_Array::getActiveStudentRecords
+     * @dataProvider providerGetActiveStudentRecords
      * @group ilios
      * @group usersync
      */
-    public function testGetAllStudentRecords ($studentCount, $users)
+    public function testGetActiveStudentRecords ($studentCount, $users)
     {
         $config = array();
         $config['array']['users'] = $users;
         $userSource = new Ilios_UserSync_UserSource_Array($config);
-        $students = $userSource->getAllStudentRecords();
+        $students = $userSource->getActiveStudentRecords();
         $this->assertEquals($studentCount, count($students));
     }
 

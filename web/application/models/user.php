@@ -215,11 +215,20 @@ EOL;
      * @param string $middleInitial
      * @param string $lastName
      * @param boolean $isStudent
+     * @param boolean $isFormerStudent
      * @param string $phone
      * @param boolean $affectUserRoles if set to TRUE then the user's role associations are updated as well.
      */
-    public function updateUser ($userId, $firstName, $middleInitial, $lastName, $isStudent, $phone, $affectUserRoles = true)
-    {
+    public function updateUser(
+        $userId,
+        $firstName,
+        $middleInitial,
+        $lastName,
+        $isStudent,
+        $isFormerStudent,
+        $phone,
+        $affectUserRoles = true
+    ) {
         $updateRow = array();
 
         $updateRow['first_name'] = $firstName;
@@ -231,7 +240,13 @@ EOL;
         $this->db->update($this->databaseTableName, $updateRow);
 
         if ($affectUserRoles) {
-            $this->affectRoleForUser($userId, ($isStudent ? User_Role::STUDENT_ROLE_ID : User_Role::FACULTY_ROLE_ID), true);
+            if ($isStudent) {
+                $this->affectRoleForUser($userId, User_Role::STUDENT_ROLE_ID, true);
+            } else if ($isFormerStudent) {
+                $this->affectRoleForUser($userId, User_Role::FORMER_STUDENT_ROLE_ID, true);
+            } else {
+                $this->affectRoleForUser($userId, User_Role::FACULTY_ROLE_ID, true);
+            }
         }
     }
 
@@ -768,6 +783,16 @@ EOL;
     public function userIsCourseDirector ($userId)
     {
         return $this->userHasRole($userId, User_Role::COURSE_DIRECTOR_ROLE_ID);
+    }
+
+    /**
+     * Checks if a given user has the 'former student' role assigned.
+     * @param int $userId
+     * @return boolean TRUE if the user has the 'former student' role, otherwise FALSE
+     */
+    public function userIsFormerStudent ($userId)
+    {
+        return $this->userHasRole($userId, User_Role::FORMER_STUDENT_ROLE_ID);
     }
 
     /**

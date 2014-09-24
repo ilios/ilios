@@ -34,6 +34,12 @@ class Ilios_TestUtils
         if (defined('ILIOS_TEST_USER_SYNC_EDS_PASSWORD')) {
             $config['password'] = ILIOS_TEST_USER_SYNC_EDS_PASSWORD;
         }
+        if (defined('ILIOS_TEST_USER_SYNC_ACTIVE_STUDENT_FILTER')) {
+            $config['active_student_filter'] = ILIOS_TEST_USER_SYNC_ACTIVE_STUDENT_FILTER;
+        }
+        if (defined('ILIOS_TEST_USER_SYNC_FORMER_STUDENT_FILTER')) {
+            $config['former_student_filter'] = ILIOS_TEST_USER_SYNC_FORMER_STUDENT_FILTER;
+        }
         return $config;
     }
 
