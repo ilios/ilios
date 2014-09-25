@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\CohortManager as BaseCohortManager;
+use Ilios\CoreBundle\Model\CohortInterface;
 
-class UserManager extends BaseUserManager
+class CohortManager extends BaseCohortManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return CohortInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findCohortBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return CohortInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findCohortsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param CohortInterface $cohort
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateCohort(CohortInterface $cohort, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($cohort);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param CohortInterface $cohort
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteCohort(CohortInterface $cohort)
     {
-        $this->em->remove($user);
+        $this->em->remove($cohort);
         $this->em->flush();
     }
 

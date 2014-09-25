@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\MeshTermManager as BaseMeshTermManager;
+use Ilios\CoreBundle\Model\MeshTermInterface;
 
-class UserManager extends BaseUserManager
+class MeshTermManager extends BaseMeshTermManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return MeshTermInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findMeshTermBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return MeshTermInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findMeshTermsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshTermInterface $meshTerm
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateMeshTerm(MeshTermInterface $meshTerm, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($meshTerm);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshTermInterface $meshTerm
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteMeshTerm(MeshTermInterface $meshTerm)
     {
-        $this->em->remove($user);
+        $this->em->remove($meshTerm);
         $this->em->flush();
     }
 

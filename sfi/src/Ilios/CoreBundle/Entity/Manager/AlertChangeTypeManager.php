@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\AlertChangeTypeManager as BaseAlertChangeTypeManager;
+use Ilios\CoreBundle\Model\AlertChangeTypeInterface;
 
-class UserManager extends BaseUserManager
+class AlertChangeTypeManager extends BaseAlertChangeTypeManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return AlertChangeTypeInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findAlertChangeTypeBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return AlertChangeTypeInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findAlertChangeTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param AlertChangeTypeInterface $alertChangeType
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateAlertChangeType(AlertChangeTypeInterface $alertChangeType, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($alertChangeType);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param AlertChangeTypeInterface $alertChangeType
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteAlertChangeType(AlertChangeTypeInterface $alertChangeType)
     {
-        $this->em->remove($user);
+        $this->em->remove($alertChangeType);
         $this->em->flush();
     }
 

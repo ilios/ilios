@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\MeshConceptManager as BaseMeshConceptManager;
+use Ilios\CoreBundle\Model\MeshConceptInterface;
 
-class UserManager extends BaseUserManager
+class MeshConceptManager extends BaseMeshConceptManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return MeshConceptInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findMeshConceptBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return MeshConceptInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findMeshConceptsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshConceptInterface $meshConcept
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateMeshConcept(MeshConceptInterface $meshConcept, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($meshConcept);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshConceptInterface $meshConcept
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteMeshConcept(MeshConceptInterface $meshConcept)
     {
-        $this->em->remove($user);
+        $this->em->remove($meshConcept);
         $this->em->flush();
     }
 

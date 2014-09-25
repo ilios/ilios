@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\GroupManager as BaseGroupManager;
+use Ilios\CoreBundle\Model\GroupInterface;
 
-class UserManager extends BaseUserManager
+class GroupManager extends BaseGroupManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return GroupInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findGroupBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return GroupInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param GroupInterface $group
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateGroup(GroupInterface $group, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($group);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param GroupInterface $group
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteGroup(GroupInterface $group)
     {
-        $this->em->remove($user);
+        $this->em->remove($group);
         $this->em->flush();
     }
 

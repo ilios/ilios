@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\MeshDescriptorManager as BaseMeshDescriptorManager;
+use Ilios\CoreBundle\Model\MeshDescriptorInterface;
 
-class UserManager extends BaseUserManager
+class MeshDescriptorManager extends BaseMeshDescriptorManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return MeshDescriptorInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findMeshDescriptorBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return MeshDescriptorInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findMeshDescriptorsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshDescriptorInterface $meshDescriptor
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateMeshDescriptor(MeshDescriptorInterface $meshDescriptor, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($meshDescriptor);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshDescriptorInterface $meshDescriptor
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        $this->em->remove($user);
+        $this->em->remove($meshDescriptor);
         $this->em->flush();
     }
 

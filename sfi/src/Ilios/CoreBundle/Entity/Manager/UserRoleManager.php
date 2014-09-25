@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\UserRoleManager as BaseUserRoleManager;
+use Ilios\CoreBundle\Model\UserRoleInterface;
 
-class UserManager extends BaseUserManager
+class UserRoleManager extends BaseUserRoleManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return UserRoleInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findUserRoleBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return UserRoleInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findUserRolesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param UserRoleInterface $userRole
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateUserRole(UserRoleInterface $userRole, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($userRole);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param UserRoleInterface $userRole
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteUserRole(UserRoleInterface $userRole)
     {
-        $this->em->remove($user);
+        $this->em->remove($userRole);
         $this->em->flush();
     }
 

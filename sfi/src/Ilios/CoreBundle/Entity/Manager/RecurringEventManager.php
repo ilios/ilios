@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\RecurringEventManager as BaseRecurringEventManager;
+use Ilios\CoreBundle\Model\RecurringEventInterface;
 
-class UserManager extends BaseUserManager
+class RecurringEventManager extends BaseRecurringEventManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return RecurringEventInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findRecurringEventBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return RecurringEventInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findRecurringEventsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param RecurringEventInterface $recurringEvent
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateRecurringEvent(RecurringEventInterface $recurringEvent, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($recurringEvent);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param RecurringEventInterface $recurringEvent
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteRecurringEvent(RecurringEventInterface $recurringEvent)
     {
-        $this->em->remove($user);
+        $this->em->remove($recurringEvent);
         $this->em->flush();
     }
 

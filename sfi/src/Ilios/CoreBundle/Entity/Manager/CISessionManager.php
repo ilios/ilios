@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\CISessionManager as BaseCISessionManager;
+use Ilios\CoreBundle\Model\CISessionInterface;
 
-class UserManager extends BaseUserManager
+class CISessionManager extends BaseCISessionManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return CISessionInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findCISessionBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return CISessionInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findCISessionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param CISessionInterface $cISession
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateCISession(CISessionInterface $cISession, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($cISession);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param CISessionInterface $cISession
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteCISession(CISessionInterface $cISession)
     {
-        $this->em->remove($user);
+        $this->em->remove($cISession);
         $this->em->flush();
     }
 

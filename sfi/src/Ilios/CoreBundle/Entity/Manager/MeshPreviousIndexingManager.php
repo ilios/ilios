@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\MeshPreviousIndexingManager as BaseMeshPreviousIndexingManager;
+use Ilios\CoreBundle\Model\MeshPreviousIndexingInterface;
 
-class UserManager extends BaseUserManager
+class MeshPreviousIndexingManager extends BaseMeshPreviousIndexingManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return MeshPreviousIndexingInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findMeshPreviousIndexingBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return MeshPreviousIndexingInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findMeshPreviousIndexingsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateMeshPreviousIndexing(MeshPreviousIndexingInterface $meshPreviousIndexing, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($meshPreviousIndexing);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteMeshPreviousIndexing(MeshPreviousIndexingInterface $meshPreviousIndexing)
     {
-        $this->em->remove($user);
+        $this->em->remove($meshPreviousIndexing);
         $this->em->flush();
     }
 

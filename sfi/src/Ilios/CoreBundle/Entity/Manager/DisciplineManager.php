@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\DisciplineManager as BaseDisciplineManager;
+use Ilios\CoreBundle\Model\DisciplineInterface;
 
-class UserManager extends BaseUserManager
+class DisciplineManager extends BaseDisciplineManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return DisciplineInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findDisciplineBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return DisciplineInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findDisciplinesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param DisciplineInterface $discipline
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateDiscipline(DisciplineInterface $discipline, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($discipline);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param DisciplineInterface $discipline
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteDiscipline(DisciplineInterface $discipline)
     {
-        $this->em->remove($user);
+        $this->em->remove($discipline);
         $this->em->flush();
     }
 

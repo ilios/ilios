@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\CourseClerkshipTypeManager as BaseCourseClerkshipTypeManager;
+use Ilios\CoreBundle\Model\CourseClerkshipTypeInterface;
 
-class UserManager extends BaseUserManager
+class CourseClerkshipTypeManager extends BaseCourseClerkshipTypeManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return CourseClerkshipTypeInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findCourseClerkshipTypeBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return CourseClerkshipTypeInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findCourseClerkshipTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param CourseClerkshipTypeInterface $courseClerkshipType
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateCourseClerkshipType(CourseClerkshipTypeInterface $courseClerkshipType, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($courseClerkshipType);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param CourseClerkshipTypeInterface $courseClerkshipType
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteCourseClerkshipType(CourseClerkshipTypeInterface $courseClerkshipType)
     {
-        $this->em->remove($user);
+        $this->em->remove($courseClerkshipType);
         $this->em->flush();
     }
 

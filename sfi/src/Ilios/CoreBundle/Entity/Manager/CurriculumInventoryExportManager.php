@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\CurriculumInventoryExportManager as BaseCurriculumInventoryExportManager;
+use Ilios\CoreBundle\Model\CurriculumInventoryExportInterface;
 
-class UserManager extends BaseUserManager
+class CurriculumInventoryExportManager extends BaseCurriculumInventoryExportManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return CurriculumInventoryExportInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findCurriculumInventoryExportBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return CurriculumInventoryExportInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findCurriculumInventoryExportsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateCurriculumInventoryExport(CurriculumInventoryExportInterface $curriculumInventoryExport, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($curriculumInventoryExport);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteCurriculumInventoryExport(CurriculumInventoryExportInterface $curriculumInventoryExport)
     {
-        $this->em->remove($user);
+        $this->em->remove($curriculumInventoryExport);
         $this->em->flush();
     }
 

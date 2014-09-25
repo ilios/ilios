@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\CompetencyManager as BaseCompetencyManager;
+use Ilios\CoreBundle\Model\CompetencyInterface;
 
-class UserManager extends BaseUserManager
+class CompetencyManager extends BaseCompetencyManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return CompetencyInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findCompetencyBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return CompetencyInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findCompetenciesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param CompetencyInterface $competency
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateCompetency(CompetencyInterface $competency, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($competency);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param CompetencyInterface $competency
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteCompetency(CompetencyInterface $competency)
     {
-        $this->em->remove($user);
+        $this->em->remove($competency);
         $this->em->flush();
     }
 

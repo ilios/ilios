@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\SessionLearningMaterialManager as BaseSessionLearningMaterialManager;
+use Ilios\CoreBundle\Model\SessionLearningMaterialInterface;
 
-class UserManager extends BaseUserManager
+class SessionLearningMaterialManager extends BaseSessionLearningMaterialManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return SessionLearningMaterialInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findSessionLearningMaterialBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return SessionLearningMaterialInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findSessionLearningMaterialsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($sessionLearningMaterial);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
-        $this->em->remove($user);
+        $this->em->remove($sessionLearningMaterial);
         $this->em->flush();
     }
 

@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\InstructorGroupManager as BaseInstructorGroupManager;
+use Ilios\CoreBundle\Model\InstructorGroupInterface;
 
-class UserManager extends BaseUserManager
+class InstructorGroupManager extends BaseInstructorGroupManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return InstructorGroupInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findInstructorGroupBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return InstructorGroupInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findInstructorGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param InstructorGroupInterface $instructorGroup
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateInstructorGroup(InstructorGroupInterface $instructorGroup, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($instructorGroup);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param InstructorGroupInterface $instructorGroup
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
-        $this->em->remove($user);
+        $this->em->remove($instructorGroup);
         $this->em->flush();
     }
 

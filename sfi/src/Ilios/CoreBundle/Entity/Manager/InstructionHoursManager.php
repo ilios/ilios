@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\InstructionHoursManager as BaseInstructionHoursManager;
+use Ilios\CoreBundle\Model\InstructionHoursInterface;
 
-class UserManager extends BaseUserManager
+class InstructionHoursManager extends BaseInstructionHoursManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return InstructionHoursInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findInstructionHoursBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return InstructionHoursInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findInstructionHoursBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param InstructionHoursInterface $instructionHours
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateInstructionHours(InstructionHoursInterface $instructionHours, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($instructionHours);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param InstructionHoursInterface $instructionHours
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteInstructionHours(InstructionHoursInterface $instructionHours)
     {
-        $this->em->remove($user);
+        $this->em->remove($instructionHours);
         $this->em->flush();
     }
 

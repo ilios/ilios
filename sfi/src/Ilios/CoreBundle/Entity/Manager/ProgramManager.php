@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\ProgramManager as BaseProgramManager;
+use Ilios\CoreBundle\Model\ProgramInterface;
 
-class UserManager extends BaseUserManager
+class ProgramManager extends BaseProgramManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return ProgramInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findProgramBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return ProgramInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findProgramsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param ProgramInterface $program
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateProgram(ProgramInterface $program, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($program);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param ProgramInterface $program
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteProgram(ProgramInterface $program)
     {
-        $this->em->remove($user);
+        $this->em->remove($program);
         $this->em->flush();
     }
 

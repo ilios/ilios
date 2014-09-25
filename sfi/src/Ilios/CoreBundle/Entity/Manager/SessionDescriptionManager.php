@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\SessionDescriptionManager as BaseSessionDescriptionManager;
+use Ilios\CoreBundle\Model\SessionDescriptionInterface;
 
-class UserManager extends BaseUserManager
+class SessionDescriptionManager extends BaseSessionDescriptionManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return SessionDescriptionInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findSessionDescriptionBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return SessionDescriptionInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findSessionDescriptionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionDescriptionInterface $sessionDescription
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateSessionDescription(SessionDescriptionInterface $sessionDescription, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($sessionDescription);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionDescriptionInterface $sessionDescription
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteSessionDescription(SessionDescriptionInterface $sessionDescription)
     {
-        $this->em->remove($user);
+        $this->em->remove($sessionDescription);
         $this->em->flush();
     }
 

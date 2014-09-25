@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\SessionTypeManager as BaseSessionTypeManager;
+use Ilios\CoreBundle\Model\SessionTypeInterface;
 
-class UserManager extends BaseUserManager
+class SessionTypeManager extends BaseSessionTypeManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return SessionTypeInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findSessionTypeBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return SessionTypeInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findSessionTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionTypeInterface $sessionType
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateSessionType(SessionTypeInterface $sessionType, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($sessionType);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param SessionTypeInterface $sessionType
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteSessionType(SessionTypeInterface $sessionType)
     {
-        $this->em->remove($user);
+        $this->em->remove($sessionType);
         $this->em->flush();
     }
 

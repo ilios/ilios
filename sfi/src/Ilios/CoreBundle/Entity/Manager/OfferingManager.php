@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Ilios\CoreBundle\Model\Manager\UserManager as BaseUserManager;
-use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\Manager\OfferingManager as BaseOfferingManager;
+use Ilios\CoreBundle\Model\OfferingInterface;
 
-class UserManager extends BaseUserManager
+class OfferingManager extends BaseOfferingManager
 {
     /**
      * @var EntityManager
@@ -39,9 +39,9 @@ class UserManager extends BaseUserManager
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return UserInterface
+     * @return OfferingInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
+    public function findOfferingBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -54,35 +54,35 @@ class UserManager extends BaseUserManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserInterface[]|Collection
+     * @return OfferingInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findOfferingsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param UserInterface $user
+     * @param OfferingInterface $offering
      * @param bool $andFlush
      *
      * @return void
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
+    public function updateOffering(OfferingInterface $offering, $andFlush = true)
     {
-        $this->em->persist($user);
+        $this->em->persist($offering);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param OfferingInterface $offering
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user)
+    public function deleteOffering(OfferingInterface $offering)
     {
-        $this->em->remove($user);
+        $this->em->remove($offering);
         $this->em->flush();
     }
 
