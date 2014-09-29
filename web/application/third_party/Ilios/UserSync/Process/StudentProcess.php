@@ -173,7 +173,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
             return false;
         }
         // ----------------------------------
-        // 3. Post-run Processing
+        // 2. Post-run Processing
         // ----------------------------------
         $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         $msg  = "Completed former student sync process.";
@@ -287,7 +287,7 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
         }
 
         // ----------------------------------
-        // 3. Post-run Processing
+        // 2. Post-run Processing
         // ----------------------------------
         $logger->log(Ilios_Logger::LOG_SEPARATION_LINE, $processId);
         $msg  = "Completed student sync process.";
