@@ -217,6 +217,27 @@ class Course extends Ilios_Base_Model
     }
 
     /**
+     * Retrieves all courses belonging to a given school
+     * and that a given user has access to regardless
+     * of whether or not the course has been archived.
+     * @param int $schoolId the school id
+     * @param int $uid the user id
+     * @return CI_DB_result a db query result object
+     */
+    protected function _getCoursesForCalendar ($schoolId, $uid)
+    {
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
+        $clean['uid'] = (int) $uid;
+
+        $sql  = 'CALL courses_with_title_restricted_by_school_for_user_calendar('
+            . '"%%", ' . $clean['school_id'] . ', '
+            . $clean['uid'] . ')';
+
+        return $this->db->query($sql);
+    }
+
+    /**
      * Performs a title search for courses belonging to a given
      * school and that a given user has access to.
      * @param string $title the course title
