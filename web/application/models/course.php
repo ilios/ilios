@@ -269,6 +269,40 @@ class Course extends Ilios_Base_Model
         return $this->db->query($sql);
     }
 
+    /**
+     * Performs a title search for courses belonging to a given
+     * school and that a given user has access to regardless of
+     * whether or not they have been archived, as the calendar
+     * should display all courses, even if they are archived.
+     * @param string $title the course title
+     * @param int $schoolId the school id
+     * @param int $uid the user id
+     * @return CI_DB_result a db query result object
+     */
+    protected function _searchCoursesByTitleForCalendar ($title, $schoolId, $uid)
+    {
+        $clean = array();
+        $clean['school_id'] = (int) $schoolId;
+        $clean['uid'] = (int) $uid;
+        $clean['title'] = $this->db->escape_like_str($title);
+
+        $len = strlen($title);
+
+        if (Ilios_Base_Model::WILDCARD_SEARCH_CHARACTER_MIN_LIMIT > $len) {
+            // trailing wildcard search
+            $sql  = 'CALL courses_with_title_restricted_by_school_for_user_calendar('
+                . '"' . $clean['title'] . '%", ' . $clean['school_id'] . ', '
+                . $clean['uid'] . ')';
+        } else {
+            // full wildcard search
+            $sql  = 'CALL courses_with_title_restricted_by_school_for_user_calendar('
+                . '"%' . $clean['title'] . '%", ' . $clean['school_id'] . ', '
+                . $clean['uid'] . ')';
+        }
+
+        return $this->db->query($sql);
+    }
+
     public function courseExistsWithTitleAndYear ($title, $year)
     {
         $this->db->where('title', $title);
