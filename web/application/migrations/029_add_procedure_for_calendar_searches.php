@@ -3,15 +3,18 @@
 /**
  * Adds the stored procedure "courses_with_title_restricted_by_school_for_user_calendar".
  */
-class Migration_Add_courses_with_title_restricted_by_school_for_user_calendar extends CI_Migration
+class Migration_Add_procedure_for_calendar_searches extends CI_Migration
 {
 
     public function up()
     {
+        //set up for the transaction...
         $this->db->trans_start();
-        $sql =<<<EOL
-DROP PROCEDURE IF EXISTS courses_with_title_restricted_by_school_for_user_calendar;
-DELIMITER //
+        //query to drop the existing stored procedure...
+        $queryString = 'DROP PROCEDURE IF EXISTS user_ids_from_cohort_and_master_group';
+        //drop the stored procedure...
+        $queryResults = $this->db->query($queryString);
+        $queryString = <<<EOL
 CREATE PROCEDURE `courses_with_title_restricted_by_school_for_user_calendar`(IN `in_title_query` VARCHAR(30), IN `in_school_id` INT, IN `in_user_id` INT)
 LANGUAGE SQL
 NOT DETERMINISTIC
@@ -93,11 +96,9 @@ READS SQL DATA
     ORDER BY `title`, `start_date`, `end_date`;
 
     DROP TABLE tt_courses;
-  END;
-//
-DELIMITER ;
+  END
 EOL;
-        $this->db->query($sql);
+        $this->db->query($queryString);
         $this->db->trans_complete();
     }
 
