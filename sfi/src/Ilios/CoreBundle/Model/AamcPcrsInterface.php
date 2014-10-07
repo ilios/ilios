@@ -2,23 +2,35 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\DescribableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\NameableTraitInterface;
+use Ilios\CoreBundle\Model\CompetencyInterface;
+
 /**
  * Interface AamcPcrsInterface
  */
-interface AamcPcrsInterface 
+interface AamcPcrsInterface extends
+    IdentifiableTraitIntertface,
+    NameableTraitInterface,
+    DescribableTraitInterface
 {
-    public function setPcrsId($pcrsId);
+    /**
+     * @param Collection $competencies
+     */
+    public function setCompetencies(Collection $competencies);
 
-    public function getPcrsId();
+    /**
+     * @param CompetencyInterface $competency
+     */
+    public function addCompetency(CompetencyInterface $competency);
 
-    public function setDescription($description);
-
-    public function getDescription();
-
-    public function addCompetency(\Ilios\CoreBundle\Model\Competency $competencies);
-
-    public function removeCompetency(\Ilios\CoreBundle\Model\Competency $competencies);
-
+    /**
+     * @return ArrayCollection|CompetencyInterface[]
+     */
     public function getCompetencies();
 }
 

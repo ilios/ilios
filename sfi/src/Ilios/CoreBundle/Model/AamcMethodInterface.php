@@ -2,23 +2,38 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Model\SessionTypeInterface;
+
+use Ilios\CoreBundle\Traits\DescribableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\NameableTraitInterface;
+
 /**
  * Interface AamcMethodInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface AamcMethodInterface 
+interface AamcMethodInterface extends
+    IdentifiableTraitIntertface,
+    NameableTraitInterface,
+    DescribableTraitInterface
 {
-    public function setMethodId($methodId);
+    /**
+     * @param Collection $sessionTypes
+     */
+    public function setSessionTypes(Collection $sessionTypes);
 
-    public function getMethodId();
+    /**
+     * Add sessionTypes
+     *
+     * @param SessionTypeInterface $sessionType
+     */
+    public function addSessionType(SessionTypeInterface $sessionType);
 
-    public function setDescription($description);
-
-    public function getDescription();
-
-    public function addSessionType(\Ilios\CoreBundle\Model\SessionType $sessionTypes);
-
-    public function removeSessionType(\Ilios\CoreBundle\Model\SessionType $sessionTypes);
-
+    /**
+     * @return ArrayCollection|SessionTypeInterface[]
+     */
     public function getSessionTypes();
 }
 

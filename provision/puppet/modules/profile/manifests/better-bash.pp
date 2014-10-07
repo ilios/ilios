@@ -7,7 +7,7 @@ class profile::better-bash {
         user => 'vagrant',
         creates => '/home/vagrant/.bash_it/',
         path => ['/usr/bin', '/usr/sbin', '/usr/local/bin', '/bin']
-    }
+    } ->
 
     exec { 'install_candy_alt':
         cwd => '/home/vagrant/',

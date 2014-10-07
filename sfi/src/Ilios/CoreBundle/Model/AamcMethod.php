@@ -2,112 +2,64 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Model\SessionTypeInterface;
+use Ilios\CoreBundle\Traits\DescribableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\NameableTrait;
 
 /**
- * AamcMethod
+ * Class AamcMethod
+ * @package Ilios\CoreBundle\Model
  */
-class AamcMethod
+class AamcMethod implements AamcMethodInterface
 {
-    /**
-     * @var string
-     */
-    private $methodId;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use DescribableTrait;
 
     /**
-     * @var string
+     * @var ArrayCollection|SessionTypeInterface[]
      */
-    private $description;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $sessionTypes;
+    protected $sessionTypes;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->sessionTypes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sessionTypes = new ArrayCollection();
     }
 
     /**
-     * Set methodId
-     *
-     * @param string $methodId
-     * @return AamcMethod
+     * @param Collection $sessionTypes
      */
-    public function setMethodId($methodId)
+    public function setSessionTypes(Collection $sessionTypes)
     {
-        $this->methodId = $methodId;
+        $this->sessionTypes = new ArrayCollection();
 
-        return $this;
-    }
-
-    /**
-     * Get methodId
-     *
-     * @return string 
-     */
-    public function getMethodId()
-    {
-        return $this->methodId;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return AamcMethod
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
     }
 
     /**
      * Add sessionTypes
      *
-     * @param \Ilios\CoreBundle\Model\SessionType $sessionTypes
-     * @return AamcMethod
+     * @param SessionTypeInterface $sessionType
      */
-    public function addSessionType(\Ilios\CoreBundle\Model\SessionType $sessionTypes)
+    public function addSessionType(SessionTypeInterface $sessionType)
     {
-        $this->sessionTypes[] = $sessionTypes;
-
-        return $this;
+        $this->sessionTypes->add($sessionType);
     }
 
     /**
-     * Remove sessionTypes
-     *
-     * @param \Ilios\CoreBundle\Model\SessionType $sessionTypes
-     */
-    public function removeSessionType(\Ilios\CoreBundle\Model\SessionType $sessionTypes)
-    {
-        $this->sessionTypes->removeElement($sessionTypes);
-    }
-
-    /**
-     * Get sessionTypes
-     *
-     * @return array[\Ilios\CoreBundle\Model\SessionType]
+     * @return ArrayCollection|SessionTypeInterface[]
      */
     public function getSessionTypes()
     {
-        return $this->sessionTypes->toArray();
+        return $this->sessionTypes;
     }
 }

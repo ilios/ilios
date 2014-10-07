@@ -2,112 +2,58 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
+use Ilios\CoreBundle\Traits\DescribableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Model\CompetencyInterface;
 
-/**
- * AamcPcrs
- */
-class AamcPcrs
+class AamcPcrs implements AamcPcrsInterface
 {
-    /**
-     * @var string
-     */
-    private $pcrsId;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use DescribableTrait;
 
     /**
-     * @var string
+     * @var ArrayCollection|CompetencyInterface[]
      */
-    private $description;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $competencies;
+    protected $competencies;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->competencies = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->competencies = new ArrayCollection();
     }
 
     /**
-     * Set pcrsId
-     *
-     * @param string $pcrsId
-     * @return AamcPcrs
+     * @param Collection $competencies
      */
-    public function setPcrsId($pcrsId)
+    public function setCompetencies(Collection $competencies)
     {
-        $this->pcrsId = $pcrsId;
+        $this->competencies = new ArrayCollection();
 
-        return $this;
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
     }
 
     /**
-     * Get pcrsId
-     *
-     * @return string 
+     * @param CompetencyInterface $competency
      */
-    public function getPcrsId()
+    public function addCompetency(CompetencyInterface $competency)
     {
-        return $this->pcrsId;
+        $this->competencies->add($competency);
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return AamcPcrs
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Add competencies
-     *
-     * @param \Ilios\CoreBundle\Model\Competency $competencies
-     * @return AamcPcrs
-     */
-    public function addCompetency(\Ilios\CoreBundle\Model\Competency $competencies)
-    {
-        $this->competencies[] = $competencies;
-
-        return $this;
-    }
-
-    /**
-     * Remove competencies
-     *
-     * @param \Ilios\CoreBundle\Model\Competency $competencies
-     */
-    public function removeCompetency(\Ilios\CoreBundle\Model\Competency $competencies)
-    {
-        $this->competencies->removeElement($competencies);
-    }
-
-    /**
-     * Get competencies
-     *
-     * @return Ilios\CoreBundle\Model\Competency[]
+     * @return ArrayCollection|CompetencyInterface[]
      */
     public function getCompetencies()
     {
-        return $this->competencies->toArray();
+        return $this->competencies;
     }
 }

@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5c4b1fa7e11e97a8759521b518e2feed",
+    "hash": "bc4c6eeb96daf5d992cd43df176d0d86",
     "packages": [
         {
             "name": "doctrine/annotations",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "d9b1a37e9351ddde1f19f09a02e3d6ee92e82efd"
+                "reference": "6a6bec0670bb6e71a263b08bc1b98ea242928633"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/d9b1a37e9351ddde1f19f09a02e3d6ee92e82efd",
-                "reference": "d9b1a37e9351ddde1f19f09a02e3d6ee92e82efd",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/6a6bec0670bb6e71a263b08bc1b98ea242928633",
+                "reference": "6a6bec0670bb6e71a263b08bc1b98ea242928633",
                 "shasum": ""
             },
             "require": {
@@ -45,17 +45,6 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/",
-                    "role": "Creator"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com",
-                    "homepage": "http://www.instaclick.com"
-                },
-                {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
@@ -64,10 +53,16 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
                     "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
-                    "role": "Developer of wrapped JMSSerializerBundle"
+                    "email": "schmittjoh@gmail.com"
                 }
             ],
             "description": "Docblock Annotations Parser",
@@ -77,7 +72,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2014-07-06 15:52:21"
+            "time": "2014-09-25 16:45:30"
         },
         {
             "name": "doctrine/cache",
@@ -550,16 +545,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.4.4",
+            "version": "v2.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "fc19c3b53dcd00e6584db40669fdd699c4671f97"
+                "reference": "bebacf79d8d4dae9168f0f9bc6811e6c2cb6a4d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/fc19c3b53dcd00e6584db40669fdd699c4671f97",
-                "reference": "fc19c3b53dcd00e6584db40669fdd699c4671f97",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/bebacf79d8d4dae9168f0f9bc6811e6c2cb6a4d9",
+                "reference": "bebacf79d8d4dae9168f0f9bc6811e6c2cb6a4d9",
                 "shasum": ""
             },
             "require": {
@@ -597,23 +592,20 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/",
-                    "role": "Creator"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com",
-                    "homepage": "http://www.instaclick.com"
-                },
-                {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
                 {
                     "name": "Benjamin Eberlei",
                     "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
                 }
             ],
             "description": "Object-Relational-Mapper for PHP",
@@ -622,7 +614,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-07-11 03:05:53"
+            "time": "2014-10-06 13:22:50"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -901,12 +893,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDiExtraBundle.git",
-                "reference": "d282aa46c84a2723db0dab6940ea4399e6aa3313"
+                "reference": "49fd39537cd0cbc6f76e4261f2549562d753cd82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/d282aa46c84a2723db0dab6940ea4399e6aa3313",
-                "reference": "d282aa46c84a2723db0dab6940ea4399e6aa3313",
+                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/49fd39537cd0cbc6f76e4261f2549562d753cd82",
+                "reference": "49fd39537cd0cbc6f76e4261f2549562d753cd82",
                 "shasum": ""
             },
             "require": {
@@ -947,10 +939,8 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
-                    "role": "Developer of wrapped JMSSerializerBundle"
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
                 }
             ],
             "description": "Allows to configure dependency injection using annotations",
@@ -959,7 +949,7 @@
                 "annotations",
                 "dependency injection"
             ],
-            "time": "2014-06-13 07:11:35"
+            "time": "2014-09-26 09:56:26"
         },
         {
             "name": "jms/metadata",
@@ -1194,12 +1184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "cf81147590cfd99b8c51ceabdd991e3d7ce44b4b"
+                "reference": "52eff4c53d6fb47b1eddb3df0597a8f1be6447b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/cf81147590cfd99b8c51ceabdd991e3d7ce44b4b",
-                "reference": "cf81147590cfd99b8c51ceabdd991e3d7ce44b4b",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/52eff4c53d6fb47b1eddb3df0597a8f1be6447b4",
+                "reference": "52eff4c53d6fb47b1eddb3df0597a8f1be6447b4",
                 "shasum": ""
             },
             "require": {
@@ -1260,7 +1250,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2014-09-16 00:53:54"
+            "time": "2014-09-27 20:24:07"
         },
         {
             "name": "michelf/php-markdown",
@@ -1315,21 +1305,24 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "25b16e801979098cb2f120e697bfce454b18bf23"
+                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/25b16e801979098cb2f120e697bfce454b18bf23",
-                "reference": "25b16e801979098cb2f120e697bfce454b18bf23",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
+                "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
                 "psr/log": "~1.0"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "~2.4, >2.4.8",
@@ -1337,7 +1330,8 @@
                 "graylog2/gelf-php": "~1.0",
                 "phpunit/phpunit": "~3.7.0",
                 "raven/raven": "~0.5",
-                "ruflin/elastica": "0.90.*"
+                "ruflin/elastica": "0.90.*",
+                "videlalvaro/php-amqplib": "~2.4"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -1347,12 +1341,13 @@
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10.x-dev"
+                    "dev-master": "1.11.x-dev"
                 }
             },
             "autoload": {
@@ -1368,8 +1363,7 @@
                 {
                     "name": "Jordi Boggiano",
                     "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be",
-                    "role": "Developer"
+                    "homepage": "http://seld.be"
                 }
             ],
             "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
@@ -1379,7 +1373,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-06-04 16:30:04"
+            "time": "2014-09-30 13:30:58"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -1455,6 +1449,61 @@
                 "rest"
             ],
             "time": "2014-07-30 09:11:08"
+        },
+        {
+            "name": "nelmio/cors-bundle",
+            "version": "1.3.2",
+            "target-dir": "Nelmio/CorsBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nelmio/NelmioCorsBundle.git",
+                "reference": "b926acd8e286c97094dd09388338c92ecc4bdbfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/b926acd8e286c97094dd09388338c92ecc4bdbfe",
+                "reference": "b926acd8e286c97094dd09388338c92ecc4bdbfe",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "~2.2"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "0.2.*",
+                "mockery/mockery": "dev-master"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Nelmio\\CorsBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nelmio",
+                    "homepage": "http://nelm.io"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/nelmio/NelmioCorsBundle/contributors"
+                }
+            ],
+            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Symfony2 application",
+            "keywords": [
+                "api",
+                "cors",
+                "crossdomain"
+            ],
+            "time": "2014-09-18 17:24:11"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -1595,17 +1644,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "ad10123f2532f6e311e583cce203ef368eedc469"
+                "reference": "e20461e4f8e1afd68f36cf90bdccc06f7aa6a6c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ad10123f2532f6e311e583cce203ef368eedc469",
-                "reference": "ad10123f2532f6e311e583cce203ef368eedc469",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/e20461e4f8e1afd68f36cf90bdccc06f7aa6a6c2",
+                "reference": "e20461e4f8e1afd68f36cf90bdccc06f7aa6a6c2",
                 "shasum": ""
             },
             "require": {
@@ -1644,7 +1693,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2014-08-26 13:14:47"
+            "time": "2014-09-24 14:47:46"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -1748,20 +1797,20 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.2.1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "2b9af56cc676c338d52fca4c657e5bdff73bb7af"
+                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/2b9af56cc676c338d52fca4c657e5bdff73bb7af",
-                "reference": "2b9af56cc676c338d52fca4c657e5bdff73bb7af",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/b86b927dfefdb56ab0b22d1350033d9a38e9f205",
+                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.4"
+                "php": ">=5.3.3"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9.1"
@@ -1769,7 +1818,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.2-dev"
+                    "dev-master": "5.3-dev"
                 }
             },
             "autoload": {
@@ -1783,13 +1832,11 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "name": "Chris Corbyn"
                 },
                 {
-                    "name": "Chris Corbyn"
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Swiftmailer, free feature-rich PHP mailer",
@@ -1798,7 +1845,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-06-13 11:44:54"
+            "time": "2014-10-04 05:53:18"
         },
         {
             "name": "symfony/assetic-bundle",
@@ -2029,16 +2076,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.5.4",
+            "version": "v2.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "3a369dddea56596df91977d8c2083e70784852f2"
+                "reference": "2aef97bbc95d0c4ae63537cca81bd6d984427d81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/3a369dddea56596df91977d8c2083e70784852f2",
-                "reference": "3a369dddea56596df91977d8c2083e70784852f2",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/2aef97bbc95d0c4ae63537cca81bd6d984427d81",
+                "reference": "2aef97bbc95d0c4ae63537cca81bd6d984427d81",
                 "shasum": ""
             },
             "require": {
@@ -2139,7 +2186,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-09-03 09:51:48"
+            "time": "2014-09-28 17:33:53"
         },
         {
             "name": "twig/extensions",
@@ -2247,6 +2294,46 @@
             "time": "2014-07-05 12:19:05"
         },
         {
+            "name": "voryx/restgeneratorbundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/voryx/restgeneratorbundle.git",
+                "reference": "1ed3334686af433ca4575b8dd1c9f26a1f3a3c11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/voryx/restgeneratorbundle/zipball/1ed3334686af433ca4575b8dd1c9f26a1f3a3c11",
+                "reference": "1ed3334686af433ca4575b8dd1c9f26a1f3a3c11",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofsymfony/rest-bundle": "1.4.*",
+                "jms/serializer-bundle": "0.13.*",
+                "nelmio/cors-bundle": "1.3.*",
+                "php": ">=5.3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Voryx\\RESTGeneratorBundle": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Bonneau",
+                    "email": "matt@bonneau.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "REST API Generator for Symfony 2",
+            "time": "2014-07-12 05:06:01"
+        },
+        {
             "name": "willdurand/jsonp-callback-validator",
             "version": "v1.1.0",
             "source": {
@@ -2288,16 +2375,16 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "1.3.3",
+            "version": "1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "a98fb6b9808610c1aa326c736893d3d77d9383b6"
+                "reference": "d7fa4ce4a0436915b9ba9f7cb5ff37719f0a834c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/a98fb6b9808610c1aa326c736893d3d77d9383b6",
-                "reference": "a98fb6b9808610c1aa326c736893d3d77d9383b6",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/d7fa4ce4a0436915b9ba9f7cb5ff37719f0a834c",
+                "reference": "d7fa4ce4a0436915b9ba9f7cb5ff37719f0a834c",
                 "shasum": ""
             },
             "require": {
@@ -2321,8 +2408,7 @@
             "authors": [
                 {
                     "name": "William Durand",
-                    "email": "william.durand1@gmail.com",
-                    "homepage": "http://www.willdurand.fr"
+                    "email": "william.durand1@gmail.com"
                 }
             ],
             "description": "Content Negotiation tools for PHP provided as a standalone library.",
@@ -2334,7 +2420,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2014-05-16 12:34:51"
+            "time": "2014-10-02 07:26:00"
         }
     ],
     "packages-dev": [
@@ -2475,9 +2561,7 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": [
-
-                ]
+                "branch-alias": []
             },
             "autoload": {
                 "psr-0": {
@@ -2701,12 +2785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "95a4855380dc70176c51807c678fb3bd6198529a"
+                "reference": "a0a8d0e7d6964fe556f4a30cb758603a99569cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/95a4855380dc70176c51807c678fb3bd6198529a",
-                "reference": "95a4855380dc70176c51807c678fb3bd6198529a",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/a0a8d0e7d6964fe556f4a30cb758603a99569cb2",
+                "reference": "a0a8d0e7d6964fe556f4a30cb758603a99569cb2",
                 "shasum": ""
             },
             "require": {
@@ -2759,7 +2843,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2014-09-03 10:11:10"
+            "time": "2014-10-07 06:23:47"
         },
         {
             "name": "nikic/php-parser",
@@ -3338,23 +3422,23 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529"
+                "reference": "c7d59948d6e82818e1bdff7cadb6c34710eb7dc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529",
-                "reference": "1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/c7d59948d6e82818e1bdff7cadb6c34710eb7dc0",
+                "reference": "c7d59948d6e82818e1bdff7cadb6c34710eb7dc0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.0.*@dev"
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "extra": {
@@ -3373,11 +3457,6 @@
             ],
             "authors": [
                 {
-                    "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
-                },
-                {
                     "name": "Jeff Welch",
                     "email": "whatthejeff@gmail.com"
                 },
@@ -3386,13 +3465,16 @@
                     "email": "github@wallbash.com"
                 },
                 {
-                    "name": "Adam Harvey",
-                    "email": "aharvey@php.net",
-                    "role": "Lead"
-                },
-                {
                     "name": "Bernhard Schussek",
                     "email": "bschussek@2bepublished.at"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                },
+                {
+                    "name": "Adam Harvey",
+                    "email": "aharvey@php.net"
                 }
             ],
             "description": "Provides the functionality to export PHP variables for visualization",
@@ -3401,7 +3483,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2014-02-16 08:26:31"
+            "time": "2014-09-10 00:51:36"
         },
         {
             "name": "sebastian/version",
@@ -3440,17 +3522,17 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.3.5",
+            "version": "v2.4.0",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "8b7a33aa3d22388443b6de0b0cf184122e9f60d2"
+                "reference": "d5c0b996a46276d50943a80f95a46b59215a0e68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/8b7a33aa3d22388443b6de0b0cf184122e9f60d2",
-                "reference": "8b7a33aa3d22388443b6de0b0cf184122e9f60d2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/d5c0b996a46276d50943a80f95a46b59215a0e68",
+                "reference": "d5c0b996a46276d50943a80f95a46b59215a0e68",
                 "shasum": ""
             },
             "require": {
@@ -3480,26 +3562,24 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2014-04-28 14:01:06"
+            "time": "2014-09-22 14:56:14"
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "1.5.4",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435"
+                "reference": "5d973e59cf58a0c847f298de84374c96b42b17b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4097e2c106e4a32bc234ae880e5585a19137e435",
-                "reference": "4097e2c106e4a32bc234ae880e5585a19137e435",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5d973e59cf58a0c847f298de84374c96b42b17b3",
+                "reference": "5d973e59cf58a0c847f298de84374c96b42b17b3",
                 "shasum": ""
             },
             "require": {
@@ -3561,7 +3641,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2014-08-05 23:54:05"
+            "time": "2014-09-25 03:33:46"
         },
         {
             "name": "willdurand/faker-bundle",
@@ -3626,6 +3706,7 @@
         "kriswallsmith/assetic": 20,
         "symfony/assetic-bundle": 20,
         "jms/di-extra-bundle": 20,
+        "voryx/restgeneratorbundle": 20,
         "sensio/generator-bundle": 0,
         "liip/functional-test-bundle": 0,
         "doctrine/data-fixtures": 20,
@@ -3643,7 +3724,5 @@
     "platform": {
         "php": ">=5.3.3"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

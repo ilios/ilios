@@ -2,7 +2,7 @@ Ilios\CoreBundle\Entity\AamcMethod:
     type: entity
     table: aamc_method
     id:
-        methodId:
+        id:
             type: string
             length: 10
             column: method_id
