@@ -531,6 +531,34 @@ class Course_Management extends Ilios_Web_Controller
         echo json_encode($rhett);
     }
 
+    /**
+     * XHR handler.
+     * Prints out a JSON-formatted array of courses.
+     * Expects the following values to be POSTed:
+     * - 'query' ... a title/title-fragment to search courses by
+     */
+    public function getCourseListForQueryForCalendar ()
+    {
+        // authorization check
+        if (! $this->session->userdata('has_instructor_access')) {
+            $this->_printAuthorizationFailedXhrResponse();
+            return;
+        }
+
+        $title = $this->input->post('query');
+        $schoolId = $this->session->userdata('school_id');
+        $uid = $this->session->userdata('uid');
+        $queryResults = $this->course->getCoursesFilteredOnTitleMatchForCalendar($title, $schoolId, $uid);
+
+        $rhett = array();
+        foreach ($queryResults->result_array() as $row) {
+            $row['unique_id'] = $this->course->getUniqueId($row['course_id']);
+            array_push($rhett, $row);
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($rhett);
+    }
 
     /**
      * Expects the following POST parameters:

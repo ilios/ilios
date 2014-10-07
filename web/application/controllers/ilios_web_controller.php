@@ -420,6 +420,33 @@ abstract class Ilios_Web_Controller extends Ilios_Base_Controller
         echo json_encode($results);
     }
 
+    /**
+     * Prints out a JSON-formatted array of courses in a given academic year.
+     *
+     * Expects the following values to be POSTed:
+     * - 'year' ... the academic year
+     * - 'sort' ... the sort order
+     */
+    public function getCourseListForAcademicYearForCalendar ()
+    {
+        $academicYear = $this->input->post('year');
+        $sort = $this->input->post('sort');
+
+        $schoolId = $this->session->userdata('school_id');
+        $results = $this->course->getCoursesForAcademicYearForCalendar($academicYear, $schoolId);
+
+        if (!empty($sort)) {
+            $sortkeys = array();
+            foreach ($results as $key => $data) {
+                $sortkeys[$key] = $data[$sort];
+            }
+            array_multisort($sortkeys, $results);
+        }
+
+        header("Content-Type: text/plain");
+        echo json_encode($results);
+    }
+
 
     /**
      * Retrieves various application preferences from the user session.

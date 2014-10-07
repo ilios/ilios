@@ -720,7 +720,7 @@ ilios.home.calendar.filtersSelectionChanged = function (e) {
 };
 
 ilios.home.calendar.filtersUpdateCourseList = function (year) {
-    var url = controllerURL + "getCourseListForAcademicYear";
+    var url = controllerURL + "getCourseListForAcademicYearForCalendar";
     var method = "POST";
     var paramString = "year=" + year + "&sort=title";
     var ajaxCallback = {
