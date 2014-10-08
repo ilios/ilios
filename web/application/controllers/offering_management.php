@@ -635,12 +635,12 @@ class Offering_Management extends Ilios_Web_Controller
         $learners =  $this->iliosSession->getLearnersForSession($sessionId);
         for ($i = 0, $n = count($learners); $i < $n; $i++) {
             $learners[$i]['offerings'] =
-                $this->offering->getOtherOfferingsForInstructor($sessionId, $learners[$i]['user_id']);
+                $this->offering->getOtherOfferingsForLearner($sessionId, $learners[$i]['user_id']);
         }
         $learnerGroups = $this->iliosSession->getLearnerGroupsForSession($sessionId);
         for ($i = 0, $n = count($learnerGroups); $i < $n; $i++) {
             $learnerGroups[$i]['offerings'] =
-                $this->offering->getOtherOfferingsForInstructorGroup($sessionId, $learnerGroups[$i]['group_id']);
+                $this->offering->getOtherOfferingsForLearnerGroup($sessionId, $learnerGroups[$i]['group_id']);
         }
         $rhett['learners'] = array_merge($learners, $learnerGroups);
 
