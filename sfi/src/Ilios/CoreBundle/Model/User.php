@@ -953,6 +953,6 @@ class User implements UserInterface, \Serializable
      */
     public function __toString()
     {
-        return (string) $this->userId;
+        return (string) $this->getUsername();
     }
 }
