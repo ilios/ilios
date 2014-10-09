@@ -574,13 +574,14 @@ class Ilios_UserSync_Process_StudentProcess extends Ilios_UserSync_Process
         array $user,
         $isFormerStudent
     ) {
+        $isStudent = !$isFormerStudent;
         // update user record
         $this->_userDao->updateUser(
             $user['user_id'],
             $externalUser->getFirstName(),
             $externalUser->getMiddleName(),
             $externalUser->getLastName(),
-            true,
+            $isStudent,
             $isFormerStudent,
             $externalUser->getPhone()
         );
