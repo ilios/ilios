@@ -54,8 +54,8 @@ class CalendarFeedDataProvider
     public function getData ($userId, $schoolId = null, array $userRoles = array())
     {
         // Specify the period of events to be included in the export.
-        $timestart = strtotime("-5 days");     // last 5 days
-        $timeend = strtotime("+2 months");   // next 2 months (~60 days)
+        $timestart = strtotime("-3 months");     // last 3 months
+        $timeend = strtotime("+3 months");   // next 3 months (~90 days)
 
         $offerings = $this->_ci->queries->getOfferingsDetailsForCalendarFeed($userId, $schoolId, $userRoles, $timestart,
             $timeend);
