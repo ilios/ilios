@@ -2,17 +2,20 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Symfony\Component\Validator\Constraints\Collection;
 
+use Ilios\CoreBundle\Model\AlertChangeTypeInterface;
+use Ilios\CoreBundle\Model\UserInterface;
+use Ilios\CoreBundle\Model\SchoolInterface;
 
 /**
  * Alert
  */
-class Alert
+class Alert implements AlertInterface
 {
-    /**
-     * @var integer
-     */
-    private $alertId;
+    use IdentifiableTrait;
 
     /**
      * @var integer
@@ -35,17 +38,17 @@ class Alert
     private $dispatched;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|AlertChangeTypeInterface[]
      */
     private $changeTypes;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
      */
     private $instigators;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|SchoolInterface[]
      */
     private $recipients;
 
@@ -54,38 +57,21 @@ class Alert
      */
     public function __construct()
     {
-        $this->changeTypes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instigators = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->recipients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->changeTypes = new ArrayCollection();
+        $this->instigators = new ArrayCollection();
+        $this->recipients = new ArrayCollection();
     }
 
     /**
-     * Get alertId
-     *
-     * @return integer 
-     */
-    public function getAlertId()
-    {
-        return $this->alertId;
-    }
-
-    /**
-     * Set tableRowId
-     *
      * @param integer $tableRowId
-     * @return Alert
      */
     public function setTableRowId($tableRowId)
     {
         $this->tableRowId = $tableRowId;
-
-        return $this;
     }
 
     /**
-     * Get tableRowId
-     *
-     * @return integer 
+     * @return integer
      */
     public function getTableRowId()
     {
@@ -93,22 +79,15 @@ class Alert
     }
 
     /**
-     * Set tableName
-     *
      * @param string $tableName
-     * @return Alert
      */
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
-
-        return $this;
     }
 
     /**
-     * Get tableName
-     *
-     * @return string 
+     * @return string
      */
     public function getTableName()
     {
@@ -116,22 +95,15 @@ class Alert
     }
 
     /**
-     * Set additionalText
-     *
      * @param string $additionalText
-     * @return Alert
      */
     public function setAdditionalText($additionalText)
     {
         $this->additionalText = $additionalText;
-
-        return $this;
     }
 
     /**
-     * Get additionalText
-     *
-     * @return string 
+     * @return string
      */
     public function getAdditionalText()
     {
@@ -139,22 +111,15 @@ class Alert
     }
 
     /**
-     * Set dispatched
-     *
      * @param boolean $dispatched
-     * @return Alert
      */
     public function setDispatched($dispatched)
     {
         $this->dispatched = $dispatched;
-
-        return $this;
     }
 
     /**
-     * Get dispatched
-     *
-     * @return boolean 
+     * @return boolean
      */
     public function getDispatched()
     {
@@ -162,101 +127,86 @@ class Alert
     }
 
     /**
-     * Add changeTypes
-     *
-     * @param \Ilios\CoreBundle\Model\AlertChangeType $changeTypes
-     * @return Alert
+     * @param Collection $changeTypes
      */
-    public function addChangeType(\Ilios\CoreBundle\Model\AlertChangeType $changeTypes)
+    public function setChangeTypes(Collection $changeTypes)
     {
-        $this->changeTypes[] = $changeTypes;
+        $this->changeTypes = new ArrayCollection();
 
-        return $this;
+        foreach ($changeTypes as $changeType) {
+            $this->addChangeType($changeType);
+        }
     }
 
     /**
-     * Remove changeTypes
-     *
-     * @param \Ilios\CoreBundle\Model\AlertChangeType $changeTypes
+     * @param AlertChangeType $changeType
      */
-    public function removeChangeType(\Ilios\CoreBundle\Model\AlertChangeType $changeTypes)
+    public function addChangeType(AlertChangeType $changeType)
     {
-        $this->changeTypes->removeElement($changeTypes);
+        $this->changeTypes->add($changeType);
     }
 
     /**
-     * Get changeTypes
-     *
-     * @return \Ilios\CoreBundle\Model\AlertChangeType[]
+     * @return ArrayCollection|AlertChangeTypeInterface[]
      */
     public function getChangeTypes()
     {
-        return $this->changeTypes->toArray();
+        return $this->changeTypes;
     }
 
     /**
-     * Add instigators
-     *
-     * @param \Ilios\CoreBundle\Model\User $instigators
-     * @return Alert
+     * @param Collection $instigators
      */
-    public function addInstigator(\Ilios\CoreBundle\Model\User $instigators)
+    public function setInstigators(Collection $instigators)
     {
-        $this->instigators[] = $instigators;
+        $this->instigators = new ArrayCollection();
 
-        return $this;
+        foreach ($instigators as $instigator) {
+            $this->addInstigator($instigator);
+        }
     }
 
     /**
-     * Remove instigators
-     *
-     * @param \Ilios\CoreBundle\Model\User $instigators
+     * @param UserInterface $instigator
      */
-    public function removeInstigator(\Ilios\CoreBundle\Model\User $instigators)
+    public function addInstigator(UserInterface $instigator)
     {
-        $this->instigators->removeElement($instigators);
+        $this->instigators->add($instigator);
     }
 
     /**
-     * Get instigators
-     *
-     * @return \Ilios\CoreBundle\Model\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getInstigators()
     {
-        return $this->instigators->toArray();
+        return $this->instigators;
     }
 
     /**
-     * Add recipients
-     *
-     * @param \Ilios\CoreBundle\Model\School $recipients
-     * @return Alert
+     * @param Collection $recipients
      */
-    public function addRecipient(\Ilios\CoreBundle\Model\School $recipients)
+    public function setRecipients(Collection $recipients)
     {
-        $this->recipients[] = $recipients;
+        $this->recipients = new ArrayCollection();
 
-        return $this;
+        foreach ($recipients as $recipient) {
+            $this->addRecipient($recipient);
+        }
     }
 
     /**
-     * Remove recipients
-     *
-     * @param \Ilios\CoreBundle\Model\School $recipients
+     * @param SchoolInterface $recipient
      */
-    public function removeRecipient(\Ilios\CoreBundle\Model\School $recipients)
+    public function addRecipient(SchoolInterface $recipient)
     {
-        $this->recipients->removeElement($recipients);
+        $this->recipients->add($recipient);
     }
 
     /**
-     * Get recipients
-     *
-     * @return \Ilios\CoreBundle\Model\School[]
+     * @return ArrayCollection|SchoolInterface[]
      */
     public function getRecipients()
     {
-        return $this->recipients->toArray();
+        return $this->recipients;
     }
 }

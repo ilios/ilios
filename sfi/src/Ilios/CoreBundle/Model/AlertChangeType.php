@@ -2,17 +2,19 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Model\AlertInterface;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 /**
- * AlertChangeType
+ * Class AlertChangeType
+ * @package Ilios\CoreBundle\Model
  */
-class AlertChangeType
+class AlertChangeType implements AlertChangeTypeInterface
 {
-    /**
-     * @var integer
-     */
-    private $alertChangeTypeId;
+    use IdentifiableTrait;
 
     /**
      * @var string
@@ -20,7 +22,7 @@ class AlertChangeType
     private $title;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection
      */
     private $alerts;
 
@@ -29,36 +31,19 @@ class AlertChangeType
      */
     public function __construct()
     {
-        $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->alerts = new ArrayCollection();
     }
 
     /**
-     * Get alertChangeTypeId
-     *
-     * @return integer 
-     */
-    public function getAlertChangeTypeId()
-    {
-        return $this->alertChangeTypeId;
-    }
-
-    /**
-     * Set title
-     *
      * @param string $title
-     * @return AlertChangeType
      */
     public function setTitle($title)
     {
         $this->title = $title;
-
-        return $this;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -66,35 +51,30 @@ class AlertChangeType
     }
 
     /**
-     * Add alerts
-     *
-     * @param \Ilios\CoreBundle\Model\Alert $alerts
-     * @return AlertChangeType
+     * @param Collection $alerts
      */
-    public function addAlert(\Ilios\CoreBundle\Model\Alert $alerts)
+    public function setAlerts(Collection $alerts)
     {
-        $this->alerts[] = $alerts;
+        $this->alerts = new ArrayCollection();
 
-        return $this;
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
     }
 
     /**
-     * Remove alerts
-     *
-     * @param \Ilios\CoreBundle\Model\Alert $alerts
+     * @param AlertInterface $alert
      */
-    public function removeAlert(\Ilios\CoreBundle\Model\Alert $alerts)
+    public function addAlert(AlertInterface $alert)
     {
-        $this->alerts->removeElement($alerts);
+        $this->alerts->add($alert);
     }
 
     /**
-     * Get alerts
-     *
-     * @return \Ilios\CoreBundle\Model\Alert[]
+     * @return ArrayCollection|AlertInterface[]
      */
     public function getAlerts()
     {
-        return $this->alerts->toArray();
+        return $this->alerts;
     }
 }

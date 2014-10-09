@@ -22,8 +22,10 @@
         "friendsofsymfony/rest-bundle": "1.4.*",
         "jms/serializer-bundle": "0.13.*",
         "nelmio/api-doc-bundle": "2.*",
+        "nelmio/cors-bundle": "~1.0",
         "jms/di-extra-bundle": "dev-master",
-        "voryx/restgeneratorbundle": "dev-master"
+        "voryx/restgeneratorbundle": "dev-master",
+        "stof/doctrine-extensions-bundle": "~1.1@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",

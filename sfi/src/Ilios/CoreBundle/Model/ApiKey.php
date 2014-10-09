@@ -2,92 +2,49 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Ilios\CoreBundle\Model\UserInterface;
 
 /**
  * ApiKey
  */
-class ApiKey
+class ApiKey implements ApiKeyInterface
 {
-    /**
-     * @var integer
-     */
-    private $userId;
-
     /**
      * @var string
      */
-    private $apiKey;
+    private $key;
 
     /**
-     * @var \Ilios\CoreBundle\Model\User
+     * @var UserInterface
      */
     private $user;
 
-
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return ApiKey
+     * @param string $key
      */
-    public function setUserId($userId)
+    public function setKey($key)
     {
-        $this->userId = $userId;
-
-        return $this;
+        $this->key = $key;
     }
 
     /**
-     * Get userId
-     *
-     * @return integer 
+     * @return string
      */
-    public function getUserId()
+    public function getKey()
     {
-        return $this->userId;
+        return $this->key;
     }
 
     /**
-     * Set apiKey
-     *
-     * @param string $apiKey
-     * @return ApiKey
+     * @param UserInterface $user
      */
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-
-        return $this;
-    }
-
-    /**
-     * Get apiKey
-     *
-     * @return string 
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Model\User $user
-     * @return ApiKey
-     */
-    public function setUser(\Ilios\CoreBundle\Model\User $user = null)
+    public function setUser(UserInterface $user = null)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Model\User 
+     * @return UserInterface
      */
     public function getUser()
     {

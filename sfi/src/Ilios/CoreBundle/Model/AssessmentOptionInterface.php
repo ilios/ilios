@@ -2,15 +2,21 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+
 /**
  * Interface AssessmentOptionInterface
  */
-interface AssessmentOptionInterface 
+interface AssessmentOptionInterface  extends IdentifiableTraitIntertface
 {
-    public function getAssessmentOptionId();
-
+    /**
+     * @param string $name
+     */
     public function setName($name);
 
+    /**
+     * @return string
+     */
     public function getName();
 }
 

@@ -7,16 +7,24 @@ namespace Ilios\CoreBundle\Model;
  */
 interface ApiKeyInterface 
 {
-    public function setUserId($userId);
+    /**
+     * @param string $key
+     */
+    public function setKey($key);
 
-    public function getUserId();
+    /**
+     * @return string
+     */
+    public function getKey();
 
-    public function setApiKey($apiKey);
+    /**
+     * @param UserInterface $user
+     */
+    public function setUser(UserInterface $user = null);
 
-    public function getApiKey();
-
-    public function setUser(\Ilios\CoreBundle\Model\User $user = null);
-
+    /**
+     * @return UserInterface
+     */
     public function getUser();
 }
 

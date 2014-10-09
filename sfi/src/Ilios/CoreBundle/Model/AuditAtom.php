@@ -2,18 +2,15 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 
 /**
  * AuditAtom
  */
-class AuditAtom
+class AuditAtom implements AuditAtomInterface
 {
-    /**
-     * @var integer
-     */
-    private $auditAtomId;
-
+    use IdentifiableTrait;
     /**
      * @var integer
      */
