@@ -2,25 +2,52 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+
+use Ilios\CoreBundle\Model\CourseInterface;
+use Ilios\CoreBundle\Model\ProgramYearInterface;
+
 /**
  * Interface CohortInterface
  */
-interface CohortInterface 
+interface CohortInterface extends IdentifiableTraitIntertface
 {
-    public function getCohortId();
-
-    public function setTitle($title);
-
+    /**
+     * @return string
+     */
     public function getTitle();
 
-    public function setProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYear = null);
+    /**
+     * @param string $title
+     */
+    public function setTitle($title);
 
+    /**
+     * @param ProgramYearInterface $programYear
+     */
+    public function setProgramYear(ProgramYearInterface $programYear = null);
+
+    /**
+     * @return ProgramYearInterface
+     */
     public function getProgramYear();
 
-    public function addCourse(\Ilios\CoreBundle\Model\Course $courses);
+    /**
+     * @param Collection $courses
+     */
+    public function setCourses(Collection $courses);
 
-    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses);
+    /**
+     * @param CourseInterface $course
+     */
+    public function addCourse(CourseInterface $course);
 
+    /**
+     * @return CourseInterface[]|ArrayCollection
+     */
     public function getCourses();
 }
 

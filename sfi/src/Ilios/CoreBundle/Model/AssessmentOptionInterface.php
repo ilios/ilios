@@ -3,20 +3,12 @@
 namespace Ilios\CoreBundle\Model;
 
 use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\NameableTraitInterface;
 
 /**
  * Interface AssessmentOptionInterface
  */
-interface AssessmentOptionInterface  extends IdentifiableTraitIntertface
+interface AssessmentOptionInterface  extends IdentifiableTraitIntertface, NameableTraitInterface
 {
-    /**
-     * @param string $name
-     */
-    public function setName($name);
-
-    /**
-     * @return string
-     */
-    public function getName();
 }
 

@@ -2,79 +2,73 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+
+use Ilios\CoreBundle\Model\CompetencyInterface;
+use Ilios\CoreBundle\Model\AamcPcrsInterface;
+use Ilios\CoreBundle\Model\SchoolInterface;
 
 /**
- * Competency
+ * Class Competency
+ * @package Ilios\CoreBundle\Model
  */
-class Competency
+class Competency implements CompetencyInterface
 {
-    /**
-     * @var integer
-     */
-    private $competencyId;
+    use IdentifiableTrait;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
     
     /**
-     * @var \Ilios\CoreBundle\Model\School
+     * @var SchoolInterface
      */
-    private $owningSchool;
+    protected $school;
 
     /**
-     * @var \Ilios\CoreBundle\Model\Competency
+     * @var CompetencyInterface
      */
-    private $parentCompetency;
+    protected $parent;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CompetencyInterface[]
      */
-    private $pcrses;
+    protected $children;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|AamcPcrsInterface[]
      */
-    private $programYears;
+    protected $aamcPcrses;
+
+    /**
+     * @var ArrayCollection|ProgramYearInterface[]
+     */
+    protected $programYears;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->pcrses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->programYears = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->aamcPcrses = new ArrayCollection();
+        $this->programYears = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
-     * Get competencyId
-     *
-     * @return integer 
-     */
-    public function getCompetencyId()
-    {
-        return $this->competencyId;
-    }
-
-    /**
-     * Set title
-     *
      * @param string $title
-     * @return Competency
      */
     public function setTitle($title)
     {
         $this->title = $title;
-
-        return $this;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -82,114 +76,114 @@ class Competency
     }
 
     /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Model\School $school
-     * @return ProgramYearSteward
+     * @param SchoolInterface $school
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null)
+    public function setSchool(SchoolInterface $school)
     {
-        $this->owningSchool = $school;
-
-        return $this;
+        $this->school = $school;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Model\School 
+     * @return SchoolInterface
      */
-    public function getOwningSchool()
+    public function getSchool()
     {
-        return $this->owningSchool;
+        return $this->school;
     }
 
     /**
-     * Set parentCompetency
-     *
-     * @param \Ilios\CoreBundle\Model\Competency $parentCompetency
-     * @return Competency
+     * @param CompetencyInterface $parent
      */
-    public function setParentCompetency(\Ilios\CoreBundle\Model\Competency $parentCompetency = null)
+    public function setParent(CompetencyInterface $parent)
     {
-        $this->parentCompetency = $parentCompetency;
-
-        return $this;
+        $this->parent = $parent;
     }
 
     /**
-     * Get parentCompetency
-     *
-     * @return \Ilios\CoreBundle\Model\Competency 
+     * @return CompetencyInterface
      */
-    public function getParentCompetency()
+    public function getParent()
     {
-        return $this->parentCompetency;
+        return $this->parent;
     }
 
     /**
-     * Add pcrses
-     *
-     * @param \Ilios\CoreBundle\Model\AamcPcrs $pcrses
-     * @return Competency
+     * @param Collection $children
      */
-    public function addPcrs(\Ilios\CoreBundle\Model\AamcPcrs $pcrses)
+    public function setChildren(Collection $children)
     {
-        $this->pcrses[] = $pcrses;
+        $this->children = new ArrayCollection();
 
-        return $this;
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
     }
 
     /**
-     * Remove pcrses
-     *
-     * @param \Ilios\CoreBundle\Model\AamcPcrs $pcrses
+     * @param CompetencyInterface $child
      */
-    public function removePcrs(\Ilios\CoreBundle\Model\AamcPcrs $pcrses)
+    public function addChild(CompetencyInterface $child)
     {
-        $this->pcrses->removeElement($pcrses);
+        $this->children->add($child);
     }
 
     /**
-     * Get pcrses
-     *
-     * @return \Ilios\CoreBundle\Model\AamcPcrs[]
+     * @return ArrayCollection|CompetencyInterface[]
      */
-    public function getPcrses()
+    public function getChildren()
     {
-        return $this->pcrses->toArray();
+        return $this->children;
     }
 
     /**
-     * Add programYears
-     *
-     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
-     * @return Competency
+     * @return bool
      */
-    public function addProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
+    public function hasChildren()
     {
-        $this->programYears[] = $programYears;
-
-        return $this;
+        return (!$this->children->isEmpty()) ? true : false;
     }
 
     /**
-     * Remove programYears
-     *
-     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
+     * @param Collection $aamcPcrses
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
+    public function setAamcPcrses(Collection $aamcPcrses)
     {
-        $this->programYears->removeElement($programYears);
+        $this->aamcPcrses = new ArrayCollection();
+
+        foreach ($aamcPcrses as $aamcPcrs) {
+            $this->addAamcPcrs($aamcPcrs);
+        }
     }
 
     /**
-     * Get programYears
-     *
-     * @return \Ilios\CoreBundle\Model\ProgramYear[]
+     * @param AamcPcrsInterface $aamcPcrs
+     */
+    public function addAamcPcrs(AamcPcrsInterface $aamcPcrs)
+    {
+        $this->aamcPcrses->add($aamcPcrs);
+    }
+
+    /**
+     * @return ArrayCollection|AamcPcrsInterface[]
+     */
+    public function getAamcPcrses()
+    {
+        return $this->aamcPcrses;
+    }
+
+    /**
+     * @param ProgramYearInterface $programYear
+     */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        $this->programYears->add($programYear);
+    }
+
+    /**
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function getProgramYears()
     {
-        return $this->programYears->toArray();
+        return $this->programYears;
     }
 }

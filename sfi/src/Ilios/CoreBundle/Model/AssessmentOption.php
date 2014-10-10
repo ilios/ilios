@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Model;
 
 use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\NameableTrait;
 
 /**
  * AssessmentOption
@@ -10,25 +11,5 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
 class AssessmentOption implements AssessmentOptionInterface
 {
     use IdentifiableTrait;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    use NameableTrait;
 }
