@@ -38,6 +38,12 @@ class User_Role extends Ilios_Base_Model
     const PUBLIC_ROLE_ID = 5;
 
     /**
+    * "Public" role identifier.
+    * @var int
+    */
+    const FORMER_STUDENT_ROLE_ID = 9;
+
+    /**
      * Constructor.
      */
     public function __construct ()

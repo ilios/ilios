@@ -18,7 +18,14 @@ interface Ilios_UserSync_UserSource
      * @return Iterator
      * @throws Ilios_UserSync_Exception
      */
-    public function getAllStudentRecords ();
+    public function getActiveStudentRecords ();
+
+    /**
+     * Returns student records from the external user source.
+     * @return Iterator
+     * @throws Ilios_UserSync_Exception
+     */
+    public function getFormerStudentRecords ();
 
     /**
      * Finds and returns user record(s) by a given email address

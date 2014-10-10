@@ -31,11 +31,11 @@ class Ilios_UserSync_UserSource_Array implements Ilios_UserSync_UserSource
     }
 
     /**
-     * Returns a list of student records.
+     * Returns a list of active student records.
      * @return Ilios_UserSync_ExternalUser_Iterator_Array
-     * @see Ilios_UserSync_UserSource::getAllStudentRecords()
+     * @see Ilios_UserSync_UserSource::getActiveStudentRecords()
      */
-    public function getAllStudentRecords ()
+    public function getActiveStudentRecords ()
     {
         $students = array();
         foreach ($this->_users as $user) {
@@ -46,6 +46,24 @@ class Ilios_UserSync_UserSource_Array implements Ilios_UserSync_UserSource
         return new Ilios_UserSync_ExternalUser_Iterator_Array(
                     new Ilios_UserSync_ExternalUser_Factory_Array(), $students);
     }
+
+    /**
+     * Returns a list of former student records.
+     * @return Ilios_UserSync_ExternalUser_Iterator_Array
+     * @see Ilios_UserSync_UserSource::getFormerStudentRecords()
+     */
+    public function getFormerStudentRecords ()
+    {
+        $students = array();
+        foreach ($this->_users as $user) {
+            if (array_key_exists('is_former_student', $user) and true === $user['is_former_student']) {
+                $students[] = $user;
+            }
+        }
+        return new Ilios_UserSync_ExternalUser_Iterator_Array(
+                    new Ilios_UserSync_ExternalUser_Factory_Array(), $students);
+    }
+
     /**
      * @param string $email
      * @return Ilios_UserSync_ExternalUser_Iterator_Array

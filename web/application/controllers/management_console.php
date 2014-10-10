@@ -806,7 +806,8 @@ class Management_Console extends Ilios_Web_Controller
                 $availableRoleSet = array(
                     User_Role::COURSE_DIRECTOR_ROLE_ID,
                     User_Role::DEVELOPER_ROLE_ID,
-                    User_Role::FACULTY_ROLE_ID
+                    User_Role::FACULTY_ROLE_ID,
+                    User_Role::FORMER_STUDENT_ROLE_ID
                 );
 
                 $unselectedRoles = array_diff($availableRoleSet, $roleArray);
