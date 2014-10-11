@@ -9,23 +9,14 @@ use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
 
 use Ilios\CoreBundle\Model\AamcPcrsInterface;
 use Ilios\CoreBundle\Model\SchoolInterface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
 
 /**
  * Interface CompetencyInterface
  * @package Ilios\CoreBundle\Model
  */
-interface CompetencyInterface extends IdentifiableTraitIntertface
+interface CompetencyInterface extends IdentifiableTraitIntertface, TitleTraitInterface
 {
-    /**
-     * @param string $title
-     */
-    public function setTitle($title);
-
-    /**
-     * @return string
-     */
-    public function getTitle();
-
     /**
      * @param SchoolInterface $school
      */

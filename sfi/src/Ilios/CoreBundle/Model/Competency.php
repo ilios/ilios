@@ -10,6 +10,7 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
 use Ilios\CoreBundle\Model\CompetencyInterface;
 use Ilios\CoreBundle\Model\AamcPcrsInterface;
 use Ilios\CoreBundle\Model\SchoolInterface;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
  * Class Competency
@@ -18,12 +19,8 @@ use Ilios\CoreBundle\Model\SchoolInterface;
 class Competency implements CompetencyInterface
 {
     use IdentifiableTrait;
+    use TitleTrait;
 
-    /**
-     * @var string
-     */
-    protected $title;
-    
     /**
      * @var SchoolInterface
      */
@@ -57,22 +54,6 @@ class Competency implements CompetencyInterface
         $this->aamcPcrses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**

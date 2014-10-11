@@ -2,15 +2,14 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
+
 /**
  * Interface CourseClerkshipTypeInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface CourseClerkshipTypeInterface 
+interface CourseClerkshipTypeInterface extends IdentifiableTraitIntertface, TitleTraitInterface
 {
-    public function getCourseClerkshipTypeId();
-
-    public function setTitle($title);
-
-    public function getTitle();
 }
 

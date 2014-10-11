@@ -2,83 +2,67 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 
 /**
  * CourseLearningMaterial
  */
-class CourseLearningMaterial
+class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
-    /**
-     * @var integer
-     */
-    private $courseLearningMaterialId;
+    use IdentifiableTrait;
 
     /**
      * @var string
      */
-    private $notes;
+    protected $notes;
 
     /**
      * @var boolean
      */
-    private $required;
+    protected $required;
 
     /**
      * @var boolean
      */
-    private $notesArePublic;
+    protected $publicNote;
 
     /**
-     * @var \Ilios\CoreBundle\Model\Course
+     * @var CourseInterface
      */
-    private $course;
+    protected $course;
 
     /**
-     * @var \Ilios\CoreBundle\Model\LearningMaterial
+     * @var LearningMaterialInterface
      */
-    private $learningMaterial;
+    protected $learningMaterial;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|MeshDescriptor[]
      */
-    private $meshDescriptors;
+    protected $meshDescriptors;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
     }
 
     /**
-     * Get courseLearningMaterialId
-     *
-     * @return integer 
-     */
-    public function getCourseLearningMaterialId()
-    {
-        return $this->courseLearningMaterialId;
-    }
-
-    /**
-     * Set notes
-     *
      * @param string $notes
-     * @return CourseLearningMaterial
      */
     public function setNotes($notes)
     {
         $this->notes = $notes;
-
-        return $this;
     }
 
     /**
-     * Get notes
-     *
-     * @return string 
+     * @return string
      */
     public function getNotes()
     {
@@ -86,68 +70,47 @@ class CourseLearningMaterial
     }
 
     /**
-     * Set required
-     *
      * @param boolean $required
-     * @return CourseLearningMaterial
      */
     public function setRequired($required)
     {
         $this->required = $required;
-
-        return $this;
     }
 
     /**
-     * Get required
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRequired()
+    public function isRequired()
     {
         return $this->required;
     }
 
     /**
-     * Set notesArePublic
-     *
-     * @param boolean $notesArePublic
-     * @return CourseLearningMaterial
+     * @param boolean $publicNote
      */
-    public function setNotesArePublic($notesArePublic)
+    public function setPublicNote($publicNote)
     {
-        $this->notesArePublic = $notesArePublic;
-
-        return $this;
+        $this->publicNote = $publicNote;
     }
 
     /**
-     * Get notesArePublic
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getNotesArePublic()
+    public function hasPublicNote()
     {
-        return $this->notesArePublic;
+        return $this->publicNote;
     }
 
     /**
-     * Set course
-     *
-     * @param \Ilios\CoreBundle\Model\Course $course
-     * @return CourseLearningMaterial
+     * @param CourseInterface $course
      */
-    public function setCourse(\Ilios\CoreBundle\Model\Course $course = null)
+    public function setCourse(CourseInterface $course)
     {
         $this->course = $course;
-
-        return $this;
     }
 
     /**
-     * Get course
-     *
-     * @return \Ilios\CoreBundle\Model\Course 
+     * @return CourseInterface
      */
     public function getCourse()
     {
@@ -155,22 +118,15 @@ class CourseLearningMaterial
     }
 
     /**
-     * Set learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Model\LearningMaterial $learningMaterial
-     * @return CourseLearningMaterial
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function setLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial = null)
+    public function setLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
         $this->learningMaterial = $learningMaterial;
-
-        return $this;
     }
 
     /**
-     * Get learningMaterial
-     *
-     * @return \Ilios\CoreBundle\Model\LearningMaterial 
+     * @return LearningMaterialInterface
      */
     public function getLearningMaterial()
     {
@@ -178,35 +134,30 @@ class CourseLearningMaterial
     }
 
     /**
-     * Add meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
-     * @return CourseLearningMaterial
+     * @param Collection $meshDescriptors
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors)
     {
-        $this->meshDescriptors[] = $meshDescriptors;
+        $this->meshDescriptors = new ArrayCollection();
 
-        return $this;
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
     }
 
     /**
-     * Remove meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
+     * @param MeshDescriptorInterface $meshDescriptors
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptors)
     {
-        $this->meshDescriptors->removeElement($meshDescriptors);
+        $this->meshDescriptors->add($meshDescriptors);
     }
 
     /**
-     * Get meshDescriptors
-     *
-     * @return \Ilios\CoreBundle\Model\MeshDescriptor[]
+     * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors()
     {
-        return $this->meshDescriptors->toArray();
+        return $this->meshDescriptors;
     }
 }

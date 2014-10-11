@@ -2,54 +2,15 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
- * CourseClerkshipType
+ * Class CourseClerkshipType
+ * @package Ilios\CoreBundle\Model
  */
-class CourseClerkshipType
+class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
-    /**
-     * @var integer
-     */
-    private $courseClerkshipTypeId;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-
-    /**
-     * Get courseClerkshipTypeId
-     *
-     * @return integer 
-     */
-    public function getCourseClerkshipTypeId()
-    {
-        return $this->courseClerkshipTypeId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return CourseClerkshipType
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
+    use IdentifiableTrait;
+    use TitleTrait;
 }

@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 use Ilios\CoreBundle\Model\CourseInterface;
 use Ilios\CoreBundle\Model\ProgramYearInterface;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
  * Class Cohort
@@ -17,11 +18,7 @@ use Ilios\CoreBundle\Model\ProgramYearInterface;
 class Cohort implements CohortInterface
 {
     use IdentifiableTrait;
-
-    /**
-     * @var string
-     */
-    protected $title;
+    use TitleTrait;
 
     /**
      * @var ProgramYearInterface
@@ -39,22 +36,6 @@ class Cohort implements CohortInterface
     public function __construct()
     {
         $this->courses = new ArrayCollection();
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
     }
 
     /**

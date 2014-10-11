@@ -2,37 +2,80 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+
 /**
  * Interface CourseLearningMaterialInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface CourseLearningMaterialInterface 
+interface CourseLearningMaterialInterface extends IdentifiableTraitIntertface
 {
-    public function getCourseLearningMaterialId();
-
+    /**
+     * @param string $notes
+     */
     public function setNotes($notes);
 
+    /**
+     * @return string
+     */
     public function getNotes();
 
+    /**
+     * @param boolean $required
+     */
     public function setRequired($required);
 
-    public function getRequired();
+    /**
+     * @return boolean
+     */
+    public function isRequired();
 
-    public function setNotesArePublic($notesArePublic);
+    /**
+     * @param boolean $publicNote
+     */
+    public function setPublicNote($publicNote);
 
-    public function getNotesArePublic();
+    /**
+     * @return boolean
+     */
+    public function hasPublicNote();
 
-    public function setCourse(\Ilios\CoreBundle\Model\Course $course = null);
+    /**
+     * @param CourseInterface $course
+     */
+    public function setCourse(CourseInterface $course);
 
+    /**
+     * @return CourseInterface
+     */
     public function getCourse();
 
-    public function setLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial = null);
+    /**
+     * @param LearningMaterialInterface $learningMaterial
+     */
+    public function setLearningMaterial(LearningMaterialInterface $learningMaterial);
 
+    /**
+     * @return LearningMaterialInterface
+     */
     public function getLearningMaterial();
 
-    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors);
+    /**
+     * @param Collection $meshDescriptors
+     */
+    public function setMeshDescriptors(Collection $meshDescriptors);
 
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors);
+    /**
+     * @param MeshDescriptorInterface $meshDescriptors
+     */
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptors);
 
+    /**
+     * @return ArrayCollection|MeshDescriptorInterface[]
+     */
     public function getMeshDescriptors();
 }
 

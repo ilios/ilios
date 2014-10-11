@@ -2,193 +2,143 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
  * Course
  */
-class Course
+class Course implements CourseInterface
 {
-    /**
-     * @var integer
-     */
-    private $courseId;
-
-    /**
-     * @var string
-     */
-    private $title;
+    use IdentifiableTrait;
+    use TitleTrait;
 
     /**
      * @var integer
      */
-    private $courseLevel;
+    protected $level;
 
     /**
      * @var integer
      */
-    private $year;
+    protected $year;
 
     /**
      * @var \DateTime
      */
-    private $startDate;
+    protected $startDate;
 
     /**
      * @var \DateTime
      */
-    private $endDate;
+    protected $endDate;
 
     /**
      * @var boolean
      */
-    private $deleted;
+    protected $deleted;
 
     /**
+     * @TODO: Talk with Sascha about this.
      * @var string
      */
-    private $externalId;
+    protected $externalName;
 
     /**
      * @var boolean
      */
-    private $locked;
+    protected $locked;
 
     /**
      * @var boolean
      */
-    private $archived;
+    protected $archived;
 
     /**
      * @var boolean
      */
-    private $publishedAsTbd;
+    protected $publishedAsTbd;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CourseClerkshipType
+     * @var CourseClerkshipTypeInterface
      */
-    private $clerkshipType;
-    
-    /**
-     * @var \Ilios\CoreBundle\Model\School
-     */
-    private $owningSchool;
-    
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $directors;
+    protected $clerkshipType;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var SchoolInterface
      */
-    private $cohorts;
+    protected $school;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var PublishEventInterface
      */
-    private $disciplines;
+    protected $publishEvent;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
      */
-    private $objectives;
+    protected $directors;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CohortInterface[]
      */
-    private $meshDescriptors;
-    
+    protected $cohorts;
+
     /**
-     * @var \Ilios\CoreBundle\Model\PublishEvent
+     * @var ArrayCollection|DisciplineInterface[]
      */
-    private $publishEvent;
+    protected $disciplines;
+
+    /**
+     * @var ArrayCollection|ObjectiveInterface[]
+     */
+    protected $objectives;
+
+    /**
+     * @var ArrayCollection|MeshDescriptorInterface[]
+     */
+    protected $meshDescriptors;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cohorts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->disciplines = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->objectives = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directors = new ArrayCollection();
+        $this->cohorts = new ArrayCollection();
+        $this->disciplines = new ArrayCollection();
+        $this->objectives = new ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
     }
 
     /**
-     * Get courseId
-     *
-     * @return integer 
+     * @param integer $level
      */
-    public function getCourseId()
+    public function setLevel($level)
     {
-        return $this->courseId;
+        $this->level = $level;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Course
+     * @return integer
      */
-    public function setTitle($title)
+    public function getLevel()
     {
-        $this->title = $title;
-
-        return $this;
+        return $this->level;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set courseLevel
-     *
-     * @param integer $courseLevel
-     * @return Course
-     */
-    public function setCourseLevel($courseLevel)
-    {
-        $this->courseLevel = $courseLevel;
-
-        return $this;
-    }
-
-    /**
-     * Get courseLevel
-     *
-     * @return integer 
-     */
-    public function getCourseLevel()
-    {
-        return $this->courseLevel;
-    }
-
-    /**
-     * Set year
-     *
      * @param integer $year
-     * @return Course
      */
     public function setYear($year)
     {
         $this->year = $year;
-
-        return $this;
     }
 
     /**
-     * Get year
-     *
-     * @return integer 
+     * @return integer
      */
     public function getYear()
     {
@@ -196,22 +146,15 @@ class Course
     }
 
     /**
-     * Set startDate
-     *
      * @param \DateTime $startDate
-     * @return Course
      */
-    public function setStartDate($startDate)
+    public function setStartDate(\DateTime $startDate)
     {
         $this->startDate = $startDate;
-
-        return $this;
     }
 
     /**
-     * Get startDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDate()
     {
@@ -219,22 +162,15 @@ class Course
     }
 
     /**
-     * Set endDate
-     *
      * @param \DateTime $endDate
-     * @return Course
      */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
-
-        return $this;
     }
 
     /**
-     * Get endDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -242,137 +178,97 @@ class Course
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Course
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
 
     /**
-     * Set externalId
-     *
-     * @param string $externalId
-     * @return Course
+     * @todo: Possible rename.
+     * @param string $externalName
      */
-    public function setExternalId($externalId)
+    public function setExternalName($externalName)
     {
-        $this->externalId = $externalId;
-
-        return $this;
+        $this->externalName = $externalName;
     }
 
     /**
-     * Get externalId
-     *
-     * @return string 
+     * @todo: Possible rename.
+     * @return string
      */
-    public function getExternalId()
+    public function getExternalName()
     {
-        return $this->externalId;
+        return $this->externalName;
     }
 
     /**
-     * Set locked
-     *
      * @param boolean $locked
-     * @return Course
      */
     public function setLocked($locked)
     {
         $this->locked = $locked;
-
-        return $this;
     }
 
     /**
-     * Get locked
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getLocked()
+    public function isLocked()
     {
         return $this->locked;
     }
 
     /**
-     * Set archived
-     *
      * @param boolean $archived
-     * @return Course
      */
     public function setArchived($archived)
     {
         $this->archived = $archived;
-
-        return $this;
     }
 
     /**
-     * Get archived
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getArchived()
+    public function isArchived()
     {
         return $this->archived;
     }
 
     /**
-     * Set publishedAsTbd
-     *
      * @param boolean $publishedAsTbd
-     * @return Course
      */
     public function setPublishedAsTbd($publishedAsTbd)
     {
         $this->publishedAsTbd = $publishedAsTbd;
-
-        return $this;
     }
 
     /**
-     * Get publishedAsTbd
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getPublishedAsTbd()
+    public function isPublishedAsTbd()
     {
         return $this->publishedAsTbd;
     }
 
     /**
-     * Set clerkshipType
-     *
-     * @param \Ilios\CoreBundle\Model\CourseClerkshipType $clerkshipType
-     * @return Course
+     * @param CourseClerkshipTypeInterface $clerkshipType
      */
-    public function setClerkshipType(\Ilios\CoreBundle\Model\CourseClerkshipType $clerkshipType = null)
+    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType)
     {
         $this->clerkshipType = $clerkshipType;
-
-        return $this;
     }
 
     /**
-     * Get clerkshipType
-     *
-     * @return \Ilios\CoreBundle\Model\CourseClerkshipType 
+     * @return \Ilios\CoreBundle\Model\CourseClerkshipType
      */
     public function getClerkshipType()
     {
@@ -380,210 +276,159 @@ class Course
     }
 
     /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Model\School $school
-     * @return ProgramYearSteward
+     * @param SchoolInterface $school
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null)
+    public function setSchool(SchoolInterface $school)
     {
-        $this->owningSchool = $school;
-
-        return $this;
+        $this->school = $school;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Model\School 
+     * @return SchoolInterface
      */
-    public function getOwningSchool()
+    public function getSchool()
     {
-        return $this->owningSchool;
+        return $this->school;
     }
 
     /**
-     * Add directors
-     *
-     * @param \Ilios\CoreBundle\Model\User $directors
-     * @return Course
+     * @param Collection|UserInterface[] $directors
      */
-    public function addDirector(\Ilios\CoreBundle\Model\User $directors)
+    public function setDirectors(Collection $directors)
     {
-        $this->directors[] = $directors;
+        $this->directors = new ArrayCollection();
 
-        return $this;
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
     }
 
     /**
-     * Remove directors
-     *
-     * @param \Ilios\CoreBundle\Model\User $directors
+     * @param UserInterface $director
      */
-    public function removeDirector(\Ilios\CoreBundle\Model\User $directors)
+    public function addDirector(UserInterface $director)
     {
-        $this->directors->removeElement($directors);
+        $this->directors->add($director);
     }
 
     /**
-     * Get directors
-     *
-     * @return \Ilios\CoreBundle\Model\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getDirectors()
     {
-        return $this->directors->toArray();
+        return $this->directors;
     }
 
     /**
-     * Add cohorts
-     *
-     * @param \Ilios\CoreBundle\Model\Cohort $cohorts
-     * @return Course
+     * @param Collection|CohortInterface[] $cohorts
      */
-    public function addCohort(\Ilios\CoreBundle\Model\Cohort $cohorts)
+    public function setCohorts(Collection $cohorts)
     {
-        $this->cohorts[] = $cohorts;
+        $this->cohorts = new ArrayCollection();
 
-        return $this;
+        foreach ($cohorts as $cohort) {
+            $this->addCohort($cohort);
+        }
     }
 
     /**
-     * Remove cohorts
-     *
-     * @param \Ilios\CoreBundle\Model\Cohort $cohorts
+     * @param CohortInterface $cohorts
      */
-    public function removeCohort(\Ilios\CoreBundle\Model\Cohort $cohorts)
+    public function addCohort(CohortInterface $cohorts)
     {
-        $this->cohorts->removeElement($cohorts);
+        $this->cohorts->add($cohorts);
     }
 
     /**
-     * Get cohorts
-     *
-     * @return \Ilios\CoreBundle\Model\Cohort[]
+     * @return ArrayCollection|CohortInterface[]
      */
     public function getCohorts()
     {
-        return $this->cohorts->toArray();
+        return $this->cohorts;
     }
 
     /**
-     * Add disciplines
-     *
-     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
-     * @return Course
+     * @param DisciplineInterface $disciplines
      */
-    public function addDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
+    public function addDiscipline(DisciplineInterface $disciplines)
     {
-        $this->disciplines[] = $disciplines;
-
-        return $this;
+        $this->disciplines->add($disciplines);
     }
 
     /**
-     * Remove disciplines
-     *
-     * @param \Ilios\CoreBundle\Model\Discipline $disciplines
-     */
-    public function removeDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines)
-    {
-        $this->disciplines->removeElement($disciplines);
-    }
-
-    /**
-     * Get disciplines
-     *
-     * @return \Ilios\CoreBundle\Model\Discipline[]
+     * @return ArrayCollection|DisciplineInterface[]
      */
     public function getDisciplines()
     {
-        return $this->disciplines->toArray();
+        return $this->disciplines;
     }
 
     /**
-     * Add objectives
-     *
-     * @param \Ilios\CoreBundle\Model\Objective $objectives
-     * @return Course
+     * @param Collection|ObjectiveInterface[] $objectives
      */
-    public function addObjective(\Ilios\CoreBundle\Model\Objective $objectives)
+    public function setObjectives(Collection $objectives)
     {
-        $this->objectives[] = $objectives;
+        $this->objectives = new ArrayCollection();
 
-        return $this;
+        foreach ($objectives as $objective) {
+            $this->addObjective($objective);
+        }
     }
 
     /**
-     * Remove objectives
-     *
-     * @param \Ilios\CoreBundle\Model\Objective $objectives
+     * @param ObjectiveInterface $objectives
      */
-    public function removeObjective(\Ilios\CoreBundle\Model\Objective $objectives)
+    public function addObjective(ObjectiveInterface $objectives)
     {
-        $this->objectives->removeElement($objectives);
+        $this->objectives->add($objectives);
     }
 
     /**
-     * Get objectives
-     *
-     * @return \Ilios\CoreBundle\Model\Objective[]
+     * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getObjectives()
     {
-        return $this->objectives->toArray();
+        return $this->objectives;
     }
 
     /**
-     * Add meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
-     * @return Course
+     * @param Collection|MeshDescriptorInterface[] $meshDescriptors
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors)
     {
-        $this->meshDescriptors[] = $meshDescriptors;
+        $this->meshDescriptors = new ArrayCollection();
 
-        return $this;
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
     }
 
     /**
-     * Remove meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors
+     * @param MeshDescriptorInterface $meshDescriptors
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptors)
     {
-        $this->meshDescriptors->removeElement($meshDescriptors);
+        $this->meshDescriptors->add($meshDescriptors);
     }
 
     /**
-     * Get meshDescriptors
-     *
-     * @return \Ilios\CoreBundle\Model\MeshDescriptor[]
+     * @return Collection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors()
     {
-        return $this->meshDescriptors->toArray();
+        return $this->meshDescriptors;
     }
 
     /**
-     * Set publishEvent
-     *
-     * @param \Ilios\CoreBundle\Model\PublishEvent $publishEvent
-     * @return Course
+     * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Model\PublishEvent $publishEvent = null)
+    public function setPublishEvent(PublishEventInterface $publishEvent)
     {
         $this->publishEvent = $publishEvent;
-
-        return $this;
     }
 
     /**
-     * Get publishEvent
-     *
-     * @return \Ilios\CoreBundle\Model\PublishEvent 
+     * @return PublishEventInterface
      */
     public function getPublishEvent()
     {

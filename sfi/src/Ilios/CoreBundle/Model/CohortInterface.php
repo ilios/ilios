@@ -9,22 +9,13 @@ use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
 
 use Ilios\CoreBundle\Model\CourseInterface;
 use Ilios\CoreBundle\Model\ProgramYearInterface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
 
 /**
  * Interface CohortInterface
  */
-interface CohortInterface extends IdentifiableTraitIntertface
+interface CohortInterface extends IdentifiableTraitIntertface, TitleTraitInterface
 {
-    /**
-     * @return string
-     */
-    public function getTitle();
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title);
-
     /**
      * @param ProgramYearInterface $programYear
      */

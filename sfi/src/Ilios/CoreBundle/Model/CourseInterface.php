@@ -2,93 +2,206 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
+
 /**
  * Interface CourseInterface
  */
-interface CourseInterface 
+interface CourseInterface extends IdentifiableTraitIntertface, TitleTraitInterface
 {
-    public function getCourseId();
+    /**
+     * @param integer $level
+     */
+    public function setLevel($level);
 
-    public function setTitle($title);
+    /**
+     * @return integer
+     */
+    public function getLevel();
 
-    public function getTitle();
-
-    public function setCourseLevel($courseLevel);
-
-    public function getCourseLevel();
-
+    /**
+     * @param integer $year
+     */
     public function setYear($year);
 
+    /**
+     * @return integer
+     */
     public function getYear();
 
-    public function setStartDate($startDate);
+    /**
+     * @param \DateTime $startDate
+     */
+    public function setStartDate(\DateTime $startDate);
 
+    /**
+     * @return \DateTime
+     */
     public function getStartDate();
 
-    public function setEndDate($endDate);
+    /**
+     * @param \DateTime $endDate
+     */
+    public function setEndDate(\DateTime $endDate);
 
+    /**
+     * @return \DateTime
+     */
     public function getEndDate();
 
+    /**
+     * @param boolean $deleted
+     */
     public function setDeleted($deleted);
 
-    public function getDeleted();
+    /**
+     * @return boolean
+     */
+    public function isDeleted();
 
-    public function setExternalId($externalId);
+    /**
+     * @todo: Possible rename.
+     * @param string $externalName
+     */
+    public function setExternalName($externalName);
 
-    public function getExternalId();
+    /**
+     * @todo: Possible rename.
+     * @return string
+     */
+    public function getExternalName();
 
+    /**
+     * @param boolean $locked
+     */
     public function setLocked($locked);
 
-    public function getLocked();
+    /**
+     * @return boolean
+     */
+    public function isLocked();
 
+    /**
+     * @param boolean $archived
+     */
     public function setArchived($archived);
 
-    public function getArchived();
+    /**
+     * @return boolean
+     */
+    public function isArchived();
 
+    /**
+     * @param boolean $publishedAsTbd
+     */
     public function setPublishedAsTbd($publishedAsTbd);
 
-    public function getPublishedAsTbd();
+    /**
+     * @return boolean
+     */
+    public function isPublishedAsTbd();
 
-    public function setClerkshipType(\Ilios\CoreBundle\Model\CourseClerkshipType $clerkshipType = null);
+    /**
+     * @param CourseClerkshipTypeInterface $clerkshipType
+     */
+    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType);
 
+    /**
+     * @return \Ilios\CoreBundle\Model\CourseClerkshipType
+     */
     public function getClerkshipType();
 
-    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null);
+    /**
+     * @param SchoolInterface $school
+     */
+    public function setSchool(SchoolInterface $school);
 
-    public function getOwningSchool();
+    /**
+     * @return SchoolInterface
+     */
+    public function getSchool();
 
-    public function addDirector(\Ilios\CoreBundle\Model\User $directors);
+    /**
+     * @param Collection|UserInterface[] $directors
+     */
+    public function setDirectors(Collection $directors);
 
-    public function removeDirector(\Ilios\CoreBundle\Model\User $directors);
+    /**
+     * @param UserInterface $director
+     */
+    public function addDirector(UserInterface $director);
 
+    /**
+     * @return ArrayCollection|UserInterface[]
+     */
     public function getDirectors();
 
-    public function addCohort(\Ilios\CoreBundle\Model\Cohort $cohorts);
+    /**
+     * @param Collection|CohortInterface[] $cohorts
+     */
+    public function setCohorts(Collection $cohorts);
 
-    public function removeCohort(\Ilios\CoreBundle\Model\Cohort $cohorts);
+    /**
+     * @param CohortInterface $cohorts
+     */
+    public function addCohort(CohortInterface $cohorts);
 
+    /**
+     * @return ArrayCollection|CohortInterface[]
+     */
     public function getCohorts();
 
-    public function addDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines);
+    /**
+     * @param DisciplineInterface $disciplines
+     */
+    public function addDiscipline(DisciplineInterface $disciplines);
 
-    public function removeDiscipline(\Ilios\CoreBundle\Model\Discipline $disciplines);
-
+    /**
+     * @return ArrayCollection|DisciplineInterface[]
+     */
     public function getDisciplines();
 
-    public function addObjective(\Ilios\CoreBundle\Model\Objective $objectives);
+    /**
+     * @param Collection|ObjectiveInterface[] $objectives
+     */
+    public function setObjectives(Collection $objectives);
 
-    public function removeObjective(\Ilios\CoreBundle\Model\Objective $objectives);
+    /**
+     * @param ObjectiveInterface $objectives
+     */
+    public function addObjective(ObjectiveInterface $objectives);
 
+    /**
+     * @return ArrayCollection|ObjectiveInterface[]
+     */
     public function getObjectives();
 
-    public function addMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors);
+    /**
+     * @param Collection|MeshDescriptorInterface[] $meshDescriptors
+     */
+    public function setMeshDescriptors(Collection $meshDescriptors);
 
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Model\MeshDescriptor $meshDescriptors);
+    /**
+     * @param MeshDescriptorInterface $meshDescriptors
+     */
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptors);
 
+    /**
+     * @return Collection|MeshDescriptorInterface[]
+     */
     public function getMeshDescriptors();
 
-    public function setPublishEvent(\Ilios\CoreBundle\Model\PublishEvent $publishEvent = null);
+    /**
+     * @param PublishEventInterface $publishEvent
+     */
+    public function setPublishEvent(PublishEventInterface $publishEvent);
 
+    /**
+     * @return PublishEventInterface
+     */
     public function getPublishEvent();
 }
 
