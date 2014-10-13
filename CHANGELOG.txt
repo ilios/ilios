@@ -1,5 +1,25 @@
 ------- VERSION CHANGES --------
 
+Version 2.4.7
+
+Bug Fixes:
+
+#645 Disallow NULL password value for setups using anonymous LDAP binds
+#666 Add MeSH(x) Label Not Displaying Correct Total (x) - Session - Objective
+#576 Filing a course removes it from the calendar search/filter widget
+#636 Show all associated student groups filter fails
+
+Feature Changes
+
+#708 Extend Calendar Feed time period from previous 5 days to previous 3 months and from next 2 months to next 3 months
+#327 Identify students once they have graduated as former students
+
+Code Quality and Development:
+
+#677 Created a special cron job just for syncing users from the directory when that task fails during the normal run.
+
+---
+
 Version 2.4.6
 
 Bug Fixes:
