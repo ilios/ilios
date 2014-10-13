@@ -2,29 +2,37 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\BlameableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
+
+use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
+
 /**
  * Interface CurriculumInventoryExportInterface
  */
-interface CurriculumInventoryExportInterface 
+interface CurriculumInventoryExportInterface extends
+    BlameableTraitInterface,
+    TimestampableTraitinterface,
+    IdentifiableTraitIntertface
 {
-    public function setReportId($reportId);
-
-    public function getReportId();
-
+    /**
+     * @param string $document
+     */
     public function setDocument($document);
 
+    /**
+     * @return string
+     */
     public function getDocument();
 
-    public function setCreatedOn($createdOn);
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function setReport(CurriculumInventoryReportInterface $report);
 
-    public function getCreatedOn();
-
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null);
-
+    /**
+     * @return CurriculumInventoryReportInterface
+     */
     public function getReport();
-
-    public function setCreatedBy(\Ilios\CoreBundle\Model\User $createdBy = null);
-
-    public function getCreatedBy();
 }
-

@@ -2,6 +2,9 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\DescribableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\NameableTrait;
 
 
 /**
@@ -9,25 +12,14 @@ namespace Ilios\CoreBundle\Model;
  */
 class CurriculumInventoryReport
 {
-    /**
-     * @var integer
-     */
-    private $reportId;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use DescribableTrait;
 
     /**
      * @var integer
      */
     private $year;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $description;
 
     /**
      * @var \DateTime
@@ -53,17 +45,6 @@ class CurriculumInventoryReport
      * @var \Ilios\CoreBundle\Model\Program
      */
     private $program;
-
-
-    /**
-     * Get reportId
-     *
-     * @return integer 
-     */
-    public function getReportId()
-    {
-        return $this->reportId;
-    }
 
     /**
      * Set year

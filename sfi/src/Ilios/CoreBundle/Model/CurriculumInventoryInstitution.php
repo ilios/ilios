@@ -2,22 +2,19 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\NameableTrait;
 
+use Ilios\CoreBundle\Model\SchoolInterface;
 
 /**
- * CurriculumInventoryInstitution
+ * Class CurriculumInventoryInstitution
+ * @package Ilios\CoreBundle\Model
  */
 class CurriculumInventoryInstitution
 {
-    /**
-     * @var integer
-     */
-    private $schoolId;
-
-    /**
-     * @var string
-     */
-    private $name;
+    use IdentifiableTrait;
+    use NameableTrait;
 
     /**
      * @var string
@@ -50,74 +47,20 @@ class CurriculumInventoryInstitution
     private $addressCountryCode;
 
     /**
-     * @var \Ilios\CoreBundle\Model\School
+     * @var SchoolInterface
      */
     private $school;
 
-
     /**
-     * Set schoolId
-     *
-     * @param integer $schoolId
-     * @return CurriculumInventoryInstitution
-     */
-    public function setSchoolId($schoolId)
-    {
-        $this->schoolId = $schoolId;
-
-        return $this;
-    }
-
-    /**
-     * Get schoolId
-     *
-     * @return integer 
-     */
-    public function getSchoolId()
-    {
-        return $this->schoolId;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return CurriculumInventoryInstitution
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set aamcCode
-     *
      * @param string $aamcCode
-     * @return CurriculumInventoryInstitution
      */
     public function setAamcCode($aamcCode)
     {
         $this->aamcCode = $aamcCode;
-
-        return $this;
     }
 
     /**
-     * Get aamcCode
-     *
-     * @return string 
+     * @return string
      */
     public function getAamcCode()
     {
@@ -125,22 +68,15 @@ class CurriculumInventoryInstitution
     }
 
     /**
-     * Set addressStreet
-     *
      * @param string $addressStreet
-     * @return CurriculumInventoryInstitution
      */
     public function setAddressStreet($addressStreet)
     {
         $this->addressStreet = $addressStreet;
-
-        return $this;
     }
 
     /**
-     * Get addressStreet
-     *
-     * @return string 
+     * @return string
      */
     public function getAddressStreet()
     {
@@ -148,22 +84,15 @@ class CurriculumInventoryInstitution
     }
 
     /**
-     * Set addressCity
-     *
      * @param string $addressCity
-     * @return CurriculumInventoryInstitution
      */
     public function setAddressCity($addressCity)
     {
         $this->addressCity = $addressCity;
-
-        return $this;
     }
 
     /**
-     * Get addressCity
-     *
-     * @return string 
+     * @return string
      */
     public function getAddressCity()
     {
@@ -171,22 +100,15 @@ class CurriculumInventoryInstitution
     }
 
     /**
-     * Set addressStateOrProvince
-     *
      * @param string $addressStateOrProvince
-     * @return CurriculumInventoryInstitution
      */
     public function setAddressStateOrProvince($addressStateOrProvince)
     {
         $this->addressStateOrProvince = $addressStateOrProvince;
-
-        return $this;
     }
 
     /**
-     * Get addressStateOrProvince
-     *
-     * @return string 
+     * @return string
      */
     public function getAddressStateOrProvince()
     {
@@ -194,22 +116,15 @@ class CurriculumInventoryInstitution
     }
 
     /**
-     * Set addressZipcode
-     *
      * @param string $addressZipcode
-     * @return CurriculumInventoryInstitution
      */
     public function setAddressZipcode($addressZipcode)
     {
         $this->addressZipcode = $addressZipcode;
-
-        return $this;
     }
 
     /**
-     * Get addressZipcode
-     *
-     * @return string 
+     * @return string
      */
     public function getAddressZipcode()
     {
@@ -217,22 +132,15 @@ class CurriculumInventoryInstitution
     }
 
     /**
-     * Set addressCountryCode
-     *
      * @param string $addressCountryCode
-     * @return CurriculumInventoryInstitution
      */
     public function setAddressCountryCode($addressCountryCode)
     {
         $this->addressCountryCode = $addressCountryCode;
-
-        return $this;
     }
 
     /**
-     * Get addressCountryCode
-     *
-     * @return string 
+     * @return string
      */
     public function getAddressCountryCode()
     {
@@ -240,22 +148,15 @@ class CurriculumInventoryInstitution
     }
 
     /**
-     * Set school
-     *
-     * @param \Ilios\CoreBundle\Model\School $school
-     * @return CurriculumInventoryInstitution
+     * @param SchoolInterface $school
      */
-    public function setSchool(\Ilios\CoreBundle\Model\School $school = null)
+    public function setSchool(SchoolInterface $school)
     {
         $this->school = $school;
-
-        return $this;
     }
 
     /**
-     * Get school
-     *
-     * @return \Ilios\CoreBundle\Model\School 
+     * @return SchoolInterface
      */
     public function getSchool()
     {

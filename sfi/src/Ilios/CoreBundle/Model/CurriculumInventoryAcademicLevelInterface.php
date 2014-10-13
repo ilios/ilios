@@ -2,27 +2,38 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\DescribableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\NameableTraitInterface;
+
+use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
+
 /**
  * Interface CurriculumInventoryAcademicLevelInterface
  */
-interface CurriculumInventoryAcademicLevelInterface 
+interface CurriculumInventoryAcademicLevelInterface extends
+    IdentifiableTraitIntertface,
+    NameableTraitInterface,
+    DescribableTraitInterface
 {
-    public function getAcademicLevelId();
-
+    /**
+     * @param integer $level
+     */
     public function setLevel($level);
 
+    /**
+     * @return integer
+     */
     public function getLevel();
 
-    public function setName($name);
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function setReport(CurriculumInventoryReportInterface $report);
 
-    public function getName();
-
-    public function setDescription($description);
-
-    public function getDescription();
-
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null);
-
+    /**
+     * @return CurriculumInventoryReportInterface
+     */
     public function getReport();
 }
 

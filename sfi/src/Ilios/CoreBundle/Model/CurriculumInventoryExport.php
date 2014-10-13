@@ -2,17 +2,20 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
+use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
 
 /**
  * CurriculumInventoryExport
  */
-class CurriculumInventoryExport
+class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
-    /**
-     * @var integer
-     */
-    private $reportId;
+    use IdentifiableTrait;
+    use BlameableEntity;
+    use TimestampableEntity;
 
     /**
      * @var string
@@ -20,61 +23,20 @@ class CurriculumInventoryExport
     private $document;
 
     /**
-     * @var \DateTime
-     */
-    private $createdOn;
-
-    /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventoryReport
+     * @var CurriculumInventoryReportInterface
      */
     private $report;
 
     /**
-     * @var \Ilios\CoreBundle\Model\User
-     */
-    private $createdBy;
-
-
-    /**
-     * Set reportId
-     *
-     * @param integer $reportId
-     * @return CurriculumInventoryExport
-     */
-    public function setReportId($reportId)
-    {
-        $this->reportId = $reportId;
-
-        return $this;
-    }
-
-    /**
-     * Get reportId
-     *
-     * @return integer 
-     */
-    public function getReportId()
-    {
-        return $this->reportId;
-    }
-
-    /**
-     * Set document
-     *
      * @param string $document
-     * @return CurriculumInventoryExport
      */
     public function setDocument($document)
     {
         $this->document = $document;
-
-        return $this;
     }
 
     /**
-     * Get document
-     *
-     * @return string 
+     * @return string
      */
     public function getDocument()
     {
@@ -82,71 +44,18 @@ class CurriculumInventoryExport
     }
 
     /**
-     * Set createdOn
-     *
-     * @param \DateTime $createdOn
-     * @return CurriculumInventoryExport
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function setCreatedOn($createdOn)
-    {
-        $this->createdOn = $createdOn;
-
-        return $this;
-    }
-
-    /**
-     * Get createdOn
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedOn()
-    {
-        return $this->createdOn;
-    }
-
-    /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventoryReport $report
-     * @return CurriculumInventoryExport
-     */
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null)
+    public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventoryReport 
+     * @return CurriculumInventoryReportInterface
      */
     public function getReport()
     {
         return $this->report;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param \Ilios\CoreBundle\Model\User $createdBy
-     * @return CurriculumInventoryExport
-     */
-    public function setCreatedBy(\Ilios\CoreBundle\Model\User $createdBy = null)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return \Ilios\CoreBundle\Model\User 
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
     }
 }

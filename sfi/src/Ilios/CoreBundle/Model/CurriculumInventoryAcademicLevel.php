@@ -2,17 +2,21 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\DescribableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\NameableTrait;
 
+use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
 
 /**
- * CurriculumInventoryAcademicLevel
+ * Class CurriculumInventoryAcademicLevel
+ * @package Ilios\CoreBundle\Model
  */
-class CurriculumInventoryAcademicLevel
+class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-    /**
-     * @var integer
-     */
-    private $academicLevelId;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use DescribableTrait;
 
     /**
      * @var integer
@@ -20,48 +24,20 @@ class CurriculumInventoryAcademicLevel
     private $level;
 
     /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventoryReport
+     * @var CurriculumInventoryReportInterface
      */
     private $report;
 
-
     /**
-     * Get academicLevelId
-     *
-     * @return integer 
-     */
-    public function getAcademicLevelId()
-    {
-        return $this->academicLevelId;
-    }
-
-    /**
-     * Set level
-     *
      * @param integer $level
-     * @return CurriculumInventoryAcademicLevel
      */
     public function setLevel($level)
     {
         $this->level = $level;
-
-        return $this;
     }
 
     /**
-     * Get level
-     *
-     * @return integer 
+     * @return integer
      */
     public function getLevel()
     {
@@ -69,68 +45,15 @@ class CurriculumInventoryAcademicLevel
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return CurriculumInventoryAcademicLevel
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return CurriculumInventoryAcademicLevel
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventoryReport $report
-     * @return CurriculumInventoryAcademicLevel
-     */
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null)
+    public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventoryReport 
+     * @return CurriculumInventoryReportInterface
      */
     public function getReport()
     {
