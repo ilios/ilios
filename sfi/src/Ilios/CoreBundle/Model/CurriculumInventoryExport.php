@@ -20,12 +20,12 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     /**
      * @var string
      */
-    private $document;
+    protected $document;
 
     /**
      * @var CurriculumInventoryReportInterface
      */
-    private $report;
+    protected $report;
 
     /**
      * @param string $document

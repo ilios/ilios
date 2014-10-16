@@ -2,103 +2,61 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
- * Discipline
+ * Class Discipline
+ * @package Ilios\CoreBundle\Model
  */
-class Discipline
+class Discipline implements DisciplineInterface
 {
-    /**
-     * @var integer
-     */
-    private $disciplineId;
+    use IdentifiableTrait;
+    use TitleTrait;
 
     /**
-     * @var string
+     * @var SchoolInterface
      */
-    private $title;
-    
-    /**
-     * @var \Ilios\CoreBundle\Model\School
-     */
-    private $owningSchool;
+    protected $owningSchool;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CourseInterface[]
      */
-    private $courses;
+    protected $courses;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ProgramYearInterface[]
      */
-    private $programYears;
+    protected $programYears;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|SessionInterface[]
      */
-    private $sessions;
+    protected $sessions;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->programYears = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new ArrayCollection();
+        $this->programYears = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     /**
-     * Get disciplineId
-     *
-     * @return integer 
+     * @param SchoolInterface $school
      */
-    public function getDisciplineId()
-    {
-        return $this->disciplineId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Discipline
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Model\School $school
-     * @return ProgramYearSteward
-     */
-    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null)
+    public function setOwningSchool(SchoolInterface $school)
     {
         $this->owningSchool = $school;
-
-        return $this;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Model\School 
+     * @return SchoolInterface
      */
     public function getOwningSchool()
     {
@@ -106,101 +64,74 @@ class Discipline
     }
 
     /**
-     * Add courses
-     *
-     * @param \Ilios\CoreBundle\Model\Course $courses
-     * @return Discipline
+     * @param CourseInterface $course
      */
-    public function addCourse(\Ilios\CoreBundle\Model\Course $courses)
+    public function addCourse(CourseInterface $course)
     {
-        $this->courses[] = $courses;
-
-        return $this;
+        $this->courses->add($course);
     }
 
     /**
-     * Remove courses
-     *
-     * @param \Ilios\CoreBundle\Model\Course $courses
-     */
-    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses)
-    {
-        $this->courses->removeElement($courses);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Ilios\CoreBundle\Model\Course[]
+     * @return ArrayCollection|CourseInterface[]
      */
     public function getCourses()
     {
-        return $this->courses->toArray();
+        return $this->courses;
     }
 
     /**
-     * Add programYears
-     *
-     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
-     * @return Discipline
+     * @param Collection $programYears
      */
-    public function addProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
+    public function setProgramYears(Collection $programYears)
     {
-        $this->programYears[] = $programYears;
+        $this->programYears = new ArrayCollection();
 
-        return $this;
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
     }
 
     /**
-     * Remove programYears
-     *
-     * @param \Ilios\CoreBundle\Model\ProgramYear $programYears
+     * @param ProgramYearInterface $programYear
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears)
+    public function addProgramYear(ProgramYearInterface $programYear)
     {
-        $this->programYears->removeElement($programYears);
+        $this->programYears->add($programYear);
     }
 
     /**
-     * Get programYears
-     *
-     * @return \Ilios\CoreBundle\Model\ProgramYear[]
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function getProgramYears()
     {
-        return $this->programYears->toArray();
+        return $this->programYears;
     }
 
     /**
-     * Add sessions
-     *
-     * @param \Ilios\CoreBundle\Model\Session $sessions
-     * @return Discipline
+     * @param Collection $sessions
      */
-    public function addSession(\Ilios\CoreBundle\Model\Session $sessions)
+    public function setSessions(Collection $sessions)
     {
-        $this->sessions[] = $sessions;
+        $this->sessions = new ArrayCollection();
 
-        return $this;
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
     }
 
     /**
-     * Remove sessions
-     *
-     * @param \Ilios\CoreBundle\Model\Session $sessions
+     * @param SessionInterface $session
      */
-    public function removeSession(\Ilios\CoreBundle\Model\Session $sessions)
+    public function addSession(SessionInterface $session)
     {
-        $this->sessions->removeElement($sessions);
+        $this->sessions->add($session);
     }
 
     /**
-     * Get sessions
-     *
-     * @return \Ilios\CoreBundle\Model\Session[]
+     * @return ArrayCollection|SessionInterface[]
      */
     public function getSessions()
     {
-        return $this->sessions->toArray();
+        return $this->sessions;
     }
 }

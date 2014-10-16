@@ -2,37 +2,65 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
+
 /**
  * Interface DisciplineInterface
  */
-interface DisciplineInterface 
+interface DisciplineInterface extends IdentifiableTraitIntertface, TitleTraitInterface
 {
-    public function getDisciplineId();
+    /**
+     * @param SchoolInterface $school
+     */
+    public function setOwningSchool(SchoolInterface $school);
 
-    public function setTitle($title);
-
-    public function getTitle();
-
-    public function setOwningSchool(\Ilios\CoreBundle\Model\School $school = null);
-
+    /**
+     * @return SchoolInterface
+     */
     public function getOwningSchool();
 
-    public function addCourse(\Ilios\CoreBundle\Model\Course $courses);
+    /**
+     * @param CourseInterface $course
+     */
+    public function addCourse(CourseInterface $course);
 
-    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses);
-
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
     public function getCourses();
 
-    public function addProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears);
+    /**
+     * @param Collection $programYears
+     */
+    public function setProgramYears(Collection $programYears);
 
-    public function removeProgramYear(\Ilios\CoreBundle\Model\ProgramYear $programYears);
+    /**
+     * @param ProgramYearInterface $programYear
+     */
+    public function addProgramYear(ProgramYearInterface $programYear);
 
+    /**
+     * @return ArrayCollection|ProgramYearInterface[]
+     */
     public function getProgramYears();
 
-    public function addSession(\Ilios\CoreBundle\Model\Session $sessions);
+    /**
+     * @param Collection $sessions
+     */
+    public function setSessions(Collection $sessions);
 
-    public function removeSession(\Ilios\CoreBundle\Model\Session $sessions);
+    /**
+     * @param SessionInterface $session
+     */
+    public function addSession(SessionInterface $session);
 
+    /**
+     * @return ArrayCollection|SessionInterface[]
+     */
     public function getSessions();
 }
 

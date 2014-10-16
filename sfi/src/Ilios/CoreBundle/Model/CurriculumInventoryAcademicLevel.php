@@ -21,12 +21,12 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     /**
      * @var integer
      */
-    private $level;
+    protected $level;
 
     /**
      * @var CurriculumInventoryReportInterface
      */
-    private $report;
+    protected $report;
 
     /**
      * @param integer $level

@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Model\SchoolInterface;
  * Class CurriculumInventoryInstitution
  * @package Ilios\CoreBundle\Model
  */
-class CurriculumInventoryInstitution
+class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
     use IdentifiableTrait;
     use NameableTrait;

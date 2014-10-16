@@ -7,18 +7,24 @@ namespace Ilios\CoreBundle\Model;
  */
 interface DepartmentInterface 
 {
-    public function getDepartmentId();
+    /**
+     * @param SchoolInterface $school
+     */
+    public function setSchool(SchoolInterface $school);
 
-    public function setTitle($title);
-
-    public function getTitle();
-
-    public function setSchool(\Ilios\CoreBundle\Model\School $school = null);
-
+    /**
+     * @return SchoolInterface
+     */
     public function getSchool();
 
+    /**
+     * @param boolean $deleted
+     */
     public function setDeleted($deleted);
 
-    public function getDeleted();
+    /**
+     * @return boolean
+     */
+    public function isDeleted();
 }
 

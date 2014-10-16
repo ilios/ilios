@@ -2,21 +2,24 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\DescribableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+
 /**
  * Interface CurriculumInventorySequenceInterface
  */
-interface CurriculumInventorySequenceInterface 
+interface CurriculumInventorySequenceInterface extends
+    IdentifiableTraitIntertface,
+    DescribableTraitInterface
 {
-    public function setReportId($reportId);
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function setReport(CurriculumInventoryReportInterface $report);
 
-    public function getReportId();
-
-    public function setDescription($description);
-
-    public function getDescription();
-
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null);
-
+    /**
+     * @return CurriculumInventoryReportInterface
+     */
     public function getReport();
 }
 

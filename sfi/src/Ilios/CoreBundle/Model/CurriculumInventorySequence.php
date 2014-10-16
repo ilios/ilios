@@ -2,92 +2,33 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\DescribableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 
 /**
  * CurriculumInventorySequence
  */
-class CurriculumInventorySequence
+class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
-    /**
-     * @var integer
-     */
-    private $reportId;
+    use IdentifiableTrait;
+    use DescribableTrait;
 
     /**
-     * @var string
+     * @var CurriculumInventoryReportInterface
      */
-    private $description;
+    protected $report;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventoryReport
+     * @param CurriculumInventoryReportInterface $report
      */
-    private $report;
-
-
-    /**
-     * Set reportId
-     *
-     * @param integer $reportId
-     * @return CurriculumInventorySequence
-     */
-    public function setReportId($reportId)
-    {
-        $this->reportId = $reportId;
-
-        return $this;
-    }
-
-    /**
-     * Get reportId
-     *
-     * @return integer 
-     */
-    public function getReportId()
-    {
-        return $this->reportId;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return CurriculumInventorySequence
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventoryReport $report
-     * @return CurriculumInventorySequence
-     */
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null)
+    public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventoryReport 
+     * @return CurriculumInventoryReportInterface
      */
     public function getReport()
     {

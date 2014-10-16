@@ -12,7 +12,6 @@ use Ilios\CoreBundle\Model\SchoolInterface;
  */
 interface CurriculumInventoryInstitutionInterface extends IdentifiableTraitIntertface, NameableTraitInterface
 {
-
     /**
      * @param string $aamcCode
      */

@@ -2,84 +2,38 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 
 /**
  * Department
  */
-class Department
+class Department implements DepartmentInterface
 {
-    /**
-     * @var integer
-     */
-    private $departmentId;
+    use IdentifiableTrait;
+    use TitleTrait;
 
     /**
-     * @var string
+     * @var SchoolInterface
      */
-    private $title;
-
-    /**
-     * @var \Ilios\CoreBundle\Model\School
-     */
-    private $school;
+    protected $school;
 
     /**
      * @var boolean
      */
-    private $deleted;
-
-
-    /**
-     * Get departmentId
-     *
-     * @return integer 
-     */
-    public function getDepartmentId()
-    {
-        return $this->departmentId;
-    }
+    protected $deleted;
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Department
+     * @param SchoolInterface $school
      */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set school
-     *
-     * @param \Ilios\CoreBundle\Model\School $school
-     * @return ProgramYearSteward
-     */
-    public function setSchool(\Ilios\CoreBundle\Model\School $school = null)
+    public function setSchool(SchoolInterface $school)
     {
         $this->school = $school;
-
-        return $this;
     }
 
     /**
-     * Get school
-     *
-     * @return \Ilios\CoreBundle\Model\School 
+     * @return SchoolInterface 
      */
     public function getSchool()
     {
@@ -87,24 +41,17 @@ class Department
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Department
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
      * @return boolean 
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }

@@ -2,84 +2,57 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 /**
- * CurriculumInventorySequenceBlockSession
+ * Class CurriculumInventorySequenceBlockSession
+ * @package Ilios\CoreBundle\Model
  */
-class CurriculumInventorySequenceBlockSession
+class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequenceBlockSessionInterface
 {
-    /**
-     * @var integer
-     */
-    private $sequenceBlockSessionId;
+    use IdentifiableTrait;
 
     /**
      * @var boolean
      */
-    private $countOfferingsOnce;
+    protected $countOfferingsOnce;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock
+     * @var CurriculumInventorySequenceBlockInterface
      */
-    private $sequenceBlock;
+    protected $sequenceBlock;
 
     /**
-     * @var \Ilios\CoreBundle\Model\Session
+     * @var SessionInterface
      */
-    private $session;
-
-
-    /**
-     * Get sequenceBlockSessionId
-     *
-     * @return integer 
-     */
-    public function getSequenceBlockSessionId()
-    {
-        return $this->sequenceBlockSessionId;
-    }
+    protected $session;
 
     /**
-     * Set countOfferingsOnce
-     *
      * @param boolean $countOfferingsOnce
-     * @return CurriculumInventorySequenceBlockSession
      */
     public function setCountOfferingsOnce($countOfferingsOnce)
     {
         $this->countOfferingsOnce = $countOfferingsOnce;
-
-        return $this;
     }
 
     /**
-     * Get countOfferingsOnce
-     *
      * @return boolean 
      */
-    public function getCountOfferingsOnce()
+    public function hasCountOfferingsOnce()
     {
         return $this->countOfferingsOnce;
     }
 
     /**
-     * Set sequenceBlock
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock $sequenceBlock
-     * @return CurriculumInventorySequenceBlockSession
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
      */
-    public function setSequenceBlock(\Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock $sequenceBlock = null)
+    public function setSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
     {
         $this->sequenceBlock = $sequenceBlock;
-
-        return $this;
     }
 
     /**
-     * Get sequenceBlock
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock 
+     * @return CurriculumInventorySequenceBlockInterface
      */
     public function getSequenceBlock()
     {
@@ -87,22 +60,15 @@ class CurriculumInventorySequenceBlockSession
     }
 
     /**
-     * Set session
-     *
-     * @param \Ilios\CoreBundle\Model\Session $session
-     * @return CurriculumInventorySequenceBlockSession
+     * @param SessionInterface $session
      */
-    public function setSession(\Ilios\CoreBundle\Model\Session $session = null)
+    public function setSession(SessionInterface $session)
     {
         $this->session = $session;
-
-        return $this;
     }
 
     /**
-     * Get session
-     *
-     * @return \Ilios\CoreBundle\Model\Session 
+     * @return SessionInterface
      */
     public function getSession()
     {

@@ -2,23 +2,41 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+
 /**
  * Interface CurriculumInventorySequenceBlockSessionInterface
  */
-interface CurriculumInventorySequenceBlockSessionInterface 
+interface CurriculumInventorySequenceBlockSessionInterface extends IdentifiableTraitIntertface
 {
-    public function getSequenceBlockSessionId();
-
+    /**
+     * @param boolean $countOfferingsOnce
+     */
     public function setCountOfferingsOnce($countOfferingsOnce);
 
-    public function getCountOfferingsOnce();
+    /**
+     * @return boolean
+     */
+    public function hasCountOfferingsOnce();
 
-    public function setSequenceBlock(\Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock $sequenceBlock = null);
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     */
+    public function setSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
+    /**
+     * @return CurriculumInventorySequenceBlockInterface
+     */
     public function getSequenceBlock();
 
-    public function setSession(\Ilios\CoreBundle\Model\Session $session = null);
+    /**
+     * @param SessionInterface $session
+     */
+    public function setSession(SessionInterface $session);
 
+    /**
+     * @return SessionInterface
+     */
     public function getSession();
 }
 

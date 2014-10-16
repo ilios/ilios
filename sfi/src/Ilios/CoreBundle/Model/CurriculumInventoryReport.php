@@ -6,11 +6,15 @@ use Ilios\CoreBundle\Traits\DescribableTrait;
 use Ilios\CoreBundle\Traits\IdentifiableTrait;
 use Ilios\CoreBundle\Traits\NameableTrait;
 
+use Ilios\CoreBundle\Model\CurriculumInventoryExportInterface;
+use Ilios\CoreBundle\Model\CurriculumInventorySequenceInterface;
+use Ilios\CoreBundle\Model\ProgramInterface;
 
 /**
- * CurriculumInventoryReport
+ * Class CurriculumInventoryReport
+ * @package Ilios\CoreBundle\Model
  */
-class CurriculumInventoryReport
+class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
     use IdentifiableTrait;
     use NameableTrait;
@@ -19,50 +23,43 @@ class CurriculumInventoryReport
     /**
      * @var integer
      */
-    private $year;
+    protected $year;
 
     /**
      * @var \DateTime
      */
-    private $startDate;
+    protected $startDate;
 
     /**
      * @var \DateTime
      */
-    private $endDate;
+    protected $endDate;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventoryExport
+     * @var CurriculumInventoryExportInterface
      */
-    private $export;
+    protected $export;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventorySequence
+     * @var CurriculumInventorySequenceInterface
      */
-    private $sequence;
+    protected $sequence;
 
     /**
-     * @var \Ilios\CoreBundle\Model\Program
+     * @var ProgramInterface
      */
-    private $program;
+    protected $program;
 
     /**
-     * Set year
-     *
      * @param integer $year
-     * @return CurriculumInventoryReport
      */
     public function setYear($year)
     {
         $this->year = $year;
-
-        return $this;
     }
 
     /**
-     * Get year
-     *
-     * @return integer 
+     * @return integer
      */
     public function getYear()
     {
@@ -70,22 +67,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set name
-     *
      * @param string $name
-     * @return CurriculumInventoryReport
      */
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
     }
 
     /**
-     * Get name
-     *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -93,22 +83,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set description
-     *
      * @param string $description
-     * @return CurriculumInventoryReport
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
-        return $this;
     }
 
     /**
-     * Get description
-     *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -116,22 +99,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set startDate
-     *
      * @param \DateTime $startDate
-     * @return CurriculumInventoryReport
      */
     public function setStartDate($startDate)
     {
         $this->startDate = $startDate;
-
-        return $this;
     }
 
     /**
-     * Get startDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDate()
     {
@@ -139,22 +115,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set endDate
-     *
      * @param \DateTime $endDate
-     * @return CurriculumInventoryReport
      */
     public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
-
-        return $this;
     }
 
     /**
-     * Get endDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -162,22 +131,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set export
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventoryExport $export
-     * @return CurriculumInventoryReport
+     * @param CurriculumInventoryExportInterface $export
      */
-    public function setExport(\Ilios\CoreBundle\Model\CurriculumInventoryExport $export = null)
+    public function setExport(CurriculumInventoryExportInterface $export)
     {
         $this->export = $export;
-
-        return $this;
     }
 
     /**
-     * Get export
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventoryExport 
+     * @return CurriculumInventoryExportInterface
      */
     public function getExport()
     {
@@ -185,22 +147,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set sequence
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventorySequence $sequence
-     * @return CurriculumInventoryReport
+     * @param CurriculumInventorySequenceInterface $sequence
      */
-    public function setSequence(\Ilios\CoreBundle\Model\CurriculumInventorySequence $sequence = null)
+    public function setSequence(CurriculumInventorySequenceInterface $sequence)
     {
         $this->sequence = $sequence;
-
-        return $this;
     }
 
     /**
-     * Get sequence
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventorySequence 
+     * @return CurriculumInventorySequenceInterface
      */
     public function getSequence()
     {
@@ -208,22 +163,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set program
-     *
-     * @param \Ilios\CoreBundle\Model\Program $program
-     * @return CurriculumInventoryReport
+     * @param ProgramInterface $program
      */
-    public function setProgram(\Ilios\CoreBundle\Model\Program $program = null)
+    public function setProgram(ProgramInterface $program)
     {
         $this->program = $program;
-
-        return $this;
     }
 
     /**
-     * Get program
-     *
-     * @return \Ilios\CoreBundle\Model\Program 
+     * @return ProgramInterface
      */
     public function getProgram()
     {

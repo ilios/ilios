@@ -2,71 +2,146 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\DescribableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
+
 /**
  * Interface CurriculumInventorySequenceBlockInterface
  */
-interface CurriculumInventorySequenceBlockInterface 
+interface CurriculumInventorySequenceBlockInterface extends
+    IdentifiableTraitIntertface,
+    DescribableTraitInterface,
+    TitleTraitInterface
 {
-    public function getSequenceBlockId();
-
+    /**
+     * @param boolean $required
+     */
     public function setRequired($required);
 
-    public function getRequired();
+    /**
+     * @return boolean
+     */
+    public function isRequired();
 
+    /**
+     * @param boolean $childSequenceOrder
+     */
     public function setChildSequenceOrder($childSequenceOrder);
 
-    public function getChildSequenceOrder();
+    /**
+     * @return boolean
+     */
+    public function hasChildSequenceOrder();
 
+    /**
+     * @param integer $orderInSequence
+     */
     public function setOrderInSequence($orderInSequence);
 
+    /**
+     * @return integer
+     */
     public function getOrderInSequence();
 
+    /**
+     * @param integer $minimum
+     */
     public function setMinimum($minimum);
 
+    /**
+     * @return integer
+     */
     public function getMinimum();
 
+    /**
+     * @param integer $maximum
+     */
     public function setMaximum($maximum);
 
+    /**
+     * @return integer
+     */
     public function getMaximum();
 
+    /**
+     * @param boolean $track
+     */
     public function setTrack($track);
 
-    public function getTrack();
+    /**
+     * @return boolean
+     */
+    public function hasTrack();
 
-    public function setDescription($description);
-
-    public function getDescription();
-
-    public function setTitle($title);
-
-    public function getTitle();
-
+    /**
+     * @param \DateTime $startDate
+     */
     public function setStartDate($startDate);
 
+    /**
+     * @return \DateTime
+     */
     public function getStartDate();
 
+    /**
+     * @param \DateTime $endDate
+     */
     public function setEndDate($endDate);
 
+    /**
+     * @return \DateTime
+     */
     public function getEndDate();
 
+    /**
+     * @param integer $duration
+     */
     public function setDuration($duration);
 
+    /**
+     * @return integer
+     */
     public function getDuration();
 
-    public function setAcademicLevel(\Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel $academicLevel = null);
+    /**
+     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
+     */
+    public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
+    /**
+     * @return CurriculumInventoryAcademicLevelInterface
+     */
     public function getAcademicLevel();
 
-    public function setCourse(\Ilios\CoreBundle\Model\Course $course = null);
+    /**
+     * @param CourseInterface $course
+     */
+    public function setCourse(CourseInterface $course);
 
+    /**
+     * @return CourseInterface
+     */
     public function getCourse();
 
-    public function setParentSequenceBlock(;
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $parentSequenceBlock
+     */
+    public function setParentSequenceBlock(CurriculumInventorySequenceBlockInterface $parentSequenceBlock);
 
+    /**
+     * @return CurriculumInventorySequenceBlockInterface
+     */
     public function getParentSequenceBlock();
 
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null);
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function setReport(CurriculumInventoryReportInterface $report);
 
+    /**
+     * @return CurriculumInventoryReportInterface
+     */
     public function getReport();
 }
 

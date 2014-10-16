@@ -2,27 +2,18 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
  * Group
  */
 class Group
 {
-    /**
-     * @var integer
-     */
-    private $groupId;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $instructors;
+    use IdentifiableTrait;
+    use TitleTrait;
 
     /**
      * @var string
@@ -30,84 +21,38 @@ class Group
     private $location;
 
     /**
-     * @var \Ilios\CoreBundle\Model\Cohort
+     * @var CohortInterface
      */
     private $cohort;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var GroupInterface
      */
-    private $users;
+    private $parent;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $instructorUsers;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $instructorGroups;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|IlmSessionFacetInterface[]
      */
     private $ilmSessionFacets;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|OfferingInterface[]
      */
     private $offerings;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserGroupInterface[]
      */
-    private $parents;
+    private $userGroups;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorUsers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ilmSessionFacets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->parents = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get groupId
-     *
-     * @return integer 
-     */
-    public function getGroupId()
-    {
-        return $this->groupId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Group
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
+        $this->userGroups = new ArrayCollection();
+        $this->ilmSessionFacets = new ArrayCollection();
+        $this->offerings = new ArrayCollection();
     }
 
     /**

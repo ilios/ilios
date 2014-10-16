@@ -2,167 +2,126 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Ilios\CoreBundle\Traits\DescribableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
  * CurriculumInventorySequenceBlock
  */
-class CurriculumInventorySequenceBlock
+class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-    /**
-     * @var integer
-     */
-    private $sequenceBlockId;
+    use IdentifiableTrait;
+    use DescribableTrait;
+    use TitleTrait;
 
     /**
      * @var boolean
      */
-    private $required;
+    protected $required;
 
     /**
      * @var boolean
      */
-    private $childSequenceOrder;
+    protected $childSequenceOrder;
 
     /**
      * @var integer
      */
-    private $orderInSequence;
+    protected $orderInSequence;
 
     /**
      * @var integer
      */
-    private $minimum;
+    protected $minimum;
 
     /**
      * @var integer
      */
-    private $maximum;
+    protected $maximum;
 
     /**
      * @var boolean
      */
-    private $track;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string
-     */
-    private $title;
+    protected $track;
 
     /**
      * @var \DateTime
      */
-    private $startDate;
+    protected $startDate;
 
     /**
      * @var \DateTime
      */
-    private $endDate;
+    protected $endDate;
 
     /**
      * @var integer
      */
-    private $duration;
+    protected $duration;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel
+     * @var CurriculumInventoryAcademicLevelInterface
      */
-    private $academicLevel;
+    protected $academicLevel;
 
     /**
-     * @var \Ilios\CoreBundle\Model\Course
+     * @var CourseInterface
      */
-    private $course;
+    protected $course;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock
+     * @var CurriculumInventorySequenceBlockInterface
      */
-    private $parentSequenceBlock;
+    protected $parentSequenceBlock;
 
     /**
-     * @var \Ilios\CoreBundle\Model\CurriculumInventoryReport
+     * @var CurriculumInventoryReportInterface
      */
-    private $report;
-
-
-    /**
-     * Get sequenceBlockId
-     *
-     * @return integer 
-     */
-    public function getSequenceBlockId()
-    {
-        return $this->sequenceBlockId;
-    }
+    protected $report;
 
     /**
-     * Set required
-     *
      * @param boolean $required
-     * @return CurriculumInventorySequenceBlock
      */
     public function setRequired($required)
     {
         $this->required = $required;
-
-        return $this;
     }
 
     /**
-     * Get required
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRequired()
+    public function isRequired()
     {
         return $this->required;
     }
 
     /**
-     * Set childSequenceOrder
-     *
      * @param boolean $childSequenceOrder
-     * @return CurriculumInventorySequenceBlock
      */
     public function setChildSequenceOrder($childSequenceOrder)
     {
         $this->childSequenceOrder = $childSequenceOrder;
-
-        return $this;
     }
 
     /**
-     * Get childSequenceOrder
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getChildSequenceOrder()
+    public function hasChildSequenceOrder()
     {
         return $this->childSequenceOrder;
     }
 
     /**
-     * Set orderInSequence
-     *
      * @param integer $orderInSequence
-     * @return CurriculumInventorySequenceBlock
      */
     public function setOrderInSequence($orderInSequence)
     {
         $this->orderInSequence = $orderInSequence;
-
-        return $this;
     }
 
     /**
-     * Get orderInSequence
-     *
-     * @return integer 
+     * @return integer
      */
     public function getOrderInSequence()
     {
@@ -170,22 +129,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set minimum
-     *
      * @param integer $minimum
-     * @return CurriculumInventorySequenceBlock
      */
     public function setMinimum($minimum)
     {
         $this->minimum = $minimum;
-
-        return $this;
     }
 
     /**
-     * Get minimum
-     *
-     * @return integer 
+     * @return integer
      */
     public function getMinimum()
     {
@@ -193,22 +145,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set maximum
-     *
      * @param integer $maximum
-     * @return CurriculumInventorySequenceBlock
      */
     public function setMaximum($maximum)
     {
         $this->maximum = $maximum;
-
-        return $this;
     }
 
     /**
-     * Get maximum
-     *
-     * @return integer 
+     * @return integer
      */
     public function getMaximum()
     {
@@ -216,91 +161,31 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set track
-     *
      * @param boolean $track
-     * @return CurriculumInventorySequenceBlock
      */
     public function setTrack($track)
     {
         $this->track = $track;
-
-        return $this;
     }
 
     /**
-     * Get track
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getTrack()
+    public function hasTrack()
     {
         return $this->track;
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return CurriculumInventorySequenceBlock
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return CurriculumInventorySequenceBlock
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set startDate
-     *
      * @param \DateTime $startDate
-     * @return CurriculumInventorySequenceBlock
      */
     public function setStartDate($startDate)
     {
         $this->startDate = $startDate;
-
-        return $this;
     }
 
     /**
-     * Get startDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDate()
     {
@@ -308,22 +193,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set endDate
-     *
      * @param \DateTime $endDate
-     * @return CurriculumInventorySequenceBlock
      */
     public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
-
-        return $this;
     }
 
     /**
-     * Get endDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -331,22 +209,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set duration
-     *
      * @param integer $duration
-     * @return CurriculumInventorySequenceBlock
      */
     public function setDuration($duration)
     {
         $this->duration = $duration;
-
-        return $this;
     }
 
     /**
-     * Get duration
-     *
-     * @return integer 
+     * @return integer
      */
     public function getDuration()
     {
@@ -354,22 +225,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set academicLevel
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel $academicLevel
-     * @return CurriculumInventorySequenceBlock
+     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
      */
-    public function setAcademicLevel(\Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel $academicLevel = null)
+    public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
     {
         $this->academicLevel = $academicLevel;
-
-        return $this;
     }
 
     /**
-     * Get academicLevel
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventoryAcademicLevel 
+     * @return CurriculumInventoryAcademicLevelInterface
      */
     public function getAcademicLevel()
     {
@@ -377,22 +241,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set course
-     *
-     * @param \Ilios\CoreBundle\Model\Course $course
-     * @return CurriculumInventorySequenceBlock
+     * @param CourseInterface $course
      */
-    public function setCourse(\Ilios\CoreBundle\Model\Course $course = null)
+    public function setCourse(CourseInterface $course)
     {
         $this->course = $course;
-
-        return $this;
     }
 
     /**
-     * Get course
-     *
-     * @return \Ilios\CoreBundle\Model\Course 
+     * @return CourseInterface
      */
     public function getCourse()
     {
@@ -400,23 +257,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set parentSequenceBlock
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock $parentSequenceBlock
-     * @return CurriculumInventorySequenceBlock
+     * @param CurriculumInventorySequenceBlockInterface $parentSequenceBlock
      */
-    public function setParentSequenceBlock(
-        CurriculumInventorySequenceBlock $parentSequenceBlock = null
-    ) {
+    public function setParentSequenceBlock(CurriculumInventorySequenceBlockInterface $parentSequenceBlock)
+    {
         $this->parentSequenceBlock = $parentSequenceBlock;
-
-        return $this;
     }
 
     /**
-     * Get parentSequenceBlock
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventorySequenceBlock 
+     * @return CurriculumInventorySequenceBlockInterface
      */
     public function getParentSequenceBlock()
     {
@@ -424,22 +273,15 @@ class CurriculumInventorySequenceBlock
     }
 
     /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Model\CurriculumInventoryReport $report
-     * @return CurriculumInventorySequenceBlock
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function setReport(\Ilios\CoreBundle\Model\CurriculumInventoryReport $report = null)
+    public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Model\CurriculumInventoryReport 
+     * @return CurriculumInventoryReportInterface
      */
     public function getReport()
     {
