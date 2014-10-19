@@ -2,71 +2,48 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 
 /**
  * UserMadeReminder
  */
-class UserMadeReminder
+class UserMadeReminder implements UserMadeReminderInterface
 {
-    /**
-     * @var integer
-     */
-    private $userMadeReminderId;
+    use IdentifiableTrait;
+    use TimestampableEntity;
 
     /**
      * @var string
      */
-    private $note;
+    protected $note;
 
     /**
      * @var \DateTime
      */
-    private $creationDate;
-
-    /**
-     * @var \DateTime
-     */
-    private $dueDate;
+    protected $dueDate;
 
     /**
      * @var boolean
      */
-    private $closed;
+    protected $closed;
 
     /**
-     * @var \Ilios\CoreBundle\Model\User
+     * @var UserInterface
      */
-    private $user;
-
-
-    /**
-     * Get userMadeReminderId
-     *
-     * @return integer 
-     */
-    public function getUserMadeReminderId()
-    {
-        return $this->userMadeReminderId;
-    }
+    protected $user;
 
     /**
-     * Set note
-     *
      * @param string $note
-     * @return UserMadeReminder
      */
     public function setNote($note)
     {
         $this->note = $note;
-
-        return $this;
     }
 
     /**
-     * Get note
-     *
-     * @return string 
+     * @return string
      */
     public function getNote()
     {
@@ -74,45 +51,15 @@ class UserMadeReminder
     }
 
     /**
-     * Set creationDate
-     *
-     * @param \DateTime $creationDate
-     * @return UserMadeReminder
-     */
-    public function setCreationDate($creationDate)
-    {
-        $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    /**
-     * Get creationDate
-     *
-     * @return \DateTime 
-     */
-    public function getCreationDate()
-    {
-        return $this->creationDate;
-    }
-
-    /**
-     * Set dueDate
-     *
      * @param \DateTime $dueDate
-     * @return UserMadeReminder
      */
-    public function setDueDate($dueDate)
+    public function setDueDate(\DateTime $dueDate)
     {
         $this->dueDate = $dueDate;
-
-        return $this;
     }
 
     /**
-     * Get dueDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDueDate()
     {
@@ -120,45 +67,31 @@ class UserMadeReminder
     }
 
     /**
-     * Set closed
-     *
      * @param boolean $closed
-     * @return UserMadeReminder
      */
     public function setClosed($closed)
     {
         $this->closed = $closed;
-
-        return $this;
     }
 
     /**
-     * Get closed
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getClosed()
+    public function isClosed()
     {
         return $this->closed;
     }
 
     /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Model\User $user
-     * @return UserMadeReminder
+     * @param UserInterface $user
      */
-    public function setUser(\Ilios\CoreBundle\Model\User $user = null)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Model\User 
+     * @return UserInterface
      */
     public function getUser()
     {

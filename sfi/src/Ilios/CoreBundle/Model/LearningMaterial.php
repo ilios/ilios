@@ -2,47 +2,31 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\DescribableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
- * LearningMaterial
+ * Class LearningMaterial
+ * @package Ilios\CoreBundle\Model
  */
 class LearningMaterial
 {
-    /**
-     * @var integer
-     */
-    private $learningMaterialId;
+    use IdentifiableTrait;
+    use TitleTrait;
+    use DescribableTrait;
+    use TimestampableEntity;
+    use BlameableEntity;
+
+    const UPLOAD_DIR = 'uploads/learning_materials';
 
     /**
+     * renamed: relativeFileSystemLocation
      * @var string
      */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $mimeType;
-
-    /**
-     * @var string
-     */
-    private $relativeFileSystemLocation;
-
-    /**
-     * @var string
-     */
-    private $filename;
-
-    /**
-     * @var integer
-     */
-    private $filesize;
-
-    /**
-     * @var string
-     */
-    private $description;
+    protected $file;
 
     /**
      * @var boolean
@@ -53,11 +37,6 @@ class LearningMaterial
      * @var string
      */
     private $copyrightRationale;
-
-    /**
-     * @var \DateTime
-     */
-    private $uploadDate;
 
     /**
      * @var string
@@ -78,12 +57,7 @@ class LearningMaterial
      * @var string
      */
     private $token;
-    
-    /**
-     * @var \Ilios\CoreBundle\Model\User
-     */
-    private $owningUser;
-    
+
     /**
      * @var \Ilios\CoreBundle\Model\LearningMaterialUserRole
      */

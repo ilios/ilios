@@ -3,14 +3,18 @@
 namespace Ilios\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableTrait;
 use Ilios\CoreBundle\Traits\TitleTrait;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Group
+ * @TODO: Ask about instructor_group table & relationship to this... Seems to break NF.
+ * Class Group
+ * @package Ilios\CoreBundle\Model
  */
-class Group
+class Group implements GroupInterface
 {
     use IdentifiableTrait;
     use TitleTrait;
@@ -18,83 +22,59 @@ class Group
     /**
      * @var string
      */
-    private $location;
+    protected $location;
 
     /**
      * @var CohortInterface
      */
-    private $cohort;
+    protected $cohort;
 
     /**
      * @var GroupInterface
      */
-    private $parent;
+    protected $parent;
 
     /**
      * @var ArrayCollection|IlmSessionFacetInterface[]
      */
-    private $ilmSessionFacets;
+    protected $ilmSessionFacets;
 
     /**
      * @var ArrayCollection|OfferingInterface[]
      */
-    private $offerings;
+    protected $offerings;
 
     /**
      * @var ArrayCollection|UserGroupInterface[]
      */
-    private $userGroups;
+    protected $instructors;
+
+    /**
+     * @var ArrayCollection|UserGroupInterface[]
+     */
+    protected $users;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->userGroups = new ArrayCollection();
+        $this->instructors = new ArrayCollection();
+        $this->users = new ArrayCollection();
         $this->ilmSessionFacets = new ArrayCollection();
         $this->offerings = new ArrayCollection();
     }
 
     /**
-     * Set instructors
-     *
-     * @param string $instructors
-     * @return Group
-     */
-    public function setInstructors($instructors)
-    {
-        $this->instructors = $instructors;
-
-        return $this;
-    }
-
-    /**
-     * Get instructors
-     *
-     * @return string 
-     */
-    public function getInstructors()
-    {
-        return $this->instructors;
-    }
-
-    /**
-     * Set location
-     *
      * @param string $location
-     * @return Group
      */
     public function setLocation($location)
     {
         $this->location = $location;
-
-        return $this;
     }
 
     /**
-     * Get location
-     *
-     * @return string 
+     * @return string
      */
     public function getLocation()
     {
@@ -102,22 +82,15 @@ class Group
     }
 
     /**
-     * Set cohort
-     *
-     * @param \Ilios\CoreBundle\Model\Cohort $cohort
-     * @return Group
+     * @param CohortInterface $cohort
      */
-    public function setCohort(\Ilios\CoreBundle\Model\Cohort $cohort = null)
+    public function setCohort(CohortInterface $cohort)
     {
         $this->cohort = $cohort;
-
-        return $this;
     }
 
     /**
-     * Get cohort
-     *
-     * @return \Ilios\CoreBundle\Model\Cohort 
+     * @return CohortInterface
      */
     public function getCohort()
     {
@@ -125,131 +98,83 @@ class Group
     }
 
     /**
-     * Add users
-     *
-     * @param \Ilios\CoreBundle\Model\User $users
-     * @return Group
+     * @param Collection $instructors
      */
-    public function addUser(\Ilios\CoreBundle\Model\User $users)
+    public function setInstructors(Collection $instructors)
     {
-        $this->users[] = $users;
+        $this->instructors = new ArrayCollection();
 
-        return $this;
+        foreach ($instructors as $instructor) {
+            $this->addInstructor($instructor);
+        }
     }
 
     /**
-     * Remove users
-     *
-     * @param \Ilios\CoreBundle\Model\User $users
+     * @param UserInterface $instructor
      */
-    public function removeUser(\Ilios\CoreBundle\Model\User $users)
+    public function addInstructor(UserInterface $instructor)
     {
-        $this->users->removeElement($users);
+        $this->instructors->add($instructor);
     }
 
     /**
-     * Get users
-     *
-     * @return \Ilios\CoreBundle\Model\User[]
+     * @return ArrayCollection|UserInterface[]
+     */
+    public function getInstructors()
+    {
+        return $this->instructors;
+    }
+
+    /**
+     * @param Collection $users
+     */
+    public function setUsers(Collection $users)
+    {
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    public function addUser(UserInterface $user)
+    {
+        $this->users->add($user);
+    }
+
+    /**
+     * @return ArrayCollection|UserInterface[]
      */
     public function getUsers()
     {
-        return $this->users->toArray();
+        return $this->users;
     }
 
     /**
-     * Add instructorUsers
-     *
-     * @param \Ilios\CoreBundle\Model\User $instructorUsers
-     * @return Group
+     * @param Collection $ilmSessionFacets
      */
-    public function addInstructorUser(\Ilios\CoreBundle\Model\User $instructorUsers)
+    public function setIlmSessionFacets(Collection $ilmSessionFacets)
     {
-        $this->instructorUsers[] = $instructorUsers;
+        $this->ilmSessionFacets = new ArrayCollection();
 
-        return $this;
+        foreach ($ilmSessionFacets as $ilmSessionFacet) {
+            $this->addIlmSessionFacet($ilmSessionFacet);
+        }
     }
 
     /**
-     * Remove instructorUsers
-     *
-     * @param \Ilios\CoreBundle\Model\User $instructorUsers
+     * @param IlmSessionFacetInterface $ilmSessionFacet
      */
-    public function removeInstructorUser(\Ilios\CoreBundle\Model\User $instructorUsers)
+    public function addIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
     {
-        $this->instructorUsers->removeElement($instructorUsers);
+        $this->ilmSessionFacets->add($ilmSessionFacet);
     }
 
     /**
-     * Get instructorUsers
-     *
-     * @return \Ilios\CoreBundle\Model\User[]
-     */
-    public function getInstructorUsers()
-    {
-        return $this->instructorUsers->toArray();
-    }
-
-    /**
-     * Add instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
-     * @return Group
-     */
-    public function addInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
-    {
-        $this->instructorGroups[] = $instructorGroups;
-
-        return $this;
-    }
-
-    /**
-     * Remove instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
-     */
-    public function removeInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
-    {
-        $this->instructorGroups->removeElement($instructorGroups);
-    }
-
-    /**
-     * Get instructorGroups
-     *
-     * @return \Ilios\CoreBundle\Model\InstructorGroup[]
-     */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups->toArray();
-    }
-
-    /**
-     * Add ilmSessionFacets
-     *
-     * @param \Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets
-     * @return Group
-     */
-    public function addIlmSessionFacet(\Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets)
-    {
-        $this->ilmSessionFacets[] = $ilmSessionFacets;
-
-        return $this;
-    }
-
-    /**
-     * Remove ilmSessionFacets
-     *
-     * @param \Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets
-     */
-    public function removeIlmSessionFacet(\Ilios\CoreBundle\Model\IlmSessionFacet $ilmSessionFacets)
-    {
-        $this->ilmSessionFacets->removeElement($ilmSessionFacets);
-    }
-
-    /**
-     * Get ilmSessionFacets
-     *
-     * @return \Ilios\CoreBundle\Model\IlmSessionFacet[]
+     * @return ArrayCollection|IlmSessionFacetInterface[]
      */
     public function getIlmSessionFacets()
     {
@@ -257,68 +182,46 @@ class Group
     }
 
     /**
-     * Add offerings
-     *
-     * @param \Ilios\CoreBundle\Model\Offering $offerings
-     * @return Group
+     * @param Collection $offerings
      */
-    public function addOffering(\Ilios\CoreBundle\Model\Offering $offerings)
+    public function setOfferings(Collection $offerings)
     {
-        $this->offerings[] = $offerings;
+        $this->offerings = new ArrayCollection();
 
-        return $this;
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
     }
 
     /**
-     * Remove offerings
-     *
-     * @param \Ilios\CoreBundle\Model\Offering $offerings
+     * @param OfferingInterface $offerings
      */
-    public function removeOffering(\Ilios\CoreBundle\Model\Offering $offerings)
+    public function addOffering(OfferingInterface $offerings)
     {
-        $this->offerings->removeElement($offerings);
+        $this->offerings->add($offerings);
     }
 
     /**
-     * Get offerings
-     *
-     * @return \Ilios\CoreBundle\Model\Offering[]
+     * @return ArrayCollection|OfferingInterface[]
      */
     public function getOfferings()
     {
-        return $this->offerings->toArray();
+        return $this->offerings;
     }
 
     /**
-     * Add parent
-     *
-     * @param \Ilios\CoreBundle\Model\Group $parent
-     * @return Group
+     * @param GroupInterface $parent
      */
-    public function addParent(\Ilios\CoreBundle\Model\Group $parent)
+    public function setParent(GroupInterface $parent)
     {
-        $this->parents[] = $parent;
-
-        return $this;
+        $this->parent = $parent;
     }
 
     /**
-     * Remove parent
-     *
-     * @param \Ilios\CoreBundle\Model\Group $parent
+     * @return GroupInterface
      */
-    public function removeParent(\Ilios\CoreBundle\Model\Group $parent)
+    public function getParent()
     {
-        $this->parents->removeElement($parent);
-    }
-
-    /**
-     * Get parents
-     *
-     * @return \Ilios\CoreBundle\Model\Group[]
-     */
-    public function getParents()
-    {
-        return $this->parents->toArray();
+        return $this->parent;
     }
 }

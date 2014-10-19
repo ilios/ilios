@@ -2,68 +2,36 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 /**
- * IngestionException
+ * Class IngestionException
+ * @package Ilios\CoreBundle\Model
  */
-class IngestionException
+class IngestionException implements IngestionExceptionInterface
 {
-    /**
-     * @var integer
-     */
-    private $userId;
+    use IdentifiableTrait;
 
     /**
      * @var string
      */
-    private $ingestedWideUid;
+    protected $ingestedWideUid;
     
     /**
-     * @var \Ilios\CoreBundle\Model\User
+     * @var UserInterface
      */
-    private $user;
+    protected $user;
 
     /**
-     * Set userId
-     *
-     * @param int $userId
-     * @return IngestionException
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return integer 
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set ingestedWideUid
-     *
      * @param string $ingestedWideUid
-     * @return IngestionException
      */
     public function setIngestedWideUid($ingestedWideUid)
     {
         $this->ingestedWideUid = $ingestedWideUid;
-
-        return $this;
     }
 
     /**
-     * Get ingestedWideUid
-     *
-     * @return string 
+     * @return string
      */
     public function getIngestedWideUid()
     {
@@ -71,22 +39,15 @@ class IngestionException
     }
 
     /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Model\User $user
-     * @return ApiKey
+     * @param UserInterface $user
      */
-    public function setUser(\Ilios\CoreBundle\Model\User $user = null)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Model\User 
+     * @return UserInterface
      */
     public function getUser()
     {

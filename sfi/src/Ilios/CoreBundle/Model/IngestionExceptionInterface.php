@@ -2,21 +2,32 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+
 /**
  * Interface IngestionExceptionInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface IngestionExceptionInterface 
+interface IngestionExceptionInterface extends IdentifiableTraitIntertface
 {
-    public function setUserId($userId);
-
-    public function getUserId();
-
+    /**
+     * @param string $ingestedWideUid
+     */
     public function setIngestedWideUid($ingestedWideUid);
 
+    /**
+     * @return string
+     */
     public function getIngestedWideUid();
 
-    public function setUser(\Ilios\CoreBundle\Model\User $user = null);
+    /**
+     * @param UserInterface $user
+     */
+    public function setUser(UserInterface $user);
 
+    /**
+     * @return UserInterface
+     */
     public function getUser();
 }
 

@@ -2,25 +2,22 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
- * LearningMaterialUserRole
+ * Class LearningMaterialUserRole
+ * @package Ilios\CoreBundle\Model
  */
-class LearningMaterialUserRole
+class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
-    /**
-     * @var integer
-     */
-    private $learningMaterialUserRoleId;
+    use IdentifiableTrait;
+    use TitleTrait;
 
     /**
-     * @var string
-     */
-    private $title;
-    
-    /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|LearningMaterialInterface[]
      */
     private $learningMaterials;
 
@@ -29,73 +26,34 @@ class LearningMaterialUserRole
      */
     public function __construct()
     {
-        $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->learningMaterials = new ArrayCollection();
     }
 
-
     /**
-     * Get learningMaterialUserRoleId
-     *
-     * @return integer 
+     * @param Collection $learningMaterials
      */
-    public function getLearningMaterialUserRoleId()
+    public function setLearningMaterials(Collection $learningMaterials)
     {
-        return $this->learningMaterialUserRoleId;
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return LearningMaterialUserRole
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function setTitle($title)
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
-        $this->title = $title;
-
-        return $this;
+        $this->learningMaterials->add($learningMaterial);
     }
 
     /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Add learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Model\LearningMaterial $learningMaterial
-     * @return LearningMaterialUserRole
-     */
-    public function addLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial)
-    {
-        $this->learningMaterials[] = $learningMaterial;
-
-        return $this;
-    }
-
-    /**
-     * Remove learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Model\LearningMaterial $learningMaterial
-     */
-    public function removeLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial)
-    {
-        $this->learningMaterials->removeElement($learningMaterial);
-    }
-
-    /**
-     * Get learningMaterials
-     *
-     * @return \Ilios\CoreBundle\Model\LearningMaterial[]
+     * @return ArrayCollection|LearningMaterialInterface[]
      */
     public function getLearningMaterials()
     {
-        return $this->learningMaterials->toArray();
+        return $this->learningMaterials;
     }
 }

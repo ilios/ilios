@@ -2,35 +2,52 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
+
 /**
  * Interface InstructionHoursInterface
  */
-interface InstructionHoursInterface 
+interface InstructionHoursInterface extends IdentifiableTraitIntertface, TimestampableTraitinterface
 {
-    public function getInstructionHoursId();
-
-    public function setGenerationTimeStamp($generationTimeStamp);
-
-    public function getGenerationTimeStamp();
-
+    /**
+     * @param integer $hoursAccrued
+     */
     public function setHoursAccrued($hoursAccrued);
 
+    /**
+     * @return integer
+     */
     public function getHoursAccrued();
 
+    /**
+     * @param boolean $modified
+     */
     public function setModified($modified);
 
-    public function getModified();
+    /**
+     * @return boolean
+     */
+    public function isModified();
 
-    public function setModificationTimeStamp($modificationTimeStamp);
+    /**
+     * @param UserInterface $user
+     */
+    public function setUser(UserInterface $user);
 
-    public function getModificationTimeStamp();
+    /**
+     * @return UserInterface
+     */
+    public function getUser();
 
-    public function setUserId($userId);
+    /**
+     * @param SessionInterface $session
+     */
+    public function setSession(SessionInterface $session);
 
-    public function getUserId();
-
-    public function setSessionId($sessionId);
-
-    public function getSessionId();
+    /**
+     * @return SessionInterface
+     */
+    public function getSession();
 }
 

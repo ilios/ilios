@@ -2,43 +2,80 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+
 /**
  * Interface IlmSessionFacetInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface IlmSessionFacetInterface 
+interface IlmSessionFacetInterface extends IdentifiableTraitIntertface
 {
-    public function getIlmSessionFacetId();
-
+    /**
+     * @param string $hours
+     */
     public function setHours($hours);
 
+    /**
+     * @return string
+     */
     public function getHours();
 
-    public function setDueDate($dueDate);
+    /**
+     * @param \DateTime $dueDate
+     */
+    public function setDueDate(\DateTime $dueDate);
 
+    /**
+     * @return \DateTime
+     */
     public function getDueDate();
 
-    public function addGroup(\Ilios\CoreBundle\Model\Group $groups);
+    /**
+     * @param Collection $groups
+     */
+    public function setGroups(Collection $groups);
 
-    public function removeGroup(\Ilios\CoreBundle\Model\Group $groups);
+    /**
+     * @param GroupInterface $groups
+     */
+    public function addGroup(GroupInterface $groups);
 
+    /**
+     * @return ArrayCollection|GroupInterface[]
+     */
     public function getGroups();
 
-    public function addInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups);
+    /**
+     * @param Collection $instructors
+     */
+    public function setInstructors(Collection $instructors);
 
-    public function removeInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups);
+    /**
+     * @param UserInterface $instructor
+     */
+    public function addInstructor(UserInterface $instructor);
 
-    public function getInstructorGroups();
-
-    public function addInstructor(\Ilios\CoreBundle\Model\User $instructors);
-
-    public function removeInstructor(\Ilios\CoreBundle\Model\User $instructors);
-
+    /**
+     * @return ArrayCollection|UserInterface[]
+     */
     public function getInstructors();
 
-    public function addLearner(\Ilios\CoreBundle\Model\User $learners);
+    /**
+     * @param Collection $learners
+     */
+    public function setLearners(Collection $learners);
 
-    public function removeLearner(\Ilios\CoreBundle\Model\User $learners);
+    /**
+     * @param UserInterface $learner
+     */
+    public function addLearner(UserInterface $learner);
 
+    /**
+     * @return ArrayCollection|UserInterface[]
+     */
     public function getLearners();
 }
 

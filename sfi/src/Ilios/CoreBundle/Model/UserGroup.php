@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Model;
 
 /**
+ * @desc Class to replace the current many2many classes in Group with user. Follows
  * Class UserGroup
  * @package Ilios\CoreBundle\Model
  */

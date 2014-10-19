@@ -2,99 +2,48 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 
 /**
  * InstructionHours
  */
-class InstructionHours
+class InstructionHours implements InstructionHoursInterface
 {
-    /**
-     * @var integer
-     */
-    private $instructionHoursId;
-
-    /**
-     * @var \DateTime
-     */
-    private $generationTimeStamp;
+    use IdentifiableTrait;
+    use TimestampableEntity;
 
     /**
      * @var integer
      */
-    private $hoursAccrued;
+    protected $hoursAccrued;
 
     /**
      * @var boolean
      */
-    private $modified;
+    protected $modified;
 
     /**
-     * @var \DateTime
+     * @var UserInterface
      */
-    private $modificationTimeStamp;
+    protected $user;
 
     /**
-     * @var integer
+     * @var SessionInterface
      */
-    private $userId;
+    protected $session;
 
     /**
-     * @var integer
-     */
-    private $sessionId;
-
-
-    /**
-     * Get instructionHoursId
-     *
-     * @return integer 
-     */
-    public function getInstructionHoursId()
-    {
-        return $this->instructionHoursId;
-    }
-
-    /**
-     * Set generationTimeStamp
-     *
-     * @param \DateTime $generationTimeStamp
-     * @return InstructionHours
-     */
-    public function setGenerationTimeStamp($generationTimeStamp)
-    {
-        $this->generationTimeStamp = $generationTimeStamp;
-
-        return $this;
-    }
-
-    /**
-     * Get generationTimeStamp
-     *
-     * @return \DateTime 
-     */
-    public function getGenerationTimeStamp()
-    {
-        return $this->generationTimeStamp;
-    }
-
-    /**
-     * Set hoursAccrued
-     *
      * @param integer $hoursAccrued
-     * @return InstructionHours
      */
     public function setHoursAccrued($hoursAccrued)
     {
         $this->hoursAccrued = $hoursAccrued;
-
-        return $this;
     }
 
     /**
-     * Get hoursAccrued
-     *
-     * @return integer 
+     * @return integer
      */
     public function getHoursAccrued()
     {
@@ -102,94 +51,50 @@ class InstructionHours
     }
 
     /**
-     * Set modified
-     *
      * @param boolean $modified
-     * @return InstructionHours
      */
     public function setModified($modified)
     {
         $this->modified = $modified;
-
-        return $this;
     }
 
     /**
-     * Get modified
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getModified()
+    public function isModified()
     {
         return $this->modified;
     }
 
     /**
-     * Set modificationTimeStamp
-     *
-     * @param \DateTime $modificationTimeStamp
-     * @return InstructionHours
+     * @param UserInterface $user
      */
-    public function setModificationTimeStamp($modificationTimeStamp)
+    public function setUser(UserInterface $user)
     {
-        $this->modificationTimeStamp = $modificationTimeStamp;
-
-        return $this;
+        $this->user = $user;
     }
 
     /**
-     * Get modificationTimeStamp
-     *
-     * @return \DateTime 
+     * @return UserInterface
      */
-    public function getModificationTimeStamp()
+    public function getUser()
     {
-        return $this->modificationTimeStamp;
+        return $this->user;
     }
 
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return InstructionHours
+     * @param SessionInterface $session
      */
-    public function setUserId($userId)
+    public function setSession(SessionInterface $session)
     {
-        $this->userId = $userId;
-
-        return $this;
+        $this->session = $session;
     }
 
     /**
-     * Get userId
-     *
-     * @return integer 
+     * @return SessionInterface
      */
-    public function getUserId()
+    public function getSession()
     {
-        return $this->userId;
-    }
-
-    /**
-     * Set sessionId
-     *
-     * @param integer $sessionId
-     * @return InstructionHours
-     */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
-
-        return $this;
-    }
-
-    /**
-     * Get sessionId
-     *
-     * @return integer 
-     */
-    public function getSessionId()
-    {
-        return $this->sessionId;
+        return $this->session;
     }
 }

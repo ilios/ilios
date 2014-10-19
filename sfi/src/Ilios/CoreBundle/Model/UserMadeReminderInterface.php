@@ -2,31 +2,52 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
+
 /**
  * Interface UserMadeReminderInterface
  */
-interface UserMadeReminderInterface 
+interface UserMadeReminderInterface extends IdentifiableTraitIntertface, TimestampableTraitinterface
 {
-    public function getUserMadeReminderId();
-
+    /**
+     * @param string $note
+     */
     public function setNote($note);
 
+    /**
+     * @return string
+     */
     public function getNote();
 
-    public function setCreationDate($creationDate);
+    /**
+     * @param \DateTime $dueDate
+     */
+    public function setDueDate(\DateTime $dueDate);
 
-    public function getCreationDate();
-
-    public function setDueDate($dueDate);
-
+    /**
+     * @return \DateTime
+     */
     public function getDueDate();
 
+    /**
+     * @param boolean $closed
+     */
     public function setClosed($closed);
 
-    public function getClosed();
+    /**
+     * @return boolean
+     */
+    public function isClosed();
 
-    public function setUser(\Ilios\CoreBundle\Model\User $user = null);
+    /**
+     * @param UserInterface $user
+     */
+    public function setUser(UserInterface $user);
 
+    /**
+     * @return UserInterface
+     */
     public function getUser();
 }
 

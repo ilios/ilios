@@ -2,21 +2,28 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
+
 /**
  * Interface LearningMaterialUserRoleInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface LearningMaterialUserRoleInterface 
+interface LearningMaterialUserRoleInterface extends IdentifiableTraitIntertface, TitleTraitInterface
 {
-    public function getLearningMaterialUserRoleId();
+    /**
+     * @param Collection $learningMaterials
+     */
+    public function setLearningMaterials(Collection $learningMaterials);
 
-    public function setTitle($title);
+    /**
+     * @param LearningMaterialInterface $learningMaterial
+     */
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial);
 
-    public function getTitle();
-
-    public function addLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial);
-
-    public function removeLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial);
-
+    /**
+     * @return ArrayCollection|LearningMaterialInterface[]
+     */
     public function getLearningMaterials();
 }
 

@@ -2,47 +2,46 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\TitleTrait;
 
 /**
- * InstructorGroup
+ * @TODO: Ask about group table & relationship to this... Seems to break NF.
+ * Class InstructorGroup
+ * @package Ilios\CoreBundle\Model
  */
 class InstructorGroup
 {
-    /**
-     * @var integer
-     */
-    private $instructorGroupId;
+    use IdentifiableTrait;
+    use TitleTrait;
 
     /**
-     * @var string
+     * @var SchoolInterface
      */
-    private $title;
+    protected $school;
 
     /**
-     * @var integer
+     * @var ArrayCollection|GroupInterface[]
      */
-    private $schoolId;
+    protected $groups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|IlmSessionFacet[]
      */
-    private $groups;
+    protected $ilmSessionFacets;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
      */
-    private $ilmSessionFacets;
+    protected $users;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|OfferingInterface[]
      */
-    private $users;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $offerings;
+    protected $offerings;
 
     /**
      * Constructor

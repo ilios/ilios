@@ -2,86 +2,64 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
 
 /**
- * IlmSessionFacet
+ * Class IlmSessionFacet
+ * @package Ilios\CoreBundle\Model
  */
-class IlmSessionFacet
+class IlmSessionFacet implements IlmSessionFacetInterface
 {
-    /**
-     * @var integer
-     */
-    private $ilmSessionFacetId;
+    use IdentifiableTrait;
 
     /**
      * @var string
      */
-    private $hours;
+    protected $hours;
 
     /**
      * @var \DateTime
      */
-    private $dueDate;
+    protected $dueDate;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|GroupInterface[]
      */
-    private $groups;
+    protected $groups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
      */
-    private $instructorGroups;
+    protected $instructors;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
      */
-    private $instructors;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $learners;
+    protected $learners;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->learners = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->instructors = new ArrayCollection();
+        $this->learners = new ArrayCollection();
     }
 
     /**
-     * Get ilmSessionFacetId
-     *
-     * @return integer 
-     */
-    public function getIlmSessionFacetId()
-    {
-        return $this->ilmSessionFacetId;
-    }
-
-    /**
-     * Set hours
-     *
      * @param string $hours
-     * @return IlmSessionFacet
      */
     public function setHours($hours)
     {
         $this->hours = $hours;
-
-        return $this;
     }
 
     /**
-     * Get hours
-     *
-     * @return string 
+     * @return string
      */
     public function getHours()
     {
@@ -89,22 +67,15 @@ class IlmSessionFacet
     }
 
     /**
-     * Set dueDate
-     *
      * @param \DateTime $dueDate
-     * @return IlmSessionFacet
      */
-    public function setDueDate($dueDate)
+    public function setDueDate(\DateTime $dueDate)
     {
         $this->dueDate = $dueDate;
-
-        return $this;
     }
 
     /**
-     * Get dueDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDueDate()
     {
@@ -112,134 +83,86 @@ class IlmSessionFacet
     }
 
     /**
-     * Add groups
-     *
-     * @param \Ilios\CoreBundle\Model\Group $groups
-     * @return IlmSessionFacet
+     * @param Collection $groups
      */
-    public function addGroup(\Ilios\CoreBundle\Model\Group $groups)
+    public function setGroups(Collection $groups)
     {
-        $this->groups[] = $groups;
+        $this->groups = new ArrayCollection();
 
-        return $this;
+        foreach ($groups as $group) {
+            $this->addGroup($group);
+        }
     }
 
     /**
-     * Remove groups
-     *
-     * @param \Ilios\CoreBundle\Model\Group $groups
+     * @param GroupInterface $groups
      */
-    public function removeGroup(\Ilios\CoreBundle\Model\Group $groups)
+    public function addGroup(GroupInterface $groups)
     {
-        $this->groups->removeElement($groups);
+        $this->groups->add($groups);
     }
 
     /**
-     * Get groups
-     *
-     * @return \Ilios\CoreBundle\Model\Group[]
+     * @return ArrayCollection|GroupInterface[]
      */
     public function getGroups()
     {
-        return $this->groups->toArray();
+        return $this->groups;
     }
 
     /**
-     * Add instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
-     * @return IlmSessionFacet
+     * @param Collection $instructors
      */
-    public function addInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
+    public function setInstructors(Collection $instructors)
     {
-        $this->instructorGroups[] = $instructorGroups;
+        $this->instructors = new ArrayCollection();
 
-        return $this;
+        foreach ($instructors as $instructor) {
+            $this->addInstructor($instructor);
+        }
     }
 
     /**
-     * Remove instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Model\InstructorGroup $instructorGroups
+     * @param UserInterface $instructor
      */
-    public function removeInstructorGroup(\Ilios\CoreBundle\Model\InstructorGroup $instructorGroups)
+    public function addInstructor(UserInterface $instructor)
     {
-        $this->instructorGroups->removeElement($instructorGroups);
+        $this->instructors->add($instructor);
     }
 
     /**
-     * Get instructorGroups
-     *
-     * @return \Ilios\CoreBundle\Model\InstructorGroup[]
-     */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups->toArray();
-    }
-
-    /**
-     * Add instructors
-     *
-     * @param \Ilios\CoreBundle\Model\User $instructors
-     * @return IlmSessionFacet
-     */
-    public function addInstructor(\Ilios\CoreBundle\Model\User $instructors)
-    {
-        $this->instructors[] = $instructors;
-
-        return $this;
-    }
-
-    /**
-     * Remove instructors
-     *
-     * @param \Ilios\CoreBundle\Model\User $instructors
-     */
-    public function removeInstructor(\Ilios\CoreBundle\Model\User $instructors)
-    {
-        $this->instructors->removeElement($instructors);
-    }
-
-    /**
-     * Get instructors
-     *
-     * @return \Ilios\CoreBundle\Model\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getInstructors()
     {
-        return $this->instructors->toArray();
+        return $this->instructors;
     }
 
     /**
-     * Add learners
-     *
-     * @param \Ilios\CoreBundle\Model\User $learners
-     * @return IlmSessionFacet
+     * @param Collection $learners
      */
-    public function addLearner(\Ilios\CoreBundle\Model\User $learners)
+    public function setLearners(Collection $learners)
     {
-        $this->learners[] = $learners;
+        $this->learners = new ArrayCollection();
 
-        return $this;
+        foreach ($learners as $learner) {
+            $this->addLearner($learner);
+        }
     }
 
     /**
-     * Remove learners
-     *
-     * @param \Ilios\CoreBundle\Model\User $learners
+     * @param UserInterface $learner
      */
-    public function removeLearner(\Ilios\CoreBundle\Model\User $learners)
+    public function addLearner(UserInterface $learner)
     {
-        $this->learners->removeElement($learners);
+        $this->learners->add($learner);
     }
 
     /**
-     * Get learners
-     *
-     * @return \Ilios\CoreBundle\Model\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getLearners()
     {
-        return $this->learners->toArray();
+        return $this->learners;
     }
 }
