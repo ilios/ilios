@@ -20,8 +20,11 @@ Feature: Learner Groups
     And I click "Class of 2017" tree picker item in "cohort_pick_dialog_c" dialog
 
   @javascript @insulated
-  Scenario: New groups added should contain the entire cohort
+  Scenario: Add new group with full cohort
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I follow "1_add_members"
@@ -34,8 +37,28 @@ Feature: Learner Groups
     And I should not see "Smith, Greg" in the "#ugt_selector_tab" element
 
   @javascript @insulated
+  Scenario: Add new empty top level group
+    When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_no_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
+    And I wait for "1_collapse_summary_text" to be enabled
+    And I click on the text "Default Group Number 1"
+    And I follow "1_add_members"
+    And I wait for "manage_member_pick_dialog" to be enabled
+    Then I should see "Smith, Jane" in the "#ugt_selector_tab" element
+    And I should see "Smith, John" in the "#ugt_selector_tab" element
+    And I should see "Smith, Greg" in the "#ugt_selector_tab" element
+    But I should not see "Smith, Jane" in the "#ugt__selected_item_list" element
+    And I should not see "Smith, John" in the "#ugt__selected_item_list" element
+    And I should not see "Smith, Greg" in the "#ugt__selected_item_list" element
+
+  @javascript @insulated
   Scenario: Subgroups should not contain the owning group members
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
@@ -54,6 +77,9 @@ Feature: Learner Groups
   @javascript @insulated @ignore
   Scenario: Students selected in one group should not disapear from the picker for other groups
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I follow "1_add_members"
@@ -70,6 +96,9 @@ Feature: Learner Groups
     And I press the "Done" button in "manage_member_pick_dialog" dialog
 
     And I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "2_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 2"
     And I follow "2_add_members"
@@ -91,6 +120,9 @@ Feature: Learner Groups
   @javascript @insulated
   Scenario: Learners in subgroups should not appear twice in selected list
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
@@ -121,6 +153,9 @@ Feature: Learner Groups
   @javascript @insulated
   Scenario: Learners in subgroups should not appear twice in subgroup picker
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
@@ -148,6 +183,9 @@ Feature: Learner Groups
   @javascript @insulated @ignore
   Scenario: Sub groups should not list themselves in the picker
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
@@ -170,6 +208,9 @@ Feature: Learner Groups
   @javascript @insulated
   Scenario: Learners not in top level group should only be listed once in the subgroup
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I follow "1_add_members"
@@ -185,6 +226,9 @@ Feature: Learner Groups
   @javascript @insulated
   Scenario: Learner Groups should save correctly
     When I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I wait for "1_collapse_summary_text" to be enabled
     And I click on the text "Default Group Number 1"
     And I click on the xpath "//*[@id='1_collapser']//div[@class='row' and contains(., 'Sub-Groups:')]//a[text() = 'Edit']"
@@ -203,7 +247,11 @@ Feature: Learner Groups
     And I click on the text "Smith, John"
     And I press the "Done" button in "manage_member_pick_dialog" dialog
     And I press "Open Cohort"
+    And I wait for "general_new_add_group_link" to be enabled
     And I press "Add a New Student Group"
+    And I wait for "empty_group_add_dialog" to be enabled
+    And I click on the xpath "//*[@id='ega_radio_yes_label']"
+    And I press the "Save" button in "empty_group_add_dialog" dialog
     And I press "Save All"
     Then I should not see dirty state
     When I reload the page

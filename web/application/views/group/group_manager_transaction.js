@@ -258,7 +258,7 @@ ilios.gm.transaction.handleAddMemberUploadClick = function (uploadLinkDOMElement
                         for (var key in parsedObject.rowErrors) {
                             var row = parsedObject.rowErrors[key];
                             var span = row.length +1;
-                            table += '<tr style="border-bottom: 1px black solid"><td  style="white-space: nowrap; padding-right: 1em; font-weight:bold" rowspan="' + span + '">' 
+                            table += '<tr style="border-bottom: 1px black solid"><td  style="white-space: nowrap; padding-right: 1em; font-weight:bold" rowspan="' + span + '">'
                                 + ilios_i18nVendor.getI18NString('general.terms.entry') + ' '
                                 + key + '</td></tr>';
                             for (var i = 0; i < row.length; i++) {
@@ -382,94 +382,123 @@ ilios.gm.transaction.handleManualUserAdd = function () {
 };
 
 ilios.gm.transaction.handleManualGroupAdd = function () {
-    var rootGroup = null;
-    var url = null;
-    var method = null;
-    var paramString = null;
-    var ajaxCallback = null;
-
     // MAY RETURN THIS BLOCK
-    if (ilios.gm.currentModel == null) {
+    if (ilios.gm.currentModel === null) {
         return;
     }
 
-    rootGroup = ilios.gm.currentRootViewGroup;
-    url = controllerURL + 'addNewGroup';
-    method = "POST";
+    var rootGroup = ilios.gm.currentRootViewGroup;
 
-    paramString = "cohort_id=" + ilios.gm.currentModel.getCohortId() + "&group_id=";
-    if (rootGroup.getParentGroup() == null) {
+    var processResult = function(resultObject){
+        var parsedObject = null;
+        var viewRoot = ilios.gm.currentRootViewGroup;
+        var newGroupModel = null;
+        var containerNumber = -1;
+        var dummyIndexPath = null;
+
+        try {
+            parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
+        }
+        catch (e) {
+            ilios.global.defaultAJAXFailureHandler(null, e);
+
+            return;
+        }
+
+        // MAY RETURN THIS BLOCK
+        if (parsedObject.error !== undefined) {
+            var i18nStr = ilios_i18nVendor.getI18NString('groups.error.group_add');
+
+            ilios.alert.alert(i18nStr + ": " + parsedObject.error);
+
+            return;
+        }
+
+        if (ilios.gm.subgroup.isPresentlyCollapsed) {
+            dummyIndexPath = viewRoot.indexPath.concat();
+            dummyIndexPath[viewRoot.indexPath.length] = 1;
+        }
+
+        newGroupModel = ilios.gm.createSubgroupModelAndUI(
+            document.getElementById('group_container'),
+            viewRoot, parsedObject.group_id,
+            parsedObject.title, null, '', '',
+            null, null, dummyIndexPath
+        );
+
+        containerNumber = viewRoot.getContainerNumberForSubgroup(newGroupModel);
+
+
+        if (ilios.gm.subgroup.isPresentlyCollapsed) {
+            ilios.gm.subgroup.updateSubgroupCount(viewRoot);
+        }
+
+        ilios.gm.enableGroupGenerationDiv(containerNumber, (viewRoot.getParentGroup() === null));
+
+        ilios.gm.subgroup.indexPathsNeedRebuilding = true;
+
+        return newGroupModel;
+    };
+    var processResultAndFillGroup = function(resultObject){
+        var groupModel = processResult(resultObject);
+        var viewRoot = ilios.gm.currentRootViewGroup;
+        var containerNumber = viewRoot.getContainerNumberForSubgroup(groupModel);
+        var users = viewRoot.getUsers();
+        var element = null;
+
+        for (var key in users) {
+            groupModel.addUser(users[key], true);
+        }
+
+        element = document.getElementById(ilios.gm.generateIdForEnrollment(containerNumber));
+        element.innerHTML = groupModel.getUserCount();
+
+        element = document.getElementById(ilios.gm.generateIdForEnrollmentSummary(containerNumber));
+        element.innerHTML = groupModel.getUserCount();
+    };
+    if (rootGroup.getParentGroup() === null) {
+        if(ilios.gm.emptyGroupDialog !== null){
+            ilios.gm.emptyGroupDialog.show();
+        } else {
+            var handler = function(data){
+                var element = document.getElementById('ega_radio_yes');
+                if(element.checked){
+                    ilios.gm.transaction.createGroup(false, processResultAndFillGroup);
+                } else {
+                    ilios.gm.transaction.createGroup(true, processResult);
+                }
+                ilios.gm.emptyGroupDialog.cancel();
+            };
+            ilios.gm.createEmptyGroupDialog(handler);
+        }
+
+    } else {
+        ilios.gm.transaction.createGroup(true, processResult);
+    }
+
+};
+
+ilios.gm.transaction.createGroup = function (createEmpty, successCallback) {
+    var rootGroup = ilios.gm.currentRootViewGroup;
+    var url = controllerURL + 'addNewGroup';
+    var method = "POST";
+
+    var paramString = "cohort_id=" + ilios.gm.currentModel.getCohortId() + "&group_id=";
+
+    if (rootGroup.getParentGroup() === null) {
         paramString += "-1";
     }
     else {
         paramString += rootGroup.getDBId();
     }
     paramString += "&next_container=" + rootGroup.getNextContainerNumber();
-    ajaxCallback = {
-            success: function (resultObject) {
-                var parsedObject = null;
-                var viewRoot = ilios.gm.currentRootViewGroup;
-                var newGroupModel = null;
-                var containerNumber = -1;
-                var dummyIndexPath = null;
+    paramString += '&create_empty=' + createEmpty;
 
-                try {
-                    parsedObject = YAHOO.lang.JSON.parse(resultObject.responseText);
-                }
-                catch (e) {
-                    ilios.global.defaultAJAXFailureHandler(null, e);
-
-                    return;
-                }
-
-                // MAY RETURN THIS BLOCK
-                if (parsedObject.error != null) {
-                    var i18nStr = ilios_i18nVendor.getI18NString('groups.error.group_add');
-
-                    ilios.alert.alert(i18nStr + ": " + parsedObject.error);
-
-                    return;
-                }
-
-                if (ilios.gm.subgroup.isPresentlyCollapsed) {
-                    dummyIndexPath = viewRoot.indexPath.concat();
-                    dummyIndexPath[viewRoot.indexPath.length] = 1;
-                }
-
-                newGroupModel = ilios.gm.createSubgroupModelAndUI(document.getElementById('group_container'),
-                                                                   viewRoot, parsedObject.group_id,
-                                                                   parsedObject.title, null, '', '',
-                                                                   null, null, dummyIndexPath);
-
-                containerNumber = viewRoot.getContainerNumberForSubgroup(newGroupModel);
-
-                // this functionality was done on the db side during the successful group add; we're
-                //        sparing a server transaction here
-                if (viewRoot.getParentGroup() == null) {
-                    var users = viewRoot.getUsers();
-                    var element = null;
-
-                    for (var key in users) {
-                        newGroupModel.addUser(users[key], true);
-                    }
-
-                    element
-                       = document.getElementById(ilios.gm.generateIdForEnrollment(containerNumber));
-                    element.innerHTML = newGroupModel.getUserCount();
-                }
-
-                if (ilios.gm.subgroup.isPresentlyCollapsed) {
-                    ilios.gm.subgroup.updateSubgroupCount(viewRoot);
-                }
-
-                ilios.gm.enableGroupGenerationDiv(containerNumber, (viewRoot.getParentGroup() == null));
-
-                ilios.gm.subgroup.indexPathsNeedRebuilding = true;
-            },
-
-            failure: function (resultObject) {
-                ilios.global.defaultAJAXFailureHandler(resultObject);
-            }};
-
-    YAHOO.util.Connect.asyncRequest(method, url, ajaxCallback, paramString);
+    var callback = {
+        success: successCallback,
+        failure: function (resultObject) {
+            ilios.global.defaultAJAXFailureHandler(resultObject);
+        }
+    };
+    YAHOO.util.Connect.asyncRequest(method, url, callback, paramString);
 };

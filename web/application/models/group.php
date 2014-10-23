@@ -160,10 +160,16 @@ class Group extends Ilios_Base_Model
     /*
      * @param $parentGroupId if this is equal to -1, then the group created will be a master group
      *                          of the cohort and be populated with all of the users in the cohort
+     * @param createEmpty boolean if this is true the group will be created empty
      * @return an array with the key 'error' in an error case, or the keys group_id and title
      */
-    public function addNewGroup ($cohortId, $parentGroupId, $newContainerNumber, &$auditAtoms)
-    {
+    public function addNewGroup(
+        $cohortId,
+        $parentGroupId,
+        $newContainerNumber,
+        &$auditAtoms,
+        $createEmpty = false
+    ) {
         $rhett = array();
 
         $title = $this->makeDefaultGroupTitleForSuffix($parentGroupId, $newContainerNumber);
@@ -173,13 +179,11 @@ class Group extends Ilios_Base_Model
             $msg = $this->languagemap->getI18NString('general.error.db_insert');
 
             $rhett['error'] = $msg;
-        }
-        else {
-            if ($parentGroupId == -1) {
+        } else {
+            if ($parentGroupId == -1 && !$createEmpty) {
                 $newRow = array();
                 $newRow['cohort_id'] = $cohortId;
                 $newRow['group_id'] = $newId;
-
                 $queryResults = $this->user->getUsersForCohort($cohortId);
                 foreach ($queryResults->result_array() as $row) {
                     $newRow = array();
@@ -187,8 +191,12 @@ class Group extends Ilios_Base_Model
                     $newRow['group_id'] = $newId;
 
                     $this->db->insert('group_x_user', $newRow);
-                    $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom($newId, 'group_id', 'group_x_user',
-                        Ilios_Model_AuditUtils::CREATE_EVENT_TYPE);
+                    $auditAtoms[] = Ilios_Model_AuditUtils::wrapAuditAtom(
+                        $newId,
+                        'group_id',
+                        'group_x_user',
+                        Ilios_Model_AuditUtils::CREATE_EVENT_TYPE
+                    );
                 }
             }
 

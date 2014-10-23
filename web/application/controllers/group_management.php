@@ -536,7 +536,7 @@ class Group_Management extends Ilios_Web_Controller
                 $csvData = $this->csvreader->parse_file($uploadData['full_path'], false);
 
                 $errorMessages = array();
-            
+
                 $uidMinLength = $this->config->item('uid_min_length')?$this->config->item('uid_min_length'):9;
                 $uidMaxLength = $this->config->item('uid_max_length')?$this->config->item('uid_max_length'):9;
                 $emailAddresses = array();
@@ -740,7 +740,7 @@ class Group_Management extends Ilios_Web_Controller
         }
         $uidMinLength = $this->config->item('uid_min_length')?$this->config->item('uid_min_length'):9;
         $uidMaxLength = $this->config->item('uid_max_length')?$this->config->item('uid_max_length'):9;
-        
+
         if (strlen($ucUID) < $uidMinLength) {
             $this->_printErrorXhrResponse('group_management.validate.error.campusId_too_short');
             return;
@@ -749,7 +749,7 @@ class Group_Management extends Ilios_Web_Controller
             $this->_printErrorXhrResponse('group_management.validate.error.campusId_too_long');
             return;
         }
-        
+
         if ($this->user->userExistsWithEmail($email)) {
             $this->_printErrorXhrResponse('general.error.duplicate_user_found');
             return;
@@ -806,9 +806,12 @@ class Group_Management extends Ilios_Web_Controller
      *  . 'group_id'
      *  . 'cohort_id'
      *  . 'next_container'
+     *  . 'crete_empty'
      *
      * If group_id == -1 then a new cohort-master-group will be made, and the group will be
      *  populated with all of the users in the cohort
+     *
+     * if create_empty is true then the group will be created with no members
      *
      * @return a json'd array with either the key 'error', or the keys group_id, title, and
      *              container_number (which is a passthrough of next_container)
@@ -826,6 +829,7 @@ class Group_Management extends Ilios_Web_Controller
         $cohortId = $this->input->post('cohort_id');
         $groupId = $this->input->post('group_id');
         $containerNumber = $this->input->post('next_container');
+        $createEmpty = $this->input->post('create_empty') === 'true'?true:false;
 
         $failedTransaction = true;
         $transactionRetryCount = Ilios_Database_Constants::TRANSACTION_RETRY_COUNT;
@@ -834,7 +838,13 @@ class Group_Management extends Ilios_Web_Controller
 
             $this->group->startTransaction();
 
-            $rhett = $this->group->addNewGroup($cohortId, $groupId, $containerNumber, $auditAtoms);
+            $rhett = $this->group->addNewGroup(
+                $cohortId,
+                $groupId,
+                $containerNumber,
+                $auditAtoms,
+                $createEmpty
+            );
 
             if (isset($rhett['error']) || $this->group->transactionAtomFailed()) {
                 if (! isset($rhett['error'])) {

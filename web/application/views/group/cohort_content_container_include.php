@@ -85,3 +85,31 @@
 </div>
 <!-- content_container end -->
 
+<div class="tabdialog" id="empty_group_add_dialog">
+    <div class="hd" id="empty_group_add_dialog_title"></div>
+    <div class="bd" style="position: relative;">
+        <div class="dialog_wrap">
+            <p>
+            <?php echo t('groups.empty_group_dialog.text'); ?>
+            </p>
+            <ul class="no-bullets margin-l">
+                <li>
+                    <input type="radio" name="ega_radio" id="ega_radio_yes" checked
+                        onclick="ilios.ui.radioButtonSelected(this);"/>
+                    <label for="ega_radio_yes" id="ega_radio_yes_label">
+                        <?php echo t('groups.empty_group_dialog.yes'); ?>
+                    </label>
+                </li>
+                <li>
+                    <input type="radio" name="ega_radio" id="ega_radio_no"
+                        onclick="ilios.ui.radioButtonSelected(this);"/>
+                    <label for="ega_radio_no" id="ega_radio_no_label"
+                        style="font-weight: normal;">
+                        <?php echo t('groups.empty_group_dialog.no'); ?>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="ft"></div>
+</div> <!-- end #empty_group_add_dialog -->
