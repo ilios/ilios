@@ -442,13 +442,6 @@ textarea.validation-failed {
 }
 .is-published-tbd:before, .is-scheduled:before {
     content: "\e01c";
-}
-
-.is-published-tbd:before {
-    background-color: #618B0F;
-}
-
-.is-scheduled:before {
     background-color: #CDEE6A;
 }
 
