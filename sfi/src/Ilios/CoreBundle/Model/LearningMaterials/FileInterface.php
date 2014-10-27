@@ -3,19 +3,18 @@
 namespace Ilios\CoreBundle\Model\LearningMaterials;
 
 use Ilios\CoreBundle\Model\LearningMaterialInterface;
-use Ilios\CoreBundle\Model\FileInterface as ResourceInterface;
 
 interface FileInterface extends LearningMaterialInterface
 {
     /**
-     * @param ResourceInterface $resource
+     * @param string $path
      */
-    public function setResource(ResourceInterface $resource);
+    public function setPath($path);
 
     /**
-     * @return ResourceInterface
+     * @return string
      */
-    public function getResource();
+    public function getPath();
 
     /**
      * @param bool $copyrightPermission
@@ -36,4 +35,15 @@ interface FileInterface extends LearningMaterialInterface
      * @return string
      */
     public function getCopyrightRationale();
+
+    /**
+     * @return string
+     */
+    public function getAbsolutePath();
+
+    /**
+     * @return string
+     */
+    public function getWebPath();
+
 }

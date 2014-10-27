@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Model\LearningMaterials;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Ilios\CoreBundle\Model\LearningMaterial;
-use Ilios\CoreBundle\Model\FileInterface as ResourceInterface;
 
 /**
  * Class File
@@ -11,11 +11,17 @@ use Ilios\CoreBundle\Model\FileInterface as ResourceInterface;
  */
 class File extends LearningMaterial implements FileInterface
 {
-    /**
-     * renamed: relativeFileSystemLocation
-     * @var ResourceInterface
+    /*
+     * dropped from model
+     * - filename
+     * - filesize
+     * - mime_type
      */
-    protected $resource;
+    /**
+     * renamed: relative_file_system_location
+     * @var string
+     */
+    protected $path;
 
     /**
      * renamed copyrightownership
@@ -29,19 +35,24 @@ class File extends LearningMaterial implements FileInterface
     protected $copyrightRationale;
 
     /**
-     * @param ResourceInterface $resource
+     * @var UploadedFile;
      */
-    public function setResource(ResourceInterface $resource)
+    protected $resource;
+
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
     {
-        $this->resource = $resource;
+        $this->path = $path;
     }
 
     /**
-     * @return ResourceInterface
+     * @return string
      */
-    public function getResource()
+    public function getPath()
     {
-        return $this->resource;
+        return $this->path;
     }
 
     /**
@@ -74,5 +85,70 @@ class File extends LearningMaterial implements FileInterface
     public function getCopyrightRationale()
     {
         return $this->copyrightRationale;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAbsolutePath()
+    {
+        return ($this->getResource() === null) ? null : $this->getUploadRootDir() . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebPath()
+    {
+        return ($this->getResource() === null) ? null : $this->getUploadDir() . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @param UploadedFile $resource
+     */
+    public function setResource(UploadedFile $resource)
+    {
+        $this->resource = $resource;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
+
+    /**
+     * @return void
+     */
+    public function upload()
+    {
+        if ($this->getResource() === null) {
+            return;
+        }
+
+        $this->getResource()->move(
+            $this->getUploadRootDir()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    private function getUploadRootDir()
+    {
+        return __DIR__ . "/../../../../web" . $this->getUploadDir();
+    }
+
+    /**
+     * @todo: Create magic file bucket sauce.
+     * @return string
+     */
+    private function getUploadDir()
+    {
+        $uploadDir = 'uploads';
+        return $uploadDir;
     }
 }
