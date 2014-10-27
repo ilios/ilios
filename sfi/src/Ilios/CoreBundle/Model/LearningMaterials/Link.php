@@ -20,6 +20,7 @@ class Link extends LearningMaterial implements LinkInterface
      */
     public function setWebLink($webLink)
     {
+        $this->setType(self::TYPE_LINK);
         $this->webLink = $webLink;
     }
 

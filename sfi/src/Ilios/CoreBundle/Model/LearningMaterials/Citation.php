@@ -3,12 +3,29 @@
 namespace Ilios\CoreBundle\Model\LearningMaterials;
 
 use Ilios\CoreBundle\Model\LearningMaterial;
-use Ilios\CoreBundle\Traits\DescribableTrait;
 
 class Citation extends LearningMaterial implements CitationInterface
 {
     /**
      * renamed from citation
+     * @var string
      */
-    use DescribableTrait;
+    protected $text;
+
+    /**
+     * @param string $text
+     */
+    public function setText($text)
+    {
+        $this->setType(self::TYPE_CITATION);
+        $this->text = $text;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
 }

@@ -105,19 +105,22 @@ class File extends LearningMaterial implements FileInterface
     }
 
     /**
+     * @todo: Figure out way to trigger upload through PrePersist by editing this property.
+     * Perhaps a flag property managed by doctrine that we can change based on this.
      * @param UploadedFile $resource
      */
     public function setResource(UploadedFile $resource)
     {
+        $this->setType(self::TYPE_FILE);
         $this->resource = $resource;
     }
 
     /**
-     * @return UploadedFile
+     * @return UploadedFile|\SplFileInfo
      */
     public function getResource()
     {
-        return $this->resource;
+        return ($this->resource === null && $this->path !== null) ? new \SplFileInfo($this->getAbsolutePath()) : $this->resource;
     }
 
     /**
@@ -130,8 +133,13 @@ class File extends LearningMaterial implements FileInterface
         }
 
         $this->getResource()->move(
-            $this->getUploadRootDir()
+            $this->getUploadRootDir(),
+            $this->getResource()->getClientOriginalName()
         );
+
+        $this->path = $this->getResource()->getClientOriginalName();
+
+        $this->resource = null;
     }
 
     /**

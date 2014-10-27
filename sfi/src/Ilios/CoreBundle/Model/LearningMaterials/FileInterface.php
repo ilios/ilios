@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Model\LearningMaterials;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Ilios\CoreBundle\Model\LearningMaterialInterface;
 
 interface FileInterface extends LearningMaterialInterface
@@ -36,6 +37,7 @@ interface FileInterface extends LearningMaterialInterface
      */
     public function getCopyrightRationale();
 
+
     /**
      * @return string
      */
@@ -46,4 +48,18 @@ interface FileInterface extends LearningMaterialInterface
      */
     public function getWebPath();
 
+    /**
+     * @param UploadedFile $resource
+     */
+    public function setResource(UploadedFile $resource);
+
+    /**
+     * @return UploadedFile|\SplFileInfo
+     */
+    public function getResource();
+
+    /**
+     * @return void
+     */
+    public function upload();
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Ilios\CoreBundle\Traits\DescribableTrait;
@@ -8,23 +9,27 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
 use Ilios\CoreBundle\Traits\NameableTrait;
 use Ilios\CoreBundle\Traits\TitleTrait;
 
+use Ilios\CoreBundle\Model\LearningMaterials\Citation;
+use Ilios\CoreBundle\Model\LearningMaterials\File;
+use Ilios\CoreBundle\Model\LearningMaterials\link;
+
 /**
  * Abstract Class LearningMaterial
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"file" = "File", "link" = "Link", "citation" = "Citation"})
  */
-abstract class LearningMaterial implements LearningMaterialInterface
+class LearningMaterial implements LearningMaterialInterface
 {
     use IdentifiableTrait;
     use TitleTrait;
     use NameableTrait;
     use DescribableTrait;
     use TimestampableEntity;
-    use BlameableEntity;
-
-    /**
-     * @var string
-     */
-    protected $type;
+    use BlameableEntity; //Replace owningUser
 
     /**
      * renamed Asset Creator
@@ -35,23 +40,73 @@ abstract class LearningMaterial implements LearningMaterialInterface
     /**
      * @var string
      */
-    private $token;
+    protected $token;
 
     /**
      * @var LearningMaterialUserRoleInterface
      */
-    private $userRole;
+    protected $userRole;
     
     /**
      * @var LearningMaterialStatusInterface
      */
-    private $status;
+    protected $status;
 
     /**
-     * Set token
-     *
+     * @var string
+     */
+    private $type;
+
+    /**
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_CITATION,
+            self::TYPE_FILE,
+            self::TYPE_LINK
+        ];
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        if (!in_array($type, static::getTypes())) {
+            throw new \InvalidArgumentException('Type ' . $type . ' is not a valid type.');
+        }
+
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $contentAuthor
+     */
+    public function setContentAuthor($contentAuthor)
+    {
+        $this->contentAuthor = $contentAuthor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentAuthor()
+    {
+        return $this->contentAuthor;
+    }
+
+    /**
      * @param string $token
-     * @return LearningMaterial
      */
     public function setToken($token)
     {
@@ -59,9 +114,7 @@ abstract class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * Get token
-     *
-     * @return string 
+     * @return string
      */
     public function getToken()
     {
@@ -69,15 +122,15 @@ abstract class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @param \Ilios\CoreBundle\Model\LearningMaterialStatus $status
+     * @param LearningMaterialStatusInterface $status
      */
-    public function setStatus(\Ilios\CoreBundle\Model\LearningMaterialStatus $status = null)
+    public function setStatus(LearningMaterialStatusInterface $status)
     {
         $this->status = $status;
     }
 
     /**
-     * @return \Ilios\CoreBundle\Model\LearningMaterialStatus
+     * @return LearningMaterialStatusInterface
      */
     public function getStatus()
     {
@@ -85,38 +138,15 @@ abstract class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @param \Ilios\CoreBundle\Model\User $user
+     * @param LearningMaterialUserRoleInterface $userRole
      */
-    public function setOwningUser(\Ilios\CoreBundle\Model\User $user = null)
-    {
-        $this->owningUser = $user;
-    }
-
-    /**
-     * Get owningUser
-     *
-     * @return \Ilios\CoreBundle\Model\User 
-     */
-    public function getOwningUser()
-    {
-        return $this->owningUser;
-    }
-
-    /**
-     * Set userRole
-     *
-     * @param \Ilios\CoreBundle\Model\LearningMaterialUserRole $userRole
-     * @return LearningMaterial
-     */
-    public function setUserRole(\Ilios\CoreBundle\Model\LearningMaterialUserRole $userRole)
+    public function setUserRole(LearningMaterialUserRoleInterface $userRole)
     {
         $this->userRole = $userRole;
     }
 
     /**
-     * Get userRole
-     *
-     * @return \Ilios\CoreBundle\Model\LearningMaterialUserRole 
+     * @return LearningMaterialUserRoleInterface
      */
     public function getUserRole()
     {
