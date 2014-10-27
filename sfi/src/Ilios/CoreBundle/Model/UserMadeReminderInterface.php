@@ -2,13 +2,13 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
 
 /**
  * Interface UserMadeReminderInterface
  */
-interface UserMadeReminderInterface extends IdentifiableTraitIntertface, TimestampableTraitinterface
+interface UserMadeReminderInterface extends IdentifiableTraitInterface, TimestampableTraitinterface
 {
     /**
      * @param string $note

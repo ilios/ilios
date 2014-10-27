@@ -5,14 +5,14 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\TitleTraitInterface;
 
 /**
  * Interface GroupInterface
  * @package Ilios\CoreBundle\Model
  */
-interface GroupInterface extends IdentifiableTraitIntertface, TitleTraitInterface
+interface GroupInterface extends IdentifiableTraitInterface, TitleTraitInterface
 {
     /**
      * @param string $location
@@ -103,5 +103,35 @@ interface GroupInterface extends IdentifiableTraitIntertface, TitleTraitInterfac
      * @return GroupInterface
      */
     public function getParent();
+
+    /**
+     * @param Collection $children
+     */
+    public function setChildren(Collection $children);
+
+    /**
+     * @param GroupInterface $child
+     */
+    public function addChild(GroupInterface $child);
+
+    /**
+     * @return ArrayCollection|GroupInterface[]
+     */
+    public function getChildren();
+
+    /**
+     * @param Collection $instructorGroups
+     */
+    public function setInstructorGroups(Collection $instructorGroups);
+
+    /**
+     * @param InstructorGroupInterface $instructorGroup
+     */
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup);
+
+    /**
+     * @return ArrayCollection|InstructorGroupInterface[]
+     */
+    public function getInstructorGroups();
 }
 

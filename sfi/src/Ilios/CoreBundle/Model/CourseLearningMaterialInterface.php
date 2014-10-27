@@ -5,13 +5,13 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 
 /**
  * Interface CourseLearningMaterialInterface
  * @package Ilios\CoreBundle\Model
  */
-interface CourseLearningMaterialInterface extends IdentifiableTraitIntertface
+interface CourseLearningMaterialInterface extends IdentifiableTraitInterface
 {
     /**
      * @param string $notes

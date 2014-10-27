@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\NameableTraitInterface;
 
 use Ilios\CoreBundle\Model\SchoolInterface;
@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Model\SchoolInterface;
 /**
  * Interface CurriculumInventoryInstitutionInterface
  */
-interface CurriculumInventoryInstitutionInterface extends IdentifiableTraitIntertface, NameableTraitInterface
+interface CurriculumInventoryInstitutionInterface extends IdentifiableTraitInterface, NameableTraitInterface
 {
     /**
      * @param string $aamcCode

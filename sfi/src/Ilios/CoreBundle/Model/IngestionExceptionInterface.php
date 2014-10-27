@@ -2,13 +2,11 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
-
 /**
  * Interface IngestionExceptionInterface
  * @package Ilios\CoreBundle\Model
  */
-interface IngestionExceptionInterface extends IdentifiableTraitIntertface
+interface IngestionExceptionInterface
 {
     /**
      * @param string $ingestedWideUid

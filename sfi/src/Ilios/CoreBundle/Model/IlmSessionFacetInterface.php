@@ -5,13 +5,13 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 
 /**
  * Interface IlmSessionFacetInterface
  * @package Ilios\CoreBundle\Model
  */
-interface IlmSessionFacetInterface extends IdentifiableTraitIntertface
+interface IlmSessionFacetInterface extends IdentifiableTraitInterface
 {
     /**
      * @param string $hours
@@ -62,6 +62,21 @@ interface IlmSessionFacetInterface extends IdentifiableTraitIntertface
      * @return ArrayCollection|UserInterface[]
      */
     public function getInstructors();
+
+    /**
+     * @param Collection $instructorGroups
+     */
+    public function setInstructorGroups(Collection $instructorGroups);
+
+    /**
+     * @param InstructorGroupInterface $instructorGroup
+     */
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup);
+
+    /**
+     * @return ArrayCollection|InstructorGroupInterface[]
+     */
+    public function getInstructorGroups();
 
     /**
      * @param Collection $learners

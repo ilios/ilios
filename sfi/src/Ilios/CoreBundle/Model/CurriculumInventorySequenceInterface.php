@@ -3,13 +3,13 @@
 namespace Ilios\CoreBundle\Model;
 
 use Ilios\CoreBundle\Traits\DescribableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 
 /**
  * Interface CurriculumInventorySequenceInterface
  */
 interface CurriculumInventorySequenceInterface extends
-    IdentifiableTraitIntertface,
+    IdentifiableTraitInterface,
     DescribableTraitInterface
 {
     /**

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\DescribableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\NameableTraitInterface;
 use Ilios\CoreBundle\Model\CompetencyInterface;
 
@@ -14,7 +14,7 @@ use Ilios\CoreBundle\Model\CompetencyInterface;
  * Interface AamcPcrsInterface
  */
 interface AamcPcrsInterface extends
-    IdentifiableTraitIntertface,
+    IdentifiableTraitInterface,
     NameableTraitInterface,
     DescribableTraitInterface
 {

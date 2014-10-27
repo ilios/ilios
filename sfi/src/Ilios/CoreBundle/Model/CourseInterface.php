@@ -4,13 +4,13 @@ namespace Ilios\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\TitleTraitInterface;
 
 /**
  * Interface CourseInterface
  */
-interface CourseInterface extends IdentifiableTraitIntertface, TitleTraitInterface
+interface CourseInterface extends IdentifiableTraitInterface, TitleTraitInterface
 {
     /**
      * @param integer $level

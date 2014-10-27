@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Model;
 
 use Ilios\CoreBundle\Traits\BlameableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
 
 use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
@@ -14,7 +14,7 @@ use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
 interface CurriculumInventoryExportInterface extends
     BlameableTraitInterface,
     TimestampableTraitinterface,
-    IdentifiableTraitIntertface
+    IdentifiableTraitInterface
 {
     /**
      * @param string $document

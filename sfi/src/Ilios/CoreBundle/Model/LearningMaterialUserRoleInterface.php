@@ -2,14 +2,14 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\TitleTraitInterface;
 
 /**
  * Interface LearningMaterialUserRoleInterface
  * @package Ilios\CoreBundle\Model
  */
-interface LearningMaterialUserRoleInterface extends IdentifiableTraitIntertface, TitleTraitInterface
+interface LearningMaterialUserRoleInterface extends IdentifiableTraitInterface, TitleTraitInterface
 {
     /**
      * @param Collection $learningMaterials

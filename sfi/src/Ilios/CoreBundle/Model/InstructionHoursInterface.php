@@ -2,13 +2,13 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
 
 /**
  * Interface InstructionHoursInterface
  */
-interface InstructionHoursInterface extends IdentifiableTraitIntertface, TimestampableTraitinterface
+interface InstructionHoursInterface extends IdentifiableTraitInterface, TimestampableTraitinterface
 {
     /**
      * @param integer $hoursAccrued

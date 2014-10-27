@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 
 use Ilios\CoreBundle\Model\AamcPcrsInterface;
 use Ilios\CoreBundle\Model\SchoolInterface;
@@ -15,7 +15,7 @@ use Ilios\CoreBundle\Traits\TitleTraitInterface;
  * Interface CompetencyInterface
  * @package Ilios\CoreBundle\Model
  */
-interface CompetencyInterface extends IdentifiableTraitIntertface, TitleTraitInterface
+interface CompetencyInterface extends IdentifiableTraitInterface, TitleTraitInterface
 {
     /**
      * @param SchoolInterface $school

@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 
 use Ilios\CoreBundle\Model\CourseInterface;
 use Ilios\CoreBundle\Model\ProgramYearInterface;
@@ -14,7 +14,7 @@ use Ilios\CoreBundle\Traits\TitleTraitInterface;
 /**
  * Interface CohortInterface
  */
-interface CohortInterface extends IdentifiableTraitIntertface, TitleTraitInterface
+interface CohortInterface extends IdentifiableTraitInterface, TitleTraitInterface
 {
     /**
      * @param ProgramYearInterface $programYear

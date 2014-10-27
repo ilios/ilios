@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Model\SessionTypeInterface;
 
 use Ilios\CoreBundle\Traits\DescribableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\NameableTraitInterface;
 
 /**
@@ -15,7 +15,7 @@ use Ilios\CoreBundle\Traits\NameableTraitInterface;
  * @package Ilios\CoreBundle\Model
  */
 interface AamcMethodInterface extends
-    IdentifiableTraitIntertface,
+    IdentifiableTraitInterface,
     NameableTraitInterface,
     DescribableTraitInterface
 {

@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Model;
 
 use Ilios\CoreBundle\Traits\DescribableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitIntertface;
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
 use Ilios\CoreBundle\Traits\NameableTraitInterface;
 
 use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
@@ -12,7 +12,7 @@ use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
  * Interface CurriculumInventoryAcademicLevelInterface
  */
 interface CurriculumInventoryAcademicLevelInterface extends
-    IdentifiableTraitIntertface,
+    IdentifiableTraitInterface,
     NameableTraitInterface,
     DescribableTraitInterface
 {

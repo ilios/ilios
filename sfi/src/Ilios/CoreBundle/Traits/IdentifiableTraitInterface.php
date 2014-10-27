@@ -6,7 +6,7 @@ namespace Ilios\CoreBundle\Traits;
  * Interface IdentifiableTraitIntertface
  * @package Ilios\CoreBundle\Traits
  */
-interface IdentifiableTraitIntertface
+interface IdentifiableTraitInterface
 {
     /**
      * @param int $id

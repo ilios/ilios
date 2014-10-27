@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableTrait;
 use Ilios\CoreBundle\Traits\TitleTrait;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @TODO: Ask about instructor_group table & relationship to this... Seems to break NF.
@@ -35,6 +34,11 @@ class Group implements GroupInterface
     protected $parent;
 
     /**
+     * @var ArrayCollection|GroupInterface[]
+     */
+    protected $children;
+
+    /**
      * @var ArrayCollection|IlmSessionFacetInterface[]
      */
     protected $ilmSessionFacets;
@@ -50,6 +54,12 @@ class Group implements GroupInterface
     protected $instructors;
 
     /**
+     * @todo: Redundant?
+     * @var ArrayCollection|InstructorGroupInterface[]
+     */
+    protected $instructorGroups;
+
+    /**
      * @var ArrayCollection|UserGroupInterface[]
      */
     protected $users;
@@ -63,6 +73,8 @@ class Group implements GroupInterface
         $this->users = new ArrayCollection();
         $this->ilmSessionFacets = new ArrayCollection();
         $this->offerings = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->instructorGroups = new ArrayCollection();
     }
 
     /**
@@ -223,5 +235,61 @@ class Group implements GroupInterface
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * @param Collection $children
+     */
+    public function setChildren(Collection $children)
+    {
+        $this->children = new ArrayCollection();
+
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+    }
+
+    /**
+     * @param GroupInterface $child
+     */
+    public function addChild(GroupInterface $child)
+    {
+        $this->children->add($child);
+    }
+
+    /**
+     * @return ArrayCollection|GroupInterface[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param Collection $instructorGroups
+     */
+    public function setInstructorGroups(Collection $instructorGroups)
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    /**
+     * @param InstructorGroupInterface $instructorGroup
+     */
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
+    {
+        $this->instructorGroups->add($instructorGroup);
+    }
+
+    /**
+     * @return ArrayCollection|InstructorGroupInterface[]
+     */
+    public function getInstructorGroups()
+    {
+        return $this->instructorGroups;
     }
 }

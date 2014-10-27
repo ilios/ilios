@@ -36,6 +36,11 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     protected $instructors;
 
     /**
+     * @var ArrayCollection|InstructorGroupInterface[]
+     */
+    protected $instructorGroups;
+
+    /**
      * @var ArrayCollection|UserInterface[]
      */
     protected $learners;
@@ -47,6 +52,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     {
         $this->groups = new ArrayCollection();
         $this->instructors = new ArrayCollection();
+        $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
     }
 
@@ -136,6 +142,34 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     public function getInstructors()
     {
         return $this->instructors;
+    }
+
+    /**
+     * @param Collection $instructorGroups
+     */
+    public function setInstructorGroups(Collection $instructorGroups)
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    /**
+     * @param InstructorGroupInterface $instructorGroup
+     */
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
+    {
+        $this->instructorGroups->add($instructorGroup);
+    }
+
+    /**
+     * @return ArrayCollection|InstructorGroupInterface[]
+     */
+    public function getInstructorGroups()
+    {
+        return $this->instructorGroups;
     }
 
     /**

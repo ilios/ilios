@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Model;
 
 
 /**
+ * @todo: Could be just a constant in the learning material interface...(increases performance)
  * LearningMaterialStatus
  */
 class LearningMaterialStatus

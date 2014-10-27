@@ -2,22 +2,19 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-
 /**
  * Class IngestionException
  * @package Ilios\CoreBundle\Model
  */
 class IngestionException implements IngestionExceptionInterface
 {
-    use IdentifiableTrait;
-
     /**
      * @var string
      */
     protected $ingestedWideUid;
-    
+
     /**
+     * @desc Used as primary key.
      * @var UserInterface
      */
     protected $user;
