@@ -2,21 +2,30 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
+use Ilios\CoreBundle\Traits\TitleTraitInterface;
+
 /**
  * Interface LearningMaterialStatusInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface LearningMaterialStatusInterface 
+interface LearningMaterialStatusInterface extends IdentifiableTraitInterface, TitleTraitInterface
 {
-    public function getLearningMaterialStatusId();
+    /**
+     * @param Collection $learningMaterials
+     */
+    public function setLearningMaterials(Collection $learningMaterials);
 
-    public function setTitle($title);
+    /**
+     * @param LearningMaterialInterface $learningMaterial
+     */
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial);
 
-    public function getTitle();
-
-    public function addLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial);
-
-    public function removeLearningMaterial(\Ilios\CoreBundle\Model\LearningMaterial $learningMaterial);
-
+    /**
+     * @return ArrayCollection|LearningMaterialInterface[]
+     */
     public function getLearningMaterials();
 }
-

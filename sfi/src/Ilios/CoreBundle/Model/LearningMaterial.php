@@ -31,6 +31,8 @@ class LearningMaterial implements LearningMaterialInterface
     use TimestampableEntity;
     use BlameableEntity; //Replace owningUser
 
+    protected $id;
+
     /**
      * renamed Asset Creator
      * @var string

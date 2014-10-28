@@ -2,22 +2,20 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
+use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\NameableTrait;
 
 /**
- * MeshConcept
+ * Class MeshConcept
+ * @package Ilios\CoreBundle\Model
  */
 class MeshConcept
 {
-    /**
-     * @var string
-     */
-    private $meshConceptUid;
-
-    /**
-     * @var string
-     */
-    private $name;
+    use IdentifiableTrait;
+    use NameableTrait;
+    use TimestampableEntity;
 
     /**
      * @var string
@@ -43,17 +41,6 @@ class MeshConcept
      * @var string
      */
     private $registryNumber;
-
-    /**
-     * @var \DateTime
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    private $updatedAt;
-
 
     /**
      * Set meshConceptUid
