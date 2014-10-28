@@ -1438,8 +1438,10 @@ ilios.management.user_accounts.commitUserChanges = function (userModel, passback
         if (document.getElementById('ua_faculty_role_checkbox').checked) {
             roleArray.push(3);
         }
-        if (document.getElementById('ua_former_student_role_checkbox').checked) {
-            roleArray.push(9);
+        if (! addingUser) {
+            if (document.getElementById('ua_former_student_role_checkbox').checked) {
+                roleArray.push(9);
+            }
         }
     }
 
