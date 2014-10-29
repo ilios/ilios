@@ -19,7 +19,6 @@ class MeshPreviousIndexing
      */
     private $previousIndexing;
 
-
     /**
      * Set meshDescriptorUid
      *

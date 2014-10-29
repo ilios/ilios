@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 use Ilios\CoreBundle\Traits\IdentifiableTrait;
@@ -10,8 +11,11 @@ use Ilios\CoreBundle\Traits\NameableTrait;
 /**
  * Class MeshConcept
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="product")
  */
-class MeshConcept
+class MeshConcept implements MeshConceptInterface
 {
     use IdentifiableTrait;
     use NameableTrait;
@@ -20,91 +24,38 @@ class MeshConcept
     /**
      * @var string
      */
-    private $umlsUid;
+    protected $umlsUid;
 
     /**
      * @var boolean
      */
-    private $preferred;
+    protected $preferred;
 
     /**
      * @var string
      */
-    private $scopeNote;
+    protected $scopeNote;
 
     /**
      * @var string
      */
-    private $casn1Name;
+    protected $casn1Name;
 
     /**
      * @var string
      */
-    private $registryNumber;
+    protected $registryNumber;
 
     /**
-     * Set meshConceptUid
-     *
-     * @param string $meshConceptUid
-     * @return MeshConcept
-     */
-    public function setMeshConceptUid($meshConceptUid)
-    {
-        $this->meshConceptUid = $meshConceptUid;
-
-        return $this;
-    }
-
-    /**
-     * Get meshConceptUid
-     *
-     * @return string 
-     */
-    public function getMeshConceptUid()
-    {
-        return $this->meshConceptUid;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return MeshConcept
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set umlsUid
-     *
      * @param string $umlsUid
-     * @return MeshConcept
      */
     public function setUmlsUid($umlsUid)
     {
         $this->umlsUid = $umlsUid;
-
-        return $this;
     }
 
     /**
-     * Get umlsUid
-     *
-     * @return string 
+     * @return string
      */
     public function getUmlsUid()
     {
@@ -112,22 +63,15 @@ class MeshConcept
     }
 
     /**
-     * Set preferred
-     *
      * @param boolean $preferred
-     * @return MeshConcept
      */
     public function setPreferred($preferred)
     {
         $this->preferred = $preferred;
-
-        return $this;
     }
 
     /**
-     * Get preferred
-     *
-     * @return boolean 
+     * @return boolean
      */
     public function getPreferred()
     {
@@ -135,22 +79,15 @@ class MeshConcept
     }
 
     /**
-     * Set scopeNote
-     *
      * @param string $scopeNote
-     * @return MeshConcept
      */
     public function setScopeNote($scopeNote)
     {
         $this->scopeNote = $scopeNote;
-
-        return $this;
     }
 
     /**
-     * Get scopeNote
-     *
-     * @return string 
+     * @return string
      */
     public function getScopeNote()
     {
@@ -158,22 +95,15 @@ class MeshConcept
     }
 
     /**
-     * Set casn1Name
-     *
      * @param string $casn1Name
-     * @return MeshConcept
      */
     public function setCasn1Name($casn1Name)
     {
         $this->casn1Name = $casn1Name;
-
-        return $this;
     }
 
     /**
-     * Get casn1Name
-     *
-     * @return string 
+     * @return string
      */
     public function getCasn1Name()
     {
@@ -181,71 +111,18 @@ class MeshConcept
     }
 
     /**
-     * Set registryNumber
-     *
      * @param string $registryNumber
-     * @return MeshConcept
      */
     public function setRegistryNumber($registryNumber)
     {
         $this->registryNumber = $registryNumber;
-
-        return $this;
     }
 
     /**
-     * Get registryNumber
-     *
-     * @return string 
+     * @return string
      */
     public function getRegistryNumber()
     {
         return $this->registryNumber;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return MeshConcept
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return MeshConcept
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 }

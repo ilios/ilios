@@ -2,59 +2,105 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+
+use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
+use Ilios\CoreBundle\Traits\NameableTraitInterface;
+use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
+
 /**
  * Interface MeshDescriptorInterface
  */
-interface MeshDescriptorInterface 
+interface MeshDescriptorInterface extends
+    IdentifiableTraitInterface,
+    NameableTraitInterface,
+    TimestampableTraitinterface
 {
-    public function setMeshDescriptorUid($meshDescriptorUid);
-
-    public function getMeshDescriptorUid();
-
-    public function setName($name);
-
-    public function getName();
-
+    /**
+     * @param string $annotation
+     */
     public function setAnnotation($annotation);
 
+    /**
+     * @return string
+     */
     public function getAnnotation();
 
-    public function setCreatedAt($createdAt);
+    /**
+     * @param Collection $courses
+     */
+    public function setCourses(Collection $courses);
 
-    public function getCreatedAt();
+    /**
+     * @param CourseInterface $course
+     */
+    public function addCourse(CourseInterface $course);
 
-    public function setUpdatedAt($updatedAt);
-
-    public function getUpdatedAt();
-
-    public function addCourse(\Ilios\CoreBundle\Model\Course $courses);
-
-    public function removeCourse(\Ilios\CoreBundle\Model\Course $courses);
-
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
     public function getCourses();
 
-    public function addObjective(\Ilios\CoreBundle\Model\Objective $objectives);
+    /**
+     * @param Collection $objectives
+     */
+    public function setObjectives(Collection $objectives);
 
-    public function removeObjective(\Ilios\CoreBundle\Model\Objective $objectives);
+    /**
+     * @param ObjectiveInterface $objective
+     */
+    public function addObjective(ObjectiveInterface $objective);
 
+    /**
+     * @return ArrayCollection|ObjectiveInterface[]
+     */
     public function getObjectives();
 
-    public function addSession(\Ilios\CoreBundle\Model\Session $sessions);
+    /**
+     * @param Collection $sessions
+     */
+    public function setSessions(Collection $sessions);
 
-    public function removeSession(\Ilios\CoreBundle\Model\Session $sessions);
+    /**
+     * @param SessionInterface $session
+     */
+    public function addSession(SessionInterface $session);
 
+    /**
+     * @return ArrayCollection|SessionInterface[]
+     */
     public function getSessions();
 
-    public function addSessionLearningMaterial(;
+    /**
+     * @param Collection $sessionLearningMaterials
+     */
+    public function setSessionLearningMaterials(Collection $sessionLearningMaterials);
 
-    public function removeSessionLearningMaterial(;
+    /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
 
+    /**
+     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     */
     public function getSessionLearningMaterials();
 
-    public function addCourseLearningMaterial(\Ilios\CoreBundle\Model\CourseLearningMaterial $courseLearningMaterials);
+    /**
+     * @param Collection $courseLearningMaterials
+     */
+    public function setCourseLearningMaterials(Collection $courseLearningMaterials);
 
-    public function removeCourseLearningMaterial(;
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
 
+    /**
+     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     */
     public function getCourseLearningMaterials();
 }
 

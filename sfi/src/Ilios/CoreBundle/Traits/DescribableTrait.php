@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Traits;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class DescribableTrait
  * @package Ilios\CoreBundle\Traits
@@ -9,6 +11,7 @@ namespace Ilios\CoreBundle\Traits;
 trait DescribableTrait
 {
     /**
+     * @ORM\Column(type="text")
      * @var string
      */
     protected $description;

@@ -35,20 +35,20 @@ class profile::better-bash {
         path => ['/usr/bin', '/usr/sbin', '/usr/local/bin', '/bin']
     }
 
-    file { '/home/vagrant/.nanorc':
-        owner => 'vagrant',
-        group => 'vagrant',
-        mode => 0644,
-        content => template('profile/nanorc.erb'),
-        require => Exec['clone_nano_highlight']
-    }
-
     exec { "install_bash_it":
         command => "bash -c '/home/vagrant/.bash/install.sh'",
         user => 'vagrant',
         group => 'vagrant',
         path => ['/usr/bin', '/usr/sbin', '/usr/local/bin', '/bin'],
         require => Exec['clone_bash_config']
+    }
+
+    file { '/home/vagrant/.nanorc':
+        owner => 'vagrant',
+        group => 'vagrant',
+        mode => 0644,
+        content => template('profile/nanorc.erb'),
+        require => Exec['clone_nano_highlight', 'install_bash_it']
     }
 
     notice ("Better bash installed. Might have to run \"source ~/.bashrc\"")
