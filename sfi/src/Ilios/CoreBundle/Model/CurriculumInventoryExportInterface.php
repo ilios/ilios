@@ -2,19 +2,16 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\BlameableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
+use Ilios\CoreBundle\Traits\BlameableEntityInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\TimestampableEntityinterface;
 
 use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
 
 /**
  * Interface CurriculumInventoryExportInterface
  */
-interface CurriculumInventoryExportInterface extends
-    BlameableTraitInterface,
-    TimestampableTraitinterface,
-    IdentifiableTraitInterface
+interface CurriculumInventoryExportInterface
 {
     /**
      * @param string $document

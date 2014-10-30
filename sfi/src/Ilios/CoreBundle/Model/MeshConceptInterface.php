@@ -2,18 +2,18 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\NameableTraitInterface;
-use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\NameableEntityInterface;
+use Ilios\CoreBundle\Traits\TimestampableEntityinterface;
 
 /**
  * Interface MeshConceptInterface
  * @package Ilios\CoreBundle\Model
  */
 interface MeshConceptInterface extends
-    IdentifiableTraitInterface,
-    NameableTraitInterface,
-    TimestampableTraitinterface
+    IdentifiableEntityInterface,
+    NameableEntityInterface,
+    TimestampableEntityinterface
 {
     /**
      * @param string $umlsUid

@@ -3,10 +3,10 @@
 namespace Ilios\CoreBundle\Traits;
 
 /**
- * Interface TitleTraitInterface
+ * Interface TitledEntityInterface
  * @package Ilios\CoreBundle\Traits
  */
-interface TitleTraitInterface
+interface TitledEntityInterface
 {
     /**
      * @param string $title

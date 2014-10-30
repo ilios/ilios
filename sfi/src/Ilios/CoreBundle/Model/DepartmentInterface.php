@@ -2,10 +2,13 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\TitledEntityInterface;
+
 /**
  * Interface DepartmentInterface
  */
-interface DepartmentInterface 
+interface DepartmentInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {
     /**
      * @param SchoolInterface $school

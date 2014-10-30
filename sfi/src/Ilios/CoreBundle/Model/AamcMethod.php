@@ -6,9 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Model\SessionTypeInterface;
-use Ilios\CoreBundle\Traits\DescribableTrait;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
 /**
  * Class AamcMethod
@@ -16,9 +16,9 @@ use Ilios\CoreBundle\Traits\NameableTrait;
  */
 class AamcMethod implements AamcMethodInterface
 {
-    use IdentifiableTrait;
-    use NameableTrait;
-    use DescribableTrait;
+    use UniversallyUniqueEntity;
+    use NameableEntity;
+    use DescribableEntity;
 
     /**
      * @var ArrayCollection|SessionTypeInterface[]
@@ -46,8 +46,6 @@ class AamcMethod implements AamcMethodInterface
     }
 
     /**
-     * Add sessionTypes
-     *
      * @param SessionTypeInterface $sessionType
      */
     public function addSessionType(SessionTypeInterface $sessionType)

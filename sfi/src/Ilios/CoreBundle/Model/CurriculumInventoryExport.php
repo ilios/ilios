@@ -2,30 +2,65 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Gedmo\Blameable\Traits\BlameableEntity;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Doctrine\ORM\Mapping as ORM;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * CurriculumInventoryExport
+ * @Entity
+ *
+ * Class CurriculumInventoryExport
+ * @package Ilios\CoreBundle\Model
  */
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
-    use IdentifiableTrait;
-    use BlameableEntity;
-    use TimestampableEntity;
+    /**
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="CurriculumInventoryReport")
+     *
+     * @var CurriculumInventoryReportInterface
+     */
+    protected $report;
 
     /**
+     * @ORM\Column(type="text")
+     *
      * @var string
      */
     protected $document;
 
     /**
-     * @var CurriculumInventoryReportInterface
+     * @ORM\Column(name="created_by", type="integer")
+     *
+     * @var UserInterface
      */
-    protected $report;
+    protected $createdBy;
+
+    /**
+     * @ORM\Column(name="created_on", type="datetime")
+     *
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @param CurriculumInventoryReportInterface $report
+     */
+    public function setReport(CurriculumInventoryReportInterface $report)
+    {
+        $this->report = $report;
+    }
+
+    /**
+     * @return CurriculumInventoryReportInterface
+     */
+    public function getReport()
+    {
+        return $this->report;
+    }
 
     /**
      * @param string $document
@@ -44,18 +79,34 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
+     * @param UserInterface $createdBy
      */
-    public function setReport(CurriculumInventoryReportInterface $report)
+    public function setCreatedBy(UserInterface $createdBy)
     {
-        $this->report = $report;
+        $this->createdBy = $createdBy;
     }
 
     /**
-     * @return CurriculumInventoryReportInterface
+     * @return UserInterface
      */
-    public function getReport()
+    public function getCreatedBy()
     {
-        return $this->report;
+        return $this->createdBy;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

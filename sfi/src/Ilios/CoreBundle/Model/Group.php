@@ -5,8 +5,8 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\TitleTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * @TODO: Ask about instructor_group table & relationship to this... Seems to break NF.
@@ -15,8 +15,8 @@ use Ilios\CoreBundle\Traits\TitleTrait;
  */
 class Group implements GroupInterface
 {
-    use IdentifiableTrait;
-    use TitleTrait;
+    use IdentifiableEntity;
+    use TitledEntity;
 
     /**
      * @var string

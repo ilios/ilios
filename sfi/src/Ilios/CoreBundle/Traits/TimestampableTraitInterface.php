@@ -3,10 +3,10 @@
 namespace Ilios\CoreBundle\Traits;
 
 /**
- * interface TimestampableTraitinterface
+ * interface TimestampableEntityinterface
  * @package Ilios\CoreBundle\Traits
  */
-interface TimestampableTraitinterface
+interface TimestampableEntityinterface
 {
     /**
      * @param  \DateTime $createdAt

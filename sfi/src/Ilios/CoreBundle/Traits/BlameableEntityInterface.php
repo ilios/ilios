@@ -3,10 +3,10 @@
 namespace Ilios\CoreBundle\Traits;
 
 /**
- * interface BlameableTraitInterface
+ * interface BlameableEntityInterface
  * @package Ilios\CoreBundle\Traits
  */
-interface BlameableTraitInterface
+interface BlameableEntityInterface
 {
     /**
      * @param  string $createdBy

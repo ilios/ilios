@@ -2,15 +2,15 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\DescribableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
+use Ilios\CoreBundle\Traits\DescribableEntityInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface CurriculumInventorySequenceInterface
  */
 interface CurriculumInventorySequenceInterface extends
-    IdentifiableTraitInterface,
-    DescribableTraitInterface
+    IdentifiableEntityInterface,
+    DescribableEntityInterface
 {
     /**
      * @param CurriculumInventoryReportInterface $report

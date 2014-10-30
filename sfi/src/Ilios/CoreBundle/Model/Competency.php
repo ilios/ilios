@@ -5,12 +5,12 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 use Ilios\CoreBundle\Model\CompetencyInterface;
 use Ilios\CoreBundle\Model\AamcPcrsInterface;
 use Ilios\CoreBundle\Model\SchoolInterface;
-use Ilios\CoreBundle\Traits\TitleTrait;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * Class Competency
@@ -18,8 +18,8 @@ use Ilios\CoreBundle\Traits\TitleTrait;
  */
 class Competency implements CompetencyInterface
 {
-    use IdentifiableTrait;
-    use TitleTrait;
+    use IdentifiableEntity;
+    use TitledEntity;
 
     /**
      * @var SchoolInterface

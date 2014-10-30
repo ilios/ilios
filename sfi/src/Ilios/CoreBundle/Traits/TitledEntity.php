@@ -3,10 +3,10 @@
 namespace Ilios\CoreBundle\Traits;
 
 /**
- * Class TitleTrait
+ * Class TitledEntity
  * @package Ilios\CoreBundle\Traits
  */
-trait TitleTrait
+trait TitledEntity
 {
     /**
      * @var string

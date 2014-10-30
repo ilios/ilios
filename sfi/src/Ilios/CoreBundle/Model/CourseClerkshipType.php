@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\TitleTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * Class CourseClerkshipType
@@ -11,6 +11,6 @@ use Ilios\CoreBundle\Traits\TitleTrait;
  */
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
-    use IdentifiableTrait;
-    use TitleTrait;
+    use IdentifiableEntity;
+    use TitledEntity;
 }

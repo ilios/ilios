@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Traits;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class DescribableTrait
+ * Class DescribableEntity
  * @package Ilios\CoreBundle\Traits
  */
-trait DescribableTrait
+trait DescribableEntity
 {
     /**
      * @ORM\Column(type="text")

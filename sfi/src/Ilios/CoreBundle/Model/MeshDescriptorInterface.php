@@ -6,17 +6,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\NameableTraitInterface;
-use Ilios\CoreBundle\Traits\TimestampableTraitinterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\NameableEntityInterface;
+use Ilios\CoreBundle\Traits\TimestampableEntityinterface;
 
 /**
  * Interface MeshDescriptorInterface
  */
 interface MeshDescriptorInterface extends
-    IdentifiableTraitInterface,
-    NameableTraitInterface,
-    TimestampableTraitinterface
+    IdentifiableEntityInterface,
+    NameableEntityInterface,
+    TimestampableEntityinterface
 {
     /**
      * @param string $annotation

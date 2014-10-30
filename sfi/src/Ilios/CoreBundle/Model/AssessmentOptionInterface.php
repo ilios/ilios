@@ -2,13 +2,13 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\NameableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\NameableEntityInterface;
 
 /**
  * Interface AssessmentOptionInterface
  */
-interface AssessmentOptionInterface  extends IdentifiableTraitInterface, NameableTraitInterface
+interface AssessmentOptionInterface  extends IdentifiableEntityInterface, NameableEntityInterface
 {
 }
 

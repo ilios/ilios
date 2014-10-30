@@ -6,18 +6,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Model\SessionTypeInterface;
 
-use Ilios\CoreBundle\Traits\DescribableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\NameableTraitInterface;
+use Ilios\CoreBundle\Traits\DescribableEntityInterface;
+use Ilios\CoreBundle\Traits\NameableEntityInterface;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
 
 /**
  * Interface AamcMethodInterface
  * @package Ilios\CoreBundle\Model
  */
 interface AamcMethodInterface extends
-    IdentifiableTraitInterface,
-    NameableTraitInterface,
-    DescribableTraitInterface
+    UniversallyUniqueEntityInterface,
+    NameableEntityInterface,
+    DescribableEntityInterface
 {
     /**
      * @param Collection $sessionTypes
@@ -25,8 +25,6 @@ interface AamcMethodInterface extends
     public function setSessionTypes(Collection $sessionTypes);
 
     /**
-     * Add sessionTypes
-     *
      * @param SessionTypeInterface $sessionType
      */
     public function addSessionType(SessionTypeInterface $sessionType);

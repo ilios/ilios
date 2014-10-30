@@ -5,14 +5,14 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\TitleTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface GroupInterface
  * @package Ilios\CoreBundle\Model
  */
-interface GroupInterface extends IdentifiableTraitInterface, TitleTraitInterface
+interface GroupInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {
     /**
      * @param string $location

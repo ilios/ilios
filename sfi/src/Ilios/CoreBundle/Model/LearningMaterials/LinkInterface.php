@@ -2,11 +2,13 @@
 
 namespace Ilios\CoreBundle\Model\LearningMaterials;
 
+use Ilios\CoreBundle\Model\LearningMaterialInterface;
+
 /**
  * Interface LinkInterface
  * @package Ilios\CoreBundle\Model\LearningMaterials
  */
-interface LinkInterface
+interface LinkInterface extends LearningMaterialInterface
 {
     /**
      * @param string $webLink

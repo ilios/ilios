@@ -2,13 +2,19 @@
 
 namespace Ilios\CoreBundle\Traits;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class IdentifiableTrait
+ * Class IdentifiableEntity
  * @package Ilios\CoreBundle\Traits
  */
-trait IdentifiableTrait
+trait IdentifiableEntity
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
      * @var int
      */
     protected $id;

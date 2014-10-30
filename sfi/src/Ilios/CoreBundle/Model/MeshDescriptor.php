@@ -6,8 +6,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
 /**
  * Class MeshDescriptor
@@ -15,8 +16,9 @@ use Ilios\CoreBundle\Traits\NameableTrait;
  */
 class MeshDescriptor implements MeshDescriptorInterface
 {
-    use IdentifiableTrait;
-    use NameableTrait;
+    use IdentifiableEntity;
+    use UniversallyUniqueEntity;
+    use NameableEntity;
     use TimestampableEntity;
 
     /**

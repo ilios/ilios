@@ -2,12 +2,12 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface CurriculumInventorySequenceBlockSessionInterface
  */
-interface CurriculumInventorySequenceBlockSessionInterface extends IdentifiableTraitInterface
+interface CurriculumInventorySequenceBlockSessionInterface extends IdentifiableEntityInterface
 {
     /**
      * @param boolean $countOfferingsOnce

@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 
 /**
@@ -13,7 +13,7 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
  */
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
-    use IdentifiableTrait;
+    use IdentifiableEntity;
 
     /**
      * @var string

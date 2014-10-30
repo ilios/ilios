@@ -2,14 +2,15 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
 
 /**
- * AssessmentOption
+ * Class AssessmentOption
+ * @package Ilios\CoreBundle\Model
  */
 class AssessmentOption implements AssessmentOptionInterface
 {
-    use IdentifiableTrait;
-    use NameableTrait;
+    use IdentifiableEntity;
+    use NameableEntity;
 }

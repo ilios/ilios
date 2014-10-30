@@ -2,14 +2,14 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\TitleTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface CourseClerkshipTypeInterface
  * @package Ilios\CoreBundle\Model
  */
-interface CourseClerkshipTypeInterface extends IdentifiableTraitInterface, TitleTraitInterface
+interface CourseClerkshipTypeInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {
 }
 

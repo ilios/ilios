@@ -2,11 +2,13 @@
 
 namespace Ilios\CoreBundle\Traits;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Class NameableTrait
+ * Class NameableEntity
  * @package Ilios\CoreBundle\Traits
  */
-trait NameableTrait
+trait NameableEntity
 {
     /**
      * @var string

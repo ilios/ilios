@@ -5,13 +5,13 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\TitleTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface DisciplineInterface
  */
-interface DisciplineInterface extends IdentifiableTraitInterface, TitleTraitInterface
+interface DisciplineInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {
     /**
      * @param SchoolInterface $school

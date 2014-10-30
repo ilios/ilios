@@ -2,9 +2,9 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\DescribableTraitInterface;
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
-use Ilios\CoreBundle\Traits\NameableTraitInterface;
+use Ilios\CoreBundle\Traits\DescribableEntityInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\NameableEntityInterface;
 
 use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
 
@@ -12,9 +12,9 @@ use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
  * Interface CurriculumInventoryAcademicLevelInterface
  */
 interface CurriculumInventoryAcademicLevelInterface extends
-    IdentifiableTraitInterface,
-    NameableTraitInterface,
-    DescribableTraitInterface
+    IdentifiableEntityInterface,
+    NameableEntityInterface,
+    DescribableEntityInterface
 {
     /**
      * @param integer $level

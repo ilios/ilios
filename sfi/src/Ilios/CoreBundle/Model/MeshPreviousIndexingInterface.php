@@ -2,17 +2,21 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
+
 /**
  * Interface MeshPreviousIndexingInterface
+ * @package Ilios\CoreBundle\Model
  */
-interface MeshPreviousIndexingInterface 
+interface MeshPreviousIndexingInterface extends UniversallyUniqueEntityInterface
 {
-    public function setMeshDescriptorUid($meshDescriptorUid);
-
-    public function getMeshDescriptorUid();
-
+    /**
+     * @param string $previousIndexing
+     */
     public function setPreviousIndexing($previousIndexing);
 
+    /**
+     * @return string
+     */
     public function getPreviousIndexing();
 }
-

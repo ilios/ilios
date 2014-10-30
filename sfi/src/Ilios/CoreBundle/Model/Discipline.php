@@ -5,8 +5,8 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\TitleTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * Class Discipline
@@ -14,8 +14,8 @@ use Ilios\CoreBundle\Traits\TitleTrait;
  */
 class Discipline implements DisciplineInterface
 {
-    use IdentifiableTrait;
-    use TitleTrait;
+    use IdentifiableEntity;
+    use TitledEntity;
 
     /**
      * @var SchoolInterface

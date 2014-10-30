@@ -2,9 +2,9 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\DescribableTrait;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
 
 use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
 
@@ -14,9 +14,9 @@ use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
  */
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-    use IdentifiableTrait;
-    use NameableTrait;
-    use DescribableTrait;
+    use IdentifiableEntity;
+    use NameableEntity;
+    use DescribableEntity;
 
     /**
      * @var integer

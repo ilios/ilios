@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class IlmSessionFacet
@@ -13,7 +13,7 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
  */
 class IlmSessionFacet implements IlmSessionFacetInterface
 {
-    use IdentifiableTrait;
+    use IdentifiableEntity;
 
     /**
      * @var string

@@ -5,13 +5,13 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Ilios\CoreBundle\Traits\IdentifiableTraitInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface IlmSessionFacetInterface
  * @package Ilios\CoreBundle\Model
  */
-interface IlmSessionFacetInterface extends IdentifiableTraitInterface
+interface IlmSessionFacetInterface extends IdentifiableEntityInterface
 {
     /**
      * @param string $hours

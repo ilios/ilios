@@ -5,16 +5,20 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-use Ilios\CoreBundle\Traits\DescribableTrait;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Model\CompetencyInterface;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
+/**
+ * Class AamcPcrs
+ * @package Ilios\CoreBundle\Model
+ */
 class AamcPcrs implements AamcPcrsInterface
 {
-    use IdentifiableTrait;
-    use NameableTrait;
-    use DescribableTrait;
+    use UniversallyUniqueEntity;
+    use NameableEntity;
+    use DescribableEntity;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]

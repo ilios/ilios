@@ -2,13 +2,15 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
 /**
- * MeshQualifier
+ * Class MeshQualifier
+ * @package Ilios\CoreBundle\Model
  */
 class MeshQualifier
 {
+    use UniversallyUniqueEntity;
     /**
      * @var string
      */

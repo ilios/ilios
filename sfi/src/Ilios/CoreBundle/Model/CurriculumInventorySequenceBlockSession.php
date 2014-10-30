@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class CurriculumInventorySequenceBlockSession
@@ -10,7 +10,7 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
  */
 class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequenceBlockSessionInterface
 {
-    use IdentifiableTrait;
+    use IdentifiableEntity;
 
     /**
      * @var boolean

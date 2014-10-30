@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Ilios\CoreBundle\Traits\DescribableTrait;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
-use Ilios\CoreBundle\Traits\TitleTrait;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 use Ilios\CoreBundle\Model\LearningMaterials\Citation;
 use Ilios\CoreBundle\Model\LearningMaterials\File;
@@ -24,10 +24,10 @@ use Ilios\CoreBundle\Model\LearningMaterials\link;
  */
 class LearningMaterial implements LearningMaterialInterface
 {
-    use IdentifiableTrait;
-    use TitleTrait;
-    use NameableTrait;
-    use DescribableTrait;
+    use IdentifiableEntity;
+    use TitledEntity;
+    use NameableEntity;
+    use DescribableEntity;
     use TimestampableEntity;
     use BlameableEntity; //Replace owningUser
 

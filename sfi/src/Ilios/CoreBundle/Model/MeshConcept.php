@@ -5,8 +5,8 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
 
 /**
  * Class MeshConcept
@@ -17,8 +17,8 @@ use Ilios\CoreBundle\Traits\NameableTrait;
  */
 class MeshConcept implements MeshConceptInterface
 {
-    use IdentifiableTrait;
-    use NameableTrait;
+    use IdentifiableEntity;
+    use NameableEntity;
     use TimestampableEntity;
 
     /**

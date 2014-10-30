@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\NameableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
 
 use Ilios\CoreBundle\Model\SchoolInterface;
 
@@ -13,8 +13,8 @@ use Ilios\CoreBundle\Model\SchoolInterface;
  */
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
-    use IdentifiableTrait;
-    use NameableTrait;
+    use IdentifiableEntity;
+    use NameableEntity;
 
     /**
      * @var string

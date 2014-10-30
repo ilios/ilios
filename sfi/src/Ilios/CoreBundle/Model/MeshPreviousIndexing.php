@@ -2,17 +2,15 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
 /**
- * MeshPreviousIndexing
+ * Class MeshPreviousIndexing
+ * @package Ilios\CoreBundle\Model
  */
-class MeshPreviousIndexing
+class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 {
-    /**
-     * @var string
-     */
-    private $meshDescriptorUid;
+    use UniversallyUniqueEntity;
 
     /**
      * @var string
@@ -20,45 +18,15 @@ class MeshPreviousIndexing
     private $previousIndexing;
 
     /**
-     * Set meshDescriptorUid
-     *
-     * @param string $meshDescriptorUid
-     * @return MeshPreviousIndexing
-     */
-    public function setMeshDescriptorUid($meshDescriptorUid)
-    {
-        $this->meshDescriptorUid = $meshDescriptorUid;
-
-        return $this;
-    }
-
-    /**
-     * Get meshDescriptorUid
-     *
-     * @return string 
-     */
-    public function getMeshDescriptorUid()
-    {
-        return $this->meshDescriptorUid;
-    }
-
-    /**
-     * Set previousIndexing
-     *
      * @param string $previousIndexing
-     * @return MeshPreviousIndexing
      */
     public function setPreviousIndexing($previousIndexing)
     {
         $this->previousIndexing = $previousIndexing;
-
-        return $this;
     }
 
     /**
-     * Get previousIndexing
-     *
-     * @return string 
+     * @return string
      */
     public function getPreviousIndexing()
     {

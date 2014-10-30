@@ -2,18 +2,18 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\DescribableTrait;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\TitleTrait;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * CurriculumInventorySequenceBlock
  */
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-    use IdentifiableTrait;
-    use DescribableTrait;
-    use TitleTrait;
+    use IdentifiableEntity;
+    use DescribableEntity;
+    use TitledEntity;
 
     /**
      * @var boolean

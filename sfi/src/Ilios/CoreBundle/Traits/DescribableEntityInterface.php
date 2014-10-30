@@ -3,10 +3,10 @@
 namespace Ilios\CoreBundle\Traits;
 
 /**
- * Interface DescribableTraitInterface
+ * Interface DescribableEntityInterface
  * @package Ilios\CoreBundle\Traits
  */
-interface DescribableTraitInterface
+interface DescribableEntityInterface
 {
     /**
      * @param string $description

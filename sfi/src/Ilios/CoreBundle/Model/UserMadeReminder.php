@@ -3,7 +3,7 @@
 namespace Ilios\CoreBundle\Model;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 
 /**
@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
  */
 class UserMadeReminder implements UserMadeReminderInterface
 {
-    use IdentifiableTrait;
+    use IdentifiableEntity;
     use TimestampableEntity;
 
     /**

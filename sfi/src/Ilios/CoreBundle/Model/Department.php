@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
-use Ilios\CoreBundle\Traits\TitleTrait;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 
 /**
@@ -11,8 +11,8 @@ use Ilios\CoreBundle\Traits\TitleTrait;
  */
 class Department implements DepartmentInterface
 {
-    use IdentifiableTrait;
-    use TitleTrait;
+    use IdentifiableEntity;
+    use TitledEntity;
 
     /**
      * @var SchoolInterface

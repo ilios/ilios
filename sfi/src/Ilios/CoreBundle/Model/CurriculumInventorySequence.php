@@ -2,8 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\DescribableTrait;
-use Ilios\CoreBundle\Traits\IdentifiableTrait;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 
 /**
@@ -11,8 +11,8 @@ use Ilios\CoreBundle\Traits\IdentifiableTrait;
  */
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
-    use IdentifiableTrait;
-    use DescribableTrait;
+    use IdentifiableEntity;
+    use DescribableEntity;
 
     /**
      * @var CurriculumInventoryReportInterface
