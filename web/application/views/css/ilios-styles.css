@@ -450,6 +450,16 @@ textarea.validation-failed {
     background-color: #FF9C00;
 }
 
+.offering-in-draft .dhx_body::before {
+    content: "\2757";
+    background-color: #FF9C00;
+    padding-right: 1em;
+}
+
+.offering-in-draft .dhx_body {
+  border: dashed 1px #ff9c00;
+}
+
 .is-locked:before {
     content: "\e018";
     background-color: #666;

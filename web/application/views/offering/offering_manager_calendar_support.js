@@ -64,6 +64,11 @@ ilios.om.calendar.initCalendar = function () {
                 rhett += sessionTypeModel.sessionTypeCssClass;
             }
 
+            //set the 'is-draft' class if the offering is in draft mode (publishEventId === -1)
+            if (event.iliosModel.publishEventId === -1){
+                rhett += " offering-in-draft";
+            }
+
             rhett += event.iliosModel.isReadOnly() ? ' read-only-event' : '';
 
             if (event.iliosModel.isSelected) {
