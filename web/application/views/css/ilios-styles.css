@@ -455,6 +455,25 @@ textarea.validation-failed {
     background-color: #666;
 }
 
+/* set the styling for offerings on the calendar that are in draft mode */
+.offering-in-draft .dhx_body::before,
+.offering-in-draft.dhx_wa_ev_body::before,
+.offering-in-draft.dhx_cal_event_clear::before {
+    background-color: #FFF;
+    color: #FF9C00;
+    content: "\2757";
+    font-family: 'ilios-icons';
+    font-style: normal;
+    margin-right: .2em;
+    speak: none;
+}
+
+.offering-in-draft .dhx_body,
+.offering-in-draft.dhx_wa_ev_body,
+.offering-in-draft.dhx_cal_event_clear {
+    border: dashed 1px #FDD403;
+    font-style: italic;
+}
 
 /********************************/
 /*Some useful global styles     */
