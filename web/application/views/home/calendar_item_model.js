@@ -28,6 +28,7 @@ function CalendarItemModel (dbObject) {
 
     } else {
         this.offeringId = dbObject.offering_id;
+        this.publishEventId = dbObject.publish_event_id;
         this.sessionId = dbObject.session_id;
         this.courseId = dbObject.course_id;
 
@@ -62,6 +63,10 @@ function CalendarItemModel (dbObject) {
 
 CalendarItemModel.prototype.getOfferingId = function () {
     return this.offeringId;
+};
+
+CalendarItemModel.prototype.getPublishEventId = function () {
+    return this.publishEventId;
 };
 
 CalendarItemModel.prototype.getSessionId = function () {
