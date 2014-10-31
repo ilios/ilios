@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 

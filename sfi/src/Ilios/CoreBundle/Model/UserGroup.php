@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @desc Class to replace the current many2many classes in Group with user. Follows
  * Class UserGroup

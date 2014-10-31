@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Class IngestionException
  * @package Ilios\CoreBundle\Model

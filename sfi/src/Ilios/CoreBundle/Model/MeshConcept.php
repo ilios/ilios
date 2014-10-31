@@ -5,19 +5,19 @@ namespace Ilios\CoreBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
 /**
  * Class MeshConcept
  * @package Ilios\CoreBundle\Model
  *
  * @ORM\Entity
- * @ORM\Table(name="product")
+ * @ORM\Table(name="mesh_concept")
  */
 class MeshConcept implements MeshConceptInterface
 {
-    use IdentifiableEntity;
+    use UniversallyUniqueEntity;
     use NameableEntity;
     use TimestampableEntity;
 

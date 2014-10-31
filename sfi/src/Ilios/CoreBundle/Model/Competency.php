@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
@@ -15,6 +16,9 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 /**
  * Class Competency
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="competency")
  */
 class Competency implements CompetencyInterface
 {
@@ -23,21 +27,31 @@ class Competency implements CompetencyInterface
 
     /**
      * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="competencies")
+     * @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
      */
     protected $school;
 
     /**
      * @var CompetencyInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Competency", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_competency_id", referencedColumnName="competency_id")
      */
     protected $parent;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Competency", mappedBy="parent")
      */
     protected $children;
 
     /**
      * @var ArrayCollection|AamcPcrsInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="AamcPcrs")
      */
     protected $aamcPcrses;
 

@@ -15,7 +15,6 @@ use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
  */
 interface AamcPcrsInterface extends
     UniversallyUniqueEntityInterface,
-    NameableEntityInterface,
     DescribableEntityInterface
 {
     /**

@@ -41,6 +41,8 @@ class SessionType
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\JoinTable(name="session_type_x_aamc_method")
      */
     private $aamcMethods;
 

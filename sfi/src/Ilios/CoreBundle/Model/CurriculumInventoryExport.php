@@ -4,16 +4,15 @@ namespace Ilios\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-
 use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Ilios\CoreBundle\Model\UserInterface;
 
 /**
- * @Entity
- *
  * Class CurriculumInventoryExport
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="curriculum_inventory_export")
  */
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {

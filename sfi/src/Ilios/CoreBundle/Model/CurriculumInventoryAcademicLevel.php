@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;

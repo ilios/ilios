@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ProgramYear
@@ -68,6 +68,8 @@ class ProgramYear
      * @var \Ilios\CoreBundle\Model\PublishEvent
      */
     private $publishEvent;
+
+    protected $cohorts;
 
     /**
      * Constructor

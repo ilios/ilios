@@ -2,12 +2,14 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
-
 /**
- * CurriculumInventorySequence
+ * Class CurriculumInventorySequence
+ * @package Ilios\CoreBundle\Model
  */
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {

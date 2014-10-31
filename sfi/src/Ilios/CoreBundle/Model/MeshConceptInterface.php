@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityinterface;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
 
 /**
  * Interface MeshConceptInterface
  * @package Ilios\CoreBundle\Model
  */
 interface MeshConceptInterface extends
-    IdentifiableEntityInterface,
+    UniversallyUniqueEntityInterface,
     NameableEntityInterface,
     TimestampableEntityinterface
 {

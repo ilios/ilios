@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
@@ -14,6 +15,9 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 /**
  * Class Cohort
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="cohort")
  */
 class Cohort implements CohortInterface
 {
@@ -22,11 +26,16 @@ class Cohort implements CohortInterface
 
     /**
      * @var ProgramYearInterface
+     *
+     * @ORM\ManyToOne(targetEntity="ProgramYear", inversedBy="cohorts")
+     * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id")
      */
     protected $programYear;
 
     /**
-     * @var CourseInterface[]|ArrayCollection
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="cohorts")
      */
     protected $courses;
 

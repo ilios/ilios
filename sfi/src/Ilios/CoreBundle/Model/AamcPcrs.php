@@ -4,24 +4,28 @@ namespace Ilios\CoreBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
-use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Model\CompetencyInterface;
 use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
 /**
  * Class AamcPcrs
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="aamc_pcrs")
  */
 class AamcPcrs implements AamcPcrsInterface
 {
     use UniversallyUniqueEntity;
-    use NameableEntity;
     use DescribableEntity;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Competency")
      */
     protected $competencies;
 

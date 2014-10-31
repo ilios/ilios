@@ -4,11 +4,17 @@ namespace Ilios\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * Course
+ * Class Course
+ * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="course")
  */
 class Course implements CourseInterface
 {
@@ -17,87 +23,148 @@ class Course implements CourseInterface
 
     /**
      * @var integer
+     *
+     * @ORM\Column(type="smallint", name="course_level")
      */
     protected $level;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(type="smallint")
      */
     protected $year;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="start_date")
      */
     protected $startDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="end_date")
      */
     protected $endDate;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean", name="deleted")
      */
     protected $deleted;
 
     /**
-     * @TODO: Talk with Sascha about this.
      * @var string
+     *
+     * @ORM\Column(type="string", length=18, name="external_id")
      */
     protected $externalName;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean")
      */
     protected $locked;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean")
      */
     protected $archived;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean", name="published_as_tbd")
      */
     protected $publishedAsTbd;
 
     /**
      * @var CourseClerkshipTypeInterface
+     *
+     * @ORM\ManyToOne(targetEntity="CourseClerkshipType", inversedBy="courses")
+     * @ORM\JoinColumn(name="clerkship_type_id", referencedColumnName="course_clerkship_type_id")
      */
     protected $clerkshipType;
 
     /**
      * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="courses")
+     * @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
      */
     protected $school;
 
     /**
      * @var PublishEventInterface
+     *
+     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="courses")
+     * @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
      */
     protected $publishEvent;
 
     /**
      * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User")
+     * @ORM\JoinTable(
+     *      name="course_directors",
+     *      joinColumns={@ORM\JoinColumn(name="course_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id")}
+     * )
      */
     protected $directors;
 
     /**
      * @var ArrayCollection|CohortInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="courses")
+     * @ORM\JoinTable(
+     *      name="course_x_cohort",
+     *      joinColumns={@ORM\JoinColumn(name="course_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="cohort_id")}
+     * )
      */
     protected $cohorts;
 
     /**
      * @var ArrayCollection|DisciplineInterface[]
+
+     * @ORM\ManyToMany(targetEntity="Discipline", inversedBy="courses")
+     * @ORM\JoinTable(
+     *      name="course_x_discipline",
+     *      joinColumns={@ORM\JoinColumn(name="course_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="discipline_id")}
+     * )
      */
     protected $disciplines;
 
     /**
      * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="courses")
+     * @ORM\JoinTable(
+     *      name="course_x_objective",
+     *      joinColumns={@ORM\JoinColumn(name="course_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="objective_id")}
+     * )
      */
     protected $objectives;
 
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courses")
+     * @ORM\JoinTable(
+     *      name="course_x_mesh",
+     *      joinColumns={@ORM\JoinColumn(name="course_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="mesh_descriptor_uid")}
+     * )
      */
     protected $meshDescriptors;
 

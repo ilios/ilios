@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * PublishEvent
@@ -39,6 +39,7 @@ class PublishEvent
      */
     private $administrator;
 
+    protected $courses;
 
     /**
      * Get publishEventId

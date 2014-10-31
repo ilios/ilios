@@ -44,6 +44,10 @@ class School
      */
     private $alerts;
 
+    protected $competencies;
+
+    protected $courses;
+
     /**
      * Constructor
      */

@@ -2,9 +2,10 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * InstructionHours

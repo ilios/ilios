@@ -16,7 +16,6 @@ use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
  */
 interface AamcMethodInterface extends
     UniversallyUniqueEntityInterface,
-    NameableEntityInterface,
     DescribableEntityInterface
 {
     /**

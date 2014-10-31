@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Model\SessionTypeInterface;
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -13,15 +14,19 @@ use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 /**
  * Class AamcMethod
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="aamc_method")
  */
 class AamcMethod implements AamcMethodInterface
 {
     use UniversallyUniqueEntity;
-    use NameableEntity;
     use DescribableEntity;
 
     /**
      * @var ArrayCollection|SessionTypeInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="SessionType", mappedBy="aamcMethods")
      */
     protected $sessionTypes;
 
