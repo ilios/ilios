@@ -65,7 +65,7 @@ ilios.home.calendar.initCalendar = function () {
                 rhett += " selected_calendar_event";
             }
 
-            //set the 'event-in-draft' class if the event is in draft mode (publishEventId === -1)
+            //set the 'event-in-draft' class if the event is in draft mode (no publishEventId value)
             if ((event.iliosModel.hasOwnProperty('publishEventId')) && (!event.iliosModel.publishEventId)){
                 rhett += " event-in-draft";
             }
