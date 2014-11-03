@@ -34,14 +34,14 @@ interface CourseLearningMaterialInterface extends IdentifiableEntityInterface
     public function isRequired();
 
     /**
-     * @param boolean $publicNote
+     * @param boolean $publicNotes
      */
-    public function setPublicNote($publicNote);
+    public function setPublicNotes($publicNotes);
 
     /**
      * @return boolean
      */
-    public function hasPublicNote();
+    public function hasPublicNotes();
 
     /**
      * @param CourseInterface $course

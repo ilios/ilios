@@ -9,6 +9,7 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 
 /**
  * Interface CourseInterface
+ * @package Ilios\CoreBundle\Model
  */
 interface CourseInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {

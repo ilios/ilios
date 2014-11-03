@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 trait NameableEntity
 {
     /**
+     * @ORM\Column(type="string", length=20)
+     *
      * @var string
      */
     protected $name;

@@ -169,6 +169,13 @@ class Course implements CourseInterface
     protected $meshDescriptors;
 
     /**
+     * @var ArrayCollection|CourseLearningMaterialInterface[]
+     *
+     * @ORM\OneToMany()
+     */
+    protected $courseLearningMaterials;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -178,6 +185,7 @@ class Course implements CourseInterface
         $this->disciplines = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
+        $this->courseLearningMaterials = new ArrayCollection();
     }
 
     /**
@@ -500,5 +508,33 @@ class Course implements CourseInterface
     public function getPublishEvent()
     {
         return $this->publishEvent;
+    }
+
+    /**
+     * @param Collection $courseLearningMaterials
+     */
+    public function setLearningMaterials(Collection $courseLearningMaterials)
+    {
+        $this->courseLearningMaterials = new ArrayCollection();
+
+        foreach ($courseLearningMaterials as $courseLearningMaterial) {
+            $this->addCourseLearningMaterial($courseLearningMaterial);
+        }
+    }
+
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    {
+        $this->courseLearningMaterials->add($courseLearningMaterial);
+    }
+
+    /**
+     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     */
+    public function getCourseLearningMaterials()
+    {
+        return $this->courseLearningMaterials;
     }
 }

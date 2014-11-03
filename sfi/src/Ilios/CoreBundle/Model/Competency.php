@@ -56,7 +56,10 @@ class Competency implements CompetencyInterface
     protected $aamcPcrses;
 
     /**
+     * @todo: Ask about owning/inverse sides in these relationships...
      * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="competencies")
      */
     protected $programYears;
 

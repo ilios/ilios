@@ -24,7 +24,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     /**
      * @var ArrayCollection|CourseInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="clerkshipType")
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="clerkshipType")
      */
     protected $courses;
 

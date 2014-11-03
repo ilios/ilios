@@ -8,9 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
-
 /**
- * CourseLearningMaterial
+ * Class CourseLearningMaterial
+ * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="competency")
  */
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
@@ -18,31 +21,49 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="text")
      */
     protected $notes;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean")
      */
     protected $required;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean")
      */
-    protected $publicNote;
+    protected $publicNotes;
 
     /**
      * @var CourseInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="courseLearningMaterials")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
      */
     protected $course;
 
     /**
      * @var LearningMaterialInterface
+     *
+     * @ORM\ManyToOne(targetEntity="LearningMaterial", inversedBy="courseLearningMaterials")
+     * @ORM\JoinColumn(name="learning_material_id", referencedColumnName="id")
      */
     protected $learningMaterial;
 
     /**
      * @var ArrayCollection|MeshDescriptor[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courseLearningMaterials")
+     * @ORM\JoinTable(
+     *      name="course_learning_material_x_mesh",
+     *      joinColumns={@ORM\JoinColumn(name="course_learning_material_id", referencedColumnName="")}
+     * )
      */
     protected $meshDescriptors;
 
@@ -87,19 +108,19 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     }
 
     /**
-     * @param boolean $publicNote
+     * @param boolean $publicNotes
      */
-    public function setPublicNote($publicNote)
+    public function setPublicNotes($publicNotes)
     {
-        $this->publicNote = $publicNote;
+        $this->publicNotes = $publicNotes;
     }
 
     /**
      * @return boolean
      */
-    public function hasPublicNote()
+    public function hasPublicNotes()
     {
-        return $this->publicNote;
+        return $this->publicNotes;
     }
 
     /**
