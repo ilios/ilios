@@ -637,7 +637,7 @@ EOL;
             default :
                 if ($student_role) {
         $sql =<<< EOL
-SELECT DISTINCT d.offering_id, d.offering_publish_event_id AS `offering_publish_event_id`, d.start_date, d.end_date, d.session_id, d.room,
+SELECT DISTINCT d.offering_id, d.offering_publish_event_id AS `offering_publish_event_id`, d.offering_publish_event_id AS `publish_event_id`, d.start_date, d.end_date, d.session_id, d.room,
 d.course_id, d.course_publish_event_id AS `course_publish_event_id`, d.course_title, d.year, d.course_level,
 d.session_type_id, d.session_title, d.session_publish_event_id AS `session_publish_event_id`, d.session_type_css_class, d.recently_updated,
 d.published_as_tbd, d.course_published_as_tbd
@@ -658,7 +658,6 @@ EOL;
                 $sql .= " ORDER BY d.start_date ASC, d.offering_id ASC";
         }
         $queryResults = $this->db->query($sql);
-        error_log($this->db->last_query());
 
         $rhett = array();
         foreach ($queryResults->result_array() as $row) {

@@ -17,6 +17,7 @@ function CalendarItemModel (dbObject) {
         this.offeringId = -1;
         this.sessionId = -1;
         this.courseId = -1;
+        this.publishEventId = -1;
 
         this.startDate = null;
         this.endDate = null;
@@ -28,7 +29,10 @@ function CalendarItemModel (dbObject) {
 
     } else {
         this.offeringId = dbObject.offering_id;
-        this.publishEventId = dbObject.publish_event_id;
+        this.publishEventId
+            = ((dbObject.publish_event_id < 1) || (dbObject.publish_event_id == null))
+            ? -1
+            : dbObject.publish_event_id;
         this.sessionId = dbObject.session_id;
         this.courseId = dbObject.course_id;
 
