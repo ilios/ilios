@@ -455,10 +455,10 @@ textarea.validation-failed {
     background-color: #666;
 }
 
-/* set the styling for offerings on the calendar that are in draft mode */
-.offering-in-draft .dhx_body::before,
-.offering-in-draft.dhx_wa_ev_body::before,
-.offering-in-draft.dhx_cal_event_clear::before {
+/* set the styling for offerings on the calendar that are in draft mode using pseudo-class '::before' */
+.event-in-draft .dhx_body::before,
+.event-in-draft.dhx_wa_ev_body::before,
+.event-in-draft.dhx_cal_event_clear::before {
     background-color: #FFF;
     color: #FF9C00;
     content: "\2757";
@@ -468,11 +468,28 @@ textarea.validation-failed {
     speak: none;
 }
 
-.offering-in-draft .dhx_body,
-.offering-in-draft.dhx_wa_ev_body,
-.offering-in-draft.dhx_cal_event_clear {
+.event-in-draft .dhx_body,
+.event-in-draft.dhx_wa_ev_body,
+.event-in-draft.dhx_cal_event_clear {
     border: dashed 1px #FDD403;
     font-style: italic;
+}
+
+/* because the 'laboratory' offering-type class has a color of #ffcc67, which is very similar to
+  the draft-mode dashed border, it is hard to see, so we set white dashed border instead of #FDD403 */
+.event-in-draft.laboratory .dhx_body,
+.event-in-draft.laboratory.dhx_wa_ev_body,
+.event-in-draft.laboratory.dhx_cal_event_clear { 
+    border: dashed 1px #FFFFFF;
+}
+
+/* ...and, finally, because the .dhx_body applies to the offering info body AND the small menu items,
+   we need to make sure that nothing is prepended for the draft mode of the
+   .dhx_body attached to the .dhx_cal_select_menu class */
+.event-in-draft.dhx_cal_select_menu .dhx_body::before {
+  content: "";
+  /* also set content to 'none' for Safari support */
+  content: none;
 }
 
 /********************************/

@@ -548,9 +548,9 @@ EOL;
         // SELECT clause
         $sql =<<< EOL
 SELECT DISTINCT
-o.offering_id, o.start_date, o.end_date, o.session_id, o.room,
-c.course_id, c.title AS course_title, c.year, c.course_level,
-s.session_type_id, s.title AS session_title,
+o.offering_id, o.publish_event_id AS `offering_publish_event_id`, o.start_date, o.end_date, o.session_id, o.room,
+c.course_id, c.publish_event_id AS `course_publish_event_id`, c.title AS course_title, c.year, c.course_level,
+s.session_type_id, s.title AS session_title, s.publish_event_id AS `session_publish_event_id`, s.publish_event_id AS `publish_event_id`,
 st.session_type_css_class,
 EOL;
         // if a negative value has been given for the "last updated offset"
@@ -637,9 +637,9 @@ EOL;
             default :
                 if ($student_role) {
         $sql =<<< EOL
-SELECT DISTINCT d.offering_id, d.start_date, d.end_date, d.session_id, d.room,
-d.course_id, d.course_title, d.year, d.course_level,
-d.session_type_id, d.session_title, d.session_type_css_class, d.recently_updated,
+SELECT DISTINCT d.offering_id, d.offering_publish_event_id AS `offering_publish_event_id`, d.start_date, d.end_date, d.session_id, d.room,
+d.course_id, d.course_publish_event_id AS `course_publish_event_id`, d.course_title, d.year, d.course_level,
+d.session_type_id, d.session_title, d.session_publish_event_id AS `session_publish_event_id`, d.session_publish_event_id AS `publish_event_id`, d.session_type_css_class, d.recently_updated,
 d.published_as_tbd, d.course_published_as_tbd
 FROM (
 EOL;
@@ -647,9 +647,9 @@ EOL;
                     $sql .= ") AS d";
                 } else {
                     $sql =<<< EOL
-SELECT DISTINCT d.offering_id, d.start_date, d.end_date, d.session_id, d.room,
-d.course_id, d.course_title, d.year, d.course_level,
-d.session_type_id, d.session_title, d.session_type_css_class, d.recently_updated
+SELECT DISTINCT d.offering_id, d.offering_publish_event_id AS `offering_publish_event_id`, d.start_date, d.end_date, d.session_id, d.room,
+d.course_id, d.course_publish_event_id AS `course_publish_event_id`, d.course_title, d.year, d.course_level,
+d.session_type_id, d.session_title, d.session_publish_event_id AS `session_publish_event_id`, d.session_publish_event_id AS `publish_event_id`, d.session_type_css_class, d.recently_updated
 FROM (
 EOL;
                     $sql .= implode("\n UNION \n", $subqueries);
@@ -658,6 +658,7 @@ EOL;
                 $sql .= " ORDER BY d.start_date ASC, d.offering_id ASC";
         }
         $queryResults = $this->db->query($sql);
+        error_log($this->db->last_query());
 
         $rhett = array();
         foreach ($queryResults->result_array() as $row) {
