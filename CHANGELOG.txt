@@ -5,7 +5,7 @@ Version 2.4.8
 Bug Fixes:
 
 #715 Fixed an inability to save new users caused by the former students option added in #327
-#725 Re-adds stored procedure mistakenly dropped in migration 29 [405d712] as part of new migration 31
+#725 Fixes wrong stored procedure being dropped [405d712] and re-adds it to new migration #724 
 
 Feature Changes:
 
