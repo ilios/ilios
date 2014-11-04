@@ -1,5 +1,18 @@
 ------- VERSION CHANGES --------
 
+Version 2.4.8
+
+Bug Fixes:
+
+#715 Fixed an inability to save new users caused by the former students option added in #327
+
+Feature Changes:
+
+#701 For "Scheduled" Sessions, use a Color other than green
+#611 Provide an option for populating new user groups
+
+---
+
 Version 2.4.7
 
 Bug Fixes:
