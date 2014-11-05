@@ -17,7 +17,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     /**
      * @var string
      */
-    private $previousIndexing;
+    protected $previousIndexing;
 
     /**
      * @param string $previousIndexing

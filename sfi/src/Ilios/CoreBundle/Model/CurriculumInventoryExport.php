@@ -17,31 +17,32 @@ use Ilios\CoreBundle\Model\UserInterface;
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
     /**
+     * @var CurriculumInventoryReportInterface
+     *
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="CurriculumInventoryReport")
-     *
-     * @var CurriculumInventoryReportInterface
+     * @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
      */
     protected $report;
 
     /**
-     * @ORM\Column(type="text")
-     *
      * @var string
+     *
+     * @ORM\Column(type="text")
      */
     protected $document;
 
     /**
-     * @ORM\Column(name="created_by", type="integer")
-     *
      * @var UserInterface
+     *
+     * @ORM\Column(name="created_by", type="int")
      */
     protected $createdBy;
 
     /**
-     * @ORM\Column(name="created_on", type="datetime")
-     *
      * @var \DateTime
+     *
+     * @ORM\Column(name="created_on", type="datetime")
      */
     protected $createdAt;
 

@@ -7,7 +7,7 @@ use Mockery as m;
 /**
  * Tests for Model CurriculumInventorySequenceBlockSession
  */
-class CurriculumInventorySequenceBlockSessionTest extends ModelBase
+class CurriculumInventorySequenceBlockSessionTest extends BaseModel
 {
     /**
      * @var CurriculumInventorySequenceBlockSession
@@ -28,7 +28,7 @@ class CurriculumInventorySequenceBlockSessionTest extends ModelBase
      */
     public function testGetSequenceBlockSessionId()
     {
-        $this->basicGetTest('sequenceBlockSessionId', 'integer');
+        $this->basicGetTest('sequenceBlockSessionId', 'int');
     }
 
     /**

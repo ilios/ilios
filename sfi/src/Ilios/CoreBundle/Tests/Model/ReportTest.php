@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Report
  */
-class ReportTest extends ModelBase
+class ReportTest extends BaseModel
 {
     /**
      * @var Report
@@ -29,7 +29,7 @@ class ReportTest extends ModelBase
      */
     public function testGetReportId()
     {
-        $this->basicGetTest('reportId', 'integer');
+        $this->basicGetTest('reportId', 'int');
     }
 
     /**

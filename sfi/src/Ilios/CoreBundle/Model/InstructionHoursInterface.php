@@ -11,12 +11,12 @@ use Ilios\CoreBundle\Traits\TimestampableEntityinterface;
 interface InstructionHoursInterface extends IdentifiableEntityInterface, TimestampableEntityinterface
 {
     /**
-     * @param integer $hoursAccrued
+     * @param int $hoursAccrued
      */
     public function setHoursAccrued($hoursAccrued);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getHoursAccrued();
 

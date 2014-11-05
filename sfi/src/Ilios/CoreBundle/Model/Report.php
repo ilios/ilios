@@ -10,44 +10,44 @@ use Doctrine\ORM\Mapping as ORM;
 class Report
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $reportId;
+    protected $reportId;
 
     /**
      * @var \DateTime
      */
-    private $creationDate;
+    protected $creationDate;
 
     /**
      * @var string
      */
-    private $subject;
+    protected $subject;
 
     /**
      * @var string
      */
-    private $prepositionalObject;
+    protected $prepositionalObject;
 
     /**
      * @var boolean
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var \Ilios\CoreBundle\Model\User $user
      */
-    private $user;
+    protected $user;
 
     /**
      * Get reportId
      *
-     * @return integer 
+     * @return int 
      */
     public function getReportId()
     {

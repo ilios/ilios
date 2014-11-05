@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model UserMadeReminder
  */
-class UserMadeReminderTest extends ModelBase
+class UserMadeReminderTest extends BaseModel
 {
     /**
      * @var UserMadeReminder
@@ -29,7 +29,7 @@ class UserMadeReminderTest extends ModelBase
      */
     public function testGetUserMadeReminderId()
     {
-        $this->basicGetTest('userMadeReminderId', 'integer');
+        $this->basicGetTest('userMadeReminderId', 'int');
     }
 
     /**

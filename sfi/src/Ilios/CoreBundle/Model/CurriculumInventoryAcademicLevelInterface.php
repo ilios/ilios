@@ -17,12 +17,12 @@ interface CurriculumInventoryAcademicLevelInterface extends
     DescribableEntityInterface
 {
     /**
-     * @param integer $level
+     * @param int $level
      */
     public function setLevel($level);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLevel();
 

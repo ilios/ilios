@@ -10,64 +10,64 @@ use Doctrine\ORM\Mapping as ORM;
 class Offering
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $offeringId;
+    protected $offeringId;
 
     /**
      * @var string
      */
-    private $room;
+    protected $room;
 
     /**
      * @var \DateTime
      */
-    private $startDate;
+    protected $startDate;
 
     /**
      * @var \DateTime
      */
-    private $endDate;
+    protected $endDate;
 
     /**
      * @var boolean
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var \DateTime
      */
-    private $lastUpdatedOn;
+    protected $lastUpdatedOn;
 
     /**
      * @var \Ilios\CoreBundle\Model\Session
      */
-    private $session;
+    protected $session;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $groups;
+    protected $groups;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $instructorGroups;
+    protected $instructorGroups;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $users;
+    protected $users;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $reccuringEvents;
+    protected $reccuringEvents;
 
     /**
      * @var \Ilios\CoreBundle\Model\PublishEvent
      */
-    private $publishEvent;
+    protected $publishEvent;
 
     /**
      * Constructor
@@ -84,7 +84,7 @@ class Offering
     /**
      * Get offeringId
      *
-     * @return integer
+     * @return int
      */
     public function getOfferingId()
     {

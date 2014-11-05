@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 class SessionDescription
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $sessionId;
+    protected $sessionId;
 
     /**
      * @var string
      */
-    private $description;
+    protected $description;
 
     /**
      * @var \Ilios\CoreBundle\Model\Session
      */
-    private $session;
+    protected $session;
 
 
     /**
      * Set sessionId
      *
-     * @param integer $sessionId
+     * @param int $sessionId
      * @return SessionDescription
      */
     public function setSessionId($sessionId)
@@ -41,7 +41,7 @@ class SessionDescription
     /**
      * Get sessionId
      *
-     * @return integer 
+     * @return int 
      */
     public function getSessionId()
     {

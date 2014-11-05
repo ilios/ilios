@@ -21,8 +21,23 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  */
 class Cohort implements CohortInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use TitledEntity;
+
+    /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=14, name="cohort_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $cohortId;
+
+    /**
+     * @var int
+     */
+    protected $id;
 
     /**
      * @var ProgramYearInterface
@@ -45,6 +60,23 @@ class Cohort implements CohortInterface
     public function __construct()
     {
         $this->courses = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->cohortId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->cohortId : $this->id;
     }
 
     /**

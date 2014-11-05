@@ -51,8 +51,8 @@ class AuditAtomManager extends BaseAuditAtomManager
      *
      * @param array $criteria
      * @param array $orderBy
-     * @param integer $limit
-     * @param integer $offset
+     * @param int $limit
+     * @param int $offset
      *
      * @return AuditAtomInterface[]|Collection
      */

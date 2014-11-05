@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Competency
  */
-class CompetencyTest extends ModelBase
+class CompetencyTest extends BaseModel
 {
     /**
      * @var Competency
@@ -37,7 +37,7 @@ class CompetencyTest extends ModelBase
      */
     public function testGetCompetencyId()
     {
-        $this->basicGetTest('competencyId', 'integer');
+        $this->basicGetTest('competencyId', 'int');
     }
 
     /**

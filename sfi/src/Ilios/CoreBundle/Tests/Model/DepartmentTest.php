@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Department
  */
-class DepartmentTest extends ModelBase
+class DepartmentTest extends BaseModel
 {
     /**
      * @var Department
@@ -29,7 +29,7 @@ class DepartmentTest extends ModelBase
      */
     public function testGetDepartmentId()
     {
-        $this->basicGetTest('departmentId', 'integer');
+        $this->basicGetTest('departmentId', 'int');
     }
 
     /**

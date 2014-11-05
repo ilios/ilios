@@ -6,7 +6,7 @@ use Ilios\CoreBundle\Model\AamcMethod;
 /**
  * Tests for Model AamcMethod
  */
-class AamcMethodTest extends ModelBase
+class AamcMethodTest extends BaseModel
 {
     /**
      * @var AamcMethod
@@ -34,7 +34,7 @@ class AamcMethodTest extends ModelBase
      */
     public function testSetMethodId()
     {
-        $this->basicSetTest('id', 'integer');
+        $this->basicSetTest('id', 'int');
     }
 
     /**
@@ -42,7 +42,7 @@ class AamcMethodTest extends ModelBase
      */
     public function testGetMethodId()
     {
-        $this->basicGetTest('id', 'integer');
+        $this->basicGetTest('id', 'int');
     }
 
     /**

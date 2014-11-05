@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 trait UniversallyUniqueEntity
 {
     /**
-     * @ORM\Column(type="string", length=15)
-     *
      * @var string
+     *
+     * @ORM\Column(type="string", length=15)
      */
     protected $uuid;
 

@@ -13,11 +13,26 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * @package Ilios\CoreBundle\Model
  *
  * @ORM\Entity
- * @ORM\Table(name="competency")
+ * @ORM\Table(name="course_learning_material")
  */
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
+
+    /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=14, name="course_learning_material_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $courseLearningMaterialId;
+
+    /**
+     * @var int
+     */
+    protected $id;
 
     /**
      * @var string
@@ -52,7 +67,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @var LearningMaterialInterface
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterial", inversedBy="courseLearningMaterials")
-     * @ORM\JoinColumn(name="learning_material_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="learning_material_id", referencedColumnName="learning_material_id")
      */
     protected $learningMaterial;
 
@@ -73,6 +88,23 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function __construct()
     {
         $this->meshDescriptors = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->courseLearningMaterialId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->courseLearningMaterialId : $this->id;
     }
 
     /**

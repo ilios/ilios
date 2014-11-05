@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Course
  */
-class CourseTest extends ModelBase
+class CourseTest extends BaseModel
 {
     /**
      * @var Course
@@ -40,7 +40,7 @@ class CourseTest extends ModelBase
      */
     public function testGetCourseId()
     {
-        $this->basicGetTest('courseId', 'integer');
+        $this->basicGetTest('courseId', 'int');
     }
 
     /**
@@ -64,7 +64,7 @@ class CourseTest extends ModelBase
      */
     public function testSetCourseLevel()
     {
-        $this->basicSetTest('courseLevel', 'integer');
+        $this->basicSetTest('courseLevel', 'int');
     }
 
     /**
@@ -72,7 +72,7 @@ class CourseTest extends ModelBase
      */
     public function testGetCourseLevel()
     {
-        $this->basicGetTest('courseLevel', 'integer');
+        $this->basicGetTest('courseLevel', 'int');
     }
 
     /**
@@ -80,7 +80,7 @@ class CourseTest extends ModelBase
      */
     public function testSetYear()
     {
-        $this->basicSetTest('year', 'integer');
+        $this->basicSetTest('year', 'int');
     }
 
     /**
@@ -88,7 +88,7 @@ class CourseTest extends ModelBase
      */
     public function testGetYear()
     {
-        $this->basicGetTest('year', 'integer');
+        $this->basicGetTest('year', 'int');
     }
 
     /**

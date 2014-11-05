@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Permission
  */
-class PermissionTest extends ModelBase
+class PermissionTest extends BaseModel
 {
     /**
      * @var Permission
@@ -29,7 +29,7 @@ class PermissionTest extends ModelBase
      */
     public function testGetPermissionId()
     {
-        $this->basicGetTest('permissionId', 'integer');
+        $this->basicGetTest('permissionId', 'int');
     }
 
     /**
@@ -37,7 +37,7 @@ class PermissionTest extends ModelBase
      */
     public function testSetUserId()
     {
-        $this->basicSetTest('userId', 'integer');
+        $this->basicSetTest('userId', 'int');
     }
 
     /**
@@ -45,7 +45,7 @@ class PermissionTest extends ModelBase
      */
     public function testGetUserId()
     {
-        $this->basicGetTest('userId', 'integer');
+        $this->basicGetTest('userId', 'int');
     }
 
     /**
@@ -85,7 +85,7 @@ class PermissionTest extends ModelBase
      */
     public function testSetTableRowId()
     {
-        $this->basicSetTest('tableRowId', 'integer');
+        $this->basicSetTest('tableRowId', 'int');
     }
 
     /**
@@ -93,7 +93,7 @@ class PermissionTest extends ModelBase
      */
     public function testGetTableRowId()
     {
-        $this->basicGetTest('tableRowId', 'integer');
+        $this->basicGetTest('tableRowId', 'int');
     }
 
     /**

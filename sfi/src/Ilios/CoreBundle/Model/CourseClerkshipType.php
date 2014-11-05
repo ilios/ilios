@@ -22,6 +22,21 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     use TitledEntity;
 
     /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=10, name="course_clerkship_type_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $courseClerkshipTypeId;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="clerkshipType")
@@ -31,6 +46,23 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     public function __construct()
     {
         $this->courses = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->courseClerkshipTypeId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->courseClerkshipTypeId : $this->id;
     }
 
     /**

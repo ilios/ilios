@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Program
  */
-class ProgramTest extends ModelBase
+class ProgramTest extends BaseModel
 {
     /**
      * @var Program
@@ -29,7 +29,7 @@ class ProgramTest extends ModelBase
      */
     public function testGetProgramId()
     {
-        $this->basicGetTest('programId', 'integer');
+        $this->basicGetTest('programId', 'int');
     }
 
     /**
@@ -69,7 +69,7 @@ class ProgramTest extends ModelBase
      */
     public function testSetDuration()
     {
-        $this->basicSetTest('duration', 'integer');
+        $this->basicSetTest('duration', 'int');
     }
 
     /**
@@ -77,7 +77,7 @@ class ProgramTest extends ModelBase
      */
     public function testGetDuration()
     {
-        $this->basicGetTest('duration', 'integer');
+        $this->basicGetTest('duration', 'int');
     }
 
     /**

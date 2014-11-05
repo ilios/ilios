@@ -10,49 +10,49 @@ use Doctrine\ORM\Mapping as ORM;
 class Objective
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $objectiveId;
+    protected $objectiveId;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var \Ilios\CoreBundle\Model\Competency
      */
-    private $competency;
+    protected $competency;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $courses;
+    protected $courses;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $programYears;
+    protected $programYears;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $sessions;
+    protected $sessions;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $children;
+    protected $children;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $meshDescriptors;
+    protected $meshDescriptors;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $parents;
+    protected $parents;
 
     /**
      * Constructor
@@ -70,7 +70,7 @@ class Objective
     /**
      * Get objectiveId
      *
-     * @return integer 
+     * @return int 
      */
     public function getObjectiveId()
     {
@@ -126,7 +126,7 @@ class Objective
     /**
      * Get competency id
      *
-     * @return integer|null
+     * @return int|null
      */
     public function getCompetencyId()
     {

@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Authentication
  */
-class AuthenticationTest extends ModelBase
+class AuthenticationTest extends BaseModel
 {
     /**
      * @var Authentication
@@ -29,7 +29,7 @@ class AuthenticationTest extends ModelBase
      */
     public function testSetPersonId()
     {
-        $this->basicSetTest('personId', 'integer');
+        $this->basicSetTest('personId', 'int');
     }
 
     /**
@@ -37,7 +37,7 @@ class AuthenticationTest extends ModelBase
      */
     public function testGetPersonId()
     {
-        $this->basicGetTest('personId', 'integer');
+        $this->basicGetTest('personId', 'int');
     }
 
     /**

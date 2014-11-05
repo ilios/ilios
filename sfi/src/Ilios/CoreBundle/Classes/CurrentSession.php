@@ -23,7 +23,7 @@ class CurrentSession
     /**
      * Get the user id
      *
-     * @return integer
+     * @return int
      */
     public function getUserId()
     {

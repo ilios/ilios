@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -15,45 +17,92 @@ use Ilios\CoreBundle\Model\ProgramInterface;
 /**
  * Class CurriculumInventoryReport
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="curriculum_inventory_report")
  */
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use NameableEntity;
     use DescribableEntity;
 
     /**
-     * @var integer
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=10, name="report_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $reportId;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="smallint", length=4)
      */
     protected $year;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="start_date")
      */
     protected $startDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="end_date")
      */
     protected $endDate;
 
     /**
-     * @var CurriculumInventoryExportInterface
+     * @var ArrayCollection|CurriculumInventoryExportInterface[]
      */
-    protected $export;
+    protected $exports;
 
     /**
-     * @var CurriculumInventorySequenceInterface
+     * @var ArrayCollection|CurriculumInventorySequenceInterface[]
      */
-    protected $sequence;
+    protected $sequences;
 
     /**
      * @var ProgramInterface
      */
     protected $program;
 
+    public function __construct()
+    {
+        $this->exports = new ArrayCollection();
+        $this->sequences = new ArrayCollection();
+    }
+
     /**
-     * @param integer $year
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->reportId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->reportId : $this->id;
+    }
+
+    /**
+     * @param int $year
      */
     public function setYear($year)
     {
@@ -61,7 +110,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getYear()
     {
@@ -133,35 +182,59 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @param CurriculumInventoryExportInterface $export
+     * @param Collection $exports
      */
-    public function setExport(CurriculumInventoryExportInterface $export)
+    public function setExports(Collection $exports)
     {
-        $this->export = $export;
+        $this->exports = new ArrayCollection();
+
+        foreach ($exports as $export) {
+            $this->addExport($export);
+        }
     }
 
     /**
-     * @return CurriculumInventoryExportInterface
+     * @param CurriculumInventoryExportInterface $export
      */
-    public function getExport()
+    public function addExport(CurriculumInventoryExportInterface $export)
     {
-        return $this->export;
+        $this->exports->add($export);
+    }
+
+    /**
+     * @return ArrayCollection|CurriculumInventoryExportInterface[]
+     */
+    public function getExports()
+    {
+        return $this->exports;
+    }
+
+    /**
+     * @param Collection $sequences
+     */
+    public function setSequences(Collection $sequences)
+    {
+        $this->sequences = new ArrayCollection();
+
+        foreach ($sequences as $sequence) {
+            $this->addSequence($sequence);
+        }
     }
 
     /**
      * @param CurriculumInventorySequenceInterface $sequence
      */
-    public function setSequence(CurriculumInventorySequenceInterface $sequence)
+    public function addSequence(CurriculumInventorySequenceInterface $sequence)
     {
-        $this->sequence = $sequence;
+        $this->sequences->add($sequence);
     }
 
     /**
-     * @return CurriculumInventorySequenceInterface
+     * @return ArrayCollection|CurriculumInventorySequenceInterface[]
      */
     public function getSequence()
     {
-        return $this->sequence;
+        return $this->sequences;
     }
 
     /**

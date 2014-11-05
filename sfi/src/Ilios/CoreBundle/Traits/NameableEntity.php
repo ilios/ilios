@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait NameableEntity
 {
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=200)
      *
      * @var string
      */

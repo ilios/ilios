@@ -12,46 +12,88 @@ use Ilios\CoreBundle\Model\SchoolInterface;
 /**
  * Class CurriculumInventoryInstitution
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="curriculum_inventory_institution")
  */
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use NameableEntity;
 
     /**
-     * @var string
+     * @var int
      */
-    private $aamcCode;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=10)
      */
-    private $addressStreet;
+    protected $aamcCode;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=100, name="address_street")
      */
-    private $addressCity;
+    protected $streetAddress;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=100, name="address_city")
      */
-    private $addressStateOrProvince;
+    protected $city;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=100, name="state_or_province")
      */
-    private $addressZipcode;
+    protected $state;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=10, name="address_zipcode")
      */
-    private $addressCountryCode;
+    protected $zipCode;
 
     /**
+     * @todo: get country list from SF service/convert to foreign key to a country table
+     * @var string
+     *
+     * @ORM\Column(type="string", length=2, name="address_country_code")
+     */
+    protected $countryCode;
+
+    /**
+     * @todo Create a proper ID column in the DB. There's currently no uniqueness enforced...
      * @var SchoolInterface
+     *
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="curriculumInventoryInsitutions")
+     * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      */
-    private $school;
+    protected $school;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        throw new \LogicException('This method should not be called until table has proper primary key.');
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->getSchool()->getId() : $this->id;
+    }
 
     /**
      * @param string $aamcCode
@@ -155,6 +197,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     public function setSchool(SchoolInterface $school)
     {
         $this->school = $school;
+        $this->id = $school->getId();
     }
 
     /**

@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Discipline
  */
-class DisciplineTest extends ModelBase
+class DisciplineTest extends BaseModel
 {
     /**
      * @var Discipline
@@ -38,7 +38,7 @@ class DisciplineTest extends ModelBase
      */
     public function testGetDisciplineId()
     {
-        $this->basicGetTest('disciplineId', 'integer');
+        $this->basicGetTest('disciplineId', 'int');
     }
 
     /**

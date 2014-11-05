@@ -7,7 +7,7 @@ use Mockery as m;
 /**
  * Tests for Model LearningMaterial
  */
-class LearningMaterialTest extends ModelBase
+class LearningMaterialTest extends BaseModel
 {
     /**
      * @var LearningMaterial
@@ -27,7 +27,7 @@ class LearningMaterialTest extends ModelBase
      */
     public function testGetLearningMaterialId()
     {
-        $this->basicGetTest('learningMaterialId', 'integer');
+        $this->basicGetTest('learningMaterialId', 'int');
     }
 
     /**
@@ -99,7 +99,7 @@ class LearningMaterialTest extends ModelBase
      */
     public function testSetFilesize()
     {
-        $this->basicSetTest('filesize', 'integer');
+        $this->basicSetTest('filesize', 'int');
     }
 
     /**
@@ -107,7 +107,7 @@ class LearningMaterialTest extends ModelBase
      */
     public function testGetFilesize()
     {
-        $this->basicGetTest('filesize', 'integer');
+        $this->basicGetTest('filesize', 'int');
     }
 
     /**

@@ -10,79 +10,79 @@ use Doctrine\ORM\Mapping as ORM;
 class Session
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $sessionId;
+    protected $sessionId;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var boolean
      */
-    private $attireRequired;
+    protected $attireRequired;
 
     /**
      * @var boolean
      */
-    private $equipmentRequired;
+    protected $equipmentRequired;
 
     /**
      * @var boolean
      */
-    private $supplemental;
+    protected $supplemental;
 
     /**
      * @var boolean
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var boolean
      */
-    private $publishedAsTbd;
+    protected $publishedAsTbd;
 
     /**
      * @var \DateTime
      */
-    private $lastUpdatedOn;
+    protected $lastUpdatedOn;
 
     /**
      * @var \Ilios\CoreBundle\Model\SessionType
      */
-    private $sessionType;
+    protected $sessionType;
 
     /**
      * @var \Ilios\CoreBundle\Model\Course
      */
-    private $course;
+    protected $course;
 
     /**
      * @var \Ilios\CoreBundle\Model\IlmSessionFacet
      */
-    private $ilmSessionFacet;
+    protected $ilmSessionFacet;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $disciplines;
+    protected $disciplines;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $objectives;
+    protected $objectives;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $meshDescriptors;
+    protected $meshDescriptors;
 
     /**
      * @var \Ilios\CoreBundle\Model\PublishEvent
      */
-    private $publishEvent;
+    protected $publishEvent;
 
     /**
      * Constructor
@@ -103,7 +103,7 @@ class Session
     /**
      * Get sessionId
      *
-     * @return integer
+     * @return int
      */
     public function getSessionId()
     {

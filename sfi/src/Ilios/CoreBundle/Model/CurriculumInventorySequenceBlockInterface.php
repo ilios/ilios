@@ -35,32 +35,32 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function hasChildSequenceOrder();
 
     /**
-     * @param integer $orderInSequence
+     * @param int $orderInSequence
      */
     public function setOrderInSequence($orderInSequence);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getOrderInSequence();
 
     /**
-     * @param integer $minimum
+     * @param int $minimum
      */
     public function setMinimum($minimum);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getMinimum();
 
     /**
-     * @param integer $maximum
+     * @param int $maximum
      */
     public function setMaximum($maximum);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getMaximum();
 
@@ -95,12 +95,12 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function getEndDate();
 
     /**
-     * @param integer $duration
+     * @param int $duration
      */
     public function setDuration($duration);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getDuration();
 

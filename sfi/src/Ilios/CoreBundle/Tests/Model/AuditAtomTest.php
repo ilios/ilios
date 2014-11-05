@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model AuditAtom
  */
-class AuditAtomTest extends ModelBase
+class AuditAtomTest extends BaseModel
 {
     /**
      * @var AuditAtom
@@ -29,7 +29,7 @@ class AuditAtomTest extends ModelBase
      */
     public function testGetAuditAtomId()
     {
-        $this->basicGetTest('auditAtomId', 'integer');
+        $this->basicGetTest('auditAtomId', 'int');
     }
 
     /**
@@ -37,7 +37,7 @@ class AuditAtomTest extends ModelBase
      */
     public function testSetTableRowId()
     {
-        $this->basicSetTest('tableRowId', 'integer');
+        $this->basicSetTest('tableRowId', 'int');
     }
 
     /**
@@ -45,7 +45,7 @@ class AuditAtomTest extends ModelBase
      */
     public function testGetTableRowId()
     {
-        $this->basicGetTest('tableRowId', 'integer');
+        $this->basicGetTest('tableRowId', 'int');
     }
 
     /**

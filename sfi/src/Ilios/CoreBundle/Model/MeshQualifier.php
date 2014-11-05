@@ -16,22 +16,22 @@ class MeshQualifier
     /**
      * @var string
      */
-    private $meshQualifierUid;
+    protected $meshQualifierUid;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
 
     /**

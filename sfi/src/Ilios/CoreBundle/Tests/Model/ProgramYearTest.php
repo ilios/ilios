@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model ProgramYear
  */
-class ProgramYearTest extends ModelBase
+class ProgramYearTest extends BaseModel
 {
     /**
      * @var ProgramYear
@@ -39,7 +39,7 @@ class ProgramYearTest extends ModelBase
      */
     public function testGetProgramYearId()
     {
-        $this->basicGetTest('programYearId', 'integer');
+        $this->basicGetTest('programYearId', 'int');
     }
 
     /**
@@ -47,7 +47,7 @@ class ProgramYearTest extends ModelBase
      */
     public function testSetStartYear()
     {
-        $this->basicSetTest('startYear', 'integer');
+        $this->basicSetTest('startYear', 'int');
     }
 
     /**
@@ -55,7 +55,7 @@ class ProgramYearTest extends ModelBase
      */
     public function testGetStartYear()
     {
-        $this->basicGetTest('startYear', 'integer');
+        $this->basicGetTest('startYear', 'int');
     }
 
     /**

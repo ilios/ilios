@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model MeshPreviousIndexing
  */
-class MeshPreviousIndexingTest extends ModelBase
+class MeshPreviousIndexingTest extends BaseModel
 {
     /**
      * @var MeshPreviousIndexing

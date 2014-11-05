@@ -10,39 +10,39 @@ namespace Ilios\CoreBundle\Model;
 class School
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $schoolId;
+    protected $schoolId;
 
     /**
      * @var string
      */
-    private $templatePrefix;
+    protected $templatePrefix;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
      */
-    private $iliosAdministratorEmail;
+    protected $iliosAdministratorEmail;
 
     /**
      * @var boolean
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var string
      */
-    private $changeAlertRecipients;
+    protected $changeAlertRecipients;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $alerts;
+    protected $alerts;
 
     protected $competencies;
 
@@ -69,7 +69,7 @@ class School
     /**
      * Get schoolId
      *
-     * @return integer 
+     * @return int 
      */
     public function getSchoolId()
     {

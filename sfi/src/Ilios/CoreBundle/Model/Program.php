@@ -10,50 +10,50 @@ use Doctrine\ORM\Mapping as ORM;
 class Program
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $programId;
+    protected $programId;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
      */
-    private $shortTitle;
+    protected $shortTitle;
 
     /**
-     * @var integer
+     * @var int
      */
-    private $duration;
-
-    /**
-     * @var boolean
-     */
-    private $deleted;
+    protected $duration;
 
     /**
      * @var boolean
      */
-    private $publishedAsTbd;
+    protected $deleted;
+
+    /**
+     * @var boolean
+     */
+    protected $publishedAsTbd;
 
     /**
      * @var \Ilios\CoreBundle\Model\PublishEvent
      */
-    private $publishEvent;
+    protected $publishEvent;
 
     /**
      * @var \Ilios\CoreBundle\Model\School
      */
-    private $owningSchool;
+    protected $owningSchool;
 
 
     /**
      * Get programId
      *
-     * @return integer
+     * @return int
      */
     public function getProgramId()
     {

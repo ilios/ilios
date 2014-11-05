@@ -2,6 +2,9 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
@@ -15,12 +18,12 @@ interface CurriculumInventoryReportInterface extends
     DescribableEntityInterface
 {
     /**
-     * @param integer $year
+     * @param int $year
      */
     public function setYear($year);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getYear();
 
@@ -65,22 +68,32 @@ interface CurriculumInventoryReportInterface extends
     public function getEndDate();
 
     /**
-     * @param CurriculumInventoryExportInterface $export
+     * @param Collection $exports
      */
-    public function setExport(CurriculumInventoryExportInterface $export);
+    public function setExports(Collection $exports);
 
     /**
-     * @return CurriculumInventoryExportInterface
+     * @param CurriculumInventoryExportInterface $export
      */
-    public function getExport();
+    public function addExport(CurriculumInventoryExportInterface $export);
+
+    /**
+     * @return ArrayCollection|CurriculumInventoryExportInterface[]
+     */
+    public function getExports();
+
+    /**
+     * @param Collection $sequences
+     */
+    public function setSequences(Collection $sequences);
 
     /**
      * @param CurriculumInventorySequenceInterface $sequence
      */
-    public function setSequence(CurriculumInventorySequenceInterface $sequence);
+    public function addSequence(CurriculumInventorySequenceInterface $sequence);
 
     /**
-     * @return CurriculumInventorySequenceInterface
+     * @return ArrayCollection|CurriculumInventorySequenceInterface[]
      */
     public function getSequence();
 

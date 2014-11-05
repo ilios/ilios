@@ -10,41 +10,41 @@ namespace Ilios\CoreBundle\Model;
 class SessionType
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $sessionTypeId;
+    protected $sessionTypeId;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
      */
-    private $sessionTypeCssClass;
+    protected $sessionTypeCssClass;
 
     /**
      * @var boolean
      */
-    private $assessment;
+    protected $assessment;
 
     /**
      * @var \Ilios\CoreBundle\Model\AssessmentOption
      */
-    private $assessmentOption;
+    protected $assessmentOption;
 
     /**
      * @var \Ilios\CoreBundle\Model\School
      */
-    private $owningSchool;
+    protected $owningSchool;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\JoinTable(name="session_type_x_aamc_method")
      */
-    private $aamcMethods;
+    protected $aamcMethods;
 
     /**
      * Constructor
@@ -57,7 +57,7 @@ class SessionType
     /**
      * Get sessionTypeId
      *
-     * @return integer 
+     * @return int 
      */
     public function getSessionTypeId()
     {

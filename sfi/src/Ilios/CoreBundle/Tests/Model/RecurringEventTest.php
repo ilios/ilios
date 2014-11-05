@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model RecurringEvent
  */
-class RecurringEventTest extends ModelBase
+class RecurringEventTest extends BaseModel
 {
     /**
      * @var RecurringEvent
@@ -37,7 +37,7 @@ class RecurringEventTest extends ModelBase
      */
     public function testGetRecurringEventId()
     {
-        $this->basicGetTest('recurringEventId', 'integer');
+        $this->basicGetTest('recurringEventId', 'int');
     }
 
     /**
@@ -173,7 +173,7 @@ class RecurringEventTest extends ModelBase
      */
     public function testSetRepetitionCount()
     {
-        $this->basicSetTest('repetitionCount', 'integer');
+        $this->basicSetTest('repetitionCount', 'int');
     }
 
     /**
@@ -181,7 +181,7 @@ class RecurringEventTest extends ModelBase
      */
     public function testGetRepetitionCount()
     {
-        $this->basicGetTest('repetitionCount', 'integer');
+        $this->basicGetTest('repetitionCount', 'int');
     }
 
     /**

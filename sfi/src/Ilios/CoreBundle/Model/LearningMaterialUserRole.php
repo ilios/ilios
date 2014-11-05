@@ -21,7 +21,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     /**
      * @var ArrayCollection|LearningMaterialInterface[]
      */
-    private $learningMaterials;
+    protected $learningMaterials;
 
     /**
      * Constructor

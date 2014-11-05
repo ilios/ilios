@@ -13,25 +13,65 @@ use Ilios\CoreBundle\Model\CurriculumInventoryReportInterface;
 /**
  * Class CurriculumInventoryAcademicLevel
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="competency")
  */
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity; //Implement on 3.1
     use NameableEntity;
     use DescribableEntity;
 
     /**
-     * @var integer
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=10)
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $academicLevelId;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", length=2)
      */
     protected $level;
 
     /**
      * @var CurriculumInventoryReportInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Report", inversedBy="curriculumInventoryAcademicLevels")
+     * @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
      */
     protected $report;
 
     /**
-     * @param integer $level
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->academicLevelId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->academicLevelId : $this->id;
+    }
+
+    /**
+     * @param int $level
      */
     public function setLevel($level)
     {
@@ -39,7 +79,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLevel()
     {

@@ -8,7 +8,7 @@ use Ilios\CoreBundle\Model\CISession;
 /**
  * Tests for Model CISession
  */
-class CISessionTest extends ModelBase
+class CISessionTest extends BaseModel
 {
     /**
      * @var CISession
@@ -35,7 +35,7 @@ class CISessionTest extends ModelBase
      */
     public function testSetSessionId()
     {
-        $this->basicSetTest('sessionId', 'integer');
+        $this->basicSetTest('sessionId', 'int');
     }
 
     /**
@@ -43,7 +43,7 @@ class CISessionTest extends ModelBase
      */
     public function testGetSessionId()
     {
-        $this->basicGetTest('sessionId', 'integer');
+        $this->basicGetTest('sessionId', 'int');
     }
 
     /**

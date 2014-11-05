@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model ReportPoValue
  */
-class ReportPoValueTest extends ModelBase
+class ReportPoValueTest extends BaseModel
 {
     /**
      * @var ReportPoValue
@@ -28,7 +28,7 @@ class ReportPoValueTest extends ModelBase
      */
     public function testSetPrepositionalObjectTableRowId()
     {
-        $this->basicSetTest('prepositionalObjectTableRowId', 'integer');
+        $this->basicSetTest('prepositionalObjectTableRowId', 'int');
     }
 
     /**
@@ -36,7 +36,7 @@ class ReportPoValueTest extends ModelBase
      */
     public function testGetReportId()
     {
-        $this->basicGetTest('reportId', 'integer');
+        $this->basicGetTest('reportId', 'int');
     }
 
     /**
@@ -44,7 +44,7 @@ class ReportPoValueTest extends ModelBase
      */
     public function testSetReportId()
     {
-        $this->basicSetTest('reportId', 'integer');
+        $this->basicSetTest('reportId', 'int');
     }
 
     /**
@@ -52,7 +52,7 @@ class ReportPoValueTest extends ModelBase
      */
     public function testGetPrepositionalObjectTableRowId()
     {
-        $this->basicGetTest('prepositionalObjectTableRowId', 'integer');
+        $this->basicGetTest('prepositionalObjectTableRowId', 'int');
     }
 
     /**

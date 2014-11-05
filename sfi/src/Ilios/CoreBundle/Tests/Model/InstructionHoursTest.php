@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model InstructionHours
  */
-class InstructionHoursTest extends ModelBase
+class InstructionHoursTest extends BaseModel
 {
     /**
      * @var InstructionHours
@@ -29,7 +29,7 @@ class InstructionHoursTest extends ModelBase
      */
     public function testGetInstructionHoursId()
     {
-        $this->basicGetTest('instructionHoursId', 'integer');
+        $this->basicGetTest('instructionHoursId', 'int');
     }
 
     /**
@@ -53,7 +53,7 @@ class InstructionHoursTest extends ModelBase
      */
     public function testSetHoursAccrued()
     {
-        $this->basicSetTest('hoursAccrued', 'integer');
+        $this->basicSetTest('hoursAccrued', 'int');
     }
 
     /**
@@ -61,7 +61,7 @@ class InstructionHoursTest extends ModelBase
      */
     public function testGetHoursAccrued()
     {
-        $this->basicGetTest('hoursAccrued', 'integer');
+        $this->basicGetTest('hoursAccrued', 'int');
     }
 
     /**
@@ -101,7 +101,7 @@ class InstructionHoursTest extends ModelBase
      */
     public function testSetUserId()
     {
-        $this->basicSetTest('userId', 'integer');
+        $this->basicSetTest('userId', 'int');
     }
 
     /**
@@ -109,7 +109,7 @@ class InstructionHoursTest extends ModelBase
      */
     public function testGetUserId()
     {
-        $this->basicGetTest('userId', 'integer');
+        $this->basicGetTest('userId', 'int');
     }
 
     /**
@@ -117,7 +117,7 @@ class InstructionHoursTest extends ModelBase
      */
     public function testSetSessionId()
     {
-        $this->basicSetTest('sessionId', 'integer');
+        $this->basicSetTest('sessionId', 'int');
     }
 
     /**
@@ -125,6 +125,6 @@ class InstructionHoursTest extends ModelBase
      */
     public function testGetSessionId()
     {
-        $this->basicGetTest('sessionId', 'integer');
+        $this->basicGetTest('sessionId', 'int');
     }
 }

@@ -58,7 +58,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var string
      */
-    private $type;
+    protected $type;
 
     /**
      * @return array

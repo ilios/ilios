@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model AlertChangeType
  */
-class AlertChangeTypeTest extends ModelBase
+class AlertChangeTypeTest extends BaseModel
 {
     /**
      * @var AlertChangeType
@@ -36,7 +36,7 @@ class AlertChangeTypeTest extends ModelBase
      */
     public function testGetAlertChangeTypeId()
     {
-        $this->basicGetTest('alertChangeTypeId', 'integer');
+        $this->basicGetTest('alertChangeTypeId', 'int');
     }
 
     /**

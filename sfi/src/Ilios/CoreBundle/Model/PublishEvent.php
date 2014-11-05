@@ -10,41 +10,41 @@ use Doctrine\ORM\Mapping as ORM;
 class PublishEvent
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $publishEventId;
+    protected $publishEventId;
 
     /**
      * @var string
      */
-    private $machineIp;
+    protected $machineIp;
 
     /**
      * @var \DateTime
      */
-    private $timeStamp;
+    protected $timeStamp;
 
     /**
      * @var string
      */
-    private $tableName;
+    protected $tableName;
 
     /**
-     * @var integer
+     * @var int
      */
-    private $tableRowId;
+    protected $tableRowId;
     
     /**
      * @var \Ilios\CoreBundle\Model\User
      */
-    private $administrator;
+    protected $administrator;
 
     protected $courses;
 
     /**
      * Get publishEventId
      *
-     * @return integer 
+     * @return int 
      */
     public function getPublishEventId()
     {
@@ -123,7 +123,7 @@ class PublishEvent
     /**
      * Set tableRowId
      *
-     * @param integer $tableRowId
+     * @param int $tableRowId
      * @return PublishEvent
      */
     public function setTableRowId($tableRowId)
@@ -136,7 +136,7 @@ class PublishEvent
     /**
      * Get tableRowId
      *
-     * @return integer 
+     * @return int 
      */
     public function getTableRowId()
     {

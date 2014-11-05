@@ -10,69 +10,69 @@ use Doctrine\ORM\Mapping as ORM;
 class RecurringEvent
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $recurringEventId;
+    protected $recurringEventId;
 
     /**
      * @var boolean
      */
-    private $onSunday;
+    protected $onSunday;
 
     /**
      * @var boolean
      */
-    private $onMonday;
+    protected $onMonday;
 
     /**
      * @var boolean
      */
-    private $onTuesday;
+    protected $onTuesday;
 
     /**
      * @var boolean
      */
-    private $onWednesday;
+    protected $onWednesday;
 
     /**
      * @var boolean
      */
-    private $onThursday;
+    protected $onThursday;
 
     /**
      * @var boolean
      */
-    private $onFriday;
+    protected $onFriday;
 
     /**
      * @var boolean
      */
-    private $onSaturday;
+    protected $onSaturday;
 
     /**
      * @var \DateTime
      */
-    private $endDate;
+    protected $endDate;
 
     /**
      * @var boolean
      */
-    private $repetitionCount;
+    protected $repetitionCount;
     
     /**
      * \Ilios\CoreBundle\Model\RecurringEvent $previousRecurringEvent
      */
-    private $previousRecurringEvent;
+    protected $previousRecurringEvent;
     
     /**
      * \Ilios\CoreBundle\Model\RecurringEvent $nextRecurringEvent
      */
-    private $nextRecurringEvent;
+    protected $nextRecurringEvent;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $offerings;
+    protected $offerings;
 
     /**
      * Constructor
@@ -85,7 +85,7 @@ class RecurringEvent
     /**
      * Get recurringEventId
      *
-     * @return integer 
+     * @return int 
      */
     public function getRecurringEventId()
     {

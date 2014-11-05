@@ -14,22 +14,22 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface CourseInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {
     /**
-     * @param integer $level
+     * @param int $level
      */
     public function setLevel($level);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLevel();
 
     /**
-     * @param integer $year
+     * @param int $year
      */
     public function setYear($year);
 
     /**
-     * @return integer
+     * @return int
      */
     public function getYear();
 

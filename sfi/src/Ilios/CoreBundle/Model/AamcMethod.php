@@ -20,8 +20,22 @@ use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
  */
 class AamcMethod implements AamcMethodInterface
 {
-    use UniversallyUniqueEntity;
+//    use UniversallyUniqueEntity;
     use DescribableEntity;
+
+    /**
+     * @deprecated replace with UniversallyUniqueEntity trait for 3.1.x
+     * @var string
+     *
+     * @ORM\Column(type="string", length=15, name="method_id")
+     */
+    protected $methodId;
+
+    /**
+     * @todo replace with IdentifiableEntity in 3.x+
+     * @var string
+     */
+    protected $uuid;
 
     /**
      * @var ArrayCollection|SessionTypeInterface[]
@@ -36,6 +50,23 @@ class AamcMethod implements AamcMethodInterface
     public function __construct()
     {
         $this->sessionTypes = new ArrayCollection();
+    }
+
+    /**
+     * @param string $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->methodId = $uuid;
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid()
+    {
+        return ($this->uuid === null) ? $this->methodId : $this->uuid;
     }
 
     /**

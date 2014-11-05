@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Alert
  */
-class AlertTest extends ModelBase
+class AlertTest extends BaseModel
 {
     /**
      * @var Alert
@@ -38,7 +38,7 @@ class AlertTest extends ModelBase
      */
     public function testGetAlertId()
     {
-        $this->basicGetTest('alertId', 'integer');
+        $this->basicGetTest('alertId', 'int');
     }
 
     /**
@@ -46,7 +46,7 @@ class AlertTest extends ModelBase
      */
     public function testSetTableRowId()
     {
-        $this->basicSetTest('tableRowId', 'integer');
+        $this->basicSetTest('tableRowId', 'int');
     }
 
     /**
@@ -54,7 +54,7 @@ class AlertTest extends ModelBase
      */
     public function testGetTableRowId()
     {
-        $this->basicGetTest('tableRowId', 'integer');
+        $this->basicGetTest('tableRowId', 'int');
     }
 
     /**

@@ -29,17 +29,17 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $childSequenceOrder;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $orderInSequence;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $minimum;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $maximum;
 
@@ -59,7 +59,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $endDate;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $duration;
 
@@ -116,7 +116,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param integer $orderInSequence
+     * @param int $orderInSequence
      */
     public function setOrderInSequence($orderInSequence)
     {
@@ -124,7 +124,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getOrderInSequence()
     {
@@ -132,7 +132,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param integer $minimum
+     * @param int $minimum
      */
     public function setMinimum($minimum)
     {
@@ -140,7 +140,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getMinimum()
     {
@@ -148,7 +148,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param integer $maximum
+     * @param int $maximum
      */
     public function setMaximum($maximum)
     {
@@ -156,7 +156,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getMaximum()
     {
@@ -212,7 +212,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param integer $duration
+     * @param int $duration
      */
     public function setDuration($duration)
     {
@@ -220,7 +220,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getDuration()
     {

@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model MeshQualifier
  */
-class MeshQualifierTest extends ModelBase
+class MeshQualifierTest extends BaseModel
 {
     /**
      * @var MeshQualifier

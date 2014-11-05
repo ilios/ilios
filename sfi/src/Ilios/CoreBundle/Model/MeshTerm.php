@@ -12,47 +12,47 @@ class MeshTerm
     /**
      * @var string
      */
-    private $meshTermUid;
+    protected $meshTermUid;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $lexicalTag;
+    protected $lexicalTag;
 
     /**
      * @var boolean
      */
-    private $conceptPreferred;
+    protected $conceptPreferred;
 
     /**
      * @var boolean
      */
-    private $recordPreferred;
+    protected $recordPreferred;
 
     /**
      * @var boolean
      */
-    private $permuted;
+    protected $permuted;
 
     /**
      * @var boolean
      */
-    private $print;
+    protected $print;
 
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
 
     /**

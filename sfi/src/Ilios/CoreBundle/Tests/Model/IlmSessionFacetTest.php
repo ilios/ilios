@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model IlmSessionFacet
  */
-class IlmSessionFacetTest extends ModelBase
+class IlmSessionFacetTest extends BaseModel
 {
     /**
      * @var IlmSessionFacet
@@ -39,7 +39,7 @@ class IlmSessionFacetTest extends ModelBase
      */
     public function testGetIlmSessionFacetId()
     {
-        $this->basicGetTest('ilmSessionFacetId', 'integer');
+        $this->basicGetTest('ilmSessionFacetId', 'int');
     }
 
     /**

@@ -11,11 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 trait IdentifiableEntity
 {
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
      */
     protected $id;
 

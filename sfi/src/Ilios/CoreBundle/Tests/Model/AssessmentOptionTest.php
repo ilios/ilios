@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model AssessmentOption
  */
-class AssessmentOptionTest extends ModelBase
+class AssessmentOptionTest extends BaseModel
 {
     /**
      * @var AssessmentOption
@@ -29,7 +29,7 @@ class AssessmentOptionTest extends ModelBase
      */
     public function testGetAssessmentOptionId()
     {
-        $this->basicGetTest('assessmentOptionId', 'integer');
+        $this->basicGetTest('assessmentOptionId', 'int');
     }
 
     /**

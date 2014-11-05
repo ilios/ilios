@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Objective
  */
-class ObjectiveTest extends ModelBase
+class ObjectiveTest extends BaseModel
 {
     /**
      * @var Objective
@@ -28,7 +28,7 @@ class ObjectiveTest extends ModelBase
      */
     public function testGetObjectiveId()
     {
-        $this->basicGetTest('objectiveId', 'integer');
+        $this->basicGetTest('objectiveId', 'int');
     }
 
     /**

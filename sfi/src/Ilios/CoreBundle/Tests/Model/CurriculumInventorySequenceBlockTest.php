@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model CurriculumInventorySequenceBlock
  */
-class CurriculumInventorySequenceBlockTest extends ModelBase
+class CurriculumInventorySequenceBlockTest extends BaseModel
 {
     /**
      * @var CurriculumInventorySequenceBlock
@@ -29,7 +29,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testGetSequenceBlockId()
     {
-        $this->basicGetTest('sequenceBlockId', 'integer');
+        $this->basicGetTest('sequenceBlockId', 'int');
     }
 
     /**
@@ -69,7 +69,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testSetOrderInSequence()
     {
-        $this->basicSetTest('orderInSequence', 'integer');
+        $this->basicSetTest('orderInSequence', 'int');
     }
 
     /**
@@ -77,7 +77,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testGetOrderInSequence()
     {
-        $this->basicGetTest('orderInSequence', 'integer');
+        $this->basicGetTest('orderInSequence', 'int');
     }
 
     /**
@@ -85,7 +85,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testSetMinimum()
     {
-        $this->basicSetTest('minimum', 'integer');
+        $this->basicSetTest('minimum', 'int');
     }
 
     /**
@@ -93,7 +93,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testGetMinimum()
     {
-        $this->basicGetTest('minimum', 'integer');
+        $this->basicGetTest('minimum', 'int');
     }
 
     /**
@@ -101,7 +101,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testSetMaximum()
     {
-        $this->basicSetTest('maximum', 'integer');
+        $this->basicSetTest('maximum', 'int');
     }
 
     /**
@@ -109,7 +109,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testGetMaximum()
     {
-        $this->basicGetTest('maximum', 'integer');
+        $this->basicGetTest('maximum', 'int');
     }
 
     /**
@@ -197,7 +197,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testSetDuration()
     {
-        $this->basicSetTest('duration', 'integer');
+        $this->basicSetTest('duration', 'int');
     }
 
     /**
@@ -205,7 +205,7 @@ class CurriculumInventorySequenceBlockTest extends ModelBase
      */
     public function testGetDuration()
     {
-        $this->basicGetTest('duration', 'integer');
+        $this->basicGetTest('duration', 'int');
     }
 
     /**

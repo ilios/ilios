@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model CurriculumInventoryReport
  */
-class CurriculumInventoryReportTest extends ModelBase
+class CurriculumInventoryReportTest extends BaseModel
 {
     /**
      * @var CurriculumInventoryReport
@@ -29,7 +29,7 @@ class CurriculumInventoryReportTest extends ModelBase
      */
     public function testGetReportId()
     {
-        $this->basicGetTest('reportId', 'integer');
+        $this->basicGetTest('reportId', 'int');
     }
 
     /**
@@ -37,7 +37,7 @@ class CurriculumInventoryReportTest extends ModelBase
      */
     public function testSetYear()
     {
-        $this->basicSetTest('year', 'integer');
+        $this->basicSetTest('year', 'int');
     }
 
     /**
@@ -45,7 +45,7 @@ class CurriculumInventoryReportTest extends ModelBase
      */
     public function testGetYear()
     {
-        $this->basicGetTest('year', 'integer');
+        $this->basicGetTest('year', 'int');
     }
 
     /**

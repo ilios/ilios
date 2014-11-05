@@ -243,7 +243,7 @@ class UserControllerTest extends ApiTestCase
      * @param string $lastName
      * @param string $email
      * @param string $campusId
-     * @param integer $primarySchoolId
+     * @param int $primarySchoolId
      * 
      * @return string
      */

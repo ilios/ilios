@@ -22,8 +22,23 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  */
 class Competency implements CompetencyInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use TitledEntity;
+
+    /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=14, name="competency_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $competencyId;
+
+    /**
+     * @var int
+     */
+    protected $id;
 
     /**
      * @var SchoolInterface
@@ -71,6 +86,23 @@ class Competency implements CompetencyInterface
         $this->aamcPcrses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->children = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->competencyId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->competencyId : $this->id;
     }
 
     /**

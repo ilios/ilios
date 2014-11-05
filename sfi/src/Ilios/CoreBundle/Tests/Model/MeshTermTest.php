@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model MeshTerm
  */
-class MeshTermTest extends ModelBase
+class MeshTermTest extends BaseModel
 {
     /**
      * @var MeshTerm

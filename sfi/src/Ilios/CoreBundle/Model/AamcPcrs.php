@@ -19,8 +19,21 @@ use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
  */
 class AamcPcrs implements AamcPcrsInterface
 {
-    use UniversallyUniqueEntity;
+//    use UniversallyUniqueEntity;
     use DescribableEntity;
+
+    /**
+     * @deprecated replace with UniversallyUniqueEntity trait for 3.1.x
+     * @var string
+     *
+     * @ORM\Column(type="string", length=21, name="pcrs_id")
+     */
+    protected $pcrsId;
+
+    /**
+     * @var string
+     */
+    protected $uuid;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
@@ -35,6 +48,23 @@ class AamcPcrs implements AamcPcrsInterface
     public function __construct()
     {
         $this->competencies = new ArrayCollection();
+    }
+
+    /**
+     * @param string $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->pcrsId = $uuid;
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid()
+    {
+        return ($this->uuid === null) ? $this->pcrsId : $this->uuid;
     }
 
     /**

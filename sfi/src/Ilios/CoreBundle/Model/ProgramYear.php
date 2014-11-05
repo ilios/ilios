@@ -10,64 +10,64 @@ use Doctrine\ORM\Mapping as ORM;
 class ProgramYear
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $programYearId;
+    protected $programYearId;
 
     /**
-     * @var integer
+     * @var int
      */
-    private $startYear;
-
-    /**
-     * @var boolean
-     */
-    private $deleted;
+    protected $startYear;
 
     /**
      * @var boolean
      */
-    private $locked;
+    protected $deleted;
 
     /**
      * @var boolean
      */
-    private $archived;
+    protected $locked;
 
     /**
      * @var boolean
      */
-    private $publishedAsTbd;
+    protected $archived;
+
+    /**
+     * @var boolean
+     */
+    protected $publishedAsTbd;
 
     /**
      * @var \Ilios\CoreBundle\Model\Program
      */
-    private $program;
+    protected $program;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $directors;
+    protected $directors;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $competencies;
+    protected $competencies;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $disciplines;
+    protected $disciplines;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $objectives;
+    protected $objectives;
     
     /**
      * @var \Ilios\CoreBundle\Model\PublishEvent
      */
-    private $publishEvent;
+    protected $publishEvent;
 
     protected $cohorts;
 
@@ -85,7 +85,7 @@ class ProgramYear
     /**
      * Get programYearId
      *
-     * @return integer 
+     * @return int 
      */
     public function getProgramYearId()
     {
@@ -95,7 +95,7 @@ class ProgramYear
     /**
      * Set startYear
      *
-     * @param integer $startYear
+     * @param int $startYear
      * @return ProgramYear
      */
     public function setStartYear($startYear)
@@ -108,7 +108,7 @@ class ProgramYear
     /**
      * Get startYear
      *
-     * @return integer 
+     * @return int 
      */
     public function getStartYear()
     {

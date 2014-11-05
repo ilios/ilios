@@ -18,18 +18,33 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  */
 class Course implements CourseInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use TitledEntity;
 
     /**
-     * @var integer
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=10, name="course_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $courseId;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var int
      *
      * @ORM\Column(type="smallint", name="course_level")
      */
     protected $level;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(type="smallint")
      */
@@ -171,7 +186,10 @@ class Course implements CourseInterface
     /**
      * @var ArrayCollection|CourseLearningMaterialInterface[]
      *
-     * @ORM\OneToMany()
+     * @ORM\OneToMany(
+     *      targetEntity="CourseLearningMaterial",
+     *      mappedBy="course"
+     * )
      */
     protected $courseLearningMaterials;
 
@@ -189,7 +207,24 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param integer $level
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->courseId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->courseId : $this->id;
+    }
+
+    /**
+     * @param int $level
      */
     public function setLevel($level)
     {
@@ -197,7 +232,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLevel()
     {
@@ -205,7 +240,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @param integer $year
+     * @param int $year
      */
     public function setYear($year)
     {
@@ -213,7 +248,7 @@ class Course implements CourseInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getYear()
     {

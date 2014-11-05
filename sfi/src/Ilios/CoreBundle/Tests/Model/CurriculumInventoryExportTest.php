@@ -7,7 +7,7 @@ use Mockery as m;
 /**
  * Tests for Model CurriculumInventoryExport
  */
-class CurriculumInventoryExportTest extends ModelBase
+class CurriculumInventoryExportTest extends BaseModel
 {
     /**
      * @var CurriculumInventoryExport
@@ -28,7 +28,7 @@ class CurriculumInventoryExportTest extends ModelBase
      */
     public function testSetReportId()
     {
-        $this->basicSetTest('reportId', 'integer');
+        $this->basicSetTest('reportId', 'int');
     }
 
     /**
@@ -36,7 +36,7 @@ class CurriculumInventoryExportTest extends ModelBase
      */
     public function testGetReportId()
     {
-        $this->basicGetTest('reportId', 'integer');
+        $this->basicGetTest('reportId', 'int');
     }
 
     /**

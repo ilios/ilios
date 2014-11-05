@@ -16,7 +16,7 @@ class InstructionHours implements InstructionHoursInterface
     use TimestampableEntity;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $hoursAccrued;
 
@@ -36,7 +36,7 @@ class InstructionHours implements InstructionHoursInterface
     protected $session;
 
     /**
-     * @param integer $hoursAccrued
+     * @param int $hoursAccrued
      */
     public function setHoursAccrued($hoursAccrued)
     {
@@ -44,7 +44,7 @@ class InstructionHours implements InstructionHoursInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getHoursAccrued()
     {

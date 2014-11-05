@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model MeshTreeXDescriptor
  */
-class MeshTreeXDescriptorTest extends ModelBase
+class MeshTreeXDescriptorTest extends BaseModel
 {
     /**
      * @var MeshTreeXDescriptor

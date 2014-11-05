@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model InstructorGroup
  */
-class InstructorGroupTest extends ModelBase
+class InstructorGroupTest extends BaseModel
 {
     /**
      * @var InstructorGroup
@@ -39,7 +39,7 @@ class InstructorGroupTest extends ModelBase
      */
     public function testGetInstructorGroupId()
     {
-        $this->basicGetTest('instructorGroupId', 'integer');
+        $this->basicGetTest('instructorGroupId', 'int');
     }
 
     /**
@@ -63,7 +63,7 @@ class InstructorGroupTest extends ModelBase
      */
     public function testSetSchoolId()
     {
-        $this->basicSetTest('schoolId', 'integer');
+        $this->basicSetTest('schoolId', 'int');
     }
 
     /**
@@ -71,7 +71,7 @@ class InstructorGroupTest extends ModelBase
      */
     public function testGetSchoolId()
     {
-        $this->basicGetTest('schoolId', 'integer');
+        $this->basicGetTest('schoolId', 'int');
     }
 
     /**

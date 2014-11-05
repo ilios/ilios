@@ -7,7 +7,7 @@ use Mockery as m;
 /**
  * Tests for Model Cohort
  */
-class CohortTest extends ModelBase
+class CohortTest extends BaseModel
 {
     /**
      * @var Cohort
@@ -35,7 +35,7 @@ class CohortTest extends ModelBase
      */
     public function testGetCohortId()
     {
-        $this->basicGetTest('cohortId', 'integer');
+        $this->basicGetTest('cohortId', 'int');
     }
 
     /**

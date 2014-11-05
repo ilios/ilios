@@ -7,7 +7,7 @@ use Ilios\CoreBundle\Model\User;
 /**
  * Tests for Model Objective
  */
-class UserTest extends ModelBase
+class UserTest extends BaseModel
 {
     /**
      * @var User
@@ -44,7 +44,7 @@ class UserTest extends ModelBase
      */
     public function testGetUserId()
     {
-        $this->basicGetTest('userId', 'integer');
+        $this->basicGetTest('userId', 'int');
     }
 
     /**

@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model CurriculumInventoryAcademicLevel
  */
-class CurriculumInventoryAcademicLevelTest extends ModelBase
+class CurriculumInventoryAcademicLevelTest extends BaseModel
 {
     /**
      * @var CurriculumInventoryAcademicLevel
@@ -29,7 +29,7 @@ class CurriculumInventoryAcademicLevelTest extends ModelBase
      */
     public function testGetAcademicLevelId()
     {
-        $this->basicGetTest('academicLevelId', 'integer');
+        $this->basicGetTest('academicLevelId', 'int');
     }
 
     /**
@@ -37,7 +37,7 @@ class CurriculumInventoryAcademicLevelTest extends ModelBase
      */
     public function testSetLevel()
     {
-        $this->basicSetTest('level', 'integer');
+        $this->basicSetTest('level', 'int');
     }
 
     /**
@@ -45,7 +45,7 @@ class CurriculumInventoryAcademicLevelTest extends ModelBase
      */
     public function testGetLevel()
     {
-        $this->basicGetTest('level', 'integer');
+        $this->basicGetTest('level', 'int');
     }
 
     /**

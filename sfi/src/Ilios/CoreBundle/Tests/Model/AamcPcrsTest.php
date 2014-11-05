@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model AamcPcrs
  */
-class AamcPcrsTest extends ModelBase
+class AamcPcrsTest extends BaseModel
 {
     /**
      * @var AamcPcrs
@@ -37,7 +37,7 @@ class AamcPcrsTest extends ModelBase
      */
     public function testSetPcrsId()
     {
-        $this->basicSetTest('pcrsId', 'integer');
+        $this->basicSetTest('pcrsId', 'int');
     }
 
     /**
@@ -45,7 +45,7 @@ class AamcPcrsTest extends ModelBase
      */
     public function testGetPcrsId()
     {
-        $this->basicGetTest('pcrsId', 'integer');
+        $this->basicGetTest('pcrsId', 'int');
     }
 
     /**

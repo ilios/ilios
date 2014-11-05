@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model Session
  */
-class SessionTest extends ModelBase
+class SessionTest extends BaseModel
 {
     /**
      * @var Session
@@ -38,7 +38,7 @@ class SessionTest extends ModelBase
      */
     public function testGetSessionId()
     {
-        $this->basicGetTest('sessionId', 'integer');
+        $this->basicGetTest('sessionId', 'int');
     }
 
     /**

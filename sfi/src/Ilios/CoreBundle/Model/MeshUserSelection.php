@@ -10,25 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 class MeshUserSelection
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $meshUserSelectionId;
+    protected $meshUserSelectionId;
 
     /**
      * @var string
      */
-    private $meshDescriptorUid;
+    protected $meshDescriptorUid;
 
     /**
      * @var string
      */
-    private $searchPhrase;
+    protected $searchPhrase;
 
 
     /**
      * Get meshUserSelectionId
      *
-     * @return integer 
+     * @return int 
      */
     public function getMeshUserSelectionId()
     {

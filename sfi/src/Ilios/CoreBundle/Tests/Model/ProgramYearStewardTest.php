@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model ProgramYearSteward
  */
-class ProgramYearStewardTest extends ModelBase
+class ProgramYearStewardTest extends BaseModel
 {
     /**
      * @var ProgramYearSteward
@@ -28,7 +28,7 @@ class ProgramYearStewardTest extends ModelBase
      */
     public function testGetProgramYearStewardId()
     {
-        $this->basicGetTest('programYearStewardId', 'integer');
+        $this->basicGetTest('programYearStewardId', 'int');
     }
 
     /**

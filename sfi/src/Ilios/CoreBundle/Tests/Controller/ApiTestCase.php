@@ -16,7 +16,7 @@ class ApiTestCase extends WebTestCase
      * @param string $method
      * @param string $url
      * @param string $content
-     * @param integer $userId
+     * @param int $userId
      *
      * @return Symfony\Bundle\FrameworkBundle\Client
      */
@@ -46,7 +46,7 @@ class ApiTestCase extends WebTestCase
      * Check if the response is valid
      * tests the status code, headers, and the content
      * @param Symfony\Component\HttpFoundation\Response $response
-     * @param integer $statusCode
+     * @param int $statusCode
      * @param boolean $checkValidJson
      */
     protected function assertJsonResponse(
@@ -78,7 +78,7 @@ class ApiTestCase extends WebTestCase
 
     /**
      * Login as a user
-     * @param integer $userId
+     * @param int $userId
      * @param Client $client
      */
     protected function login($userId, Client $client)

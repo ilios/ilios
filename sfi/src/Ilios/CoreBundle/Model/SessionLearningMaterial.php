@@ -10,39 +10,39 @@ use Doctrine\ORM\Mapping as ORM;
 class SessionLearningMaterial
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $sessionLearningMaterialId;
+    protected $sessionLearningMaterialId;
 
     /**
      * @var string
      */
-    private $notes;
+    protected $notes;
 
     /**
      * @var boolean
      */
-    private $required;
+    protected $required;
 
     /**
      * @var boolean
      */
-    private $notesArePublic;
+    protected $notesArePublic;
 
     /**
      * @var \Ilios\CoreBundle\Model\Session
      */
-    private $session;
+    protected $session;
 
     /**
      * @var \Ilios\CoreBundle\Model\LearningMaterial
      */
-    private $learningMaterial;
+    protected $learningMaterial;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $meshDescriptors;
+    protected $meshDescriptors;
 
     /**
      * Constructor
@@ -55,7 +55,7 @@ class SessionLearningMaterial
     /**
      * Get sessionLearningMaterialId
      *
-     * @return integer 
+     * @return int 
      */
     public function getSessionLearningMaterialId()
     {

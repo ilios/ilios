@@ -10,30 +10,30 @@ use Doctrine\ORM\Mapping as ORM;
 class ReportPoValue
 {
     /**
-     * @var integer
+     * @var int
      */
-    private $reportId;
+    protected $reportId;
 
     /**
      * @var string
      */
-    private $prepositionalObjectTableRowId;
+    protected $prepositionalObjectTableRowId;
 
     /**
      * @var boolean
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var \Ilios\CoreBundle\Model\Report
      */
-    private $report;
+    protected $report;
 
 
     /**
      * Set reportId
      *
-     * @param integer $reportId
+     * @param int $reportId
      * @return ReportPoValue
      */
     public function setReportId($reportId)
@@ -46,7 +46,7 @@ class ReportPoValue
     /**
      * Get reportId
      *
-     * @return integer 
+     * @return int 
      */
     public function getReportId()
     {

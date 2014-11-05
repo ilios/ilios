@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model UserRole
  */
-class UserRoleTest extends ModelBase
+class UserRoleTest extends BaseModel
 {
     /**
      * @var UserRole
@@ -36,7 +36,7 @@ class UserRoleTest extends ModelBase
      */
     public function testGetUserRoleId()
     {
-        $this->basicGetTest('userRoleId', 'integer');
+        $this->basicGetTest('userRoleId', 'int');
     }
 
     /**

@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Tests\Model;
 use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Mockery as m;
 
-class ModelBase extends TestCase
+class BaseModel extends TestCase
 {
     /**
      * Remove all mock objects
@@ -234,6 +234,7 @@ class ModelBase extends TestCase
         $faker = \Faker\Factory::create();
         switch ($type) {
             case 'integer':
+            case 'int':
                 return $faker->randomNumber();
             case 'string':
                 return $faker->text;
@@ -249,5 +250,7 @@ class ModelBase extends TestCase
             default:
                 throw new \Exception("No values for type {$type}");
         }
+
+        return false;
     }
 }

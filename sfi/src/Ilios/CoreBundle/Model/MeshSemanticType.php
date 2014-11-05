@@ -12,22 +12,22 @@ class MeshSemanticType
     /**
      * @var string
      */
-    private $meshSemanticTypeUid;
+    protected $meshSemanticTypeUid;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
 
     /**

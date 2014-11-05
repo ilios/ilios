@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model PublishEvent
  */
-class PublishEventTest extends ModelBase
+class PublishEventTest extends BaseModel
 {
     /**
      * @var PublishEvent
@@ -29,7 +29,7 @@ class PublishEventTest extends ModelBase
      */
     public function testGetPublishEventId()
     {
-        $this->basicGetTest('publishEventId', 'integer');
+        $this->basicGetTest('publishEventId', 'int');
     }
 
     /**
@@ -85,7 +85,7 @@ class PublishEventTest extends ModelBase
      */
     public function testSetTableRowId()
     {
-        $this->basicSetTest('tableRowId', 'integer');
+        $this->basicSetTest('tableRowId', 'int');
     }
 
     /**
@@ -93,7 +93,7 @@ class PublishEventTest extends ModelBase
      */
     public function testGetTableRowId()
     {
-        $this->basicGetTest('tableRowId', 'integer');
+        $this->basicGetTest('tableRowId', 'int');
     }
 
     /**

@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model ApiKey
  */
-class ApiKeyTest extends ModelBase
+class ApiKeyTest extends BaseModel
 {
     /**
      * @var ApiKey
@@ -28,7 +28,7 @@ class ApiKeyTest extends ModelBase
      */
     public function testSetUserId()
     {
-        $this->basicSetTest('userId', 'integer');
+        $this->basicSetTest('userId', 'int');
     }
 
     /**
@@ -36,7 +36,7 @@ class ApiKeyTest extends ModelBase
      */
     public function testGetUserId()
     {
-        $this->basicGetTest('userId', 'integer');
+        $this->basicGetTest('userId', 'int');
     }
 
     /**

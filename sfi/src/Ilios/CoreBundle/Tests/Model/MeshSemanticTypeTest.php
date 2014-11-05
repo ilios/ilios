@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model MeshSemanticType
  */
-class MeshSemanticTypeTest extends ModelBase
+class MeshSemanticTypeTest extends BaseModel
 {
     /**
      * @var MeshSemanticType

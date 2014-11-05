@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model MeshUserSelection
  */
-class MeshUserSelectionTest extends ModelBase
+class MeshUserSelectionTest extends BaseModel
 {
     /**
      * @var MeshUserSelection
@@ -28,7 +28,7 @@ class MeshUserSelectionTest extends ModelBase
      */
     public function testGetMeshUserSelectionId()
     {
-        $this->basicGetTest('meshUserSelectionId', 'integer');
+        $this->basicGetTest('meshUserSelectionId', 'int');
     }
 
     /**

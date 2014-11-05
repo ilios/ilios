@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model UserSyncException
  */
-class UserSyncExceptionTest extends ModelBase
+class UserSyncExceptionTest extends BaseModel
 {
     /**
      * @var UserSyncException
@@ -29,7 +29,7 @@ class UserSyncExceptionTest extends ModelBase
      */
     public function testGetExceptionId()
     {
-        $this->basicGetTest('exceptionId', 'integer');
+        $this->basicGetTest('exceptionId', 'int');
     }
 
     /**
@@ -37,7 +37,7 @@ class UserSyncExceptionTest extends ModelBase
      */
     public function testSetProcessId()
     {
-        $this->basicSetTest('processId', 'integer');
+        $this->basicSetTest('processId', 'int');
     }
 
     /**
@@ -45,7 +45,7 @@ class UserSyncExceptionTest extends ModelBase
      */
     public function testGetProcessId()
     {
-        $this->basicGetTest('processId', 'integer');
+        $this->basicGetTest('processId', 'int');
     }
 
     /**

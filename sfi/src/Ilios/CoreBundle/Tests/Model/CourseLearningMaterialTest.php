@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model CourseLearningMaterial
  */
-class CourseLearningMaterialTest extends ModelBase
+class CourseLearningMaterialTest extends BaseModel
 {
     /**
      * @var CourseLearningMaterial
@@ -36,7 +36,7 @@ class CourseLearningMaterialTest extends ModelBase
      */
     public function testGetCourseLearningMaterialId()
     {
-        $this->basicGetTest('courseLearningMaterialId', 'integer');
+        $this->basicGetTest('courseLearningMaterialId', 'int');
     }
 
     /**

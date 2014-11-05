@@ -8,7 +8,7 @@ use Mockery as m;
 /**
  * Tests for Model CurriculumInventorySequence
  */
-class CurriculumInventorySequenceTest extends ModelBase
+class CurriculumInventorySequenceTest extends BaseModel
 {
     /**
      * @var CurriculumInventorySequence
@@ -22,14 +22,13 @@ class CurriculumInventorySequenceTest extends ModelBase
     {
         $this->object = new CurriculumInventorySequence;
     }
-    
 
     /**
      * @covers Ilios\CoreBundle\Model\CurriculumInventorySequence::setReportId
      */
     public function testSetReportId()
     {
-        $this->basicSetTest('reportId', 'integer');
+        $this->basicSetTest('reportId', 'int');
     }
 
     /**
@@ -37,7 +36,7 @@ class CurriculumInventorySequenceTest extends ModelBase
      */
     public function testGetReportId()
     {
-        $this->basicGetTest('reportId', 'integer');
+        $this->basicGetTest('reportId', 'int');
     }
 
     /**

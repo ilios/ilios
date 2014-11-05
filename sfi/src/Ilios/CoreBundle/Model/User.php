@@ -26,7 +26,7 @@ use Ilios\CoreBundle\Model\Report;
 class User implements UserInterface, \Serializable
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $userId;
 
@@ -181,7 +181,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get ID
      *
-     * @return integer
+     * @return int
      */
     public function getUserId()
     {
@@ -190,7 +190,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * Set ID
-     * @param integer $userId
+     * @param int $userId
      */
     public function setUserId($userId)
     {
