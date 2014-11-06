@@ -91,7 +91,7 @@ function SessionModel (dbObject) {
     this.objectives = [];
     this.objectiveCount = 0;
 
-    this.offerings = new Array();
+    this.offerings = [];
     this.offeringCount = -1;
 
     this.dirtyStateListener = {
@@ -514,7 +514,7 @@ SessionModel.prototype.removeOffering = function (offeringModel) {
 };
 
 SessionModel.prototype.removeAllOfferings = function () {
-    this.offerings = new Array();
+    this.offerings = [];
     this.offeringCount = -1;
 };
 
