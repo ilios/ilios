@@ -382,7 +382,7 @@ SessionModel.prototype.isEquipmentRequired = function () {
 
 SessionModel.prototype.isLearner = function () {
     return this.is_learner;
-}
+};
 
 
 SessionModel.prototype.setSupplemental = function (flag) {
