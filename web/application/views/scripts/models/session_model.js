@@ -126,7 +126,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
     }
 
     if (populateReviewArray) {
-        reviewObject = new Object();
+        reviewObject = {};
 
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.title');
     }
@@ -158,7 +158,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
     if (populateReviewArray) {
         reviewArray.push(reviewObject);
 
-        reviewObject = new Object();
+        reviewObject = {};
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
                                                                'general.terms.offering_indefinite')
@@ -209,7 +209,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
     var reviewObject = null;
 
     if (populateReviewArray) {
-        reviewObject = new Object();
+        reviewObject = {};
 
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
@@ -239,7 +239,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
     if (populateReviewArray) {
         reviewArray.push(reviewObject);
 
-        reviewObject = new Object();
+        reviewObject = {};
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
                                                             'general.terms.objective_indefinite');
@@ -268,7 +268,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
     if (populateReviewArray) {
         reviewArray.push(reviewObject);
 
-        reviewObject = new Object();
+        reviewObject = {};
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
                                                             'general.phrases.mesh_term_indefinite');
