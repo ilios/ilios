@@ -91,7 +91,7 @@ function SessionModel (dbObject) {
     this.objectives = [];
     this.objectiveCount = 0;
 
-    this.offerings = new Array();
+    this.offerings = [];
     this.offeringCount = -1;
 
     this.dirtyStateListener = {
@@ -126,7 +126,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
     }
 
     if (populateReviewArray) {
-        reviewObject = new Object();
+        reviewObject = {};
 
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.title');
     }
@@ -158,7 +158,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
     if (populateReviewArray) {
         reviewArray.push(reviewObject);
 
-        reviewObject = new Object();
+        reviewObject = {};
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
                                                                'general.terms.offering_indefinite')
@@ -209,7 +209,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
     var reviewObject = null;
 
     if (populateReviewArray) {
-        reviewObject = new Object();
+        reviewObject = {};
 
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
@@ -239,7 +239,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
     if (populateReviewArray) {
         reviewArray.push(reviewObject);
 
-        reviewObject = new Object();
+        reviewObject = {};
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
                                                             'general.terms.objective_indefinite');
@@ -268,7 +268,7 @@ SessionModel.prototype.meetsSecondaryPublishingRequirements = function (reviewAr
     if (populateReviewArray) {
         reviewArray.push(reviewObject);
 
-        reviewObject = new Object();
+        reviewObject = {};
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.has') + ' '
                                     + ilios_i18nVendor.getI18NString(
                                                             'general.phrases.mesh_term_indefinite');
@@ -382,7 +382,7 @@ SessionModel.prototype.isEquipmentRequired = function () {
 
 SessionModel.prototype.isLearner = function () {
     return this.is_learner;
-}
+};
 
 
 SessionModel.prototype.setSupplemental = function (flag) {
@@ -514,7 +514,7 @@ SessionModel.prototype.removeOffering = function (offeringModel) {
 };
 
 SessionModel.prototype.removeAllOfferings = function () {
-    this.offerings = new Array();
+    this.offerings = [];
     this.offeringCount = -1;
 };
 
