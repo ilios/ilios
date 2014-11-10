@@ -12,29 +12,60 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 /**
  * Class Discipline
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="discipline")
  */
 class Discipline implements DisciplineInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use TitledEntity;
 
     /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=10, name="discipline_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $disciplineId;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
      * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="disciplines")
      */
     protected $owningSchool;
 
     /**
      * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", inversedBy="disciplines")
+     * @ORM\JoinTable(
+     *      name="course_x_discipline",
+     *      joinColumns={@ORM\JoinColumn(name="course_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="discipline_id")}
+     * )
      */
     protected $courses;
 
     /**
      * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="disciplines")
      */
     protected $programYears;
 
     /**
      * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", mappedBy="disciplines")
      */
     protected $sessions;
 
@@ -46,6 +77,23 @@ class Discipline implements DisciplineInterface
         $this->courses = new ArrayCollection();
         $this->programYears = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->disciplineId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->disciplineId : $this->id;
     }
 
     /**

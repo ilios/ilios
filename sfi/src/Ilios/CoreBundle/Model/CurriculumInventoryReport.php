@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -64,25 +62,27 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $endDate;
 
     /**
-     * @var ArrayCollection|CurriculumInventoryExportInterface[]
+     * @var CurriculumInventoryExportInterface
+     *
+     * @ORM\OneToOne(targetEntity="CurriculumInventoryExport", inversedBy="report")
+     * @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", nullable=true)
      */
-    protected $exports;
+    protected $export;
 
     /**
-     * @var ArrayCollection|CurriculumInventorySequenceInterface[]
+     * @var CurriculumInventorySequenceInterface
+     *
+     * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", inversedBy="report")
+     * @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", nullable=true)
      */
-    protected $sequences;
+    protected $sequence;
 
     /**
      * @var ProgramInterface
+     *
+     * @ORM\OneToMany(targetEntity="Program", mappedBy="curriculumInventoryReports")
      */
     protected $program;
-
-    public function __construct()
-    {
-        $this->exports = new ArrayCollection();
-        $this->sequences = new ArrayCollection();
-    }
 
     /**
      * @param int $id
@@ -118,38 +118,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * @param \DateTime $startDate
      */
     public function setStartDate($startDate)
@@ -182,59 +150,35 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @param Collection $exports
-     */
-    public function setExports(Collection $exports)
-    {
-        $this->exports = new ArrayCollection();
-
-        foreach ($exports as $export) {
-            $this->addExport($export);
-        }
-    }
-
-    /**
      * @param CurriculumInventoryExportInterface $export
      */
-    public function addExport(CurriculumInventoryExportInterface $export)
+    public function setExport(CurriculumInventoryExportInterface $export)
     {
-        $this->exports->add($export);
+        $this->export = $export;
     }
 
     /**
-     * @return ArrayCollection|CurriculumInventoryExportInterface[]
+     * @return CurriculumInventoryExportInterface
      */
-    public function getExports()
+    public function getExport()
     {
-        return $this->exports;
-    }
-
-    /**
-     * @param Collection $sequences
-     */
-    public function setSequences(Collection $sequences)
-    {
-        $this->sequences = new ArrayCollection();
-
-        foreach ($sequences as $sequence) {
-            $this->addSequence($sequence);
-        }
+        return $this->export;
     }
 
     /**
      * @param CurriculumInventorySequenceInterface $sequence
      */
-    public function addSequence(CurriculumInventorySequenceInterface $sequence)
+    public function setSequence(CurriculumInventorySequenceInterface $sequence)
     {
-        $this->sequences->add($sequence);
+        $this->sequence = $sequence;
     }
 
     /**
-     * @return ArrayCollection|CurriculumInventorySequenceInterface[]
+     * @return CurriculumInventorySequenceInterface
      */
     public function getSequence()
     {
-        return $this->sequences;
+        return $this->sequence;
     }
 
     /**

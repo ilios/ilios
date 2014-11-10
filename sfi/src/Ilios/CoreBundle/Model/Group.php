@@ -13,34 +13,69 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  * @TODO: Ask about instructor_group table & relationship to this... Seems to break NF.
  * Class Group
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="group")
  */
 class Group implements GroupInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use TitledEntity;
 
     /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=10, name="")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $groupId;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=100)
      */
     protected $location;
 
     /**
      * @var CohortInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Cohort", inversedBy="groups")
+     * @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id")
      */
     protected $cohort;
 
     /**
      * @var GroupInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_group_id", referencedColumnName="group_id")
      */
     protected $parent;
 
     /**
      * @var ArrayCollection|GroupInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Group", mappedBy="parent")
      */
     protected $children;
 
     /**
      * @var ArrayCollection|IlmSessionFacetInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="IlmSessionFacet", inversedBy="groups")
+     * @ORM\JoinTable(
+     *      name="ilm_session_facet_x_group",
+     *      joinColumns={@ORM\JoinColumn(name="group_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="ilm_session_facet_id")}
+     * )
      */
     protected $ilmSessionFacets;
 
@@ -76,6 +111,23 @@ class Group implements GroupInterface
         $this->offerings = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->groupId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->groupId : $this->id;
     }
 
     /**

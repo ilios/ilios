@@ -13,13 +13,29 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  */
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use DescribableEntity;
 
     /**
      * @var CurriculumInventoryReportInterface
      */
     protected $report;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        throw new \LogicException('This is not implemented yet.');
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->report->getId();
+    }
 
     /**
      * @param CurriculumInventoryReportInterface $report

@@ -2,8 +2,6 @@
 
 namespace Ilios\CoreBundle\Model;
 
-
-
 /**
  * School
  */
@@ -47,6 +45,10 @@ class School
     protected $competencies;
 
     protected $courses;
+
+    protected $departments;
+
+    protected $disciplines;
 
     /**
      * Constructor

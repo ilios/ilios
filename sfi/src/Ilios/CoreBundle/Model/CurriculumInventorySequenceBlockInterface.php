@@ -2,6 +2,9 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
@@ -125,14 +128,19 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function getCourse();
 
     /**
-     * @param CurriculumInventorySequenceBlockInterface $parentSequenceBlock
+     * @param Collection $children
      */
-    public function setParentSequenceBlock(CurriculumInventorySequenceBlockInterface $parentSequenceBlock);
+    public function setChildren(Collection $children);
 
     /**
-     * @return CurriculumInventorySequenceBlockInterface
+     * @param CurriculumInventorySequenceBlockInterface $child
      */
-    public function getParentSequenceBlock();
+    public function addChild(CurriculumInventorySequenceBlockInterface $child);
+
+    /**
+     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     */
+    public function getChildren();
 
     /**
      * @param CurriculumInventoryReportInterface $report

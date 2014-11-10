@@ -77,7 +77,8 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courseLearningMaterials")
      * @ORM\JoinTable(
      *      name="course_learning_material_x_mesh",
-     *      joinColumns={@ORM\JoinColumn(name="course_learning_material_id", referencedColumnName="")}
+     *      joinColumns={@ORM\JoinColumn(name="course_learning_material_id", referencedColumnName="course_learning_material_id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id")}
      * )
      */
     protected $meshDescriptors;

@@ -18,7 +18,7 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  */
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use TitledEntity;
 
     /**

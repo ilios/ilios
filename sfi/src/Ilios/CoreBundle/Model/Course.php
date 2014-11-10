@@ -194,6 +194,12 @@ class Course implements CourseInterface
     protected $courseLearningMaterials;
 
     /**
+     * @todo Implement
+     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     */
+    protected $curriculumInventorySequenceBlocks;
+
+    /**
      * Constructor
      */
     public function __construct()

@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -11,77 +13,150 @@ use Ilios\CoreBundle\Traits\TitledEntity;
 /**
  * Class CurriculumInventorySequenceBlock
  * @package Ilios\CoreBundle\Model
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="curriculum_inventory_sequence_block")
  */
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-    use IdentifiableEntity;
+//    use IdentifiableEntity;
     use DescribableEntity;
     use TitledEntity;
 
     /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", length=10, name="sequence_block_id")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $sequenceBlockId;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=3)
      */
     protected $required;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=3, name="child_sequence_order")
      */
     protected $childSequenceOrder;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer", length=10, name="order_in_sequence")
      */
     protected $orderInSequence;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer", length=11)
      */
     protected $minimum;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer", length=11)
      */
     protected $maximum;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean", length=3)
      */
     protected $track;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="start_date")
      */
     protected $startDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="end_date")
      */
     protected $endDate;
 
     /**
      * @var int
+     *
+     * @ORM\Column(type="integer", length=11)
      */
     protected $duration;
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
+     *
+     * @ORM\OneToMany(targetEntity="CurriculumInventoryAcademicLevel", mappedBy="curriculumInventorySequenceBlocks")
+     * @ORM\JoinColumn(name="academic_level_id", referencedColumnName="academic_level_i")
      */
     protected $academicLevel;
 
     /**
      * @var CourseInterface
+     *
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="curriculumInventorySequenceBlocks")
      */
     protected $course;
 
     /**
      * @var CurriculumInventorySequenceBlockInterface
+     *
+     * @ORM\ManyToOne(targetEntity="CurriculumInventorySequenceBlock", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_sequence_block_id", referencedColumnName="sequence_block_id")
      */
-    protected $parentSequenceBlock;
+    protected $parent;
+
+    /**
+     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="parent")
+     */
+    protected $children;
 
     /**
      * @var CurriculumInventoryReportInterface
      */
     protected $report;
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->sequenceBlockId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->sequenceBlockId : $this->id;
+    }
 
     /**
      * @param boolean $required
@@ -260,19 +335,47 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     }
 
     /**
-     * @param CurriculumInventorySequenceBlockInterface $parentSequenceBlock
+     * @param CurriculumInventorySequenceBlockInterface $parent
      */
-    public function setParentSequenceBlock(CurriculumInventorySequenceBlockInterface $parentSequenceBlock)
+    public function setParent(CurriculumInventorySequenceBlockInterface $parent)
     {
-        $this->parentSequenceBlock = $parentSequenceBlock;
+        $this->parent = $parent;
     }
 
     /**
      * @return CurriculumInventorySequenceBlockInterface
      */
-    public function getParentSequenceBlock()
+    public function getParent()
     {
-        return $this->parentSequenceBlock;
+        return $this->parent;
+    }
+
+    /**
+     * @param Collection $children
+     */
+    public function setChildren(Collection $children)
+    {
+        $this->children = new ArrayCollection();
+
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $child
+     */
+    public function addChild(CurriculumInventorySequenceBlockInterface $child)
+    {
+        $this->children->add($child);
+    }
+
+    /**
+     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 
     /**

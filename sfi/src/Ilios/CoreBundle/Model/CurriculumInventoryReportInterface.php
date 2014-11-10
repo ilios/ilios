@@ -2,15 +2,13 @@
 
 namespace Ilios\CoreBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 
 /**
  * Interface CurriculumInventoryReportInterface
+ * @package Ilios\CoreBundle\Model
  */
 interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,
@@ -26,26 +24,6 @@ interface CurriculumInventoryReportInterface extends
      * @return int
      */
     public function getYear();
-
-    /**
-     * @param string $name
-     */
-    public function setName($name);
-
-    /**
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description);
-
-    /**
-     * @return string
-     */
-    public function getDescription();
 
     /**
      * @param \DateTime $startDate
@@ -68,32 +46,22 @@ interface CurriculumInventoryReportInterface extends
     public function getEndDate();
 
     /**
-     * @param Collection $exports
-     */
-    public function setExports(Collection $exports);
-
-    /**
      * @param CurriculumInventoryExportInterface $export
      */
-    public function addExport(CurriculumInventoryExportInterface $export);
+    public function setExport(CurriculumInventoryExportInterface $export);
 
     /**
-     * @return ArrayCollection|CurriculumInventoryExportInterface[]
+     * @return CurriculumInventoryExportInterface
      */
-    public function getExports();
-
-    /**
-     * @param Collection $sequences
-     */
-    public function setSequences(Collection $sequences);
+    public function getExport();
 
     /**
      * @param CurriculumInventorySequenceInterface $sequence
      */
-    public function addSequence(CurriculumInventorySequenceInterface $sequence);
+    public function setSequence(CurriculumInventorySequenceInterface $sequence);
 
     /**
-     * @return ArrayCollection|CurriculumInventorySequenceInterface[]
+     * @return CurriculumInventorySequenceInterface
      */
     public function getSequence();
 
