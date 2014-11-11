@@ -60,10 +60,7 @@ function SessionModel (dbObject) {
         this.sessionTypeId = dbObject.session_type_id;
         this.courseId = dbObject.course_id;
 
-        this.publishEventId
-            = ((dbObject.publish_event_id < 1) || (dbObject.publish_event_id == null))
-                        ? -1
-                        : dbObject.publish_event_id;
+        this.publishEventId = dbObject.publish_event_id < 1 ? -1 : dbObject.publish_event_id;
 
         this.attireRequired = (dbObject.attire_required == '1');
         this.equipmentRequired = (dbObject.equipment_required == '1');
