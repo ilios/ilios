@@ -126,7 +126,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.title');
     }
 
-    if ((this.title == null) || (YAHOO.lang.trim(this.title) == '')) {
+    if (YAHOO.lang.trim(this.title)) {
         rhett = false;
 
         if (! populateReviewArray) {
