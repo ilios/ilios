@@ -97,7 +97,7 @@ function SessionModel (dbObject) {
 
     };
 
-    if (this.independentLearningModel != null) {
+    if (this.independentLearningModel) {
         this.independentLearningModel.addStateChangeListener(this.dirtyStateListener, this);
     }
 
