@@ -49,9 +49,7 @@ function SessionModel (dbObject) {
             this.sessionTypeName = 'Independent Learning';
         }
 
-        if ((typeof dbObject.description != 'undefined')
-                && (dbObject.description != null)
-                && (dbObject.description.length > 0)) {
+        if (dbObject.description && (dbObject.description.length > 0)) {
             this.description = dbObject.description;
         }
 
