@@ -5,20 +5,9 @@ services: mysql
 matrix:
   fast_finish: true
   allow_failures:
-    - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true"
-    - env: "BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true"
   exclude:
-    #only run specific builds against 5.4
+    - php: "5.6"
+    - php: "5.5"
     - php: "5.4"
   include:
     - php: "5.4"
@@ -29,8 +18,26 @@ matrix:
       env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
     - php: "5.4"
       env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - php: "5.5"
+      env: TEST_PHPUNIT=true
+    - php: "5.5"
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setone' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - php: "5.5"
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - php: "5.5"
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - php: "5.6"
+      env: TEST_PHPUNIT=true
+    - php: "5.6"
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setone' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - php: "5.6"
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@settwo' START_LOCAL_SELENIUM=true TEST_BEHAT=true
+    - php: "5.6"
+      env: BEHAT_PROFILE='phantomjs' BEHAT_TAG='~@ignore&&@setthree' START_LOCAL_SELENIUM=true TEST_BEHAT=true
 
 php:
+  - "5.6"
+  - "5.5"
   - "5.4"
   - "5.3"
 
@@ -56,18 +63,6 @@ env:
     - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
     - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
     - BEHAT_PROFILE='default' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxsafari' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win7ie9' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='osxchrome' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setone' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@settwo' START_SAUCE_CONNECT=true TEST_BEHAT=true
-    - BEHAT_PROFILE='win8ie11' BEHAT_TAG='~@ignore&&@setthree' START_SAUCE_CONNECT=true TEST_BEHAT=true
 
 addons:
   hosts:
