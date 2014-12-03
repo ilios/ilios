@@ -39,9 +39,6 @@
                     </ul>
                 </nav>
             </div>
-            <div id="viewbar" class="clearfix">
-                <h1 id="view-current"></h1>
-            </div>
         </header>
         <div id="main" role="main">
             <div id="content" class="align-c">
