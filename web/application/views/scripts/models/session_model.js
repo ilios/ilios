@@ -49,9 +49,7 @@ function SessionModel (dbObject) {
             this.sessionTypeName = 'Independent Learning';
         }
 
-        if ((typeof dbObject.description != 'undefined')
-                && (dbObject.description != null)
-                && (dbObject.description.length > 0)) {
+        if (dbObject.description && (dbObject.description.length > 0)) {
             this.description = dbObject.description;
         }
 
@@ -62,10 +60,10 @@ function SessionModel (dbObject) {
         this.sessionTypeId = dbObject.session_type_id;
         this.courseId = dbObject.course_id;
 
-        this.publishEventId
-            = ((dbObject.publish_event_id < 1) || (dbObject.publish_event_id == null))
-                        ? -1
-                        : dbObject.publish_event_id;
+        this.publishEventId = dbObject.publish_event_id;
+        if (! this.publishEventId || this.publishEventId < 1) {
+            this.publishEventId = 0;
+        }
 
         this.attireRequired = (dbObject.attire_required == '1');
         this.equipmentRequired = (dbObject.equipment_required == '1');
@@ -102,7 +100,7 @@ function SessionModel (dbObject) {
 
     };
 
-    if (this.independentLearningModel != null) {
+    if (this.independentLearningModel) {
         this.independentLearningModel.addStateChangeListener(this.dirtyStateListener, this);
     }
 
@@ -131,7 +129,7 @@ SessionModel.prototype.meetsMinimumPublishingRequirements = function (reviewArra
         reviewObject.displayLabel = ilios_i18nVendor.getI18NString('general.terms.title');
     }
 
-    if ((this.title == null) || (YAHOO.lang.trim(this.title) == '')) {
+    if (! YAHOO.lang.trim(this.title)) {
         rhett = false;
 
         if (! populateReviewArray) {
