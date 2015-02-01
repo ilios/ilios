@@ -3,120 +3,159 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * Objective
+ * Class Objective
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="objective")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Objective
+class Objective implements ObjectiveInterface
 {
+    use IdentifiableEntity;
+    use TitledEntity;
+
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="objective_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $objectiveId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="text")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $title;
+    protected $title;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Competency
+     * @var CompetencyInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Competency", inversedBy="objectives")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $competency;
+    protected $competency;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="objectives")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $courses;
+    protected $courses;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="objectives")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("programYears")
      */
-    private $programYears;
+    protected $programYears;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", mappedBy="objectives")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $sessions;
+    protected $sessions;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="children")
+     * @ORM\JoinTable("objective_x_objective",
+     *   joinColumns={@ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="parent_objective_id", referencedColumnName="objective_id")}
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $children;
+    protected $parents;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", mappedBy="parents")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $meshDescriptors;
+    protected $children;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|MeshDescriptorInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="objectives")
+     * @ORM\JoinTable(name="objective_x_mesh",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("meshDescriptors")
      */
-    private $parents;
+    protected $meshDescriptors;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->programYears = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->parents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new ArrayCollection();
+        $this->programYears = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
+        $this->parents = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
     }
 
     /**
-     * Get objectiveId
-     *
-     * @return integer 
+     * @param CompetencyInterface $competency
      */
-    public function getObjectiveId()
-    {
-        return $this->objectiveId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Objective
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set competency
-     *
-     * @param \Ilios\CoreBundle\Entity\Competency $competency
-     * @return Objective
-     */
-    public function setCompetency(\Ilios\CoreBundle\Entity\Competency $competency = null)
+    public function setCompetency(CompetencyInterface $competency = null)
     {
         $this->competency = $competency;
-
-        return $this;
     }
 
     /**
-     * Get competency
-     *
-     * @return \Ilios\CoreBundle\Entity\Competency 
+     * @return CompetencyInterface
      */
     public function getCompetency()
     {
@@ -124,214 +163,178 @@ class Objective
     }
 
     /**
-     * Get competency id
-     *
-     * @return integer|null
+     * @param Collection $courses
      */
-    public function getCompetencyId()
+    public function setCourses(Collection $courses)
     {
-        if ($this->competency) {
-            return $this->competency->getCompetencyId();
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
         }
-
-        return null;
     }
 
     /**
-     * Add courses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
-     * @return Objective
+     * @param CourseInterface $course
      */
-    public function addCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function addCourse(CourseInterface $course)
     {
-        $this->courses[] = $courses;
-
-        return $this;
+        $this->courses->add($course);
     }
 
     /**
-     * Remove courses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
-     */
-    public function removeCourse(\Ilios\CoreBundle\Entity\Course $courses)
-    {
-        $this->courses->removeElement($courses);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return ArrayCollection|CourseInterface[]
      */
     public function getCourses()
     {
-        return $this->courses->toArray();
+        return $this->courses;
     }
 
     /**
-     * Add programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
-     * @return Objective
+     * @param Collection $programYears
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function setProgramYears(Collection $programYears)
     {
-        $this->programYears[] = $programYears;
+        $this->programYears = new ArrayCollection();
 
-        return $this;
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
     }
 
     /**
-     * Remove programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param ProgramYearInterface $programYear
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(ProgramYearInterface $programYear)
     {
-        $this->programYears->removeElement($programYears);
+        $this->programYears->add($programYear);
     }
 
     /**
-     * Get programYears
-     *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function getProgramYears()
     {
-        return $this->programYears->toArray();
+        return $this->programYears;
     }
 
     /**
-     * Add sessions
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
-     * @return Objective
+     * @param Collection $sessions
      */
-    public function addSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function setSessions(Collection $sessions)
     {
-        $this->sessions[] = $sessions;
+        $this->sessions = new ArrayCollection();
 
-        return $this;
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
     }
 
     /**
-     * Remove sessions
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param SessionInterface $session
      */
-    public function removeSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function addSession(SessionInterface $session)
     {
-        $this->sessions->removeElement($sessions);
+        $this->sessions->add($session);
     }
 
     /**
-     * Get sessions
-     *
-     * @return \Ilios\CoreBundle\Entity\Session[]
+     * @return ArrayCollection|SessionInterface[]
      */
     public function getSessions()
     {
-        return $this->sessions->toArray();
+        return $this->sessions;
     }
 
     /**
-     * Add children
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $children
-     * @return Objective
+     * @param Collection $parents
      */
-    public function addChild(\Ilios\CoreBundle\Entity\Objective $children)
+    public function setParents(Collection $parents)
     {
-        $this->children[] = $children;
+        $this->parents = new ArrayCollection();
 
-        return $this;
+        foreach ($parents as $parent) {
+            $this->addParent($parent);
+        }
     }
 
     /**
-     * Remove children
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $children
+     * @param ObjectiveInterface $parent
      */
-    public function removeChild(\Ilios\CoreBundle\Entity\Objective $children)
+    public function addParent(ObjectiveInterface $parent)
     {
-        $this->children->removeElement($children);
+        $this->parents->add($parent);
     }
 
     /**
-     * Get children
-     *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
-     */
-    public function getChildren()
-    {
-        return $this->children->toArray();
-    }
-
-    /**
-     * Add meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
-     * @return Objective
-     */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
-    {
-        $this->meshDescriptors[] = $meshDescriptors;
-
-        return $this;
-    }
-
-    /**
-     * Remove meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
-     */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
-    {
-        $this->meshDescriptors->removeElement($meshDescriptors);
-    }
-
-    /**
-     * Get meshDescriptors
-     *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
-     */
-    public function getMeshDescriptors()
-    {
-        return $this->meshDescriptors->toArray();
-    }
-
-    /**
-     * Add parents
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $parents
-     * @return Objective
-     */
-    public function addParent(\Ilios\CoreBundle\Entity\Objective $parents)
-    {
-        $this->parents[] = $parents;
-
-        return $this;
-    }
-
-    /**
-     * Remove parents
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $parents
-     */
-    public function removeParent(\Ilios\CoreBundle\Entity\Objective $parents)
-    {
-        $this->parents->removeElement($parents);
-    }
-
-    /**
-     * Get parents
-     *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getParents()
     {
-        return $this->parents->toArray();
+        return $this->parents;
+    }
+
+    /**
+     * @param Collection $children
+     */
+    public function setChildren(Collection $children)
+    {
+        $this->children = new ArrayCollection();
+
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
+    }
+
+    /**
+     * @param ObjectiveInterface $child
+     */
+    public function addChild(ObjectiveInterface $child)
+    {
+        $this->children->add($child);
+    }
+
+    /**
+     * @return ArrayCollection|ObjectiveInterface[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param Collection $meshDescriptors
+     */
+    public function setMeshDescriptors(Collection $meshDescriptors)
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    /**
+     * @param MeshDescriptorInterface $meshDescriptor
+     */
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    {
+        $this->meshDescriptors->add($meshDescriptor);
+    }
+
+    /**
+     * @return ArrayCollection|MeshDescriptorInterface[]
+     */
+    public function getMeshDescriptors()
+    {
+        return $this->meshDescriptors;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

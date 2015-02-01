@@ -1,101 +1,82 @@
 <?php
+
 namespace Ilios\CoreBundle\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManager;
 
-use Ilios\CoreBundle\Entity\User;
-use Ilios\CoreBundle\Form\UserType;
 use Ilios\CoreBundle\Exception\InvalidFormException;
+use Ilios\CoreBundle\Form\UserType;
+use Ilios\CoreBundle\Entity\Manager\UserManager;
+use Ilios\CoreBundle\Entity\UserInterface;
 
-class UserHandler
+class UserHandler extends UserManager
 {
-    private $om;
-    private $entityClass;
-    private $repository;
-    private $formFactory;
+    /**
+     * @var FormFactoryInterface
+     */
+    protected $formFactory;
 
-    public function __construct(ObjectManager $om, $entityClass, FormFactoryInterface $formFactory)
+    /**
+     * @param EntityManager $em
+     * @param string $class
+     * @param FormFactoryInterface $formFactory
+     */
+    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
     {
-        $this->om = $om;
-        $this->entityClass = $entityClass;
-        $this->repository = $this->om->getRepository($this->entityClass);
         $this->formFactory = $formFactory;
+        parent::__construct($em, $class);
     }
 
     /**
-     * Get an User.
+     * @param array $parameters
      *
-     * @param mixed $id
-     *
-     * @return User
-     */
-    public function get($id)
-    {
-        return $this->repository->find($id);
-    }
-
-    /**
-     * Get all Users
-     *
-     * @return User[]
-     */
-    public function getAll()
-    {
-        return $this->repository->findAll();
-    }
-
-    /**
-     * Create a new User.
-     *
-     * @param Request $request
-     *
-     * @return User
+     * @return UserInterface
      */
     public function post(array $parameters)
     {
-        $user = new $this->entityClass();
+        $user = $this->createUser();
+
         return $this->processForm($user, $parameters, 'POST');
     }
 
     /**
-     * Edit an Obejctive, or create if it doesn't exist.
+     * @param UserInterface $user
+     * @param array $parameters
      *
-     * @param User     $user
-     * @param array         $parameters
-     *
-     * @return User
+     * @return UserInterface
      */
-    public function put(User $user, array $parameters)
+    public function put(UserInterface $user, array $parameters)
     {
         return $this->processForm($user, $parameters, 'PUT');
     }
 
     /**
-     * Processes the form.
+     * @param UserInterface $user
+     * @param array $parameters
      *
-     * @param User     $user
-     * @param array         $parameters
-     * @param String        $method
-     *
-     * @return User
-     *
-     * @throws \Ilios\CoreBundle\Exception\InvalidFormException
+     * @return UserInterface
      */
-    private function processForm(User $user, array $parameters, $method)
+    public function patch(UserInterface $user, array $parameters)
     {
-        $form = $this->formFactory->create(
-            new UserType(),
-            $user,
-            array('method' => $method)
-        );
-        $form->submit($parameters);
+        return $this->processForm($user, $parameters, 'PATCH');
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param array $parameters
+     * @param string $method
+     * @throws InvalidFormException when invalid form data is passed in.
+     *
+     * @return UserInterface
+     */
+    protected function processForm(UserInterface $user, array $parameters, $method = "PUT")
+    {
+        $form = $this->formFactory->create(new UserType(), $user, array('method' => $method));
+        $form->submit($parameters, 'PATCH' !== $method);
         if ($form->isValid()) {
-            //re-request the data for testability
             $user = $form->getData();
-            $this->om->persist($user);
-            $this->om->flush($user);
+            $this->updateUser($user, true);
 
             return $user;
         }

@@ -3,65 +3,121 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+
+use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
- * CurriculumInventoryAcademicLevel
+ * Class CurriculumInventoryAcademicLevel
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="curriculum_inventory_academic_level",
+ *   uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="report_id_level", columns={"report_id", "level"})
+ *   },
+ *   indexes={
+ *     @ORM\Index(name="IDX_B4D3296D4BD2A4C0", columns={"report_id"})
+ *   }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class CurriculumInventoryAcademicLevel
+class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-    /**
-     * @var integer
-     */
-    private $academicLevelId;
+//    use IdentifiableEntity; //Implement on 3.1
+    use NameableEntity;
+    use DescribableEntity;
+    use StringableIdEntity;
 
     /**
-     * @var integer
-     */
-    private $level;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryReport
-     */
-    private $report;
-
-
-    /**
-     * Get academicLevelId
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
      *
-     * @return integer 
+     * @ORM\Id
+     * @ORM\Column(name="academic_level_id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    public function getAcademicLevelId()
+    protected $id;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(type="string", length=50)
+    */
+    protected $name;
+
+    /**
+    * @ORM\Column(name="description", type="text", nullable=true)
+    * @var string
+    */
+    protected $description;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="level", type="integer")
+     */
+    protected $level;
+
+    /**
+     * @var CurriculumInventoryReportInterface
+     *
+     * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="curriculumInventoryAcademicLevels")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $report;
+
+    /**
+    * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="academicLevel")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $sequenceBlocks;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
     {
-        return $this->academicLevelId;
+        $this->academicLevelId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set level
-     *
-     * @param integer $level
-     * @return CurriculumInventoryAcademicLevel
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->academicLevelId : $this->id;
+    }
+
+    /**
+     * @param int $level
      */
     public function setLevel($level)
     {
         $this->level = $level;
-
-        return $this;
     }
 
     /**
-     * Get level
-     *
-     * @return integer 
+     * @return int
      */
     public function getLevel()
     {
@@ -69,68 +125,15 @@ class CurriculumInventoryAcademicLevel
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return CurriculumInventoryAcademicLevel
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return CurriculumInventoryAcademicLevel
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReport $report
-     * @return CurriculumInventoryAcademicLevel
-     */
-    public function setReport(\Ilios\CoreBundle\Entity\CurriculumInventoryReport $report = null)
+    public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryReport 
+     * @return CurriculumInventoryReportInterface
      */
     public function getReport()
     {

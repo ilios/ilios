@@ -1,0 +1,86 @@
+<?php
+
+namespace Ilios\CoreBundle\Handler;
+
+use Symfony\Component\Form\FormFactoryInterface;
+use Doctrine\ORM\EntityManager;
+
+use Ilios\CoreBundle\Exception\InvalidFormException;
+use Ilios\CoreBundle\Form\CurriculumInventorySequenceBlockType;
+use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager;
+use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
+
+class CurriculumInventorySequenceBlockHandler extends CurriculumInventorySequenceBlockManager
+{
+    /**
+     * @var FormFactoryInterface
+     */
+    protected $formFactory;
+
+    /**
+     * @param EntityManager $em
+     * @param string $class
+     * @param FormFactoryInterface $formFactory
+     */
+    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    {
+        $this->formFactory = $formFactory;
+        parent::__construct($em, $class);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return CurriculumInventorySequenceBlockInterface
+     */
+    public function post(array $parameters)
+    {
+        $curriculumInventorySequenceBlock = $this->createCurriculumInventorySequenceBlock();
+
+        return $this->processForm($curriculumInventorySequenceBlock, $parameters, 'POST');
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
+     * @param array $parameters
+     *
+     * @return CurriculumInventorySequenceBlockInterface
+     */
+    public function put(CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock, array $parameters)
+    {
+        return $this->processForm($curriculumInventorySequenceBlock, $parameters, 'PUT');
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
+     * @param array $parameters
+     *
+     * @return CurriculumInventorySequenceBlockInterface
+     */
+    public function patch(CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock, array $parameters)
+    {
+        return $this->processForm($curriculumInventorySequenceBlock, $parameters, 'PATCH');
+    }
+
+    /**
+     * @param CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
+     * @param array $parameters
+     * @param string $method
+     * @throws InvalidFormException when invalid form data is passed in.
+     *
+     * @return CurriculumInventorySequenceBlockInterface
+     */
+    protected function processForm(CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock, array $parameters, $method = "PUT")
+    {
+        $form = $this->formFactory->create(new CurriculumInventorySequenceBlockType(), $curriculumInventorySequenceBlock, array('method' => $method));
+        $form->submit($parameters, 'PATCH' !== $method);
+        if ($form->isValid()) {
+            $curriculumInventorySequenceBlock = $form->getData();
+            $this->updateCurriculumInventorySequenceBlock($curriculumInventorySequenceBlock, true);
+
+            return $curriculumInventorySequenceBlock;
+        }
+
+        throw new InvalidFormException('Invalid submitted data', $form);
+    }
+}

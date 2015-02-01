@@ -8,8 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ObjectiveType extends AbstractType
 {
-    const NAME = 'objective';
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -18,8 +16,13 @@ class ObjectiveType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('save', 'submit')
-            // ->add('competency')
+            ->add('competency', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Competency"])
+            ->add('courses', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Course"])
+            ->add('programYears', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"])
+            ->add('sessions', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Session"])
+            ->add('parents', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Objective"])
+            ->add('children', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Objective"])
+            ->add('meshDescriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
         ;
     }
 
@@ -29,8 +32,7 @@ class ObjectiveType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\Objective',
-            'csrf_protection'   => false
+            'data_class' => 'Ilios\CoreBundle\Entity\Objective'
         ));
     }
 
@@ -39,6 +41,6 @@ class ObjectiveType extends AbstractType
      */
     public function getName()
     {
-        return self::NAME;
+        return 'ilios_corebundle_objective_form_type';
     }
 }

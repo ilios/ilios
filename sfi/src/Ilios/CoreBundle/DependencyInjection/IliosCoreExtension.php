@@ -23,6 +23,9 @@ class IliosCoreExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-    }
+	
+		$xmlLoader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+		$xmlLoader->load('managers.xml');
+		$xmlLoader->load('handlers.xml');
+	}
 }

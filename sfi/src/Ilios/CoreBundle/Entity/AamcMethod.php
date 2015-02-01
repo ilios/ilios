@@ -2,112 +2,111 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Entity\SessionTypeInterface;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
+use Ilios\CoreBundle\Traits\StringableUuidEntity;
 
 /**
- * AamcMethod
+ * Class AamcMethod
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="aamc_method")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class AamcMethod
+class AamcMethod implements AamcMethodInterface
 {
-    /**
-     * @var string
-     */
-    private $methodId;
+//    use UniversallyUniqueEntity;
+    use DescribableEntity;
+    use StringableUuidEntity;
 
     /**
+     * @deprecated replace with UniversallyUniqueEntity trait for 3.1.x
      * @var string
+     *
+     * @ORM\Id
+     * @ORM\Column(type="string", length=10, name="method_id")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $description;
+    protected $uuid;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @ORM\Column(name="description", type="text")
+    * @var string
+    */
+    protected $description;
+
+    /**
+     * @var ArrayCollection|SessionTypeInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="SessionType", mappedBy="aamcMethods")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $sessionTypes;
+    protected $sessionTypes;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->sessionTypes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sessionTypes = new ArrayCollection();
     }
 
     /**
-     * Set methodId
-     *
-     * @param string $methodId
-     * @return AamcMethod
+     * @param string $uuid
      */
-    public function setMethodId($methodId)
+    public function setUuid($uuid)
     {
-        $this->methodId = $methodId;
-
-        return $this;
+        $this->methodId = $uuid;
+        $this->uuid = $uuid;
     }
 
     /**
-     * Get methodId
-     *
-     * @return string 
+     * @return string
      */
-    public function getMethodId()
+    public function getUuid()
     {
-        return $this->methodId;
+        return ($this->uuid === null) ? $this->methodId : $this->uuid;
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return AamcMethod
+     * @param Collection $sessionTypes
      */
-    public function setDescription($description)
+    public function setSessionTypes(Collection $sessionTypes)
     {
-        $this->description = $description;
+        $this->sessionTypes = new ArrayCollection();
 
-        return $this;
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
     }
 
     /**
-     * Get description
-     *
-     * @return string 
+     * @param SessionTypeInterface $sessionType
      */
-    public function getDescription()
+    public function addSessionType(SessionTypeInterface $sessionType)
     {
-        return $this->description;
+        $this->sessionTypes->add($sessionType);
     }
 
     /**
-     * Add sessionTypes
-     *
-     * @param \Ilios\CoreBundle\Entity\SessionType $sessionTypes
-     * @return AamcMethod
-     */
-    public function addSessionType(\Ilios\CoreBundle\Entity\SessionType $sessionTypes)
-    {
-        $this->sessionTypes[] = $sessionTypes;
-
-        return $this;
-    }
-
-    /**
-     * Remove sessionTypes
-     *
-     * @param \Ilios\CoreBundle\Entity\SessionType $sessionTypes
-     */
-    public function removeSessionType(\Ilios\CoreBundle\Entity\SessionType $sessionTypes)
-    {
-        $this->sessionTypes->removeElement($sessionTypes);
-    }
-
-    /**
-     * Get sessionTypes
-     *
-     * @return array[\Ilios\CoreBundle\Entity\SessionType]
+     * @return ArrayCollection|SessionTypeInterface[]
      */
     public function getSessionTypes()
     {
-        return $this->sessionTypes->toArray();
+        return $this->sessionTypes;
     }
 }

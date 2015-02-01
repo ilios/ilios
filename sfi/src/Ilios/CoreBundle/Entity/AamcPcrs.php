@@ -2,112 +2,92 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Entity\CompetencyInterface;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
+use Ilios\CoreBundle\Traits\StringableUuidEntity;
 
 /**
- * AamcPcrs
+ * Class AamcPcrs
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="aamc_pcrs")
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class AamcPcrs
+class AamcPcrs implements AamcPcrsInterface
 {
-    /**
-     * @var string
-     */
-    private $pcrsId;
+    use UniversallyUniqueEntity;
+    use DescribableEntity;
+    use StringableUuidEntity;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="pcrs_id", type="string", length=21)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $description;
+    protected $uuid;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @ORM\Column(name="description", type="text")
+    * @var string
+    */
+    protected $description;
+
+    /**
+     * @var ArrayCollection|CompetencyInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Competency", mappedBy="aamcPcrses")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $competencies;
+    protected $competencies;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->competencies = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->competencies = new ArrayCollection();
     }
 
     /**
-     * Set pcrsId
-     *
-     * @param string $pcrsId
-     * @return AamcPcrs
+     * @param Collection $competencies
      */
-    public function setPcrsId($pcrsId)
+    public function setCompetencies(Collection $competencies)
     {
-        $this->pcrsId = $pcrsId;
+        $this->competencies = new ArrayCollection();
 
-        return $this;
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
     }
 
     /**
-     * Get pcrsId
-     *
-     * @return string 
+     * @param CompetencyInterface $competency
      */
-    public function getPcrsId()
+    public function addCompetency(CompetencyInterface $competency)
     {
-        return $this->pcrsId;
+        $this->competencies->add($competency);
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return AamcPcrs
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Add competencies
-     *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
-     * @return AamcPcrs
-     */
-    public function addCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
-    {
-        $this->competencies[] = $competencies;
-
-        return $this;
-    }
-
-    /**
-     * Remove competencies
-     *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
-     */
-    public function removeCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
-    {
-        $this->competencies->removeElement($competencies);
-    }
-
-    /**
-     * Get competencies
-     *
-     * @return Ilios\CoreBundle\Entity\Competency[]
+     * @return ArrayCollection|CompetencyInterface[]
      */
     public function getCompetencies()
     {
-        return $this->competencies->toArray();
+        return $this->competencies;
     }
 }

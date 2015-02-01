@@ -3,82 +3,142 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * SessionLearningMaterial
+ * Class SessionLearningMaterial
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="session_learning_material", indexes={
+ *   @ORM\Index(name="session_lm_k", columns={"session_id", "learning_material_id"}),
+ *   @ORM\Index(name="learning_material_id_k", columns={"learning_material_id"}),
+ *   @ORM\Index(name="IDX_9BE2AF8D613FECDF", columns={"session_id"})
+ * })
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class SessionLearningMaterial
+class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
+    //    use IdentifiableEntity;
+    use StringableIdEntity;
+    
     /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var integer
+     *
+     * @ORM\Column(name="session_learning_material_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $sessionLearningMaterialId;
+     protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="notes", type="text", nullable=true)
      */
-    private $notes;
+    protected $notes;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="required", type="boolean")
      */
-    private $required;
+    protected $required;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="notes_are_public", type="boolean")
      */
-    private $notesArePublic;
+    protected $notesArePublic;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Session
+     * @var SessionInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="sessionLearningMaterials")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $session;
+    protected $session;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\LearningMaterial
+     * @var LearningMaterialInterface
+     *
+     * @ORM\ManyToOne(targetEntity="LearningMaterial", inversedBy="sessionLearningMaterials")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="learning_material_id", referencedColumnName="learning_material_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $learningMaterial;
+    protected $learningMaterial;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var MeshDescriptorInterface
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="sessionLearningMaterials")
+     * @ORM\JoinTable(name="session_learning_material_x_mesh",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_learning_material_id", referencedColumnName="session_learning_material_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $meshDescriptors;
+    protected $meshDescriptors;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
     }
 
     /**
-     * Get sessionLearningMaterialId
-     *
-     * @return integer 
+     * @param int $id
      */
-    public function getSessionLearningMaterialId()
+    public function setId($id)
     {
-        return $this->sessionLearningMaterialId;
+        $this->sessionLearningMaterialId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set notes
-     *
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->sessionLearningMaterialId : $this->id;
+    }
+
+    /**
      * @param string $notes
-     * @return SessionLearningMaterial
      */
     public function setNotes($notes)
     {
         $this->notes = $notes;
-
-        return $this;
     }
 
     /**
-     * Get notes
-     *
-     * @return string 
+     * @return string
      */
     public function getNotes()
     {
@@ -86,68 +146,48 @@ class SessionLearningMaterial
     }
 
     /**
-     * Set required
-     *
      * @param boolean $required
-     * @return SessionLearningMaterial
      */
     public function setRequired($required)
     {
         $this->required = $required;
-
-        return $this;
     }
 
     /**
-     * Get required
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRequired()
+    public function isRequired()
     {
         return $this->required;
     }
 
     /**
-     * Set notesArePublic
-     *
      * @param boolean $notesArePublic
-     * @return SessionLearningMaterial
      */
     public function setNotesArePublic($notesArePublic)
     {
         $this->notesArePublic = $notesArePublic;
-
-        return $this;
     }
 
     /**
-     * Get notesArePublic
-     *
-     * @return boolean 
+     * @todo: rename the property to something a bit more standardize, like publicNotes -> hasPublicNotes()
+     * @return boolean
      */
-    public function getNotesArePublic()
+    public function hasNotesArePublic()
     {
         return $this->notesArePublic;
     }
 
     /**
-     * Set session
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $session
-     * @return SessionLearningMaterial
+     * @param SessionInterface $session
      */
-    public function setSession(\Ilios\CoreBundle\Entity\Session $session = null)
+    public function setSession(SessionInterface $session)
     {
         $this->session = $session;
-
-        return $this;
     }
 
     /**
-     * Get session
-     *
-     * @return \Ilios\CoreBundle\Entity\Session 
+     * @return SessionInterface
      */
     public function getSession()
     {
@@ -155,22 +195,15 @@ class SessionLearningMaterial
     }
 
     /**
-     * Set learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     * @return SessionLearningMaterial
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function setLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial = null)
+    public function setLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
         $this->learningMaterial = $learningMaterial;
-
-        return $this;
     }
 
     /**
-     * Get learningMaterial
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial 
+     * @return LearningMaterialInterface
      */
     public function getLearningMaterial()
     {
@@ -178,35 +211,30 @@ class SessionLearningMaterial
     }
 
     /**
-     * Add meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
-     * @return SessionLearningMaterial
+     * @param Collection $meshDescriptors
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors)
     {
-        $this->meshDescriptors[] = $meshDescriptors;
+        $this->meshDescriptors = new ArrayCollection();
 
-        return $this;
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
     }
 
     /**
-     * Remove meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param MeshDescriptorInterface $meshDescriptor
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        $this->meshDescriptors->removeElement($meshDescriptors);
+        $this->meshDescriptors->add($meshDescriptor);
     }
 
     /**
-     * Get meshDescriptors
-     *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors()
     {
-        return $this->meshDescriptors->toArray();
+        return $this->meshDescriptors;
     }
 }

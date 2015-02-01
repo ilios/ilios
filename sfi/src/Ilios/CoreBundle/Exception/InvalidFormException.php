@@ -1,21 +1,19 @@
 <?php
+
 namespace Ilios\CoreBundle\Exception;
 
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class InvalidFormException extends \RuntimeException
+class InvalidFormException extends BadRequestHttpException
 {
     protected $form;
 
-    public function __construct($message, FormInterface $form = null)
+    public function __construct($message, $form = null)
     {
         parent::__construct($message);
         $this->form = $form;
     }
 
-    /**
-     * @return Form|null
-     */
     public function getForm()
     {
         return $this->form;

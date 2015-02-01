@@ -3,121 +3,135 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\StringableUuidEntity;
 
 /**
- * MeshTerm
+ * Class MeshTerm
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="mesh_term")
+ * @ORM\Entity
+ * @UniqueEntity("meshTermUid")
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class MeshTerm
+class MeshTerm implements MeshTermInterface
 {
+    use NameableEntity;
+    use StringableUuidEntity;
+
+    /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var string
+     *
+     * @ORM\Column(name="mesh_term_uid", type="string", length=9)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $uuid;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(type="string", length=192, unique=true)
+    */
+    protected $name;
+
     /**
      * @var string
+     *
+     * @ORM\Column(name="lexical_tag", type="string", length=12, nullable=true)
      */
-    private $meshTermUid;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $lexicalTag;
+    protected $lexicalTag;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="concept_preferred", type="boolean", nullable=true)
      */
-    private $conceptPreferred;
+    protected $conceptPreferred;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="record_preferred", type="boolean", nullable=true)
      */
-    private $recordPreferred;
+    protected $recordPreferred;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="permuted", type="boolean", nullable=true)
      */
-    private $permuted;
+    protected $permuted;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="print", type="boolean", nullable=true)
      */
-    private $print;
+    protected $print;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updatedAt;
-
+    protected $updatedAt;
 
     /**
-     * Set meshTermUid
+     * @var ArrayCollection|MeshConceptInterface[]
      *
-     * @param string $meshTermUid
-     * @return MeshTerm
+     * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="meshTerms")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    public function setMeshTermUid($meshTermUid)
-    {
-        $this->meshTermUid = $meshTermUid;
+    protected $meshConcepts;
 
-        return $this;
+    /**
+     * @param string $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->meshTermUid = $uuid;
+        $this->uuid = $uuid;
     }
 
     /**
-     * Get meshTermUid
-     *
-     * @return string 
+     * @return string
      */
-    public function getMeshTermUid()
+    public function getUuid()
     {
-        return $this->meshTermUid;
+        return ($this->uuid === null) ? $this->meshTermUid : $this->uuid;
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return MeshTerm
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set lexicalTag
-     *
      * @param string $lexicalTag
-     * @return MeshTerm
      */
     public function setLexicalTag($lexicalTag)
     {
         $this->lexicalTag = $lexicalTag;
-
-        return $this;
     }
 
     /**
-     * Get lexicalTag
-     *
-     * @return string 
+     * @return string
      */
     public function getLexicalTag()
     {
@@ -125,114 +139,79 @@ class MeshTerm
     }
 
     /**
-     * Set conceptPreferred
-     *
      * @param boolean $conceptPreferred
-     * @return MeshTerm
      */
     public function setConceptPreferred($conceptPreferred)
     {
         $this->conceptPreferred = $conceptPreferred;
-
-        return $this;
     }
 
     /**
-     * Get conceptPreferred
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getConceptPreferred()
+    public function isConceptPreferred()
     {
         return $this->conceptPreferred;
     }
 
     /**
-     * Set recordPreferred
-     *
      * @param boolean $recordPreferred
-     * @return MeshTerm
      */
     public function setRecordPreferred($recordPreferred)
     {
         $this->recordPreferred = $recordPreferred;
-
-        return $this;
     }
 
     /**
-     * Get recordPreferred
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRecordPreferred()
+    public function isRecordPreferred()
     {
         return $this->recordPreferred;
     }
 
     /**
-     * Set permuted
-     *
      * @param boolean $permuted
-     * @return MeshTerm
      */
     public function setPermuted($permuted)
     {
         $this->permuted = $permuted;
-
-        return $this;
     }
 
     /**
-     * Get permuted
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getPermuted()
+    public function isPermuted()
     {
         return $this->permuted;
     }
 
     /**
-     * Set print
-     *
      * @param boolean $print
-     * @return MeshTerm
      */
     public function setPrint($print)
     {
         $this->print = $print;
-
-        return $this;
     }
 
     /**
-     * Get print
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getPrint()
+    public function hasPrint()
     {
         return $this->print;
     }
 
     /**
-     * Set createdAt
-     *
      * @param \DateTime $createdAt
-     * @return MeshTerm
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -240,22 +219,15 @@ class MeshTerm
     }
 
     /**
-     * Set updatedAt
-     *
      * @param \DateTime $updatedAt
-     * @return MeshTerm
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

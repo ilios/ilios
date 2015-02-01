@@ -3,63 +3,68 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 
 /**
- * MeshPreviousIndexing
+ * Class MeshPreviousIndexing
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="mesh_previous_indexing")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class MeshPreviousIndexing
+class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 {
     /**
-     * @var string
-     */
-    private $meshDescriptorUid;
-
-    /**
-     * @var string
-     */
-    private $previousIndexing;
-
-
-    /**
-     * Set meshDescriptorUid
+     * @var MeshDescriptorInterface
      *
-     * @param string $meshDescriptorUid
-     * @return MeshPreviousIndexing
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="MeshDescriptor", inversedBy="previousIndexing")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", unique=true)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    public function setMeshDescriptorUid($meshDescriptorUid)
-    {
-        $this->meshDescriptorUid = $meshDescriptorUid;
+    protected $descriptor;
 
-        return $this;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="previous_indexing", type="text")
+     */
+    protected $previousIndexing;
+
+    /**
+     * @param MeshDescriptorInterface $descriptor
+     */
+    public function setDescriptor(MeshDescriptorInterface $descriptor)
+    {
+        $this->descriptor = $descriptor;
     }
 
     /**
-     * Get meshDescriptorUid
-     *
-     * @return string 
+     * @return MeshDescriptorInterface
      */
-    public function getMeshDescriptorUid()
+    public function getDescriptor()
     {
-        return $this->meshDescriptorUid;
+        return $this->descriptor;
     }
 
     /**
-     * Set previousIndexing
-     *
      * @param string $previousIndexing
-     * @return MeshPreviousIndexing
      */
     public function setPreviousIndexing($previousIndexing)
     {
         $this->previousIndexing = $previousIndexing;
-
-        return $this;
     }
 
     /**
-     * Get previousIndexing
-     *
-     * @return string 
+     * @return string
      */
     public function getPreviousIndexing()
     {

@@ -2,54 +2,98 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * CourseClerkshipType
+ * Class CourseClerkshipType
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="course_clerkship_type")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class CourseClerkshipType
+class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
+    use IdentifiableEntity;
+    use TitledEntity;
+
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="course_clerkship_type_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $courseClerkshipTypeId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=20)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $title;
-
+    protected $title;
 
     /**
-     * Get courseClerkshipTypeId
+     * @var ArrayCollection|CourseInterface[]
      *
-     * @return integer 
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="clerkshipType")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array")
      */
-    public function getCourseClerkshipTypeId()
+    protected $courses;
+
+    public function __construct()
     {
-        return $this->courseClerkshipTypeId;
+        $this->courses = new ArrayCollection();
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return CourseClerkshipType
+     * @param Collection $courses
      */
-    public function setTitle($title)
+    public function setCourses(Collection $courses)
     {
-        $this->title = $title;
+        $this->courses = new ArrayCollection();
 
-        return $this;
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @param CourseInterface $course
      */
-    public function getTitle()
+    public function addCourse(CourseInterface $course)
     {
-        return $this->title;
+        $this->courses->add($course);
+    }
+
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
+    public function getCourses()
+    {
+        return $this->courses;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

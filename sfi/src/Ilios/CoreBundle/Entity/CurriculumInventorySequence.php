@@ -3,94 +3,82 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
- * CurriculumInventorySequence
+ * Class CurriculumInventorySequence
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="curriculum_inventory_sequence")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class CurriculumInventorySequence
+class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
-    /**
-     * @var integer
-     */
-    private $reportId;
+//    use IdentifiableEntity;
+    use DescribableEntity;
 
     /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryReport
-     */
-    private $report;
-
-
-    /**
-     * Set reportId
+     * @var CurriculumInventoryReportInterface
      *
-     * @param integer $reportId
-     * @return CurriculumInventorySequence
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequence")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    public function setReportId($reportId)
-    {
-        $this->reportId = $reportId;
+    protected $report;
 
-        return $this;
+    /**
+    * @ORM\Column(name="description", type="text", nullable=true)
+    * @var string
+    */
+    protected $description;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        throw new \LogicException('This is not implemented yet.');
     }
 
     /**
-     * Get reportId
-     *
-     * @return integer 
+     * @return int
      */
-    public function getReportId()
+    public function getId()
     {
-        return $this->reportId;
+        return $this->report->getId();
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return CurriculumInventorySequence
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReport $report
-     * @return CurriculumInventorySequence
-     */
-    public function setReport(\Ilios\CoreBundle\Entity\CurriculumInventoryReport $report = null)
+    public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryReport 
+     * @return CurriculumInventoryReportInterface
      */
     public function getReport()
     {
         return $this->report;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->report;
     }
 }

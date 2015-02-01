@@ -3,94 +3,64 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\DescribableEntity;
 
 /**
- * SessionDescription
+ * Class SessionDescription
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="session_description")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class SessionDescription
+class SessionDescription implements SessionDescriptionInterface
 {
-    /**
-     * @var integer
-     */
-    private $sessionId;
+    use DescribableEntity;
 
     /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\Session
-     */
-    private $session;
-
-
-    /**
-     * Set sessionId
+     * @var SessionInterface
      *
-     * @param integer $sessionId
-     * @return SessionDescription
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="Session", inversedBy="sessionDescription")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", unique=true)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
-
-        return $this;
-    }
+    protected $session;
 
     /**
-     * Get sessionId
-     *
-     * @return integer 
-     */
-    public function getSessionId()
-    {
-        return $this->sessionId;
-    }
+    * @ORM\Column(name="description", type="text", nullable=true)
+    * @var string
+    */
+    protected $description;
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return SessionDescription
+     * @param SessionInterface $session
      */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set session
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $session
-     * @return SessionDescription
-     */
-    public function setSession(\Ilios\CoreBundle\Entity\Session $session = null)
+    public function setSession(SessionInterface $session)
     {
         $this->session = $session;
-
-        return $this;
     }
 
     /**
-     * Get session
-     *
-     * @return \Ilios\CoreBundle\Entity\Session 
+     * @return SessionInterface
      */
     public function getSession()
     {
         return $this->session;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->session;
     }
 }

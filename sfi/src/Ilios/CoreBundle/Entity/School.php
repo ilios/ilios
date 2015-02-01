@@ -3,92 +3,212 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * School
+ * Class School
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="school",
+ *   uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="template_prefix", columns={"template_prefix"})
+ *   }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class School
+class School implements SchoolInterface
 {
+    use TitledEntity;
+
     /**
-     * @var integer
+     * @deprecated Replace with Trait in 3.xf
+     * @var int
+     *
+     * @ORM\Column(name="school_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $schoolId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=60)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $templatePrefix;
+    protected $title;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="template_prefix", type="string", length=8, nullable=true)
      */
-    private $title;
+    protected $templatePrefix;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="ilios_administrator_email", type="string", length=100)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $iliosAdministratorEmail;
+    protected $iliosAdministratorEmail;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $deleted;
+    protected $deleted;
 
     /**
+     * @todo: Normalize later. Collection of email addresses. (Add email entity, etc)
      * @var string
+     *
+     * @ORM\Column(name="change_alert_recipients", type="text", nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $changeAlertRecipients;
+    protected $changeAlertRecipients;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|AlertInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Alert", mappedBy="recipients")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $alerts;
+    protected $alerts;
+
+    /**
+     * @var ArrayCollection|CompetencyInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Competency", mappedBy="school")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $competencies;
+
+    /**
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="school")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $courses;
+
+    /**
+     * @var ArrayCollection|DepartmentInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Department", mappedBy="school")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $departments;
+
+    /**
+     * @var ArrayCollection|DisciplineInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Discipline", mappedBy="owningSchool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $disciplines;
+
+    /**
+    * @var ArrayCollection|InstructorGroupInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="InstructorGroup", mappedBy="school")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $instructorGroups;
+
+    /**
+    * @var CurriculumInventoryInstitutionInterface
+    *
+    * @ORM\OneToOne(targetEntity="CurriculumInventoryInstitution", mappedBy="school")
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $curriculumInventoryInsitution;
+
+    /**
+    * @var ArrayCollection|SessionTypeInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="SessionType", mappedBy="owningSchool")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $sessionTypes;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->alerts = new ArrayCollection();
+        $this->competencies = new ArrayCollection();
+        $this->courses = new ArrayCollection();
+        $this->departments = new ArrayCollection();
+        $this->disciplines = new ArrayCollection();
         $this->deleted = false;
     }
 
     /**
-     * 
-     * @return string
+     * @param int $id
      */
-    public function __toString()
+    public function setId($id)
     {
-        return $this->title;
+        $this->schoolId = $id;
+        $this->id = $id;
+    }
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->schoolId : $this->id;
     }
 
     /**
-     * Get schoolId
-     *
-     * @return integer 
-     */
-    public function getSchoolId()
-    {
-        return $this->schoolId;
-    }
-
-    /**
-     * Set templatePrefix
-     *
      * @param string $templatePrefix
-     * @return School
      */
     public function setTemplatePrefix($templatePrefix)
     {
         $this->templatePrefix = $templatePrefix;
-
-        return $this;
     }
 
     /**
-     * Get templatePrefix
-     *
-     * @return string 
+     * @return string
      */
     public function getTemplatePrefix()
     {
@@ -96,45 +216,15 @@ class School
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return School
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set iliosAdministratorEmail
-     *
      * @param string $iliosAdministratorEmail
-     * @return School
      */
     public function setIliosAdministratorEmail($iliosAdministratorEmail)
     {
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
-
-        return $this;
     }
 
     /**
-     * Get iliosAdministratorEmail
-     *
-     * @return string 
+     * @return string
      */
     public function getIliosAdministratorEmail()
     {
@@ -142,45 +232,31 @@ class School
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return School
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
 
     /**
-     * Set changeAlertRecipients
-     *
      * @param string $changeAlertRecipients
-     * @return School
      */
     public function setChangeAlertRecipients($changeAlertRecipients)
     {
         $this->changeAlertRecipients = $changeAlertRecipients;
-
-        return $this;
     }
 
     /**
-     * Get changeAlertRecipients
-     *
-     * @return string 
+     * @return string
      */
     public function getChangeAlertRecipients()
     {
@@ -188,35 +264,152 @@ class School
     }
 
     /**
-     * Add alerts
-     *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
-     * @return School
+     * @param Collection $alerts
      */
-    public function addAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function setAlerts(Collection $alerts)
     {
-        $this->alerts[] = $alerts;
+        $this->alerts = new ArrayCollection();
 
-        return $this;
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
     }
 
     /**
-     * Remove alerts
-     *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
+     * @param AlertInterface $alert
      */
-    public function removeAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function addAlert(AlertInterface $alert)
     {
-        $this->alerts->removeElement($alerts);
+        $this->alerts->add($alert);
     }
 
     /**
-     * Get alerts
-     *
-     * @return \Ilios\CoreBundle\Entity\Alert[]
+     * @return ArrayCollection|AlertInterface[]
      */
     public function getAlerts()
     {
-        return $this->alerts->toArray();
+        return $this->alerts;
+    }
+
+    /**
+     * @param Collection $competencies
+     */
+    public function setCompetencies(Collection $competencies)
+    {
+        $this->competencies = new ArrayCollection();
+
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
+
+    }
+
+    /**
+     * @param CompetencyInterface $competency
+     */
+    public function addCompetency(CompetencyInterface $competency)
+    {
+        $this->addCompetency($competency);
+    }
+
+    /**
+     * @return ArrayCollection|CompetencyInterface[]
+     */
+    public function getCompetencies()
+    {
+        return $this->competencies;
+    }
+
+    /**
+     * @param Collection $courses
+     */
+    public function setCourses(Collection $courses)
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    /**
+     * @param CourseInterface $course
+     */
+    public function addCourse(CourseInterface $course)
+    {
+        $this->courses->add($course);
+    }
+
+    /**
+     * @return ArrayCollection|CourseInterface[]
+     */
+    public function getCourses()
+    {
+        return $this->courses;
+    }
+
+    /**
+     * @param Collection $departments
+     */
+    public function setDepartments(Collection $departments)
+    {
+        $this->departments = new ArrayCollection();
+
+        foreach ($departments as $department) {
+            $this->addDepartment($department);
+        }
+
+    }
+
+    /**
+     * @param DepartmentInterface $department
+     */
+    public function addDepartment(DepartmentInterface $department)
+    {
+        $this->departments->add($department);
+    }
+
+    /**
+     * @return ArrayCollection|DepartmentInterface[]
+     */
+    public function getDepartments()
+    {
+        return $this->departments;
+    }
+
+    /**
+     * @param Collection $disciplines
+     */
+    public function setDisciplines(Collection $disciplines)
+    {
+        $this->disciplines = new ArrayCollection();
+
+        foreach ($disciplines as $discipline) {
+            $this->addDiscipline($discipline);
+        }
+    }
+
+    /**
+     * @param DisciplineInterface $discipline
+     */
+    public function addDiscipline(DisciplineInterface $discipline)
+    {
+        $this->disciplines->add($discipline);
+    }
+
+    /**
+     * @return ArrayCollection|DisciplineInterface[]
+     */
+    public function getDisciplines()
+    {
+        return $this->disciplines;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

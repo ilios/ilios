@@ -3,6 +3,8 @@
 /var/bootstrap.php.cache
 /var/cache/*
 /var/logs/*
+/app/logs/*
+/app/cache/*
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 /build/
@@ -11,3 +13,5 @@ bin/*
 !bin/console
 !bin/symfony_requirements
 /composer.phar
+var/tmp/*
+!var/tmp/.gitkeep

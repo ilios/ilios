@@ -2,18 +2,11 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * AuditAtom
  */
-class AuditAtom
+class AuditAtom implements AuditAtomInterface
 {
-    /**
-     * @var integer
-     */
-    private $auditAtomId;
-
     /**
      * @var integer
      */
@@ -48,7 +41,7 @@ class AuditAtom
     /**
      * Get auditAtomId
      *
-     * @return integer 
+     * @return integer
      */
     public function getAuditAtomId()
     {
@@ -71,7 +64,7 @@ class AuditAtom
     /**
      * Get tableRowId
      *
-     * @return integer 
+     * @return integer
      */
     public function getTableRowId()
     {
@@ -94,7 +87,7 @@ class AuditAtom
     /**
      * Get tableColumn
      *
-     * @return string 
+     * @return string
      */
     public function getTableColumn()
     {
@@ -117,7 +110,7 @@ class AuditAtom
     /**
      * Get tableName
      *
-     * @return string 
+     * @return string
      */
     public function getTableName()
     {
@@ -140,7 +133,7 @@ class AuditAtom
     /**
      * Get eventType
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEventType()
     {
@@ -163,7 +156,7 @@ class AuditAtom
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -186,7 +179,7 @@ class AuditAtom
     /**
      * Get createdBy
      *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return \Ilios\CoreBundle\Entity\User
      */
     public function getCreatedBy()
     {

@@ -9,7 +9,7 @@ profile::common::mysql::mysql_users:
         ensure: present
         password_hash: "*69CA2818F96B477204DDBCD753E8D9ABE26F2380" #ilios_pass
 profile::common::mysql::mysql_grants:
-    'vagrant/*.*':
+    'vagrant@%/*.*':
         ensure: present
         options:
             - 'GRANT'

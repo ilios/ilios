@@ -2,100 +2,108 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * LearningMaterialStatus
+ * Class LearningMaterialStatus
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="learning_material_status")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class LearningMaterialStatus
+class LearningMaterialStatus implements LearningMaterialStatusInterface
 {
-    /**
-     * @var integer
-     */
-    private $learningMaterialStatusId;
+//    use IdentifiableEntity;
+    use TitledEntity;
 
     /**
-     * @var string
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Column(name="learning_material_status_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
-    
+    protected $id;
+
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @ORM\Column(type="string", length=60)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    */
+    protected $title;
+
+    /**
+     * @var ArrayCollection|LearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="status")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $learningMaterials;
+    protected $learningMaterials;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->learningMaterials = new ArrayCollection();
     }
 
-
     /**
-     * Get learningMaterialStatusId
-     *
-     * @return integer 
+     * @param int $id
      */
-    public function getLearningMaterialStatusId()
+    public function setId($id)
     {
-        return $this->learningMaterialStatusId;
+        $this->learningMaterialStatusId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return LearningMaterialStatus
+     * @return int
      */
-    public function setTitle($title)
+    public function getId()
     {
-        $this->title = $title;
-
-        return $this;
+        return ($this->id === null) ? $this->learningMaterialStatusId : $this->id;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @param Collection $learningMaterials
      */
-    public function getTitle()
+    public function setLearningMaterials(Collection $learningMaterials)
     {
-        return $this->title;
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
     }
 
     /**
-     * Add learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     * @return LearningMaterialStatus
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function addLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
-        $this->learningMaterials[] = $learningMaterial;
-
-        return $this;
+        $this->learningMaterials->add($learningMaterial);
     }
 
     /**
-     * Remove learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     */
-    public function removeLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
-    {
-        $this->learningMaterials->removeElement($learningMaterial);
-    }
-
-    /**
-     * Get learningMaterials
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial[]
+     * @return ArrayCollection|LearningMaterialInterface[]
      */
     public function getLearningMaterials()
     {
-        return $this->learningMaterials->toArray();
+        return $this->learningMaterials;
     }
 }

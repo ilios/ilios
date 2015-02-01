@@ -2,83 +2,132 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
- * CourseLearningMaterial
+ * Class CourseLearningMaterial
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="course_learning_material")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class CourseLearningMaterial
+class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
+    use IdentifiableEntity;
+
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="course_learning_material_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $courseLearningMaterialId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="notes", type="text", nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $notes;
+    protected $notes;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="required", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $required;
+    protected $required;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="notes_are_public", type="boolean")
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("publicNotes")
      */
-    private $notesArePublic;
+    protected $publicNotes;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Course
+     * @var CourseInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="courseLearningMaterials")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $course;
+    protected $course;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\LearningMaterial
+     * @var LearningMaterialInterface
+     *
+     * @ORM\ManyToOne(targetEntity="LearningMaterial", inversedBy="courseLearningMaterials")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="learning_material_id", referencedColumnName="learning_material_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("learningMaterial")
      */
-    private $learningMaterial;
+    protected $learningMaterial;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|MeshDescriptor[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courseLearningMaterials")
+     * @ORM\JoinTable(name="course_learning_material_x_mesh",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_learning_material_id", referencedColumnName="course_learning_material_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("meshDescriptors")
      */
-    private $meshDescriptors;
+    protected $meshDescriptors;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
     }
 
     /**
-     * Get courseLearningMaterialId
-     *
-     * @return integer 
-     */
-    public function getCourseLearningMaterialId()
-    {
-        return $this->courseLearningMaterialId;
-    }
-
-    /**
-     * Set notes
-     *
      * @param string $notes
-     * @return CourseLearningMaterial
      */
     public function setNotes($notes)
     {
         $this->notes = $notes;
-
-        return $this;
     }
 
     /**
-     * Get notes
-     *
-     * @return string 
+     * @return string
      */
     public function getNotes()
     {
@@ -86,68 +135,47 @@ class CourseLearningMaterial
     }
 
     /**
-     * Set required
-     *
      * @param boolean $required
-     * @return CourseLearningMaterial
      */
     public function setRequired($required)
     {
         $this->required = $required;
-
-        return $this;
     }
 
     /**
-     * Get required
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getRequired()
+    public function isRequired()
     {
         return $this->required;
     }
 
     /**
-     * Set notesArePublic
-     *
-     * @param boolean $notesArePublic
-     * @return CourseLearningMaterial
+     * @param boolean $publicNotes
      */
-    public function setNotesArePublic($notesArePublic)
+    public function setPublicNotes($publicNotes)
     {
-        $this->notesArePublic = $notesArePublic;
-
-        return $this;
+        $this->publicNotes = $publicNotes;
     }
 
     /**
-     * Get notesArePublic
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getNotesArePublic()
+    public function hasPublicNotes()
     {
-        return $this->notesArePublic;
+        return $this->publicNotes;
     }
 
     /**
-     * Set course
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $course
-     * @return CourseLearningMaterial
+     * @param CourseInterface $course
      */
-    public function setCourse(\Ilios\CoreBundle\Entity\Course $course = null)
+    public function setCourse(CourseInterface $course)
     {
         $this->course = $course;
-
-        return $this;
     }
 
     /**
-     * Get course
-     *
-     * @return \Ilios\CoreBundle\Entity\Course 
+     * @return CourseInterface
      */
     public function getCourse()
     {
@@ -155,22 +183,15 @@ class CourseLearningMaterial
     }
 
     /**
-     * Set learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     * @return CourseLearningMaterial
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function setLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial = null)
+    public function setLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
         $this->learningMaterial = $learningMaterial;
-
-        return $this;
     }
 
     /**
-     * Get learningMaterial
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial 
+     * @return LearningMaterialInterface
      */
     public function getLearningMaterial()
     {
@@ -178,35 +199,38 @@ class CourseLearningMaterial
     }
 
     /**
-     * Add meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
-     * @return CourseLearningMaterial
+     * @param Collection $meshDescriptors
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors)
     {
-        $this->meshDescriptors[] = $meshDescriptors;
+        $this->meshDescriptors = new ArrayCollection();
 
-        return $this;
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
     }
 
     /**
-     * Remove meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param MeshDescriptorInterface $meshDescriptor
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        $this->meshDescriptors->removeElement($meshDescriptors);
+        $this->meshDescriptors->add($meshDescriptor);
     }
 
     /**
-     * Get meshDescriptors
-     *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors()
     {
-        return $this->meshDescriptors->toArray();
+        return $this->meshDescriptors;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

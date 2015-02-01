@@ -1,101 +1,82 @@
 <?php
+
 namespace Ilios\CoreBundle\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManager;
 
-use Ilios\CoreBundle\Entity\Objective;
-use Ilios\CoreBundle\Form\ObjectiveType;
 use Ilios\CoreBundle\Exception\InvalidFormException;
+use Ilios\CoreBundle\Form\ObjectiveType;
+use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
+use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
-class ObjectiveHandler
+class ObjectiveHandler extends ObjectiveManager
 {
-    private $om;
-    private $entityClass;
-    private $repository;
-    private $formFactory;
+    /**
+     * @var FormFactoryInterface
+     */
+    protected $formFactory;
 
-    public function __construct(ObjectManager $om, $entityClass, FormFactoryInterface $formFactory)
+    /**
+     * @param EntityManager $em
+     * @param string $class
+     * @param FormFactoryInterface $formFactory
+     */
+    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
     {
-        $this->om = $om;
-        $this->entityClass = $entityClass;
-        $this->repository = $this->om->getRepository($this->entityClass);
         $this->formFactory = $formFactory;
+        parent::__construct($em, $class);
     }
 
     /**
-     * Get an Objective.
+     * @param array $parameters
      *
-     * @param mixed $id
-     *
-     * @return Objective
-     */
-    public function get($id)
-    {
-        return $this->repository->find($id);
-    }
-
-    /**
-     * Get all Objectives
-     *
-     * @return Objective[]
-     */
-    public function getAll()
-    {
-        return $this->repository->findAll();
-    }
-
-    /**
-     * Create a new Objective.
-     *
-     * @param Request $request
-     *
-     * @return Objective
+     * @return ObjectiveInterface
      */
     public function post(array $parameters)
     {
-        $objective = new $this->entityClass();
+        $objective = $this->createObjective();
+
         return $this->processForm($objective, $parameters, 'POST');
     }
 
     /**
-     * Edit an Obejctive, or create if it doesn't exist.
+     * @param ObjectiveInterface $objective
+     * @param array $parameters
      *
-     * @param Objective     $objective
-     * @param array         $parameters
-     *
-     * @return Objective
+     * @return ObjectiveInterface
      */
-    public function put(Objective $objective, array $parameters)
+    public function put(ObjectiveInterface $objective, array $parameters)
     {
         return $this->processForm($objective, $parameters, 'PUT');
     }
 
     /**
-     * Processes the form.
+     * @param ObjectiveInterface $objective
+     * @param array $parameters
      *
-     * @param Objective     $objective
-     * @param array         $parameters
-     * @param String        $method
-     *
-     * @return Objective
-     *
-     * @throws \Ilios\CoreBundle\Exception\InvalidFormException
+     * @return ObjectiveInterface
      */
-    private function processForm(Objective $objective, array $parameters, $method)
+    public function patch(ObjectiveInterface $objective, array $parameters)
     {
-        $form = $this->formFactory->create(
-            new ObjectiveType(),
-            $objective,
-            array('method' => $method)
-        );
-        $form->submit($parameters);
+        return $this->processForm($objective, $parameters, 'PATCH');
+    }
+
+    /**
+     * @param ObjectiveInterface $objective
+     * @param array $parameters
+     * @param string $method
+     * @throws InvalidFormException when invalid form data is passed in.
+     *
+     * @return ObjectiveInterface
+     */
+    protected function processForm(ObjectiveInterface $objective, array $parameters, $method = "PUT")
+    {
+        $form = $this->formFactory->create(new ObjectiveType(), $objective, array('method' => $method));
+        $form->submit($parameters, 'PATCH' !== $method);
         if ($form->isValid()) {
-            //re-request the data for testability
             $objective = $form->getData();
-            $this->om->persist($objective);
-            $this->om->flush($objective);
+            $this->updateObjective($objective, true);
 
             return $objective;
         }

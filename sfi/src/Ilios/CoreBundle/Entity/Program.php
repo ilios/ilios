@@ -3,102 +3,149 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * Program
+ * Class Program
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="program")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Program
+class Program implements ProgramInterface
 {
+    use TitledEntity;
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
     /**
-     * @var integer
+     * @deprecated Replacde with trait in 3.x
+     * @var int
+     *
+     * @ORM\Column(name="program_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $programId;
+    protected $id;
+
+    /**
+    * @ORM\Column(type="string", length=200, nullable=true)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $title;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="short_title", type="string", length=10)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $title;
+    protected $shortTitle;
 
     /**
-     * @var string
+     * @var int
+     *
+     * @ORM\Column(name="duration", type="smallint")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $shortTitle;
-
-    /**
-     * @var integer
-     */
-    private $duration;
+    protected $duration;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var boolean
-     */
-    private $publishedAsTbd;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
-     */
-    private $publishEvent;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\School
-     */
-    private $owningSchool;
-
-
-    /**
-     * Get programId
      *
-     * @return integer
+     * @ORM\Column(name="published_as_tbd", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    public function getProgramId()
-    {
-        return $this->programId;
-    }
+    protected $publishedAsTbd;
 
     /**
-     * Set title
+     * @var PublishEventInterface
      *
-     * @param string $title
-     * @return Program
+     * @ORM\ManyToOne(targetEntity="PublishEvent")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
+    protected $publishEvent;
 
     /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
+    * @var SchoolInterface
+    *
+    * @ORM\ManyToOne(targetEntity="School")
+    * @ORM\JoinColumns({
+    *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+    * })
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $owningSchool;
 
     /**
-     * Set shortTitle
-     *
+    * @var ArrayCollection|ProgramYearInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="ProgramYear", mappedBy="program")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("programYears")
+    */
+    protected $programYears;
+
+    /**
+    * @var ArrayCollection|CurriculumInventoryReportInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="CurriculumInventoryReport", mappedBy="program")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $curriculumInventoryReports;
+
+    /**
      * @param string $shortTitle
-     * @return Program
      */
     public function setShortTitle($shortTitle)
     {
         $this->shortTitle = $shortTitle;
-
-        return $this;
     }
 
     /**
-     * Get shortTitle
-     *
      * @return string
      */
     public function getShortTitle()
@@ -107,44 +154,30 @@ class Program
     }
 
     /**
-     * Set duration
-     *
      * @param boolean $duration
-     * @return Program
      */
     public function setDuration($duration)
     {
         $this->duration = $duration;
-
-        return $this;
     }
 
     /**
-     * Get duration
-     *
      * @return boolean
      */
-    public function getDuration()
+    public function hasDuration()
     {
         return $this->duration;
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Program
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
      * @return boolean
      */
     public function isDeleted()
@@ -153,45 +186,31 @@ class Program
     }
 
     /**
-     * Set publishedAsTbd
-     *
      * @param boolean $publishedAsTbd
-     * @return Program
      */
     public function setPublishedAsTbd($publishedAsTbd)
     {
         $this->publishedAsTbd = $publishedAsTbd;
-
-        return $this;
     }
 
     /**
-     * Get publishedAsTbd
-     *
      * @return boolean
      */
-    public function getPublishedAsTbd()
+    public function isPublishedAsTbd()
     {
         return $this->publishedAsTbd;
     }
 
     /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Entity\School $school
-     * @return Program
+     * @param SchoolInterface $school
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setOwningSchool(SchoolInterface $school)
     {
         $this->owningSchool = $school;
-
-        return $this;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Entity\School
+     * @return SchoolInterface
      */
     public function getOwningSchool()
     {
@@ -199,25 +218,74 @@ class Program
     }
 
     /**
-     * Set publishEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
-     * @return Program
+     * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(PublishEventInterface $publishEvent)
     {
         $this->publishEvent = $publishEvent;
-
-        return $this;
     }
 
     /**
-     * Get publishEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent
+     * @return PublishEventInterface
      */
     public function getPublishEvent()
     {
         return $this->publishEvent;
+    }
+
+    /**
+    * @param Collection $programYears
+    */
+    public function setProgramYears(Collection $programYears)
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    /**
+    * @param ProgramYearInterface $report
+    */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        $this->programYears->add($programYear);
+    }
+
+    /**
+    * @return ProgramYearInterface[]|ArrayCollection
+    */
+    public function getProgramYears()
+    {
+        return $this->programYears;
+    }
+
+    /**
+    * @param Collection $curriculumInventoryReports
+    */
+    public function setCurriculumInventoryReports(Collection $reports)
+    {
+        $this->curriculumInventoryReports = new ArrayCollection();
+
+        foreach ($reports as $report) {
+            $this->addCurriculumInventoryReport($report);
+        }
+    }
+
+    /**
+    * @param CurriculumInventoryReportInterface $report
+    */
+    public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    {
+        $this->curriculumInventoryReports->add($report);
+    }
+
+    /**
+    * @return CurriculumInventoryReportInterface[]|ArrayCollection
+    */
+    public function getCurriculumInventoryReports()
+    {
+        return $this->curriculumInventoryReports;
     }
 }

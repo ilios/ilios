@@ -3,97 +3,144 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * Report
+ * Class Report
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="report")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Report
+class Report implements ReportInterface
 {
+    use TitledEntity;
+
     /**
-     * @var integer
+     * @deprecated To be replaced by Identifiable Trait in 3.x
+     * @var int
+     *
+     * @ORM\Column(name="report_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $reportId;
+    protected $id;
+
+    /**
+    * @ORM\Column(type="string", length=240, nullable=true)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    */
+    protected $title;
+
+    /**
+     * @deprecated To be replaced by Timestampable trait in 3.x
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creation_date", type="datetime")
+     */
+    protected $creationDate;
 
     /**
      * @var \DateTime
      */
-    private $creationDate;
+    protected $createdAt;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="subject", type="string", length=32)
      */
-    private $subject;
+    protected $subject;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="prepositional_object", type="string", length=32, nullable=true)
      */
-    private $prepositionalObject;
+    protected $prepositionalObject;
 
     /**
      * @var boolean
-     */
-    private $deleted;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\User $user
-     */
-    private $user;
-
-    /**
-     * Get reportId
      *
-     * @return integer 
+     * @ORM\Column(name="deleted", type="boolean")
      */
-    public function getReportId()
+    protected $deleted;
+
+    /**
+     * @var UserInterface $user
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="cascade")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $user;
+
+    /**
+    * @var ReportPoValueInterface
+    *
+    * @ORM\OneToOne(targetEntity="ReportPoValue", mappedBy="report")
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $poValue;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
     {
-        return $this->reportId;
+        $this->reportId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set creationDate
-     *
-     * @param \DateTime $creationDate
-     * @return Report
+     * @return int
      */
-    public function setCreationDate($creationDate)
+    public function getId()
     {
-        $this->creationDate = $creationDate;
-
-        return $this;
+        return ($this->id === null) ? $this->reportId : $this->id;
     }
 
     /**
-     * Get creationDate
-     *
-     * @return \DateTime 
+     * @param \DateTime $createdAt
      */
-    public function getCreationDate()
+    public function setCreatedAt(\DateTime $createdAt)
     {
-        return $this->creationDate;
+        $this->creationDate = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Set subject
-     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return ($this->createdAt === null) ? $this->creationDate : $this->createdAt;
+    }
+
+    /**
      * @param string $subject
-     * @return Report
      */
     public function setSubject($subject)
     {
         $this->subject = $subject;
-
-        return $this;
     }
 
     /**
-     * Get subject
-     *
-     * @return string 
+     * @return string
      */
     public function getSubject()
     {
@@ -101,22 +148,15 @@ class Report
     }
 
     /**
-     * Set prepositionalObject
-     *
      * @param string $prepositionalObject
-     * @return Report
      */
     public function setPrepositionalObject($prepositionalObject)
     {
         $this->prepositionalObject = $prepositionalObject;
-
-        return $this;
     }
 
     /**
-     * Get prepositionalObject
-     *
-     * @return string 
+     * @return string
      */
     public function getPrepositionalObject()
     {
@@ -124,22 +164,15 @@ class Report
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Report
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleted()
     {
@@ -147,45 +180,15 @@ class Report
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Report
+     * @param UserInterface $user
      */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Entity\User $user
-     * @return Report
-     */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return UserInterface
      */
     public function getUser()
     {

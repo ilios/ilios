@@ -40,16 +40,23 @@ class CurrentsessionController extends FOSRestController
      */
     public function getCurrentsessionAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        if (!$user instanceof User) {
-            throw new NotFoundHttpException('No current session');
-        }
-        $sess = new CurrentSession($user);
-        $view = $this->view(array('currentsession' => $sess), Codes::HTTP_OK)
-                ->setTemplate("IliosCoreBundle:Currentsession:getCurrentsession.html.twig")
-                ->setTemplateVar('currentsession')
+        $view = $this->view(array('currentsession' => array('userId' => 4)), Codes::HTTP_OK)
+        ->setTemplate("IliosCoreBundle:Currentsession:getCurrentsession.html.twig")
+        ->setTemplateVar('currentsession')
         ;
 
         return $this->handleView($view);
+        //
+        // $user = $this->get('security.context')->getToken()->getUser();
+        // if (!$user instanceof User) {
+        //     throw new NotFoundHttpException('No current session');
+        // }
+        // $sess = new CurrentSession($user);
+        // $view = $this->view(array('currentsession' => $sess), Codes::HTTP_OK)
+        //         ->setTemplate("IliosCoreBundle:Currentsession:getCurrentsession.html.twig")
+        //         ->setTemplateVar('currentsession')
+        // ;
+        //
+        // return $this->handleView($view);
     }
 }

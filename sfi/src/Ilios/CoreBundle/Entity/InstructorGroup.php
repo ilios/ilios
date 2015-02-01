@@ -3,243 +3,264 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * InstructorGroup
+ * Class InstructorGroup
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="instructor_group")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class InstructorGroup
+class InstructorGroup implements InstructorGroupInterface
 {
-    /**
-     * @var integer
-     */
-    private $instructorGroupId;
+//    use IdentifiableEntity;
+    use TitledEntity;
+    use StringableIdEntity;
 
     /**
-     * @var string
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Column(name="instructor_group_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
+    protected $id;
 
     /**
-     * @var integer
-     */
-    private $schoolId;
+    * @ORM\Column(type="string", length=60)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    */
+    protected $title;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * original annotation: ORM\Column(name="school_id", type="integer")
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="instructorGroups")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $groups;
+    protected $school;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|GroupInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Group", mappedBy="instructorGroups")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $ilmSessionFacets;
+    protected $groups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|IlmSessionFacet[]
+     *
+     * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="instructorGroups")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $users;
+    protected $ilmSessionFacets;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructorGroups")
+     * @ORM\JoinTable(name="instructor_group_x_user",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $offerings;
+    protected $users;
+
+    /**
+     * @var ArrayCollection|OfferingInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructorGroups")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $offerings;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ilmSessionFacets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->ilmSessionFacets = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->offerings = new ArrayCollection();
     }
 
     /**
-     * Get instructorGroupId
-     *
-     * @return integer 
+     * @param int $id
      */
-    public function getInstructorGroupId()
+    public function setId($id)
     {
-        return $this->instructorGroupId;
+        $this->instructorGroupId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return InstructorGroup
+     * @return int
      */
-    public function setTitle($title)
+    public function getId()
     {
-        $this->title = $title;
-
-        return $this;
+        return ($this->id === null) ? $this->instructorGroupId : $this->id;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @param SchoolInterface $school
      */
-    public function getTitle()
+    public function setSchool(SchoolInterface $school)
     {
-        return $this->title;
+        $this->school = $school;
     }
 
     /**
-     * Set schoolId
-     *
-     * @param integer $schoolId
-     * @return InstructorGroup
+     * @return SchoolInterface
      */
-    public function setSchoolId($schoolId)
+    public function getSchool()
     {
-        $this->schoolId = $schoolId;
-
-        return $this;
+        return $this->school;
     }
 
     /**
-     * Get schoolId
-     *
-     * @return integer 
+     * @param Collection $groups
      */
-    public function getSchoolId()
+    public function setGroups(Collection $groups)
     {
-        return $this->schoolId;
+        $this->groups = new ArrayCollection();
+
+        foreach ($groups as $group) {
+            $this->addGroup($group);
+        }
     }
 
     /**
-     * Add groups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
-     * @return InstructorGroup
+     * @param GroupInterface $group
      */
-    public function addGroup(\Ilios\CoreBundle\Entity\Group $groups)
+    public function addGroup(GroupInterface $group)
     {
-        $this->groups[] = $groups;
-
-        return $this;
+        $this->groups->add($group);
     }
 
     /**
-     * Remove groups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
-     */
-    public function removeGroup(\Ilios\CoreBundle\Entity\Group $groups)
-    {
-        $this->groups->removeElement($groups);
-    }
-
-    /**
-     * Get groups
-     *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return ArrayCollection|GroupInterface[]
      */
     public function getGroups()
     {
-        return $this->groups->toArray();
+        return $this->groups;
     }
 
     /**
-     * Add ilmSessionFacets
-     *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets
-     * @return InstructorGroup
+     * @param Collection $ilmSessionFacets
      */
-    public function addIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets)
+    public function setIlmSessionFacets(Collection $ilmSessionFacets)
     {
-        $this->ilmSessionFacets[] = $ilmSessionFacets;
+        $this->ilmSessionFacets = new ArrayCollection();
 
-        return $this;
+        foreach ($ilmSessionFacets as $ilmSessionFacet) {
+            $this->addIlmSessionFacet($ilmSessionFacet);
+        }
     }
 
     /**
-     * Remove ilmSessionFacets
-     *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets
+     * @param IlmSessionFacetInterface $ilmSessionFacet
      */
-    public function removeIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacets)
+    public function addIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
     {
-        $this->ilmSessionFacets->removeElement($ilmSessionFacets);
+        $this->ilmSessionFacets->add($ilmSessionFacet);
     }
 
     /**
-     * Get ilmSessionFacets
-     *
-     * @return \Ilios\CoreBundle\Entity\IlmSessionFacet[]
+     * @return ArrayCollection|IlmSessionFacetInterface[]
      */
     public function getIlmSessionFacets()
     {
-        return $this->ilmSessionFacets->toArray();
+        return $this->ilmSessionFacets;
     }
 
     /**
-     * Add users
-     *
-     * @param \Ilios\CoreBundle\Entity\User $users
-     * @return InstructorGroup
+     * @param Collection $users
      */
-    public function addUser(\Ilios\CoreBundle\Entity\User $users)
+    public function setUsers(Collection $users)
     {
-        $this->users[] = $users;
+        $this->users = new ArrayCollection();
 
-        return $this;
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
     }
 
     /**
-     * Remove users
-     *
-     * @param \Ilios\CoreBundle\Entity\User $users
+     * @param UserInterface $user
      */
-    public function removeUser(\Ilios\CoreBundle\Entity\User $users)
+    public function addUser(UserInterface $user)
     {
-        $this->users->removeElement($users);
+        $this->users->add($user);
     }
 
     /**
-     * Get users
-     *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getUsers()
     {
-        return $this->users->toArray();
+        return $this->users;
     }
 
     /**
-     * Add offerings
-     *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
-     * @return InstructorGroup
+     * @param Collection $offerings
      */
-    public function addOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function setOfferings(Collection $offerings)
     {
-        $this->offerings[] = $offerings;
+        $this->offerings = new ArrayCollection();
 
-        return $this;
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
     }
 
     /**
-     * Remove offerings
-     *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param OfferingInterface $offering
      */
-    public function removeOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function addOffering(OfferingInterface $offering)
     {
-        $this->offerings->removeElement($offerings);
+        $this->offerings->add($offering);
     }
 
     /**
-     * Get offerings
-     *
-     * @return \Ilios\CoreBundle\Entity\Offering[]
+     * @return ArrayCollection|OfferingInterface[]
      */
     public function getOfferings()
     {
-        return $this->offerings->toArray();
+        return $this->offerings;
     }
 }

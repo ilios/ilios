@@ -1,403 +1,275 @@
 <?php
-
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Entity\LearningMaterials\Citation;
+use Ilios\CoreBundle\Entity\LearningMaterials\File;
+use Ilios\CoreBundle\Entity\LearningMaterials\link;
 
 /**
- * LearningMaterial
+ * Abstract Class LearningMaterial
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(
+ *  name="learning_material",
+ *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}
+ * )
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *   "file" = "Ilios\CoreBundle\Entity\LearningMaterials\File",
+ *   "link" = "Ilios\CoreBundle\Entity\LearningMaterials\Link",
+ *   "citation" = "Ilios\CoreBundle\Entity\LearningMaterials\Citation"
+ * })
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class LearningMaterial
+abstract class LearningMaterial implements LearningMaterialInterface
 {
     /**
-     * @var integer
+     * Traits to enable for 3.1.x
+     *  use IdentifiableEntity;
+     *  use TimestampableEntity;
+     *  use BlameableEntity;
      */
-    private $learningMaterialId;
+    use IdentifiableEntity;
+    use TitledEntity;
+    use DescribableEntity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="learning_material_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("id")
+     */
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=60)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $mimeType;
+    protected $description;
 
     /**
-     * @var string
+     * @deprecated Replace with TimestampableEntity in 3.1
+     * @var \DateTime
+     *
+     * @ORM\Column(name="upload_date", type="datetime")
+     *
+     * @JMS\Expose
+     * @JMS\Type("datetime")
+     * @JMS\SerializedName("uploadDate")
      */
-    private $relativeFileSystemLocation;
-
-    /**
-     * @var string
-     */
-    private $filename;
-
-    /**
-     * @var integer
-     */
-    private $filesize;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var boolean
-     */
-    private $copyrightOwnership;
-
-    /**
-     * @var string
-     */
-    private $copyrightRationale;
+    protected $uploadDate;
 
     /**
      * @var \DateTime
      */
-    private $uploadDate;
+    protected $createdAt;
+
+    /**
+     * @todo: not yet implemented.
+     * @var \DateTime
+     */
+    protected $updatedAt;
+
+    /**
+     * renamed Asset Creator
+     * @var string
+     *
+     * @ORM\Column(name="asset_creator", type="string", length=80, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("originalAuthor")
+     */
+    protected $originalAuthor;
 
     /**
      * @var string
-     */
-    private $assetCreator;
-
-    /**
-     * @var string
-     */
-    private $webLink;
-
-    /**
-     * @var string
-     */
-    private $citation;
-
-    /**
-     * @var string
-     */
-    private $token;
-    
-    /**
-     * @var \Ilios\CoreBundle\Entity\User
-     */
-    private $owningUser;
-    
-    /**
-     * @var \Ilios\CoreBundle\Entity\LearningMaterialUserRole
-     */
-    private $userRole;
-    
-    /**
-     * @var \Ilios\CoreBundle\Entity\LearningMaterialStatus
-     */
-    private $status;
-
-
-    /**
-     * Get learningMaterialId
      *
-     * @return integer 
+     * @ORM\Column(name="token", type="string", length=64, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    public function getLearningMaterialId()
+    protected $token;
+
+    /**
+     * @var LearningMaterialUserRoleInterface
+     *
+     * @ORM\ManyToOne(targetEntity="LearningMaterialUserRole", inversedBy="learningMaterials")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="learning_material_user_role_id", referencedColumnName="learning_material_user_role_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("userRole")
+     */
+    protected $userRole;
+
+    /**
+     * @var LearningMaterialStatusInterface
+     *
+     * @ORM\ManyToOne(targetEntity="LearningMaterialStatus", inversedBy="learningMaterials")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="learning_material_status_id", referencedColumnName="learning_material_status_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $status;
+
+    /**
+     * @deprecated Replacing with BlameableEntity.
+     * @var UserInterface
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="learningMaterials")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owning_user_id", referencedColumnName="user_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("owningUser")
+     */
+    protected $owningUser;
+
+    /**
+     * @var UserInterface
+     */
+    protected $createdBy;
+
+    /**
+     * @todo: Not yet implemented
+     * @var UserInterface
+     */
+    protected $updatedBy;
+
+    /**
+     * @var ArrayCollection|SessioinLearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
+     *
+     * JMS\Expose
+     * JMS\Type("array<string>")
+     * JMS\SerializedName("sessionLearningMaterials")
+     */
+    protected $sessionLearningMaterials;
+
+    /**
+    * @var ArrayCollection|CourseLearningMaterialInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="learningMaterial")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $courseLearningMaterials;
+
+    /**
+     * @return array
+     */
+    public static function getTypes()
     {
-        return $this->learningMaterialId;
+        return [
+            self::TYPE_CITATION,
+            self::TYPE_FILE,
+            self::TYPE_LINK
+        ];
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return LearningMaterial
+     * @param \DateTime $createdAt
      */
-    public function setTitle($title)
+    public function setCreatedAt(\DateTime $createdAt)
     {
-        $this->title = $title;
-
-        return $this;
+        $this->uploadDate = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @return \DateTime
      */
-    public function getTitle()
+    public function getCreatedAt()
     {
-        return $this->title;
+        return ($this->createdAt === null) ? $this->uploadDate : $this->createdAt;
     }
 
     /**
-     * Set mimeType
-     *
-     * @param string $mimeType
-     * @return LearningMaterial
+     * @param \DateTime $updatedAt
      */
-    public function setMimeType($mimeType)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
-        $this->mimeType = $mimeType;
-
-        return $this;
+        throw new \BadFunctionCallException('Not yet implamented');
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get mimeType
-     *
-     * @return string 
+     * @return \DateTime
      */
-    public function getMimeType()
+    public function getUpdatedAt()
     {
-        return $this->mimeType;
+        throw new \BadFunctionCallException('Not yet implamented');
+        return $this->updatedAt;
     }
 
     /**
-     * Set relativeFileSystemLocation
-     *
-     * @param string $relativeFileSystemLocation
-     * @return LearningMaterial
+     * @param string $originalAuthor
      */
-    public function setRelativeFileSystemLocation($relativeFileSystemLocation)
+    public function setOriginalAuthor($originalAuthor)
     {
-        $this->relativeFileSystemLocation = $relativeFileSystemLocation;
-
-        return $this;
+        $this->originalAuthor = $originalAuthor;
     }
 
     /**
-     * Get relativeFileSystemLocation
-     *
-     * @return string 
+     * @return string
      */
-    public function getRelativeFileSystemLocation()
+    public function getOriginalAuthor()
     {
-        return $this->relativeFileSystemLocation;
+        return $this->originalAuthor;
     }
 
     /**
-     * Set filename
-     *
-     * @param string $filename
-     * @return LearningMaterial
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = $filename;
-
-        return $this;
-    }
-
-    /**
-     * Get filename
-     *
-     * @return string 
-     */
-    public function getFilename()
-    {
-        return $this->filename;
-    }
-
-    /**
-     * Set filesize
-     *
-     * @param integer $filesize
-     * @return LearningMaterial
-     */
-    public function setFilesize($filesize)
-    {
-        $this->filesize = $filesize;
-
-        return $this;
-    }
-
-    /**
-     * Get filesize
-     *
-     * @return integer 
-     */
-    public function getFilesize()
-    {
-        return $this->filesize;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return LearningMaterial
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set copyrightOwnership
-     *
-     * @param boolean $copyrightOwnership
-     * @return LearningMaterial
-     */
-    public function setCopyrightOwnership($copyrightOwnership)
-    {
-        $this->copyrightOwnership = $copyrightOwnership;
-
-        return $this;
-    }
-
-    /**
-     * Get copyrightOwnership
-     *
-     * @return boolean 
-     */
-    public function getCopyrightOwnership()
-    {
-        return $this->copyrightOwnership;
-    }
-
-    /**
-     * Set copyrightRationale
-     *
-     * @param string $copyrightRationale
-     * @return LearningMaterial
-     */
-    public function setCopyrightRationale($copyrightRationale)
-    {
-        $this->copyrightRationale = $copyrightRationale;
-
-        return $this;
-    }
-
-    /**
-     * Get copyrightRationale
-     *
-     * @return string 
-     */
-    public function getCopyrightRationale()
-    {
-        return $this->copyrightRationale;
-    }
-
-    /**
-     * Set uploadDate
-     *
-     * @param \DateTime $uploadDate
-     * @return LearningMaterial
-     */
-    public function setUploadDate($uploadDate)
-    {
-        $this->uploadDate = $uploadDate;
-
-        return $this;
-    }
-
-    /**
-     * Get uploadDate
-     *
-     * @return \DateTime 
-     */
-    public function getUploadDate()
-    {
-        return $this->uploadDate;
-    }
-
-    /**
-     * Set assetCreator
-     *
-     * @param string $assetCreator
-     * @return LearningMaterial
-     */
-    public function setAssetCreator($assetCreator)
-    {
-        $this->assetCreator = $assetCreator;
-
-        return $this;
-    }
-
-    /**
-     * Get assetCreator
-     *
-     * @return string 
-     */
-    public function getAssetCreator()
-    {
-        return $this->assetCreator;
-    }
-
-    /**
-     * Set webLink
-     *
-     * @param string $webLink
-     * @return LearningMaterial
-     */
-    public function setWebLink($webLink)
-    {
-        $this->webLink = $webLink;
-
-        return $this;
-    }
-
-    /**
-     * Get webLink
-     *
-     * @return string 
-     */
-    public function getWebLink()
-    {
-        return $this->webLink;
-    }
-
-    /**
-     * Set citation
-     *
-     * @param string $citation
-     * @return LearningMaterial
-     */
-    public function setCitation($citation)
-    {
-        $this->citation = $citation;
-
-        return $this;
-    }
-
-    /**
-     * Get citation
-     *
-     * @return string 
-     */
-    public function getCitation()
-    {
-        return $this->citation;
-    }
-
-    /**
-     * Set token
-     *
      * @param string $token
-     * @return LearningMaterial
      */
     public function setToken($token)
     {
         $this->token = $token;
-
-        return $this;
     }
 
     /**
-     * Get token
-     *
-     * @return string 
+     * @return string
      */
     public function getToken()
     {
@@ -405,22 +277,15 @@ class LearningMaterial
     }
 
     /**
-     * Set status
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterialStatus $status
-     * @return LearningMaterial
+     * @param LearningMaterialStatusInterface $status
      */
-    public function setStatus(\Ilios\CoreBundle\Entity\LearningMaterialStatus $status = null)
+    public function setStatus(LearningMaterialStatusInterface $status)
     {
         $this->status = $status;
-
-        return $this;
     }
 
     /**
-     * Get status
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterialStatus 
+     * @return LearningMaterialStatusInterface
      */
     public function getStatus()
     {
@@ -428,48 +293,79 @@ class LearningMaterial
     }
 
     /**
-     * Set owningUser
-     *
-     * @param \Ilios\CoreBundle\Entity\User $user
-     * @return LearningMaterial
+     * @param UserInterface $createdBy
      */
-    public function setOwningUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setCreatedBy(UserInterface $createdBy)
     {
-        $this->owningUser = $user;
-
-        return $this;
+        $this->owningUser = $createdBy;
+        $this->createdBy = $createdBy;
     }
 
     /**
-     * Get owningUser
-     *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return UserInterface
      */
-    public function getOwningUser()
+    public function getCreatedBy()
     {
-        return $this->owningUser;
+        return $this->createdBy;
     }
 
     /**
-     * Set userRole
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterialUserRole $userRole
-     * @return LearningMaterial
+     * @param UserInterface $updatedBy
      */
-    public function setUserRole(\Ilios\CoreBundle\Entity\LearningMaterialUserRole $userRole = null)
+    public function setUpdatedBy(UserInterface $updatedBy)
+    {
+        throw new \BadFunctionCallException('Method not yet implemented.');
+        $this->updatedBy = $updatedBy;
+    }
+
+    /**
+     * @return UserInterface
+     */
+    public function getUpdatedBy()
+    {
+        throw new \BadFunctionCallException('Method not yet implemented.');
+
+        return $this->updatedBy;
+    }
+
+    /**
+     * @param LearningMaterialUserRoleInterface $userRole
+     */
+    public function setUserRole(LearningMaterialUserRoleInterface $userRole)
     {
         $this->userRole = $userRole;
-
-        return $this;
     }
 
     /**
-     * Get userRole
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterialUserRole 
+     * @return LearningMaterialUserRoleInterface
      */
     public function getUserRole()
     {
         return $this->userRole;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        if (!in_array($type, static::getTypes())) {
+            throw new \InvalidArgumentException('Type ' . $type . ' is not a valid type.');
+        }
+
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

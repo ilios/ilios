@@ -2,194 +2,256 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Entity\CompetencyInterface;
+use Ilios\CoreBundle\Entity\AamcPcrsInterface;
+use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * Competency
+ * Class Competency
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="competency", indexes={@ORM\Index(name="parent_competency_id_k", columns={"parent_competency_id"})})
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Competency
+class Competency implements CompetencyInterface
 {
-    /**
-     * @var integer
-     */
-    private $competencyId;
+    use IdentifiableEntity;
+    use TitledEntity;
 
     /**
-     * @var string
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Column(name="competency_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
-    
-    /**
-     * @var \Ilios\CoreBundle\Entity\School
-     */
-    private $owningSchool;
+    protected $id;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Competency
-     */
-    private $parentCompetency;
+    * @ORM\Column(type="string", length=200, nullable=true)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $title;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="competencies")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("owningSchool")
      */
-    private $pcrses;
+    protected $school;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @var ArrayCollection|ObjectiveInterface[]
+    * @ORM\OneToMany(targetEntity="Objective", mappedBy="competency")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $objectives;
+
+    /**
+     * @var CompetencyInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Competency", inversedBy="children")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="parent_competency_id", referencedColumnName="competency_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $programYears;
+    protected $parent;
+
+    /**
+     * @var ArrayCollection|CompetencyInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Competency", mappedBy="parent")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $children;
+
+    /**
+     * @var ArrayCollection|AamcPcrsInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="AamcPcrs", inversedBy="competencies")
+     * @ORM\JoinTable(name="competency_x_aamc_pcrs",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="pcrs_id", referencedColumnName="pcrs_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $aamcPcrses;
+
+    /**
+     * @todo: Ask about owning/inverse sides in these relationships...
+     * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="competencies")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $programYears;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->pcrses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->programYears = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->aamcPcrses = new ArrayCollection();
+        $this->programYears = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
-     * Get competencyId
-     *
-     * @return integer 
+     * @param SchoolInterface $school
      */
-    public function getCompetencyId()
+    public function setSchool(SchoolInterface $school)
     {
-        return $this->competencyId;
+        $this->school = $school;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Competency
+     * @return SchoolInterface
      */
-    public function setTitle($title)
+    public function getSchool()
     {
-        $this->title = $title;
-
-        return $this;
+        return $this->school;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @param CompetencyInterface $parent
      */
-    public function getTitle()
+    public function setParent(CompetencyInterface $parent)
     {
-        return $this->title;
+        $this->parent = $parent;
     }
 
     /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Entity\School $school
-     * @return ProgramYearSteward
+     * @return CompetencyInterface
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function getParent()
     {
-        $this->owningSchool = $school;
-
-        return $this;
+        return $this->parent;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @param Collection $children
      */
-    public function getOwningSchool()
+    public function setChildren(Collection $children)
     {
-        return $this->owningSchool;
+        $this->children = new ArrayCollection();
+
+        foreach ($children as $child) {
+            $this->addChild($child);
+        }
     }
 
     /**
-     * Set parentCompetency
-     *
-     * @param \Ilios\CoreBundle\Entity\Competency $parentCompetency
-     * @return Competency
+     * @param CompetencyInterface $child
      */
-    public function setParentCompetency(\Ilios\CoreBundle\Entity\Competency $parentCompetency = null)
+    public function addChild(CompetencyInterface $child)
     {
-        $this->parentCompetency = $parentCompetency;
-
-        return $this;
+        $this->children->add($child);
     }
 
     /**
-     * Get parentCompetency
-     *
-     * @return \Ilios\CoreBundle\Entity\Competency 
+     * @return ArrayCollection|CompetencyInterface[]
      */
-    public function getParentCompetency()
+    public function getChildren()
     {
-        return $this->parentCompetency;
+        return $this->children;
     }
 
     /**
-     * Add pcrses
-     *
-     * @param \Ilios\CoreBundle\Entity\AamcPcrs $pcrses
-     * @return Competency
+     * @return bool
      */
-    public function addPcrs(\Ilios\CoreBundle\Entity\AamcPcrs $pcrses)
+    public function hasChildren()
     {
-        $this->pcrses[] = $pcrses;
-
-        return $this;
+        return (!$this->children->isEmpty()) ? true : false;
     }
 
     /**
-     * Remove pcrses
-     *
-     * @param \Ilios\CoreBundle\Entity\AamcPcrs $pcrses
+     * @param Collection $aamcPcrses
      */
-    public function removePcrs(\Ilios\CoreBundle\Entity\AamcPcrs $pcrses)
+    public function setAamcPcrses(Collection $aamcPcrses)
     {
-        $this->pcrses->removeElement($pcrses);
+        $this->aamcPcrses = new ArrayCollection();
+
+        foreach ($aamcPcrses as $aamcPcrs) {
+            $this->addAamcPcrs($aamcPcrs);
+        }
     }
 
     /**
-     * Get pcrses
-     *
-     * @return \Ilios\CoreBundle\Entity\AamcPcrs[]
+     * @param AamcPcrsInterface $aamcPcrs
      */
-    public function getPcrses()
+    public function addAamcPcrs(AamcPcrsInterface $aamcPcrs)
     {
-        return $this->pcrses->toArray();
+        $this->aamcPcrses->add($aamcPcrs);
     }
 
     /**
-     * Add programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
-     * @return Competency
+     * @return ArrayCollection|AamcPcrsInterface[]
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function getAamcPcrses()
     {
-        $this->programYears[] = $programYears;
-
-        return $this;
+        return $this->aamcPcrses;
     }
 
     /**
-     * Remove programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param ProgramYearInterface $programYear
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(ProgramYearInterface $programYear)
     {
-        $this->programYears->removeElement($programYears);
+        $this->programYears->add($programYear);
     }
 
     /**
-     * Get programYears
-     *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function getProgramYears()
     {
-        return $this->programYears->toArray();
+        return $this->programYears;
+    }
+
+    /**
+    * @return string
+    */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }
