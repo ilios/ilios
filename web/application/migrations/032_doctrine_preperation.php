@@ -11,11 +11,11 @@ class Migration_Doctrine_preperation extends CI_Migration
      */
     public function up()
     {
-        $print = true;
+        $print = false;
 
         $queries = array();
 
-        // $queries = array_merge($queries, $this->getAddProcedures());
+        $queries = array_merge($queries, $this->getAddProcedures());
         $queries = array_merge($queries, $this->getDropTriggers());
         $queries = array_merge($queries, $this->getDropForeignKeys());
         $queries = array_merge($queries, $this->getDropIndexes());
@@ -29,7 +29,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $queries = array_merge($queries, $this->getAddPrimaryKeys());
         $queries = array_merge($queries, $this->getAddIndexes());
         $queries = array_merge($queries, $this->getAddForeignKeys());
-        // $queries = array_merge($queries, $this->getDropProcedures());
+        $queries = array_merge($queries, $this->getDropProcedures());
 
         if ($print) {
             foreach ($queries as $sql) {
