@@ -178,10 +178,10 @@ class Offering implements OfferingInterface
      * @ORM\ManyToMany(targetEntity="RecurringEvent", inversedBy="offerings")
      * @ORM\JoinTable(name="offering_x_recurring_event",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="cascade")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="recurring_event_id", referencedColumnName="recurring_event_id")
+     *     @ORM\JoinColumn(name="recurring_event_id", referencedColumnName="recurring_event_id", onDelete="cascade")
      *   }
      * )
      *

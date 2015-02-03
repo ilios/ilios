@@ -22,8 +22,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  * @ORM\Table(
  *  name="cohort",
  * 	indexes={
- * 	    @ORM\Index(name="whole_k", columns={"program_year_id", "cohort_id", "title"}),
- *      @ORM\Index(name="IDX_D3B8C16BCB2B0673", columns={"program_year_id"})
+ * 	    @ORM\Index(name="whole_k", columns={"program_year_id", "cohort_id", "title"})
  * 	}
  * )
  *
@@ -62,7 +61,7 @@ class Cohort implements CohortInterface
      * @var ProgramYearInterface
      *
      * @ORM\OneToOne(targetEntity="ProgramYear", fetch="EXTRA_LAZY", inversedBy="cohort")
-     * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id")
+     * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true)
      *
      * @JMS\Expose
      * @JMS\Type("string")

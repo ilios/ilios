@@ -32,9 +32,11 @@ class AamcMethod implements AamcMethodInterface
      * @deprecated replace with UniversallyUniqueEntity trait for 3.1.x
      * @var string
      *
+     * @ORM\Column(name="method_id", type="string", length=10)
      * @ORM\Id
-     * @ORM\Column(type="string", length=10, name="method_id")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
+     *
+     *
      *
      * @JMS\Expose
      * @JMS\Type("string")

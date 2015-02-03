@@ -17,7 +17,6 @@ use Ilios\CoreBundle\Traits\StringableUuidEntity;
  *
  * @ORM\Table(name="mesh_term")
  * @ORM\Entity
- * @UniqueEntity("meshTermUid")
  *
  * @JMS\ExclusionPolicy("all")
  */
@@ -27,12 +26,10 @@ class MeshTerm implements MeshTermInterface
     use StringableUuidEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var string
      *
      * @ORM\Column(name="mesh_term_uid", type="string", length=9)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -43,7 +40,11 @@ class MeshTerm implements MeshTermInterface
     /**
     * @var string
     *
-    * @ORM\Column(type="string", length=192, unique=true)
+    * @ORM\Column(type="string", length=192)
+    * @ORM\Id
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $name;
 
@@ -96,15 +97,15 @@ class MeshTerm implements MeshTermInterface
      */
     protected $updatedAt;
 
-    /**
-     * @var ArrayCollection|MeshConceptInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="meshTerms")
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $meshConcepts;
+    // /**
+    //  * @var ArrayCollection|MeshConceptInterface[]
+    //  *
+    //  * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="meshTerms")
+    //  *
+    //  * @JMS\Expose
+    //  * @JMS\Type("array<string>")
+    //  */
+    // protected $meshConcepts;
 
     /**
      * @param string $uuid

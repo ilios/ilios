@@ -84,23 +84,23 @@ class MeshConcept implements MeshConceptInterface
      */
     protected $registryNumber;
 
-    /**
-     * @var ArrayCollection|MeshTermInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="MeshTerm", inversedBy="meshConcepts")
-     * @ORM\JoinTable(name="mesh_concept_x_term",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_term_uid", referencedColumnName="mesh_term_uid")
-     *   }
-     * )
-     *
-     * @JMS\Expose
-     * @JMS\Type("array<string>")
-     */
-    protected $meshTerms;
+    // /**
+    //  * @var ArrayCollection|MeshTermInterface[]
+    //  *
+    //  * @ORM\ManyToMany(targetEntity="MeshTerm", inversedBy="meshConcepts")
+    //  * @ORM\JoinTable(name="mesh_concept_x_term",
+    //  *   joinColumns={
+    //  *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
+    //  *   },
+    //  *   inverseJoinColumns={
+    //  *     @ORM\JoinColumn(name="mesh_term_uid", referencedColumnName="mesh_term_uid")
+    //  *   }
+    //  * )
+    //  *
+    //  * @JMS\Expose
+    //  * @JMS\Type("array<string>")
+    //  */
+    // protected $meshTerms;
 
     /**
      * @var \DateTime

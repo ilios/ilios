@@ -3,14 +3,14 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\IdentifiableEntity;
-use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Entity\AlertInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Alert

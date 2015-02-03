@@ -25,7 +25,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
     //    use IdentifiableEntity;
     use StringableIdEntity;
-    
+
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var integer
@@ -92,10 +92,14 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="sessionLearningMaterials")
      * @ORM\JoinTable(name="session_learning_material_x_mesh",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="session_learning_material_id", referencedColumnName="session_learning_material_id")
+     *     @ORM\JoinColumn(
+     *       name="session_learning_material_id",
+     *       referencedColumnName="session_learning_material_id",
+     *       onDelete="CASCADE"
+     *     )
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
      *

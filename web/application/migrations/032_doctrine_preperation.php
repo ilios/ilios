@@ -11,22 +11,35 @@ class Migration_Doctrine_preperation extends CI_Migration
      */
     public function up()
     {
+        $print = true;
 
         $queries = array();
 
+        // $queries = array_merge($queries, $this->getAddProcedures());
+        $queries = array_merge($queries, $this->getDropTriggers());
         $queries = array_merge($queries, $this->getDropForeignKeys());
         $queries = array_merge($queries, $this->getDropIndexes());
         $queries = array_merge($queries, $this->getDropKeys());
         $queries = array_merge($queries, $this->getDropPrimaryKeys());
-//        $queries = array_merge($queries, $this->getChangeEngine());
+        $queries = array_merge($queries, $this->getDropTables());
+        $queries = array_merge($queries, $this->getChangeEngine());
+        $queries = array_merge($queries, $this->getChangeCharset());
         $queries = array_merge($queries, $this->getAddColumns());
-        $queries = array_merge($queries, $this->getAddPrimaryKeys());
         $queries = array_merge($queries, $this->getColumnChanges());
+        $queries = array_merge($queries, $this->getAddPrimaryKeys());
         $queries = array_merge($queries, $this->getAddIndexes());
         $queries = array_merge($queries, $this->getAddForeignKeys());
+        // $queries = array_merge($queries, $this->getDropProcedures());
+
+        if ($print) {
+            foreach ($queries as $sql) {
+                print $sql . ";\n";
+            }
+            die();
+        }
 
         $this->db->trans_start();
-        foreach($queries as $sql){
+        foreach ($queries as $sql) {
             $this->db->query($sql);
         }
         $this->db->trans_complete();
@@ -41,6 +54,59 @@ class Migration_Doctrine_preperation extends CI_Migration
 
     }
 
+    protected function getAddProcedures()
+    {
+        $queries = $this->getDropProcedures();
+        $queries[] = "CREATE PROCEDURE drop_index_if_exists(theTable VARCHAR(128), theIndexName VARCHAR(128))\n"
+        . "BEGIN\n"
+        . " IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = theTable AND index_name = theIndexName) > 0) THEN\n"
+        . "   SET @s = CONCAT('DROP INDEX ' , theIndexName , ' ON ' , theTable);\n"
+        . "   PREPARE stmt FROM @s;\n"
+        . "   EXECUTE stmt;\n"
+        . " END IF;\n"
+        . "END\n";
+        $queries[] = "CREATE PROCEDURE drop_key_if_exists(theTable VARCHAR(128), theName VARCHAR(128))\n"
+        . "BEGIN\n"
+        . " IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = theTable AND index_name = theName) > 0) THEN\n"
+        . "   SET @s = CONCAT('ALTER TABLE `' , theTable , '` DROP KEY ' , theName);\n"
+        . "   PREPARE stmt FROM @s;\n"
+        . "   EXECUTE stmt;\n"
+        . " END IF;\n"
+        . "END";
+        $queries[] = "CREATE PROCEDURE drop_fk_if_exists(theTable VARCHAR(128), theName VARCHAR(128))\n"
+        . "BEGIN\n"
+        . " IF((SELECT COUNT(*) AS doesExist FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() and table_name = theTable AND CONSTRAINT_NAME = theName) > 0) THEN\n"
+        . "   SET @s = CONCAT('ALTER TABLE `' , theTable , '` DROP FOREIGN KEY ' , theName);\n"
+        . "   PREPARE stmt FROM @s;\n"
+        . "   EXECUTE stmt;\n"
+        . " END IF;\n"
+        . "END\n";
+
+        return $queries;
+    }
+
+    protected function getDropProcedures()
+    {
+        $queries = [];
+        $queries[] = "DROP PROCEDURE IF EXISTS drop_index_if_exists";
+        $queries[] = "DROP PROCEDURE IF EXISTS drop_key_if_exists";
+        $queries[] = "DROP PROCEDURE IF EXISTS drop_fk_if_exists";
+
+        return $queries;
+    }
+
+    protected function getDropTriggers()
+    {
+        $queries = [];
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_group_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_instructor_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_instructor_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_x_learner_post_delete`";
+        $queries[] = "DROP TRIGGER IF EXISTS `trig_offering_learner_post_delete`";
+
+        return $queries;
+    }
+
     protected function getDropIndexes()
     {
         $changes = array();
@@ -49,20 +115,60 @@ class Migration_Doctrine_preperation extends CI_Migration
             'index' => 'alert_id_alert_change_type_id'
         );
         $changes[] = array(
+            'table' => 'alert_change',
+            'index' => 'alert_id'
+        );
+        $changes[] = array(
+            'table' => 'alert_change',
+            'index' => 'fkey_alert_change_alert_type_id'
+        );
+        $changes[] = array(
             'table' => 'alert_instigator',
             'index' => 'alert_id_user_id'
+        );
+        $changes[] = array(
+            'table' => 'alert_instigator',
+            'index' => 'alert_id'
+        );
+        $changes[] = array(
+            'table' => 'alert_instigator',
+            'index' => 'user_id'
         );
         $changes[] = array(
             'table' => 'alert_recipient',
             'index' => 'alert_id_school_id'
         );
         $changes[] = array(
+            'table' => 'alert_recipient',
+            'index' => 'fk_d97ae69dc32a47ee'
+        );
+        $changes[] = array(
+            'table' => 'api_key',
+            'index' => 'api_key'
+        );
+        $changes[] = array(
             'table' => 'audit_atom',
             'index' => 'idx_audit_atom_created_at'
         );
         $changes[] = array(
+            'table' => 'competency_x_aamc_pcrs',
+            'index' => 'aamc_pcrs_id_fkey'
+        );
+        $changes[] = array(
             'table' => 'course_learning_material',
             'index' => 'course_lm_k'
+        );
+        $changes[] = array(
+            'table' => 'course',
+            'index' => 'external_id_k'
+        );
+        $changes[] = array(
+            'table' => 'course_director',
+            'index' => 'fkey_course_director_user_id'
+        );
+        $changes[] = array(
+            'table' => 'course_x_cohort',
+            'index' => 'fkey_course_x_cohort_cohort_id'
         );
         $changes[] = array(
             'table' => 'course_x_cohort',
@@ -73,12 +179,84 @@ class Migration_Doctrine_preperation extends CI_Migration
             'index' => 'course_discipline_id_k'
         );
         $changes[] = array(
+            'table' => 'course_x_discipline',
+            'index' => 'fkey_course_x_discipline_discipline_id'
+        );
+        $changes[] = array(
+            'table' => 'course_x_objective',
+            'index' => 'fkey_course_x_objective_objective_id'
+        );
+        $changes[] = array(
             'table' => 'course_x_objective',
             'index' => 'course_objective_id_k'
         );
         $changes[] = array(
+            'table' => 'course_x_mesh',
+            'index' => 'fkey_course_x_mesh_course_id'
+        );
+        $changes[] = array(
+            'table' => 'course_learning_material',
+            'index' => 'learning_material_id_k'
+        );
+        $changes[] = array(
+            'table' => 'course_learning_material_x_mesh',
+            'index' => 'clm_id_k'
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'fkey_curriculum_inventory_sequence_block_academic_level_id'
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'fkey_curriculum_inventory_sequence_block_course_id'
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'fkey_curriculum_inventory_sequence_block_parent_id'
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'fkey_curriculum_inventory_sequence_block_report_id'
+        );
+        $changes[] = array(
             'table' => 'department',
             'index' => 'department_school_k'
+        );
+        $changes[] = array(
+            'table' => 'group_x_instructor_group',
+            'index' => 'fkey_group_x_instructor_group_instructor_group_id'
+        );
+        $changes[] = array(
+            'table' => 'group_x_user',
+            'index' => 'group_user_id_k'
+        );
+        $changes[] = array(
+            'table' => 'group_x_user',
+            'index' => 'user_id_k'
+        );
+        $changes[] = array(
+            'table' => 'group_x_instructor',
+            'index' => 'fkey_group_x_instructor_user_id'
+        );
+        $changes[] = array(
+            'table' => 'ilm_session_facet_x_group',
+            'index' => 'fkey_ilm_session_facet_x_group_group_id'
+        );
+        $changes[] = array(
+            'table' => 'ilm_session_facet_x_instructor_group',
+            'index' => 'fkey_ilm_session_facet_x_instructor_group_instructor_group_id'
+        );
+        $changes[] = array(
+            'table' => 'ilm_session_facet_x_instructor',
+            'index' => 'fkey_ilm_session_facet_x_instructor_user_id'
+        );
+        $changes[] = array(
+            'table' => 'ilm_session_facet_x_learner',
+            'index' => 'fkey_ilm_session_facet_x_learner_user_id'
+        );
+        $changes[] = array(
+            'table' => 'instructor_group_x_user',
+            'index' => 'user_id_k'
         );
         $changes[] = array(
             'table' => 'instructor_group_x_user',
@@ -97,12 +275,36 @@ class Migration_Doctrine_preperation extends CI_Migration
             'index' => 'n_index'
         );
         $changes[] = array(
+            'table' => 'mesh_concept_x_term',
+            'index' => 'mesh_concept_uid'
+        );
+        $changes[] = array(
+            'table' => 'mesh_concept_x_term',
+            'index' => 'mesh_term_uid'
+        );
+        $changes[] = array(
             'table' => 'mesh_descriptor',
             'index' => 'a_index'
         );
         $changes[] = array(
             'table' => 'mesh_descriptor',
             'index' => 'n_index'
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_concept',
+            'index' => 'mesh_concept_uid'
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_concept',
+            'index' => 'mesh_descriptor_uid'
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_qualifier',
+            'index' => 'mesh_qualifier_uid'
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_qualifier',
+            'index' => 'mesh_descriptor_uid'
         );
         $changes[] = array(
             'table' => 'mesh_previous_indexing',
@@ -125,12 +327,32 @@ class Migration_Doctrine_preperation extends CI_Migration
             'index' => 'sp_index'
         );
         $changes[] = array(
+            'table' => 'objective',
+            'index' => 'fkey_objective_competency'
+        );
+        $changes[] = array(
+            'table' => 'objective_x_objective',
+            'index' => 'fkey_objective_x_objective_objective_id'
+        );
+        $changes[] = array(
             'table' => 'objective_x_objective',
             'index' => 'objective_objective_id_k'
         );
         $changes[] = array(
-            'table' => 'offering_x_recurring_event',
-            'index' => 'offering_id'
+            'table' => 'objective_x_mesh',
+            'index' => 'fkey_objective_x_mesh_objective_id'
+        );
+        $changes[] = array(
+            'table' => 'offering_x_group',
+            'index' => 'fkey_offering_x_group_group_id'
+        );
+        $changes[] = array(
+            'table' => 'offering_x_instructor_group',
+            'index' => 'fkey_offering_x_instructor_group_instructor_group_id'
+        );
+        $changes[] = array(
+            'table' => 'offering_x_learner',
+            'index' => 'fkey_offering_x_learner_user_id'
         );
         $changes[] = array(
             'table' => 'offering_x_recurring_event',
@@ -139,22 +361,58 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'offering_x_recurring_event',
             'index' => 'offering_id'
+        );
+        $changes[] = array(
+            'table' => 'offering_x_recurring_event',
+            'index' => 'offering_id'
+        );
+        $changes[] = array(
+            'table' => 'program_year',
+            'index' => 'fkey_program_year_program_id'
+        );
+        $changes[] = array(
+            'table' => 'program_year_director',
+            'index' => 'fkey_program_year_director_user'
+        );
+        $changes[] = array(
+            'table' => 'program_year_x_competency',
+            'index' => 'fkey_program_year_x_competency_competency_id'
         );
         $changes[] = array(
             'table' => 'program_year_x_competency',
             'index' => 'program_year_competency_id_k'
         );
         $changes[] = array(
+            'table' => 'program_year_x_competency',
+            'index' => 'fkey_program_year_x_competency_competency_id'
+        );
+        $changes[] = array(
             'table' => 'program_year_x_discipline',
             'index' => 'program_year_discipline_id_k'
+        );
+        $changes[] = array(
+            'table' => 'program_year_x_discipline',
+            'index' => 'fkey_program_year_x_discipline_discipline_id'
         );
         $changes[] = array(
             'table' => 'program_year_x_objective',
             'index' => 'program_year_objective_id_k'
         );
         $changes[] = array(
+            'table' => 'program_year_x_objective',
+            'index' => 'fkey_program_year_x_objective_obj_id'
+        );
+        $changes[] = array(
             'table' => 'report_po_value',
             'index' => 'fkey_report_po_value_report_id'
+        );
+        $changes[] = array(
+            'table' => 'recurring_event',
+            'index' => 'fkey_recurring_event_previous_recurring_event_id'
+        );
+        $changes[] = array(
+            'table' => 'recurring_event',
+            'index' => 'fkey_recurring_event_next_recurring_event_id'
         );
         $changes[] = array(
             'table' => 'session_description',
@@ -164,21 +422,36 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'session_type_x_aamc_method',
             'index' => 'session_type_id_method_id'
         );
+        $changes[] = array(
+            'table' => 'session_learning_material_x_mesh',
+            'index' => 'slm_id_k'
+        );
+        $changes[] = array(
+            'table' => 'session_type_x_aamc_method',
+            'index' => 'aamc_method_id_fkey'
+        );
+        $changes[] = array(
+            'index' => 'fkey_session_x_objective_objective_id',
+            'table' => 'session_x_objective'
+        );
+        $changes[] = array(
+            'index' => 'fkey_session_x_discipline_discipline_id',
+            'table' => 'session_x_discipline'
+        );
+        $changes[] = array(
+            'table' => 'user_x_user_role',
+            'index' => 'user_x_user_role_user_id'
+        );
+        $changes[] = array(
+            'table' => 'user_x_user_role',
+            'index' => 'user_x_user_role_user_role_id'
+        );
 
         $queries = array();
-        $queries[] = "DROP PROCEDURE IF EXISTS drop_index_if_exists";
-        $queries[] = "CREATE PROCEDURE drop_index_if_exists(theTable VARCHAR(128), theIndexName VARCHAR(128))\n"
-            . "BEGIN\n"
-            . " IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = theTable AND index_name = theIndexName) > 0) THEN\n"
-            . "   SET @s = CONCAT('DROP INDEX ' , theIndexName , ' ON ' , theTable);\n"
-            . "   PREPARE stmt FROM @s;\n"
-            . "   EXECUTE stmt;\n"
-            . " END IF;\n"
-            . "END\n";
+
         foreach($changes as $arr){
             $queries[] = "CALL drop_index_if_exists('{$arr['table']}', '{$arr['index']}')";
         }
-        $queries[] = "DROP PROCEDURE IF EXISTS drop_index_if_exists";
 
         return $queries;
     }
@@ -204,6 +477,14 @@ class Migration_Doctrine_preperation extends CI_Migration
         );
         $changes[] = array(
             'table' => 'program_year_steward',
+            'key' => 'fkey_program_year_steward_department'
+        );
+        $changes[] = array(
+            'table' => 'program_year_steward',
+            'key' => 'fkey_program_year_steward_school'
+        );
+        $changes[] = array(
+            'table' => 'program_year_steward',
             'key' => 'program_year_id_school_id_department_id'
         );
         $changes[] = array(
@@ -220,19 +501,10 @@ class Migration_Doctrine_preperation extends CI_Migration
         );
 
         $queries = array();
-        $queries[] = "DROP PROCEDURE IF EXISTS drop_key_if_exists";
-        $queries[] = "CREATE PROCEDURE drop_key_if_exists(theTable VARCHAR(128), theName VARCHAR(128))\n"
-            . "BEGIN\n"
-            . " IF((SELECT COUNT(*) AS index_exists FROM information_schema.statistics WHERE TABLE_SCHEMA = DATABASE() and table_name = theTable AND index_name = theName) > 0) THEN\n"
-            . "   SET @s = CONCAT('ALTER TABLE `' , theTable , '` DROP KEY ' , theName);\n"
-            . "   PREPARE stmt FROM @s;\n"
-            . "   EXECUTE stmt;\n"
-            . " END IF;\n"
-            . "END";
         foreach($changes as $arr){
             $queries[] = "CALL drop_key_if_exists('{$arr['table']}', '{$arr['key']}')";
         }
-        $queries[] ="DROP PROCEDURE IF EXISTS drop_key_if_exists";
+
         return $queries;
     }
 
@@ -639,19 +911,9 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'user_x_user_role',
             'key' => 'fkey_user_x_user_role_user_id'
         );
-        $queries[] = "DROP PROCEDURE IF EXISTS drop_fk_if_exists";
-        $queries[] = "CREATE PROCEDURE drop_fk_if_exists(theTable VARCHAR(128), theName VARCHAR(128))\n"
-            . "BEGIN\n"
-            . " IF((SELECT COUNT(*) AS doesExist FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() and table_name = theTable AND CONSTRAINT_NAME = theName) > 0) THEN\n"
-            . "   SET @s = CONCAT('ALTER TABLE `' , theTable , '` DROP FOREIGN KEY ' , theName);\n"
-            . "   PREPARE stmt FROM @s;\n"
-            . "   EXECUTE stmt;\n"
-            . " END IF;\n"
-            . "END\n";
         foreach($changes as $arr){
             $queries[] = "CALL drop_fk_if_exists('{$arr['table']}', '{$arr['key']}')";
         }
-        $queries[] ="DROP PROCEDURE IF EXISTS drop_fk_if_exists";
 
         return $queries;
     }
@@ -676,7 +938,13 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'program_year_steward',
             'column' => 'program_year_steward_id',
-            'definition' => 'INT NOT NULL FIRST'
+            'definition' => 'INT AUTO_INCREMENT NOT NULL PRIMARY KEY'
+        );
+
+        $changes[] = array(
+            'table' => 'learning_material',
+            'column' => 'type',
+            'definition' => ' VARCHAR(255) NOT NULL'
         );
 
         $queries = array();
@@ -684,14 +952,22 @@ class Migration_Doctrine_preperation extends CI_Migration
             $queries[] = "ALTER TABLE `{$arr['table']}` ADD `{$arr['column']}` {$arr['definition']}";
         }
 
+        $queries[] = "UPDATE learning_material set type= CASE " .
+        "WHEN citation IS NOT NULL THEN 'citation' " .
+        "WHEN filename IS NOT NULL THEN 'file' " .
+        "ELSE 'link' END";
+
         return $queries;
     }
-
-
 
     protected function getColumnChanges()
     {
         $changes = array();
+        $changes[] = array(
+            'table' => 'aamc_method',
+            'column' => 'method_id',
+            'definition' => 'VARCHAR(10) NOT NULL'
+        );
         $changes[] = array(
             'table' => 'alert',
             'column' => 'alert_id',
@@ -1105,7 +1381,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'group',
             'column' => 'group_id',
-            'definition' => 'INT AUTO_INCREMENT NOT NULL'
+            'definition' => 'INT SIGNED AUTO_INCREMENT NOT NULL'
         );
         $changes[] = array(
             'table' => 'group_x_group',
@@ -1115,7 +1391,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'group_x_group',
             'column' => 'group_b_id',
-            'definition' => 'INT NOT NULL'
+            'definition' => 'INT SIGNED NOT NULL'
         );
         $changes[] = array(
             'table' => 'group_x_instructor',
@@ -1155,7 +1431,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'ilm_session_facet',
             'column' => 'ilm_session_facet_id',
-            'definition' => 'INT AUTO_INCREMENT NOT NULL'
+            'definition' => 'INT SIGNED AUTO_INCREMENT NOT NULL'
         );
         $changes[] = array(
             'table' => 'ilm_session_facet_x_group',
@@ -1205,7 +1481,12 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'instruction_hours',
             'column' => 'user_id',
-            'definition' => 'INT NOT NULL, CHANGE session_id session_id INT NOT NULL'
+            'definition' => 'INT NOT NULL'
+        );
+        $changes[] = array(
+            'table' => 'instruction_hours',
+            'column' => 'session_id',
+            'definition' => 'INT NOT NULL'
         );
         $changes[] = array(
             'table' => 'instruction_hours',
@@ -1230,12 +1511,12 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'instructor_group',
             'column' => 'school_id',
-            'definition' => 'INT NOT NULL'
+            'definition' => 'INT DEFAULT NULL'
         );
         $changes[] = array(
             'table' => 'instructor_group',
             'column' => 'instructor_group_id',
-            'definition' => 'INT AUTO_INCREMENT NOT NULL'
+            'definition' => 'INT SIGNED AUTO_INCREMENT NOT NULL'
         );
         $changes[] = array(
             'table' => 'instructor_group_x_user',
@@ -1275,7 +1556,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'learning_material',
             'column' => 'filesize',
-            'definition' => 'INT NOT NULL'
+            'definition' => 'INT UNSIGNED DEFAULT NULL'
         );
         $changes[] = array(
             'table' => 'learning_material',
@@ -1285,7 +1566,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'learning_material',
             'column' => 'copyright_ownership',
-            'definition' => 'TINYINT(1) NOT NULL'
+            'definition' => 'TINYINT DEFAULT NULL'
         );
         $changes[] = array(
             'table' => 'learning_material_status',
@@ -1381,6 +1662,16 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'mesh_user_selection',
             'column' => 'mesh_user_selection_id',
             'definition' => 'INT AUTO_INCREMENT NOT NULL'
+        );
+        $changes[] = array(
+            'table' => 'mesh_user_selection',
+            'column' => 'mesh_descriptor_uid',
+            'definition' => 'VARCHAR(9) NOT NULL'
+        );
+        $changes[] = array(
+            'table' => 'mesh_user_selection',
+            'column' => 'search_phrase',
+            'definition' => 'VARCHAR(127) DEFAULT NULL'
         );
         $changes[] = array(
             'table' => 'objective',
@@ -1563,11 +1854,6 @@ class Migration_Doctrine_preperation extends CI_Migration
             'definition' => 'INT DEFAULT NULL'
         );
         $changes[] = array(
-            'table' => 'program_year_steward',
-            'column' => 'program_year_steward_id',
-            'definition' => 'INT AUTO_INCREMENT NOT NULL'
-        );
-        $changes[] = array(
             'table' => 'program_year_x_competency',
             'column' => 'program_year_id',
             'definition' => 'INT NOT NULL'
@@ -1625,7 +1911,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'recurring_event',
             'column' => 'repetition_count',
-            'definition' => 'TINYINT(1) DEFAULT NULL'
+            'definition' => 'SMALLINT DEFAULT NULL'
         );
         $changes[] = array(
             'table' => 'recurring_event',
@@ -1733,6 +2019,11 @@ class Migration_Doctrine_preperation extends CI_Migration
             'definition' => 'INT NOT NULL'
         );
         $changes[] = array(
+            'table' => 'session_description',
+            'column' => 'description',
+            'definition' => 'TEXT DEFAULT NULL'
+        );
+        $changes[] = array(
             'table' => 'session_learning_material',
             'column' => 'learning_material_id',
             'definition' => 'INT DEFAULT NULL'
@@ -1810,7 +2101,7 @@ class Migration_Doctrine_preperation extends CI_Migration
         $changes[] = array(
             'table' => 'user',
             'column' => 'user_id',
-            'definition' => 'INT AUTO_INCREMENT NOT NULL'
+            'definition' => 'INT SIGNED AUTO_INCREMENT NOT NULL'
         );
         $changes[] = array(
             'table' => 'user_made_reminder',
@@ -2034,20 +2325,20 @@ class Migration_Doctrine_preperation extends CI_Migration
         );
         $changes[] = array(
             'table' => 'course_learning_material',
-            'key' => 'course_learning_material_ibfk_1',
+            'key' => 'FK_F841D788591CC992',
             'localColumn' => 'course_id',
             'remoteTable' => 'course',
             'remoteColumn' => 'course_id',
             'cascadeDelete' => false
         );
-//        $changes[] = array(
-//            'table' => 'course_learning_material_x_mesh',
-//            'key' => 'FK_476BB36FCDB3C93B',
-//            'localColumn' => 'mesh_descriptor_uid',
-//            'remoteTable' => 'mesh_descriptor',
-//            'remoteColumn' => 'mesh_descriptor_uid',
-//            'cascadeDelete' => false
-//        );
+        $changes[] = array(
+           'table' => 'course_learning_material_x_mesh',
+           'key' => 'FK_476BB36FCDB3C93B',
+           'localColumn' => 'mesh_descriptor_uid',
+           'remoteTable' => 'mesh_descriptor',
+           'remoteColumn' => 'mesh_descriptor_uid',
+           'cascadeDelete' => false
+        );
         $changes[] = array(
             'table' => 'course_learning_material_x_mesh',
             'key' => 'course_learning_material_x_mesh_ibfk_1',
@@ -2096,14 +2387,14 @@ class Migration_Doctrine_preperation extends CI_Migration
             'remoteColumn' => 'course_id',
             'cascadeDelete' => true
         );
-//        $changes[] = array(
-//            'table' => 'course_x_mesh',
-//            'key' => 'FK_82E35212CDB3C93B',
-//            'localColumn' => 'mesh_descriptor_uid',
-//            'remoteTable' => 'mesh_descriptor',
-//            'remoteColumn' => 'mesh_descriptor_uid',
-//            'cascadeDelete' => false
-//        );
+        $changes[] = array(
+           'table' => 'course_x_mesh',
+           'key' => 'fkey_course_x_mesh_descriptor',
+           'localColumn' => 'mesh_descriptor_uid',
+           'remoteTable' => 'mesh_descriptor',
+           'remoteColumn' => 'mesh_descriptor_uid',
+           'cascadeDelete' => true
+        );
         $changes[] = array(
             'table' => 'course_x_objective',
             'key' => 'fkey_course_x_objective_course_id',
@@ -2361,6 +2652,38 @@ class Migration_Doctrine_preperation extends CI_Migration
             'cascadeDelete' => true
         );
         $changes[] = array(
+            'table' => 'ingestion_exception',
+            'key' => 'fkey_ingestion_exception_user',
+            'localColumn' => 'user_id',
+            'remoteTable' => 'user',
+            'remoteColumn' => 'user_id',
+            'cascadeDelete' => true
+        );
+        $changes[] = array(
+            'table' => 'instruction_hours',
+            'key' => 'FK_E52A7DDBA76ED395',
+            'localColumn' => 'user_id',
+            'remoteTable' => 'user',
+            'remoteColumn' => 'user_id',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'instruction_hours',
+            'key' => 'FK_E52A7DDB613FECDF',
+            'localColumn' => 'session_id',
+            'remoteTable' => 'session',
+            'remoteColumn' => 'session_id',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'instructor_group',
+            'key' => 'FK_BF12A389C32A47EE',
+            'localColumn' => 'school_id',
+            'remoteTable' => 'school',
+            'remoteColumn' => 'school_id',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
             'table' => 'instructor_group_x_user',
             'key' => 'instructor_group_x_user_ibfk_1',
             'localColumn' => 'instructor_group_id',
@@ -2394,11 +2717,75 @@ class Migration_Doctrine_preperation extends CI_Migration
         );
         $changes[] = array(
             'table' => 'learning_material',
-            'key' => 'fkey_learning_material_learning_material_user_role_id',
+            'key' => 'FK_58CE718B7505C8EA',
             'localColumn' => 'learning_material_user_role_id',
             'remoteTable' => 'learning_material_user_role',
             'remoteColumn' => 'learning_material_user_role_id',
             'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_concept_x_term',
+            'key' => 'FK_100AC50FE34D9FF5',
+            'localColumn' => 'mesh_concept_uid',
+            'remoteTable' => 'mesh_concept',
+            'remoteColumn' => 'mesh_concept_uid',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_concept_x_term',
+            'key' => 'FK_100AC50F17293A95',
+            'localColumn' => 'mesh_term_uid',
+            'remoteTable' => 'mesh_term',
+            'remoteColumn' => 'mesh_term_uid',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_concept',
+            'key' => 'FK_1AF85275E34D9FF5',
+            'localColumn' => 'mesh_concept_uid',
+            'remoteTable' => 'mesh_concept',
+            'remoteColumn' => 'mesh_concept_uid',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_concept',
+            'key' => 'FK_1AF85275CDB3C93B',
+            'localColumn' => 'mesh_descriptor_uid',
+            'remoteTable' => 'mesh_descriptor',
+            'remoteColumn' => 'mesh_descriptor_uid',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_previous_indexing',
+            'key' => 'FK_32B6E2F4CDB3C93B',
+            'localColumn' => 'mesh_descriptor_uid',
+            'remoteTable' => 'mesh_descriptor',
+            'remoteColumn' => 'mesh_descriptor_uid',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_qualifier',
+            'key' => 'FK_FC5A6AD763490620',
+            'localColumn' => 'mesh_qualifier_uid',
+            'remoteTable' => 'mesh_qualifier',
+            'remoteColumn' => 'mesh_qualifier_uid',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_qualifier',
+            'key' => 'FK_FC5A6AD7CDB3C93B',
+            'localColumn' => 'mesh_descriptor_uid',
+            'remoteTable' => 'mesh_descriptor',
+            'remoteColumn' => 'mesh_descriptor_uid',
+            'cascadeDelete' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_user_selection',
+            'key' => 'fkey_mesh_user_select_descriptor',
+            'localColumn' => 'mesh_descriptor_uid',
+            'remoteTable' => 'mesh_descriptor',
+            'remoteColumn' => 'mesh_descriptor_uid',
+            'cascadeDelete' => true
         );
         $changes[] = array(
             'table' => 'objective',
@@ -2416,14 +2803,14 @@ class Migration_Doctrine_preperation extends CI_Migration
             'remoteColumn' => 'objective_id',
             'cascadeDelete' => false
         );
-//        $changes[] = array(
-//            'table' => 'objective_x_mesh',
-//            'key' => 'FK_936D6674CDB3C93B',
-//            'localColumn' => 'mesh_descriptor_uid',
-//            'remoteTable' => 'mesh_descriptor',
-//            'remoteColumn' => 'mesh_descriptor_uid',
-//            'cascadeDelete' => false
-//        );
+        $changes[] = array(
+           'table' => 'objective_x_mesh',
+           'key' => 'FK_936D6674CDB3C93B',
+           'localColumn' => 'mesh_descriptor_uid',
+           'remoteTable' => 'mesh_descriptor',
+           'remoteColumn' => 'mesh_descriptor_uid',
+           'cascadeDelete' => false
+        );
         $changes[] = array(
             'table' => 'objective_x_objective',
             'key' => 'fkey_objective_x_objective_objective_id',
@@ -2448,6 +2835,7 @@ class Migration_Doctrine_preperation extends CI_Migration
             'remoteColumn' => 'session_id',
             'cascadeDelete' => false
         );
+        //disabled while we investigate why offerings exist with no publish events
         $changes[] = array(
             'table' => 'offering',
             'key' => 'fkey_offering_publish_event_id',
@@ -2526,7 +2914,7 @@ class Migration_Doctrine_preperation extends CI_Migration
             'localColumn' => 'offering_id',
             'remoteTable' => 'offering',
             'remoteColumn' => 'offering_id',
-            'cascadeDelete' => false
+            'cascadeDelete' => true
         );
         $changes[] = array(
             'table' => 'offering_x_recurring_event',
@@ -2534,6 +2922,14 @@ class Migration_Doctrine_preperation extends CI_Migration
             'localColumn' => 'recurring_event_id',
             'remoteTable' => 'recurring_event',
             'remoteColumn' => 'recurring_event_id',
+            'cascadeDelete' => true
+        );
+        $changes[] = array(
+            'table' => 'permission',
+            'key' => 'FK_E04992AAA76ED395',
+            'localColumn' => 'user_id',
+            'remoteTable' => 'user',
+            'remoteColumn' => 'user_id',
             'cascadeDelete' => false
         );
         $changes[] = array(
@@ -2752,21 +3148,21 @@ class Migration_Doctrine_preperation extends CI_Migration
             'remoteColumn' => 'learning_material_id',
             'cascadeDelete' => false
         );
-//        $changes[] = array(
-//            'table' => 'session_learning_material_x_mesh',
-//            'key' => 'FK_EC36AECFCDB3C93B',
-//            'localColumn' => 'mesh_descriptor_uid',
-//            'remoteTable' => 'mesh_descriptor',
-//            'remoteColumn' => 'mesh_descriptor_uid',
-//            'cascadeDelete' => false
-//        );
+        $changes[] = array(
+           'table' => 'session_learning_material_x_mesh',
+           'key' => 'session_learning_material_x_mesh_fk_mesh',
+           'localColumn' => 'mesh_descriptor_uid',
+           'remoteTable' => 'mesh_descriptor',
+           'remoteColumn' => 'mesh_descriptor_uid',
+           'cascadeDelete' => true
+        );
         $changes[] = array(
             'table' => 'session_learning_material_x_mesh',
-            'key' => 'session_learning_material_x_mesh_ibfk_1',
+            'key' => 'session_learning_material_x_mesh_fk_session',
             'localColumn' => 'session_learning_material_id',
             'remoteTable' => 'session_learning_material',
             'remoteColumn' => 'session_learning_material_id',
-            'cascadeDelete' => false
+            'cascadeDelete' => true
         );
         $changes[] = array(
             'table' => 'session_type',
@@ -2816,14 +3212,14 @@ class Migration_Doctrine_preperation extends CI_Migration
             'remoteColumn' => 'session_id',
             'cascadeDelete' => true
         );
-//        $changes[] = array(
-//            'table' => 'session_x_mesh',
-//            'key' => 'FK_43B09906CDB3C93B',
-//            'localColumn' => 'mesh_descriptor_uid',
-//            'remoteTable' => 'mesh_descriptor',
-//            'remoteColumn' => 'mesh_descriptor_uid',
-//            'cascadeDelete' => false
-//        );
+        $changes[] = array(
+           'table' => 'session_x_mesh',
+           'key' => 'fkey_session_x_mesh_mesh_d',
+           'localColumn' => 'mesh_descriptor_uid',
+           'remoteTable' => 'mesh_descriptor',
+           'remoteColumn' => 'mesh_descriptor_uid',
+           'cascadeDelete' => true
+        );
         $changes[] = array(
             'table' => 'session_x_mesh',
             'key' => 'fkey_session_x_mesh_session_id',
@@ -2908,9 +3304,15 @@ class Migration_Doctrine_preperation extends CI_Migration
         $queries = array();
         $queries[] = "DELETE FROM objective_x_objective WHERE parent_objective_id NOT IN (select objective_id from objective)";
         $queries[] = "DELETE FROM objective_x_objective WHERE objective_id NOT IN (select objective_id from objective)";
+        $queries[] = "DELETE FROM offering_x_group WHERE offering_id NOT IN (SELECT offering_id FROM offering)";
+        $queries[] = "DELETE FROM offering_x_instructor WHERE offering_id NOT IN (SELECT offering_id FROM offering)";
+        $queries[] = "DELETE FROM offering_x_learner WHERE offering_id NOT IN (SELECT offering_id FROM offering)";
         $queries[] = "DELETE FROM program_year_steward WHERE program_year_id NOT IN (select program_year_id from program_year)";
         $queries[] = "DELETE FROM program_year_steward WHERE school_id NOT IN (select school_id from school)";
         $queries[] = "DELETE FROM program_year_steward WHERE department_id IS NOT NULL and department_id NOT IN (select department_id from department)";
+        $queries[] = "UPDATE learning_material SET learning_material_status_id=1 WHERE learning_material_status_id NOT IN (SELECT learning_material_status_id FROM learning_material_status)";
+        $queries[] = "UPDATE learning_material SET learning_material_user_role_id=3 WHERE learning_material_user_role_id NOT IN (SELECT learning_material_user_role_id FROM learning_material_user_role)";
+        $queries[] = "UPDATE publish_event SET administrator_id=(SELECT user_id FROM user ORDER BY user_id ASC LIMIT 1) WHERE administrator_id NOT IN (SELECT user_id FROM user)";
 
         foreach($changes as $arr){
             $query = "ALTER TABLE `{$arr['table']}` ADD CONSTRAINT {$arr['key']} FOREIGN KEY (`{$arr['localColumn']}`) REFERENCES `{$arr['remoteTable']}` (`{$arr['remoteColumn']}`)";
@@ -2926,6 +3328,48 @@ class Migration_Doctrine_preperation extends CI_Migration
     {
         $changes = array();
         $changes[] = array(
+            'table' => 'alert_change',
+            'index' => 'IDX_77659F2793035F72',
+            'column' => 'alert_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'alert_change',
+            'index' => 'IDX_77659F2748FCA242',
+            'column' => 'alert_change_type_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'alert_instigator',
+            'index' => 'IDX_69CBD53C93035F72',
+            'column' => 'alert_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'alert_instigator',
+            'index' => 'IDX_69CBD53CA76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'alert_recipient',
+            'index' => 'IDX_D97AE69DC32A47EE',
+            'column' => 'school_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'api_key',
+            'index' => 'UNIQ_C912ED9DA76ED395',
+            'column' => 'user_id',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'api_key',
+            'index' => 'api_key_api_key',
+            'column' => 'api_key',
+            'unique' => true
+        );
+        $changes[] = array(
             'table' => 'audit_atom',
             'index' => 'idx_audit_atom_created_at',
             'column' => 'created_at',
@@ -2938,6 +3382,18 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'competency_x_aamc_pcrs',
+            'index' => 'IDX_1683F4A79CFCD25E',
+            'column' => 'pcrs_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'cohort',
+            'index' => 'UNIQ_D3B8C16BCB2B0673',
+            'column' => 'program_year_id',
+            'unique' => true
+        );
+        $changes[] = array(
             'table' => 'course',
             'index' => 'IDX_169E6FB9DDDDCC69',
             'column' => 'owning_school_id',
@@ -2947,6 +3403,18 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'course',
             'index' => 'IDX_169E6FB956C92BE0',
             'column' => 'publish_event_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'course',
+            'index' => 'external_id',
+            'column' => 'external_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'course_director',
+            'index' => 'IDX_B724BEA6A76ED395',
+            'column' => 'user_id',
             'unique' => false
         );
         $changes[] = array(
@@ -2962,9 +3430,81 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'course_x_cohort',
+            'index' => 'IDX_4C4C18C35983C93',
+            'column' => 'cohort_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'course_x_discipline',
+            'index' => 'IDX_A52BE633A5522701',
+            'column' => 'discipline_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'course_x_objective',
+            'index' => 'IDX_4C880AE473484933',
+            'column' => 'objective_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'course_x_mesh',
+            'index' => 'IDX_82E35212591CC992',
+            'column' => 'course_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'course_x_mesh',
             'index' => 'IDX_82E35212CDB3C93B',
             'column' => 'mesh_descriptor_uid',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'course_learning_material',
+            'index' => 'IDX_F841D788C1D99609',
+            'column' => 'learning_material_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'course_learning_material_x_mesh',
+            'index' => 'IDX_476BB36F46C5AD2E',
+            'column' => 'course_learning_material_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_export',
+            'index' => 'UNIQ_E892E88E4BD2A4C0',
+            'column' => 'report_id',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence',
+            'index' => 'UNIQ_B8AE58F54BD2A4C0',
+            'column' => 'report_id',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'IDX_22E6B6806081C3B0',
+            'column' => 'academic_level_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'IDX_22E6B680591CC992',
+            'column' => 'course_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'IDX_22E6B680DEB52F47',
+            'column' => 'parent_sequence_block_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'curriculum_inventory_sequence_block',
+            'index' => 'IDX_22E6B6804BD2A4C0',
+            'column' => 'report_id',
             'unique' => false
         );
         $changes[] = array(
@@ -2986,6 +3526,24 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'group_x_instructor_group',
+            'index' => 'IDX_49AFEA21FE367BE2',
+            'column' => 'instructor_group_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'group_x_user',
+            'index' => 'IDX_93A1A790A76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'group_x_instructor',
+            'index' => 'IDX_8CE57915A76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'instructor_group_x_user',
             'index' => 'IDX_6423CE8CFE367BE2',
             'column' => 'instructor_group_id',
@@ -2998,9 +3556,57 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'ilm_session_facet_x_instructor_group',
+            'index' => 'IDX_8171A2F3FE367BE2',
+            'column' => 'instructor_group_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'ilm_session_facet_x_instructor',
+            'index' => 'IDX_82B9A47BA76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'ilm_session_facet_x_learner',
             'index' => 'IDX_E385BC58504270C1',
             'column' => 'ilm_session_facet_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'ilm_session_facet_x_learner',
+            'index' => 'IDX_E385BC58A76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'ilm_session_facet_x_group',
+            'index' => 'IDX_B43B41DCFE54D947',
+            'column' => 'group_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'instructor_group_x_user',
+            'index' => 'IDX_6423CE8CA76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'instruction_hours',
+            'index' => 'IDX_E52A7DDBA76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'instruction_hours',
+            'index' => 'IDX_E52A7DDB613FECDF',
+            'column' => 'session_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'instructor_group',
+            'index' => 'IDX_BF12A389C32A47EE',
+            'column' => 'school_id',
             'unique' => false
         );
         $changes[] = array(
@@ -3019,6 +3625,78 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'learning_material',
             'index' => 'IDX_58CE718B7505C8EA',
             'column' => 'learning_material_user_role_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_previous_indexing',
+            'index' => 'UNIQ_32B6E2F4CDB3C93B',
+            'column' => 'mesh_descriptor_uid',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'mesh_concept_x_term',
+            'index' => 'IDX_100AC50FE34D9FF5',
+            'column' => 'mesh_concept_uid',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_concept_x_term',
+            'index' => 'IDX_100AC50F17293A95',
+            'column' => 'mesh_term_uid',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_concept',
+            'index' => 'IDX_1AF85275E34D9FF5',
+            'column' => 'mesh_concept_uid',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_concept',
+            'index' => 'IDX_1AF85275CDB3C93B',
+            'column' => 'mesh_descriptor_uid',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_qualifier',
+            'index' => 'IDX_FC5A6AD763490620',
+            'column' => 'mesh_qualifier_uid',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'mesh_descriptor_x_qualifier',
+            'index' => 'IDX_FC5A6AD7CDB3C93B',
+            'column' => 'mesh_descriptor_uid',
+            'unique' => false
+        );
+        // $changes[] = array(
+        //     'table' => 'mesh_term',
+        //     'index' => 'UNIQ_D401FB885E237E06',
+        //     'column' => 'name',
+        //     'unique' => true
+        // );
+        $changes[] = array(
+            'table' => 'mesh_user_selection',
+            'index' => 'IDX_650D32BFCDB3C93B',
+            'column' => 'mesh_descriptor_uid',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'objective',
+            'index' => 'IDX_B996F101FB9F58C',
+            'column' => 'competency_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'objective_x_objective',
+            'index' => 'IDX_9DC1F26573484933',
+            'column' => 'objective_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'objective_x_mesh',
+            'index' => 'IDX_936D667473484933',
+            'column' => 'objective_id',
             'unique' => false
         );
         $changes[] = array(
@@ -3046,6 +3724,18 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'offering_x_group',
+            'index' => 'IDX_4D68848FFE54D947',
+            'column' => 'group_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'offering_x_instructor_group',
+            'index' => 'IDX_5540AEE1FE367BE2',
+            'column' => 'instructor_group_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'offering_x_instructor_group',
             'index' => 'IDX_5540AEE18EDF74F0',
             'column' => 'offering_id',
@@ -3058,6 +3748,12 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'offering_x_learner',
+            'index' => 'IDX_991D7DA3A76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'offering_x_recurring_event',
             'index' => 'IDX_D6FB967CE54B259A',
             'column' => 'recurring_event_id',
@@ -3067,6 +3763,12 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'offering_x_recurring_event',
             'index' => 'IDX_D6FB967C8EDF74F0',
             'column' => 'offering_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'permission',
+            'index' => 'IDX_E04992AAA76ED395',
+            'column' => 'user_id',
             'unique' => false
         );
         $changes[] = array(
@@ -3088,9 +3790,27 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'program_year',
+            'index' => 'IDX_B66426303EB8070A',
+            'column' => 'program_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'program_year_director',
+            'index' => 'IDX_9212A50DA76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'program_year_steward',
             'index' => 'IDX_program_year_school',
             'column' => 'program_year_id, school_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'program_year_steward',
+            'index' => 'IDX_38AC2B7BAE80F5DF',
+            'column' => 'department_id',
             'unique' => false
         );
         $changes[] = array(
@@ -3101,9 +3821,33 @@ class Migration_Doctrine_preperation extends CI_Migration
         );
         $changes[] = array(
             'table' => 'program_year_steward',
+            'index' => 'IDX_38AC2B7BC32A47EE',
+            'column' => 'school_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'program_year_steward',
             'index' => 'program_year_id_school_id_department_id',
             'column' => 'program_year_id, school_id, department_id',
             'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'program_year_x_competency',
+            'index' => 'IDX_1841AB9BFB9F58C',
+            'column' => 'competency_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'program_year_x_objective',
+            'index' => 'IDX_FF29E64373484933',
+            'column' => 'objective_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'program_year_x_discipline',
+            'index' => 'IDX_ED2A7194A5522701',
+            'column' => 'discipline_id',
+            'unique' => false
         );
         $changes[] = array(
             'table' => 'publish_event',
@@ -3118,10 +3862,34 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'report_po_value',
+            'index' => 'UNIQ_9261FE834BD2A4C0',
+            'column' => 'report_id',
+            'unique' => true
+        );
+        $changes[] = array(
+            'table' => 'recurring_event',
+            'index' => 'IDX_51B1C7F8B494B099',
+            'column' => 'previous_recurring_event_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'recurring_event',
+            'index' => 'IDX_51B1C7F882312E9D',
+            'column' => 'next_recurring_event_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'session',
             'index' => 'IDX_D044D5D456C92BE0',
             'column' => 'publish_event_id',
             'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'session_description',
+            'index' => 'UNIQ_91BD5E51613FECDF',
+            'column' => 'session_id',
+            'unique' => true
         );
         $changes[] = array(
             'table' => 'session_learning_material',
@@ -3136,9 +3904,21 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'session_learning_material_x_mesh',
+            'index' => 'IDX_EC36AECFE8376E0A',
+            'column' => 'session_learning_material_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'session_type',
-            'index' => 'IDX_4AAF570375B5EE83',
+            'index' => 'assessment_option_fkey',
             'column' => 'assessment_option_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'session_type_x_aamc_method',
+            'index' => 'IDX_5E10F74819883967',
+            'column' => 'method_id',
             'unique' => false
         );
         $changes[] = array(
@@ -3160,9 +3940,33 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'session_x_objective',
+            'index' => 'IDX_C4BF244773484933',
+            'column' => 'objective_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'session_x_discipline',
+            'index' => 'IDX_EA7C234FA5522701',
+            'column' => 'discipline_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'user_made_reminder',
             'index' => 'IDX_44EF4595A76ED395',
             'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'user_x_user_role',
+            'index' => 'IDX_583C407A76ED395',
+            'column' => 'user_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'user_x_user_role',
+            'index' => 'IDX_583C4078E0E3CA6',
+            'column' => 'user_role_id',
             'unique' => false
         );
 
@@ -3176,14 +3980,13 @@ class Migration_Doctrine_preperation extends CI_Migration
 
     protected function getAddPrimaryKeys()
     {
+        $queries = array();
         $arr = array(
             'report_po_value' => 'report_id',
             'program_year_x_objective' => 'program_year_id, objective_id',
             'program_year_x_discipline' => 'program_year_id, discipline_id',
             'program_year_x_competency' => 'program_year_id, competency_id',
-            'program_year_steward' => 'program_year_steward_id',
             'offering_x_recurring_event' => 'offering_id, recurring_event_id',
-            'mesh_concept_x_semantic_type' => 'mesh_concept_uid, mesh_semantic_type_uid',
             'instructor_group_x_user' => 'instructor_group_id, user_id',
             'group_x_group' => 'group_a_id, group_b_id',
             'course_learning_material_x_mesh' => 'course_learning_material_id, mesh_descriptor_uid',
@@ -3193,10 +3996,9 @@ class Migration_Doctrine_preperation extends CI_Migration
             'alert_recipient' => 'alert_id, school_id',
             'session_type_x_aamc_method' => 'session_type_id, method_id',
             'session_learning_material_x_mesh' => 'session_learning_material_id, mesh_descriptor_uid',
-            'session_description' => 'session_id'
+            'session_description' => 'session_id',
         );
 
-        $queries = array();
         foreach($arr as $table => $key){
             $queries[] = "ALTER TABLE `{$table}` ADD PRIMARY KEY ({$key})";
         }
@@ -3217,9 +4019,24 @@ class Migration_Doctrine_preperation extends CI_Migration
                 'col2' => 'mesh_descriptor_uid'
             ),
             array(
+                'table' => 'mesh_concept_x_semantic_type',
+                'col1' => 'mesh_concept_uid',
+                'col2' => 'mesh_semantic_type_uid'
+            ),
+            array(
                 'table' => 'mesh_concept_x_term',
                 'col1' => 'mesh_concept_uid',
                 'col2' => 'mesh_term_uid'
+            ),
+            array(
+                'table' => 'mesh_descriptor_x_concept',
+                'col1' => 'mesh_concept_uid',
+                'col2' => 'mesh_descriptor_uid'
+            ),
+            array(
+                'table' => 'mesh_descriptor_x_qualifier',
+                'col1' => 'mesh_qualifier_uid',
+                'col2' => 'mesh_descriptor_uid'
             ),
             array(
                 'table' => 'objective_x_objective',
@@ -3233,15 +4050,20 @@ class Migration_Doctrine_preperation extends CI_Migration
             )
         );
         foreach($conflictingPKs as $arr){
+
+            $queries[] = "CREATE INDEX tmpidx_{$arr['col1']} ON `{$arr['table']}` ({$arr['col1']})";
+            $queries[] = "CREATE INDEX tmpidx_{$arr['col2']} ON `{$arr['table']}` ({$arr['col2']})";
             $queries[] ="ALTER TABLE `{$arr['table']}` "
             . 'ADD COLUMN `id` '
-            . 'BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT FIRST';
+            . 'BIGINT PRIMARY KEY AUTO_INCREMENT FIRST';
             //then delete duplicates
             $queries[] = "DELETE t1 FROM `{$arr['table']}` t1, `{$arr['table']}` t2 "
             . "WHERE t1.id > t2.id AND t1.`{$arr['col1']}` = t2.`{$arr['col1']}` "
             . "AND t1.`{$arr['col2']}` = t2.`{$arr['col2']}`";
             $queries[] = "ALTER TABLE `{$arr['table']}` DROP COLUMN `id`";
             $queries[] = "ALTER TABLE `{$arr['table']}` ADD PRIMARY KEY (`{$arr['col1']}`, `{$arr['col2']}`)";
+            $queries[] = "DROP INDEX tmpidx_{$arr['col1']} ON `{$arr['table']}`";
+            $queries[] = "DROP INDEX tmpidx_{$arr['col2']} ON `{$arr['table']}`";
         }
 
         return $queries;
@@ -3270,4 +4092,40 @@ class Migration_Doctrine_preperation extends CI_Migration
         }
         return $queries;
     }
+
+    protected function getChangeCharset()
+    {
+        $arr = array(
+            'mesh_user_selection' => 'utf8 COLLATE utf8_unicode_ci',
+            'instructor_group_x_user' => 'utf8 COLLATE utf8_unicode_ci'
+        );
+
+        $queries = array();
+        foreach($arr as $table => $charset){
+            $queries[] = "ALTER TABLE `{$table}` DEFAULT CHARACTER SET {$charset}";
+            $queries[] = "ALTER TABLE `{$table}` CONVERT TO CHARACTER SET {$charset}";
+        }
+
+        return $queries;
+    }
+
+    protected function getDropTables()
+    {
+        $arr = array(
+            'group_default_instructor',
+            'curriculum_inventory_program',
+            'ilm_session_facet_learner',
+            'ilm_session_facet_instructor',
+            'offering_instructor',
+        );
+
+        $queries = array();
+        foreach($arr as $table){
+            $queries[] = "DROP TABLE IF EXISTS `{$table}`";
+        }
+
+        return $queries;
+    }
+
+
 }
