@@ -26,6 +26,7 @@ class MeshUserSelection implements MeshUserSelectionInterface
      *
      * @JMS\Expose
      * @JMS\Type("integer")
+     * @JMS\SerializedName("id")
      */
     protected $id;
 

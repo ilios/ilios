@@ -24,6 +24,7 @@ class IngestionException implements IngestionExceptionInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
     protected $uuid;
 

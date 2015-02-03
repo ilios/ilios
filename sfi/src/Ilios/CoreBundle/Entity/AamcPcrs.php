@@ -36,6 +36,7 @@ class AamcPcrs implements AamcPcrsInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
     protected $uuid;
 

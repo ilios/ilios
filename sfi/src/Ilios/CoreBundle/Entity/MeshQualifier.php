@@ -43,6 +43,7 @@ class MeshQualifier implements MeshQualifierInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
     protected $uuid;
 

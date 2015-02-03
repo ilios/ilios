@@ -3,13 +3,14 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Entity\AlertInterface;
 use Ilios\CoreBundle\Traits\TitledEntity;
-use Ilios\CoreBundle\Traits\StringableUuidEntity;
 
 /**
  * Class Alert
@@ -23,7 +24,8 @@ use Ilios\CoreBundle\Traits\StringableUuidEntity;
 class AlertChangeType implements AlertChangeTypeInterface
 {
     use TitledEntity;
-    use StringableUuidEntity;
+    use StringableIdEntity;
+    use IdentifiableEntity;
 
     /**
      * @deprecated Replace with trait in 3.x
@@ -61,23 +63,6 @@ class AlertChangeType implements AlertChangeTypeInterface
     public function __construct()
     {
         $this->alerts = new ArrayCollection();
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->alertChangeTypeId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->alertChangeTypeId : $this->id;
     }
 
     /**

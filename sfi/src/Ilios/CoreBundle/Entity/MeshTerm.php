@@ -36,6 +36,7 @@ class MeshTerm implements MeshTermInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
     protected $uuid;
 

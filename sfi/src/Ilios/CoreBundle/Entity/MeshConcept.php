@@ -38,6 +38,7 @@ class MeshConcept implements MeshConceptInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
     protected $uuid;
 

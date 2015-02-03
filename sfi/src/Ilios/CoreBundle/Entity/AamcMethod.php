@@ -38,6 +38,7 @@ class AamcMethod implements AamcMethodInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
     protected $uuid;
 

@@ -30,6 +30,7 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
     protected $uuid;
 
