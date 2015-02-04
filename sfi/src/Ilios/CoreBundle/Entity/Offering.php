@@ -109,9 +109,9 @@ class Offering implements OfferingInterface
     protected $session;
 
     /**
-     * @var ArrayCollection|GroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="offerings")
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="offerings")
      * @ORM\JoinTable(name="offering_x_group",
      *   joinColumns={
      *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
@@ -124,7 +124,7 @@ class Offering implements OfferingInterface
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $groups;
+    protected $learnerGroups;
 
     /**
      * @var PublishEventInterface
@@ -202,7 +202,7 @@ class Offering implements OfferingInterface
     public function __construct()
     {
         $this->deleted = false;
-        $this->groups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->recurringEvents = new ArrayCollection();
@@ -321,31 +321,31 @@ class Offering implements OfferingInterface
     }
 
     /**
-     * @param Collection $groups
+     * @param Collection $learnerGroups
      */
-    public function setGroups(Collection $groups)
+    public function setLearnerGroups(Collection $learnerGroups)
     {
-        $this->groups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
 
-        foreach ($groups as $group) {
-            $this->addGroup($group);
+        foreach ($learnerGroups as $group) {
+            $this->addLearnerGroup($group);
         }
     }
 
     /**
-     * @param GroupInterface $group
+     * @param LearnerGroupInterface $learnerGroup
      */
-    public function addGroup(GroupInterface $group)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->groups->add($group);
+        $this->learnerGroups->add($learnerGroup);
     }
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getGroups()
+    public function getLearnerGroups()
     {
-        return $this->groups;
+        return $this->learnerGroups;
     }
 
     /**

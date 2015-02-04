@@ -4,6 +4,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,6 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class PublishEvent implements PublishEventInterface
 {
     use IdentifiableEntity;
+    use StringableIdEntity;
     /**
      * @var int
      *
@@ -228,10 +231,5 @@ class PublishEvent implements PublishEventInterface
     public function getSessions()
     {
         return $this->sessions;
-    }
-
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

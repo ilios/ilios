@@ -158,14 +158,6 @@ api_discipline_v1:
     prefix:   /v1
     defaults: {_format:json}
 
-
-api_group_v1:
-    resource: "@IliosCoreBundle/Controller/GroupController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
-
 api_ilmsessionfacet_v1:
     resource: "@IliosCoreBundle/Controller/IlmSessionFacetController.php"
     type:     rest
@@ -199,6 +191,11 @@ api_instructorgroup_v1:
 # #    prefix:   /v1
 # #    defaults: {_format:json}
 
+api_learnergroup_v1:
+    resource: "@IliosCoreBundle/Controller/LearnerGroupController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
 
 api_meshconcept_v1:
     resource: "@IliosCoreBundle/Controller/MeshConceptController.php"

@@ -11,22 +11,20 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * @TODO finish
- * Class Group
+ * Class LearnerGroup
  * @package Ilios\CoreBundle\Entity
  *
- * @ORM\Table(name="`group`", indexes={@ORM\Index(name="fkey_group_cohort_id", columns={"cohort_id"})})
+ * @ORM\Table(name="`group`")
  * @ORM\Entity
  *
  * @JMS\ExclusionPolicy("all")
  */
-class Group implements GroupInterface
+class LearnerGroup implements LearnerGroupInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
 
     /**
-     * @todo should be on the TitledEntity Trait
      * @var int
      *
      * @ORM\Column(name="group_id", type="integer")
@@ -39,7 +37,6 @@ class Group implements GroupInterface
     protected $id;
 
     /**
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @ORM\Column(type="string", length=60)
@@ -62,7 +59,7 @@ class Group implements GroupInterface
     /**
      * @var CohortInterface
      *
-     * @ORM\ManyToOne(targetEntity="Cohort", inversedBy="groups")
+     * @ORM\ManyToOne(targetEntity="Cohort", inversedBy="learnerGroups")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
      * })
@@ -75,7 +72,7 @@ class Group implements GroupInterface
     /**
      * @var GroupInterface
      *
-     * @ORM\ManyToOne(targetEntity="Group", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="LearnerGroup", inversedBy="children")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="parent_group_id", referencedColumnName="group_id")
      * })
@@ -86,9 +83,9 @@ class Group implements GroupInterface
     protected $parent;
 
     /**
-     * @var ArrayCollection|GroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\OneToMany(targetEntity="Group", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="parent")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -98,7 +95,7 @@ class Group implements GroupInterface
     /**
      * @var ArrayCollection|IlmSessionFacetInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="groups")
+     * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="learnerGroups")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -109,7 +106,7 @@ class Group implements GroupInterface
     /**
      * @var ArrayCollection|OfferingInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="groups")
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learnerGroups")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -130,7 +127,7 @@ class Group implements GroupInterface
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="groups")
+     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="learnerGroups")
      * @ORM\JoinTable(name="group_x_instructor_group",
      *   joinColumns={
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
@@ -147,9 +144,9 @@ class Group implements GroupInterface
     protected $instructorGroups;
 
     /**
-     * @var ArrayCollection|UserGroupInterface[]
+     * @var ArrayCollection|UserInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="userGroups", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="learnerGroups", fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="group_x_user",
      *   joinColumns={
      *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
@@ -331,7 +328,7 @@ class Group implements GroupInterface
     /**
      * @param GroupInterface $parent
      */
-    public function setParent(GroupInterface $parent)
+    public function setParent(LearnerGroupInterface $parent)
     {
         $this->parent = $parent;
     }
@@ -357,15 +354,15 @@ class Group implements GroupInterface
     }
 
     /**
-     * @param GroupInterface $child
+     * @param LearnerGroupInterface $child
      */
-    public function addChild(GroupInterface $child)
+    public function addChild(LearnerGroupInterface $child)
     {
         $this->children->add($child);
     }
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getChildren()
     {

@@ -13,6 +13,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Cohort
@@ -32,6 +33,7 @@ class Cohort implements CohortInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -80,16 +82,15 @@ class Cohort implements CohortInterface
     protected $courses;
 
     /**
-     * @var ArrayCollection|GroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\OneToMany(targetEntity="Group", mappedBy="cohort", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="cohort", fetch="EXTRA_LAZY")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("learnerGroups")
-     * @todo: alt-type: <Ilios\CoreBundle\Entity\Group>
      */
-    protected $groups;
+    protected $learnerGroups;
 
     /**
      * Constructor
@@ -144,38 +145,30 @@ class Cohort implements CohortInterface
     }
 
     /**
-    * @return GroupInterface[]|ArrayCollection
+    * @return LearnerGroupInterface[]|ArrayCollection
     */
-    public function getGroups()
+    public function getLearnerGroups()
     {
-        return $this->groups;
+        return $this->learnerGroups;
     }
 
     /**
-    * @param Collection $groups
+    * @param Collection $learnerGroups
     */
-    public function setGroups(Collection $groups)
+    public function setLearnerGroups(Collection $learnerGroups)
     {
-        $this->groups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
 
-        foreach ($groups as $group) {
-            $this->addGroup($group);
+        foreach ($learnerGroups as $group) {
+            $this->addLearnerGroup($group);
         }
     }
 
     /**
-    * @param GroupInterface $group
+    * @param LearnerGroupInterface $learnerGroup
     */
-    public function addGroup(GroupInterface $group)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->groups->add($group);
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
+        $this->learnerGroups->add($learnerGroup);
     }
 }

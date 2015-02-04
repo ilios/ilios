@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class Course
@@ -27,6 +28,7 @@ class Course implements CourseInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -688,13 +690,5 @@ class Course implements CourseInterface
     public function getSessions()
     {
         return $this->sessions;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

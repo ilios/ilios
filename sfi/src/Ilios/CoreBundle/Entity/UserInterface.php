@@ -12,12 +12,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface UserInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface UserInterface extends IdentifiableEntityInterface, BaseUserInterface, \Serializable
+interface UserInterface extends
+    IdentifiableEntityInterface,
+    StringableEntityInterface,
+    BaseUserInterface,
+    \Serializable
 {
     /**
      * @param string $lastName
@@ -182,17 +187,17 @@ interface UserInterface extends IdentifiableEntityInterface, BaseUserInterface, 
     /**
      * @param Collection $userGroups
      */
-    public function setuserGroups(Collection $userGroups);
+    public function setLearnerGroups(Collection $userGroups);
 
     /**
-     * @param GroupInterface $userGroup
+     * @param LearnerGroupInterface $userGroup
      */
-    public function addUserGroup(GroupInterface $userGroup);
+    public function addLearnerGroup(LearnerGroupInterface $userGroup);
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getUserGroups();
+    public function getLearnerGroups();
 
     /**
      * @param Collection $instructorUserGroups
@@ -200,12 +205,12 @@ interface UserInterface extends IdentifiableEntityInterface, BaseUserInterface, 
     public function setInstructorUserGroups(Collection $instructorUserGroups);
 
     /**
-     * @param GroupInterface $instructorUserGroup
+     * @param LearnerGroupInterface $instructorUserGroup
      */
-    public function addInstructorUserGroup(GroupInterface $instructorUserGroup);
+    public function addInstructorUserGroup(LearnerGroupInterface $instructorUserGroup);
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getInstructorUserGroups();
 

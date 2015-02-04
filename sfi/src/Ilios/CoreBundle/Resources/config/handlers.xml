@@ -23,7 +23,6 @@
         <parameter key="ilioscore.curriculuminventorysequence.handler.class">Ilios\CoreBundle\Handler\CurriculumInventorySequenceHandler</parameter>
         <parameter key="ilioscore.department.handler.class">Ilios\CoreBundle\Handler\DepartmentHandler</parameter>
         <parameter key="ilioscore.discipline.handler.class">Ilios\CoreBundle\Handler\DisciplineHandler</parameter>
-        <parameter key="ilioscore.group.handler.class">Ilios\CoreBundle\Handler\GroupHandler</parameter>
         <parameter key="ilioscore.ilmsessionfacet.handler.class">Ilios\CoreBundle\Handler\IlmSessionFacetHandler</parameter>
         <parameter key="ilioscore.ingestionexception.handler.class">Ilios\CoreBundle\Handler\IngestionExceptionHandler</parameter>
         <parameter key="ilioscore.instructionhours.handler.class">Ilios\CoreBundle\Handler\InstructionHoursHandler</parameter>
@@ -55,7 +54,7 @@
         <parameter key="ilioscore.usermadereminder.handler.class">Ilios\CoreBundle\Handler\UserMadeReminderHandler</parameter>
         <parameter key="ilioscore.user.handler.class">Ilios\CoreBundle\Handler\UserHandler</parameter>
         <parameter key="ilioscore.userrole.handler.class">Ilios\CoreBundle\Handler\UserRoleHandler</parameter>
-    </parameters>
+        <parameter key="ilioscore.learnergroup.handler.class">Ilios\CoreBundle\Handler\LearnerGroupHandler</parameter></parameters>
 
     <services>
         <service id="ilioscore.aamcmethod.handler" class="%ilioscore.aamcmethod.handler.class%">
@@ -161,11 +160,6 @@
         <service id="ilioscore.discipline.handler" class="%ilioscore.discipline.handler.class%">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument>Ilios\CoreBundle\Entity\Discipline</argument>
-            <argument type="service" id="form.factory"/>
-        </service>
-        <service id="ilioscore.group.handler" class="%ilioscore.group.handler.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"/>
-            <argument>Ilios\CoreBundle\Entity\Group</argument>
             <argument type="service" id="form.factory"/>
         </service>
         <service id="ilioscore.ilmsessionfacet.handler" class="%ilioscore.ilmsessionfacet.handler.class%">
@@ -321,6 +315,11 @@
         <service id="ilioscore.userrole.handler" class="%ilioscore.userrole.handler.class%">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument>Ilios\CoreBundle\Entity\UserRole</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.learnergroup.handler" class="%ilioscore.learnergroup.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\LearnerGroup</argument>
             <argument type="service" id="form.factory"/>
         </service>
     </services>

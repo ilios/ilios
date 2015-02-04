@@ -6,14 +6,14 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Ilios\CoreBundle\Entity\GroupInterface;
+use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 
 /**
- * Group manager service.
- * Class GroupManager
+ * LearnerGroup manager service.
+ * Class LearnerGroupManager
  * @package Ilios\CoreBundle\Manager
  */
-class GroupManager implements GroupManagerInterface
+class LearnerGroupManager implements LearnerGroupManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class GroupManager implements GroupManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return GroupInterface
+     * @return LearnerGroupInterface
      */
-    public function findGroupBy(array $criteria, array $orderBy = null)
+    public function findLearnerGroupBy(array $criteria, array $orderBy = null)
     {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
@@ -58,31 +58,31 @@ class GroupManager implements GroupManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return GroupInterface[]|Collection
+     * @return LearnerGroupInterface[]|Collection
      */
-    public function findGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findLearnerGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
-     * @param GroupInterface $group
+     * @param LearnerGroupInterface $learnerGroup
      * @param bool $andFlush
      */
-    public function updateGroup(GroupInterface $group, $andFlush = true)
+    public function updateLearnerGroup(LearnerGroupInterface $learnerGroup, $andFlush = true)
     {
-        $this->em->persist($group);
+        $this->em->persist($learnerGroup);
         if ($andFlush) {
             $this->em->flush();
         }
     }
 
     /**
-     * @param GroupInterface $group
+     * @param LearnerGroupInterface $learnerGroup
      */
-    public function deleteGroup(GroupInterface $group)
+    public function deleteLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->em->remove($group);
+        $this->em->remove($learnerGroup);
         $this->em->flush();
     }
 
@@ -95,9 +95,9 @@ class GroupManager implements GroupManagerInterface
     }
 
     /**
-     * @return GroupInterface
+     * @return LearnerGroupInterface
      */
-    public function createGroup()
+    public function createLearnerGroup()
     {
         $class = $this->getClass();
         return new $class();

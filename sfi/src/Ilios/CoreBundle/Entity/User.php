@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class User
@@ -21,6 +22,7 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
 class User implements UserInterface
 {
     use IdentifiableEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -199,20 +201,20 @@ class User implements UserInterface
     protected $directedCourses;
 
     /**
-     * @var ArrayCollection|GroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Group", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="users")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
-     * @JMS\SerializedName("userGroups")
+     * @JMS\SerializedName("learnerGroups")
      */
-    protected $userGroups;
+    protected $learnerGroups;
 
     /**
-     * @var ArrayCollection|GroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Group", mappedBy="instructorUsers")
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructorUsers")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
@@ -320,7 +322,7 @@ class User implements UserInterface
     {
         $this->reminders            = new ArrayCollection();
         $this->directedCourses      = new ArrayCollection();
-        $this->userGroups           = new ArrayCollection();
+        $this->learnerGroups        = new ArrayCollection();
         $this->instructorUserGroups = new ArrayCollection();
         $this->instructorGroups     = new ArrayCollection();
         $this->offerings            = new ArrayCollection();
@@ -601,31 +603,31 @@ class User implements UserInterface
     }
 
     /**
-     * @param Collection $userGroups
+     * @param Collection $learnerGroups
      */
-    public function setUserGroups(Collection $userGroups)
+    public function setLearnerGroups(Collection $learnerGroups)
     {
         $this->userGroups = new ArrayCollection();
 
-        foreach ($userGroups as $userGroup) {
-            $this->addUserGroup($userGroup);
+        foreach ($learnerGroups as $group) {
+            $this->addLearnerGroup($group);
         }
     }
 
     /**
-     * @param GroupInterface $userGroup
+     * @param LearnerGroupInterface $userGroup
      */
-    public function addUserGroup(GroupInterface $userGroup)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->userGroups->add($userGroup);
+        $this->learnerGroups->add($learnerGroup);
     }
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getUserGroups()
+    public function getLearnerGroups()
     {
-        return $this->userGroups;
+        return $this->learnerGroups;
     }
 
     /**
@@ -641,15 +643,15 @@ class User implements UserInterface
     }
 
     /**
-     * @param GroupInterface $instructorUserGroup
+     * @param LearnerGroupInterface $instructorUserGroup
      */
-    public function addInstructorUserGroup(GroupInterface $instructorUserGroup)
+    public function addInstructorUserGroup(LearnerGroupInterface $instructorUserGroup)
     {
         $this->instructorUserGroups->add($instructorUserGroup);
     }
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getInstructorUserGroups()
     {
@@ -921,14 +923,6 @@ class User implements UserInterface
      * @return string
      */
     public function getUsername()
-    {
-        return (string) $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
     {
         return (string) $this->id;
     }

@@ -7,12 +7,16 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface GroupInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface GroupInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface LearnerGroupInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    StringableEntityInterface
 {
     /**
      * @param string $location
@@ -90,12 +94,12 @@ interface GroupInterface extends IdentifiableEntityInterface, TitledEntityInterf
     public function getOfferings();
 
     /**
-     * @param GroupInterface $parent
+     * @param LearnerGroupInterface $parent
      */
-    public function setParent(GroupInterface $parent);
+    public function setParent(LearnerGroupInterface $parent);
 
     /**
-     * @return GroupInterface
+     * @return LearnerGroupInterface
      */
     public function getParent();
 
@@ -105,12 +109,12 @@ interface GroupInterface extends IdentifiableEntityInterface, TitledEntityInterf
     public function setChildren(Collection $children);
 
     /**
-     * @param GroupInterface $child
+     * @param LearnerGroupInterface $child
      */
-    public function addChild(GroupInterface $child);
+    public function addChild(LearnerGroupInterface $child);
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getChildren();
 
@@ -144,4 +148,3 @@ interface GroupInterface extends IdentifiableEntityInterface, TitledEntityInterf
      */
     public function getInstructorUsers();
 }
-

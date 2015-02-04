@@ -36,17 +36,17 @@ interface IlmSessionFacetInterface extends IdentifiableEntityInterface
     /**
      * @param Collection $groups
      */
-    public function setGroups(Collection $groups);
+    public function setLearnerGroups(Collection $learnerGroups);
 
     /**
-     * @param GroupInterface $group
+     * @param LearnerGroupInterface $learnerGroup
      */
-    public function addGroup(GroupInterface $group);
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup);
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getGroups();
+    public function getLearnerGroups();
 
     /**
      * @param Collection $instructors

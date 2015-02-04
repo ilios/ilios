@@ -61,14 +61,14 @@ class InstructorGroup implements InstructorGroupInterface
     protected $school;
 
     /**
-     * @var ArrayCollection|GroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Group", mappedBy="instructorGroups")
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructorGroups")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $groups;
+    protected $learnerGroups;
 
     /**
      * @var ArrayCollection|IlmSessionFacet[]
@@ -114,7 +114,7 @@ class InstructorGroup implements InstructorGroupInterface
      */
     public function __construct()
     {
-        $this->groups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
         $this->ilmSessionFacets = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->offerings = new ArrayCollection();
@@ -154,31 +154,31 @@ class InstructorGroup implements InstructorGroupInterface
     }
 
     /**
-     * @param Collection $groups
+     * @param Collection $learnerGroups
      */
-    public function setGroups(Collection $groups)
+    public function setLearnerGroups(Collection $learnerGroups)
     {
-        $this->groups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
 
-        foreach ($groups as $group) {
-            $this->addGroup($group);
+        foreach ($learnerGroups as $group) {
+            $this->addLearnerGroup($group);
         }
     }
 
     /**
-     * @param GroupInterface $group
+     * @param LearnerGroupInterface $learnerGroup
      */
-    public function addGroup(GroupInterface $group)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->groups->add($group);
+        $this->learnerGroups->add($learnerGroup);
     }
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getGroups()
+    public function getLearnerGroups()
     {
-        return $this->groups;
+        return $this->learnerGroups;
     }
 
     /**

@@ -52,9 +52,9 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     protected $dueDate;
 
     /**
-     * @var ArrayCollection|GroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="ilmSessionFacets")
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="ilmSessionFacets")
      * @ORM\JoinTable(name="ilm_session_facet_x_group",
      *   joinColumns={
      *     @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", onDelete="CASCADE")
@@ -67,7 +67,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $groups;
+    protected $learnerGroups;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
@@ -139,7 +139,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      */
     public function __construct()
     {
-        $this->groups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
         $this->instructors = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
@@ -196,31 +196,31 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     }
 
     /**
-     * @param Collection $groups
+     * @param Collection $learnerGroups
      */
-    public function setGroups(Collection $groups)
+    public function setLearnerGroups(Collection $learnerGroups)
     {
-        $this->groups = new ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
 
-        foreach ($groups as $group) {
-            $this->addGroup($group);
+        foreach ($learnerGroups as $group) {
+            $this->addLearnerGroup($group);
         }
     }
 
     /**
-     * @param GroupInterface $group
+     * @param LearnerGroupInterface $learnerGroup
      */
-    public function addGroup(GroupInterface $group)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->groups->add($group);
+        $this->learnerGroups->add($learnerGroup);
     }
 
     /**
-     * @return ArrayCollection|GroupInterface[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getGroups()
+    public function getLearnerGroups()
     {
-        return $this->groups;
+        return $this->learnerGroups;
     }
 
     /**

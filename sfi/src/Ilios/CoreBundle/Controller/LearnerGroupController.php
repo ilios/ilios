@@ -17,29 +17,29 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\GroupHandler;
-use Ilios\CoreBundle\Entity\GroupInterface;
+use Ilios\CoreBundle\Handler\LearnerGroupHandler;
+use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 
 /**
- * Group controller.
+ * LearnerGroup controller.
  * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Group")
+ * @RouteResource("LearnerGroup")
  */
-class GroupController extends FOSRestController
+class LearnerGroupController extends FOSRestController
 {
-    
+
     /**
-     * Get a Group
+     * Get a LearnerGroup
      *
      * @ApiDoc(
-     *   description = "Get a Group.",
+     *   description = "Get a LearnerGroup.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Group identifier."}
+     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="LearnerGroup identifier."}
      *   },
-     *   output="Ilios\CoreBundle\Entity\Group",
+     *   output="Ilios\CoreBundle\Entity\LearnerGroup",
      *   statusCodes={
-     *     200 = "Group.",
+     *     200 = "LearnerGroup.",
      *     404 = "Not Found."
      *   }
      * )
@@ -53,20 +53,20 @@ class GroupController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        $answer['group'] = $this->getOr404($id);
+        $answer['learnerGroup'] = $this->getOr404($id);
 
         return $answer;
     }
 
     /**
-     * Get all Group.
+     * Get all LearnerGroup.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Get all Group.",
-     *   output="Ilios\CoreBundle\Entity\Group",
+     *   description = "Get all LearnerGroup.",
+     *   output="Ilios\CoreBundle\Entity\LearnerGroup",
      *   statusCodes = {
-     *     200 = "List of all Group",
+     *     200 = "List of all LearnerGroup",
      *     204 = "No content. Nothing to list."
      *   }
      * )
@@ -109,15 +109,15 @@ class GroupController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['group'] =
-            $this->getGroupHandler()->findGroupsBy(
+        $answer['learnerGroup'] =
+            $this->getLearnerGroupHandler()->findLearnerGroupsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
 
-        if ($answer['group']) {
+        if ($answer['learnerGroup']) {
             return $answer;
         }
 
@@ -125,15 +125,15 @@ class GroupController extends FOSRestController
     }
 
     /**
-     * Create a Group.
+     * Create a LearnerGroup.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Create a Group.",
-     *   input="Ilios\CoreBundle\Form\GroupType",
-     *   output="Ilios\CoreBundle\Entity\Group",
+     *   description = "Create a LearnerGroup.",
+     *   input="Ilios\CoreBundle\Form\LearnerGroupType",
+     *   output="Ilios\CoreBundle\Entity\LearnerGroup",
      *   statusCodes={
-     *     201 = "Created Group.",
+     *     201 = "Created LearnerGroup.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -148,8 +148,8 @@ class GroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getGroupHandler()->post($request->request->all());
-            $answer['group'] = $new;
+            $new  =  $this->getLearnerGroupHandler()->post($request->request->all());
+            $answer['learnerGroup'] = $new;
 
             return $answer;
         } catch (InvalidFormException $exception) {
@@ -158,16 +158,16 @@ class GroupController extends FOSRestController
     }
 
     /**
-     * Update a Group.
+     * Update a LearnerGroup.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Update a Group entity.",
-     *   input="Ilios\CoreBundle\Form\GroupType",
-     *   output="Ilios\CoreBundle\Entity\Group",
+     *   description = "Update a LearnerGroup entity.",
+     *   input="Ilios\CoreBundle\Form\LearnerGroupType",
+     *   output="Ilios\CoreBundle\Entity\LearnerGroup",
      *   statusCodes={
-     *     200 = "Updated Group.",
-     *     201 = "Created Group.",
+     *     200 = "Updated LearnerGroup.",
+     *     201 = "Created LearnerGroup.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -183,11 +183,11 @@ class GroupController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($group = $this->getGroupHandler()->findGroupBy(['id'=> $id])) {
-                $answer['group']= $this->getGroupHandler()->put($group, $request->request->all());
+            if ($learnerGroup = $this->getLearnerGroupHandler()->findLearnerGroupBy(['id'=> $id])) {
+                $answer['learnerGroup']= $this->getLearnerGroupHandler()->put($learnerGroup, $request->request->all());
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['group'] = $this->getGroupHandler()->post($request->request->all());
+                $answer['learnerGroup'] = $this->getLearnerGroupHandler()->post($request->request->all());
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -200,18 +200,18 @@ class GroupController extends FOSRestController
     }
 
     /**
-     * Partial Update to a Group.
+     * Partial Update to a LearnerGroup.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Partial Update to a Group.",
-     *   input="Ilios\CoreBundle\Form\GroupType",
-     *   output="Ilios\CoreBundle\Entity\Group",
+     *   description = "Partial Update to a LearnerGroup.",
+     *   input="Ilios\CoreBundle\Form\LearnerGroupType",
+     *   output="Ilios\CoreBundle\Entity\LearnerGroup",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Group identifier."}
+     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="LearnerGroup identifier."}
      *   },
      *   statusCodes={
-     *     200 = "Updated Group.",
+     *     200 = "Updated LearnerGroup.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -227,27 +227,27 @@ class GroupController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['group'] = $this->getGroupHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['learnerGroup'] = $this->getLearnerGroupHandler()->patch($this->getOr404($id), $request->request->all());
 
         return $answer;
     }
 
     /**
-     * Delete a Group.
+     * Delete a LearnerGroup.
      *
      * @ApiDoc(
-     *   description = "Delete a Group entity.",
+     *   description = "Delete a LearnerGroup entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
-     *         "description" = "Group identifier"
+     *         "description" = "LearnerGroup identifier"
      *     }
      *   },
      *   statusCodes={
-     *     204 = "No content. Successfully deleted Group.",
+     *     204 = "No content. Successfully deleted LearnerGroup.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
      *   }
@@ -257,15 +257,15 @@ class GroupController extends FOSRestController
      *
      * @param Request $request
      * @param $id
-     * @internal GroupInterface $group
+     * @internal LearnerGroupInterface $learnerGroup
      *
      * @return Response
      */
     public function deleteAction(Request $request, $id)
     {
-        $group = $this->getOr404($id);
+        $learnerGroup = $this->getOr404($id);
         try {
-            $this->getGroupHandler()->deleteGroup($group);
+            $this->getLearnerGroupHandler()->deleteLearnerGroup($learnerGroup);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -277,11 +277,11 @@ class GroupController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return GroupInterface $entity
+     * @return LearnerGroupInterface $entity
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getGroupHandler()->findGroupBy(['id' => $id]))) {
+        if (!($entity = $this->getLearnerGroupHandler()->findLearnerGroupBy(['id' => $id]))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
@@ -289,10 +289,10 @@ class GroupController extends FOSRestController
     }
 
     /**
-     * @return GroupHandler
+     * @return LearnerGroupHandler
      */
-    public function getGroupHandler()
+    protected function getLearnerGroupHandler()
     {
-        return $this->container->get('ilioscore.group.handler');
+        return $this->container->get('ilioscore.learnergroup.handler');
     }
 }

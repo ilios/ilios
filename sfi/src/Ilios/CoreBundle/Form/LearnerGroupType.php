@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class GroupType extends AbstractType
+class LearnerGroupType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,7 +19,7 @@ class GroupType extends AbstractType
             ->add('location')
             ->add('instructors')
             ->add('cohort', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Cohort"])
-            ->add('parent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Group"])
+            ->add('parent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"])
             ->add('ilmSessionFacets', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"])
             ->add('offerings', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Offering"])
             ->add('instructorGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"])
@@ -34,7 +34,7 @@ class GroupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\Group'
+            'data_class' => 'Ilios\CoreBundle\Entity\LearnerGroup'
         ));
     }
 
@@ -43,6 +43,6 @@ class GroupType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_group_form_type';
+        return 'ilios_corebundle_learnergroup_form_type';
     }
 }

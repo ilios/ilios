@@ -5,12 +5,15 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
+use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface PublishEventInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface PublishEventInterface extends IdentifiableEntityInterface
+interface PublishEventInterface extends
+    IdentifiableEntityInterface,
+    StringableEntityInterface
 {
     /**
      * @param string $machineIp
