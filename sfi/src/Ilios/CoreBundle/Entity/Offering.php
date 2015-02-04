@@ -123,6 +123,7 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learnerGroups")
      */
     protected $learnerGroups;
 

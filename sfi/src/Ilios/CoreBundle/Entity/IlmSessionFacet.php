@@ -66,6 +66,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learnerGroups")
      */
     protected $learnerGroups;
 
