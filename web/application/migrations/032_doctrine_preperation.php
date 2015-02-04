@@ -163,6 +163,10 @@ class Migration_Doctrine_preperation extends CI_Migration
             'index' => 'external_id_k'
         );
         $changes[] = array(
+            'table' => 'course',
+            'index' => 'external_id'
+        );
+        $changes[] = array(
             'table' => 'course_director',
             'index' => 'fkey_course_director_user_id'
         );
@@ -4117,6 +4121,7 @@ class Migration_Doctrine_preperation extends CI_Migration
             'ilm_session_facet_learner',
             'ilm_session_facet_instructor',
             'offering_instructor',
+            'offering_learner',
         );
 
         $queries = array();
