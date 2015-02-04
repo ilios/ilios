@@ -71,6 +71,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @JMS\Expose
      * @JMS\Type("datetime")
+     * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
 
@@ -81,6 +82,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @JMS\Expose
      * @JMS\Type("datetime")
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
 
@@ -141,6 +143,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("sessionLearningMaterials")
      */
     protected $sessionLearningMaterials;
 
@@ -151,6 +154,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("courseLearningMaterials")
      */
     protected $courseLearningMaterials;
 
@@ -161,6 +165,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("previousIndexing")
      */
     protected $previousIndexing;
 

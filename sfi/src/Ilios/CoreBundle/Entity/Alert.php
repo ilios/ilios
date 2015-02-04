@@ -44,6 +44,7 @@ class Alert implements AlertInterface
      *
      * @JMS\Expose
      * @JMS\Type("integer")
+     * @JMS\SerializedName("tableRowId")
      */
     protected $tableRowId;
 
@@ -94,6 +95,7 @@ class Alert implements AlertInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("changeTypes")
      */
     protected $changeTypes;
 

@@ -63,6 +63,7 @@ class School implements SchoolInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("iliosAdministratorEmail")
      */
     protected $iliosAdministratorEmail;
 
@@ -84,6 +85,7 @@ class School implements SchoolInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("changeAlertRecipients")
      */
     protected $changeAlertRecipients;
 
@@ -118,6 +120,16 @@ class School implements SchoolInterface
     protected $courses;
 
     /**
+     * @var ArrayCollection|ProgramInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Program", mappedBy="owningSchool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $programs;
+
+    /**
      * @var ArrayCollection|DepartmentInterface[]
      *
      * @ORM\OneToMany(targetEntity="Department", mappedBy="school")
@@ -144,6 +156,7 @@ class School implements SchoolInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructorGroups")
     */
     protected $instructorGroups;
 
@@ -157,6 +170,7 @@ class School implements SchoolInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("curriculumInventoryInsitution")
     */
     protected $curriculumInventoryInsitution;
 
@@ -167,6 +181,7 @@ class School implements SchoolInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("sessionTypes")
     */
     protected $sessionTypes;
 
@@ -180,6 +195,7 @@ class School implements SchoolInterface
         $this->courses = new ArrayCollection();
         $this->departments = new ArrayCollection();
         $this->disciplines = new ArrayCollection();
+        $this->programs = new ArrayCollection();
         $this->deleted = false;
     }
 

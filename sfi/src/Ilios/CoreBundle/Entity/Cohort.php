@@ -86,6 +86,7 @@ class Cohort implements CohortInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learnerGroups")
      * @todo: alt-type: <Ilios\CoreBundle\Entity\Group>
      */
     protected $groups;

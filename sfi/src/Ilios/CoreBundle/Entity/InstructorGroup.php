@@ -77,6 +77,7 @@ class InstructorGroup implements InstructorGroupInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("ilmSessionFacets")
      */
     protected $ilmSessionFacets;
 

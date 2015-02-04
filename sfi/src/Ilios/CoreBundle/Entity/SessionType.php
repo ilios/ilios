@@ -72,6 +72,7 @@ class SessionType implements SessionTypeInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("assessmentOption")
      */
     protected $assessmentOption;
 
@@ -85,6 +86,7 @@ class SessionType implements SessionTypeInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("owningSchool")
      */
     protected $owningSchool;
 
@@ -103,6 +105,7 @@ class SessionType implements SessionTypeInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("aamcMethods")
      */
     protected $aamcMethods;
 

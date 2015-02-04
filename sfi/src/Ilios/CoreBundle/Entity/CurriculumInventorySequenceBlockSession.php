@@ -58,6 +58,7 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("sequenceBlock")
      */
     protected $sequenceBlock;
 

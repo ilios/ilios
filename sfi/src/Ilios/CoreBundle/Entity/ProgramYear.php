@@ -191,6 +191,7 @@ class ProgramYear implements ProgramYearInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
      */
     protected $publishEvent;
 

@@ -194,6 +194,7 @@ abstract class LearningMaterial implements LearningMaterialInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("courseLearningMaterials")
     */
     protected $courseLearningMaterials;
 

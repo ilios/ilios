@@ -111,6 +111,7 @@ class Competency implements CompetencyInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("aamcPcrses")
      */
     protected $aamcPcrses;
 
@@ -122,6 +123,7 @@ class Competency implements CompetencyInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("programYears")
      */
     protected $programYears;
 

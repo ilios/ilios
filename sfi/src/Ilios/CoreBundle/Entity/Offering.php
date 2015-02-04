@@ -59,6 +59,7 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("datetime")
+     * @JMS\SerializedName("startDate")
      */
     protected $startDate;
 
@@ -69,6 +70,7 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("datetime")
+     * @JMS\SerializedName("endDate")
      */
     protected $endDate;
 
@@ -89,6 +91,7 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("datetime")
+     * @JMS\SerializedName("lastUpdatedOn")
      */
     protected $lastUpdatedOn;
 
@@ -133,6 +136,7 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
      */
     protected $publishEvent;
 
@@ -151,6 +155,7 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("instructorGroups")
      */
     protected $instructorGroups;
 
@@ -187,6 +192,7 @@ class Offering implements OfferingInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("recurringEvents")
      */
     protected $recurringEvents;
 

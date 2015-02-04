@@ -45,6 +45,7 @@ class MeshUserSelection implements MeshUserSelectionInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("meshDescriptor")
      */
     protected $meshDescriptor;
 

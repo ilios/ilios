@@ -163,6 +163,7 @@ class Session implements SessionInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("ilmSessionFacet")
      */
     protected $ilmSessionFacet;
 
@@ -217,6 +218,7 @@ class Session implements SessionInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("meshDescriptors")
      */
     protected $meshDescriptors;
 
@@ -230,6 +232,7 @@ class Session implements SessionInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
      */
     protected $publishEvent;
 
@@ -240,6 +243,7 @@ class Session implements SessionInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("sessionDescription")
      */
     protected $sessionDescription;
 
@@ -250,6 +254,7 @@ class Session implements SessionInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("sessionLearningMaterials")
     */
     protected $sessionLearningMaterials;
 
@@ -260,6 +265,7 @@ class Session implements SessionInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructionHours")
     */
     protected $instructionHours;
 

@@ -51,6 +51,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learningMaterials")
      */
     protected $learningMaterials;
 

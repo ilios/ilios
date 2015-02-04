@@ -62,6 +62,7 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("programYear")
      */
     protected $programYear;
 

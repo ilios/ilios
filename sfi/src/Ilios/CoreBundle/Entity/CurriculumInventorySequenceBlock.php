@@ -127,6 +127,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("academicLevel")
      */
     protected $academicLevel;
 

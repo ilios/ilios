@@ -99,6 +99,7 @@ class MeshConcept implements MeshConceptInterface
     //  *
     //  * @JMS\Expose
     //  * @JMS\Type("array<string>")
+    //  * @JMS\SerializedName("meshTerms")
     //  */
     // protected $meshTerms;
 

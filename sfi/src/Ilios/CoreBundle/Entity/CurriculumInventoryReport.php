@@ -109,6 +109,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("sequenceBlocks")
     */
     protected $sequenceBlocks;
 
@@ -132,6 +133,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("curriculumInventoryAcademicLevels")
     */
     protected $curriculumInventoryAcademicLevels;
 

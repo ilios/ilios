@@ -51,6 +51,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learningMaterials")
      */
     protected $learningMaterials;
 

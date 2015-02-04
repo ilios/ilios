@@ -57,6 +57,7 @@ class Program implements ProgramInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("shortTitle")
      */
     protected $shortTitle;
 
@@ -87,6 +88,7 @@ class Program implements ProgramInterface
      *
      * @JMS\Expose
      * @JMS\Type("boolean")
+     * @JMS\SerializedName("publishedAsTbd")
      */
     protected $publishedAsTbd;
 
@@ -100,19 +102,21 @@ class Program implements ProgramInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
      */
     protected $publishEvent;
 
     /**
     * @var SchoolInterface
     *
-    * @ORM\ManyToOne(targetEntity="School")
+    * @ORM\ManyToOne(targetEntity="School", inversedBy="programs")
     * @ORM\JoinColumns({
     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
     * })
     *
     * @JMS\Expose
     * @JMS\Type("string")
+    * @JMS\SerializedName("owningSchool")
     */
     protected $owningSchool;
 
@@ -134,6 +138,7 @@ class Program implements ProgramInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("curriculumInventoryReports")
     */
     protected $curriculumInventoryReports;
 

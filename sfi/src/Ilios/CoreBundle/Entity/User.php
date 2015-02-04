@@ -88,6 +88,7 @@ class User implements UserInterface
      * @var boolean
      *
      * @ORM\Column(name="added_via_ilios", type="boolean")
+     * @JMS\SerializedName("addedViaIlios")
      */
     protected $addedViaIlios;
 
@@ -147,6 +148,7 @@ class User implements UserInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learningMaterials")
      */
     protected $learningMaterials;
 
@@ -157,6 +159,7 @@ class User implements UserInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("publishEvents")
      */
     protected $publishEvents;
 
@@ -180,6 +183,7 @@ class User implements UserInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("primarySchool")
      */
     protected $primarySchool;
 
@@ -190,6 +194,7 @@ class User implements UserInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("directedCourses")
      */
     protected $directedCourses;
 
@@ -200,6 +205,7 @@ class User implements UserInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("userGroups")
      */
     protected $userGroups;
 
@@ -210,6 +216,7 @@ class User implements UserInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("instructorUserGroups")
      */
     protected $instructorUserGroups;
 
@@ -220,6 +227,7 @@ class User implements UserInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructorGroups")
     */
     protected $instructorGroups;
 
@@ -230,6 +238,7 @@ class User implements UserInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructorIlmSessions")
     */
     protected $instructorIlmSessions;
 
@@ -240,6 +249,7 @@ class User implements UserInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("learnerIlmSessions")
     */
     protected $learnerIlmSessions;
 
@@ -260,6 +270,7 @@ class User implements UserInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("programYears")
     */
     protected $programYears;
 
@@ -270,6 +281,7 @@ class User implements UserInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructionHours")
     */
     protected $instructionHours;
 

@@ -57,6 +57,7 @@ class AamcMethod implements AamcMethodInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("sessionTypes")
      */
     protected $sessionTypes;
 

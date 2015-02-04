@@ -83,6 +83,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("learningMaterial")
      */
     protected $learningMaterial;
 
@@ -105,6 +106,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
+     * @JMS\SerializedName("meshDescriptors")
      */
     protected $meshDescriptors;
 

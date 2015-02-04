@@ -106,6 +106,7 @@ class RecurringEvent implements RecurringEventInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("previousRecurringEvent")
      */
     protected $previousRecurringEvent;
 
@@ -119,6 +120,7 @@ class RecurringEvent implements RecurringEventInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("nextRecurringEvent")
      */
     protected $nextRecurringEvent;
 

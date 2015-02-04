@@ -53,6 +53,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("createdBy")
      */
     protected $createdBy;
 

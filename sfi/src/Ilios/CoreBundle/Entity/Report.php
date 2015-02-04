@@ -94,6 +94,7 @@ class Report implements ReportInterface
     *
     * @JMS\Expose
     * @JMS\Type("string")
+    * @JMS\SerializedName("poValue")
     */
     protected $poValue;
 
