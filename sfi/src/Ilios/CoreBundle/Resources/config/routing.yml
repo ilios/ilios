@@ -89,6 +89,13 @@ api_course_v1:
     defaults: {_format:json}
 
 
+api_currentsession_v1:
+    resource: "@IliosCoreBundle/Controller/CurrentsessionController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+
 api_curriculuminventoryacademiclevel_v1:
     resource: "@IliosCoreBundle/Controller/CurriculumInventoryAcademicLevelController.php"
     type:     rest
