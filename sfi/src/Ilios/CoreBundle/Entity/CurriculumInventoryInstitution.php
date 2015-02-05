@@ -25,6 +25,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     * @var string
     *
     * @ORM\Column(type="string", length=100)
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $name;
 
@@ -32,6 +35,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(name="aamc_code", type="string", length=10)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $aamcCode;
 
@@ -39,6 +45,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(type="string", length=100, name="address_street")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $streetAddress;
 
@@ -46,6 +55,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(type="string", length=100, name="address_city")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $city;
 
@@ -53,6 +65,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(type="string", length=50, name="address_state_or_province")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $state;
 
@@ -60,6 +75,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(type="string", length=10, name="address_zipcode")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $zipCode;
 
@@ -68,6 +86,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(type="string", length=2, name="address_country_code")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $countryCode;
 

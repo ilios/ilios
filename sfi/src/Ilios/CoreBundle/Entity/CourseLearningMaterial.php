@@ -73,7 +73,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * })
      *
      * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @JMS\Type("string")
      */
     protected $course;
 
