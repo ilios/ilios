@@ -70,4 +70,12 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     {
         return $this->previousIndexing;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->descriptor;
+    }
 }

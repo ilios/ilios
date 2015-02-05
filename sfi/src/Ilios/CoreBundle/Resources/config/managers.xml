@@ -54,7 +54,9 @@
         <parameter key="ilioscore.usermadereminder.manager.class">Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager</parameter>
         <parameter key="ilioscore.user.manager.class">Ilios\CoreBundle\Entity\Manager\UserManager</parameter>
         <parameter key="ilioscore.userrole.manager.class">Ilios\CoreBundle\Entity\Manager\UserRoleManager</parameter>
-        <parameter key="ilioscore.learnergroup.manager.class">Ilios\CoreBundle\Entity\Manager\LearnerGroupManager</parameter></parameters>
+        <parameter key="ilioscore.learningmaterial.manager.class">Ilios\CoreBundle\Entity\Manager\LearningMaterialManager</parameter>
+        <parameter key="ilioscore.learnergroup.manager.class">Ilios\CoreBundle\Entity\Manager\LearnerGroupManager</parameter>
+    </parameters>
 
     <services>
         <service id="ilioscore.aamcmethod.manager" class="%ilioscore.aamcmethod.manager.class%">
@@ -269,5 +271,5 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument>Ilios\CoreBundle\Entity\LearnerGroup</argument>
         </service>
-    </services>
+    <service id="ilioscore.learningmaterial.manager" class="%ilioscore.learningmaterial.manager.class%"><argument type="service" id="doctrine.orm.entity_manager"/><argument>Ilios\CoreBundle\Entity\LearningMaterial</argument></service></services>
 </container>

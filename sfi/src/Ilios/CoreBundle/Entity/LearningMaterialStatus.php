@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class LearningMaterialStatus
@@ -23,6 +24,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
 {
 //    use IdentifiableEntity;
     use TitledEntity;
+    use StringableIdEntity;
 
     /**
      * @deprecated To be removed in 3.1, replaced by ID by enabling trait.

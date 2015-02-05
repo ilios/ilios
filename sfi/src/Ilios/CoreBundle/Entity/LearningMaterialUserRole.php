@@ -9,6 +9,7 @@ use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class LearningMaterialUserRole
@@ -21,11 +22,11 @@ use Ilios\CoreBundle\Traits\TitledEntity;
  */
 class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
     use TitledEntity;
+    use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="learning_material_user_role_id", type="integer")
@@ -61,23 +62,6 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->learningMaterialUserRoleId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->learningMaterialUserRoleId : $this->id;
     }
 
     /**

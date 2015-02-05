@@ -74,16 +74,21 @@ api_courseclerkshiptype_v1:
     prefix:   /v1
     defaults: {_format:json}
 
-
-# api_courselearningmaterial_v1:
-#    resource: "@IliosCoreBundle/Controller/CourseLearningMaterialController.php"
-#    type:     rest
-#    prefix:   /v1
-#    defaults: {_format:json}
+api_courselearningmaterial:
+    resource: "@IliosCoreBundle/Controller/CourseLearningMaterialController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
 
 
 api_course_v1:
     resource: "@IliosCoreBundle/Controller/CourseController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_currentsession_v1:
+    resource: "@IliosCoreBundle/Controller/CurrentsessionController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
@@ -173,6 +178,14 @@ api_ingestionexception_v1:
 
 api_instructorgroup_v1:
     resource: "@IliosCoreBundle/Controller/InstructorGroupController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+
+
+api_learningmaterial:
+    resource: "@IliosCoreBundle/Controller/LearningMaterialController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
