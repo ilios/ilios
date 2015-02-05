@@ -169,7 +169,7 @@ class School implements SchoolInterface
     * @JMS\Type("string")
     *
     * @JMS\Expose
-    * @JMS\Type("array<string>")
+    * @JMS\Type("string")
     * @JMS\SerializedName("curriculumInventoryInsitution")
     */
     protected $curriculumInventoryInsitution;

@@ -120,7 +120,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @ORM\Column(name="instructors", type="string", length=120, nullable=true)
      *
      * @JMS\Expose
-     * @JMS\Type("array<string>")
+     * @JMS\Type("string")
      */
     protected $instructors;
 

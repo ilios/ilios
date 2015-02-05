@@ -133,7 +133,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
-    * @JMS\SerializedName("curriculumInventoryAcademicLevels")
+    * @JMS\SerializedName("academicLevels")
     */
     protected $curriculumInventoryAcademicLevels;
 
