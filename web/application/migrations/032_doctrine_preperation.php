@@ -423,6 +423,9 @@ class Migration_Doctrine_preperation extends CI_Migration
             'index' => 'session_id_k'
         );
         $changes[] = array(
+            'table' => 'session_type',
+            'index' => 'session_type_ibfk_1'
+        );$changes[] = array(
             'table' => 'session_type_x_aamc_method',
             'index' => 'session_type_id_method_id'
         );
@@ -463,6 +466,10 @@ class Migration_Doctrine_preperation extends CI_Migration
     protected function getDropKeys()
     {
         $changes = array();
+        $changes[] = array(
+            'table' => 'group',
+            'key' => 'fkey_group_cohort_id'
+        );
         $changes[] = array(
             'table' => 'program_year_x_objective',
             'key' => 'fkey_program_year_x_objective_obj_id'
@@ -3530,6 +3537,12 @@ class Migration_Doctrine_preperation extends CI_Migration
             'unique' => false
         );
         $changes[] = array(
+            'table' => 'group',
+            'index' => 'IDX_6DC044C535983C93',
+            'column' => 'cohort_id',
+            'unique' => false
+        );
+        $changes[] = array(
             'table' => 'group_x_instructor_group',
             'index' => 'IDX_49AFEA21FE367BE2',
             'column' => 'instructor_group_id',
@@ -3911,6 +3924,12 @@ class Migration_Doctrine_preperation extends CI_Migration
             'table' => 'session_learning_material_x_mesh',
             'index' => 'IDX_EC36AECFE8376E0A',
             'column' => 'session_learning_material_id',
+            'unique' => false
+        );
+        $changes[] = array(
+            'table' => 'session_type',
+            'index' => 'owning_school_id',
+            'column' => 'owning_school_id',
             'unique' => false
         );
         $changes[] = array(
