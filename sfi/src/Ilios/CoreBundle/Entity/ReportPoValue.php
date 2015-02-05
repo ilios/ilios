@@ -3,73 +3,57 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
- * ReportPoValue
+ * Class ReportPoValue
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="report_po_value")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class ReportPoValue
+class ReportPoValue implements ReportPoValueInterface
 {
     /**
-     * @var integer
+     * @var ReportInterface
+     *
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="Report", inversedBy="poValue")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true, onDelete="CASCADE")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $reportId;
+    protected $report;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="prepositional_object_table_row_id", type="string", length=14)
      */
-    private $prepositionalObjectTableRowId;
+    protected $prepositionalObjectTableRowId;
 
     /**
      * @var boolean
-     */
-    private $deleted;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\Report
-     */
-    private $report;
-
-
-    /**
-     * Set reportId
      *
-     * @param integer $reportId
-     * @return ReportPoValue
+     * @ORM\Column(name="deleted", type="boolean")
      */
-    public function setReportId($reportId)
-    {
-        $this->reportId = $reportId;
-
-        return $this;
-    }
+    protected $deleted;
 
     /**
-     * Get reportId
-     *
-     * @return integer 
-     */
-    public function getReportId()
-    {
-        return $this->reportId;
-    }
-
-    /**
-     * Set prepositionalObjectTableRowId
-     *
      * @param string $prepositionalObjectTableRowId
-     * @return ReportPoValue
      */
     public function setPrepositionalObjectTableRowId($prepositionalObjectTableRowId)
     {
         $this->prepositionalObjectTableRowId = $prepositionalObjectTableRowId;
-
-        return $this;
     }
 
     /**
-     * Get prepositionalObjectTableRowId
-     *
-     * @return string 
+     * @return string
      */
     public function getPrepositionalObjectTableRowId()
     {
@@ -77,22 +61,15 @@ class ReportPoValue
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return ReportPoValue
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleted()
     {
@@ -100,22 +77,15 @@ class ReportPoValue
     }
 
     /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Entity\Report $report
-     * @return ReportPoValue
+     * @param ReportInterface $report
      */
-    public function setReport(\Ilios\CoreBundle\Entity\Report $report = null)
+    public function setReport(ReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Entity\Report 
+     * @return ReportInterface
      */
     public function getReport()
     {

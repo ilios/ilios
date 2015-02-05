@@ -9,7 +9,7 @@ framework:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
     form:            ~
-    csrf_protection: ~
+    csrf_protection: false
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
@@ -22,6 +22,8 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    serializer:
+        enabled: false
 
 # Twig Configuration
 twig:
@@ -65,13 +67,77 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_rest:
+    routing_loader:
+        default_format: json
+    param_fetcher_listener: true
     body_listener: true
-    format_listener:
-        rules:
-          - { path: '^/', priorities: ['html','json','xml','css','js'], fallback_format: html, prefer_extension: true }
+    body_converter:
+        enabled: true
+    format_listener: true
+    view:
+        view_response_listener: force
+        formats:
+            xml: true
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+#    format_listener:
+#        rules:
+#          - { path: '^/', priorities: ['html','json','xml','css','js'], fallback_format: html, prefer_extension: true }
     exception:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException': 500
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: []
+        allow_headers: []
+        allow_methods: []
+        expose_headers: []
+        max_age: 0
+    paths:
+        '^/api/':
+            allow_origin: ['*']
+            allow_headers: ['*']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+            max_age: 3600
+
+nelmio_api_doc:
+    name: ilios.dev
+    sandbox:
+        body_format:
+            formats:
+                - form
+                - json
+            default_format: json
+        request_format:
+            formats:
+                json: application/json
+                xml: application/xml
+            method: format_param
+            default_format: json
+
+sensio_framework_extra:
+    request: { converters: true }
+    view:    { annotations: false }
+    router:  { annotations: true }
+
+doctrine_migrations:
+    dir_name: %kernel.root_dir%/DoctrineMigrations
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+
+jms_di_extra:
+    locations:
+        all_bundles: false
+        bundles: [@IliosCoreBundle]
 
 ilios_legacy_ci:
     session:

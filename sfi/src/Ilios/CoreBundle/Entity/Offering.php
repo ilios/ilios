@@ -3,71 +3,199 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
- * Offering
+ * Class Offering
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="offering",
+ *   indexes={
+ *     @ORM\Index(name="session_id_k", columns={"session_id"}),
+ *     @ORM\Index(name="offering_dates_session_k", columns={"offering_id", "session_id", "start_date", "end_date"})
+ *   }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Offering
+class Offering implements OfferingInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
     /**
-     * @var integer
+     * @deprecated Replace with trait
+     * @var int
+     *
+     * @ORM\Column(name="offering_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $offeringId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="room", type="string", length=60)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $room;
+    protected $room;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="start_date", type="datetime")
+     *
+     * @JMS\Expose
+     * @JMS\Type("datetime")
+     * @JMS\SerializedName("startDate")
      */
-    private $startDate;
+    protected $startDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="end_date", type="datetime")
+     *
+     * @JMS\Expose
+     * @JMS\Type("datetime")
+     * @JMS\SerializedName("endDate")
      */
-    private $endDate;
+    protected $endDate;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="last_updated_on", type="datetime")
+     *
+     * @JMS\Expose
+     * @JMS\Type("datetime")
+     * @JMS\SerializedName("lastUpdatedOn")
      */
-    private $lastUpdatedOn;
+    protected $lastUpdatedOn;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Session
+     * @var Session
+     *
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="offerings")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $session;
+    protected $session;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|LearnerGroupInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="offerings")
+     * @ORM\JoinTable(name="offering_x_group",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learnerGroups")
      */
-    private $groups;
+    protected $learnerGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var PublishEventInterface
+     *
+     * @ORM\ManyToOne(targetEntity="PublishEvent")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
      */
-    private $instructorGroups;
+    protected $publishEvent;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|InstructorGroupInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="offerings")
+     * @ORM\JoinTable(name="offering_x_instructor_group",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("instructorGroups")
      */
-    private $users;
+    protected $instructorGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="offerings")
+     * @ORM\JoinTable(name="offering_x_learner",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $reccuringEvents;
+    protected $users;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var ArrayCollection|RecurringEventInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="RecurringEvent", inversedBy="offerings")
+     * @ORM\JoinTable(name="offering_x_recurring_event",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="cascade")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="recurring_event_id", referencedColumnName="recurring_event_id", onDelete="cascade")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("recurringEvents")
      */
-    private $publishEvent;
+    protected $recurringEvents;
 
     /**
      * Constructor
@@ -75,38 +203,21 @@ class Offering
     public function __construct()
     {
         $this->deleted = false;
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->reccuringEvents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->learnerGroups = new ArrayCollection();
+        $this->instructorGroups = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->recurringEvents = new ArrayCollection();
     }
 
     /**
-     * Get offeringId
-     *
-     * @return integer
-     */
-    public function getOfferingId()
-    {
-        return $this->offeringId;
-    }
-
-    /**
-     * Set room
-     *
      * @param string $room
-     * @return Offering
      */
     public function setRoom($room)
     {
         $this->room = $room;
-
-        return $this;
     }
 
     /**
-     * Get room
-     *
      * @return string
      */
     public function getRoom()
@@ -115,21 +226,14 @@ class Offering
     }
 
     /**
-     * Set startDate
-     *
      * @param \DateTime $startDate
-     * @return Offering
      */
-    public function setStartDate($startDate)
+    public function setStartDate(\DateTime $startDate)
     {
         $this->startDate = $startDate;
-
-        return $this;
     }
 
     /**
-     * Get startDate
-     *
      * @return \DateTime
      */
     public function getStartDate()
@@ -138,21 +242,14 @@ class Offering
     }
 
     /**
-     * Set endDate
-     *
      * @param \DateTime $endDate
-     * @return Offering
      */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
-
-        return $this;
     }
 
     /**
-     * Get endDate
-     *
      * @return \DateTime
      */
     public function getEndDate()
@@ -161,44 +258,30 @@ class Offering
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Offering
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
      * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
 
     /**
-     * Set lastUpdatedOn
-     *
      * @param \DateTime $lastUpdatedOn
-     * @return Offering
      */
-    public function setLastUpdatedOn($lastUpdatedOn)
+    public function setLastUpdatedOn(\DateTime $lastUpdatedOn)
     {
         $this->lastUpdatedOn = $lastUpdatedOn;
-
-        return $this;
     }
 
     /**
-     * Get lastUpdatedOn
-     *
      * @return \DateTime
      */
     public function getLastUpdatedOn()
@@ -207,22 +290,15 @@ class Offering
     }
 
     /**
-     * Set session
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $session
-     * @return Offering
+     * @param SessionInterface $session
      */
-    public function setSession(\Ilios\CoreBundle\Entity\Session $session = null)
+    public function setSession(SessionInterface $session)
     {
         $this->session = $session;
-
-        return $this;
     }
 
     /**
-     * Get session
-     *
-     * @return \Ilios\CoreBundle\Entity\Session
+     * @return SessionInterface
      */
     public function getSession()
     {
@@ -230,157 +306,138 @@ class Offering
     }
 
     /**
-     * Add groups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
-     * @return Offering
+     * @param PublishEventInterface $publishEvent
      */
-    public function addGroup(\Ilios\CoreBundle\Entity\Group $groups)
-    {
-        $this->groups[] = $groups;
-
-        return $this;
-    }
-
-    /**
-     * Remove groups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $groups
-     */
-    public function removeGroup(\Ilios\CoreBundle\Entity\Group $groups)
-    {
-        $this->groups->removeElement($groups);
-    }
-
-    /**
-     * Get groups
-     *
-     * @return \Ilios\CoreBundle\Entity\Group[]
-     */
-    public function getGroups()
-    {
-        return $this->groups->toArray();
-    }
-
-    /**
-     * Add instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
-     * @return Offering
-     */
-    public function addInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
-    {
-        $this->instructorGroups[] = $instructorGroups;
-
-        return $this;
-    }
-
-    /**
-     * Remove instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
-     */
-    public function removeInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
-    {
-        $this->instructorGroups->removeElement($instructorGroups);
-    }
-
-    /**
-     * Get instructorGroups
-     *
-     * @return \Ilios\CoreBundle\Entity\InstructorGroup[]
-     */
-    public function getInstructorGroups()
-    {
-        return $this->instructorGroups->toArray();
-    }
-
-    /**
-     * Add users
-     *
-     * @param \Ilios\CoreBundle\Entity\User $users
-     * @return Offering
-     */
-    public function addUser(\Ilios\CoreBundle\Entity\User $users)
-    {
-        $this->users[] = $users;
-
-        return $this;
-    }
-
-    /**
-     * Remove users
-     *
-     * @param \Ilios\CoreBundle\Entity\User $users
-     */
-    public function removeUser(\Ilios\CoreBundle\Entity\User $users)
-    {
-        $this->users->removeElement($users);
-    }
-
-    /**
-     * Get users
-     *
-     * @return \Ilios\CoreBundle\Entity\User[]
-     */
-    public function getUsers()
-    {
-        return $this->users->toArray();
-    }
-
-    /**
-     * Add reccuringEvents
-     *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents
-     * @return Offering
-     */
-    public function addReccuringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents)
-    {
-        $this->reccuringEvents[] = $reccuringEvents;
-
-        return $this;
-    }
-
-    /**
-     * Remove reccuringEvents
-     *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents
-     */
-    public function removeReccuringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $reccuringEvents)
-    {
-        $this->reccuringEvents->removeElement($reccuringEvents);
-    }
-
-    /**
-     * Get reccuringEvents
-     *
-     * @return \Ilios\CoreBundle\Entity\RecurringEvent[]
-     */
-    public function getReccuringEvents()
-    {
-        return $this->reccuringEvents->toArray();
-    }
-
-    /**
-     * Set publishEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
-     * @return Offering
-     */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(PublishEventInterface $publishEvent)
     {
         $this->publishEvent = $publishEvent;
-
-        return $this;
     }
 
     /**
-     * Get publishEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent
+     * @return PublishEventInterface
      */
     public function getPublishEvent()
     {
         return $this->publishEvent;
+    }
+
+    /**
+     * @param Collection $learnerGroups
+     */
+    public function setLearnerGroups(Collection $learnerGroups)
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $group) {
+            $this->addLearnerGroup($group);
+        }
+    }
+
+    /**
+     * @param LearnerGroupInterface $learnerGroup
+     */
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
+    {
+        $this->learnerGroups->add($learnerGroup);
+    }
+
+    /**
+     * @return ArrayCollection|LearnerGroupInterface[]
+     */
+    public function getLearnerGroups()
+    {
+        return $this->learnerGroups;
+    }
+
+    /**
+     * @param Collection $instructorGroups
+     */
+    public function setInstructorGroups(Collection $instructorGroups)
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    /**
+     * @param InstructorGroupInterface $instructorGroup
+     */
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
+    {
+        $this->instructorGroups->add($instructorGroup);
+    }
+
+    /**
+     * @return ArrayCollection|InstructorGroupInterface[]
+     */
+    public function getInstructorGroups()
+    {
+        return $this->instructorGroups;
+    }
+
+    /**
+     * @param Collection $users
+     */
+    public function setUsers(Collection $users)
+    {
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    public function addUser(UserInterface $user)
+    {
+        $this->users->add($user);
+    }
+
+    /**
+     * @return ArrayCollection|UserInterface[]
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param Collection $recurringEvents
+     */
+    public function setRecurringEvents(Collection $recurringEvents)
+    {
+        $this->recurringEvents = new ArrayCollection();
+
+        foreach ($recurringEvents as $recurringEvent) {
+            $this->addRecurringEvent($recurringEvent);
+        }
+    }
+
+    /**
+     * @param RecurringEventInterface $recurringEvent
+     */
+    public function addRecurringEvent(RecurringEventInterface $recurringEvent)
+    {
+        $this->recurringEvents->add($recurringEvent);
+    }
+
+    /**
+     * @return ArrayCollection|RecurringEventInterface[]
+     */
+    public function getRecurringEvents()
+    {
+        return $this->recurringEvents;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

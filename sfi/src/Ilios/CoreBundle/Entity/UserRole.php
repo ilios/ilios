@@ -2,102 +2,117 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Entity\UserInterface;
+
 /**
- * UserRole
+ * Class UserRole
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="user_role")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class UserRole implements RoleInterface
+class UserRole implements UserRoleInterface
 {
-    /**
-     * @var integer
-     */
-    private $userRoleId;
+    use TitledEntity;
+    use StringableIdEntity;
 
     /**
-     * @var string
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Column(name="user_role_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
+    protected $id;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @ORM\Column(type="string", length=60)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    */
+    protected $title;
+
+     /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $users;
+    protected $users;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
-     * Get userRoleId
-     *
-     * @return integer 
+     * @param int $id
      */
-    public function getUserRoleId()
+    public function setId($id)
     {
-        return $this->userRoleId;
+        $this->userRoleId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return UserRole
+     * @return int
      */
-    public function setTitle($title)
+    public function getId()
     {
-        $this->title = $title;
-
-        return $this;
+        return ($this->id === null) ? $this->userRoleId : $this->id;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @param Collection $users
      */
-    public function getTitle()
+    public function setUsers(Collection $users)
     {
-        return $this->title;
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
     }
 
     /**
-     * Add users
-     *
-     * @param \Ilios\CoreBundle\Entity\User $users
-     * @return UserRole
+     * @param UserInterface $user
      */
-    public function addUser(\Ilios\CoreBundle\Entity\User $users)
+    public function addUser(UserInterface $user)
     {
-        $this->users[] = $users;
-
-        return $this;
+        $this->users->add($user);
     }
 
     /**
-     * Remove users
-     *
-     * @param \Ilios\CoreBundle\Entity\User $users
-     */
-    public function removeUser(\Ilios\CoreBundle\Entity\User $users)
-    {
-        $this->users->removeElement($users);
-    }
-
-    /**
-     * Get users
-     *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getUsers()
     {
-        return $this->users->toArray();
+        return $this->users;
     }
 
+    /**
+     * @return string
+     */
     public function getRole()
     {
         return 'ROLE_' . $this->title;

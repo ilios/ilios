@@ -3,90 +3,73 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
- * IngestionException
+ * Class IngestionException
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="ingestion_exception")
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class IngestionException
+class IngestionException implements IngestionExceptionInterface
 {
     /**
-     * @var integer
-     */
-    private $userId;
-
-    /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var string
-     */
-    private $ingestedWideUid;
-    
-    /**
-     * @var \Ilios\CoreBundle\Entity\User
-     */
-    private $user;
-
-    /**
-     * Set userId
      *
-     * @param int $userId
-     * @return IngestionException
+     * @ORM\Column(name="ingested_wide_uid", type="string", length=32)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
+    protected $uuid;
 
-        return $this;
+    /**
+     * Used as primary key.
+     * @var UserInterface
+     *
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $user;
+
+    /**
+     * @param string $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->ingestedWideUid = $uuid;
+        $this->uuid = $uuid;
     }
 
     /**
-     * Get userId
-     *
-     * @return integer 
+     * @return string
      */
-    public function getUserId()
+    public function getUuid()
     {
-        return $this->userId;
+        return ($this->uuid === null) ? $this->ingestedWideUid : $this->uuid;
     }
 
     /**
-     * Set ingestedWideUid
-     *
-     * @param string $ingestedWideUid
-     * @return IngestionException
+     * @param UserInterface $user
      */
-    public function setIngestedWideUid($ingestedWideUid)
-    {
-        $this->ingestedWideUid = $ingestedWideUid;
-
-        return $this;
-    }
-
-    /**
-     * Get ingestedWideUid
-     *
-     * @return string 
-     */
-    public function getIngestedWideUid()
-    {
-        return $this->ingestedWideUid;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Entity\User $user
-     * @return ApiKey
-     */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return UserInterface
      */
     public function getUser()
     {

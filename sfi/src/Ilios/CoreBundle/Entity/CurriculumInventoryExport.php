@@ -3,124 +3,77 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
- * CurriculumInventoryExport
+ * Class CurriculumInventoryExport
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="curriculum_inventory_export",
+ *   indexes={
+ *     @ORM\Index(name="fkey_curriculum_inventory_export_user_id", columns={"created_by"})
+ *   }
+ * )
+ * @ORM\Entity
+ * @JMS\ExclusionPolicy("all")
  */
-class CurriculumInventoryExport
+class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
     /**
-     * @var integer
+     * @var CurriculumInventoryReportInterface
+     *
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="export")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $reportId;
+    protected $report;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="document", type="text")
      */
-    private $document;
+    protected $document;
+
+    /**
+     * @var UserInterface
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="created_by", referencedColumnName="user_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("createdBy")
+     */
+    protected $createdBy;
 
     /**
      * @var \DateTime
-     */
-    private $createdOn;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryReport
-     */
-    private $report;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\User
-     */
-    private $createdBy;
-
-
-    /**
-     * Set reportId
      *
-     * @param integer $reportId
-     * @return CurriculumInventoryExport
+     * @ORM\Column(name="created_on", type="datetime")
      */
-    public function setReportId($reportId)
-    {
-        $this->reportId = $reportId;
-
-        return $this;
-    }
+    protected $createdAt;
 
     /**
-     * Get reportId
-     *
-     * @return integer 
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function getReportId()
-    {
-        return $this->reportId;
-    }
-
-    /**
-     * Set document
-     *
-     * @param string $document
-     * @return CurriculumInventoryExport
-     */
-    public function setDocument($document)
-    {
-        $this->document = $document;
-
-        return $this;
-    }
-
-    /**
-     * Get document
-     *
-     * @return string 
-     */
-    public function getDocument()
-    {
-        return $this->document;
-    }
-
-    /**
-     * Set createdOn
-     *
-     * @param \DateTime $createdOn
-     * @return CurriculumInventoryExport
-     */
-    public function setCreatedOn($createdOn)
-    {
-        $this->createdOn = $createdOn;
-
-        return $this;
-    }
-
-    /**
-     * Get createdOn
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedOn()
-    {
-        return $this->createdOn;
-    }
-
-    /**
-     * Set report
-     *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryReport $report
-     * @return CurriculumInventoryExport
-     */
-    public function setReport(\Ilios\CoreBundle\Entity\CurriculumInventoryReport $report = null)
+    public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
-
-        return $this;
     }
 
     /**
-     * Get report
-     *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryReport 
+     * @return CurriculumInventoryReportInterface
      */
     public function getReport()
     {
@@ -128,25 +81,58 @@ class CurriculumInventoryExport
     }
 
     /**
-     * Set createdBy
-     *
-     * @param \Ilios\CoreBundle\Entity\User $createdBy
-     * @return CurriculumInventoryExport
+     * @param string $document
      */
-    public function setCreatedBy(\Ilios\CoreBundle\Entity\User $createdBy = null)
+    public function setDocument($document)
     {
-        $this->createdBy = $createdBy;
-
-        return $this;
+        $this->document = $document;
     }
 
     /**
-     * Get createdBy
-     *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return string
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * @param UserInterface $createdBy
+     */
+    public function setCreatedBy(UserInterface $createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return UserInterface
      */
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->report;
     }
 }

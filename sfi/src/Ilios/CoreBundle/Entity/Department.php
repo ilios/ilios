@@ -3,83 +3,94 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * Department
+ * Class Department
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="department")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Department
+class Department implements DepartmentInterface
 {
-    /**
-     * @var integer
-     */
-    private $departmentId;
+//    use IdentifiableEntity;
+    use TitledEntity;
+    use StringableIdEntity;
 
     /**
-     * @var string
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Column(name="department_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
+    protected $id;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+    * @ORM\Column(type="string", length=90)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    */
+    protected $title;
+
+    /**
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="departments")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $school;
+    protected $school;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="deleted", type="boolean")
      */
-    private $deleted;
-
+    protected $deleted;
 
     /**
-     * Get departmentId
-     *
-     * @return integer 
+     * @param int $id
      */
-    public function getDepartmentId()
+    public function setId($id)
     {
-        return $this->departmentId;
+        $this->departmentId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Department
+     * @return int
      */
-    public function setTitle($title)
+    public function getId()
     {
-        $this->title = $title;
-
-        return $this;
+        return ($this->id === null) ? $this->departmentId : $this->id;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
+     * @param SchoolInterface $school
      */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set school
-     *
-     * @param \Ilios\CoreBundle\Entity\School $school
-     * @return ProgramYearSteward
-     */
-    public function setSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setSchool(SchoolInterface $school)
     {
         $this->school = $school;
-
-        return $this;
     }
 
     /**
-     * Get school
-     *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return SchoolInterface
      */
     public function getSchool()
     {
@@ -87,24 +98,17 @@ class Department
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Department
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }

@@ -3,85 +3,150 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
+use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
+use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
- * CurriculumInventoryReport
+ * Class CurriculumInventoryReport
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="curriculum_inventory_report",
+ *   uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="program_id_year", columns={"program_id", "year"})
+ *   },
+ *   indexes={
+ *     @ORM\Index(name="IDX_6E31899E3EB8070A", columns={"program_id"})
+ *   }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class CurriculumInventoryReport
+class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
-    /**
-     * @var integer
-     */
-    private $reportId;
+    use IdentifiableEntity;
+    use NameableEntity;
+    use DescribableEntity;
+    use StringableIdEntity;
 
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="report_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $year;
+    protected $id;
 
     /**
-     * @var string
-     */
-    private $name;
+    * @var string
+    *
+    * @ORM\Column(type="string", length=200, nullable=true)
+    */
+    protected $name;
 
     /**
-     * @var string
+    * @ORM\Column(name="description", type="text", nullable=true)
+    * @var string
+    */
+    protected $description;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="year", type="smallint")
      */
-    private $description;
+    protected $year;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="start_date")
      */
-    private $startDate;
+    protected $startDate;
 
     /**
      * @var \DateTime
-     */
-    private $endDate;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventoryExport
-     */
-    private $export;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\CurriculumInventorySequence
-     */
-    private $sequence;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\Program
-     */
-    private $program;
-
-
-    /**
-     * Get reportId
      *
-     * @return integer 
+     * @ORM\Column(type="date", name="end_date")
      */
-    public function getReportId()
-    {
-        return $this->reportId;
-    }
+    protected $endDate;
 
     /**
-     * Set year
+     * @var CurriculumInventoryExportInterface
      *
-     * @param integer $year
-     * @return CurriculumInventoryReport
+     * @ORM\OneToOne(targetEntity="CurriculumInventoryExport", mappedBy="report")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $export;
+
+    /**
+    * @var CurriculumInventorySequenceInterface
+    *
+    * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", mappedBy="report")
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $sequence;
+
+    /**
+    * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock",mappedBy="report")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("sequenceBlocks")
+    */
+    protected $sequenceBlocks;
+
+    /**
+    * @var ProgramInterface
+    *
+    * @ORM\ManyToOne(targetEntity="Program", inversedBy="curriculumInventoryReports")
+    * @ORM\JoinColumns({
+    *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
+    * })
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $program;
+
+    /**
+    * @var CurriculumInventoryAcademicLevelInterface
+    *
+    * @ORM\OneToMany(targetEntity="CurriculumInventoryAcademicLevel", mappedBy="report")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("academicLevels")
+    */
+    protected $curriculumInventoryAcademicLevels;
+
+    /**
+     * @param int $year
      */
     public function setYear($year)
     {
         $this->year = $year;
-
-        return $this;
     }
 
     /**
-     * Get year
-     *
-     * @return integer 
+     * @return int
      */
     public function getYear()
     {
@@ -89,68 +154,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return CurriculumInventoryReport
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return CurriculumInventoryReport
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set startDate
-     *
      * @param \DateTime $startDate
-     * @return CurriculumInventoryReport
      */
     public function setStartDate($startDate)
     {
         $this->startDate = $startDate;
-
-        return $this;
     }
 
     /**
-     * Get startDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDate()
     {
@@ -158,22 +170,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set endDate
-     *
      * @param \DateTime $endDate
-     * @return CurriculumInventoryReport
      */
     public function setEndDate($endDate)
     {
         $this->endDate = $endDate;
-
-        return $this;
     }
 
     /**
-     * Get endDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -181,22 +186,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set export
-     *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventoryExport $export
-     * @return CurriculumInventoryReport
+     * @param CurriculumInventoryExportInterface $export
      */
-    public function setExport(\Ilios\CoreBundle\Entity\CurriculumInventoryExport $export = null)
+    public function setExport(CurriculumInventoryExportInterface $export)
     {
         $this->export = $export;
-
-        return $this;
     }
 
     /**
-     * Get export
-     *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventoryExport 
+     * @return CurriculumInventoryExportInterface
      */
     public function getExport()
     {
@@ -204,22 +202,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set sequence
-     *
-     * @param \Ilios\CoreBundle\Entity\CurriculumInventorySequence $sequence
-     * @return CurriculumInventoryReport
+     * @param CurriculumInventorySequenceInterface $sequence
      */
-    public function setSequence(\Ilios\CoreBundle\Entity\CurriculumInventorySequence $sequence = null)
+    public function setSequence(CurriculumInventorySequenceInterface $sequence)
     {
         $this->sequence = $sequence;
-
-        return $this;
     }
 
     /**
-     * Get sequence
-     *
-     * @return \Ilios\CoreBundle\Entity\CurriculumInventorySequence 
+     * @return CurriculumInventorySequenceInterface
      */
     public function getSequence()
     {
@@ -227,22 +218,15 @@ class CurriculumInventoryReport
     }
 
     /**
-     * Set program
-     *
-     * @param \Ilios\CoreBundle\Entity\Program $program
-     * @return CurriculumInventoryReport
+     * @param ProgramInterface $program
      */
-    public function setProgram(\Ilios\CoreBundle\Entity\Program $program = null)
+    public function setProgram(ProgramInterface $program)
     {
         $this->program = $program;
-
-        return $this;
     }
 
     /**
-     * Get program
-     *
-     * @return \Ilios\CoreBundle\Entity\Program 
+     * @return ProgramInterface
      */
     public function getProgram()
     {

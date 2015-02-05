@@ -3,96 +3,85 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\NameableEntity;
 
 /**
- * MeshSemanticType
+ * Class MeshSemanticType
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="mesh_semantic_type")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class MeshSemanticType
+class MeshSemanticType implements MeshSemanticTypeInterface
 {
-    /**
-     * @var string
-     */
-    private $meshSemanticTypeUid;
+    use NameableEntity;
 
     /**
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var string
+     *
+     * @ORM\Column(name="mesh_semantic_type_uid", type="string", length=9)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
-    private $name;
+    protected $uuid;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(type="string", length=192)
+    */
+    protected $name;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updatedAt;
-
+    protected $updatedAt;
 
     /**
-     * Set meshSemanticTypeUid
-     *
-     * @param string $meshSemanticTypeUid
-     * @return MeshSemanticType
+     * @param string $uuid
      */
-    public function setMeshSemanticTypeUid($meshSemanticTypeUid)
+    public function setUuid($uuid)
     {
-        $this->meshSemanticTypeUid = $meshSemanticTypeUid;
-
-        return $this;
+        $this->meshSemanticTypeUid = $uuid;
+        $this->uuid = $uuid;
     }
 
     /**
-     * Get meshSemanticTypeUid
-     *
-     * @return string 
+     * @return string
      */
-    public function getMeshSemanticTypeUid()
+    public function getUuid()
     {
-        return $this->meshSemanticTypeUid;
+        return ($this->uuid === null) ? $this->meshSemanticTypeUid : $this->uuid;
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return MeshSemanticType
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set createdAt
-     *
      * @param \DateTime $createdAt
-     * @return MeshSemanticType
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -100,22 +89,15 @@ class MeshSemanticType
     }
 
     /**
-     * Set updatedAt
-     *
      * @param \DateTime $updatedAt
-     * @return MeshSemanticType
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

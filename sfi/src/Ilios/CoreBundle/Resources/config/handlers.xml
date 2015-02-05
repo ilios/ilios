@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="ilioscore.aamcmethod.handler.class">Ilios\CoreBundle\Handler\AamcMethodHandler</parameter>
+        <parameter key="ilioscore.aamcpcrs.handler.class">Ilios\CoreBundle\Handler\AamcPcrsHandler</parameter>
+        <parameter key="ilioscore.alertchangetype.handler.class">Ilios\CoreBundle\Handler\AlertChangeTypeHandler</parameter>
+        <parameter key="ilioscore.alert.handler.class">Ilios\CoreBundle\Handler\AlertHandler</parameter>
+        <parameter key="ilioscore.apikey.handler.class">Ilios\CoreBundle\Handler\ApiKeyHandler</parameter>
+        <parameter key="ilioscore.assessmentoption.handler.class">Ilios\CoreBundle\Handler\AssessmentOptionHandler</parameter>
+        <parameter key="ilioscore.cisession.handler.class">Ilios\CoreBundle\Handler\CISessionHandler</parameter>
+        <parameter key="ilioscore.cohort.handler.class">Ilios\CoreBundle\Handler\CohortHandler</parameter>
+        <parameter key="ilioscore.competency.handler.class">Ilios\CoreBundle\Handler\CompetencyHandler</parameter>
+        <parameter key="ilioscore.courseclerkshiptype.handler.class">Ilios\CoreBundle\Handler\CourseClerkshipTypeHandler</parameter>
+        <parameter key="ilioscore.courselearningmaterial.handler.class">Ilios\CoreBundle\Handler\CourseLearningMaterialHandler</parameter>
+        <parameter key="ilioscore.course.handler.class">Ilios\CoreBundle\Handler\CourseHandler</parameter>
+        <parameter key="ilioscore.curriculuminventoryacademiclevel.handler.class">Ilios\CoreBundle\Handler\CurriculumInventoryAcademicLevelHandler</parameter>
+        <parameter key="ilioscore.curriculuminventoryexport.handler.class">Ilios\CoreBundle\Handler\CurriculumInventoryExportHandler</parameter>
+        <parameter key="ilioscore.curriculuminventoryinstitution.handler.class">Ilios\CoreBundle\Handler\CurriculumInventoryInstitutionHandler</parameter>
+        <parameter key="ilioscore.curriculuminventoryreport.handler.class">Ilios\CoreBundle\Handler\CurriculumInventoryReportHandler</parameter>
+        <parameter key="ilioscore.curriculuminventorysequenceblock.handler.class">Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockHandler</parameter>
+        <parameter key="ilioscore.curriculuminventorysequenceblocksession.handler.class">Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockSessionHandler</parameter>
+        <parameter key="ilioscore.curriculuminventorysequence.handler.class">Ilios\CoreBundle\Handler\CurriculumInventorySequenceHandler</parameter>
+        <parameter key="ilioscore.department.handler.class">Ilios\CoreBundle\Handler\DepartmentHandler</parameter>
+        <parameter key="ilioscore.discipline.handler.class">Ilios\CoreBundle\Handler\DisciplineHandler</parameter>
+        <parameter key="ilioscore.ilmsessionfacet.handler.class">Ilios\CoreBundle\Handler\IlmSessionFacetHandler</parameter>
+        <parameter key="ilioscore.ingestionexception.handler.class">Ilios\CoreBundle\Handler\IngestionExceptionHandler</parameter>
+        <parameter key="ilioscore.instructionhours.handler.class">Ilios\CoreBundle\Handler\InstructionHoursHandler</parameter>
+        <parameter key="ilioscore.instructorgroup.handler.class">Ilios\CoreBundle\Handler\InstructorGroupHandler</parameter>
+        <parameter key="ilioscore.learningmaterialstatus.handler.class">Ilios\CoreBundle\Handler\LearningMaterialStatusHandler</parameter>
+        <parameter key="ilioscore.learningmaterialuserrole.handler.class">Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler</parameter>
+        <parameter key="ilioscore.meshconcept.handler.class">Ilios\CoreBundle\Handler\MeshConceptHandler</parameter>
+        <parameter key="ilioscore.meshdescriptor.handler.class">Ilios\CoreBundle\Handler\MeshDescriptorHandler</parameter>
+        <parameter key="ilioscore.meshpreviousindexing.handler.class">Ilios\CoreBundle\Handler\MeshPreviousIndexingHandler</parameter>
+        <parameter key="ilioscore.meshqualifier.handler.class">Ilios\CoreBundle\Handler\MeshQualifierHandler</parameter>
+        <parameter key="ilioscore.meshsemantictype.handler.class">Ilios\CoreBundle\Handler\MeshSemanticTypeHandler</parameter>
+        <parameter key="ilioscore.meshterm.handler.class">Ilios\CoreBundle\Handler\MeshTermHandler</parameter>
+        <parameter key="ilioscore.meshuserselection.handler.class">Ilios\CoreBundle\Handler\MeshUserSelectionHandler</parameter>
+        <parameter key="ilioscore.objective.handler.class">Ilios\CoreBundle\Handler\ObjectiveHandler</parameter>
+        <parameter key="ilioscore.offering.handler.class">Ilios\CoreBundle\Handler\OfferingHandler</parameter>
+        <parameter key="ilioscore.permission.handler.class">Ilios\CoreBundle\Handler\PermissionHandler</parameter>
+        <parameter key="ilioscore.program.handler.class">Ilios\CoreBundle\Handler\ProgramHandler</parameter>
+        <parameter key="ilioscore.programyear.handler.class">Ilios\CoreBundle\Handler\ProgramYearHandler</parameter>
+        <parameter key="ilioscore.programyearsteward.handler.class">Ilios\CoreBundle\Handler\ProgramYearStewardHandler</parameter>
+        <parameter key="ilioscore.publishevent.handler.class">Ilios\CoreBundle\Handler\PublishEventHandler</parameter>
+        <parameter key="ilioscore.recurringevent.handler.class">Ilios\CoreBundle\Handler\RecurringEventHandler</parameter>
+        <parameter key="ilioscore.report.handler.class">Ilios\CoreBundle\Handler\ReportHandler</parameter>
+        <parameter key="ilioscore.reportpovalue.handler.class">Ilios\CoreBundle\Handler\ReportPoValueHandler</parameter>
+        <parameter key="ilioscore.school.handler.class">Ilios\CoreBundle\Handler\SchoolHandler</parameter>
+        <parameter key="ilioscore.sessiondescription.handler.class">Ilios\CoreBundle\Handler\SessionDescriptionHandler</parameter>
+        <parameter key="ilioscore.sessionlearningmaterial.handler.class">Ilios\CoreBundle\Handler\SessionLearningMaterialHandler</parameter>
+        <parameter key="ilioscore.session.handler.class">Ilios\CoreBundle\Handler\SessionHandler</parameter>
+        <parameter key="ilioscore.sessiontype.handler.class">Ilios\CoreBundle\Handler\SessionTypeHandler</parameter>
+        <parameter key="ilioscore.usermadereminder.handler.class">Ilios\CoreBundle\Handler\UserMadeReminderHandler</parameter>
+        <parameter key="ilioscore.user.handler.class">Ilios\CoreBundle\Handler\UserHandler</parameter>
+        <parameter key="ilioscore.userrole.handler.class">Ilios\CoreBundle\Handler\UserRoleHandler</parameter>
+        <parameter key="ilioscore.learnergroup.handler.class">Ilios\CoreBundle\Handler\LearnerGroupHandler</parameter>
+        <parameter key="ilioscore.learningmaterial.handler.class">Ilios\CoreBundle\Handler\LearningMaterialHandler</parameter>
+    </parameters>
+
+    <services>
+        <service id="ilioscore.aamcmethod.handler" class="%ilioscore.aamcmethod.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\AamcMethod</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.aamcpcrs.handler" class="%ilioscore.aamcpcrs.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\AamcPcrs</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.alertchangetype.handler" class="%ilioscore.alertchangetype.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\AlertChangeType</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.alert.handler" class="%ilioscore.alert.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Alert</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.apikey.handler" class="%ilioscore.apikey.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\ApiKey</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.assessmentoption.handler" class="%ilioscore.assessmentoption.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\AssessmentOption</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.cisession.handler" class="%ilioscore.cisession.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CISession</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.cohort.handler" class="%ilioscore.cohort.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Cohort</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.competency.handler" class="%ilioscore.competency.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Competency</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.courseclerkshiptype.handler" class="%ilioscore.courseclerkshiptype.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CourseClerkshipType</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.courselearningmaterial.handler" class="%ilioscore.courselearningmaterial.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CourseLearningMaterial</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.course.handler" class="%ilioscore.course.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Course</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.curriculuminventoryacademiclevel.handler" class="%ilioscore.curriculuminventoryacademiclevel.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.curriculuminventoryexport.handler" class="%ilioscore.curriculuminventoryexport.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CurriculumInventoryExport</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.curriculuminventoryinstitution.handler" class="%ilioscore.curriculuminventoryinstitution.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CurriculumInventoryInstitution</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.curriculuminventoryreport.handler" class="%ilioscore.curriculuminventoryreport.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CurriculumInventoryReport</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.curriculuminventorysequenceblock.handler" class="%ilioscore.curriculuminventorysequenceblock.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.curriculuminventorysequenceblocksession.handler" class="%ilioscore.curriculuminventorysequenceblocksession.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.curriculuminventorysequence.handler" class="%ilioscore.curriculuminventorysequence.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\CurriculumInventorySequence</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.department.handler" class="%ilioscore.department.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Department</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.discipline.handler" class="%ilioscore.discipline.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Discipline</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.ilmsessionfacet.handler" class="%ilioscore.ilmsessionfacet.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\IlmSessionFacet</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.ingestionexception.handler" class="%ilioscore.ingestionexception.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\IngestionException</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.instructionhours.handler" class="%ilioscore.instructionhours.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\InstructionHours</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.instructorgroup.handler" class="%ilioscore.instructorgroup.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\InstructorGroup</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.learningmaterialstatus.handler" class="%ilioscore.learningmaterialstatus.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\LearningMaterialStatus</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.learningmaterialuserrole.handler" class="%ilioscore.learningmaterialuserrole.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\LearningMaterialUserRole</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.meshconcept.handler" class="%ilioscore.meshconcept.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\MeshConcept</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.meshdescriptor.handler" class="%ilioscore.meshdescriptor.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\MeshDescriptor</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.meshpreviousindexing.handler" class="%ilioscore.meshpreviousindexing.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\MeshPreviousIndexing</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.meshqualifier.handler" class="%ilioscore.meshqualifier.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\MeshQualifier</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.meshsemantictype.handler" class="%ilioscore.meshsemantictype.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\MeshSemanticType</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.meshterm.handler" class="%ilioscore.meshterm.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\MeshTerm</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.meshuserselection.handler" class="%ilioscore.meshuserselection.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\MeshUserSelection</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.objective.handler" class="%ilioscore.objective.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Objective</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.offering.handler" class="%ilioscore.offering.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Offering</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.permission.handler" class="%ilioscore.permission.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Permission</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.program.handler" class="%ilioscore.program.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Program</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.programyear.handler" class="%ilioscore.programyear.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\ProgramYear</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.programyearsteward.handler" class="%ilioscore.programyearsteward.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\ProgramYearSteward</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.publishevent.handler" class="%ilioscore.publishevent.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\PublishEvent</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.recurringevent.handler" class="%ilioscore.recurringevent.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\RecurringEvent</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.report.handler" class="%ilioscore.report.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Report</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.reportpovalue.handler" class="%ilioscore.reportpovalue.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\ReportPoValue</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.school.handler" class="%ilioscore.school.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\School</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.sessiondescription.handler" class="%ilioscore.sessiondescription.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\SessionDescription</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.sessionlearningmaterial.handler" class="%ilioscore.sessionlearningmaterial.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\SessionLearningMaterial</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.session.handler" class="%ilioscore.session.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\Session</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.sessiontype.handler" class="%ilioscore.sessiontype.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\SessionType</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.usermadereminder.handler" class="%ilioscore.usermadereminder.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\UserMadeReminder</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.user.handler" class="%ilioscore.user.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\User</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.userrole.handler" class="%ilioscore.userrole.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\UserRole</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.learnergroup.handler" class="%ilioscore.learnergroup.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\LearnerGroup</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+        <service id="ilioscore.learningmaterial.handler" class="%ilioscore.learningmaterial.handler.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument>Ilios\CoreBundle\Entity\LearningMaterial</argument>
+            <argument type="service" id="form.factory"/>
+        </service>
+    </services>
+</container>

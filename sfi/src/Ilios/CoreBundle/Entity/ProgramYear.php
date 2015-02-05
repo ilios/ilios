@@ -3,110 +3,236 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
- * ProgramYear
+ * Class ProgramYear
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="program_year")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class ProgramYear
+class ProgramYear implements ProgramYearInterface
 {
-    /**
-     * @var integer
-     */
-    private $programYearId;
+    use IdentifiableEntity;
 
     /**
-     * @var integer
+    * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+    * @var int
+    *
+    * @ORM\Column(name="program_year_id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="IDENTITY")
+    *
+    * @JMS\Expose
+    * @JMS\Type("integer")
+    */
+    protected $id;
+
+    /**
+     * @var int
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("startYear")
+     *
+     * @ORM\Column(name="start_year", type="smallint")
      */
-    private $startYear;
+    protected $startYear;
 
     /**
      * @var boolean
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     *
+     * @ORM\Column(name="deleted", type="boolean")
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var boolean
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     *
+     * @ORM\Column(name="locked", type="boolean")
      */
-    private $locked;
+    protected $locked;
 
     /**
      * @var boolean
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     *
+     * @ORM\Column(name="archived", type="boolean")
      */
-    private $archived;
+    protected $archived;
 
     /**
      * @var boolean
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("publishedAsTbd")
+     *
+     * @ORM\Column(name="published_as_tbd", type="boolean")
      */
-    private $publishedAsTbd;
+    protected $publishedAsTbd;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Program
+     * @var ProgramInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Program", inversedBy="programYears")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
+     * })
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $program;
+    protected $program;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $directors;
+    * @var CohortInterface
+    *
+    * @ORM\OneToOne(targetEntity="Cohort", mappedBy="programYear")
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $cohort;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="programYears")
+     * @ORM\JoinTable(name="program_year_director",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $competencies;
+    protected $directors;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CompetencyInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Competency", inversedBy="programYears")
+     * @ORM\JoinTable(name="program_year_x_competency",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $disciplines;
+    protected $competencies;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|DisciplineInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Discipline", inversedBy="programYears")
+     * @ORM\JoinTable(name="program_year_x_discipline",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="discipline_id", referencedColumnName="discipline_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $objectives;
-    
+    protected $disciplines;
+
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="programYears")
+     * @ORM\JoinTable(name="program_year_x_objective",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $publishEvent;
+    protected $objectives;
+
+    /**
+     * @var PublishEventInterface
+     *
+     * @ORM\ManyToOne(targetEntity="PublishEvent")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
+     */
+    protected $publishEvent;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->competencies = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->disciplines = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->objectives = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directors = new ArrayCollection();
+        $this->competencies = new ArrayCollection();
+        $this->disciplines = new ArrayCollection();
+        $this->objectives = new ArrayCollection();
     }
 
     /**
-     * Get programYearId
-     *
-     * @return integer 
+     * @param int $id
      */
-    public function getProgramYearId()
+    public function setId($id)
     {
-        return $this->programYearId;
+        $this->programYearId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set startYear
-     *
-     * @param integer $startYear
-     * @return ProgramYear
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->programYearId : $this->id;
+    }
+
+    /**
+     * @param int $startYear
      */
     public function setStartYear($startYear)
     {
         $this->startYear = $startYear;
-
-        return $this;
     }
 
     /**
-     * Get startYear
-     *
-     * @return integer 
+     * @return int
      */
     public function getStartYear()
     {
@@ -114,114 +240,79 @@ class ProgramYear
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return ProgramYear
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
 
     /**
-     * Set locked
-     *
      * @param boolean $locked
-     * @return ProgramYear
      */
     public function setLocked($locked)
     {
         $this->locked = $locked;
-
-        return $this;
     }
 
     /**
-     * Get locked
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getLocked()
+    public function isLocked()
     {
         return $this->locked;
     }
 
     /**
-     * Set archived
-     *
      * @param boolean $archived
-     * @return ProgramYear
      */
     public function setArchived($archived)
     {
         $this->archived = $archived;
-
-        return $this;
     }
 
     /**
-     * Get archived
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getArchived()
+    public function isArchived()
     {
         return $this->archived;
     }
 
     /**
-     * Set publishedAsTbd
-     *
      * @param boolean $publishedAsTbd
-     * @return ProgramYear
      */
     public function setPublishedAsTbd($publishedAsTbd)
     {
         $this->publishedAsTbd = $publishedAsTbd;
-
-        return $this;
     }
 
     /**
-     * Get publishedAsTbd
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getPublishedAsTbd()
+    public function isPublishedAsTbd()
     {
         return $this->publishedAsTbd;
     }
 
     /**
-     * Set program
-     *
-     * @param \Ilios\CoreBundle\Entity\Program $program
-     * @return ProgramYear
+     * @param ProgramInterface $program
      */
-    public function setProgram(\Ilios\CoreBundle\Entity\Program $program = null)
+    public function setProgram(ProgramInterface $program)
     {
         $this->program = $program;
-
-        return $this;
     }
 
     /**
-     * Get program
-     *
-     * @return \Ilios\CoreBundle\Entity\Program 
+     * @return ProgramInterface
      */
     public function getProgram()
     {
@@ -229,157 +320,137 @@ class ProgramYear
     }
 
     /**
-     * Add directors
-     *
-     * @param \Ilios\CoreBundle\Entity\User $directors
-     * @return ProgramYear
+     * @param Collection $directors
      */
-    public function addDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function setDirectors(Collection $directors)
     {
-        $this->directors[] = $directors;
+        $this->directors = new ArrayCollection();
 
-        return $this;
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
     }
 
     /**
-     * Remove directors
-     *
-     * @param \Ilios\CoreBundle\Entity\User $directors
+     * @param UserInterface $director
      */
-    public function removeDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function addDirector(UserInterface $director)
     {
-        $this->directors->removeElement($directors);
+        $this->directors->add($director);
     }
 
     /**
-     * Get directors
-     *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getDirectors()
     {
-        return $this->directors->toArray();
+        return $this->directors;
     }
 
     /**
-     * Add competencies
-     *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
-     * @return ProgramYear
+     * @param Collection $competencies
      */
-    public function addCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
+    public function setCompetencies(Collection $competencies)
     {
-        $this->competencies[] = $competencies;
+        $this->competencies = new ArrayCollection();
 
-        return $this;
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
     }
-
     /**
-     * Remove competencies
-     *
-     * @param \Ilios\CoreBundle\Entity\Competency $competencies
+     * @param CompetencyInterface $competency
      */
-    public function removeCompetency(\Ilios\CoreBundle\Entity\Competency $competencies)
+    public function addCompetency(CompetencyInterface $competency)
     {
-        $this->competencies->removeElement($competencies);
+        $this->competencies->add($competency);
     }
 
     /**
-     * Get competencies
-     *
-     * @return \Ilios\CoreBundle\Entity\Competency[]
+     * @return ArrayCollection|CompetencyInterface[]
      */
     public function getCompetencies()
     {
-        return $this->competencies->toArray();
+        return $this->competencies;
     }
 
     /**
-     * Add disciplines
-     *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
-     * @return ProgramYear
+     * @param Collection $disciplines
      */
-    public function addDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function setDisciplines(Collection $disciplines)
     {
-        $this->disciplines[] = $disciplines;
+        $this->disciplines = new ArrayCollection();
 
-        return $this;
+        foreach ($disciplines as $discipline) {
+            $this->addDiscipline($discipline);
+        }
     }
 
     /**
-     * Remove disciplines
-     *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param DisciplineInterface $discipline
      */
-    public function removeDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function addDiscipline(DisciplineInterface $discipline)
     {
-        $this->disciplines->removeElement($disciplines);
+        $this->disciplines->add($discipline);
     }
 
     /**
-     * Get disciplines
-     *
-     * @return \Ilios\CoreBundle\Entity\Discipline[]
+     * @return ArrayCollection|DisciplineInterface[]
      */
     public function getDisciplines()
     {
-        return $this->disciplines->toArray();
+        return $this->disciplines;
     }
 
     /**
-     * Add objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
-     * @return ProgramYear
+     * @param Collection $objectives
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function setObjectives(Collection $objectives)
     {
-        $this->objectives[] = $objectives;
+        $this->objectives = new ArrayCollection();
 
-        return $this;
+        foreach ($objectives as $objective) {
+            $this->addObjective($objective);
+        }
     }
 
     /**
-     * Remove objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param ObjectiveInterface $objective
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(ObjectiveInterface $objective)
     {
-        $this->objectives->removeElement($objectives);
+        $this->objectives->add($objective);
     }
 
     /**
-     * Get objectives
-     *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getObjectives()
     {
-        return $this->objectives->toArray();
+        return $this->objectives;
     }
 
     /**
-     * Set publishEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
-     * @return ProgramYear
+     * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(PublishEventInterface $publishEvent)
     {
         $this->publishEvent = $publishEvent;
-
-        return $this;
     }
 
     /**
-     * Get publishEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent 
+     * @return PublishEventInterface
      */
     public function getPublishEvent()
     {
         return $this->publishEvent;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

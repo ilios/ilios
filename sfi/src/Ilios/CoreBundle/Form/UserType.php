@@ -8,8 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserType extends AbstractType
 {
-    const NAME = 'user';
-    
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -22,37 +20,32 @@ class UserType extends AbstractType
             ->add('middleName')
             ->add('phone')
             ->add('email')
-            ->add('addedViaIlios', 'checkbox', array(
-                'label'     => 'Added via Ilios',
-                'required'  => false,
-            ))
-            ->add('enabled', 'checkbox', array(
-                'label'     => 'Enable this user?',
-                'required'  => false,
-            ))
+            ->add('addedViaIlios')
+            ->add('enabled')
             ->add('ucUid')
             ->add('otherId')
-            ->add('examined', 'checkbox', array(
-                'label'     => 'Examined?',
-                'required'  => false,
-            ))
-            ->add('userSyncIgnore', 'checkbox', array(
-                'label'     => 'User Sync Ignore?',
-                'required'  => false,
-            ))
-            ->add('primarySchool')
-            ->add('save', 'submit')
+            ->add('examined')
+            ->add('userSyncIgnore')
+            ->add('directedCourses', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Course"])
+            ->add('userGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Group"])
+            ->add('instructorUserGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Group"])
+            ->add('instructorGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"])
+            ->add('instructorIlmSessions', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"])
+            ->add('learnerIlmSessions', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"])
+            ->add('offerings', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Offering"])
+            ->add('programYears', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"])
+            ->add('alerts', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Alert"])
+            ->add('roles', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\UserRole"])
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ilios\CoreBundle\Entity\User',
-            'csrf_protection'   => false
+            'data_class' => 'Ilios\CoreBundle\Entity\User'
         ));
     }
 
@@ -61,6 +54,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return self::NAME;
+        return 'ilios_corebundle_user_form_type';
     }
 }

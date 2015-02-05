@@ -3,139 +3,152 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
- * Permission
+ * Class Permission
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="permission",
+ *   uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="user_table_k", columns={"user_id", "table_name", "table_row_id"})
+ *   }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Permission
+class Permission implements PermissionInterface
 {
     /**
-     * @var integer
+     * @deprecated Replace with trait in 3.x
+     * @var int
+     *
+     * @ORM\Column(name="permission_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $permissionId;
+    protected $id;
 
     /**
-     * @var integer
+     * @var UserInterface
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $userId;
+    protected $user;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="can_read", type="boolean")
      */
-    private $canRead;
+    protected $canRead;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="can_write", type="boolean")
      */
-    private $canWrite;
+    protected $canWrite;
 
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="table_row_id", type="integer", nullable=true)
      */
-    private $tableRowId;
+    protected $tableRowId;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="table_name", type="string", length=30)
      */
-    private $tableName;
-
+    protected $tableName;
 
     /**
-     * Get permissionId
-     *
-     * @return integer 
+     * @param int $id
      */
-    public function getPermissionId()
+    public function setId($id)
     {
-        return $this->permissionId;
+        $this->permissionId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return Permission
+     * @return int
      */
-    public function setUserId($userId)
+    public function getId()
     {
-        $this->userId = $userId;
-
-        return $this;
+        return ($this->id === null) ? $this->permissionId : $this->id;
     }
 
     /**
-     * Get userId
-     *
-     * @return integer 
+     * @param UserInterface $user
      */
-    public function getUserId()
+    public function setUser(UserInterface $user)
     {
-        return $this->userId;
+        $this->user = $user;
     }
 
     /**
-     * Set canRead
-     *
+     * @return UserInterface
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
      * @param boolean $canRead
-     * @return Permission
      */
     public function setCanRead($canRead)
     {
         $this->canRead = $canRead;
-
-        return $this;
     }
 
     /**
-     * Get canRead
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getCanRead()
+    public function hasCanRead()
     {
         return $this->canRead;
     }
 
     /**
-     * Set canWrite
-     *
      * @param boolean $canWrite
-     * @return Permission
      */
     public function setCanWrite($canWrite)
     {
         $this->canWrite = $canWrite;
-
-        return $this;
     }
 
     /**
-     * Get canWrite
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getCanWrite()
+    public function hasCanWrite()
     {
         return $this->canWrite;
     }
 
     /**
-     * Set tableRowId
-     *
-     * @param integer $tableRowId
-     * @return Permission
+     * @param int $tableRowId
      */
     public function setTableRowId($tableRowId)
     {
         $this->tableRowId = $tableRowId;
-
-        return $this;
     }
 
     /**
-     * Get tableRowId
-     *
-     * @return integer 
+     * @return int
      */
     public function getTableRowId()
     {
@@ -143,22 +156,15 @@ class Permission
     }
 
     /**
-     * Set tableName
-     *
      * @param string $tableName
-     * @return Permission
      */
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
-
-        return $this;
     }
 
     /**
-     * Get tableName
-     *
-     * @return string 
+     * @return string
      */
     public function getTableName()
     {

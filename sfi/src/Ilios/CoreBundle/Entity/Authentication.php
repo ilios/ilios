@@ -2,15 +2,14 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * Authentication
+ * Class Authentication
+ * @package Ilios\CoreBundle\Entity
  */
-class Authentication
+class Authentication implements AuthenticationInterface
 {
     /**
-     * @var integer
+     * @var int
      */
     private $personId;
 
@@ -25,28 +24,20 @@ class Authentication
     private $passwordSha256;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @var UserInterface
      */
     private $user;
 
-
     /**
-     * Set personId
-     *
-     * @param integer $personId
-     * @return Authentication
+     * @param int $personId
      */
     public function setPersonId($personId)
     {
         $this->personId = $personId;
-
-        return $this;
     }
 
     /**
-     * Get personId
-     *
-     * @return integer 
+     * @return int
      */
     public function getPersonId()
     {
@@ -54,22 +45,15 @@ class Authentication
     }
 
     /**
-     * Set username
-     *
      * @param string $username
-     * @return Authentication
      */
     public function setUsername($username)
     {
         $this->username = $username;
-
-        return $this;
     }
 
     /**
-     * Get username
-     *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -77,22 +61,15 @@ class Authentication
     }
 
     /**
-     * Set passwordSha256
-     *
      * @param string $passwordSha256
-     * @return Authentication
      */
     public function setPasswordSha256($passwordSha256)
     {
         $this->passwordSha256 = $passwordSha256;
-
-        return $this;
     }
 
     /**
-     * Get passwordSha256
-     *
-     * @return string 
+     * @return string
      */
     public function getPasswordSha256()
     {
@@ -100,22 +77,15 @@ class Authentication
     }
 
     /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Entity\User $user
-     * @return Authentication
+     * @param UserInterface $user
      */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return UserInterface
      */
     public function getUser()
     {

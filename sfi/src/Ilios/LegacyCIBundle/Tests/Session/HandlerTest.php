@@ -1,7 +1,6 @@
 <?php
 namespace Ilios\LegacyCIBundle\Tests\Session;
 
-
 use Ilios\LegacyCIBundle\Session\Handler;
 use Ilios\LegacyCIBundle\Tests\TestCase;
 

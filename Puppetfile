@@ -1,12 +1,13 @@
 forge "https://forge.puppetlabs.com"
 
-mod 'puppetlabs/apt'
-mod 'puppetlabs/mysql'
-mod 'puppetlabs/stdlib'
-mod 'puppetlabs/inifile'
-mod 'puppetlabs/nodejs'
-mod 'puppetlabs/concat'
-mod 'maestrodev/git'
-mod 'puppetlabs/ruby'
-mod 'thias/fooacl'
-mod 'puppetlabs/apache'
+mod 'puppetlabs/apt', "1.7.0"
+mod 'puppetlabs/stdlib', "4.4.0"
+mod 'puppetlabs/mysql', "3.0.0"
+mod 'puppetlabs/inifile', "1.2.0"
+mod 'puppetlabs/nodejs', "0.6.1"
+mod 'puppetlabs/concat', "1.1.2"
+mod 'maestrodev/git', "1.0.6"
+mod 'puppetlabs/ruby', "0.3.0"
+mod 'thias/fooacl', "1.0.0"
+mod 'puppetlabs/apache', "1.2.0"
+

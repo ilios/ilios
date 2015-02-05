@@ -3,273 +3,267 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * RecurringEvent
+ * Class RecurringEvent
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="recurring_event")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class RecurringEvent
+class RecurringEvent implements RecurringEventInterface
 {
+    use StringableIdEntity;
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="recurring_event_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $recurringEventId;
+    protected $id;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="on_sunday", type="boolean")
      */
-    private $onSunday;
+    protected $onSunday;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="on_monday", type="boolean")
      */
-    private $onMonday;
+    protected $onMonday;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="on_tuesday", type="boolean")
      */
-    private $onTuesday;
+    protected $onTuesday;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="on_wednesday", type="boolean")
      */
-    private $onWednesday;
+    protected $onWednesday;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="on_thursday", type="boolean")
      */
-    private $onThursday;
+    protected $onThursday;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="on_friday", type="boolean")
      */
-    private $onFriday;
+    protected $onFriday;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="on_saturday", type="boolean")
      */
-    private $onSaturday;
+    protected $onSaturday;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="end_date", type="datetime")
      */
-    private $endDate;
+    protected $endDate;
 
     /**
-     * @var boolean
+     * @var int
+     *
+     * @ORM\Column(name="repetition_count", type="smallint", nullable=true)
      */
-    private $repetitionCount;
-    
+    protected $repetitionCount;
+
     /**
-     * \Ilios\CoreBundle\Entity\RecurringEvent $previousRecurringEvent
+     * @var RecurringEventInterface
+     *
+     * @ORM\ManyToOne(targetEntity="RecurringEvent")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="previous_recurring_event_id", referencedColumnName="recurring_event_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("previousRecurringEvent")
      */
-    private $previousRecurringEvent;
-    
+    protected $previousRecurringEvent;
+
     /**
-     * \Ilios\CoreBundle\Entity\RecurringEvent $nextRecurringEvent
+     * @var RecurringEventInterface
+     * @
+     * @ORM\ManyToOne(targetEntity="RecurringEvent")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="next_recurring_event_id", referencedColumnName="recurring_event_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("nextRecurringEvent")
      */
-    private $nextRecurringEvent;
-    
+    protected $nextRecurringEvent;
+
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|RecurringEventInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="recurringEvents")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $offerings;
+    protected $offerings;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->offerings = new ArrayCollection();
     }
 
     /**
-     * Get recurringEventId
-     *
-     * @return integer 
-     */
-    public function getRecurringEventId()
-    {
-        return $this->recurringEventId;
-    }
-
-    /**
-     * Set onSunday
-     *
      * @param boolean $onSunday
-     * @return RecurringEvent
      */
     public function setOnSunday($onSunday)
     {
         $this->onSunday = $onSunday;
-
-        return $this;
     }
 
     /**
-     * Get onSunday
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getOnSunday()
+    public function isOnSunday()
     {
         return $this->onSunday;
     }
 
     /**
-     * Set onMonday
-     *
      * @param boolean $onMonday
-     * @return RecurringEvent
      */
     public function setOnMonday($onMonday)
     {
         $this->onMonday = $onMonday;
-
-        return $this;
     }
 
     /**
-     * Get onMonday
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getOnMonday()
+    public function isOnMonday()
     {
         return $this->onMonday;
     }
 
     /**
-     * Set onTuesday
-     *
      * @param boolean $onTuesday
-     * @return RecurringEvent
      */
     public function setOnTuesday($onTuesday)
     {
         $this->onTuesday = $onTuesday;
-
-        return $this;
     }
 
     /**
-     * Get onTuesday
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getOnTuesday()
+    public function isOnTuesday()
     {
         return $this->onTuesday;
     }
 
     /**
-     * Set onWednesday
-     *
      * @param boolean $onWednesday
-     * @return RecurringEvent
      */
     public function setOnWednesday($onWednesday)
     {
         $this->onWednesday = $onWednesday;
-
-        return $this;
     }
 
     /**
-     * Get onWednesday
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getOnWednesday()
+    public function isOnWednesday()
     {
         return $this->onWednesday;
     }
 
     /**
-     * Set onThursday
-     *
      * @param boolean $onThursday
-     * @return RecurringEvent
      */
     public function setOnThursday($onThursday)
     {
         $this->onThursday = $onThursday;
-
-        return $this;
     }
 
     /**
-     * Get onThursday
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getOnThursday()
+    public function isOnThursday()
     {
         return $this->onThursday;
     }
 
     /**
-     * Set onFriday
-     *
      * @param boolean $onFriday
-     * @return RecurringEvent
      */
     public function setOnFriday($onFriday)
     {
         $this->onFriday = $onFriday;
-
-        return $this;
     }
 
     /**
-     * Get onFriday
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getOnFriday()
+    public function isOnFriday()
     {
         return $this->onFriday;
     }
 
     /**
-     * Set onSaturday
-     *
      * @param boolean $onSaturday
-     * @return RecurringEvent
      */
     public function setOnSaturday($onSaturday)
     {
         $this->onSaturday = $onSaturday;
-
-        return $this;
     }
 
     /**
-     * Get onSaturday
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getOnSaturday()
+    public function isOnSaturday()
     {
         return $this->onSaturday;
     }
 
     /**
-     * Set endDate
-     *
      * @param \DateTime $endDate
-     * @return RecurringEvent
      */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
-
-        return $this;
     }
 
     /**
-     * Get endDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -277,22 +271,15 @@ class RecurringEvent
     }
 
     /**
-     * Set repetitionCount
-     *
-     * @param boolean $repetitionCount
-     * @return RecurringEvent
+     * @param int $repetitionCount
      */
     public function setRepetitionCount($repetitionCount)
     {
         $this->repetitionCount = $repetitionCount;
-
-        return $this;
     }
 
     /**
-     * Get repetitionCount
-     *
-     * @return boolean 
+     * @return int
      */
     public function getRepetitionCount()
     {
@@ -300,22 +287,15 @@ class RecurringEvent
     }
 
     /**
-     * Set nextRecurringEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent
-     * @return RecurringEvent
+     * @param RecurringEventInterface $recurringEvent
      */
-    public function setNextRecurringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent = null)
+    public function setNextRecurringEvent(RecurringEventInterface $recurringEvent = null)
     {
         $this->nextRecurringEvent = $recurringEvent;
-
-        return $this;
     }
 
     /**
-     * Get nextRecurringEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\RecurringEvent 
+     * @return RecurringEventInterface
      */
     public function getNextRecurringEvent()
     {
@@ -323,22 +303,15 @@ class RecurringEvent
     }
 
     /**
-     * Set previousRecurringEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent
-     * @return RecurringEvent
+     * @param RecurringEventInterface $recurringEvent
      */
-    public function setPreviousRecurringEvent(\Ilios\CoreBundle\Entity\RecurringEvent $recurringEvent = null)
+    public function setPreviousRecurringEvent(RecurringEventInterface $recurringEvent = null)
     {
         $this->previousRecurringEvent = $recurringEvent;
-
-        return $this;
     }
 
     /**
-     * Get previousRecurringEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\RecurringEvent 
+     * @return RecurringEventInterface
      */
     public function getPreviousRecurringEvent()
     {
@@ -346,35 +319,30 @@ class RecurringEvent
     }
 
     /**
-     * Add offerings
-     *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
-     * @return RecurringEvent
+     * @param Collection $offerings
      */
-    public function addOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function setOffering(Collection $offerings)
     {
-        $this->offerings[] = $offerings;
+        $this->offerings = new ArrayCollection();
 
-        return $this;
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
     }
 
     /**
-     * Remove offerings
-     *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param OfferingInterface $offering
      */
-    public function removeOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function addOffering(OfferingInterface $offering)
     {
-        $this->offerings->removeElement($offerings);
+        $this->offerings->add($offering);
     }
 
     /**
-     * Get offerings
-     *
-     * @return \Ilios\CoreBundle\Entity\Offering[]
+     * @return ArrayCollection|OfferingInterface[]
      */
     public function getOfferings()
     {
-        return $this->offerings->toArray();
+        return $this->offerings;
     }
 }

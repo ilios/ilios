@@ -14,7 +14,9 @@ node 'ilios.dev' {
         mode => 0777
     } ->
 
-    #@TODO: make sure in ant build file, and run command instead
     class { ['profile::git', 'profile::better-bash', 'profile::ilios', 'profile::build::legacy', 'profile::build::symfony', 'profile::phpmyadmin']: }
 
+    Php::Extension <| |>
+    # Configure extensions
+    -> Php::Config <| |>
 }

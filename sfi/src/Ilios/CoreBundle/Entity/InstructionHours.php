@@ -3,98 +3,134 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * InstructionHours
+ * Class InstructionHours
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="instruction_hours")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class InstructionHours
+class InstructionHours implements InstructionHoursInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+//    use TimestampableEntity;
+
     /**
      * @var integer
+     *
+     * @ORM\Column(name="instruction_hours_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $instructionHoursId;
+    protected $id;
+
+    /**
+     * @deprecated To be removed in 3.1, replaced by TimestampableEntity trait.
+     * @var \DateTime
+     *
+     * @ORM\Column(name="generation_time_stamp", type="datetime")
+     */
+    protected $generationTimeStamp;
 
     /**
      * @var \DateTime
      */
-    private $generationTimeStamp;
+    protected $createdAt;
 
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="hours_accrued", type="integer")
      */
-    private $hoursAccrued;
+    protected $hoursAccrued;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="modified", type="boolean")
      */
-    private $modified;
+    protected $modified;
+
+    /**
+     * @deprecated To be removed in 3.1, replaced by TimestampableEntity trait.
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modification_time_stamp", type="datetime")
+     */
+    protected $modificationTimeStamp;
 
     /**
      * @var \DateTime
      */
-    private $modificationTimeStamp;
+    protected $updatedAt;
 
     /**
-     * @var integer
-     */
-    private $userId;
-
-    /**
-     * @var integer
-     */
-    private $sessionId;
-
-
-    /**
-     * Get instructionHoursId
+     * original annotation: ORM\Column(name="user_id", type="integer")
+     * @var UserInterface
      *
-     * @return integer 
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="instructionHours")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    public function getInstructionHoursId()
+    protected $user;
+
+    /**
+     * original annotation: ORM\Column(name="session_id", type="integer")
+     * @var SessionInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Session", inversedBy="instructionHours")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", nullable=false)
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $session;
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt)
     {
-        return $this->instructionHoursId;
+        $this->generationTimeStamp = $createdAt;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Set generationTimeStamp
-     *
-     * @param \DateTime $generationTimeStamp
-     * @return InstructionHours
+     * @return \DateTime
      */
-    public function setGenerationTimeStamp($generationTimeStamp)
+    public function getCreatedAt()
     {
-        $this->generationTimeStamp = $generationTimeStamp;
-
-        return $this;
+        return ($this->createdAt === null) ? $this->generationTimeStamp : $this->createdAt;
     }
 
     /**
-     * Get generationTimeStamp
-     *
-     * @return \DateTime 
-     */
-    public function getGenerationTimeStamp()
-    {
-        return $this->generationTimeStamp;
-    }
-
-    /**
-     * Set hoursAccrued
-     *
-     * @param integer $hoursAccrued
-     * @return InstructionHours
+     * @param int $hoursAccrued
      */
     public function setHoursAccrued($hoursAccrued)
     {
         $this->hoursAccrued = $hoursAccrued;
-
-        return $this;
     }
 
     /**
-     * Get hoursAccrued
-     *
-     * @return integer 
+     * @return int
      */
     public function getHoursAccrued()
     {
@@ -102,94 +138,67 @@ class InstructionHours
     }
 
     /**
-     * Set modified
-     *
      * @param boolean $modified
-     * @return InstructionHours
      */
     public function setModified($modified)
     {
         $this->modified = $modified;
-
-        return $this;
     }
 
     /**
-     * Get modified
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getModified()
+    public function isModified()
     {
         return $this->modified;
     }
 
     /**
-     * Set modificationTimeStamp
-     *
-     * @param \DateTime $modificationTimeStamp
-     * @return InstructionHours
+     * @param \DateTime $updatedAt
      */
-    public function setModificationTimeStamp($modificationTimeStamp)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
-        $this->modificationTimeStamp = $modificationTimeStamp;
-
-        return $this;
+        $this->modificationTimeStamp = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get modificationTimeStamp
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
-    public function getModificationTimeStamp()
+    public function getUpdatedAT()
     {
-        return $this->modificationTimeStamp;
+        return ($this->updatedAt === null) ? $this->modificationTimeStamp : $this->updatedAt;
     }
 
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return InstructionHours
+     * @param UserInterface $user
      */
-    public function setUserId($userId)
+    public function setUser(UserInterface $user)
     {
-        $this->userId = $userId;
-
-        return $this;
+        $this->user = $user;
     }
 
     /**
-     * Get userId
-     *
-     * @return integer 
+     * @return UserInterface
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
-     * Set sessionId
-     *
-     * @param integer $sessionId
-     * @return InstructionHours
+     * @param SessionInterface $session
      */
-    public function setSessionId($sessionId)
+    public function setSession(SessionInterface $session)
     {
-        $this->sessionId = $sessionId;
-
-        return $this;
+        $this->session = $session;
     }
 
     /**
-     * Get sessionId
-     *
-     * @return integer 
+     * @return SessionInterface
      */
-    public function getSessionId()
+    public function getSession()
     {
-        return $this->sessionId;
+        return $this->session;
     }
 }

@@ -3,70 +3,104 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
- * UserMadeReminder
+ * Class UserMadeReminder
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="user_made_reminder",
+ *   indexes={
+ *     @ORM\Index(name="due_closed_user_k", columns={"due_date", "closed", "user_id"})
+ *   }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class UserMadeReminder
+class UserMadeReminder implements UserMadeReminderInterface
 {
     /**
-     * @var integer
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Column(name="user_made_reminder_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $userMadeReminderId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="note", type="string", length=150)
      */
-    private $note;
+    protected $note;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="creation_date", type="datetime")
      */
-    private $creationDate;
+    protected $creationDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="due_date", type="datetime")
      */
-    private $dueDate;
+    protected $dueDate;
 
     /**
      * @var boolean
-     */
-    private $closed;
-
-    /**
-     * @var \Ilios\CoreBundle\Entity\User
-     */
-    private $user;
-
-
-    /**
-     * Get userMadeReminderId
      *
-     * @return integer 
+     * @ORM\Column(name="closed", type="boolean")
      */
-    public function getUserMadeReminderId()
+    protected $closed;
+
+    /**
+     * @var UserInterface
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="reminders")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $user;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
     {
-        return $this->userMadeReminderId;
+        $this->userMadeReminderId = $id;
+        $this->id = $id;
     }
 
     /**
-     * Set note
-     *
+     * @return int
+     */
+    public function getId()
+    {
+        return ($this->id === null) ? $this->userMadeReminderId : $this->id;
+    }
+
+    /**
      * @param string $note
-     * @return UserMadeReminder
      */
     public function setNote($note)
     {
         $this->note = $note;
-
-        return $this;
     }
 
     /**
-     * Get note
-     *
-     * @return string 
+     * @return string
      */
     public function getNote()
     {
@@ -74,45 +108,15 @@ class UserMadeReminder
     }
 
     /**
-     * Set creationDate
-     *
-     * @param \DateTime $creationDate
-     * @return UserMadeReminder
-     */
-    public function setCreationDate($creationDate)
-    {
-        $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    /**
-     * Get creationDate
-     *
-     * @return \DateTime 
-     */
-    public function getCreationDate()
-    {
-        return $this->creationDate;
-    }
-
-    /**
-     * Set dueDate
-     *
      * @param \DateTime $dueDate
-     * @return UserMadeReminder
      */
-    public function setDueDate($dueDate)
+    public function setDueDate(\DateTime $dueDate)
     {
         $this->dueDate = $dueDate;
-
-        return $this;
     }
 
     /**
-     * Get dueDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDueDate()
     {
@@ -120,45 +124,31 @@ class UserMadeReminder
     }
 
     /**
-     * Set closed
-     *
      * @param boolean $closed
-     * @return UserMadeReminder
      */
     public function setClosed($closed)
     {
         $this->closed = $closed;
-
-        return $this;
     }
 
     /**
-     * Get closed
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getClosed()
+    public function isClosed()
     {
         return $this->closed;
     }
 
     /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Entity\User $user
-     * @return UserMadeReminder
+     * @param UserInterface $user
      */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return UserInterface
      */
     public function getUser()
     {

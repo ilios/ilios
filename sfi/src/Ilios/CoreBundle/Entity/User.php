@@ -2,160 +2,336 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * User
+ * Class User
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_primary_school", columns={"primary_school_id"})})
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $userId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=30)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("lastName")
      */
-    private $lastName;
+    protected $lastName;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=20)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("firstName")
      */
-    private $firstName;
+    protected $firstName;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="middle_name", type="string", length=20, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("middleName")
      */
-    private $middleName;
+    protected $middleName;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=30, nullable=true)
      */
-    private $phone;
+    protected $phone;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=100)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $email;
+    protected $email;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="added_via_ilios", type="boolean")
+     * @JMS\SerializedName("addedViaIlios")
      */
-    private $addedViaIlios;
+    protected $addedViaIlios;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
      */
-    private $enabled;
+    protected $enabled;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="uc_uid", type="string", length=16, nullable=true)
      */
-    private $ucUid;
+    protected $ucUid;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="other_id", type="string", length=16, nullable=true)
      */
-    private $otherId;
+    protected $otherId;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="examined", type="boolean")
      */
-    private $examined;
+    protected $examined;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="user_sync_ignore", type="boolean")
      */
-    private $userSyncIgnore;
+    protected $userSyncIgnore;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\ApiKey
+     * @var ApiKeyInterface
+     *
+     * @ORM\OneToOne(targetEntity="ApiKey", mappedBy="user")
      */
-    private $apiKey;
+    protected $apiKey;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserMadeReminderInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="UserMadeReminder", mappedBy="user")
      */
-    private $reminders;
+    protected $reminders;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var ArrayCollection|LearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="owningUser")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learningMaterials")
      */
-    private $primarySchool;
+    protected $learningMaterials;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|PublishEventInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="PublishEvent", mappedBy="administrator")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("publishEvents")
      */
-    private $directedCourses;
+    protected $publishEvents;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ReportInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Report", mappedBy="user")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $userGroups;
+    protected $reports;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="primary_school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("primarySchool")
      */
-    private $instructorUserGroups;
+    protected $primarySchool;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="directors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("directedCourses")
      */
-    private $instructorGroups;
+    protected $directedCourses;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|LearnerGroupInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="users")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learnerGroups")
      */
-    private $offerings;
+    protected $learnerGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|LearnerGroupInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructorUsers")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("instructorUserGroups")
      */
-    private $programYears;
+    protected $instructorUserGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $alerts;
+    * @var ArrayCollection|InstructorGroupInterface[]
+    *
+    * @ORM\ManyToMany(targetEntity="InstructorGroup", mappedBy="users")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructorGroups")
+    */
+    protected $instructorGroups;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $roles;
+    * @var ArrayCollection|IlmSessionFacetInterface[]
+    *
+    * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="instructors")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructorIlmSessions")
+    */
+    protected $instructorIlmSessions;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $learningMaterials;
+    * @var ArrayCollection|IlmSessionFacetInterface[]
+    *
+    * @ORM\ManyToMany(targetEntity="IlmSessionFacet", mappedBy="learners")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("learnerIlmSessions")
+    */
+    protected $learnerIlmSessions;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|OfferingInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="users")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $publishEvents;
+    protected $offerings;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @var ArrayCollection|ProgramYearInterface[]
+    *
+    * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="directors")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("programYears")
+    */
+    protected $programYears;
+
+    /**
+    * @var ArrayCollection|InstructionHoursInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="InstructionHours", mappedBy="user")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructionHours")
+    */
+    protected $instructionHours;
+
+    /**
+     * @var ArrayCollection|AlertInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Alert", mappedBy="instigators")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $reports;
+     protected $alerts;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="UserRole", inversedBy="users")
+     * @ORM\JoinTable(name="user_x_user_role",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_role_id", referencedColumnName="user_role_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $roles;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->reminders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->directedCourses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorUserGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instructorGroups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->programYears = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->publishEvents = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reminders            = new ArrayCollection();
+        $this->directedCourses      = new ArrayCollection();
+        $this->learnerGroups        = new ArrayCollection();
+        $this->instructorUserGroups = new ArrayCollection();
+        $this->instructorGroups     = new ArrayCollection();
+        $this->offerings            = new ArrayCollection();
+        $this->programYears         = new ArrayCollection();
+        $this->alerts               = new ArrayCollection();
+        $this->roles                = new ArrayCollection();
+        $this->learningMaterials    = new ArrayCollection();
+        $this->publishEvents        = new ArrayCollection();
+        $this->reports              = new ArrayCollection();
         $this->addedViaIlios = false;
         $this->enabled = true;
         $this->examined = false;
@@ -163,31 +339,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Get userId
-     *
-     * @return integer
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set lastName
-     *
      * @param string $lastName
-     * @return User
      */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-
-        return $this;
     }
 
     /**
-     * Get lastName
-     *
      * @return string
      */
     public function getLastName()
@@ -196,21 +355,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set firstName
-     *
      * @param string $firstName
-     * @return User
      */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-
-        return $this;
     }
 
     /**
-     * Get firstName
-     *
      * @return string
      */
     public function getFirstName()
@@ -219,21 +371,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set middleName
-     *
      * @param string $middleName
-     * @return User
      */
     public function setMiddleName($middleName)
     {
         $this->middleName = $middleName;
-
-        return $this;
     }
 
     /**
-     * Get middleName
-     *
      * @return string
      */
     public function getMiddleName()
@@ -242,21 +387,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set phone
-     *
      * @param string $phone
-     * @return User
      */
     public function setPhone($phone)
     {
         $this->phone = $phone;
-
-        return $this;
     }
 
     /**
-     * Get phone
-     *
      * @return string
      */
     public function getPhone()
@@ -265,21 +403,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set email
-     *
      * @param string $email
-     * @return User
      */
     public function setEmail($email)
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
-     * Get email
-     *
      * @return string
      */
     public function getEmail()
@@ -288,67 +419,46 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set addedViaIlios
-     *
      * @param boolean $addedViaIlios
-     * @return User
      */
     public function setAddedViaIlios($addedViaIlios)
     {
         $this->addedViaIlios = $addedViaIlios;
-
-        return $this;
     }
 
     /**
-     * Get addedViaIlios
-     *
      * @return boolean
      */
-    public function getAddedViaIlios()
+    public function isAddedViaIlios()
     {
         return $this->addedViaIlios;
     }
 
     /**
-     * Set enabled
-     *
      * @param boolean $enabled
-     * @return User
      */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
-
-        return $this;
     }
 
     /**
-     * Get enabled
-     *
      * @return boolean
      */
-    public function getEnabled()
+    public function isEnabled()
     {
         return $this->enabled;
     }
 
     /**
-     * Set ucUid
-     *
      * @param string $ucUid
-     * @return User
      */
     public function setUcUid($ucUid)
     {
         $this->ucUid = $ucUid;
-
-        return $this;
     }
 
     /**
-     * Get ucUid
-     *
      * @return string
      */
     public function getUcUid()
@@ -357,21 +467,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set otherId
-     *
      * @param string $otherId
-     * @return User
      */
     public function setOtherId($otherId)
     {
         $this->otherId = $otherId;
-
-        return $this;
     }
 
     /**
-     * Get otherId
-     *
      * @return string
      */
     public function getOtherId()
@@ -380,68 +483,47 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set examined
-     *
      * @param boolean $examined
-     * @return User
      */
     public function setExamined($examined)
     {
         $this->examined = $examined;
-
-        return $this;
     }
 
     /**
-     * Get examined
-     *
      * @return boolean
      */
-    public function getExamined()
+    public function isExamined()
     {
         return $this->examined;
     }
 
     /**
-     * Set userSyncIgnore
-     *
      * @param boolean $userSyncIgnore
-     * @return User
      */
     public function setUserSyncIgnore($userSyncIgnore)
     {
         $this->userSyncIgnore = $userSyncIgnore;
-
-        return $this;
     }
 
     /**
-     * Get userSyncIgnore
-     *
      * @return boolean
      */
-    public function getUserSyncIgnore()
+    public function hasUserSyncIgnore()
     {
         return $this->userSyncIgnore;
     }
 
     /**
-     * Set apiKey
-     *
-     * @param \Ilios\CoreBundle\Entity\ApiKey $apiKey
-     * @return User
+     * @param ApiKeyInterface $apiKey
      */
-    public function setApiKey(\Ilios\CoreBundle\Entity\ApiKey $apiKey = null)
+    public function setApiKey(ApiKeyInterface $apiKey)
     {
         $this->apiKey = $apiKey;
-
-        return $this;
     }
 
     /**
-     * Get apiKey
-     *
-     * @return \Ilios\CoreBundle\Entity\ApiKey
+     * @return ApiKeyInterface
      */
     public function getApiKey()
     {
@@ -449,55 +531,43 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Add reminders
-     *
-     * @param \Ilios\CoreBundle\Entity\UserMadeReminder $reminders
-     * @return User
+     * @param Collection $reminders
      */
-    public function addReminder(\Ilios\CoreBundle\Entity\UserMadeReminder $reminders)
+    public function setRemindes(Collection $reminders)
     {
-        $this->reminders[] = $reminders;
+        $this->reminders = new ArrayCollection();
 
-        return $this;
+        foreach ($reminders as $reminder) {
+            $this->addReminder($reminder);
+        }
     }
 
     /**
-     * Remove reminders
-     *
-     * @param \Ilios\CoreBundle\Entity\UserMadeReminder $reminders
+     * @param UserMadeReminderInterface $reminder
      */
-    public function removeReminder(\Ilios\CoreBundle\Entity\UserMadeReminder $reminders)
+    public function addReminder(UserMadeReminderInterface $reminder)
     {
-        $this->reminders->removeElement($reminders);
+        $this->reminders->add($reminder);
     }
 
     /**
-     * Get reminders
-     *
-     * @return \Ilios\CoreBundle\Entity\UserMadeReminder[]
+     * @return ArrayCollection|UserMadeReminderInterface[]
      */
     public function getReminders()
     {
-        return $this->reminders->toArray();
+        return $this->reminders;
     }
 
     /**
-     * Set primarySchool
-     *
-     * @param \Ilios\CoreBundle\Entity\School $primarySchool
-     * @return User
+     * @param SchoolInterface $primarySchool
      */
-    public function setPrimarySchool(\Ilios\CoreBundle\Entity\School $primarySchool = null)
+    public function setPrimarySchool(SchoolInterface $primarySchool)
     {
         $this->primarySchool = $primarySchool;
-
-        return $this;
     }
 
     /**
-     * Get primarySchool
-     *
-     * @return \Ilios\CoreBundle\Entity\School
+     * @return SchoolInterface
      */
     public function getPrimarySchool()
     {
@@ -505,391 +575,299 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Get primarySchool ID
-     *
-     * @return integer
+     * @param Collection $courses
      */
-    public function getPrimarySchoolId()
+    public function setDirectedCourses(Collection $courses)
     {
-        return $this->primarySchool->getSchoolId();
+        $this->directedCourses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addDirectedCourse($course);
+        }
     }
 
     /**
-     * Add directedCourses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $course
-     * @return User
+     * @param CourseInterface $course
      */
-    public function addDirectedCourse(\Ilios\CoreBundle\Entity\Course $course)
+    public function addDirectedCourse(CourseInterface $course)
     {
-        $this->directedCourses[] = $course;
-
-        return $this;
+        $this->directedCourses->add($course);
     }
 
     /**
-     * Remove directedCourses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $course
-     */
-    public function removeDirectedCourse(\Ilios\CoreBundle\Entity\Course $course)
-    {
-        $this->directedCourses->removeElement($course);
-    }
-
-    /**
-     * Get directedCourses
-     *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return ArrayCollection|CourseInterface[]
      */
     public function getDirectedCourses()
     {
-        return $this->directedCourses->toArray();
+        return $this->directedCourses;
     }
 
     /**
-     * Add userGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $userGroups
-     * @return User
+     * @param Collection $learnerGroups
      */
-    public function addUserGroup(\Ilios\CoreBundle\Entity\Group $userGroups)
+    public function setLearnerGroups(Collection $learnerGroups)
     {
-        $this->userGroups[] = $userGroups;
+        $this->userGroups = new ArrayCollection();
 
-        return $this;
+        foreach ($learnerGroups as $group) {
+            $this->addLearnerGroup($group);
+        }
     }
 
     /**
-     * Remove userGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $userGroups
+     * @param LearnerGroupInterface $userGroup
      */
-    public function removeUserGroup(\Ilios\CoreBundle\Entity\Group $userGroups)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
-        $this->userGroups->removeElement($userGroups);
+        $this->learnerGroups->add($learnerGroup);
     }
 
     /**
-     * Get userGroups
-     *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getUserGroups()
+    public function getLearnerGroups()
     {
-        return $this->userGroups->toArray();
+        return $this->learnerGroups;
     }
 
     /**
-     * Add instructorUserGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $instructorUserGroups
-     * @return User
+     * @param Collection $instructorUserGroups
      */
-    public function addInstructorUserGroup(\Ilios\CoreBundle\Entity\Group $instructorUserGroups)
+    public function setInstructorUserGroups(Collection $instructorUserGroups)
     {
-        $this->instructorUserGroups[] = $instructorUserGroups;
+        $this->instructorUserGroups = new ArrayCollection();
 
-        return $this;
+        foreach ($instructorUserGroups as $instructorUserGroup) {
+            $this->addInstructorUserGroup($instructorUserGroup);
+        }
     }
 
     /**
-     * Remove instructorUserGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\Group $instructorUserGroups
+     * @param LearnerGroupInterface $instructorUserGroup
      */
-    public function removeInstructorUserGroup(\Ilios\CoreBundle\Entity\Group $instructorUserGroups)
+    public function addInstructorUserGroup(LearnerGroupInterface $instructorUserGroup)
     {
-        $this->instructorUserGroups->removeElement($instructorUserGroups);
+        $this->instructorUserGroups->add($instructorUserGroup);
     }
 
     /**
-     * Get instructorUserGroups
-     *
-     * @return \Ilios\CoreBundle\Entity\Group[]
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function getInstructorUserGroups()
     {
-        return $this->instructorUserGroups->toArray();
+        return $this->instructorUserGroups;
     }
 
     /**
-     * Add instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
-     * @return User
+     * @param InstructorGroupInterface $instructorGroup
      */
-    public function addInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
-        $this->instructorGroups[] = $instructorGroups;
-
-        return $this;
+        $this->instructorGroups->add($instructorGroup);
     }
 
     /**
-     * Remove instructorGroups
-     *
-     * @param \Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups
-     */
-    public function removeInstructorGroup(\Ilios\CoreBundle\Entity\InstructorGroup $instructorGroups)
-    {
-        $this->instructorGroups->removeElement($instructorGroups);
-    }
-
-    /**
-     * Get instructorGroups
-     *
-     * @return \Ilios\CoreBundle\Entity\InstructorGroup[]
+     * @return ArrayCollection|InstructorGroupInterface[]
      */
     public function getInstructorGroups()
     {
-        return $this->instructorGroups->toArray();
+        return $this->instructorGroups;
     }
 
     /**
-     * Add offerings
-     *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
-     * @return User
+     * @param Collection $offerings
      */
-    public function addOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function setOfferings(Collection $offerings)
     {
-        $this->offerings[] = $offerings;
+        $this->offerings = new ArrayCollection();
 
-        return $this;
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
     }
 
     /**
-     * Remove offerings
-     *
-     * @param \Ilios\CoreBundle\Entity\Offering $offerings
+     * @param OfferingInterface $offering
      */
-    public function removeOffering(\Ilios\CoreBundle\Entity\Offering $offerings)
+    public function addOffering(OfferingInterface $offering)
     {
-        $this->offerings->removeElement($offerings);
+        $this->offerings->add($offering);
     }
 
     /**
-     * Get offerings
-     *
-     * @return \Ilios\CoreBundle\Entity\Offering[]
+     * @return ArrayCollection|OfferingInterface[]
      */
     public function getOfferings()
     {
-        return $this->offerings->toArray();
+        return $this->offerings;
     }
 
     /**
-     * Get offering IDs
-     *
-     * @return array
+     * @param Collection $programYears
      */
-    public function getOfferingIds()
+    public function setProgramYears(Collection $programYears)
     {
-        $ids = array();
-        foreach ($this->offerings as $offering) {
-            $ids[] = $offering->getOfferingId();
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
         }
-
-        return $ids;
     }
 
     /**
-     * Add programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
-     * @return User
+     * @param ProgramYearInterface $programYear
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(ProgramYearInterface $programYear)
     {
-        $this->programYears[] = $programYears;
-
-        return $this;
+        $this->programYears->add($programYear);
     }
 
     /**
-     * Remove programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
-     */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
-    {
-        $this->programYears->removeElement($programYears);
-    }
-
-    /**
-     * Get programYears
-     *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function getProgramYears()
     {
-        return $this->programYears->toArray();
+        return $this->programYears;
     }
 
     /**
-     * Add alerts
-     *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
-     * @return User
+     * @param Collection $alerts
      */
-    public function addAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function setAlerts(Collection $alerts)
     {
-        $this->alerts[] = $alerts;
+        $this->alerts = new ArrayCollection();
 
-        return $this;
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
     }
 
     /**
-     * Remove alerts
-     *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
+     * @param AlertInterface $alert
      */
-    public function removeAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
+    public function addAlert(AlertInterface $alert)
     {
-        $this->alerts->removeElement($alerts);
+        $this->alerts->add($alert);
     }
 
     /**
-     * Get alerts
-     *
-     * @return \Ilios\CoreBundle\Entity\Alert[]
+     * @return ArrayCollection|AlertInterface[]
      */
     public function getAlerts()
     {
-        return $this->alerts->toArray();
+        return $this->alerts;
     }
 
     /**
-     * Add roles
-     *
-     * @param \Ilios\CoreBundle\Entity\UserRole $roles
-     * @return User
+     * @param Collection $roles
      */
-    public function addRole(\Ilios\CoreBundle\Entity\UserRole $roles)
+    public function setRoles(Collection $roles)
     {
-        $this->roles[] = $roles;
+        $this->roles = new ArrayCollection();
 
-        return $this;
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
     }
 
     /**
-     * Remove roles
-     *
-     * @param \Ilios\CoreBundle\Entity\UserRole $roles
+     * @param UserRoleInterface $role
      */
-    public function removeRole(\Ilios\CoreBundle\Entity\UserRole $roles)
+    public function addRole(UserRoleInterface $role)
     {
-        $this->roles->removeElement($roles);
+        $this->roles->add($role);
     }
 
     /**
-     * Get roles
-     *
-     * @return \Ilios\CoreBundle\Entity\UserRole[]
+     * @return ArrayCollection|UserRoleInterface[]
      */
     public function getRoles()
     {
-        return $this->roles->toArray();
+        return $this->roles;
     }
 
     /**
-     * Add learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     * @return User
+     * @param Collection $learningMaterials
      */
-    public function addLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
+    public function setLearningMaterials(Collection $learningMaterials)
     {
-        $this->learningMaterials[] = $learningMaterial;
+        $this->learningMaterials = new ArrayCollection();
 
-        return $this;
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
     }
 
     /**
-     * Remove learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function removeLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
-        $this->learningMaterials->removeElement($learningMaterial);
+        $this->learningMaterials->add($learningMaterial);
     }
 
     /**
-     * Get learningMaterials
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial[]
+     * @return ArrayCollection|LearningMaterialInterface[]
      */
     public function getLearningMaterials()
     {
-        return $this->learningMaterials->toArray();
+        return $this->learningMaterials;
     }
 
     /**
-     * Add publishEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
-     * @return User
+     * @param Collection $publishEvents
      */
-    public function addPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent)
+    public function setPublishEvents(Collection $publishEvents)
     {
-        $this->publishEvents[] = $publishEvent;
+        $this->publishEvents = new ArrayCollection();
 
-        return $this;
+        foreach ($publishEvents as $publishEvent) {
+            $this->addPublishEvent($publishEvent);
+        }
     }
 
     /**
-     * Remove publishEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
+     * @param PublishEventInterface $publishEvent
      */
-    public function removePublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent)
+    public function addPublishEvent(PublishEventInterface $publishEvent)
     {
-        $this->publishEvents->removeElement($publishEvent);
+        $this->publishEvents->add($publishEvent);
     }
 
     /**
-     * Get publishEvents
-     *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent[]
+     * @return ArrayCollection|PublishEventInterface[]
      */
     public function getPublishEvents()
     {
-        return $this->publishEvents->toArray();
+        return $this->publishEvents;
     }
 
     /**
-     * Add report
-     *
-     * @param \Ilios\CoreBundle\Entity\Report $report
-     * @return User
+     * @param Collection $reports
      */
-    public function addReport(\Ilios\CoreBundle\Entity\Report $report)
+    public function setReports(Collection $reports)
     {
-        $this->reports[] = $report;
+        $this->reports = new ArrayCollection();
 
-        return $this;
+        foreach ($reports as $report) {
+            $this->addReport($report);
+        }
     }
 
     /**
-     * Remove report
-     *
-     * @param \Ilios\CoreBundle\Entity\Report $report
+     * @param ReportInterface $report
      */
-    public function removeReport(\Ilios\CoreBundle\Entity\Report $report)
+    public function addReport(ReportInterface $report)
     {
-        $this->reports->removeElement($report);
+        $this->reports->add($report);
     }
 
     /**
-     * Get reports
-     *
-     * @return \Ilios\CoreBundle\Entity\Report[]
+     * @return ArrayCollection|ReportInterface[]
      */
     public function getReports()
     {
-        return $this->reports->toArray();
+        return $this->reports;
     }
 
     /**
@@ -898,10 +876,10 @@ class User implements UserInterface, \Serializable
     public function serialize()
     {
         return serialize(array(
-            $this->userId,
-            $this->ucUid,
-            $this->email
-        ));
+                $this->userId,
+                $this->ucUid,
+                $this->email
+            ));
 
     }
 
@@ -914,7 +892,7 @@ class User implements UserInterface, \Serializable
             $this->userId,
             $this->ucUid,
             $this->email
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     /**
@@ -933,13 +911,19 @@ class User implements UserInterface, \Serializable
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getSalt()
     {
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getUsername()
     {
-        return $this->userId;
+        return (string) $this->id;
     }
 }

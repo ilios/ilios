@@ -1,8 +1,18 @@
-ilios_core_api:
-    type: rest
-    prefix: /api
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /api
+        permanent: true
+
+IliosCoreBundle:
     resource: "@IliosCoreBundle/Resources/config/routing.yml"
+    prefix:   /api
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
+
+#nelmio_api_swagger:
+#    resource: "@NelmioApiDocBundle/Resources/config/swagger_routing.yml"
+#    prefix:   /api/doc

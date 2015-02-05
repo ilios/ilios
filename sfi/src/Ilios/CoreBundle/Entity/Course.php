@@ -2,193 +2,344 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * Course
+ * Class Course
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="course", indexes={
+ *   @ORM\Index(name="title_course_k", columns={"course_id", "title"}),
+ *     @ORM\Index(name="external_id", columns={"external_id"}),
+ *     @ORM\Index(name="clerkship_type_id", columns={"clerkship_type_id"})
+ * })
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Course
+class Course implements CourseInterface
 {
+    use IdentifiableEntity;
+    use TitledEntity;
+    use StringableIdEntity;
+
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="course_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $courseId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $title;
+    protected $title;
 
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(type="smallint", name="course_level")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $courseLevel;
+    protected $level;
 
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="year", type="smallint")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $year;
+    protected $year;
 
     /**
      * @var \DateTime
+     * @todo: add a format and variable timezone if possible
+     * @ORM\Column(type="date", name="start_date")
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
+     * @JMS\SerializedName("startDate")
      */
-    private $startDate;
+    protected $startDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(type="date", name="end_date")
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
+     * @JMS\SerializedName("endDate")
      */
-    private $endDate;
+    protected $endDate;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean", name="deleted")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=18, name="external_id", nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("externalId")
      */
-    private $externalId;
+    protected $externalId;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $locked;
+    protected $locked;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $archived;
+    protected $archived;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(type="boolean", name="published_as_tbd")'
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("publishedAsTbd")
      */
-    private $publishedAsTbd;
+    protected $publishedAsTbd;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\CourseClerkshipType
+     * @var CourseClerkshipTypeInterface
+     *
+     * @ORM\ManyToOne(targetEntity="CourseClerkshipType", inversedBy="courses")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="clerkship_type_id", referencedColumnName="course_clerkship_type_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("clerkshipType")
      */
-    private $clerkshipType;
-    
-    /**
-     * @var \Ilios\CoreBundle\Entity\School
-     */
-    private $owningSchool;
-    
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $directors;
+    protected $clerkshipType;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="courses")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("owningSchool")
      */
-    private $cohorts;
+    protected $school;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var PublishEventInterface
+     *
+     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="courses")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
      */
-    private $disciplines;
+    protected $publishEvent;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="directedCourses"))
+     * @ORM\JoinTable(name="course_director",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $objectives;
+    protected $directors;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CohortInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="courses")
+     * @ORM\JoinTable(name="course_x_cohort",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $meshDescriptors;
-    
+    protected $cohorts;
+
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var ArrayCollection|DisciplineInterface[]
+
+     * @ORM\ManyToMany(targetEntity="Discipline", inversedBy="courses")
+     * @ORM\JoinTable(name="course_x_discipline",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="discipline_id", referencedColumnName="discipline_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $publishEvent;
+    protected $disciplines;
+
+    /**
+     * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="courses")
+     * @ORM\JoinTable(name="course_x_objective",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $objectives;
+
+    /**
+     * @var ArrayCollection|MeshDescriptorInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courses")
+     * @ORM\JoinTable(name="course_x_mesh",
+     *    joinColumns={
+     *      @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
+     *    },
+     *    inverseJoinColumns={
+     *      @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
+     *    }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("meshDescriptors")
+     */
+    protected $meshDescriptors;
+
+    /**
+     * @var ArrayCollection|CourseLearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="course")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learningMaterials")
+     */
+    protected $courseLearningMaterials;
+
+    /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Session", mappedBy="course")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $sessions;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cohorts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->disciplines = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->objectives = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directors = new ArrayCollection();
+        $this->cohorts = new ArrayCollection();
+        $this->disciplines = new ArrayCollection();
+        $this->objectives = new ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
+        $this->courseLearningMaterials = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     /**
-     * Get courseId
-     *
-     * @return integer 
+     * @param int $level
      */
-    public function getCourseId()
+    public function setLevel($level)
     {
-        return $this->courseId;
+        $this->level = $level;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return Course
+     * @return int
      */
-    public function setTitle($title)
+    public function getLevel()
     {
-        $this->title = $title;
-
-        return $this;
+        return $this->level;
     }
 
     /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set courseLevel
-     *
-     * @param integer $courseLevel
-     * @return Course
-     */
-    public function setCourseLevel($courseLevel)
-    {
-        $this->courseLevel = $courseLevel;
-
-        return $this;
-    }
-
-    /**
-     * Get courseLevel
-     *
-     * @return integer 
-     */
-    public function getCourseLevel()
-    {
-        return $this->courseLevel;
-    }
-
-    /**
-     * Set year
-     *
-     * @param integer $year
-     * @return Course
+     * @param int $year
      */
     public function setYear($year)
     {
         $this->year = $year;
-
-        return $this;
     }
 
     /**
-     * Get year
-     *
-     * @return integer 
+     * @return int
      */
     public function getYear()
     {
@@ -196,22 +347,15 @@ class Course
     }
 
     /**
-     * Set startDate
-     *
      * @param \DateTime $startDate
-     * @return Course
      */
-    public function setStartDate($startDate)
+    public function setStartDate(\DateTime $startDate)
     {
         $this->startDate = $startDate;
-
-        return $this;
     }
 
     /**
-     * Get startDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDate()
     {
@@ -219,22 +363,15 @@ class Course
     }
 
     /**
-     * Set endDate
-     *
      * @param \DateTime $endDate
-     * @return Course
      */
-    public function setEndDate($endDate)
+    public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
-
-        return $this;
     }
 
     /**
-     * Get endDate
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -242,45 +379,33 @@ class Course
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Course
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
 
     /**
-     * Set externalId
-     *
+     * @todo: Possible rename.
      * @param string $externalId
-     * @return Course
      */
     public function setExternalId($externalId)
     {
         $this->externalId = $externalId;
-
-        return $this;
     }
 
     /**
-     * Get externalId
-     *
-     * @return string 
+     * @todo: Possible rename.
+     * @return string
      */
     public function getExternalId()
     {
@@ -288,91 +413,63 @@ class Course
     }
 
     /**
-     * Set locked
-     *
      * @param boolean $locked
-     * @return Course
      */
     public function setLocked($locked)
     {
         $this->locked = $locked;
-
-        return $this;
     }
 
     /**
-     * Get locked
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getLocked()
+    public function isLocked()
     {
         return $this->locked;
     }
 
     /**
-     * Set archived
-     *
      * @param boolean $archived
-     * @return Course
      */
     public function setArchived($archived)
     {
         $this->archived = $archived;
-
-        return $this;
     }
 
     /**
-     * Get archived
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getArchived()
+    public function isArchived()
     {
         return $this->archived;
     }
 
     /**
-     * Set publishedAsTbd
-     *
      * @param boolean $publishedAsTbd
-     * @return Course
      */
     public function setPublishedAsTbd($publishedAsTbd)
     {
         $this->publishedAsTbd = $publishedAsTbd;
-
-        return $this;
     }
 
     /**
-     * Get publishedAsTbd
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getPublishedAsTbd()
+    public function isPublishedAsTbd()
     {
         return $this->publishedAsTbd;
     }
 
     /**
-     * Set clerkshipType
-     *
-     * @param \Ilios\CoreBundle\Entity\CourseClerkshipType $clerkshipType
-     * @return Course
+     * @param CourseClerkshipTypeInterface $clerkshipType
      */
-    public function setClerkshipType(\Ilios\CoreBundle\Entity\CourseClerkshipType $clerkshipType = null)
+    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType)
     {
         $this->clerkshipType = $clerkshipType;
-
-        return $this;
     }
 
     /**
-     * Get clerkshipType
-     *
-     * @return \Ilios\CoreBundle\Entity\CourseClerkshipType 
+     * @return CourseClerkshipTypeInterface
      */
     public function getClerkshipType()
     {
@@ -380,213 +477,218 @@ class Course
     }
 
     /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Entity\School $school
-     * @return ProgramYearSteward
+     * @param SchoolInterface $school
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setSchool(SchoolInterface $school)
     {
-        $this->owningSchool = $school;
-
-        return $this;
+        $this->school = $school;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return SchoolInterface
      */
-    public function getOwningSchool()
+    public function getSchool()
     {
-        return $this->owningSchool;
+        return $this->school;
     }
 
     /**
-     * Add directors
-     *
-     * @param \Ilios\CoreBundle\Entity\User $directors
-     * @return Course
+     * @param Collection|UserInterface[] $directors
      */
-    public function addDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function setDirectors(Collection $directors)
     {
-        $this->directors[] = $directors;
+        $this->directors = new ArrayCollection();
 
-        return $this;
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
     }
 
     /**
-     * Remove directors
-     *
-     * @param \Ilios\CoreBundle\Entity\User $directors
+     * @param UserInterface $director
      */
-    public function removeDirector(\Ilios\CoreBundle\Entity\User $directors)
+    public function addDirector(UserInterface $director)
     {
-        $this->directors->removeElement($directors);
+        $this->directors->add($director);
     }
 
     /**
-     * Get directors
-     *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getDirectors()
     {
-        return $this->directors->toArray();
+        return $this->directors;
     }
 
     /**
-     * Add cohorts
-     *
-     * @param \Ilios\CoreBundle\Entity\Cohort $cohorts
-     * @return Course
+     * @param Collection|CohortInterface[] $cohorts
      */
-    public function addCohort(\Ilios\CoreBundle\Entity\Cohort $cohorts)
+    public function setCohorts(Collection $cohorts)
     {
-        $this->cohorts[] = $cohorts;
+        $this->cohorts = new ArrayCollection();
 
-        return $this;
+        foreach ($cohorts as $cohort) {
+            $this->addCohort($cohort);
+        }
     }
 
     /**
-     * Remove cohorts
-     *
-     * @param \Ilios\CoreBundle\Entity\Cohort $cohorts
+     * @param CohortInterface $cohort
      */
-    public function removeCohort(\Ilios\CoreBundle\Entity\Cohort $cohorts)
+    public function addCohort(CohortInterface $cohort)
     {
-        $this->cohorts->removeElement($cohorts);
+        $this->cohorts->add($cohort);
     }
 
     /**
-     * Get cohorts
-     *
-     * @return \Ilios\CoreBundle\Entity\Cohort[]
+     * @return ArrayCollection|CohortInterface[]
      */
     public function getCohorts()
     {
-        return $this->cohorts->toArray();
+        return $this->cohorts;
     }
 
     /**
-     * Add disciplines
-     *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
-     * @return Course
+     * @param DisciplineInterface $discipline
      */
-    public function addDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function addDiscipline(DisciplineInterface $discipline)
     {
-        $this->disciplines[] = $disciplines;
-
-        return $this;
+        $this->disciplines->add($discipline);
     }
 
     /**
-     * Remove disciplines
-     *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
-     */
-    public function removeDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
-    {
-        $this->disciplines->removeElement($disciplines);
-    }
-
-    /**
-     * Get disciplines
-     *
-     * @return \Ilios\CoreBundle\Entity\Discipline[]
+     * @return ArrayCollection|DisciplineInterface[]
      */
     public function getDisciplines()
     {
-        return $this->disciplines->toArray();
+        return $this->disciplines;
     }
 
     /**
-     * Add objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
-     * @return Course
+     * @param Collection|ObjectiveInterface[] $objectives
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function setObjectives(Collection $objectives)
     {
-        $this->objectives[] = $objectives;
+        $this->objectives = new ArrayCollection();
 
-        return $this;
+        foreach ($objectives as $objective) {
+            $this->addObjective($objective);
+        }
     }
 
     /**
-     * Remove objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param ObjectiveInterface $objective
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(ObjectiveInterface $objective)
     {
-        $this->objectives->removeElement($objectives);
+        $this->objectives->add($objective);
     }
 
     /**
-     * Get objectives
-     *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getObjectives()
     {
-        return $this->objectives->toArray();
+        return $this->objectives;
     }
 
     /**
-     * Add meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
-     * @return Course
+     * @param Collection|MeshDescriptorInterface[] $meshDescriptors
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors)
     {
-        $this->meshDescriptors[] = $meshDescriptors;
+        $this->meshDescriptors = new ArrayCollection();
 
-        return $this;
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
     }
 
     /**
-     * Remove meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param MeshDescriptorInterface $meshDescriptor
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        $this->meshDescriptors->removeElement($meshDescriptors);
+        $this->meshDescriptors->add($meshDescriptor);
     }
 
     /**
-     * Get meshDescriptors
-     *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return Collection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors()
     {
-        return $this->meshDescriptors->toArray();
+        return $this->meshDescriptors;
     }
 
     /**
-     * Set publishEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
-     * @return Course
+     * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(PublishEventInterface $publishEvent)
     {
         $this->publishEvent = $publishEvent;
-
-        return $this;
     }
 
     /**
-     * Get publishEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent 
+     * @return PublishEventInterface
      */
     public function getPublishEvent()
     {
         return $this->publishEvent;
+    }
+
+    /**
+     * @param Collection $courseLearningMaterials
+     */
+    public function setLearningMaterials(Collection $courseLearningMaterials)
+    {
+        $this->courseLearningMaterials = new ArrayCollection();
+
+        foreach ($courseLearningMaterials as $courseLearningMaterial) {
+            $this->addCourseLearningMaterial($courseLearningMaterial);
+        }
+    }
+
+    /**
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
+     */
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    {
+        $this->courseLearningMaterials->add($courseLearningMaterial);
+    }
+
+    /**
+     * @return ArrayCollection|CourseLearningMaterialInterface[]
+     */
+    public function getCourseLearningMaterials()
+    {
+        return $this->courseLearningMaterials;
+    }
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setSessions(Collection $sessions)
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function addSession(SessionInterface $session)
+    {
+        $this->sessions->add($session);
+    }
+
+    /**
+     * @return ArrayCollection|SessionInterface[]
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
     }
 }

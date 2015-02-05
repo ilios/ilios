@@ -3,78 +3,102 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
- * MeshUserSelection
+ * Class MeshUserSelection
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="mesh_user_selection")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class MeshUserSelection
+class MeshUserSelection implements MeshUserSelectionInterface
 {
     /**
-     * @var integer
+     * @deprecated Replace with trait later.
+     * @var int
+     *
+     * @ORM\Column(name="mesh_user_selection_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("id")
      */
-    private $meshUserSelectionId;
+    protected $id;
 
     /**
      * @var string
-     */
-    private $meshDescriptorUid;
-
-    /**
-     * @var string
-     */
-    private $searchPhrase;
-
-
-    /**
-     * Get meshUserSelectionId
      *
-     * @return integer 
+     * @ORM\ManyToOne(targetEntity="MeshDescriptor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(
+     *     name="mesh_descriptor_uid",
+     *     referencedColumnName="mesh_descriptor_uid",
+     *     onDelete="CASCADE",
+     *     nullable=false
+     *   )
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("meshDescriptor")
      */
-    public function getMeshUserSelectionId()
+    protected $meshDescriptor;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="search_phrase", type="string", length=127, nullable=true)
+    */
+    protected $searchPhrase;
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
     {
-        return $this->meshUserSelectionId;
+        $this->meshUserSelectionId = $id;
+        $this->uuid = $id;
     }
 
     /**
-     * Set meshDescriptorUid
-     *
-     * @param string $meshDescriptorUid
-     * @return MeshUserSelection
+     * @return int
      */
-    public function setMeshDescriptorUid($meshDescriptorUid)
+    public function getId()
     {
-        $this->meshDescriptorUid = $meshDescriptorUid;
-
-        return $this;
+        return ($this->id === null) ? $this->meshUserSelectionId : $this->id;
     }
 
     /**
-     * Get meshDescriptorUid
-     *
-     * @return string 
+     * @param MeshDescriptorInterface $meshDescriptor
      */
-    public function getMeshDescriptorUid()
+    public function setMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        return $this->meshDescriptorUid;
+        $this->meshDescriptor = $meshDescriptor;
     }
 
     /**
-     * Set searchPhrase
-     *
+     * @return MeshDescriptorInterface
+     */
+    public function getMeshDescriptor()
+    {
+        return $this->meshDescriptor;
+    }
+
+    /**
      * @param string $searchPhrase
-     * @return MeshUserSelection
      */
     public function setSearchPhrase($searchPhrase)
     {
         $this->searchPhrase = $searchPhrase;
-
-        return $this;
     }
 
     /**
-     * Get searchPhrase
-     *
-     * @return string 
+     * @return string
      */
     public function getSearchPhrase()
     {

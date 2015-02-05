@@ -3,80 +3,82 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 use Symfony\Component\DependencyInjection\ContainerAware;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+
 /**
- * CISession
+ * Class CISession
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(
+ *  name="ci_sessions",
+ *  indexes={
+ *   @ORM\Index(name="last_activity_idx", columns={"last_activity"})
+ *  }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class CISession extends ContainerAware
+class CISession extends ContainerAware implements CISessionInterface
 {
+    use IdentifiableEntity;
 
     /**
-     * @var string
-     */
-    private $sessionId;
+    * @deprecated Replace with trait.
+    * @var int
+    *
+    * @ORM\Column(name="session_id", type="string", length=40)
+    * @ORM\Id
+    *
+    * @JMS\Expose
+    * @JMS\Type("integer")
+    */
+    protected $id;
 
     /**
-     * @var string
-     */
+    * @var string
+    *
+    * @ORM\Column(name="ip_address", type="string", length=45)
+    */
     private $ipAddress;
 
     /**
-     * @var string
-     */
+    * @var string
+    *
+    * @ORM\Column(name="user_agent", type="string", length=120)
+    */
     private $userAgent;
 
     /**
-     * @var integer
-     */
+    * @var string
+    *
+    * @ORM\Column(name="last_activity", type="integer")
+    */
     private $lastActivity;
 
     /**
-     * @var string
-     */
+    * @var string
+    *
+    * @ORM\Column(name="user_data", type="text")
+    */
     private $userData;
-    private $unserializedData;
 
     /**
-     * Set sessionId
-     *
-     * @param string $sessionId
-     * @return CISession
-     */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
-
-        return $this;
-    }
-
-    /**
-     * Get sessionId
-     *
-     * @return string 
-     */
-    public function getSessionId()
-    {
-        return $this->sessionId;
-    }
-
-    /**
-     * Set ipAddress
-     *
      * @param string $ipAddress
-     * @return CISession
      */
     public function setIpAddress($ipAddress)
     {
         $this->ipAddress = $ipAddress;
-
-        return $this;
     }
 
     /**
-     * Get ipAddress
-     *
-     * @return string 
+     * @return string
      */
     public function getIpAddress()
     {
@@ -84,22 +86,15 @@ class CISession extends ContainerAware
     }
 
     /**
-     * Set userAgent
-     *
      * @param string $userAgent
-     * @return CISession
      */
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
-
-        return $this;
     }
 
     /**
-     * Get userAgent
-     *
-     * @return string 
+     * @return string
      */
     public function getUserAgent()
     {
@@ -107,22 +102,15 @@ class CISession extends ContainerAware
     }
 
     /**
-     * Set lastActivity
-     *
      * @param integer $lastActivity
-     * @return CISession
      */
     public function setLastActivity($lastActivity)
     {
         $this->lastActivity = $lastActivity;
-
-        return $this;
     }
 
     /**
-     * Get lastActivity
-     *
-     * @return integer 
+     * @return integer
      */
     public function getLastActivity()
     {
@@ -130,8 +118,6 @@ class CISession extends ContainerAware
     }
 
     /**
-     * Set userData
-     *
      * @param string $userData
      * @return CISession
      */
@@ -146,7 +132,7 @@ class CISession extends ContainerAware
     /**
      * Get userData
      *
-     * @return string 
+     * @return string
      */
     public function getUserData()
     {
@@ -155,7 +141,7 @@ class CISession extends ContainerAware
 
     /**
      * Retrieves a user data item by its given key.
-     * 
+     *
      * @param string $key
      * @return mixed The user data value, or FALSE if not found.
      */
@@ -171,7 +157,7 @@ class CISession extends ContainerAware
     /**
      * Get unserialized data
      *
-     * @return mixed 
+     * @return mixed
      */
     protected function getUnserializedUserData()
     {

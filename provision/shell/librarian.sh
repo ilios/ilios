@@ -24,7 +24,7 @@ sed -i "/templatedir=\$confdir\/templates/D" puppet.conf
 
 if [ "$(gem list -i '^librarian-puppet$')" = "false" ]; then
   gem install librarian-puppet -v 1.0.2 --no-ri --no-rdoc
-  cd $PUPPET_DIR && librarian-puppet install --clean
+  cd $PUPPET_DIR && librarian-puppet install --clean --verbose
 else
   cd $PUPPET_DIR && librarian-puppet update
 fi

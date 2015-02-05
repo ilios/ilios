@@ -3,137 +3,194 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
+use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
 
 /**
- * MeshDescriptor
+ * Class MeshDescriptor
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="mesh_descriptor")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class MeshDescriptor
+class MeshDescriptor implements MeshDescriptorInterface
 {
-    /**
-     * @var string
-     */
-    private $meshDescriptorUid;
+//    use IdentifiableEntity;
+    use UniversallyUniqueEntity;
+    use NameableEntity;
+//    use TimestampableEntity;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="mesh_descriptor_uid", type="string", length=9)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
-    private $name;
+    protected $uuid;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=192)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $annotation;
+    protected $name;
 
     /**
-     * @var \DateTime
+     * @var string
+     *
+     * @ORM\Column(name="annotation", type="text", nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $createdAt;
+    protected $annotation;
 
     /**
-     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @JMS\Expose
+     * @JMS\Type("datetime")
+     * @JMS\SerializedName("createdAt")
      */
-    private $updatedAt;
+    protected $createdAt;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @Gedmo\Timestampable(on="update")
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     *
+     * @JMS\Expose
+     * @JMS\Type("datetime")
+     * @JMS\SerializedName("updatedAt")
      */
-    private $courses;
+    protected $updatedAt;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="meshDescriptors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $objectives;
+    protected $courses;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", mappedBy="meshDescriptors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $sessions;
+    protected $objectives;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", mappedBy="meshDescriptors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $sessionLearningMaterials;
+    protected $sessions;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|MeshConceptInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="descriptors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $courseLearningMaterials;
+    protected $concepts;
+
+    /**
+     * @var ArrayCollection|MeshQualifierInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshQualifier", mappedBy="descriptors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $qualifiers;
+
+    /**
+     * @var ArrayCollection|SessionLearningMaterialInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="SessionLearningMaterial", mappedBy="meshDescriptors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("sessionLearningMaterials")
+     */
+    protected $sessionLearningMaterials;
+
+    /**
+     * @var ArrayCollection|CourseLearningMaterialInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="CourseLearningMaterial", mappedBy="meshDescriptors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("courseLearningMaterials")
+     */
+    protected $courseLearningMaterials;
+
+    /**
+     * @var MeshPreviousIndexingInterface
+     *
+     * @ORM\OneToOne(targetEntity="MeshPreviousIndexing", mappedBy="descriptor")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("previousIndexing")
+     */
+    protected $previousIndexing;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->objectives = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->sessionLearningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseLearningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new ArrayCollection();
+        $this->objectives = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
+        $this->sessionLearningMaterials = new ArrayCollection();
+        $this->courseLearningMaterials = new ArrayCollection();
     }
 
     /**
-     * Set meshDescriptorUid
-     *
-     * @param string $meshDescriptorUid
-     * @return MeshDescriptor
-     */
-    public function setMeshDescriptorUid($meshDescriptorUid)
-    {
-        $this->meshDescriptorUid = $meshDescriptorUid;
-
-        return $this;
-    }
-
-    /**
-     * Get meshDescriptorUid
-     *
-     * @return string 
-     */
-    public function getMeshDescriptorUid()
-    {
-        return $this->meshDescriptorUid;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return MeshDescriptor
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set annotation
-     *
      * @param string $annotation
-     * @return MeshDescriptor
      */
     public function setAnnotation($annotation)
     {
         $this->annotation = $annotation;
-
-        return $this;
     }
 
     /**
-     * Get annotation
-     *
-     * @return string 
+     * @return string
      */
     public function getAnnotation()
     {
@@ -141,22 +198,15 @@ class MeshDescriptor
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return MeshDescriptor
+     * @param  \DateTime $createdAt
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -164,22 +214,15 @@ class MeshDescriptor
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return MeshDescriptor
+     * @param  \DateTime $updatedAt
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -187,170 +230,150 @@ class MeshDescriptor
     }
 
     /**
-     * Add courses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
-     * @return MeshDescriptor
+     * @param Collection $courses
      */
-    public function addCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function setCourses(Collection $courses)
     {
-        $this->courses[] = $courses;
+        $this->courses = new ArrayCollection();
 
-        return $this;
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
     }
 
     /**
-     * Remove courses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
+     * @param CourseInterface $course
      */
-    public function removeCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function addCourse(CourseInterface $course)
     {
-        $this->courses->removeElement($courses);
+        $this->courses->add($course);
     }
 
     /**
-     * Get courses
-     *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return ArrayCollection|CourseInterface[]
      */
     public function getCourses()
     {
-        return $this->courses->toArray();
+        return $this->courses;
     }
 
     /**
-     * Add objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
-     * @return MeshDescriptor
+     * @param Collection $objectives
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function setObjectives(Collection $objectives)
     {
-        $this->objectives[] = $objectives;
+        $this->objectives = new ArrayCollection();
 
-        return $this;
+        foreach ($objectives as $objective) {
+            $this->addObjective($objective);
+        }
     }
 
     /**
-     * Remove objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param ObjectiveInterface $objective
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(ObjectiveInterface $objective)
     {
-        $this->objectives->removeElement($objectives);
+        $this->objectives->add($objective);
     }
 
     /**
-     * Get objectives
-     *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getObjectives()
     {
-        return $this->objectives->toArray();
+        return $this->objectives;
     }
 
     /**
-     * Add sessions
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
-     * @return MeshDescriptor
+     * @param Collection $sessions
      */
-    public function addSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function setSessions(Collection $sessions)
     {
-        $this->sessions[] = $sessions;
+        $this->sessions = new ArrayCollection();
 
-        return $this;
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
     }
 
     /**
-     * Remove sessions
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param SessionInterface $session
      */
-    public function removeSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function addSession(SessionInterface $session)
     {
-        $this->sessions->removeElement($sessions);
+        $this->sessions->add($session);
     }
 
     /**
-     * Get sessions
-     *
-     * @return \Ilios\CoreBundle\Entity\Session[]
+     * @return ArrayCollection|SessionInterface[]
      */
     public function getSessions()
     {
-        return $this->sessions->toArray();
+        return $this->sessions;
     }
 
     /**
-     * Add sessionLearningMaterials
-     *
-     * @param \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
-     * @return MeshDescriptor
+     * @param Collection $sessionLearningMaterials
      */
-    public function addSessionLearningMaterial(
-        \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
-    ) {
-        $this->sessionLearningMaterials[] = $sessionLearningMaterials;
+    public function setSessionLearningMaterials(Collection $sessionLearningMaterials)
+    {
+        $this->sessionLearningMaterials = new ArrayCollection();
 
-        return $this;
+        foreach ($sessionLearningMaterials as $sessionLearningMaterial) {
+            $this->addSessionLearningMaterial($sessionLearningMaterial);
+        }
     }
 
     /**
-     * Remove sessionLearningMaterials
-     *
-     * @param \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
      */
-    public function removeSessionLearningMaterial(
-        \Ilios\CoreBundle\Entity\SessionLearningMaterial $sessionLearningMaterials
-    ) {
-        $this->sessionLearningMaterials->removeElement($sessionLearningMaterials);
+    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    {
+        $this->sessionLearningMaterials->add($sessionLearningMaterial);
     }
 
     /**
-     * Get sessionLearningMaterials
-     *
-     * @return \Ilios\CoreBundle\Entity\SessionLearningMaterial[]
+     * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
     public function getSessionLearningMaterials()
     {
-        return $this->sessionLearningMaterials->toArray();
+        return $this->sessionLearningMaterials;
     }
 
     /**
-     * Add courseLearningMaterials
-     *
-     * @param \Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials
-     * @return MeshDescriptor
+     * @param Collection $courseLearningMaterials
      */
-    public function addCourseLearningMaterial(\Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials)
+    public function setCourseLearningMaterials(Collection $courseLearningMaterials)
     {
-        $this->courseLearningMaterials[] = $courseLearningMaterials;
+        $this->courseLearningMaterials = $courseLearningMaterials;
 
-        return $this;
+        foreach ($courseLearningMaterials as $courseLearningMaterial) {
+            $this->addCourseLearningMaterial($courseLearningMaterial);
+        }
     }
 
     /**
-     * Remove courseLearningMaterials
-     *
-     * @param \Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials
+     * @param CourseLearningMaterialInterface $courseLearningMaterial
      */
-    public function removeCourseLearningMaterial(
-        \Ilios\CoreBundle\Entity\CourseLearningMaterial $courseLearningMaterials
-    ) {
-        $this->courseLearningMaterials->removeElement($courseLearningMaterials);
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    {
+        $this->courseLearningMaterials->add($courseLearningMaterial);
     }
 
     /**
-     * Get courseLearningMaterials
-     *
-     * @return \Ilios\CoreBundle\Entity\CourseLearningMaterial[]
+     * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
     public function getCourseLearningMaterials()
     {
-        return $this->courseLearningMaterials->toArray();
+        return $this->courseLearningMaterials;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->uuid;
     }
 }

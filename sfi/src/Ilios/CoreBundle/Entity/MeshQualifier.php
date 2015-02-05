@@ -3,96 +3,109 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
+use Ilios\CoreBundle\Traits\StringableUuidEntity;
 
 /**
- * MeshQualifier
+ * Class MeshQualifier
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="mesh_qualifier")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class MeshQualifier
+class MeshQualifier implements MeshQualifierInterface
 {
-    /**
-     * @var string
-     */
-    private $meshQualifierUid;
+//    use UniversallyUniqueEntity;
+//    use TimestampableEntity;
+    use NameableEntity;
+    use StringableUuidEntity;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(type="string", length=60)
+    */
+    protected $name;
+
+    /**
+     * @deprecated Replace with trait.
      * @var string
+     *
+     * @ORM\Column(name="mesh_qualifier_uid", type="string", length=9)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("id")
      */
-    private $name;
+    protected $uuid;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updatedAt;
-
+    protected $updatedAt;
 
     /**
-     * Set meshQualifierUid
-     *
-     * @param string $meshQualifierUid
-     * @return MeshQualifier
-     */
-    public function setMeshQualifierUid($meshQualifierUid)
-    {
-        $this->meshQualifierUid = $meshQualifierUid;
+    * @var ArrayCollection|MeshDescriptorInterface[]
+    *
+    * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="qualifiers")
+    * @ORM\JoinTable(name="mesh_descriptor_x_qualifier",
+    *   joinColumns={
+    *     @ORM\JoinColumn(name="mesh_qualifier_uid", referencedColumnName="mesh_qualifier_uid")
+    *   },
+    *   inverseJoinColumns={
+    *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
+    *   }
+    * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $descriptors;
 
-        return $this;
+    /**
+     * @param string $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->meshQualifierUid = $uuid;
+        $this->uuid = $uuid;
     }
 
     /**
-     * Get meshQualifierUid
-     *
-     * @return string 
+     * @return string
      */
-    public function getMeshQualifierUid()
+    public function getUuid()
     {
-        return $this->meshQualifierUid;
+        return ($this->uuid === null) ? $this->meshQualifierUid : $this->uuid;
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return MeshQualifier
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set createdAt
-     *
      * @param \DateTime $createdAt
-     * @return MeshQualifier
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -100,22 +113,15 @@ class MeshQualifier
     }
 
     /**
-     * Set updatedAt
-     *
      * @param \DateTime $updatedAt
-     * @return MeshQualifier
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

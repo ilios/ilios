@@ -2,100 +2,96 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * LearningMaterialStatus
+ * Class LearningMaterialStatus
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="learning_material_status")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class LearningMaterialStatus
+class LearningMaterialStatus implements LearningMaterialStatusInterface
 {
-    /**
-     * @var integer
-     */
-    private $learningMaterialStatusId;
+    use IdentifiableEntity;
+    use TitledEntity;
+    use StringableIdEntity;
 
     /**
-     * @var string
+     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
+     * @var int
+     *
+     * @ORM\Column(name="learning_material_status_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
-    
+    protected $id;
+
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @ORM\Column(type="string", length=60)
+    * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $title;
+
+    /**
+     * @var ArrayCollection|LearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="status")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learningMaterials")
      */
-    private $learningMaterials;
+    protected $learningMaterials;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->learningMaterials = new ArrayCollection();
     }
 
-
     /**
-     * Get learningMaterialStatusId
-     *
-     * @return integer 
+     * @param Collection $learningMaterials
      */
-    public function getLearningMaterialStatusId()
+    public function setLearningMaterials(Collection $learningMaterials)
     {
-        return $this->learningMaterialStatusId;
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return LearningMaterialStatus
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function setTitle($title)
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
-        $this->title = $title;
-
-        return $this;
+        $this->learningMaterials->add($learningMaterial);
     }
 
     /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Add learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     * @return LearningMaterialStatus
-     */
-    public function addLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
-    {
-        $this->learningMaterials[] = $learningMaterial;
-
-        return $this;
-    }
-
-    /**
-     * Remove learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     */
-    public function removeLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
-    {
-        $this->learningMaterials->removeElement($learningMaterial);
-    }
-
-    /**
-     * Get learningMaterials
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial[]
+     * @return ArrayCollection|LearningMaterialInterface[]
      */
     public function getLearningMaterials()
     {
-        return $this->learningMaterials->toArray();
+        return $this->learningMaterials;
     }
 }

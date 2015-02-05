@@ -3,105 +3,141 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
  * SessionType
+ *
+ * @ORM\Table(name="session_type",
+ *   indexes={
+ *     @ORM\Index(name="owning_school_id", columns={"owning_school_id"}),
+ *     @ORM\Index(name="assessment_option_fkey", columns={"assessment_option_id"})
+ *   }
+ * )
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class SessionType
+class SessionType implements SessionTypeInterface
 {
+    use IdentifiableEntity;
+    use TitledEntity;
+
     /**
      * @var integer
+     *
+     * @ORM\Column(name="session_type_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $sessionTypeId;
+    protected $id;
+
+
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    */
+    protected $title;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="session_type_css_class", type="string", length=64, nullable=true)
      */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $sessionTypeCssClass;
+    protected $sessionTypeCssClass;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="assessment", type="boolean")
      */
-    private $assessment;
+    protected $assessment;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\AssessmentOption
+     * @var AssessmentOptionInterface
+     *
+     * @ORM\ManyToOne(targetEntity="AssessmentOption", inversedBy="sessionTypes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="assessment_option_id", referencedColumnName="assessment_option_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("assessmentOption")
      */
-    private $assessmentOption;
+    protected $assessmentOption;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\School
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="sessionTypes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("owningSchool")
      */
-    private $owningSchool;
+    protected $owningSchool;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|AamcMethodInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="AamcMethod", inversedBy="sessionTypes")
+     * @ORM\JoinTable(name="session_type_x_aamc_method",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_type_id", referencedColumnName="session_type_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="method_id", referencedColumnName="method_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("aamcMethods")
      */
-    private $aamcMethods;
+    protected $aamcMethods;
+
+    /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Session", mappedBy="sessionType")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $sessions;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->aamcMethods = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->aamcMethods = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     /**
-     * Get sessionTypeId
-     *
-     * @return integer 
-     */
-    public function getSessionTypeId()
-    {
-        return $this->sessionTypeId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return SessionType
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set sessionTypeCssClass
-     *
      * @param string $sessionTypeCssClass
-     * @return SessionType
      */
     public function setSessionTypeCssClass($sessionTypeCssClass)
     {
         $this->sessionTypeCssClass = $sessionTypeCssClass;
-
-        return $this;
     }
 
     /**
-     * Get sessionTypeCssClass
-     *
-     * @return string 
+     * @return string
      */
     public function getSessionTypeCssClass()
     {
@@ -112,42 +148,32 @@ class SessionType
      * Set assessment
      *
      * @param boolean $assessment
-     * @return SessionType
      */
     public function setAssessment($assessment)
     {
         $this->assessment = $assessment;
-
-        return $this;
     }
 
     /**
      * Get assessment
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getAssessment()
+    public function isAssessment()
     {
         return $this->assessment;
     }
 
     /**
-     * Set assessmentOption
-     *
-     * @param \Ilios\CoreBundle\Entity\AssessmentOption $assessmentOption
-     * @return SessionType
+     * @param AssessmentOptionInterface $assessmentOption
      */
-    public function setAssessmentOption(\Ilios\CoreBundle\Entity\AssessmentOption $assessmentOption = null)
+    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption)
     {
         $this->assessmentOption = $assessmentOption;
-
-        return $this;
     }
 
     /**
-     * Get assessmentOption
-     *
-     * @return \Ilios\CoreBundle\Entity\AssessmentOption 
+     * @return AssessmentOptionInterface
      */
     public function getAssessmentOption()
     {
@@ -155,22 +181,15 @@ class SessionType
     }
 
     /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Entity\School $owningSchool
-     * @return SessionType
+     * @param SchoolInterface $owningSchool
      */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $owningSchool = null)
+    public function setOwningSchool(SchoolInterface $owningSchool)
     {
         $this->owningSchool = $owningSchool;
-
-        return $this;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return SchoolInterface
      */
     public function getOwningSchool()
     {
@@ -178,35 +197,66 @@ class SessionType
     }
 
     /**
-     * Add aamcMethods
-     *
-     * @param \Ilios\CoreBundle\Entity\AamcMethod $aamcMethods
-     * @return SessionType
+     * @param Collection $aamcMethods
      */
-    public function addAamcMethod(\Ilios\CoreBundle\Entity\AamcMethod $aamcMethods)
+    public function setAamcMethods(Collection $aamcMethods)
     {
-        $this->aamcMethods[] = $aamcMethods;
+        $this->aamcMethods = new ArrayCollection();
 
-        return $this;
+        foreach ($aamcMethods as $aamcMethod) {
+            $this->addAamcMethod($aamcMethod);
+        }
     }
 
     /**
-     * Remove aamcMethods
-     *
-     * @param \Ilios\CoreBundle\Entity\AamcMethod $aamcMethods
+     * @param AamcMethodInterface $aamcMethod
      */
-    public function removeAamcMethod(\Ilios\CoreBundle\Entity\AamcMethod $aamcMethods)
+    public function addAamcMethod(AamcMethodInterface $aamcMethod)
     {
-        $this->aamcMethods->removeElement($aamcMethods);
+        $this->aamcMethods->add($aamcMethod);
     }
 
     /**
-     * Get aamcMethods
-     *
-     * @return \Ilios\CoreBundle\Entity\AamcMethod[]
+     * @return ArrayCollection|AamcMethodInterface[]
      */
     public function getAamcMethods()
     {
-        return $this->aamcMethods->toArray();
+        return $this->aamcMethods;
+    }
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setSessions(Collection $sessions)
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function addSession(SessionInterface $session)
+    {
+        $this->sessions->add($session);
+    }
+
+    /**
+     * @return ArrayCollection|SessionInterface[]
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
+
+    /**
+    * @return string
+    */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

@@ -3,102 +3,115 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
 
 /**
- * Discipline
+ * Class Discipline
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="discipline")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Discipline
+class Discipline implements DisciplineInterface
 {
+    use IdentifiableEntity;
+    use TitledEntity;
+
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="discipline_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("id")
      */
-    private $disciplineId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $title;
-    
-    /**
-     * @var \Ilios\CoreBundle\Entity\School
-     */
-    private $owningSchool;
+    protected $title;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var SchoolInterface
+     *
+     * @ORM\ManyToOne(targetEntity="School", inversedBy="disciplines")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("owningSchool")
      */
-    private $courses;
+    protected $owningSchool;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="disciplines")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $programYears;
+    protected $courses;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="disciplines")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("programYears")
      */
-    private $sessions;
+    protected $programYears;
+
+    /**
+     * @var ArrayCollection|SessionInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Session", mappedBy="disciplines")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $sessions;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->programYears = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->sessions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new ArrayCollection();
+        $this->programYears = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     /**
-     * Get disciplineId
-     *
-     * @return integer 
+     * @param SchoolInterface $school
      */
-    public function getDisciplineId()
-    {
-        return $this->disciplineId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Discipline
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set owningSchool
-     *
-     * @param \Ilios\CoreBundle\Entity\School $school
-     * @return ProgramYearSteward
-     */
-    public function setOwningSchool(\Ilios\CoreBundle\Entity\School $school = null)
+    public function setOwningSchool(SchoolInterface $school)
     {
         $this->owningSchool = $school;
-
-        return $this;
     }
 
     /**
-     * Get owningSchool
-     *
-     * @return \Ilios\CoreBundle\Entity\School 
+     * @return SchoolInterface
      */
     public function getOwningSchool()
     {
@@ -106,101 +119,82 @@ class Discipline
     }
 
     /**
-     * Add courses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
-     * @return Discipline
+     * @param CourseInterface $course
      */
-    public function addCourse(\Ilios\CoreBundle\Entity\Course $courses)
+    public function addCourse(CourseInterface $course)
     {
-        $this->courses[] = $courses;
-
-        return $this;
+        $this->courses->add($course);
     }
 
     /**
-     * Remove courses
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $courses
-     */
-    public function removeCourse(\Ilios\CoreBundle\Entity\Course $courses)
-    {
-        $this->courses->removeElement($courses);
-    }
-
-    /**
-     * Get courses
-     *
-     * @return \Ilios\CoreBundle\Entity\Course[]
+     * @return ArrayCollection|CourseInterface[]
      */
     public function getCourses()
     {
-        return $this->courses->toArray();
+        return $this->courses;
     }
 
     /**
-     * Add programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
-     * @return Discipline
+     * @param Collection $programYears
      */
-    public function addProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function setProgramYears(Collection $programYears)
     {
-        $this->programYears[] = $programYears;
+        $this->programYears = new ArrayCollection();
 
-        return $this;
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
     }
 
     /**
-     * Remove programYears
-     *
-     * @param \Ilios\CoreBundle\Entity\ProgramYear $programYears
+     * @param ProgramYearInterface $programYear
      */
-    public function removeProgramYear(\Ilios\CoreBundle\Entity\ProgramYear $programYears)
+    public function addProgramYear(ProgramYearInterface $programYear)
     {
-        $this->programYears->removeElement($programYears);
+        $this->programYears->add($programYear);
     }
 
     /**
-     * Get programYears
-     *
-     * @return \Ilios\CoreBundle\Entity\ProgramYear[]
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function getProgramYears()
     {
-        return $this->programYears->toArray();
+        return $this->programYears;
     }
 
     /**
-     * Add sessions
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
-     * @return Discipline
+     * @param Collection $sessions
      */
-    public function addSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function setSessions(Collection $sessions)
     {
-        $this->sessions[] = $sessions;
+        $this->sessions = new ArrayCollection();
 
-        return $this;
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
     }
 
     /**
-     * Remove sessions
-     *
-     * @param \Ilios\CoreBundle\Entity\Session $sessions
+     * @param SessionInterface $session
      */
-    public function removeSession(\Ilios\CoreBundle\Entity\Session $sessions)
+    public function addSession(SessionInterface $session)
     {
-        $this->sessions->removeElement($sessions);
+        $this->sessions->add($session);
     }
 
     /**
-     * Get sessions
-     *
-     * @return \Ilios\CoreBundle\Entity\Session[]
+     * @return ArrayCollection|SessionInterface[]
      */
     public function getSessions()
     {
-        return $this->sessions->toArray();
+        return $this->sessions;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
     }
 }

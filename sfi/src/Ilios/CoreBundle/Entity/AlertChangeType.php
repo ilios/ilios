@@ -3,98 +3,93 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Entity\AlertInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * AlertChangeType
+ * Class Alert
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="alert_change_type")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class AlertChangeType
+class AlertChangeType implements AlertChangeTypeInterface
 {
-    /**
-     * @var integer
-     */
-    private $alertChangeTypeId;
+    use TitledEntity;
+    use StringableIdEntity;
+    use IdentifiableEntity;
 
     /**
-     * @var string
+     * @deprecated Replace with trait in 3.x
+     * @var int
+     *
+     * @ORM\Column(name="alert_change_type_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
+    protected $id;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $alerts;
+    * @ORM\Column(type="string", length=60)
+    * @todo should be on the TitledEntity Trait
+    * @var string
+    */
+    protected $title;
+
+    /**
+    * @var ArrayCollection|AlertInterface[]
+    *
+    * @ORM\ManyToMany(targetEntity="Alert", mappedBy="changeTypes")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $alerts;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->alerts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->alerts = new ArrayCollection();
     }
 
     /**
-     * Get alertChangeTypeId
-     *
-     * @return integer 
+     * @param Collection $alerts
      */
-    public function getAlertChangeTypeId()
+    public function setAlerts(Collection $alerts)
     {
-        return $this->alertChangeTypeId;
+        $this->alerts = new ArrayCollection();
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return AlertChangeType
+     * @param AlertInterface $alert
      */
-    public function setTitle($title)
+    public function addAlert(AlertInterface $alert)
     {
-        $this->title = $title;
-
-        return $this;
+        $this->alerts->add($alert);
     }
 
     /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Add alerts
-     *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
-     * @return AlertChangeType
-     */
-    public function addAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
-    {
-        $this->alerts[] = $alerts;
-
-        return $this;
-    }
-
-    /**
-     * Remove alerts
-     *
-     * @param \Ilios\CoreBundle\Entity\Alert $alerts
-     */
-    public function removeAlert(\Ilios\CoreBundle\Entity\Alert $alerts)
-    {
-        $this->alerts->removeElement($alerts);
-    }
-
-    /**
-     * Get alerts
-     *
-     * @return \Ilios\CoreBundle\Entity\Alert[]
+     * @return ArrayCollection|AlertInterface[]
      */
     public function getAlerts()
     {
-        return $this->alerts->toArray();
+        return $this->alerts;
     }
 }

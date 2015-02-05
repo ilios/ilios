@@ -1,7 +1,11 @@
 class profile::common::php (
     $user = 'vagrant',
     $group = $user,
-    $logs = '/home/vagrant/logs/php'
+    $logs = '/home/vagrant/logs/php',
+    $xdebug_remote_port = 9000,
+    $xdebug_idekey = 'PHPSTORM',
+    $profiler_on  = false,
+    $profiler_dir = '/home/vagrant/profiler'
 ) {
     include ['php', 'php::params']#, 'php::apache']
     $apis = [
@@ -18,12 +22,27 @@ class profile::common::php (
         'php::extension::gd',
         'php::extension::imagick',
         'php::extension::mcrypt',
-        'php::extension::xdebug',
         'php::extension::ldap',
         'php::composer'
     ]
+    $settings = [
+      "set .anon/zend_extension 'xdebug.so'",
+      "set .anon/xdebug.remote_enable 1",
+      "set .anon/xdebug.remote_autostart 1",
+      "set .anon/xdebug.remote_connect_back 1",
+      "set .anon/xdebug.max_nesting_level 250",
+      "set .anon/xdebug.remote_port '${xdebug_remote_port}'",
+      "set .anon/xdebug.idekey '${xdebug_idekey}'",
+    ]
 
-    file { $logs:
+    if $profiler_on == true {
+      $settings += [
+          "set .anon/xdebug.profiler_enable 1",
+          "set .anon/xdebug.profiler_output_dir '${profiler_dir}/php'"
+      ]
+    }
+
+    file { [$profiler_dir, "${profiler_dir}/php", $logs]:
         ensure => directory,
         owner => $user,
         group => $group,
@@ -32,6 +51,10 @@ class profile::common::php (
 
     class { $apis: }
     class { $extensions: }
+
+    class { 'php::extension::xdebug':
+        settings => $settings
+    }
 
     file { '/etc/php5/apache2/conf.d/20-mcrypt.ini':
         ensure => 'link',
@@ -48,6 +71,12 @@ class profile::common::php (
     php::extension { 'php5-json':
         ensure => installed,
         package => 'php5-json',
+        provider => 'apt'
+    }
+
+    php::extension { 'php5-xsl':
+        ensure => installed,
+        package => 'php5-xsl',
         provider => 'apt'
     }
 

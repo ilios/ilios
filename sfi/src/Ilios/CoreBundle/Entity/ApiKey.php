@@ -3,91 +3,69 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
- * ApiKey
+ * Class ApiKey
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="api_key",uniqueConstraints={@ORM\UniqueConstraint(name="api_key_api_key", columns={"api_key"})})
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class ApiKey
+class ApiKey implements ApiKeyInterface
 {
     /**
-     * @var integer
-     */
-    private $userId;
+    * @var UserInterface
+    *
+    * @ORM\Id
+    * @ORM\OneToOne(targetEntity="User", inversedBy="apiKey")
+    * @ORM\JoinColumns({
+    *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", unique=true, onDelete="CASCADE")
+    * })
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $user;
 
     /**
-     * @var string
-     */
-    private $apiKey;
+    * @ORM\Column(name="api_key", type="string", length=64)
+    *
+    * @var string
+    */
+    protected $key;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\User
+     * @param string $key
      */
-    private $user;
-
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return ApiKey
-     */
-    public function setUserId($userId)
+    public function setKey($key)
     {
-        $this->userId = $userId;
-
-        return $this;
+        $this->key = $key;
     }
 
     /**
-     * Get userId
-     *
-     * @return integer 
+     * @return string
      */
-    public function getUserId()
+    public function getKey()
     {
-        return $this->userId;
+        return $this->key;
     }
 
     /**
-     * Set apiKey
-     *
-     * @param string $apiKey
-     * @return ApiKey
+     * @param UserInterface $user
      */
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-
-        return $this;
-    }
-
-    /**
-     * Get apiKey
-     *
-     * @return string 
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Ilios\CoreBundle\Entity\User $user
-     * @return ApiKey
-     */
-    public function setUser(\Ilios\CoreBundle\Entity\User $user = null)
+    public function setUser(UserInterface $user = null)
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return \Ilios\CoreBundle\Entity\User 
+     * @return UserInterface
      */
     public function getUser()
     {

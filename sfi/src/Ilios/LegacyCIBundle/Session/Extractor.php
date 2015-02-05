@@ -90,8 +90,7 @@ class Extractor
      */
     private function getData()
     {
-        if (
-            !$string = $this->getCookieString() or
+        if (!$string = $this->getCookieString() or
             !$this->validateCookieString($string) or
             !$arr = $this->getCookieArray($string) or
             !$this->validateCookieArray($arr)

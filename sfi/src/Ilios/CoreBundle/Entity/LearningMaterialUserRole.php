@@ -2,100 +2,95 @@
 
 namespace Ilios\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * LearningMaterialUserRole
+ * Class LearningMaterialUserRole
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="learning_material_user_role")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class LearningMaterialUserRole
+class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
-    /**
-     * @var integer
-     */
-    private $learningMaterialUserRoleId;
+    use IdentifiableEntity;
+    use TitledEntity;
+    use StringableIdEntity;
 
     /**
-     * @var string
+     * @var int
+     *
+     * @ORM\Column(name="learning_material_user_role_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $title;
-    
+    protected $id;
+
     /**
-     * @var \Doctrine\Common\Collections\Collection
+    * @ORM\Column(type="string", length=60)
+    * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    */
+    protected $title;
+
+    /**
+     * @var ArrayCollection|LearningMaterialInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="userRole")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("learningMaterials")
      */
-    private $learningMaterials;
+    protected $learningMaterials;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->learningMaterials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->learningMaterials = new ArrayCollection();
     }
 
-
     /**
-     * Get learningMaterialUserRoleId
-     *
-     * @return integer 
+     * @param Collection $learningMaterials
      */
-    public function getLearningMaterialUserRoleId()
+    public function setLearningMaterials(Collection $learningMaterials)
     {
-        return $this->learningMaterialUserRoleId;
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return LearningMaterialUserRole
+     * @param LearningMaterialInterface $learningMaterial
      */
-    public function setTitle($title)
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
-        $this->title = $title;
-
-        return $this;
+        $this->learningMaterials->add($learningMaterial);
     }
 
     /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Add learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     * @return LearningMaterialUserRole
-     */
-    public function addLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
-    {
-        $this->learningMaterials[] = $learningMaterial;
-
-        return $this;
-    }
-
-    /**
-     * Remove learningMaterial
-     *
-     * @param \Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial
-     */
-    public function removeLearningMaterial(\Ilios\CoreBundle\Entity\LearningMaterial $learningMaterial)
-    {
-        $this->learningMaterials->removeElement($learningMaterial);
-    }
-
-    /**
-     * Get learningMaterials
-     *
-     * @return \Ilios\CoreBundle\Entity\LearningMaterial[]
+     * @return ArrayCollection|LearningMaterialInterface[]
      */
     public function getLearningMaterials()
     {
-        return $this->learningMaterials->toArray();
+        return $this->learningMaterials;
     }
 }

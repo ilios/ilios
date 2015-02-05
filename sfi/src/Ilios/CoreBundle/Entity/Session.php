@@ -3,86 +3,284 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * Session
+ * Class Session
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="session",
+ *   indexes={
+ *     @ORM\Index(name="session_type_id_k", columns={"session_type_id"}),
+ *     @ORM\Index(name="course_id_k", columns={"course_id"}),
+ *     @ORM\Index(name="session_course_type_title_k", columns={"session_id", "course_id", "session_type_id", "title"}),
+ *     @ORM\Index(name="session_ibfk_3", columns={"ilm_session_facet_id"})
+ *   }
+ * )
+ *
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Session
+class Session implements SessionInterface
 {
+    use IdentifiableEntity;
+    use TitledEntity;
+    use StringableIdEntity;
+
     /**
-     * @var integer
+     * @var int
+     *
+     * @ORM\Column(name="session_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $sessionId;
+    protected $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $title;
+    protected $title;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="attire_required", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("attireRequired")
      */
-    private $attireRequired;
+    protected $attireRequired;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="equipment_required", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("equipmentRequired")
      */
-    private $equipmentRequired;
+    protected $equipmentRequired;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="supplemental", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $supplemental;
+    protected $supplemental;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
-    private $deleted;
+    protected $deleted;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="published_as_tbd", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("publishedAsTbd")
      */
-    private $publishedAsTbd;
+    protected $publishedAsTbd;
+
+    /**
+     * @deprecated Replace with Timestampable trait in 3.x
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_updated_on", type="datetime")
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
+     * @JMS\SerializedName("lastUpdatedOn")
+     */
+    protected $lastUpdatedOn;
 
     /**
      * @var \DateTime
      */
-    private $lastUpdatedOn;
+    protected $updatedAt;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\SessionType
+     * @var SessionTypeInterface
+     *
+     * @ORM\ManyToOne(targetEntity="SessionType", inversedBy="sessions")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="session_type_id", referencedColumnName="session_type_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("sessionType")
      */
-    private $sessionType;
+    protected $sessionType;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\Course
+     * @var CourseInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="sessions")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $course;
+    protected $course;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\IlmSessionFacet
+     * @var IlmSessionFacetInterface
+     *
+     * @ORM\ManyToOne(targetEntity="IlmSessionFacet", inversedBy="sessions")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("ilmSessionFacet")
      */
-    private $ilmSessionFacet;
+    protected $ilmSessionFacet;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|DisciplineInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Discipline", inversedBy="sessions")
+     * @ORM\JoinTable(name="session_x_discipline",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="discipline_id", referencedColumnName="discipline_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $disciplines;
+    protected $disciplines;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|ObjectiveInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Objective", inversedBy="sessions")
+     * @ORM\JoinTable(name="session_x_objective",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="objective_id", referencedColumnName="objective_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $objectives;
+    protected $objectives;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|MeshDescriptorInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="sessions")
+     * @ORM\JoinTable(name="session_x_mesh",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("meshDescriptors")
      */
-    private $meshDescriptors;
+    protected $meshDescriptors;
 
     /**
-     * @var \Ilios\CoreBundle\Entity\PublishEvent
+     * @var PublishEventInterface
+     *
+     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="sessions")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("publishEvent")
      */
-    private $publishEvent;
+    protected $publishEvent;
+
+    /**
+     * @var SessionDescription
+     *
+     * @ORM\OneToOne(targetEntity="SessionDescription", mappedBy="session")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("sessionDescription")
+     */
+    protected $sessionDescription;
+
+    /**
+    * @var ArrayCollection|SessionLearningMaterialInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="session")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("sessionLearningMaterials")
+    */
+    protected $sessionLearningMaterials;
+
+    /**
+    * @var ArrayCollection|InstructionHoursInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="InstructionHours", mappedBy="session")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    * @JMS\SerializedName("instructionHours")
+    */
+    protected $instructionHours;
+
+    /**
+    * @var ArrayCollection|OfferingInterface[]
+    *
+    * @ORM\OneToMany(targetEntity="Offering", mappedBy="session")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $offerings;
 
     /**
      * Constructor
@@ -95,199 +293,118 @@ class Session
         $this->deleted = false;
         $this->publishedAsTbd = false;
 
-        $this->disciplines = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->objectives = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->meshDescriptors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->disciplines = new ArrayCollection();
+        $this->objectives = new ArrayCollection();
+        $this->meshDescriptors = new ArrayCollection();
     }
 
     /**
-     * Get sessionId
-     *
-     * @return integer
-     */
-    public function getSessionId()
-    {
-        return $this->sessionId;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Session
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set attireRequired
-     *
      * @param boolean $attireRequired
-     * @return Session
      */
     public function setAttireRequired($attireRequired)
     {
         $this->attireRequired = $attireRequired;
-
-        return $this;
     }
 
     /**
-     * Get attireRequired
-     *
      * @return boolean
      */
-    public function getAttireRequired()
+    public function isAttireRequired()
     {
         return $this->attireRequired;
     }
 
     /**
-     * Set equipmentRequired
-     *
      * @param boolean $equipmentRequired
-     * @return Session
      */
     public function setEquipmentRequired($equipmentRequired)
     {
         $this->equipmentRequired = $equipmentRequired;
-
-        return $this;
     }
 
     /**
-     * Get equipmentRequired
-     *
      * @return boolean
      */
-    public function getEquipmentRequired()
+    public function isEquipmentRequired()
     {
         return $this->equipmentRequired;
     }
 
     /**
-     * Set supplemental
-     *
      * @param boolean $supplemental
-     * @return Session
      */
     public function setSupplemental($supplemental)
     {
         $this->supplemental = $supplemental;
-
-        return $this;
     }
 
     /**
-     * Get supplemental
-     *
      * @return boolean
      */
-    public function getSupplemental()
+    public function isSupplemental()
     {
         return $this->supplemental;
     }
 
     /**
-     * Set deleted
-     *
      * @param boolean $deleted
-     * @return Session
      */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
-        return $this;
     }
 
     /**
-     * Get deleted
-     *
      * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }
 
     /**
-     * Set publishedAsTbd
-     *
      * @param boolean $publishedAsTbd
-     * @return Session
      */
     public function setPublishedAsTbd($publishedAsTbd)
     {
         $this->publishedAsTbd = $publishedAsTbd;
-
-        return $this;
     }
 
     /**
-     * Get publishedAsTbd
-     *
      * @return boolean
      */
-    public function getPublishedAsTbd()
+    public function isPublishedAsTbd()
     {
         return $this->publishedAsTbd;
     }
 
     /**
-     * Set lastUpdatedOn
-     *
-     * @param \DateTime $lastUpdatedOn
-     * @return Session
+     * @param \DateTime $updatedAt
      */
-    public function setLastUpdatedOn($lastUpdatedOn)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
-        $this->lastUpdatedOn = $lastUpdatedOn;
-
-        return $this;
+        $this->lastUpdatedOn = $updatedAt;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get lastUpdatedOn
-     *
      * @return \DateTime
      */
-    public function getLastUpdatedOn()
+    public function getUpdatedAt()
     {
-        return $this->lastUpdatedOn;
+        return ($this->updatedAt === null) ? $this->lastUpdatedOn : $this->updatedAt;
     }
 
     /**
-     * Set sessionType
-     *
-     * @param \Ilios\CoreBundle\Entity\SessionType $sessionType
-     * @return Session
+     * @param SessionTypeInterface $sessionType
      */
-    public function setSessionType(\Ilios\CoreBundle\Entity\SessionType $sessionType = null)
+    public function setSessionType(SessionTypeInterface $sessionType)
     {
         $this->sessionType = $sessionType;
-
-        return $this;
     }
 
     /**
-     * Get sessionType
-     *
-     * @return \Ilios\CoreBundle\Entity\SessionType
+     * @return SessionTypeInterface
      */
     public function getSessionType()
     {
@@ -295,22 +412,15 @@ class Session
     }
 
     /**
-     * Set course
-     *
-     * @param \Ilios\CoreBundle\Entity\Course $course
-     * @return Session
+     * @param CourseInterface $course
      */
-    public function setCourse(\Ilios\CoreBundle\Entity\Course $course = null)
+    public function setCourse(CourseInterface $course)
     {
         $this->course = $course;
-
-        return $this;
     }
 
     /**
-     * Get course
-     *
-     * @return \Ilios\CoreBundle\Entity\Course
+     * @return CourseInterface
      */
     public function getCourse()
     {
@@ -318,22 +428,15 @@ class Session
     }
 
     /**
-     * Set ilmSessionFacet
-     *
-     * @param \Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacet
-     * @return Session
+     * @param IlmSessionFacetInterface $ilmSessionFacet
      */
-    public function setIlmSessionFacet(\Ilios\CoreBundle\Entity\IlmSessionFacet $ilmSessionFacet = null)
+    public function setIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
     {
         $this->ilmSessionFacet = $ilmSessionFacet;
-
-        return $this;
     }
 
     /**
-     * Get ilmSessionFacet
-     *
-     * @return \Ilios\CoreBundle\Entity\IlmSessionFacet
+     * @return IlmSessionFacetInterface
      */
     public function getIlmSessionFacet()
     {
@@ -341,124 +444,146 @@ class Session
     }
 
     /**
-     * Add disciplines
-     *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
-     * @return Session
+     * @param Collection $disciplines
      */
-    public function addDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function setDisciplines(Collection $disciplines)
     {
-        $this->disciplines[] = $disciplines;
+        $this->disciplines = new ArrayCollection();
 
-        return $this;
+        foreach ($disciplines as $discipline) {
+            $this->addDiscipline($discipline);
+        }
     }
 
     /**
-     * Remove disciplines
-     *
-     * @param \Ilios\CoreBundle\Entity\Discipline $disciplines
+     * @param DisciplineInterface $discipline
      */
-    public function removeDiscipline(\Ilios\CoreBundle\Entity\Discipline $disciplines)
+    public function addDiscipline(DisciplineInterface $discipline)
     {
-        $this->disciplines->removeElement($disciplines);
+        $this->disciplines->add($discipline);
     }
 
     /**
-     * Get disciplines
-     *
-     * @return \Ilios\CoreBundle\Entity\Discipline[]
+     * @return ArrayCollection|DisciplineInterface[]
      */
     public function getDisciplines()
     {
-        return $this->disciplines->toArray();
+        return $this->disciplines;
     }
 
     /**
-     * Add objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
-     * @return Session
+     * @param Collection $objectives
      */
-    public function addObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function setObjectives(Collection $objectives)
     {
-        $this->objectives[] = $objectives;
+        $this->objectives = new ArrayCollection();
 
-        return $this;
+        foreach ($objectives as $objective) {
+            $this->addObjective($objective);
+        }
     }
 
     /**
-     * Remove objectives
-     *
-     * @param \Ilios\CoreBundle\Entity\Objective $objectives
+     * @param ObjectiveInterface $objective
      */
-    public function removeObjective(\Ilios\CoreBundle\Entity\Objective $objectives)
+    public function addObjective(ObjectiveInterface $objective)
     {
-        $this->objectives->removeElement($objectives);
+        $this->objectives->add($objective);
     }
 
     /**
-     * Get objectives
-     *
-     * @return \Ilios\CoreBundle\Entity\Objective[]
+     * @return ArrayCollection|ObjectiveInterface[]
      */
     public function getObjectives()
     {
-        return $this->objectives->toArray();
+        return $this->objectives;
     }
 
     /**
-     * Add meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
-     * @return Session
+     * @param Collection $meshDescriptors
      */
-    public function addMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors)
     {
-        $this->meshDescriptors[] = $meshDescriptors;
+        $this->meshDescriptors = new ArrayCollection();
 
-        return $this;
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
     }
 
     /**
-     * Remove meshDescriptors
-     *
-     * @param \Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors
+     * @param MeshDescriptorInterface $meshDescriptor
      */
-    public function removeMeshDescriptor(\Ilios\CoreBundle\Entity\MeshDescriptor $meshDescriptors)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
-        $this->meshDescriptors->removeElement($meshDescriptors);
+        $this->meshDescriptors->add($meshDescriptor);
     }
 
     /**
-     * Get meshDescriptors
-     *
-     * @return \Ilios\CoreBundle\Entity\MeshDescriptor[]
+     * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function getMeshDescriptors()
     {
-        return $this->meshDescriptors->toArray();
+        return $this->meshDescriptors;
     }
 
     /**
-     * Set publishEvent
-     *
-     * @param \Ilios\CoreBundle\Entity\PublishEvent $publishEvent
-     * @return Session
+     * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(\Ilios\CoreBundle\Entity\PublishEvent $publishEvent = null)
+    public function setPublishEvent(PublishEventInterface $publishEvent)
     {
         $this->publishEvent = $publishEvent;
-
-        return $this;
     }
 
     /**
-     * Get publishEvent
-     *
-     * @return \Ilios\CoreBundle\Entity\PublishEvent
+     * @return PublishEventInterface
      */
     public function getPublishEvent()
     {
         return $this->publishEvent;
+    }
+
+    /**
+     * @param SessionDescriptionInterface $sessionDescription
+     */
+    public function setSessionDescription(SessionDescriptionInterface $sessionDescription)
+    {
+        $this->sessionDescription = $sessionDescription;
+    }
+
+    /**
+     * @return SessionDescription
+     */
+    public function getSessionDescription()
+    {
+        return $this->sessionDescription;
+    }
+
+    /**
+    * @param Collection $offerings
+    */
+    public function setOfferings(Collection $offerings)
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    /**
+    * @param OfferingInterface $offering
+    */
+    public function addOffering(OfferingInterface $offering)
+    {
+        $this->offerings->add($offering);
+    }
+
+    /**
+    * @return ArrayCollection|OfferingInterface[]
+    */
+    public function getOfferings()
+    {
+        return $this->offerings;
     }
 }

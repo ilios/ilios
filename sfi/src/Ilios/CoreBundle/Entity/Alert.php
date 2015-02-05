@@ -3,89 +3,158 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
- * Alert
+ * Class Alert
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="alert")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class Alert
+class Alert implements AlertInterface
 {
-    /**
-     * @var integer
-     */
-    private $alertId;
+    use IdentifiableEntity;
+    use StringableIdEntity;
 
     /**
-     * @var integer
+     * @deprecated Replace with trait.
+     * @var int
+     *
+     * @ORM\Column(name="alert_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
-    private $tableRowId;
+    protected $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="table_row_id", type="integer")
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
+     * @JMS\SerializedName("tableRowId")
+     */
+    protected $tableRowId;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="table_name", type="string", length=30)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("tableName")
      */
-    private $tableName;
+    protected $tableName;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="additional_text", type="text", nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("additionalText")
      */
-    private $additionalText;
+    protected $additionalText;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="dispatched", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
-    private $dispatched;
+    protected $dispatched;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|AlertChangeTypeInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="AlertChangeType", inversedBy="alerts")
+     * @ORM\JoinTable(name="alert_change",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="alert_change_type_id", referencedColumnName="alert_change_type_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("changeTypes")
      */
-    private $changeTypes;
+    protected $changeTypes;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="alerts")
+     * @ORM\JoinTable(name="alert_instigator",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $instigators;
+    protected $instigators;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|SchoolInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="School", inversedBy="alerts")
+     * @ORM\JoinTable(name="alert_recipient",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
      */
-    private $recipients;
+     protected $recipients;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->changeTypes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->instigators = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->recipients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->changeTypes = new ArrayCollection();
+        $this->instigators = new ArrayCollection();
+        $this->recipients = new ArrayCollection();
     }
 
     /**
-     * Get alertId
-     *
-     * @return integer 
-     */
-    public function getAlertId()
-    {
-        return $this->alertId;
-    }
-
-    /**
-     * Set tableRowId
-     *
-     * @param integer $tableRowId
-     * @return Alert
+     * @param int $tableRowId
      */
     public function setTableRowId($tableRowId)
     {
         $this->tableRowId = $tableRowId;
-
-        return $this;
     }
 
     /**
-     * Get tableRowId
-     *
-     * @return integer 
+     * @return int
      */
     public function getTableRowId()
     {
@@ -93,22 +162,15 @@ class Alert
     }
 
     /**
-     * Set tableName
-     *
      * @param string $tableName
-     * @return Alert
      */
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
-
-        return $this;
     }
 
     /**
-     * Get tableName
-     *
-     * @return string 
+     * @return string
      */
     public function getTableName()
     {
@@ -116,22 +178,15 @@ class Alert
     }
 
     /**
-     * Set additionalText
-     *
      * @param string $additionalText
-     * @return Alert
      */
     public function setAdditionalText($additionalText)
     {
         $this->additionalText = $additionalText;
-
-        return $this;
     }
 
     /**
-     * Get additionalText
-     *
-     * @return string 
+     * @return string
      */
     public function getAdditionalText()
     {
@@ -139,124 +194,102 @@ class Alert
     }
 
     /**
-     * Set dispatched
-     *
      * @param boolean $dispatched
-     * @return Alert
      */
     public function setDispatched($dispatched)
     {
         $this->dispatched = $dispatched;
-
-        return $this;
     }
 
     /**
-     * Get dispatched
-     *
-     * @return boolean 
+     * @return boolean
      */
-    public function getDispatched()
+    public function isDispatched()
     {
         return $this->dispatched;
     }
 
     /**
-     * Add changeTypes
-     *
-     * @param \Ilios\CoreBundle\Entity\AlertChangeType $changeTypes
-     * @return Alert
+     * @param Collection $changeTypes
      */
-    public function addChangeType(\Ilios\CoreBundle\Entity\AlertChangeType $changeTypes)
+    public function setChangeTypes(Collection $changeTypes)
     {
-        $this->changeTypes[] = $changeTypes;
+        $this->changeTypes = new ArrayCollection();
 
-        return $this;
+        foreach ($changeTypes as $changeType) {
+            $this->addChangeType($changeType);
+        }
     }
 
     /**
-     * Remove changeTypes
-     *
-     * @param \Ilios\CoreBundle\Entity\AlertChangeType $changeTypes
+     * @param AlertChangeType $changeType
      */
-    public function removeChangeType(\Ilios\CoreBundle\Entity\AlertChangeType $changeTypes)
+    public function addChangeType(AlertChangeType $changeType)
     {
-        $this->changeTypes->removeElement($changeTypes);
+        $this->changeTypes->add($changeType);
     }
 
     /**
-     * Get changeTypes
-     *
-     * @return \Ilios\CoreBundle\Entity\AlertChangeType[]
+     * @return ArrayCollection|AlertChangeTypeInterface[]
      */
     public function getChangeTypes()
     {
-        return $this->changeTypes->toArray();
+        return $this->changeTypes;
     }
 
     /**
-     * Add instigators
-     *
-     * @param \Ilios\CoreBundle\Entity\User $instigators
-     * @return Alert
+     * @param Collection $instigators
      */
-    public function addInstigator(\Ilios\CoreBundle\Entity\User $instigators)
+    public function setInstigators(Collection $instigators)
     {
-        $this->instigators[] = $instigators;
+        $this->instigators = new ArrayCollection();
 
-        return $this;
+        foreach ($instigators as $instigator) {
+            $this->addInstigator($instigator);
+        }
     }
 
     /**
-     * Remove instigators
-     *
-     * @param \Ilios\CoreBundle\Entity\User $instigators
+     * @param UserInterface $instigator
      */
-    public function removeInstigator(\Ilios\CoreBundle\Entity\User $instigators)
+    public function addInstigator(UserInterface $instigator)
     {
-        $this->instigators->removeElement($instigators);
+        $this->instigators->add($instigator);
     }
 
     /**
-     * Get instigators
-     *
-     * @return \Ilios\CoreBundle\Entity\User[]
+     * @return ArrayCollection|UserInterface[]
      */
     public function getInstigators()
     {
-        return $this->instigators->toArray();
+        return $this->instigators;
     }
 
     /**
-     * Add recipients
-     *
-     * @param \Ilios\CoreBundle\Entity\School $recipients
-     * @return Alert
+     * @param Collection $recipients
      */
-    public function addRecipient(\Ilios\CoreBundle\Entity\School $recipients)
+    public function setRecipients(Collection $recipients)
     {
-        $this->recipients[] = $recipients;
+        $this->recipients = new ArrayCollection();
 
-        return $this;
+        foreach ($recipients as $recipient) {
+            $this->addRecipient($recipient);
+        }
     }
 
     /**
-     * Remove recipients
-     *
-     * @param \Ilios\CoreBundle\Entity\School $recipients
+     * @param SchoolInterface $recipient
      */
-    public function removeRecipient(\Ilios\CoreBundle\Entity\School $recipients)
+    public function addRecipient(SchoolInterface $recipient)
     {
-        $this->recipients->removeElement($recipients);
+        $this->recipients->add($recipient);
     }
 
     /**
-     * Get recipients
-     *
-     * @return \Ilios\CoreBundle\Entity\School[]
+     * @return ArrayCollection|SchoolInterface[]
      */
     public function getRecipients()
     {
-        return $this->recipients->toArray();
+        return $this->recipients;
     }
 }

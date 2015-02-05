@@ -12,7 +12,7 @@ class Utilities
      * UnSerialize data in Code ignerts way
      * @see CI_Session::_serialize()
      * @param string $data
-     * 
+     *
      * @return mixed
      */
     public function unserialize($data)
@@ -36,7 +36,7 @@ class Utilities
      * Serialize data in Code ignerts way
      * @see CI_Session::_serialize()
      * @param mixed $data
-     * 
+     *
      * @return string
      */
     public function serialize($data)
@@ -61,7 +61,7 @@ class Utilities
      * @see CI_Encrypt::encode()
      * @param string $data
      * @param string $key
-     * 
+     *
      * @return string
      */
     public function encrypt($string, $key)
@@ -96,7 +96,7 @@ class Utilities
      * @see CI_Encrypt::decode()
      * @param string $encryptedString
      * @param string $key
-     * 
+     *
      * @return string
      */
     public function decrypt($encryptedString, $key)
@@ -169,7 +169,7 @@ class Utilities
     
     /**
      * Get the user agent from the $_SERVER global
-     * 
+     *
      * Makes it possible to test the extractor without messing with this variables
      * which is unreliable
      * @return string
@@ -185,7 +185,7 @@ class Utilities
     
     /**
      * Get data from the cookie array
-     * 
+     *
      * Done here so we can reliably test the extractor
      * @param string $key
      * @return string|false
@@ -203,7 +203,7 @@ class Utilities
      * Strip slashes in code igniters way
      * @see CI_Session::_serialize()
      * @param string $str
-     * 
+     *
      * @return string
      */
     private function stripSlashes($str)
