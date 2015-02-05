@@ -23,11 +23,11 @@ use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
 /**
  * IlmSessionFacet controller.
  * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("IlmSessionFacet")
+ * @RouteResource("IlmSession")
  */
 class IlmSessionFacetController extends FOSRestController
 {
-    
+
     /**
      * Get a IlmSessionFacet
      *
@@ -53,7 +53,7 @@ class IlmSessionFacetController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        $answer['ilmSessionFacet'] = $this->getOr404($id);
+        $answer['ilmSession'] = $this->getOr404($id);
 
         return $answer;
     }
@@ -109,7 +109,7 @@ class IlmSessionFacetController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['ilmSessionFacet'] =
+        $answer['ilmSessions'] =
             $this->getIlmSessionFacetHandler()->findIlmSessionFacetsBy(
                 $criteria,
                 $orderBy,
@@ -117,7 +117,7 @@ class IlmSessionFacetController extends FOSRestController
                 $offset
             );
 
-        if ($answer['ilmSessionFacet']) {
+        if ($answer['ilmSessions']) {
             return $answer;
         }
 
@@ -149,7 +149,7 @@ class IlmSessionFacetController extends FOSRestController
     {
         try {
             $new  =  $this->getIlmSessionFacetHandler()->post($request->request->all());
-            $answer['ilmSessionFacet'] = $new;
+            $answer['ilmSession'] = $new;
 
             return $answer;
         } catch (InvalidFormException $exception) {
@@ -184,10 +184,10 @@ class IlmSessionFacetController extends FOSRestController
     {
         try {
             if ($ilmSessionFacet = $this->getIlmSessionFacetHandler()->findIlmSessionFacetBy(['ilmSessionFacetId'=> $id])) {
-                $answer['ilmSessionFacet']= $this->getIlmSessionFacetHandler()->put($ilmSessionFacet, $request->request->all());
+                $answer['ilmSession']= $this->getIlmSessionFacetHandler()->put($ilmSessionFacet, $request->request->all());
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['ilmSessionFacet'] = $this->getIlmSessionFacetHandler()->post($request->request->all());
+                $answer['ilmSession'] = $this->getIlmSessionFacetHandler()->post($request->request->all());
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -227,7 +227,7 @@ class IlmSessionFacetController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['ilmSessionFacet'] = $this->getIlmSessionFacetHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['ilmSession'] = $this->getIlmSessionFacetHandler()->patch($this->getOr404($id), $request->request->all());
 
         return $answer;
     }

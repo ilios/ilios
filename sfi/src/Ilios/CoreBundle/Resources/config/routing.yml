@@ -191,18 +191,18 @@ api_learningmaterial:
     defaults: {_format:json}
 
 
-# #api_learningmaterialstatus_v1:
-# #    resource: "@IliosCoreBundle/Controller/LearningMaterialStatusController.php"
-# #    type:     rest
-# #    prefix:   /v1
-# #    defaults: {_format:json}
-# #
-# #
-# #api_learningmaterialuserrole_v1:
-# #    resource: "@IliosCoreBundle/Controller/LearningMaterialUserRoleController.php"
-# #    type:     rest
-# #    prefix:   /v1
-# #    defaults: {_format:json}
+api_learningmaterialstatus_v1:
+   resource: "@IliosCoreBundle/Controller/LearningMaterialStatusController.php"
+   type:     rest
+   prefix:   /v1
+   defaults: {_format:json}
+
+
+api_learningmaterialuserrole_v1:
+   resource: "@IliosCoreBundle/Controller/LearningMaterialUserRoleController.php"
+   type:     rest
+   prefix:   /v1
+   defaults: {_format:json}
 
 api_learnergroup_v1:
     resource: "@IliosCoreBundle/Controller/LearnerGroupController.php"
@@ -380,6 +380,12 @@ api_user_v1:
 
 api_userrole_v1:
     resource: "@IliosCoreBundle/Controller/UserRoleController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_instructionhours:
+    resource: "@IliosCoreBundle/Controller/InstructionHoursController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}

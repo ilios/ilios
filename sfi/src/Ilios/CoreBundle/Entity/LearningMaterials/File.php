@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\LearningMaterials;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Ilios\CoreBundle\Entity\LearningMaterial;
@@ -12,6 +13,8 @@ use Ilios\CoreBundle\Entity\LearningMaterial;
  * @package Ilios\CoreBundle\Entity\LearningMaterials
  *
  * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class File extends LearningMaterial implements FileInterface
 {
@@ -20,6 +23,9 @@ class File extends LearningMaterial implements FileInterface
      * renamed from relative_file_system_location
      *
      * @ORM\Column(name="relative_file_system_location", type="string", length=128, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $path;
 
@@ -28,6 +34,10 @@ class File extends LearningMaterial implements FileInterface
      * @var boolean
      *
      * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("copyrightPermission")
      */
     protected $copyrightPermission;
 
@@ -35,6 +45,10 @@ class File extends LearningMaterial implements FileInterface
     * @var string
     *
     * @ORM\Column(name="copyright_rationale", type="text", nullable=true)
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    * @JMS\SerializedName("copyrightRationale")
     */
     protected $copyrightRationale;
 
@@ -42,6 +56,9 @@ class File extends LearningMaterial implements FileInterface
     * @var string
     *
     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $filename;
 
@@ -49,6 +66,10 @@ class File extends LearningMaterial implements FileInterface
     * @var string
     *
     * @ORM\Column(name="mime_type", type="string", length=96, nullable=true)
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
+    * @JMS\SerializedName("mimetype")
     */
     protected $mimetype;
 
@@ -56,6 +77,9 @@ class File extends LearningMaterial implements FileInterface
     * @var string
     *
     * @ORM\Column(name="filesize", type="integer", nullable=true, options={"unsigned"=true})
+    *
+    * @JMS\Expose
+    * @JMS\Type("integer")
     */
     protected $filesize;
 

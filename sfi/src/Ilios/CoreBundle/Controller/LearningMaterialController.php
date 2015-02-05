@@ -39,7 +39,7 @@ class LearningMaterialController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        $answer['learningmaterial'] = $this->getOr404($id);
+        $answer['learningMaterial'] = $this->getOr404($id);
 
         return $answer;
     }
@@ -85,7 +85,7 @@ class LearningMaterialController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['learningmaterial'] =
+        $answer['learningMaterials'] =
             $this->getLearningMaterialHandler()->findLearningMaterialsBy(
                 $criteria,
                 $orderBy,
@@ -93,7 +93,7 @@ class LearningMaterialController extends FOSRestController
                 $offset
             );
 
-        if ($answer['learningmaterial']) {
+        if ($answer['learningMaterials']) {
             return $answer;
         }
 

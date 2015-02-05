@@ -38,6 +38,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("aamcCode")
      */
     protected $aamcCode;
 
@@ -48,6 +49,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("streetAddress")
      */
     protected $streetAddress;
 
@@ -78,6 +80,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("zipCode")
      */
     protected $zipCode;
 
@@ -89,6 +92,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("countryCode")
      */
     protected $countryCode;
 

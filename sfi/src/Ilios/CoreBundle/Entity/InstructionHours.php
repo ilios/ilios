@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class InstructionHours
@@ -19,11 +20,11 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  */
 class InstructionHours implements InstructionHoursInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
+    use StringableIdEntity;
 //    use TimestampableEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var integer
      *
      * @ORM\Column(name="instruction_hours_id", type="integer")
@@ -102,23 +103,6 @@ class InstructionHours implements InstructionHoursInterface
      * @JMS\Type("string")
      */
     protected $session;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->instructionHoursId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->instructionHoursId : $this->id;
-    }
 
     /**
      * @param \DateTime $createdAt

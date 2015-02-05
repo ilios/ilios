@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class LearningMaterialStatus implements LearningMaterialStatusInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
 
@@ -41,8 +41,10 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
 
     /**
     * @ORM\Column(type="string", length=60)
-    * @todo should be on the TitledEntity Trait
     * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $title;
 
@@ -63,23 +65,6 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->learningMaterialStatusId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->learningMaterialStatusId : $this->id;
     }
 
     /**

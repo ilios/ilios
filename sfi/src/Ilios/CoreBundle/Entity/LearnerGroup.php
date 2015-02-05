@@ -99,7 +99,7 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
-     * @JMS\SerializedName("ilmSessionFacets")
+     * @JMS\SerializedName("ilmSessions")
      */
     protected $ilmSessionFacets;
 

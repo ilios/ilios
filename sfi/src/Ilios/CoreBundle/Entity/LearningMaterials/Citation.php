@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Entity\LearningMaterials;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Entity\LearningMaterial;
 
@@ -11,6 +12,8 @@ use Ilios\CoreBundle\Entity\LearningMaterial;
  * @package Ilios\CoreBundle\Entity\LearningMaterials
  *
  * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class Citation extends LearningMaterial implements CitationInterface
 {
@@ -19,6 +22,9 @@ class Citation extends LearningMaterial implements CitationInterface
      * @var string
      *
      * @ORM\Column(name="citation", type="string", length=512, nullable=true)
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
      */
     protected $text;
 

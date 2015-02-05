@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class CurriculumInventorySequenceBlockSession
@@ -26,10 +27,10 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  */
 class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequenceBlockSessionInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
+    use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="sequence_block_session_id", type="bigint")
@@ -79,23 +80,6 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
     {
         //defaults
         $this->countOfferingsOnce = true;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->sequenceBlockSessionId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->sequenceBlockSessionId : $this->id;
     }
 
     /**

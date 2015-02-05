@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\ReportInterface;
  */
 class ReportController extends FOSRestController
 {
-    
+
     /**
      * Get a Report
      *

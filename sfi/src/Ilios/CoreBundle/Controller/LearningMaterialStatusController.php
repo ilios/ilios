@@ -16,19 +16,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\CourseLearningMaterialHandler;
-use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
+use Ilios\CoreBundle\Handler\LearningMaterialStatusHandler;
+use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
- * CourseLearningMaterial controller.
+ * LearningMaterialStatus controller.
  * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("CourseLearningMaterial")
+ * @RouteResource("LearningMaterialStatus")
  */
-class CourseLearningMaterialController extends FOSRestController
+class LearningMaterialStatusController extends FOSRestController
 {
-
+    
     /**
-     * Get a CourseLearningMaterial
+     * Get a LearningMaterialStatus
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -39,13 +39,13 @@ class CourseLearningMaterialController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        $answer['courseLearningMaterial'] = $this->getOr404($id);
+        $answer['learningMaterialStatus'] = $this->getOr404($id);
 
         return $answer;
     }
 
     /**
-     * Get all CourseLearningMaterial.
+     * Get all LearningMaterialStatus.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -85,15 +85,15 @@ class CourseLearningMaterialController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['courseLearningMaterials']  =
-            $this->getCourseLearningMaterialHandler()->findCourseLearningMaterialsBy(
+        $answer['learningMaterialStatus'] =
+            $this->getLearningMaterialStatusHandler()->findLearningMaterialStatusesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
 
-        if ($answer['courseLearningMaterials']) {
+        if ($answer['learningMaterialStatus']) {
             return $answer;
         }
 
@@ -101,7 +101,7 @@ class CourseLearningMaterialController extends FOSRestController
     }
 
     /**
-     * Create a CourseLearningMaterial.
+     * Create a LearningMaterialStatus.
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
@@ -112,8 +112,8 @@ class CourseLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseLearningMaterialHandler()->post($request->request->all());
-            $answer = $new;
+            $new  =  $this->getLearningMaterialStatusHandler()->post($request->request->all());
+            $answer['learningMaterialStatus'] = $new;
 
             return $answer;
         } catch (InvalidFormException $exception) {
@@ -122,7 +122,7 @@ class CourseLearningMaterialController extends FOSRestController
     }
 
     /**
-     * Update a CourseLearningMaterial.
+     * Update a LearningMaterialStatus.
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -134,11 +134,11 @@ class CourseLearningMaterialController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($courseLearningMaterial = $this->getCourseLearningMaterialHandler()->findCourseLearningMaterialBy(['id'=> $id])) {
-                $answer= $this->getCourseLearningMaterialHandler()->put($courseLearningMaterial, $request->request->all());
+            if ($learningMaterialStatus = $this->getLearningMaterialStatusHandler()->findLearningMaterialStatusBy(['id'=> $id])) {
+                $answer['learningMaterialStatus']= $this->getLearningMaterialStatusHandler()->put($learningMaterialStatus, $request->request->all());
                 $code = Codes::HTTP_OK;
             } else {
-                $answer = $this->getCourseLearningMaterialHandler()->post($request->request->all());
+                $answer['learningMaterialStatus'] = $this->getLearningMaterialStatusHandler()->post($request->request->all());
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -151,7 +151,7 @@ class CourseLearningMaterialController extends FOSRestController
     }
 
     /**
-     * Partial Update to a CourseLearningMaterial.
+     * Partial Update to a LearningMaterialStatus.
      *
      *
      * @View(serializerEnableMaxDepthChecks=true)
@@ -163,27 +163,27 @@ class CourseLearningMaterialController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer = $this->getCourseLearningMaterialHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['learningMaterialStatus'] = $this->getLearningMaterialStatusHandler()->patch($this->getOr404($id), $request->request->all());
 
         return $answer;
     }
 
     /**
-     * Delete a CourseLearningMaterial.
+     * Delete a LearningMaterialStatus.
      *
      * @View(statusCode=204)
      *
      * @param Request $request
      * @param $id
-     * @internal CourseLearningMaterialInterface $courseLearningMaterial
+     * @internal LearningMaterialStatusInterface $learningMaterialStatus
      *
      * @return Response
      */
     public function deleteAction(Request $request, $id)
     {
-        $courseLearningMaterial = $this->getOr404($id);
+        $learningMaterialStatus = $this->getOr404($id);
         try {
-            $this->getCourseLearningMaterialHandler()->deleteCourseLearningMaterial($courseLearningMaterial);
+            $this->getLearningMaterialStatusHandler()->deleteLearningMaterialStatus($learningMaterialStatus);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -195,11 +195,11 @@ class CourseLearningMaterialController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CourseLearningMaterialInterface $entity
+     * @return LearningMaterialStatusInterface $entity
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCourseLearningMaterialHandler()->findCourseLearningMaterialBy(['id' => $id]))) {
+        if (!($entity = $this->getLearningMaterialStatusHandler()->findLearningMaterialStatusBy(['id' => $id]))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
@@ -207,10 +207,10 @@ class CourseLearningMaterialController extends FOSRestController
     }
 
     /**
-     * @return CourseLearningMaterialHandler
+     * @return LearningMaterialStatusHandler
      */
-    public function getCourseLearningMaterialHandler()
+    protected function getLearningMaterialStatusHandler()
     {
-        return $this->container->get('ilioscore.courselearningmaterial.handler');
+        return $this->container->get('ilioscore.learningmaterialstatus.handler');
     }
 }
