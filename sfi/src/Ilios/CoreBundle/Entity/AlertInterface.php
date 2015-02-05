@@ -99,4 +99,3 @@ interface AlertInterface extends IdentifiableEntityInterface
      */
     public function getRecipients();
 }
-

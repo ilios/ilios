@@ -34,4 +34,3 @@ interface AamcPcrsInterface extends
      */
     public function getCompetencies();
 }
-

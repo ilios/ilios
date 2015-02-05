@@ -11,7 +11,7 @@ use Ilios\CoreBundle\Traits\NameableEntityInterface;
 /**
  * Interface AssessmentOptionInterface
  */
-interface AssessmentOptionInterface  extends IdentifiableEntityInterface, NameableEntityInterface
+interface AssessmentOptionInterface extends IdentifiableEntityInterface, NameableEntityInterface
 {
 
     /**
@@ -29,4 +29,3 @@ interface AssessmentOptionInterface  extends IdentifiableEntityInterface, Nameab
      */
     public function getSessionTypes();
 }
-

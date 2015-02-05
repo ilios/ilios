@@ -78,4 +78,3 @@ interface CourseLearningMaterialInterface extends IdentifiableEntityInterface
      */
     public function getMeshDescriptors();
 }
-

@@ -84,4 +84,3 @@ interface InstructorGroupInterface extends IdentifiableEntityInterface, TitledEn
      */
     public function getOfferings();
 }
-

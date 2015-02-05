@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 /**
  * Interface AuditAtomInterface
  */
-interface AuditAtomInterface 
+interface AuditAtomInterface
 {
     public function getAuditAtomId();
 
@@ -33,4 +33,3 @@ interface AuditAtomInterface
 
     public function getCreatedBy();
 }
-

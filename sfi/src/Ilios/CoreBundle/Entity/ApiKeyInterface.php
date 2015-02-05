@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 /**
  * Interface ApiKeyInterface
  */
-interface ApiKeyInterface 
+interface ApiKeyInterface
 {
     /**
      * @param string $key

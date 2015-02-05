@@ -221,4 +221,3 @@ interface CourseInterface extends IdentifiableEntityInterface, TitledEntityInter
      */
     public function getSessions();
 }
-

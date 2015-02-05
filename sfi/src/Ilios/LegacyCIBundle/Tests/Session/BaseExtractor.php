@@ -144,7 +144,7 @@ abstract class BaseExtractor extends TestCase
 
     /**
      * Get a pre-created array for a cookie
-     * 
+     *
      * @return array
      */
     protected function getCiCookieArray()

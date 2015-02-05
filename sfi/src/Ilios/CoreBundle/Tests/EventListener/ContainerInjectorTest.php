@@ -15,7 +15,7 @@ class ContainerInjectorTest extends TestCase
     
     /**
      *
-     * @var ContainerInjector 
+     * @var ContainerInjector
      */
     private $containerInjector;
     

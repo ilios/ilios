@@ -17,9 +17,9 @@ use Ilios\CoreBundle\Traits\IdentifiableEntity;
  *
  * @ORM\Table(
  *  name="ci_sessions",
- * 	indexes={
- * 	 @ORM\Index(name="last_activity_idx", columns={"last_activity"})
- * 	}
+ *  indexes={
+ *   @ORM\Index(name="last_activity_idx", columns={"last_activity"})
+ *  }
  * )
  * @ORM\Entity
  *

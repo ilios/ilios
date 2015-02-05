@@ -39,4 +39,3 @@ interface CurriculumInventorySequenceBlockSessionInterface extends IdentifiableE
      */
     public function getSession();
 }
-

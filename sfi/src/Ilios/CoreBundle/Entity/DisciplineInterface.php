@@ -63,4 +63,3 @@ interface DisciplineInterface extends IdentifiableEntityInterface, TitledEntityI
      */
     public function getSessions();
 }
-

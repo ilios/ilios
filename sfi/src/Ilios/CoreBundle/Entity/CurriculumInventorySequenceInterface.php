@@ -24,4 +24,3 @@ interface CurriculumInventorySequenceInterface extends
      */
     public function getReport();
 }
-

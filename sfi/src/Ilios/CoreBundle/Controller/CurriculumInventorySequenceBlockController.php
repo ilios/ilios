@@ -282,7 +282,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
     protected function getOr404($id)
     {
         if (!($entity = $this->getCurriculumInventorySequenceBlockHandler()->findCurriculumInventorySequenceBlockBy(['sequenceBlockId' => $id]))) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;

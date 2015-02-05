@@ -48,4 +48,3 @@ interface AuthenticationInterface
      */
     public function getUser();
 }
-

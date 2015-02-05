@@ -41,4 +41,3 @@ interface CohortInterface extends IdentifiableEntityInterface, TitledEntityInter
      */
     public function getCourses();
 }
-

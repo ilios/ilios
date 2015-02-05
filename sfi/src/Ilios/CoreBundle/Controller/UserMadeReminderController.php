@@ -282,7 +282,7 @@ class UserMadeReminderController extends FOSRestController
     protected function getOr404($id)
     {
         if (!($entity = $this->getUserMadeReminderHandler()->findUserMadeReminderBy(['userMadeReminderId' => $id]))) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;

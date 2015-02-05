@@ -32,4 +32,3 @@ interface AamcMethodInterface extends
      */
     public function getSessionTypes();
 }
-

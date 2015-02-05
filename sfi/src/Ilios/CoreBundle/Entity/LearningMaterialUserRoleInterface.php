@@ -29,4 +29,3 @@ interface LearningMaterialUserRoleInterface extends IdentifiableEntityInterface,
      */
     public function getLearningMaterials();
 }
-

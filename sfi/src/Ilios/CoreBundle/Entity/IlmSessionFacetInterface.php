@@ -108,4 +108,3 @@ interface IlmSessionFacetInterface extends IdentifiableEntityInterface
      */
     public function getSessions();
 }
-

@@ -12,4 +12,3 @@ use Ilios\CoreBundle\Traits\TitledEntityInterface;
 interface CourseClerkshipTypeInterface extends IdentifiableEntityInterface, TitledEntityInterface
 {
 }
-

@@ -16,4 +16,3 @@ interface MeshSemanticTypeInterface extends
     TimestampableEntityInterface
 {
 }
-

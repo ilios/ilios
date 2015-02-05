@@ -29,4 +29,3 @@ interface UserRoleInterface extends IdentifiableEntityInterface, TitledEntityInt
      */
     public function getUsers();
 }
-

@@ -12,7 +12,7 @@ class Provider implements AuthenticationProviderInterface
 {
     /**
      *
-     * @var Symfony\Component\Security\Core\User\UserProviderInterface 
+     * @var Symfony\Component\Security\Core\User\UserProviderInterface
      */
     private $userProvider;
 

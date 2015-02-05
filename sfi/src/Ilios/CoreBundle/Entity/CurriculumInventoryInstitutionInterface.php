@@ -81,4 +81,3 @@ interface CurriculumInventoryInstitutionInterface extends NameableEntityInterfac
      */
     public function getSchool();
 }
-

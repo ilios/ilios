@@ -82,4 +82,3 @@ interface CompetencyInterface extends IdentifiableEntityInterface, TitledEntityI
      */
     public function getProgramYears();
 }
-

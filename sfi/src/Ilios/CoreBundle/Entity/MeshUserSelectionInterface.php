@@ -10,4 +10,3 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 interface MeshUserSelectionInterface extends IdentifiableEntityInterface
 {
 }
-

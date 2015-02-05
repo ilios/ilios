@@ -50,4 +50,3 @@ interface InstructionHoursInterface extends IdentifiableEntityInterface, Timesta
      */
     public function getSession();
 }
-

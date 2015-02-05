@@ -30,4 +30,3 @@ interface DepartmentInterface extends IdentifiableEntityInterface, TitledEntityI
      */
     public function isDeleted();
 }
-

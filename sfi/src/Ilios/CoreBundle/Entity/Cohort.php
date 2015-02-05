@@ -22,9 +22,9 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @ORM\Entity
  * @ORM\Table(
  *  name="cohort",
- * 	indexes={
- * 	    @ORM\Index(name="whole_k", columns={"program_year_id", "cohort_id", "title"})
- * 	}
+ *  indexes={
+ *      @ORM\Index(name="whole_k", columns={"program_year_id", "cohort_id", "title"})
+ *  }
  * )
  *
  * @JMS\ExclusionPolicy("all")

@@ -282,7 +282,7 @@ class MeshConceptController extends FOSRestController
     protected function getOr404($id)
     {
         if (!($entity = $this->getMeshConceptHandler()->findMeshConceptBy(['meshConceptUid' => $id]))) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;

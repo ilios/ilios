@@ -18,7 +18,7 @@ class Handler
     private $om;
 
     /**
-     * @var Doctrine\Common\Persistence\ObjectRepository 
+     * @var Doctrine\Common\Persistence\ObjectRepository
      */
     private $repository;
 
@@ -52,9 +52,9 @@ class Handler
 
     /**
      * Retrieves a value from the user session by its given key.
-     * 
+     *
      * @param string $key
-     * 
+     *
      * @return mixed The value or FALSE if non was found.
      */
     protected function get($key)
@@ -70,7 +70,7 @@ class Handler
 
     /**
      * Get the Code Ignter Session from the database
-     * 
+     *
      * @return Ilios\CoreBundle\Entity\CISession
      */
     protected function getCISession()

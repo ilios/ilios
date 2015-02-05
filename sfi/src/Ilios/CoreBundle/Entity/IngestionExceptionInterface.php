@@ -20,4 +20,3 @@ interface IngestionExceptionInterface extends UniversallyUniqueEntityInterface
      */
     public function getUser();
 }
-

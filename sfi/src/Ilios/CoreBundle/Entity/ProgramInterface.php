@@ -6,14 +6,11 @@ use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
-
-
-
 /**
  * Interface ProgramInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface ProgramInterface extends 
+interface ProgramInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
     StringableEntityInterface

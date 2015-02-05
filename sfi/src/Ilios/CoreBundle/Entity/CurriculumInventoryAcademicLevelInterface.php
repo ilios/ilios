@@ -36,4 +36,3 @@ interface CurriculumInventoryAcademicLevelInterface extends
      */
     public function getReport();
 }
-

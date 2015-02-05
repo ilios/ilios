@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @ORM\Table(name="user_made_reminder",
  *   indexes={
- * 	   @ORM\Index(name="due_closed_user_k", columns={"due_date", "closed", "user_id"})
+ *     @ORM\Index(name="due_closed_user_k", columns={"due_date", "closed", "user_id"})
  *   }
  * )
  * @ORM\Entity

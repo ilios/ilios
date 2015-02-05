@@ -152,4 +152,3 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getReport();
 }
-
