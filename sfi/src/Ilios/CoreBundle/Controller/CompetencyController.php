@@ -113,15 +113,8 @@ class CompetencyController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
-            return $item;
-        }, $criteria);
-
-        $result = $this->getCompetencyHandler()
-            ->findCompetenciesBy(
+        $answer['competencies'] =
+            $this->getCompetencyHandler()->findCompetenciesBy(
                 $criteria,
                 $orderBy,
                 $limit,
@@ -131,7 +124,11 @@ class CompetencyController extends FOSRestController
         $answer['competencies'] =
             $result ? $result : new ArrayCollection([]);
 
-        return $answer;
+        if ($answer['competencies']) {
+            return $answer;
+        }
+
+        return new ArrayCollection([]);
     }
 
     /**
