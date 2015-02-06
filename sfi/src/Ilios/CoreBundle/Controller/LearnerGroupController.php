@@ -109,6 +109,10 @@ class LearnerGroupController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
+        if (isset($criteria['parent']) and $criteria['parent'] == 'null') {
+            $criteria['parent'] = null;
+        }
+
         $answer['learnerGroup'] =
             $this->getLearnerGroupHandler()->findLearnerGroupsBy(
                 $criteria,
@@ -148,7 +152,8 @@ class LearnerGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearnerGroupHandler()->post($request->request->all());
+            $post = $request->request->get('learnerGroup');
+            $new  =  $this->getLearnerGroupHandler()->post($post);
             $answer['learnerGroup'] = $new;
 
             return $answer;
