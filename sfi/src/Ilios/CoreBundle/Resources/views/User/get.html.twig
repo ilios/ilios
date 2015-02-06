@@ -4,9 +4,9 @@
 </h1>
 <h5>Groups</h5>
 <ul>
-    {% for groupId in user.userGroups %}
+    {% for groupId in user.learnerGroups %}
     <li>
-        <a href="{{ path('get_group', {'id': groupId, '_format': 'html'}) }}">
+        <a href="{{ path('get_learnergroup', {'id': groupId, '_format': 'html'}) }}">
             {{ groupId }}
         </a>
     </li>
