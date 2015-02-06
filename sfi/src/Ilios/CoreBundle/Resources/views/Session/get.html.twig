@@ -15,14 +15,3 @@
     </li>
     {% endfor %}
 </ul>
-
-<h5>Users</h5>
-<ul>
-    {% for userId in session.users %}
-    <li>
-        <a href="{{ path('get_user', {'id': userId, '_format': 'html'}) }}">
-            {{ userId }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>

@@ -1,10 +1,10 @@
 <h1>
-    {{group.id}}:
-    {{group.title}}
+    {{learnerGroup.id}}:
+    {{learnerGroup.title}}
 </h1>
 <h5>Users</h5>
 <ul>
-    {% for userId in group.users %}
+    {% for userId in learnerGroup.users %}
     <li>
         <a href="{{ path('get_user', {'id': userId, '_format': 'html'}) }}">
             {{ userId }}
@@ -15,7 +15,7 @@
 
 <h5>Offerings</h5>
 <ul>
-    {% for offeringId in group.offerings %}
+    {% for offeringId in learnerGroup.offerings %}
     <li>
         <a href="{{ path('get_offering', {'id': offeringId, '_format': 'html'}) }}">
             {{ offeringId }}

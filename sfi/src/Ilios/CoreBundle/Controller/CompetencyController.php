@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\CompetencyInterface;
  */
 class CompetencyController extends FOSRestController
 {
-    
+
     /**
      * Get a Competency
      *
@@ -109,7 +109,7 @@ class CompetencyController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['competency'] =
+        $answer['competencies'] =
             $this->getCompetencyHandler()->findCompetenciesBy(
                 $criteria,
                 $orderBy,
@@ -117,7 +117,7 @@ class CompetencyController extends FOSRestController
                 $offset
             );
 
-        if ($answer['competency']) {
+        if ($answer['competencies']) {
             return $answer;
         }
 

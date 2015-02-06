@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
  */
 class CourseController extends FOSRestController
 {
-    
+
     /**
      * Get a Course
      *
@@ -109,7 +109,7 @@ class CourseController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['course'] =
+        $answer['courses'] =
             $this->getCourseHandler()->findCoursesBy(
                 $criteria,
                 $orderBy,
@@ -117,7 +117,7 @@ class CourseController extends FOSRestController
                 $offset
             );
 
-        if ($answer['course']) {
+        if ($answer['courses']) {
             return $answer;
         }
 
