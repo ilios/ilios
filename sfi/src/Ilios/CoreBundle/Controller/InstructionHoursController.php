@@ -97,7 +97,7 @@ class InstructionHoursController extends FOSRestController
             return $answer;
         }
 
-        return new ArrayCollection([]);
+        return new ArrayCollection(['instructionHours' => []]);
     }
 
     /**

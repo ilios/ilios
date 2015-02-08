@@ -109,7 +109,7 @@ class ReportController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['report'] =
+        $answer['reports'] =
             $this->getReportHandler()->findReportsBy(
                 $criteria,
                 $orderBy,
@@ -117,11 +117,11 @@ class ReportController extends FOSRestController
                 $offset
             );
 
-        if ($answer['report']) {
+        if ($answer['reports']) {
             return $answer;
         }
 
-        return new ArrayCollection([]);
+        return new ArrayCollection(['reports' => []]);
     }
 
     /**

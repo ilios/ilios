@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\AamcMethodInterface;
  */
 class AamcMethodController extends FOSRestController
 {
-    
+
     /**
      * Get a AamcMethod
      *
@@ -109,7 +109,7 @@ class AamcMethodController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['aamcMethod'] =
+        $answer['aamcMethods'] =
             $this->getAamcMethodHandler()->findAamcMethodsBy(
                 $criteria,
                 $orderBy,
@@ -117,7 +117,7 @@ class AamcMethodController extends FOSRestController
                 $offset
             );
 
-        if ($answer['aamcMethod']) {
+        if ($answer['aamcMethods']) {
             return $answer;
         }
 
