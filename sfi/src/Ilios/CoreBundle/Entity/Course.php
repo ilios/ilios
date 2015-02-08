@@ -20,7 +20,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  *     @ORM\Index(name="external_id", columns={"external_id"}),
  *     @ORM\Index(name="clerkship_type_id", columns={"clerkship_type_id"})
  * })
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\CourseRepository")
  *
  * @JMS\ExclusionPolicy("all")
  */

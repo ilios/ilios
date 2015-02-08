@@ -87,6 +87,14 @@ class CourseManager implements CourseManagerInterface
     }
 
     /**
+     * @return string[]
+     */
+    public function getYears()
+    {
+        return $this->repository->getYears();
+    }
+
+    /**
      * @return string
      */
     public function getClass()

@@ -94,13 +94,6 @@ api_currentsession_v1:
     defaults: {_format:json}
 
 
-api_currentsession_v1:
-    resource: "@IliosCoreBundle/Controller/CurrentsessionController.php"
-    type:     rest
-    prefix:   /v1
-    defaults: {_format:json}
-
-
 api_curriculuminventoryacademiclevel_v1:
     resource: "@IliosCoreBundle/Controller/CurriculumInventoryAcademicLevelController.php"
     type:     rest
@@ -159,6 +152,12 @@ api_department_v1:
 
 api_discipline_v1:
     resource: "@IliosCoreBundle/Controller/DisciplineController.php"
+    type:     rest
+    prefix:   /v1
+    defaults: {_format:json}
+
+api_educationalyear_v1:
+    resource: "@IliosCoreBundle/Controller/EducationalYearController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
