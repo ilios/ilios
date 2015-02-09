@@ -10,8 +10,8 @@ use JMS\Serializer\Annotation as JMS;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
-use Ilios\CoreBundle\Traits\StringableUuidEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class AamcMethod
@@ -24,25 +24,22 @@ use Ilios\CoreBundle\Traits\StringableUuidEntity;
  */
 class AamcMethod implements AamcMethodInterface
 {
-//    use UniversallyUniqueEntity;
+    use IdentifiableEntity;
     use DescribableEntity;
-    use StringableUuidEntity;
+    use StringableIdEntity;
 
     /**
-     * @deprecated replace with UniversallyUniqueEntity trait for 3.1.x
+     * @deprecated replace with IdentifiableEntity trait for 3.1.x
      * @var string
      *
      * @ORM\Column(name="method_id", type="string", length=10)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
-     *
-     *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
 
     /**
     * @ORM\Column(name="description", type="text")
@@ -67,23 +64,6 @@ class AamcMethod implements AamcMethodInterface
     public function __construct()
     {
         $this->sessionTypes = new ArrayCollection();
-    }
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->methodId = $uuid;
-        $this->uuid = $uuid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid()
-    {
-        return ($this->uuid === null) ? $this->methodId : $this->uuid;
     }
 
     /**

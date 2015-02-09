@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshSemanticType
@@ -18,10 +20,11 @@ use Ilios\CoreBundle\Traits\NameableEntity;
  */
 class MeshSemanticType implements MeshSemanticTypeInterface
 {
+    use IdentifiableEntity;
     use NameableEntity;
+    use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var string
      *
      * @ORM\Column(name="mesh_semantic_type_uid", type="string", length=9)
@@ -30,9 +33,8 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
 
     /**
     * @var string
@@ -54,23 +56,6 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->meshSemanticTypeUid = $uuid;
-        $this->uuid = $uuid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid()
-    {
-        return ($this->uuid === null) ? $this->meshSemanticTypeUid : $this->uuid;
-    }
 
     /**
      * @param \DateTime $createdAt

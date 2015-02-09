@@ -7,14 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
 use Ilios\CoreBundle\Traits\DescribableEntityInterface;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface AamcMethodInterface
  * @package Ilios\CoreBundle\Entity
  */
 interface AamcMethodInterface extends
-    UniversallyUniqueEntityInterface,
+    IdentifiableEntityInterface,
     DescribableEntityInterface
 {
     /**

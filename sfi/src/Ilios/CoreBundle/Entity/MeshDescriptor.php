@@ -3,7 +3,6 @@
 namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
 use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -14,6 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshDescriptor
@@ -26,8 +26,8 @@ use Ilios\CoreBundle\Traits\NameableEntity;
  */
 class MeshDescriptor implements MeshDescriptorInterface
 {
-//    use IdentifiableEntity;
-    use UniversallyUniqueEntity;
+    use IdentifiableEntity;
+    use StringableIdEntity;
     use NameableEntity;
 //    use TimestampableEntity;
 
@@ -42,7 +42,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @JMS\Type("string")
      * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
 
     /**
      * @var string
@@ -367,13 +367,5 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getCourseLearningMaterials()
     {
         return $this->courseLearningMaterials;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->uuid;
     }
 }

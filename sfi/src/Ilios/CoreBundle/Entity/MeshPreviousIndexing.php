@@ -5,7 +5,7 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
 
 /**
  * Class MeshPreviousIndexing

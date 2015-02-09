@@ -9,7 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
-use Ilios\CoreBundle\Traits\StringableUuidEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshTerm
@@ -22,8 +23,9 @@ use Ilios\CoreBundle\Traits\StringableUuidEntity;
  */
 class MeshTerm implements MeshTermInterface
 {
+    use IdentifiableEntity;
     use NameableEntity;
-    use StringableUuidEntity;
+    use StringableIdEntity;
 
     /**
      * @var string
@@ -33,9 +35,8 @@ class MeshTerm implements MeshTermInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
 
     /**
     * @var string
@@ -106,23 +107,6 @@ class MeshTerm implements MeshTermInterface
     //  * @JMS\Type("array<string>")
     //  */
     // protected $meshConcepts;
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->meshTermUid = $uuid;
-        $this->uuid = $uuid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid()
-    {
-        return ($this->uuid === null) ? $this->meshTermUid : $this->uuid;
-    }
 
     /**
      * @param string $lexicalTag
