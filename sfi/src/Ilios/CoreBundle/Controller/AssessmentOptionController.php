@@ -35,7 +35,12 @@ class AssessmentOptionController extends FOSRestController
      *   description = "Get a AssessmentOption.",
      *   resource = true,
      *   requirements={
-     *     {"name"="assessmentOptionId", "dataType"="integer", "requirement"="", "description"="AssessmentOption identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="AssessmentOption identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\AssessmentOption",
      *   statusCodes={
@@ -57,7 +62,6 @@ class AssessmentOptionController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all AssessmentOption.
      *
@@ -109,19 +113,25 @@ class AssessmentOptionController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['assessmentOption'] =
-            $this->getAssessmentOptionHandler()->findAssessmentOptionsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getAssessmentOptionHandler()
+            ->findAssessmentOptionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['assessmentOptions'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['assessmentOption']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class AssessmentOptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAssessmentOptionHandler()->post($request->request->all());
+            $new  =  $this->getAssessmentOptionHandler()->post($this->getPostData($request));
             $answer['assessmentOption'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class AssessmentOptionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($assessmentOption = $this->getAssessmentOptionHandler()->findAssessmentOptionBy(['assessmentOptionId'=> $id])) {
-                $answer['assessmentOption']= $this->getAssessmentOptionHandler()->put($assessmentOption, $request->request->all());
+            $assessmentOption = $this->getAssessmentOptionHandler()
+                ->findAssessmentOptionBy(['id'=> $id]);
+            if ($assessmentOption) {
+                $answer['assessmentOption'] =
+                    $this->getAssessmentOptionHandler()->put(
+                        $assessmentOption,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['assessmentOption'] = $this->getAssessmentOptionHandler()->post($request->request->all());
+                $answer['assessmentOption'] =
+                    $this->getAssessmentOptionHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class AssessmentOptionController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\AssessmentOptionType",
      *   output="Ilios\CoreBundle\Entity\AssessmentOption",
      *   requirements={
-     *     {"name"="assessmentOptionId", "dataType"="integer", "requirement"="", "description"="AssessmentOption identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="AssessmentOption identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated AssessmentOption.",
@@ -227,7 +249,11 @@ class AssessmentOptionController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['assessmentOption'] = $this->getAssessmentOptionHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['assessmentOption'] =
+            $this->getAssessmentOptionHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class AssessmentOptionController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "assessmentOptionId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "AssessmentOption identifier"
@@ -265,7 +291,8 @@ class AssessmentOptionController extends FOSRestController
     {
         $assessmentOption = $this->getOr404($id);
         try {
-            $this->getAssessmentOptionHandler()->deleteAssessmentOption($assessmentOption);
+            $this->getAssessmentOptionHandler()
+                ->deleteAssessmentOption($assessmentOption);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class AssessmentOptionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getAssessmentOptionHandler()->findAssessmentOptionBy(['assessmentOptionId' => $id]))) {
+        $entity = $this->getAssessmentOptionHandler()
+            ->findAssessmentOptionBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('assessmentOption', array());
+    }
     /**
      * @return AssessmentOptionHandler
      */
-    public function getAssessmentOptionHandler()
+    protected function getAssessmentOptionHandler()
     {
         return $this->container->get('ilioscore.assessmentoption.handler');
     }

@@ -35,7 +35,12 @@ class AlertController extends FOSRestController
      *   description = "Get a Alert.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Alert identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Alert identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Alert",
      *   statusCodes={
@@ -57,7 +62,6 @@ class AlertController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Alert.
      *
@@ -109,19 +113,25 @@ class AlertController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['alert'] =
-            $this->getAlertHandler()->findAlertsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getAlertHandler()
+            ->findAlertsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['alerts'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['alert']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class AlertController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAlertHandler()->post($request->request->all());
+            $new  =  $this->getAlertHandler()->post($this->getPostData($request));
             $answer['alert'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class AlertController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($alert = $this->getAlertHandler()->findAlertBy(['id'=> $id])) {
-                $answer['alert']= $this->getAlertHandler()->put($alert, $request->request->all());
+            $alert = $this->getAlertHandler()
+                ->findAlertBy(['id'=> $id]);
+            if ($alert) {
+                $answer['alert'] =
+                    $this->getAlertHandler()->put(
+                        $alert,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['alert'] = $this->getAlertHandler()->post($request->request->all());
+                $answer['alert'] =
+                    $this->getAlertHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class AlertController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\AlertType",
      *   output="Ilios\CoreBundle\Entity\Alert",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Alert identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Alert identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Alert.",
@@ -227,7 +249,11 @@ class AlertController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['alert'] = $this->getAlertHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['alert'] =
+            $this->getAlertHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class AlertController extends FOSRestController
     {
         $alert = $this->getOr404($id);
         try {
-            $this->getAlertHandler()->deleteAlert($alert);
+            $this->getAlertHandler()
+                ->deleteAlert($alert);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class AlertController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getAlertHandler()->findAlertBy(['id' => $id]))) {
+        $entity = $this->getAlertHandler()
+            ->findAlertBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('alert', array());
+    }
     /**
      * @return AlertHandler
      */
-    public function getAlertHandler()
+    protected function getAlertHandler()
     {
         return $this->container->get('ilioscore.alert.handler');
     }

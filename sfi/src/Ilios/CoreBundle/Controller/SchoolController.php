@@ -35,7 +35,12 @@ class SchoolController extends FOSRestController
      *   description = "Get a School.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="School identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="School identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\School",
      *   statusCodes={
@@ -57,7 +62,6 @@ class SchoolController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all School.
      *
@@ -109,19 +113,25 @@ class SchoolController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['school'] =
-            $this->getSchoolHandler()->findSchoolsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getSchoolHandler()
+            ->findSchoolsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['schools'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['school']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class SchoolController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSchoolHandler()->post($request->request->all());
+            $new  =  $this->getSchoolHandler()->post($this->getPostData($request));
             $answer['school'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class SchoolController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($school = $this->getSchoolHandler()->findSchoolBy(['id'=> $id])) {
-                $answer['school']= $this->getSchoolHandler()->put($school, $request->request->all());
+            $school = $this->getSchoolHandler()
+                ->findSchoolBy(['id'=> $id]);
+            if ($school) {
+                $answer['school'] =
+                    $this->getSchoolHandler()->put(
+                        $school,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['school'] = $this->getSchoolHandler()->post($request->request->all());
+                $answer['school'] =
+                    $this->getSchoolHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class SchoolController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\SchoolType",
      *   output="Ilios\CoreBundle\Entity\School",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="School identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="School identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated School.",
@@ -227,7 +249,11 @@ class SchoolController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['school'] = $this->getSchoolHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['school'] =
+            $this->getSchoolHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class SchoolController extends FOSRestController
     {
         $school = $this->getOr404($id);
         try {
-            $this->getSchoolHandler()->deleteSchool($school);
+            $this->getSchoolHandler()
+                ->deleteSchool($school);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class SchoolController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getSchoolHandler()->findSchoolBy(['id' => $id]))) {
+        $entity = $this->getSchoolHandler()
+            ->findSchoolBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('school', array());
+    }
     /**
      * @return SchoolHandler
      */
-    public function getSchoolHandler()
+    protected function getSchoolHandler()
     {
         return $this->container->get('ilioscore.school.handler');
     }

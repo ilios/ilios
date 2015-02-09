@@ -162,8 +162,8 @@ api_educationalyear_v1:
     prefix:   /v1
     defaults: {_format:json}
 
-api_ilmsessionfacet_v1:
-    resource: "@IliosCoreBundle/Controller/IlmSessionFacetController.php"
+api_ilmsession_v1:
+    resource: "@IliosCoreBundle/Controller/IlmSessionController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}

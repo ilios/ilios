@@ -35,7 +35,12 @@ class MeshQualifierController extends FOSRestController
      *   description = "Get a MeshQualifier.",
      *   resource = true,
      *   requirements={
-     *     {"name"="meshQualifierUid", "dataType"="string", "requirement"="\w+", "description"="MeshQualifier identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="string",
+     *        "requirement"="\w+",
+     *        "description"="MeshQualifier identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\MeshQualifier",
      *   statusCodes={
@@ -57,7 +62,6 @@ class MeshQualifierController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all MeshQualifier.
      *
@@ -109,19 +113,25 @@ class MeshQualifierController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['meshQualifier'] =
-            $this->getMeshQualifierHandler()->findMeshQualifiersBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getMeshQualifierHandler()
+            ->findMeshQualifiersBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['meshQualifiers'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['meshQualifier']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class MeshQualifierController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshQualifierHandler()->post($request->request->all());
+            $new  =  $this->getMeshQualifierHandler()->post($this->getPostData($request));
             $answer['meshQualifier'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class MeshQualifierController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($meshQualifier = $this->getMeshQualifierHandler()->findMeshQualifierBy(['meshQualifierUid'=> $id])) {
-                $answer['meshQualifier']= $this->getMeshQualifierHandler()->put($meshQualifier, $request->request->all());
+            $meshQualifier = $this->getMeshQualifierHandler()
+                ->findMeshQualifierBy(['id'=> $id]);
+            if ($meshQualifier) {
+                $answer['meshQualifier'] =
+                    $this->getMeshQualifierHandler()->put(
+                        $meshQualifier,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshQualifier'] = $this->getMeshQualifierHandler()->post($request->request->all());
+                $answer['meshQualifier'] =
+                    $this->getMeshQualifierHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class MeshQualifierController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\MeshQualifierType",
      *   output="Ilios\CoreBundle\Entity\MeshQualifier",
      *   requirements={
-     *     {"name"="meshQualifierUid", "dataType"="string", "requirement"="\w+", "description"="MeshQualifier identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="string",
+     *         "requirement"="\w+",
+     *         "description"="MeshQualifier identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated MeshQualifier.",
@@ -227,7 +249,11 @@ class MeshQualifierController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['meshQualifier'] = $this->getMeshQualifierHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['meshQualifier'] =
+            $this->getMeshQualifierHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class MeshQualifierController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "meshQualifierUid",
+     *         "name" = "id",
      *         "dataType" = "string",
      *         "requirement" = "\w+",
      *         "description" = "MeshQualifier identifier"
@@ -265,7 +291,8 @@ class MeshQualifierController extends FOSRestController
     {
         $meshQualifier = $this->getOr404($id);
         try {
-            $this->getMeshQualifierHandler()->deleteMeshQualifier($meshQualifier);
+            $this->getMeshQualifierHandler()
+                ->deleteMeshQualifier($meshQualifier);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class MeshQualifierController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getMeshQualifierHandler()->findMeshQualifierBy(['meshQualifierUid' => $id]))) {
+        $entity = $this->getMeshQualifierHandler()
+            ->findMeshQualifierBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('meshQualifier', array());
+    }
     /**
      * @return MeshQualifierHandler
      */
-    public function getMeshQualifierHandler()
+    protected function getMeshQualifierHandler()
     {
         return $this->container->get('ilioscore.meshqualifier.handler');
     }

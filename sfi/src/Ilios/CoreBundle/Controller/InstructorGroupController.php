@@ -35,7 +35,12 @@ class InstructorGroupController extends FOSRestController
      *   description = "Get a InstructorGroup.",
      *   resource = true,
      *   requirements={
-     *     {"name"="instructorGroupId", "dataType"="integer", "requirement"="", "description"="InstructorGroup identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="InstructorGroup identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\InstructorGroup",
      *   statusCodes={
@@ -57,7 +62,6 @@ class InstructorGroupController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all InstructorGroup.
      *
@@ -109,19 +113,25 @@ class InstructorGroupController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['instructorGroup'] =
-            $this->getInstructorGroupHandler()->findInstructorGroupsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getInstructorGroupHandler()
+            ->findInstructorGroupsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['instructorGroups'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['instructorGroup']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class InstructorGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getInstructorGroupHandler()->post($request->request->all());
+            $new  =  $this->getInstructorGroupHandler()->post($this->getPostData($request));
             $answer['instructorGroup'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class InstructorGroupController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($instructorGroup = $this->getInstructorGroupHandler()->findInstructorGroupBy(['instructorGroupId'=> $id])) {
-                $answer['instructorGroup']= $this->getInstructorGroupHandler()->put($instructorGroup, $request->request->all());
+            $instructorGroup = $this->getInstructorGroupHandler()
+                ->findInstructorGroupBy(['id'=> $id]);
+            if ($instructorGroup) {
+                $answer['instructorGroup'] =
+                    $this->getInstructorGroupHandler()->put(
+                        $instructorGroup,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['instructorGroup'] = $this->getInstructorGroupHandler()->post($request->request->all());
+                $answer['instructorGroup'] =
+                    $this->getInstructorGroupHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class InstructorGroupController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\InstructorGroupType",
      *   output="Ilios\CoreBundle\Entity\InstructorGroup",
      *   requirements={
-     *     {"name"="instructorGroupId", "dataType"="integer", "requirement"="", "description"="InstructorGroup identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="InstructorGroup identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated InstructorGroup.",
@@ -227,7 +249,11 @@ class InstructorGroupController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['instructorGroup'] = $this->getInstructorGroupHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['instructorGroup'] =
+            $this->getInstructorGroupHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class InstructorGroupController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "instructorGroupId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "InstructorGroup identifier"
@@ -265,7 +291,8 @@ class InstructorGroupController extends FOSRestController
     {
         $instructorGroup = $this->getOr404($id);
         try {
-            $this->getInstructorGroupHandler()->deleteInstructorGroup($instructorGroup);
+            $this->getInstructorGroupHandler()
+                ->deleteInstructorGroup($instructorGroup);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class InstructorGroupController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getInstructorGroupHandler()->findInstructorGroupBy(['instructorGroupId' => $id]))) {
+        $entity = $this->getInstructorGroupHandler()
+            ->findInstructorGroupBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('instructorGroup', array());
+    }
     /**
      * @return InstructorGroupHandler
      */
-    public function getInstructorGroupHandler()
+    protected function getInstructorGroupHandler()
     {
         return $this->container->get('ilioscore.instructorgroup.handler');
     }

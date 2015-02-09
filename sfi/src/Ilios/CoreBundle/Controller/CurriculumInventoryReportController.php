@@ -35,7 +35,12 @@ class CurriculumInventoryReportController extends FOSRestController
      *   description = "Get a CurriculumInventoryReport.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="CurriculumInventoryReport identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="CurriculumInventoryReport identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
      *   statusCodes={
@@ -57,7 +62,6 @@ class CurriculumInventoryReportController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all CurriculumInventoryReport.
      *
@@ -109,19 +113,25 @@ class CurriculumInventoryReportController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['curriculumInventoryReport'] =
-            $this->getCurriculumInventoryReportHandler()->findCurriculumInventoryReportsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCurriculumInventoryReportHandler()
+            ->findCurriculumInventoryReportsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['curriculumInventoryReports'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['curriculumInventoryReport']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class CurriculumInventoryReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryReportHandler()->post($request->request->all());
+            $new  =  $this->getCurriculumInventoryReportHandler()->post($this->getPostData($request));
             $answer['curriculumInventoryReport'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class CurriculumInventoryReportController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($curriculumInventoryReport = $this->getCurriculumInventoryReportHandler()->findCurriculumInventoryReportBy(['id'=> $id])) {
-                $answer['curriculumInventoryReport']= $this->getCurriculumInventoryReportHandler()->put($curriculumInventoryReport, $request->request->all());
+            $curriculumInventoryReport = $this->getCurriculumInventoryReportHandler()
+                ->findCurriculumInventoryReportBy(['id'=> $id]);
+            if ($curriculumInventoryReport) {
+                $answer['curriculumInventoryReport'] =
+                    $this->getCurriculumInventoryReportHandler()->put(
+                        $curriculumInventoryReport,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventoryReport'] = $this->getCurriculumInventoryReportHandler()->post($request->request->all());
+                $answer['curriculumInventoryReport'] =
+                    $this->getCurriculumInventoryReportHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class CurriculumInventoryReportController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\CurriculumInventoryReportType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryReport",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="CurriculumInventoryReport identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="CurriculumInventoryReport identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated CurriculumInventoryReport.",
@@ -227,7 +249,11 @@ class CurriculumInventoryReportController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['curriculumInventoryReport'] = $this->getCurriculumInventoryReportHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['curriculumInventoryReport'] =
+            $this->getCurriculumInventoryReportHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class CurriculumInventoryReportController extends FOSRestController
     {
         $curriculumInventoryReport = $this->getOr404($id);
         try {
-            $this->getCurriculumInventoryReportHandler()->deleteCurriculumInventoryReport($curriculumInventoryReport);
+            $this->getCurriculumInventoryReportHandler()
+                ->deleteCurriculumInventoryReport($curriculumInventoryReport);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class CurriculumInventoryReportController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCurriculumInventoryReportHandler()->findCurriculumInventoryReportBy(['id' => $id]))) {
+        $entity = $this->getCurriculumInventoryReportHandler()
+            ->findCurriculumInventoryReportBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('curriculumInventoryReport', array());
+    }
     /**
      * @return CurriculumInventoryReportHandler
      */
-    public function getCurriculumInventoryReportHandler()
+    protected function getCurriculumInventoryReportHandler()
     {
         return $this->container->get('ilioscore.curriculuminventoryreport.handler');
     }

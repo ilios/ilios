@@ -35,7 +35,12 @@ class DisciplineController extends FOSRestController
      *   description = "Get a Discipline.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Discipline identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Discipline identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Discipline",
      *   statusCodes={
@@ -57,7 +62,6 @@ class DisciplineController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Discipline.
      *
@@ -109,19 +113,25 @@ class DisciplineController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['discipline'] =
-            $this->getDisciplineHandler()->findDisciplinesBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getDisciplineHandler()
+            ->findDisciplinesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['disciplines'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['discipline']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class DisciplineController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getDisciplineHandler()->post($request->request->all());
+            $new  =  $this->getDisciplineHandler()->post($this->getPostData($request));
             $answer['discipline'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class DisciplineController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($discipline = $this->getDisciplineHandler()->findDisciplineBy(['id'=> $id])) {
-                $answer['discipline']= $this->getDisciplineHandler()->put($discipline, $request->request->all());
+            $discipline = $this->getDisciplineHandler()
+                ->findDisciplineBy(['id'=> $id]);
+            if ($discipline) {
+                $answer['discipline'] =
+                    $this->getDisciplineHandler()->put(
+                        $discipline,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['discipline'] = $this->getDisciplineHandler()->post($request->request->all());
+                $answer['discipline'] =
+                    $this->getDisciplineHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class DisciplineController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\DisciplineType",
      *   output="Ilios\CoreBundle\Entity\Discipline",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Discipline identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Discipline identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Discipline.",
@@ -227,7 +249,11 @@ class DisciplineController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['discipline'] = $this->getDisciplineHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['discipline'] =
+            $this->getDisciplineHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class DisciplineController extends FOSRestController
     {
         $discipline = $this->getOr404($id);
         try {
-            $this->getDisciplineHandler()->deleteDiscipline($discipline);
+            $this->getDisciplineHandler()
+                ->deleteDiscipline($discipline);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class DisciplineController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getDisciplineHandler()->findDisciplineBy(['id' => $id]))) {
+        $entity = $this->getDisciplineHandler()
+            ->findDisciplineBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('discipline', array());
+    }
     /**
      * @return DisciplineHandler
      */
-    public function getDisciplineHandler()
+    protected function getDisciplineHandler()
     {
         return $this->container->get('ilioscore.discipline.handler');
     }

@@ -35,7 +35,12 @@ class PublishEventController extends FOSRestController
      *   description = "Get a PublishEvent.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="PublishEvent identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="PublishEvent identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\PublishEvent",
      *   statusCodes={
@@ -57,7 +62,6 @@ class PublishEventController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all PublishEvent.
      *
@@ -109,19 +113,25 @@ class PublishEventController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['publishEvent'] =
-            $this->getPublishEventHandler()->findPublishEventsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getPublishEventHandler()
+            ->findPublishEventsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['publishEvents'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['publishEvent']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class PublishEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getPublishEventHandler()->post($request->request->all());
+            $new  =  $this->getPublishEventHandler()->post($this->getPostData($request));
             $answer['publishEvent'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class PublishEventController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($publishEvent = $this->getPublishEventHandler()->findPublishEventBy(['id'=> $id])) {
-                $answer['publishEvent']= $this->getPublishEventHandler()->put($publishEvent, $request->request->all());
+            $publishEvent = $this->getPublishEventHandler()
+                ->findPublishEventBy(['id'=> $id]);
+            if ($publishEvent) {
+                $answer['publishEvent'] =
+                    $this->getPublishEventHandler()->put(
+                        $publishEvent,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['publishEvent'] = $this->getPublishEventHandler()->post($request->request->all());
+                $answer['publishEvent'] =
+                    $this->getPublishEventHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class PublishEventController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\PublishEventType",
      *   output="Ilios\CoreBundle\Entity\PublishEvent",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="PublishEvent identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="PublishEvent identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated PublishEvent.",
@@ -227,7 +249,11 @@ class PublishEventController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['publishEvent'] = $this->getPublishEventHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['publishEvent'] =
+            $this->getPublishEventHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class PublishEventController extends FOSRestController
     {
         $publishEvent = $this->getOr404($id);
         try {
-            $this->getPublishEventHandler()->deletePublishEvent($publishEvent);
+            $this->getPublishEventHandler()
+                ->deletePublishEvent($publishEvent);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class PublishEventController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getPublishEventHandler()->findPublishEventBy(['id' => $id]))) {
+        $entity = $this->getPublishEventHandler()
+            ->findPublishEventBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('publishEvent', array());
+    }
     /**
      * @return PublishEventHandler
      */
-    public function getPublishEventHandler()
+    protected function getPublishEventHandler()
     {
         return $this->container->get('ilioscore.publishevent.handler');
     }

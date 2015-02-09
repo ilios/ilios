@@ -35,7 +35,12 @@ class SessionDescriptionController extends FOSRestController
      *   description = "Get a SessionDescription.",
      *   resource = true,
      *   requirements={
-     *     {"name"="session", "dataType"="", "requirement"="", "description"="SessionDescription identifier."}
+     *     {
+     *        "name"="session",
+     *        "dataType"="",
+     *        "requirement"="",
+     *        "description"="SessionDescription identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\SessionDescription",
      *   statusCodes={
@@ -57,7 +62,6 @@ class SessionDescriptionController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all SessionDescription.
      *
@@ -109,19 +113,25 @@ class SessionDescriptionController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['sessionDescription'] =
-            $this->getSessionDescriptionHandler()->findSessionDescriptionsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getSessionDescriptionHandler()
+            ->findSessionDescriptionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['sessionDescriptions'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['sessionDescription']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class SessionDescriptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionDescriptionHandler()->post($request->request->all());
+            $new  =  $this->getSessionDescriptionHandler()->post($this->getPostData($request));
             $answer['sessionDescription'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class SessionDescriptionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($sessionDescription = $this->getSessionDescriptionHandler()->findSessionDescriptionBy(['session'=> $id])) {
-                $answer['sessionDescription']= $this->getSessionDescriptionHandler()->put($sessionDescription, $request->request->all());
+            $sessionDescription = $this->getSessionDescriptionHandler()
+                ->findSessionDescriptionBy(['session'=> $id]);
+            if ($sessionDescription) {
+                $answer['sessionDescription'] =
+                    $this->getSessionDescriptionHandler()->put(
+                        $sessionDescription,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['sessionDescription'] = $this->getSessionDescriptionHandler()->post($request->request->all());
+                $answer['sessionDescription'] =
+                    $this->getSessionDescriptionHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class SessionDescriptionController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\SessionDescriptionType",
      *   output="Ilios\CoreBundle\Entity\SessionDescription",
      *   requirements={
-     *     {"name"="session", "dataType"="", "requirement"="", "description"="SessionDescription identifier."}
+     *     {
+     *         "name"="session",
+     *         "dataType"="",
+     *         "requirement"="",
+     *         "description"="SessionDescription identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated SessionDescription.",
@@ -227,7 +249,11 @@ class SessionDescriptionController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['sessionDescription'] = $this->getSessionDescriptionHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['sessionDescription'] =
+            $this->getSessionDescriptionHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class SessionDescriptionController extends FOSRestController
     {
         $sessionDescription = $this->getOr404($id);
         try {
-            $this->getSessionDescriptionHandler()->deleteSessionDescription($sessionDescription);
+            $this->getSessionDescriptionHandler()
+                ->deleteSessionDescription($sessionDescription);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class SessionDescriptionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getSessionDescriptionHandler()->findSessionDescriptionBy(['session' => $id]))) {
+        $entity = $this->getSessionDescriptionHandler()
+            ->findSessionDescriptionBy(['session' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('sessionDescription', array());
+    }
     /**
      * @return SessionDescriptionHandler
      */
-    public function getSessionDescriptionHandler()
+    protected function getSessionDescriptionHandler()
     {
         return $this->container->get('ilioscore.sessiondescription.handler');
     }

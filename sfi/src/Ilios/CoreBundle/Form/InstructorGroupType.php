@@ -17,7 +17,7 @@ class InstructorGroupType extends AbstractType
         $builder
             ->add('title')
             ->add('school', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\School"])
-            ->add('groups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Group"])
+            ->add('groups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"])
             ->add('ilmSessionFacets', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"])
             ->add('users', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
             ->add('offerings', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Offering"])

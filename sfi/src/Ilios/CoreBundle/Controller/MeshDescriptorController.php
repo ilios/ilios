@@ -35,7 +35,12 @@ class MeshDescriptorController extends FOSRestController
      *   description = "Get a MeshDescriptor.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="string", "requirement"="\w+", "description"="MeshDescriptor identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="string",
+     *        "requirement"="\w+",
+     *        "description"="MeshDescriptor identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
      *   statusCodes={
@@ -57,7 +62,6 @@ class MeshDescriptorController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all MeshDescriptor.
      *
@@ -109,19 +113,25 @@ class MeshDescriptorController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['meshDescriptor'] =
-            $this->getMeshDescriptorHandler()->findMeshDescriptorsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getMeshDescriptorHandler()
+            ->findMeshDescriptorsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['meshDescriptors'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['meshDescriptor']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class MeshDescriptorController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshDescriptorHandler()->post($request->request->all());
+            $new  =  $this->getMeshDescriptorHandler()->post($this->getPostData($request));
             $answer['meshDescriptor'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class MeshDescriptorController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($meshDescriptor = $this->getMeshDescriptorHandler()->findMeshDescriptorBy(['id'=> $id])) {
-                $answer['meshDescriptor']= $this->getMeshDescriptorHandler()->put($meshDescriptor, $request->request->all());
+            $meshDescriptor = $this->getMeshDescriptorHandler()
+                ->findMeshDescriptorBy(['id'=> $id]);
+            if ($meshDescriptor) {
+                $answer['meshDescriptor'] =
+                    $this->getMeshDescriptorHandler()->put(
+                        $meshDescriptor,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshDescriptor'] = $this->getMeshDescriptorHandler()->post($request->request->all());
+                $answer['meshDescriptor'] =
+                    $this->getMeshDescriptorHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class MeshDescriptorController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\MeshDescriptorType",
      *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
      *   requirements={
-     *     {"name"="id", "dataType"="string", "requirement"="\w+", "description"="MeshDescriptor identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="string",
+     *         "requirement"="\w+",
+     *         "description"="MeshDescriptor identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated MeshDescriptor.",
@@ -227,7 +249,11 @@ class MeshDescriptorController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['meshDescriptor'] = $this->getMeshDescriptorHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['meshDescriptor'] =
+            $this->getMeshDescriptorHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class MeshDescriptorController extends FOSRestController
     {
         $meshDescriptor = $this->getOr404($id);
         try {
-            $this->getMeshDescriptorHandler()->deleteMeshDescriptor($meshDescriptor);
+            $this->getMeshDescriptorHandler()
+                ->deleteMeshDescriptor($meshDescriptor);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class MeshDescriptorController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getMeshDescriptorHandler()->findMeshDescriptorBy(['id' => $id]))) {
+        $entity = $this->getMeshDescriptorHandler()
+            ->findMeshDescriptorBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('meshDescriptor', array());
+    }
     /**
      * @return MeshDescriptorHandler
      */
-    public function getMeshDescriptorHandler()
+    protected function getMeshDescriptorHandler()
     {
         return $this->container->get('ilioscore.meshdescriptor.handler');
     }

@@ -35,7 +35,12 @@ class OfferingController extends FOSRestController
      *   description = "Get a Offering.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Offering identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Offering identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Offering",
      *   statusCodes={
@@ -57,7 +62,6 @@ class OfferingController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Offering.
      *
@@ -109,19 +113,25 @@ class OfferingController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['offering'] =
-            $this->getOfferingHandler()->findOfferingsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getOfferingHandler()
+            ->findOfferingsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['offerings'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['offering']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class OfferingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getOfferingHandler()->post($request->request->all());
+            $new  =  $this->getOfferingHandler()->post($this->getPostData($request));
             $answer['offering'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class OfferingController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($offering = $this->getOfferingHandler()->findOfferingBy(['id'=> $id])) {
-                $answer['offering']= $this->getOfferingHandler()->put($offering, $request->request->all());
+            $offering = $this->getOfferingHandler()
+                ->findOfferingBy(['id'=> $id]);
+            if ($offering) {
+                $answer['offering'] =
+                    $this->getOfferingHandler()->put(
+                        $offering,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['offering'] = $this->getOfferingHandler()->post($request->request->all());
+                $answer['offering'] =
+                    $this->getOfferingHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class OfferingController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\OfferingType",
      *   output="Ilios\CoreBundle\Entity\Offering",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Offering identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Offering identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Offering.",
@@ -227,7 +249,11 @@ class OfferingController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['offering'] = $this->getOfferingHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['offering'] =
+            $this->getOfferingHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class OfferingController extends FOSRestController
     {
         $offering = $this->getOr404($id);
         try {
-            $this->getOfferingHandler()->deleteOffering($offering);
+            $this->getOfferingHandler()
+                ->deleteOffering($offering);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class OfferingController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getOfferingHandler()->findOfferingBy(['id' => $id]))) {
+        $entity = $this->getOfferingHandler()
+            ->findOfferingBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('offering', array());
+    }
     /**
      * @return OfferingHandler
      */
-    public function getOfferingHandler()
+    protected function getOfferingHandler()
     {
         return $this->container->get('ilioscore.offering.handler');
     }

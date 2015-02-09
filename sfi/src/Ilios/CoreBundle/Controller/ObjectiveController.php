@@ -35,7 +35,12 @@ class ObjectiveController extends FOSRestController
      *   description = "Get a Objective.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Objective identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Objective identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Objective",
      *   statusCodes={
@@ -57,7 +62,6 @@ class ObjectiveController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Objective.
      *
@@ -109,19 +113,25 @@ class ObjectiveController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['objective'] =
-            $this->getObjectiveHandler()->findObjectivesBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getObjectiveHandler()
+            ->findObjectivesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['objectives'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['objective']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class ObjectiveController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getObjectiveHandler()->post($request->request->all());
+            $new  =  $this->getObjectiveHandler()->post($this->getPostData($request));
             $answer['objective'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class ObjectiveController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($objective = $this->getObjectiveHandler()->findObjectiveBy(['id'=> $id])) {
-                $answer['objective']= $this->getObjectiveHandler()->put($objective, $request->request->all());
+            $objective = $this->getObjectiveHandler()
+                ->findObjectiveBy(['id'=> $id]);
+            if ($objective) {
+                $answer['objective'] =
+                    $this->getObjectiveHandler()->put(
+                        $objective,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['objective'] = $this->getObjectiveHandler()->post($request->request->all());
+                $answer['objective'] =
+                    $this->getObjectiveHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class ObjectiveController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\ObjectiveType",
      *   output="Ilios\CoreBundle\Entity\Objective",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Objective identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Objective identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Objective.",
@@ -227,7 +249,11 @@ class ObjectiveController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['objective'] = $this->getObjectiveHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['objective'] =
+            $this->getObjectiveHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class ObjectiveController extends FOSRestController
     {
         $objective = $this->getOr404($id);
         try {
-            $this->getObjectiveHandler()->deleteObjective($objective);
+            $this->getObjectiveHandler()
+                ->deleteObjective($objective);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class ObjectiveController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getObjectiveHandler()->findObjectiveBy(['id' => $id]))) {
+        $entity = $this->getObjectiveHandler()
+            ->findObjectiveBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('objective', array());
+    }
     /**
      * @return ObjectiveHandler
      */
-    public function getObjectiveHandler()
+    protected function getObjectiveHandler()
     {
         return $this->container->get('ilioscore.objective.handler');
     }

@@ -35,7 +35,12 @@ class UserRoleController extends FOSRestController
      *   description = "Get a UserRole.",
      *   resource = true,
      *   requirements={
-     *     {"name"="userRoleId", "dataType"="integer", "requirement"="", "description"="UserRole identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="UserRole identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\UserRole",
      *   statusCodes={
@@ -57,7 +62,6 @@ class UserRoleController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all UserRole.
      *
@@ -109,19 +113,25 @@ class UserRoleController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['userRole'] =
-            $this->getUserRoleHandler()->findUserRolesBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getUserRoleHandler()
+            ->findUserRolesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['userRoles'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['userRole']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class UserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserRoleHandler()->post($request->request->all());
+            $new  =  $this->getUserRoleHandler()->post($this->getPostData($request));
             $answer['userRole'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class UserRoleController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($userRole = $this->getUserRoleHandler()->findUserRoleBy(['userRoleId'=> $id])) {
-                $answer['userRole']= $this->getUserRoleHandler()->put($userRole, $request->request->all());
+            $userRole = $this->getUserRoleHandler()
+                ->findUserRoleBy(['id'=> $id]);
+            if ($userRole) {
+                $answer['userRole'] =
+                    $this->getUserRoleHandler()->put(
+                        $userRole,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['userRole'] = $this->getUserRoleHandler()->post($request->request->all());
+                $answer['userRole'] =
+                    $this->getUserRoleHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class UserRoleController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\UserRoleType",
      *   output="Ilios\CoreBundle\Entity\UserRole",
      *   requirements={
-     *     {"name"="userRoleId", "dataType"="integer", "requirement"="", "description"="UserRole identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="UserRole identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated UserRole.",
@@ -227,7 +249,11 @@ class UserRoleController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['userRole'] = $this->getUserRoleHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['userRole'] =
+            $this->getUserRoleHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class UserRoleController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "userRoleId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "UserRole identifier"
@@ -265,7 +291,8 @@ class UserRoleController extends FOSRestController
     {
         $userRole = $this->getOr404($id);
         try {
-            $this->getUserRoleHandler()->deleteUserRole($userRole);
+            $this->getUserRoleHandler()
+                ->deleteUserRole($userRole);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class UserRoleController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getUserRoleHandler()->findUserRoleBy(['userRoleId' => $id]))) {
+        $entity = $this->getUserRoleHandler()
+            ->findUserRoleBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('userRole', array());
+    }
     /**
      * @return UserRoleHandler
      */
-    public function getUserRoleHandler()
+    protected function getUserRoleHandler()
     {
         return $this->container->get('ilioscore.userrole.handler');
     }

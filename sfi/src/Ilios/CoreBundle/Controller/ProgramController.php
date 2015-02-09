@@ -35,7 +35,12 @@ class ProgramController extends FOSRestController
      *   description = "Get a Program.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Program identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Program identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Program",
      *   statusCodes={
@@ -57,7 +62,6 @@ class ProgramController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Program.
      *
@@ -109,19 +113,25 @@ class ProgramController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['program'] =
-            $this->getProgramHandler()->findProgramsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getProgramHandler()
+            ->findProgramsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['programs'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['program']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class ProgramController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramHandler()->post($request->request->all());
+            $new  =  $this->getProgramHandler()->post($this->getPostData($request));
             $answer['program'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class ProgramController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($program = $this->getProgramHandler()->findProgramBy(['id'=> $id])) {
-                $answer['program']= $this->getProgramHandler()->put($program, $request->request->all());
+            $program = $this->getProgramHandler()
+                ->findProgramBy(['id'=> $id]);
+            if ($program) {
+                $answer['program'] =
+                    $this->getProgramHandler()->put(
+                        $program,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['program'] = $this->getProgramHandler()->post($request->request->all());
+                $answer['program'] =
+                    $this->getProgramHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class ProgramController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\ProgramType",
      *   output="Ilios\CoreBundle\Entity\Program",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Program identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Program identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Program.",
@@ -227,7 +249,11 @@ class ProgramController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['program'] = $this->getProgramHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['program'] =
+            $this->getProgramHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class ProgramController extends FOSRestController
     {
         $program = $this->getOr404($id);
         try {
-            $this->getProgramHandler()->deleteProgram($program);
+            $this->getProgramHandler()
+                ->deleteProgram($program);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class ProgramController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getProgramHandler()->findProgramBy(['id' => $id]))) {
+        $entity = $this->getProgramHandler()
+            ->findProgramBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('program', array());
+    }
     /**
      * @return ProgramHandler
      */
-    public function getProgramHandler()
+    protected function getProgramHandler()
     {
         return $this->container->get('ilioscore.program.handler');
     }

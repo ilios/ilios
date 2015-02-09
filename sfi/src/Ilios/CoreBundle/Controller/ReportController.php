@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\ReportInterface;
  */
 class ReportController extends FOSRestController
 {
-
+    
     /**
      * Get a Report
      *
@@ -35,7 +35,12 @@ class ReportController extends FOSRestController
      *   description = "Get a Report.",
      *   resource = true,
      *   requirements={
-     *     {"name"="reportId", "dataType"="integer", "requirement"="", "description"="Report identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Report identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Report",
      *   statusCodes={
@@ -57,7 +62,6 @@ class ReportController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Report.
      *
@@ -109,19 +113,25 @@ class ReportController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['reports'] =
-            $this->getReportHandler()->findReportsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getReportHandler()
+            ->findReportsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['reports'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['reports']) {
-            return $answer;
-        }
-
-        return new ArrayCollection(['reports' => []]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class ReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getReportHandler()->post($request->request->all());
+            $new  =  $this->getReportHandler()->post($this->getPostData($request));
             $answer['report'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class ReportController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($report = $this->getReportHandler()->findReportBy(['reportId'=> $id])) {
-                $answer['report']= $this->getReportHandler()->put($report, $request->request->all());
+            $report = $this->getReportHandler()
+                ->findReportBy(['id'=> $id]);
+            if ($report) {
+                $answer['report'] =
+                    $this->getReportHandler()->put(
+                        $report,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['report'] = $this->getReportHandler()->post($request->request->all());
+                $answer['report'] =
+                    $this->getReportHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class ReportController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\ReportType",
      *   output="Ilios\CoreBundle\Entity\Report",
      *   requirements={
-     *     {"name"="reportId", "dataType"="integer", "requirement"="", "description"="Report identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Report identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Report.",
@@ -227,7 +249,11 @@ class ReportController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['report'] = $this->getReportHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['report'] =
+            $this->getReportHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class ReportController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "reportId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "Report identifier"
@@ -265,7 +291,8 @@ class ReportController extends FOSRestController
     {
         $report = $this->getOr404($id);
         try {
-            $this->getReportHandler()->deleteReport($report);
+            $this->getReportHandler()
+                ->deleteReport($report);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class ReportController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getReportHandler()->findReportBy(['reportId' => $id]))) {
+        $entity = $this->getReportHandler()
+            ->findReportBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('report', array());
+    }
     /**
      * @return ReportHandler
      */
-    public function getReportHandler()
+    protected function getReportHandler()
     {
         return $this->container->get('ilioscore.report.handler');
     }

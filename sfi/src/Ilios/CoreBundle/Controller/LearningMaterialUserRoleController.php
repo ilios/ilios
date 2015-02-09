@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
@@ -30,6 +31,24 @@ class LearningMaterialUserRoleController extends FOSRestController
     /**
      * Get a LearningMaterialUserRole
      *
+     * @ApiDoc(
+     *   description = "Get a LearningMaterialUserRole.",
+     *   resource = true,
+     *   requirements={
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="LearningMaterialUserRole identifier."
+     *     }
+     *   },
+     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   statusCodes={
+     *     200 = "LearningMaterialUserRole.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
@@ -43,9 +62,18 @@ class LearningMaterialUserRoleController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all LearningMaterialUserRole.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Get all LearningMaterialUserRole.",
+     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   statusCodes = {
+     *     200 = "List of all LearningMaterialUserRole",
+     *     204 = "No content. Nothing to list."
+     *   }
+     * )
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -85,23 +113,41 @@ class LearningMaterialUserRoleController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['learningMaterialUserRole'] =
-            $this->getLearningMaterialUserRoleHandler()->findLearningMaterialUserRolesBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getLearningMaterialUserRoleHandler()
+            ->findLearningMaterialUserRolesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['learningMaterialUserRoles'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['learningMaterialUserRole']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
      * Create a LearningMaterialUserRole.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Create a LearningMaterialUserRole.",
+     *   input="Ilios\CoreBundle\Form\LearningMaterialUserRoleType",
+     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   statusCodes={
+     *     201 = "Created LearningMaterialUserRole.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
@@ -112,7 +158,7 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearningMaterialUserRoleHandler()->post($request->request->all());
+            $new  =  $this->getLearningMaterialUserRoleHandler()->post($this->getPostData($request));
             $answer['learningMaterialUserRole'] = $new;
 
             return $answer;
@@ -124,6 +170,19 @@ class LearningMaterialUserRoleController extends FOSRestController
     /**
      * Update a LearningMaterialUserRole.
      *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Update a LearningMaterialUserRole entity.",
+     *   input="Ilios\CoreBundle\Form\LearningMaterialUserRoleType",
+     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   statusCodes={
+     *     200 = "Updated LearningMaterialUserRole.",
+     *     201 = "Created LearningMaterialUserRole.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
@@ -134,11 +193,18 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()->findLearningMaterialUserRoleBy(['id'=> $id])) {
-                $answer['learningMaterialUserRole']= $this->getLearningMaterialUserRoleHandler()->put($learningMaterialUserRole, $request->request->all());
+            $learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()
+                ->findLearningMaterialUserRoleBy(['id'=> $id]);
+            if ($learningMaterialUserRole) {
+                $answer['learningMaterialUserRole'] =
+                    $this->getLearningMaterialUserRoleHandler()->put(
+                        $learningMaterialUserRole,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['learningMaterialUserRole'] = $this->getLearningMaterialUserRoleHandler()->post($request->request->all());
+                $answer['learningMaterialUserRole'] =
+                    $this->getLearningMaterialUserRoleHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -153,6 +219,26 @@ class LearningMaterialUserRoleController extends FOSRestController
     /**
      * Partial Update to a LearningMaterialUserRole.
      *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Partial Update to a LearningMaterialUserRole.",
+     *   input="Ilios\CoreBundle\Form\LearningMaterialUserRoleType",
+     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   requirements={
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="LearningMaterialUserRole identifier."
+     *     }
+     *   },
+     *   statusCodes={
+     *     200 = "Updated LearningMaterialUserRole.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -163,13 +249,35 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['learningMaterialUserRole'] = $this->getLearningMaterialUserRoleHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['learningMaterialUserRole'] =
+            $this->getLearningMaterialUserRoleHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
 
     /**
      * Delete a LearningMaterialUserRole.
+     *
+     * @ApiDoc(
+     *   description = "Delete a LearningMaterialUserRole entity.",
+     *   resource = true,
+     *   requirements={
+     *     {
+     *         "name" = "id",
+     *         "dataType" = "integer",
+     *         "requirement" = "",
+     *         "description" = "LearningMaterialUserRole identifier"
+     *     }
+     *   },
+     *   statusCodes={
+     *     204 = "No content. Successfully deleted LearningMaterialUserRole.",
+     *     400 = "Bad Request.",
+     *     404 = "Not found."
+     *   }
+     * )
      *
      * @View(statusCode=204)
      *
@@ -183,7 +291,8 @@ class LearningMaterialUserRoleController extends FOSRestController
     {
         $learningMaterialUserRole = $this->getOr404($id);
         try {
-            $this->getLearningMaterialUserRoleHandler()->deleteLearningMaterialUserRole($learningMaterialUserRole);
+            $this->getLearningMaterialUserRoleHandler()
+                ->deleteLearningMaterialUserRole($learningMaterialUserRole);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -199,13 +308,24 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getLearningMaterialUserRoleHandler()->findLearningMaterialUserRoleBy(['id' => $id]))) {
+        $entity = $this->getLearningMaterialUserRoleHandler()
+            ->findLearningMaterialUserRoleBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('learningMaterialUserRole', array());
+    }
     /**
      * @return LearningMaterialUserRoleHandler
      */

@@ -35,7 +35,12 @@ class SessionController extends FOSRestController
      *   description = "Get a Session.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Session identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Session identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Session",
      *   statusCodes={
@@ -57,7 +62,6 @@ class SessionController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Session.
      *
@@ -109,19 +113,25 @@ class SessionController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['session'] =
-            $this->getSessionHandler()->findSessionsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getSessionHandler()
+            ->findSessionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['sessions'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['session']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class SessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionHandler()->post($request->request->all());
+            $new  =  $this->getSessionHandler()->post($this->getPostData($request));
             $answer['session'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class SessionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($session = $this->getSessionHandler()->findSessionBy(['id'=> $id])) {
-                $answer['session']= $this->getSessionHandler()->put($session, $request->request->all());
+            $session = $this->getSessionHandler()
+                ->findSessionBy(['id'=> $id]);
+            if ($session) {
+                $answer['session'] =
+                    $this->getSessionHandler()->put(
+                        $session,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['session'] = $this->getSessionHandler()->post($request->request->all());
+                $answer['session'] =
+                    $this->getSessionHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class SessionController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\SessionType",
      *   output="Ilios\CoreBundle\Entity\Session",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Session identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Session identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Session.",
@@ -227,7 +249,11 @@ class SessionController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['session'] = $this->getSessionHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['session'] =
+            $this->getSessionHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class SessionController extends FOSRestController
     {
         $session = $this->getOr404($id);
         try {
-            $this->getSessionHandler()->deleteSession($session);
+            $this->getSessionHandler()
+                ->deleteSession($session);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class SessionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getSessionHandler()->findSessionBy(['id' => $id]))) {
+        $entity = $this->getSessionHandler()
+            ->findSessionBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('session', array());
+    }
     /**
      * @return SessionHandler
      */
-    public function getSessionHandler()
+    protected function getSessionHandler()
     {
         return $this->container->get('ilioscore.session.handler');
     }

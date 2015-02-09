@@ -35,7 +35,12 @@ class ProgramYearStewardController extends FOSRestController
      *   description = "Get a ProgramYearSteward.",
      *   resource = true,
      *   requirements={
-     *     {"name"="programYearStewardId", "dataType"="integer", "requirement"="", "description"="ProgramYearSteward identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="ProgramYearSteward identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\ProgramYearSteward",
      *   statusCodes={
@@ -57,7 +62,6 @@ class ProgramYearStewardController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all ProgramYearSteward.
      *
@@ -109,19 +113,25 @@ class ProgramYearStewardController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['programYearSteward'] =
-            $this->getProgramYearStewardHandler()->findProgramYearStewardsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getProgramYearStewardHandler()
+            ->findProgramYearStewardsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['programYearStewards'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['programYearSteward']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class ProgramYearStewardController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramYearStewardHandler()->post($request->request->all());
+            $new  =  $this->getProgramYearStewardHandler()->post($this->getPostData($request));
             $answer['programYearSteward'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class ProgramYearStewardController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($programYearSteward = $this->getProgramYearStewardHandler()->findProgramYearStewardBy(['programYearStewardId'=> $id])) {
-                $answer['programYearSteward']= $this->getProgramYearStewardHandler()->put($programYearSteward, $request->request->all());
+            $programYearSteward = $this->getProgramYearStewardHandler()
+                ->findProgramYearStewardBy(['id'=> $id]);
+            if ($programYearSteward) {
+                $answer['programYearSteward'] =
+                    $this->getProgramYearStewardHandler()->put(
+                        $programYearSteward,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['programYearSteward'] = $this->getProgramYearStewardHandler()->post($request->request->all());
+                $answer['programYearSteward'] =
+                    $this->getProgramYearStewardHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class ProgramYearStewardController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\ProgramYearStewardType",
      *   output="Ilios\CoreBundle\Entity\ProgramYearSteward",
      *   requirements={
-     *     {"name"="programYearStewardId", "dataType"="integer", "requirement"="", "description"="ProgramYearSteward identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="ProgramYearSteward identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated ProgramYearSteward.",
@@ -227,7 +249,11 @@ class ProgramYearStewardController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['programYearSteward'] = $this->getProgramYearStewardHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['programYearSteward'] =
+            $this->getProgramYearStewardHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class ProgramYearStewardController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "programYearStewardId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "ProgramYearSteward identifier"
@@ -265,7 +291,8 @@ class ProgramYearStewardController extends FOSRestController
     {
         $programYearSteward = $this->getOr404($id);
         try {
-            $this->getProgramYearStewardHandler()->deleteProgramYearSteward($programYearSteward);
+            $this->getProgramYearStewardHandler()
+                ->deleteProgramYearSteward($programYearSteward);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class ProgramYearStewardController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getProgramYearStewardHandler()->findProgramYearStewardBy(['programYearStewardId' => $id]))) {
+        $entity = $this->getProgramYearStewardHandler()
+            ->findProgramYearStewardBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('programYearSteward', array());
+    }
     /**
      * @return ProgramYearStewardHandler
      */
-    public function getProgramYearStewardHandler()
+    protected function getProgramYearStewardHandler()
     {
         return $this->container->get('ilioscore.programyearsteward.handler');
     }

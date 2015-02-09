@@ -35,7 +35,12 @@ class CurriculumInventoryExportController extends FOSRestController
      *   description = "Get a CurriculumInventoryExport.",
      *   resource = true,
      *   requirements={
-     *     {"name"="report", "dataType"="", "requirement"="", "description"="CurriculumInventoryExport identifier."}
+     *     {
+     *        "name"="report",
+     *        "dataType"="",
+     *        "requirement"="",
+     *        "description"="CurriculumInventoryExport identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryExport",
      *   statusCodes={
@@ -57,7 +62,6 @@ class CurriculumInventoryExportController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all CurriculumInventoryExport.
      *
@@ -109,19 +113,25 @@ class CurriculumInventoryExportController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['curriculumInventoryExport'] =
-            $this->getCurriculumInventoryExportHandler()->findCurriculumInventoryExportsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCurriculumInventoryExportHandler()
+            ->findCurriculumInventoryExportsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['curriculumInventoryExports'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['curriculumInventoryExport']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class CurriculumInventoryExportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryExportHandler()->post($request->request->all());
+            $new  =  $this->getCurriculumInventoryExportHandler()->post($this->getPostData($request));
             $answer['curriculumInventoryExport'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class CurriculumInventoryExportController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($curriculumInventoryExport = $this->getCurriculumInventoryExportHandler()->findCurriculumInventoryExportBy(['report'=> $id])) {
-                $answer['curriculumInventoryExport']= $this->getCurriculumInventoryExportHandler()->put($curriculumInventoryExport, $request->request->all());
+            $curriculumInventoryExport = $this->getCurriculumInventoryExportHandler()
+                ->findCurriculumInventoryExportBy(['report'=> $id]);
+            if ($curriculumInventoryExport) {
+                $answer['curriculumInventoryExport'] =
+                    $this->getCurriculumInventoryExportHandler()->put(
+                        $curriculumInventoryExport,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventoryExport'] = $this->getCurriculumInventoryExportHandler()->post($request->request->all());
+                $answer['curriculumInventoryExport'] =
+                    $this->getCurriculumInventoryExportHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class CurriculumInventoryExportController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\CurriculumInventoryExportType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryExport",
      *   requirements={
-     *     {"name"="report", "dataType"="", "requirement"="", "description"="CurriculumInventoryExport identifier."}
+     *     {
+     *         "name"="report",
+     *         "dataType"="",
+     *         "requirement"="",
+     *         "description"="CurriculumInventoryExport identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated CurriculumInventoryExport.",
@@ -227,7 +249,11 @@ class CurriculumInventoryExportController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['curriculumInventoryExport'] = $this->getCurriculumInventoryExportHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['curriculumInventoryExport'] =
+            $this->getCurriculumInventoryExportHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class CurriculumInventoryExportController extends FOSRestController
     {
         $curriculumInventoryExport = $this->getOr404($id);
         try {
-            $this->getCurriculumInventoryExportHandler()->deleteCurriculumInventoryExport($curriculumInventoryExport);
+            $this->getCurriculumInventoryExportHandler()
+                ->deleteCurriculumInventoryExport($curriculumInventoryExport);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class CurriculumInventoryExportController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCurriculumInventoryExportHandler()->findCurriculumInventoryExportBy(['report' => $id]))) {
+        $entity = $this->getCurriculumInventoryExportHandler()
+            ->findCurriculumInventoryExportBy(['report' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('curriculumInventoryExport', array());
+    }
     /**
      * @return CurriculumInventoryExportHandler
      */
-    public function getCurriculumInventoryExportHandler()
+    protected function getCurriculumInventoryExportHandler()
     {
         return $this->container->get('ilioscore.curriculuminventoryexport.handler');
     }

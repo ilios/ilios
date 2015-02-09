@@ -35,7 +35,12 @@ class UserController extends FOSRestController
      *   description = "Get a User.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="User identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="User identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\User",
      *   statusCodes={
@@ -57,7 +62,6 @@ class UserController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all User.
      *
@@ -109,19 +113,25 @@ class UserController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['user'] =
-            $this->getUserHandler()->findUsersBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getUserHandler()
+            ->findUsersBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['users'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['user']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class UserController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserHandler()->post($request->request->all());
+            $new  =  $this->getUserHandler()->post($this->getPostData($request));
             $answer['user'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class UserController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($user = $this->getUserHandler()->findUserBy(['id'=> $id])) {
-                $answer['user']= $this->getUserHandler()->put($user, $request->request->all());
+            $user = $this->getUserHandler()
+                ->findUserBy(['id'=> $id]);
+            if ($user) {
+                $answer['user'] =
+                    $this->getUserHandler()->put(
+                        $user,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['user'] = $this->getUserHandler()->post($request->request->all());
+                $answer['user'] =
+                    $this->getUserHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class UserController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\UserType",
      *   output="Ilios\CoreBundle\Entity\User",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="User identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="User identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated User.",
@@ -227,7 +249,11 @@ class UserController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['user'] = $this->getUserHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['user'] =
+            $this->getUserHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class UserController extends FOSRestController
     {
         $user = $this->getOr404($id);
         try {
-            $this->getUserHandler()->deleteUser($user);
+            $this->getUserHandler()
+                ->deleteUser($user);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class UserController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getUserHandler()->findUserBy(['id' => $id]))) {
+        $entity = $this->getUserHandler()
+            ->findUserBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('user', array());
+    }
     /**
      * @return UserHandler
      */
-    public function getUserHandler()
+    protected function getUserHandler()
     {
         return $this->container->get('ilioscore.user.handler');
     }

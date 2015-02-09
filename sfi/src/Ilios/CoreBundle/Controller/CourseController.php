@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
  */
 class CourseController extends FOSRestController
 {
-
+    
     /**
      * Get a Course
      *
@@ -35,7 +35,12 @@ class CourseController extends FOSRestController
      *   description = "Get a Course.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Course identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Course identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Course",
      *   statusCodes={
@@ -57,7 +62,6 @@ class CourseController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Course.
      *
@@ -109,19 +113,25 @@ class CourseController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['courses'] =
-            $this->getCourseHandler()->findCoursesBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCourseHandler()
+            ->findCoursesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['courses'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['courses']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class CourseController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseHandler()->post($request->request->all());
+            $new  =  $this->getCourseHandler()->post($this->getPostData($request));
             $answer['course'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class CourseController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($course = $this->getCourseHandler()->findCourseBy(['id'=> $id])) {
-                $answer['course']= $this->getCourseHandler()->put($course, $request->request->all());
+            $course = $this->getCourseHandler()
+                ->findCourseBy(['id'=> $id]);
+            if ($course) {
+                $answer['course'] =
+                    $this->getCourseHandler()->put(
+                        $course,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['course'] = $this->getCourseHandler()->post($request->request->all());
+                $answer['course'] =
+                    $this->getCourseHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class CourseController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\CourseType",
      *   output="Ilios\CoreBundle\Entity\Course",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="Course identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Course identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Course.",
@@ -227,7 +249,11 @@ class CourseController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['course'] = $this->getCourseHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['course'] =
+            $this->getCourseHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class CourseController extends FOSRestController
     {
         $course = $this->getOr404($id);
         try {
-            $this->getCourseHandler()->deleteCourse($course);
+            $this->getCourseHandler()
+                ->deleteCourse($course);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class CourseController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCourseHandler()->findCourseBy(['id' => $id]))) {
+        $entity = $this->getCourseHandler()
+            ->findCourseBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('course', array());
+    }
     /**
      * @return CourseHandler
      */
-    public function getCourseHandler()
+    protected function getCourseHandler()
     {
         return $this->container->get('ilioscore.course.handler');
     }
