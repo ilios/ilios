@@ -47,8 +47,10 @@ class CourseClerkshipTypeManager implements CourseClerkshipTypeManagerInterface
      *
      * @return CourseClerkshipTypeInterface
      */
-    public function findCourseClerkshipTypeBy(array $criteria, array $orderBy = null)
-    {
+    public function findCourseClerkshipTypeBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CourseClerkshipTypeManager implements CourseClerkshipTypeManagerInterface
      *
      * @return CourseClerkshipTypeInterface[]|Collection
      */
-    public function findCourseClerkshipTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCourseClerkshipTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CourseClerkshipTypeManager implements CourseClerkshipTypeManagerInterface
      * @param CourseClerkshipTypeInterface $courseClerkshipType
      * @param bool $andFlush
      */
-    public function updateCourseClerkshipType(CourseClerkshipTypeInterface $courseClerkshipType, $andFlush = true)
-    {
+    public function updateCourseClerkshipType(
+        CourseClerkshipTypeInterface $courseClerkshipType,
+        $andFlush = true
+    ) {
         $this->em->persist($courseClerkshipType);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CourseClerkshipTypeManager implements CourseClerkshipTypeManagerInterface
     /**
      * @param CourseClerkshipTypeInterface $courseClerkshipType
      */
-    public function deleteCourseClerkshipType(CourseClerkshipTypeInterface $courseClerkshipType)
-    {
+    public function deleteCourseClerkshipType(
+        CourseClerkshipTypeInterface $courseClerkshipType
+    ) {
         $this->em->remove($courseClerkshipType);
         $this->em->flush();
     }

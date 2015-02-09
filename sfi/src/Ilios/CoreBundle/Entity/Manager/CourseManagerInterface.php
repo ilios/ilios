@@ -20,7 +20,10 @@ interface CourseManagerInterface
      *
      * @return CourseInterface
      */
-    public function findCourseBy(array $criteria, array $orderBy = null);
+    public function findCourseBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CourseManagerInterface
      *
      * @return CourseInterface[]|Collection
      */
-    public function findCoursesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCoursesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CourseInterface $course
@@ -38,14 +46,25 @@ interface CourseManagerInterface
      *
      * @return void
      */
-     public function updateCourse(CourseInterface $course, $andFlush = true);
+    public function updateCourse(
+        CourseInterface $course,
+        $andFlush = true
+    );
 
     /**
      * @param CourseInterface $course
      *
      * @return void
      */
-    public function deleteCourse(CourseInterface $course);
+    public function deleteCourse(
+        CourseInterface $course
+    );
+
+    /**
+     *
+     * @return array
+     */
+    public function getYears();
 
     /**
      * @return string

@@ -35,7 +35,12 @@ class RecurringEventController extends FOSRestController
      *   description = "Get a RecurringEvent.",
      *   resource = true,
      *   requirements={
-     *     {"name"="recurringEventId", "dataType"="integer", "requirement"="", "description"="RecurringEvent identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="RecurringEvent identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\RecurringEvent",
      *   statusCodes={
@@ -57,7 +62,6 @@ class RecurringEventController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all RecurringEvent.
      *
@@ -109,19 +113,25 @@ class RecurringEventController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['recurringEvent'] =
-            $this->getRecurringEventHandler()->findRecurringEventsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getRecurringEventHandler()
+            ->findRecurringEventsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['recurringEvents'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['recurringEvent']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class RecurringEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getRecurringEventHandler()->post($request->request->all());
+            $new  =  $this->getRecurringEventHandler()->post($this->getPostData($request));
             $answer['recurringEvent'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class RecurringEventController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($recurringEvent = $this->getRecurringEventHandler()->findRecurringEventBy(['recurringEventId'=> $id])) {
-                $answer['recurringEvent']= $this->getRecurringEventHandler()->put($recurringEvent, $request->request->all());
+            $recurringEvent = $this->getRecurringEventHandler()
+                ->findRecurringEventBy(['id'=> $id]);
+            if ($recurringEvent) {
+                $answer['recurringEvent'] =
+                    $this->getRecurringEventHandler()->put(
+                        $recurringEvent,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['recurringEvent'] = $this->getRecurringEventHandler()->post($request->request->all());
+                $answer['recurringEvent'] =
+                    $this->getRecurringEventHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class RecurringEventController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\RecurringEventType",
      *   output="Ilios\CoreBundle\Entity\RecurringEvent",
      *   requirements={
-     *     {"name"="recurringEventId", "dataType"="integer", "requirement"="", "description"="RecurringEvent identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="RecurringEvent identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated RecurringEvent.",
@@ -227,7 +249,11 @@ class RecurringEventController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['recurringEvent'] = $this->getRecurringEventHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['recurringEvent'] =
+            $this->getRecurringEventHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class RecurringEventController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "recurringEventId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "RecurringEvent identifier"
@@ -265,7 +291,8 @@ class RecurringEventController extends FOSRestController
     {
         $recurringEvent = $this->getOr404($id);
         try {
-            $this->getRecurringEventHandler()->deleteRecurringEvent($recurringEvent);
+            $this->getRecurringEventHandler()
+                ->deleteRecurringEvent($recurringEvent);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class RecurringEventController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getRecurringEventHandler()->findRecurringEventBy(['recurringEventId' => $id]))) {
+        $entity = $this->getRecurringEventHandler()
+            ->findRecurringEventBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('recurringEvent', array());
+    }
     /**
      * @return RecurringEventHandler
      */
-    public function getRecurringEventHandler()
+    protected function getRecurringEventHandler()
     {
         return $this->container->get('ilioscore.recurringevent.handler');
     }

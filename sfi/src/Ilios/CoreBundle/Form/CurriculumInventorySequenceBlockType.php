@@ -26,10 +26,38 @@ class CurriculumInventorySequenceBlockType extends AbstractType
             ->add('startDate')
             ->add('endDate')
             ->add('duration')
-            ->add('academicLevel', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryAcademicLevel"])
-            ->add('course', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Course"])
-            ->add('parent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequenceBlock"])
-            ->add('report', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"])
+            ->add(
+                'academicLevel',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryAcademicLevel"
+                ]
+            )
+            ->add(
+                'course',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
+                ]
+            )
+            ->add(
+                'parent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequenceBlock"
+                ]
+            )
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
+                ]
+            )
         ;
     }
 

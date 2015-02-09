@@ -47,8 +47,10 @@ class MeshConceptManager implements MeshConceptManagerInterface
      *
      * @return MeshConceptInterface
      */
-    public function findMeshConceptBy(array $criteria, array $orderBy = null)
-    {
+    public function findMeshConceptBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class MeshConceptManager implements MeshConceptManagerInterface
      *
      * @return MeshConceptInterface[]|Collection
      */
-    public function findMeshConceptsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findMeshConceptsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class MeshConceptManager implements MeshConceptManagerInterface
      * @param MeshConceptInterface $meshConcept
      * @param bool $andFlush
      */
-    public function updateMeshConcept(MeshConceptInterface $meshConcept, $andFlush = true)
-    {
+    public function updateMeshConcept(
+        MeshConceptInterface $meshConcept,
+        $andFlush = true
+    ) {
         $this->em->persist($meshConcept);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class MeshConceptManager implements MeshConceptManagerInterface
     /**
      * @param MeshConceptInterface $meshConcept
      */
-    public function deleteMeshConcept(MeshConceptInterface $meshConcept)
-    {
+    public function deleteMeshConcept(
+        MeshConceptInterface $meshConcept
+    ) {
         $this->em->remove($meshConcept);
         $this->em->flush();
     }

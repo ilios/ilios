@@ -20,7 +20,10 @@ interface ProgramYearManagerInterface
      *
      * @return ProgramYearInterface
      */
-    public function findProgramYearBy(array $criteria, array $orderBy = null);
+    public function findProgramYearBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface ProgramYearManagerInterface
      *
      * @return ProgramYearInterface[]|Collection
      */
-    public function findProgramYearsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findProgramYearsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param ProgramYearInterface $programYear
@@ -38,14 +46,19 @@ interface ProgramYearManagerInterface
      *
      * @return void
      */
-     public function updateProgramYear(ProgramYearInterface $programYear, $andFlush = true);
+    public function updateProgramYear(
+        ProgramYearInterface $programYear,
+        $andFlush = true
+    );
 
     /**
      * @param ProgramYearInterface $programYear
      *
      * @return void
      */
-    public function deleteProgramYear(ProgramYearInterface $programYear);
+    public function deleteProgramYear(
+        ProgramYearInterface $programYear
+    );
 
     /**
      * @return string

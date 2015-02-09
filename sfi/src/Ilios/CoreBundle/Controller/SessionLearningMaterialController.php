@@ -35,7 +35,12 @@ class SessionLearningMaterialController extends FOSRestController
      *   description = "Get a SessionLearningMaterial.",
      *   resource = true,
      *   requirements={
-     *     {"name"="sessionLearningMaterialId", "dataType"="integer", "requirement"="", "description"="SessionLearningMaterial identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="SessionLearningMaterial identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\SessionLearningMaterial",
      *   statusCodes={
@@ -57,7 +62,6 @@ class SessionLearningMaterialController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all SessionLearningMaterial.
      *
@@ -109,19 +113,25 @@ class SessionLearningMaterialController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['sessionLearningMaterial'] =
-            $this->getSessionLearningMaterialHandler()->findSessionLearningMaterialsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getSessionLearningMaterialHandler()
+            ->findSessionLearningMaterialsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['sessionLearningMaterials'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['sessionLearningMaterial']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class SessionLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionLearningMaterialHandler()->post($request->request->all());
+            $new  =  $this->getSessionLearningMaterialHandler()->post($this->getPostData($request));
             $answer['sessionLearningMaterial'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class SessionLearningMaterialController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($sessionLearningMaterial = $this->getSessionLearningMaterialHandler()->findSessionLearningMaterialBy(['sessionLearningMaterialId'=> $id])) {
-                $answer['sessionLearningMaterial']= $this->getSessionLearningMaterialHandler()->put($sessionLearningMaterial, $request->request->all());
+            $sessionLearningMaterial = $this->getSessionLearningMaterialHandler()
+                ->findSessionLearningMaterialBy(['id'=> $id]);
+            if ($sessionLearningMaterial) {
+                $answer['sessionLearningMaterial'] =
+                    $this->getSessionLearningMaterialHandler()->put(
+                        $sessionLearningMaterial,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['sessionLearningMaterial'] = $this->getSessionLearningMaterialHandler()->post($request->request->all());
+                $answer['sessionLearningMaterial'] =
+                    $this->getSessionLearningMaterialHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class SessionLearningMaterialController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\SessionLearningMaterialType",
      *   output="Ilios\CoreBundle\Entity\SessionLearningMaterial",
      *   requirements={
-     *     {"name"="sessionLearningMaterialId", "dataType"="integer", "requirement"="", "description"="SessionLearningMaterial identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="SessionLearningMaterial identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated SessionLearningMaterial.",
@@ -227,7 +249,11 @@ class SessionLearningMaterialController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['sessionLearningMaterial'] = $this->getSessionLearningMaterialHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['sessionLearningMaterial'] =
+            $this->getSessionLearningMaterialHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class SessionLearningMaterialController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "sessionLearningMaterialId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "SessionLearningMaterial identifier"
@@ -265,7 +291,8 @@ class SessionLearningMaterialController extends FOSRestController
     {
         $sessionLearningMaterial = $this->getOr404($id);
         try {
-            $this->getSessionLearningMaterialHandler()->deleteSessionLearningMaterial($sessionLearningMaterial);
+            $this->getSessionLearningMaterialHandler()
+                ->deleteSessionLearningMaterial($sessionLearningMaterial);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class SessionLearningMaterialController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getSessionLearningMaterialHandler()->findSessionLearningMaterialBy(['sessionLearningMaterialId' => $id]))) {
+        $entity = $this->getSessionLearningMaterialHandler()
+            ->findSessionLearningMaterialBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('sessionLearningMaterial', array());
+    }
     /**
      * @return SessionLearningMaterialHandler
      */
-    public function getSessionLearningMaterialHandler()
+    protected function getSessionLearningMaterialHandler()
     {
         return $this->container->get('ilioscore.sessionlearningmaterial.handler');
     }

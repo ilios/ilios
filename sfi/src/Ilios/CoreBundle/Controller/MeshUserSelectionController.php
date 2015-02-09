@@ -35,7 +35,12 @@ class MeshUserSelectionController extends FOSRestController
      *   description = "Get a MeshUserSelection.",
      *   resource = true,
      *   requirements={
-     *     {"name"="meshUserSelectionId", "dataType"="integer", "requirement"="", "description"="MeshUserSelection identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="MeshUserSelection identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\MeshUserSelection",
      *   statusCodes={
@@ -57,7 +62,6 @@ class MeshUserSelectionController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all MeshUserSelection.
      *
@@ -109,19 +113,25 @@ class MeshUserSelectionController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['meshUserSelection'] =
-            $this->getMeshUserSelectionHandler()->findMeshUserSelectionsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getMeshUserSelectionHandler()
+            ->findMeshUserSelectionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['meshUserSelections'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['meshUserSelection']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class MeshUserSelectionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshUserSelectionHandler()->post($request->request->all());
+            $new  =  $this->getMeshUserSelectionHandler()->post($this->getPostData($request));
             $answer['meshUserSelection'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class MeshUserSelectionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($meshUserSelection = $this->getMeshUserSelectionHandler()->findMeshUserSelectionBy(['meshUserSelectionId'=> $id])) {
-                $answer['meshUserSelection']= $this->getMeshUserSelectionHandler()->put($meshUserSelection, $request->request->all());
+            $meshUserSelection = $this->getMeshUserSelectionHandler()
+                ->findMeshUserSelectionBy(['id'=> $id]);
+            if ($meshUserSelection) {
+                $answer['meshUserSelection'] =
+                    $this->getMeshUserSelectionHandler()->put(
+                        $meshUserSelection,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshUserSelection'] = $this->getMeshUserSelectionHandler()->post($request->request->all());
+                $answer['meshUserSelection'] =
+                    $this->getMeshUserSelectionHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class MeshUserSelectionController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\MeshUserSelectionType",
      *   output="Ilios\CoreBundle\Entity\MeshUserSelection",
      *   requirements={
-     *     {"name"="meshUserSelectionId", "dataType"="integer", "requirement"="", "description"="MeshUserSelection identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="MeshUserSelection identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated MeshUserSelection.",
@@ -227,7 +249,11 @@ class MeshUserSelectionController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['meshUserSelection'] = $this->getMeshUserSelectionHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['meshUserSelection'] =
+            $this->getMeshUserSelectionHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class MeshUserSelectionController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "meshUserSelectionId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "MeshUserSelection identifier"
@@ -265,7 +291,8 @@ class MeshUserSelectionController extends FOSRestController
     {
         $meshUserSelection = $this->getOr404($id);
         try {
-            $this->getMeshUserSelectionHandler()->deleteMeshUserSelection($meshUserSelection);
+            $this->getMeshUserSelectionHandler()
+                ->deleteMeshUserSelection($meshUserSelection);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class MeshUserSelectionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getMeshUserSelectionHandler()->findMeshUserSelectionBy(['meshUserSelectionId' => $id]))) {
+        $entity = $this->getMeshUserSelectionHandler()
+            ->findMeshUserSelectionBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('meshUserSelection', array());
+    }
     /**
      * @return MeshUserSelectionHandler
      */
-    public function getMeshUserSelectionHandler()
+    protected function getMeshUserSelectionHandler()
     {
         return $this->container->get('ilioscore.meshuserselection.handler');
     }

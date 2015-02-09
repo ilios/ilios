@@ -46,20 +46,31 @@ class ObjectiveHandler extends ObjectiveManager
      *
      * @return ObjectiveInterface
      */
-    public function put(ObjectiveInterface $objective, array $parameters)
-    {
-        return $this->processForm($objective, $parameters, 'PUT');
+    public function put(
+        ObjectiveInterface $objective,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $objective,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param ObjectiveInterface $objective
      * @param array $parameters
      *
      * @return ObjectiveInterface
      */
-    public function patch(ObjectiveInterface $objective, array $parameters)
-    {
-        return $this->processForm($objective, $parameters, 'PATCH');
+    public function patch(
+        ObjectiveInterface $objective,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $objective,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class ObjectiveHandler extends ObjectiveManager
      *
      * @return ObjectiveInterface
      */
-    protected function processForm(ObjectiveInterface $objective, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new ObjectiveType(), $objective, array('method' => $method));
+    protected function processForm(
+        ObjectiveInterface $objective,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new ObjectiveType(),
+            $objective,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $objective = $form->getData();
             $this->updateObjective($objective, true);

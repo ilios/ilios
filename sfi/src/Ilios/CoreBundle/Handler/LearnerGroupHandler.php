@@ -46,20 +46,31 @@ class LearnerGroupHandler extends LearnerGroupManager
      *
      * @return LearnerGroupInterface
      */
-    public function put(LearnerGroupInterface $learnerGroup, array $parameters)
-    {
-        return $this->processForm($learnerGroup, $parameters, 'PUT');
+    public function put(
+        LearnerGroupInterface $learnerGroup,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $learnerGroup,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param LearnerGroupInterface $learnerGroup
      * @param array $parameters
      *
      * @return LearnerGroupInterface
      */
-    public function patch(LearnerGroupInterface $learnerGroup, array $parameters)
-    {
-        return $this->processForm($learnerGroup, $parameters, 'PATCH');
+    public function patch(
+        LearnerGroupInterface $learnerGroup,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $learnerGroup,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,8 +81,11 @@ class LearnerGroupHandler extends LearnerGroupManager
      *
      * @return LearnerGroupInterface
      */
-    protected function processForm(LearnerGroupInterface $learnerGroup, array $parameters, $method = "PUT")
-    {
+    protected function processForm(
+        LearnerGroupInterface $learnerGroup,
+        array $parameters,
+        $method = "PUT"
+    ) {
         $form = $this->formFactory->create(
             new LearnerGroupType(),
             $learnerGroup,

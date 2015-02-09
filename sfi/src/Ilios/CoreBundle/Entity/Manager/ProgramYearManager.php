@@ -47,8 +47,10 @@ class ProgramYearManager implements ProgramYearManagerInterface
      *
      * @return ProgramYearInterface
      */
-    public function findProgramYearBy(array $criteria, array $orderBy = null)
-    {
+    public function findProgramYearBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class ProgramYearManager implements ProgramYearManagerInterface
      *
      * @return ProgramYearInterface[]|Collection
      */
-    public function findProgramYearsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findProgramYearsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class ProgramYearManager implements ProgramYearManagerInterface
      * @param ProgramYearInterface $programYear
      * @param bool $andFlush
      */
-    public function updateProgramYear(ProgramYearInterface $programYear, $andFlush = true)
-    {
+    public function updateProgramYear(
+        ProgramYearInterface $programYear,
+        $andFlush = true
+    ) {
         $this->em->persist($programYear);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class ProgramYearManager implements ProgramYearManagerInterface
     /**
      * @param ProgramYearInterface $programYear
      */
-    public function deleteProgramYear(ProgramYearInterface $programYear)
-    {
+    public function deleteProgramYear(
+        ProgramYearInterface $programYear
+    ) {
         $this->em->remove($programYear);
         $this->em->flush();
     }

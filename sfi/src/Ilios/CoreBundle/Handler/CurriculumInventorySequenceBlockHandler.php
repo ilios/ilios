@@ -46,20 +46,31 @@ class CurriculumInventorySequenceBlockHandler extends CurriculumInventorySequenc
      *
      * @return CurriculumInventorySequenceBlockInterface
      */
-    public function put(CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock, array $parameters)
-    {
-        return $this->processForm($curriculumInventorySequenceBlock, $parameters, 'PUT');
+    public function put(
+        CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventorySequenceBlock,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
      * @param array $parameters
      *
      * @return CurriculumInventorySequenceBlockInterface
      */
-    public function patch(CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock, array $parameters)
-    {
-        return $this->processForm($curriculumInventorySequenceBlock, $parameters, 'PATCH');
+    public function patch(
+        CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventorySequenceBlock,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CurriculumInventorySequenceBlockHandler extends CurriculumInventorySequenc
      *
      * @return CurriculumInventorySequenceBlockInterface
      */
-    protected function processForm(CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CurriculumInventorySequenceBlockType(), $curriculumInventorySequenceBlock, array('method' => $method));
+    protected function processForm(
+        CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CurriculumInventorySequenceBlockType(),
+            $curriculumInventorySequenceBlock,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $curriculumInventorySequenceBlock = $form->getData();
             $this->updateCurriculumInventorySequenceBlock($curriculumInventorySequenceBlock, true);

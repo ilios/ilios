@@ -60,7 +60,7 @@ class InstructionHoursManager implements InstructionHoursManagerInterface
      *
      * @return InstructionHoursInterface[]|Collection
      */
-    public function findAllInstructionHoursBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findInstructionHoursesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }

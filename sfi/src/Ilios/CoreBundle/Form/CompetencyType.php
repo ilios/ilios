@@ -16,10 +16,38 @@ class CompetencyType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('school', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\School"])
-            ->add('parent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Competency"])
-            ->add('aamcPcrses', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\AamcPcrs"])
-            ->add('programYears', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"])
+            ->add(
+                'school',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
+            ->add(
+                'parent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
+                ]
+            )
+            ->add(
+                'aamcPcrses',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\AamcPcrs"
+                ]
+            )
+            ->add(
+                'programYears',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
+                ]
+            )
         ;
     }
 

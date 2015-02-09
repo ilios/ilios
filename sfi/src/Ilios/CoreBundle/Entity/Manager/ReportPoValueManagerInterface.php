@@ -20,7 +20,10 @@ interface ReportPoValueManagerInterface
      *
      * @return ReportPoValueInterface
      */
-    public function findReportPoValueBy(array $criteria, array $orderBy = null);
+    public function findReportPoValueBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface ReportPoValueManagerInterface
      *
      * @return ReportPoValueInterface[]|Collection
      */
-    public function findReportPoValuesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findReportPoValuesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param ReportPoValueInterface $reportPoValue
@@ -38,14 +46,19 @@ interface ReportPoValueManagerInterface
      *
      * @return void
      */
-     public function updateReportPoValue(ReportPoValueInterface $reportPoValue, $andFlush = true);
+    public function updateReportPoValue(
+        ReportPoValueInterface $reportPoValue,
+        $andFlush = true
+    );
 
     /**
      * @param ReportPoValueInterface $reportPoValue
      *
      * @return void
      */
-    public function deleteReportPoValue(ReportPoValueInterface $reportPoValue);
+    public function deleteReportPoValue(
+        ReportPoValueInterface $reportPoValue
+    );
 
     /**
      * @return string

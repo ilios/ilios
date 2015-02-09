@@ -47,8 +47,10 @@ class CurriculumInventoryInstitutionManager implements CurriculumInventoryInstit
      *
      * @return CurriculumInventoryInstitutionInterface
      */
-    public function findCurriculumInventoryInstitutionBy(array $criteria, array $orderBy = null)
-    {
+    public function findCurriculumInventoryInstitutionBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CurriculumInventoryInstitutionManager implements CurriculumInventoryInstit
      *
      * @return CurriculumInventoryInstitutionInterface[]|Collection
      */
-    public function findCurriculumInventoryInstitutionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCurriculumInventoryInstitutionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CurriculumInventoryInstitutionManager implements CurriculumInventoryInstit
      * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      * @param bool $andFlush
      */
-    public function updateCurriculumInventoryInstitution(CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution, $andFlush = true)
-    {
+    public function updateCurriculumInventoryInstitution(
+        CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution,
+        $andFlush = true
+    ) {
         $this->em->persist($curriculumInventoryInstitution);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CurriculumInventoryInstitutionManager implements CurriculumInventoryInstit
     /**
      * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      */
-    public function deleteCurriculumInventoryInstitution(CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution)
-    {
+    public function deleteCurriculumInventoryInstitution(
+        CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
+    ) {
         $this->em->remove($curriculumInventoryInstitution);
         $this->em->flush();
     }

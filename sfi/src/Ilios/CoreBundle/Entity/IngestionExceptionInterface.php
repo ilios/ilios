@@ -2,13 +2,13 @@
 
 namespace Ilios\CoreBundle\Entity;
 
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface IngestionExceptionInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface IngestionExceptionInterface extends UniversallyUniqueEntityInterface
+interface IngestionExceptionInterface extends IdentifiableEntityInterface
 {
     /**
      * @param UserInterface $user

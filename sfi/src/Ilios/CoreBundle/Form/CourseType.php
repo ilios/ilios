@@ -25,14 +25,70 @@ class CourseType extends AbstractType
             ->add('locked')
             ->add('archived')
             ->add('publishedAsTbd')
-            ->add('clerkshipType', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CourseClerkshipType"])
-            ->add('school', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\School"])
-            ->add('publishEvent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"])
-            ->add('directors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
-            ->add('cohorts', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Cohort"])
-            ->add('disciplines', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Discipline"])
-            ->add('objectives', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Objective"])
-            ->add('meshDescriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
+            ->add(
+                'clerkshipType',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CourseClerkshipType"
+                ]
+            )
+            ->add(
+                'owningSchool',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
+            ->add(
+                'publishEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
+                ]
+            )
+            ->add(
+                'directors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
+            ->add(
+                'cohorts',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Cohort"
+                ]
+            )
+            ->add(
+                'disciplines',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Discipline"
+                ]
+            )
+            ->add(
+                'objectives',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
+                ]
+            )
+            ->add(
+                'meshDescriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 

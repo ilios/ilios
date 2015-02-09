@@ -35,7 +35,12 @@ class AamcMethodController extends FOSRestController
      *   description = "Get a AamcMethod.",
      *   resource = true,
      *   requirements={
-     *     {"name"="methodId", "dataType"="string", "requirement"="\w+", "description"="AamcMethod identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="string",
+     *        "requirement"="\w+",
+     *        "description"="AamcMethod identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\AamcMethod",
      *   statusCodes={
@@ -57,7 +62,6 @@ class AamcMethodController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all AamcMethod.
      *
@@ -109,19 +113,25 @@ class AamcMethodController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['aamcMethod'] =
-            $this->getAamcMethodHandler()->findAamcMethodsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getAamcMethodHandler()
+            ->findAamcMethodsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['aamcMethods'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['aamcMethod']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class AamcMethodController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAamcMethodHandler()->post($request->request->all());
+            $new  =  $this->getAamcMethodHandler()->post($this->getPostData($request));
             $answer['aamcMethod'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class AamcMethodController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($aamcMethod = $this->getAamcMethodHandler()->findAamcMethodBy(['methodId'=> $id])) {
-                $answer['aamcMethod']= $this->getAamcMethodHandler()->put($aamcMethod, $request->request->all());
+            $aamcMethod = $this->getAamcMethodHandler()
+                ->findAamcMethodBy(['id'=> $id]);
+            if ($aamcMethod) {
+                $answer['aamcMethod'] =
+                    $this->getAamcMethodHandler()->put(
+                        $aamcMethod,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['aamcMethod'] = $this->getAamcMethodHandler()->post($request->request->all());
+                $answer['aamcMethod'] =
+                    $this->getAamcMethodHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class AamcMethodController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\AamcMethodType",
      *   output="Ilios\CoreBundle\Entity\AamcMethod",
      *   requirements={
-     *     {"name"="methodId", "dataType"="string", "requirement"="\w+", "description"="AamcMethod identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="string",
+     *         "requirement"="\w+",
+     *         "description"="AamcMethod identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated AamcMethod.",
@@ -227,7 +249,11 @@ class AamcMethodController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['aamcMethod'] = $this->getAamcMethodHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['aamcMethod'] =
+            $this->getAamcMethodHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class AamcMethodController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "methodId",
+     *         "name" = "id",
      *         "dataType" = "string",
      *         "requirement" = "\w+",
      *         "description" = "AamcMethod identifier"
@@ -265,7 +291,8 @@ class AamcMethodController extends FOSRestController
     {
         $aamcMethod = $this->getOr404($id);
         try {
-            $this->getAamcMethodHandler()->deleteAamcMethod($aamcMethod);
+            $this->getAamcMethodHandler()
+                ->deleteAamcMethod($aamcMethod);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class AamcMethodController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getAamcMethodHandler()->findAamcMethodBy(['methodId' => $id]))) {
+        $entity = $this->getAamcMethodHandler()
+            ->findAamcMethodBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('aamcMethod', array());
+    }
     /**
      * @return AamcMethodHandler
      */
-    public function getAamcMethodHandler()
+    protected function getAamcMethodHandler()
     {
         return $this->container->get('ilioscore.aamcmethod.handler');
     }

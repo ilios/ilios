@@ -20,7 +20,10 @@ interface SchoolManagerInterface
      *
      * @return SchoolInterface
      */
-    public function findSchoolBy(array $criteria, array $orderBy = null);
+    public function findSchoolBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface SchoolManagerInterface
      *
      * @return SchoolInterface[]|Collection
      */
-    public function findSchoolsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findSchoolsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param SchoolInterface $school
@@ -38,14 +46,19 @@ interface SchoolManagerInterface
      *
      * @return void
      */
-     public function updateSchool(SchoolInterface $school, $andFlush = true);
+    public function updateSchool(
+        SchoolInterface $school,
+        $andFlush = true
+    );
 
     /**
      * @param SchoolInterface $school
      *
      * @return void
      */
-    public function deleteSchool(SchoolInterface $school);
+    public function deleteSchool(
+        SchoolInterface $school
+    );
 
     /**
      * @return string

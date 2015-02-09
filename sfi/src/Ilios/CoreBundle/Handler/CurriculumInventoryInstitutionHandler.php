@@ -46,20 +46,31 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
      *
      * @return CurriculumInventoryInstitutionInterface
      */
-    public function put(CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryInstitution, $parameters, 'PUT');
+    public function put(
+        CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryInstitution,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      * @param array $parameters
      *
      * @return CurriculumInventoryInstitutionInterface
      */
-    public function patch(CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryInstitution, $parameters, 'PATCH');
+    public function patch(
+        CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryInstitution,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
      *
      * @return CurriculumInventoryInstitutionInterface
      */
-    protected function processForm(CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CurriculumInventoryInstitutionType(), $curriculumInventoryInstitution, array('method' => $method));
+    protected function processForm(
+        CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CurriculumInventoryInstitutionType(),
+            $curriculumInventoryInstitution,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $curriculumInventoryInstitution = $form->getData();
             $this->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true);

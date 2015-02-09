@@ -20,9 +20,30 @@ class LearningMaterialType extends AbstractType
             ->add('uploadDate')
             ->add('originalAuthor')
             ->add('token')
-            ->add('userRole', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterialUserRole"])
-            ->add('status', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterialStatus"])
-            ->add('owningUser', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
+            ->add(
+                'userRole',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterialUserRole"
+                ]
+            )
+            ->add(
+                'status',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterialStatus"
+                ]
+            )
+            ->add(
+                'owningUser',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 

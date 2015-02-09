@@ -20,7 +20,10 @@ interface CurriculumInventoryReportManagerInterface
      *
      * @return CurriculumInventoryReportInterface
      */
-    public function findCurriculumInventoryReportBy(array $criteria, array $orderBy = null);
+    public function findCurriculumInventoryReportBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CurriculumInventoryReportManagerInterface
      *
      * @return CurriculumInventoryReportInterface[]|Collection
      */
-    public function findCurriculumInventoryReportsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCurriculumInventoryReportsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CurriculumInventoryReportInterface $curriculumInventoryReport
@@ -38,14 +46,19 @@ interface CurriculumInventoryReportManagerInterface
      *
      * @return void
      */
-     public function updateCurriculumInventoryReport(CurriculumInventoryReportInterface $curriculumInventoryReport, $andFlush = true);
+    public function updateCurriculumInventoryReport(
+        CurriculumInventoryReportInterface $curriculumInventoryReport,
+        $andFlush = true
+    );
 
     /**
      * @param CurriculumInventoryReportInterface $curriculumInventoryReport
      *
      * @return void
      */
-    public function deleteCurriculumInventoryReport(CurriculumInventoryReportInterface $curriculumInventoryReport);
+    public function deleteCurriculumInventoryReport(
+        CurriculumInventoryReportInterface $curriculumInventoryReport
+    );
 
     /**
      * @return string

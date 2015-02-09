@@ -47,8 +47,10 @@ class AssessmentOptionManager implements AssessmentOptionManagerInterface
      *
      * @return AssessmentOptionInterface
      */
-    public function findAssessmentOptionBy(array $criteria, array $orderBy = null)
-    {
+    public function findAssessmentOptionBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class AssessmentOptionManager implements AssessmentOptionManagerInterface
      *
      * @return AssessmentOptionInterface[]|Collection
      */
-    public function findAssessmentOptionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findAssessmentOptionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class AssessmentOptionManager implements AssessmentOptionManagerInterface
      * @param AssessmentOptionInterface $assessmentOption
      * @param bool $andFlush
      */
-    public function updateAssessmentOption(AssessmentOptionInterface $assessmentOption, $andFlush = true)
-    {
+    public function updateAssessmentOption(
+        AssessmentOptionInterface $assessmentOption,
+        $andFlush = true
+    ) {
         $this->em->persist($assessmentOption);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class AssessmentOptionManager implements AssessmentOptionManagerInterface
     /**
      * @param AssessmentOptionInterface $assessmentOption
      */
-    public function deleteAssessmentOption(AssessmentOptionInterface $assessmentOption)
-    {
+    public function deleteAssessmentOption(
+        AssessmentOptionInterface $assessmentOption
+    ) {
         $this->em->remove($assessmentOption);
         $this->em->flush();
     }

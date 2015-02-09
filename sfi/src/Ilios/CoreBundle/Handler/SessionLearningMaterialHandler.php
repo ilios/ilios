@@ -46,20 +46,31 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
      *
      * @return SessionLearningMaterialInterface
      */
-    public function put(SessionLearningMaterialInterface $sessionLearningMaterial, array $parameters)
-    {
-        return $this->processForm($sessionLearningMaterial, $parameters, 'PUT');
+    public function put(
+        SessionLearningMaterialInterface $sessionLearningMaterial,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $sessionLearningMaterial,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      * @param array $parameters
      *
      * @return SessionLearningMaterialInterface
      */
-    public function patch(SessionLearningMaterialInterface $sessionLearningMaterial, array $parameters)
-    {
-        return $this->processForm($sessionLearningMaterial, $parameters, 'PATCH');
+    public function patch(
+        SessionLearningMaterialInterface $sessionLearningMaterial,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $sessionLearningMaterial,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
      *
      * @return SessionLearningMaterialInterface
      */
-    protected function processForm(SessionLearningMaterialInterface $sessionLearningMaterial, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new SessionLearningMaterialType(), $sessionLearningMaterial, array('method' => $method));
+    protected function processForm(
+        SessionLearningMaterialInterface $sessionLearningMaterial,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new SessionLearningMaterialType(),
+            $sessionLearningMaterial,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $sessionLearningMaterial = $form->getData();
             $this->updateSessionLearningMaterial($sessionLearningMaterial, true);

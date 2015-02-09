@@ -46,20 +46,31 @@ class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
      *
      * @return MeshPreviousIndexingInterface
      */
-    public function put(MeshPreviousIndexingInterface $meshPreviousIndexing, array $parameters)
-    {
-        return $this->processForm($meshPreviousIndexing, $parameters, 'PUT');
+    public function put(
+        MeshPreviousIndexingInterface $meshPreviousIndexing,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshPreviousIndexing,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      * @param array $parameters
      *
      * @return MeshPreviousIndexingInterface
      */
-    public function patch(MeshPreviousIndexingInterface $meshPreviousIndexing, array $parameters)
-    {
-        return $this->processForm($meshPreviousIndexing, $parameters, 'PATCH');
+    public function patch(
+        MeshPreviousIndexingInterface $meshPreviousIndexing,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshPreviousIndexing,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
      *
      * @return MeshPreviousIndexingInterface
      */
-    protected function processForm(MeshPreviousIndexingInterface $meshPreviousIndexing, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new MeshPreviousIndexingType(), $meshPreviousIndexing, array('method' => $method));
+    protected function processForm(
+        MeshPreviousIndexingInterface $meshPreviousIndexing,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new MeshPreviousIndexingType(),
+            $meshPreviousIndexing,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $meshPreviousIndexing = $form->getData();
             $this->updateMeshPreviousIndexing($meshPreviousIndexing, true);

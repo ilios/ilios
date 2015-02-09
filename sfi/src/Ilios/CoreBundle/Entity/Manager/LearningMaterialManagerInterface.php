@@ -20,7 +20,10 @@ interface LearningMaterialManagerInterface
      *
      * @return LearningMaterialInterface
      */
-    public function findLearningMaterialBy(array $criteria, array $orderBy = null);
+    public function findLearningMaterialBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface LearningMaterialManagerInterface
      *
      * @return LearningMaterialInterface[]|Collection
      */
-    public function findLearningMaterialsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findLearningMaterialsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param LearningMaterialInterface $learningMaterial
@@ -38,14 +46,19 @@ interface LearningMaterialManagerInterface
      *
      * @return void
      */
-     public function updateLearningMaterial(LearningMaterialInterface $learningMaterial, $andFlush = true);
+    public function updateLearningMaterial(
+        LearningMaterialInterface $learningMaterial,
+        $andFlush = true
+    );
 
     /**
      * @param LearningMaterialInterface $learningMaterial
      *
      * @return void
      */
-    public function deleteLearningMaterial(LearningMaterialInterface $learningMaterial);
+    public function deleteLearningMaterial(
+        LearningMaterialInterface $learningMaterial
+    );
 
     /**
      * @return string

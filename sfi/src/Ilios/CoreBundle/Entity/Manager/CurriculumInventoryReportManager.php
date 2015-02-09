@@ -47,8 +47,10 @@ class CurriculumInventoryReportManager implements CurriculumInventoryReportManag
      *
      * @return CurriculumInventoryReportInterface
      */
-    public function findCurriculumInventoryReportBy(array $criteria, array $orderBy = null)
-    {
+    public function findCurriculumInventoryReportBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CurriculumInventoryReportManager implements CurriculumInventoryReportManag
      *
      * @return CurriculumInventoryReportInterface[]|Collection
      */
-    public function findCurriculumInventoryReportsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCurriculumInventoryReportsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CurriculumInventoryReportManager implements CurriculumInventoryReportManag
      * @param CurriculumInventoryReportInterface $curriculumInventoryReport
      * @param bool $andFlush
      */
-    public function updateCurriculumInventoryReport(CurriculumInventoryReportInterface $curriculumInventoryReport, $andFlush = true)
-    {
+    public function updateCurriculumInventoryReport(
+        CurriculumInventoryReportInterface $curriculumInventoryReport,
+        $andFlush = true
+    ) {
         $this->em->persist($curriculumInventoryReport);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CurriculumInventoryReportManager implements CurriculumInventoryReportManag
     /**
      * @param CurriculumInventoryReportInterface $curriculumInventoryReport
      */
-    public function deleteCurriculumInventoryReport(CurriculumInventoryReportInterface $curriculumInventoryReport)
-    {
+    public function deleteCurriculumInventoryReport(
+        CurriculumInventoryReportInterface $curriculumInventoryReport
+    ) {
         $this->em->remove($curriculumInventoryReport);
         $this->em->flush();
     }

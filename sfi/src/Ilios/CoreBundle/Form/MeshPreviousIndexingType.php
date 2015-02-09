@@ -16,7 +16,14 @@ class MeshPreviousIndexingType extends AbstractType
     {
         $builder
             ->add('previousIndexing')
-            ->add('descriptor', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
+            ->add(
+                'descriptor',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 

@@ -47,8 +47,10 @@ class LearningMaterialStatusManager implements LearningMaterialStatusManagerInte
      *
      * @return LearningMaterialStatusInterface
      */
-    public function findLearningMaterialStatusBy(array $criteria, array $orderBy = null)
-    {
+    public function findLearningMaterialStatusBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class LearningMaterialStatusManager implements LearningMaterialStatusManagerInte
      *
      * @return LearningMaterialStatusInterface[]|Collection
      */
-    public function findLearningMaterialStatusesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findLearningMaterialStatusesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class LearningMaterialStatusManager implements LearningMaterialStatusManagerInte
      * @param LearningMaterialStatusInterface $learningMaterialStatus
      * @param bool $andFlush
      */
-    public function updateLearningMaterialStatus(LearningMaterialStatusInterface $learningMaterialStatus, $andFlush = true)
-    {
+    public function updateLearningMaterialStatus(
+        LearningMaterialStatusInterface $learningMaterialStatus,
+        $andFlush = true
+    ) {
         $this->em->persist($learningMaterialStatus);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class LearningMaterialStatusManager implements LearningMaterialStatusManagerInte
     /**
      * @param LearningMaterialStatusInterface $learningMaterialStatus
      */
-    public function deleteLearningMaterialStatus(LearningMaterialStatusInterface $learningMaterialStatus)
-    {
+    public function deleteLearningMaterialStatus(
+        LearningMaterialStatusInterface $learningMaterialStatus
+    ) {
         $this->em->remove($learningMaterialStatus);
         $this->em->flush();
     }

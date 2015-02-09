@@ -20,7 +20,10 @@ interface RecurringEventManagerInterface
      *
      * @return RecurringEventInterface
      */
-    public function findRecurringEventBy(array $criteria, array $orderBy = null);
+    public function findRecurringEventBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface RecurringEventManagerInterface
      *
      * @return RecurringEventInterface[]|Collection
      */
-    public function findRecurringEventsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findRecurringEventsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param RecurringEventInterface $recurringEvent
@@ -38,14 +46,19 @@ interface RecurringEventManagerInterface
      *
      * @return void
      */
-     public function updateRecurringEvent(RecurringEventInterface $recurringEvent, $andFlush = true);
+    public function updateRecurringEvent(
+        RecurringEventInterface $recurringEvent,
+        $andFlush = true
+    );
 
     /**
      * @param RecurringEventInterface $recurringEvent
      *
      * @return void
      */
-    public function deleteRecurringEvent(RecurringEventInterface $recurringEvent);
+    public function deleteRecurringEvent(
+        RecurringEventInterface $recurringEvent
+    );
 
     /**
      * @return string

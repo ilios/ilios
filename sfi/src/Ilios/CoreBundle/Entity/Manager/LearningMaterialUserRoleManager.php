@@ -47,8 +47,10 @@ class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManager
      *
      * @return LearningMaterialUserRoleInterface
      */
-    public function findLearningMaterialUserRoleBy(array $criteria, array $orderBy = null)
-    {
+    public function findLearningMaterialUserRoleBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManager
      *
      * @return LearningMaterialUserRoleInterface[]|Collection
      */
-    public function findLearningMaterialUserRolesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findLearningMaterialUserRolesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManager
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
      * @param bool $andFlush
      */
-    public function updateLearningMaterialUserRole(LearningMaterialUserRoleInterface $learningMaterialUserRole, $andFlush = true)
-    {
+    public function updateLearningMaterialUserRole(
+        LearningMaterialUserRoleInterface $learningMaterialUserRole,
+        $andFlush = true
+    ) {
         $this->em->persist($learningMaterialUserRole);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManager
     /**
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
      */
-    public function deleteLearningMaterialUserRole(LearningMaterialUserRoleInterface $learningMaterialUserRole)
-    {
+    public function deleteLearningMaterialUserRole(
+        LearningMaterialUserRoleInterface $learningMaterialUserRole
+    ) {
         $this->em->remove($learningMaterialUserRole);
         $this->em->flush();
     }

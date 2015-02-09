@@ -169,7 +169,10 @@ class File extends LearningMaterial implements FileInterface
      */
     public function getResource()
     {
-        return ($this->resource === null && $this->path !== null) ? new \SplFileInfo($this->getAbsolutePath()) : $this->resource;
+        if ($this->resource === null && $this->path !== null) {
+            return new \SplFileInfo($this->getAbsolutePath());
+        }
+        return $this->resource;
     }
 
     /**

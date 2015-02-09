@@ -47,8 +47,10 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
      *
      * @return IlmSessionFacetInterface
      */
-    public function findIlmSessionFacetBy(array $criteria, array $orderBy = null)
-    {
+    public function findIlmSessionFacetBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
      *
      * @return IlmSessionFacetInterface[]|Collection
      */
-    public function findIlmSessionFacetsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findIlmSessionFacetsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
      * @param IlmSessionFacetInterface $ilmSessionFacet
      * @param bool $andFlush
      */
-    public function updateIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet, $andFlush = true)
-    {
+    public function updateIlmSessionFacet(
+        IlmSessionFacetInterface $ilmSessionFacet,
+        $andFlush = true
+    ) {
         $this->em->persist($ilmSessionFacet);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class IlmSessionFacetManager implements IlmSessionFacetManagerInterface
     /**
      * @param IlmSessionFacetInterface $ilmSessionFacet
      */
-    public function deleteIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
-    {
+    public function deleteIlmSessionFacet(
+        IlmSessionFacetInterface $ilmSessionFacet
+    ) {
         $this->em->remove($ilmSessionFacet);
         $this->em->flush();
     }

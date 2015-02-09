@@ -20,7 +20,10 @@ interface AamcMethodManagerInterface
      *
      * @return AamcMethodInterface
      */
-    public function findAamcMethodBy(array $criteria, array $orderBy = null);
+    public function findAamcMethodBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface AamcMethodManagerInterface
      *
      * @return AamcMethodInterface[]|Collection
      */
-    public function findAamcMethodsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findAamcMethodsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param AamcMethodInterface $aamcMethod
@@ -38,14 +46,19 @@ interface AamcMethodManagerInterface
      *
      * @return void
      */
-     public function updateAamcMethod(AamcMethodInterface $aamcMethod, $andFlush = true);
+    public function updateAamcMethod(
+        AamcMethodInterface $aamcMethod,
+        $andFlush = true
+    );
 
     /**
      * @param AamcMethodInterface $aamcMethod
      *
      * @return void
      */
-    public function deleteAamcMethod(AamcMethodInterface $aamcMethod);
+    public function deleteAamcMethod(
+        AamcMethodInterface $aamcMethod
+    );
 
     /**
      * @return string

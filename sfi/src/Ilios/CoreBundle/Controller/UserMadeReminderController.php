@@ -35,7 +35,12 @@ class UserMadeReminderController extends FOSRestController
      *   description = "Get a UserMadeReminder.",
      *   resource = true,
      *   requirements={
-     *     {"name"="userMadeReminderId", "dataType"="integer", "requirement"="", "description"="UserMadeReminder identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="UserMadeReminder identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\UserMadeReminder",
      *   statusCodes={
@@ -57,7 +62,6 @@ class UserMadeReminderController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all UserMadeReminder.
      *
@@ -109,19 +113,25 @@ class UserMadeReminderController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['userMadeReminder'] =
-            $this->getUserMadeReminderHandler()->findUserMadeRemindersBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getUserMadeReminderHandler()
+            ->findUserMadeRemindersBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['userMadeReminders'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['userMadeReminder']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class UserMadeReminderController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserMadeReminderHandler()->post($request->request->all());
+            $new  =  $this->getUserMadeReminderHandler()->post($this->getPostData($request));
             $answer['userMadeReminder'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class UserMadeReminderController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($userMadeReminder = $this->getUserMadeReminderHandler()->findUserMadeReminderBy(['userMadeReminderId'=> $id])) {
-                $answer['userMadeReminder']= $this->getUserMadeReminderHandler()->put($userMadeReminder, $request->request->all());
+            $userMadeReminder = $this->getUserMadeReminderHandler()
+                ->findUserMadeReminderBy(['id'=> $id]);
+            if ($userMadeReminder) {
+                $answer['userMadeReminder'] =
+                    $this->getUserMadeReminderHandler()->put(
+                        $userMadeReminder,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['userMadeReminder'] = $this->getUserMadeReminderHandler()->post($request->request->all());
+                $answer['userMadeReminder'] =
+                    $this->getUserMadeReminderHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class UserMadeReminderController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\UserMadeReminderType",
      *   output="Ilios\CoreBundle\Entity\UserMadeReminder",
      *   requirements={
-     *     {"name"="userMadeReminderId", "dataType"="integer", "requirement"="", "description"="UserMadeReminder identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="UserMadeReminder identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated UserMadeReminder.",
@@ -227,7 +249,11 @@ class UserMadeReminderController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['userMadeReminder'] = $this->getUserMadeReminderHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['userMadeReminder'] =
+            $this->getUserMadeReminderHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class UserMadeReminderController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "userMadeReminderId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "UserMadeReminder identifier"
@@ -265,7 +291,8 @@ class UserMadeReminderController extends FOSRestController
     {
         $userMadeReminder = $this->getOr404($id);
         try {
-            $this->getUserMadeReminderHandler()->deleteUserMadeReminder($userMadeReminder);
+            $this->getUserMadeReminderHandler()
+                ->deleteUserMadeReminder($userMadeReminder);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class UserMadeReminderController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getUserMadeReminderHandler()->findUserMadeReminderBy(['userMadeReminderId' => $id]))) {
+        $entity = $this->getUserMadeReminderHandler()
+            ->findUserMadeReminderBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('userMadeReminder', array());
+    }
     /**
      * @return UserMadeReminderHandler
      */
-    public function getUserMadeReminderHandler()
+    protected function getUserMadeReminderHandler()
     {
         return $this->container->get('ilioscore.usermadereminder.handler');
     }

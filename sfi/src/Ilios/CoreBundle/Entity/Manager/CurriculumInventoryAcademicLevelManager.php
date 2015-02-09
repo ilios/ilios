@@ -47,8 +47,10 @@ class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcad
      *
      * @return CurriculumInventoryAcademicLevelInterface
      */
-    public function findCurriculumInventoryAcademicLevelBy(array $criteria, array $orderBy = null)
-    {
+    public function findCurriculumInventoryAcademicLevelBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcad
      *
      * @return CurriculumInventoryAcademicLevelInterface[]|Collection
      */
-    public function findCurriculumInventoryAcademicLevelsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCurriculumInventoryAcademicLevelsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcad
      * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      * @param bool $andFlush
      */
-    public function updateCurriculumInventoryAcademicLevel(CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel, $andFlush = true)
-    {
+    public function updateCurriculumInventoryAcademicLevel(
+        CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel,
+        $andFlush = true
+    ) {
         $this->em->persist($curriculumInventoryAcademicLevel);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcad
     /**
      * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      */
-    public function deleteCurriculumInventoryAcademicLevel(CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel)
-    {
+    public function deleteCurriculumInventoryAcademicLevel(
+        CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
+    ) {
         $this->em->remove($curriculumInventoryAcademicLevel);
         $this->em->flush();
     }

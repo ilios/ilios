@@ -20,7 +20,10 @@ interface AssessmentOptionManagerInterface
      *
      * @return AssessmentOptionInterface
      */
-    public function findAssessmentOptionBy(array $criteria, array $orderBy = null);
+    public function findAssessmentOptionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface AssessmentOptionManagerInterface
      *
      * @return AssessmentOptionInterface[]|Collection
      */
-    public function findAssessmentOptionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findAssessmentOptionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param AssessmentOptionInterface $assessmentOption
@@ -38,14 +46,19 @@ interface AssessmentOptionManagerInterface
      *
      * @return void
      */
-     public function updateAssessmentOption(AssessmentOptionInterface $assessmentOption, $andFlush = true);
+    public function updateAssessmentOption(
+        AssessmentOptionInterface $assessmentOption,
+        $andFlush = true
+    );
 
     /**
      * @param AssessmentOptionInterface $assessmentOption
      *
      * @return void
      */
-    public function deleteAssessmentOption(AssessmentOptionInterface $assessmentOption);
+    public function deleteAssessmentOption(
+        AssessmentOptionInterface $assessmentOption
+    );
 
     /**
      * @return string

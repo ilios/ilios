@@ -35,7 +35,12 @@ class DepartmentController extends FOSRestController
      *   description = "Get a Department.",
      *   resource = true,
      *   requirements={
-     *     {"name"="departmentId", "dataType"="integer", "requirement"="", "description"="Department identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="Department identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\Department",
      *   statusCodes={
@@ -57,7 +62,6 @@ class DepartmentController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all Department.
      *
@@ -109,19 +113,25 @@ class DepartmentController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['department'] =
-            $this->getDepartmentHandler()->findDepartmentsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getDepartmentHandler()
+            ->findDepartmentsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['departments'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['department']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class DepartmentController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getDepartmentHandler()->post($request->request->all());
+            $new  =  $this->getDepartmentHandler()->post($this->getPostData($request));
             $answer['department'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class DepartmentController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($department = $this->getDepartmentHandler()->findDepartmentBy(['departmentId'=> $id])) {
-                $answer['department']= $this->getDepartmentHandler()->put($department, $request->request->all());
+            $department = $this->getDepartmentHandler()
+                ->findDepartmentBy(['id'=> $id]);
+            if ($department) {
+                $answer['department'] =
+                    $this->getDepartmentHandler()->put(
+                        $department,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['department'] = $this->getDepartmentHandler()->post($request->request->all());
+                $answer['department'] =
+                    $this->getDepartmentHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class DepartmentController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\DepartmentType",
      *   output="Ilios\CoreBundle\Entity\Department",
      *   requirements={
-     *     {"name"="departmentId", "dataType"="integer", "requirement"="", "description"="Department identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="Department identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated Department.",
@@ -227,7 +249,11 @@ class DepartmentController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['department'] = $this->getDepartmentHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['department'] =
+            $this->getDepartmentHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class DepartmentController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "departmentId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "Department identifier"
@@ -265,7 +291,8 @@ class DepartmentController extends FOSRestController
     {
         $department = $this->getOr404($id);
         try {
-            $this->getDepartmentHandler()->deleteDepartment($department);
+            $this->getDepartmentHandler()
+                ->deleteDepartment($department);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class DepartmentController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getDepartmentHandler()->findDepartmentBy(['departmentId' => $id]))) {
+        $entity = $this->getDepartmentHandler()
+            ->findDepartmentBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('department', array());
+    }
     /**
      * @return DepartmentHandler
      */
-    public function getDepartmentHandler()
+    protected function getDepartmentHandler()
     {
         return $this->container->get('ilioscore.department.handler');
     }

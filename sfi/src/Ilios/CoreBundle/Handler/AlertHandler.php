@@ -46,20 +46,31 @@ class AlertHandler extends AlertManager
      *
      * @return AlertInterface
      */
-    public function put(AlertInterface $alert, array $parameters)
-    {
-        return $this->processForm($alert, $parameters, 'PUT');
+    public function put(
+        AlertInterface $alert,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $alert,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param AlertInterface $alert
      * @param array $parameters
      *
      * @return AlertInterface
      */
-    public function patch(AlertInterface $alert, array $parameters)
-    {
-        return $this->processForm($alert, $parameters, 'PATCH');
+    public function patch(
+        AlertInterface $alert,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $alert,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class AlertHandler extends AlertManager
      *
      * @return AlertInterface
      */
-    protected function processForm(AlertInterface $alert, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new AlertType(), $alert, array('method' => $method));
+    protected function processForm(
+        AlertInterface $alert,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new AlertType(),
+            $alert,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $alert = $form->getData();
             $this->updateAlert($alert, true);

@@ -35,7 +35,12 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   description = "Get a CurriculumInventoryInstitution.",
      *   resource = true,
      *   requirements={
-     *     {"name"="school", "dataType"="", "requirement"="", "description"="CurriculumInventoryInstitution identifier."}
+     *     {
+     *        "name"="school",
+     *        "dataType"="",
+     *        "requirement"="",
+     *        "description"="CurriculumInventoryInstitution identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryInstitution",
      *   statusCodes={
@@ -57,7 +62,6 @@ class CurriculumInventoryInstitutionController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all CurriculumInventoryInstitution.
      *
@@ -109,19 +113,25 @@ class CurriculumInventoryInstitutionController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['curriculumInventoryInstitution'] =
-            $this->getCurriculumInventoryInstitutionHandler()->findCurriculumInventoryInstitutionsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCurriculumInventoryInstitutionHandler()
+            ->findCurriculumInventoryInstitutionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['curriculumInventoryInstitutions'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['curriculumInventoryInstitution']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryInstitutionHandler()->post($request->request->all());
+            $new  =  $this->getCurriculumInventoryInstitutionHandler()->post($this->getPostData($request));
             $answer['curriculumInventoryInstitution'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()->findCurriculumInventoryInstitutionBy(['school'=> $id])) {
-                $answer['curriculumInventoryInstitution']= $this->getCurriculumInventoryInstitutionHandler()->put($curriculumInventoryInstitution, $request->request->all());
+            $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
+                ->findCurriculumInventoryInstitutionBy(['school'=> $id]);
+            if ($curriculumInventoryInstitution) {
+                $answer['curriculumInventoryInstitution'] =
+                    $this->getCurriculumInventoryInstitutionHandler()->put(
+                        $curriculumInventoryInstitution,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventoryInstitution'] = $this->getCurriculumInventoryInstitutionHandler()->post($request->request->all());
+                $answer['curriculumInventoryInstitution'] =
+                    $this->getCurriculumInventoryInstitutionHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\CurriculumInventoryInstitutionType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryInstitution",
      *   requirements={
-     *     {"name"="school", "dataType"="", "requirement"="", "description"="CurriculumInventoryInstitution identifier."}
+     *     {
+     *         "name"="school",
+     *         "dataType"="",
+     *         "requirement"="",
+     *         "description"="CurriculumInventoryInstitution identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated CurriculumInventoryInstitution.",
@@ -227,7 +249,11 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['curriculumInventoryInstitution'] = $this->getCurriculumInventoryInstitutionHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['curriculumInventoryInstitution'] =
+            $this->getCurriculumInventoryInstitutionHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     {
         $curriculumInventoryInstitution = $this->getOr404($id);
         try {
-            $this->getCurriculumInventoryInstitutionHandler()->deleteCurriculumInventoryInstitution($curriculumInventoryInstitution);
+            $this->getCurriculumInventoryInstitutionHandler()
+                ->deleteCurriculumInventoryInstitution($curriculumInventoryInstitution);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCurriculumInventoryInstitutionHandler()->findCurriculumInventoryInstitutionBy(['school' => $id]))) {
+        $entity = $this->getCurriculumInventoryInstitutionHandler()
+            ->findCurriculumInventoryInstitutionBy(['school' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('curriculumInventoryInstitution', array());
+    }
     /**
      * @return CurriculumInventoryInstitutionHandler
      */
-    public function getCurriculumInventoryInstitutionHandler()
+    protected function getCurriculumInventoryInstitutionHandler()
     {
         return $this->container->get('ilioscore.curriculuminventoryinstitution.handler');
     }

@@ -20,7 +20,10 @@ interface SessionTypeManagerInterface
      *
      * @return SessionTypeInterface
      */
-    public function findSessionTypeBy(array $criteria, array $orderBy = null);
+    public function findSessionTypeBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface SessionTypeManagerInterface
      *
      * @return SessionTypeInterface[]|Collection
      */
-    public function findSessionTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findSessionTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param SessionTypeInterface $sessionType
@@ -38,14 +46,19 @@ interface SessionTypeManagerInterface
      *
      * @return void
      */
-     public function updateSessionType(SessionTypeInterface $sessionType, $andFlush = true);
+    public function updateSessionType(
+        SessionTypeInterface $sessionType,
+        $andFlush = true
+    );
 
     /**
      * @param SessionTypeInterface $sessionType
      *
      * @return void
      */
-    public function deleteSessionType(SessionTypeInterface $sessionType);
+    public function deleteSessionType(
+        SessionTypeInterface $sessionType
+    );
 
     /**
      * @return string

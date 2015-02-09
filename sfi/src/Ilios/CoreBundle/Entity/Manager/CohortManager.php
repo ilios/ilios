@@ -47,8 +47,10 @@ class CohortManager implements CohortManagerInterface
      *
      * @return CohortInterface
      */
-    public function findCohortBy(array $criteria, array $orderBy = null)
-    {
+    public function findCohortBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CohortManager implements CohortManagerInterface
      *
      * @return CohortInterface[]|Collection
      */
-    public function findCohortsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCohortsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CohortManager implements CohortManagerInterface
      * @param CohortInterface $cohort
      * @param bool $andFlush
      */
-    public function updateCohort(CohortInterface $cohort, $andFlush = true)
-    {
+    public function updateCohort(
+        CohortInterface $cohort,
+        $andFlush = true
+    ) {
         $this->em->persist($cohort);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CohortManager implements CohortManagerInterface
     /**
      * @param CohortInterface $cohort
      */
-    public function deleteCohort(CohortInterface $cohort)
-    {
+    public function deleteCohort(
+        CohortInterface $cohort
+    ) {
         $this->em->remove($cohort);
         $this->em->flush();
     }

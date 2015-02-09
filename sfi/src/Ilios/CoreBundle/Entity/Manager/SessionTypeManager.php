@@ -47,8 +47,10 @@ class SessionTypeManager implements SessionTypeManagerInterface
      *
      * @return SessionTypeInterface
      */
-    public function findSessionTypeBy(array $criteria, array $orderBy = null)
-    {
+    public function findSessionTypeBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class SessionTypeManager implements SessionTypeManagerInterface
      *
      * @return SessionTypeInterface[]|Collection
      */
-    public function findSessionTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findSessionTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class SessionTypeManager implements SessionTypeManagerInterface
      * @param SessionTypeInterface $sessionType
      * @param bool $andFlush
      */
-    public function updateSessionType(SessionTypeInterface $sessionType, $andFlush = true)
-    {
+    public function updateSessionType(
+        SessionTypeInterface $sessionType,
+        $andFlush = true
+    ) {
         $this->em->persist($sessionType);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class SessionTypeManager implements SessionTypeManagerInterface
     /**
      * @param SessionTypeInterface $sessionType
      */
-    public function deleteSessionType(SessionTypeInterface $sessionType)
-    {
+    public function deleteSessionType(
+        SessionTypeInterface $sessionType
+    ) {
         $this->em->remove($sessionType);
         $this->em->flush();
     }

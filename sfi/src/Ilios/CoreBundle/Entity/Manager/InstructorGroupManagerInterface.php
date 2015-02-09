@@ -20,7 +20,10 @@ interface InstructorGroupManagerInterface
      *
      * @return InstructorGroupInterface
      */
-    public function findInstructorGroupBy(array $criteria, array $orderBy = null);
+    public function findInstructorGroupBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface InstructorGroupManagerInterface
      *
      * @return InstructorGroupInterface[]|Collection
      */
-    public function findInstructorGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findInstructorGroupsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param InstructorGroupInterface $instructorGroup
@@ -38,14 +46,19 @@ interface InstructorGroupManagerInterface
      *
      * @return void
      */
-     public function updateInstructorGroup(InstructorGroupInterface $instructorGroup, $andFlush = true);
+    public function updateInstructorGroup(
+        InstructorGroupInterface $instructorGroup,
+        $andFlush = true
+    );
 
     /**
      * @param InstructorGroupInterface $instructorGroup
      *
      * @return void
      */
-    public function deleteInstructorGroup(InstructorGroupInterface $instructorGroup);
+    public function deleteInstructorGroup(
+        InstructorGroupInterface $instructorGroup
+    );
 
     /**
      * @return string

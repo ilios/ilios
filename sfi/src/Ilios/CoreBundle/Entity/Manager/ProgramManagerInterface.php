@@ -20,7 +20,10 @@ interface ProgramManagerInterface
      *
      * @return ProgramInterface
      */
-    public function findProgramBy(array $criteria, array $orderBy = null);
+    public function findProgramBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface ProgramManagerInterface
      *
      * @return ProgramInterface[]|Collection
      */
-    public function findProgramsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findProgramsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param ProgramInterface $program
@@ -38,14 +46,19 @@ interface ProgramManagerInterface
      *
      * @return void
      */
-     public function updateProgram(ProgramInterface $program, $andFlush = true);
+    public function updateProgram(
+        ProgramInterface $program,
+        $andFlush = true
+    );
 
     /**
      * @param ProgramInterface $program
      *
      * @return void
      */
-    public function deleteProgram(ProgramInterface $program);
+    public function deleteProgram(
+        ProgramInterface $program
+    );
 
     /**
      * @return string

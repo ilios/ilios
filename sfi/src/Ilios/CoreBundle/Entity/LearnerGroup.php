@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class LearnerGroup
@@ -23,6 +24,7 @@ class LearnerGroup implements LearnerGroupInterface
 {
     use IdentifiableEntity;
     use TitledEntity;
+    use StringableIdEntity;
 
     /**
      * @var int
@@ -101,7 +103,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("ilmSessions")
      */
-    protected $ilmSessionFacets;
+    protected $ilmSessions;
 
     /**
      * @var ArrayCollection|OfferingInterface[]
@@ -186,7 +188,7 @@ class LearnerGroup implements LearnerGroupInterface
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->ilmSessionFacets = new ArrayCollection();
+        $this->ilmSessions = new ArrayCollection();
         $this->offerings = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
@@ -244,9 +246,12 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @param Collection $users
      */
-    public function setUsers(Collection $users)
+    public function setUsers(Collection $users = null)
     {
         $this->users = new ArrayCollection();
+        if (is_null($users)) {
+            return;
+        }
 
         foreach ($users as $user) {
             $this->addUser($user);
@@ -270,39 +275,44 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * @param Collection $ilmSessionFacets
+     * @param Collection $ilmSessions
      */
-    public function setIlmSessionFacets(Collection $ilmSessionFacets)
+    public function setIlmSessions(Collection $ilmSessions = null)
     {
-        $this->ilmSessionFacets = new ArrayCollection();
-
-        foreach ($ilmSessionFacets as $ilmSessionFacet) {
-            $this->addIlmSessionFacet($ilmSessionFacet);
+        $this->ilmSessions = new ArrayCollection();
+        if (is_null($ilmSessions)) {
+            return;
+        }
+        foreach ($ilmSessions as $ilmSession) {
+            $this->addIlmSession($ilmSession);
         }
     }
 
     /**
-     * @param IlmSessionFacetInterface $ilmSessionFacet
+     * @param IlmSessionFacetInterface $ilmSession
      */
-    public function addIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
+    public function addIlmSession(IlmSessionFacetInterface $ilmSession)
     {
-        $this->ilmSessionFacets->add($ilmSessionFacet);
+        $this->ilmSessions->add($ilmSession);
     }
 
     /**
      * @return ArrayCollection|IlmSessionFacetInterface[]
      */
-    public function getIlmSessionFacets()
+    public function getIlmSessions()
     {
-        return $this->ilmSessionFacets->toArray();
+        return $this->ilmSessions->toArray();
     }
 
     /**
      * @param Collection $offerings
      */
-    public function setOfferings(Collection $offerings)
+    public function setOfferings(Collection $offerings = null)
     {
         $this->offerings = new ArrayCollection();
+        if (is_null($offerings)) {
+            return;
+        }
 
         foreach ($offerings as $offering) {
             $this->addOffering($offering);
@@ -344,9 +354,12 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @param Collection $children
      */
-    public function setChildren(Collection $children)
+    public function setChildren(Collection $children = null)
     {
         $this->children = new ArrayCollection();
+        if (is_null($children)) {
+            return;
+        }
 
         foreach ($children as $child) {
             $this->addChild($child);
@@ -372,9 +385,13 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @param Collection $instructorGroups
      */
-    public function setInstructorGroups(Collection $instructorGroups)
+    public function setInstructorGroups(Collection $instructorGroups = null)
     {
         $this->instructorGroups = new ArrayCollection();
+
+        if (is_null($instructorGroups)) {
+            return;
+        }
 
         foreach ($instructorGroups as $instructorGroup) {
             $this->addInstructorGroup($instructorGroup);
@@ -400,9 +417,12 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @param Collection $instructorUsers
      */
-    public function setInstructorUsers(Collection $instructorUsers)
+    public function setInstructorUsers(Collection $instructorUsers = null)
     {
         $this->instructorUsers = new ArrayCollection();
+        if (is_null($instructorUsers)) {
+            return;
+        }
 
         foreach ($instructorUsers as $instructorUser) {
             $this->addInstructorGroup($instructorUser);
@@ -423,10 +443,5 @@ class LearnerGroup implements LearnerGroupInterface
     public function getInstructorUsers()
     {
         return $this->instructorUsers;
-    }
-
-    public function __toString()
-    {
-        return (string) $this->id;
     }
 }

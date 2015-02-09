@@ -35,7 +35,12 @@ class AamcPcrsController extends FOSRestController
      *   description = "Get a AamcPcrs.",
      *   resource = true,
      *   requirements={
-     *     {"name"="pcrsId", "dataType"="string", "requirement"="\w+", "description"="AamcPcrs identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="string",
+     *        "requirement"="\w+",
+     *        "description"="AamcPcrs identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\AamcPcrs",
      *   statusCodes={
@@ -57,7 +62,6 @@ class AamcPcrsController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all AamcPcrs.
      *
@@ -109,19 +113,25 @@ class AamcPcrsController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['aamcPcrs'] =
-            $this->getAamcPcrsHandler()->findAamcPcrsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getAamcPcrsHandler()
+            ->findAamcPcrsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['aamcPcrs'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['aamcPcrs']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class AamcPcrsController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAamcPcrsHandler()->post($request->request->all());
+            $new  =  $this->getAamcPcrsHandler()->post($this->getPostData($request));
             $answer['aamcPcrs'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class AamcPcrsController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($aamcPcrs = $this->getAamcPcrsHandler()->findAamcPcrsBy(['pcrsId'=> $id])) {
-                $answer['aamcPcrs']= $this->getAamcPcrsHandler()->put($aamcPcrs, $request->request->all());
+            $aamcPcrs = $this->getAamcPcrsHandler()
+                ->findAamcPcrsBy(['id'=> $id]);
+            if ($aamcPcrs) {
+                $answer['aamcPcrs'] =
+                    $this->getAamcPcrsHandler()->put(
+                        $aamcPcrs,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['aamcPcrs'] = $this->getAamcPcrsHandler()->post($request->request->all());
+                $answer['aamcPcrs'] =
+                    $this->getAamcPcrsHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class AamcPcrsController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\AamcPcrsType",
      *   output="Ilios\CoreBundle\Entity\AamcPcrs",
      *   requirements={
-     *     {"name"="pcrsId", "dataType"="string", "requirement"="\w+", "description"="AamcPcrs identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="string",
+     *         "requirement"="\w+",
+     *         "description"="AamcPcrs identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated AamcPcrs.",
@@ -227,7 +249,11 @@ class AamcPcrsController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['aamcPcrs'] = $this->getAamcPcrsHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['aamcPcrs'] =
+            $this->getAamcPcrsHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class AamcPcrsController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "pcrsId",
+     *         "name" = "id",
      *         "dataType" = "string",
      *         "requirement" = "\w+",
      *         "description" = "AamcPcrs identifier"
@@ -265,7 +291,8 @@ class AamcPcrsController extends FOSRestController
     {
         $aamcPcrs = $this->getOr404($id);
         try {
-            $this->getAamcPcrsHandler()->deleteAamcPcrs($aamcPcrs);
+            $this->getAamcPcrsHandler()
+                ->deleteAamcPcrs($aamcPcrs);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class AamcPcrsController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getAamcPcrsHandler()->findAamcPcrsBy(['pcrsId' => $id]))) {
+        $entity = $this->getAamcPcrsHandler()
+            ->findAamcPcrsBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('aamcPcrs', array());
+    }
     /**
      * @return AamcPcrsHandler
      */
-    public function getAamcPcrsHandler()
+    protected function getAamcPcrsHandler()
     {
         return $this->container->get('ilioscore.aamcpcrs.handler');
     }

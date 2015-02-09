@@ -47,8 +47,10 @@ class OfferingManager implements OfferingManagerInterface
      *
      * @return OfferingInterface
      */
-    public function findOfferingBy(array $criteria, array $orderBy = null)
-    {
+    public function findOfferingBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class OfferingManager implements OfferingManagerInterface
      *
      * @return OfferingInterface[]|Collection
      */
-    public function findOfferingsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findOfferingsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class OfferingManager implements OfferingManagerInterface
      * @param OfferingInterface $offering
      * @param bool $andFlush
      */
-    public function updateOffering(OfferingInterface $offering, $andFlush = true)
-    {
+    public function updateOffering(
+        OfferingInterface $offering,
+        $andFlush = true
+    ) {
         $this->em->persist($offering);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class OfferingManager implements OfferingManagerInterface
     /**
      * @param OfferingInterface $offering
      */
-    public function deleteOffering(OfferingInterface $offering)
-    {
+    public function deleteOffering(
+        OfferingInterface $offering
+    ) {
         $this->em->remove($offering);
         $this->em->flush();
     }

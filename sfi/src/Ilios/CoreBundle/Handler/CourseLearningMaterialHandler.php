@@ -46,20 +46,31 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
      *
      * @return CourseLearningMaterialInterface
      */
-    public function put(CourseLearningMaterialInterface $courseLearningMaterial, array $parameters)
-    {
-        return $this->processForm($courseLearningMaterial, $parameters, 'PUT');
+    public function put(
+        CourseLearningMaterialInterface $courseLearningMaterial,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $courseLearningMaterial,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CourseLearningMaterialInterface $courseLearningMaterial
      * @param array $parameters
      *
      * @return CourseLearningMaterialInterface
      */
-    public function patch(CourseLearningMaterialInterface $courseLearningMaterial, array $parameters)
-    {
-        return $this->processForm($courseLearningMaterial, $parameters, 'PATCH');
+    public function patch(
+        CourseLearningMaterialInterface $courseLearningMaterial,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $courseLearningMaterial,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
      *
      * @return CourseLearningMaterialInterface
      */
-    protected function processForm(CourseLearningMaterialInterface $courseLearningMaterial, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CourseLearningMaterialType(), $courseLearningMaterial, array('method' => $method));
+    protected function processForm(
+        CourseLearningMaterialInterface $courseLearningMaterial,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CourseLearningMaterialType(),
+            $courseLearningMaterial,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $courseLearningMaterial = $form->getData();
             $this->updateCourseLearningMaterial($courseLearningMaterial, true);

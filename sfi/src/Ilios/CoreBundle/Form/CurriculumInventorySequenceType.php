@@ -16,7 +16,14 @@ class CurriculumInventorySequenceType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('report', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
+                ]
+            )
         ;
     }
 

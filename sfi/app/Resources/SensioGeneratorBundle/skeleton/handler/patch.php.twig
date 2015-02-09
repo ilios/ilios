@@ -1,0 +1,18 @@
+    /**
+     * @param {{ entity }}Interface ${{ entity|lowerfirst }}
+     * @param array $parameters
+     *
+     * @return {{ entity }}Interface
+     */
+    public function patch(
+        {{ entity }}Interface ${{ entity|lowerfirst }},
+        array $parameters
+    ) {
+{% block method_body %}
+        return $this->processForm(
+            ${{ entity|lowerfirst }},
+            $parameters,
+            'PATCH'
+        );
+{% endblock method_body %}
+    }

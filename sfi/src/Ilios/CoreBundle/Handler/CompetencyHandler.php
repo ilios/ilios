@@ -46,20 +46,31 @@ class CompetencyHandler extends CompetencyManager
      *
      * @return CompetencyInterface
      */
-    public function put(CompetencyInterface $competency, array $parameters)
-    {
-        return $this->processForm($competency, $parameters, 'PUT');
+    public function put(
+        CompetencyInterface $competency,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $competency,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CompetencyInterface $competency
      * @param array $parameters
      *
      * @return CompetencyInterface
      */
-    public function patch(CompetencyInterface $competency, array $parameters)
-    {
-        return $this->processForm($competency, $parameters, 'PATCH');
+    public function patch(
+        CompetencyInterface $competency,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $competency,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CompetencyHandler extends CompetencyManager
      *
      * @return CompetencyInterface
      */
-    protected function processForm(CompetencyInterface $competency, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CompetencyType(), $competency, array('method' => $method));
+    protected function processForm(
+        CompetencyInterface $competency,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CompetencyType(),
+            $competency,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $competency = $form->getData();
             $this->updateCompetency($competency, true);

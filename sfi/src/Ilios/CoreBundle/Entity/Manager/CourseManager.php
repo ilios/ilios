@@ -47,8 +47,10 @@ class CourseManager implements CourseManagerInterface
      *
      * @return CourseInterface
      */
-    public function findCourseBy(array $criteria, array $orderBy = null)
-    {
+    public function findCourseBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CourseManager implements CourseManagerInterface
      *
      * @return CourseInterface[]|Collection
      */
-    public function findCoursesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCoursesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CourseManager implements CourseManagerInterface
      * @param CourseInterface $course
      * @param bool $andFlush
      */
-    public function updateCourse(CourseInterface $course, $andFlush = true)
-    {
+    public function updateCourse(
+        CourseInterface $course,
+        $andFlush = true
+    ) {
         $this->em->persist($course);
         if ($andFlush) {
             $this->em->flush();
@@ -80,10 +88,19 @@ class CourseManager implements CourseManagerInterface
     /**
      * @param CourseInterface $course
      */
-    public function deleteCourse(CourseInterface $course)
-    {
+    public function deleteCourse(
+        CourseInterface $course
+    ) {
         $this->em->remove($course);
         $this->em->flush();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getYears()
+    {
+        return $this->repository->getYears();
     }
 
     /**

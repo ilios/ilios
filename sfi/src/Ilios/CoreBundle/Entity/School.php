@@ -112,7 +112,7 @@ class School implements SchoolInterface
     /**
      * @var ArrayCollection|CourseInterface[]
      *
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="school")
+     * @ORM\OneToMany(targetEntity="Course", mappedBy="owningSchool")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")

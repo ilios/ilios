@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Handler\CourseLearningMaterialHandler;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
@@ -26,9 +27,27 @@ use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
  */
 class CourseLearningMaterialController extends FOSRestController
 {
-
+    
     /**
      * Get a CourseLearningMaterial
+     *
+     * @ApiDoc(
+     *   description = "Get a CourseLearningMaterial.",
+     *   resource = true,
+     *   requirements={
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="CourseLearningMaterial identifier."
+     *     }
+     *   },
+     *   output="Ilios\CoreBundle\Entity\CourseLearningMaterial",
+     *   statusCodes={
+     *     200 = "CourseLearningMaterial.",
+     *     404 = "Not Found."
+     *   }
+     * )
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -43,9 +62,18 @@ class CourseLearningMaterialController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all CourseLearningMaterial.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Get all CourseLearningMaterial.",
+     *   output="Ilios\CoreBundle\Entity\CourseLearningMaterial",
+     *   statusCodes = {
+     *     200 = "List of all CourseLearningMaterial",
+     *     204 = "No content. Nothing to list."
+     *   }
+     * )
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -85,23 +113,41 @@ class CourseLearningMaterialController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['courseLearningMaterials']  =
-            $this->getCourseLearningMaterialHandler()->findCourseLearningMaterialsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCourseLearningMaterialHandler()
+            ->findCourseLearningMaterialsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['courseLearningMaterials'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['courseLearningMaterials']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
      * Create a CourseLearningMaterial.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Create a CourseLearningMaterial.",
+     *   input="Ilios\CoreBundle\Form\CourseLearningMaterialType",
+     *   output="Ilios\CoreBundle\Entity\CourseLearningMaterial",
+     *   statusCodes={
+     *     201 = "Created CourseLearningMaterial.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
@@ -112,8 +158,8 @@ class CourseLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseLearningMaterialHandler()->post($request->request->all());
-            $answer = $new;
+            $new  =  $this->getCourseLearningMaterialHandler()->post($this->getPostData($request));
+            $answer['courseLearningMaterial'] = $new;
 
             return $answer;
         } catch (InvalidFormException $exception) {
@@ -123,6 +169,19 @@ class CourseLearningMaterialController extends FOSRestController
 
     /**
      * Update a CourseLearningMaterial.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Update a CourseLearningMaterial entity.",
+     *   input="Ilios\CoreBundle\Form\CourseLearningMaterialType",
+     *   output="Ilios\CoreBundle\Entity\CourseLearningMaterial",
+     *   statusCodes={
+     *     200 = "Updated CourseLearningMaterial.",
+     *     201 = "Created CourseLearningMaterial.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -134,11 +193,18 @@ class CourseLearningMaterialController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($courseLearningMaterial = $this->getCourseLearningMaterialHandler()->findCourseLearningMaterialBy(['id'=> $id])) {
-                $answer= $this->getCourseLearningMaterialHandler()->put($courseLearningMaterial, $request->request->all());
+            $courseLearningMaterial = $this->getCourseLearningMaterialHandler()
+                ->findCourseLearningMaterialBy(['id'=> $id]);
+            if ($courseLearningMaterial) {
+                $answer['courseLearningMaterial'] =
+                    $this->getCourseLearningMaterialHandler()->put(
+                        $courseLearningMaterial,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer = $this->getCourseLearningMaterialHandler()->post($request->request->all());
+                $answer['courseLearningMaterial'] =
+                    $this->getCourseLearningMaterialHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -153,6 +219,26 @@ class CourseLearningMaterialController extends FOSRestController
     /**
      * Partial Update to a CourseLearningMaterial.
      *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Partial Update to a CourseLearningMaterial.",
+     *   input="Ilios\CoreBundle\Form\CourseLearningMaterialType",
+     *   output="Ilios\CoreBundle\Entity\CourseLearningMaterial",
+     *   requirements={
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="CourseLearningMaterial identifier."
+     *     }
+     *   },
+     *   statusCodes={
+     *     200 = "Updated CourseLearningMaterial.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -163,13 +249,35 @@ class CourseLearningMaterialController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer = $this->getCourseLearningMaterialHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['courseLearningMaterial'] =
+            $this->getCourseLearningMaterialHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
 
     /**
      * Delete a CourseLearningMaterial.
+     *
+     * @ApiDoc(
+     *   description = "Delete a CourseLearningMaterial entity.",
+     *   resource = true,
+     *   requirements={
+     *     {
+     *         "name" = "id",
+     *         "dataType" = "integer",
+     *         "requirement" = "",
+     *         "description" = "CourseLearningMaterial identifier"
+     *     }
+     *   },
+     *   statusCodes={
+     *     204 = "No content. Successfully deleted CourseLearningMaterial.",
+     *     400 = "Bad Request.",
+     *     404 = "Not found."
+     *   }
+     * )
      *
      * @View(statusCode=204)
      *
@@ -183,7 +291,8 @@ class CourseLearningMaterialController extends FOSRestController
     {
         $courseLearningMaterial = $this->getOr404($id);
         try {
-            $this->getCourseLearningMaterialHandler()->deleteCourseLearningMaterial($courseLearningMaterial);
+            $this->getCourseLearningMaterialHandler()
+                ->deleteCourseLearningMaterial($courseLearningMaterial);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -199,17 +308,28 @@ class CourseLearningMaterialController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCourseLearningMaterialHandler()->findCourseLearningMaterialBy(['id' => $id]))) {
+        $entity = $this->getCourseLearningMaterialHandler()
+            ->findCourseLearningMaterialBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('courseLearningMaterial', array());
+    }
     /**
      * @return CourseLearningMaterialHandler
      */
-    public function getCourseLearningMaterialHandler()
+    protected function getCourseLearningMaterialHandler()
     {
         return $this->container->get('ilioscore.courselearningmaterial.handler');
     }

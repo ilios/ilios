@@ -18,7 +18,14 @@ class CurriculumInventoryAcademicLevelType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('level')
-            ->add('report', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
+                ]
+            )
         ;
     }
 

@@ -20,7 +20,10 @@ interface CurriculumInventorySequenceManagerInterface
      *
      * @return CurriculumInventorySequenceInterface
      */
-    public function findCurriculumInventorySequenceBy(array $criteria, array $orderBy = null);
+    public function findCurriculumInventorySequenceBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CurriculumInventorySequenceManagerInterface
      *
      * @return CurriculumInventorySequenceInterface[]|Collection
      */
-    public function findCurriculumInventorySequencesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCurriculumInventorySequencesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CurriculumInventorySequenceInterface $curriculumInventorySequence
@@ -38,14 +46,19 @@ interface CurriculumInventorySequenceManagerInterface
      *
      * @return void
      */
-     public function updateCurriculumInventorySequence(CurriculumInventorySequenceInterface $curriculumInventorySequence, $andFlush = true);
+    public function updateCurriculumInventorySequence(
+        CurriculumInventorySequenceInterface $curriculumInventorySequence,
+        $andFlush = true
+    );
 
     /**
      * @param CurriculumInventorySequenceInterface $curriculumInventorySequence
      *
      * @return void
      */
-    public function deleteCurriculumInventorySequence(CurriculumInventorySequenceInterface $curriculumInventorySequence);
+    public function deleteCurriculumInventorySequence(
+        CurriculumInventorySequenceInterface $curriculumInventorySequence
+    );
 
     /**
      * @return string

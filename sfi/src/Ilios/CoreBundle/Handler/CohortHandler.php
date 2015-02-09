@@ -46,20 +46,31 @@ class CohortHandler extends CohortManager
      *
      * @return CohortInterface
      */
-    public function put(CohortInterface $cohort, array $parameters)
-    {
-        return $this->processForm($cohort, $parameters, 'PUT');
+    public function put(
+        CohortInterface $cohort,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $cohort,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CohortInterface $cohort
      * @param array $parameters
      *
      * @return CohortInterface
      */
-    public function patch(CohortInterface $cohort, array $parameters)
-    {
-        return $this->processForm($cohort, $parameters, 'PATCH');
+    public function patch(
+        CohortInterface $cohort,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $cohort,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CohortHandler extends CohortManager
      *
      * @return CohortInterface
      */
-    protected function processForm(CohortInterface $cohort, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CohortType(), $cohort, array('method' => $method));
+    protected function processForm(
+        CohortInterface $cohort,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CohortType(),
+            $cohort,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $cohort = $form->getData();
             $this->updateCohort($cohort, true);

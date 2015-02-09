@@ -46,20 +46,31 @@ class UserRoleHandler extends UserRoleManager
      *
      * @return UserRoleInterface
      */
-    public function put(UserRoleInterface $userRole, array $parameters)
-    {
-        return $this->processForm($userRole, $parameters, 'PUT');
+    public function put(
+        UserRoleInterface $userRole,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $userRole,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param UserRoleInterface $userRole
      * @param array $parameters
      *
      * @return UserRoleInterface
      */
-    public function patch(UserRoleInterface $userRole, array $parameters)
-    {
-        return $this->processForm($userRole, $parameters, 'PATCH');
+    public function patch(
+        UserRoleInterface $userRole,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $userRole,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class UserRoleHandler extends UserRoleManager
      *
      * @return UserRoleInterface
      */
-    protected function processForm(UserRoleInterface $userRole, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new UserRoleType(), $userRole, array('method' => $method));
+    protected function processForm(
+        UserRoleInterface $userRole,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new UserRoleType(),
+            $userRole,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $userRole = $form->getData();
             $this->updateUserRole($userRole, true);

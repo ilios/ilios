@@ -9,13 +9,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
 
 /**
  * Interface MeshDescriptorInterface
  */
 interface MeshDescriptorInterface extends
-    UniversallyUniqueEntityInterface,
+    IdentifiableEntityInterface,
     NameableEntityInterface,
     TimestampableEntityInterface
 {

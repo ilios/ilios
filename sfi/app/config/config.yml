@@ -128,12 +128,6 @@ sensio_framework_extra:
     view:    { annotations: false }
     router:  { annotations: true }
 
-doctrine_migrations:
-    dir_name: %kernel.root_dir%/DoctrineMigrations
-    namespace: Application\Migrations
-    table_name: migration_versions
-    name: Application Migrations
-
 jms_di_extra:
     locations:
         all_bundles: false

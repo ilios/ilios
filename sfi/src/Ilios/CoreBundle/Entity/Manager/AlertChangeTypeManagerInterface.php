@@ -20,7 +20,10 @@ interface AlertChangeTypeManagerInterface
      *
      * @return AlertChangeTypeInterface
      */
-    public function findAlertChangeTypeBy(array $criteria, array $orderBy = null);
+    public function findAlertChangeTypeBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface AlertChangeTypeManagerInterface
      *
      * @return AlertChangeTypeInterface[]|Collection
      */
-    public function findAlertChangeTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findAlertChangeTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param AlertChangeTypeInterface $alertChangeType
@@ -38,14 +46,19 @@ interface AlertChangeTypeManagerInterface
      *
      * @return void
      */
-     public function updateAlertChangeType(AlertChangeTypeInterface $alertChangeType, $andFlush = true);
+    public function updateAlertChangeType(
+        AlertChangeTypeInterface $alertChangeType,
+        $andFlush = true
+    );
 
     /**
      * @param AlertChangeTypeInterface $alertChangeType
      *
      * @return void
      */
-    public function deleteAlertChangeType(AlertChangeTypeInterface $alertChangeType);
+    public function deleteAlertChangeType(
+        AlertChangeTypeInterface $alertChangeType
+    );
 
     /**
      * @return string

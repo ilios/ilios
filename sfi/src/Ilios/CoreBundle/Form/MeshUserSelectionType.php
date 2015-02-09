@@ -16,7 +16,14 @@ class MeshUserSelectionType extends AbstractType
     {
         $builder
             ->add('searchPhrase')
-            ->add('meshDescriptor', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
+            ->add(
+                'meshDescriptor',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 

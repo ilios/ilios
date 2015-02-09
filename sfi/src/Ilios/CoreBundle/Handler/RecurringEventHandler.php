@@ -46,20 +46,31 @@ class RecurringEventHandler extends RecurringEventManager
      *
      * @return RecurringEventInterface
      */
-    public function put(RecurringEventInterface $recurringEvent, array $parameters)
-    {
-        return $this->processForm($recurringEvent, $parameters, 'PUT');
+    public function put(
+        RecurringEventInterface $recurringEvent,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $recurringEvent,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param RecurringEventInterface $recurringEvent
      * @param array $parameters
      *
      * @return RecurringEventInterface
      */
-    public function patch(RecurringEventInterface $recurringEvent, array $parameters)
-    {
-        return $this->processForm($recurringEvent, $parameters, 'PATCH');
+    public function patch(
+        RecurringEventInterface $recurringEvent,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $recurringEvent,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class RecurringEventHandler extends RecurringEventManager
      *
      * @return RecurringEventInterface
      */
-    protected function processForm(RecurringEventInterface $recurringEvent, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new RecurringEventType(), $recurringEvent, array('method' => $method));
+    protected function processForm(
+        RecurringEventInterface $recurringEvent,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new RecurringEventType(),
+            $recurringEvent,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $recurringEvent = $form->getData();
             $this->updateRecurringEvent($recurringEvent, true);

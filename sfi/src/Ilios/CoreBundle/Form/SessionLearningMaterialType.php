@@ -18,9 +18,30 @@ class SessionLearningMaterialType extends AbstractType
             ->add('notes')
             ->add('required')
             ->add('notesArePublic')
-            ->add('session', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Session"])
-            ->add('learningMaterial', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterial"])
-            ->add('meshDescriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
+            ->add(
+                'session',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
+                ]
+            )
+            ->add(
+                'learningMaterial',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterial"
+                ]
+            )
+            ->add(
+                'meshDescriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 

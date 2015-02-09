@@ -46,20 +46,31 @@ class CourseHandler extends CourseManager
      *
      * @return CourseInterface
      */
-    public function put(CourseInterface $course, array $parameters)
-    {
-        return $this->processForm($course, $parameters, 'PUT');
+    public function put(
+        CourseInterface $course,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $course,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CourseInterface $course
      * @param array $parameters
      *
      * @return CourseInterface
      */
-    public function patch(CourseInterface $course, array $parameters)
-    {
-        return $this->processForm($course, $parameters, 'PATCH');
+    public function patch(
+        CourseInterface $course,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $course,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CourseHandler extends CourseManager
      *
      * @return CourseInterface
      */
-    protected function processForm(CourseInterface $course, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CourseType(), $course, array('method' => $method));
+    protected function processForm(
+        CourseInterface $course,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CourseType(),
+            $course,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $course = $form->getData();
             $this->updateCourse($course, true);

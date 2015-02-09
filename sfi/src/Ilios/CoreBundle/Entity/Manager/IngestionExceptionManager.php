@@ -47,8 +47,10 @@ class IngestionExceptionManager implements IngestionExceptionManagerInterface
      *
      * @return IngestionExceptionInterface
      */
-    public function findIngestionExceptionBy(array $criteria, array $orderBy = null)
-    {
+    public function findIngestionExceptionBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class IngestionExceptionManager implements IngestionExceptionManagerInterface
      *
      * @return IngestionExceptionInterface[]|Collection
      */
-    public function findIngestionExceptionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findIngestionExceptionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class IngestionExceptionManager implements IngestionExceptionManagerInterface
      * @param IngestionExceptionInterface $ingestionException
      * @param bool $andFlush
      */
-    public function updateIngestionException(IngestionExceptionInterface $ingestionException, $andFlush = true)
-    {
+    public function updateIngestionException(
+        IngestionExceptionInterface $ingestionException,
+        $andFlush = true
+    ) {
         $this->em->persist($ingestionException);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class IngestionExceptionManager implements IngestionExceptionManagerInterface
     /**
      * @param IngestionExceptionInterface $ingestionException
      */
-    public function deleteIngestionException(IngestionExceptionInterface $ingestionException)
-    {
+    public function deleteIngestionException(
+        IngestionExceptionInterface $ingestionException
+    ) {
         $this->em->remove($ingestionException);
         $this->em->flush();
     }

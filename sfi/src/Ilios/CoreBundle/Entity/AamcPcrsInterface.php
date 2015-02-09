@@ -9,13 +9,13 @@ use Ilios\CoreBundle\Traits\DescribableEntityInterface;
 use Ilios\CoreBundle\Traits\NameableEntityInterface;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntityInterface;
+use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 
 /**
  * Interface AamcPcrsInterface
  */
 interface AamcPcrsInterface extends
-    UniversallyUniqueEntityInterface,
+    IdentifiableEntityInterface,
     DescribableEntityInterface,
     StringableEntityInterface
 {

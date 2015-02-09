@@ -7,8 +7,8 @@ use JMS\Serializer\Annotation as JMS;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
-use Ilios\CoreBundle\Traits\StringableUuidEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshQualifier
@@ -21,20 +21,12 @@ use Ilios\CoreBundle\Traits\StringableUuidEntity;
  */
 class MeshQualifier implements MeshQualifierInterface
 {
-//    use UniversallyUniqueEntity;
+    use IdentifiableEntity;
 //    use TimestampableEntity;
     use NameableEntity;
-    use StringableUuidEntity;
+    use StringableIdEntity;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=60)
-    */
-    protected $name;
-
-    /**
-     * @deprecated Replace with trait.
      * @var string
      *
      * @ORM\Column(name="mesh_qualifier_uid", type="string", length=9)
@@ -43,9 +35,15 @@ class MeshQualifier implements MeshQualifierInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(type="string", length=60)
+    */
+    protected $name;
 
     /**
      * @var \DateTime
@@ -78,23 +76,6 @@ class MeshQualifier implements MeshQualifierInterface
     * @JMS\Type("array<string>")
     */
     protected $descriptors;
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->meshQualifierUid = $uuid;
-        $this->uuid = $uuid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid()
-    {
-        return ($this->uuid === null) ? $this->meshQualifierUid : $this->uuid;
-    }
 
     /**
      * @param \DateTime $createdAt

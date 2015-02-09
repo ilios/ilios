@@ -35,7 +35,12 @@ class ProgramYearController extends FOSRestController
      *   description = "Get a ProgramYear.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="ProgramYear identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="ProgramYear identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\ProgramYear",
      *   statusCodes={
@@ -57,7 +62,6 @@ class ProgramYearController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all ProgramYear.
      *
@@ -109,19 +113,25 @@ class ProgramYearController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['programYear'] =
-            $this->getProgramYearHandler()->findProgramYearsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getProgramYearHandler()
+            ->findProgramYearsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['programYears'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['programYear']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class ProgramYearController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramYearHandler()->post($request->request->all());
+            $new  =  $this->getProgramYearHandler()->post($this->getPostData($request));
             $answer['programYear'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class ProgramYearController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($programYear = $this->getProgramYearHandler()->findProgramYearBy(['id'=> $id])) {
-                $answer['programYear']= $this->getProgramYearHandler()->put($programYear, $request->request->all());
+            $programYear = $this->getProgramYearHandler()
+                ->findProgramYearBy(['id'=> $id]);
+            if ($programYear) {
+                $answer['programYear'] =
+                    $this->getProgramYearHandler()->put(
+                        $programYear,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['programYear'] = $this->getProgramYearHandler()->post($request->request->all());
+                $answer['programYear'] =
+                    $this->getProgramYearHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class ProgramYearController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\ProgramYearType",
      *   output="Ilios\CoreBundle\Entity\ProgramYear",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="ProgramYear identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="ProgramYear identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated ProgramYear.",
@@ -227,7 +249,11 @@ class ProgramYearController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['programYear'] = $this->getProgramYearHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['programYear'] =
+            $this->getProgramYearHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class ProgramYearController extends FOSRestController
     {
         $programYear = $this->getOr404($id);
         try {
-            $this->getProgramYearHandler()->deleteProgramYear($programYear);
+            $this->getProgramYearHandler()
+                ->deleteProgramYear($programYear);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class ProgramYearController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getProgramYearHandler()->findProgramYearBy(['id' => $id]))) {
+        $entity = $this->getProgramYearHandler()
+            ->findProgramYearBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('programYear', array());
+    }
     /**
      * @return ProgramYearHandler
      */
-    public function getProgramYearHandler()
+    protected function getProgramYearHandler()
     {
         return $this->container->get('ilioscore.programyear.handler');
     }

@@ -20,7 +20,10 @@ interface MeshPreviousIndexingManagerInterface
      *
      * @return MeshPreviousIndexingInterface
      */
-    public function findMeshPreviousIndexingBy(array $criteria, array $orderBy = null);
+    public function findMeshPreviousIndexingBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface MeshPreviousIndexingManagerInterface
      *
      * @return MeshPreviousIndexingInterface[]|Collection
      */
-    public function findMeshPreviousIndexingsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findMeshPreviousIndexingsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param MeshPreviousIndexingInterface $meshPreviousIndexing
@@ -38,14 +46,19 @@ interface MeshPreviousIndexingManagerInterface
      *
      * @return void
      */
-     public function updateMeshPreviousIndexing(MeshPreviousIndexingInterface $meshPreviousIndexing, $andFlush = true);
+    public function updateMeshPreviousIndexing(
+        MeshPreviousIndexingInterface $meshPreviousIndexing,
+        $andFlush = true
+    );
 
     /**
      * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      *
      * @return void
      */
-    public function deleteMeshPreviousIndexing(MeshPreviousIndexingInterface $meshPreviousIndexing);
+    public function deleteMeshPreviousIndexing(
+        MeshPreviousIndexingInterface $meshPreviousIndexing
+    );
 
     /**
      * @return string

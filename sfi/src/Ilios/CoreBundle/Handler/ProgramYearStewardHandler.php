@@ -46,20 +46,31 @@ class ProgramYearStewardHandler extends ProgramYearStewardManager
      *
      * @return ProgramYearStewardInterface
      */
-    public function put(ProgramYearStewardInterface $programYearSteward, array $parameters)
-    {
-        return $this->processForm($programYearSteward, $parameters, 'PUT');
+    public function put(
+        ProgramYearStewardInterface $programYearSteward,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $programYearSteward,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param ProgramYearStewardInterface $programYearSteward
      * @param array $parameters
      *
      * @return ProgramYearStewardInterface
      */
-    public function patch(ProgramYearStewardInterface $programYearSteward, array $parameters)
-    {
-        return $this->processForm($programYearSteward, $parameters, 'PATCH');
+    public function patch(
+        ProgramYearStewardInterface $programYearSteward,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $programYearSteward,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class ProgramYearStewardHandler extends ProgramYearStewardManager
      *
      * @return ProgramYearStewardInterface
      */
-    protected function processForm(ProgramYearStewardInterface $programYearSteward, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new ProgramYearStewardType(), $programYearSteward, array('method' => $method));
+    protected function processForm(
+        ProgramYearStewardInterface $programYearSteward,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new ProgramYearStewardType(),
+            $programYearSteward,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $programYearSteward = $form->getData();
             $this->updateProgramYearSteward($programYearSteward, true);

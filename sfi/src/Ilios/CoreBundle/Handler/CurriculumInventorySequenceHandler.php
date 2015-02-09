@@ -46,20 +46,31 @@ class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceMana
      *
      * @return CurriculumInventorySequenceInterface
      */
-    public function put(CurriculumInventorySequenceInterface $curriculumInventorySequence, array $parameters)
-    {
-        return $this->processForm($curriculumInventorySequence, $parameters, 'PUT');
+    public function put(
+        CurriculumInventorySequenceInterface $curriculumInventorySequence,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventorySequence,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CurriculumInventorySequenceInterface $curriculumInventorySequence
      * @param array $parameters
      *
      * @return CurriculumInventorySequenceInterface
      */
-    public function patch(CurriculumInventorySequenceInterface $curriculumInventorySequence, array $parameters)
-    {
-        return $this->processForm($curriculumInventorySequence, $parameters, 'PATCH');
+    public function patch(
+        CurriculumInventorySequenceInterface $curriculumInventorySequence,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventorySequence,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceMana
      *
      * @return CurriculumInventorySequenceInterface
      */
-    protected function processForm(CurriculumInventorySequenceInterface $curriculumInventorySequence, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CurriculumInventorySequenceType(), $curriculumInventorySequence, array('method' => $method));
+    protected function processForm(
+        CurriculumInventorySequenceInterface $curriculumInventorySequence,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CurriculumInventorySequenceType(),
+            $curriculumInventorySequence,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $curriculumInventorySequence = $form->getData();
             $this->updateCurriculumInventorySequence($curriculumInventorySequence, true);

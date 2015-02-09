@@ -47,8 +47,10 @@ class MeshSemanticTypeManager implements MeshSemanticTypeManagerInterface
      *
      * @return MeshSemanticTypeInterface
      */
-    public function findMeshSemanticTypeBy(array $criteria, array $orderBy = null)
-    {
+    public function findMeshSemanticTypeBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class MeshSemanticTypeManager implements MeshSemanticTypeManagerInterface
      *
      * @return MeshSemanticTypeInterface[]|Collection
      */
-    public function findMeshSemanticTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findMeshSemanticTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class MeshSemanticTypeManager implements MeshSemanticTypeManagerInterface
      * @param MeshSemanticTypeInterface $meshSemanticType
      * @param bool $andFlush
      */
-    public function updateMeshSemanticType(MeshSemanticTypeInterface $meshSemanticType, $andFlush = true)
-    {
+    public function updateMeshSemanticType(
+        MeshSemanticTypeInterface $meshSemanticType,
+        $andFlush = true
+    ) {
         $this->em->persist($meshSemanticType);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class MeshSemanticTypeManager implements MeshSemanticTypeManagerInterface
     /**
      * @param MeshSemanticTypeInterface $meshSemanticType
      */
-    public function deleteMeshSemanticType(MeshSemanticTypeInterface $meshSemanticType)
-    {
+    public function deleteMeshSemanticType(
+        MeshSemanticTypeInterface $meshSemanticType
+    ) {
         $this->em->remove($meshSemanticType);
         $this->em->flush();
     }

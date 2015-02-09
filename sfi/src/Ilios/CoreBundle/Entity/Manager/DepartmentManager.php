@@ -47,8 +47,10 @@ class DepartmentManager implements DepartmentManagerInterface
      *
      * @return DepartmentInterface
      */
-    public function findDepartmentBy(array $criteria, array $orderBy = null)
-    {
+    public function findDepartmentBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class DepartmentManager implements DepartmentManagerInterface
      *
      * @return DepartmentInterface[]|Collection
      */
-    public function findDepartmentsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findDepartmentsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class DepartmentManager implements DepartmentManagerInterface
      * @param DepartmentInterface $department
      * @param bool $andFlush
      */
-    public function updateDepartment(DepartmentInterface $department, $andFlush = true)
-    {
+    public function updateDepartment(
+        DepartmentInterface $department,
+        $andFlush = true
+    ) {
         $this->em->persist($department);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class DepartmentManager implements DepartmentManagerInterface
     /**
      * @param DepartmentInterface $department
      */
-    public function deleteDepartment(DepartmentInterface $department)
-    {
+    public function deleteDepartment(
+        DepartmentInterface $department
+    ) {
         $this->em->remove($department);
         $this->em->flush();
     }

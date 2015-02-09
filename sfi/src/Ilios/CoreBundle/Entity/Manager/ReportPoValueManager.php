@@ -47,8 +47,10 @@ class ReportPoValueManager implements ReportPoValueManagerInterface
      *
      * @return ReportPoValueInterface
      */
-    public function findReportPoValueBy(array $criteria, array $orderBy = null)
-    {
+    public function findReportPoValueBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class ReportPoValueManager implements ReportPoValueManagerInterface
      *
      * @return ReportPoValueInterface[]|Collection
      */
-    public function findReportPoValuesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findReportPoValuesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class ReportPoValueManager implements ReportPoValueManagerInterface
      * @param ReportPoValueInterface $reportPoValue
      * @param bool $andFlush
      */
-    public function updateReportPoValue(ReportPoValueInterface $reportPoValue, $andFlush = true)
-    {
+    public function updateReportPoValue(
+        ReportPoValueInterface $reportPoValue,
+        $andFlush = true
+    ) {
         $this->em->persist($reportPoValue);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class ReportPoValueManager implements ReportPoValueManagerInterface
     /**
      * @param ReportPoValueInterface $reportPoValue
      */
-    public function deleteReportPoValue(ReportPoValueInterface $reportPoValue)
-    {
+    public function deleteReportPoValue(
+        ReportPoValueInterface $reportPoValue
+    ) {
         $this->em->remove($reportPoValue);
         $this->em->flush();
     }

@@ -35,7 +35,12 @@ class MeshConceptController extends FOSRestController
      *   description = "Get a MeshConcept.",
      *   resource = true,
      *   requirements={
-     *     {"name"="meshConceptUid", "dataType"="string", "requirement"="\w+", "description"="MeshConcept identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="string",
+     *        "requirement"="\w+",
+     *        "description"="MeshConcept identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\MeshConcept",
      *   statusCodes={
@@ -57,7 +62,6 @@ class MeshConceptController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all MeshConcept.
      *
@@ -109,19 +113,25 @@ class MeshConceptController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['meshConcept'] =
-            $this->getMeshConceptHandler()->findMeshConceptsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getMeshConceptHandler()
+            ->findMeshConceptsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['meshConcepts'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['meshConcept']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class MeshConceptController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshConceptHandler()->post($request->request->all());
+            $new  =  $this->getMeshConceptHandler()->post($this->getPostData($request));
             $answer['meshConcept'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class MeshConceptController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($meshConcept = $this->getMeshConceptHandler()->findMeshConceptBy(['meshConceptUid'=> $id])) {
-                $answer['meshConcept']= $this->getMeshConceptHandler()->put($meshConcept, $request->request->all());
+            $meshConcept = $this->getMeshConceptHandler()
+                ->findMeshConceptBy(['id'=> $id]);
+            if ($meshConcept) {
+                $answer['meshConcept'] =
+                    $this->getMeshConceptHandler()->put(
+                        $meshConcept,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshConcept'] = $this->getMeshConceptHandler()->post($request->request->all());
+                $answer['meshConcept'] =
+                    $this->getMeshConceptHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class MeshConceptController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\MeshConceptType",
      *   output="Ilios\CoreBundle\Entity\MeshConcept",
      *   requirements={
-     *     {"name"="meshConceptUid", "dataType"="string", "requirement"="\w+", "description"="MeshConcept identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="string",
+     *         "requirement"="\w+",
+     *         "description"="MeshConcept identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated MeshConcept.",
@@ -227,7 +249,11 @@ class MeshConceptController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['meshConcept'] = $this->getMeshConceptHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['meshConcept'] =
+            $this->getMeshConceptHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class MeshConceptController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "meshConceptUid",
+     *         "name" = "id",
      *         "dataType" = "string",
      *         "requirement" = "\w+",
      *         "description" = "MeshConcept identifier"
@@ -265,7 +291,8 @@ class MeshConceptController extends FOSRestController
     {
         $meshConcept = $this->getOr404($id);
         try {
-            $this->getMeshConceptHandler()->deleteMeshConcept($meshConcept);
+            $this->getMeshConceptHandler()
+                ->deleteMeshConcept($meshConcept);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class MeshConceptController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getMeshConceptHandler()->findMeshConceptBy(['meshConceptUid' => $id]))) {
+        $entity = $this->getMeshConceptHandler()
+            ->findMeshConceptBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('meshConcept', array());
+    }
     /**
      * @return MeshConceptHandler
      */
-    public function getMeshConceptHandler()
+    protected function getMeshConceptHandler()
     {
         return $this->container->get('ilioscore.meshconcept.handler');
     }

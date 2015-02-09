@@ -46,20 +46,31 @@ class DisciplineHandler extends DisciplineManager
      *
      * @return DisciplineInterface
      */
-    public function put(DisciplineInterface $discipline, array $parameters)
-    {
-        return $this->processForm($discipline, $parameters, 'PUT');
+    public function put(
+        DisciplineInterface $discipline,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $discipline,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param DisciplineInterface $discipline
      * @param array $parameters
      *
      * @return DisciplineInterface
      */
-    public function patch(DisciplineInterface $discipline, array $parameters)
-    {
-        return $this->processForm($discipline, $parameters, 'PATCH');
+    public function patch(
+        DisciplineInterface $discipline,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $discipline,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class DisciplineHandler extends DisciplineManager
      *
      * @return DisciplineInterface
      */
-    protected function processForm(DisciplineInterface $discipline, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new DisciplineType(), $discipline, array('method' => $method));
+    protected function processForm(
+        DisciplineInterface $discipline,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new DisciplineType(),
+            $discipline,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $discipline = $form->getData();
             $this->updateDiscipline($discipline, true);

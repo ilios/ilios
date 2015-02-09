@@ -9,8 +9,8 @@ use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
-use Ilios\CoreBundle\Traits\StringableUuidEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class AamcPcrs
@@ -23,9 +23,9 @@ use Ilios\CoreBundle\Traits\StringableUuidEntity;
  */
 class AamcPcrs implements AamcPcrsInterface
 {
-    use UniversallyUniqueEntity;
+    use IdentifiableEntity;
     use DescribableEntity;
-    use StringableUuidEntity;
+    use StringableIdEntity;
 
     /**
      * @var string
@@ -36,9 +36,8 @@ class AamcPcrs implements AamcPcrsInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
 
     /**
     * @ORM\Column(name="description", type="text")

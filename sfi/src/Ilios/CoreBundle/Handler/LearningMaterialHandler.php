@@ -46,20 +46,31 @@ class LearningMaterialHandler extends LearningMaterialManager
      *
      * @return LearningMaterialInterface
      */
-    public function put(LearningMaterialInterface $learningMaterial, array $parameters)
-    {
-        return $this->processForm($learningMaterial, $parameters, 'PUT');
+    public function put(
+        LearningMaterialInterface $learningMaterial,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $learningMaterial,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param LearningMaterialInterface $learningMaterial
      * @param array $parameters
      *
      * @return LearningMaterialInterface
      */
-    public function patch(LearningMaterialInterface $learningMaterial, array $parameters)
-    {
-        return $this->processForm($learningMaterial, $parameters, 'PATCH');
+    public function patch(
+        LearningMaterialInterface $learningMaterial,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $learningMaterial,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,8 +81,11 @@ class LearningMaterialHandler extends LearningMaterialManager
      *
      * @return LearningMaterialInterface
      */
-    protected function processForm(LearningMaterialInterface $learningMaterial, array $parameters, $method = "PUT")
-    {
+    protected function processForm(
+        LearningMaterialInterface $learningMaterial,
+        array $parameters,
+        $method = "PUT"
+    ) {
         $form = $this->formFactory->create(
             new LearningMaterialType(),
             $learningMaterial,

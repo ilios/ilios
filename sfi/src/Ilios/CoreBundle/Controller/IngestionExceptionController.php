@@ -35,7 +35,12 @@ class IngestionExceptionController extends FOSRestController
      *   description = "Get a IngestionException.",
      *   resource = true,
      *   requirements={
-     *     {"name"="user", "dataType"="", "requirement"="", "description"="IngestionException identifier."}
+     *     {
+     *        "name"="user",
+     *        "dataType"="",
+     *        "requirement"="",
+     *        "description"="IngestionException identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\IngestionException",
      *   statusCodes={
@@ -57,7 +62,6 @@ class IngestionExceptionController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all IngestionException.
      *
@@ -109,19 +113,25 @@ class IngestionExceptionController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['ingestionException'] =
-            $this->getIngestionExceptionHandler()->findIngestionExceptionsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getIngestionExceptionHandler()
+            ->findIngestionExceptionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['ingestionExceptions'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['ingestionException']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class IngestionExceptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getIngestionExceptionHandler()->post($request->request->all());
+            $new  =  $this->getIngestionExceptionHandler()->post($this->getPostData($request));
             $answer['ingestionException'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class IngestionExceptionController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($ingestionException = $this->getIngestionExceptionHandler()->findIngestionExceptionBy(['user'=> $id])) {
-                $answer['ingestionException']= $this->getIngestionExceptionHandler()->put($ingestionException, $request->request->all());
+            $ingestionException = $this->getIngestionExceptionHandler()
+                ->findIngestionExceptionBy(['user'=> $id]);
+            if ($ingestionException) {
+                $answer['ingestionException'] =
+                    $this->getIngestionExceptionHandler()->put(
+                        $ingestionException,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['ingestionException'] = $this->getIngestionExceptionHandler()->post($request->request->all());
+                $answer['ingestionException'] =
+                    $this->getIngestionExceptionHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class IngestionExceptionController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\IngestionExceptionType",
      *   output="Ilios\CoreBundle\Entity\IngestionException",
      *   requirements={
-     *     {"name"="user", "dataType"="", "requirement"="", "description"="IngestionException identifier."}
+     *     {
+     *         "name"="user",
+     *         "dataType"="",
+     *         "requirement"="",
+     *         "description"="IngestionException identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated IngestionException.",
@@ -227,7 +249,11 @@ class IngestionExceptionController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['ingestionException'] = $this->getIngestionExceptionHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['ingestionException'] =
+            $this->getIngestionExceptionHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class IngestionExceptionController extends FOSRestController
     {
         $ingestionException = $this->getOr404($id);
         try {
-            $this->getIngestionExceptionHandler()->deleteIngestionException($ingestionException);
+            $this->getIngestionExceptionHandler()
+                ->deleteIngestionException($ingestionException);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class IngestionExceptionController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getIngestionExceptionHandler()->findIngestionExceptionBy(['user' => $id]))) {
+        $entity = $this->getIngestionExceptionHandler()
+            ->findIngestionExceptionBy(['user' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('ingestionException', array());
+    }
     /**
      * @return IngestionExceptionHandler
      */
-    public function getIngestionExceptionHandler()
+    protected function getIngestionExceptionHandler()
     {
         return $this->container->get('ilioscore.ingestionexception.handler');
     }

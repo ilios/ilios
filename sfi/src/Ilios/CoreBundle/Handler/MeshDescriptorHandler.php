@@ -46,20 +46,31 @@ class MeshDescriptorHandler extends MeshDescriptorManager
      *
      * @return MeshDescriptorInterface
      */
-    public function put(MeshDescriptorInterface $meshDescriptor, array $parameters)
-    {
-        return $this->processForm($meshDescriptor, $parameters, 'PUT');
+    public function put(
+        MeshDescriptorInterface $meshDescriptor,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshDescriptor,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param MeshDescriptorInterface $meshDescriptor
      * @param array $parameters
      *
      * @return MeshDescriptorInterface
      */
-    public function patch(MeshDescriptorInterface $meshDescriptor, array $parameters)
-    {
-        return $this->processForm($meshDescriptor, $parameters, 'PATCH');
+    public function patch(
+        MeshDescriptorInterface $meshDescriptor,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshDescriptor,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class MeshDescriptorHandler extends MeshDescriptorManager
      *
      * @return MeshDescriptorInterface
      */
-    protected function processForm(MeshDescriptorInterface $meshDescriptor, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new MeshDescriptorType(), $meshDescriptor, array('method' => $method));
+    protected function processForm(
+        MeshDescriptorInterface $meshDescriptor,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new MeshDescriptorType(),
+            $meshDescriptor,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $meshDescriptor = $form->getData();
             $this->updateMeshDescriptor($meshDescriptor, true);

@@ -47,8 +47,10 @@ class LearnerGroupManager implements LearnerGroupManagerInterface
      *
      * @return LearnerGroupInterface
      */
-    public function findLearnerGroupBy(array $criteria, array $orderBy = null)
-    {
+    public function findLearnerGroupBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class LearnerGroupManager implements LearnerGroupManagerInterface
      *
      * @return LearnerGroupInterface[]|Collection
      */
-    public function findLearnerGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findLearnerGroupsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class LearnerGroupManager implements LearnerGroupManagerInterface
      * @param LearnerGroupInterface $learnerGroup
      * @param bool $andFlush
      */
-    public function updateLearnerGroup(LearnerGroupInterface $learnerGroup, $andFlush = true)
-    {
+    public function updateLearnerGroup(
+        LearnerGroupInterface $learnerGroup,
+        $andFlush = true
+    ) {
         $this->em->persist($learnerGroup);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class LearnerGroupManager implements LearnerGroupManagerInterface
     /**
      * @param LearnerGroupInterface $learnerGroup
      */
-    public function deleteLearnerGroup(LearnerGroupInterface $learnerGroup)
-    {
+    public function deleteLearnerGroup(
+        LearnerGroupInterface $learnerGroup
+    ) {
         $this->em->remove($learnerGroup);
         $this->em->flush();
     }

@@ -20,7 +20,10 @@ interface UserRoleManagerInterface
      *
      * @return UserRoleInterface
      */
-    public function findUserRoleBy(array $criteria, array $orderBy = null);
+    public function findUserRoleBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface UserRoleManagerInterface
      *
      * @return UserRoleInterface[]|Collection
      */
-    public function findUserRolesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findUserRolesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param UserRoleInterface $userRole
@@ -38,14 +46,19 @@ interface UserRoleManagerInterface
      *
      * @return void
      */
-     public function updateUserRole(UserRoleInterface $userRole, $andFlush = true);
+    public function updateUserRole(
+        UserRoleInterface $userRole,
+        $andFlush = true
+    );
 
     /**
      * @param UserRoleInterface $userRole
      *
      * @return void
      */
-    public function deleteUserRole(UserRoleInterface $userRole);
+    public function deleteUserRole(
+        UserRoleInterface $userRole
+    );
 
     /**
      * @return string

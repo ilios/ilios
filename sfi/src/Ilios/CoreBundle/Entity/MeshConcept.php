@@ -9,8 +9,8 @@ use Gedmo\Mapping\Annotation\Timestampable;
 use JMS\Serializer\Annotation as JMS;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
-use Ilios\CoreBundle\Traits\UniversallyUniqueEntity;
-use Ilios\CoreBundle\Traits\StringableUuidEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
 
 /**
  * Class MeshConcept
@@ -23,13 +23,12 @@ use Ilios\CoreBundle\Traits\StringableUuidEntity;
  */
 class MeshConcept implements MeshConceptInterface
 {
-//    use UniversallyUniqueEntity;
+    use IdentifiableEntity;
     use NameableEntity;
-    use StringableUuidEntity;
+    use StringableIdEntity;
 
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var string
      *
      * @ORM\Column(name="mesh_concept_uid", type="string", length=9)
@@ -38,9 +37,8 @@ class MeshConcept implements MeshConceptInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
 
     /**
     * @var string
@@ -134,24 +132,6 @@ class MeshConcept implements MeshConceptInterface
     * @JMS\Type("array<string>")
     */
     protected $descriptors;
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->meshConceptUid = $uuid;
-        $this->uuid = $uuid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid()
-    {
-        return ($this->uuid === null) ? $this->meshConceptUid : $this->uuid;
-    }
-
     /**
      * @param string $umlsUid
      */

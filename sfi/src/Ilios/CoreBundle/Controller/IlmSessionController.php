@@ -25,21 +25,26 @@ use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
  * @package Ilios\CoreBundle\Controller\;
  * @RouteResource("IlmSession")
  */
-class IlmSessionFacetController extends FOSRestController
+class IlmSessionController extends FOSRestController
 {
 
     /**
      * Get a IlmSessionFacet
      *
      * @ApiDoc(
-     *   description = "Get a IlmSessionFacet.",
+     *   description = "Get a IlmSession.",
      *   resource = true,
      *   requirements={
-     *     {"name"="ilmSessionFacetId", "dataType"="integer", "requirement"="", "description"="IlmSessionFacet identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="IlmSession identifier."
+     *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
+     *   output="Ilios\CoreBundle\Entity\IlmSession",
      *   statusCodes={
-     *     200 = "IlmSessionFacet.",
+     *     200 = "IlmSession.",
      *     404 = "Not Found."
      *   }
      * )
@@ -57,7 +62,6 @@ class IlmSessionFacetController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all IlmSessionFacet.
      *
@@ -109,19 +113,25 @@ class IlmSessionFacetController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['ilmSessions'] =
-            $this->getIlmSessionFacetHandler()->findIlmSessionFacetsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getIlmSessionFacetHandler()
+            ->findIlmSessionFacetsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['ilmSessions'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['ilmSessions']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class IlmSessionFacetController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getIlmSessionFacetHandler()->post($request->request->all());
+            $new  =  $this->getIlmSessionFacetHandler()->post($this->getPostData($request));
             $answer['ilmSession'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class IlmSessionFacetController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($ilmSessionFacet = $this->getIlmSessionFacetHandler()->findIlmSessionFacetBy(['ilmSessionFacetId'=> $id])) {
-                $answer['ilmSession']= $this->getIlmSessionFacetHandler()->put($ilmSessionFacet, $request->request->all());
+            $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+                ->findIlmSessionFacetBy(['id'=> $id]);
+            if ($ilmSessionFacet) {
+                $answer['ilmSession'] =
+                    $this->getIlmSessionFacetHandler()->put(
+                        $ilmSessionFacet,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['ilmSession'] = $this->getIlmSessionFacetHandler()->post($request->request->all());
+                $answer['ilmSession'] =
+                    $this->getIlmSessionFacetHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class IlmSessionFacetController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\IlmSessionFacetType",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   requirements={
-     *     {"name"="ilmSessionFacetId", "dataType"="integer", "requirement"="", "description"="IlmSessionFacet identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="IlmSessionFacet identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated IlmSessionFacet.",
@@ -227,7 +249,11 @@ class IlmSessionFacetController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['ilmSession'] = $this->getIlmSessionFacetHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['ilmSession'] =
+            $this->getIlmSessionFacetHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class IlmSessionFacetController extends FOSRestController
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "ilmSessionFacetId",
+     *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "",
      *         "description" = "IlmSessionFacet identifier"
@@ -265,7 +291,8 @@ class IlmSessionFacetController extends FOSRestController
     {
         $ilmSessionFacet = $this->getOr404($id);
         try {
-            $this->getIlmSessionFacetHandler()->deleteIlmSessionFacet($ilmSessionFacet);
+            $this->getIlmSessionFacetHandler()
+                ->deleteIlmSessionFacet($ilmSessionFacet);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class IlmSessionFacetController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getIlmSessionFacetHandler()->findIlmSessionFacetBy(['ilmSessionFacetId' => $id]))) {
+        $entity = $this->getIlmSessionFacetHandler()
+            ->findIlmSessionFacetBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('ilmSession', array());
+    }
     /**
      * @return IlmSessionFacetHandler
      */
-    public function getIlmSessionFacetHandler()
+    protected function getIlmSessionFacetHandler()
     {
         return $this->container->get('ilioscore.ilmsessionfacet.handler');
     }

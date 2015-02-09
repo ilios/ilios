@@ -47,8 +47,10 @@ class DisciplineManager implements DisciplineManagerInterface
      *
      * @return DisciplineInterface
      */
-    public function findDisciplineBy(array $criteria, array $orderBy = null)
-    {
+    public function findDisciplineBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class DisciplineManager implements DisciplineManagerInterface
      *
      * @return DisciplineInterface[]|Collection
      */
-    public function findDisciplinesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findDisciplinesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class DisciplineManager implements DisciplineManagerInterface
      * @param DisciplineInterface $discipline
      * @param bool $andFlush
      */
-    public function updateDiscipline(DisciplineInterface $discipline, $andFlush = true)
-    {
+    public function updateDiscipline(
+        DisciplineInterface $discipline,
+        $andFlush = true
+    ) {
         $this->em->persist($discipline);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class DisciplineManager implements DisciplineManagerInterface
     /**
      * @param DisciplineInterface $discipline
      */
-    public function deleteDiscipline(DisciplineInterface $discipline)
-    {
+    public function deleteDiscipline(
+        DisciplineInterface $discipline
+    ) {
         $this->em->remove($discipline);
         $this->em->flush();
     }

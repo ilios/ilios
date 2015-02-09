@@ -15,9 +15,16 @@ class AamcPcrsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pcrsId')
+            ->add('id')
             ->add('description')
-            ->add('competencies', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Competency"])
+            ->add(
+                'competencies',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
+                ]
+            )
         ;
     }
 

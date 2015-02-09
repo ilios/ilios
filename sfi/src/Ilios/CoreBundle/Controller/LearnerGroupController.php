@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\LearnerGroupInterface;
  */
 class LearnerGroupController extends FOSRestController
 {
-
+    
     /**
      * Get a LearnerGroup
      *
@@ -35,7 +35,12 @@ class LearnerGroupController extends FOSRestController
      *   description = "Get a LearnerGroup.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="LearnerGroup identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="LearnerGroup identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\LearnerGroup",
      *   statusCodes={
@@ -57,7 +62,6 @@ class LearnerGroupController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all LearnerGroup.
      *
@@ -109,19 +113,25 @@ class LearnerGroupController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['learnerGroup'] =
-            $this->getLearnerGroupHandler()->findLearnerGroupsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getLearnerGroupHandler()
+            ->findLearnerGroupsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['learnerGroups'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['learnerGroup']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class LearnerGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearnerGroupHandler()->post($request->request->all());
+            $new  =  $this->getLearnerGroupHandler()->post($this->getPostData($request));
             $answer['learnerGroup'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class LearnerGroupController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($learnerGroup = $this->getLearnerGroupHandler()->findLearnerGroupBy(['id'=> $id])) {
-                $answer['learnerGroup']= $this->getLearnerGroupHandler()->put($learnerGroup, $request->request->all());
+            $learnerGroup = $this->getLearnerGroupHandler()
+                ->findLearnerGroupBy(['id'=> $id]);
+            if ($learnerGroup) {
+                $answer['learnerGroup'] =
+                    $this->getLearnerGroupHandler()->put(
+                        $learnerGroup,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['learnerGroup'] = $this->getLearnerGroupHandler()->post($request->request->all());
+                $answer['learnerGroup'] =
+                    $this->getLearnerGroupHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class LearnerGroupController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\LearnerGroupType",
      *   output="Ilios\CoreBundle\Entity\LearnerGroup",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="LearnerGroup identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="LearnerGroup identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated LearnerGroup.",
@@ -227,7 +249,11 @@ class LearnerGroupController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['learnerGroup'] = $this->getLearnerGroupHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['learnerGroup'] =
+            $this->getLearnerGroupHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class LearnerGroupController extends FOSRestController
     {
         $learnerGroup = $this->getOr404($id);
         try {
-            $this->getLearnerGroupHandler()->deleteLearnerGroup($learnerGroup);
+            $this->getLearnerGroupHandler()
+                ->deleteLearnerGroup($learnerGroup);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,13 +308,24 @@ class LearnerGroupController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getLearnerGroupHandler()->findLearnerGroupBy(['id' => $id]))) {
+        $entity = $this->getLearnerGroupHandler()
+            ->findLearnerGroupBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('learnerGroup', array());
+    }
     /**
      * @return LearnerGroupHandler
      */

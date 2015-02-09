@@ -46,20 +46,31 @@ class DepartmentHandler extends DepartmentManager
      *
      * @return DepartmentInterface
      */
-    public function put(DepartmentInterface $department, array $parameters)
-    {
-        return $this->processForm($department, $parameters, 'PUT');
+    public function put(
+        DepartmentInterface $department,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $department,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param DepartmentInterface $department
      * @param array $parameters
      *
      * @return DepartmentInterface
      */
-    public function patch(DepartmentInterface $department, array $parameters)
-    {
-        return $this->processForm($department, $parameters, 'PATCH');
+    public function patch(
+        DepartmentInterface $department,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $department,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class DepartmentHandler extends DepartmentManager
      *
      * @return DepartmentInterface
      */
-    protected function processForm(DepartmentInterface $department, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new DepartmentType(), $department, array('method' => $method));
+    protected function processForm(
+        DepartmentInterface $department,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new DepartmentType(),
+            $department,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $department = $form->getData();
             $this->updateDepartment($department, true);

@@ -20,7 +20,10 @@ interface MeshDescriptorManagerInterface
      *
      * @return MeshDescriptorInterface
      */
-    public function findMeshDescriptorBy(array $criteria, array $orderBy = null);
+    public function findMeshDescriptorBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface MeshDescriptorManagerInterface
      *
      * @return MeshDescriptorInterface[]|Collection
      */
-    public function findMeshDescriptorsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findMeshDescriptorsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param MeshDescriptorInterface $meshDescriptor
@@ -38,14 +46,19 @@ interface MeshDescriptorManagerInterface
      *
      * @return void
      */
-     public function updateMeshDescriptor(MeshDescriptorInterface $meshDescriptor, $andFlush = true);
+    public function updateMeshDescriptor(
+        MeshDescriptorInterface $meshDescriptor,
+        $andFlush = true
+    );
 
     /**
      * @param MeshDescriptorInterface $meshDescriptor
      *
      * @return void
      */
-    public function deleteMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
+    public function deleteMeshDescriptor(
+        MeshDescriptorInterface $meshDescriptor
+    );
 
     /**
      * @return string

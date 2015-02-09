@@ -46,20 +46,31 @@ class CurriculumInventoryReportHandler extends CurriculumInventoryReportManager
      *
      * @return CurriculumInventoryReportInterface
      */
-    public function put(CurriculumInventoryReportInterface $curriculumInventoryReport, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryReport, $parameters, 'PUT');
+    public function put(
+        CurriculumInventoryReportInterface $curriculumInventoryReport,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryReport,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CurriculumInventoryReportInterface $curriculumInventoryReport
      * @param array $parameters
      *
      * @return CurriculumInventoryReportInterface
      */
-    public function patch(CurriculumInventoryReportInterface $curriculumInventoryReport, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryReport, $parameters, 'PATCH');
+    public function patch(
+        CurriculumInventoryReportInterface $curriculumInventoryReport,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryReport,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CurriculumInventoryReportHandler extends CurriculumInventoryReportManager
      *
      * @return CurriculumInventoryReportInterface
      */
-    protected function processForm(CurriculumInventoryReportInterface $curriculumInventoryReport, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CurriculumInventoryReportType(), $curriculumInventoryReport, array('method' => $method));
+    protected function processForm(
+        CurriculumInventoryReportInterface $curriculumInventoryReport,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CurriculumInventoryReportType(),
+            $curriculumInventoryReport,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $curriculumInventoryReport = $form->getData();
             $this->updateCurriculumInventoryReport($curriculumInventoryReport, true);

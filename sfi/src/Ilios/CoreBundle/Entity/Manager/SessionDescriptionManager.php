@@ -47,8 +47,10 @@ class SessionDescriptionManager implements SessionDescriptionManagerInterface
      *
      * @return SessionDescriptionInterface
      */
-    public function findSessionDescriptionBy(array $criteria, array $orderBy = null)
-    {
+    public function findSessionDescriptionBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class SessionDescriptionManager implements SessionDescriptionManagerInterface
      *
      * @return SessionDescriptionInterface[]|Collection
      */
-    public function findSessionDescriptionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findSessionDescriptionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class SessionDescriptionManager implements SessionDescriptionManagerInterface
      * @param SessionDescriptionInterface $sessionDescription
      * @param bool $andFlush
      */
-    public function updateSessionDescription(SessionDescriptionInterface $sessionDescription, $andFlush = true)
-    {
+    public function updateSessionDescription(
+        SessionDescriptionInterface $sessionDescription,
+        $andFlush = true
+    ) {
         $this->em->persist($sessionDescription);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class SessionDescriptionManager implements SessionDescriptionManagerInterface
     /**
      * @param SessionDescriptionInterface $sessionDescription
      */
-    public function deleteSessionDescription(SessionDescriptionInterface $sessionDescription)
-    {
+    public function deleteSessionDescription(
+        SessionDescriptionInterface $sessionDescription
+    ) {
         $this->em->remove($sessionDescription);
         $this->em->flush();
     }

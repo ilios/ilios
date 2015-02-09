@@ -46,20 +46,31 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
      *
      * @return CurriculumInventoryExportInterface
      */
-    public function put(CurriculumInventoryExportInterface $curriculumInventoryExport, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryExport, $parameters, 'PUT');
+    public function put(
+        CurriculumInventoryExportInterface $curriculumInventoryExport,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryExport,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      * @param array $parameters
      *
      * @return CurriculumInventoryExportInterface
      */
-    public function patch(CurriculumInventoryExportInterface $curriculumInventoryExport, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryExport, $parameters, 'PATCH');
+    public function patch(
+        CurriculumInventoryExportInterface $curriculumInventoryExport,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryExport,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
      *
      * @return CurriculumInventoryExportInterface
      */
-    protected function processForm(CurriculumInventoryExportInterface $curriculumInventoryExport, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CurriculumInventoryExportType(), $curriculumInventoryExport, array('method' => $method));
+    protected function processForm(
+        CurriculumInventoryExportInterface $curriculumInventoryExport,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CurriculumInventoryExportType(),
+            $curriculumInventoryExport,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $curriculumInventoryExport = $form->getData();
             $this->updateCurriculumInventoryExport($curriculumInventoryExport, true);

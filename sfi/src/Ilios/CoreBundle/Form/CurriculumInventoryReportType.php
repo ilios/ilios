@@ -20,9 +20,30 @@ class CurriculumInventoryReportType extends AbstractType
             ->add('year')
             ->add('startDate')
             ->add('endDate')
-            ->add('export', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryExport"])
-            ->add('sequence', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequence"])
-            ->add('program', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Program"])
+            ->add(
+                'export',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryExport"
+                ]
+            )
+            ->add(
+                'sequence',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequence"
+                ]
+            )
+            ->add(
+                'program',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Program"
+                ]
+            )
         ;
     }
 

@@ -47,8 +47,10 @@ class PublishEventManager implements PublishEventManagerInterface
      *
      * @return PublishEventInterface
      */
-    public function findPublishEventBy(array $criteria, array $orderBy = null)
-    {
+    public function findPublishEventBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class PublishEventManager implements PublishEventManagerInterface
      *
      * @return PublishEventInterface[]|Collection
      */
-    public function findPublishEventsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findPublishEventsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class PublishEventManager implements PublishEventManagerInterface
      * @param PublishEventInterface $publishEvent
      * @param bool $andFlush
      */
-    public function updatePublishEvent(PublishEventInterface $publishEvent, $andFlush = true)
-    {
+    public function updatePublishEvent(
+        PublishEventInterface $publishEvent,
+        $andFlush = true
+    ) {
         $this->em->persist($publishEvent);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class PublishEventManager implements PublishEventManagerInterface
     /**
      * @param PublishEventInterface $publishEvent
      */
-    public function deletePublishEvent(PublishEventInterface $publishEvent)
-    {
+    public function deletePublishEvent(
+        PublishEventInterface $publishEvent
+    ) {
         $this->em->remove($publishEvent);
         $this->em->flush();
     }

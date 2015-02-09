@@ -47,8 +47,10 @@ class InstructorGroupManager implements InstructorGroupManagerInterface
      *
      * @return InstructorGroupInterface
      */
-    public function findInstructorGroupBy(array $criteria, array $orderBy = null)
-    {
+    public function findInstructorGroupBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class InstructorGroupManager implements InstructorGroupManagerInterface
      *
      * @return InstructorGroupInterface[]|Collection
      */
-    public function findInstructorGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findInstructorGroupsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class InstructorGroupManager implements InstructorGroupManagerInterface
      * @param InstructorGroupInterface $instructorGroup
      * @param bool $andFlush
      */
-    public function updateInstructorGroup(InstructorGroupInterface $instructorGroup, $andFlush = true)
-    {
+    public function updateInstructorGroup(
+        InstructorGroupInterface $instructorGroup,
+        $andFlush = true
+    ) {
         $this->em->persist($instructorGroup);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class InstructorGroupManager implements InstructorGroupManagerInterface
     /**
      * @param InstructorGroupInterface $instructorGroup
      */
-    public function deleteInstructorGroup(InstructorGroupInterface $instructorGroup)
-    {
+    public function deleteInstructorGroup(
+        InstructorGroupInterface $instructorGroup
+    ) {
         $this->em->remove($instructorGroup);
         $this->em->flush();
     }

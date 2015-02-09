@@ -20,7 +20,10 @@ interface SessionDescriptionManagerInterface
      *
      * @return SessionDescriptionInterface
      */
-    public function findSessionDescriptionBy(array $criteria, array $orderBy = null);
+    public function findSessionDescriptionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface SessionDescriptionManagerInterface
      *
      * @return SessionDescriptionInterface[]|Collection
      */
-    public function findSessionDescriptionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findSessionDescriptionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param SessionDescriptionInterface $sessionDescription
@@ -38,14 +46,19 @@ interface SessionDescriptionManagerInterface
      *
      * @return void
      */
-     public function updateSessionDescription(SessionDescriptionInterface $sessionDescription, $andFlush = true);
+    public function updateSessionDescription(
+        SessionDescriptionInterface $sessionDescription,
+        $andFlush = true
+    );
 
     /**
      * @param SessionDescriptionInterface $sessionDescription
      *
      * @return void
      */
-    public function deleteSessionDescription(SessionDescriptionInterface $sessionDescription);
+    public function deleteSessionDescription(
+        SessionDescriptionInterface $sessionDescription
+    );
 
     /**
      * @return string

@@ -46,20 +46,31 @@ class MeshUserSelectionHandler extends MeshUserSelectionManager
      *
      * @return MeshUserSelectionInterface
      */
-    public function put(MeshUserSelectionInterface $meshUserSelection, array $parameters)
-    {
-        return $this->processForm($meshUserSelection, $parameters, 'PUT');
+    public function put(
+        MeshUserSelectionInterface $meshUserSelection,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshUserSelection,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param MeshUserSelectionInterface $meshUserSelection
      * @param array $parameters
      *
      * @return MeshUserSelectionInterface
      */
-    public function patch(MeshUserSelectionInterface $meshUserSelection, array $parameters)
-    {
-        return $this->processForm($meshUserSelection, $parameters, 'PATCH');
+    public function patch(
+        MeshUserSelectionInterface $meshUserSelection,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshUserSelection,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class MeshUserSelectionHandler extends MeshUserSelectionManager
      *
      * @return MeshUserSelectionInterface
      */
-    protected function processForm(MeshUserSelectionInterface $meshUserSelection, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new MeshUserSelectionType(), $meshUserSelection, array('method' => $method));
+    protected function processForm(
+        MeshUserSelectionInterface $meshUserSelection,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new MeshUserSelectionType(),
+            $meshUserSelection,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $meshUserSelection = $form->getData();
             $this->updateMeshUserSelection($meshUserSelection, true);

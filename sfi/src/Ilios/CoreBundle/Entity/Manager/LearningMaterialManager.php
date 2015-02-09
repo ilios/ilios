@@ -47,8 +47,10 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      *
      * @return LearningMaterialInterface
      */
-    public function findLearningMaterialBy(array $criteria, array $orderBy = null)
-    {
+    public function findLearningMaterialBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      *
      * @return LearningMaterialInterface[]|Collection
      */
-    public function findLearningMaterialsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findLearningMaterialsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param LearningMaterialInterface $learningMaterial
      * @param bool $andFlush
      */
-    public function updateLearningMaterial(LearningMaterialInterface $learningMaterial, $andFlush = true)
-    {
+    public function updateLearningMaterial(
+        LearningMaterialInterface $learningMaterial,
+        $andFlush = true
+    ) {
         $this->em->persist($learningMaterial);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     /**
      * @param LearningMaterialInterface $learningMaterial
      */
-    public function deleteLearningMaterial(LearningMaterialInterface $learningMaterial)
-    {
+    public function deleteLearningMaterial(
+        LearningMaterialInterface $learningMaterial
+    ) {
         $this->em->remove($learningMaterial);
         $this->em->flush();
     }

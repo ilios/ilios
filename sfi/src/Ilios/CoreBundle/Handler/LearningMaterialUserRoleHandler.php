@@ -46,20 +46,31 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
      *
      * @return LearningMaterialUserRoleInterface
      */
-    public function put(LearningMaterialUserRoleInterface $learningMaterialUserRole, array $parameters)
-    {
-        return $this->processForm($learningMaterialUserRole, $parameters, 'PUT');
+    public function put(
+        LearningMaterialUserRoleInterface $learningMaterialUserRole,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $learningMaterialUserRole,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
      * @param array $parameters
      *
      * @return LearningMaterialUserRoleInterface
      */
-    public function patch(LearningMaterialUserRoleInterface $learningMaterialUserRole, array $parameters)
-    {
-        return $this->processForm($learningMaterialUserRole, $parameters, 'PATCH');
+    public function patch(
+        LearningMaterialUserRoleInterface $learningMaterialUserRole,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $learningMaterialUserRole,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
      *
      * @return LearningMaterialUserRoleInterface
      */
-    protected function processForm(LearningMaterialUserRoleInterface $learningMaterialUserRole, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new LearningMaterialUserRoleType(), $learningMaterialUserRole, array('method' => $method));
+    protected function processForm(
+        LearningMaterialUserRoleInterface $learningMaterialUserRole,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new LearningMaterialUserRoleType(),
+            $learningMaterialUserRole,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $learningMaterialUserRole = $form->getData();
             $this->updateLearningMaterialUserRole($learningMaterialUserRole, true);

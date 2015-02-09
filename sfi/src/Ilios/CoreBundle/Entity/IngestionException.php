@@ -5,6 +5,9 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+
 /**
  * Class IngestionException
  * @package Ilios\CoreBundle\Entity
@@ -16,17 +19,18 @@ use JMS\Serializer\Annotation as JMS;
  */
 class IngestionException implements IngestionExceptionInterface
 {
+    use IdentifiableEntity;
+    use StringableIdEntity;
+
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var string
      *
      * @ORM\Column(name="ingested_wide_uid", type="string", length=32)
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("id")
      */
-    protected $uuid;
+    protected $id;
 
     /**
      * Used as primary key.
@@ -42,23 +46,6 @@ class IngestionException implements IngestionExceptionInterface
      * @JMS\Type("string")
      */
     protected $user;
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->ingestedWideUid = $uuid;
-        $this->uuid = $uuid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid()
-    {
-        return ($this->uuid === null) ? $this->ingestedWideUid : $this->uuid;
-    }
 
     /**
      * @param UserInterface $user

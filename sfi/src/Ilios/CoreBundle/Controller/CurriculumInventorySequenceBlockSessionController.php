@@ -35,7 +35,12 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
      *   description = "Get a CurriculumInventorySequenceBlockSession.",
      *   resource = true,
      *   requirements={
-     *     {"name"="sequenceBlockSessionId", "dataType"="bigint", "requirement"="", "description"="CurriculumInventorySequenceBlockSession identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="bigint",
+     *        "requirement"="",
+     *        "description"="CurriculumInventorySequenceBlockSession identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession",
      *   statusCodes={
@@ -57,7 +62,6 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
 
         return $answer;
     }
-
     /**
      * Get all CurriculumInventorySequenceBlockSession.
      *
@@ -109,19 +113,25 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['curriculumInventorySequenceBlockSession'] =
-            $this->getCurriculumInventorySequenceBlockSessionHandler()->findCurriculumInventorySequenceBlockSessionsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCurriculumInventorySequenceBlockSessionHandler()
+            ->findCurriculumInventorySequenceBlockSessionsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['curriculumInventorySequenceBlockSessions'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['curriculumInventorySequenceBlockSession']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventorySequenceBlockSessionHandler()->post($request->request->all());
+            $new  =  $this->getCurriculumInventorySequenceBlockSessionHandler()->post($this->getPostData($request));
             $answer['curriculumInventorySequenceBlockSession'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
     public function putAction(Request $request, $id)
     {
         try {
-            if ($curriculumInventorySequenceBlockSession = $this->getCurriculumInventorySequenceBlockSessionHandler()->findCurriculumInventorySequenceBlockSessionBy(['sequenceBlockSessionId'=> $id])) {
-                $answer['curriculumInventorySequenceBlockSession']= $this->getCurriculumInventorySequenceBlockSessionHandler()->put($curriculumInventorySequenceBlockSession, $request->request->all());
+            $curriculumInventorySequenceBlockSession = $this->getCurriculumInventorySequenceBlockSessionHandler()
+                ->findCurriculumInventorySequenceBlockSessionBy(['id'=> $id]);
+            if ($curriculumInventorySequenceBlockSession) {
+                $answer['curriculumInventorySequenceBlockSession'] =
+                    $this->getCurriculumInventorySequenceBlockSessionHandler()->put(
+                        $curriculumInventorySequenceBlockSession,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventorySequenceBlockSession'] = $this->getCurriculumInventorySequenceBlockSessionHandler()->post($request->request->all());
+                $answer['curriculumInventorySequenceBlockSession'] =
+                    $this->getCurriculumInventorySequenceBlockSessionHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
      *   input="Ilios\CoreBundle\Form\CurriculumInventorySequenceBlockSessionType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession",
      *   requirements={
-     *     {"name"="sequenceBlockSessionId", "dataType"="bigint", "requirement"="", "description"="CurriculumInventorySequenceBlockSession identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="bigint",
+     *         "requirement"="",
+     *         "description"="CurriculumInventorySequenceBlockSession identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated CurriculumInventorySequenceBlockSession.",
@@ -227,7 +249,11 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['curriculumInventorySequenceBlockSession'] = $this->getCurriculumInventorySequenceBlockSessionHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['curriculumInventorySequenceBlockSession'] =
+            $this->getCurriculumInventorySequenceBlockSessionHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -240,7 +266,7 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
      *   resource = true,
      *   requirements={
      *     {
-     *         "name" = "sequenceBlockSessionId",
+     *         "name" = "id",
      *         "dataType" = "bigint",
      *         "requirement" = "",
      *         "description" = "CurriculumInventorySequenceBlockSession identifier"
@@ -265,7 +291,8 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
     {
         $curriculumInventorySequenceBlockSession = $this->getOr404($id);
         try {
-            $this->getCurriculumInventorySequenceBlockSessionHandler()->deleteCurriculumInventorySequenceBlockSession($curriculumInventorySequenceBlockSession);
+            $this->getCurriculumInventorySequenceBlockSessionHandler()
+                ->deleteCurriculumInventorySequenceBlockSession($curriculumInventorySequenceBlockSession);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCurriculumInventorySequenceBlockSessionHandler()->findCurriculumInventorySequenceBlockSessionBy(['sequenceBlockSessionId' => $id]))) {
+        $entity = $this->getCurriculumInventorySequenceBlockSessionHandler()
+            ->findCurriculumInventorySequenceBlockSessionBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('curriculumInventorySequenceBlockSession', array());
+    }
     /**
      * @return CurriculumInventorySequenceBlockSessionHandler
      */
-    public function getCurriculumInventorySequenceBlockSessionHandler()
+    protected function getCurriculumInventorySequenceBlockSessionHandler()
     {
         return $this->container->get('ilioscore.curriculuminventorysequenceblocksession.handler');
     }

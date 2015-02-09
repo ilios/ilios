@@ -20,7 +20,10 @@ interface CurriculumInventoryExportManagerInterface
      *
      * @return CurriculumInventoryExportInterface
      */
-    public function findCurriculumInventoryExportBy(array $criteria, array $orderBy = null);
+    public function findCurriculumInventoryExportBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CurriculumInventoryExportManagerInterface
      *
      * @return CurriculumInventoryExportInterface[]|Collection
      */
-    public function findCurriculumInventoryExportsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCurriculumInventoryExportsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
@@ -38,14 +46,19 @@ interface CurriculumInventoryExportManagerInterface
      *
      * @return void
      */
-     public function updateCurriculumInventoryExport(CurriculumInventoryExportInterface $curriculumInventoryExport, $andFlush = true);
+    public function updateCurriculumInventoryExport(
+        CurriculumInventoryExportInterface $curriculumInventoryExport,
+        $andFlush = true
+    );
 
     /**
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      *
      * @return void
      */
-    public function deleteCurriculumInventoryExport(CurriculumInventoryExportInterface $curriculumInventoryExport);
+    public function deleteCurriculumInventoryExport(
+        CurriculumInventoryExportInterface $curriculumInventoryExport
+    );
 
     /**
      * @return string

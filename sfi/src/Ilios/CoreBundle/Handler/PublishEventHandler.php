@@ -46,20 +46,31 @@ class PublishEventHandler extends PublishEventManager
      *
      * @return PublishEventInterface
      */
-    public function put(PublishEventInterface $publishEvent, array $parameters)
-    {
-        return $this->processForm($publishEvent, $parameters, 'PUT');
+    public function put(
+        PublishEventInterface $publishEvent,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $publishEvent,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param PublishEventInterface $publishEvent
      * @param array $parameters
      *
      * @return PublishEventInterface
      */
-    public function patch(PublishEventInterface $publishEvent, array $parameters)
-    {
-        return $this->processForm($publishEvent, $parameters, 'PATCH');
+    public function patch(
+        PublishEventInterface $publishEvent,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $publishEvent,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class PublishEventHandler extends PublishEventManager
      *
      * @return PublishEventInterface
      */
-    protected function processForm(PublishEventInterface $publishEvent, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new PublishEventType(), $publishEvent, array('method' => $method));
+    protected function processForm(
+        PublishEventInterface $publishEvent,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new PublishEventType(),
+            $publishEvent,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $publishEvent = $form->getData();
             $this->updatePublishEvent($publishEvent, true);

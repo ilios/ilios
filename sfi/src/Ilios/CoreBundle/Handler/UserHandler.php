@@ -46,20 +46,31 @@ class UserHandler extends UserManager
      *
      * @return UserInterface
      */
-    public function put(UserInterface $user, array $parameters)
-    {
-        return $this->processForm($user, $parameters, 'PUT');
+    public function put(
+        UserInterface $user,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $user,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param UserInterface $user
      * @param array $parameters
      *
      * @return UserInterface
      */
-    public function patch(UserInterface $user, array $parameters)
-    {
-        return $this->processForm($user, $parameters, 'PATCH');
+    public function patch(
+        UserInterface $user,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $user,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class UserHandler extends UserManager
      *
      * @return UserInterface
      */
-    protected function processForm(UserInterface $user, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new UserType(), $user, array('method' => $method));
+    protected function processForm(
+        UserInterface $user,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new UserType(),
+            $user,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $user = $form->getData();
             $this->updateUser($user, true);

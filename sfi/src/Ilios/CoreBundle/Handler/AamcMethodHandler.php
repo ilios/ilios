@@ -46,20 +46,31 @@ class AamcMethodHandler extends AamcMethodManager
      *
      * @return AamcMethodInterface
      */
-    public function put(AamcMethodInterface $aamcMethod, array $parameters)
-    {
-        return $this->processForm($aamcMethod, $parameters, 'PUT');
+    public function put(
+        AamcMethodInterface $aamcMethod,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $aamcMethod,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param AamcMethodInterface $aamcMethod
      * @param array $parameters
      *
      * @return AamcMethodInterface
      */
-    public function patch(AamcMethodInterface $aamcMethod, array $parameters)
-    {
-        return $this->processForm($aamcMethod, $parameters, 'PATCH');
+    public function patch(
+        AamcMethodInterface $aamcMethod,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $aamcMethod,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class AamcMethodHandler extends AamcMethodManager
      *
      * @return AamcMethodInterface
      */
-    protected function processForm(AamcMethodInterface $aamcMethod, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new AamcMethodType(), $aamcMethod, array('method' => $method));
+    protected function processForm(
+        AamcMethodInterface $aamcMethod,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new AamcMethodType(),
+            $aamcMethod,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $aamcMethod = $form->getData();
             $this->updateAamcMethod($aamcMethod, true);

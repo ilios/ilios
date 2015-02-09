@@ -46,20 +46,31 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
      *
      * @return CurriculumInventoryAcademicLevelInterface
      */
-    public function put(CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryAcademicLevel, $parameters, 'PUT');
+    public function put(
+        CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryAcademicLevel,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      * @param array $parameters
      *
      * @return CurriculumInventoryAcademicLevelInterface
      */
-    public function patch(CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel, array $parameters)
-    {
-        return $this->processForm($curriculumInventoryAcademicLevel, $parameters, 'PATCH');
+    public function patch(
+        CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventoryAcademicLevel,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
      *
      * @return CurriculumInventoryAcademicLevelInterface
      */
-    protected function processForm(CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CurriculumInventoryAcademicLevelType(), $curriculumInventoryAcademicLevel, array('method' => $method));
+    protected function processForm(
+        CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CurriculumInventoryAcademicLevelType(),
+            $curriculumInventoryAcademicLevel,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $curriculumInventoryAcademicLevel = $form->getData();
             $this->updateCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel, true);

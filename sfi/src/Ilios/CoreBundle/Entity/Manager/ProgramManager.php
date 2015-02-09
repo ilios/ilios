@@ -47,8 +47,10 @@ class ProgramManager implements ProgramManagerInterface
      *
      * @return ProgramInterface
      */
-    public function findProgramBy(array $criteria, array $orderBy = null)
-    {
+    public function findProgramBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class ProgramManager implements ProgramManagerInterface
      *
      * @return ProgramInterface[]|Collection
      */
-    public function findProgramsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findProgramsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class ProgramManager implements ProgramManagerInterface
      * @param ProgramInterface $program
      * @param bool $andFlush
      */
-    public function updateProgram(ProgramInterface $program, $andFlush = true)
-    {
+    public function updateProgram(
+        ProgramInterface $program,
+        $andFlush = true
+    ) {
         $this->em->persist($program);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class ProgramManager implements ProgramManagerInterface
     /**
      * @param ProgramInterface $program
      */
-    public function deleteProgram(ProgramInterface $program)
-    {
+    public function deleteProgram(
+        ProgramInterface $program
+    ) {
         $this->em->remove($program);
         $this->em->flush();
     }

@@ -24,9 +24,30 @@ class RecurringEventType extends AbstractType
             ->add('onSaturday')
             ->add('endDate')
             ->add('repetitionCount')
-            ->add('previousRecurringEvent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\RecurringEvent"])
-            ->add('nextRecurringEvent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\RecurringEvent"])
-            ->add('offerings', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Offering"])
+            ->add(
+                'previousRecurringEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\RecurringEvent"
+                ]
+            )
+            ->add(
+                'nextRecurringEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\RecurringEvent"
+                ]
+            )
+            ->add(
+                'offerings',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Offering"
+                ]
+            )
         ;
     }
 

@@ -20,7 +20,10 @@ interface CompetencyManagerInterface
      *
      * @return CompetencyInterface
      */
-    public function findCompetencyBy(array $criteria, array $orderBy = null);
+    public function findCompetencyBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CompetencyManagerInterface
      *
      * @return CompetencyInterface[]|Collection
      */
-    public function findCompetenciesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCompetenciesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CompetencyInterface $competency
@@ -38,14 +46,19 @@ interface CompetencyManagerInterface
      *
      * @return void
      */
-     public function updateCompetency(CompetencyInterface $competency, $andFlush = true);
+    public function updateCompetency(
+        CompetencyInterface $competency,
+        $andFlush = true
+    );
 
     /**
      * @param CompetencyInterface $competency
      *
      * @return void
      */
-    public function deleteCompetency(CompetencyInterface $competency);
+    public function deleteCompetency(
+        CompetencyInterface $competency
+    );
 
     /**
      * @return string

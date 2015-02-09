@@ -35,7 +35,12 @@ class CourseClerkshipTypeController extends FOSRestController
      *   description = "Get a CourseClerkshipType.",
      *   resource = true,
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="CourseClerkshipType identifier."}
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="CourseClerkshipType identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\CourseClerkshipType",
      *   statusCodes={
@@ -57,7 +62,6 @@ class CourseClerkshipTypeController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all CourseClerkshipType.
      *
@@ -109,19 +113,25 @@ class CourseClerkshipTypeController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['courseClerkshipType'] =
-            $this->getCourseClerkshipTypeHandler()->findCourseClerkshipTypesBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCourseClerkshipTypeHandler()
+            ->findCourseClerkshipTypesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['courseClerkshipTypes'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['courseClerkshipType']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class CourseClerkshipTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseClerkshipTypeHandler()->post($request->request->all());
+            $new  =  $this->getCourseClerkshipTypeHandler()->post($this->getPostData($request));
             $answer['courseClerkshipType'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class CourseClerkshipTypeController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($courseClerkshipType = $this->getCourseClerkshipTypeHandler()->findCourseClerkshipTypeBy(['id'=> $id])) {
-                $answer['courseClerkshipType']= $this->getCourseClerkshipTypeHandler()->put($courseClerkshipType, $request->request->all());
+            $courseClerkshipType = $this->getCourseClerkshipTypeHandler()
+                ->findCourseClerkshipTypeBy(['id'=> $id]);
+            if ($courseClerkshipType) {
+                $answer['courseClerkshipType'] =
+                    $this->getCourseClerkshipTypeHandler()->put(
+                        $courseClerkshipType,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['courseClerkshipType'] = $this->getCourseClerkshipTypeHandler()->post($request->request->all());
+                $answer['courseClerkshipType'] =
+                    $this->getCourseClerkshipTypeHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class CourseClerkshipTypeController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\CourseClerkshipTypeType",
      *   output="Ilios\CoreBundle\Entity\CourseClerkshipType",
      *   requirements={
-     *     {"name"="id", "dataType"="integer", "requirement"="", "description"="CourseClerkshipType identifier."}
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="CourseClerkshipType identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated CourseClerkshipType.",
@@ -227,7 +249,11 @@ class CourseClerkshipTypeController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['courseClerkshipType'] = $this->getCourseClerkshipTypeHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['courseClerkshipType'] =
+            $this->getCourseClerkshipTypeHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class CourseClerkshipTypeController extends FOSRestController
     {
         $courseClerkshipType = $this->getOr404($id);
         try {
-            $this->getCourseClerkshipTypeHandler()->deleteCourseClerkshipType($courseClerkshipType);
+            $this->getCourseClerkshipTypeHandler()
+                ->deleteCourseClerkshipType($courseClerkshipType);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class CourseClerkshipTypeController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getCourseClerkshipTypeHandler()->findCourseClerkshipTypeBy(['id' => $id]))) {
+        $entity = $this->getCourseClerkshipTypeHandler()
+            ->findCourseClerkshipTypeBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('courseClerkshipType', array());
+    }
     /**
      * @return CourseClerkshipTypeHandler
      */
-    public function getCourseClerkshipTypeHandler()
+    protected function getCourseClerkshipTypeHandler()
     {
         return $this->container->get('ilioscore.courseclerkshiptype.handler');
     }

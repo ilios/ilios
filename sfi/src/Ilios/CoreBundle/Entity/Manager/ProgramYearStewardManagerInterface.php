@@ -20,7 +20,10 @@ interface ProgramYearStewardManagerInterface
      *
      * @return ProgramYearStewardInterface
      */
-    public function findProgramYearStewardBy(array $criteria, array $orderBy = null);
+    public function findProgramYearStewardBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface ProgramYearStewardManagerInterface
      *
      * @return ProgramYearStewardInterface[]|Collection
      */
-    public function findProgramYearStewardsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findProgramYearStewardsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param ProgramYearStewardInterface $programYearSteward
@@ -38,14 +46,19 @@ interface ProgramYearStewardManagerInterface
      *
      * @return void
      */
-     public function updateProgramYearSteward(ProgramYearStewardInterface $programYearSteward, $andFlush = true);
+    public function updateProgramYearSteward(
+        ProgramYearStewardInterface $programYearSteward,
+        $andFlush = true
+    );
 
     /**
      * @param ProgramYearStewardInterface $programYearSteward
      *
      * @return void
      */
-    public function deleteProgramYearSteward(ProgramYearStewardInterface $programYearSteward);
+    public function deleteProgramYearSteward(
+        ProgramYearStewardInterface $programYearSteward
+    );
 
     /**
      * @return string

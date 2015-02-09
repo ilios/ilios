@@ -20,7 +20,10 @@ interface UserMadeReminderManagerInterface
      *
      * @return UserMadeReminderInterface
      */
-    public function findUserMadeReminderBy(array $criteria, array $orderBy = null);
+    public function findUserMadeReminderBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface UserMadeReminderManagerInterface
      *
      * @return UserMadeReminderInterface[]|Collection
      */
-    public function findUserMadeRemindersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findUserMadeRemindersBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param UserMadeReminderInterface $userMadeReminder
@@ -38,14 +46,19 @@ interface UserMadeReminderManagerInterface
      *
      * @return void
      */
-     public function updateUserMadeReminder(UserMadeReminderInterface $userMadeReminder, $andFlush = true);
+    public function updateUserMadeReminder(
+        UserMadeReminderInterface $userMadeReminder,
+        $andFlush = true
+    );
 
     /**
      * @param UserMadeReminderInterface $userMadeReminder
      *
      * @return void
      */
-    public function deleteUserMadeReminder(UserMadeReminderInterface $userMadeReminder);
+    public function deleteUserMadeReminder(
+        UserMadeReminderInterface $userMadeReminder
+    );
 
     /**
      * @return string

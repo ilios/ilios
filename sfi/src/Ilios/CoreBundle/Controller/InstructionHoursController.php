@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Handler\InstructionHoursHandler;
 use Ilios\CoreBundle\Entity\InstructionHoursInterface;
@@ -26,9 +27,27 @@ use Ilios\CoreBundle\Entity\InstructionHoursInterface;
  */
 class InstructionHoursController extends FOSRestController
 {
-
+    
     /**
      * Get a InstructionHours
+     *
+     * @ApiDoc(
+     *   description = "Get a InstructionHours.",
+     *   resource = true,
+     *   requirements={
+     *     {
+     *        "name"="id",
+     *        "dataType"="integer",
+     *        "requirement"="",
+     *        "description"="InstructionHours identifier."
+     *     }
+     *   },
+     *   output="Ilios\CoreBundle\Entity\InstructionHours",
+     *   statusCodes={
+     *     200 = "InstructionHours.",
+     *     404 = "Not Found."
+     *   }
+     * )
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -43,9 +62,18 @@ class InstructionHoursController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all InstructionHours.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Get all InstructionHours.",
+     *   output="Ilios\CoreBundle\Entity\InstructionHours",
+     *   statusCodes = {
+     *     200 = "List of all InstructionHours",
+     *     204 = "No content. Nothing to list."
+     *   }
+     * )
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -85,23 +113,41 @@ class InstructionHoursController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['instructionHours'] =
-            $this->getInstructionHoursHandler()->findInstructionHoursBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getInstructionHoursHandler()
+            ->findInstructionHoursBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['instructionHours'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['instructionHours']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
      * Create a InstructionHours.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Create a InstructionHours.",
+     *   input="Ilios\CoreBundle\Form\InstructionHoursType",
+     *   output="Ilios\CoreBundle\Entity\InstructionHours",
+     *   statusCodes={
+     *     201 = "Created InstructionHours.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
      *
      * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
@@ -112,7 +158,7 @@ class InstructionHoursController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getInstructionHoursHandler()->post($request->request->all());
+            $new  =  $this->getInstructionHoursHandler()->post($this->getPostData($request));
             $answer['instructionHours'] = $new;
 
             return $answer;
@@ -124,6 +170,19 @@ class InstructionHoursController extends FOSRestController
     /**
      * Update a InstructionHours.
      *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Update a InstructionHours entity.",
+     *   input="Ilios\CoreBundle\Form\InstructionHoursType",
+     *   output="Ilios\CoreBundle\Entity\InstructionHours",
+     *   statusCodes={
+     *     200 = "Updated InstructionHours.",
+     *     201 = "Created InstructionHours.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
      * @View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
@@ -134,11 +193,18 @@ class InstructionHoursController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($instructionHours = $this->getInstructionHoursHandler()->findInstructionHoursBy(['id'=> $id])) {
-                $answer['instructionHours']= $this->getInstructionHoursHandler()->put($instructionHours, $request->request->all());
+            $instructionHours = $this->getInstructionHoursHandler()
+                ->findInstructionHoursBy(['id'=> $id]);
+            if ($instructionHours) {
+                $answer['instructionHours'] =
+                    $this->getInstructionHoursHandler()->put(
+                        $instructionHours,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['instructionHours'] = $this->getInstructionHoursHandler()->post($request->request->all());
+                $answer['instructionHours'] =
+                    $this->getInstructionHoursHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -153,6 +219,26 @@ class InstructionHoursController extends FOSRestController
     /**
      * Partial Update to a InstructionHours.
      *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Partial Update to a InstructionHours.",
+     *   input="Ilios\CoreBundle\Form\InstructionHoursType",
+     *   output="Ilios\CoreBundle\Entity\InstructionHours",
+     *   requirements={
+     *     {
+     *         "name"="id",
+     *         "dataType"="integer",
+     *         "requirement"="",
+     *         "description"="InstructionHours identifier."
+     *     }
+     *   },
+     *   statusCodes={
+     *     200 = "Updated InstructionHours.",
+     *     400 = "Bad Request.",
+     *     404 = "Not Found."
+     *   }
+     * )
+     *
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
@@ -163,13 +249,35 @@ class InstructionHoursController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['instructionHours'] = $this->getInstructionHoursHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['instructionHours'] =
+            $this->getInstructionHoursHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
 
     /**
      * Delete a InstructionHours.
+     *
+     * @ApiDoc(
+     *   description = "Delete a InstructionHours entity.",
+     *   resource = true,
+     *   requirements={
+     *     {
+     *         "name" = "id",
+     *         "dataType" = "integer",
+     *         "requirement" = "",
+     *         "description" = "InstructionHours identifier"
+     *     }
+     *   },
+     *   statusCodes={
+     *     204 = "No content. Successfully deleted InstructionHours.",
+     *     400 = "Bad Request.",
+     *     404 = "Not found."
+     *   }
+     * )
      *
      * @View(statusCode=204)
      *
@@ -183,7 +291,8 @@ class InstructionHoursController extends FOSRestController
     {
         $instructionHours = $this->getOr404($id);
         try {
-            $this->getInstructionHoursHandler()->deleteInstructionHours($instructionHours);
+            $this->getInstructionHoursHandler()
+                ->deleteInstructionHours($instructionHours);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -199,13 +308,24 @@ class InstructionHoursController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getInstructionHoursHandler()->findInstructionHoursBy(['id' => $id]))) {
+        $entity = $this->getInstructionHoursHandler()
+            ->findInstructionHoursBy(['id' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('instructionHours', array());
+    }
     /**
      * @return InstructionHoursHandler
      */

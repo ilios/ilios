@@ -20,7 +20,10 @@ interface IlmSessionFacetManagerInterface
      *
      * @return IlmSessionFacetInterface
      */
-    public function findIlmSessionFacetBy(array $criteria, array $orderBy = null);
+    public function findIlmSessionFacetBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface IlmSessionFacetManagerInterface
      *
      * @return IlmSessionFacetInterface[]|Collection
      */
-    public function findIlmSessionFacetsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findIlmSessionFacetsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param IlmSessionFacetInterface $ilmSessionFacet
@@ -38,14 +46,19 @@ interface IlmSessionFacetManagerInterface
      *
      * @return void
      */
-     public function updateIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet, $andFlush = true);
+    public function updateIlmSessionFacet(
+        IlmSessionFacetInterface $ilmSessionFacet,
+        $andFlush = true
+    );
 
     /**
      * @param IlmSessionFacetInterface $ilmSessionFacet
      *
      * @return void
      */
-    public function deleteIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet);
+    public function deleteIlmSessionFacet(
+        IlmSessionFacetInterface $ilmSessionFacet
+    );
 
     /**
      * @return string

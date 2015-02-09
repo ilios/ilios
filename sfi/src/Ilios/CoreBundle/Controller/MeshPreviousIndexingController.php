@@ -35,7 +35,12 @@ class MeshPreviousIndexingController extends FOSRestController
      *   description = "Get a MeshPreviousIndexing.",
      *   resource = true,
      *   requirements={
-     *     {"name"="descriptor", "dataType"="", "requirement"="", "description"="MeshPreviousIndexing identifier."}
+     *     {
+     *        "name"="descriptor",
+     *        "dataType"="",
+     *        "requirement"="",
+     *        "description"="MeshPreviousIndexing identifier."
+     *     }
      *   },
      *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
      *   statusCodes={
@@ -57,7 +62,6 @@ class MeshPreviousIndexingController extends FOSRestController
 
         return $answer;
     }
-
     /**
      * Get all MeshPreviousIndexing.
      *
@@ -109,19 +113,25 @@ class MeshPreviousIndexingController extends FOSRestController
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
 
-        $answer['meshPreviousIndexing'] =
-            $this->getMeshPreviousIndexingHandler()->findMeshPreviousIndexingsBy(
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null'?null:$item;
+            $item = $item == 'false'?false:$item;
+            $item = $item == 'true'?true:$item;
+            return $item;
+        }, $criteria);
+
+        $result = $this->getMeshPreviousIndexingHandler()
+            ->findMeshPreviousIndexingsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        //If there are no matches return an empty array
+        $answer['meshPreviousIndexings'] =
+            $result ? $result : new ArrayCollection([]);
 
-        if ($answer['meshPreviousIndexing']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
@@ -148,7 +158,7 @@ class MeshPreviousIndexingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshPreviousIndexingHandler()->post($request->request->all());
+            $new  =  $this->getMeshPreviousIndexingHandler()->post($this->getPostData($request));
             $answer['meshPreviousIndexing'] = $new;
 
             return $answer;
@@ -183,11 +193,18 @@ class MeshPreviousIndexingController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            if ($meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()->findMeshPreviousIndexingBy(['descriptor'=> $id])) {
-                $answer['meshPreviousIndexing']= $this->getMeshPreviousIndexingHandler()->put($meshPreviousIndexing, $request->request->all());
+            $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
+                ->findMeshPreviousIndexingBy(['descriptor'=> $id]);
+            if ($meshPreviousIndexing) {
+                $answer['meshPreviousIndexing'] =
+                    $this->getMeshPreviousIndexingHandler()->put(
+                        $meshPreviousIndexing,
+                        $this->getPostData($request)
+                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshPreviousIndexing'] = $this->getMeshPreviousIndexingHandler()->post($request->request->all());
+                $answer['meshPreviousIndexing'] =
+                    $this->getMeshPreviousIndexingHandler()->post($this->getPostData($request));
                 $code = Codes::HTTP_CREATED;
             }
         } catch (InvalidFormException $exception) {
@@ -208,7 +225,12 @@ class MeshPreviousIndexingController extends FOSRestController
      *   input="Ilios\CoreBundle\Form\MeshPreviousIndexingType",
      *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
      *   requirements={
-     *     {"name"="descriptor", "dataType"="", "requirement"="", "description"="MeshPreviousIndexing identifier."}
+     *     {
+     *         "name"="descriptor",
+     *         "dataType"="",
+     *         "requirement"="",
+     *         "description"="MeshPreviousIndexing identifier."
+     *     }
      *   },
      *   statusCodes={
      *     200 = "Updated MeshPreviousIndexing.",
@@ -227,7 +249,11 @@ class MeshPreviousIndexingController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['meshPreviousIndexing'] = $this->getMeshPreviousIndexingHandler()->patch($this->getOr404($id), $request->request->all());
+        $answer['meshPreviousIndexing'] =
+            $this->getMeshPreviousIndexingHandler()->patch(
+                $this->getOr404($id),
+                $this->getPostData($request)
+            );
 
         return $answer;
     }
@@ -265,7 +291,8 @@ class MeshPreviousIndexingController extends FOSRestController
     {
         $meshPreviousIndexing = $this->getOr404($id);
         try {
-            $this->getMeshPreviousIndexingHandler()->deleteMeshPreviousIndexing($meshPreviousIndexing);
+            $this->getMeshPreviousIndexingHandler()
+                ->deleteMeshPreviousIndexing($meshPreviousIndexing);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -281,17 +308,28 @@ class MeshPreviousIndexingController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($entity = $this->getMeshPreviousIndexingHandler()->findMeshPreviousIndexingBy(['descriptor' => $id]))) {
+        $entity = $this->getMeshPreviousIndexingHandler()
+            ->findMeshPreviousIndexingBy(['descriptor' => $id]);
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
         return $entity;
     }
-
+   /**
+    * Parse the request for the form data
+    *
+    * @param Request $request
+    * @return array
+     */
+    protected function getPostData(Request $request)
+    {
+        return $request->request->get('meshPreviousIndexing', array());
+    }
     /**
      * @return MeshPreviousIndexingHandler
      */
-    public function getMeshPreviousIndexingHandler()
+    protected function getMeshPreviousIndexingHandler()
     {
         return $this->container->get('ilioscore.meshpreviousindexing.handler');
     }

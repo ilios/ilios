@@ -47,8 +47,10 @@ class MeshDescriptorManager implements MeshDescriptorManagerInterface
      *
      * @return MeshDescriptorInterface
      */
-    public function findMeshDescriptorBy(array $criteria, array $orderBy = null)
-    {
+    public function findMeshDescriptorBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class MeshDescriptorManager implements MeshDescriptorManagerInterface
      *
      * @return MeshDescriptorInterface[]|Collection
      */
-    public function findMeshDescriptorsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findMeshDescriptorsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class MeshDescriptorManager implements MeshDescriptorManagerInterface
      * @param MeshDescriptorInterface $meshDescriptor
      * @param bool $andFlush
      */
-    public function updateMeshDescriptor(MeshDescriptorInterface $meshDescriptor, $andFlush = true)
-    {
+    public function updateMeshDescriptor(
+        MeshDescriptorInterface $meshDescriptor,
+        $andFlush = true
+    ) {
         $this->em->persist($meshDescriptor);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class MeshDescriptorManager implements MeshDescriptorManagerInterface
     /**
      * @param MeshDescriptorInterface $meshDescriptor
      */
-    public function deleteMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
-    {
+    public function deleteMeshDescriptor(
+        MeshDescriptorInterface $meshDescriptor
+    ) {
         $this->em->remove($meshDescriptor);
         $this->em->flush();
     }
