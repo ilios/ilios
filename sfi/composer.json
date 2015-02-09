@@ -32,7 +32,10 @@
         "squizlabs/php_codesniffer": "@stable",
         "phpunit/phpunit-skeleton-generator": "@stable",
         "matthiasnoback/symfony-dependency-injection-test": "@stable",
-        "matthiasnoback/symfony-config-test": "@stable"
+        "matthiasnoback/symfony-config-test": "@stable",
+        "instaclick/base-test-bundle": "^0.5",
+        "mockery/mockery": "^0.9.3",
+        "fzaninotto/faker": "^1.4"
     },
     "repositories": [
         {
