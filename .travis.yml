@@ -100,6 +100,7 @@ script:
   - if [ "$TEST_BEHAT" = true ]; then (${TRAVIS_BUILD_DIR}/tests/behat/bin/behat -c ${TRAVIS_BUILD_DIR}/tests/behat/behatci.yml --tags $BEHAT_TAG --profile $BEHAT_PROFILE); fi
 
   # Run Ilios 3 tests
-  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:schema:validate); fi
+  #- if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:schema:validate); fi
+  - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/console doctrine:schema:update --dump-sql); fi
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/phpunit); fi
   - if [ "$ILIOS_THREE" = true ]; then (cd ${TRAVIS_BUILD_DIR}/sfi; bin/phpcs --standard=app/phpcs.xml src); fi
