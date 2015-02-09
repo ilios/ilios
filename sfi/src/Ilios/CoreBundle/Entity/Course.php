@@ -170,6 +170,7 @@ class Course implements CourseInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
+     * @JMS\SerializedName("owningSchool")
      */
     protected $owningSchool;
 
