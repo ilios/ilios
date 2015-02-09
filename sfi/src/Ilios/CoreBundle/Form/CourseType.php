@@ -26,7 +26,7 @@ class CourseType extends AbstractType
             ->add('archived')
             ->add('publishedAsTbd')
             ->add('clerkshipType', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CourseClerkshipType"])
-            ->add('school', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\School"])
+            ->add('owningSchool', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\School"])
             ->add('publishEvent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"])
             ->add('directors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
             ->add('cohorts', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Cohort"])

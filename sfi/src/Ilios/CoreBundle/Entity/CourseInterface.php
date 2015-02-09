@@ -119,12 +119,12 @@ interface CourseInterface extends IdentifiableEntityInterface, TitledEntityInter
     /**
      * @param SchoolInterface $school
      */
-    public function setSchool(SchoolInterface $school);
+    public function setOwningSchool(SchoolInterface $school);
 
     /**
      * @return SchoolInterface
      */
-    public function getSchool();
+    public function getOwningSchool();
 
     /**
      * @param Collection|UserInterface[] $directors

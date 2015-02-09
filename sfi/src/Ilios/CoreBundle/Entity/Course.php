@@ -170,9 +170,8 @@ class Course implements CourseInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("owningSchool")
      */
-    protected $school;
+    protected $owningSchool;
 
     /**
      * @var PublishEventInterface
@@ -349,7 +348,7 @@ class Course implements CourseInterface
     /**
      * @param \DateTime $startDate
      */
-    public function setStartDate(\DateTime $startDate)
+    public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
@@ -365,7 +364,7 @@ class Course implements CourseInterface
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate)
+    public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
@@ -381,7 +380,7 @@ class Course implements CourseInterface
     /**
      * @param boolean $deleted
      */
-    public function setDeleted($deleted)
+    public function setDeleted($deleted = false)
     {
         $this->deleted = $deleted;
     }
@@ -398,7 +397,7 @@ class Course implements CourseInterface
      * @todo: Possible rename.
      * @param string $externalId
      */
-    public function setExternalId($externalId)
+    public function setExternalId($externalId = null)
     {
         $this->externalId = $externalId;
     }
@@ -415,7 +414,7 @@ class Course implements CourseInterface
     /**
      * @param boolean $locked
      */
-    public function setLocked($locked)
+    public function setLocked($locked = false)
     {
         $this->locked = $locked;
     }
@@ -431,7 +430,7 @@ class Course implements CourseInterface
     /**
      * @param boolean $archived
      */
-    public function setArchived($archived)
+    public function setArchived($archived = false)
     {
         $this->archived = $archived;
     }
@@ -447,7 +446,7 @@ class Course implements CourseInterface
     /**
      * @param boolean $publishedAsTbd
      */
-    public function setPublishedAsTbd($publishedAsTbd)
+    public function setPublishedAsTbd($publishedAsTbd = false)
     {
         $this->publishedAsTbd = $publishedAsTbd;
     }
@@ -463,7 +462,7 @@ class Course implements CourseInterface
     /**
      * @param CourseClerkshipTypeInterface $clerkshipType
      */
-    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType)
+    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType = null)
     {
         $this->clerkshipType = $clerkshipType;
     }
@@ -479,25 +478,28 @@ class Course implements CourseInterface
     /**
      * @param SchoolInterface $school
      */
-    public function setSchool(SchoolInterface $school)
+    public function setOwningSchool(SchoolInterface $school)
     {
-        $this->school = $school;
+        $this->owningSchool = $school;
     }
 
     /**
      * @return SchoolInterface
      */
-    public function getSchool()
+    public function getOwningSchool()
     {
-        return $this->school;
+        return $this->owningSchool;
     }
 
     /**
      * @param Collection|UserInterface[] $directors
      */
-    public function setDirectors(Collection $directors)
+    public function setDirectors(Collection $directors = null)
     {
         $this->directors = new ArrayCollection();
+        if (is_null($directors)) {
+            return;
+        }
 
         foreach ($directors as $director) {
             $this->addDirector($director);
@@ -507,7 +509,7 @@ class Course implements CourseInterface
     /**
      * @param UserInterface $director
      */
-    public function addDirector(UserInterface $director)
+    public function addDirector(UserInterface $director = null)
     {
         $this->directors->add($director);
     }
@@ -523,9 +525,12 @@ class Course implements CourseInterface
     /**
      * @param Collection|CohortInterface[] $cohorts
      */
-    public function setCohorts(Collection $cohorts)
+    public function setCohorts(Collection $cohorts = null)
     {
         $this->cohorts = new ArrayCollection();
+        if (is_null($cohorts)) {
+            return;
+        }
 
         foreach ($cohorts as $cohort) {
             $this->addCohort($cohort);
@@ -549,6 +554,21 @@ class Course implements CourseInterface
     }
 
     /**
+     * @param Collection|DisciplineInterface[] $disciplines
+     */
+    public function setDisciplines(Collection $disciplines = null)
+    {
+        $this->disciplines = new ArrayCollection();
+        if (is_null($disciplines)) {
+            return;
+        }
+
+        foreach ($disciplines as $discipline) {
+            $this->addDiscipline($discipline);
+        }
+    }
+
+    /**
      * @param DisciplineInterface $discipline
      */
     public function addDiscipline(DisciplineInterface $discipline)
@@ -567,9 +587,12 @@ class Course implements CourseInterface
     /**
      * @param Collection|ObjectiveInterface[] $objectives
      */
-    public function setObjectives(Collection $objectives)
+    public function setObjectives(Collection $objectives = null)
     {
         $this->objectives = new ArrayCollection();
+        if (is_null($objectives)) {
+            return;
+        }
 
         foreach ($objectives as $objective) {
             $this->addObjective($objective);
@@ -595,9 +618,12 @@ class Course implements CourseInterface
     /**
      * @param Collection|MeshDescriptorInterface[] $meshDescriptors
      */
-    public function setMeshDescriptors(Collection $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors = null)
     {
         $this->meshDescriptors = new ArrayCollection();
+        if (is_null($meshDescriptors)) {
+            return;
+        }
 
         foreach ($meshDescriptors as $meshDescriptor) {
             $this->addMeshDescriptor($meshDescriptor);
@@ -623,7 +649,7 @@ class Course implements CourseInterface
     /**
      * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(PublishEventInterface $publishEvent)
+    public function setPublishEvent(PublishEventInterface $publishEvent = null)
     {
         $this->publishEvent = $publishEvent;
     }
@@ -639,9 +665,12 @@ class Course implements CourseInterface
     /**
      * @param Collection $courseLearningMaterials
      */
-    public function setLearningMaterials(Collection $courseLearningMaterials)
+    public function setCourseLearningMaterials(Collection $courseLearningMaterials = null)
     {
         $this->courseLearningMaterials = new ArrayCollection();
+        if (is_null($courseLearningMaterials)) {
+            return;
+        }
 
         foreach ($courseLearningMaterials as $courseLearningMaterial) {
             $this->addCourseLearningMaterial($courseLearningMaterial);
@@ -667,10 +696,12 @@ class Course implements CourseInterface
     /**
      * @param Collection $sessions
      */
-    public function setSessions(Collection $sessions)
+    public function setSessions(Collection $sessions = null)
     {
         $this->sessions = new ArrayCollection();
-
+        if (is_null($sessions)) {
+            return;
+        }
         foreach ($sessions as $session) {
             $this->addSession($session);
         }
