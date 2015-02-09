@@ -15,6 +15,7 @@ class AamcMethodType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id')
             ->add('description')
             ->add('sessionTypes', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\SessionType"])
         ;

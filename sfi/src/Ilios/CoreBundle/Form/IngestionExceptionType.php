@@ -15,7 +15,7 @@ class IngestionExceptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('ingestedWideUid')
+            ->add('id')
             ->add('user', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
         ;
     }

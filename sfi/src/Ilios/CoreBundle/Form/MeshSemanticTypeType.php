@@ -15,7 +15,7 @@ class MeshSemanticTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('meshSemanticTypeUid')
+            ->add('id')
             ->add('name')
             ->add('createdAt')
             ->add('updatedAt')

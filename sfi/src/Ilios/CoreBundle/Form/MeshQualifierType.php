@@ -15,8 +15,8 @@ class MeshQualifierType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id')
             ->add('name')
-            ->add('meshQualifierUid')
             ->add('createdAt')
             ->add('updatedAt')
             ->add('descriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])

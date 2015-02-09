@@ -15,7 +15,7 @@ class MeshConceptType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('meshConceptUid')
+            ->add('id')
             ->add('name')
             ->add('umlsUid')
             ->add('preferred')
@@ -24,7 +24,6 @@ class MeshConceptType extends AbstractType
             ->add('registryNumber')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('meshTerms', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshTerm"])
             ->add('descriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
         ;
     }

@@ -21,7 +21,7 @@ class OfferingType extends AbstractType
             ->add('deleted')
             ->add('lastUpdatedOn')
             ->add('session', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Session"])
-            ->add('groups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"])
+            ->add('learnerGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"])
             ->add('publishEvent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"])
             ->add('instructorGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"])
             ->add('users', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
