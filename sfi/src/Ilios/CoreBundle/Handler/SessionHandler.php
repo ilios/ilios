@@ -46,20 +46,31 @@ class SessionHandler extends SessionManager
      *
      * @return SessionInterface
      */
-    public function put(SessionInterface $session, array $parameters)
-    {
-        return $this->processForm($session, $parameters, 'PUT');
+    public function put(
+        SessionInterface $session,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $session,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param SessionInterface $session
      * @param array $parameters
      *
      * @return SessionInterface
      */
-    public function patch(SessionInterface $session, array $parameters)
-    {
-        return $this->processForm($session, $parameters, 'PATCH');
+    public function patch(
+        SessionInterface $session,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $session,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class SessionHandler extends SessionManager
      *
      * @return SessionInterface
      */
-    protected function processForm(SessionInterface $session, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new SessionType(), $session, array('method' => $method));
+    protected function processForm(
+        SessionInterface $session,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new SessionType(),
+            $session,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $session = $form->getData();
             $this->updateSession($session, true);

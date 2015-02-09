@@ -20,7 +20,10 @@ interface CurriculumInventoryInstitutionManagerInterface
      *
      * @return CurriculumInventoryInstitutionInterface
      */
-    public function findCurriculumInventoryInstitutionBy(array $criteria, array $orderBy = null);
+    public function findCurriculumInventoryInstitutionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CurriculumInventoryInstitutionManagerInterface
      *
      * @return CurriculumInventoryInstitutionInterface[]|Collection
      */
-    public function findCurriculumInventoryInstitutionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCurriculumInventoryInstitutionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
@@ -38,14 +46,19 @@ interface CurriculumInventoryInstitutionManagerInterface
      *
      * @return void
      */
-     public function updateCurriculumInventoryInstitution(CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution, $andFlush = true);
+    public function updateCurriculumInventoryInstitution(
+        CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution,
+        $andFlush = true
+    );
 
     /**
      * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      *
      * @return void
      */
-    public function deleteCurriculumInventoryInstitution(CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution);
+    public function deleteCurriculumInventoryInstitution(
+        CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
+    );
 
     /**
      * @return string

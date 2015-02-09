@@ -46,20 +46,31 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
      *
      * @return AlertChangeTypeInterface
      */
-    public function put(AlertChangeTypeInterface $alertChangeType, array $parameters)
-    {
-        return $this->processForm($alertChangeType, $parameters, 'PUT');
+    public function put(
+        AlertChangeTypeInterface $alertChangeType,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $alertChangeType,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param AlertChangeTypeInterface $alertChangeType
      * @param array $parameters
      *
      * @return AlertChangeTypeInterface
      */
-    public function patch(AlertChangeTypeInterface $alertChangeType, array $parameters)
-    {
-        return $this->processForm($alertChangeType, $parameters, 'PATCH');
+    public function patch(
+        AlertChangeTypeInterface $alertChangeType,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $alertChangeType,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
      *
      * @return AlertChangeTypeInterface
      */
-    protected function processForm(AlertChangeTypeInterface $alertChangeType, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new AlertChangeTypeType(), $alertChangeType, array('method' => $method));
+    protected function processForm(
+        AlertChangeTypeInterface $alertChangeType,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new AlertChangeTypeType(),
+            $alertChangeType,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $alertChangeType = $form->getData();
             $this->updateAlertChangeType($alertChangeType, true);

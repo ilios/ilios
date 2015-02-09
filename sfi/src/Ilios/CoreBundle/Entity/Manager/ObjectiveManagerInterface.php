@@ -20,7 +20,10 @@ interface ObjectiveManagerInterface
      *
      * @return ObjectiveInterface
      */
-    public function findObjectiveBy(array $criteria, array $orderBy = null);
+    public function findObjectiveBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface ObjectiveManagerInterface
      *
      * @return ObjectiveInterface[]|Collection
      */
-    public function findObjectivesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findObjectivesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param ObjectiveInterface $objective
@@ -38,14 +46,19 @@ interface ObjectiveManagerInterface
      *
      * @return void
      */
-     public function updateObjective(ObjectiveInterface $objective, $andFlush = true);
+    public function updateObjective(
+        ObjectiveInterface $objective,
+        $andFlush = true
+    );
 
     /**
      * @param ObjectiveInterface $objective
      *
      * @return void
      */
-    public function deleteObjective(ObjectiveInterface $objective);
+    public function deleteObjective(
+        ObjectiveInterface $objective
+    );
 
     /**
      * @return string

@@ -46,20 +46,31 @@ class ReportPoValueHandler extends ReportPoValueManager
      *
      * @return ReportPoValueInterface
      */
-    public function put(ReportPoValueInterface $reportPoValue, array $parameters)
-    {
-        return $this->processForm($reportPoValue, $parameters, 'PUT');
+    public function put(
+        ReportPoValueInterface $reportPoValue,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $reportPoValue,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param ReportPoValueInterface $reportPoValue
      * @param array $parameters
      *
      * @return ReportPoValueInterface
      */
-    public function patch(ReportPoValueInterface $reportPoValue, array $parameters)
-    {
-        return $this->processForm($reportPoValue, $parameters, 'PATCH');
+    public function patch(
+        ReportPoValueInterface $reportPoValue,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $reportPoValue,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class ReportPoValueHandler extends ReportPoValueManager
      *
      * @return ReportPoValueInterface
      */
-    protected function processForm(ReportPoValueInterface $reportPoValue, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new ReportPoValueType(), $reportPoValue, array('method' => $method));
+    protected function processForm(
+        ReportPoValueInterface $reportPoValue,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new ReportPoValueType(),
+            $reportPoValue,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $reportPoValue = $form->getData();
             $this->updateReportPoValue($reportPoValue, true);

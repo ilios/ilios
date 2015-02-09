@@ -47,8 +47,10 @@ class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
      *
      * @return MeshUserSelectionInterface
      */
-    public function findMeshUserSelectionBy(array $criteria, array $orderBy = null)
-    {
+    public function findMeshUserSelectionBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
      *
      * @return MeshUserSelectionInterface[]|Collection
      */
-    public function findMeshUserSelectionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findMeshUserSelectionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
      * @param MeshUserSelectionInterface $meshUserSelection
      * @param bool $andFlush
      */
-    public function updateMeshUserSelection(MeshUserSelectionInterface $meshUserSelection, $andFlush = true)
-    {
+    public function updateMeshUserSelection(
+        MeshUserSelectionInterface $meshUserSelection,
+        $andFlush = true
+    ) {
         $this->em->persist($meshUserSelection);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
     /**
      * @param MeshUserSelectionInterface $meshUserSelection
      */
-    public function deleteMeshUserSelection(MeshUserSelectionInterface $meshUserSelection)
-    {
+    public function deleteMeshUserSelection(
+        MeshUserSelectionInterface $meshUserSelection
+    ) {
         $this->em->remove($meshUserSelection);
         $this->em->flush();
     }

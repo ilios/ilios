@@ -47,8 +47,10 @@ class SessionLearningMaterialManager implements SessionLearningMaterialManagerIn
      *
      * @return SessionLearningMaterialInterface
      */
-    public function findSessionLearningMaterialBy(array $criteria, array $orderBy = null)
-    {
+    public function findSessionLearningMaterialBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class SessionLearningMaterialManager implements SessionLearningMaterialManagerIn
      *
      * @return SessionLearningMaterialInterface[]|Collection
      */
-    public function findSessionLearningMaterialsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findSessionLearningMaterialsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class SessionLearningMaterialManager implements SessionLearningMaterialManagerIn
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      * @param bool $andFlush
      */
-    public function updateSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial, $andFlush = true)
-    {
+    public function updateSessionLearningMaterial(
+        SessionLearningMaterialInterface $sessionLearningMaterial,
+        $andFlush = true
+    ) {
         $this->em->persist($sessionLearningMaterial);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class SessionLearningMaterialManager implements SessionLearningMaterialManagerIn
     /**
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      */
-    public function deleteSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
-    {
+    public function deleteSessionLearningMaterial(
+        SessionLearningMaterialInterface $sessionLearningMaterial
+    ) {
         $this->em->remove($sessionLearningMaterial);
         $this->em->flush();
     }

@@ -20,7 +20,10 @@ interface CurriculumInventoryAcademicLevelManagerInterface
      *
      * @return CurriculumInventoryAcademicLevelInterface
      */
-    public function findCurriculumInventoryAcademicLevelBy(array $criteria, array $orderBy = null);
+    public function findCurriculumInventoryAcademicLevelBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CurriculumInventoryAcademicLevelManagerInterface
      *
      * @return CurriculumInventoryAcademicLevelInterface[]|Collection
      */
-    public function findCurriculumInventoryAcademicLevelsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCurriculumInventoryAcademicLevelsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
@@ -38,14 +46,19 @@ interface CurriculumInventoryAcademicLevelManagerInterface
      *
      * @return void
      */
-     public function updateCurriculumInventoryAcademicLevel(CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel, $andFlush = true);
+    public function updateCurriculumInventoryAcademicLevel(
+        CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel,
+        $andFlush = true
+    );
 
     /**
      * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      *
      * @return void
      */
-    public function deleteCurriculumInventoryAcademicLevel(CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel);
+    public function deleteCurriculumInventoryAcademicLevel(
+        CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
+    );
 
     /**
      * @return string

@@ -20,7 +20,10 @@ interface ReportManagerInterface
      *
      * @return ReportInterface
      */
-    public function findReportBy(array $criteria, array $orderBy = null);
+    public function findReportBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface ReportManagerInterface
      *
      * @return ReportInterface[]|Collection
      */
-    public function findReportsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findReportsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param ReportInterface $report
@@ -38,14 +46,19 @@ interface ReportManagerInterface
      *
      * @return void
      */
-     public function updateReport(ReportInterface $report, $andFlush = true);
+    public function updateReport(
+        ReportInterface $report,
+        $andFlush = true
+    );
 
     /**
      * @param ReportInterface $report
      *
      * @return void
      */
-    public function deleteReport(ReportInterface $report);
+    public function deleteReport(
+        ReportInterface $report
+    );
 
     /**
      * @return string

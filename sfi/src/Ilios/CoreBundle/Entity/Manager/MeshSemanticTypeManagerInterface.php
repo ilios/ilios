@@ -20,7 +20,10 @@ interface MeshSemanticTypeManagerInterface
      *
      * @return MeshSemanticTypeInterface
      */
-    public function findMeshSemanticTypeBy(array $criteria, array $orderBy = null);
+    public function findMeshSemanticTypeBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface MeshSemanticTypeManagerInterface
      *
      * @return MeshSemanticTypeInterface[]|Collection
      */
-    public function findMeshSemanticTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findMeshSemanticTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param MeshSemanticTypeInterface $meshSemanticType
@@ -38,14 +46,19 @@ interface MeshSemanticTypeManagerInterface
      *
      * @return void
      */
-     public function updateMeshSemanticType(MeshSemanticTypeInterface $meshSemanticType, $andFlush = true);
+    public function updateMeshSemanticType(
+        MeshSemanticTypeInterface $meshSemanticType,
+        $andFlush = true
+    );
 
     /**
      * @param MeshSemanticTypeInterface $meshSemanticType
      *
      * @return void
      */
-    public function deleteMeshSemanticType(MeshSemanticTypeInterface $meshSemanticType);
+    public function deleteMeshSemanticType(
+        MeshSemanticTypeInterface $meshSemanticType
+    );
 
     /**
      * @return string

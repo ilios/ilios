@@ -46,20 +46,31 @@ class InstructionHoursHandler extends InstructionHoursManager
      *
      * @return InstructionHoursInterface
      */
-    public function put(InstructionHoursInterface $instructionHours, array $parameters)
-    {
-        return $this->processForm($instructionHours, $parameters, 'PUT');
+    public function put(
+        InstructionHoursInterface $instructionHours,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $instructionHours,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param InstructionHoursInterface $instructionHours
      * @param array $parameters
      *
      * @return InstructionHoursInterface
      */
-    public function patch(InstructionHoursInterface $instructionHours, array $parameters)
-    {
-        return $this->processForm($instructionHours, $parameters, 'PATCH');
+    public function patch(
+        InstructionHoursInterface $instructionHours,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $instructionHours,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class InstructionHoursHandler extends InstructionHoursManager
      *
      * @return InstructionHoursInterface
      */
-    protected function processForm(InstructionHoursInterface $instructionHours, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new InstructionHoursType(), $instructionHours, array('method' => $method));
+    protected function processForm(
+        InstructionHoursInterface $instructionHours,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new InstructionHoursType(),
+            $instructionHours,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $instructionHours = $form->getData();
             $this->updateInstructionHours($instructionHours, true);

@@ -46,20 +46,31 @@ class SessionDescriptionHandler extends SessionDescriptionManager
      *
      * @return SessionDescriptionInterface
      */
-    public function put(SessionDescriptionInterface $sessionDescription, array $parameters)
-    {
-        return $this->processForm($sessionDescription, $parameters, 'PUT');
+    public function put(
+        SessionDescriptionInterface $sessionDescription,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $sessionDescription,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param SessionDescriptionInterface $sessionDescription
      * @param array $parameters
      *
      * @return SessionDescriptionInterface
      */
-    public function patch(SessionDescriptionInterface $sessionDescription, array $parameters)
-    {
-        return $this->processForm($sessionDescription, $parameters, 'PATCH');
+    public function patch(
+        SessionDescriptionInterface $sessionDescription,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $sessionDescription,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class SessionDescriptionHandler extends SessionDescriptionManager
      *
      * @return SessionDescriptionInterface
      */
-    protected function processForm(SessionDescriptionInterface $sessionDescription, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new SessionDescriptionType(), $sessionDescription, array('method' => $method));
+    protected function processForm(
+        SessionDescriptionInterface $sessionDescription,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new SessionDescriptionType(),
+            $sessionDescription,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $sessionDescription = $form->getData();
             $this->updateSessionDescription($sessionDescription, true);

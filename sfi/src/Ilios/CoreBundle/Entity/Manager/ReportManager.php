@@ -47,8 +47,10 @@ class ReportManager implements ReportManagerInterface
      *
      * @return ReportInterface
      */
-    public function findReportBy(array $criteria, array $orderBy = null)
-    {
+    public function findReportBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class ReportManager implements ReportManagerInterface
      *
      * @return ReportInterface[]|Collection
      */
-    public function findReportsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findReportsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class ReportManager implements ReportManagerInterface
      * @param ReportInterface $report
      * @param bool $andFlush
      */
-    public function updateReport(ReportInterface $report, $andFlush = true)
-    {
+    public function updateReport(
+        ReportInterface $report,
+        $andFlush = true
+    ) {
         $this->em->persist($report);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class ReportManager implements ReportManagerInterface
     /**
      * @param ReportInterface $report
      */
-    public function deleteReport(ReportInterface $report)
-    {
+    public function deleteReport(
+        ReportInterface $report
+    ) {
         $this->em->remove($report);
         $this->em->flush();
     }

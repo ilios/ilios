@@ -46,20 +46,31 @@ class ReportHandler extends ReportManager
      *
      * @return ReportInterface
      */
-    public function put(ReportInterface $report, array $parameters)
-    {
-        return $this->processForm($report, $parameters, 'PUT');
+    public function put(
+        ReportInterface $report,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $report,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param ReportInterface $report
      * @param array $parameters
      *
      * @return ReportInterface
      */
-    public function patch(ReportInterface $report, array $parameters)
-    {
-        return $this->processForm($report, $parameters, 'PATCH');
+    public function patch(
+        ReportInterface $report,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $report,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class ReportHandler extends ReportManager
      *
      * @return ReportInterface
      */
-    protected function processForm(ReportInterface $report, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new ReportType(), $report, array('method' => $method));
+    protected function processForm(
+        ReportInterface $report,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new ReportType(),
+            $report,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $report = $form->getData();
             $this->updateReport($report, true);

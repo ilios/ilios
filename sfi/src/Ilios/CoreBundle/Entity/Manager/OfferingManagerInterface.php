@@ -20,7 +20,10 @@ interface OfferingManagerInterface
      *
      * @return OfferingInterface
      */
-    public function findOfferingBy(array $criteria, array $orderBy = null);
+    public function findOfferingBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface OfferingManagerInterface
      *
      * @return OfferingInterface[]|Collection
      */
-    public function findOfferingsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findOfferingsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param OfferingInterface $offering
@@ -38,14 +46,19 @@ interface OfferingManagerInterface
      *
      * @return void
      */
-     public function updateOffering(OfferingInterface $offering, $andFlush = true);
+    public function updateOffering(
+        OfferingInterface $offering,
+        $andFlush = true
+    );
 
     /**
      * @param OfferingInterface $offering
      *
      * @return void
      */
-    public function deleteOffering(OfferingInterface $offering);
+    public function deleteOffering(
+        OfferingInterface $offering
+    );
 
     /**
      * @return string

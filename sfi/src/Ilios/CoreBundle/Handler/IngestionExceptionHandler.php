@@ -46,20 +46,31 @@ class IngestionExceptionHandler extends IngestionExceptionManager
      *
      * @return IngestionExceptionInterface
      */
-    public function put(IngestionExceptionInterface $ingestionException, array $parameters)
-    {
-        return $this->processForm($ingestionException, $parameters, 'PUT');
+    public function put(
+        IngestionExceptionInterface $ingestionException,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $ingestionException,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param IngestionExceptionInterface $ingestionException
      * @param array $parameters
      *
      * @return IngestionExceptionInterface
      */
-    public function patch(IngestionExceptionInterface $ingestionException, array $parameters)
-    {
-        return $this->processForm($ingestionException, $parameters, 'PATCH');
+    public function patch(
+        IngestionExceptionInterface $ingestionException,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $ingestionException,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class IngestionExceptionHandler extends IngestionExceptionManager
      *
      * @return IngestionExceptionInterface
      */
-    protected function processForm(IngestionExceptionInterface $ingestionException, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new IngestionExceptionType(), $ingestionException, array('method' => $method));
+    protected function processForm(
+        IngestionExceptionInterface $ingestionException,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new IngestionExceptionType(),
+            $ingestionException,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $ingestionException = $form->getData();
             $this->updateIngestionException($ingestionException, true);

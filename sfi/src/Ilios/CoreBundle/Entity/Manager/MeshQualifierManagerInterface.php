@@ -20,7 +20,10 @@ interface MeshQualifierManagerInterface
      *
      * @return MeshQualifierInterface
      */
-    public function findMeshQualifierBy(array $criteria, array $orderBy = null);
+    public function findMeshQualifierBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface MeshQualifierManagerInterface
      *
      * @return MeshQualifierInterface[]|Collection
      */
-    public function findMeshQualifiersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findMeshQualifiersBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param MeshQualifierInterface $meshQualifier
@@ -38,14 +46,19 @@ interface MeshQualifierManagerInterface
      *
      * @return void
      */
-     public function updateMeshQualifier(MeshQualifierInterface $meshQualifier, $andFlush = true);
+    public function updateMeshQualifier(
+        MeshQualifierInterface $meshQualifier,
+        $andFlush = true
+    );
 
     /**
      * @param MeshQualifierInterface $meshQualifier
      *
      * @return void
      */
-    public function deleteMeshQualifier(MeshQualifierInterface $meshQualifier);
+    public function deleteMeshQualifier(
+        MeshQualifierInterface $meshQualifier
+    );
 
     /**
      * @return string

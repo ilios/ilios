@@ -46,20 +46,31 @@ class ProgramYearHandler extends ProgramYearManager
      *
      * @return ProgramYearInterface
      */
-    public function put(ProgramYearInterface $programYear, array $parameters)
-    {
-        return $this->processForm($programYear, $parameters, 'PUT');
+    public function put(
+        ProgramYearInterface $programYear,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $programYear,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param ProgramYearInterface $programYear
      * @param array $parameters
      *
      * @return ProgramYearInterface
      */
-    public function patch(ProgramYearInterface $programYear, array $parameters)
-    {
-        return $this->processForm($programYear, $parameters, 'PATCH');
+    public function patch(
+        ProgramYearInterface $programYear,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $programYear,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class ProgramYearHandler extends ProgramYearManager
      *
      * @return ProgramYearInterface
      */
-    protected function processForm(ProgramYearInterface $programYear, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new ProgramYearType(), $programYear, array('method' => $method));
+    protected function processForm(
+        ProgramYearInterface $programYear,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new ProgramYearType(),
+            $programYear,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $programYear = $form->getData();
             $this->updateProgramYear($programYear, true);

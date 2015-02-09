@@ -20,7 +20,10 @@ interface CourseClerkshipTypeManagerInterface
      *
      * @return CourseClerkshipTypeInterface
      */
-    public function findCourseClerkshipTypeBy(array $criteria, array $orderBy = null);
+    public function findCourseClerkshipTypeBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CourseClerkshipTypeManagerInterface
      *
      * @return CourseClerkshipTypeInterface[]|Collection
      */
-    public function findCourseClerkshipTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCourseClerkshipTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CourseClerkshipTypeInterface $courseClerkshipType
@@ -38,14 +46,19 @@ interface CourseClerkshipTypeManagerInterface
      *
      * @return void
      */
-     public function updateCourseClerkshipType(CourseClerkshipTypeInterface $courseClerkshipType, $andFlush = true);
+    public function updateCourseClerkshipType(
+        CourseClerkshipTypeInterface $courseClerkshipType,
+        $andFlush = true
+    );
 
     /**
      * @param CourseClerkshipTypeInterface $courseClerkshipType
      *
      * @return void
      */
-    public function deleteCourseClerkshipType(CourseClerkshipTypeInterface $courseClerkshipType);
+    public function deleteCourseClerkshipType(
+        CourseClerkshipTypeInterface $courseClerkshipType
+    );
 
     /**
      * @return string

@@ -47,8 +47,10 @@ class RecurringEventManager implements RecurringEventManagerInterface
      *
      * @return RecurringEventInterface
      */
-    public function findRecurringEventBy(array $criteria, array $orderBy = null)
-    {
+    public function findRecurringEventBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class RecurringEventManager implements RecurringEventManagerInterface
      *
      * @return RecurringEventInterface[]|Collection
      */
-    public function findRecurringEventsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findRecurringEventsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class RecurringEventManager implements RecurringEventManagerInterface
      * @param RecurringEventInterface $recurringEvent
      * @param bool $andFlush
      */
-    public function updateRecurringEvent(RecurringEventInterface $recurringEvent, $andFlush = true)
-    {
+    public function updateRecurringEvent(
+        RecurringEventInterface $recurringEvent,
+        $andFlush = true
+    ) {
         $this->em->persist($recurringEvent);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class RecurringEventManager implements RecurringEventManagerInterface
     /**
      * @param RecurringEventInterface $recurringEvent
      */
-    public function deleteRecurringEvent(RecurringEventInterface $recurringEvent)
-    {
+    public function deleteRecurringEvent(
+        RecurringEventInterface $recurringEvent
+    ) {
         $this->em->remove($recurringEvent);
         $this->em->flush();
     }

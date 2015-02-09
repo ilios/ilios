@@ -46,20 +46,31 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
      *
      * @return MeshSemanticTypeInterface
      */
-    public function put(MeshSemanticTypeInterface $meshSemanticType, array $parameters)
-    {
-        return $this->processForm($meshSemanticType, $parameters, 'PUT');
+    public function put(
+        MeshSemanticTypeInterface $meshSemanticType,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshSemanticType,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param MeshSemanticTypeInterface $meshSemanticType
      * @param array $parameters
      *
      * @return MeshSemanticTypeInterface
      */
-    public function patch(MeshSemanticTypeInterface $meshSemanticType, array $parameters)
-    {
-        return $this->processForm($meshSemanticType, $parameters, 'PATCH');
+    public function patch(
+        MeshSemanticTypeInterface $meshSemanticType,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshSemanticType,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
      *
      * @return MeshSemanticTypeInterface
      */
-    protected function processForm(MeshSemanticTypeInterface $meshSemanticType, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new MeshSemanticTypeType(), $meshSemanticType, array('method' => $method));
+    protected function processForm(
+        MeshSemanticTypeInterface $meshSemanticType,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new MeshSemanticTypeType(),
+            $meshSemanticType,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $meshSemanticType = $form->getData();
             $this->updateMeshSemanticType($meshSemanticType, true);

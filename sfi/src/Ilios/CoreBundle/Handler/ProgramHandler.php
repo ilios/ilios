@@ -46,20 +46,31 @@ class ProgramHandler extends ProgramManager
      *
      * @return ProgramInterface
      */
-    public function put(ProgramInterface $program, array $parameters)
-    {
-        return $this->processForm($program, $parameters, 'PUT');
+    public function put(
+        ProgramInterface $program,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $program,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param ProgramInterface $program
      * @param array $parameters
      *
      * @return ProgramInterface
      */
-    public function patch(ProgramInterface $program, array $parameters)
-    {
-        return $this->processForm($program, $parameters, 'PATCH');
+    public function patch(
+        ProgramInterface $program,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $program,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class ProgramHandler extends ProgramManager
      *
      * @return ProgramInterface
      */
-    protected function processForm(ProgramInterface $program, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new ProgramType(), $program, array('method' => $method));
+    protected function processForm(
+        ProgramInterface $program,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new ProgramType(),
+            $program,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $program = $form->getData();
             $this->updateProgram($program, true);

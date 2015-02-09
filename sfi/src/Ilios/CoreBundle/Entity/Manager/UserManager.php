@@ -47,8 +47,10 @@ class UserManager implements UserManagerInterface
      *
      * @return UserInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null)
-    {
+    public function findUserBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class UserManager implements UserManagerInterface
      *
      * @return UserInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findUsersBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class UserManager implements UserManagerInterface
      * @param UserInterface $user
      * @param bool $andFlush
      */
-    public function updateUser(UserInterface $user, $andFlush = true)
-    {
+    public function updateUser(
+        UserInterface $user,
+        $andFlush = true
+    ) {
         $this->em->persist($user);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class UserManager implements UserManagerInterface
     /**
      * @param UserInterface $user
      */
-    public function deleteUser(UserInterface $user)
-    {
+    public function deleteUser(
+        UserInterface $user
+    ) {
         $this->em->remove($user);
         $this->em->flush();
     }

@@ -20,7 +20,10 @@ interface MeshUserSelectionManagerInterface
      *
      * @return MeshUserSelectionInterface
      */
-    public function findMeshUserSelectionBy(array $criteria, array $orderBy = null);
+    public function findMeshUserSelectionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface MeshUserSelectionManagerInterface
      *
      * @return MeshUserSelectionInterface[]|Collection
      */
-    public function findMeshUserSelectionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findMeshUserSelectionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param MeshUserSelectionInterface $meshUserSelection
@@ -38,14 +46,19 @@ interface MeshUserSelectionManagerInterface
      *
      * @return void
      */
-     public function updateMeshUserSelection(MeshUserSelectionInterface $meshUserSelection, $andFlush = true);
+    public function updateMeshUserSelection(
+        MeshUserSelectionInterface $meshUserSelection,
+        $andFlush = true
+    );
 
     /**
      * @param MeshUserSelectionInterface $meshUserSelection
      *
      * @return void
      */
-    public function deleteMeshUserSelection(MeshUserSelectionInterface $meshUserSelection);
+    public function deleteMeshUserSelection(
+        MeshUserSelectionInterface $meshUserSelection
+    );
 
     /**
      * @return string

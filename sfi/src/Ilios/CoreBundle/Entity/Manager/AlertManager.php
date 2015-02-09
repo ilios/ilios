@@ -47,8 +47,10 @@ class AlertManager implements AlertManagerInterface
      *
      * @return AlertInterface
      */
-    public function findAlertBy(array $criteria, array $orderBy = null)
-    {
+    public function findAlertBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class AlertManager implements AlertManagerInterface
      *
      * @return AlertInterface[]|Collection
      */
-    public function findAlertsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findAlertsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class AlertManager implements AlertManagerInterface
      * @param AlertInterface $alert
      * @param bool $andFlush
      */
-    public function updateAlert(AlertInterface $alert, $andFlush = true)
-    {
+    public function updateAlert(
+        AlertInterface $alert,
+        $andFlush = true
+    ) {
         $this->em->persist($alert);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class AlertManager implements AlertManagerInterface
     /**
      * @param AlertInterface $alert
      */
-    public function deleteAlert(AlertInterface $alert)
-    {
+    public function deleteAlert(
+        AlertInterface $alert
+    ) {
         $this->em->remove($alert);
         $this->em->flush();
     }

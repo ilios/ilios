@@ -46,20 +46,31 @@ class MeshConceptHandler extends MeshConceptManager
      *
      * @return MeshConceptInterface
      */
-    public function put(MeshConceptInterface $meshConcept, array $parameters)
-    {
-        return $this->processForm($meshConcept, $parameters, 'PUT');
+    public function put(
+        MeshConceptInterface $meshConcept,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshConcept,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param MeshConceptInterface $meshConcept
      * @param array $parameters
      *
      * @return MeshConceptInterface
      */
-    public function patch(MeshConceptInterface $meshConcept, array $parameters)
-    {
-        return $this->processForm($meshConcept, $parameters, 'PATCH');
+    public function patch(
+        MeshConceptInterface $meshConcept,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshConcept,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class MeshConceptHandler extends MeshConceptManager
      *
      * @return MeshConceptInterface
      */
-    protected function processForm(MeshConceptInterface $meshConcept, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new MeshConceptType(), $meshConcept, array('method' => $method));
+    protected function processForm(
+        MeshConceptInterface $meshConcept,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new MeshConceptType(),
+            $meshConcept,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $meshConcept = $form->getData();
             $this->updateMeshConcept($meshConcept, true);

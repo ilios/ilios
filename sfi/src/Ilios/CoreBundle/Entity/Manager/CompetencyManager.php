@@ -47,8 +47,10 @@ class CompetencyManager implements CompetencyManagerInterface
      *
      * @return CompetencyInterface
      */
-    public function findCompetencyBy(array $criteria, array $orderBy = null)
-    {
+    public function findCompetencyBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CompetencyManager implements CompetencyManagerInterface
      *
      * @return CompetencyInterface[]|Collection
      */
-    public function findCompetenciesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCompetenciesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CompetencyManager implements CompetencyManagerInterface
      * @param CompetencyInterface $competency
      * @param bool $andFlush
      */
-    public function updateCompetency(CompetencyInterface $competency, $andFlush = true)
-    {
+    public function updateCompetency(
+        CompetencyInterface $competency,
+        $andFlush = true
+    ) {
         $this->em->persist($competency);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CompetencyManager implements CompetencyManagerInterface
     /**
      * @param CompetencyInterface $competency
      */
-    public function deleteCompetency(CompetencyInterface $competency)
-    {
+    public function deleteCompetency(
+        CompetencyInterface $competency
+    ) {
         $this->em->remove($competency);
         $this->em->flush();
     }

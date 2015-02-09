@@ -46,20 +46,31 @@ class IlmSessionFacetHandler extends IlmSessionFacetManager
      *
      * @return IlmSessionFacetInterface
      */
-    public function put(IlmSessionFacetInterface $ilmSessionFacet, array $parameters)
-    {
-        return $this->processForm($ilmSessionFacet, $parameters, 'PUT');
+    public function put(
+        IlmSessionFacetInterface $ilmSessionFacet,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $ilmSessionFacet,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param IlmSessionFacetInterface $ilmSessionFacet
      * @param array $parameters
      *
      * @return IlmSessionFacetInterface
      */
-    public function patch(IlmSessionFacetInterface $ilmSessionFacet, array $parameters)
-    {
-        return $this->processForm($ilmSessionFacet, $parameters, 'PATCH');
+    public function patch(
+        IlmSessionFacetInterface $ilmSessionFacet,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $ilmSessionFacet,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class IlmSessionFacetHandler extends IlmSessionFacetManager
      *
      * @return IlmSessionFacetInterface
      */
-    protected function processForm(IlmSessionFacetInterface $ilmSessionFacet, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new IlmSessionFacetType(), $ilmSessionFacet, array('method' => $method));
+    protected function processForm(
+        IlmSessionFacetInterface $ilmSessionFacet,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new IlmSessionFacetType(),
+            $ilmSessionFacet,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $ilmSessionFacet = $form->getData();
             $this->updateIlmSessionFacet($ilmSessionFacet, true);

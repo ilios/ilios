@@ -47,8 +47,10 @@ class CourseLearningMaterialManager implements CourseLearningMaterialManagerInte
      *
      * @return CourseLearningMaterialInterface
      */
-    public function findCourseLearningMaterialBy(array $criteria, array $orderBy = null)
-    {
+    public function findCourseLearningMaterialBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CourseLearningMaterialManager implements CourseLearningMaterialManagerInte
      *
      * @return CourseLearningMaterialInterface[]|Collection
      */
-    public function findCourseLearningMaterialsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCourseLearningMaterialsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CourseLearningMaterialManager implements CourseLearningMaterialManagerInte
      * @param CourseLearningMaterialInterface $courseLearningMaterial
      * @param bool $andFlush
      */
-    public function updateCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial, $andFlush = true)
-    {
+    public function updateCourseLearningMaterial(
+        CourseLearningMaterialInterface $courseLearningMaterial,
+        $andFlush = true
+    ) {
         $this->em->persist($courseLearningMaterial);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CourseLearningMaterialManager implements CourseLearningMaterialManagerInte
     /**
      * @param CourseLearningMaterialInterface $courseLearningMaterial
      */
-    public function deleteCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
-    {
+    public function deleteCourseLearningMaterial(
+        CourseLearningMaterialInterface $courseLearningMaterial
+    ) {
         $this->em->remove($courseLearningMaterial);
         $this->em->flush();
     }

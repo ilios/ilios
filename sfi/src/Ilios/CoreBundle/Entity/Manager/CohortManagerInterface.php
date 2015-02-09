@@ -20,7 +20,10 @@ interface CohortManagerInterface
      *
      * @return CohortInterface
      */
-    public function findCohortBy(array $criteria, array $orderBy = null);
+    public function findCohortBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CohortManagerInterface
      *
      * @return CohortInterface[]|Collection
      */
-    public function findCohortsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCohortsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CohortInterface $cohort
@@ -38,14 +46,19 @@ interface CohortManagerInterface
      *
      * @return void
      */
-     public function updateCohort(CohortInterface $cohort, $andFlush = true);
+    public function updateCohort(
+        CohortInterface $cohort,
+        $andFlush = true
+    );
 
     /**
      * @param CohortInterface $cohort
      *
      * @return void
      */
-    public function deleteCohort(CohortInterface $cohort);
+    public function deleteCohort(
+        CohortInterface $cohort
+    );
 
     /**
      * @return string

@@ -47,8 +47,10 @@ class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
      *
      * @return AlertChangeTypeInterface
      */
-    public function findAlertChangeTypeBy(array $criteria, array $orderBy = null)
-    {
+    public function findAlertChangeTypeBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
      *
      * @return AlertChangeTypeInterface[]|Collection
      */
-    public function findAlertChangeTypesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findAlertChangeTypesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
      * @param AlertChangeTypeInterface $alertChangeType
      * @param bool $andFlush
      */
-    public function updateAlertChangeType(AlertChangeTypeInterface $alertChangeType, $andFlush = true)
-    {
+    public function updateAlertChangeType(
+        AlertChangeTypeInterface $alertChangeType,
+        $andFlush = true
+    ) {
         $this->em->persist($alertChangeType);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
     /**
      * @param AlertChangeTypeInterface $alertChangeType
      */
-    public function deleteAlertChangeType(AlertChangeTypeInterface $alertChangeType)
-    {
+    public function deleteAlertChangeType(
+        AlertChangeTypeInterface $alertChangeType
+    ) {
         $this->em->remove($alertChangeType);
         $this->em->flush();
     }

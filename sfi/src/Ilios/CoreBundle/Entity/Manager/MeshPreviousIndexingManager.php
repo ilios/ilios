@@ -47,8 +47,10 @@ class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterfac
      *
      * @return MeshPreviousIndexingInterface
      */
-    public function findMeshPreviousIndexingBy(array $criteria, array $orderBy = null)
-    {
+    public function findMeshPreviousIndexingBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterfac
      *
      * @return MeshPreviousIndexingInterface[]|Collection
      */
-    public function findMeshPreviousIndexingsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findMeshPreviousIndexingsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterfac
      * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      * @param bool $andFlush
      */
-    public function updateMeshPreviousIndexing(MeshPreviousIndexingInterface $meshPreviousIndexing, $andFlush = true)
-    {
+    public function updateMeshPreviousIndexing(
+        MeshPreviousIndexingInterface $meshPreviousIndexing,
+        $andFlush = true
+    ) {
         $this->em->persist($meshPreviousIndexing);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterfac
     /**
      * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      */
-    public function deleteMeshPreviousIndexing(MeshPreviousIndexingInterface $meshPreviousIndexing)
-    {
+    public function deleteMeshPreviousIndexing(
+        MeshPreviousIndexingInterface $meshPreviousIndexing
+    ) {
         $this->em->remove($meshPreviousIndexing);
         $this->em->flush();
     }

@@ -46,20 +46,31 @@ class UserMadeReminderHandler extends UserMadeReminderManager
      *
      * @return UserMadeReminderInterface
      */
-    public function put(UserMadeReminderInterface $userMadeReminder, array $parameters)
-    {
-        return $this->processForm($userMadeReminder, $parameters, 'PUT');
+    public function put(
+        UserMadeReminderInterface $userMadeReminder,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $userMadeReminder,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param UserMadeReminderInterface $userMadeReminder
      * @param array $parameters
      *
      * @return UserMadeReminderInterface
      */
-    public function patch(UserMadeReminderInterface $userMadeReminder, array $parameters)
-    {
-        return $this->processForm($userMadeReminder, $parameters, 'PATCH');
+    public function patch(
+        UserMadeReminderInterface $userMadeReminder,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $userMadeReminder,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class UserMadeReminderHandler extends UserMadeReminderManager
      *
      * @return UserMadeReminderInterface
      */
-    protected function processForm(UserMadeReminderInterface $userMadeReminder, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new UserMadeReminderType(), $userMadeReminder, array('method' => $method));
+    protected function processForm(
+        UserMadeReminderInterface $userMadeReminder,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new UserMadeReminderType(),
+            $userMadeReminder,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $userMadeReminder = $form->getData();
             $this->updateUserMadeReminder($userMadeReminder, true);

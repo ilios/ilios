@@ -47,8 +47,10 @@ class SchoolManager implements SchoolManagerInterface
      *
      * @return SchoolInterface
      */
-    public function findSchoolBy(array $criteria, array $orderBy = null)
-    {
+    public function findSchoolBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class SchoolManager implements SchoolManagerInterface
      *
      * @return SchoolInterface[]|Collection
      */
-    public function findSchoolsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findSchoolsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class SchoolManager implements SchoolManagerInterface
      * @param SchoolInterface $school
      * @param bool $andFlush
      */
-    public function updateSchool(SchoolInterface $school, $andFlush = true)
-    {
+    public function updateSchool(
+        SchoolInterface $school,
+        $andFlush = true
+    ) {
         $this->em->persist($school);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class SchoolManager implements SchoolManagerInterface
     /**
      * @param SchoolInterface $school
      */
-    public function deleteSchool(SchoolInterface $school)
-    {
+    public function deleteSchool(
+        SchoolInterface $school
+    ) {
         $this->em->remove($school);
         $this->em->flush();
     }

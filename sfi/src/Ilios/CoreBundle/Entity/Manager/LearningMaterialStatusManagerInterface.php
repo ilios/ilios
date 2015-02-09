@@ -20,7 +20,10 @@ interface LearningMaterialStatusManagerInterface
      *
      * @return LearningMaterialStatusInterface
      */
-    public function findLearningMaterialStatusBy(array $criteria, array $orderBy = null);
+    public function findLearningMaterialStatusBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface LearningMaterialStatusManagerInterface
      *
      * @return LearningMaterialStatusInterface[]|Collection
      */
-    public function findLearningMaterialStatusesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findLearningMaterialStatusesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param LearningMaterialStatusInterface $learningMaterialStatus
@@ -38,14 +46,19 @@ interface LearningMaterialStatusManagerInterface
      *
      * @return void
      */
-     public function updateLearningMaterialStatus(LearningMaterialStatusInterface $learningMaterialStatus, $andFlush = true);
+    public function updateLearningMaterialStatus(
+        LearningMaterialStatusInterface $learningMaterialStatus,
+        $andFlush = true
+    );
 
     /**
      * @param LearningMaterialStatusInterface $learningMaterialStatus
      *
      * @return void
      */
-    public function deleteLearningMaterialStatus(LearningMaterialStatusInterface $learningMaterialStatus);
+    public function deleteLearningMaterialStatus(
+        LearningMaterialStatusInterface $learningMaterialStatus
+    );
 
     /**
      * @return string

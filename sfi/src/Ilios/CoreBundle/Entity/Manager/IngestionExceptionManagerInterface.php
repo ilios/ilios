@@ -20,7 +20,10 @@ interface IngestionExceptionManagerInterface
      *
      * @return IngestionExceptionInterface
      */
-    public function findIngestionExceptionBy(array $criteria, array $orderBy = null);
+    public function findIngestionExceptionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface IngestionExceptionManagerInterface
      *
      * @return IngestionExceptionInterface[]|Collection
      */
-    public function findIngestionExceptionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findIngestionExceptionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param IngestionExceptionInterface $ingestionException
@@ -38,14 +46,19 @@ interface IngestionExceptionManagerInterface
      *
      * @return void
      */
-     public function updateIngestionException(IngestionExceptionInterface $ingestionException, $andFlush = true);
+    public function updateIngestionException(
+        IngestionExceptionInterface $ingestionException,
+        $andFlush = true
+    );
 
     /**
      * @param IngestionExceptionInterface $ingestionException
      *
      * @return void
      */
-    public function deleteIngestionException(IngestionExceptionInterface $ingestionException);
+    public function deleteIngestionException(
+        IngestionExceptionInterface $ingestionException
+    );
 
     /**
      * @return string

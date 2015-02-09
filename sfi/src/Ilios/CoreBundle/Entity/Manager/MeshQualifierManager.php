@@ -47,8 +47,10 @@ class MeshQualifierManager implements MeshQualifierManagerInterface
      *
      * @return MeshQualifierInterface
      */
-    public function findMeshQualifierBy(array $criteria, array $orderBy = null)
-    {
+    public function findMeshQualifierBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class MeshQualifierManager implements MeshQualifierManagerInterface
      *
      * @return MeshQualifierInterface[]|Collection
      */
-    public function findMeshQualifiersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findMeshQualifiersBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class MeshQualifierManager implements MeshQualifierManagerInterface
      * @param MeshQualifierInterface $meshQualifier
      * @param bool $andFlush
      */
-    public function updateMeshQualifier(MeshQualifierInterface $meshQualifier, $andFlush = true)
-    {
+    public function updateMeshQualifier(
+        MeshQualifierInterface $meshQualifier,
+        $andFlush = true
+    ) {
         $this->em->persist($meshQualifier);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class MeshQualifierManager implements MeshQualifierManagerInterface
     /**
      * @param MeshQualifierInterface $meshQualifier
      */
-    public function deleteMeshQualifier(MeshQualifierInterface $meshQualifier)
-    {
+    public function deleteMeshQualifier(
+        MeshQualifierInterface $meshQualifier
+    ) {
         $this->em->remove($meshQualifier);
         $this->em->flush();
     }

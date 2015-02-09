@@ -20,7 +20,10 @@ interface DepartmentManagerInterface
      *
      * @return DepartmentInterface
      */
-    public function findDepartmentBy(array $criteria, array $orderBy = null);
+    public function findDepartmentBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface DepartmentManagerInterface
      *
      * @return DepartmentInterface[]|Collection
      */
-    public function findDepartmentsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findDepartmentsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param DepartmentInterface $department
@@ -38,14 +46,19 @@ interface DepartmentManagerInterface
      *
      * @return void
      */
-     public function updateDepartment(DepartmentInterface $department, $andFlush = true);
+    public function updateDepartment(
+        DepartmentInterface $department,
+        $andFlush = true
+    );
 
     /**
      * @param DepartmentInterface $department
      *
      * @return void
      */
-    public function deleteDepartment(DepartmentInterface $department);
+    public function deleteDepartment(
+        DepartmentInterface $department
+    );
 
     /**
      * @return string

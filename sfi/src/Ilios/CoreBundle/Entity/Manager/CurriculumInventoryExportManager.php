@@ -47,8 +47,10 @@ class CurriculumInventoryExportManager implements CurriculumInventoryExportManag
      *
      * @return CurriculumInventoryExportInterface
      */
-    public function findCurriculumInventoryExportBy(array $criteria, array $orderBy = null)
-    {
+    public function findCurriculumInventoryExportBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CurriculumInventoryExportManager implements CurriculumInventoryExportManag
      *
      * @return CurriculumInventoryExportInterface[]|Collection
      */
-    public function findCurriculumInventoryExportsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCurriculumInventoryExportsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CurriculumInventoryExportManager implements CurriculumInventoryExportManag
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      * @param bool $andFlush
      */
-    public function updateCurriculumInventoryExport(CurriculumInventoryExportInterface $curriculumInventoryExport, $andFlush = true)
-    {
+    public function updateCurriculumInventoryExport(
+        CurriculumInventoryExportInterface $curriculumInventoryExport,
+        $andFlush = true
+    ) {
         $this->em->persist($curriculumInventoryExport);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CurriculumInventoryExportManager implements CurriculumInventoryExportManag
     /**
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      */
-    public function deleteCurriculumInventoryExport(CurriculumInventoryExportInterface $curriculumInventoryExport)
-    {
+    public function deleteCurriculumInventoryExport(
+        CurriculumInventoryExportInterface $curriculumInventoryExport
+    ) {
         $this->em->remove($curriculumInventoryExport);
         $this->em->flush();
     }

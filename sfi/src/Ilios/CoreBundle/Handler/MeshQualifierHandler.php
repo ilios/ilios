@@ -46,20 +46,31 @@ class MeshQualifierHandler extends MeshQualifierManager
      *
      * @return MeshQualifierInterface
      */
-    public function put(MeshQualifierInterface $meshQualifier, array $parameters)
-    {
-        return $this->processForm($meshQualifier, $parameters, 'PUT');
+    public function put(
+        MeshQualifierInterface $meshQualifier,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshQualifier,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param MeshQualifierInterface $meshQualifier
      * @param array $parameters
      *
      * @return MeshQualifierInterface
      */
-    public function patch(MeshQualifierInterface $meshQualifier, array $parameters)
-    {
-        return $this->processForm($meshQualifier, $parameters, 'PATCH');
+    public function patch(
+        MeshQualifierInterface $meshQualifier,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $meshQualifier,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class MeshQualifierHandler extends MeshQualifierManager
      *
      * @return MeshQualifierInterface
      */
-    protected function processForm(MeshQualifierInterface $meshQualifier, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new MeshQualifierType(), $meshQualifier, array('method' => $method));
+    protected function processForm(
+        MeshQualifierInterface $meshQualifier,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new MeshQualifierType(),
+            $meshQualifier,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $meshQualifier = $form->getData();
             $this->updateMeshQualifier($meshQualifier, true);

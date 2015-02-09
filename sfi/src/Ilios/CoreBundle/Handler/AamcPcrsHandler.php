@@ -46,20 +46,31 @@ class AamcPcrsHandler extends AamcPcrsManager
      *
      * @return AamcPcrsInterface
      */
-    public function put(AamcPcrsInterface $aamcPcrs, array $parameters)
-    {
-        return $this->processForm($aamcPcrs, $parameters, 'PUT');
+    public function put(
+        AamcPcrsInterface $aamcPcrs,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $aamcPcrs,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param AamcPcrsInterface $aamcPcrs
      * @param array $parameters
      *
      * @return AamcPcrsInterface
      */
-    public function patch(AamcPcrsInterface $aamcPcrs, array $parameters)
-    {
-        return $this->processForm($aamcPcrs, $parameters, 'PATCH');
+    public function patch(
+        AamcPcrsInterface $aamcPcrs,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $aamcPcrs,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class AamcPcrsHandler extends AamcPcrsManager
      *
      * @return AamcPcrsInterface
      */
-    protected function processForm(AamcPcrsInterface $aamcPcrs, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new AamcPcrsType(), $aamcPcrs, array('method' => $method));
+    protected function processForm(
+        AamcPcrsInterface $aamcPcrs,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new AamcPcrsType(),
+            $aamcPcrs,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $aamcPcrs = $form->getData();
             $this->updateAamcPcrs($aamcPcrs, true);

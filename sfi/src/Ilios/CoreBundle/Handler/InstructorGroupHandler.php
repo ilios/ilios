@@ -46,20 +46,31 @@ class InstructorGroupHandler extends InstructorGroupManager
      *
      * @return InstructorGroupInterface
      */
-    public function put(InstructorGroupInterface $instructorGroup, array $parameters)
-    {
-        return $this->processForm($instructorGroup, $parameters, 'PUT');
+    public function put(
+        InstructorGroupInterface $instructorGroup,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $instructorGroup,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param InstructorGroupInterface $instructorGroup
      * @param array $parameters
      *
      * @return InstructorGroupInterface
      */
-    public function patch(InstructorGroupInterface $instructorGroup, array $parameters)
-    {
-        return $this->processForm($instructorGroup, $parameters, 'PATCH');
+    public function patch(
+        InstructorGroupInterface $instructorGroup,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $instructorGroup,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class InstructorGroupHandler extends InstructorGroupManager
      *
      * @return InstructorGroupInterface
      */
-    protected function processForm(InstructorGroupInterface $instructorGroup, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new InstructorGroupType(), $instructorGroup, array('method' => $method));
+    protected function processForm(
+        InstructorGroupInterface $instructorGroup,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new InstructorGroupType(),
+            $instructorGroup,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $instructorGroup = $form->getData();
             $this->updateInstructorGroup($instructorGroup, true);

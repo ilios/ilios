@@ -39,23 +39,40 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.course.handler.class' => 'Ilios\CoreBundle\Handler\CourseHandler',
             'ilioscore.course.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CourseManager',
             'ilioscore.courseclerkshiptype.handler.class' => 'Ilios\CoreBundle\Handler\CourseClerkshipTypeHandler',
-            'ilioscore.courseclerkshiptype.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager',
-            'ilioscore.courselearningmaterial.handler.class' => 'Ilios\CoreBundle\Handler\CourseLearningMaterialHandler',
-            'ilioscore.courselearningmaterial.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager',
-            'ilioscore.curriculuminventoryacademiclevel.handler.class' => 'Ilios\CoreBundle\Handler\CurriculumInventoryAcademicLevelHandler',
-            'ilioscore.curriculuminventoryacademiclevel.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager',
-            'ilioscore.curriculuminventoryexport.handler.class' => 'Ilios\CoreBundle\Handler\CurriculumInventoryExportHandler',
-            'ilioscore.curriculuminventoryexport.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager',
-            'ilioscore.curriculuminventoryinstitution.handler.class' => 'Ilios\CoreBundle\Handler\CurriculumInventoryInstitutionHandler',
-            'ilioscore.curriculuminventoryinstitution.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager',
-            'ilioscore.curriculuminventoryreport.handler.class' => 'Ilios\CoreBundle\Handler\CurriculumInventoryReportHandler',
-            'ilioscore.curriculuminventoryreport.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager',
-            'ilioscore.curriculuminventorysequence.handler.class' => 'Ilios\CoreBundle\Handler\CurriculumInventorySequenceHandler',
-            'ilioscore.curriculuminventorysequence.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager',
-            'ilioscore.curriculuminventorysequenceblock.handler.class' => 'Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockHandler',
-            'ilioscore.curriculuminventorysequenceblock.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager',
-            'ilioscore.curriculuminventorysequenceblocksession.handler.class' => 'Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockSessionHandler',
-            'ilioscore.curriculuminventorysequenceblocksession.manager.class' => 'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManager',
+            'ilioscore.courseclerkshiptype.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager',
+            'ilioscore.courselearningmaterial.handler.class' =>
+            'Ilios\CoreBundle\Handler\CourseLearningMaterialHandler',
+            'ilioscore.courselearningmaterial.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager',
+            'ilioscore.curriculuminventoryacademiclevel.handler.class' =>
+            'Ilios\CoreBundle\Handler\CurriculumInventoryAcademicLevelHandler',
+            'ilioscore.curriculuminventoryacademiclevel.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager',
+            'ilioscore.curriculuminventoryexport.handler.class' =>
+            'Ilios\CoreBundle\Handler\CurriculumInventoryExportHandler',
+            'ilioscore.curriculuminventoryexport.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager',
+            'ilioscore.curriculuminventoryinstitution.handler.class' =>
+            'Ilios\CoreBundle\Handler\CurriculumInventoryInstitutionHandler',
+            'ilioscore.curriculuminventoryinstitution.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager',
+            'ilioscore.curriculuminventoryreport.handler.class' =>
+            'Ilios\CoreBundle\Handler\CurriculumInventoryReportHandler',
+            'ilioscore.curriculuminventoryreport.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager',
+            'ilioscore.curriculuminventorysequence.handler.class' =>
+            'Ilios\CoreBundle\Handler\CurriculumInventorySequenceHandler',
+            'ilioscore.curriculuminventorysequence.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager',
+            'ilioscore.curriculuminventorysequenceblock.handler.class' =>
+            'Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockHandler',
+            'ilioscore.curriculuminventorysequenceblock.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager',
+            'ilioscore.curriculuminventorysequenceblocksession.handler.class' =>
+            'Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockSessionHandler',
+            'ilioscore.curriculuminventorysequenceblocksession.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManager',
             'ilioscore.department.handler.class' => 'Ilios\CoreBundle\Handler\DepartmentHandler',
             'ilioscore.department.manager.class' => 'Ilios\CoreBundle\Entity\Manager\DepartmentManager',
             'ilioscore.discipline.handler.class' => 'Ilios\CoreBundle\Handler\DisciplineHandler',
@@ -72,16 +89,21 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.learnergroup.manager.class' => 'Ilios\CoreBundle\Entity\Manager\LearnerGroupManager',
             'ilioscore.learningmaterial.handler.class' => 'Ilios\CoreBundle\Handler\LearningMaterialHandler',
             'ilioscore.learningmaterial.manager.class' => 'Ilios\CoreBundle\Entity\Manager\LearningMaterialManager',
-            'ilioscore.learningmaterialstatus.handler.class' => 'Ilios\CoreBundle\Handler\LearningMaterialStatusHandler',
-            'ilioscore.learningmaterialstatus.manager.class' => 'Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager',
-            'ilioscore.learningmaterialuserrole.handler.class' => 'Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler',
-            'ilioscore.learningmaterialuserrole.manager.class' => 'Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager',
+            'ilioscore.learningmaterialstatus.handler.class' =>
+            'Ilios\CoreBundle\Handler\LearningMaterialStatusHandler',
+            'ilioscore.learningmaterialstatus.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager',
+            'ilioscore.learningmaterialuserrole.handler.class' =>
+            'Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler',
+            'ilioscore.learningmaterialuserrole.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager',
             'ilioscore.meshconcept.handler.class' => 'Ilios\CoreBundle\Handler\MeshConceptHandler',
             'ilioscore.meshconcept.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshConceptManager',
             'ilioscore.meshdescriptor.handler.class' => 'Ilios\CoreBundle\Handler\MeshDescriptorHandler',
             'ilioscore.meshdescriptor.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager',
             'ilioscore.meshpreviousindexing.handler.class' => 'Ilios\CoreBundle\Handler\MeshPreviousIndexingHandler',
-            'ilioscore.meshpreviousindexing.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager',
+            'ilioscore.meshpreviousindexing.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager',
             'ilioscore.meshqualifier.handler.class' => 'Ilios\CoreBundle\Handler\MeshQualifierHandler',
             'ilioscore.meshqualifier.manager.class' => 'Ilios\CoreBundle\Entity\Manager\MeshQualifierManager',
             'ilioscore.meshsemantictype.handler.class' => 'Ilios\CoreBundle\Handler\MeshSemanticTypeHandler',
@@ -116,8 +138,10 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.session.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SessionManager',
             'ilioscore.sessiondescription.handler.class' => 'Ilios\CoreBundle\Handler\SessionDescriptionHandler',
             'ilioscore.sessiondescription.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager',
-            'ilioscore.sessionlearningmaterial.handler.class' => 'Ilios\CoreBundle\Handler\SessionLearningMaterialHandler',
-            'ilioscore.sessionlearningmaterial.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager',
+            'ilioscore.sessionlearningmaterial.handler.class' =>
+            'Ilios\CoreBundle\Handler\SessionLearningMaterialHandler',
+            'ilioscore.sessionlearningmaterial.manager.class' =>
+            'Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager',
             'ilioscore.sessiontype.handler.class' => 'Ilios\CoreBundle\Handler\SessionTypeHandler',
             'ilioscore.sessiontype.manager.class' => 'Ilios\CoreBundle\Entity\Manager\SessionTypeManager',
             'ilioscore.user.handler.class' => 'Ilios\CoreBundle\Handler\UserHandler',

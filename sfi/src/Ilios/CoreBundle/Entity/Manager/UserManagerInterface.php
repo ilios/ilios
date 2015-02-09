@@ -20,7 +20,10 @@ interface UserManagerInterface
      *
      * @return UserInterface
      */
-    public function findUserBy(array $criteria, array $orderBy = null);
+    public function findUserBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface UserManagerInterface
      *
      * @return UserInterface[]|Collection
      */
-    public function findUsersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findUsersBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param UserInterface $user
@@ -38,14 +46,19 @@ interface UserManagerInterface
      *
      * @return void
      */
-     public function updateUser(UserInterface $user, $andFlush = true);
+    public function updateUser(
+        UserInterface $user,
+        $andFlush = true
+    );
 
     /**
      * @param UserInterface $user
      *
      * @return void
      */
-    public function deleteUser(UserInterface $user);
+    public function deleteUser(
+        UserInterface $user
+    );
 
     /**
      * @return string

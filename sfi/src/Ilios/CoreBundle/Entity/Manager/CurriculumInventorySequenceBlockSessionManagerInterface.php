@@ -20,7 +20,10 @@ interface CurriculumInventorySequenceBlockSessionManagerInterface
      *
      * @return CurriculumInventorySequenceBlockSessionInterface
      */
-    public function findCurriculumInventorySequenceBlockSessionBy(array $criteria, array $orderBy = null);
+    public function findCurriculumInventorySequenceBlockSessionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface CurriculumInventorySequenceBlockSessionManagerInterface
      *
      * @return CurriculumInventorySequenceBlockSessionInterface[]|Collection
      */
-    public function findCurriculumInventorySequenceBlockSessionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCurriculumInventorySequenceBlockSessionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
@@ -38,14 +46,19 @@ interface CurriculumInventorySequenceBlockSessionManagerInterface
      *
      * @return void
      */
-     public function updateCurriculumInventorySequenceBlockSession(CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession, $andFlush = true);
+    public function updateCurriculumInventorySequenceBlockSession(
+        CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession,
+        $andFlush = true
+    );
 
     /**
      * @param CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
      *
      * @return void
      */
-    public function deleteCurriculumInventorySequenceBlockSession(CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession);
+    public function deleteCurriculumInventorySequenceBlockSession(
+        CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
+    );
 
     /**
      * @return string

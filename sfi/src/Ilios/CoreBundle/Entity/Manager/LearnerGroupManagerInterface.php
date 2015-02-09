@@ -20,7 +20,10 @@ interface LearnerGroupManagerInterface
      *
      * @return LearnerGroupInterface
      */
-    public function findLearnerGroupBy(array $criteria, array $orderBy = null);
+    public function findLearnerGroupBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface LearnerGroupManagerInterface
      *
      * @return LearnerGroupInterface[]|Collection
      */
-    public function findLearnerGroupsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findLearnerGroupsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param LearnerGroupInterface $learnerGroup
@@ -38,14 +46,19 @@ interface LearnerGroupManagerInterface
      *
      * @return void
      */
-     public function updateLearnerGroup(LearnerGroupInterface $learnerGroup, $andFlush = true);
+    public function updateLearnerGroup(
+        LearnerGroupInterface $learnerGroup,
+        $andFlush = true
+    );
 
     /**
      * @param LearnerGroupInterface $learnerGroup
      *
      * @return void
      */
-    public function deleteLearnerGroup(LearnerGroupInterface $learnerGroup);
+    public function deleteLearnerGroup(
+        LearnerGroupInterface $learnerGroup
+    );
 
     /**
      * @return string

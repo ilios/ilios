@@ -47,8 +47,10 @@ class CurriculumInventorySequenceBlockSessionManager implements CurriculumInvent
      *
      * @return CurriculumInventorySequenceBlockSessionInterface
      */
-    public function findCurriculumInventorySequenceBlockSessionBy(array $criteria, array $orderBy = null)
-    {
+    public function findCurriculumInventorySequenceBlockSessionBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class CurriculumInventorySequenceBlockSessionManager implements CurriculumInvent
      *
      * @return CurriculumInventorySequenceBlockSessionInterface[]|Collection
      */
-    public function findCurriculumInventorySequenceBlockSessionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findCurriculumInventorySequenceBlockSessionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class CurriculumInventorySequenceBlockSessionManager implements CurriculumInvent
      * @param CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
      * @param bool $andFlush
      */
-    public function updateCurriculumInventorySequenceBlockSession(CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession, $andFlush = true)
-    {
+    public function updateCurriculumInventorySequenceBlockSession(
+        CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession,
+        $andFlush = true
+    ) {
         $this->em->persist($curriculumInventorySequenceBlockSession);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class CurriculumInventorySequenceBlockSessionManager implements CurriculumInvent
     /**
      * @param CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
      */
-    public function deleteCurriculumInventorySequenceBlockSession(CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession)
-    {
+    public function deleteCurriculumInventorySequenceBlockSession(
+        CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
+    ) {
         $this->em->remove($curriculumInventorySequenceBlockSession);
         $this->em->flush();
     }

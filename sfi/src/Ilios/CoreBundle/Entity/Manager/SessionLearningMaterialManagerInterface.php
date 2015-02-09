@@ -20,7 +20,10 @@ interface SessionLearningMaterialManagerInterface
      *
      * @return SessionLearningMaterialInterface
      */
-    public function findSessionLearningMaterialBy(array $criteria, array $orderBy = null);
+    public function findSessionLearningMaterialBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface SessionLearningMaterialManagerInterface
      *
      * @return SessionLearningMaterialInterface[]|Collection
      */
-    public function findSessionLearningMaterialsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findSessionLearningMaterialsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
@@ -38,14 +46,19 @@ interface SessionLearningMaterialManagerInterface
      *
      * @return void
      */
-     public function updateSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial, $andFlush = true);
+    public function updateSessionLearningMaterial(
+        SessionLearningMaterialInterface $sessionLearningMaterial,
+        $andFlush = true
+    );
 
     /**
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      *
      * @return void
      */
-    public function deleteSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
+    public function deleteSessionLearningMaterial(
+        SessionLearningMaterialInterface $sessionLearningMaterial
+    );
 
     /**
      * @return string

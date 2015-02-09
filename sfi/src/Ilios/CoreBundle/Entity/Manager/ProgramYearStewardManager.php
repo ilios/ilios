@@ -47,8 +47,10 @@ class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
      *
      * @return ProgramYearStewardInterface
      */
-    public function findProgramYearStewardBy(array $criteria, array $orderBy = null)
-    {
+    public function findProgramYearStewardBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
      *
      * @return ProgramYearStewardInterface[]|Collection
      */
-    public function findProgramYearStewardsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findProgramYearStewardsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
      * @param ProgramYearStewardInterface $programYearSteward
      * @param bool $andFlush
      */
-    public function updateProgramYearSteward(ProgramYearStewardInterface $programYearSteward, $andFlush = true)
-    {
+    public function updateProgramYearSteward(
+        ProgramYearStewardInterface $programYearSteward,
+        $andFlush = true
+    ) {
         $this->em->persist($programYearSteward);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
     /**
      * @param ProgramYearStewardInterface $programYearSteward
      */
-    public function deleteProgramYearSteward(ProgramYearStewardInterface $programYearSteward)
-    {
+    public function deleteProgramYearSteward(
+        ProgramYearStewardInterface $programYearSteward
+    ) {
         $this->em->remove($programYearSteward);
         $this->em->flush();
     }

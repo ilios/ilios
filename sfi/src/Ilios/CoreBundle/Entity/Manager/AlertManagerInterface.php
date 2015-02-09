@@ -20,7 +20,10 @@ interface AlertManagerInterface
      *
      * @return AlertInterface
      */
-    public function findAlertBy(array $criteria, array $orderBy = null);
+    public function findAlertBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface AlertManagerInterface
      *
      * @return AlertInterface[]|Collection
      */
-    public function findAlertsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findAlertsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param AlertInterface $alert
@@ -38,14 +46,19 @@ interface AlertManagerInterface
      *
      * @return void
      */
-     public function updateAlert(AlertInterface $alert, $andFlush = true);
+    public function updateAlert(
+        AlertInterface $alert,
+        $andFlush = true
+    );
 
     /**
      * @param AlertInterface $alert
      *
      * @return void
      */
-    public function deleteAlert(AlertInterface $alert);
+    public function deleteAlert(
+        AlertInterface $alert
+    );
 
     /**
      * @return string

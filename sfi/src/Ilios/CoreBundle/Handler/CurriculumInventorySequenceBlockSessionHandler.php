@@ -46,20 +46,31 @@ class CurriculumInventorySequenceBlockSessionHandler extends CurriculumInventory
      *
      * @return CurriculumInventorySequenceBlockSessionInterface
      */
-    public function put(CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession, array $parameters)
-    {
-        return $this->processForm($curriculumInventorySequenceBlockSession, $parameters, 'PUT');
+    public function put(
+        CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventorySequenceBlockSession,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession
      * @param array $parameters
      *
      * @return CurriculumInventorySequenceBlockSessionInterface
      */
-    public function patch(CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession, array $parameters)
-    {
-        return $this->processForm($curriculumInventorySequenceBlockSession, $parameters, 'PATCH');
+    public function patch(
+        CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $curriculumInventorySequenceBlockSession,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CurriculumInventorySequenceBlockSessionHandler extends CurriculumInventory
      *
      * @return CurriculumInventorySequenceBlockSessionInterface
      */
-    protected function processForm(CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CurriculumInventorySequenceBlockSessionType(), $curriculumInventorySequenceBlockSession, array('method' => $method));
+    protected function processForm(
+        CurriculumInventorySequenceBlockSessionInterface $curriculumInventorySequenceBlockSession,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CurriculumInventorySequenceBlockSessionType(),
+            $curriculumInventorySequenceBlockSession,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $curriculumInventorySequenceBlockSession = $form->getData();
             $this->updateCurriculumInventorySequenceBlockSession($curriculumInventorySequenceBlockSession, true);

@@ -47,8 +47,10 @@ class AamcMethodManager implements AamcMethodManagerInterface
      *
      * @return AamcMethodInterface
      */
-    public function findAamcMethodBy(array $criteria, array $orderBy = null)
-    {
+    public function findAamcMethodBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class AamcMethodManager implements AamcMethodManagerInterface
      *
      * @return AamcMethodInterface[]|Collection
      */
-    public function findAamcMethodsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findAamcMethodsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class AamcMethodManager implements AamcMethodManagerInterface
      * @param AamcMethodInterface $aamcMethod
      * @param bool $andFlush
      */
-    public function updateAamcMethod(AamcMethodInterface $aamcMethod, $andFlush = true)
-    {
+    public function updateAamcMethod(
+        AamcMethodInterface $aamcMethod,
+        $andFlush = true
+    ) {
         $this->em->persist($aamcMethod);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class AamcMethodManager implements AamcMethodManagerInterface
     /**
      * @param AamcMethodInterface $aamcMethod
      */
-    public function deleteAamcMethod(AamcMethodInterface $aamcMethod)
-    {
+    public function deleteAamcMethod(
+        AamcMethodInterface $aamcMethod
+    ) {
         $this->em->remove($aamcMethod);
         $this->em->flush();
     }

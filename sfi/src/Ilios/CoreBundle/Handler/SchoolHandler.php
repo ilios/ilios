@@ -46,20 +46,31 @@ class SchoolHandler extends SchoolManager
      *
      * @return SchoolInterface
      */
-    public function put(SchoolInterface $school, array $parameters)
-    {
-        return $this->processForm($school, $parameters, 'PUT');
+    public function put(
+        SchoolInterface $school,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $school,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param SchoolInterface $school
      * @param array $parameters
      *
      * @return SchoolInterface
      */
-    public function patch(SchoolInterface $school, array $parameters)
-    {
-        return $this->processForm($school, $parameters, 'PATCH');
+    public function patch(
+        SchoolInterface $school,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $school,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class SchoolHandler extends SchoolManager
      *
      * @return SchoolInterface
      */
-    protected function processForm(SchoolInterface $school, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new SchoolType(), $school, array('method' => $method));
+    protected function processForm(
+        SchoolInterface $school,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new SchoolType(),
+            $school,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $school = $form->getData();
             $this->updateSchool($school, true);

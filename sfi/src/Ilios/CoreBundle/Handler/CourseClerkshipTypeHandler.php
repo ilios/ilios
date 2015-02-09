@@ -46,20 +46,31 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
      *
      * @return CourseClerkshipTypeInterface
      */
-    public function put(CourseClerkshipTypeInterface $courseClerkshipType, array $parameters)
-    {
-        return $this->processForm($courseClerkshipType, $parameters, 'PUT');
+    public function put(
+        CourseClerkshipTypeInterface $courseClerkshipType,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $courseClerkshipType,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param CourseClerkshipTypeInterface $courseClerkshipType
      * @param array $parameters
      *
      * @return CourseClerkshipTypeInterface
      */
-    public function patch(CourseClerkshipTypeInterface $courseClerkshipType, array $parameters)
-    {
-        return $this->processForm($courseClerkshipType, $parameters, 'PATCH');
+    public function patch(
+        CourseClerkshipTypeInterface $courseClerkshipType,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $courseClerkshipType,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
      *
      * @return CourseClerkshipTypeInterface
      */
-    protected function processForm(CourseClerkshipTypeInterface $courseClerkshipType, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new CourseClerkshipTypeType(), $courseClerkshipType, array('method' => $method));
+    protected function processForm(
+        CourseClerkshipTypeInterface $courseClerkshipType,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new CourseClerkshipTypeType(),
+            $courseClerkshipType,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $courseClerkshipType = $form->getData();
             $this->updateCourseClerkshipType($courseClerkshipType, true);

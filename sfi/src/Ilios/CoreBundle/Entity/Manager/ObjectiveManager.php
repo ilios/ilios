@@ -47,8 +47,10 @@ class ObjectiveManager implements ObjectiveManagerInterface
      *
      * @return ObjectiveInterface
      */
-    public function findObjectiveBy(array $criteria, array $orderBy = null)
-    {
+    public function findObjectiveBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class ObjectiveManager implements ObjectiveManagerInterface
      *
      * @return ObjectiveInterface[]|Collection
      */
-    public function findObjectivesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findObjectivesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class ObjectiveManager implements ObjectiveManagerInterface
      * @param ObjectiveInterface $objective
      * @param bool $andFlush
      */
-    public function updateObjective(ObjectiveInterface $objective, $andFlush = true)
-    {
+    public function updateObjective(
+        ObjectiveInterface $objective,
+        $andFlush = true
+    ) {
         $this->em->persist($objective);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class ObjectiveManager implements ObjectiveManagerInterface
     /**
      * @param ObjectiveInterface $objective
      */
-    public function deleteObjective(ObjectiveInterface $objective)
-    {
+    public function deleteObjective(
+        ObjectiveInterface $objective
+    ) {
         $this->em->remove($objective);
         $this->em->flush();
     }

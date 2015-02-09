@@ -46,20 +46,31 @@ class AssessmentOptionHandler extends AssessmentOptionManager
      *
      * @return AssessmentOptionInterface
      */
-    public function put(AssessmentOptionInterface $assessmentOption, array $parameters)
-    {
-        return $this->processForm($assessmentOption, $parameters, 'PUT');
+    public function put(
+        AssessmentOptionInterface $assessmentOption,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $assessmentOption,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param AssessmentOptionInterface $assessmentOption
      * @param array $parameters
      *
      * @return AssessmentOptionInterface
      */
-    public function patch(AssessmentOptionInterface $assessmentOption, array $parameters)
-    {
-        return $this->processForm($assessmentOption, $parameters, 'PATCH');
+    public function patch(
+        AssessmentOptionInterface $assessmentOption,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $assessmentOption,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class AssessmentOptionHandler extends AssessmentOptionManager
      *
      * @return AssessmentOptionInterface
      */
-    protected function processForm(AssessmentOptionInterface $assessmentOption, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new AssessmentOptionType(), $assessmentOption, array('method' => $method));
+    protected function processForm(
+        AssessmentOptionInterface $assessmentOption,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new AssessmentOptionType(),
+            $assessmentOption,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $assessmentOption = $form->getData();
             $this->updateAssessmentOption($assessmentOption, true);

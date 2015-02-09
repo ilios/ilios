@@ -20,7 +20,10 @@ interface LearningMaterialUserRoleManagerInterface
      *
      * @return LearningMaterialUserRoleInterface
      */
-    public function findLearningMaterialUserRoleBy(array $criteria, array $orderBy = null);
+    public function findLearningMaterialUserRoleBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface LearningMaterialUserRoleManagerInterface
      *
      * @return LearningMaterialUserRoleInterface[]|Collection
      */
-    public function findLearningMaterialUserRolesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findLearningMaterialUserRolesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
@@ -38,14 +46,19 @@ interface LearningMaterialUserRoleManagerInterface
      *
      * @return void
      */
-     public function updateLearningMaterialUserRole(LearningMaterialUserRoleInterface $learningMaterialUserRole, $andFlush = true);
+    public function updateLearningMaterialUserRole(
+        LearningMaterialUserRoleInterface $learningMaterialUserRole,
+        $andFlush = true
+    );
 
     /**
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
      *
      * @return void
      */
-    public function deleteLearningMaterialUserRole(LearningMaterialUserRoleInterface $learningMaterialUserRole);
+    public function deleteLearningMaterialUserRole(
+        LearningMaterialUserRoleInterface $learningMaterialUserRole
+    );
 
     /**
      * @return string

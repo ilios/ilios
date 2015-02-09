@@ -47,8 +47,10 @@ class UserMadeReminderManager implements UserMadeReminderManagerInterface
      *
      * @return UserMadeReminderInterface
      */
-    public function findUserMadeReminderBy(array $criteria, array $orderBy = null)
-    {
+    public function findUserMadeReminderBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class UserMadeReminderManager implements UserMadeReminderManagerInterface
      *
      * @return UserMadeReminderInterface[]|Collection
      */
-    public function findUserMadeRemindersBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findUserMadeRemindersBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class UserMadeReminderManager implements UserMadeReminderManagerInterface
      * @param UserMadeReminderInterface $userMadeReminder
      * @param bool $andFlush
      */
-    public function updateUserMadeReminder(UserMadeReminderInterface $userMadeReminder, $andFlush = true)
-    {
+    public function updateUserMadeReminder(
+        UserMadeReminderInterface $userMadeReminder,
+        $andFlush = true
+    ) {
         $this->em->persist($userMadeReminder);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class UserMadeReminderManager implements UserMadeReminderManagerInterface
     /**
      * @param UserMadeReminderInterface $userMadeReminder
      */
-    public function deleteUserMadeReminder(UserMadeReminderInterface $userMadeReminder)
-    {
+    public function deleteUserMadeReminder(
+        UserMadeReminderInterface $userMadeReminder
+    ) {
         $this->em->remove($userMadeReminder);
         $this->em->flush();
     }

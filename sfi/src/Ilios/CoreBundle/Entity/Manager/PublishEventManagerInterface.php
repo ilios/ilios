@@ -20,7 +20,10 @@ interface PublishEventManagerInterface
      *
      * @return PublishEventInterface
      */
-    public function findPublishEventBy(array $criteria, array $orderBy = null);
+    public function findPublishEventBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface PublishEventManagerInterface
      *
      * @return PublishEventInterface[]|Collection
      */
-    public function findPublishEventsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findPublishEventsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param PublishEventInterface $publishEvent
@@ -38,14 +46,19 @@ interface PublishEventManagerInterface
      *
      * @return void
      */
-     public function updatePublishEvent(PublishEventInterface $publishEvent, $andFlush = true);
+    public function updatePublishEvent(
+        PublishEventInterface $publishEvent,
+        $andFlush = true
+    );
 
     /**
      * @param PublishEventInterface $publishEvent
      *
      * @return void
      */
-    public function deletePublishEvent(PublishEventInterface $publishEvent);
+    public function deletePublishEvent(
+        PublishEventInterface $publishEvent
+    );
 
     /**
      * @return string

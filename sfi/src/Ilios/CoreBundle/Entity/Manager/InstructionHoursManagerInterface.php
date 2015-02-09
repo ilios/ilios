@@ -30,7 +30,7 @@ interface InstructionHoursManagerInterface
      *
      * @return InstructionHoursInterface[]|Collection
      */
-    public function findAllInstructionHoursBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findInstructionHoursesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
     /**
      * @param InstructionHoursInterface $instructionHours

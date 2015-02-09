@@ -20,7 +20,10 @@ interface MeshConceptManagerInterface
      *
      * @return MeshConceptInterface
      */
-    public function findMeshConceptBy(array $criteria, array $orderBy = null);
+    public function findMeshConceptBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -30,7 +33,12 @@ interface MeshConceptManagerInterface
      *
      * @return MeshConceptInterface[]|Collection
      */
-    public function findMeshConceptsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findMeshConceptsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param MeshConceptInterface $meshConcept
@@ -38,14 +46,19 @@ interface MeshConceptManagerInterface
      *
      * @return void
      */
-     public function updateMeshConcept(MeshConceptInterface $meshConcept, $andFlush = true);
+    public function updateMeshConcept(
+        MeshConceptInterface $meshConcept,
+        $andFlush = true
+    );
 
     /**
      * @param MeshConceptInterface $meshConcept
      *
      * @return void
      */
-    public function deleteMeshConcept(MeshConceptInterface $meshConcept);
+    public function deleteMeshConcept(
+        MeshConceptInterface $meshConcept
+    );
 
     /**
      * @return string

@@ -47,8 +47,10 @@ class UserRoleManager implements UserRoleManagerInterface
      *
      * @return UserRoleInterface
      */
-    public function findUserRoleBy(array $criteria, array $orderBy = null)
-    {
+    public function findUserRoleBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -60,8 +62,12 @@ class UserRoleManager implements UserRoleManagerInterface
      *
      * @return UserRoleInterface[]|Collection
      */
-    public function findUserRolesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findUserRolesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -69,8 +75,10 @@ class UserRoleManager implements UserRoleManagerInterface
      * @param UserRoleInterface $userRole
      * @param bool $andFlush
      */
-    public function updateUserRole(UserRoleInterface $userRole, $andFlush = true)
-    {
+    public function updateUserRole(
+        UserRoleInterface $userRole,
+        $andFlush = true
+    ) {
         $this->em->persist($userRole);
         if ($andFlush) {
             $this->em->flush();
@@ -80,8 +88,9 @@ class UserRoleManager implements UserRoleManagerInterface
     /**
      * @param UserRoleInterface $userRole
      */
-    public function deleteUserRole(UserRoleInterface $userRole)
-    {
+    public function deleteUserRole(
+        UserRoleInterface $userRole
+    ) {
         $this->em->remove($userRole);
         $this->em->flush();
     }

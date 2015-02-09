@@ -46,20 +46,31 @@ class OfferingHandler extends OfferingManager
      *
      * @return OfferingInterface
      */
-    public function put(OfferingInterface $offering, array $parameters)
-    {
-        return $this->processForm($offering, $parameters, 'PUT');
+    public function put(
+        OfferingInterface $offering,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $offering,
+            $parameters,
+            'PUT'
+        );
     }
-
     /**
      * @param OfferingInterface $offering
      * @param array $parameters
      *
      * @return OfferingInterface
      */
-    public function patch(OfferingInterface $offering, array $parameters)
-    {
-        return $this->processForm($offering, $parameters, 'PATCH');
+    public function patch(
+        OfferingInterface $offering,
+        array $parameters
+    ) {
+        return $this->processForm(
+            $offering,
+            $parameters,
+            'PATCH'
+        );
     }
 
     /**
@@ -70,10 +81,18 @@ class OfferingHandler extends OfferingManager
      *
      * @return OfferingInterface
      */
-    protected function processForm(OfferingInterface $offering, array $parameters, $method = "PUT")
-    {
-        $form = $this->formFactory->create(new OfferingType(), $offering, array('method' => $method));
+    protected function processForm(
+        OfferingInterface $offering,
+        array $parameters,
+        $method = "PUT"
+    ) {
+        $form = $this->formFactory->create(
+            new OfferingType(),
+            $offering,
+            array('method' => $method)
+        );
         $form->submit($parameters, 'PATCH' !== $method);
+
         if ($form->isValid()) {
             $offering = $form->getData();
             $this->updateOffering($offering, true);
