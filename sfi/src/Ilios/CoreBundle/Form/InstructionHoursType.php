@@ -19,8 +19,22 @@ class InstructionHoursType extends AbstractType
             ->add('hoursAccrued')
             ->add('modified')
             ->add('modificationTimeStamp')
-            ->add('user', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
-            ->add('session', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Session"])
+            ->add(
+                'user',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
+            ->add(
+                'session',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
+                ]
+            )
         ;
     }
 

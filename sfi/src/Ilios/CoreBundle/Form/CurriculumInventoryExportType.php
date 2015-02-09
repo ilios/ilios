@@ -17,8 +17,22 @@ class CurriculumInventoryExportType extends AbstractType
         $builder
             ->add('document')
             ->add('createdAt')
-            ->add('report', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"])
-            ->add('createdBy', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
+                ]
+            )
+            ->add(
+                'createdBy',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 

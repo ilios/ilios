@@ -20,14 +20,70 @@ class MeshDescriptorType extends AbstractType
             ->add('annotation')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('courses', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Course"])
-            ->add('objectives', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Objective"])
-            ->add('sessions', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Session"])
-            ->add('concepts', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshConcept"])
-            ->add('qualifiers', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshQualifier"])
-            ->add('sessionLearningMaterials', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\SessionLearningMaterial"])
-            ->add('courseLearningMaterials', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CourseLearningMaterial"])
-            ->add('previousIndexing', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshPreviousIndexing"])
+            ->add(
+                'courses',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
+                ]
+            )
+            ->add(
+                'objectives',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
+                ]
+            )
+            ->add(
+                'sessions',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
+                ]
+            )
+            ->add(
+                'concepts',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshConcept"
+                ]
+            )
+            ->add(
+                'qualifiers',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshQualifier"
+                ]
+            )
+            ->add(
+                'sessionLearningMaterials',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\SessionLearningMaterial"
+                ]
+            )
+            ->add(
+                'courseLearningMaterials',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CourseLearningMaterial"
+                ]
+            )
+            ->add(
+                'previousIndexing',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshPreviousIndexing"
+                ]
+            )
         ;
     }
 

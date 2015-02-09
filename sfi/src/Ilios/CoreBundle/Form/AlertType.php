@@ -19,9 +19,30 @@ class AlertType extends AbstractType
             ->add('tableName')
             ->add('additionalText')
             ->add('dispatched')
-            ->add('changeTypes', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\AlertChangeType"])
-            ->add('instigators', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
-            ->add('recipients', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\School"])
+            ->add(
+                'changeTypes',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\AlertChangeType"
+                ]
+            )
+            ->add(
+                'instigators',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
+            ->add(
+                'recipients',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
         ;
     }
 

@@ -16,7 +16,14 @@ class IngestionExceptionType extends AbstractType
     {
         $builder
             ->add('id')
-            ->add('user', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
+            ->add(
+                'user',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 

@@ -16,8 +16,22 @@ class CurriculumInventorySequenceBlockSessionType extends AbstractType
     {
         $builder
             ->add('countOfferingsOnce')
-            ->add('sequenceBlock', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequenceBlock"])
-            ->add('session', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Session"])
+            ->add(
+                'sequenceBlock',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequenceBlock"
+                ]
+            )
+            ->add(
+                'session',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
+                ]
+            )
         ;
     }
 

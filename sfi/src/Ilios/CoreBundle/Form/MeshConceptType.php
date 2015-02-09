@@ -24,7 +24,14 @@ class MeshConceptType extends AbstractType
             ->add('registryNumber')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('descriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
+            ->add(
+                'descriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 

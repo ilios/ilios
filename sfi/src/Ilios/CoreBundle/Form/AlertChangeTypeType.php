@@ -16,7 +16,14 @@ class AlertChangeTypeType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('alerts', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Alert"])
+            ->add(
+                'alerts',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Alert"
+                ]
+            )
         ;
     }
 

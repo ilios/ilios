@@ -20,13 +20,62 @@ class ProgramYearType extends AbstractType
             ->add('locked')
             ->add('archived')
             ->add('publishedAsTbd')
-            ->add('program', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Program"])
-            ->add('cohort', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Cohort"])
-            ->add('directors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
-            ->add('competencies', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Competency"])
-            ->add('disciplines', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Discipline"])
-            ->add('objectives', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Objective"])
-            ->add('publishEvent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"])
+            ->add(
+                'program',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Program"
+                ]
+            )
+            ->add(
+                'cohort',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Cohort"
+                ]
+            )
+            ->add(
+                'directors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
+            ->add(
+                'competencies',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
+                ]
+            )
+            ->add(
+                'disciplines',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Discipline"
+                ]
+            )
+            ->add(
+                'objectives',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
+                ]
+            )
+            ->add(
+                'publishEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
+                ]
+            )
         ;
     }
 

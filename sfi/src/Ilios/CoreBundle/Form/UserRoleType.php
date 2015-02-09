@@ -16,7 +16,14 @@ class UserRoleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('users', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
+            ->add(
+                'users',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 

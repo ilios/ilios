@@ -18,9 +18,30 @@ class CourseLearningMaterialType extends AbstractType
             ->add('notes')
             ->add('required')
             ->add('publicNotes')
-            ->add('course', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Course"])
-            ->add('learningMaterial', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterial"])
-            ->add('meshDescriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
+            ->add(
+                'course',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
+                ]
+            )
+            ->add(
+                'learningMaterial',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterial"
+                ]
+            )
+            ->add(
+                'meshDescriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 

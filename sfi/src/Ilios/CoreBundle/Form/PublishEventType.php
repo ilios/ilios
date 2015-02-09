@@ -19,7 +19,14 @@ class PublishEventType extends AbstractType
             ->add('timeStamp')
             ->add('tableName')
             ->add('tableRowId')
-            ->add('administrator', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
+            ->add(
+                'administrator',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 

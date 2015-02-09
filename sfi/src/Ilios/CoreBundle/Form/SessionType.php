@@ -22,14 +22,70 @@ class SessionType extends AbstractType
             ->add('deleted')
             ->add('publishedAsTbd')
             ->add('lastUpdatedOn')
-            ->add('sessionType', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\SessionType"])
-            ->add('course', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Course"])
-            ->add('ilmSessionFacet', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"])
-            ->add('disciplines', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Discipline"])
-            ->add('objectives', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Objective"])
-            ->add('meshDescriptors', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"])
-            ->add('publishEvent', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"])
-            ->add('sessionDescription', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\SessionDescription"])
+            ->add(
+                'sessionType',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\SessionType"
+                ]
+            )
+            ->add(
+                'course',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
+                ]
+            )
+            ->add(
+                'ilmSessionFacet',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"
+                ]
+            )
+            ->add(
+                'disciplines',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Discipline"
+                ]
+            )
+            ->add(
+                'objectives',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
+                ]
+            )
+            ->add(
+                'meshDescriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
+            ->add(
+                'publishEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
+                ]
+            )
+            ->add(
+                'sessionDescription',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\SessionDescription"
+                ]
+            )
         ;
     }
 

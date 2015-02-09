@@ -20,8 +20,22 @@ class ReportType extends AbstractType
             ->add('subject')
             ->add('prepositionalObject')
             ->add('deleted')
-            ->add('user', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
-            ->add('poValue', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\ReportPoValue"])
+            ->add(
+                'user',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
+            ->add(
+                'poValue',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\ReportPoValue"
+                ]
+            )
         ;
     }
 

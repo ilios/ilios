@@ -17,7 +17,14 @@ class ReportPoValueType extends AbstractType
         $builder
             ->add('prepositionalObjectTableRowId')
             ->add('deleted')
-            ->add('report', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Report"])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Report"
+                ]
+            )
         ;
     }
 

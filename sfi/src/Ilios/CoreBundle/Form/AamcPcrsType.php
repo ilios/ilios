@@ -17,7 +17,14 @@ class AamcPcrsType extends AbstractType
         $builder
             ->add('id')
             ->add('description')
-            ->add('competencies', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Competency"])
+            ->add(
+                'competencies',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
+                ]
+            )
         ;
     }
 

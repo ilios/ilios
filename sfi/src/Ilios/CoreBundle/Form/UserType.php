@@ -26,18 +26,102 @@ class UserType extends AbstractType
             ->add('otherId')
             ->add('examined')
             ->add('userSyncIgnore')
-            ->add('apiKey', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\ApiKey"])
-            ->add('primarySchool', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\School"])
-            ->add('directedCourses', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Course"])
-            ->add('learnerGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"])
-            ->add('instructorUserGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"])
-            ->add('instructorGroups', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"])
-            ->add('instructorIlmSessions', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"])
-            ->add('learnerIlmSessions', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"])
-            ->add('offerings', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Offering"])
-            ->add('programYears', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"])
-            ->add('alerts', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\Alert"])
-            ->add('roles', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\UserRole"])
+            ->add(
+                'apiKey',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\ApiKey"
+                ]
+            )
+            ->add(
+                'primarySchool',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
+            ->add(
+                'directedCourses',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
+                ]
+            )
+            ->add(
+                'learnerGroups',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"
+                ]
+            )
+            ->add(
+                'instructorUserGroups',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"
+                ]
+            )
+            ->add(
+                'instructorGroups',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"
+                ]
+            )
+            ->add(
+                'instructorIlmSessions',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"
+                ]
+            )
+            ->add(
+                'learnerIlmSessions',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"
+                ]
+            )
+            ->add(
+                'offerings',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Offering"
+                ]
+            )
+            ->add(
+                'programYears',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
+                ]
+            )
+            ->add(
+                'alerts',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Alert"
+                ]
+            )
+            ->add(
+                'roles',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\UserRole"
+                ]
+            )
         ;
     }
 

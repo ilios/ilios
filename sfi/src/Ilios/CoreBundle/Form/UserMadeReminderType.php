@@ -19,7 +19,14 @@ class UserMadeReminderType extends AbstractType
             ->add('creationDate')
             ->add('dueDate')
             ->add('closed')
-            ->add('user', 'tdn_entity', ['required' => false, 'class' => "Ilios\\CoreBundle\\Entity\\User"])
+            ->add(
+                'user',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 
