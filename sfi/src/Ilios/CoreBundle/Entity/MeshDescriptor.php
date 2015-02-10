@@ -70,7 +70,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\Column(name="created_at", type="datetime")
      *
      * @JMS\Expose
-     * @JMS\Type("datetime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("createdAt")
      */
     protected $createdAt;
@@ -81,7 +81,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\Column(name="updated_at", type="datetime")
      *
      * @JMS\Expose
-     * @JMS\Type("datetime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;

@@ -84,7 +84,7 @@ abstract class LearningMaterial implements LearningMaterialInterface
      * @ORM\Column(name="upload_date", type="datetime")
      *
      * @JMS\Expose
-     * @JMS\Type("datetime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("uploadDate")
      */
     protected $uploadDate;
