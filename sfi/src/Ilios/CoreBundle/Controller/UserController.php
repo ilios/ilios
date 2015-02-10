@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\UserInterface;
  */
 class UserController extends FOSRestController
 {
-    
+
     /**
      * Get a User
      *
@@ -105,6 +105,11 @@ class UserController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     * @QueryParam(
+     *   name="searchTerm",
+     *   nullable=true,
+     *   description="Find users who match a search term"
+     * )
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
@@ -112,6 +117,7 @@ class UserController extends FOSRestController
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
+        $searchTerm = !is_null($paramFetcher->get('searchTerm')) ? $paramFetcher->get('searchTerm') : false;
 
         $criteria = array_map(function ($item) {
             $item = $item == 'null'?null:$item;
@@ -120,13 +126,23 @@ class UserController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getUserHandler()
-            ->findUsersBy(
+        if ($searchTerm) {
+            $result = $this->getUserHandler()->findUsersBySearchTerm(
+                $searchTerm,
+                $orderBy,
+                $limit,
+                $offset
+            );
+        } else {
+            $result = $this->getUserHandler()->findUsersBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        }
+
+
         //If there are no matches return an empty array
         $answer['users'] =
             $result ? $result : new ArrayCollection([]);
