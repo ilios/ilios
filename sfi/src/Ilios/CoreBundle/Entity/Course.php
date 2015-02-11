@@ -78,7 +78,7 @@ class Course implements CourseInterface
      * @ORM\Column(type="date", name="start_date")
      *
      * @JMS\Expose
-     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("startDate")
      */
     protected $startDate;
@@ -89,7 +89,7 @@ class Course implements CourseInterface
      * @ORM\Column(type="date", name="end_date")
      *
      * @JMS\Expose
-     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("endDate")
      */
     protected $endDate;
