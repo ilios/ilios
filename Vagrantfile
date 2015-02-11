@@ -8,19 +8,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box_download_insecure = true
     config.vm.hostname = "ilios.dev"
     config.vm.network :private_network, ip: "10.10.10.10"
-#    config.vm.network "forwarded_port", guest: 443, host: 8443, host_ip: "127.0.0.1"
-    config.vm.network "forwarded_port", guest: 3306, host: 13306, host_ip: "127.0.0.1"
+    config.vm.network "forwarded_port", guest: 443, host: 8443, host_ip: "127.0.0.1"
     config.vm.synced_folder ".", "/vagrant", :nfs => { :mount_options => ["dmode=777","fmode=777"], :nfs_version => "3" }, id: "vagrant-root"
 
     config.vm.provider "virtualbox" do |vb|
-        vb.customize ["modifyvm", :id, "--memory", "2046"]
-        vb.name = "ilios.dev"
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
+        vb.name = "ilios3.dev"
     end
 
     config.vm.provider "vmware_workstation" do |vw, override|
         override.vm.box_url = "https://atlas.hashicorp.com/puppetlabs/boxes/ubuntu-14.04-64-puppet/versions/1.0.0/providers/vmware_desktop.box"
-        vw.vmx["memsize"] = "2046"
-        vw.vmx["displayname"] = "ilios.dev"
+        vw.vmx["memsize"] = "2048"
+        vw.vmx["displayname"] = "ilios3.dev"
     end
 
     config.vm.provision "shell" do |shell|

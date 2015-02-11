@@ -1,10 +1,14 @@
 class profile::build::legacy (
-    $docroot = '/var/www/ilios',
+    $docroot = '/vagrant/web',
     $dbuser = "ilios_user",
     $dbpass = "ilios_pass",
     $dbname = "ilios",
     $adminemail = "vagrant@ilios.dev"
 ) {
+    file {$docroot:
+        ensure => 'directory'
+    }
+
     exec {"create-db":
         cwd => "/vagrant/database/install",
         unless => "/usr/bin/sudo /bin/ls /var/lib/mysql/${dbname}/mesh_concept_x_term.MYI",
