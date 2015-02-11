@@ -15,7 +15,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  * @package Ilios\CoreBundle\Entity
  *
  * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_primary_school", columns={"primary_school_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ilios\CoreBundle\Entity\Repository\UserRepository")
  *
  * @JMS\ExclusionPolicy("all")
  */

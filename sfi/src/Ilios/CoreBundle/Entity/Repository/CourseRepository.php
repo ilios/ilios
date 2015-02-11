@@ -10,7 +10,7 @@ class CourseRepository extends EntityRepository
         $dql = 'SELECT DISTINCT c.year FROM IliosCoreBundle:Course c ORDER BY c.year ASC';
         $results = $this->getEntityManager()->createQuery($dql)->getArrayResult();
 
-        $restur = [];
+        $return = [];
         foreach ($results as $arr) {
             $return[] = $arr['year'];
         }

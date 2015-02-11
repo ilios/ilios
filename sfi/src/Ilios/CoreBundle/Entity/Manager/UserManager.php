@@ -111,4 +111,21 @@ class UserManager implements UserManagerInterface
         $class = $this->getClass();
         return new $class();
     }
+
+    /**
+     * @param string $searchTerm
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return UserInterface[]|Collection
+     */
+    public function findUsersBySearchTerm(
+        $searchTerm,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->repository->findBySearchTerm($searchTerm, $orderBy, $limit, $offset);
+    }
 }
