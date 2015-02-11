@@ -116,7 +116,7 @@ class Session implements SessionInterface
      * @ORM\Column(name="last_updated_on", type="datetime")
      *
      * @JMS\Expose
-     * @JMS\Type("DateTime<'Y-m-d H:i:s'>")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("lastUpdatedOn")
      */
     protected $lastUpdatedOn;

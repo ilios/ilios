@@ -58,7 +58,7 @@ class Offering implements OfferingInterface
      * @ORM\Column(name="start_date", type="datetime")
      *
      * @JMS\Expose
-     * @JMS\Type("datetime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("startDate")
      */
     protected $startDate;
@@ -69,7 +69,7 @@ class Offering implements OfferingInterface
      * @ORM\Column(name="end_date", type="datetime")
      *
      * @JMS\Expose
-     * @JMS\Type("datetime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("endDate")
      */
     protected $endDate;
@@ -90,7 +90,7 @@ class Offering implements OfferingInterface
      * @ORM\Column(name="last_updated_on", type="datetime")
      *
      * @JMS\Expose
-     * @JMS\Type("datetime")
+     * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("lastUpdatedOn")
      */
     protected $lastUpdatedOn;

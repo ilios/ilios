@@ -43,8 +43,10 @@ class SessionType implements SessionTypeInterface
 
     /**
     * @ORM\Column(type="string", length=100)
-    * @todo should be on the TitledEntity Trait
     * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $title;
 
