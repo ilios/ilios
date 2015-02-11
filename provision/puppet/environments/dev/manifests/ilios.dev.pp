@@ -14,7 +14,7 @@ node 'ilios.dev' {
         mode => 0777
     } ->
 
-    class { ['profile::git', 'profile::better-bash', 'profile::ilios', 'profile::build::legacy', 'profile::build::symfony', 'profile::phpmyadmin']: }
+    class { ['profile::ilios', 'profile::build::legacy', 'profile::build::symfony']: }
 
     Php::Extension <| |>
     # Configure extensions
