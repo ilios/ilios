@@ -5,6 +5,7 @@ namespace Ilios\CoreBundle\Tests\Entity;
 use IC\Bundle\Base\TestBundle\Test\TestCase;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
+use Symfony\Component\Validator\Validation;
 
 class EntityBase extends TestCase
 {
@@ -15,6 +16,35 @@ class EntityBase extends TestCase
     public function tearDown()
     {
         m::close();
+    }
+
+    /**
+     * Engage the symfony validator and test the object
+     * @param  integer $expectedCount how many erors are you expecting
+     * @return array an abreviated set of errors
+     */
+    protected function validate($expectedCount)
+    {
+        $validator = Validation::createValidatorBuilder()
+                ->enableAnnotationMapping()
+                ->getValidator();
+        $errors = $validator->validate($this->object);
+        $errorCount = count($errors);
+        $parsedErrors = array();
+        foreach ($errors as $error) {
+            $constraintClass = get_class($error->getConstraint());
+            //remove the namespace info
+            $arr = explode('\\', $constraintClass);
+            $parsedErrors[$error->getPropertyPath()] = array_pop($arr);
+        }
+        $this->assertEquals(
+            $errorCount,
+            $expectedCount,
+            "Expected {$expectedCount} errors, found {$errorCount}: " .
+            var_export($parsedErrors, true)
+        );
+
+        return $parsedErrors;
     }
 
     /**

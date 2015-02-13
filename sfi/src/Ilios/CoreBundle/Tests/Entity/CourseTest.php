@@ -22,6 +22,29 @@ class CourseTest extends EntityBase
         $this->object = new Course;
     }
 
+    public function testValidation()
+    {
+        $errors = $this->validate(5);
+        $notBlank = array(
+            'title',
+            'level',
+            'year',
+            'startDate',
+            'endDate'
+        );
+        foreach ($notBlank as $key) {
+            $this->assertTrue(array_key_exists($key, $errors));
+            $this->assertSame('NotBlank', $errors[$key]);
+        }
+
+        $this->object->setTitle('test');
+        $this->object->setLevel(3);
+        $this->object->setYear(2004);
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\Course::__construct
      */

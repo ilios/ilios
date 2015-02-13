@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
@@ -37,6 +38,8 @@ class Course implements CourseInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\Type(type="integer")
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */
@@ -46,6 +49,13 @@ class Course implements CourseInterface
      * @var string
      *
      * @ORM\Column(type="string", length=200, nullable=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -57,6 +67,13 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="smallint", name="course_level")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 10
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */
@@ -67,6 +84,9 @@ class Course implements CourseInterface
      *
      * @ORM\Column(name="year", type="smallint")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */
@@ -76,6 +96,8 @@ class Course implements CourseInterface
      * @var \DateTime
      * @todo: add a format and variable timezone if possible
      * @ORM\Column(type="date", name="start_date")
+     *
+     * @Assert\NotBlank()
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
@@ -88,6 +110,8 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="date", name="end_date")
      *
+     * @Assert\NotBlank()
+     *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("endDate")
@@ -99,6 +123,8 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="boolean", name="deleted")
      *
+     * @Assert\Type(type="bool")
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -108,6 +134,12 @@ class Course implements CourseInterface
      * @var string
      *
      * @ORM\Column(type="string", length=18, name="external_id", nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 18
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -120,6 +152,8 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="boolean")
      *
+     * @Assert\Type(type="bool")
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -130,6 +164,8 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="boolean")
      *
+     * @Assert\Type(type="boolean")
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -138,7 +174,9 @@ class Course implements CourseInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(type="boolean", name="published_as_tbd")'
+     * @ORM\Column(type="boolean", name="published_as_tbd")
+     *
+     * @Assert\Type(type="bool")
      *
      * @JMS\Expose
      * @JMS\Type("boolean")
@@ -312,6 +350,10 @@ class Course implements CourseInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+        $this->deleted = false;
+        $this->publishedAsTbd = false;
+        $this->archived = false;
+        $this->locked = false;
     }
 
     /**
@@ -349,7 +391,7 @@ class Course implements CourseInterface
     /**
      * @param \DateTime $startDate
      */
-    public function setStartDate(\DateTime $startDate = null)
+    public function setStartDate(\DateTime $startDate)
     {
         $this->startDate = $startDate;
     }
@@ -365,7 +407,7 @@ class Course implements CourseInterface
     /**
      * @param \DateTime $endDate
      */
-    public function setEndDate(\DateTime $endDate = null)
+    public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
     }
@@ -381,9 +423,9 @@ class Course implements CourseInterface
     /**
      * @param boolean $deleted
      */
-    public function setDeleted($deleted = false)
+    public function setDeleted($deleted)
     {
-        $this->deleted = $deleted;
+        $this->deleted = (boolean) $deleted;
     }
 
     /**
@@ -398,7 +440,7 @@ class Course implements CourseInterface
      * @todo: Possible rename.
      * @param string $externalId
      */
-    public function setExternalId($externalId = null)
+    public function setExternalId($externalId)
     {
         $this->externalId = $externalId;
     }
@@ -415,9 +457,9 @@ class Course implements CourseInterface
     /**
      * @param boolean $locked
      */
-    public function setLocked($locked = false)
+    public function setLocked($locked)
     {
-        $this->locked = $locked;
+        $this->locked = (boolean) $locked;
     }
 
     /**
@@ -431,9 +473,9 @@ class Course implements CourseInterface
     /**
      * @param boolean $archived
      */
-    public function setArchived($archived = false)
+    public function setArchived($archived)
     {
-        $this->archived = $archived;
+        $this->archived = (boolean) $archived;
     }
 
     /**
@@ -447,9 +489,9 @@ class Course implements CourseInterface
     /**
      * @param boolean $publishedAsTbd
      */
-    public function setPublishedAsTbd($publishedAsTbd = false)
+    public function setPublishedAsTbd($publishedAsTbd)
     {
-        $this->publishedAsTbd = $publishedAsTbd;
+        $this->publishedAsTbd = (boolean) $publishedAsTbd;
     }
 
     /**
