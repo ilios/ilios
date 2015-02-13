@@ -71,7 +71,7 @@ class ReportPoValue implements ReportPoValueInterface
     /**
      * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }

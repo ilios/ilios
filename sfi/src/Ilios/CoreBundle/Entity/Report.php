@@ -41,15 +41,9 @@ class Report implements ReportInterface
     protected $title;
 
     /**
-     * @deprecated To be replaced by Timestampable trait in 3.x
      * @var \DateTime
      *
      * @ORM\Column(name="creation_date", type="datetime")
-     */
-    protected $creationDate;
-
-    /**
-     * @var \DateTime
      */
     protected $createdAt;
 
@@ -120,7 +114,6 @@ class Report implements ReportInterface
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
-        $this->creationDate = $createdAt;
         $this->createdAt = $createdAt;
     }
 
@@ -129,7 +122,7 @@ class Report implements ReportInterface
      */
     public function getCreatedAt()
     {
-        return ($this->createdAt === null) ? $this->creationDate : $this->createdAt;
+        return $this->createdAt;
     }
 
     /**
@@ -175,7 +168,7 @@ class Report implements ReportInterface
     /**
      * @return boolean
      */
-    public function getDeleted()
+    public function isDeleted()
     {
         return $this->deleted;
     }

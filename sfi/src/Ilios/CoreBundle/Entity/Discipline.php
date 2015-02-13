@@ -119,6 +119,18 @@ class Discipline implements DisciplineInterface
     }
 
     /**
+     * @param Collection $courses
+     */
+    public function setCourses(Collection $courses)
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    /**
      * @param CourseInterface $course
      */
     public function addCourse(CourseInterface $course)

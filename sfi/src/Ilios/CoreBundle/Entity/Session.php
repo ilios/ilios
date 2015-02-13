@@ -117,12 +117,7 @@ class Session implements SessionInterface
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
-     * @JMS\SerializedName("lastUpdatedOn")
-     */
-    protected $lastUpdatedOn;
-
-    /**
-     * @var \DateTime
+     * @JMS\SerializedName("updatedAt")
      */
     protected $updatedAt;
 
@@ -383,7 +378,6 @@ class Session implements SessionInterface
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
-        $this->lastUpdatedOn = $updatedAt;
         $this->updatedAt = $updatedAt;
     }
 
@@ -392,7 +386,7 @@ class Session implements SessionInterface
      */
     public function getUpdatedAt()
     {
-        return ($this->updatedAt === null) ? $this->lastUpdatedOn : $this->updatedAt;
+        return $this->updatedAt;
     }
 
     /**

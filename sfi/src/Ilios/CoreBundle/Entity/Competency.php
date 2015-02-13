@@ -234,6 +234,18 @@ class Competency implements CompetencyInterface
     }
 
     /**
+     * @param Collection $programYears
+     */
+    public function setProgramYears(Collection $programYears)
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    /**
      * @param ProgramYearInterface $programYear
      */
     public function addProgramYear(ProgramYearInterface $programYear)

@@ -26,7 +26,7 @@ interface ReportPoValueInterface
     /**
      * @return boolean
      */
-    public function getDeleted();
+    public function isDeleted();
 
     /**
      * @param ReportInterface $report

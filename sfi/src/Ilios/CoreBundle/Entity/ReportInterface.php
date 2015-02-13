@@ -49,7 +49,7 @@ interface ReportInterface extends IdentifiableEntityInterface, TitledEntityInter
     /**
      * @return boolean
      */
-    public function getDeleted();
+    public function isDeleted();
 
     /**
      * @param UserInterface $user

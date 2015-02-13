@@ -509,7 +509,7 @@ class User implements UserInterface
     /**
      * @return boolean
      */
-    public function hasUserSyncIgnore()
+    public function isUserSyncIgnore()
     {
         return $this->userSyncIgnore;
     }
@@ -533,7 +533,7 @@ class User implements UserInterface
     /**
      * @param Collection $reminders
      */
-    public function setRemindes(Collection $reminders)
+    public function setReminders(Collection $reminders)
     {
         $this->reminders = new ArrayCollection();
 
@@ -656,6 +656,18 @@ class User implements UserInterface
     public function getInstructorUserGroups()
     {
         return $this->instructorUserGroups;
+    }
+
+    /**
+     * @param Collection $instructorGroups
+     */
+    public function setInstructorGroups(Collection $instructorGroups)
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
     }
 
     /**

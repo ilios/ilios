@@ -15,4 +15,14 @@ interface MeshTermInterface extends
     NameableEntityInterface,
     TimestampableEntityInterface
 {
+    /**
+     *
+     * @param boolean $printable
+     */
+    public function setPrintable($printable);
+
+    /**
+     * @return boolean
+     */
+    public function isPrintable();
 }

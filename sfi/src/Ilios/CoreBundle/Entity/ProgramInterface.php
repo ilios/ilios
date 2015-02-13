@@ -26,14 +26,14 @@ interface ProgramInterface extends
     public function getShortTitle();
 
     /**
-     * @param boolean $duration
+     * @param int $duration
      */
     public function setDuration($duration);
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function hasDuration();
+    public function getDuration();
 
     /**
      * @param boolean $deleted

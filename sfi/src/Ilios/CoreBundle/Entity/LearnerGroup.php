@@ -301,7 +301,7 @@ class LearnerGroup implements LearnerGroupInterface
      */
     public function getIlmSessions()
     {
-        return $this->ilmSessions->toArray();
+        return $this->ilmSessions;
     }
 
     /**

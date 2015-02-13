@@ -87,6 +87,14 @@ class AamcMethod implements AamcMethodInterface
     }
 
     /**
+     * @param SessionTypeInterface $sessionType
+     */
+    public function removeSessionType(SessionTypeInterface $sessionType)
+    {
+        $this->sessionTypes->removeElement($sessionType);
+    }
+
+    /**
      * @return ArrayCollection|SessionTypeInterface[]
      */
     public function getSessionTypes()

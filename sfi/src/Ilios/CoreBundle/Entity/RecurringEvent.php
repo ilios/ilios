@@ -339,6 +339,18 @@ class RecurringEvent implements RecurringEventInterface
     }
 
     /**
+     * @param Collection $offerings
+     */
+    public function setOfferings(Collection $offerings)
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    /**
      * @return ArrayCollection|OfferingInterface[]
      */
     public function getOfferings()

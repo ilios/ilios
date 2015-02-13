@@ -57,8 +57,12 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @var boolean
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
+     * @JMS\SerializedName("publicNotes")
      */
-    protected $notesArePublic;
+    protected $publicNotes;
 
     /**
      * @var SessionInterface
@@ -116,6 +120,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function __construct()
     {
         $this->meshDescriptors = new ArrayCollection();
+        $this->publicNotes = false;
     }
 
     /**
@@ -168,20 +173,19 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     }
 
     /**
-     * @param boolean $notesArePublic
+     * @param boolean $publicNotes
      */
-    public function setNotesArePublic($notesArePublic)
+    public function setPublicNotes($publicNotes)
     {
-        $this->notesArePublic = $notesArePublic;
+        $this->publicNotes = $publicNotes;
     }
 
     /**
-     * @todo: rename the property to something a bit more standardize, like publicNotes -> hasPublicNotes()
      * @return boolean
      */
-    public function hasNotesArePublic()
+    public function hasPublicNotes()
     {
-        return $this->notesArePublic;
+        return $this->publicNotes;
     }
 
     /**

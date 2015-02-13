@@ -159,7 +159,7 @@ class Program implements ProgramInterface
     }
 
     /**
-     * @param boolean $duration
+     * @param int $duration
      */
     public function setDuration($duration)
     {
@@ -167,9 +167,9 @@ class Program implements ProgramInterface
     }
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function hasDuration()
+    public function getDuration()
     {
         return $this->duration;
     }

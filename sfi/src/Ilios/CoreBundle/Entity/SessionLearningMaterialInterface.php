@@ -33,15 +33,14 @@ interface SessionLearningMaterialInterface extends IdentifiableEntityInterface
     public function isRequired();
 
     /**
-     * @param boolean $notesArePublic
+     * @param boolean $publicNotes
      */
-    public function setNotesArePublic($notesArePublic);
+    public function setPublicNotes($publicNotes);
 
     /**
-     * @todo: rename the property to something a bit more standardize, like publicNotes -> hasPublicNotes()
      * @return boolean
      */
-    public function hasNotesArePublic();
+    public function hasPublicNotes();
 
     /**
      * @param SessionInterface $session
