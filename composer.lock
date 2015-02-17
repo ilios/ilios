@@ -48,16 +48,16 @@
         },
         {
             "name": "danielstjules/stringy",
-            "version": "1.8.1",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/danielstjules/Stringy.git",
-                "reference": "6a7b0391b2baf0bfdca3ec0c8d33ff379c2835ad"
+                "reference": "3cf18e9e424a6dedc38b7eb7ef580edb0929461b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/danielstjules/Stringy/zipball/6a7b0391b2baf0bfdca3ec0c8d33ff379c2835ad",
-                "reference": "6a7b0391b2baf0bfdca3ec0c8d33ff379c2835ad",
+                "url": "https://api.github.com/repos/danielstjules/Stringy/zipball/3cf18e9e424a6dedc38b7eb7ef580edb0929461b",
+                "reference": "3cf18e9e424a6dedc38b7eb7ef580edb0929461b",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
                 "utility",
                 "utils"
             ],
-            "time": "2015-01-08 15:21:43"
+            "time": "2015-02-10 06:19:18"
         },
         {
             "name": "doctrine/annotations",
@@ -893,6 +893,54 @@
             "time": "2014-08-15 12:18:54"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "010c7efedd88bf31141a02719f51fb44c732d5a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/010c7efedd88bf31141a02719f51fb44c732d5a0",
+                "reference": "010c7efedd88bf31141a02719f51fb44c732d5a0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": []
+            },
+            "autoload": {
+                "psr-0": {
+                    "Faker": "src/",
+                    "Faker\\PHPUnit": "test/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2014-06-04 14:43:02"
+        },
+        {
             "name": "gedmo/doctrine-extensions",
             "version": "v2.3.11",
             "source": {
@@ -1313,55 +1361,6 @@
             ],
             "description": "A library for easily creating recursive-descent parsers.",
             "time": "2012-11-18 18:08:43"
-        },
-        {
-            "name": "jms/php-manipulator",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/schmittjoh/php-manipulator.git",
-                "reference": "9ea6f165c861b02c3b842df71d5829cdcf0c810b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-manipulator/zipball/9ea6f165c861b02c3b842df71d5829cdcf0c810b",
-                "reference": "9ea6f165c861b02c3b842df71d5829cdcf0c810b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "phpoption/phpoption": "1.*"
-            },
-            "require-dev": {
-                "nikic/php-parser": "0.9.1"
-            },
-            "suggest": {
-                "nikic/php-parser": "If you'd like to have access to an AST"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JMS\\PhpManipulator\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache2"
-            ],
-            "authors": [
-                {
-                    "name": "Johannes M. Schmitt"
-                }
-            ],
-            "description": "Library for Analyzing or Manipulating PHP files using the TokenStream, AST, or both",
-            "keywords": [
-                "code",
-                "manipulator",
-                "modify",
-                "php",
-                "source"
-            ],
-            "time": "2014-05-18 05:36:01"
         },
         {
             "name": "jms/serializer",
@@ -2077,17 +2076,17 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.5.1",
+            "version": "v2.5.2",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "9e23fc3de265ae013690d84aab98e7a84f46edcd"
+                "reference": "4b09746520a826a7bf34a466ba31c7d8740fef7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/9e23fc3de265ae013690d84aab98e7a84f46edcd",
-                "reference": "9e23fc3de265ae013690d84aab98e7a84f46edcd",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/4b09746520a826a7bf34a466ba31c7d8740fef7e",
+                "reference": "4b09746520a826a7bf34a466ba31c7d8740fef7e",
                 "shasum": ""
             },
             "require": {
@@ -2121,7 +2120,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2015-01-13 07:33:46"
+            "time": "2015-02-11 07:21:23"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -2585,12 +2584,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheDevNetwork/PhpTypes.git",
-                "reference": "828c634bdfb41b89a12f6652eee75505c3cbad18"
+                "reference": "4ab9a03e51afe5c6f760e87e0cb84c15bbcfa49c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheDevNetwork/PhpTypes/zipball/828c634bdfb41b89a12f6652eee75505c3cbad18",
-                "reference": "828c634bdfb41b89a12f6652eee75505c3cbad18",
+                "url": "https://api.github.com/repos/TheDevNetwork/PhpTypes/zipball/4ab9a03e51afe5c6f760e87e0cb84c15bbcfa49c",
+                "reference": "4ab9a03e51afe5c6f760e87e0cb84c15bbcfa49c",
                 "shasum": ""
             },
             "require": {
@@ -2623,7 +2622,7 @@
                 }
             ],
             "description": "Php primitive wrappers lib.",
-            "time": "2015-01-28 11:54:55"
+            "time": "2015-02-17 23:05:01"
         },
         {
             "name": "tdn/sfprojectgeneratorbundle",
@@ -2631,13 +2630,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vpassapera/sfprojectgeneratorbundle.git",
-                "reference": "5fff1ce57078cbbf48c44376a2875348346e1f0c"
+                "reference": "c4e895b231fbda908e059f1fb1e9760407c0177b"
             },
             "require": {
                 "doctrine/doctrine-bundle": "*@stable",
                 "doctrine/orm": "~2.2,>=2.2.3",
                 "friendsofsymfony/rest-bundle": "1.4.*",
-                "jms/php-manipulator": "dev-master",
+                "fzaninotto/faker": "1.4.0",
                 "jms/serializer-bundle": "0.13.*",
                 "nelmio/api-doc-bundle": "~2.7",
                 "nelmio/cors-bundle": "*@stable",
@@ -2668,7 +2667,7 @@
                 }
             ],
             "description": "Project generator for Symfony 2.",
-            "time": "2015-02-08 16:45:55"
+            "time": "2015-02-12 05:56:25"
         },
         {
             "name": "twig/extensions",
@@ -3039,54 +3038,6 @@
                 "instantiate"
             ],
             "time": "2014-10-13 12:58:55"
-        },
-        {
-            "name": "fzaninotto/faker",
-            "version": "v1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "010c7efedd88bf31141a02719f51fb44c732d5a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/010c7efedd88bf31141a02719f51fb44c732d5a0",
-                "reference": "010c7efedd88bf31141a02719f51fb44c732d5a0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": []
-            },
-            "autoload": {
-                "psr-0": {
-                    "Faker": "src/",
-                    "Faker\\PHPUnit": "test/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2014-06-04 14:43:02"
         },
         {
             "name": "instaclick/base-test-bundle",
