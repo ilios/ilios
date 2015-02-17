@@ -73,7 +73,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="ilmSessionFacets")
+     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="ilmSessions")
      * @ORM\JoinTable(name="ilm_session_facet_x_instructor_group",
      *   joinColumns={
      *     @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", onDelete="CASCADE")

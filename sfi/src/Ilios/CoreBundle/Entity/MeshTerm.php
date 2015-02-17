@@ -82,7 +82,7 @@ class MeshTerm implements MeshTermInterface
      *
      * @ORM\Column(name="print", type="boolean", nullable=true)
      */
-    protected $print;
+    protected $printable;
 
     /**
      * @var \DateTime
@@ -173,19 +173,19 @@ class MeshTerm implements MeshTermInterface
     }
 
     /**
-     * @param boolean $print
+     * @param boolean $printable
      */
-    public function setPrint($print)
+    public function setPrintable($printable)
     {
-        $this->print = $print;
+        $this->printable = $printable;
     }
 
     /**
      * @return boolean
      */
-    public function hasPrint()
+    public function isPrintable()
     {
-        return $this->print;
+        return $this->printable;
     }
 
     /**

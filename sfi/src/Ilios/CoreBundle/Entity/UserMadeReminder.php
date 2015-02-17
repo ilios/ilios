@@ -45,7 +45,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @ORM\Column(name="creation_date", type="datetime")
      */
-    protected $creationDate;
+    protected $createdAt;
 
     /**
      * @var \DateTime
@@ -137,6 +137,22 @@ class UserMadeReminder implements UserMadeReminderInterface
     public function isClosed()
     {
         return $this->closed;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     /**

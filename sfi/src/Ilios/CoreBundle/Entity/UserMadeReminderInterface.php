@@ -21,9 +21,19 @@ interface UserMadeReminderInterface extends IdentifiableEntityInterface
     public function getNote();
 
     /**
-     * @param \DateTime $dueDate
+     * @param string $dueDate
      */
-    public function setDueDate(\DateTime $dueDate);
+    public function setDueDate(\DateTime $creationDate);
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt);
 
     /**
      * @return \DateTime

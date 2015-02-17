@@ -80,7 +80,7 @@ class InstructorGroup implements InstructorGroupInterface
      * @JMS\Type("array<string>")
      * @JMS\SerializedName("ilmSessions")
      */
-    protected $ilmSessionFacets;
+    protected $ilmSessions;
 
     /**
      * @var ArrayCollection|UserInterface[]
@@ -116,7 +116,7 @@ class InstructorGroup implements InstructorGroupInterface
     public function __construct()
     {
         $this->learnerGroups = new ArrayCollection();
-        $this->ilmSessionFacets = new ArrayCollection();
+        $this->ilmSessions = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->offerings = new ArrayCollection();
     }
@@ -185,29 +185,29 @@ class InstructorGroup implements InstructorGroupInterface
     /**
      * @param Collection $ilmSessionFacets
      */
-    public function setIlmSessionFacets(Collection $ilmSessionFacets)
+    public function setIlmSessions(Collection $ilmSessionFacets)
     {
         $this->ilmSessionFacets = new ArrayCollection();
 
         foreach ($ilmSessionFacets as $ilmSessionFacet) {
-            $this->addIlmSessionFacet($ilmSessionFacet);
+            $this->addIlmSession($ilmSessionFacet);
         }
     }
 
     /**
      * @param IlmSessionFacetInterface $ilmSessionFacet
      */
-    public function addIlmSessionFacet(IlmSessionFacetInterface $ilmSessionFacet)
+    public function addIlmSession(IlmSessionFacetInterface $ilmSessionFacet)
     {
-        $this->ilmSessionFacets->add($ilmSessionFacet);
+        $this->ilmSessions->add($ilmSessionFacet);
     }
 
     /**
      * @return ArrayCollection|IlmSessionFacetInterface[]
      */
-    public function getIlmSessionFacets()
+    public function getIlmSessions()
     {
-        return $this->ilmSessionFacets;
+        return $this->ilmSessions;
     }
 
     /**

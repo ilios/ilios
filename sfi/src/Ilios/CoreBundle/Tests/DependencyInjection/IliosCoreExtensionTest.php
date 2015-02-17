@@ -151,6 +151,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.userrole.handler.class' => 'Ilios\CoreBundle\Handler\UserRoleHandler',
             'ilioscore.userrole.manager.class' => 'Ilios\CoreBundle\Entity\Manager\UserRoleManager',
             'ilioscore.aamcmethod.handler.class' => 'Ilios\CoreBundle\Handler\AamcMethodHandler',
+            'ilioscore.dataloader.users.class' => 'Ilios\CoreBundle\Tests\DataLoader\Users',
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
@@ -263,6 +264,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.userrole.handler',
             'ilioscore.userrole.manager',
             'ilioscore.aamcmethod.manager',
+            'ilioscore.dataloader.users',
         );
         foreach ($services as $service) {
             $this->assertContainerBuilderHasService($service);

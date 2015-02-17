@@ -116,6 +116,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function __construct()
     {
         $this->meshDescriptors = new ArrayCollection();
+        $this->publicNotes = false;
     }
 
     /**

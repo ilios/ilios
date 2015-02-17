@@ -210,7 +210,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     public function setSchool(SchoolInterface $school)
     {
         $this->school = $school;
-        $this->id = $school->getId();
     }
 
     /**

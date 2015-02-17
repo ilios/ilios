@@ -18,8 +18,12 @@ class CourseType extends AbstractType
             ->add('title')
             ->add('level')
             ->add('year')
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
+            ->add('endDate', 'datetime', array(
+                'widget' => 'single_text',
+            ))
             ->add('deleted')
             ->add('externalId')
             ->add('locked')

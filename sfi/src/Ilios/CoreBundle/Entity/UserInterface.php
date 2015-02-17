@@ -132,7 +132,7 @@ interface UserInterface extends
     /**
      * @return boolean
      */
-    public function hasUserSyncIgnore();
+    public function isUserSyncIgnore();
 
     /**
      * @param ApiKeyInterface $apiKey
@@ -147,7 +147,7 @@ interface UserInterface extends
     /**
      * @param Collection $reminders
      */
-    public function setRemindes(Collection $reminders);
+    public function setReminders(Collection $reminders);
 
     /**
      * @param UserMadeReminderInterface $reminder
