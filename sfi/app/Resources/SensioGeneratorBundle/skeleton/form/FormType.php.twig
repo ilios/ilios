@@ -1,0 +1,63 @@
+<?php
+
+namespace {{ namespace }}\Form{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+
+{% block use_statements %}
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+{% endblock use_statements %}
+
+{% block class_definition %}
+class {{ entity_class }}Type extends AbstractType
+{% endblock class_definition %}
+{
+{% block class_body %}
+{%- if fields|length > 0 %}
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+{%- for field in fields %}
+{%- if loop.first %}
+
+{% endif %}
+{% if rest_support and field.fieldName in associations|keys %}
+            ->add(
+                '{{ field.fieldName }}',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "{{ field.targetEntity|addslashes }}"
+                ]
+            )
+{% else %}
+            ->add('{{ field.fieldName }}')
+{% endif %}
+{%- endfor %}
+        ;
+    }
+{% endif %}
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => '{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}'
+        ));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return '{{ form_type_name }}_form_type';
+    }
+{% endblock class_body %}
+}

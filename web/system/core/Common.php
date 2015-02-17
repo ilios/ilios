@@ -254,10 +254,7 @@ if ( ! function_exists('get_config'))
 			}
 		}
 
-		//JH - 20141120 - changed following lines from one-liner to 2 lines to support PHP 5.6, 
-		//see issue #730 on Github (https://github.com/ilios/ilios/issues/730)
-		$_config[0] =& $config;
-		return $_config[0];
+		return $_config[0] =& $config;
 	}
 }
 

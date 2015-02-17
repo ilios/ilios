@@ -1,0 +1,104 @@
+<?php
+
+namespace Ilios\CoreBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+
+use Ilios\CoreBundle\Entity\SessionTypeInterface;
+use Ilios\CoreBundle\Traits\DescribableEntity;
+use Ilios\CoreBundle\Traits\NameableEntity;
+use Ilios\CoreBundle\Traits\IdentifiableEntity;
+use Ilios\CoreBundle\Traits\StringableIdEntity;
+
+/**
+ * Class AamcMethod
+ * @package Ilios\CoreBundle\Entity
+ *
+ * @ORM\Table(name="aamc_method")
+ * @ORM\Entity
+ *
+ * @JMS\ExclusionPolicy("all")
+ */
+class AamcMethod implements AamcMethodInterface
+{
+    use IdentifiableEntity;
+    use DescribableEntity;
+    use StringableIdEntity;
+
+    /**
+     * @deprecated replace with IdentifiableEntity trait for 3.1.x
+     * @var string
+     *
+     * @ORM\Column(name="method_id", type="string", length=10)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
+    protected $id;
+
+    /**
+    * @ORM\Column(name="description", type="text")
+    * @var string
+    */
+    protected $description;
+
+    /**
+     * @var ArrayCollection|SessionTypeInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="SessionType", mappedBy="aamcMethods")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("sessionTypes")
+     */
+    protected $sessionTypes;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sessionTypes = new ArrayCollection();
+    }
+
+    /**
+     * @param Collection $sessionTypes
+     */
+    public function setSessionTypes(Collection $sessionTypes)
+    {
+        $this->sessionTypes = new ArrayCollection();
+
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
+    }
+
+    /**
+     * @param SessionTypeInterface $sessionType
+     */
+    public function addSessionType(SessionTypeInterface $sessionType)
+    {
+        $this->sessionTypes->add($sessionType);
+    }
+
+    /**
+     * @param SessionTypeInterface $sessionType
+     */
+    public function removeSessionType(SessionTypeInterface $sessionType)
+    {
+        $this->sessionTypes->removeElement($sessionType);
+    }
+
+    /**
+     * @return ArrayCollection|SessionTypeInterface[]
+     */
+    public function getSessionTypes()
+    {
+        return $this->sessionTypes;
+    }
+}

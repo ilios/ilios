@@ -1,7 +1,11 @@
 class profile::common::php (
     $user = 'vagrant',
     $group = $user,
-    $logs = '/home/vagrant/logs/php'
+    $logs = '/home/vagrant/logs/php',
+    $xdebug_remote_port = 9000,
+    $xdebug_idekey = 'PHPSTORM',
+    $profiler_on  = false,
+    $profiler_dir = '/home/vagrant/profiler'
 ) {
     include ['php', 'php::params']#, 'php::apache']
     $apis = [
@@ -18,17 +22,9 @@ class profile::common::php (
         'php::extension::gd',
         'php::extension::imagick',
         'php::extension::mcrypt',
-        'php::extension::xdebug',
         'php::extension::ldap',
         'php::composer'
     ]
-
-    file { $logs:
-        ensure => directory,
-        owner => $user,
-        group => $group,
-        mode => 0777
-    } ->
 
     class { $apis: }
     class { $extensions: }
@@ -48,6 +44,12 @@ class profile::common::php (
     php::extension { 'php5-json':
         ensure => installed,
         package => 'php5-json',
+        provider => 'apt'
+    }
+
+    php::extension { 'php5-xsl':
+        ensure => installed,
+        package => 'php5-xsl',
         provider => 'apt'
     }
 

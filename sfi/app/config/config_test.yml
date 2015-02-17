@@ -1,0 +1,53 @@
+imports:
+    - { resource: config.yml }
+
+security:
+    firewalls:
+        test:
+            pattern:   ^/
+            anonymous: ~
+    providers:
+        users:
+            entity: { class: IliosCoreBundle:User, property: username }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        collect: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+
+assetic:
+    use_controller: %use_assetic_controller%
+
+liip_functional_test:
+    cache_sqlite_db: true
+    query_count.max_query_count: 50
+
+#swiftmailer:
+#    delivery_address: me@example.com
