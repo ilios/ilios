@@ -1,18 +1,9 @@
 language: php
-
 services: mysql
+sudo: false
 
 php:
   - "5.4"
-
-env:
-  global:
-    - SAUCE_USERNAME="ilios"
-    - SAUCE_ACCESS_KEY="e7c24f1d-ec10-435d-9cec-d1c38bafa268"
-
-addons:
-  hosts:
-    - precise64
 
 install:
   - composer install  --no-interaction -d ${TRAVIS_BUILD_DIR}
@@ -26,3 +17,8 @@ before_script:
 script:
   - bin/phpcs --standard=app/phpcs.xml src
   - bin/phpunit
+
+#encrypted the IRC room chat.freenode.net##ilios so that it doesn't run on pull requests
+notifications:
+  irc:
+    secure: "LN3o6qWNjtQepmrtRTEpFUoa9jFar6l5CDw1pwYzLSJOWc+q59tzbXyoKUlGat9/z+s79euUz2Pcg8XF0fotBwNKArPUOHH2Ti74JbZXNkEstPxgNe5CVqRkwvjlDvMeCJPOqxoc1xD6Ss/XNc5Tu414aIym2Zd4mJ0utmyBOUA="
