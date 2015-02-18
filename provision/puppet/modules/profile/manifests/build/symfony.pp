@@ -1,8 +1,8 @@
 class profile::build::symfony {
     fooacl::conf { 'symfony-var':
         target => [
-            '/vagrant/sfi/var/cache',
-            '/vagrant/sfi/var/logs',
+            '/vagrant/var/cache',
+            '/vagrant/var/logs',
         ],
         permissions => [
             'user:vagrant:rwX',

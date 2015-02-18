@@ -1,11 +1,16 @@
 ------- VERSION CHANGES --------
+Verion 3.0.0
+This is a major organizational change for the Ilios Project.  We are replacing Code Igniter with Symfony and providing a
+full REST API instead of a web interface.  The user interface for Ilios has been moved to https://github.com/ilios/frontend/
+
+
 
 Version 2.4.8
 
 Bug Fixes:
 
 #715 Fixed an inability to save new users caused by the former students option added in #327
-#725 Fixes wrong stored procedure being dropped [405d712] and re-adds it to new migration #724 
+#725 Fixes wrong stored procedure being dropped [405d712] and re-adds it to new migration #724
 
 Feature Changes:
 

@@ -1,6 +1,6 @@
 # Contribute to Ilios
 
-So you want to help out with Ilios development?  **That's Fantastic**.  Here is 
+So you want to help out with Ilios development?  **That's Fantastic**.  Here is
 how you can get started:
 
 ## Overview of the process
@@ -22,14 +22,12 @@ how you can get started:
 
 In order to get your changes accepted you will need do:
 
- * Follow the [php coding standards](https://github.com/ilios/ilios/wiki/Ilios-Coding-Standards-for-PHP)
- * Follow the [javascript coding standards](https://github.com/ilios/ilios/wiki/Ilios-Coding-Standards-for-JavaScript)
- * Write tests which cover your changes 
- 
+ * Follow the [php coding standards](http://www.php-fig.org/)
+ * Write tests which cover your changes
+
 ### Running Tests
-1. [Run PHPUnit tests](tests/phpunit/README.md)
-2. [Run Jasmine tests](tests/jasmine/README)
-3. [Run Behat tests](tests/behat/README)
+1. bin/phpunit
+2. bin/phpcs --standard=app/phpcs.xml src
 
 ### Commit Message
 

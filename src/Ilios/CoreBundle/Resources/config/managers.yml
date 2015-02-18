@@ -1,0 +1,219 @@
+parameters:
+    ilioscore.aamcmethod.manager.class: Ilios\CoreBundle\Entity\Manager\AamcMethodManager
+    ilioscore.aamcpcrs.manager.class: Ilios\CoreBundle\Entity\Manager\AamcPcrsManager
+    ilioscore.alertchangetype.manager.class: Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager
+    ilioscore.alert.manager.class: Ilios\CoreBundle\Entity\Manager\AlertManager
+    ilioscore.apikey.manager.class: Ilios\CoreBundle\Entity\Manager\ApiKeyManager
+    ilioscore.assessmentoption.manager.class: Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager
+    ilioscore.cisession.manager.class: Ilios\CoreBundle\Entity\Manager\CISessionManager
+    ilioscore.cohort.manager.class: Ilios\CoreBundle\Entity\Manager\CohortManager
+    ilioscore.competency.manager.class: Ilios\CoreBundle\Entity\Manager\CompetencyManager
+    ilioscore.courseclerkshiptype.manager.class: Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager
+    ilioscore.courselearningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager
+    ilioscore.course.manager.class: Ilios\CoreBundle\Entity\Manager\CourseManager
+    ilioscore.curriculuminventoryacademiclevel.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager
+    ilioscore.curriculuminventoryexport.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager
+    ilioscore.curriculuminventoryinstitution.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager
+    ilioscore.curriculuminventoryreport.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventoryReportManager
+    ilioscore.curriculuminventorysequenceblock.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockManager
+    ilioscore.curriculuminventorysequenceblocksession.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceBlockSessionManager
+    ilioscore.curriculuminventorysequence.manager.class: Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager
+    ilioscore.department.manager.class: Ilios\CoreBundle\Entity\Manager\DepartmentManager
+    ilioscore.discipline.manager.class: Ilios\CoreBundle\Entity\Manager\DisciplineManager
+    ilioscore.ilmsessionfacet.manager.class: Ilios\CoreBundle\Entity\Manager\IlmSessionFacetManager
+    ilioscore.ingestionexception.manager.class: Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager
+    ilioscore.instructionhours.manager.class: Ilios\CoreBundle\Entity\Manager\InstructionHoursManager
+    ilioscore.instructorgroup.manager.class: Ilios\CoreBundle\Entity\Manager\InstructorGroupManager
+    ilioscore.learningmaterialstatus.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager
+    ilioscore.learningmaterialuserrole.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager
+    ilioscore.meshconcept.manager.class: Ilios\CoreBundle\Entity\Manager\MeshConceptManager
+    ilioscore.meshdescriptor.manager.class: Ilios\CoreBundle\Entity\Manager\MeshDescriptorManager
+    ilioscore.meshpreviousindexing.manager.class: Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager
+    ilioscore.meshqualifier.manager.class: Ilios\CoreBundle\Entity\Manager\MeshQualifierManager
+    ilioscore.meshsemantictype.manager.class: Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManager
+    ilioscore.meshterm.manager.class: Ilios\CoreBundle\Entity\Manager\MeshTermManager
+    ilioscore.meshuserselection.manager.class: Ilios\CoreBundle\Entity\Manager\MeshUserSelectionManager
+    ilioscore.objective.manager.class: Ilios\CoreBundle\Entity\Manager\ObjectiveManager
+    ilioscore.offering.manager.class: Ilios\CoreBundle\Entity\Manager\OfferingManager
+    ilioscore.permission.manager.class: Ilios\CoreBundle\Entity\Manager\PermissionManager
+    ilioscore.program.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramManager
+    ilioscore.programyear.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramYearManager
+    ilioscore.programyearsteward.manager.class: Ilios\CoreBundle\Entity\Manager\ProgramYearStewardManager
+    ilioscore.publishevent.manager.class: Ilios\CoreBundle\Entity\Manager\PublishEventManager
+    ilioscore.recurringevent.manager.class: Ilios\CoreBundle\Entity\Manager\RecurringEventManager
+    ilioscore.report.manager.class: Ilios\CoreBundle\Entity\Manager\ReportManager
+    ilioscore.reportpovalue.manager.class: Ilios\CoreBundle\Entity\Manager\ReportPoValueManager
+    ilioscore.school.manager.class: Ilios\CoreBundle\Entity\Manager\SchoolManager
+    ilioscore.sessiondescription.manager.class: Ilios\CoreBundle\Entity\Manager\SessionDescriptionManager
+    ilioscore.sessionlearningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager
+    ilioscore.session.manager.class: Ilios\CoreBundle\Entity\Manager\SessionManager
+    ilioscore.sessiontype.manager.class: Ilios\CoreBundle\Entity\Manager\SessionTypeManager
+    ilioscore.usermadereminder.manager.class: Ilios\CoreBundle\Entity\Manager\UserMadeReminderManager
+    ilioscore.user.manager.class: Ilios\CoreBundle\Entity\Manager\UserManager
+    ilioscore.userrole.manager.class: Ilios\CoreBundle\Entity\Manager\UserRoleManager
+    ilioscore.learningmaterial.manager.class: Ilios\CoreBundle\Entity\Manager\LearningMaterialManager
+    ilioscore.learnergroup.manager.class: Ilios\CoreBundle\Entity\Manager\LearnerGroupManager
+
+services:
+    ilioscore.aamcmethod.manager:
+        class: %ilioscore.aamcmethod.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\AamcMethod]
+    ilioscore.aamcpcrs.manager:
+        class: %ilioscore.aamcpcrs.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\AamcPcrs]
+    ilioscore.alertchangetype.manager:
+        class: %ilioscore.alertchangetype.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\AlertChangeType]
+    ilioscore.alert.manager:
+        class: %ilioscore.alert.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Alert]
+    ilioscore.apikey.manager:
+        class: %ilioscore.apikey.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\ApiKey]
+    ilioscore.assessmentoption.manager:
+        class: %ilioscore.assessmentoption.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\AssessmentOption]
+    ilioscore.cisession.manager:
+        class: %ilioscore.cisession.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CISession]
+    ilioscore.cohort.manager:
+        class: %ilioscore.cohort.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Cohort]
+    ilioscore.competency.manager:
+        class: %ilioscore.competency.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Competency]
+    ilioscore.courseclerkshiptype.manager:
+        class: %ilioscore.courseclerkshiptype.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CourseClerkshipType]
+    ilioscore.courselearningmaterial.manager:
+        class: %ilioscore.courselearningmaterial.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CourseLearningMaterial]
+    ilioscore.course.manager:
+        class: %ilioscore.course.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Course]
+    ilioscore.curriculuminventoryacademiclevel.manager:
+        class: %ilioscore.curriculuminventoryacademiclevel.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel]
+    ilioscore.curriculuminventoryexport.manager:
+        class: %ilioscore.curriculuminventoryexport.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CurriculumInventoryExport]
+    ilioscore.curriculuminventoryinstitution.manager:
+        class: %ilioscore.curriculuminventoryinstitution.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CurriculumInventoryInstitution]
+    ilioscore.curriculuminventoryreport.manager:
+        class: %ilioscore.curriculuminventoryreport.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CurriculumInventoryReport]
+    ilioscore.curriculuminventorysequenceblock.manager:
+        class: %ilioscore.curriculuminventorysequenceblock.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock]
+    ilioscore.curriculuminventorysequenceblocksession.manager:
+        class: %ilioscore.curriculuminventorysequenceblocksession.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession]
+    ilioscore.curriculuminventorysequence.manager:
+        class: %ilioscore.curriculuminventorysequence.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\CurriculumInventorySequence]
+    ilioscore.department.manager:
+        class: %ilioscore.department.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Department]
+    ilioscore.discipline.manager:
+        class: %ilioscore.discipline.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Discipline]
+    ilioscore.ilmsessionfacet.manager:
+        class: %ilioscore.ilmsessionfacet.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\IlmSessionFacet]
+    ilioscore.ingestionexception.manager:
+        class: %ilioscore.ingestionexception.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\IngestionException]
+    ilioscore.instructionhours.manager:
+        class: %ilioscore.instructionhours.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\InstructionHours]
+    ilioscore.instructorgroup.manager:
+        class: %ilioscore.instructorgroup.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\InstructorGroup]
+    ilioscore.learningmaterialstatus.manager:
+        class: %ilioscore.learningmaterialstatus.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\LearningMaterialStatus]
+    ilioscore.learningmaterialuserrole.manager:
+        class: %ilioscore.learningmaterialuserrole.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\LearningMaterialUserRole]
+    ilioscore.meshconcept.manager:
+        class: %ilioscore.meshconcept.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshConcept]
+    ilioscore.meshdescriptor.manager:
+        class: %ilioscore.meshdescriptor.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshDescriptor]
+    ilioscore.meshpreviousindexing.manager:
+        class: %ilioscore.meshpreviousindexing.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshPreviousIndexing]
+    ilioscore.meshqualifier.manager:
+        class: %ilioscore.meshqualifier.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshQualifier]
+    ilioscore.meshsemantictype.manager:
+        class: %ilioscore.meshsemantictype.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshSemanticType]
+    ilioscore.meshterm.manager:
+        class: %ilioscore.meshterm.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshTerm]
+    ilioscore.meshuserselection.manager:
+        class: %ilioscore.meshuserselection.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\MeshUserSelection]
+    ilioscore.objective.manager:
+        class: %ilioscore.objective.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Objective]
+    ilioscore.offering.manager:
+        class: %ilioscore.offering.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Offering]
+    ilioscore.permission.manager:
+        class: %ilioscore.permission.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Permission]
+    ilioscore.program.manager:
+        class: %ilioscore.program.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Program]
+    ilioscore.programyear.manager:
+        class: %ilioscore.programyear.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\ProgramYear]
+    ilioscore.programyearsteward.manager:
+        class: %ilioscore.programyearsteward.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\ProgramYearSteward]
+    ilioscore.publishevent.manager:
+        class: %ilioscore.publishevent.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\PublishEvent]
+    ilioscore.recurringevent.manager:
+        class: %ilioscore.recurringevent.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\RecurringEvent]
+    ilioscore.report.manager:
+        class: %ilioscore.report.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Report]
+    ilioscore.reportpovalue.manager:
+        class: %ilioscore.reportpovalue.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\ReportPoValue]
+    ilioscore.school.manager:
+        class: %ilioscore.school.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\School]
+    ilioscore.sessiondescription.manager:
+        class: %ilioscore.sessiondescription.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\SessionDescription]
+    ilioscore.sessionlearningmaterial.manager:
+        class: %ilioscore.sessionlearningmaterial.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\SessionLearningMaterial]
+    ilioscore.session.manager:
+        class: %ilioscore.session.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\Session]
+    ilioscore.sessiontype.manager:
+        class: %ilioscore.sessiontype.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\SessionType]
+    ilioscore.usermadereminder.manager:
+        class: %ilioscore.usermadereminder.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\UserMadeReminder]
+    ilioscore.user.manager:
+        class: %ilioscore.user.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\User]
+    ilioscore.userrole.manager:
+        class: %ilioscore.userrole.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\UserRole]
+    ilioscore.learnergroup.manager:
+        class: %ilioscore.learnergroup.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\LearnerGroup]
+    ilioscore.learningmaterial.manager:
+        class: %ilioscore.learningmaterial.manager.class%
+        arguments: ['@doctrine.orm.entity_manager', Ilios\CoreBundle\Entity\LearningMaterial]

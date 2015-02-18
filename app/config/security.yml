@@ -1,0 +1,8 @@
+security:
+    firewalls:
+        anonymous:
+            anonymous: ~
+
+    providers:
+        in_memory:
+            memory:
