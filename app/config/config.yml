@@ -109,7 +109,7 @@ nelmio_cors:
             max_age: 3600
 
 nelmio_api_doc:
-    name: ilios.dev
+    name: Ilios API
     sandbox:
         body_format:
             formats:
