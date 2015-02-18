@@ -23,9 +23,7 @@
         "nelmio/api-doc-bundle": "~2.0",
         "nelmio/cors-bundle": "~1.0",
         "jms/di-extra-bundle": "~1.5",
-        "stof/doctrine-extensions-bundle": "~1.1",
-        "tdn/sfprojectgeneratorbundle": "dev-develop",
-        "tdn/php-types": "dev-master"
+        "stof/doctrine-extensions-bundle": "~1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",
@@ -38,14 +36,10 @@
         "mockery/mockery": "^0.9.3",
         "fzaninotto/faker": "^1.4",
         "liip/functional-test-bundle": "~1.0@dev",
-        "doctrine/doctrine-fixtures-bundle": "~2.2@dev"
+        "doctrine/doctrine-fixtures-bundle": "~2.2@dev",
+        "tdn/sfprojectgeneratorbundle": "dev-develop",
+        "tdn/php-types": "dev-master"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/vpassapera/sfprojectgeneratorbundle.git"
-        }
-    ],
     "scripts": {
         "post-root-package-install": [
             "SymfonyStandard\\Composer::hookRootPackageInstall"
