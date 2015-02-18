@@ -1,7 +1,7 @@
 class profile::ilios (
     $user = 'vagrant',
     $docroot = '/var/www/ilios3',
-    $docroot_target = '/vagrant/sfi/web',
+    $docroot_target = '/vagrant/web',
     $fqdn         = 'ilios.dev'
 ) {
     include profile::common::apache
