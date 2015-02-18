@@ -24,7 +24,8 @@
         "nelmio/cors-bundle": "~1.0",
         "jms/di-extra-bundle": "~1.5",
         "stof/doctrine-extensions-bundle": "~1.1",
-        "tdn/sfprojectgeneratorbundle": "dev-develop"
+        "tdn/sfprojectgeneratorbundle": "dev-develop",
+        "tdn/php-types": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "@stable",
@@ -46,6 +47,9 @@
         }
     ],
     "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
@@ -66,14 +70,12 @@
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "symfony-app-dir": "app",
         "symfony-bin-dir": "bin",
         "symfony-var-dir": "var",
         "symfony-web-dir": "web",
-        "symfony-assets-install": "symlink",
+        "symfony-assets-install": "relative",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         }
