@@ -23,41 +23,29 @@ class CurriculumInventorySequenceBlockType extends AbstractType
             ->add('minimum')
             ->add('maximum')
             ->add('track')
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
+            ->add('endDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
             ->add('duration')
-            ->add(
-                'academicLevel',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryAcademicLevel"
-                ]
-            )
-            ->add(
-                'course',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
-                ]
-            )
-            ->add(
-                'parent',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequenceBlock"
-                ]
-            )
-            ->add(
-                'report',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
-                ]
-            )
+            ->add('academicLevel', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventoryAcademicLevel"
+            ])
+            ->add('course', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('parent', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
+            ])
+            ->add('report', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
+            ])
         ;
     }
 
@@ -76,6 +64,6 @@ class CurriculumInventorySequenceBlockType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_curriculuminventorysequenceblock_form_type';
+        return 'curriculuminventorysequenceblock';
     }
 }

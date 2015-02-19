@@ -17,33 +17,23 @@ class LearningMaterialType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('uploadDate')
+            ->add('uploadDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
             ->add('originalAuthor')
             ->add('token')
-            ->add(
-                'userRole',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterialUserRole"
-                ]
-            )
-            ->add(
-                'status',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterialStatus"
-                ]
-            )
-            ->add(
-                'owningUser',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
+            ->add('userRole', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearningMaterialUserRole"
+            ])
+            ->add('status', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearningMaterialStatus"
+            ])
+            ->add('owningUser', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
     }
 
@@ -62,6 +52,6 @@ class LearningMaterialType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_learningmaterial_form_type';
+        return 'learningmaterial';
     }
 }

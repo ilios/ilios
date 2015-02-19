@@ -20,70 +20,38 @@ class MeshDescriptorType extends AbstractType
             ->add('annotation')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add(
-                'courses',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
-                ]
-            )
-            ->add(
-                'objectives',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
-                ]
-            )
-            ->add(
-                'sessions',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
-                ]
-            )
-            ->add(
-                'concepts',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\MeshConcept"
-                ]
-            )
-            ->add(
-                'qualifiers',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\MeshQualifier"
-                ]
-            )
-            ->add(
-                'sessionLearningMaterials',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\SessionLearningMaterial"
-                ]
-            )
-            ->add(
-                'courseLearningMaterials',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CourseLearningMaterial"
-                ]
-            )
-            ->add(
-                'previousIndexing',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\MeshPreviousIndexing"
-                ]
-            )
+            ->add('courses', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('objectives', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('sessions', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
+            ])
+            ->add('concepts', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshConcept"
+            ])
+            ->add('qualifiers', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshQualifier"
+            ])
+            ->add('sessionLearningMaterials', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionLearningMaterial"
+            ])
+            ->add('courseLearningMaterials', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CourseLearningMaterial"
+            ])
+            ->add('previousIndexing', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshPreviousIndexing"
+            ])
         ;
     }
 
@@ -102,6 +70,6 @@ class MeshDescriptorType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_meshdescriptor_form_type';
+        return 'meshdescriptor';
     }
 }

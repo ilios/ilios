@@ -16,39 +16,25 @@ class IlmSessionFacetType extends AbstractType
     {
         $builder
             ->add('hours')
-            ->add('dueDate')
-            ->add(
-                'learnerGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"
-                ]
-            )
-            ->add(
-                'instructorGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"
-                ]
-            )
-            ->add(
-                'instructors',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
-            ->add(
-                'learners',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
+            ->add('dueDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
+            ->add('learnerGroups', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearnerGroup"
+            ])
+            ->add('instructorGroups', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:InstructorGroup"
+            ])
+            ->add('instructors', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('learners', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
     }
 
@@ -67,6 +53,6 @@ class IlmSessionFacetType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_ilmsessionfacet_form_type';
+        return 'ilmsessionfacet';
     }
 }

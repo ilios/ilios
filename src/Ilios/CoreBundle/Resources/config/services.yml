@@ -1,0 +1,13 @@
+services:
+    ilioscore.form.type.single_related:
+        class: Ilios\CoreBundle\Form\Type\SingleRelatedType
+        arguments:
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: form.type, alias: single_related }
+    ilioscore.form.type.many_related:
+        class: Ilios\CoreBundle\Form\Type\ManyRelatedType
+        arguments:
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags:
+            - { name: form.type, alias: many_related }

@@ -20,62 +20,34 @@ class ProgramYearType extends AbstractType
             ->add('locked')
             ->add('archived')
             ->add('publishedAsTbd')
-            ->add(
-                'program',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Program"
-                ]
-            )
-            ->add(
-                'cohort',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Cohort"
-                ]
-            )
-            ->add(
-                'directors',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
-            ->add(
-                'competencies',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
-                ]
-            )
-            ->add(
-                'disciplines',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Discipline"
-                ]
-            )
-            ->add(
-                'objectives',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
-                ]
-            )
-            ->add(
-                'publishEvent',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
-                ]
-            )
+            ->add('program', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Program"
+            ])
+            ->add('cohort', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Cohort"
+            ])
+            ->add('directors', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('competencies', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Competency"
+            ])
+            ->add('disciplines', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Discipline"
+            ])
+            ->add('objectives', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('publishEvent', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:PublishEvent"
+            ])
         ;
     }
 
@@ -94,6 +66,6 @@ class ProgramYearType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_programyear_form_type';
+        return 'programyear';
     }
 }

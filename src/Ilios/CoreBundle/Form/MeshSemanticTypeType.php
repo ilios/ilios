@@ -37,6 +37,6 @@ class MeshSemanticTypeType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_meshsemantictype_form_type';
+        return 'meshsemantictype';
     }
 }

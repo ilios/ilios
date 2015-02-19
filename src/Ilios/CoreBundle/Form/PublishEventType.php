@@ -19,14 +19,10 @@ class PublishEventType extends AbstractType
             ->add('timeStamp')
             ->add('tableName')
             ->add('tableRowId')
-            ->add(
-                'administrator',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
+            ->add('administrator', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
     }
 
@@ -45,6 +41,6 @@ class PublishEventType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_publishevent_form_type';
+        return 'publishevent';
     }
 }

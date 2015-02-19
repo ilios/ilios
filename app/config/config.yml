@@ -79,6 +79,7 @@ fos_rest:
         formats:
             xml: true
             json : true
+            html : true
         templating_formats:
             html: true
         force_redirects:

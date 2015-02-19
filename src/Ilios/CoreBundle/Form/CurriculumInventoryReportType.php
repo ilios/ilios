@@ -18,32 +18,24 @@ class CurriculumInventoryReportType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('year')
-            ->add('startDate')
-            ->add('endDate')
-            ->add(
-                'export',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryExport"
-                ]
-            )
-            ->add(
-                'sequence',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequence"
-                ]
-            )
-            ->add(
-                'program',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Program"
-                ]
-            )
+            ->add('startDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
+            ->add('endDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
+            ->add('export', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventoryExport"
+            ])
+            ->add('sequence', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventorySequence"
+            ])
+            ->add('program', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Program"
+            ])
         ;
     }
 
@@ -62,6 +54,6 @@ class CurriculumInventoryReportType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_curriculuminventoryreport_form_type';
+        return 'curriculuminventoryreport';
     }
 }

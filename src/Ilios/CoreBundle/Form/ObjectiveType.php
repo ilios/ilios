@@ -16,62 +16,34 @@ class ObjectiveType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add(
-                'competency',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
-                ]
-            )
-            ->add(
-                'courses',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
-                ]
-            )
-            ->add(
-                'programYears',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
-                ]
-            )
-            ->add(
-                'sessions',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
-                ]
-            )
-            ->add(
-                'parents',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
-                ]
-            )
-            ->add(
-                'children',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
-                ]
-            )
-            ->add(
-                'meshDescriptors',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
-                ]
-            )
+            ->add('competency', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Competency"
+            ])
+            ->add('courses', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('programYears', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
+            ])
+            ->add('sessions', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
+            ])
+            ->add('parents', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('children', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('meshDescriptors', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshDescriptor"
+            ])
         ;
     }
 
@@ -90,6 +62,6 @@ class ObjectiveType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_objective_form_type';
+        return 'objective';
     }
 }

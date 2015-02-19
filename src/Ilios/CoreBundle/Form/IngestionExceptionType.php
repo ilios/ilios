@@ -16,14 +16,10 @@ class IngestionExceptionType extends AbstractType
     {
         $builder
             ->add('id')
-            ->add(
-                'user',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
+            ->add('user', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
     }
 
@@ -42,6 +38,6 @@ class IngestionExceptionType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_ingestionexception_form_type';
+        return 'ingestionexception';
     }
 }

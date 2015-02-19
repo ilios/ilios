@@ -16,14 +16,10 @@ class AlertChangeTypeType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add(
-                'alerts',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Alert"
-                ]
-            )
+            ->add('alerts', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Alert"
+            ])
         ;
     }
 
@@ -42,6 +38,6 @@ class AlertChangeTypeType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_alertchangetype_form_type';
+        return 'alertchangetype';
     }
 }

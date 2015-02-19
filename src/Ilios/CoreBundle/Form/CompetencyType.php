@@ -16,38 +16,22 @@ class CompetencyType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add(
-                'school',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\School"
-                ]
-            )
-            ->add(
-                'parent',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
-                ]
-            )
-            ->add(
-                'aamcPcrses',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\AamcPcrs"
-                ]
-            )
-            ->add(
-                'programYears',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
-                ]
-            )
+            ->add('school', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
+            ->add('parent', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Competency"
+            ])
+            ->add('aamcPcrses', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:AamcPcrs"
+            ])
+            ->add('programYears', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
+            ])
         ;
     }
 
@@ -66,6 +50,6 @@ class CompetencyType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_competency_form_type';
+        return 'competency';
     }
 }

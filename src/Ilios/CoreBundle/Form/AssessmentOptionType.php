@@ -34,6 +34,6 @@ class AssessmentOptionType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_assessmentoption_form_type';
+        return 'assessmentoption';
     }
 }

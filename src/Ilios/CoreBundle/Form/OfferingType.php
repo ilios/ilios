@@ -16,58 +16,38 @@ class OfferingType extends AbstractType
     {
         $builder
             ->add('room')
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
+            ->add('endDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
             ->add('deleted')
             ->add('lastUpdatedOn')
-            ->add(
-                'session',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
-                ]
-            )
-            ->add(
-                'learnerGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"
-                ]
-            )
-            ->add(
-                'publishEvent',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
-                ]
-            )
-            ->add(
-                'instructorGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"
-                ]
-            )
-            ->add(
-                'users',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
-            ->add(
-                'recurringEvents',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\RecurringEvent"
-                ]
-            )
+            ->add('session', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
+            ])
+            ->add('learnerGroups', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearnerGroup"
+            ])
+            ->add('publishEvent', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:PublishEvent"
+            ])
+            ->add('instructorGroups', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:InstructorGroup"
+            ])
+            ->add('users', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('recurringEvents', 'many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:RecurringEvent"
+            ])
         ;
     }
 
@@ -86,6 +66,6 @@ class OfferingType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_offering_form_type';
+        return 'offering';
     }
 }

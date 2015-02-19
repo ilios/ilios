@@ -34,6 +34,6 @@ class LearningMaterialUserRoleType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_learningmaterialuserrole_form_type';
+        return 'learningmaterialuserrole';
     }
 }
