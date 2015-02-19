@@ -28,19 +28,19 @@ class ProgramYearType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
-            ->add('directors', 'multi_related', [
+            ->add('directors', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('competencies', 'multi_related', [
+            ->add('competencies', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('disciplines', 'multi_related', [
+            ->add('disciplines', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Discipline"
             ])
-            ->add('objectives', 'multi_related', [
+            ->add('objectives', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])

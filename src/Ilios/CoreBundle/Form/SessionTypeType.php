@@ -26,7 +26,7 @@ class SessionTypeType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('aamcMethods', 'multi_related', [
+            ->add('aamcMethods', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcMethod"
             ])

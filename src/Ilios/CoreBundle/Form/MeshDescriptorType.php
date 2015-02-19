@@ -20,35 +20,35 @@ class MeshDescriptorType extends AbstractType
             ->add('annotation')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('courses', 'multi_related', [
+            ->add('courses', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('objectives', 'multi_related', [
+            ->add('objectives', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('sessions', 'multi_related', [
+            ->add('sessions', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('concepts', 'multi_related', [
+            ->add('concepts', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshConcept"
             ])
-            ->add('qualifiers', 'multi_related', [
+            ->add('qualifiers', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshQualifier"
             ])
-            ->add('sessionLearningMaterials', 'multi_related', [
+            ->add('sessionLearningMaterials', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"
             ])
-            ->add('courseLearningMaterials', 'multi_related', [
+            ->add('courseLearningMaterials', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CourseLearningMaterial"
             ])
-            ->add('previousIndexing', 'multi_related', [
+            ->add('previousIndexing', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshPreviousIndexing"
             ])

@@ -26,7 +26,7 @@ class CourseLearningMaterialType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterial"
             ])
-            ->add('meshDescriptors', 'multi_related', [
+            ->add('meshDescriptors', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

@@ -20,15 +20,15 @@ class DisciplineType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('courses', 'multi_related', [
+            ->add('courses', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('programYears', 'multi_related', [
+            ->add('programYears', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('sessions', 'multi_related', [
+            ->add('sessions', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])

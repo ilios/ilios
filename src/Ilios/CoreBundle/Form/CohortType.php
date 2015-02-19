@@ -20,7 +20,7 @@ class CohortType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('courses', 'multi_related', [
+            ->add('courses', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])

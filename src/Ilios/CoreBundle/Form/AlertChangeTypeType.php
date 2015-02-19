@@ -16,7 +16,7 @@ class AlertChangeTypeType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('alerts', 'multi_related', [
+            ->add('alerts', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"
             ])

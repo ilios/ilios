@@ -19,19 +19,19 @@ class IlmSessionFacetType extends AbstractType
             ->add('dueDate', 'datetime', array(
             'widget' => 'single_text',
             ))
-            ->add('learnerGroups', 'multi_related', [
+            ->add('learnerGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('instructorGroups', 'multi_related', [
+            ->add('instructorGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('instructors', 'multi_related', [
+            ->add('instructors', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('learners', 'multi_related', [
+            ->add('learners', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

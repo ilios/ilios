@@ -16,7 +16,7 @@ class UserRoleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('users', 'multi_related', [
+            ->add('users', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

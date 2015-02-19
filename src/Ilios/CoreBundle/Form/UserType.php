@@ -34,43 +34,43 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('directedCourses', 'multi_related', [
+            ->add('directedCourses', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('learnerGroups', 'multi_related', [
+            ->add('learnerGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('instructorUserGroups', 'multi_related', [
+            ->add('instructorUserGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('instructorGroups', 'multi_related', [
+            ->add('instructorGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('instructorIlmSessions', 'multi_related', [
+            ->add('instructorIlmSessions', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('learnerIlmSessions', 'multi_related', [
+            ->add('learnerIlmSessions', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('offerings', 'multi_related', [
+            ->add('offerings', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])
-            ->add('programYears', 'multi_related', [
+            ->add('programYears', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('alerts', 'multi_related', [
+            ->add('alerts', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"
             ])
-            ->add('roles', 'multi_related', [
+            ->add('roles', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:UserRole"
             ])

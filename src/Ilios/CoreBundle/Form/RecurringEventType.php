@@ -34,7 +34,7 @@ class RecurringEventType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:RecurringEvent"
             ])
-            ->add('offerings', 'multi_related', [
+            ->add('offerings', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])

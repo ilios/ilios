@@ -26,23 +26,23 @@ class LearnerGroupType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('ilmSessions', 'multi_related', [
+            ->add('ilmSessions', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('offerings', 'multi_related', [
+            ->add('offerings', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])
-            ->add('instructorGroups', 'multi_related', [
+            ->add('instructorGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('users', 'multi_related', [
+            ->add('users', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('instructorUsers', 'multi_related', [
+            ->add('instructorUsers', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

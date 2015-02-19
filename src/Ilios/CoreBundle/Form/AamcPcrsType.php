@@ -17,7 +17,7 @@ class AamcPcrsType extends AbstractType
         $builder
             ->add('id')
             ->add('description')
-            ->add('competencies', 'multi_related', [
+            ->add('competencies', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])

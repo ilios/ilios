@@ -32,7 +32,7 @@ class CurriculumInventoryReportType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequence"
             ])
-            ->add('program', 'multi_related', [
+            ->add('program', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Program"
             ])

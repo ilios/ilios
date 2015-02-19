@@ -19,15 +19,15 @@ class AlertType extends AbstractType
             ->add('tableName')
             ->add('additionalText')
             ->add('dispatched')
-            ->add('changeTypes', 'multi_related', [
+            ->add('changeTypes', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AlertChangeType"
             ])
-            ->add('instigators', 'multi_related', [
+            ->add('instigators', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('recipients', 'multi_related', [
+            ->add('recipients', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

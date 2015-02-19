@@ -28,7 +28,7 @@ class OfferingType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('learnerGroups', 'multi_related', [
+            ->add('learnerGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
@@ -36,15 +36,15 @@ class OfferingType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:PublishEvent"
             ])
-            ->add('instructorGroups', 'multi_related', [
+            ->add('instructorGroups', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('users', 'multi_related', [
+            ->add('users', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('recurringEvents', 'multi_related', [
+            ->add('recurringEvents', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:RecurringEvent"
             ])

@@ -24,11 +24,11 @@ class CompetencyType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('aamcPcrses', 'multi_related', [
+            ->add('aamcPcrses', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcPcrs"
             ])
-            ->add('programYears', 'multi_related', [
+            ->add('programYears', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])

@@ -34,15 +34,15 @@ class SessionType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('disciplines', 'multi_related', [
+            ->add('disciplines', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Discipline"
             ])
-            ->add('objectives', 'multi_related', [
+            ->add('objectives', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('meshDescriptors', 'multi_related', [
+            ->add('meshDescriptors', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

@@ -20,7 +20,7 @@ class SchoolType extends AbstractType
             ->add('iliosAdministratorEmail')
             ->add('deleted')
             ->add('changeAlertRecipients')
-            ->add('alerts', 'multi_related', [
+            ->add('alerts', 'many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"
             ])
