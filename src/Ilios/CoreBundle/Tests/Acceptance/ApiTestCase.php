@@ -72,15 +72,15 @@ class ApiTestCase extends WebTestCase
             $response->getStatusCode(),
             $response->getContent()
         );
-        $this->assertTrue(
-            $response->headers->contains(
-                'Content-Type',
-                'application/json'
-            ),
-            $response->headers
-        );
 
         if ($checkValidJson) {
+            $this->assertTrue(
+                $response->headers->contains(
+                    'Content-Type',
+                    'application/json'
+                ),
+                $response->headers
+            );
             $decode = json_decode($response->getContent());
             $this->assertTrue(
                 ($decode != null && $decode != false),
