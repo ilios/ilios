@@ -5,6 +5,10 @@ namespace Ilios\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityManager;
+
+use Ilios\CoreBundle\DataTransformer\SingleRelatedType;
+use Ilios\CoreBundle\DataTransformer\ManyRelatedType;
 
 class CourseType extends AbstractType
 {
@@ -14,6 +18,7 @@ class CourseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('title')
             ->add('level')
@@ -24,75 +29,42 @@ class CourseType extends AbstractType
             ->add('endDate', 'datetime', array(
                 'widget' => 'single_text',
             ))
-            ->add('deleted')
-            ->add('externalId')
-            ->add('locked')
-            ->add('archived')
-            ->add('publishedAsTbd')
-            ->add(
-                'clerkshipType',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CourseClerkshipType"
-                ]
-            )
-            ->add(
-                'owningSchool',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\School"
-                ]
-            )
-            ->add(
-                'publishEvent',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
-                ]
-            )
-            ->add(
-                'directors',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
-            ->add(
-                'cohorts',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Cohort"
-                ]
-            )
-            ->add(
-                'disciplines',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Discipline"
-                ]
-            )
-            ->add(
-                'objectives',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
-                ]
-            )
-            ->add(
-                'meshDescriptors',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
-                ]
-            )
+            ->add('deleted', null, array('required' => false))
+            ->add('externalId', null, array('required' => false))
+            ->add('locked', null, array('required' => false))
+            ->add('archived', null, array('required' => false))
+            ->add('publishedAsTbd', null, array('required' => false))
+            ->add('clerkshipType', 'single_related', array(
+                'entityName' => 'IliosCoreBundle:CourseClerkshipType',
+                'required' => false
+            ))
+            ->add('owningSchool', 'single_related', array(
+                'entityName' => 'IliosCoreBundle:School',
+            ))
+            ->add('publishEvent', 'single_related', array(
+                'entityName' => 'IliosCoreBundle:PublishEvent',
+                'required' => false
+            ))
+            ->add('directors', 'many_related', array(
+                'entityName' => 'IliosCoreBundle:User',
+                'required' => false
+            ))
+            ->add('cohorts', 'many_related', array(
+                'entityName' => 'IliosCoreBundle:Cohort',
+                'required' => false
+            ))
+            ->add('disciplines', 'many_related', array(
+                'entityName' => 'IliosCoreBundle:Discipline',
+                'required' => false
+            ))
+            ->add('objectives', 'many_related', array(
+                'entityName' => 'IliosCoreBundle:Objective',
+                'required' => false
+            ))
+            ->add('meshDescriptors', 'many_related', array(
+                'entityName' => 'IliosCoreBundle:MeshDescriptor',
+                'required' => false
+            ))
         ;
     }
 
@@ -111,6 +83,6 @@ class CourseType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_course_form_type';
+        return 'course';
     }
 }

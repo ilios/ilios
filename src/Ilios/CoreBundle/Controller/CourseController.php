@@ -19,6 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Handler\CourseHandler;
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Form\CourseType;
 
 /**
  * Course controller.
@@ -27,7 +28,7 @@ use Ilios\CoreBundle\Entity\CourseInterface;
  */
 class CourseController extends FOSRestController
 {
-    
+
     /**
      * Get a Course
      *
@@ -62,6 +63,7 @@ class CourseController extends FOSRestController
 
         return $answer;
     }
+
     /**
      * Get all Course.
      *
@@ -326,11 +328,33 @@ class CourseController extends FOSRestController
     {
         return $request->request->get('course', array());
     }
+
     /**
      * @return CourseHandler
      */
     protected function getCourseHandler()
     {
         return $this->container->get('ilioscore.course.handler');
+    }
+
+    /**
+     * Get new course form
+     *
+     * @View
+     */
+    public function newAction()
+    {
+        return $this->createForm(new CourseType());
+    }
+
+    /**
+     * Get edit course form
+     *
+     * @View
+     */
+    public function editAction($id)
+    {
+        $course = $this->getOr404($id);
+        return $this->createForm(new CourseType(), $course);
     }
 }
