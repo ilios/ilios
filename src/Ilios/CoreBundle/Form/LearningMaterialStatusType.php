@@ -34,6 +34,6 @@ class LearningMaterialStatusType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_learningmaterialstatus_form_type';
+        return 'learningmaterialstatus';
     }
 }

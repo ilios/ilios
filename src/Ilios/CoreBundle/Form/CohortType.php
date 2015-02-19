@@ -16,22 +16,14 @@ class CohortType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add(
-                'programYear',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
-                ]
-            )
-            ->add(
-                'courses',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
-                ]
-            )
+            ->add('programYear', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
+            ])
+            ->add('courses', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
         ;
     }
 
@@ -50,6 +42,6 @@ class CohortType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_cohort_form_type';
+        return 'cohort';
     }
 }

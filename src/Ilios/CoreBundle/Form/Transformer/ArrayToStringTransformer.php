@@ -53,5 +53,4 @@ class ArrayToStringTransformer implements DataTransformerInterface
         }
         return explode(',', $string);
     }
-
 }

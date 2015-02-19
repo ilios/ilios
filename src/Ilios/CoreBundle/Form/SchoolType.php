@@ -20,22 +20,14 @@ class SchoolType extends AbstractType
             ->add('iliosAdministratorEmail')
             ->add('deleted')
             ->add('changeAlertRecipients')
-            ->add(
-                'alerts',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Alert"
-                ]
-            )
-            ->add(
-                'curriculumInventoryInsitution',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryInstitution"
-                ]
-            )
+            ->add('alerts', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Alert"
+            ])
+            ->add('curriculumInventoryInsitution', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventoryInstitution"
+            ])
         ;
     }
 
@@ -54,6 +46,6 @@ class SchoolType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_school_form_type';
+        return 'school';
     }
 }

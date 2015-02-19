@@ -21,71 +21,39 @@ class SessionType extends AbstractType
             ->add('supplemental')
             ->add('deleted')
             ->add('publishedAsTbd')
-            ->add('lastUpdatedOn')
-            ->add(
-                'sessionType',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\SessionType"
-                ]
-            )
-            ->add(
-                'course',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
-                ]
-            )
-            ->add(
-                'ilmSessionFacet',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"
-                ]
-            )
-            ->add(
-                'disciplines',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Discipline"
-                ]
-            )
-            ->add(
-                'objectives',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Objective"
-                ]
-            )
-            ->add(
-                'meshDescriptors',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
-                ]
-            )
-            ->add(
-                'publishEvent',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
-                ]
-            )
-            ->add(
-                'sessionDescription',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\SessionDescription"
-                ]
-            )
+            ->add('updatedAt')
+            ->add('sessionType', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionType"
+            ])
+            ->add('course', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('ilmSessionFacet', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:IlmSessionFacet"
+            ])
+            ->add('disciplines', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Discipline"
+            ])
+            ->add('objectives', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('meshDescriptors', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshDescriptor"
+            ])
+            ->add('publishEvent', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:PublishEvent"
+            ])
+            ->add('sessionDescription', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionDescription"
+            ])
         ;
     }
 
@@ -104,6 +72,6 @@ class SessionType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_session_form_type';
+        return 'session';
     }
 }

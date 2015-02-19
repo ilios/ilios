@@ -22,14 +22,10 @@ class CurriculumInventoryInstitutionType extends AbstractType
             ->add('state')
             ->add('zipCode')
             ->add('countryCode')
-            ->add(
-                'school',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\School"
-                ]
-            )
+            ->add('school', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
         ;
     }
 
@@ -48,6 +44,6 @@ class CurriculumInventoryInstitutionType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_curriculuminventoryinstitution_form_type';
+        return 'curriculuminventoryinstitution';
     }
 }

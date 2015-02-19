@@ -16,26 +16,18 @@ class ReportType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('creationDate')
+            ->add('createdAt')
             ->add('subject')
             ->add('prepositionalObject')
             ->add('deleted')
-            ->add(
-                'user',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
-            ->add(
-                'poValue',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\ReportPoValue"
-                ]
-            )
+            ->add('user', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('poValue', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ReportPoValue"
+            ])
         ;
     }
 
@@ -54,6 +46,6 @@ class ReportType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_report_form_type';
+        return 'report';
     }
 }

@@ -19,22 +19,14 @@ class InstructionHoursType extends AbstractType
             ->add('hoursAccrued')
             ->add('modified')
             ->add('modificationTimeStamp')
-            ->add(
-                'user',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
-            ->add(
-                'session',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
-                ]
-            )
+            ->add('user', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('session', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
+            ])
         ;
     }
 
@@ -53,6 +45,6 @@ class InstructionHoursType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_instructionhours_form_type';
+        return 'instructionhours';
     }
 }

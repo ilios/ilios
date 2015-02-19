@@ -16,38 +16,22 @@ class DisciplineType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add(
-                'owningSchool',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\School"
-                ]
-            )
-            ->add(
-                'courses',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
-                ]
-            )
-            ->add(
-                'programYears',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
-                ]
-            )
-            ->add(
-                'sessions',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
-                ]
-            )
+            ->add('owningSchool', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
+            ->add('courses', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('programYears', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
+            ])
+            ->add('sessions', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
+            ])
         ;
     }
 
@@ -66,6 +50,6 @@ class DisciplineType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_discipline_form_type';
+        return 'discipline';
     }
 }

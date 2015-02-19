@@ -50,7 +50,7 @@ class SingleRelatedTransformer implements DataTransformerInterface
             return null;
         }
 
-        if (!$entity instanceof StringableEntityInterface ) {
+        if (!$entity instanceof StringableEntityInterface) {
             throw new TransformationFailedException(sprintf(
                 '%s is not an instance of %s',
                 is_object($entity)?get_class($entity):$entity,
@@ -91,5 +91,4 @@ class SingleRelatedTransformer implements DataTransformerInterface
 
         return $entity;
     }
-
 }

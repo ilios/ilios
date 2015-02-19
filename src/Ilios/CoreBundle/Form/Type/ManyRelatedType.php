@@ -13,7 +13,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Ilios\CoreBundle\Form\Transformer\ManyRelatedTransformer;
 use Ilios\CoreBundle\Form\Transformer\ArrayToStringTransformer;
 
-
 class ManyRelatedType extends AbstractType
 {
     /**

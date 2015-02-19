@@ -5,10 +5,6 @@ namespace Ilios\CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityManager;
-
-use Ilios\CoreBundle\DataTransformer\SingleRelatedType;
-use Ilios\CoreBundle\DataTransformer\ManyRelatedType;
 
 class CourseType extends AbstractType
 {
@@ -18,7 +14,6 @@ class CourseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('title')
             ->add('level')
@@ -27,44 +22,45 @@ class CourseType extends AbstractType
                 'widget' => 'single_text',
             ))
             ->add('endDate', 'datetime', array(
-                'widget' => 'single_text',
+            'widget' => 'single_text',
             ))
-            ->add('deleted', null, array('required' => false))
-            ->add('externalId', null, array('required' => false))
-            ->add('locked', null, array('required' => false))
-            ->add('archived', null, array('required' => false))
-            ->add('publishedAsTbd', null, array('required' => false))
-            ->add('clerkshipType', 'single_related', array(
-                'entityName' => 'IliosCoreBundle:CourseClerkshipType',
-                'required' => false
-            ))
-            ->add('owningSchool', 'single_related', array(
-                'entityName' => 'IliosCoreBundle:School',
-            ))
-            ->add('publishEvent', 'single_related', array(
-                'entityName' => 'IliosCoreBundle:PublishEvent',
-                'required' => false
-            ))
-            ->add('directors', 'many_related', array(
-                'entityName' => 'IliosCoreBundle:User',
-                'required' => false
-            ))
-            ->add('cohorts', 'many_related', array(
-                'entityName' => 'IliosCoreBundle:Cohort',
-                'required' => false
-            ))
-            ->add('disciplines', 'many_related', array(
-                'entityName' => 'IliosCoreBundle:Discipline',
-                'required' => false
-            ))
-            ->add('objectives', 'many_related', array(
-                'entityName' => 'IliosCoreBundle:Objective',
-                'required' => false
-            ))
-            ->add('meshDescriptors', 'many_related', array(
-                'entityName' => 'IliosCoreBundle:MeshDescriptor',
-                'required' => false
-            ))
+            ->add('deleted')
+            ->add('externalId')
+            ->add('locked')
+            ->add('archived')
+            ->add('publishedAsTbd')
+            ->add('clerkshipType', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CourseClerkshipType"
+            ])
+            ->add('owningSchool', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
+            ->add('publishEvent', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:PublishEvent"
+            ])
+            ->add('directors', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('cohorts', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Cohort"
+            ])
+            ->add('disciplines', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Discipline"
+            ])
+            ->add('objectives', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('meshDescriptors', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshDescriptor"
+            ])
         ;
     }
 

@@ -52,7 +52,7 @@ class ManyRelatedTransformer implements DataTransformerInterface
             return [];
         }
 
-        if (!$collection instanceof Collection ) {
+        if (!$collection instanceof Collection) {
             throw new TransformationFailedException(sprintf(
                 '%s is not an instance of %s',
                 is_object($collection)?get_class($collection):$collection,
@@ -81,7 +81,7 @@ class ManyRelatedTransformer implements DataTransformerInterface
             $collection = new ArrayCollection($collection);
         }
 
-        if (!$collection instanceof Collection ) {
+        if (!$collection instanceof Collection) {
             throw new TransformationFailedException(sprintf(
                 '%s is not an instance of %s',
                 is_object($collection)?get_class($collection):$collection,
@@ -110,5 +110,4 @@ class ManyRelatedTransformer implements DataTransformerInterface
             return $entity;
         });
     }
-
 }

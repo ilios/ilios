@@ -16,46 +16,26 @@ class InstructorGroupType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add(
-                'school',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\School"
-                ]
-            )
-            ->add(
-                'learnerGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"
-                ]
-            )
-            ->add(
-                'ilmSessionFacets',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"
-                ]
-            )
-            ->add(
-                'users',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
-            ->add(
-                'offerings',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Offering"
-                ]
-            )
+            ->add('school', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
+            ->add('learnerGroups', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearnerGroup"
+            ])
+            ->add('ilmSessions', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:IlmSessionFacet"
+            ])
+            ->add('users', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('offerings', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Offering"
+            ])
         ;
     }
 
@@ -74,6 +54,6 @@ class InstructorGroupType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_instructorgroup_form_type';
+        return 'instructorgroup';
     }
 }

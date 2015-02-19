@@ -16,17 +16,15 @@ class UserMadeReminderType extends AbstractType
     {
         $builder
             ->add('note')
-            ->add('creationDate')
-            ->add('dueDate')
+            ->add('createdAt')
+            ->add('dueDate', 'datetime', array(
+            'widget' => 'single_text',
+            ))
             ->add('closed')
-            ->add(
-                'user',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\User"
-                ]
-            )
+            ->add('user', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
     }
 
@@ -45,6 +43,6 @@ class UserMadeReminderType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_usermadereminder_form_type';
+        return 'usermadereminder';
     }
 }

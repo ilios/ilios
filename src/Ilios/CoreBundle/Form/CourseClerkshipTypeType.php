@@ -34,6 +34,6 @@ class CourseClerkshipTypeType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_courseclerkshiptype_form_type';
+        return 'courseclerkshiptype';
     }
 }

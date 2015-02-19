@@ -17,14 +17,10 @@ class AamcMethodType extends AbstractType
         $builder
             ->add('id')
             ->add('description')
-            ->add(
-                'sessionTypes',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\SessionType"
-                ]
-            )
+            ->add('sessionTypes', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionType"
+            ])
         ;
     }
 
@@ -43,6 +39,6 @@ class AamcMethodType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_aamcmethod_form_type';
+        return 'aamcmethod';
     }
 }

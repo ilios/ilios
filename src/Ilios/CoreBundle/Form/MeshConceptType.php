@@ -24,14 +24,10 @@ class MeshConceptType extends AbstractType
             ->add('registryNumber')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add(
-                'descriptors',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
-                ]
-            )
+            ->add('descriptors', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:MeshDescriptor"
+            ])
         ;
     }
 
@@ -50,6 +46,6 @@ class MeshConceptType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_meshconcept_form_type';
+        return 'meshconcept';
     }
 }

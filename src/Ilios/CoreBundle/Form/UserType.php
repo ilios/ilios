@@ -26,102 +26,54 @@ class UserType extends AbstractType
             ->add('otherId')
             ->add('examined')
             ->add('userSyncIgnore')
-            ->add(
-                'apiKey',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\ApiKey"
-                ]
-            )
-            ->add(
-                'primarySchool',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\School"
-                ]
-            )
-            ->add(
-                'directedCourses',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
-                ]
-            )
-            ->add(
-                'learnerGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"
-                ]
-            )
-            ->add(
-                'instructorUserGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\LearnerGroup"
-                ]
-            )
-            ->add(
-                'instructorGroups',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\InstructorGroup"
-                ]
-            )
-            ->add(
-                'instructorIlmSessions',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"
-                ]
-            )
-            ->add(
-                'learnerIlmSessions',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\IlmSessionFacet"
-                ]
-            )
-            ->add(
-                'offerings',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Offering"
-                ]
-            )
-            ->add(
-                'programYears',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
-                ]
-            )
-            ->add(
-                'alerts',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Alert"
-                ]
-            )
-            ->add(
-                'roles',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\UserRole"
-                ]
-            )
+            ->add('apiKey', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ApiKey"
+            ])
+            ->add('primarySchool', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:School"
+            ])
+            ->add('directedCourses', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('learnerGroups', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearnerGroup"
+            ])
+            ->add('instructorUserGroups', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearnerGroup"
+            ])
+            ->add('instructorGroups', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:InstructorGroup"
+            ])
+            ->add('instructorIlmSessions', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:IlmSessionFacet"
+            ])
+            ->add('learnerIlmSessions', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:IlmSessionFacet"
+            ])
+            ->add('offerings', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Offering"
+            ])
+            ->add('programYears', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
+            ])
+            ->add('alerts', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Alert"
+            ])
+            ->add('roles', 'multi_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:UserRole"
+            ])
         ;
     }
 
@@ -140,6 +92,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_user_form_type';
+        return 'user';
     }
 }

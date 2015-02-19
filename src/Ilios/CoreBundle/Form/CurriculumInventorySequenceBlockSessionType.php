@@ -16,22 +16,14 @@ class CurriculumInventorySequenceBlockSessionType extends AbstractType
     {
         $builder
             ->add('countOfferingsOnce')
-            ->add(
-                'sequenceBlock',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventorySequenceBlock"
-                ]
-            )
-            ->add(
-                'session',
-                'tdn_entity',
-                [
-                    'required' => false,
-                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
-                ]
-            )
+            ->add('sequenceBlock', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
+            ])
+            ->add('session', 'single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
+            ])
         ;
     }
 
@@ -50,6 +42,6 @@ class CurriculumInventorySequenceBlockSessionType extends AbstractType
      */
     public function getName()
     {
-        return 'ilios_corebundle_curriculuminventorysequenceblocksession_form_type';
+        return 'curriculuminventorysequenceblocksession';
     }
 }
