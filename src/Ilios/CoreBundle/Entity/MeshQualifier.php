@@ -34,7 +34,7 @@ class MeshQualifier implements MeshQualifierInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="string")
      *
      * @JMS\Expose
      * @JMS\Type("string")

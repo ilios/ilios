@@ -33,7 +33,7 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(name="mesh_term_uid", type="string", length=9)
      * @ORM\Id
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="string")
      *
      * @JMS\Expose
      * @JMS\Type("string")
