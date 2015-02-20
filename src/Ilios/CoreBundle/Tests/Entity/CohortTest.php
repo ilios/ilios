@@ -32,7 +32,6 @@ class CohortTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Cohort::setTitle
-     * @covers Ilios\CoreBundle\Entity\Cohort::getTitle
      */
     public function testSetTitle()
     {
@@ -41,7 +40,6 @@ class CohortTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Cohort::setProgramYear
-     * @covers Ilios\CoreBundle\Entity\Cohort::getProgramYear
      */
     public function testSetProgramYear()
     {
@@ -54,6 +52,14 @@ class CohortTest extends EntityBase
     public function testAddCourse()
     {
         $this->entityCollectionAddTest('course', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Cohort::removeCourse
+     */
+    public function testRemoveCourse()
+    {
+        $this->entityCollectionRemoveTest('course', 'Course');
     }
 
     /**

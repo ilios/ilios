@@ -24,7 +24,6 @@ class AuthenticationTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Authentication::setUsername
-     * @covers Ilios\CoreBundle\Entity\Authentication::getUsername
      */
     public function testSetUsername()
     {
@@ -41,7 +40,6 @@ class AuthenticationTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Authentication::setUser
-     * @covers Ilios\CoreBundle\Entity\Authentication::getUser
      */
     public function testSetUser()
     {

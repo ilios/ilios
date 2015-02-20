@@ -35,7 +35,6 @@ class ProgramYearTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setStartYear
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getStartYear
      */
     public function testSetStartYear()
     {
@@ -44,7 +43,6 @@ class ProgramYearTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setDeleted
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isDeleted
      */
     public function testSetDeleted()
     {
@@ -53,7 +51,6 @@ class ProgramYearTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setLocked
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isLocked
      */
     public function testSetLocked()
     {
@@ -62,7 +59,6 @@ class ProgramYearTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setArchived
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isArchived
      */
     public function testSetArchived()
     {
@@ -71,7 +67,6 @@ class ProgramYearTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setPublishedAsTbd
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::isPublishedAsTbd
      */
     public function testSetPublishedAsTbd()
     {
@@ -80,7 +75,6 @@ class ProgramYearTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setProgram
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getProgram
      */
     public function testSetProgram()
     {
@@ -96,8 +90,15 @@ class ProgramYearTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\ProgramYear::removeDirector
+     */
+    public function testRemoveDirector()
+    {
+        $this->entityCollectionRemoveTest('director', 'User');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\ProgramYear::getPublishEvent
      */
     public function testSetPublishEvent()
     {

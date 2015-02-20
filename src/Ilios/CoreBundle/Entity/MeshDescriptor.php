@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -37,6 +37,8 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\Column(name="mesh_descriptor_uid", type="string", length=9)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @Assert\Type(type="integer")
      *
      * @JMS\Expose
      * @JMS\Type("string")

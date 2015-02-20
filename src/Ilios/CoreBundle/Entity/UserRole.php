@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Role\RoleInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
@@ -35,6 +36,8 @@ class UserRole implements UserRoleInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\Type(type="integer")
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */
@@ -42,10 +45,8 @@ class UserRole implements UserRoleInterface
 
     /**
     * @ORM\Column(type="string", length=60)
+    * @todo should be on the TitledEntity Trait
     * @var string
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
     */
     protected $title;
 

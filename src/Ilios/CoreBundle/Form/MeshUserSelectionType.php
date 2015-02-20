@@ -16,10 +16,14 @@ class MeshUserSelectionType extends AbstractType
     {
         $builder
             ->add('searchPhrase')
-            ->add('meshDescriptor', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:MeshDescriptor"
-            ])
+            ->add(
+                'meshDescriptor',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 
@@ -38,6 +42,6 @@ class MeshUserSelectionType extends AbstractType
      */
     public function getName()
     {
-        return 'meshuserselection';
+        return 'ilios_corebundle_meshuserselection_form_type';
     }
 }

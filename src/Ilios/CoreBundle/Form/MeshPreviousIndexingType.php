@@ -16,10 +16,14 @@ class MeshPreviousIndexingType extends AbstractType
     {
         $builder
             ->add('previousIndexing')
-            ->add('descriptor', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:MeshDescriptor"
-            ])
+            ->add(
+                'descriptor',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 
@@ -38,6 +42,6 @@ class MeshPreviousIndexingType extends AbstractType
      */
     public function getName()
     {
-        return 'meshpreviousindexing';
+        return 'ilios_corebundle_meshpreviousindexing_form_type';
     }
 }

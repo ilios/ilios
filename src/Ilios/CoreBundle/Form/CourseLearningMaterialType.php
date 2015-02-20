@@ -18,18 +18,30 @@ class CourseLearningMaterialType extends AbstractType
             ->add('notes')
             ->add('required')
             ->add('publicNotes')
-            ->add('course', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Course"
-            ])
-            ->add('learningMaterial', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:LearningMaterial"
-            ])
-            ->add('meshDescriptors', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:MeshDescriptor"
-            ])
+            ->add(
+                'course',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Course"
+                ]
+            )
+            ->add(
+                'learningMaterial',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterial"
+                ]
+            )
+            ->add(
+                'meshDescriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 
@@ -48,6 +60,6 @@ class CourseLearningMaterialType extends AbstractType
      */
     public function getName()
     {
-        return 'courselearningmaterial';
+        return 'ilios_corebundle_courselearningmaterial_form_type';
     }
 }

@@ -4,7 +4,8 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
@@ -30,6 +31,8 @@ class InstructionHours implements InstructionHoursInterface
      * @ORM\Column(name="instruction_hours_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
      *
      * @JMS\Expose
      * @JMS\Type("integer")

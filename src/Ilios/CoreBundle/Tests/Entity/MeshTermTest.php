@@ -24,7 +24,6 @@ class MeshTermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setName
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getName
      */
     public function testSetName()
     {
@@ -33,7 +32,6 @@ class MeshTermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setLexicalTag
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getLexicalTag
      */
     public function testSetLexicalTag()
     {
@@ -42,7 +40,6 @@ class MeshTermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setConceptPreferred
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isConceptPreferred
      */
     public function testSetConceptPreferred()
     {
@@ -51,7 +48,6 @@ class MeshTermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setRecordPreferred
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isRecordPreferred
      */
     public function testSetRecordPreferred()
     {
@@ -60,7 +56,6 @@ class MeshTermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setPermuted
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isPermuted
      */
     public function testSetPermuted()
     {
@@ -68,8 +63,7 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setPrintable
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::isPrintable
+     * @covers Ilios\CoreBundle\Entity\MeshTerm::setPrint
      */
     public function testSetPrintable()
     {
@@ -78,7 +72,6 @@ class MeshTermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getCreatedAt
      */
     public function testSetCreatedAt()
     {
@@ -87,7 +80,6 @@ class MeshTermTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getUpdatedAt
      */
     public function testSetUpdatedAt()
     {

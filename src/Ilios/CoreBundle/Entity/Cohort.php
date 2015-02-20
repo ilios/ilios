@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Ilios\CoreBundle\Entity\CourseInterface;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
@@ -41,6 +40,8 @@ class Cohort implements CohortInterface
      * @ORM\Column(name="cohort_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
      *
      * @JMS\Expose
      * @JMS\Type("integer")

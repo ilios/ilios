@@ -32,7 +32,6 @@ class SessionLearningMaterialTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::setNotes
-     * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::getNotes
      */
     public function testSetNotes()
     {
@@ -41,7 +40,6 @@ class SessionLearningMaterialTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::setRequired
-     * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::isRequired
      */
     public function testSetRequired()
     {
@@ -50,7 +48,6 @@ class SessionLearningMaterialTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::setPublicNotes
-     * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::hasPublicNotes
      */
     public function testSetNotesArePublic()
     {
@@ -59,7 +56,6 @@ class SessionLearningMaterialTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::setSession
-     * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::getSession
      */
     public function testSetSession()
     {
@@ -68,7 +64,6 @@ class SessionLearningMaterialTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::setLearningMaterial
-     * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::getLearningMaterial
      */
     public function testSetLearningMaterial()
     {
@@ -81,6 +76,14 @@ class SessionLearningMaterialTest extends EntityBase
     public function testAddMeshDescriptor()
     {
         $this->entityCollectionAddTest('meshDescriptor', 'MeshDescriptor');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::removeMeshDescriptor
+     */
+    public function testRemoveMeshDescriptor()
+    {
+        $this->entityCollectionRemoveTest('meshDescriptor', 'MeshDescriptor');
     }
 
     /**

@@ -22,22 +22,32 @@ class RecurringEventType extends AbstractType
             ->add('onThursday')
             ->add('onFriday')
             ->add('onSaturday')
-            ->add('endDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
+            ->add('endDate')
             ->add('repetitionCount')
-            ->add('previousRecurringEvent', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:RecurringEvent"
-            ])
-            ->add('nextRecurringEvent', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:RecurringEvent"
-            ])
-            ->add('offerings', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Offering"
-            ])
+            ->add(
+                'previousRecurringEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\RecurringEvent"
+                ]
+            )
+            ->add(
+                'nextRecurringEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\RecurringEvent"
+                ]
+            )
+            ->add(
+                'offerings',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Offering"
+                ]
+            )
         ;
     }
 
@@ -56,6 +66,6 @@ class RecurringEventType extends AbstractType
      */
     public function getName()
     {
-        return 'recurringevent';
+        return 'ilios_corebundle_recurringevent_form_type';
     }
 }

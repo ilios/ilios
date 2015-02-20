@@ -15,18 +15,30 @@ class ProgramYearStewardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('department', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Department"
-            ])
-            ->add('programYear', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:ProgramYear"
-            ])
-            ->add('school', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:School"
-            ])
+            ->add(
+                'department',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Department"
+                ]
+            )
+            ->add(
+                'programYear',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\ProgramYear"
+                ]
+            )
+            ->add(
+                'school',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
         ;
     }
 
@@ -45,6 +57,6 @@ class ProgramYearStewardType extends AbstractType
      */
     public function getName()
     {
-        return 'programyearsteward';
+        return 'ilios_corebundle_programyearsteward_form_type';
     }
 }

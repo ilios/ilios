@@ -24,7 +24,6 @@ class AssessmentOptionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AssessmentOption::setName
-     * @covers Ilios\CoreBundle\Entity\AssessmentOption::getName
      */
     public function testSetName()
     {

@@ -16,10 +16,14 @@ class SessionDescriptionType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('session', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Session"
-            ])
+            ->add(
+                'session',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
+                ]
+            )
         ;
     }
 
@@ -38,6 +42,6 @@ class SessionDescriptionType extends AbstractType
      */
     public function getName()
     {
-        return 'sessiondescription';
+        return 'ilios_corebundle_sessiondescription_form_type';
     }
 }

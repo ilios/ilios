@@ -31,7 +31,6 @@ class CISessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CISession::setIpAddress
-     * @covers Ilios\CoreBundle\Entity\CISession::getIpAddress
      */
     public function testSetIpAddress()
     {
@@ -40,7 +39,6 @@ class CISessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CISession::setUserAgent
-     * @covers Ilios\CoreBundle\Entity\CISession::getUserAgent
      */
     public function testSetUserAgent()
     {
@@ -49,7 +47,6 @@ class CISessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CISession::setLastActivity
-     * @covers Ilios\CoreBundle\Entity\CISession::getLastActivity
      */
     public function testSetLastActivity()
     {
@@ -58,7 +55,6 @@ class CISessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CISession::setUserData
-     * @covers Ilios\CoreBundle\Entity\CISession::getUserData
      * @covers Ilios\CoreBundle\Entity\CISession::getUserData
      */
     public function testSetUserData()

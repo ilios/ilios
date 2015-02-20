@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class ProgramYearSteward
@@ -33,6 +34,9 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      * @ORM\Column(name="program_year_steward_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
+     *
      *
      * @JMS\Expose
      * @JMS\Type("integer")

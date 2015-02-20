@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 use Ilios\CoreBundle\Traits\DescribableEntity;
@@ -35,6 +36,8 @@ class AamcMethod implements AamcMethodInterface
      * @ORM\Column(name="method_id", type="string", length=10)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @Assert\Type(type="integer")
      *
      * @JMS\Expose
      * @JMS\Type("string")

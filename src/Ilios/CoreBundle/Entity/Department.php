@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
@@ -31,6 +32,8 @@ class Department implements DepartmentInterface
      * @ORM\Column(name="department_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
      *
      * @JMS\Expose
      * @JMS\Type("integer")

@@ -24,7 +24,6 @@ class ObjectiveTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Objective::setTitle
-     * @covers Ilios\CoreBundle\Entity\Objective::getTitle
      */
     public function testSetTitle()
     {
@@ -33,7 +32,6 @@ class ObjectiveTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Objective::setCompetency
-     * @covers Ilios\CoreBundle\Entity\Objective::getCompetency
      */
     public function testSetCompetency()
     {
@@ -46,6 +44,14 @@ class ObjectiveTest extends EntityBase
     public function testAddCourse()
     {
         $this->entityCollectionAddTest('course', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Objective::removeCourse
+     */
+    public function testRemoveCourse()
+    {
+        $this->entityCollectionRemoveTest('course', 'Course');
     }
 
     /**
@@ -65,6 +71,14 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Objective::removeProgramYear
+     */
+    public function testRemoveProgramYear()
+    {
+        $this->entityCollectionRemoveTest('programYear', 'ProgramYear');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Objective::getProgramYears
      */
     public function testGetProgramYears()
@@ -78,6 +92,14 @@ class ObjectiveTest extends EntityBase
     public function testAddSession()
     {
         $this->entityCollectionAddTest('session', 'Session');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Objective::removeSession
+     */
+    public function testRemoveSession()
+    {
+        $this->entityCollectionRemoveTest('session', 'Session');
     }
 
     /**
@@ -97,6 +119,14 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Objective::removeChild
+     */
+    public function testRemoveChild()
+    {
+        $this->entityCollectionRemoveTest('children', 'Objective', 'getChildren', 'addChild', 'removeChild');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Objective::getChildren
      */
     public function testGetChildren()
@@ -113,6 +143,14 @@ class ObjectiveTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Objective::removeMeshDescriptor
+     */
+    public function testRemoveMeshDescriptor()
+    {
+        $this->entityCollectionRemoveTest('meshDescriptor', 'MeshDescriptor');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Objective::getMeshDescriptors
      */
     public function testGetMeshDescriptors()
@@ -126,6 +164,14 @@ class ObjectiveTest extends EntityBase
     public function testAddParent()
     {
         $this->entityCollectionAddTest('parent', 'Objective');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Objective::removeParent
+     */
+    public function testRemoveParent()
+    {
+        $this->entityCollectionRemoveTest('parent', 'Objective');
     }
 
     /**

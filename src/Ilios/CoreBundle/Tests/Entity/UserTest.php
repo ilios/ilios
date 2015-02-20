@@ -41,7 +41,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setLastName
-     * @covers Ilios\CoreBundle\Entity\User::getLastName
      */
     public function testSetLastName()
     {
@@ -50,7 +49,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setFirstName
-     * @covers Ilios\CoreBundle\Entity\User::getFirstName
      */
     public function testSetFirstName()
     {
@@ -59,7 +57,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setMiddleName
-     * @covers Ilios\CoreBundle\Entity\User::getMiddleName
      */
     public function testSetMiddleName()
     {
@@ -68,7 +65,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setPhone
-     * @covers Ilios\CoreBundle\Entity\User::getPhone
      */
     public function testSetPhone()
     {
@@ -77,7 +73,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setEmail
-     * @covers Ilios\CoreBundle\Entity\User::getEmail
      */
     public function testSetEmail()
     {
@@ -86,7 +81,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setAddedViaIlios
-     * @covers Ilios\CoreBundle\Entity\User::isAddedViaIlios
      */
     public function testSetAddedViaIlios()
     {
@@ -95,7 +89,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setEnabled
-     * @covers Ilios\CoreBundle\Entity\User::isEnabled
      */
     public function testSetEnabled()
     {
@@ -104,7 +97,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setUcUid
-     * @covers Ilios\CoreBundle\Entity\User::getUcUid
      */
     public function testSetUcUid()
     {
@@ -113,7 +105,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setOtherId
-     * @covers Ilios\CoreBundle\Entity\User::getOtherId
      */
     public function testSetOtherId()
     {
@@ -122,7 +113,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setExamined
-     * @covers Ilios\CoreBundle\Entity\User::isExamined
      */
     public function testSetExamined()
     {
@@ -131,7 +121,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setUserSyncIgnore
-     * @covers Ilios\CoreBundle\Entity\User::isUserSyncIgnore
      */
     public function testSetUserSyncIgnore()
     {
@@ -140,7 +129,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setPrimarySchool
-     * @covers Ilios\CoreBundle\Entity\User::getPrimarySchool
      */
     public function testSetPrimarySchool()
     {
@@ -149,7 +137,6 @@ class UserTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\User::setApiKey
-     * @covers Ilios\CoreBundle\Entity\User::getApiKey
      */
     public function testSetApiKey()
     {
@@ -165,8 +152,15 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeReminder
+     */
+    public function testRemoveReminder()
+    {
+        $this->entityCollectionRemoveTest('reminder', 'UserMadeReminder');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::setReminders
-     * @covers Ilios\CoreBundle\Entity\User::getReminders
      * @covers Ilios\CoreBundle\Entity\User::getReminders
      */
     public function testSetReminders()
@@ -180,6 +174,14 @@ class UserTest extends EntityBase
     public function testAddDirectedCourse()
     {
         $this->entityCollectionAddTest('directedCourse', 'Course');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeDirectedCourse
+     */
+    public function testRemoveDirectedCourse()
+    {
+        $this->entityCollectionRemoveTest('directedCourse', 'Course');
     }
 
     /**
@@ -199,6 +201,15 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeLearnerGroup
+     * @todo   Implement testRemoveLearnerGroup().
+     */
+    public function testRemoveLearnerGroup()
+    {
+        $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getLearnerGroups
      */
     public function testSetLearnerGroups()
@@ -212,6 +223,14 @@ class UserTest extends EntityBase
     public function testAddInstructorUserGroup()
     {
         $this->entityCollectionAddTest('instructorUserGroup', 'LearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeInstructorUserGroup
+     */
+    public function testRemoveInstructorUserGroup()
+    {
+        $this->entityCollectionRemoveTest('instructorUserGroup', 'LearnerGroup');
     }
 
     /**
@@ -231,6 +250,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeInstructorGroup
+     */
+    public function testRemoveInstructorGroup()
+    {
+        $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getInstructorGroups
      */
     public function testSetInstructorGroups()
@@ -244,6 +271,14 @@ class UserTest extends EntityBase
     public function testAddOffering()
     {
         $this->entityCollectionAddTest('offering', 'Offering');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeOffering
+     */
+    public function testRemoveOffering()
+    {
+        $this->entityCollectionRemoveTest('offering', 'Offering');
     }
 
     /**
@@ -263,6 +298,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeProgramYear
+     */
+    public function testRemoveProgramYear()
+    {
+        $this->entityCollectionRemoveTest('programYear', 'ProgramYear');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getProgramYears
      */
     public function testSetProgramYears()
@@ -276,6 +319,15 @@ class UserTest extends EntityBase
     public function testAddAlert()
     {
         $this->entityCollectionAddTest('alert', 'Alert');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeAlert
+     */
+    public function testRemoveAlert()
+    {
+
+        $this->entityCollectionRemoveTest('alert', 'Alert');
     }
 
     /**
@@ -295,6 +347,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removeRole
+     */
+    public function testRemoveRole()
+    {
+        $this->entityCollectionRemoveTest('role', 'UserRole');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getRoles
      */
     public function testSetRoles()
@@ -308,6 +368,14 @@ class UserTest extends EntityBase
     public function testAddLearningMaterial()
     {
         $this->entityCollectionAddTest('learningMaterial', 'LearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeLearningMaterial
+     */
+    public function testRemoveLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
     }
 
     /**
@@ -327,6 +395,14 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\User::removePublishEvent
+     */
+    public function testRemovePublishEvent()
+    {
+        $this->entityCollectionRemoveTest('publishEvent', 'PublishEvent');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\User::getPublishEvents
      */
     public function testSetPublishEvents()
@@ -340,6 +416,14 @@ class UserTest extends EntityBase
     public function testAddReport()
     {
         $this->entityCollectionAddTest('report', 'Report');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::removeReport
+     */
+    public function testRemoveReport()
+    {
+        $this->entityCollectionRemoveTest('report', 'Report');
     }
 
     /**

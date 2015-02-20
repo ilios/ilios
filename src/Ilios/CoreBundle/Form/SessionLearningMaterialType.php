@@ -17,19 +17,31 @@ class SessionLearningMaterialType extends AbstractType
         $builder
             ->add('notes')
             ->add('required')
-            ->add('publicNotes')
-            ->add('session', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Session"
-            ])
-            ->add('learningMaterial', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:LearningMaterial"
-            ])
-            ->add('meshDescriptors', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:MeshDescriptor"
-            ])
+            ->add('notesArePublic')
+            ->add(
+                'session',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Session"
+                ]
+            )
+            ->add(
+                'learningMaterial',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\LearningMaterial"
+                ]
+            )
+            ->add(
+                'meshDescriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 
@@ -48,6 +60,6 @@ class SessionLearningMaterialType extends AbstractType
      */
     public function getName()
     {
-        return 'sessionlearningmaterial';
+        return 'ilios_corebundle_sessionlearningmaterial_form_type';
     }
 }
