@@ -19,10 +19,14 @@ class MeshQualifierType extends AbstractType
             ->add('name')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('descriptors', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:MeshDescriptor"
-            ])
+            ->add(
+                'descriptors',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\MeshDescriptor"
+                ]
+            )
         ;
     }
 
@@ -41,6 +45,6 @@ class MeshQualifierType extends AbstractType
      */
     public function getName()
     {
-        return 'meshqualifier';
+        return 'ilios_corebundle_meshqualifier_form_type';
     }
 }

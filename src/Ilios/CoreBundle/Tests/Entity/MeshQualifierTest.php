@@ -24,7 +24,6 @@ class MeshQualifierTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshQualifier::setName
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::getName
      */
     public function testSetName()
     {
@@ -33,7 +32,6 @@ class MeshQualifierTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshQualifier::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::getCreatedAt
      */
     public function testSetCreatedAt()
     {
@@ -42,7 +40,6 @@ class MeshQualifierTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshQualifier::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshQualifier::getUpdatedAt
      */
     public function testSetUpdatedAt()
     {

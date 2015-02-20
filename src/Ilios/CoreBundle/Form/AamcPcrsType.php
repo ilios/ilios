@@ -17,10 +17,14 @@ class AamcPcrsType extends AbstractType
         $builder
             ->add('id')
             ->add('description')
-            ->add('competencies', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Competency"
-            ])
+            ->add(
+                'competencies',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Competency"
+                ]
+            )
         ;
     }
 
@@ -39,6 +43,6 @@ class AamcPcrsType extends AbstractType
      */
     public function getName()
     {
-        return 'aamcpcrs';
+        return 'ilios_corebundle_aamcpcrs_form_type';
     }
 }

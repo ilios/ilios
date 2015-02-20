@@ -18,10 +18,14 @@ class CurriculumInventoryAcademicLevelType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('level')
-            ->add('report', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
-            ])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
+                ]
+            )
         ;
     }
 
@@ -40,6 +44,6 @@ class CurriculumInventoryAcademicLevelType extends AbstractType
      */
     public function getName()
     {
-        return 'curriculuminventoryacademiclevel';
+        return 'ilios_corebundle_curriculuminventoryacademiclevel_form_type';
     }
 }

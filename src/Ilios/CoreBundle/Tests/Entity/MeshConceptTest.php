@@ -24,7 +24,6 @@ class MeshConceptTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setName
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getName
      */
     public function testSetName()
     {
@@ -33,7 +32,6 @@ class MeshConceptTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setUmlsUid
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getUmlsUid
      */
     public function testSetUmlsUid()
     {
@@ -42,7 +40,6 @@ class MeshConceptTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setPreferred
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getPreferred
      */
     public function testSetPreferred()
     {
@@ -51,7 +48,6 @@ class MeshConceptTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setScopeNote
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getScopeNote
      */
     public function testSetScopeNote()
     {
@@ -68,7 +64,6 @@ class MeshConceptTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setRegistryNumber
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getRegistryNumber
      */
     public function testSetRegistryNumber()
     {
@@ -77,7 +72,6 @@ class MeshConceptTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getCreatedAt
      */
     public function testSetCreatedAt()
     {
@@ -86,7 +80,6 @@ class MeshConceptTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getUpdatedAt
      */
     public function testSetUpdatedAt()
     {

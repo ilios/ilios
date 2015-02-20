@@ -42,6 +42,14 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeLearnerGroup
+     */
+    public function testRemoveLearnerGroup()
+    {
+        $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\InstructorGroup::getLearnerGroups
      */
     public function testGetLearnerGroups()
@@ -55,6 +63,14 @@ class InstructorGroupTest extends EntityBase
     public function testAddIlmSession()
     {
         $this->entityCollectionAddTest('ilmSession', 'IlmSessionFacet');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeIlmSession
+     */
+    public function testRemoveIlmSession()
+    {
+        $this->entityCollectionRemoveTest('ilmSession', 'IlmSessionFacet');
     }
 
     /**
@@ -74,6 +90,14 @@ class InstructorGroupTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeUser
+     */
+    public function testRemoveUser()
+    {
+        $this->entityCollectionRemoveTest('user', 'User');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\InstructorGroup::getUsers
      */
     public function testGetUsers()
@@ -87,6 +111,14 @@ class InstructorGroupTest extends EntityBase
     public function testAddOffering()
     {
         $this->entityCollectionAddTest('offering', 'Offering');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\InstructorGroup::removeOffering
+     */
+    public function testRemoveOffering()
+    {
+        $this->entityCollectionRemoveTest('offering', 'Offering');
     }
 
     /**

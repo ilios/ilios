@@ -16,10 +16,14 @@ class CurriculumInventorySequenceType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('report', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
-            ])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
+                ]
+            )
         ;
     }
 
@@ -38,6 +42,6 @@ class CurriculumInventorySequenceType extends AbstractType
      */
     public function getName()
     {
-        return 'curriculuminventorysequence';
+        return 'ilios_corebundle_curriculuminventorysequence_form_type';
     }
 }

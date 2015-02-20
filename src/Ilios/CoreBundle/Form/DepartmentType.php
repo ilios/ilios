@@ -17,10 +17,14 @@ class DepartmentType extends AbstractType
         $builder
             ->add('title')
             ->add('deleted')
-            ->add('school', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:School"
-            ])
+            ->add(
+                'school',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
         ;
     }
 
@@ -39,6 +43,6 @@ class DepartmentType extends AbstractType
      */
     public function getName()
     {
-        return 'department';
+        return 'ilios_corebundle_department_form_type';
     }
 }

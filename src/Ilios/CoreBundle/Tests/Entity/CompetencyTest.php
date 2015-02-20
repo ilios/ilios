@@ -33,7 +33,6 @@ class CompetencyTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Competency::setTitle
-     * @covers Ilios\CoreBundle\Entity\Competency::getTitle
      */
     public function testSetTitle()
     {
@@ -41,8 +40,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::setSchool
-     * @covers Ilios\CoreBundle\Entity\Competency::getSchool
+     * @covers Ilios\CoreBundle\Entity\Competency::setOwningSchool
      */
     public function testSetSchool()
     {
@@ -50,8 +48,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::setParent
-     * @covers Ilios\CoreBundle\Entity\Competency::getParent
+     * @covers Ilios\CoreBundle\Entity\Competency::setParentCompetency
      */
     public function testSetParent()
     {
@@ -59,7 +56,7 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::addAamcPcrs
+     * @covers Ilios\CoreBundle\Entity\Competency::addPcrs
      */
     public function testAddPcrs()
     {
@@ -67,7 +64,15 @@ class CompetencyTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Competency::getAamcPcrses
+     * @covers Ilios\CoreBundle\Entity\Competency::removePcrs
+     */
+    public function testRemovePcrs()
+    {
+        $this->entityCollectionRemoveTest('aamcPcrses', 'AamcPcrs', 'getAamcPcrses', 'addAamcPcrs', 'removePcrs');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::getPcrses
      */
     public function testGetPcrses()
     {
@@ -80,6 +85,14 @@ class CompetencyTest extends EntityBase
     public function testAddProgramYear()
     {
         $this->entityCollectionAddTest('programYear', 'ProgramYear');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Competency::removeProgramYear
+     */
+    public function testRemoveProgramYear()
+    {
+        $this->entityCollectionRemoveTest('programYear', 'ProgramYear');
     }
 
     /**

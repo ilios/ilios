@@ -17,10 +17,14 @@ class ReportPoValueType extends AbstractType
         $builder
             ->add('prepositionalObjectTableRowId')
             ->add('deleted')
-            ->add('report', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Report"
-            ])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\Report"
+                ]
+            )
         ;
     }
 
@@ -39,6 +43,6 @@ class ReportPoValueType extends AbstractType
      */
     public function getName()
     {
-        return 'reportpovalue';
+        return 'ilios_corebundle_reportpovalue_form_type';
     }
 }

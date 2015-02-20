@@ -32,7 +32,6 @@ class LearningMaterialUserRoleTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::setTitle
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::getTitle
      */
     public function testSetTitle()
     {
@@ -45,6 +44,14 @@ class LearningMaterialUserRoleTest extends EntityBase
     public function testAddLearningMaterial()
     {
         $this->entityCollectionAddTest('learningMaterial', 'LearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::removeLearningMaterial
+     */
+    public function testRemoveLearningMaterial()
+    {
+        $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
     }
 
     /**

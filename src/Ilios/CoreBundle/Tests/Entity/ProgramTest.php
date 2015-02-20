@@ -24,7 +24,6 @@ class ProgramTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::setTitle
-     * @covers Ilios\CoreBundle\Entity\Program::getTitle
      */
     public function testSetTitle()
     {
@@ -33,7 +32,6 @@ class ProgramTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::setShortTitle
-     * @covers Ilios\CoreBundle\Entity\Program::getShortTitle
      */
     public function testSetShortTitle()
     {
@@ -42,7 +40,6 @@ class ProgramTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::setDuration
-     * @covers Ilios\CoreBundle\Entity\Program::getDuration
      */
     public function testSetDuration()
     {
@@ -51,7 +48,6 @@ class ProgramTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::setDeleted
-     * @covers Ilios\CoreBundle\Entity\Program::isDeleted
      */
     public function testSetDeleted()
     {
@@ -59,8 +55,15 @@ class ProgramTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Program::isDeleted
+     */
+    public function testIsDeleted()
+    {
+        $this->booleanSetTest('deleted', 'boolean');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Program::setPublishedAsTbd
-     * @covers Ilios\CoreBundle\Entity\Program::isPublishedAsTbd
      */
     public function testSetPublishedAsTbd()
     {
@@ -69,7 +72,6 @@ class ProgramTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::setOwningSchool
-     * @covers Ilios\CoreBundle\Entity\Program::getOwningSchool
      */
     public function testSetOwningSchool()
     {
@@ -78,7 +80,6 @@ class ProgramTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Program::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\Program::getPublishEvent
      */
     public function testSetPublishEvent()
     {

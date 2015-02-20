@@ -24,7 +24,6 @@ class DepartmentTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Department::setTitle
-     * @covers Ilios\CoreBundle\Entity\Department::getTitle
      */
     public function testSetTitle()
     {
@@ -33,7 +32,6 @@ class DepartmentTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Department::setSchool
-     * @covers Ilios\CoreBundle\Entity\Department::getSchool
      */
     public function testSetSchool()
     {

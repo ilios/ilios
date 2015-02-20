@@ -16,10 +16,14 @@ class UserRoleType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('users', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:User"
-            ])
+            ->add(
+                'users',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 
@@ -38,6 +42,6 @@ class UserRoleType extends AbstractType
      */
     public function getName()
     {
-        return 'userrole';
+        return 'ilios_corebundle_userrole_form_type';
     }
 }

@@ -35,7 +35,6 @@ class OfferingTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::setRoom
-     * @covers Ilios\CoreBundle\Entity\Offering::getRoom
      */
     public function testSetRoom()
     {
@@ -44,7 +43,6 @@ class OfferingTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::setStartDate
-     * @covers Ilios\CoreBundle\Entity\Offering::getStartDate
      */
     public function testSetStartDate()
     {
@@ -53,7 +51,6 @@ class OfferingTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::setEndDate
-     * @covers Ilios\CoreBundle\Entity\Offering::getEndDate
      */
     public function testSetEndDate()
     {
@@ -62,7 +59,6 @@ class OfferingTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::setDeleted
-     * @covers Ilios\CoreBundle\Entity\Offering::isDeleted
      */
     public function testSetDeleted()
     {
@@ -71,7 +67,6 @@ class OfferingTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::setLastUpdatedOn
-     * @covers Ilios\CoreBundle\Entity\Offering::getLastUpdatedOn
      */
     public function testSetLastUpdatedOn()
     {
@@ -80,7 +75,6 @@ class OfferingTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::setSession
-     * @covers Ilios\CoreBundle\Entity\Offering::getSession
      */
     public function testSetSession()
     {
@@ -96,8 +90,15 @@ class OfferingTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\Offering::removeLearnerGroup
+     */
+    public function testRemoveLearnerGroup()
+    {
+        $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\Offering::setPublishEvent
-     * @covers Ilios\CoreBundle\Entity\Offering::getPublishEvent
      */
     public function testSetPublishEvent()
     {

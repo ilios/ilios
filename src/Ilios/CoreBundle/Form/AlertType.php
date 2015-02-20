@@ -19,18 +19,30 @@ class AlertType extends AbstractType
             ->add('tableName')
             ->add('additionalText')
             ->add('dispatched')
-            ->add('changeTypes', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:AlertChangeType"
-            ])
-            ->add('instigators', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:User"
-            ])
-            ->add('recipients', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:School"
-            ])
+            ->add(
+                'changeTypes',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\AlertChangeType"
+                ]
+            )
+            ->add(
+                'instigators',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
+            ->add(
+                'recipients',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
         ;
     }
 
@@ -49,6 +61,6 @@ class AlertType extends AbstractType
      */
     public function getName()
     {
-        return 'alert';
+        return 'ilios_corebundle_alert_form_type';
     }
 }

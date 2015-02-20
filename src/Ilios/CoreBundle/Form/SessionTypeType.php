@@ -18,18 +18,30 @@ class SessionTypeType extends AbstractType
             ->add('title')
             ->add('sessionTypeCssClass')
             ->add('assessment')
-            ->add('assessmentOption', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:AssessmentOption"
-            ])
-            ->add('owningSchool', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:School"
-            ])
-            ->add('aamcMethods', 'many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:AamcMethod"
-            ])
+            ->add(
+                'assessmentOption',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\AssessmentOption"
+                ]
+            )
+            ->add(
+                'owningSchool',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
+            ->add(
+                'aamcMethods',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\AamcMethod"
+                ]
+            )
         ;
     }
 
@@ -48,6 +60,6 @@ class SessionTypeType extends AbstractType
      */
     public function getName()
     {
-        return 'sessiontype';
+        return 'ilios_corebundle_sessiontype_form_type';
     }
 }

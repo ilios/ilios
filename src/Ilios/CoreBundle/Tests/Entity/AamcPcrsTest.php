@@ -32,8 +32,6 @@ class AamcPcrsTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AamcPcrs::setDescription
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::getDescription
-     * @covers Ilios\CoreBundle\Entity\AamcPcrs::getDescription
      */
     public function testSetDescription()
     {
@@ -46,6 +44,20 @@ class AamcPcrsTest extends EntityBase
     public function testAddCompetency()
     {
         $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'AddCompetency');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\AamcPcrs::removeCompetency
+     */
+    public function testRemoveCompetency()
+    {
+        $this->entityCollectionRemoveTest(
+            'competencies',
+            'Competency',
+            'getCompetencies',
+            'AddCompetency',
+            'removeCompetency'
+        );
     }
 
     /**

@@ -35,7 +35,6 @@ class IlmSessionFacetTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::setHours
-     * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::getHours
      */
     public function testSetHours()
     {
@@ -44,7 +43,6 @@ class IlmSessionFacetTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::setDueDate
-     * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::getDueDate
      */
     public function testSetDueDate()
     {
@@ -57,6 +55,14 @@ class IlmSessionFacetTest extends EntityBase
     public function testAddLearnerGroup()
     {
         $this->entityCollectionAddTest('learnerGroup', 'LearnerGroup');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::removeLearnerGroup
+     */
+    public function testRemoveLearnerGroup()
+    {
+        $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
     }
 
     /**
@@ -76,6 +82,14 @@ class IlmSessionFacetTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::removeInstructorGroup
+     */
+    public function testRemoveInstructorGroup()
+    {
+        $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::getInstructorGroups
      */
     public function testGetInstructorGroups()
@@ -92,6 +106,14 @@ class IlmSessionFacetTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::removeInstructor
+     */
+    public function testRemoveInstructor()
+    {
+        $this->entityCollectionRemoveTest('instructor', 'User');
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::getInstructors
      */
     public function testGetInstructors()
@@ -105,6 +127,14 @@ class IlmSessionFacetTest extends EntityBase
     public function testAddLearner()
     {
         $this->entityCollectionAddTest('learner', 'User');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::removeLearner
+     */
+    public function testRemoveLearner()
+    {
+        $this->entityCollectionRemoveTest('learner', 'User');
     }
 
     /**

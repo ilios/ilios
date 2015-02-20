@@ -17,14 +17,22 @@ class CurriculumInventoryExportType extends AbstractType
         $builder
             ->add('document')
             ->add('createdAt')
-            ->add('report', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
-            ])
-            ->add('createdBy', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:User"
-            ])
+            ->add(
+                'report',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\CurriculumInventoryReport"
+                ]
+            )
+            ->add(
+                'createdBy',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\User"
+                ]
+            )
         ;
     }
 
@@ -43,6 +51,6 @@ class CurriculumInventoryExportType extends AbstractType
      */
     public function getName()
     {
-        return 'curriculuminventoryexport';
+        return 'ilios_corebundle_curriculuminventoryexport_form_type';
     }
 }

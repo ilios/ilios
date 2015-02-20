@@ -20,14 +20,22 @@ class ProgramType extends AbstractType
             ->add('duration')
             ->add('deleted')
             ->add('publishedAsTbd')
-            ->add('publishEvent', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:PublishEvent"
-            ])
-            ->add('owningSchool', 'single_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:School"
-            ])
+            ->add(
+                'publishEvent',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\PublishEvent"
+                ]
+            )
+            ->add(
+                'owningSchool',
+                'tdn_entity',
+                [
+                    'required' => false,
+                    'class' => "Ilios\\CoreBundle\\Entity\\School"
+                ]
+            )
         ;
     }
 
@@ -46,6 +54,6 @@ class ProgramType extends AbstractType
      */
     public function getName()
     {
-        return 'program';
+        return 'ilios_corebundle_program_form_type';
     }
 }

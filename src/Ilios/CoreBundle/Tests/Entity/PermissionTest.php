@@ -23,7 +23,6 @@ class PermissionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Permission::setCanRead
      * @covers Ilios\CoreBundle\Entity\Permission::hasCanRead
      */
     public function testSetCanRead()
@@ -32,7 +31,6 @@ class PermissionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Permission::setCanWrite
      * @covers Ilios\CoreBundle\Entity\Permission::hasCanWrite
      */
     public function testSetCanWrite()
@@ -42,7 +40,6 @@ class PermissionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Permission::setTableName
-     * @covers Ilios\CoreBundle\Entity\Permission::getTableName
      */
     public function testSetTableName()
     {

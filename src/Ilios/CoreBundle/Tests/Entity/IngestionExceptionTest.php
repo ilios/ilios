@@ -24,7 +24,6 @@ class IngestionExceptionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\IngestionException::setUser
-     * @covers Ilios\CoreBundle\Entity\IngestionException::getUser
      */
     public function testSetUser()
     {
