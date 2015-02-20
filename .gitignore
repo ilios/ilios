@@ -4,9 +4,7 @@
 .buildpath
 .project
 .settings
-.DS_Store
 .vagrant
-.idea
 /web/bundles/
 /app/config/parameters.yml
 /var/bootstrap.php.cache

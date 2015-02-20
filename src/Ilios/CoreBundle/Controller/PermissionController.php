@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\PermissionInterface;
  */
 class PermissionController extends FOSRestController
 {
-    
+
     /**
      * Get a Permission
      *
@@ -291,7 +291,7 @@ class PermissionController extends FOSRestController
     /**
      * @return PermissionHandler
      */
-    public function getPermissionHandler()
+    protected function getPermissionHandler()
     {
         return $this->container->get('ilioscore.permission.handler');
     }

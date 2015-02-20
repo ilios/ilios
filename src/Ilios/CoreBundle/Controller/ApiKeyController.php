@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\ApiKeyInterface;
  */
 class ApiKeyController extends FOSRestController
 {
-    
+
     /**
      * Get a ApiKey
      *
@@ -291,7 +291,7 @@ class ApiKeyController extends FOSRestController
     /**
      * @return ApiKeyHandler
      */
-    public function getApiKeyHandler()
+    protected function getApiKeyHandler()
     {
         return $this->container->get('ilioscore.apikey.handler');
     }

@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\MeshTermInterface;
  */
 class MeshTermController extends FOSRestController
 {
-    
+
     /**
      * Get a MeshTerm
      *
@@ -291,7 +291,7 @@ class MeshTermController extends FOSRestController
     /**
      * @return MeshTermHandler
      */
-    public function getMeshTermHandler()
+    protected function getMeshTermHandler()
     {
         return $this->container->get('ilioscore.meshterm.handler');
     }
