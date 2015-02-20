@@ -24,6 +24,7 @@ class PublishEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\PublishEvent::setAdministrator
+     * @covers Ilios\CoreBundle\Entity\PublishEvent::getAdministrator
      */
     public function testSetAdministrator()
     {

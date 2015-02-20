@@ -24,6 +24,7 @@ class CourseClerkshipTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::setTitle
+     * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::getTitle
      */
     public function testSetTitle()
     {

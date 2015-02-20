@@ -24,6 +24,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setRequired
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::isRequired
      */
     public function testSetRequired()
     {
@@ -32,6 +33,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setChildSequenceOrder
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::hasChildSequenceOrder
      */
     public function testSetChildSequenceOrder()
     {
@@ -40,6 +42,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setOrderInSequence
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getOrderInSequence
      */
     public function testSetOrderInSequence()
     {
@@ -48,6 +51,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setMinimum
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getMinimum
      */
     public function testSetMinimum()
     {
@@ -56,6 +60,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setMaximum
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getMaximum
      */
     public function testSetMaximum()
     {
@@ -64,6 +69,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setTrack
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::hasTrack
      */
     public function testSetTrack()
     {
@@ -72,6 +78,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setDescription
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getDescription
      */
     public function testSetDescription()
     {
@@ -80,6 +87,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setTitle
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getTitle
      */
     public function testSetTitle()
     {
@@ -88,6 +96,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setStartDate
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getStartDate
      */
     public function testSetStartDate()
     {
@@ -96,6 +105,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setEndDate
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getEndDate
      */
     public function testSetEndDate()
     {
@@ -104,6 +114,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setDuration
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getDuration
      */
     public function testSetDuration()
     {
@@ -112,6 +123,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setAcademicLevel
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getAcademicLevel
      */
     public function testSetAcademicLevel()
     {
@@ -120,6 +132,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setCourse
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getCourse
      */
     public function testSetCourse()
     {
@@ -127,7 +140,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setParentSequenceBlock
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setParent
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getParent
      */
     public function testSetParent()
     {
@@ -136,6 +150,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setReport
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::getReport
      */
     public function testSetReport()
     {

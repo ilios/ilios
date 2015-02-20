@@ -32,6 +32,7 @@ class LearningMaterialStatusTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::setTitle
+     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::getTitle
      */
     public function testSetTitle()
     {
@@ -47,19 +48,11 @@ class LearningMaterialStatusTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::removeLearningMaterial
-     */
-    public function testRemoveLearningMaterial()
-    {
-        $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterialStatus::getLearningMaterials
      */
     public function testGetLearningMaterials()
     {
-        
+
         $this->entityCollectionSetTest('learningMaterial', 'LearningMaterial');
     }
 }

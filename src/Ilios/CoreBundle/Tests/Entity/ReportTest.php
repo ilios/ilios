@@ -24,6 +24,7 @@ class ReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Report::setCreatedAt
+     * @covers Ilios\CoreBundle\Entity\Report::getCreatedAt
      */
     public function testSetCreatedAt()
     {
@@ -32,6 +33,7 @@ class ReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Report::setSubject
+     * @covers Ilios\CoreBundle\Entity\Report::getSubject
      */
     public function testSetSubject()
     {
@@ -40,6 +42,7 @@ class ReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Report::setPrepositionalObject
+     * @covers Ilios\CoreBundle\Entity\Report::getPrepositionalObject
      */
     public function testSetPrepositionalObject()
     {
@@ -48,6 +51,7 @@ class ReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Report::setDeleted
+     * @covers Ilios\CoreBundle\Entity\Report::isDeleted
      */
     public function testSetDeleted()
     {
@@ -56,6 +60,7 @@ class ReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Report::setTitle
+     * @covers Ilios\CoreBundle\Entity\Report::getTitle
      */
     public function testSetTitle()
     {
@@ -64,6 +69,7 @@ class ReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Report::setUser
+     * @covers Ilios\CoreBundle\Entity\Report::getUser
      */
     public function testSetUser()
     {

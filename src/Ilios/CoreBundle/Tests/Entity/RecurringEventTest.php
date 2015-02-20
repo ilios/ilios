@@ -32,6 +32,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setOnSunday
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::isOnSunday
      */
     public function testSetOnSunday()
     {
@@ -40,6 +41,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setOnMonday
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::isOnMonday
      */
     public function testSetOnMonday()
     {
@@ -48,6 +50,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setOnTuesday
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::isOnTuesday
      */
     public function testSetOnTuesday()
     {
@@ -56,6 +59,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setOnWednesday
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::isOnWednesday
      */
     public function testSetOnWednesday()
     {
@@ -64,6 +68,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setOnThursday
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::isOnThursday
      */
     public function testSetOnThursday()
     {
@@ -72,6 +77,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setOnFriday
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::isOnFriday
      */
     public function testSetOnFriday()
     {
@@ -80,6 +86,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setOnSaturday
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::isOnSaturday
      */
     public function testSetOnSaturday()
     {
@@ -88,6 +95,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setEndDate
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::getEndDate
      */
     public function testSetEndDate()
     {
@@ -96,6 +104,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setRepetitionCount
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::getRepetitionCount
      */
     public function testSetRepetitionCount()
     {
@@ -104,6 +113,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setNextRecurringEvent
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::getNextRecurringEvent
      */
     public function testSetNextRecurringEvent()
     {
@@ -112,6 +122,7 @@ class RecurringEventTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::setPreviousRecurringEvent
+     * @covers Ilios\CoreBundle\Entity\RecurringEvent::getPreviousRecurringEvent
      */
     public function testSetPreviousRecurringEvent()
     {
@@ -124,14 +135,6 @@ class RecurringEventTest extends EntityBase
     public function testAddOffering()
     {
         $this->entityCollectionAddTest('offering', 'Offering');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\RecurringEvent::removeOffering
-     */
-    public function testRemoveOffering()
-    {
-        $this->entityCollectionRemoveTest('offering', 'Offering');
     }
 
     /**

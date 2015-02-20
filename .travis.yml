@@ -16,7 +16,10 @@ before_script:
 
 script:
   - bin/phpcs --standard=app/phpcs.xml src
-  - bin/phpunit
+  - bin/phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php bin/coveralls #send test coverage informatio to coveralls
 
 #encrypted the IRC room chat.freenode.net##ilios so that it doesn't run on pull requests
 notifications:

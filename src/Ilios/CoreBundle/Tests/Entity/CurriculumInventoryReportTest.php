@@ -24,6 +24,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setYear
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getYear
      */
     public function testSetYear()
     {
@@ -32,6 +33,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setName
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getName
      */
     public function testSetName()
     {
@@ -40,6 +42,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setDescription
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getDescription
      */
     public function testSetDescription()
     {
@@ -48,6 +51,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setStartDate
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getStartDate
      */
     public function testSetStartDate()
     {
@@ -56,6 +60,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setEndDate
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getEndDate
      */
     public function testSetEndDate()
     {
@@ -64,6 +69,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setExport
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getExport
      */
     public function testSetExport()
     {
@@ -72,6 +78,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setSequence
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getSequence
      */
     public function testSetSequence()
     {
@@ -80,6 +87,7 @@ class CurriculumInventoryReportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setProgram
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getProgram
      */
     public function testSetProgram()
     {

@@ -32,6 +32,7 @@ class AlertChangeTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AlertChangeType::setTitle
+     * @covers Ilios\CoreBundle\Entity\AlertChangeType::getTitle
      */
     public function testSetTitle()
     {
@@ -44,14 +45,6 @@ class AlertChangeTypeTest extends EntityBase
     public function testAddAlert()
     {
         $this->entityCollectionAddTest('alert', 'Alert');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\AlertChangeType::removeAlert
-     */
-    public function testRemoveAlert()
-    {
-        $this->entityCollectionRemoveTest('alert', 'Alert');
     }
 
     /**

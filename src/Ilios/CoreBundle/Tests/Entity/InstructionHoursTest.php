@@ -24,6 +24,7 @@ class InstructionHoursTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\InstructionHours::setUser
+     * @covers Ilios\CoreBundle\Entity\InstructionHours::getUser
      */
     public function testSetUser()
     {

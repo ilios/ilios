@@ -24,6 +24,7 @@ class MeshSemanticTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setName
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getName
      */
     public function testSetName()
     {
@@ -32,6 +33,7 @@ class MeshSemanticTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setCreatedAt
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getCreatedAt
      */
     public function testSetCreatedAt()
     {
@@ -40,6 +42,7 @@ class MeshSemanticTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setUpdatedAt
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getUpdatedAt
      */
     public function testSetUpdatedAt()
     {

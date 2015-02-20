@@ -24,6 +24,7 @@ class MeshPreviousIndexingTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::setPreviousIndexing
+     * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::getPreviousIndexing
      */
     public function testSetPreviousIndexing()
     {

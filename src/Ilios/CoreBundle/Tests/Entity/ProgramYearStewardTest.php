@@ -24,6 +24,7 @@ class ProgramYearStewardTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::setDepartment
+     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getDepartment
      */
     public function testSetDepartment()
     {
@@ -32,6 +33,7 @@ class ProgramYearStewardTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::setProgramYear
+     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getProgramYear
      */
     public function testSetProgramYear()
     {
@@ -48,6 +50,7 @@ class ProgramYearStewardTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::setSchool
+     * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getSchool
      */
     public function testSetSchool()
     {

@@ -24,6 +24,7 @@ class MeshUserSelectionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshUserSelection::setMeshDescriptor
+     * @covers Ilios\CoreBundle\Entity\MeshUserSelection::getMeshDescriptor
      */
     public function testSetMeshDescriptor()
     {
@@ -32,6 +33,7 @@ class MeshUserSelectionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshUserSelection::setSearchPhrase
+     * @covers Ilios\CoreBundle\Entity\MeshUserSelection::getSearchPhrase
      */
     public function testSetSearchPhrase()
     {

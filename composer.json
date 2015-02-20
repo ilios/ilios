@@ -38,7 +38,8 @@
         "liip/functional-test-bundle": "~1.0@dev",
         "doctrine/doctrine-fixtures-bundle": "~2.2@dev",
         "tdn/sfprojectgeneratorbundle": "dev-develop",
-        "tdn/php-types": "dev-master"
+        "tdn/php-types": "dev-master",
+        "satooshi/php-coveralls": "0.6.*"
     },
     "scripts": {
         "post-root-package-install": [
