@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 namespace Ilios\CoreBundle\Entity;
 
 /**

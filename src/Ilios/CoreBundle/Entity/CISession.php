@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 
@@ -35,6 +36,8 @@ class CISession extends ContainerAware implements CISessionInterface
     *
     * @ORM\Column(name="session_id", type="string", length=40)
     * @ORM\Id
+    *
+    * @Assert\Type(type="integer")
     *
     * @JMS\Expose
     * @JMS\Type("integer")
