@@ -45,8 +45,10 @@ class UserRole implements UserRoleInterface
 
     /**
     * @ORM\Column(type="string", length=60)
-    * @todo should be on the TitledEntity Trait
     * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $title;
 

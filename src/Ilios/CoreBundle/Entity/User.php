@@ -44,6 +44,9 @@ class User implements UserInterface
      *
      * @ORM\Column(name="last_name", type="string", length=30)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("lastName")
@@ -54,6 +57,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=20)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -66,6 +72,8 @@ class User implements UserInterface
      *
      * @ORM\Column(name="middle_name", type="string", length=20, nullable=true)
      *
+     * @Assert\Type(type="string")
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("middleName")
@@ -76,6 +84,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=30, nullable=true)
+     *
+     * @Assert\Type(type="string")
      */
     protected $phone;
 
@@ -83,6 +93,11 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=100)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     checkMX = false
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -93,6 +108,10 @@ class User implements UserInterface
      * @var boolean
      *
      * @ORM\Column(name="added_via_ilios", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
+     *
      * @JMS\SerializedName("addedViaIlios")
      */
     protected $addedViaIlios;
@@ -101,6 +120,9 @@ class User implements UserInterface
      * @var boolean
      *
      * @ORM\Column(name="enabled", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     protected $enabled;
 
@@ -108,6 +130,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="uc_uid", type="string", length=16, nullable=true)
+     *
+     * @Assert\Type(type="string")
      */
     protected $ucUid;
 
@@ -115,6 +139,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="other_id", type="string", length=16, nullable=true)
+     *
+     * @Assert\Type(type="string")
      */
     protected $otherId;
 
@@ -122,6 +148,9 @@ class User implements UserInterface
      * @var boolean
      *
      * @ORM\Column(name="examined", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     protected $examined;
 
@@ -129,6 +158,9 @@ class User implements UserInterface
      * @var boolean
      *
      * @ORM\Column(name="user_sync_ignore", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     protected $userSyncIgnore;
 
@@ -687,6 +719,64 @@ class User implements UserInterface
     public function getInstructorGroups()
     {
         return $this->instructorGroups;
+    }
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setInstructorIlmSessions(Collection $sessions)
+    {
+        $this->instructorIlmSessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addOffering($offering);
+        }
+    }
+
+    /**
+     * @param IlmSessionFacetInterface $session
+     */
+    public function addInstructorIlmSessions(IlmSessionFacetInterface $session)
+    {
+        $this->instructorIlmSessions->add($session);
+    }
+
+    /**
+     * @return ArrayCollection|IlmSessionFacetInterface[]
+     */
+    public function getInstructorIlmSessions()
+    {
+        return $this->instructorIlmSessions;
+    }
+
+
+
+    /**
+     * @param Collection $sessions
+     */
+    public function setLearnerIlmSessions(Collection $sessions)
+    {
+        $this->learnerIlmSessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addOffering($offering);
+        }
+    }
+
+    /**
+     * @param IlmSessionFacetInterface $session
+     */
+    public function addLearnerIlmSessions(IlmSessionFacetInterface $session)
+    {
+        $this->learnerIlmSessions->add($session);
+    }
+
+    /**
+     * @return ArrayCollection|IlmSessionFacetInterface[]
+     */
+    public function getLearnerIlmSessions()
+    {
+        return $this->learnerIlmSessions;
     }
 
     /**

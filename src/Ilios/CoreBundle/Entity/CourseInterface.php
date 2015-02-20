@@ -7,12 +7,16 @@ use Doctrine\Common\Collections\Collection;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
+use Ilios\CoreBundle\Traits\StringableEntityInterface;
 
 /**
  * Interface CourseInterface
  * @package Ilios\CoreBundle\Entity
  */
-interface CourseInterface extends IdentifiableEntityInterface, TitledEntityInterface
+interface CourseInterface extends
+    IdentifiableEntityInterface,
+    TitledEntityInterface,
+    StringableEntityInterface
 {
     /**
      * @param int $level
