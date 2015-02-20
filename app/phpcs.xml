@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <ruleset name="Ilios App">
- <description>Use PSR2, exclde some directories</description>
+ <description>Use PSR2, exclude some directories</description>
  <rule ref="PSR2"/>
 </ruleset>
