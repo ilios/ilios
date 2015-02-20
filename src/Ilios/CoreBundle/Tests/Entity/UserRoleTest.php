@@ -32,6 +32,7 @@ class UserRoleTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\UserRole::setTitle
+     * @covers Ilios\CoreBundle\Entity\UserRole::getTitle
      */
     public function testSetTitle()
     {
@@ -44,14 +45,6 @@ class UserRoleTest extends EntityBase
     public function testAddUser()
     {
         $this->entityCollectionAddTest('user', 'User');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\UserRole::removeUser
-     */
-    public function testRemoveUser()
-    {
-        $this->entityCollectionRemoveTest('user', 'User');
     }
 
     /**

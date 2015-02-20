@@ -24,6 +24,7 @@ class UserMadeReminderTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setNote
+     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getNote
      */
     public function testSetNote()
     {
@@ -32,6 +33,7 @@ class UserMadeReminderTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setCreatedAt
+     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getCreatedAt
      */
     public function testSetCreatedAt()
     {
@@ -40,6 +42,7 @@ class UserMadeReminderTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setDueDate
+     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getDueDate
      */
     public function testSetDueDate()
     {
@@ -48,6 +51,7 @@ class UserMadeReminderTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setClosed
+     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::isClosed
      */
     public function testSetClosed()
     {
@@ -56,6 +60,7 @@ class UserMadeReminderTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\UserMadeReminder::setUser
+     * @covers Ilios\CoreBundle\Entity\UserMadeReminder::getUser
      */
     public function testSetUser()
     {

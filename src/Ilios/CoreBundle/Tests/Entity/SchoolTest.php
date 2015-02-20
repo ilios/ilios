@@ -32,6 +32,7 @@ class SchoolTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\School::setTemplatePrefix
+     * @covers Ilios\CoreBundle\Entity\School::getTemplatePrefix
      */
     public function testSetTemplatePrefix()
     {
@@ -40,6 +41,7 @@ class SchoolTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\School::setTitle
+     * @covers Ilios\CoreBundle\Entity\School::getTitle
      */
     public function testSetTitle()
     {
@@ -48,6 +50,7 @@ class SchoolTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\School::setIliosAdministratorEmail
+     * @covers Ilios\CoreBundle\Entity\School::getIliosAdministratorEmail
      */
     public function testSetIliosAdministratorEmail()
     {
@@ -56,6 +59,7 @@ class SchoolTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\School::setDeleted
+     * @covers Ilios\CoreBundle\Entity\School::isDeleted
      */
     public function testSetDeleted()
     {
@@ -64,6 +68,7 @@ class SchoolTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\School::setChangeAlertRecipients
+     * @covers Ilios\CoreBundle\Entity\School::getChangeAlertRecipients
      */
     public function testSetChangeAlertRecipients()
     {
@@ -76,14 +81,6 @@ class SchoolTest extends EntityBase
     public function testAddAlert()
     {
         $this->entityCollectionAddTest('alert', 'Alert');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\School::removeAlert
-     */
-    public function testRemoveAlert()
-    {
-        $this->entityCollectionRemoveTest('alert', 'Alert');
     }
 
     /**

@@ -24,6 +24,7 @@ class ReportPoValueTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ReportPoValue::setDeleted
+     * @covers Ilios\CoreBundle\Entity\ReportPoValue::isDeleted
      */
     public function testSetDeleted()
     {
@@ -32,6 +33,7 @@ class ReportPoValueTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ReportPoValue::setReport
+     * @covers Ilios\CoreBundle\Entity\ReportPoValue::getReport
      */
     public function testSetReport()
     {

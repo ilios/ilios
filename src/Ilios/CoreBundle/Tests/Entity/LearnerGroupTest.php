@@ -36,6 +36,7 @@ class LearnerGroupTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearnerGroup::setTitle
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getTitle
      */
     public function testSetTitle()
     {
@@ -44,6 +45,7 @@ class LearnerGroupTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearnerGroup::setInstructors
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getInstructors
      */
     public function testSetInstructors()
     {
@@ -52,6 +54,7 @@ class LearnerGroupTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearnerGroup::setLocation
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getLocation
      */
     public function testSetLocation()
     {
@@ -60,6 +63,7 @@ class LearnerGroupTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearnerGroup::setCohort
+     * @covers Ilios\CoreBundle\Entity\LearnerGroup::getCohort
      */
     public function testSetCohort()
     {
@@ -72,13 +76,5 @@ class LearnerGroupTest extends EntityBase
     public function testAddUser()
     {
         $this->entityCollectionAddTest('user', 'User');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\LearnerGroup::removeUser
-     */
-    public function testRemoveUser()
-    {
-        $this->entityCollectionRemoveTest('user', 'User');
     }
 }

@@ -59,6 +59,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setTitle
+     * @covers Ilios\CoreBundle\Entity\Course::getTitle
      */
     public function testSetTitle()
     {
@@ -66,7 +67,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::setCourseLevel
+     * @covers Ilios\CoreBundle\Entity\Course::setLevel
+     * @covers Ilios\CoreBundle\Entity\Course::getLevel
      */
     public function testSetCourseLevel()
     {
@@ -75,6 +77,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setYear
+     * @covers Ilios\CoreBundle\Entity\Course::getYear
      */
     public function testSetYear()
     {
@@ -83,6 +86,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setStartDate
+     * @covers Ilios\CoreBundle\Entity\Course::getStartDate
      */
     public function testSetStartDate()
     {
@@ -91,6 +95,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setEndDate
+     * @covers Ilios\CoreBundle\Entity\Course::getEndDate
      */
     public function testSetEndDate()
     {
@@ -99,6 +104,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setDeleted
+     * @covers Ilios\CoreBundle\Entity\Course::isDeleted
      */
     public function testSetDeleted()
     {
@@ -107,6 +113,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setId
+     * @covers Ilios\CoreBundle\Entity\Course::getId
      */
     public function testSetExternalId()
     {
@@ -115,6 +122,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setLocked
+     * @covers Ilios\CoreBundle\Entity\Course::isLocked
      */
     public function testSetLocked()
     {
@@ -123,6 +131,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setArchived
+     * @covers Ilios\CoreBundle\Entity\Course::isArchived
      */
     public function testSetArchived()
     {
@@ -131,6 +140,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setOwningSchool
+     * @covers Ilios\CoreBundle\Entity\Course::getOwningSchool
      */
     public function testSetOwningSchool()
     {
@@ -139,6 +149,7 @@ class CourseTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Course::setClerkshipType
+     * @covers Ilios\CoreBundle\Entity\Course::getClerkshipType
      */
     public function testSetClerkshipType()
     {
@@ -154,15 +165,8 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Course::removeDirector
-     */
-    public function testRemoveDirector()
-    {
-        $this->entityCollectionRemoveTest('director', 'User');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Course::setPublishEvent
+     * @covers Ilios\CoreBundle\Entity\Course::getPublishEvent
      */
     public function testSetPublishEvent()
     {

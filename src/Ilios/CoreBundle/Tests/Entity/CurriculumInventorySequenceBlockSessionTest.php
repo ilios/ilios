@@ -24,6 +24,7 @@ class CurriculumInventorySequenceBlockSessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::setCountOfferingsOnce
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::hasCountOfferingsOnce
      */
     public function testSetCountOfferingsOnce()
     {
@@ -32,6 +33,7 @@ class CurriculumInventorySequenceBlockSessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::setSequenceBlock
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::getSequenceBlock
      */
     public function testSetSequenceBlock()
     {
@@ -40,6 +42,7 @@ class CurriculumInventorySequenceBlockSessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::setSession
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::getSession
      */
     public function testSetSession()
     {

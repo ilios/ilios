@@ -24,6 +24,7 @@ class CurriculumInventorySequenceTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequence::setDescription
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequence::getDescription
      */
     public function testSetDescription()
     {
@@ -32,6 +33,7 @@ class CurriculumInventorySequenceTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequence::setReport
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequence::getReport
      */
     public function testSetReport()
     {

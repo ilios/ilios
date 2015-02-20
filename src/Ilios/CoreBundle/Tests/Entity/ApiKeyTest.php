@@ -24,6 +24,7 @@ class ApiKeyTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ApiKey::setKey
+     * @covers Ilios\CoreBundle\Entity\ApiKey::getKey
      */
     public function testSetKey()
     {
@@ -32,6 +33,7 @@ class ApiKeyTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\ApiKey::setUser
+     * @covers Ilios\CoreBundle\Entity\ApiKey::getUser
      */
     public function testSetUser()
     {

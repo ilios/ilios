@@ -24,6 +24,7 @@ class AuditAtomTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AuditAtom::setTableColumn
+     * @covers Ilios\CoreBundle\Entity\AuditAtom::getTableColumn
      */
     public function testSetTableColumn()
     {
@@ -32,6 +33,7 @@ class AuditAtomTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AuditAtom::setTableName
+     * @covers Ilios\CoreBundle\Entity\AuditAtom::getTableName
      */
     public function testSetTableName()
     {
@@ -40,6 +42,7 @@ class AuditAtomTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AuditAtom::setEventType
+     * @covers Ilios\CoreBundle\Entity\AuditAtom::getEventType
      */
     public function testSetEventType()
     {
@@ -48,6 +51,7 @@ class AuditAtomTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AuditAtom::setCreatedAt
+     * @covers Ilios\CoreBundle\Entity\AuditAtom::getCreatedAt
      */
     public function testSetCreatedAt()
     {
@@ -56,6 +60,7 @@ class AuditAtomTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AuditAtom::setCreatedBy
+     * @covers Ilios\CoreBundle\Entity\AuditAtom::getCreatedBy
      */
     public function testSetCreatedBy()
     {

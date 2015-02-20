@@ -34,6 +34,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setTitle
+     * @covers Ilios\CoreBundle\Entity\Session::getTitle
      */
     public function testSetTitle()
     {
@@ -42,6 +43,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setAttireRequired
+     * @covers Ilios\CoreBundle\Entity\Session::isAttireRequired
      */
     public function testSetAttireRequired()
     {
@@ -50,6 +52,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setEquipmentRequired
+     * @covers Ilios\CoreBundle\Entity\Session::isEquipmentRequired
      */
     public function testSetEquipmentRequired()
     {
@@ -58,6 +61,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setSupplemental
+     * @covers Ilios\CoreBundle\Entity\Session::isSupplemental
      */
     public function testSetSupplemental()
     {
@@ -66,6 +70,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setDeleted
+     * @covers Ilios\CoreBundle\Entity\Session::isDeleted
      */
     public function testSetDeleted()
     {
@@ -74,6 +79,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setPublishedAsTbd
+     * @covers Ilios\CoreBundle\Entity\Session::isPublishedAsTbd
      */
     public function testSetPublishedAsTbd()
     {
@@ -82,6 +88,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setUpdatedAt
+     * @covers Ilios\CoreBundle\Entity\Session::getUpdatedAt
      */
     public function testSetUpdatedAt()
     {
@@ -90,6 +97,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setSessionType
+     * @covers Ilios\CoreBundle\Entity\Session::getSessionType
      */
     public function testSetSessionType()
     {
@@ -98,6 +106,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setCourse
+     * @covers Ilios\CoreBundle\Entity\Session::getCourse
      */
     public function testSetCourse()
     {
@@ -106,6 +115,7 @@ class SessionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Session::setIlmSessionFacet
+     * @covers Ilios\CoreBundle\Entity\Session::getIlmSessionFacet
      */
     public function testSetIlmSessionFacet()
     {
@@ -121,15 +131,8 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::removeDiscipline
-     */
-    public function testRemoveDiscipline()
-    {
-        $this->entityCollectionRemoveTest('discipline', 'Discipline');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Session::setPublishEvent
+     * @covers Ilios\CoreBundle\Entity\Session::getPublishEvent
      */
     public function testSetPublishEvent()
     {

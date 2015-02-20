@@ -24,6 +24,7 @@ class CurriculumInventoryExportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setDocument
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getDocument
      */
     public function testSetDocument()
     {
@@ -32,6 +33,7 @@ class CurriculumInventoryExportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setCreatedAt
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getCreatedAt
      */
     public function testSetCreatedat()
     {
@@ -40,6 +42,7 @@ class CurriculumInventoryExportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setReport
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getReport
      */
     public function testSetReport()
     {
@@ -48,6 +51,7 @@ class CurriculumInventoryExportTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setCreatedBy
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getCreatedBy
      */
     public function testSetCreatedBy()
     {

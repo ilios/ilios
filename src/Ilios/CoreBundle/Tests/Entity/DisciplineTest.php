@@ -34,6 +34,7 @@ class DisciplineTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Discipline::setTitle
+     * @covers Ilios\CoreBundle\Entity\Discipline::getTitle
      */
     public function testSetTitle()
     {
@@ -42,6 +43,7 @@ class DisciplineTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\Discipline::setOwningSchool
+     * @covers Ilios\CoreBundle\Entity\Discipline::getOwningSchool
      */
     public function testSetOwningSchool()
     {
@@ -54,14 +56,6 @@ class DisciplineTest extends EntityBase
     public function testAddCourse()
     {
         $this->entityCollectionAddTest('course', 'Course');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::removeCourse
-     */
-    public function testRemoveCourse()
-    {
-        $this->entityCollectionRemoveTest('course', 'Course');
     }
 
     /**
@@ -81,14 +75,6 @@ class DisciplineTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::removeProgramYear
-     */
-    public function testRemoveProgramYear()
-    {
-        $this->entityCollectionRemoveTest('programYear', 'ProgramYear');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Discipline::getProgramYears
      */
     public function testGetProgramYears()
@@ -102,14 +88,6 @@ class DisciplineTest extends EntityBase
     public function testAddSession()
     {
         $this->entityCollectionAddTest('session', 'Session');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\Discipline::removeSession
-     */
-    public function testRemoveSession()
-    {
-        $this->entityCollectionRemoveTest('session', 'Session');
     }
 
     /**

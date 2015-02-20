@@ -24,6 +24,7 @@ class SessionDescriptionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionDescription::setDescription
+     * @covers Ilios\CoreBundle\Entity\SessionDescription::getDescription
      */
     public function testSetDescription()
     {
@@ -32,6 +33,7 @@ class SessionDescriptionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionDescription::setSession
+     * @covers Ilios\CoreBundle\Entity\SessionDescription::getSession
      */
     public function testSetSession()
     {

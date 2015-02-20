@@ -24,6 +24,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setName
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getName
      */
     public function testSetName()
     {
@@ -32,6 +33,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setAamcCode
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getAamcCode
      */
     public function testSetAamcCode()
     {
@@ -40,6 +42,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setAddressStreet
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getAddressStreet
      */
     public function testSetAddressStreet()
     {
@@ -48,6 +51,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setAddressCity
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getAddressCity
      */
     public function testSetAddressCity()
     {
@@ -56,6 +60,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setAddressStateOrProvince
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getAddressStateOrProvince
      */
     public function testSetAddressStateOrProvince()
     {
@@ -64,6 +69,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setAddressZipcode
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getAddressZipcode
      */
     public function testSetAddressZipcode()
     {
@@ -72,6 +78,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setAddressCountryCode
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getAddressCountryCode
      */
     public function testSetAddressCountryCode()
     {
@@ -80,6 +87,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::setSchool
+     * @covers Ilios\CoreBundle\Entity\CurriculumInventoryInstitution::getSchool
      */
     public function testSetSchool()
     {

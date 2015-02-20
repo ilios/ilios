@@ -21,7 +21,7 @@ class AamcMethodTest extends EntityBase
     {
         $this->object = new AamcMethod;
     }
-    
+
     /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::__construct
      */
@@ -32,6 +32,7 @@ class AamcMethodTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::setDescription
+     * @covers Ilios\CoreBundle\Entity\AamcMethod::getDescription
      */
     public function testSetDescription()
     {
@@ -44,14 +45,6 @@ class AamcMethodTest extends EntityBase
     public function testAddSessionType()
     {
         $this->entityCollectionAddTest('sessionType', 'SessionType');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\AamcMethod::removeSessionType
-     */
-    public function testRemoveSessionType()
-    {
-        $this->entityCollectionRemoveTest('sessionType', 'SessionType');
     }
 
     /**

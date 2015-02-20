@@ -32,6 +32,7 @@ class SessionTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionType::setTitle
+     * @covers Ilios\CoreBundle\Entity\SessionType::getTitle
      */
     public function testSetTitle()
     {
@@ -40,6 +41,7 @@ class SessionTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionType::setSessionTypeCssClass
+     * @covers Ilios\CoreBundle\Entity\SessionType::getSessionTypeCssClass
      */
     public function testSetSessionTypeCssClass()
     {
@@ -48,6 +50,7 @@ class SessionTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionType::setAssessment
+     * @covers Ilios\CoreBundle\Entity\SessionType::isAssessment
      */
     public function testIsAssessment()
     {
@@ -56,6 +59,7 @@ class SessionTypeTest extends EntityBase
 
     /**
      * @covers Ilios\CoreBundle\Entity\SessionType::setAssessmentOption
+     * @covers Ilios\CoreBundle\Entity\SessionType::getAssessmentOption
      */
     public function testSetAssessmentOption()
     {
@@ -68,13 +72,5 @@ class SessionTypeTest extends EntityBase
     public function testAddAamcMethod()
     {
         $this->entityCollectionAddTest('aamcMethod', 'AamcMethod');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\SessionType::removeAamcMethod
-     */
-    public function testRemoveAamcMethod()
-    {
-        $this->entityCollectionRemoveTest('aamcMethod', 'AamcMethod');
     }
 }

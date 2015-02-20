@@ -27,7 +27,7 @@ use Ilios\CoreBundle\Entity\CISessionInterface;
  */
 class CISessionController extends FOSRestController
 {
-    
+
     /**
      * Get a CISession
      *
@@ -291,7 +291,7 @@ class CISessionController extends FOSRestController
     /**
      * @return CISessionHandler
      */
-    public function getCISessionHandler()
+    protected function getCISessionHandler()
     {
         return $this->container->get('ilioscore.cisession.handler');
     }
