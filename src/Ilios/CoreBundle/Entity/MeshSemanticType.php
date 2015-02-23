@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -30,6 +31,8 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * @ORM\Column(name="mesh_semantic_type_uid", type="string", length=9)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @Assert\Type(type="string")
      *
      * @JMS\Expose
      * @JMS\Type("string")

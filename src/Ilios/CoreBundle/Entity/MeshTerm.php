@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
@@ -32,6 +32,8 @@ class MeshTerm implements MeshTermInterface
      *
      * @ORM\Column(name="mesh_term_uid", type="string", length=9)
      * @ORM\Id
+     *
+     * @Assert\Type(type="string")
      *
      * @JMS\Expose
      * @JMS\Type("string")

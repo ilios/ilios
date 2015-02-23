@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
@@ -33,6 +34,8 @@ class AamcPcrs implements AamcPcrsInterface
      * @ORM\Column(name="pcrs_id", type="string", length=21)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     *
+     * @Assert\Type(type="string")
      *
      * @JMS\Expose
      * @JMS\Type("string")

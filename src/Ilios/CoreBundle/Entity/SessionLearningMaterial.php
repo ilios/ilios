@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class SessionLearningMaterial
@@ -33,6 +34,8 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @ORM\Column(name="session_learning_material_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Assert\Type(type="integer")
      *
      * @JMS\Expose
      * @JMS\Type("integer")
