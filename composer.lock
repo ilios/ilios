@@ -3039,12 +3039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "8844cb97371d366883eb2cfe2b8bf944f701e7ae"
+                "reference": "5b41140b5eede7ef3447303a4063609663be65ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/8844cb97371d366883eb2cfe2b8bf944f701e7ae",
-                "reference": "8844cb97371d366883eb2cfe2b8bf944f701e7ae",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/5b41140b5eede7ef3447303a4063609663be65ec",
+                "reference": "5b41140b5eede7ef3447303a4063609663be65ec",
                 "shasum": ""
             },
             "require": {
@@ -3087,7 +3087,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2015-01-26 15:21:27"
+            "time": "2015-02-23 13:20:49"
         },
         {
             "name": "matthiasnoback/symfony-config-test",
@@ -4348,12 +4348,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheDevNetwork/PhpTypes.git",
-                "reference": "4ab9a03e51afe5c6f760e87e0cb84c15bbcfa49c"
+                "reference": "c95676892103b663a596fe911715f2528b194dd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheDevNetwork/PhpTypes/zipball/4ab9a03e51afe5c6f760e87e0cb84c15bbcfa49c",
-                "reference": "4ab9a03e51afe5c6f760e87e0cb84c15bbcfa49c",
+                "url": "https://api.github.com/repos/TheDevNetwork/PhpTypes/zipball/c95676892103b663a596fe911715f2528b194dd8",
+                "reference": "c95676892103b663a596fe911715f2528b194dd8",
                 "shasum": ""
             },
             "require": {
@@ -4386,7 +4386,7 @@
                 }
             ],
             "description": "Php primitive wrappers lib.",
-            "time": "2015-02-17 23:05:01"
+            "time": "2015-02-23 10:44:28"
         },
         {
             "name": "tdn/sfprojectgeneratorbundle",
@@ -4394,7 +4394,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vpassapera/sfprojectgeneratorbundle.git",
-                "reference": "c4e895b231fbda908e059f1fb1e9760407c0177b"
+                "reference": "3c9f21b6c7bb0cb03436ec209bef35ad2f1251d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vpassapera/sfprojectgeneratorbundle/zipball/3c9f21b6c7bb0cb03436ec209bef35ad2f1251d9",
+                "reference": "3c9f21b6c7bb0cb03436ec209bef35ad2f1251d9",
+                "shasum": ""
             },
             "require": {
                 "doctrine/doctrine-bundle": "*@stable",
@@ -4421,6 +4427,7 @@
                     "Tdn\\SfProjectGeneratorBundle\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4431,7 +4438,7 @@
                 }
             ],
             "description": "Project generator for Symfony 2.",
-            "time": "2015-02-12 05:56:25"
+            "time": "2015-02-23 06:06:02"
         }
     ],
     "aliases": [],

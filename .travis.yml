@@ -5,22 +5,29 @@ sudo: false
 php:
   - "5.4"
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 install:
   - composer install  --no-interaction -d ${TRAVIS_BUILD_DIR}
   - cp ${TRAVIS_BUILD_DIR}/app/config/parameters.yml.travis ${TRAVIS_BUILD_DIR}/app/config/parameters.yml
 
 before_script:
-#initialize symfony test db
+#initialize symfony mysql db
+  - bin/console doctrine:database:create --env=dev
+  - bin/console doctrine:schema:create --env=dev
+#initialize symfony sqlite test db
   - bin/console doctrine:database:create --env=test
   - bin/console doctrine:schema:create --env=test
 
 script:
   - bin/phpcs --standard=app/phpcs.xml src
   - bin/phpunit --coverage-clover build/logs/clover.xml
+  - bin/console doctrine:schema:validate --env=dev
 
 after_script:
   - php bin/coveralls #send test coverage informatio to coveralls
-
 #encrypted the IRC room chat.freenode.net##ilios so that it doesn't run on pull requests
 notifications:
   irc:
