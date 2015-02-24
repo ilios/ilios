@@ -36,6 +36,7 @@ class AssessmentOption implements AssessmentOptionInterface
      * @ORM\Column(type="integer", length=10, name="assessment_option_id")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -47,6 +48,13 @@ class AssessmentOption implements AssessmentOptionInterface
     * @var string
     *
     * @ORM\Column(type="string", length=20)
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 18
+    * )    
     */
     protected $name;
 

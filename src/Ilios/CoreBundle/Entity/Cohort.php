@@ -41,6 +41,7 @@ class Cohort implements CohortInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -56,6 +57,13 @@ class Cohort implements CohortInterface
      * @JMS\Expose
      * @JMS\Type("string")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )     
+     *
      * @Assert\Type(type="string", message="type.not_valid")
      */
     protected $title;
@@ -66,6 +74,9 @@ class Cohort implements CohortInterface
      * @ORM\OneToOne(targetEntity="ProgramYear", fetch="EXTRA_LAZY", inversedBy="cohort")
      * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")     
+     *     
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("programYear")

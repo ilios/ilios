@@ -50,7 +50,6 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="string", length=200, nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,

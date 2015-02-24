@@ -32,6 +32,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -44,6 +45,11 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      *
      * @ORM\Column(type="string", length=20)
      *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 20
+     * )     
      * @JMS\Expose
      * @JMS\Type("string")
      */

@@ -33,6 +33,7 @@ class Alert implements AlertInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -45,6 +46,9 @@ class Alert implements AlertInterface
      *
      * @ORM\Column(name="table_row_id", type="integer")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      * @JMS\SerializedName("tableRowId")
@@ -55,6 +59,13 @@ class Alert implements AlertInterface
      * @var string
      *
      * @ORM\Column(name="table_name", type="string", length=30)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 30
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -67,6 +78,12 @@ class Alert implements AlertInterface
      *
      * @ORM\Column(name="additional_text", type="text", nullable=true)
      *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("additionalText")
@@ -77,6 +94,9 @@ class Alert implements AlertInterface
      * @var boolean
      *
      * @ORM\Column(name="dispatched", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      *
      * @JMS\Expose
      * @JMS\Type("string")

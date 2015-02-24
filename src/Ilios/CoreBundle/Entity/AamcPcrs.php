@@ -36,6 +36,10 @@ class AamcPcrs implements AamcPcrsInterface
      * @ORM\GeneratedValue(strategy="NONE")
      *
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 21
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -45,6 +49,12 @@ class AamcPcrs implements AamcPcrsInterface
     /**
     * @ORM\Column(name="description", type="text")
     * @var string
+    *
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 65000
+    * )
     */
     protected $description;
 

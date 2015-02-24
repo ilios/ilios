@@ -30,6 +30,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -42,6 +43,13 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @ORM\Column(name="notes", type="text", nullable=true)
      *
+     * 
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )     
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -52,6 +60,9 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @ORM\Column(name="required", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *     
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -61,6 +72,10 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @var boolean
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *     
      * @JMS\Expose
      * @JMS\Type("boolean")
      * @JMS\SerializedName("publicNotes")

@@ -36,6 +36,7 @@ class Competency implements CompetencyInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -44,13 +45,19 @@ class Competency implements CompetencyInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200, nullable=true)
-    * @todo should be on the TitledEntity Trait
-    * @var string
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
-    */
+     * @ORM\Column(type="string", length=200, nullable=true)
+     * @todo should be on the TitledEntity Trait
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )    
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
     protected $title;
 
     /**
@@ -60,6 +67,9 @@ class Competency implements CompetencyInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
      * })
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      *
      * @JMS\Expose
      * @JMS\Type("string")

@@ -52,15 +52,30 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50)
+     *
+     * @Assert\NonBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50
+     * )    
+     *
     */
     protected $name;
 
     /**
-    * @ORM\Column(name="description", type="text", nullable=true)
-    * @var string
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50
+     * )        
     */
     protected $description;
 
@@ -68,6 +83,10 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @var int
      *
      * @ORM\Column(name="level", type="integer")
+     *     
+     * @Attest\NonBlank()
+     * @Attest\Type(type="integer")
+     *
      */
     protected $level;
 

@@ -36,6 +36,7 @@ class AlertChangeType implements AlertChangeTypeInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\NotBlank()     
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -47,6 +48,13 @@ class AlertChangeType implements AlertChangeTypeInterface
     * @ORM\Column(type="string", length=60)
     * @todo should be on the TitledEntity Trait
     * @var string
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 60
+    * )    
     */
     protected $title;
 

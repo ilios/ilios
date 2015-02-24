@@ -45,15 +45,28 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200)
-    * @todo should be on the TitledEntity Trait
-    * @var string
+     * @ORM\Column(type="string", length=200)
+     * @todo should be on the TitledEntity Trait
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
+     *
     */
     protected $title;
 
     /**
-    * @ORM\Column(name="description", type="text", nullable=true)
-    * @var string
+     * @ORM\Column(name="description", type="text", nullable=true)
+     * @var string
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )    
     */
     protected $description;
 
@@ -61,18 +74,28 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @var boolean
      *
      * @ORM\Column(name="required", type="boolean")
+     *
+     * @Attest\NotBlank()
+     * @Attest\Type(type="bool")
+     *
      */
     protected $required;
 
     /**
      * @var boolean
      *
+     * @Attest\NotBlank()
+     * @Attest\Type(type="bool")
+     *     
      * @ORM\Column(name="child_sequence_order", type="boolean")
      */
     protected $childSequenceOrder;
 
     /**
      * @var int
+     *
+     * @Attest\NotBlank()
+     * @Attest\Type(type="integer")
      *
      * @ORM\Column(name="order_in_sequence", type="integer")
      */
@@ -81,6 +104,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @var int
      *
+     * @Attest\NotBlank()
+     * @Attest\Type(type="integer")
+     *     
      * @ORM\Column(name="minimum", type="integer")
      */
     protected $minimum;
@@ -88,6 +114,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @var int
      *
+     * @Attest\NotBlank()
+     * @Attest\Type(type="integer")
+     *     
      * @ORM\Column(name="maximum", type="integer")
      */
     protected $maximum;
@@ -96,6 +125,11 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @var boolean
      *
      * @ORM\Column(name="track", type="boolean")
+     *
+     * @Attest\NotBlank()
+     * @Attest\Type(type="bool")
+     *     
+     * this field is currently tinyint data type in the db but used like a boolean
      */
     protected $track;
 
@@ -103,6 +137,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @var \DateTime
      *
      * @ORM\Column(name="start_date", type="date", nullable=true)
+     *
+     * @Attest\NotBlank()
      */
     protected $startDate;
 
@@ -110,6 +146,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @var \DateTime
      *
      * @ORM\Column(name="end_date", type="date", nullable=true)
+     *
+     * @Attest\NotBlank()
      */
     protected $endDate;
 
@@ -117,6 +155,9 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @var int
      *
      * @ORM\Column(name="duration", type="integer")
+     *
+     * @Attest\NotBlank()
+     * @Attest\Type(type="integer")
      */
     protected $duration;
 
