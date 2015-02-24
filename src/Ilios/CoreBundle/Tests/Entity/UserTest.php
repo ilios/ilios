@@ -355,7 +355,12 @@ class UserTest extends EntityBase
      */
     public function testAddInstructionHours()
     {
-        $this->entityCollectionAddTest('instructionHours', 'InstructionHours', 'getInstructionHours', 'addInstructionHours');
+        $this->entityCollectionAddTest(
+            'instructionHours',
+            'InstructionHours',
+            'getInstructionHours',
+            'addInstructionHours'
+        );
     }
 
     /**
@@ -363,6 +368,11 @@ class UserTest extends EntityBase
      */
     public function testGetInstructionHours()
     {
-        $this->entityCollectionSetTest('instructionHours', 'InstructionHours', 'getInstructionHours', 'setInstructionHours');
+        $this->entityCollectionSetTest(
+            'instructionHours',
+            'InstructionHours',
+            'getInstructionHours',
+            'setInstructionHours'
+        );
     }
 }
