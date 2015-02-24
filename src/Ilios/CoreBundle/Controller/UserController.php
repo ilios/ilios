@@ -106,7 +106,7 @@ class UserController extends FOSRestController
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
      * @QueryParam(
-     *   name="searchTerm",
+     *   name="q",
      *   nullable=true,
      *   description="Find users who match a search term"
      * )
@@ -117,7 +117,7 @@ class UserController extends FOSRestController
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-        $searchTerm = !is_null($paramFetcher->get('searchTerm')) ? $paramFetcher->get('searchTerm') : false;
+        $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
 
         $criteria = array_map(function ($item) {
             $item = $item == 'null'?null:$item;
@@ -126,9 +126,9 @@ class UserController extends FOSRestController
             return $item;
         }, $criteria);
 
-        if ($searchTerm) {
-            $result = $this->getUserHandler()->findUsersBySearchTerm(
-                $searchTerm,
+        if ($q) {
+            $result = $this->getUserHandler()->findUsersByQ(
+                $q,
                 $orderBy,
                 $limit,
                 $offset

@@ -70,6 +70,26 @@ class UsersTest extends ApiTestCase
             $this->assertEquals($user['firstName'], $decoded['users'][$i]['firstName']);
         }
     }
+    public function testJsonQueryUsersAction()
+    {
+        $users = $this->container->get('ilioscore.dataloader.users')->get();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('get_users', array('q' => 'cruz Edward'))
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, 200);
+
+        $content = $response->getContent();
+        $decoded = json_decode($content, true);
+
+        $this->assertTrue(isset($decoded['users']));
+        $this->assertTrue(count($decoded['users']) == 1);
+        $user = $users[5];
+        $this->assertEquals($user['id'], $decoded['users'][0]['id']);
+        $this->assertEquals($user['firstName'], $decoded['users'][0]['firstName']);
+    }
     public function testJsonPostUserAction()
     {
         $faker = \Faker\Factory::create();
