@@ -34,6 +34,10 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Id
      *
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 9
+     * )              
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -41,13 +45,20 @@ class MeshTerm implements MeshTermInterface
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=192)
-    * @ORM\Id
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
+     * @var string
+     *
+     * @ORM\Column(type="string", length=192)
+     * @ORM\Id
+     *
+     * @Assert\NotBlank() 
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 192
+     * )
+     *         
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $name;
 
@@ -55,6 +66,12 @@ class MeshTerm implements MeshTermInterface
      * @var string
      *
      * @ORM\Column(name="lexical_tag", type="string", length=12, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 12
+     * )              
      */
     protected $lexicalTag;
 
@@ -62,6 +79,8 @@ class MeshTerm implements MeshTermInterface
      * @var boolean
      *
      * @ORM\Column(name="concept_preferred", type="boolean", nullable=true)
+     * 
+     * @Assert\Type(type="bool")
      */
     protected $conceptPreferred;
 
@@ -69,6 +88,8 @@ class MeshTerm implements MeshTermInterface
      * @var boolean
      *
      * @ORM\Column(name="record_preferred", type="boolean", nullable=true)
+     *
+     * @Assert\Type(type="bool")
      */
     protected $recordPreferred;
 
@@ -76,6 +97,8 @@ class MeshTerm implements MeshTermInterface
      * @var boolean
      *
      * @ORM\Column(name="permuted", type="boolean", nullable=true)
+     *
+     * @Assert\Type(type="bool")
      */
     protected $permuted;
 
@@ -83,6 +106,8 @@ class MeshTerm implements MeshTermInterface
      * @var boolean
      *
      * @ORM\Column(name="print", type="boolean", nullable=true)
+     * 
+     * @Assert\Type(type="bool")
      */
     protected $printable;
 
@@ -90,6 +115,8 @@ class MeshTerm implements MeshTermInterface
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $createdAt;
 
@@ -97,6 +124,8 @@ class MeshTerm implements MeshTermInterface
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $updatedAt;
 

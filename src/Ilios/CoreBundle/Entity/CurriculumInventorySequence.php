@@ -38,8 +38,15 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     protected $report;
 
     /**
-    * @ORM\Column(name="description", type="text", nullable=true)
-    * @var string
+     * @ORM\Column(name="description", type="text", nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     *
     */
     protected $description;
 

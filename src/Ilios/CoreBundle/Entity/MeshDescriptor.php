@@ -39,6 +39,10 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\GeneratedValue(strategy="NONE")
      *
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 9
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -51,6 +55,13 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\Column(type="string", length=192)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string") 
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 192
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -61,6 +72,12 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\Column(name="annotation", type="text", nullable=true)
      *
+     * @Assert\Type(type="string") 
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     *     
      * @JMS\Expose
      * @JMS\Type("string")
      */

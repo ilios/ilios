@@ -42,11 +42,18 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=60)
-    * @var string
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
+     * @ORM\Column(type="string", length=60)
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string") 
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )  
+     *  
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 

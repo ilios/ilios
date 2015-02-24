@@ -54,6 +54,12 @@ class Session implements SessionInterface
      *
      * @ORM\Column(type="string", length=200, nullable=true)
      *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )           
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -63,6 +69,9 @@ class Session implements SessionInterface
      * @var boolean
      *
      * @ORM\Column(name="attire_required", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      *
      * @JMS\Expose
      * @JMS\Type("boolean")
@@ -75,6 +84,9 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="equipment_required", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      * @JMS\SerializedName("equipmentRequired")
@@ -86,6 +98,9 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="supplemental", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -96,6 +111,9 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -105,6 +123,9 @@ class Session implements SessionInterface
      * @var boolean
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      *
      * @JMS\Expose
      * @JMS\Type("boolean")
@@ -117,6 +138,8 @@ class Session implements SessionInterface
      * @var \DateTime
      *
      * @ORM\Column(name="last_updated_on", type="datetime")
+     *
+     * @Assert\NotBlank()
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")

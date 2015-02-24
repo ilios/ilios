@@ -38,6 +38,7 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -49,6 +50,9 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
      * @var boolean
      *
      * @ORM\Column(name="count_offerings_once", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      */
     protected $countOfferingsOnce;
 

@@ -46,6 +46,10 @@ class User implements UserInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 30
+     * )           
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -57,6 +61,13 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=20)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 20
+     * )           
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
@@ -73,7 +84,10 @@ class User implements UserInterface
      * @ORM\Column(name="middle_name", type="string", length=20, nullable=true)
      *
      * @Assert\Type(type="string")
-     *
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 20
+     * )           
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("middleName")
@@ -86,6 +100,11 @@ class User implements UserInterface
      * @ORM\Column(name="phone", type="string", length=30, nullable=true)
      *
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 30
+     * )           
+     *
      */
     protected $phone;
 
@@ -98,6 +117,10 @@ class User implements UserInterface
      * @Assert\Email(
      *     checkMX = false
      * )
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )     
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -109,7 +132,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="added_via_ilios", type="boolean")
      *
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      *
      * @JMS\SerializedName("addedViaIlios")
@@ -121,7 +144,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="enabled", type="boolean")
      *
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      */
     protected $enabled;
@@ -132,6 +155,10 @@ class User implements UserInterface
      * @ORM\Column(name="uc_uid", type="string", length=16, nullable=true)
      *
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 16
+     * )      
      */
     protected $ucUid;
 
@@ -141,6 +168,10 @@ class User implements UserInterface
      * @ORM\Column(name="other_id", type="string", length=16, nullable=true)
      *
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 16
+     * )      
      */
     protected $otherId;
 
@@ -149,7 +180,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="examined", type="boolean")
      *
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      */
     protected $examined;
@@ -159,7 +190,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="user_sync_ignore", type="boolean")
      *
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      */
     protected $userSyncIgnore;

@@ -35,6 +35,13 @@ class ReportPoValue implements ReportPoValueInterface
      * @var string
      *
      * @ORM\Column(name="prepositional_object_table_row_id", type="string", length=14)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 14
+     * )         
      */
     protected $prepositionalObjectTableRowId;
 
@@ -42,6 +49,9 @@ class ReportPoValue implements ReportPoValueInterface
      * @var boolean
      *
      * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      */
     protected $deleted;
 

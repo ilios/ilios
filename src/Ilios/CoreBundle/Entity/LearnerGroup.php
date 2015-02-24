@@ -46,6 +46,13 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\Column(type="string", length=60)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )     
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -56,6 +63,12 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @ORM\Column(name="location", type="string", length=100, nullable=true)
      *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )     
+     *     
      * @JMS\Expose
      * @JMS\Type("string")
      */

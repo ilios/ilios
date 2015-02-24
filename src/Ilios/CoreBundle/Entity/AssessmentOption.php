@@ -47,6 +47,13 @@ class AssessmentOption implements AssessmentOptionInterface
     * @var string
     *
     * @ORM\Column(type="string", length=20)
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 18
+    * )    
     */
     protected $name;
 
