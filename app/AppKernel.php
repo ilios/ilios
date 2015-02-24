@@ -18,7 +18,6 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new Tdn\SfProjectGeneratorBundle\TdnSfProjectGeneratorBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
@@ -33,6 +32,7 @@ class AppKernel extends Kernel
             $bundles[] = new IC\Bundle\Base\TestBundle\ICBaseTestBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+            $bundles[] = new Tdn\SfProjectGeneratorBundle\TdnSfProjectGeneratorBundle();
         }
 
         return $bundles;
