@@ -15,15 +15,15 @@ class ProgramYearStewardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('department', 'single_related', [
+            ->add('department', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Department"
             ])
-            ->add('programYear', 'single_related', [
+            ->add('programYear', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('school', 'single_related', [
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

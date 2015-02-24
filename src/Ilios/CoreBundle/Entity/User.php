@@ -367,6 +367,7 @@ class User implements UserInterface
         $this->learningMaterials    = new ArrayCollection();
         $this->publishEvents        = new ArrayCollection();
         $this->reports              = new ArrayCollection();
+        $this->instructionHours     = new ArrayCollection();
         $this->addedViaIlios = false;
         $this->enabled = true;
         $this->examined = false;
@@ -973,6 +974,34 @@ class User implements UserInterface
     public function getReports()
     {
         return $this->reports;
+    }
+
+    /**
+     * @param Collection $instructionHours
+     */
+    public function setInstructionHours(Collection $instructionHours)
+    {
+        $this->instructionHours = new ArrayCollection();
+
+        foreach ($instructionHours as $instructionHour) {
+            $this->addInstructionHours($instructionHour);
+        }
+    }
+
+    /**
+     * @param InstructionHoursInterface $report
+     */
+    public function addInstructionHours(InstructionHoursInterface $instructionHours)
+    {
+        $this->instructionHours->add($instructionHours);
+    }
+
+    /**
+     * @return ArrayCollection|InstructionHoursInterface[]
+     */
+    public function getInstructionHours()
+    {
+        return $this->instructionHours;
     }
 
     /**

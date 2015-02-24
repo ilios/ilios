@@ -17,38 +17,38 @@ class MeshDescriptorType extends AbstractType
         $builder
             ->add('id')
             ->add('name')
-            ->add('annotation')
+            ->add('annotation', null, ['required' => false])
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('courses', 'many_related', [
+            ->add('courses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('objectives', 'many_related', [
+            ->add('objectives', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('sessions', 'many_related', [
+            ->add('sessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('concepts', 'many_related', [
+            ->add('concepts', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshConcept"
             ])
-            ->add('qualifiers', 'many_related', [
+            ->add('qualifiers', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshQualifier"
             ])
-            ->add('sessionLearningMaterials', 'many_related', [
+            ->add('sessionLearningMaterials', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionLearningMaterial"
             ])
-            ->add('courseLearningMaterials', 'many_related', [
+            ->add('courseLearningMaterials', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CourseLearningMaterial"
             ])
-            ->add('previousIndexing', 'many_related', [
+            ->add('previousIndexing', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshPreviousIndexing"
             ])

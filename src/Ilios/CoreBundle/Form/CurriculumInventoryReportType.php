@@ -15,26 +15,30 @@ class CurriculumInventoryReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
+            ->add('name', null, ['required' => false])
+            ->add('description', null, ['required' => false])
             ->add('year')
-            ->add('startDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
-            ->add('endDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
-            ->add('export', 'single_related', [
+            ->add('startDate')
+            ->add('endDate')
+            ->add('export', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryExport"
             ])
-            ->add('sequence', 'single_related', [
+            ->add('sequence', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequence"
             ])
-            ->add('program', 'many_related', [
+            ->add('sequenceBlocks', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
+            ])
+            ->add('program', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Program"
+            ])
+            ->add('curriculumInventoryAcademicLevels', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventoryAcademicLevel"
             ])
         ;
     }

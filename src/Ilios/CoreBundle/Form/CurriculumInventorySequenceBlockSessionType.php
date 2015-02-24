@@ -15,12 +15,12 @@ class CurriculumInventorySequenceBlockSessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('countOfferingsOnce')
-            ->add('sequenceBlock', 'single_related', [
+            ->add('countOfferingsOnce', null, ['required' => false])
+            ->add('sequenceBlock', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
-            ->add('session', 'single_related', [
+            ->add('session', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])

@@ -16,17 +16,45 @@ class SchoolType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('templatePrefix')
+            ->add('templatePrefix', null, ['required' => false])
             ->add('iliosAdministratorEmail')
-            ->add('deleted')
-            ->add('changeAlertRecipients')
-            ->add('alerts', 'many_related', [
+            ->add('deleted', null, ['required' => false])
+            ->add('changeAlertRecipients', null, ['required' => false])
+            ->add('alerts', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"
             ])
-            ->add('curriculumInventoryInsitution', 'single_related', [
+            ->add('competencies', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Competency"
+            ])
+            ->add('courses', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('programs', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Program"
+            ])
+            ->add('departments', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Department"
+            ])
+            ->add('disciplines', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Discipline"
+            ])
+            ->add('instructorGroups', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:InstructorGroup"
+            ])
+            ->add('curriculumInventoryInsitution', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryInstitution"
+            ])
+            ->add('sessionTypes', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionType"
             ])
         ;
     }

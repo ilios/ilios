@@ -16,33 +16,37 @@ class LearnerGroupType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('location')
-            ->add('instructors')
-            ->add('cohort', 'single_related', [
+            ->add('location', null, ['required' => false])
+            ->add('instructors', null, ['required' => false])
+            ->add('cohort', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
-            ->add('parent', 'single_related', [
+            ->add('parent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('ilmSessions', 'many_related', [
+            ->add('children', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearnerGroup"
+            ])
+            ->add('ilmSessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('offerings', 'many_related', [
+            ->add('offerings', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])
-            ->add('instructorGroups', 'many_related', [
+            ->add('instructorGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('users', 'many_related', [
+            ->add('users', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('instructorUsers', 'many_related', [
+            ->add('instructorUsers', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

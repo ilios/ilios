@@ -16,6 +16,10 @@ class CourseClerkshipTypeType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('courses', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Course"
+            ])
         ;
     }
 

@@ -15,26 +15,24 @@ class RecurringEventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('onSunday')
-            ->add('onMonday')
-            ->add('onTuesday')
-            ->add('onWednesday')
-            ->add('onThursday')
-            ->add('onFriday')
-            ->add('onSaturday')
-            ->add('endDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
-            ->add('repetitionCount')
-            ->add('previousRecurringEvent', 'single_related', [
+            ->add('onSunday', null, ['required' => false])
+            ->add('onMonday', null, ['required' => false])
+            ->add('onTuesday', null, ['required' => false])
+            ->add('onWednesday', null, ['required' => false])
+            ->add('onThursday', null, ['required' => false])
+            ->add('onFriday', null, ['required' => false])
+            ->add('onSaturday', null, ['required' => false])
+            ->add('endDate')
+            ->add('repetitionCount', null, ['required' => false])
+            ->add('previousRecurringEvent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:RecurringEvent"
             ])
-            ->add('nextRecurringEvent', 'single_related', [
+            ->add('nextRecurringEvent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:RecurringEvent"
             ])
-            ->add('offerings', 'many_related', [
+            ->add('offerings', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])

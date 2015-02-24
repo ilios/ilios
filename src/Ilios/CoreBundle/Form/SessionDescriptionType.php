@@ -15,8 +15,8 @@ class SessionDescriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description')
-            ->add('session', 'single_related', [
+            ->add('description', null, ['required' => false])
+            ->add('session', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])

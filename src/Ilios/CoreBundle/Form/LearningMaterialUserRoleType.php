@@ -16,6 +16,10 @@ class LearningMaterialUserRoleType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('learningMaterials', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearningMaterial"
+            ])
         ;
     }
 

@@ -15,20 +15,28 @@ class CompetencyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('school', 'single_related', [
+            ->add('title', null, ['required' => false])
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('parent', 'single_related', [
+            ->add('objectives', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Objective"
+            ])
+            ->add('parent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('aamcPcrses', 'many_related', [
+            ->add('children', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Competency"
+            ])
+            ->add('aamcPcrses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcPcrs"
             ])
-            ->add('programYears', 'many_related', [
+            ->add('programYears', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])

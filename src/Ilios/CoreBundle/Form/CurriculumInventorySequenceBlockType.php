@@ -16,35 +16,39 @@ class CurriculumInventorySequenceBlockType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
-            ->add('required')
-            ->add('childSequenceOrder')
+            ->add('description', null, ['required' => false])
+            ->add('required', null, ['required' => false])
+            ->add('childSequenceOrder', null, ['required' => false])
             ->add('orderInSequence')
             ->add('minimum')
             ->add('maximum')
-            ->add('track')
-            ->add('startDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
-            ->add('endDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
+            ->add('track', null, ['required' => false])
+            ->add('startDate', null, ['required' => false])
+            ->add('endDate', null, ['required' => false])
             ->add('duration')
-            ->add('academicLevel', 'single_related', [
+            ->add('academicLevel', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryAcademicLevel"
             ])
-            ->add('course', 'single_related', [
+            ->add('course', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('parent', 'single_related', [
+            ->add('parent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
-            ->add('report', 'single_related', [
+            ->add('children', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
+            ])
+            ->add('report', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
+            ])
+            ->add('sessions', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlockSession"
             ])
         ;
     }

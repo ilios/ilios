@@ -22,7 +22,7 @@ class CurriculumInventoryInstitutionType extends AbstractType
             ->add('state')
             ->add('zipCode')
             ->add('countryCode')
-            ->add('school', 'single_related', [
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

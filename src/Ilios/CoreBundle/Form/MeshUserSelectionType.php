@@ -15,8 +15,8 @@ class MeshUserSelectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('searchPhrase')
-            ->add('meshDescriptor', 'single_related', [
+            ->add('searchPhrase', null, ['required' => false])
+            ->add('meshDescriptor', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

@@ -16,13 +16,17 @@ class CohortType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('programYear', 'single_related', [
+            ->add('programYear', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('courses', 'many_related', [
+            ->add('courses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('learnerGroups', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
         ;
     }

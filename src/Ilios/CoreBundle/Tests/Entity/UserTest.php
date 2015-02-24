@@ -349,4 +349,20 @@ class UserTest extends EntityBase
     {
         $this->entityCollectionSetTest('report', 'Report');
     }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addInstructionHours
+     */
+    public function testAddInstructionHours()
+    {
+        $this->entityCollectionAddTest('instructionHours', 'InstructionHours', 'getInstructionHours', 'addInstructionHours');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::getInstructionHours
+     */
+    public function testGetInstructionHours()
+    {
+        $this->entityCollectionSetTest('instructionHours', 'InstructionHours', 'getInstructionHours', 'setInstructionHours');
+    }
 }

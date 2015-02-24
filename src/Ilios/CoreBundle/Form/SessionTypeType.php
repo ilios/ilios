@@ -16,19 +16,23 @@ class SessionTypeType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('sessionTypeCssClass')
-            ->add('assessment')
-            ->add('assessmentOption', 'single_related', [
+            ->add('sessionTypeCssClass', null, ['required' => false])
+            ->add('assessment', null, ['required' => false])
+            ->add('assessmentOption', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AssessmentOption"
             ])
-            ->add('owningSchool', 'single_related', [
+            ->add('owningSchool', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('aamcMethods', 'many_related', [
+            ->add('aamcMethods', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcMethod"
+            ])
+            ->add('sessions', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
             ])
         ;
     }

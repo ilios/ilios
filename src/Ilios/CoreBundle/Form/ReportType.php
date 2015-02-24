@@ -15,16 +15,16 @@ class ReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['required' => false])
             ->add('createdAt')
             ->add('subject')
-            ->add('prepositionalObject')
-            ->add('deleted')
-            ->add('user', 'single_related', [
+            ->add('prepositionalObject', null, ['required' => false])
+            ->add('deleted', null, ['required' => false])
+            ->add('user', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('poValue', 'single_related', [
+            ->add('poValue', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ReportPoValue"
             ])

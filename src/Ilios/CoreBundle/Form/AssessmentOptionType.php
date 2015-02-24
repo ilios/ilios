@@ -16,6 +16,10 @@ class AssessmentOptionType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('sessionTypes', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionType"
+            ])
         ;
     }
 

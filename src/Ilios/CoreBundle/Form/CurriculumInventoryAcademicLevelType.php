@@ -16,11 +16,15 @@ class CurriculumInventoryAcademicLevelType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', null, ['required' => false])
             ->add('level')
-            ->add('report', 'single_related', [
+            ->add('report', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
+            ])
+            ->add('sequenceBlocks', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventorySequenceBlock"
             ])
         ;
     }
