@@ -15,18 +15,18 @@ class CourseLearningMaterialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('notes')
-            ->add('required')
-            ->add('publicNotes')
-            ->add('course', 'single_related', [
+            ->add('notes', null, ['required' => false])
+            ->add('required', null, ['required' => false])
+            ->add('publicNotes', null, ['required' => false])
+            ->add('course', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('learningMaterial', 'single_related', [
+            ->add('learningMaterial', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterial"
             ])
-            ->add('meshDescriptors', 'many_related', [
+            ->add('meshDescriptors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

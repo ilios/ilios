@@ -15,44 +15,56 @@ class SessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('attireRequired')
-            ->add('equipmentRequired')
-            ->add('supplemental')
-            ->add('deleted')
-            ->add('publishedAsTbd')
+            ->add('title', null, ['required' => false])
+            ->add('attireRequired', null, ['required' => false])
+            ->add('equipmentRequired', null, ['required' => false])
+            ->add('supplemental', null, ['required' => false])
+            ->add('deleted', null, ['required' => false])
+            ->add('publishedAsTbd', null, ['required' => false])
             ->add('updatedAt')
-            ->add('sessionType', 'single_related', [
+            ->add('sessionType', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"
             ])
-            ->add('course', 'single_related', [
+            ->add('course', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('ilmSessionFacet', 'single_related', [
+            ->add('ilmSessionFacet', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('disciplines', 'many_related', [
+            ->add('disciplines', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Discipline"
             ])
-            ->add('objectives', 'many_related', [
+            ->add('objectives', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('meshDescriptors', 'many_related', [
+            ->add('meshDescriptors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])
-            ->add('publishEvent', 'single_related', [
+            ->add('publishEvent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:PublishEvent"
             ])
-            ->add('sessionDescription', 'single_related', [
+            ->add('sessionDescription', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionDescription"
+            ])
+            ->add('sessionLearningMaterials', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionLearningMaterial"
+            ])
+            ->add('instructionHours', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:InstructionHours"
+            ])
+            ->add('offerings', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Offering"
             ])
         ;
     }

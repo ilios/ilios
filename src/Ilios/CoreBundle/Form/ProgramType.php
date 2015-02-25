@@ -15,18 +15,26 @@ class ProgramType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['required' => false])
             ->add('shortTitle')
             ->add('duration')
-            ->add('deleted')
-            ->add('publishedAsTbd')
-            ->add('publishEvent', 'single_related', [
+            ->add('deleted', null, ['required' => false])
+            ->add('publishedAsTbd', null, ['required' => false])
+            ->add('publishEvent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:PublishEvent"
             ])
-            ->add('owningSchool', 'single_related', [
+            ->add('owningSchool', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
+            ])
+            ->add('programYears', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
+            ])
+            ->add('curriculumInventoryReports', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])
         ;
     }

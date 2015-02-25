@@ -16,7 +16,7 @@ class IngestionExceptionType extends AbstractType
     {
         $builder
             ->add('id')
-            ->add('user', 'single_related', [
+            ->add('user', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])

@@ -15,20 +15,20 @@ class DisciplineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('owningSchool', 'single_related', [
+            ->add('title', null, ['required' => false])
+            ->add('owningSchool', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('courses', 'many_related', [
+            ->add('courses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('programYears', 'many_related', [
+            ->add('programYears', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('sessions', 'many_related', [
+            ->add('sessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])

@@ -17,13 +17,13 @@ class InstructionHoursType extends AbstractType
         $builder
             ->add('generationTimeStamp')
             ->add('hoursAccrued')
-            ->add('modified')
+            ->add('modified', null, ['required' => false])
             ->add('modificationTimeStamp')
-            ->add('user', 'single_related', [
+            ->add('user', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('session', 'single_related', [
+            ->add('session', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])

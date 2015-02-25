@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ea5ed6e59fd5de3a5825aa22015d9032",
+    "hash": "3f1d5ec361ae38823950e4f31dc3da77",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -4394,12 +4394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vpassapera/sfprojectgeneratorbundle.git",
-                "reference": "3c9f21b6c7bb0cb03436ec209bef35ad2f1251d9"
+                "reference": "7cf94988a4e1184e08fc058e47eeacf9c13e5307"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vpassapera/sfprojectgeneratorbundle/zipball/3c9f21b6c7bb0cb03436ec209bef35ad2f1251d9",
-                "reference": "3c9f21b6c7bb0cb03436ec209bef35ad2f1251d9",
+                "url": "https://api.github.com/repos/vpassapera/sfprojectgeneratorbundle/zipball/7cf94988a4e1184e08fc058e47eeacf9c13e5307",
+                "reference": "7cf94988a4e1184e08fc058e47eeacf9c13e5307",
                 "shasum": ""
             },
             "require": {
@@ -4438,7 +4438,7 @@
                 }
             ],
             "description": "Project generator for Symfony 2.",
-            "time": "2015-02-23 06:06:02"
+            "time": "2015-02-24 07:03:06"
         }
     ],
     "aliases": [],

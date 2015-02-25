@@ -16,23 +16,23 @@ class InstructorGroupType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('school', 'single_related', [
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('learnerGroups', 'many_related', [
+            ->add('learnerGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('ilmSessions', 'many_related', [
+            ->add('ilmSessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('users', 'many_related', [
+            ->add('users', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('offerings', 'many_related', [
+            ->add('offerings', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])

@@ -17,22 +17,28 @@ class LearningMaterialType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('uploadDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
-            ->add('originalAuthor')
-            ->add('token')
-            ->add('userRole', 'single_related', [
+            ->add('uploadDate')
+            ->add('originalAuthor', null, ['required' => false])
+            ->add('token', null, ['required' => false])
+            ->add('userRole', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterialUserRole"
             ])
-            ->add('status', 'single_related', [
+            ->add('status', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearningMaterialStatus"
             ])
-            ->add('owningUser', 'single_related', [
+            ->add('owningUser', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
+            ])
+            ->add('sessionLearningMaterials', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:SessionLearningMaterial"
+            ])
+            ->add('courseLearningMaterials', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CourseLearningMaterial"
             ])
         ;
     }

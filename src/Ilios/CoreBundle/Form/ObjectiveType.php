@@ -16,31 +16,31 @@ class ObjectiveType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('competency', 'single_related', [
+            ->add('competency', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('courses', 'many_related', [
+            ->add('courses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('programYears', 'many_related', [
+            ->add('programYears', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('sessions', 'many_related', [
+            ->add('sessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('parents', 'many_related', [
+            ->add('parents', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('children', 'many_related', [
+            ->add('children', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('meshDescriptors', 'many_related', [
+            ->add('meshDescriptors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

@@ -16,8 +16,8 @@ class DepartmentType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('deleted')
-            ->add('school', 'single_related', [
+            ->add('deleted', null, ['required' => false])
+            ->add('school', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

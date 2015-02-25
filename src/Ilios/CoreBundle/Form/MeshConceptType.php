@@ -18,13 +18,13 @@ class MeshConceptType extends AbstractType
             ->add('id')
             ->add('name')
             ->add('umlsUid')
-            ->add('preferred')
-            ->add('scopeNote')
-            ->add('casn1Name')
-            ->add('registryNumber')
+            ->add('preferred', null, ['required' => false])
+            ->add('scopeNote', null, ['required' => false])
+            ->add('casn1Name', null, ['required' => false])
+            ->add('registryNumber', null, ['required' => false])
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('descriptors', 'many_related', [
+            ->add('descriptors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
             ])

@@ -15,7 +15,7 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', null, ['required' => false])
             ->add('level')
             ->add('year')
             ->add('startDate', 'datetime', array(
@@ -24,42 +24,50 @@ class CourseType extends AbstractType
             ->add('endDate', 'datetime', array(
             'widget' => 'single_text',
             ))
-            ->add('deleted')
-            ->add('externalId')
-            ->add('locked')
-            ->add('archived')
-            ->add('publishedAsTbd')
-            ->add('clerkshipType', 'single_related', [
+            ->add('deleted', null, ['required' => false])
+            ->add('externalId', null, ['required' => false])
+            ->add('locked', null, ['required' => false])
+            ->add('archived', null, ['required' => false])
+            ->add('publishedAsTbd', null, ['required' => false])
+            ->add('clerkshipType', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CourseClerkshipType"
             ])
-            ->add('owningSchool', 'single_related', [
+            ->add('owningSchool', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('publishEvent', 'single_related', [
+            ->add('publishEvent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:PublishEvent"
             ])
-            ->add('directors', 'many_related', [
+            ->add('directors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('cohorts', 'many_related', [
+            ->add('cohorts', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
-            ->add('disciplines', 'many_related', [
+            ->add('disciplines', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Discipline"
             ])
-            ->add('objectives', 'many_related', [
+            ->add('objectives', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('meshDescriptors', 'many_related', [
+            ->add('meshDescriptors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:MeshDescriptor"
+            ])
+            ->add('courseLearningMaterials', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:CourseLearningMaterial"
+            ])
+            ->add('sessions', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Session"
             ])
         ;
     }

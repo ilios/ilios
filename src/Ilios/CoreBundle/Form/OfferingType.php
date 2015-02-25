@@ -16,35 +16,31 @@ class OfferingType extends AbstractType
     {
         $builder
             ->add('room')
-            ->add('startDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
-            ->add('endDate', 'datetime', array(
-            'widget' => 'single_text',
-            ))
-            ->add('deleted')
+            ->add('startDate')
+            ->add('endDate')
+            ->add('deleted', null, ['required' => false])
             ->add('lastUpdatedOn')
-            ->add('session', 'single_related', [
+            ->add('session', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Session"
             ])
-            ->add('learnerGroups', 'many_related', [
+            ->add('learnerGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('publishEvent', 'single_related', [
+            ->add('publishEvent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:PublishEvent"
             ])
-            ->add('instructorGroups', 'many_related', [
+            ->add('instructorGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('users', 'many_related', [
+            ->add('users', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('recurringEvents', 'many_related', [
+            ->add('recurringEvents', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:RecurringEvent"
             ])

@@ -17,60 +17,80 @@ class UserType extends AbstractType
         $builder
             ->add('lastName')
             ->add('firstName')
-            ->add('middleName')
-            ->add('phone')
+            ->add('middleName', null, ['required' => false])
+            ->add('phone', null, ['required' => false])
             ->add('email')
-            ->add('addedViaIlios')
-            ->add('enabled')
-            ->add('ucUid')
-            ->add('otherId')
-            ->add('examined')
-            ->add('userSyncIgnore')
-            ->add('apiKey', 'single_related', [
+            ->add('addedViaIlios', null, ['required' => false])
+            ->add('enabled', null, ['required' => false])
+            ->add('ucUid', null, ['required' => false])
+            ->add('otherId', null, ['required' => false])
+            ->add('examined', null, ['required' => false])
+            ->add('userSyncIgnore', null, ['required' => false])
+            ->add('apiKey', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ApiKey"
             ])
-            ->add('primarySchool', 'single_related', [
+            ->add('reminders', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:UserMadeReminder"
+            ])
+            ->add('learningMaterials', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:LearningMaterial"
+            ])
+            ->add('publishEvents', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:PublishEvent"
+            ])
+            ->add('reports', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Report"
+            ])
+            ->add('primarySchool', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])
-            ->add('directedCourses', 'many_related', [
+            ->add('directedCourses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
             ])
-            ->add('learnerGroups', 'many_related', [
+            ->add('learnerGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('instructorUserGroups', 'many_related', [
+            ->add('instructorUserGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
-            ->add('instructorGroups', 'many_related', [
+            ->add('instructorGroups', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:InstructorGroup"
             ])
-            ->add('instructorIlmSessions', 'many_related', [
+            ->add('instructorIlmSessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('learnerIlmSessions', 'many_related', [
+            ->add('learnerIlmSessions', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:IlmSessionFacet"
             ])
-            ->add('offerings', 'many_related', [
+            ->add('offerings', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Offering"
             ])
-            ->add('programYears', 'many_related', [
+            ->add('programYears', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:ProgramYear"
             ])
-            ->add('alerts', 'many_related', [
+            ->add('instructionHours', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:InstructionHours"
+            ])
+            ->add('alerts', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Alert"
             ])
-            ->add('roles', 'many_related', [
+            ->add('roles', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:UserRole"
             ])

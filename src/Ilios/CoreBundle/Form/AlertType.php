@@ -17,17 +17,17 @@ class AlertType extends AbstractType
         $builder
             ->add('tableRowId')
             ->add('tableName')
-            ->add('additionalText')
-            ->add('dispatched')
-            ->add('changeTypes', 'many_related', [
+            ->add('additionalText', null, ['required' => false])
+            ->add('dispatched', null, ['required' => false])
+            ->add('changeTypes', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AlertChangeType"
             ])
-            ->add('instigators', 'many_related', [
+            ->add('instigators', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('recipients', 'many_related', [
+            ->add('recipients', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:School"
             ])

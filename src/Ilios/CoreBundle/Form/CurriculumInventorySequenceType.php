@@ -15,8 +15,8 @@ class CurriculumInventorySequenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description')
-            ->add('report', 'single_related', [
+            ->add('description', null, ['required' => false])
+            ->add('report', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:CurriculumInventoryReport"
             ])

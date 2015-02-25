@@ -16,35 +16,35 @@ class ProgramYearType extends AbstractType
     {
         $builder
             ->add('startYear')
-            ->add('deleted')
-            ->add('locked')
-            ->add('archived')
-            ->add('publishedAsTbd')
-            ->add('program', 'single_related', [
+            ->add('deleted', null, ['required' => false])
+            ->add('locked', null, ['required' => false])
+            ->add('archived', null, ['required' => false])
+            ->add('publishedAsTbd', null, ['required' => false])
+            ->add('program', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Program"
             ])
-            ->add('cohort', 'single_related', [
+            ->add('cohort', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Cohort"
             ])
-            ->add('directors', 'many_related', [
+            ->add('directors', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
             ])
-            ->add('competencies', 'many_related', [
+            ->add('competencies', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('disciplines', 'many_related', [
+            ->add('disciplines', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Discipline"
             ])
-            ->add('objectives', 'many_related', [
+            ->add('objectives', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Objective"
             ])
-            ->add('publishEvent', 'single_related', [
+            ->add('publishEvent', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:PublishEvent"
             ])
