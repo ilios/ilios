@@ -113,19 +113,19 @@ class UserManager implements UserManagerInterface
     }
 
     /**
-     * @param string $searchTerm
+     * @param string $q
      * @param array $orderBy
      * @param integer $limit
      * @param integer $offset
      *
      * @return UserInterface[]|Collection
      */
-    public function findUsersBySearchTerm(
-        $searchTerm,
+    public function findUsersByQ(
+        $q,
         array $orderBy = null,
         $limit = null,
         $offset = null
     ) {
-        return $this->repository->findBySearchTerm($searchTerm, $orderBy, $limit, $offset);
+        return $this->repository->findByQ($q, $orderBy, $limit, $offset);
     }
 }

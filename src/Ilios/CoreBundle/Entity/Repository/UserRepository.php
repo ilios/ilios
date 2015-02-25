@@ -6,11 +6,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class UserRepository extends EntityRepository
 {
-    public function findBySearchTerm($searchTerm, $orderBy, $limit, $offset)
+    /**
+     * Find by a string query
+     * @param string $q
+     * @param integer $orderBy
+     * @param integer $limit
+     * @param offset $offset
+     */
+    public function findByQ($q, $orderBy, $limit, $offset)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->add('select', 'u')->from('IliosCoreBundle:User', 'u');
-        $terms = explode(' ', $searchTerm);
+        $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
         if (empty($terms)) {
             return new ArrayCollection([]);
