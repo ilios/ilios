@@ -38,6 +38,9 @@ class SessionDescription implements SessionDescriptionInterface
     /**
     * @ORM\Column(name="description", type="text", nullable=true)
     * @var string
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $description;
 
@@ -55,6 +58,17 @@ class SessionDescription implements SessionDescriptionInterface
     public function getSession()
     {
         return $this->session;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @JMS\SerializedName("id")
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->session->getId();
     }
 
     /**
