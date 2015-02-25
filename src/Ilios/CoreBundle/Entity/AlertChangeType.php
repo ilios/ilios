@@ -36,7 +36,6 @@ class AlertChangeType implements AlertChangeTypeInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
-     * @Assert\NotBlank()     
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose

@@ -37,7 +37,6 @@ class ProgramYearSteward implements ProgramYearStewardInterface
      *
      * @Assert\Type(type="integer")
      *
-     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */

@@ -35,6 +35,7 @@ class AamcPcrs implements AamcPcrsInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -50,6 +51,7 @@ class AamcPcrs implements AamcPcrsInterface
     * @ORM\Column(name="description", type="text")
     * @var string
     *
+    * @Assert\NotBlank()
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,

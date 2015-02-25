@@ -46,6 +46,12 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @var string
      *
      * @ORM\Column(name="notes", type="text", nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
      */
     protected $notes;
 
@@ -53,6 +59,9 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      * @var boolean
      *
      * @ORM\Column(name="required", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      */
     protected $required;
 
@@ -61,6 +70,9 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *     
      * @JMS\Expose
      * @JMS\Type("boolean")
      * @JMS\SerializedName("publicNotes")

@@ -33,7 +33,6 @@ class Department implements DepartmentInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -46,8 +45,8 @@ class Department implements DepartmentInterface
      * @todo should be on the TitledEntity Trait
      * @var string
      *
-     * @Attest\NotBlank()
-     * @Attest\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 90
@@ -73,8 +72,8 @@ class Department implements DepartmentInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
-     * @Attest\NotBlank()
-     * @Attest\Type(type="bool")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      */
     protected $deleted;
 

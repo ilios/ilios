@@ -37,6 +37,7 @@ class AamcMethod implements AamcMethodInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -52,6 +53,7 @@ class AamcMethod implements AamcMethodInterface
     * @ORM\Column(name="description", type="text")
     * @var string
     *
+    * @Assert\NotBlank()
     * @Assert\Type(type="string")
     * @Assert\Length(
     *      min = 1,

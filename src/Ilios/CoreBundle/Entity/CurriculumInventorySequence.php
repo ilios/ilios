@@ -40,6 +40,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     /**
      * @ORM\Column(name="description", type="text", nullable=true)
      * @var string
+     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,

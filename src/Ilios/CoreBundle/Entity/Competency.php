@@ -36,7 +36,6 @@ class Competency implements CompetencyInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose
@@ -67,10 +66,7 @@ class Competency implements CompetencyInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
      * })
-     *
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
-     *
+     *        
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("owningSchool")

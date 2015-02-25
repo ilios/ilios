@@ -28,8 +28,13 @@ class IngestionException implements IngestionExceptionInterface
      *
      * @ORM\Column(name="ingested_wide_uid", type="string", length=32)
      *
-     * @Assert\Type(type="integer")
-     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 32
+     * )
+     * 
      * @JMS\Expose
      * @JMS\Type("string")
      */

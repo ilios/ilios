@@ -36,7 +36,6 @@ class AssessmentOption implements AssessmentOptionInterface
      * @ORM\Column(type="integer", length=10, name="assessment_option_id")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose

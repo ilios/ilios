@@ -37,9 +37,15 @@ class Report implements ReportInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=240, nullable=true)
-    * @todo should be on the TitledEntity Trait
-    * @var string
+     * @ORM\Column(type="string", length=240, nullable=true)
+     * @todo should be on the TitledEntity Trait
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 240
+     * )    
     */
     protected $title;
 
@@ -47,6 +53,8 @@ class Report implements ReportInterface
      * @var \DateTime
      *
      * @ORM\Column(name="creation_date", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $createdAt;
 
@@ -54,6 +62,13 @@ class Report implements ReportInterface
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=32)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 32
+     * )         
      */
     protected $subject;
 
@@ -61,13 +76,21 @@ class Report implements ReportInterface
      * @var string
      *
      * @ORM\Column(name="prepositional_object", type="string", length=32, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 32
+     * )      
      */
     protected $prepositionalObject;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="deleted", type="boolean")
+     *@ORM\Column(name="deleted", type="boolean")
+     *
+     *@Assert\Type(type="bool")
      */
     protected $deleted;
 

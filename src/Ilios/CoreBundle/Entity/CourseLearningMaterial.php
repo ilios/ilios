@@ -30,7 +30,6 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
      * @JMS\Expose

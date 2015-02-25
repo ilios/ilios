@@ -44,12 +44,18 @@ class Program implements ProgramInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200, nullable=true)
-    * @todo should be on the TitledEntity Trait
-    * @var string
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
+     * @ORM\Column(type="string", length=200, nullable=true)
+     * @todo should be on the TitledEntity Trait
+     * @var string
+     *
+     * @Assert\Type(type="string")     
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )     
+     * 
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 
@@ -57,6 +63,13 @@ class Program implements ProgramInterface
      * @var string
      *
      * @ORM\Column(name="short_title", type="string", length=10)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")     
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 10
+     * )           
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -69,6 +82,9 @@ class Program implements ProgramInterface
      *
      * @ORM\Column(name="duration", type="smallint")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */
@@ -79,6 +95,9 @@ class Program implements ProgramInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *     
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -89,6 +108,9 @@ class Program implements ProgramInterface
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *     
      * @JMS\Expose
      * @JMS\Type("boolean")
      * @JMS\SerializedName("publishedAsTbd")

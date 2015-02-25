@@ -53,6 +53,9 @@ class Permission implements PermissionInterface
      * @var boolean
      *
      * @ORM\Column(name="can_read", type="boolean")
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
      */
     protected $canRead;
 
@@ -60,6 +63,9 @@ class Permission implements PermissionInterface
      * @var boolean
      *
      * @ORM\Column(name="can_write", type="boolean")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")     
      */
     protected $canWrite;
 
@@ -67,6 +73,8 @@ class Permission implements PermissionInterface
      * @var int
      *
      * @ORM\Column(name="table_row_id", type="integer", nullable=true)
+     *
+     * @Assert\Type(type="integer")
      */
     protected $tableRowId;
 
@@ -74,6 +82,13 @@ class Permission implements PermissionInterface
      * @var string
      *
      * @ORM\Column(name="table_name", type="string", length=30)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")     
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 30
+     * )     
      */
     protected $tableName;
 

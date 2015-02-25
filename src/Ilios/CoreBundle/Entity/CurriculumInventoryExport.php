@@ -32,6 +32,8 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true)
      * })
      *
+     * @Assert\Type(type="integer")
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -42,7 +44,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *
      * @ORM\Column(name="document", type="text")
      * 
-     * @Attest\NonBlank()
+     * @Assert\NonBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -71,7 +73,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *
      * @ORM\Column(name="created_on", type="datetime")
      *
-     * @Attest\NonBlank()
+     * @Assert\NotBlank()
      */
     protected $createdAt;
 

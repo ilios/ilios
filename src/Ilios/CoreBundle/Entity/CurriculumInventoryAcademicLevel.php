@@ -74,7 +74,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
-     *      max = 50
+     *      max = 65000
      * )        
     */
     protected $description;

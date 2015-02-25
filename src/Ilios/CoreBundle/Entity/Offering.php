@@ -50,6 +50,13 @@ class Offering implements OfferingInterface
      *
      * @ORM\Column(name="room", type="string", length=60)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )         
+     *     
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -59,6 +66,8 @@ class Offering implements OfferingInterface
      * @var \DateTime
      *
      * @ORM\Column(name="start_date", type="datetime")
+     *
+     * @Assert\NotBlank() 
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
@@ -71,6 +80,8 @@ class Offering implements OfferingInterface
      *
      * @ORM\Column(name="end_date", type="datetime")
      *
+     * @Assert\NotBlank()
+     *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("endDate")
@@ -82,6 +93,9 @@ class Offering implements OfferingInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -91,6 +105,8 @@ class Offering implements OfferingInterface
      * @var \DateTime
      *
      * @ORM\Column(name="last_updated_on", type="datetime")
+     *
+     * @Assert\NotBlank() 
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
