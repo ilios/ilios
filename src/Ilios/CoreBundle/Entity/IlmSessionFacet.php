@@ -43,7 +43,7 @@ class IlmSessionFacet implements IlmSessionFacetInterface
     /**
      * @var float
      *
-     * @ORM\Column(name="hours", type="decimal", precision=6, scale=2)r
+     * @ORM\Column(name="hours", type="decimal", precision=6, scale=2)
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")

@@ -44,7 +44,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *
      * @ORM\Column(name="document", type="text")
      * 
-     * @Assert\NonBlank()
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
