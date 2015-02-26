@@ -41,7 +41,7 @@ class ReportPoValue implements ReportPoValueInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 14
-     * )         
+     * )
      */
     protected $prepositionalObjectTableRowId;
 

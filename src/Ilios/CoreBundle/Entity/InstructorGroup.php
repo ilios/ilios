@@ -48,7 +48,7 @@ class InstructorGroup implements InstructorGroupInterface
      * @var string
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60

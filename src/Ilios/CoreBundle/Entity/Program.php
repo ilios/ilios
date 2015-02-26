@@ -48,12 +48,12 @@ class Program implements ProgramInterface
      * @todo should be on the TitledEntity Trait
      * @var string
      *
-     * @Assert\Type(type="string")     
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
-     * )     
-     * 
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
     */
@@ -65,11 +65,11 @@ class Program implements ProgramInterface
      * @ORM\Column(name="short_title", type="string", length=10)
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="string")     
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 10
-     * )           
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -97,7 +97,7 @@ class Program implements ProgramInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -110,7 +110,7 @@ class Program implements ProgramInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      * @JMS\SerializedName("publishedAsTbd")

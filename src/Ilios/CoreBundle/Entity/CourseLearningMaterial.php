@@ -42,12 +42,12 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @ORM\Column(name="notes", type="text", nullable=true)
      *
-     * 
+     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
-     * )     
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -61,7 +61,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      */
@@ -74,7 +74,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @JMS\Expose
      * @JMS\Type("boolean")
      * @JMS\SerializedName("publicNotes")

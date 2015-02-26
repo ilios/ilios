@@ -39,11 +39,11 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
      * @ORM\Column(name="previous_indexing", type="text")
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
-     * )     
+     * )
      */
     protected $previousIndexing;
 

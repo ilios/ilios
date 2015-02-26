@@ -34,7 +34,7 @@ class IngestionException implements IngestionExceptionInterface
      *      min = 1,
      *      max = 32
      * )
-     * 
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */

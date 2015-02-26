@@ -53,7 +53,7 @@ class AssessmentOption implements AssessmentOptionInterface
     * @Assert\Length(
     *      min = 1,
     *      max = 18
-    * )    
+    * )
     */
     protected $name;
 

@@ -67,7 +67,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
-     * )    
+     * )
     */
     protected $description;
 
@@ -87,7 +87,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @ORM\Column(name="child_sequence_order", type="boolean")
      */
     protected $childSequenceOrder;
@@ -107,7 +107,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *     
+     *
      * @ORM\Column(name="minimum", type="integer")
      */
     protected $minimum;
@@ -117,7 +117,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *     
+     *
      * @ORM\Column(name="maximum", type="integer")
      */
     protected $maximum;
@@ -129,7 +129,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *     
+     *
      * this field is currently tinyint data type in the db but used like a boolean
      */
     protected $track;

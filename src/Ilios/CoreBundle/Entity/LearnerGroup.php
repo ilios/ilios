@@ -51,7 +51,7 @@ class LearnerGroup implements LearnerGroupInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )     
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -67,8 +67,8 @@ class LearnerGroup implements LearnerGroupInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 100
-     * )     
-     *     
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */

@@ -46,12 +46,12 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
      * @var string
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )  
-     *  
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
     */

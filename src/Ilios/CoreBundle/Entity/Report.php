@@ -45,7 +45,7 @@ class Report implements ReportInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 240
-     * )    
+     * )
     */
     protected $title;
 
@@ -68,7 +68,7 @@ class Report implements ReportInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 32
-     * )         
+     * )
      */
     protected $subject;
 
@@ -81,7 +81,7 @@ class Report implements ReportInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 32
-     * )      
+     * )
      */
     protected $prepositionalObject;
 

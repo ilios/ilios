@@ -47,11 +47,11 @@ class MeshQualifier implements MeshQualifierInterface
      * @ORM\Column(type="string", length=60)
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )    
+     * )
     */
     protected $name;
 
@@ -71,7 +71,7 @@ class MeshQualifier implements MeshQualifierInterface
      * @ORM\Column(name="updated_at", type="datetime")
      *
      * @Assert\NotBlank()
-     *     
+     *
      */
     protected $updatedAt;
 

@@ -56,7 +56,7 @@ class InstructionHours implements InstructionHoursInterface
      * @var int
      *
      * @ORM\Column(name="hours_accrued", type="integer")
-     * 
+     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *
@@ -67,7 +67,7 @@ class InstructionHours implements InstructionHoursInterface
      * @var boolean
      *
      * @ORM\Column(name="modified", type="boolean")
-     * 
+     *
      * @Assert\NotBlank()
      * @Assert\Type(type="bool")
      */

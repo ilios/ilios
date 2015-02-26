@@ -60,7 +60,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 200
-     * )    
+     * )
     */
     protected $name;
 
@@ -73,7 +73,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
-     * )        
+     * )
     */
     protected $description;
 
@@ -101,7 +101,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *
      * @ORM\Column(type="date", name="end_date")
      *
-     * @Assert\NotBlank()     
+     * @Assert\NotBlank()
      */
     protected $endDate;
 

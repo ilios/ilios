@@ -56,7 +56,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      * @ORM\Column(type="string", length=192)
      *
      * @Assert\NotBlank()
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 192
@@ -72,12 +72,12 @@ class MeshDescriptor implements MeshDescriptorInterface
      *
      * @ORM\Column(name="annotation", type="text", nullable=true)
      *
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
      * )
-     *     
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */

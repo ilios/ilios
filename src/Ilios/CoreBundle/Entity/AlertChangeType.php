@@ -53,7 +53,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     * @Assert\Length(
     *      min = 1,
     *      max = 60
-    * )    
+    * )
     */
     protected $title;
 

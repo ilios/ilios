@@ -47,7 +47,7 @@ class ProgramYear implements ProgramYearInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *     
+     *
      * @ORM\Column(name="start_year", type="smallint")
      */
     protected $startYear;
@@ -60,7 +60,7 @@ class ProgramYear implements ProgramYearInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @ORM\Column(name="deleted", type="boolean")
      */
     protected $deleted;
@@ -73,7 +73,7 @@ class ProgramYear implements ProgramYearInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @ORM\Column(name="locked", type="boolean")
      */
     protected $locked;
@@ -86,7 +86,7 @@ class ProgramYear implements ProgramYearInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @ORM\Column(name="archived", type="boolean")
      */
     protected $archived;
@@ -100,7 +100,7 @@ class ProgramYear implements ProgramYearInterface
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="bool")
-     *     
+     *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      */
     protected $publishedAsTbd;

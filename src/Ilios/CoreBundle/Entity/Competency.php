@@ -52,7 +52,7 @@ class Competency implements CompetencyInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 200
-     * )    
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -66,7 +66,7 @@ class Competency implements CompetencyInterface
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owning_school_id", referencedColumnName="school_id")
      * })
-     *        
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("owningSchool")

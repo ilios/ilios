@@ -50,6 +50,7 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="string", length=200, nullable=true)
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -122,7 +123,7 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="boolean", name="deleted")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose
@@ -178,7 +179,7 @@ class Course implements CourseInterface
      *
      * @ORM\Column(type="boolean", name="published_as_tbd")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose

@@ -44,10 +44,10 @@ class SessionDescription implements SessionDescriptionInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
-     * )           
-     *    
+     * )
+     *
      * @JMS\Expose
-     * @JMS\Type("string")     
+     * @JMS\Type("string")
      *
     */
     protected $description;

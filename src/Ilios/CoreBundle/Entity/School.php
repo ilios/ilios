@@ -52,7 +52,7 @@ class School implements SchoolInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )      
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -68,7 +68,7 @@ class School implements SchoolInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 8
-     * )           
+     * )
      */
     protected $templatePrefix;
 
@@ -82,7 +82,7 @@ class School implements SchoolInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 100
-     * )           
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")

@@ -61,7 +61,7 @@ class Cohort implements CohortInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )     
+     * )
      *
      */
     protected $title;
@@ -71,7 +71,7 @@ class Cohort implements CohortInterface
      *
      * @ORM\OneToOne(targetEntity="ProgramYear", fetch="EXTRA_LAZY", inversedBy="cohort")
      * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true)
-     *     
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("programYear")

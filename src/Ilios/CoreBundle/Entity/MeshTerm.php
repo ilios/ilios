@@ -37,7 +37,7 @@ class MeshTerm implements MeshTermInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 9
-     * )              
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -50,13 +50,13 @@ class MeshTerm implements MeshTermInterface
      * @ORM\Column(type="string", length=192)
      * @ORM\Id
      *
-     * @Assert\NotBlank() 
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 192
      * )
-     *         
+     *
      * @JMS\Expose
      * @JMS\Type("string")
     */
@@ -71,7 +71,7 @@ class MeshTerm implements MeshTermInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 12
-     * )              
+     * )
      */
     protected $lexicalTag;
 
@@ -79,7 +79,7 @@ class MeshTerm implements MeshTermInterface
      * @var boolean
      *
      * @ORM\Column(name="concept_preferred", type="boolean", nullable=true)
-     * 
+     *
      * @Assert\Type(type="bool")
      */
     protected $conceptPreferred;
@@ -106,7 +106,7 @@ class MeshTerm implements MeshTermInterface
      * @var boolean
      *
      * @ORM\Column(name="print", type="boolean", nullable=true)
-     * 
+     *
      * @Assert\Type(type="bool")
      */
     protected $printable;

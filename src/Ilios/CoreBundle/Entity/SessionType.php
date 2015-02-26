@@ -52,7 +52,7 @@ class SessionType implements SessionTypeInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 100
-     * )           
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -68,7 +68,7 @@ class SessionType implements SessionTypeInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 64
-     * )           
+     * )
      */
     protected $sessionTypeCssClass;
 

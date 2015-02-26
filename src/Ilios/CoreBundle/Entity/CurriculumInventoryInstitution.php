@@ -49,7 +49,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @Assert\Length(
      *      min = 1,
      *      max = 10
-     * )     
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -67,7 +67,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @Assert\Length(
      *      min = 1,
      *      max = 10
-     * )     
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")

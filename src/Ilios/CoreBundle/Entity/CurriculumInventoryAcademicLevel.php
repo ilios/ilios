@@ -61,7 +61,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @Assert\Length(
      *      min = 1,
      *      max = 50
-     * )    
+     * )
      *
     */
     protected $name;
@@ -75,7 +75,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
-     * )        
+     * )
     */
     protected $description;
 
@@ -83,7 +83,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      * @var int
      *
      * @ORM\Column(name="level", type="integer")
-     *     
+     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      *

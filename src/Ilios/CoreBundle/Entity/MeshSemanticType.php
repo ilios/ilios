@@ -36,7 +36,7 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 9
-     * )         
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -51,7 +51,7 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 192
-     * )             
+     * )
      *
      * @ORM\Column(type="string", length=192)
     */

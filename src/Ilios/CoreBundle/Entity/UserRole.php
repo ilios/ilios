@@ -51,7 +51,7 @@ class UserRole implements UserRoleInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * ) 
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")

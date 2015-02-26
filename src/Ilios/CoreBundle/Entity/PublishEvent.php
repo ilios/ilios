@@ -48,7 +48,7 @@ class PublishEvent implements PublishEventInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 15
-     * )     
+     * )
      */
     protected $machineIp;
 
@@ -71,7 +71,7 @@ class PublishEvent implements PublishEventInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 30
-     * )          
+     * )
      */
     protected $tableName;
 

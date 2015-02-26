@@ -45,7 +45,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 150
-     * )      
+     * )
      */
     protected $note;
 

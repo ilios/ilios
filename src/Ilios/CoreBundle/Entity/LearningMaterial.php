@@ -70,8 +70,8 @@ abstract class LearningMaterial implements LearningMaterialInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )    
-     *      
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -87,7 +87,7 @@ abstract class LearningMaterial implements LearningMaterialInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
-     * )        
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -100,7 +100,7 @@ abstract class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="upload_date", type="datetime")
      *
-     * @Assert\NotBlank() 
+     * @Assert\NotBlank()
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
@@ -125,7 +125,7 @@ abstract class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="asset_creator", type="string", length=80, nullable=true)
      *
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 80
@@ -142,12 +142,12 @@ abstract class LearningMaterial implements LearningMaterialInterface
      *
      * @ORM\Column(name="token", type="string", length=64, nullable=true)
      *
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 64
      * )
-     *     
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */

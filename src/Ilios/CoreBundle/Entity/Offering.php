@@ -55,8 +55,8 @@ class Offering implements OfferingInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )         
-     *     
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -67,7 +67,7 @@ class Offering implements OfferingInterface
      *
      * @ORM\Column(name="start_date", type="datetime")
      *
-     * @Assert\NotBlank() 
+     * @Assert\NotBlank()
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")
@@ -106,7 +106,7 @@ class Offering implements OfferingInterface
      *
      * @ORM\Column(name="last_updated_on", type="datetime")
      *
-     * @Assert\NotBlank() 
+     * @Assert\NotBlank()
      *
      * @JMS\Expose
      * @JMS\Type("DateTime<'c'>")

@@ -46,11 +46,11 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
      * @ORM\Column(type="string", length=60)
      * @var string
      *
-     * @Assert\Type(type="string") 
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
-     * )    
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")

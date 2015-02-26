@@ -65,7 +65,7 @@ class MeshUserSelection implements MeshUserSelectionInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 127
-     * )         
+     * )
      *
     */
     protected $searchPhrase;

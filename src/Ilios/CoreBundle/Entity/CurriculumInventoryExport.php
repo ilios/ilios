@@ -43,13 +43,13 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * @var string
      *
      * @ORM\Column(name="document", type="text")
-     * 
+     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 16000000
-     * )     
+     * )
      *
      */
     protected $document;

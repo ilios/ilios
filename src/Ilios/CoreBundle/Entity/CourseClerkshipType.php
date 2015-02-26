@@ -49,7 +49,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 20
-     * )     
+     * )
      * @JMS\Expose
      * @JMS\Type("string")
      */

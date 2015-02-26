@@ -58,7 +58,7 @@ class Session implements SessionInterface
      * @Assert\Length(
      *      min = 1,
      *      max = 200
-     * )           
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
