@@ -140,7 +140,7 @@ class RecurringEvent implements RecurringEventInterface
 
     /**
      * @var RecurringEventInterface
-     * @ORM\ManyToOne(targetEntity="RecurringEvent")ngEvent")
+     * @ORM\ManyToOne(targetEntity="RecurringEvent")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="next_recurring_event_id", referencedColumnName="recurring_event_id")
      * })
