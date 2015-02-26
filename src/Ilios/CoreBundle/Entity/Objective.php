@@ -44,6 +44,13 @@ class Objective implements ObjectiveInterface
      *
      * @ORM\Column(type="text")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )              
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */

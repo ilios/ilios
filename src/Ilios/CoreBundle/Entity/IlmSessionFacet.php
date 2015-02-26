@@ -35,16 +35,22 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      *
      * @Assert\Type(type="integer")
      *
-     *
      * @JMS\Expose
      * @JMS\Type("integer")
      */
     protected $id;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="hours", type="decimal", precision=6, scale=2)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Length(
+     *      min = 0,
+     *      max = 10000
+     * )
      */
     protected $hours;
 
@@ -52,6 +58,8 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      * @var \DateTime
      *
      * @ORM\Column(name="due_date", type="date")
+     *
+     * @Assert\NotBlank()
      */
     protected $dueDate;
 
