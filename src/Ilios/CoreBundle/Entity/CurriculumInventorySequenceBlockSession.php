@@ -51,7 +51,7 @@ class CurriculumInventorySequenceBlockSession implements CurriculumInventorySequ
      *
      * @ORM\Column(name="count_offerings_once", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      */
     protected $countOfferingsOnce;

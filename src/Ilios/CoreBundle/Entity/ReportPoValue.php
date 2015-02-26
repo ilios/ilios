@@ -50,7 +50,7 @@ class ReportPoValue implements ReportPoValueInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      */
     protected $deleted;

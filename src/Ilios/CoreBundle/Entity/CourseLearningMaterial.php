@@ -59,7 +59,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @ORM\Column(name="required", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *     
      * @JMS\Expose
@@ -72,7 +72,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *     
      * @JMS\Expose

@@ -76,7 +76,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="required", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      */
@@ -127,7 +127,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *
      * @ORM\Column(name="track", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *     
      * this field is currently tinyint data type in the db but used like a boolean

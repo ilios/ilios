@@ -95,7 +95,7 @@ class School implements SchoolInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose

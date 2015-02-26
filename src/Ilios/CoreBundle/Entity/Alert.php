@@ -94,7 +94,7 @@ class Alert implements AlertInterface
      *
      * @ORM\Column(name="dispatched", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose

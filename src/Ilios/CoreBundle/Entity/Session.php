@@ -70,7 +70,7 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="attire_required", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose
@@ -84,7 +84,7 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="equipment_required", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose
@@ -98,7 +98,7 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="supplemental", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose
@@ -111,7 +111,7 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose
@@ -124,7 +124,7 @@ class Session implements SessionInterface
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose

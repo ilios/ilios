@@ -72,7 +72,7 @@ class UserMadeReminder implements UserMadeReminderInterface
      *
      * @ORM\Column(name="closed", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      */
     protected $closed;

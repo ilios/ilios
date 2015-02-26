@@ -64,7 +64,7 @@ class Permission implements PermissionInterface
      *
      * @ORM\Column(name="can_write", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")     
      */
     protected $canWrite;

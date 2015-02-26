@@ -76,7 +76,7 @@ class MeshConcept implements MeshConceptInterface
      *
      * @ORM\Column(name="preferred", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      */
     protected $preferred;

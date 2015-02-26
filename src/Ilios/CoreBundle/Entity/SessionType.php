@@ -77,7 +77,7 @@ class SessionType implements SessionTypeInterface
      *
      * @ORM\Column(name="assessment", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      */
     protected $assessment;

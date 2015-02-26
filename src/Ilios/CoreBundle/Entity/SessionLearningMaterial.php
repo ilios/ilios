@@ -60,7 +60,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @ORM\Column(name="required", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      */
     protected $required;
@@ -70,7 +70,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @ORM\Column(name="notes_are_public", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *     
      * @JMS\Expose

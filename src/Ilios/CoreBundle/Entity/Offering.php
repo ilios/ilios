@@ -93,7 +93,7 @@ class Offering implements OfferingInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @JMS\Expose

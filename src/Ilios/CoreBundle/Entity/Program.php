@@ -95,7 +95,7 @@ class Program implements ProgramInterface
      *
      * @ORM\Column(name="deleted", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *     
      * @JMS\Expose
@@ -108,7 +108,7 @@ class Program implements ProgramInterface
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *     
      * @JMS\Expose
