@@ -56,7 +56,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *
      * @ORM\Column(type="string", length=50)
      *
-     * @Assert\NonBlank()
+     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -84,7 +84,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *
      * @ORM\Column(name="level", type="integer")
      *     
-     * @Attest\NonBlank()
+     * @Attest\NotBlank()
      * @Attest\Type(type="integer")
      *
      */
