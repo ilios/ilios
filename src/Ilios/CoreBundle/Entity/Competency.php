@@ -44,13 +44,19 @@ class Competency implements CompetencyInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=200, nullable=true)
-    * @todo should be on the TitledEntity Trait
-    * @var string
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
-    */
+     * @ORM\Column(type="string", length=200, nullable=true)
+     * @todo should be on the TitledEntity Trait
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     */
     protected $title;
 
     /**

@@ -33,6 +33,10 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * @ORM\GeneratedValue(strategy="NONE")
      *
      * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 9
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -40,9 +44,16 @@ class MeshSemanticType implements MeshSemanticTypeInterface
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=192)
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 192
+     * )
+     *
+     * @ORM\Column(type="string", length=192)
     */
     protected $name;
 
@@ -50,6 +61,8 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $createdAt;
 
@@ -57,6 +70,8 @@ class MeshSemanticType implements MeshSemanticTypeInterface
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $updatedAt;
 

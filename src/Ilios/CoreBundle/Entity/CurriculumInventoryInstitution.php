@@ -23,12 +23,19 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     use NameableEntity;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=100)
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $name;
 
@@ -36,6 +43,13 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(name="aamc_code", type="string", length=10)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 10
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -48,6 +62,13 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @ORM\Column(type="string", length=100, name="address_street")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 10
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("streetAddress")
@@ -59,6 +80,13 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @ORM\Column(type="string", length=100, name="address_city")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -69,6 +97,13 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @ORM\Column(type="string", length=50, name="address_state_or_province")
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -78,6 +113,13 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(type="string", length=10, name="address_zipcode")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 10
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -90,6 +132,13 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @var string
      *
      * @ORM\Column(type="string", length=2, name="address_country_code")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 2
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")

@@ -42,9 +42,16 @@ class MeshQualifier implements MeshQualifierInterface
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=60)
+     * @var string
+     *
+     * @ORM\Column(type="string", length=60)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )
     */
     protected $name;
 
@@ -52,6 +59,9 @@ class MeshQualifier implements MeshQualifierInterface
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @Assert\NotBlank()
+     *
      */
     protected $createdAt;
 
@@ -59,6 +69,9 @@ class MeshQualifier implements MeshQualifierInterface
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
+     *
+     * @Assert\NotBlank()
+     *
      */
     protected $updatedAt;
 

@@ -43,13 +43,19 @@ class SessionType implements SessionTypeInterface
      */
     protected $id;
 
-
     /**
-    * @ORM\Column(type="string", length=100)
-    * @var string
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
+     * @ORM\Column(type="string", length=100)
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 
@@ -57,6 +63,12 @@ class SessionType implements SessionTypeInterface
      * @var string
      *
      * @ORM\Column(name="session_type_css_class", type="string", length=64, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 64
+     * )
      */
     protected $sessionTypeCssClass;
 
@@ -64,6 +76,9 @@ class SessionType implements SessionTypeInterface
      * @var boolean
      *
      * @ORM\Column(name="assessment", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      */
     protected $assessment;
 

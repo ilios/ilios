@@ -56,7 +56,13 @@ class Cohort implements CohortInterface
      * @JMS\Expose
      * @JMS\Type("string")
      *
-     * @Assert\Type(type="string", message="type.not_valid")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )
+     *
      */
     protected $title;
 

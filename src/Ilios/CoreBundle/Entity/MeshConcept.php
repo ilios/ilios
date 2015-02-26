@@ -44,9 +44,16 @@ class MeshConcept implements MeshConceptInterface
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=192)
+     * @var string
+     *
+     * @ORM\Column(type="string", length=192)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 192
+     * )
     */
     protected $name;
 
@@ -54,6 +61,13 @@ class MeshConcept implements MeshConceptInterface
      * @var string
      *
      * @ORM\Column(name="umls_uid", type="string", length=9)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 9
+     * )
      */
     protected $umlsUid;
 
@@ -61,6 +75,9 @@ class MeshConcept implements MeshConceptInterface
      * @var boolean
      *
      * @ORM\Column(name="preferred", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      */
     protected $preferred;
 
@@ -68,6 +85,12 @@ class MeshConcept implements MeshConceptInterface
      * @var string
      *
      * @ORM\Column(name="scope_note", type="text", nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
      */
     protected $scopeNote;
 
@@ -75,6 +98,12 @@ class MeshConcept implements MeshConceptInterface
      * @var string
      *
      * @ORM\Column(name="casn_1_name", type="string", length=127, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 127
+     * )
      */
     protected $casn1Name;
 
@@ -82,6 +111,12 @@ class MeshConcept implements MeshConceptInterface
      * @var string
      *
      * @ORM\Column(name="registry_number", type="string", length=30, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 30
+     * )
      */
     protected $registryNumber;
 
@@ -108,6 +143,9 @@ class MeshConcept implements MeshConceptInterface
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @Assert\NotBlank()
+     *
      */
     protected $createdAt;
 
@@ -115,6 +153,8 @@ class MeshConcept implements MeshConceptInterface
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $updatedAt;
 

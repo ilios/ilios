@@ -55,12 +55,25 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     * @var string
     *
     * @ORM\Column(type="string", length=200, nullable=true)
+    *
+    * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
     */
     protected $name;
 
     /**
-    * @ORM\Column(name="description", type="text", nullable=true)
     * @var string
+    *
+    * @ORM\Column(name="description", type="text", nullable=true)
+    *
+    * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
     */
     protected $description;
 
@@ -68,6 +81,9 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @var int
      *
      * @ORM\Column(name="year", type="smallint")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      */
     protected $year;
 
@@ -75,6 +91,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date", name="start_date")
+     *
+     * @Assert\NotBlank()
      */
     protected $startDate;
 
@@ -82,6 +100,8 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      * @var \DateTime
      *
      * @ORM\Column(type="date", name="end_date")
+     *
+     * @Assert\NotBlank()
      */
     protected $endDate;
 

@@ -42,6 +42,13 @@ class PublishEvent implements PublishEventInterface
      * @var string
      *
      * @ORM\Column(name="machine_ip", type="string", length=15)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 15
+     * )
      */
     protected $machineIp;
 
@@ -49,6 +56,8 @@ class PublishEvent implements PublishEventInterface
      * @var \DateTime
      *
      * @ORM\Column(name="time_stamp", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $timeStamp;
 
@@ -56,6 +65,13 @@ class PublishEvent implements PublishEventInterface
      * @var string
      *
      * @ORM\Column(name="table_name", type="string", length=30)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 30
+     * )
      */
     protected $tableName;
 
@@ -63,6 +79,9 @@ class PublishEvent implements PublishEventInterface
      * @var int
      *
      * @ORM\Column(name="table_row_id", type="integer")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      */
     protected $tableRowId;
 

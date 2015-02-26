@@ -36,11 +36,19 @@ class SessionDescription implements SessionDescriptionInterface
     protected $session;
 
     /**
-    * @ORM\Column(name="description", type="text", nullable=true)
-    * @var string
-    *
-    * @JMS\Expose
-    * @JMS\Type("string")
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     *
     */
     protected $description;
 

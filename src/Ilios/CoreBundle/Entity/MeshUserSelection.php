@@ -56,9 +56,17 @@ class MeshUserSelection implements MeshUserSelectionInterface
     protected $meshDescriptor;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="search_phrase", type="string", length=127, nullable=true)
+     * @var string
+     *
+     * @ORM\Column(name="search_phrase", type="string", length=127, nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 127
+     * )
+     *
     */
     protected $searchPhrase;
 

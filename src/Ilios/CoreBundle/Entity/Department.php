@@ -41,9 +41,16 @@ class Department implements DepartmentInterface
     protected $id;
 
     /**
-    * @ORM\Column(type="string", length=90)
-    * @todo should be on the TitledEntity Trait
-    * @var string
+     * @ORM\Column(type="string", length=90)
+     * @todo should be on the TitledEntity Trait
+     * @var string
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 90
+     * )
     */
     protected $title;
 
@@ -64,6 +71,9 @@ class Department implements DepartmentInterface
      * @var boolean
      *
      * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      */
     protected $deleted;
 

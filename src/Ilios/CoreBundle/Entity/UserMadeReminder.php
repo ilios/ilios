@@ -40,6 +40,12 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @var string
      *
      * @ORM\Column(name="note", type="string", length=150)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 150
+     * )
      */
     protected $note;
 
@@ -47,6 +53,8 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @var \DateTime
      *
      * @ORM\Column(name="creation_date", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $createdAt;
 
@@ -54,6 +62,8 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @var \DateTime
      *
      * @ORM\Column(name="due_date", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $dueDate;
 
@@ -61,6 +71,9 @@ class UserMadeReminder implements UserMadeReminderInterface
      * @var boolean
      *
      * @ORM\Column(name="closed", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      */
     protected $closed;
 

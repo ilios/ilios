@@ -47,6 +47,13 @@ class School implements SchoolInterface
      *
      * @ORM\Column(type="string", length=60)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -56,6 +63,12 @@ class School implements SchoolInterface
      * @var string
      *
      * @ORM\Column(name="template_prefix", type="string", length=8, nullable=true)
+     *
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 8
+     * )
      */
     protected $templatePrefix;
 
@@ -63,6 +76,13 @@ class School implements SchoolInterface
      * @var string
      *
      * @ORM\Column(name="ilios_administrator_email", type="string", length=100)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
      *
      * @JMS\Expose
      * @JMS\Type("string")
@@ -74,6 +94,9 @@ class School implements SchoolInterface
      * @var boolean
      *
      * @ORM\Column(name="deleted", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      *
      * @JMS\Expose
      * @JMS\Type("boolean")

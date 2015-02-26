@@ -39,6 +39,9 @@ class RecurringEvent implements RecurringEventInterface
     /**
      * @var boolean
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     *
      * @ORM\Column(name="on_sunday", type="boolean")
      */
     protected $onSunday;
@@ -47,6 +50,9 @@ class RecurringEvent implements RecurringEventInterface
      * @var boolean
      *
      * @ORM\Column(name="on_monday", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
     protected $onMonday;
 
@@ -54,6 +60,9 @@ class RecurringEvent implements RecurringEventInterface
      * @var boolean
      *
      * @ORM\Column(name="on_tuesday", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
     protected $onTuesday;
 
@@ -61,6 +70,9 @@ class RecurringEvent implements RecurringEventInterface
      * @var boolean
      *
      * @ORM\Column(name="on_wednesday", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
     protected $onWednesday;
 
@@ -68,6 +80,9 @@ class RecurringEvent implements RecurringEventInterface
      * @var boolean
      *
      * @ORM\Column(name="on_thursday", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
     protected $onThursday;
 
@@ -75,6 +90,9 @@ class RecurringEvent implements RecurringEventInterface
      * @var boolean
      *
      * @ORM\Column(name="on_friday", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
     protected $onFriday;
 
@@ -82,6 +100,9 @@ class RecurringEvent implements RecurringEventInterface
      * @var boolean
      *
      * @ORM\Column(name="on_saturday", type="boolean")
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
     protected $onSaturday;
 
@@ -89,6 +110,8 @@ class RecurringEvent implements RecurringEventInterface
      * @var \DateTime
      *
      * @ORM\Column(name="end_date", type="datetime")
+     *
+     * @Assert\NotBlank()
      */
     protected $endDate;
 
@@ -96,6 +119,8 @@ class RecurringEvent implements RecurringEventInterface
      * @var int
      *
      * @ORM\Column(name="repetition_count", type="smallint", nullable=true)
+     *
+     * @Assert\Type(type="integer")
      */
     protected $repetitionCount;
 
@@ -115,7 +140,6 @@ class RecurringEvent implements RecurringEventInterface
 
     /**
      * @var RecurringEventInterface
-     * @
      * @ORM\ManyToOne(targetEntity="RecurringEvent")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="next_recurring_event_id", referencedColumnName="recurring_event_id")
