@@ -84,8 +84,8 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *
      * @ORM\Column(name="level", type="integer")
      *     
-     * @Attest\NotBlank()
-     * @Attest\Type(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      *
      */
     protected $level;
