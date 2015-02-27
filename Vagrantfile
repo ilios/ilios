@@ -29,6 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.provision "shell" do |shell|
         shell.path = "provision/shell/init.sh"
+        shell.binary = true
     end
 
     if Vagrant.has_plugin?("vagrant-cachier")
