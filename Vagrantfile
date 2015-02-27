@@ -9,8 +9,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.hostname = "ilios.dev"
     config.vm.network :private_network, ip: "10.10.10.10"
     config.vm.network "forwarded_port", guest: 443, host: 8443, host_ip: "127.0.0.1"
-    config.vm.synced_folder ".", "/vagrant", :nfs => { :mount_options => ["dmode=777","fmode=777"], :nfs_version => "3" }, id: "ilios-root"
 
+    if Vagrant::Util::Platform.windows?
+        config.vm.synced_folder ".", "/vagrant", id: "ilios-root"
+    else
+        config.vm.synced_folder ".", "/vagrant", :nfs => { :mount_options => ["dmode=777","fmode=777"], :nfs_version => "3" }, id: "ilios-root"
+    end
+    
     config.vm.provider "virtualbox" do |vb|
         vb.customize ["modifyvm", :id, "--memory", "2048"]
         vb.name = "ilios3.dev"
@@ -28,8 +33,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     if Vagrant.has_plugin?("vagrant-cachier")
         config.cache.scope = :box
-        config.cache.synced_folder_opts = {
-            type: :nfs
-        }
+        unless Vagrant::Util::Platform.windows?
+            config.cache.synced_folder_opts = {
+                type: :nfs
+            }
+        end
     end
 end
