@@ -22,9 +22,8 @@ class CourseTest extends EntityBase
         $this->object = new Course;
     }
 
-    public function testValidation()
+    public function testNotBlankValidation()
     {
-        $errors = $this->validate(5);
         $notBlank = array(
             'title',
             'level',
@@ -32,10 +31,7 @@ class CourseTest extends EntityBase
             'startDate',
             'endDate'
         );
-        foreach ($notBlank as $key) {
-            $this->assertTrue(array_key_exists($key, $errors));
-            $this->assertSame('NotBlank', $errors[$key]);
-        }
+        $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
         $this->object->setLevel(3);
