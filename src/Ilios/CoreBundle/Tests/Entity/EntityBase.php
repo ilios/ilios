@@ -47,6 +47,17 @@ class EntityBase extends TestCase
         return $parsedErrors;
     }
 
+    protected function validateNotBlanks(array $fields)
+    {
+
+        $errors = $this->validate(count($fields));
+
+        foreach ($fields as $key) {
+            $this->assertTrue(array_key_exists($key, $errors));
+            $this->assertSame('NotBlank', $errors[$key]);
+        }
+    }
+
     /**
      * A generic test for entity setters
      *
