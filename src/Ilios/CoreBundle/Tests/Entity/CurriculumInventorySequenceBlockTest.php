@@ -22,6 +22,31 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object = new CurriculumInventorySequenceBlock;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title',
+            'childSequenceOrder',
+            'orderInSequence',
+            'minimum',
+            'maximum',
+            'startDate',
+            'endDate',
+            'duration'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('test title for the block max 200');
+        $this->object->setChildSequenceOrder(true); // this fails when a False is passed I have noticed
+        $this->object->setOrderInSequence(2);
+        $this->object->setMinimum(1);
+        $this->object->setMaximum(521);
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());        
+        $this->object->setDuration(60);
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::setRequired
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock::isRequired

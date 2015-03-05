@@ -22,6 +22,18 @@ class CohortTest extends EntityBase
         $this->object = new Cohort;
     }
 
+
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('up to sixty char');
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\Cohort::__construct
      */

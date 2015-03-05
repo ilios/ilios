@@ -93,6 +93,15 @@ class MeshQualifier implements MeshQualifierInterface
     */
     protected $descriptors;
 
+        /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = getDate();
+        $this->updatedAt = getDate();
+    }
+
     /**
      * @param \DateTime $createdAt
      */

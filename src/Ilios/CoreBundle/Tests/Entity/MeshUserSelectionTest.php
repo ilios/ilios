@@ -22,6 +22,8 @@ class MeshUserSelectionTest extends EntityBase
         $this->object = new MeshUserSelection;
     }
 
+    // NotBlank() tests are not necessary - no NotBlank() fields
+
     /**
      * @covers Ilios\CoreBundle\Entity\MeshUserSelection::setMeshDescriptor
      * @covers Ilios\CoreBundle\Entity\MeshUserSelection::getMeshDescriptor

@@ -22,6 +22,22 @@ class MeshTermTest extends EntityBase
         $this->object = new MeshTerm;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'name',
+            'createdAt',
+            'updatedAt'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('test up to 192 in length search string');
+        $this->object->setCreatedAt(new \DateTime());
+        $this->object->setUpdatedAt(new \DateTime());
+        $this->validate(0);
+    }
+
+
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setName
      * @covers Ilios\CoreBundle\Entity\MeshTerm::getName

@@ -146,6 +146,7 @@ class SessionType implements SessionTypeInterface
     {
         $this->aamcMethods = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+        $this->assessment = false;
     }
 
     /**

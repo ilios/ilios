@@ -22,6 +22,18 @@ class AssessmentOptionTest extends EntityBase
         $this->object = new AssessmentOption;
     }
 
+
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'name'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('Smorgasbord');
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\AssessmentOption::setName
      * @covers Ilios\CoreBundle\Entity\AssessmentOption::getName

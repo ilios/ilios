@@ -22,6 +22,9 @@ class InstructionHoursTest extends EntityBase
         $this->object = new InstructionHours;
     }
 
+    // This one seems messed up.
+    // Intellisense wasn't picking up the fields and the types seem weird - maybe not properly implemented yet 
+
     /**
      * @covers Ilios\CoreBundle\Entity\InstructionHours::setUser
      * @covers Ilios\CoreBundle\Entity\InstructionHours::getUser

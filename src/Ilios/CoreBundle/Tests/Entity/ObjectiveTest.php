@@ -22,6 +22,16 @@ class ObjectiveTest extends EntityBase
         $this->object = new Objective;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('test');
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\Objective::setTitle
      * @covers Ilios\CoreBundle\Entity\Objective::getTitle

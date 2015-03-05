@@ -22,6 +22,17 @@ class LearningMaterialUserRoleTest extends EntityBase
         $this->object = new LearningMaterialUserRole;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('test up to 60 char');
+        $this->validate(0);
+    }    
+
     /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::__construct
      */

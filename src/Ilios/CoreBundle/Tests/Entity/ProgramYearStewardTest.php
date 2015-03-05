@@ -22,6 +22,9 @@ class ProgramYearStewardTest extends EntityBase
         $this->object = new ProgramYearSteward;
     }
 
+    // NotBlank() tests not required here - no NotBlank() fields
+    //
+
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::setDepartment
      * @covers Ilios\CoreBundle\Entity\ProgramYearSteward::getDepartment

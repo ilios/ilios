@@ -21,6 +21,19 @@ class SchoolTest extends EntityBase
     {
         $this->object = new School;
     }
+    
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title',
+            'iliosAdministratorEmail'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('test');
+        $this->object->setIliosAdministratorEmail('dartajax@winner.net');
+        $this->validate(0);
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\School::__construct

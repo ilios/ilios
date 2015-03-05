@@ -22,6 +22,19 @@ class IlmSessionFacetTest extends EntityBase
         $this->object = new IlmSessionFacet;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'hours',
+            'dueDate'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setHours(55);
+        $this->object->setDueDate(new \DateTime());
+        $this->validate(0);
+    }    
+
     /**
      * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::__construct
      */

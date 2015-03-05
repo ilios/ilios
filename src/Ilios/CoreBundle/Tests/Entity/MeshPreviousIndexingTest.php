@@ -22,6 +22,16 @@ class MeshPreviousIndexingTest extends EntityBase
         $this->object = new MeshPreviousIndexing;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'previousIndexing'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setPreviousIndexing('a big load of stuff in here up to 65 K characters too much for me to imagine');
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::setPreviousIndexing
      * @covers Ilios\CoreBundle\Entity\MeshPreviousIndexing::getPreviousIndexing

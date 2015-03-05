@@ -22,6 +22,19 @@ class AlertTest extends EntityBase
         $this->object = new Alert;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'tableRowId',
+            'tableName'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTableRowId(3215);
+        $this->object->setTableName('zippeedee doo dah');
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\Alert::__construct
      */

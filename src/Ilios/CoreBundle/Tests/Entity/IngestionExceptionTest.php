@@ -22,6 +22,8 @@ class IngestionExceptionTest extends EntityBase
         $this->object = new IngestionException;
     }
 
+    // not sure about this one -- there is the ID field which is NotBlank() but I recall this failing 
+
     /**
      * @covers Ilios\CoreBundle\Entity\IngestionException::setUser
      * @covers Ilios\CoreBundle\Entity\IngestionException::getUser

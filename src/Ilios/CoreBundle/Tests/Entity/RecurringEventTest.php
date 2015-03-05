@@ -22,6 +22,8 @@ class RecurringEventTest extends EntityBase
         $this->object = new RecurringEvent;
     }
 
+    // this one is messed up too -- some boolean set up as NotNull some NotBlank (int, bool ?)    
+
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::__construct
      */

@@ -22,6 +22,17 @@ class LearnerGroupTest extends EntityBase
         $this->object = new LearnerGroup;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('test');
+        $this->validate(0);
+    }    
+
     /**
      * @covers Ilios\CoreBundle\Entity\LearnerGroup::__construct
      */

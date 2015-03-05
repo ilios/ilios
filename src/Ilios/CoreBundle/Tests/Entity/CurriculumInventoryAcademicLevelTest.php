@@ -22,6 +22,19 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
         $this->object = new CurriculumInventoryAcademicLevel;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'name',
+            'level'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('50 char max name test');
+        $this->object->setLevel(4);
+        $this->validate(0);
+    }    
+
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setLevel
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::getLevel

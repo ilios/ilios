@@ -55,6 +55,11 @@ class ReportPoValue implements ReportPoValueInterface
      */
     protected $deleted;
 
+    public function __construct()
+    {
+        $this->deleted = false;
+    }
+
     /**
      * @param string $prepositionalObjectTableRowId
      */

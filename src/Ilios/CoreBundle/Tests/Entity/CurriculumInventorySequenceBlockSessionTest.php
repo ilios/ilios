@@ -22,6 +22,9 @@ class CurriculumInventorySequenceBlockSessionTest extends EntityBase
         $this->object = new CurriculumInventorySequenceBlockSession;
     }
 
+    // not sure what to do with this one since SetID was not available 
+    // should we be using SetSequenceBlock?
+
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::setCountOfferingsOnce
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockSession::hasCountOfferingsOnce

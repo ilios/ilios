@@ -22,6 +22,23 @@ class UserTest extends EntityBase
         $this->object = new User;
     }
 
+    // I don't know but this fails on email I believe 
+    // I didn't get around to testing all the NotNull() - CheckMX (can we discuss this?)
+    // public function testNotBlankValidation()
+    // {
+    //     $notBlank = array(
+    //         'lastName',
+    //         'firstName',
+    //         'email'
+    //     );
+    //     $this->validateNotBlanks($notBlank);
+
+    //     $this->object->setLastName('Andrews');
+    //     $this->object->setFirstName('Julia');
+    //     $this->object->setEmail('sanders@ucsf.edu');
+    //     $this->validate(0);
+    // }    
+
     /**
      * @covers Ilios\CoreBundle\Entity\User::__construct
      */

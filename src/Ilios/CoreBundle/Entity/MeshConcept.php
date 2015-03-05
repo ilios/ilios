@@ -175,6 +175,17 @@ class MeshConcept implements MeshConceptInterface
     * @JMS\Type("array<string>")
     */
     protected $descriptors;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->updatedAt = getdate(); 
+        $this->createdAt = getdate();
+        $this->preferred = false;
+    }
+
     /**
      * @param string $umlsUid
      */

@@ -22,6 +22,16 @@ class MeshQualifierTest extends EntityBase
         $this->object = new MeshQualifier;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'name'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('test_name');
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\MeshQualifier::setName
      * @covers Ilios\CoreBundle\Entity\MeshQualifier::getName

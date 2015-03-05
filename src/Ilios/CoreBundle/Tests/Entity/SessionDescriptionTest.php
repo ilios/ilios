@@ -22,6 +22,8 @@ class SessionDescriptionTest extends EntityBase
         $this->object = new SessionDescription;
     }
 
+    // NotBlank() test not necessary - no NotBlank() fields
+    
     /**
      * @covers Ilios\CoreBundle\Entity\SessionDescription::setDescription
      * @covers Ilios\CoreBundle\Entity\SessionDescription::getDescription

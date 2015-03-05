@@ -22,6 +22,17 @@ class ReportPoValueTest extends EntityBase
         $this->object = new ReportPoValue;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'prepositionalObjectTableRowId'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setprepositionalObjectTableRowId('string of');
+        $this->validate(0);
+    }    
+
     /**
      * @covers Ilios\CoreBundle\Entity\ReportPoValue::setDeleted
      * @covers Ilios\CoreBundle\Entity\ReportPoValue::isDeleted

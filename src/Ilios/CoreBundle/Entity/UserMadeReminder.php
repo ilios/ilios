@@ -91,6 +91,13 @@ class UserMadeReminder implements UserMadeReminderInterface
     protected $user;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->closed = false;
+    }
+    /**
      * @param int $id
      */
     public function setId($id)

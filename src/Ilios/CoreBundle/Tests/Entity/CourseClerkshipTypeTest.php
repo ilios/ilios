@@ -22,6 +22,16 @@ class CourseClerkshipTypeTest extends EntityBase
         $this->object = new CourseClerkshipType;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('20 max title');
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::setTitle
      * @covers Ilios\CoreBundle\Entity\CourseClerkshipType::getTitle

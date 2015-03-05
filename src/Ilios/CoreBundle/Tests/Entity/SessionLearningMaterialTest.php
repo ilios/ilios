@@ -22,6 +22,8 @@ class SessionLearningMaterialTest extends EntityBase
         $this->object = new SessionLearningMaterial;
     }
 
+    // NotBlank() test not necessary - no NotBlank() fields but several NotNull() fields exist
+
     /**
      * @covers Ilios\CoreBundle\Entity\SessionLearningMaterial::__construct
      */

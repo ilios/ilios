@@ -222,6 +222,9 @@ class Offering implements OfferingInterface
     public function __construct()
     {
         $this->deleted = false;
+        $this->startDate = getdate();
+        $this->endDate = getdate();
+        $this->lastUpdatedOn = getdate();
         $this->learnerGroups = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
         $this->users = new ArrayCollection();

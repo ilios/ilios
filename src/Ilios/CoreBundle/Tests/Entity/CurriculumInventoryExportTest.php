@@ -22,6 +22,17 @@ class CurriculumInventoryExportTest extends EntityBase
         $this->object = new CurriculumInventoryExport;
     }
 
+    // public function testNotBlankValidation()
+    // {
+    //     $notBlank = array(
+    //         'document'
+    //     );
+    //     $this->validateNotBlanks($notBlank);
+        
+    //     $this->object->setDocument('text file super large test');
+    //     $this->validate(0);
+    // }    
+
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setDocument
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::getDocument

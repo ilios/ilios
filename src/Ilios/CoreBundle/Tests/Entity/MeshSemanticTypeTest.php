@@ -22,6 +22,22 @@ class MeshSemanticTypeTest extends EntityBase
         $this->object = new MeshSemanticType;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'name',
+            'createdAt',
+            'updatedAt'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('long name test');
+        $this->object->setCreatedAt(new \DateTime());
+        $this->object->setUpdatedAt(new \DateTime());
+        $this->validate(0);
+    }
+
+
     /**
      * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setName
      * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getName
