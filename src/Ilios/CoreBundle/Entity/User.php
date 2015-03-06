@@ -115,8 +115,10 @@ class User implements UserInterface
      *
      * @ORM\Column(name="email", type="string", length=100)
      *
+     * @Assert\Email(checkMX = False)
+     *
      * @Assert\NotBlank()
-     * )
+     * 
      * @Assert\Length(
      *      min = 1,
      *      max = 100
