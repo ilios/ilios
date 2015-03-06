@@ -31,7 +31,7 @@ class UserRoleTest extends EntityBase
 
         $this->object->setTitle('test');
         $this->validate(0);
-    }    
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\UserRole::__construct

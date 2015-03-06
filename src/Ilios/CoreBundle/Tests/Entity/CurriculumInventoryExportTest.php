@@ -33,7 +33,7 @@ class CurriculumInventoryExportTest extends EntityBase
         $this->object->setDocument('text file super large test');
         $this->object->setCreatedAt(new \DateTime());
         $this->validate(0);
-    }    
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryExport::setDocument

@@ -23,7 +23,7 @@ class RecurringEventTest extends EntityBase
     }
 
 
-    // fixed all of the Weekday fields to NotNull()  
+    // fixed all of the Weekday fields to NotNull()
     // now there are no NotBlank() fields to validate so no test will be put in here
 
     /**

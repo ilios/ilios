@@ -22,7 +22,7 @@ class CurriculumInventorySequenceBlockSessionTest extends EntityBase
         $this->object = new CurriculumInventorySequenceBlockSession;
     }
 
-    // not sure what to do with this one since SetID was not available 
+    // not sure what to do with this one since SetID was not available
     // should we be using SetSequenceBlock?
 
     /**

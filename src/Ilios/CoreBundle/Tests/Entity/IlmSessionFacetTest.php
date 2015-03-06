@@ -33,7 +33,7 @@ class IlmSessionFacetTest extends EntityBase
         $this->object->setHours(55);
         $this->object->setDueDate(new \DateTime());
         $this->validate(0);
-    }    
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\IlmSessionFacet::__construct

@@ -22,7 +22,7 @@ class PermissionTest extends EntityBase
         $this->object = new Permission;
     }
 
-    // some bool set up as NotNull() some as NotBlank() - need to discuss and standardize for the 
+    // some bool set up as NotNull() some as NotBlank() - need to discuss and standardize for the
     // NotBlank() tests
 
     /**

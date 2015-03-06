@@ -29,7 +29,7 @@ class CISessionTest extends EntityBase
         $this->object->setContainer($container);
     }
 
-    // no NotBlank() tests needed here 
+    // no NotBlank() tests needed here
     
     /**
      * @covers Ilios\CoreBundle\Entity\CISession::setIpAddress

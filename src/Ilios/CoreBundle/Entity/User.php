@@ -108,7 +108,7 @@ class User implements UserInterface
      */
     protected $phone;
 
-    // I ended up deleting the CheckMX = False and the test passed so let's discuss it 
+    // I ended up deleting the CheckMX = False and the test passed so let's discuss it
 
     /**
      * @var string
@@ -118,7 +118,7 @@ class User implements UserInterface
      * @Assert\Email(checkMX = False)
      *
      * @Assert\NotBlank()
-     * 
+     *
      * @Assert\Length(
      *      min = 1,
      *      max = 100

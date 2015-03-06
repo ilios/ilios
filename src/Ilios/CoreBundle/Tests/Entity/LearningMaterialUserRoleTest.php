@@ -31,7 +31,7 @@ class LearningMaterialUserRoleTest extends EntityBase
 
         $this->object->setTitle('test up to 60 char');
         $this->validate(0);
-    }    
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\LearningMaterialUserRole::__construct

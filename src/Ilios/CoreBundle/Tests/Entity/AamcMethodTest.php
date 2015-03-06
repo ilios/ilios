@@ -23,7 +23,7 @@ class AamcMethodTest extends EntityBase
     }
 
         public function testNotBlankValidation()
-    {
+        {
         $notBlank = array(
             'id',
             'description'
@@ -33,38 +33,38 @@ class AamcMethodTest extends EntityBase
         $this->object->setID('strtest');
         $this->object->setDescription('my car is great');
         $this->validate(0);
-    }
+        }
 
     /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::__construct
      */
-    public function testConstructor()
-    {
-        $this->assertEmpty($this->object->getSessionTypes());
-    }
+        public function testConstructor()
+        {
+            $this->assertEmpty($this->object->getSessionTypes());
+        }
 
     /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::setDescription
      * @covers Ilios\CoreBundle\Entity\AamcMethod::getDescription
      */
-    public function testSetDescription()
-    {
-        $this->basicSetTest('description', 'string');
-    }
+        public function testSetDescription()
+        {
+            $this->basicSetTest('description', 'string');
+        }
 
     /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::addSessionType
      */
-    public function testAddSessionType()
-    {
-        $this->entityCollectionAddTest('sessionType', 'SessionType');
-    }
+        public function testAddSessionType()
+        {
+            $this->entityCollectionAddTest('sessionType', 'SessionType');
+        }
 
     /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::getSessionTypes
      */
-    public function testGetSessionTypes()
-    {
-        $this->entityCollectionSetTest('sessionType', 'SessionType');
-    }
+        public function testGetSessionTypes()
+        {
+            $this->entityCollectionSetTest('sessionType', 'SessionType');
+        }
 }

@@ -22,7 +22,7 @@ class PublishEventTest extends EntityBase
         $this->object = new PublishEvent;
     }
 
-    // This has not been set up correctly yet -- I believe this code below might have been okay 
+    // This has not been set up correctly yet -- I believe this code below might have been okay
     // if the methods had been properly defined.
     //
     // public function testNotBlankValidation()

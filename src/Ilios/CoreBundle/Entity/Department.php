@@ -88,7 +88,7 @@ class Department implements DepartmentInterface
     public function __construct()
     {
         $this->deleted = false;
-    }   
+    }
      
     public function setId($id)
     {

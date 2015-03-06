@@ -22,7 +22,7 @@ class AuditAtomTest extends EntityBase
         $this->object = new AuditAtom;
     }
 
-    //no NotBlank() testing required here 
+    //no NotBlank() testing required here
     
     /**
      * @covers Ilios\CoreBundle\Entity\AuditAtom::setTableColumn

@@ -33,7 +33,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
         $this->object->setName('50 char max name test');
         $this->object->setLevel(4);
         $this->validate(0);
-    }    
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel::setLevel

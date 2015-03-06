@@ -31,7 +31,7 @@ class ReportPoValueTest extends EntityBase
 
         $this->object->setprepositionalObjectTableRowId('string of');
         $this->validate(0);
-    }    
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\ReportPoValue::setDeleted

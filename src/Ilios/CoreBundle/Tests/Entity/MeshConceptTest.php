@@ -33,7 +33,7 @@ class MeshConceptTest extends EntityBase
         $this->object->setName('test_name');
         $this->object->setUmlsUid('whatthe_');
         $this->validate(0);
-    }    
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setName

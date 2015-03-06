@@ -22,7 +22,7 @@ class LearningMaterialStatusTest extends EntityBase
         $this->object = new LearningMaterialStatus;
     }
 
-    // No NotBlank() fields so no validation required on that 
+    // No NotBlank() fields so no validation required on that
     //
 
     /**

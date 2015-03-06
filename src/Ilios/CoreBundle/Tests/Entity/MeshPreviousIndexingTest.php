@@ -29,7 +29,9 @@ class MeshPreviousIndexingTest extends EntityBase
         );
         $this->validateNotBlanks($notBlank);
 
-        $this->object->setPreviousIndexing('a big load of stuff in here up to 65 K characters too much for me to imagine');
+        $this->object->setPreviousIndexing('a big load of 
+                stuff in here up to 65 K characters 
+                too much for me to imagine');
         $this->validate(0);
     }
     /**

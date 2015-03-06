@@ -22,7 +22,7 @@ class CurriculumInventorySequenceTest extends EntityBase
         $this->object = new CurriculumInventorySequence;
     }
 
-    // no NotBlank test necessary since there are no 
+    // no NotBlank test necessary since there are no
     // NotBlank fields
     
     /**

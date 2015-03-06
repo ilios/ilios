@@ -27,7 +27,8 @@ class CurriculumInventoryInstitutionTest extends EntityBase
     //     $notBlank = array(
     //         'name',
     //         'aamcCode',
-    //         // which of these two would I use?  The variable is called streetAddress but the function expects addressStreet.
+    //         // which of these two would I use?  The variable is called streetAddress
+               // but the function expects addressStreet.
     //         // 'streetAddress',
     //         'addressStreet',
     //         'addressCity',

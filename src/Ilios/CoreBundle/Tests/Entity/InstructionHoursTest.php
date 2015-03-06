@@ -23,7 +23,7 @@ class InstructionHoursTest extends EntityBase
     }
 
     // This one seems messed up.
-    // Intellisense wasn't picking up the fields and the types seem weird - maybe not properly implemented yet 
+    // Intellisense wasn't picking up the fields and the types seem weird - maybe not properly implemented yet
 
     /**
      * @covers Ilios\CoreBundle\Entity\InstructionHours::setUser
