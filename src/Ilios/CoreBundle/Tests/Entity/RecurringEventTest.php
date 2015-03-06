@@ -22,7 +22,9 @@ class RecurringEventTest extends EntityBase
         $this->object = new RecurringEvent;
     }
 
-    // this one is messed up too -- some boolean set up as NotNull some NotBlank (int, bool ?)    
+
+    // fixed all of the Weekday fields to NotNull()  
+    // now there are no NotBlank() fields to validate so no test will be put in here
 
     /**
      * @covers Ilios\CoreBundle\Entity\RecurringEvent::__construct

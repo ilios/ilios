@@ -80,6 +80,16 @@ class Department implements DepartmentInterface
     /**
      * @param int $id
      */
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->deleted = false;
+    }   
+     
     public function setId($id)
     {
         $this->departmentId = $id;

@@ -22,16 +22,16 @@ class DepartmentTest extends EntityBase
         $this->object = new Department;
     }
 
-    // public function testNotBlankValidation()
-    // {
-    //     $notBlank = array(
-    //         'title'
-    //     );
-    //     $this->validateNotBlanks($notBlank);
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
 
-    //     $this->object->setTitle('test');
-    //     $this->validate(0);
-    // }    
+        $this->object->setTitle('test');
+        $this->validate(0);
+    }    
 
     /**
      * @covers Ilios\CoreBundle\Entity\Department::setTitle

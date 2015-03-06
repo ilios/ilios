@@ -22,8 +22,8 @@ class UserTest extends EntityBase
         $this->object = new User;
     }
 
-    // I don't know but this fails on email I believe 
-    // I didn't get around to testing all the NotNull() - CheckMX (can we discuss this?)
+    //I don't know but this fails on email I believe 
+    //I didn't get around to testing all the NotNull() - CheckMX (can we discuss this?)
     // public function testNotBlankValidation()
     // {
     //     $notBlank = array(

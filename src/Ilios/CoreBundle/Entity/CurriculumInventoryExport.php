@@ -77,6 +77,11 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      */
     protected $createdAt;
 
+        /**
+     * Constructor
+     */
+    //I am not sure what to do with this one -- the document field is too big to test as NotBlank()?  
+
     /**
      * @param CurriculumInventoryReportInterface $report
      */

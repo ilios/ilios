@@ -27,13 +27,13 @@ class CurriculumInventoryInstitutionTest extends EntityBase
     //     $notBlank = array(
     //         'name',
     //         'aamcCode',
-    // which of these two would I use?  The variable is called streetAddress but the function expects addressStreet.
-    //         'streetAddress',
+    //         // which of these two would I use?  The variable is called streetAddress but the function expects addressStreet.
+    //         // 'streetAddress',
     //         'addressStreet',
-    //         'city',
-    //         'state',
-    //         'zipCode',
-    //         'countryCode'
+    //         'addressCity',
+    //         'AddressStateorProvince',
+    //         'AddresszipCode',
+    //         'AddressCountryCode'
     //     );
     //     $this->validateNotBlanks($notBlank);
 
