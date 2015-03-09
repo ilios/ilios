@@ -22,9 +22,6 @@ class CurriculumInventorySequenceTest extends EntityBase
         $this->object = new CurriculumInventorySequence;
     }
 
-    // no NotBlank test necessary since there are no
-    // NotBlank fields
-    
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequence::setDescription
      * @covers Ilios\CoreBundle\Entity\CurriculumInventorySequence::getDescription

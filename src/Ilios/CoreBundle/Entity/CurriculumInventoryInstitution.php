@@ -71,9 +71,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("streetAddress")
+     * @JMS\SerializedName("addressStreet")
      */
-    protected $streetAddress;
+    protected $addressStreet;
 
     /**
      * @var string
@@ -90,7 +90,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $city;
+    protected $addressCity;
 
     /**
      * @var string
@@ -107,7 +107,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $state;
+    protected $addressStateOrProvince;
 
     /**
      * @var string
@@ -123,9 +123,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("zipCode")
+     * @JMS\SerializedName("addressZipCode")
      */
-    protected $zipCode;
+    protected $addressZipCode;
 
     /**
      * @todo: get country list from SF service/convert to foreign key to a country table
@@ -142,9 +142,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("countryCode")
+     * @JMS\SerializedName("addressCountryCode")
      */
-    protected $countryCode;
+    protected $addressCountryCode;
 
     /**
      * @var SchoolInterface
@@ -223,19 +223,19 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     }
 
     /**
-     * @param string $addressZipcode
+     * @param string $addressZipCode
      */
-    public function setAddressZipcode($addressZipcode)
+    public function setAddressZipCode($addressZipCode)
     {
-        $this->addressZipcode = $addressZipcode;
+        $this->addressZipCode = $addressZipCode;
     }
 
     /**
      * @return string
      */
-    public function getAddressZipcode()
+    public function getAddressZipCode()
     {
-        return $this->addressZipcode;
+        return $this->addressZipCode;
     }
 
     /**

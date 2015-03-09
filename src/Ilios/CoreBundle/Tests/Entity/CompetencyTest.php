@@ -22,8 +22,6 @@ class CompetencyTest extends EntityBase
         $this->object = new Competency;
     }
 
-    // NotBlank() test not required here
-    
     /**
      * @covers Ilios\CoreBundle\Entity\Competency::__construct
      */

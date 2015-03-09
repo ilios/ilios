@@ -22,8 +22,6 @@ class DisciplineTest extends EntityBase
         $this->object = new Discipline;
     }
 
-    // NotBlank() Validation not necessary - no NotBlank() fields apply
-
     /**
      * @covers Ilios\CoreBundle\Entity\Discipline::__construct
      */

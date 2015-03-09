@@ -21,8 +21,6 @@ class AuthenticationTest extends EntityBase
     {
         $this->object = new Authentication;
     }
-
-    // NotBlank() test not necessary
     
     /**
      * @covers Ilios\CoreBundle\Entity\Authentication::setUsername

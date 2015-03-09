@@ -22,31 +22,28 @@ class CurriculumInventoryInstitutionTest extends EntityBase
         $this->object = new CurriculumInventoryInstitution;
     }
 
-    // public function testNotBlankValidation()
-    // {
-    //     $notBlank = array(
-    //         'name',
-    //         'aamcCode',
-    //         // which of these two would I use?  The variable is called streetAddress
-               // but the function expects addressStreet.
-    //         // 'streetAddress',
-    //         'addressStreet',
-    //         'addressCity',
-    //         'AddressStateorProvince',
-    //         'AddresszipCode',
-    //         'AddressCountryCode'
-    //     );
-    //     $this->validateNotBlanks($notBlank);
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'name',
+            'aamcCode',
+            'addressStreet',
+            'addressCity',
+            'addressStateOrProvince',
+            'addressZipCode',
+            'addressCountryCode'
+        );
+        $this->validateNotBlanks($notBlank);
 
-    //     $this->object->setName('10lenMAX');
-    //     $this->object->setAamcCode('ddd');
-    //     $this->object->setAddressStreet('1123 A');
-    //     $this->object->setAddressCity('Irvine');
-    //     $this->object->setAddressStateOrProvince('CA');
-    //     $this->object->setAddressZipcode('99999');
-    //     $this->object->setAddressCountryCode('US');
-    //     $this->validate(0);
-    // }
+        $this->object->setName('10lenMAX');
+        $this->object->setAamcCode('ddd');
+        $this->object->setAddressStreet('1123 A');
+        $this->object->setAddressCity('Irvine');
+        $this->object->setAddressStateOrProvince('CA');
+        $this->object->setAddressZipcode('99999');
+        $this->object->setAddressCountryCode('US');
+        $this->validate(0);
+    }
 
 
     /**

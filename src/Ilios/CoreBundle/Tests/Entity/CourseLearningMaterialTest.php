@@ -22,9 +22,6 @@ class CourseLearningMaterialTest extends EntityBase
         $this->object = new CourseLearningMaterial;
     }
 
-    // nothing to validate in this one for NotBlank since none of the fields are NotBlank
-    // but there are several NotNull fields
-
     /**
      * @covers Ilios\CoreBundle\Entity\CourseLearningMaterial::__construct
      */

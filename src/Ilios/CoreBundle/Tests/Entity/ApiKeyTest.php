@@ -22,8 +22,6 @@ class ApiKeyTest extends EntityBase
         $this->object = new ApiKey;
     }
 
-    // no NotBlank() tests needed here
-
     /**
      * @covers Ilios\CoreBundle\Entity\ApiKey::setKey
      * @covers Ilios\CoreBundle\Entity\ApiKey::getKey

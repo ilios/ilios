@@ -25,11 +25,15 @@ class OfferingTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = array(
-            'room'
+            'room',
+            'startDate',
+            'endDate'
         );
         $this->validateNotBlanks($notBlank);
 
         $this->object->setRoom('RCF 112');
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());
         $this->validate(0);
     }
     /**

@@ -98,8 +98,8 @@ class MeshQualifier implements MeshQualifierInterface
      */
     public function __construct()
     {
-        $this->createdAt = getDate();
-        $this->updatedAt = getDate();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**

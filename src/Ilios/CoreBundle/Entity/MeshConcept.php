@@ -181,8 +181,8 @@ class MeshConcept implements MeshConceptInterface
      */
     public function __construct()
     {
-        $this->updatedAt = getdate();
-        $this->createdAt = getdate();
+        $this->updatedAt = new \DateTime();
+        $this->createdAt = new \DateTime();
         $this->preferred = false;
     }
 
