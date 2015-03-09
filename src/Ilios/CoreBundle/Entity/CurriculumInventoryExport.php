@@ -77,7 +77,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      */
     protected $createdAt;
 
-    /** 
+    /**
      * @param CurriculumInventoryReportInterface $report
      */
     public function setReport(CurriculumInventoryReportInterface $report)
