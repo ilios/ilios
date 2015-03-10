@@ -4,11 +4,11 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class InstructionHours
@@ -23,7 +23,7 @@ class InstructionHours implements InstructionHoursInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
-//    use TimestampableEntity;
+    use TimestampableEntity;
 
     /**
      * @var integer
@@ -40,15 +40,9 @@ class InstructionHours implements InstructionHoursInterface
     protected $id;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by TimestampableEntity trait.
      * @var \DateTime
      *
      * @ORM\Column(name="generation_time_stamp", type="datetime")
-     */
-    protected $generationTimeStamp;
-
-    /**
-     * @var \DateTime
      */
     protected $createdAt;
 
@@ -74,17 +68,11 @@ class InstructionHours implements InstructionHoursInterface
     protected $modified;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by TimestampableEntity trait.
      * @var \DateTime
      *
      * @ORM\Column(name="modification_time_stamp", type="datetime")
      *
      * @Assert\NotBlank()
-     */
-    protected $modificationTimeStamp;
-
-    /**
-     * @var \DateTime
      */
     protected $updatedAt;
 
@@ -117,23 +105,6 @@ class InstructionHours implements InstructionHoursInterface
     protected $session;
 
     /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->generationTimeStamp = $createdAt;
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return ($this->createdAt === null) ? $this->generationTimeStamp : $this->createdAt;
-    }
-
-    /**
      * @param int $hoursAccrued
      */
     public function setHoursAccrued($hoursAccrued)
@@ -163,23 +134,6 @@ class InstructionHours implements InstructionHoursInterface
     public function isModified()
     {
         return $this->modified;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->modificationTimeStamp = $updatedAt;
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAT()
-    {
-        return ($this->updatedAt === null) ? $this->modificationTimeStamp : $this->updatedAt;
     }
 
     /**

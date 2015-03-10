@@ -26,17 +26,26 @@ class MeshSemanticTypeTest extends EntityBase
     {
         $notBlank = array(
             'name',
-            'createdAt',
-            'updatedAt'
         );
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('long name test');
-        $this->object->setCreatedAt(new \DateTime());
-        $this->object->setUpdatedAt(new \DateTime());
         $this->validate(0);
     }
 
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::__construct
+     */
+    public function testConstructor()
+    {
+        $now = new \DateTime();
+        $createdAt = $this->object->getCreatedAt();
+        $this->assertTrue($createdAt instanceof \DateTime);
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->s < 2);
+
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setName
@@ -48,20 +57,16 @@ class MeshSemanticTypeTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getCreatedAt
+     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::stampUpdate
      */
-    public function testSetCreatedAt()
+    public function testStampUpdate()
     {
-        $this->basicSetTest('createdAt', 'datetime');
-    }
+        $now = new \DateTime();
+        $this->object->stampUpdate();
+        $updatedAt = $this->object->getUpdatedAt();
+        $this->assertTrue($updatedAt instanceof \DateTime);
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->s < 2);
 
-    /**
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshSemanticType::getUpdatedAt
-     */
-    public function testSetUpdatedAt()
-    {
-        $this->basicSetTest('updatedAt', 'datetime');
     }
 }

@@ -3,13 +3,14 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\DescribableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\TitledEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
+
 use Ilios\CoreBundle\Entity\LearningMaterials\Citation;
 use Ilios\CoreBundle\Entity\LearningMaterials\File;
 use Ilios\CoreBundle\Entity\LearningMaterials\link;
@@ -35,15 +36,10 @@ use Ilios\CoreBundle\Entity\LearningMaterials\link;
  */
 abstract class LearningMaterial implements LearningMaterialInterface
 {
-    /**
-     * Traits to enable for 3.1.x
-     *  use IdentifiableEntity;
-     *  use TimestampableEntity;
-     *  use BlameableEntity;
-     */
     use IdentifiableEntity;
     use TitledEntity;
     use DescribableEntity;
+    use TimestampableEntity;
 
     /**
      * @var int
@@ -106,18 +102,7 @@ abstract class LearningMaterial implements LearningMaterialInterface
      * @JMS\Type("DateTime<'c'>")
      * @JMS\SerializedName("uploadDate")
      */
-    protected $uploadDate;
-
-    /**
-     * @var \DateTime
-     */
     protected $createdAt;
-
-    /**
-     * @todo: not yet implemented.
-     * @var \DateTime
-     */
-    protected $updatedAt;
 
     /**
      * renamed Asset Creator
@@ -181,10 +166,8 @@ abstract class LearningMaterial implements LearningMaterialInterface
     protected $status;
 
     /**
-     * @deprecated Replacing with BlameableEntity.
      * @var UserInterface
      *
-     * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="User", inversedBy="learningMaterials")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="owning_user_id", referencedColumnName="user_id")
@@ -230,6 +213,14 @@ abstract class LearningMaterial implements LearningMaterialInterface
     protected $courseLearningMaterials;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+    /**
      * @return array
      */
     public static function getTypes()
@@ -242,29 +233,11 @@ abstract class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @param \DateTime $createdAt
+     *
      */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->uploadDate = $createdAt;
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return ($this->createdAt === null) ? $this->uploadDate : $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
+    public function stampUpdate()
     {
         throw new \BadFunctionCallException('Not yet implamented');
-        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -273,7 +246,6 @@ abstract class LearningMaterial implements LearningMaterialInterface
     public function getUpdatedAt()
     {
         throw new \BadFunctionCallException('Not yet implamented');
-        return $this->updatedAt;
     }
 
     /**

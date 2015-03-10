@@ -25,18 +25,27 @@ class MeshTermTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = array(
-            'name',
-            'createdAt',
-            'updatedAt'
+            'name'
         );
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('test up to 192 in length search string');
-        $this->object->setCreatedAt(new \DateTime());
-        $this->object->setUpdatedAt(new \DateTime());
         $this->validate(0);
     }
 
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshTerm::__construct
+     */
+    public function testConstructor()
+    {
+        $now = new \DateTime();
+        $createdAt = $this->object->getCreatedAt();
+        $this->assertTrue($createdAt instanceof \DateTime);
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->s < 2);
+
+    }
 
     /**
      * @covers Ilios\CoreBundle\Entity\MeshTerm::setName
@@ -93,20 +102,16 @@ class MeshTermTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getCreatedAt
+     * @covers Ilios\CoreBundle\Entity\MeshTerm::stampUpdate
      */
-    public function testSetCreatedAt()
+    public function testStampUpdate()
     {
-        $this->basicSetTest('createdAt', 'datetime');
-    }
+        $now = new \DateTime();
+        $this->object->stampUpdate();
+        $updatedAt = $this->object->getUpdatedAt();
+        $this->assertTrue($updatedAt instanceof \DateTime);
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->s < 2);
 
-    /**
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshTerm::getUpdatedAt
-     */
-    public function testSetUpdatedAt()
-    {
-        $this->basicSetTest('updatedAt', 'datetime');
     }
 }

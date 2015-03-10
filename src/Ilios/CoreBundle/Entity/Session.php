@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\TitledEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class Session
@@ -34,6 +35,7 @@ class Session implements SessionInterface
     use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
+    use TimestampableEntity;
 
     /**
      * @var int
@@ -317,6 +319,8 @@ class Session implements SessionInterface
         $this->disciplines = new ArrayCollection();
         $this->objectives = new ArrayCollection();
         $this->meshDescriptors = new ArrayCollection();
+
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -397,22 +401,6 @@ class Session implements SessionInterface
     public function isPublishedAsTbd()
     {
         return $this->publishedAsTbd;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 
     /**
@@ -605,5 +593,67 @@ class Session implements SessionInterface
     public function getOfferings()
     {
         return $this->offerings;
+    }
+
+    /**
+     * @param Collection $sessionLearningMaterials
+     */
+    public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null)
+    {
+        $this->sessionLearningMaterials = new ArrayCollection();
+        if (is_null($sessionLearningMaterials)) {
+            return;
+        }
+
+        foreach ($sessionLearningMaterials as $sessionLearningMaterial) {
+            $this->addSessionLearningMaterial($sessionLearningMaterial);
+        }
+    }
+
+    /**
+     * @param SessionLearningMaterialInterface $sessionLearningMaterial
+     */
+    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    {
+        $this->sessionLearningMaterials->add($sessionLearningMaterial);
+    }
+
+    /**
+     * @return ArrayCollection|SessionLearningMaterialInterface[]
+     */
+    public function getSessionLearningMaterials()
+    {
+        return $this->sessionLearningMaterials;
+    }
+
+    /**
+     * @param Collection $instructionHours
+     */
+    public function setInstructionHours(Collection $instructionHours = null)
+    {
+        $this->instructionHours = new ArrayCollection();
+        if (is_null($instructionHours)) {
+            return;
+        }
+
+        foreach ($instructionHours as $instructionHour) {
+            $this->addInstructionHour($instructionHour);
+        }
+    }
+
+    /**
+     * @param InstructionHourInterface $instructionHour
+     */
+    public function addInstructionHour(InstructionHourInterface $instructionHour)
+    {
+        $this->instructionHours->add($instructionHour);
+    }
+
+    /**
+     * @return ArrayCollection|InstructionHourInterface[]
+     */
+    public function getInstructionHours()
+    {
+        return $this->instructionHours;
     }
 }

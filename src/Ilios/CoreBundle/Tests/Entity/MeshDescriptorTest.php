@@ -42,6 +42,11 @@ class MeshDescriptorTest extends EntityBase
         $this->assertEmpty($this->object->getObjectives());
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getSessionLearningMaterials());
+        $now = new \DateTime();
+        $createdAt = $this->object->getCreatedAt();
+        $this->assertTrue($createdAt instanceof \DateTime);
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->s < 2);
     }
 
     /**
@@ -60,24 +65,6 @@ class MeshDescriptorTest extends EntityBase
     public function testSetAnnotation()
     {
         $this->basicSetTest('annotation', 'string');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getCreatedAt
-     */
-    public function testSetCreatedAt()
-    {
-        $this->basicSetTest('createdAt', 'datetime');
-    }
-
-    /**
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::getUpdatedAt
-     */
-    public function testSetUpdatedAt()
-    {
-        $this->basicSetTest('updatedAt', 'datetime');
     }
 
     /**
@@ -158,5 +145,19 @@ class MeshDescriptorTest extends EntityBase
     public function testGetCourseLearningMaterials()
     {
         $this->entityCollectionSetTest('courseLearningMaterial', 'CourseLearningMaterial');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\MeshDescriptor::stampUpdate
+     */
+    public function testStampUpdate()
+    {
+        $now = new \DateTime();
+        $this->object->stampUpdate();
+        $updatedAt = $this->object->getUpdatedAt();
+        $this->assertTrue($updatedAt instanceof \DateTime);
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->s < 2);
+
     }
 }

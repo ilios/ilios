@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Traits\IdentifiableEntityInterface;
 use Ilios\CoreBundle\Traits\TitledEntityInterface;
 use Ilios\CoreBundle\Traits\StringableEntityInterface;
+use Ilios\CoreBundle\Traits\TimestampableEntityInterface;
 
 /**
  * Interface SessionInterface
@@ -15,7 +16,8 @@ use Ilios\CoreBundle\Traits\StringableEntityInterface;
 interface SessionInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface
+    StringableEntityInterface,
+    TimestampableEntityInterface
 {
     /**
      * @param boolean $attireRequired
@@ -66,16 +68,6 @@ interface SessionInterface extends
      * @return boolean
      */
     public function isPublishedAsTbd();
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt);
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt();
 
     /**
      * @param SessionTypeInterface $sessionType

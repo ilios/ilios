@@ -22,7 +22,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class IlmSessionFacet implements IlmSessionFacetInterface
 {
-//    use IdentifiableEntity;
+    use IdentifiableEntity;
     use StringableIdEntity;
 
     /**
@@ -51,6 +51,9 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      *      min = 0,
      *      max = 10000
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("integer")
      */
     protected $hours;
 
@@ -60,6 +63,10 @@ class IlmSessionFacet implements IlmSessionFacetInterface
      * @ORM\Column(name="due_date", type="date")
      *
      * @Assert\NotBlank()
+     *
+     * @JMS\Expose
+     * @JMS\Type("DateTime<'c'>")
+     * @JMS\SerializedName("dueDate")
      */
     protected $dueDate;
 
@@ -157,23 +164,6 @@ class IlmSessionFacet implements IlmSessionFacetInterface
         $this->instructorGroups = new ArrayCollection();
         $this->learners = new ArrayCollection();
         $this->sessions = new ArrayCollection();
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->ilmSessionFacetId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->ilmSessionFacetId : $this->id;
     }
 
     /**
