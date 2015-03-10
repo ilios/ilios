@@ -21,7 +21,7 @@ class AuthenticationTest extends EntityBase
     {
         $this->object = new Authentication;
     }
-
+    
     /**
      * @covers Ilios\CoreBundle\Entity\Authentication::setUsername
      * @covers Ilios\CoreBundle\Entity\Authentication::getUsername

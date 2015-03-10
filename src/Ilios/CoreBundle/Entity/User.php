@@ -108,15 +108,17 @@ class User implements UserInterface
      */
     protected $phone;
 
+    // I ended up deleting the CheckMX = False and the test passed so let's discuss it
+
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=100)
      *
+     * @Assert\Email(checkMX = False)
+     *
      * @Assert\NotBlank()
-     * @Assert\Email(
-     *     checkMX = false
-     * )
+     *
      * @Assert\Length(
      *      min = 1,
      *      max = 100

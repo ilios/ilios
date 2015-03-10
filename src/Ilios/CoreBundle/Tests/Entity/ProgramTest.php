@@ -22,6 +22,19 @@ class ProgramTest extends EntityBase
         $this->object = new Program;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'shortTitle',
+            'duration'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setShortTitle('DVc');
+        $this->object->setDuration(30);
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\Program::setTitle
      * @covers Ilios\CoreBundle\Entity\Program::getTitle

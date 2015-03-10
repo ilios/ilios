@@ -22,6 +22,16 @@ class SessionTest extends EntityBase
         $this->object = new Session;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'updatedAt'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setUpdatedAt(new \DateTime());
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\Session::__construct
      */

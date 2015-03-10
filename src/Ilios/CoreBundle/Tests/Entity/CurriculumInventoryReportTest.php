@@ -22,6 +22,21 @@ class CurriculumInventoryReportTest extends EntityBase
         $this->object = new CurriculumInventoryReport;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'year',
+            'startDate',
+            'endDate'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setYear(2001);
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::setYear
      * @covers Ilios\CoreBundle\Entity\CurriculumInventoryReport::getYear

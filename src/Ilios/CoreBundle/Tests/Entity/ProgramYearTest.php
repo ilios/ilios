@@ -22,6 +22,25 @@ class ProgramYearTest extends EntityBase
         $this->object = new ProgramYear;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'startYear',
+            'deleted',
+            'locked',
+            'archived',
+            'publishedAsTbd'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setStartYear(3);
+        // i had to set these to true -- failed when false
+        $this->object->setDeleted(true);
+        $this->object->setLocked(true);
+        $this->object->setArchived(true);
+        $this->object->setPublishedAsTbd(true);
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\ProgramYear::__construct
      */

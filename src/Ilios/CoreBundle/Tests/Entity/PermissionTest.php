@@ -22,6 +22,9 @@ class PermissionTest extends EntityBase
         $this->object = new Permission;
     }
 
+    // some bool set up as NotNull() some as NotBlank() - need to discuss and standardize for the
+    // NotBlank() tests
+
     /**
      * @covers Ilios\CoreBundle\Entity\Permission::setCanRead
      * @covers Ilios\CoreBundle\Entity\Permission::hasCanRead

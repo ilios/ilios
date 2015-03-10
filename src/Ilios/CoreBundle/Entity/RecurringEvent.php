@@ -39,7 +39,7 @@ class RecurringEvent implements RecurringEventInterface
     /**
      * @var boolean
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="integer")
      *
      * @ORM\Column(name="on_sunday", type="boolean")

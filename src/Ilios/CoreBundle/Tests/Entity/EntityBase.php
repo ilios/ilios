@@ -53,7 +53,10 @@ class EntityBase extends TestCase
         $errors = $this->validate(count($fields));
 
         foreach ($fields as $key) {
-            $this->assertTrue(array_key_exists($key, $errors));
+            $this->assertTrue(
+                array_key_exists($key, $errors),
+                "{$key} key not found in errors: " . var_export(array_keys($errors), true)
+            );
             $this->assertSame('NotBlank', $errors[$key]);
         }
     }

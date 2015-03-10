@@ -22,6 +22,19 @@ class AamcPcrsTest extends EntityBase
         $this->object = new AamcPcrs;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'id',
+            'description'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setID('test');
+        $this->object->setDescription('lots of stuff');
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\AamcPcrs::__construct
      */

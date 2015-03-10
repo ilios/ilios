@@ -268,7 +268,7 @@ class Course implements CourseInterface
 
     /**
      * @var ArrayCollection|DisciplineInterface[]
-
+     *
      * @ORM\ManyToMany(targetEntity="Discipline", inversedBy="courses")
      * @ORM\JoinTable(name="course_x_discipline",
      *   joinColumns={

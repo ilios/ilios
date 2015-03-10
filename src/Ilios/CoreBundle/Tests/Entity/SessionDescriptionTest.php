@@ -21,7 +21,7 @@ class SessionDescriptionTest extends EntityBase
     {
         $this->object = new SessionDescription;
     }
-
+   
     /**
      * @covers Ilios\CoreBundle\Entity\SessionDescription::setDescription
      * @covers Ilios\CoreBundle\Entity\SessionDescription::getDescription

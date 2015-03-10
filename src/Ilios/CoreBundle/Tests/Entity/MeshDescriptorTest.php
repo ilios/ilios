@@ -22,6 +22,16 @@ class MeshDescriptorTest extends EntityBase
         $this->object = new MeshDescriptor;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'name'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('test name');
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\MeshDescriptor::__construct
      */

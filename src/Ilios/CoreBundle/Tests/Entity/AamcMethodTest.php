@@ -22,6 +22,19 @@ class AamcMethodTest extends EntityBase
         $this->object = new AamcMethod;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'id',
+            'description'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setID('strtest');
+        $this->object->setDescription('my car is great');
+        $this->validate(0);
+    }
+
     /**
      * @covers Ilios\CoreBundle\Entity\AamcMethod::__construct
      */

@@ -22,6 +22,16 @@ class AlertChangeTypeTest extends EntityBase
         $this->object = new AlertChangeType;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('Title it is');
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\AlertChangeType::__construct
      */

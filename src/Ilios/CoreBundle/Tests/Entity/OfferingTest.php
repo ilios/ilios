@@ -22,6 +22,20 @@ class OfferingTest extends EntityBase
         $this->object = new Offering;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'room',
+            'startDate',
+            'endDate'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setRoom('RCF 112');
+        $this->object->setStartDate(new \DateTime());
+        $this->object->setEndDate(new \DateTime());
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\Offering::__construct
      */

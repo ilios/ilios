@@ -165,6 +165,7 @@ class Alert implements AlertInterface
         $this->changeTypes = new ArrayCollection();
         $this->instigators = new ArrayCollection();
         $this->recipients = new ArrayCollection();
+        $this->dispatched = false;
     }
 
     /**

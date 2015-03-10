@@ -22,6 +22,16 @@ class InstructorGroupTest extends EntityBase
         $this->object = new InstructorGroup;
     }
 
+    public function testNotBlankValidation()
+    {
+        $notBlank = array(
+            'title'
+        );
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setTitle('test');
+        $this->validate(0);
+    }
     /**
      * @covers Ilios\CoreBundle\Entity\InstructorGroup::__construct
      */

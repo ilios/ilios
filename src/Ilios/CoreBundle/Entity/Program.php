@@ -167,6 +167,15 @@ class Program implements ProgramInterface
     */
     protected $curriculumInventoryReports;
 
+        /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->deleted = false;
+        $this->publishedAsTbd = false;
+    }
+
     /**
      * @param string $shortTitle
      */
