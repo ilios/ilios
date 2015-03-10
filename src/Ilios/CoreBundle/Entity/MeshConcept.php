@@ -5,13 +5,13 @@ namespace Ilios\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\Mapping\Annotation\Timestampable;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshConcept
@@ -27,6 +27,7 @@ class MeshConcept implements MeshConceptInterface
     use IdentifiableEntity;
     use NameableEntity;
     use StringableIdEntity;
+    use TimestampableEntity;
 
 
     /**
@@ -264,37 +265,5 @@ class MeshConcept implements MeshConceptInterface
     public function getRegistryNumber()
     {
         return $this->registryNumber;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 }

@@ -21,7 +21,6 @@ class SessionType extends AbstractType
             ->add('supplemental', null, ['required' => false])
             ->add('deleted', null, ['required' => false])
             ->add('publishedAsTbd', null, ['required' => false])
-            ->add('updatedAt')
             ->add('sessionType', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:SessionType"

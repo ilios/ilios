@@ -25,11 +25,9 @@ class SessionTest extends EntityBase
     public function testNotBlankValidation()
     {
         $notBlank = array(
-            'updatedAt'
+
         );
         $this->validateNotBlanks($notBlank);
-
-        $this->object->setUpdatedAt(new \DateTime());
         $this->validate(0);
     }
     /**
@@ -97,15 +95,6 @@ class SessionTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\Session::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\Session::getUpdatedAt
-     */
-    public function testSetUpdatedAt()
-    {
-        $this->basicSetTest('updatedAt', 'datetime');
-    }
-
-    /**
      * @covers Ilios\CoreBundle\Entity\Session::setSessionType
      * @covers Ilios\CoreBundle\Entity\Session::getSessionType
      */
@@ -147,5 +136,19 @@ class SessionTest extends EntityBase
     public function testSetPublishEvent()
     {
         $this->entitySetTest('publishEvent', 'PublishEvent');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\Session::stampUpdate
+     */
+    public function testStampUpdate()
+    {
+        $now = new \DateTime();
+        $this->object->stampUpdate();
+        $updatedAt = $this->object->getUpdatedAt();
+        $this->assertTrue($updatedAt instanceof \DateTime);
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->s < 2);
+
     }
 }

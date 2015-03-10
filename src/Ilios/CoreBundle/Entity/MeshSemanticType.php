@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshSemanticType
@@ -24,6 +25,7 @@ class MeshSemanticType implements MeshSemanticTypeInterface
     use IdentifiableEntity;
     use NameableEntity;
     use StringableIdEntity;
+    use TimestampableEntity;
 
     /**
      * @var string
@@ -76,34 +78,11 @@ class MeshSemanticType implements MeshSemanticTypeInterface
     protected $updatedAt;
 
     /**
-     * @param \DateTime $createdAt
+     * Constructor
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function __construct()
     {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 }

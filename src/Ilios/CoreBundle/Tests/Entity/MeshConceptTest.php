@@ -36,6 +36,19 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::__construct
+     */
+    public function testConstructor()
+    {
+        $now = new \DateTime();
+        $createdAt = $this->object->getCreatedAt();
+        $this->assertTrue($createdAt instanceof \DateTime);
+        $diff = $now->diff($createdAt);
+        $this->assertTrue($diff->s < 2);
+
+    }
+
+    /**
      * @covers Ilios\CoreBundle\Entity\MeshConcept::setName
      * @covers Ilios\CoreBundle\Entity\MeshConcept::getName
      */
@@ -89,20 +102,16 @@ class MeshConceptTest extends EntityBase
     }
 
     /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setCreatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getCreatedAt
+     * @covers Ilios\CoreBundle\Entity\MeshConcept::stampUpdate
      */
-    public function testSetCreatedAt()
+    public function testStampUpdate()
     {
-        $this->basicSetTest('createdAt', 'datetime');
-    }
+        $now = new \DateTime();
+        $this->object->stampUpdate();
+        $updatedAt = $this->object->getUpdatedAt();
+        $this->assertTrue($updatedAt instanceof \DateTime);
+        $diff = $now->diff($updatedAt);
+        $this->assertTrue($diff->s < 2);
 
-    /**
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::setUpdatedAt
-     * @covers Ilios\CoreBundle\Entity\MeshConcept::getUpdatedAt
-     */
-    public function testSetUpdatedAt()
-    {
-        $this->basicSetTest('updatedAt', 'datetime');
     }
 }

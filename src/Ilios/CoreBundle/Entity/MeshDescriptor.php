@@ -9,11 +9,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshDescriptor
@@ -29,7 +29,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use NameableEntity;
-//    use TimestampableEntity;
+    use TimestampableEntity;
 
     /**
      * @var string
@@ -84,8 +84,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $annotation;
 
     /**
-     * @Gedmo\Timestampable(on="create")
-     *
      * @ORM\Column(name="created_at", type="datetime")
      *
      * @JMS\Expose
@@ -95,8 +93,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     protected $createdAt;
 
     /**
-     * @Gedmo\Timestampable(on="update")
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      *
      * @JMS\Expose
@@ -198,6 +194,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->sessions = new ArrayCollection();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -214,38 +211,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getAnnotation()
     {
         return $this->annotation;
-    }
-
-    /**
-     * @param  \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param  \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 
     /**

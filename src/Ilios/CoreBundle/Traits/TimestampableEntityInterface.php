@@ -9,11 +9,6 @@ namespace Ilios\CoreBundle\Traits;
 interface TimestampableEntityInterface
 {
     /**
-     * @param  \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt);
-
-    /**
      * @return \DateTime
      */
     public function getCreatedAt();
@@ -21,7 +16,7 @@ interface TimestampableEntityInterface
     /**
      * @param  \DateTime $updatedAt
      */
-    public function setUpdatedAt(\DateTime $updatedAt);
+    public function stampUpdate();
 
     /**
      * @return \DateTime

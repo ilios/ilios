@@ -4,12 +4,12 @@ namespace Ilios\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshQualifier
@@ -23,7 +23,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
 class MeshQualifier implements MeshQualifierInterface
 {
     use IdentifiableEntity;
-//    use TimestampableEntity;
+    use TimestampableEntity;
     use NameableEntity;
     use StringableIdEntity;
 
@@ -100,37 +100,5 @@ class MeshQualifier implements MeshQualifierInterface
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 }

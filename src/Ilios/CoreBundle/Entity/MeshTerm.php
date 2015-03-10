@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Ilios\CoreBundle\Traits\NameableEntity;
 use Ilios\CoreBundle\Traits\IdentifiableEntity;
 use Ilios\CoreBundle\Traits\StringableIdEntity;
+use Ilios\CoreBundle\Traits\TimestampableEntity;
 
 /**
  * Class MeshTerm
@@ -26,6 +27,7 @@ class MeshTerm implements MeshTermInterface
     use IdentifiableEntity;
     use NameableEntity;
     use StringableIdEntity;
+    use TimestampableEntity;
 
     /**
      * @var string
@@ -140,6 +142,15 @@ class MeshTerm implements MeshTermInterface
     // protected $meshConcepts;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
      * @param string $lexicalTag
      */
     public function setLexicalTag($lexicalTag)
@@ -217,37 +228,5 @@ class MeshTerm implements MeshTermInterface
     public function isPrintable()
     {
         return $this->printable;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 }
