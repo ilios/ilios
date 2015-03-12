@@ -1,6 +1,3 @@
-# Set the default behavior, in case people don't have core.autocrlf set.
-* text=auto
-
-#for the shell files used in provisioning for Vagrant
-provision/* text eol=lf
+# Set the default behavior to enforce unix line-endings for EVERYTHING
+* text eol=lf
 
