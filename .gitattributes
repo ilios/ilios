@@ -1,3 +1,8 @@
-# Set the default behavior to enforce unix line-endings for EVERYTHING
-* text eol=lf
+# Set the default behavior
+* text auto
+
+#enforce unix line-endings for EVERYTHING
+*sh text eol=lf
+*php text eol=lf
+*sql text eol=lf
 
