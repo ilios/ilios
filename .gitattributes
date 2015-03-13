@@ -1,5 +1,5 @@
 # Set the default behavior
-* text auto
+* text=auto
 
 #enforce unix line-endings for EVERYTHING
 *sh text eol=lf
