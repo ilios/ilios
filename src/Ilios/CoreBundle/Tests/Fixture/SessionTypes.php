@@ -39,7 +39,7 @@ class SessionTypes extends AbstractFixture implements
             $sessionType->setId($arr['id']);
             $sessionType->setTitle($arr['title']);
             $sessionType->setAssessmentOption(
-              $this->getReference('assessmentoption' + $arr['assessmentOption'])
+              $this->getReference('assessmentOption' + $arr['assessmentOption'])
             );
             $sessionType->setOwningSchool(
               $this->getReference('school' + $arr['owningSchool'])
@@ -47,7 +47,7 @@ class SessionTypes extends AbstractFixture implements
 
             foreach ($arr['aamcMethods'] as $aamcMethodId) {
                 $sessionType->addAamcMethod(
-                  $this->getReference('aamcmethod' + $aamcMethodId)
+                  $this->getReference('aamcMethod' + $aamcMethodId)
                 );
             }
 
