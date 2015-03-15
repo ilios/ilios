@@ -45,12 +45,6 @@ class SessionTypes extends AbstractFixture implements
               $this->getReference('school' + $arr['owningSchool'])
             );
 
-            foreach ($arr['sessions'] as $userId) {
-                $sessionType->addSession(
-                  $this->getReference('session' + $userId)
-                );
-            }
-
             foreach ($arr['aamcMethods'] as $aamcMethodId) {
                 $sessionType->addAamcMethod(
                   $this->getReference('aamcmethod' + $aamcMethodId)
@@ -75,7 +69,6 @@ class SessionTypes extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-          'Ilios\CoreBundle\Tests\Fixture\Sessions',
           'Ilios\CoreBundle\Tests\Fixture\Schools',
           'Ilios\CoreBundle\Tests\Fixture\AssessmentOptions',
           'Ilios\CoreBundle\Tests\Fixture\AamcMethods'
