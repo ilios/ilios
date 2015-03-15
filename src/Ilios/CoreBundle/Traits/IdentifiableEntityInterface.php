@@ -9,12 +9,12 @@ namespace Ilios\CoreBundle\Traits;
 interface IdentifiableEntityInterface
 {
     /**
-     * @param int $id
+     * @param mixed $id
      */
     public function setId($id);
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getId();
 }
