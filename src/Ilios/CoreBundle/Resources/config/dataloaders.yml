@@ -1,9 +1,12 @@
 parameters:
     ilioscore.dataloader.users.class: Ilios\CoreBundle\Tests\DataLoader\Users
     ilioscore.dataloader.userroles.class: Ilios\CoreBundle\Tests\DataLoader\UserRoles
+    ilioscore.dataloader.sessiontypes.class: Ilios\CoreBundle\Tests\DataLoader\SessionTypes
 
 services:
     ilioscore.dataloader.users:
         class: %ilioscore.dataloader.users.class%
     ilioscore.dataloader.userroles:
         class: %ilioscore.dataloader.userroles.class%
+    ilioscore.dataloader.sessiontypes:
+        class: %ilioscore.dataloader.sessiontypes.class%
