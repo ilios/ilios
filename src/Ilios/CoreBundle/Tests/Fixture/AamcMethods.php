@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Users extends AbstractFixture implements
-  FixtureInterface,
-  ContainerAwareInterface
+    FixtureInterface,
+    ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -29,7 +29,7 @@ class Users extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $aamcMethods = $this->container->get('ilioscore.dataloader.aamcmethods')
-          ->get();
+            ->get();
         foreach ($aamcMethods as $arr) {
             $aamcMethod = new AamcMethod();
             $aamcMethod->setId($arr['id']);
@@ -41,7 +41,7 @@ class Users extends AbstractFixture implements
         //We have to disable auto id generation in order to save with ID
         $metadata = $manager->getClassMetaData(get_class($aamcMethod));
         $metadata->setIdGeneratorType(
-          \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
+            \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
         );
         $manager->flush();
 

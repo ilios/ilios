@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Schools extends AbstractFixture implements
-  FixtureInterface,
-  ContainerAwareInterface
+    FixtureInterface,
+    ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -33,7 +33,7 @@ class Schools extends AbstractFixture implements
             $school = new School();
             $school->setId($arr['id']);
             $school->setIliosAdministratorEmail(
-              $arr['iliosAdministratorEmail']
+                $arr['iliosAdministratorEmail']
             );
             $school->setDeleted($arr['deleted']);
             $school->setChangeAlertRecipients($arr['changeAlertRecipients']);
@@ -45,7 +45,7 @@ class Schools extends AbstractFixture implements
         //We have to disable auto id generation in order to save with ID
         $metadata = $manager->getClassMetaData(get_class($school));
         $metadata->setIdGeneratorType(
-          \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
+            \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
         );
         $manager->flush();
 

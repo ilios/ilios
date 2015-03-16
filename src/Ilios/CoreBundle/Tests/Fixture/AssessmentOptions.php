@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AssessmentOptions extends AbstractFixture implements
-  FixtureInterface,
-  ContainerAwareInterface
+    FixtureInterface,
+    ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -29,21 +29,21 @@ class AssessmentOptions extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $assessmentOptions = $this->container->get(
-          'ilioscore.dataloader.assessmentoptions'
+            'ilioscore.dataloader.assessmentoptions'
         )->get();
         foreach ($assessmentOptions as $arr) {
             $assessmentOptions = new AssessmentOption();
             $assessmentOptions->setId($arr['id']);
             $manager->persist($assessmentOptions);
             $this->addReference(
-              'assessmentOption' + $arr['id'],
-              $assessmentOptions
+                'assessmentOption' + $arr['id'],
+                $assessmentOptions
             );
         }
 
         $metadata = $manager->getClassMetaData(get_class($assessmentOptions));
         $metadata->setIdGeneratorType(
-          \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
+            \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
         );
         $manager->flush();
 

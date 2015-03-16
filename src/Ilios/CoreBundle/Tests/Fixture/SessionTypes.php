@@ -11,9 +11,9 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SessionTypes extends AbstractFixture implements
-  FixtureInterface,
-  DependentFixtureInterface,
-  ContainerAwareInterface
+    FixtureInterface,
+    DependentFixtureInterface,
+    ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -31,7 +31,7 @@ class SessionTypes extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $sessionTypes = $this->container->get(
-          'ilioscore.dataloader.sessiontypes'
+            'ilioscore.dataloader.sessiontypes'
         )->get();
 
         foreach ($sessionTypes as $arr) {
@@ -39,15 +39,17 @@ class SessionTypes extends AbstractFixture implements
             $sessionType->setId($arr['id']);
             $sessionType->setTitle($arr['title']);
             $sessionType->setAssessmentOption(
-              $this->getReference('assessmentOption' + $arr['assessmentOption'])
+                $this->getReference(
+                    'assessmentOption' + $arr['assessmentOption']
+                )
             );
             $sessionType->setOwningSchool(
-              $this->getReference('school' + $arr['owningSchool'])
+                $this->getReference('school' + $arr['owningSchool'])
             );
 
             foreach ($arr['aamcMethods'] as $aamcMethodId) {
                 $sessionType->addAamcMethod(
-                  $this->getReference('aamcMethod' + $aamcMethodId)
+                    $this->getReference('aamcMethod' + $aamcMethodId)
                 );
             }
 
@@ -57,7 +59,7 @@ class SessionTypes extends AbstractFixture implements
 
         $metadata = $manager->getClassMetaData(get_class($sessionType));
         $metadata->setIdGeneratorType(
-          \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
+            \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
         );
         $manager->flush();
 
@@ -69,9 +71,9 @@ class SessionTypes extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-          'Ilios\CoreBundle\Tests\Fixture\Schools',
-          'Ilios\CoreBundle\Tests\Fixture\AssessmentOptions',
-          'Ilios\CoreBundle\Tests\Fixture\AamcMethods'
+            'Ilios\CoreBundle\Tests\Fixture\Schools',
+            'Ilios\CoreBundle\Tests\Fixture\AssessmentOptions',
+            'Ilios\CoreBundle\Tests\Fixture\AamcMethods'
         );
     }
 }
