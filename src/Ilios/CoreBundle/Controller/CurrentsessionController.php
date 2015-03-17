@@ -40,7 +40,7 @@ class CurrentsessionController extends FOSRestController
      */
     public function getCurrentsessionAction()
     {
-        $view = $this->view(array('currentsession' => array('userId' => 4)), Codes::HTTP_OK)
+        $view = $this->view(array('currentsession' => array('userId' => 4136)), Codes::HTTP_OK)
         ->setTemplate("IliosCoreBundle:Currentsession:getCurrentsession.html.twig")
         ->setTemplateVar('currentsession')
         ;

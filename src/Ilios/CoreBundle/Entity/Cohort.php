@@ -99,6 +99,16 @@ class Cohort implements CohortInterface
      */
     protected $learnerGroups;
 
+   /**
+    * @var Collection
+    *
+    * @ORM\ManyToMany(targetEntity="User", mappedBy="cohorts")
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $users;
+
     /**
      * Constructor
      */

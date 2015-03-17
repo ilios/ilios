@@ -326,12 +326,23 @@ class User implements UserInterface
     /**
      * @var ArrayCollection|OfferingInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learners")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
     protected $offerings;
+
+    /**
+     * @var ArrayCollection|OfferingInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("instructedOfferings")
+     */
+    protected $instructedOfferings;
 
     /**
     * @var ArrayCollection|ProgramYearInterface[]
@@ -382,6 +393,24 @@ class User implements UserInterface
      * @JMS\Type("array<string>")
      */
     protected $roles;
+
+   /**
+    * @var Collection
+    *
+    * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="users")
+    * @ORM\JoinTable(name="user_x_cohort",
+    *   joinColumns={
+    *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+    *   },
+    *   inverseJoinColumns={
+    *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
+    *   }
+    * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $cohorts;
 
     /**
      * Constructor
