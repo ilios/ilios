@@ -383,6 +383,24 @@ class User implements UserInterface
      */
     protected $roles;
 
+   /**
+    * @var Collection
+    *
+    * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="users")
+    * @ORM\JoinTable(name="user_x_cohort",
+    *   joinColumns={
+    *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+    *   },
+    *   inverseJoinColumns={
+    *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
+    *   }
+    * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("array<string>")
+    */
+    protected $cohorts;
+
     /**
      * Constructor
      */
