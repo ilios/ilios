@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait IdentifiableEntity
 {
     /**
-     * @param int $id
+     * @param mixed $id
      */
     public function setId($id)
     {
@@ -19,7 +19,7 @@ trait IdentifiableEntity
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getId()
     {
