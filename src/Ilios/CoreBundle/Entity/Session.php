@@ -642,15 +642,15 @@ class Session implements SessionInterface
     }
 
     /**
-     * @param InstructionHourInterface $instructionHour
+     * @param InstructionHoursInterface $instructionHour
      */
-    public function addInstructionHour(InstructionHourInterface $instructionHour)
+    public function addInstructionHour(InstructionHoursInterface $instructionHour)
     {
         $this->instructionHours->add($instructionHour);
     }
 
     /**
-     * @return ArrayCollection|InstructionHourInterface[]
+     * @return ArrayCollection|InstructionHoursInterface[]
      */
     public function getInstructionHours()
     {

@@ -326,12 +326,23 @@ class User implements UserInterface
     /**
      * @var ArrayCollection|OfferingInterface[]
      *
-     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learners")
      *
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
     protected $offerings;
+
+    /**
+     * @var ArrayCollection|OfferingInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructors")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("instructedOfferings")
+     */
+    protected $instructedOfferings;
 
     /**
     * @var ArrayCollection|ProgramYearInterface[]

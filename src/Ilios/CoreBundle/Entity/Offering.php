@@ -195,7 +195,25 @@ class Offering implements OfferingInterface
      * @JMS\Expose
      * @JMS\Type("array<string>")
      */
-    protected $users;
+    protected $learners;
+
+    /**
+     * @var ArrayCollection|UserInterface[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedOfferings")
+     * @ORM\JoinTable(name="offering_x_instructor",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     *   }
+     * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $instructors;
 
     /**
      * @var ArrayCollection|RecurringEventInterface[]
@@ -225,7 +243,8 @@ class Offering implements OfferingInterface
         $this->lastUpdatedOn = new \DateTime();
         $this->learnerGroups = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->learners = new ArrayCollection();
+        $this->instructors = new ArrayCollection();
         $this->recurringEvents = new ArrayCollection();
     }
 
@@ -398,31 +417,59 @@ class Offering implements OfferingInterface
     }
 
     /**
-     * @param Collection $users
+     * @param Collection $learners
      */
-    public function setUsers(Collection $users)
+    public function setLearners(Collection $learners)
     {
-        $this->users = new ArrayCollection();
+        $this->learners = new ArrayCollection();
 
-        foreach ($users as $user) {
-            $this->addUser($user);
+        foreach ($learners as $learner) {
+            $this->addLearner($learner);
         }
     }
 
     /**
-     * @param UserInterface $user
+     * @param UserInterface $learner
      */
-    public function addUser(UserInterface $user)
+    public function addLearner(UserInterface $learner)
     {
-        $this->users->add($user);
+        $this->learners->add($learner);
     }
 
     /**
      * @return ArrayCollection|UserInterface[]
      */
-    public function getUsers()
+    public function getLearners()
     {
-        return $this->users;
+        return $this->learners;
+    }
+
+    /**
+     * @param Collection $instructors
+     */
+    public function setInstructors(Collection $instructors)
+    {
+        $this->instructors = new ArrayCollection();
+
+        foreach ($instructors as $instructor) {
+            $this->addInstructor($instructor);
+        }
+    }
+
+    /**
+     * @param UserInterface $instructor
+     */
+    public function addInstructor(UserInterface $instructor)
+    {
+        $this->instructors->add($instructor);
+    }
+
+    /**
+     * @return ArrayCollection|UserInterface[]
+     */
+    public function getInstructors()
+    {
+        return $this->instructors;
     }
 
     /**

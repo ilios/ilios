@@ -117,19 +117,34 @@ interface OfferingInterface extends
     public function getInstructorGroups();
 
     /**
-     * @param Collection $users
+     * @param Collection $learners
      */
-    public function setUsers(Collection $users);
+    public function setLearners(Collection $learners);
 
     /**
-     * @param UserInterface $user
+     * @param UserInterface $learner
      */
-    public function addUser(UserInterface $user);
+    public function addLearner(UserInterface $learner);
 
     /**
      * @return ArrayCollection|UserInterface[]
      */
-    public function getUsers();
+    public function getLearners();
+
+    /**
+     * @param Collection $instructors
+     */
+    public function setInstructors(Collection $instructors);
+
+    /**
+     * @param UserInterface $instructor
+     */
+    public function addInstructor(UserInterface $instructor);
+
+    /**
+     * @return ArrayCollection|UserInterface[]
+     */
+    public function getInstructors();
 
     /**
      * @param Collection $recurringEvents
