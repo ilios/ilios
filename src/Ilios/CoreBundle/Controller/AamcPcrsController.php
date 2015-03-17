@@ -121,7 +121,7 @@ class AamcPcrsController extends FOSRestController
         }, $criteria);
 
         $result = $this->getAamcPcrsHandler()
-            ->findAamcPcrsBy(
+            ->findAamcPcrsesBy(
                 $criteria,
                 $orderBy,
                 $limit,
