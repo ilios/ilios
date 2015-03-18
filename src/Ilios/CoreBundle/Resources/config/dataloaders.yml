@@ -1,9 +1,21 @@
 parameters:
     ilioscore.dataloader.users.class: Ilios\CoreBundle\Tests\DataLoader\Users
     ilioscore.dataloader.userroles.class: Ilios\CoreBundle\Tests\DataLoader\UserRoles
+    ilioscore.dataloader.sessiontypes.class: Ilios\CoreBundle\Tests\DataLoader\SessionTypes
+    ilioscore.dataloader.schools.class: Ilios\CoreBundle\Tests\DataLoader\Schools
+    ilioscore.dataloader.aamcmethods.class: Ilios\CoreBundle\Tests\DataLoader\AamcMethods
+    ilioscore.dataloader.assessmentoptions.class: Ilios\CoreBundle\Tests\DataLoader\AssessmentOptions
 
 services:
     ilioscore.dataloader.users:
         class: %ilioscore.dataloader.users.class%
     ilioscore.dataloader.userroles:
         class: %ilioscore.dataloader.userroles.class%
+    ilioscore.dataloader.sessiontypes:
+        class: %ilioscore.dataloader.sessiontypes.class%
+    ilioscore.dataloader.schools:
+        class: %ilioscore.dataloader.schools.class%
+    ilioscore.dataloader.aamcmethods:
+        class: %ilioscore.dataloader.aamcmethods.class%
+    ilioscore.dataloader.assessmentoptions:
+        class: %ilioscore.dataloader.assessmentoptions.class%
