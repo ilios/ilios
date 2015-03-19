@@ -277,7 +277,7 @@ class Session implements SessionInterface
     *
     * @JMS\Expose
     * @JMS\Type("array<string>")
-    * @JMS\SerializedName("sessionLearningMaterials")
+    * @JMS\SerializedName("learningMaterials")
     */
     protected $sessionLearningMaterials;
 
