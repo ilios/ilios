@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\LearningMaterials;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Ilios\CoreBundle\Entity\LearningMaterial;
@@ -24,6 +25,13 @@ class File extends LearningMaterial implements FileInterface
      *
      * @ORM\Column(name="relative_file_system_location", type="string", length=128, nullable=true)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 128
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
@@ -34,6 +42,8 @@ class File extends LearningMaterial implements FileInterface
      * @var boolean
      *
      * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
+     *
+     * @Assert\Type(type="bool")
      *
      * @JMS\Expose
      * @JMS\Type("boolean")
@@ -46,6 +56,12 @@ class File extends LearningMaterial implements FileInterface
     *
     * @ORM\Column(name="copyright_rationale", type="text", nullable=true)
     *
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 65000
+    * )
+    *
     * @JMS\Expose
     * @JMS\Type("string")
     * @JMS\SerializedName("copyrightRationale")
@@ -57,6 +73,13 @@ class File extends LearningMaterial implements FileInterface
     *
     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
     *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 255
+    * )
+    *
     * @JMS\Expose
     * @JMS\Type("string")
     */
@@ -66,6 +89,13 @@ class File extends LearningMaterial implements FileInterface
     * @var string
     *
     * @ORM\Column(name="mime_type", type="string", length=96, nullable=true)
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="string")
+    * @Assert\Length(
+    *      min = 1,
+    *      max = 96
+    * )
     *
     * @JMS\Expose
     * @JMS\Type("string")
@@ -77,6 +107,9 @@ class File extends LearningMaterial implements FileInterface
     * @var string
     *
     * @ORM\Column(name="filesize", type="integer", nullable=true, options={"unsigned"=true})
+    *
+    * @Assert\NotBlank()
+    * @Assert\Type(type="integer")
     *
     * @JMS\Expose
     * @JMS\Type("integer")

@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\LearningMaterials;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Entity\LearningMaterial;
 
@@ -22,26 +23,28 @@ class Link extends LearningMaterial implements LinkInterface
      *
      * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
      *
+     * @Assert\NotBlank()
+     * @Assert\Url()
+     *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("webLink")
      */
-    protected $webLink;
+    protected $link;
 
     /**
      * @param string $webLink
      */
-    public function setWebLink($webLink)
+    public function setLink($link)
     {
         $this->setType(self::TYPE_LINK);
-        $this->webLink = $webLink;
+        $this->link = $link;
     }
 
     /**
      * @return string
      */
-    public function getWebLink()
+    public function getLink()
     {
-        return $this->webLink;
+        return $this->link;
     }
 }

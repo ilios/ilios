@@ -9,10 +9,10 @@ interface CitationInterface extends LearningMaterialInterface
     /**
      * @param string $text
      */
-    public function setText($text);
+    public function setCitation($citation);
 
     /**
      * @return string
      */
-    public function getText();
+    public function getCitation();
 }

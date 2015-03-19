@@ -11,12 +11,12 @@ use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 interface LinkInterface extends LearningMaterialInterface
 {
     /**
-     * @param string $webLink
+     * @param string $link
      */
-    public function setWebLink($webLink);
+    public function setLink($link);
 
     /**
      * @return string
      */
-    public function getWebLink();
+    public function getLink();
 }

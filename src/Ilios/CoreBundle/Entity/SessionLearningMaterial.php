@@ -62,6 +62,9 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
+     *
+     * @JMS\Expose
+     * @JMS\Type("boolean")
      */
     protected $required;
 
