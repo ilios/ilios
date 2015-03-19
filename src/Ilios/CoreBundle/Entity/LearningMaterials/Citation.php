@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\LearningMaterials;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ilios\CoreBundle\Entity\LearningMaterial;
 
@@ -23,25 +24,32 @@ class Citation extends LearningMaterial implements CitationInterface
      *
      * @ORM\Column(name="citation", type="string", length=512, nullable=true)
      *
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 512
+     * )
+     *
      * @JMS\Expose
      * @JMS\Type("string")
      */
-    protected $text;
+    protected $citation;
 
     /**
      * @param string $text
      */
-    public function setText($text)
+    public function setCitation($citation)
     {
         $this->setType(self::TYPE_CITATION);
-        $this->text = $text;
+        $this->citation = $citation;
     }
 
     /**
      * @return string
      */
-    public function getText()
+    public function getCitation()
     {
-        return $this->text;
+        return $this->citation;
     }
 }
