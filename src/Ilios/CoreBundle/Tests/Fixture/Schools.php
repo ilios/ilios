@@ -39,7 +39,7 @@ class Schools extends AbstractFixture implements
             $school->setChangeAlertRecipients($arr['changeAlertRecipients']);
 
             $manager->persist($school);
-            $this->addReference('school' + $arr['id'], $school);
+            $this->addReference('school' . $arr['id'], $school);
         }
 
         //We have to disable auto id generation in order to save with ID
