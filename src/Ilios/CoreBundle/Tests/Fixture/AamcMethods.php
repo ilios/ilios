@@ -35,7 +35,7 @@ class Users extends AbstractFixture implements
             $aamcMethod->setId($arr['id']);
 
             $manager->persist($aamcMethod);
-            $this->addReference('aamcMethod' + $arr['id'], $aamcMethod);
+            $this->addReference('aamcMethod' . $arr['id'], $aamcMethod);
         }
 
         //We have to disable auto id generation in order to save with ID

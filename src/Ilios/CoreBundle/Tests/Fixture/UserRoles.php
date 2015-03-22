@@ -35,10 +35,10 @@ class UserRoles extends AbstractFixture implements
             $userRole = new UserRole();
             $userRole->setId($arr['id']);
             foreach ($arr['users'] as $userId) {
-                $userRole->addUser($this->getReference('user' + $userId));
+                $userRole->addUser($this->getReference('user' . $userId));
             }
             $manager->persist($userRole);
-            $this->addReference('userRole' + $arr['id'], $userRole);
+            $this->addReference('userRole' . $arr['id'], $userRole);
         }
 
         $metadata = $manager->getClassMetaData(get_class($userRole));

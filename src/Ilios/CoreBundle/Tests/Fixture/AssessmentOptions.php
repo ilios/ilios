@@ -36,7 +36,7 @@ class AssessmentOptions extends AbstractFixture implements
             $assessmentOptions->setId($arr['id']);
             $manager->persist($assessmentOptions);
             $this->addReference(
-                'assessmentOption' + $arr['id'],
+                'assessmentOption' . $arr['id'],
                 $assessmentOptions
             );
         }

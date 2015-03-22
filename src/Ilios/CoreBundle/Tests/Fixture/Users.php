@@ -37,7 +37,7 @@ class Users extends AbstractFixture implements
             $user->setEmail($arr['email']);
 
             $manager->persist($user);
-            $this->addReference('user' + $arr['id'], $user);
+            $this->addReference('user' . $arr['id'], $user);
         }
 
         //We have to disable auto id generation in order to save with ID

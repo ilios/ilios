@@ -40,21 +40,21 @@ class SessionTypes extends AbstractFixture implements
             $sessionType->setTitle($arr['title']);
             $sessionType->setAssessmentOption(
                 $this->getReference(
-                    'assessmentOption' + $arr['assessmentOption']
+                    'assessmentOption' . $arr['assessmentOption']
                 )
             );
             $sessionType->setOwningSchool(
-                $this->getReference('school' + $arr['owningSchool'])
+                $this->getReference('school' . $arr['owningSchool'])
             );
 
             foreach ($arr['aamcMethods'] as $aamcMethodId) {
                 $sessionType->addAamcMethod(
-                    $this->getReference('aamcMethod' + $aamcMethodId)
+                    $this->getReference('aamcMethod' . $aamcMethodId)
                 );
             }
 
             $manager->persist($sessionType);
-            $this->addReference('sessionType' + $arr['id'], $sessionType);
+            $this->addReference('sessionType' . $arr['id'], $sessionType);
         }
 
         $metadata = $manager->getClassMetaData(get_class($sessionType));
