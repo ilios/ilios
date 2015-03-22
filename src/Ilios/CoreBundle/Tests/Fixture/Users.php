@@ -62,5 +62,4 @@ class Users extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\UserRoles'
         );
     }
-
 }

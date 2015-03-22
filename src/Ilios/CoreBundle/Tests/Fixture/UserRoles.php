@@ -42,5 +42,4 @@ class UserRoles extends AbstractFixture implements
         $manager->flush();
 
     }
-
 }
