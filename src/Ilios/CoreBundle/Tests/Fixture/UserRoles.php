@@ -2,7 +2,6 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Ilios\CoreBundle\Entity\UserRole;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -12,7 +11,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class UserRoles extends AbstractFixture implements
     FixtureInterface,
-    DependentFixtureInterface,
     ContainerAwareInterface
 {
     /**
@@ -34,9 +32,7 @@ class UserRoles extends AbstractFixture implements
         foreach ($userRoles as $arr) {
             $userRole = new UserRole();
             $userRole->setId($arr['id']);
-            foreach ($arr['users'] as $userId) {
-                $userRole->addUser($this->getReference('user' . $userId));
-            }
+            $userRole->setTitle($arr['title']);
             $manager->persist($userRole);
             $this->addReference('userRole' . $arr['id'], $userRole);
         }
@@ -47,13 +43,4 @@ class UserRoles extends AbstractFixture implements
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
-    {
-        return array(
-          'Ilios\CoreBundle\Tests\Fixture\Users'
-        );
-    }
 }
