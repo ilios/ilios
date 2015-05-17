@@ -51,6 +51,9 @@ class Department implements DepartmentInterface
      *      min = 1,
      *      max = 90
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 
@@ -89,7 +92,7 @@ class Department implements DepartmentInterface
     {
         $this->deleted = false;
     }
-     
+
     public function setId($id)
     {
         $this->departmentId = $id;
