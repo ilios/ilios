@@ -1,9 +1,9 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity\Manager\LearningMaterials;
+namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\CitationInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\CitationInterface;
 
 /**
  * Interface CitationManagerInterface

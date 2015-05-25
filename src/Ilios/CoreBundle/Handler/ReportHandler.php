@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\ReportType;
+use Ilios\CoreBundle\Form\Type\ReportType;
 use Ilios\CoreBundle\Entity\Manager\ReportManager;
 use Ilios\CoreBundle\Entity\ReportInterface;
 
+/**
+ * Class ReportHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class ReportHandler extends ReportManager
 {
     /**
@@ -18,11 +21,11 @@ class ReportHandler extends ReportManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class ReportHandler extends ReportManager
             'PUT'
         );
     }
+
     /**
      * @param ReportInterface $report
      * @param array $parameters
@@ -91,11 +95,12 @@ class ReportHandler extends ReportManager
             $report,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $report = $form->getData();
-            $this->updateReport($report, true);
+            $this->updateReport($report, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $report;
         }

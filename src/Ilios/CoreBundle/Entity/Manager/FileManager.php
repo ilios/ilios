@@ -1,13 +1,13 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity\Manager\LearningMaterials;
+namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\FileInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\FileInterface;
 
 /**
  * Class FileManager

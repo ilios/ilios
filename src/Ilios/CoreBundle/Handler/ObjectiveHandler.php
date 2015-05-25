@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\ObjectiveType;
+use Ilios\CoreBundle\Form\Type\ObjectiveType;
 use Ilios\CoreBundle\Entity\Manager\ObjectiveManager;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
+/**
+ * Class ObjectiveHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class ObjectiveHandler extends ObjectiveManager
 {
     /**
@@ -18,11 +21,11 @@ class ObjectiveHandler extends ObjectiveManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class ObjectiveHandler extends ObjectiveManager
             'PUT'
         );
     }
+
     /**
      * @param ObjectiveInterface $objective
      * @param array $parameters
@@ -91,11 +95,12 @@ class ObjectiveHandler extends ObjectiveManager
             $objective,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $objective = $form->getData();
-            $this->updateObjective($objective, true);
+            $this->updateObjective($objective, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $objective;
         }
