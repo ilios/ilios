@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 
 /**
@@ -68,10 +69,17 @@ class MeshTermManager implements MeshTermManagerInterface
     /**
      * @param MeshTermInterface $meshTerm
      * @param bool $andFlush
+     * @param bool $forceId
      */
-    public function updateMeshTerm(MeshTermInterface $meshTerm, $andFlush = true)
+    public function updateMeshTerm(MeshTermInterface $meshTerm, $andFlush = true, $forceId = false)
     {
         $this->em->persist($meshTerm);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($meshTerm));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

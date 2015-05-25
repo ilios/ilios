@@ -1,19 +1,19 @@
 <?php
 
-namespace Ilios\CoreBundle\Entity\Manager;
+namespace Ilios\CoreBundle\Entity\Manager\LearningMaterials;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\LinkInterface;
 
 /**
- * Class SchoolManager
- * @package Ilios\CoreBundle\Entity\Manager
+ * Class LinkManager
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-class SchoolManager implements SchoolManagerInterface
+class LinkManager implements LinkManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class SchoolManager implements SchoolManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return SchoolInterface
+     * @return LinkInterface
      */
-    public function findSchoolBy(
+    public function findLinkBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -60,9 +60,9 @@ class SchoolManager implements SchoolManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|SchoolInterface[]
+     * @return ArrayCollection|LinkInterface[]
      */
-    public function findSchoolsBy(
+    public function findLinksBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -72,19 +72,19 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
+     * @param LinkInterface $link
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateSchool(
-        SchoolInterface $school,
+    public function updateLink(
+        LinkInterface $link,
         $andFlush = true,
         $forceId  = false
     ) {
-        $this->em->persist($school);
+        $this->em->persist($link);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($school));
+            $metadata = $this->em->getClassMetaData(get_class($link));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -94,12 +94,12 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
+     * @param LinkInterface $link
      */
-    public function deleteSchool(
-        SchoolInterface $school
+    public function deleteLink(
+        LinkInterface $link
     ) {
-        $this->em->remove($school);
+        $this->em->remove($link);
         $this->em->flush();
     }
 
@@ -112,9 +112,9 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @return SchoolInterface
+     * @return LinkInterface
      */
-    public function createSchool()
+    public function createLink()
     {
         $class = $this->getClass();
         return new $class();
