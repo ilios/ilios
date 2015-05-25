@@ -1,7 +1,7 @@
 parameters:
-  tdn.type.tdn_entity.class: Ilios\CoreBundle\Form\Type\EntityType
-  tdn.type.tdn_many_reated.class: Ilios\CoreBundle\Form\Type\ManyRelatedType
-  tdn.type.tdn_single_related.class: Ilios\CoreBundle\Form\Type\SingleRelatedType
+  tdn.type.tdn_entity.class: Ilios\CoreBundle\Form\Type\AbstractType\EntityType
+  tdn.type.tdn_many_reated.class: Ilios\CoreBundle\Form\Type\AbstractType\ManyRelatedType
+  tdn.type.tdn_single_related.class: Ilios\CoreBundle\Form\Type\AbstractType\SingleRelatedType
 
 services:
   tdn.type.tdn_entity:
