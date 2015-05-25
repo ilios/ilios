@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CurriculumInventoryAcademicLevelType;
+use Ilios\CoreBundle\Form\Type\CurriculumInventoryAcademicLevelType;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryAcademicLevelManager;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 
+/**
+ * Class CurriculumInventoryAcademicLevelHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademicLevelManager
 {
     /**
@@ -18,11 +21,11 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
             'PUT'
         );
     }
+
     /**
      * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      * @param array $parameters
@@ -91,11 +95,12 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
             $curriculumInventoryAcademicLevel,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $curriculumInventoryAcademicLevel = $form->getData();
-            $this->updateCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel, true);
+            $this->updateCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $curriculumInventoryAcademicLevel;
         }

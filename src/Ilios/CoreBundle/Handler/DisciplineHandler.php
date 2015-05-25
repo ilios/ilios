@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\DisciplineType;
+use Ilios\CoreBundle\Form\Type\DisciplineType;
 use Ilios\CoreBundle\Entity\Manager\DisciplineManager;
 use Ilios\CoreBundle\Entity\DisciplineInterface;
 
+/**
+ * Class DisciplineHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class DisciplineHandler extends DisciplineManager
 {
     /**
@@ -18,11 +21,11 @@ class DisciplineHandler extends DisciplineManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class DisciplineHandler extends DisciplineManager
             'PUT'
         );
     }
+
     /**
      * @param DisciplineInterface $discipline
      * @param array $parameters
@@ -91,11 +95,12 @@ class DisciplineHandler extends DisciplineManager
             $discipline,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $discipline = $form->getData();
-            $this->updateDiscipline($discipline, true);
+            $this->updateDiscipline($discipline, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $discipline;
         }

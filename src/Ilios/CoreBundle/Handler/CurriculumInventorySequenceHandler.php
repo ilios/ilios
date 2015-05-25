@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CurriculumInventorySequenceType;
+use Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceType;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventorySequenceManager;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceInterface;
 
+/**
+ * Class CurriculumInventorySequenceHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceManager
 {
     /**
@@ -18,11 +21,11 @@ class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceMana
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceMana
             'PUT'
         );
     }
+
     /**
      * @param CurriculumInventorySequenceInterface $curriculumInventorySequence
      * @param array $parameters
@@ -91,11 +95,12 @@ class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceMana
             $curriculumInventorySequence,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $curriculumInventorySequence = $form->getData();
-            $this->updateCurriculumInventorySequence($curriculumInventorySequence, true);
+            $this->updateCurriculumInventorySequence($curriculumInventorySequence, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $curriculumInventorySequence;
         }
