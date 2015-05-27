@@ -3,21 +3,21 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\ReportInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\CitationInterface;
 
 /**
- * Interface ReportManagerInterface
- * @package Ilios\CoreBundle\Entity\Manager
+ * Interface CitationManagerInterface
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface ReportManagerInterface
+interface CitationManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return ReportInterface
+     * @return CitationInterface
      */
-    public function findReportBy(
+    public function findCitationBy(
         array $criteria,
         array $orderBy = null
     );
@@ -28,9 +28,9 @@ interface ReportManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|ReportInterface[]
+     * @return ArrayCollection|CitationInterface[]
      */
-    public function findReportsBy(
+    public function findCitationsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -38,25 +38,25 @@ interface ReportManagerInterface
     );
 
     /**
-     * @param ReportInterface $report
+     * @param CitationInterface $citation
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
-    public function updateReport(
-        ReportInterface $report,
+    public function updateCitation(
+        CitationInterface $citation,
         $andFlush = true,
         $forceId  = false
     );
 
     /**
-     * @param ReportInterface $report
+     * @param CitationInterface $citation
      *
      * @return void
      */
-    public function deleteReport(
-        ReportInterface $report
+    public function deleteCitation(
+        CitationInterface $citation
     );
 
     /**
@@ -65,7 +65,7 @@ interface ReportManagerInterface
     public function getClass();
 
     /**
-     * @return ReportInterface
+     * @return CitationInterface
      */
-    public function createReport();
+    public function createCitation();
 }

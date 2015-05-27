@@ -7,13 +7,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\FileInterface;
 
 /**
- * Class SchoolManager
- * @package Ilios\CoreBundle\Entity\Manager
+ * Class FileManager
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-class SchoolManager implements SchoolManagerInterface
+class FileManager implements FileManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class SchoolManager implements SchoolManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return SchoolInterface
+     * @return FileInterface
      */
-    public function findSchoolBy(
+    public function findFileBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -60,9 +60,9 @@ class SchoolManager implements SchoolManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|SchoolInterface[]
+     * @return ArrayCollection|FileInterface[]
      */
-    public function findSchoolsBy(
+    public function findFilesBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -72,19 +72,19 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
+     * @param FileInterface $file
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateSchool(
-        SchoolInterface $school,
+    public function updateFile(
+        FileInterface $file,
         $andFlush = true,
         $forceId  = false
     ) {
-        $this->em->persist($school);
+        $this->em->persist($file);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($school));
+            $metadata = $this->em->getClassMetaData(get_class($file));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -94,12 +94,12 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
+     * @param FileInterface $file
      */
-    public function deleteSchool(
-        SchoolInterface $school
+    public function deleteFile(
+        FileInterface $file
     ) {
-        $this->em->remove($school);
+        $this->em->remove($file);
         $this->em->flush();
     }
 
@@ -112,9 +112,9 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @return SchoolInterface
+     * @return FileInterface
      */
-    public function createSchool()
+    public function createFile()
     {
         $class = $this->getClass();
         return new $class();

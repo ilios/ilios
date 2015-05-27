@@ -3,21 +3,21 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\ReportInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\LinkInterface;
 
 /**
- * Interface ReportManagerInterface
- * @package Ilios\CoreBundle\Entity\Manager
+ * Interface LinkManagerInterface
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface ReportManagerInterface
+interface LinkManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return ReportInterface
+     * @return LinkInterface
      */
-    public function findReportBy(
+    public function findLinkBy(
         array $criteria,
         array $orderBy = null
     );
@@ -28,9 +28,9 @@ interface ReportManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|ReportInterface[]
+     * @return ArrayCollection|LinkInterface[]
      */
-    public function findReportsBy(
+    public function findLinksBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -38,25 +38,25 @@ interface ReportManagerInterface
     );
 
     /**
-     * @param ReportInterface $report
+     * @param LinkInterface $link
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
-    public function updateReport(
-        ReportInterface $report,
+    public function updateLink(
+        LinkInterface $link,
         $andFlush = true,
         $forceId  = false
     );
 
     /**
-     * @param ReportInterface $report
+     * @param LinkInterface $link
      *
      * @return void
      */
-    public function deleteReport(
-        ReportInterface $report
+    public function deleteLink(
+        LinkInterface $link
     );
 
     /**
@@ -65,7 +65,7 @@ interface ReportManagerInterface
     public function getClass();
 
     /**
-     * @return ReportInterface
+     * @return LinkInterface
      */
-    public function createReport();
+    public function createLink();
 }
