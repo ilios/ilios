@@ -7,13 +7,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\CitationInterface;
 
 /**
- * Class SchoolManager
- * @package Ilios\CoreBundle\Entity\Manager
+ * Class CitationManager
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-class SchoolManager implements SchoolManagerInterface
+class CitationManager implements CitationManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class SchoolManager implements SchoolManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return SchoolInterface
+     * @return CitationInterface
      */
-    public function findSchoolBy(
+    public function findCitationBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -60,9 +60,9 @@ class SchoolManager implements SchoolManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|SchoolInterface[]
+     * @return ArrayCollection|CitationInterface[]
      */
-    public function findSchoolsBy(
+    public function findCitationsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -72,19 +72,19 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
+     * @param CitationInterface $citation
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateSchool(
-        SchoolInterface $school,
+    public function updateCitation(
+        CitationInterface $citation,
         $andFlush = true,
         $forceId  = false
     ) {
-        $this->em->persist($school);
+        $this->em->persist($citation);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($school));
+            $metadata = $this->em->getClassMetaData(get_class($citation));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -94,12 +94,12 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @param SchoolInterface $school
+     * @param CitationInterface $citation
      */
-    public function deleteSchool(
-        SchoolInterface $school
+    public function deleteCitation(
+        CitationInterface $citation
     ) {
-        $this->em->remove($school);
+        $this->em->remove($citation);
         $this->em->flush();
     }
 
@@ -112,9 +112,9 @@ class SchoolManager implements SchoolManagerInterface
     }
 
     /**
-     * @return SchoolInterface
+     * @return CitationInterface
      */
-    public function createSchool()
+    public function createCitation()
     {
         $class = $this->getClass();
         return new $class();

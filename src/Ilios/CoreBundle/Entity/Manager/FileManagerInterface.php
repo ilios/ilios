@@ -3,21 +3,21 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\ReportInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\FileInterface;
 
 /**
- * Interface ReportManagerInterface
- * @package Ilios\CoreBundle\Entity\Manager
+ * Interface FileManagerInterface
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface ReportManagerInterface
+interface FileManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return ReportInterface
+     * @return FileInterface
      */
-    public function findReportBy(
+    public function findFileBy(
         array $criteria,
         array $orderBy = null
     );
@@ -28,9 +28,9 @@ interface ReportManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|ReportInterface[]
+     * @return ArrayCollection|FileInterface[]
      */
-    public function findReportsBy(
+    public function findFilesBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -38,25 +38,25 @@ interface ReportManagerInterface
     );
 
     /**
-     * @param ReportInterface $report
+     * @param FileInterface $file
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
-    public function updateReport(
-        ReportInterface $report,
+    public function updateFile(
+        FileInterface $file,
         $andFlush = true,
         $forceId  = false
     );
 
     /**
-     * @param ReportInterface $report
+     * @param FileInterface $file
      *
      * @return void
      */
-    public function deleteReport(
-        ReportInterface $report
+    public function deleteFile(
+        FileInterface $file
     );
 
     /**
@@ -65,7 +65,7 @@ interface ReportManagerInterface
     public function getClass();
 
     /**
-     * @return ReportInterface
+     * @return FileInterface
      */
-    public function createReport();
+    public function createFile();
 }
