@@ -1,0 +1,176 @@
+<?php
+
+namespace Ilios\CoreBundle\Tests\Controller;
+
+use FOS\RestBundle\Util\Codes;
+
+/**
+ * AamcPcrs controller Test.
+ * @package Ilios\CoreBundle\Test\Controller;
+ */
+class AamcPcrsControllerTest extends AbstractControllerTest
+{
+    /**
+     * @return array|string
+     */
+    protected function getFixtures()
+    {
+        return [
+            'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCompetencyData'
+        ];
+    }
+
+    /**
+     * @return array|string
+     */
+    protected function getPrivateFields()
+    {
+        return [
+            'description'
+        ];
+    }
+
+    public function testGetAamcPcrs()
+    {
+        $aamcPcrs = $this->container
+            ->get('ilioscore.dataloader.aamcpcrs')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                'get_aamcpcrs',
+                ['id' => $aamcPcrs['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize($aamcPcrs),
+            json_decode($response->getContent(), true)['aamcPcrs'][0]
+        );
+    }
+
+    public function testGetAllAamcPcrs()
+    {
+        $this->createJsonRequest('GET', $this->getUrl('cget_aamcpcrs'));
+        $response = $this->client->getResponse();
+
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize(
+                $this->container
+                    ->get('ilioscore.dataloader.aamcpcrs')
+                    ->getAll()
+            ),
+            json_decode($response->getContent(), true)['aamcPcrs']
+        );
+    }
+
+    public function testPostAamcPcrs()
+    {
+        $data = $this->container->get('ilioscore.dataloader.aamcpcrs')
+            ->create();
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_aamcpcrs'),
+            json_encode(['aamcPcrs' => $data])
+        );
+
+        $response = $this->client->getResponse();
+        $headers  = [];
+
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+        $this->assertTrue(
+            $response->headers->contains(
+                'Location'
+            ),
+            print_r($response->headers, true)
+        );
+    }
+
+    public function testPostBadAamcPcrs()
+    {
+        $invalidAamcPcrs = $this->container
+            ->get('ilioscore.dataloader.aamcpcrs')
+            ->createInvalid()
+        ;
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl('post_aamcpcrs'),
+            json_encode(['aamcPcrs' => $invalidAamcPcrs])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals($response->getStatusCode(), Codes::HTTP_BAD_REQUEST);
+    }
+
+    public function testPutAamcPcrs()
+    {
+        $aamcPcrs = $this->container
+            ->get('ilioscore.dataloader.aamcpcrs')
+            ->getOne()
+        ;
+
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                'put_aamcpcrs',
+                ['id' => $aamcPcrs['id']]
+            ),
+            json_encode(['aamcPcrs' => $aamcPcrs])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
+        $this->assertEquals(
+            $this->mockSerialize($aamcPcrs),
+            json_decode($response->getContent(), true)['aamcPcrs']
+        );
+    }
+
+    public function testDeleteAamcPcrs()
+    {
+        $aamcPcrs = $this->container
+            ->get('ilioscore.dataloader.aamcpcrs')
+            ->getOne()
+        ;
+
+        $this->client->request(
+            'DELETE',
+            $this->getUrl(
+                'delete_aamcpcrs',
+                ['id' => $aamcPcrs['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_NO_CONTENT, $response->getStatusCode());
+        $this->client->request(
+            'GET',
+            $this->getUrl(
+                'get_aamcpcrs',
+                ['id' => $aamcPcrs['id']]
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function testAamcPcrsNotFound()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl('get_aamcpcrs', ['id' => '0'])
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
+    }
+}
