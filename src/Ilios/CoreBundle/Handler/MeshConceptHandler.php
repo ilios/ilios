@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\MeshConceptType;
+use Ilios\CoreBundle\Form\Type\MeshConceptType;
 use Ilios\CoreBundle\Entity\Manager\MeshConceptManager;
 use Ilios\CoreBundle\Entity\MeshConceptInterface;
 
+/**
+ * Class MeshConceptHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class MeshConceptHandler extends MeshConceptManager
 {
     /**
@@ -18,11 +21,11 @@ class MeshConceptHandler extends MeshConceptManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class MeshConceptHandler extends MeshConceptManager
             'PUT'
         );
     }
+
     /**
      * @param MeshConceptInterface $meshConcept
      * @param array $parameters
@@ -91,11 +95,12 @@ class MeshConceptHandler extends MeshConceptManager
             $meshConcept,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $meshConcept = $form->getData();
-            $this->updateMeshConcept($meshConcept, true);
+            $this->updateMeshConcept($meshConcept, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $meshConcept;
         }

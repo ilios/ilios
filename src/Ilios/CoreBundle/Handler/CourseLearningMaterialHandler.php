@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CourseLearningMaterialType;
+use Ilios\CoreBundle\Form\Type\CourseLearningMaterialType;
 use Ilios\CoreBundle\Entity\Manager\CourseLearningMaterialManager;
 use Ilios\CoreBundle\Entity\CourseLearningMaterialInterface;
 
+/**
+ * Class CourseLearningMaterialHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CourseLearningMaterialHandler extends CourseLearningMaterialManager
 {
     /**
@@ -18,11 +21,11 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
             'PUT'
         );
     }
+
     /**
      * @param CourseLearningMaterialInterface $courseLearningMaterial
      * @param array $parameters
@@ -91,11 +95,12 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
             $courseLearningMaterial,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $courseLearningMaterial = $form->getData();
-            $this->updateCourseLearningMaterial($courseLearningMaterial, true);
+            $this->updateCourseLearningMaterial($courseLearningMaterial, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $courseLearningMaterial;
         }

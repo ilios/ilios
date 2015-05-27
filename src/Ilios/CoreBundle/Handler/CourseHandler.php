@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CourseType;
+use Ilios\CoreBundle\Form\Type\CourseType;
 use Ilios\CoreBundle\Entity\Manager\CourseManager;
 use Ilios\CoreBundle\Entity\CourseInterface;
 
+/**
+ * Class CourseHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CourseHandler extends CourseManager
 {
     /**
@@ -18,11 +21,11 @@ class CourseHandler extends CourseManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CourseHandler extends CourseManager
             'PUT'
         );
     }
+
     /**
      * @param CourseInterface $course
      * @param array $parameters
@@ -91,11 +95,12 @@ class CourseHandler extends CourseManager
             $course,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $course = $form->getData();
-            $this->updateCourse($course, true);
+            $this->updateCourse($course, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $course;
         }

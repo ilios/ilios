@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\ProgramYearType;
+use Ilios\CoreBundle\Form\Type\ProgramYearType;
 use Ilios\CoreBundle\Entity\Manager\ProgramYearManager;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 
+/**
+ * Class ProgramYearHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class ProgramYearHandler extends ProgramYearManager
 {
     /**
@@ -18,11 +21,11 @@ class ProgramYearHandler extends ProgramYearManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class ProgramYearHandler extends ProgramYearManager
             'PUT'
         );
     }
+
     /**
      * @param ProgramYearInterface $programYear
      * @param array $parameters
@@ -91,11 +95,12 @@ class ProgramYearHandler extends ProgramYearManager
             $programYear,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $programYear = $form->getData();
-            $this->updateProgramYear($programYear, true);
+            $this->updateProgramYear($programYear, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $programYear;
         }

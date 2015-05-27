@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\ReportPoValueType;
+use Ilios\CoreBundle\Form\Type\ReportPoValueType;
 use Ilios\CoreBundle\Entity\Manager\ReportPoValueManager;
 use Ilios\CoreBundle\Entity\ReportPoValueInterface;
 
+/**
+ * Class ReportPoValueHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class ReportPoValueHandler extends ReportPoValueManager
 {
     /**
@@ -18,11 +21,11 @@ class ReportPoValueHandler extends ReportPoValueManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class ReportPoValueHandler extends ReportPoValueManager
             'PUT'
         );
     }
+
     /**
      * @param ReportPoValueInterface $reportPoValue
      * @param array $parameters
@@ -91,11 +95,12 @@ class ReportPoValueHandler extends ReportPoValueManager
             $reportPoValue,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $reportPoValue = $form->getData();
-            $this->updateReportPoValue($reportPoValue, true);
+            $this->updateReportPoValue($reportPoValue, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $reportPoValue;
         }
