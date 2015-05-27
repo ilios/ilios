@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\AlertChangeTypeType;
+use Ilios\CoreBundle\Form\Type\AlertChangeTypeType;
 use Ilios\CoreBundle\Entity\Manager\AlertChangeTypeManager;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
+/**
+ * Class AlertChangeTypeHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class AlertChangeTypeHandler extends AlertChangeTypeManager
 {
     /**
@@ -18,11 +21,11 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
             'PUT'
         );
     }
+
     /**
      * @param AlertChangeTypeInterface $alertChangeType
      * @param array $parameters
@@ -91,11 +95,12 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
             $alertChangeType,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $alertChangeType = $form->getData();
-            $this->updateAlertChangeType($alertChangeType, true);
+            $this->updateAlertChangeType($alertChangeType, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $alertChangeType;
         }

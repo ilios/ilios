@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\ApiKeyType;
+use Ilios\CoreBundle\Form\Type\ApiKeyType;
 use Ilios\CoreBundle\Entity\Manager\ApiKeyManager;
 use Ilios\CoreBundle\Entity\ApiKeyInterface;
 

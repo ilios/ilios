@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\AlertType;
+use Ilios\CoreBundle\Form\Type\AlertType;
 use Ilios\CoreBundle\Entity\Manager\AlertManager;
 use Ilios\CoreBundle\Entity\AlertInterface;
 
+/**
+ * Class AlertHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class AlertHandler extends AlertManager
 {
     /**
@@ -18,11 +21,11 @@ class AlertHandler extends AlertManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class AlertHandler extends AlertManager
             'PUT'
         );
     }
+
     /**
      * @param AlertInterface $alert
      * @param array $parameters
@@ -91,11 +95,12 @@ class AlertHandler extends AlertManager
             $alert,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $alert = $form->getData();
-            $this->updateAlert($alert, true);
+            $this->updateAlert($alert, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $alert;
         }

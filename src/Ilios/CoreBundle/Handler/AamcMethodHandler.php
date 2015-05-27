@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\AamcMethodType;
+use Ilios\CoreBundle\Form\Type\AamcMethodType;
 use Ilios\CoreBundle\Entity\Manager\AamcMethodManager;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
+/**
+ * Class AamcMethodHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class AamcMethodHandler extends AamcMethodManager
 {
     /**
@@ -18,11 +21,11 @@ class AamcMethodHandler extends AamcMethodManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class AamcMethodHandler extends AamcMethodManager
             'PUT'
         );
     }
+
     /**
      * @param AamcMethodInterface $aamcMethod
      * @param array $parameters
@@ -91,11 +95,12 @@ class AamcMethodHandler extends AamcMethodManager
             $aamcMethod,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $aamcMethod = $form->getData();
-            $this->updateAamcMethod($aamcMethod, true);
+            $this->updateAamcMethod($aamcMethod, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $aamcMethod;
         }

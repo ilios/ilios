@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CompetencyType;
+use Ilios\CoreBundle\Form\Type\CompetencyType;
 use Ilios\CoreBundle\Entity\Manager\CompetencyManager;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
+/**
+ * Class CompetencyHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CompetencyHandler extends CompetencyManager
 {
     /**
@@ -18,11 +21,11 @@ class CompetencyHandler extends CompetencyManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CompetencyHandler extends CompetencyManager
             'PUT'
         );
     }
+
     /**
      * @param CompetencyInterface $competency
      * @param array $parameters
@@ -91,11 +95,12 @@ class CompetencyHandler extends CompetencyManager
             $competency,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $competency = $form->getData();
-            $this->updateCompetency($competency, true);
+            $this->updateCompetency($competency, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $competency;
         }
