@@ -56,7 +56,6 @@ class ArrayToIdTransformer implements DataTransformerInterface
             return $data;
         }
 
-        //@todo lookup entity's identifier.  Assuming that "id" is the identifier
         if (is_array($data) && null !== $this->getEntityIdentifier()) {
             return $this->getEntityIdentifier();
         }
