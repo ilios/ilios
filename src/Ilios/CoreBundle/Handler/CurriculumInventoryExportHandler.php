@@ -100,7 +100,11 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
 
         if ($form->isValid()) {
             $curriculumInventoryExport = $form->getData();
-            $this->updateCurriculumInventoryExport($curriculumInventoryExport, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCurriculumInventoryExport(
+                $curriculumInventoryExport,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $curriculumInventoryExport;
         }

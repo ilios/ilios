@@ -100,7 +100,11 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
 
         if ($form->isValid()) {
             $sessionLearningMaterial = $form->getData();
-            $this->updateSessionLearningMaterial($sessionLearningMaterial, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateSessionLearningMaterial(
+                $sessionLearningMaterial,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $sessionLearningMaterial;
         }

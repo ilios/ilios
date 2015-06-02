@@ -100,7 +100,11 @@ class AssessmentOptionHandler extends AssessmentOptionManager
 
         if ($form->isValid()) {
             $assessmentOption = $form->getData();
-            $this->updateAssessmentOption($assessmentOption, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateAssessmentOption(
+                $assessmentOption,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $assessmentOption;
         }

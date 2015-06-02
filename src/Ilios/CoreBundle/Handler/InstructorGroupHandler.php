@@ -100,7 +100,11 @@ class InstructorGroupHandler extends InstructorGroupManager
 
         if ($form->isValid()) {
             $instructorGroup = $form->getData();
-            $this->updateInstructorGroup($instructorGroup, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateInstructorGroup(
+                $instructorGroup,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $instructorGroup;
         }

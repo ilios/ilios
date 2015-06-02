@@ -100,7 +100,11 @@ class SessionHandler extends SessionManager
 
         if ($form->isValid()) {
             $session = $form->getData();
-            $this->updateSession($session, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateSession(
+                $session,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $session;
         }

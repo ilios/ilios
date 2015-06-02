@@ -100,7 +100,11 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
 
         if ($form->isValid()) {
             $curriculumInventoryInstitution = $form->getData();
-            $this->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCurriculumInventoryInstitution(
+                $curriculumInventoryInstitution,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $curriculumInventoryInstitution;
         }

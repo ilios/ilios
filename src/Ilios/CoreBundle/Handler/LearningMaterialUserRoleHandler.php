@@ -100,7 +100,11 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
 
         if ($form->isValid()) {
             $learningMaterialUserRole = $form->getData();
-            $this->updateLearningMaterialUserRole($learningMaterialUserRole, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateLearningMaterialUserRole(
+                $learningMaterialUserRole,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $learningMaterialUserRole;
         }

@@ -100,7 +100,11 @@ class LearnerGroupHandler extends LearnerGroupManager
 
         if ($form->isValid()) {
             $learnerGroup = $form->getData();
-            $this->updateLearnerGroup($learnerGroup, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateLearnerGroup(
+                $learnerGroup,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $learnerGroup;
         }

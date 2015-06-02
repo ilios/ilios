@@ -100,7 +100,11 @@ class AlertHandler extends AlertManager
 
         if ($form->isValid()) {
             $alert = $form->getData();
-            $this->updateAlert($alert, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateAlert(
+                $alert,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $alert;
         }

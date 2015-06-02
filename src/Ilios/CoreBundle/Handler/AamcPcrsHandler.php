@@ -100,7 +100,11 @@ class AamcPcrsHandler extends AamcPcrsManager
 
         if ($form->isValid()) {
             $aamcPcrs = $form->getData();
-            $this->updateAamcPcrs($aamcPcrs, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateAamcPcrs(
+                $aamcPcrs,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $aamcPcrs;
         }

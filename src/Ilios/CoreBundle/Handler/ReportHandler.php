@@ -100,7 +100,11 @@ class ReportHandler extends ReportManager
 
         if ($form->isValid()) {
             $report = $form->getData();
-            $this->updateReport($report, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateReport(
+                $report,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $report;
         }

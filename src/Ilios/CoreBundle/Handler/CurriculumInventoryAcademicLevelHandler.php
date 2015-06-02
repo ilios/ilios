@@ -100,7 +100,11 @@ class CurriculumInventoryAcademicLevelHandler extends CurriculumInventoryAcademi
 
         if ($form->isValid()) {
             $curriculumInventoryAcademicLevel = $form->getData();
-            $this->updateCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCurriculumInventoryAcademicLevel(
+                $curriculumInventoryAcademicLevel,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $curriculumInventoryAcademicLevel;
         }

@@ -100,7 +100,11 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
 
         if ($form->isValid()) {
             $meshSemanticType = $form->getData();
-            $this->updateMeshSemanticType($meshSemanticType, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateMeshSemanticType(
+                $meshSemanticType,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $meshSemanticType;
         }

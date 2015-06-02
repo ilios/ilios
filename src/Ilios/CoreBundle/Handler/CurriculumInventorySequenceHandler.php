@@ -100,7 +100,11 @@ class CurriculumInventorySequenceHandler extends CurriculumInventorySequenceMana
 
         if ($form->isValid()) {
             $curriculumInventorySequence = $form->getData();
-            $this->updateCurriculumInventorySequence($curriculumInventorySequence, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCurriculumInventorySequence(
+                $curriculumInventorySequence,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $curriculumInventorySequence;
         }

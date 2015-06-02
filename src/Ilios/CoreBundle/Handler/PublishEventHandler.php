@@ -100,7 +100,11 @@ class PublishEventHandler extends PublishEventManager
 
         if ($form->isValid()) {
             $publishEvent = $form->getData();
-            $this->updatePublishEvent($publishEvent, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updatePublishEvent(
+                $publishEvent,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $publishEvent;
         }

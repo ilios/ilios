@@ -100,7 +100,11 @@ class InstructionHoursHandler extends InstructionHoursManager
 
         if ($form->isValid()) {
             $instructionHours = $form->getData();
-            $this->updateInstructionHours($instructionHours, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateInstructionHours(
+                $instructionHours,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $instructionHours;
         }

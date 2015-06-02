@@ -100,7 +100,11 @@ class ObjectiveHandler extends ObjectiveManager
 
         if ($form->isValid()) {
             $objective = $form->getData();
-            $this->updateObjective($objective, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateObjective(
+                $objective,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $objective;
         }

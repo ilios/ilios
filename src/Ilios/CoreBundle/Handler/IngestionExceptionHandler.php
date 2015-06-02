@@ -100,7 +100,11 @@ class IngestionExceptionHandler extends IngestionExceptionManager
 
         if ($form->isValid()) {
             $ingestionException = $form->getData();
-            $this->updateIngestionException($ingestionException, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateIngestionException(
+                $ingestionException,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $ingestionException;
         }

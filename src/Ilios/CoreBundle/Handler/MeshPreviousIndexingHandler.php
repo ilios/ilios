@@ -100,7 +100,11 @@ class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
 
         if ($form->isValid()) {
             $meshPreviousIndexing = $form->getData();
-            $this->updateMeshPreviousIndexing($meshPreviousIndexing, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateMeshPreviousIndexing(
+                $meshPreviousIndexing,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $meshPreviousIndexing;
         }

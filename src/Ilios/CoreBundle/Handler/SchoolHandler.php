@@ -100,7 +100,11 @@ class SchoolHandler extends SchoolManager
 
         if ($form->isValid()) {
             $school = $form->getData();
-            $this->updateSchool($school, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateSchool(
+                $school,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $school;
         }

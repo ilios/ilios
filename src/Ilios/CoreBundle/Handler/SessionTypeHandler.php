@@ -100,7 +100,11 @@ class SessionTypeHandler extends SessionTypeManager
 
         if ($form->isValid()) {
             $sessionType = $form->getData();
-            $this->updateSessionType($sessionType, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateSessionType(
+                $sessionType,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $sessionType;
         }

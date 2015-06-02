@@ -100,7 +100,11 @@ class MeshQualifierHandler extends MeshQualifierManager
 
         if ($form->isValid()) {
             $meshQualifier = $form->getData();
-            $this->updateMeshQualifier($meshQualifier, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateMeshQualifier(
+                $meshQualifier,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $meshQualifier;
         }

@@ -100,7 +100,11 @@ class DisciplineHandler extends DisciplineManager
 
         if ($form->isValid()) {
             $discipline = $form->getData();
-            $this->updateDiscipline($discipline, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateDiscipline(
+                $discipline,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $discipline;
         }

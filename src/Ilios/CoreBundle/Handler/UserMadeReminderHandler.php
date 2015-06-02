@@ -100,7 +100,11 @@ class UserMadeReminderHandler extends UserMadeReminderManager
 
         if ($form->isValid()) {
             $userMadeReminder = $form->getData();
-            $this->updateUserMadeReminder($userMadeReminder, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateUserMadeReminder(
+                $userMadeReminder,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $userMadeReminder;
         }

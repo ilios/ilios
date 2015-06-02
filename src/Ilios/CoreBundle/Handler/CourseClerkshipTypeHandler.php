@@ -100,7 +100,11 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
 
         if ($form->isValid()) {
             $courseClerkshipType = $form->getData();
-            $this->updateCourseClerkshipType($courseClerkshipType, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCourseClerkshipType(
+                $courseClerkshipType,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $courseClerkshipType;
         }

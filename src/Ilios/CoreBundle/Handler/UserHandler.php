@@ -100,7 +100,11 @@ class UserHandler extends UserManager
 
         if ($form->isValid()) {
             $user = $form->getData();
-            $this->updateUser($user, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateUser(
+                $user,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $user;
         }

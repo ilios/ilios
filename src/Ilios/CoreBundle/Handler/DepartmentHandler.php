@@ -100,7 +100,11 @@ class DepartmentHandler extends DepartmentManager
 
         if ($form->isValid()) {
             $department = $form->getData();
-            $this->updateDepartment($department, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateDepartment(
+                $department,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $department;
         }

@@ -100,7 +100,11 @@ class RecurringEventHandler extends RecurringEventManager
 
         if ($form->isValid()) {
             $recurringEvent = $form->getData();
-            $this->updateRecurringEvent($recurringEvent, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateRecurringEvent(
+                $recurringEvent,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $recurringEvent;
         }

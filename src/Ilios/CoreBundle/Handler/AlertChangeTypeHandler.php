@@ -100,7 +100,11 @@ class AlertChangeTypeHandler extends AlertChangeTypeManager
 
         if ($form->isValid()) {
             $alertChangeType = $form->getData();
-            $this->updateAlertChangeType($alertChangeType, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateAlertChangeType(
+                $alertChangeType,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $alertChangeType;
         }

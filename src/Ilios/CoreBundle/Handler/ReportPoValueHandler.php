@@ -100,7 +100,11 @@ class ReportPoValueHandler extends ReportPoValueManager
 
         if ($form->isValid()) {
             $reportPoValue = $form->getData();
-            $this->updateReportPoValue($reportPoValue, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateReportPoValue(
+                $reportPoValue,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $reportPoValue;
         }

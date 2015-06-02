@@ -100,7 +100,11 @@ class ProgramHandler extends ProgramManager
 
         if ($form->isValid()) {
             $program = $form->getData();
-            $this->updateProgram($program, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateProgram(
+                $program,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $program;
         }

@@ -100,7 +100,11 @@ class CourseHandler extends CourseManager
 
         if ($form->isValid()) {
             $course = $form->getData();
-            $this->updateCourse($course, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCourse(
+                $course,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $course;
         }

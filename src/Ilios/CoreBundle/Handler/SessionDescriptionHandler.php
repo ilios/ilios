@@ -100,7 +100,11 @@ class SessionDescriptionHandler extends SessionDescriptionManager
 
         if ($form->isValid()) {
             $sessionDescription = $form->getData();
-            $this->updateSessionDescription($sessionDescription, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateSessionDescription(
+                $sessionDescription,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $sessionDescription;
         }

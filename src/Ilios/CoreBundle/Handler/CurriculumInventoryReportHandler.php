@@ -100,7 +100,11 @@ class CurriculumInventoryReportHandler extends CurriculumInventoryReportManager
 
         if ($form->isValid()) {
             $curriculumInventoryReport = $form->getData();
-            $this->updateCurriculumInventoryReport($curriculumInventoryReport, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCurriculumInventoryReport(
+                $curriculumInventoryReport,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $curriculumInventoryReport;
         }

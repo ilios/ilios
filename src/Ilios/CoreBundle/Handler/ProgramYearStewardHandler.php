@@ -100,7 +100,11 @@ class ProgramYearStewardHandler extends ProgramYearStewardManager
 
         if ($form->isValid()) {
             $programYearSteward = $form->getData();
-            $this->updateProgramYearSteward($programYearSteward, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateProgramYearSteward(
+                $programYearSteward,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $programYearSteward;
         }

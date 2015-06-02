@@ -100,7 +100,11 @@ class CourseLearningMaterialHandler extends CourseLearningMaterialManager
 
         if ($form->isValid()) {
             $courseLearningMaterial = $form->getData();
-            $this->updateCourseLearningMaterial($courseLearningMaterial, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCourseLearningMaterial(
+                $courseLearningMaterial,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $courseLearningMaterial;
         }

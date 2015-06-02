@@ -100,7 +100,11 @@ class AamcMethodHandler extends AamcMethodManager
 
         if ($form->isValid()) {
             $aamcMethod = $form->getData();
-            $this->updateAamcMethod($aamcMethod, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateAamcMethod(
+                $aamcMethod,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $aamcMethod;
         }

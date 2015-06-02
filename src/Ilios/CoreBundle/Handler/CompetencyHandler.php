@@ -100,7 +100,11 @@ class CompetencyHandler extends CompetencyManager
 
         if ($form->isValid()) {
             $competency = $form->getData();
-            $this->updateCompetency($competency, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCompetency(
+                $competency,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $competency;
         }

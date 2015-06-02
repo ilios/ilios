@@ -100,7 +100,11 @@ class MeshConceptHandler extends MeshConceptManager
 
         if ($form->isValid()) {
             $meshConcept = $form->getData();
-            $this->updateMeshConcept($meshConcept, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateMeshConcept(
+                $meshConcept,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $meshConcept;
         }

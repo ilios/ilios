@@ -100,7 +100,11 @@ class CurriculumInventorySequenceBlockHandler extends CurriculumInventorySequenc
 
         if ($form->isValid()) {
             $curriculumInventorySequenceBlock = $form->getData();
-            $this->updateCurriculumInventorySequenceBlock($curriculumInventorySequenceBlock, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCurriculumInventorySequenceBlock(
+                $curriculumInventorySequenceBlock,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $curriculumInventorySequenceBlock;
         }

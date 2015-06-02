@@ -100,7 +100,11 @@ class LearningMaterialStatusHandler extends LearningMaterialStatusManager
 
         if ($form->isValid()) {
             $learningMaterialStatus = $form->getData();
-            $this->updateLearningMaterialStatus($learningMaterialStatus, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateLearningMaterialStatus(
+                $learningMaterialStatus,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $learningMaterialStatus;
         }

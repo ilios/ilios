@@ -100,7 +100,11 @@ class MeshDescriptorHandler extends MeshDescriptorManager
 
         if ($form->isValid()) {
             $meshDescriptor = $form->getData();
-            $this->updateMeshDescriptor($meshDescriptor, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateMeshDescriptor(
+                $meshDescriptor,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $meshDescriptor;
         }

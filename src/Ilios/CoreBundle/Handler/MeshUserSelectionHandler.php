@@ -100,7 +100,11 @@ class MeshUserSelectionHandler extends MeshUserSelectionManager
 
         if ($form->isValid()) {
             $meshUserSelection = $form->getData();
-            $this->updateMeshUserSelection($meshUserSelection, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateMeshUserSelection(
+                $meshUserSelection,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $meshUserSelection;
         }

@@ -100,7 +100,11 @@ class ProgramYearHandler extends ProgramYearManager
 
         if ($form->isValid()) {
             $programYear = $form->getData();
-            $this->updateProgramYear($programYear, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateProgramYear(
+                $programYear,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $programYear;
         }

@@ -100,7 +100,11 @@ class OfferingHandler extends OfferingManager
 
         if ($form->isValid()) {
             $offering = $form->getData();
-            $this->updateOffering($offering, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateOffering(
+                $offering,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $offering;
         }

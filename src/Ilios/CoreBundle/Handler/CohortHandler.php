@@ -100,7 +100,11 @@ class CohortHandler extends CohortManager
 
         if ($form->isValid()) {
             $cohort = $form->getData();
-            $this->updateCohort($cohort, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateCohort(
+                $cohort,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $cohort;
         }

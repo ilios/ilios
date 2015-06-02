@@ -100,7 +100,11 @@ class UserRoleHandler extends UserRoleManager
 
         if ($form->isValid()) {
             $userRole = $form->getData();
-            $this->updateUserRole($userRole, true, ('PUT' === $method || 'PATCH' === $method));
+            $this->updateUserRole(
+                $userRole,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $userRole;
         }
