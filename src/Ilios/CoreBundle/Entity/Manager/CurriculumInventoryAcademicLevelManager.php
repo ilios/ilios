@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 
 /**
- * CurriculumInventoryAcademicLevel manager service.
  * Class CurriculumInventoryAcademicLevelManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcademicLevelManagerInterface
 {
@@ -31,12 +31,12 @@ class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcad
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcad
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CurriculumInventoryAcademicLevelInterface[]|Collection
+     * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
      */
     public function findCurriculumInventoryAcademicLevelsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class CurriculumInventoryAcademicLevelManager implements CurriculumInventoryAcad
     /**
      * @param CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateCurriculumInventoryAcademicLevel(
         CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($curriculumInventoryAcademicLevel);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($curriculumInventoryAcademicLevel));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

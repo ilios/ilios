@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
  * Interface CurriculumInventoryInstitutionManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface CurriculumInventoryInstitutionManagerInterface
 {
@@ -31,7 +28,7 @@ interface CurriculumInventoryInstitutionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CurriculumInventoryInstitutionInterface[]|Collection
+     * @return ArrayCollection|CurriculumInventoryInstitutionInterface[]
      */
     public function findCurriculumInventoryInstitutionsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface CurriculumInventoryInstitutionManagerInterface
     /**
      * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateCurriculumInventoryInstitution(
         CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

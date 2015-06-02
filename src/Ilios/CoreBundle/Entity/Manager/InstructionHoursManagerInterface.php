@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\InstructionHoursInterface;
 
 /**
  * Interface InstructionHoursManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface InstructionHoursManagerInterface
 {
@@ -20,7 +17,10 @@ interface InstructionHoursManagerInterface
      *
      * @return InstructionHoursInterface
      */
-    public function findInstructionHoursBy(array $criteria, array $orderBy = null);
+    public function findInstructionHoursBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -28,24 +28,36 @@ interface InstructionHoursManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return InstructionHoursInterface[]|Collection
+     * @return ArrayCollection|InstructionHoursInterface[]
      */
-    public function findInstructionHoursesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findInstructionHoursesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param InstructionHoursInterface $instructionHours
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
-     public function updateInstructionHours(InstructionHoursInterface $instructionHours, $andFlush = true);
+    public function updateInstructionHours(
+        InstructionHoursInterface $instructionHours,
+        $andFlush = true,
+        $forceId = false
+    );
 
     /**
      * @param InstructionHoursInterface $instructionHours
      *
      * @return void
      */
-    public function deleteInstructionHours(InstructionHoursInterface $instructionHours);
+    public function deleteInstructionHours(
+        InstructionHoursInterface $instructionHours
+    );
 
     /**
      * @return string

@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
 /**
- * Department manager service.
  * Class DepartmentManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class DepartmentManager implements DepartmentManagerInterface
 {
@@ -31,12 +31,12 @@ class DepartmentManager implements DepartmentManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class DepartmentManager implements DepartmentManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return DepartmentInterface[]|Collection
+     * @return ArrayCollection|DepartmentInterface[]
      */
     public function findDepartmentsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class DepartmentManager implements DepartmentManagerInterface
     /**
      * @param DepartmentInterface $department
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateDepartment(
         DepartmentInterface $department,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($department);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($department));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

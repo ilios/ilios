@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\CourseInterface;
 
 /**
  * Interface CourseManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface CourseManagerInterface
 {
@@ -31,7 +28,7 @@ interface CourseManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CourseInterface[]|Collection
+     * @return ArrayCollection|CourseInterface[]
      */
     public function findCoursesBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface CourseManagerInterface
     /**
      * @param CourseInterface $course
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateCourse(
         CourseInterface $course,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**
@@ -61,8 +60,7 @@ interface CourseManagerInterface
     );
 
     /**
-     *
-     * @return array
+     * @return string[]
      */
     public function getYears();
 

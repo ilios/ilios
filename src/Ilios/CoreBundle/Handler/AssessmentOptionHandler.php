@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\AssessmentOptionType;
+use Ilios\CoreBundle\Form\Type\AssessmentOptionType;
 use Ilios\CoreBundle\Entity\Manager\AssessmentOptionManager;
 use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
+/**
+ * Class AssessmentOptionHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class AssessmentOptionHandler extends AssessmentOptionManager
 {
     /**
@@ -18,11 +21,11 @@ class AssessmentOptionHandler extends AssessmentOptionManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class AssessmentOptionHandler extends AssessmentOptionManager
             'PUT'
         );
     }
+
     /**
      * @param AssessmentOptionInterface $assessmentOption
      * @param array $parameters
@@ -91,11 +95,16 @@ class AssessmentOptionHandler extends AssessmentOptionManager
             $assessmentOption,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $assessmentOption = $form->getData();
-            $this->updateAssessmentOption($assessmentOption, true);
+            $this->updateAssessmentOption(
+                $assessmentOption,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $assessmentOption;
         }

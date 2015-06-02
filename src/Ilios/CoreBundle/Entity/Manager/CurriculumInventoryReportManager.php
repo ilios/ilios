@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryReportInterface;
 
 /**
- * CurriculumInventoryReport manager service.
  * Class CurriculumInventoryReportManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class CurriculumInventoryReportManager implements CurriculumInventoryReportManagerInterface
 {
@@ -31,12 +31,12 @@ class CurriculumInventoryReportManager implements CurriculumInventoryReportManag
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class CurriculumInventoryReportManager implements CurriculumInventoryReportManag
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CurriculumInventoryReportInterface[]|Collection
+     * @return ArrayCollection|CurriculumInventoryReportInterface[]
      */
     public function findCurriculumInventoryReportsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class CurriculumInventoryReportManager implements CurriculumInventoryReportManag
     /**
      * @param CurriculumInventoryReportInterface $curriculumInventoryReport
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateCurriculumInventoryReport(
         CurriculumInventoryReportInterface $curriculumInventoryReport,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($curriculumInventoryReport);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($curriculumInventoryReport));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

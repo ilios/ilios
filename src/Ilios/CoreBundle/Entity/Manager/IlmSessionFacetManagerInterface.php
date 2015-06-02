@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
 
 /**
  * Interface IlmSessionFacetManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface IlmSessionFacetManagerInterface
 {
@@ -31,7 +28,7 @@ interface IlmSessionFacetManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return IlmSessionFacetInterface[]|Collection
+     * @return ArrayCollection|IlmSessionFacetInterface[]
      */
     public function findIlmSessionFacetsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface IlmSessionFacetManagerInterface
     /**
      * @param IlmSessionFacetInterface $ilmSessionFacet
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateIlmSessionFacet(
         IlmSessionFacetInterface $ilmSessionFacet,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

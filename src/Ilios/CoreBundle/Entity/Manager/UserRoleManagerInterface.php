@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 
 /**
  * Interface UserRoleManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface UserRoleManagerInterface
 {
@@ -31,7 +28,7 @@ interface UserRoleManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserRoleInterface[]|Collection
+     * @return ArrayCollection|UserRoleInterface[]
      */
     public function findUserRolesBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface UserRoleManagerInterface
     /**
      * @param UserRoleInterface $userRole
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateUserRole(
         UserRoleInterface $userRole,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

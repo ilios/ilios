@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\LearningMaterialUserRoleType;
+use Ilios\CoreBundle\Form\Type\LearningMaterialUserRoleType;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialUserRoleManager;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
+/**
+ * Class LearningMaterialUserRoleHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
 {
     /**
@@ -18,11 +21,11 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
             'PUT'
         );
     }
+
     /**
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
      * @param array $parameters
@@ -91,11 +95,16 @@ class LearningMaterialUserRoleHandler extends LearningMaterialUserRoleManager
             $learningMaterialUserRole,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $learningMaterialUserRole = $form->getData();
-            $this->updateLearningMaterialUserRole($learningMaterialUserRole, true);
+            $this->updateLearningMaterialUserRole(
+                $learningMaterialUserRole,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $learningMaterialUserRole;
         }

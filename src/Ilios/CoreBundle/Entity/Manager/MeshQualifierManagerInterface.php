@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
  * Interface MeshQualifierManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface MeshQualifierManagerInterface
 {
@@ -31,7 +28,7 @@ interface MeshQualifierManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return MeshQualifierInterface[]|Collection
+     * @return ArrayCollection|MeshQualifierInterface[]
      */
     public function findMeshQualifiersBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface MeshQualifierManagerInterface
     /**
      * @param MeshQualifierInterface $meshQualifier
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateMeshQualifier(
         MeshQualifierInterface $meshQualifier,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

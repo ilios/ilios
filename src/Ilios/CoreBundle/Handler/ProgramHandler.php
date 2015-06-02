@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\ProgramType;
+use Ilios\CoreBundle\Form\Type\ProgramType;
 use Ilios\CoreBundle\Entity\Manager\ProgramManager;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
+/**
+ * Class ProgramHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class ProgramHandler extends ProgramManager
 {
     /**
@@ -18,11 +21,11 @@ class ProgramHandler extends ProgramManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class ProgramHandler extends ProgramManager
             'PUT'
         );
     }
+
     /**
      * @param ProgramInterface $program
      * @param array $parameters
@@ -91,11 +95,16 @@ class ProgramHandler extends ProgramManager
             $program,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $program = $form->getData();
-            $this->updateProgram($program, true);
+            $this->updateProgram(
+                $program,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $program;
         }

@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 
 /**
  * Interface ProgramYearManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface ProgramYearManagerInterface
 {
@@ -31,7 +28,7 @@ interface ProgramYearManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ProgramYearInterface[]|Collection
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function findProgramYearsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface ProgramYearManagerInterface
     /**
      * @param ProgramYearInterface $programYear
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateProgramYear(
         ProgramYearInterface $programYear,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

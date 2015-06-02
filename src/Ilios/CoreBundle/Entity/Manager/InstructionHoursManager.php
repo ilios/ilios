@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\InstructionHoursInterface;
 
 /**
- * InstructionHours manager service.
  * Class InstructionHoursManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class InstructionHoursManager implements InstructionHoursManagerInterface
 {
@@ -31,12 +31,12 @@ class InstructionHoursManager implements InstructionHoursManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -47,8 +47,10 @@ class InstructionHoursManager implements InstructionHoursManagerInterface
      *
      * @return InstructionHoursInterface
      */
-    public function findInstructionHoursBy(array $criteria, array $orderBy = null)
-    {
+    public function findInstructionHoursBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -58,20 +60,34 @@ class InstructionHoursManager implements InstructionHoursManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return InstructionHoursInterface[]|Collection
+     * @return ArrayCollection|InstructionHoursInterface[]
      */
-    public function findInstructionHoursesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findInstructionHoursesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
      * @param InstructionHoursInterface $instructionHours
      * @param bool $andFlush
+     * @param bool $forceId
      */
-    public function updateInstructionHours(InstructionHoursInterface $instructionHours, $andFlush = true)
-    {
+    public function updateInstructionHours(
+        InstructionHoursInterface $instructionHours,
+        $andFlush = true,
+        $forceId = false
+    ) {
         $this->em->persist($instructionHours);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($instructionHours));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }
@@ -80,8 +96,9 @@ class InstructionHoursManager implements InstructionHoursManagerInterface
     /**
      * @param InstructionHoursInterface $instructionHours
      */
-    public function deleteInstructionHours(InstructionHoursInterface $instructionHours)
-    {
+    public function deleteInstructionHours(
+        InstructionHoursInterface $instructionHours
+    ) {
         $this->em->remove($instructionHours);
         $this->em->flush();
     }

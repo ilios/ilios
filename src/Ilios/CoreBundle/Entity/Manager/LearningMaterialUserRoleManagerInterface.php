@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
  * Interface LearningMaterialUserRoleManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface LearningMaterialUserRoleManagerInterface
 {
@@ -31,7 +28,7 @@ interface LearningMaterialUserRoleManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return LearningMaterialUserRoleInterface[]|Collection
+     * @return ArrayCollection|LearningMaterialUserRoleInterface[]
      */
     public function findLearningMaterialUserRolesBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface LearningMaterialUserRoleManagerInterface
     /**
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateLearningMaterialUserRole(
         LearningMaterialUserRoleInterface $learningMaterialUserRole,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

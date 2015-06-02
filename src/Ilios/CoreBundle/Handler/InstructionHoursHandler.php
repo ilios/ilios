@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\InstructionHoursType;
+use Ilios\CoreBundle\Form\Type\InstructionHoursType;
 use Ilios\CoreBundle\Entity\Manager\InstructionHoursManager;
 use Ilios\CoreBundle\Entity\InstructionHoursInterface;
 
+/**
+ * Class InstructionHoursHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class InstructionHoursHandler extends InstructionHoursManager
 {
     /**
@@ -18,11 +21,11 @@ class InstructionHoursHandler extends InstructionHoursManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class InstructionHoursHandler extends InstructionHoursManager
             'PUT'
         );
     }
+
     /**
      * @param InstructionHoursInterface $instructionHours
      * @param array $parameters
@@ -91,11 +95,16 @@ class InstructionHoursHandler extends InstructionHoursManager
             $instructionHours,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $instructionHours = $form->getData();
-            $this->updateInstructionHours($instructionHours, true);
+            $this->updateInstructionHours(
+                $instructionHours,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $instructionHours;
         }

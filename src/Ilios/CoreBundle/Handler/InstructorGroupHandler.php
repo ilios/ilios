@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\InstructorGroupType;
+use Ilios\CoreBundle\Form\Type\InstructorGroupType;
 use Ilios\CoreBundle\Entity\Manager\InstructorGroupManager;
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 
+/**
+ * Class InstructorGroupHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class InstructorGroupHandler extends InstructorGroupManager
 {
     /**
@@ -18,11 +21,11 @@ class InstructorGroupHandler extends InstructorGroupManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class InstructorGroupHandler extends InstructorGroupManager
             'PUT'
         );
     }
+
     /**
      * @param InstructorGroupInterface $instructorGroup
      * @param array $parameters
@@ -91,11 +95,16 @@ class InstructorGroupHandler extends InstructorGroupManager
             $instructorGroup,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $instructorGroup = $form->getData();
-            $this->updateInstructorGroup($instructorGroup, true);
+            $this->updateInstructorGroup(
+                $instructorGroup,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $instructorGroup;
         }

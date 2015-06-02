@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshQualifierInterface;
 
 /**
- * MeshQualifier manager service.
  * Class MeshQualifierManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class MeshQualifierManager implements MeshQualifierManagerInterface
 {
@@ -31,12 +31,12 @@ class MeshQualifierManager implements MeshQualifierManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class MeshQualifierManager implements MeshQualifierManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return MeshQualifierInterface[]|Collection
+     * @return ArrayCollection|MeshQualifierInterface[]
      */
     public function findMeshQualifiersBy(
         array $criteria,
@@ -74,12 +74,20 @@ class MeshQualifierManager implements MeshQualifierManagerInterface
     /**
      * @param MeshQualifierInterface $meshQualifier
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateMeshQualifier(
         MeshQualifierInterface $meshQualifier,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($meshQualifier);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($meshQualifier));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

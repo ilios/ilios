@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\PermissionType;
+use Ilios\CoreBundle\Form\Type\PermissionType;
 use Ilios\CoreBundle\Entity\Manager\PermissionManager;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 

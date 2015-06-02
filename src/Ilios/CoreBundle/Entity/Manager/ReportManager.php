@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ReportInterface;
 
 /**
- * Report manager service.
  * Class ReportManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class ReportManager implements ReportManagerInterface
 {
@@ -31,12 +31,12 @@ class ReportManager implements ReportManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class ReportManager implements ReportManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ReportInterface[]|Collection
+     * @return ArrayCollection|ReportInterface[]
      */
     public function findReportsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class ReportManager implements ReportManagerInterface
     /**
      * @param ReportInterface $report
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateReport(
         ReportInterface $report,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($report);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($report));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

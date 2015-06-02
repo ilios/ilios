@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
  * Interface MeshDescriptorManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface MeshDescriptorManagerInterface
 {
@@ -31,7 +28,7 @@ interface MeshDescriptorManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return MeshDescriptorInterface[]|Collection
+     * @return ArrayCollection|MeshDescriptorInterface[]
      */
     public function findMeshDescriptorsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface MeshDescriptorManagerInterface
     /**
      * @param MeshDescriptorInterface $meshDescriptor
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateMeshDescriptor(
         MeshDescriptorInterface $meshDescriptor,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

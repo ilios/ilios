@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
  * Interface AamcPcrsManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface AamcPcrsManagerInterface
 {
@@ -20,7 +17,10 @@ interface AamcPcrsManagerInterface
      *
      * @return AamcPcrsInterface
      */
-    public function findAamcPcrsBy(array $criteria, array $orderBy = null);
+    public function findAamcPcrsBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -28,24 +28,36 @@ interface AamcPcrsManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return AamcPcrsInterface[]|Collection
+     * @return ArrayCollection|AamcPcrsInterface[]
      */
-    public function findAamcPcrsesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findAamcPcrsesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param AamcPcrsInterface $aamcPcrs
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
-     public function updateAamcPcrs(AamcPcrsInterface $aamcPcrs, $andFlush = true);
+    public function updateAamcPcrs(
+        AamcPcrsInterface $aamcPcrs,
+        $andFlush = true,
+        $forceId = false
+    );
 
     /**
      * @param AamcPcrsInterface $aamcPcrs
      *
      * @return void
      */
-    public function deleteAamcPcrs(AamcPcrsInterface $aamcPcrs);
+    public function deleteAamcPcrs(
+        AamcPcrsInterface $aamcPcrs
+    );
 
     /**
      * @return string

@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 
 /**
  * Interface PermissionManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface PermissionManagerInterface
 {
@@ -20,7 +17,10 @@ interface PermissionManagerInterface
      *
      * @return PermissionInterface
      */
-    public function findPermissionBy(array $criteria, array $orderBy = null);
+    public function findPermissionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -28,24 +28,36 @@ interface PermissionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return PermissionInterface[]|Collection
+     * @return ArrayCollection|PermissionInterface[]
      */
-    public function findPermissionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findPermissionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param PermissionInterface $permission
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
-     public function updatePermission(PermissionInterface $permission, $andFlush = true);
+    public function updatePermission(
+        PermissionInterface $permission,
+        $andFlush = true,
+        $forceId = false
+    );
 
     /**
      * @param PermissionInterface $permission
      *
      * @return void
      */
-    public function deletePermission(PermissionInterface $permission);
+    public function deletePermission(
+        PermissionInterface $permission
+    );
 
     /**
      * @return string

@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\CISessionInterface;
 
 /**
  * Interface CISessionManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface CISessionManagerInterface
 {
@@ -20,7 +17,10 @@ interface CISessionManagerInterface
      *
      * @return CISessionInterface
      */
-    public function findCISessionBy(array $criteria, array $orderBy = null);
+    public function findCISessionBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -28,24 +28,36 @@ interface CISessionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CISessionInterface[]|Collection
+     * @return ArrayCollection|CISessionInterface[]
      */
-    public function findCISessionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findCISessionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param CISessionInterface $cISession
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
-     public function updateCISession(CISessionInterface $cISession, $andFlush = true);
+    public function updateCISession(
+        CISessionInterface $cISession,
+        $andFlush = true,
+        $forceId = false
+    );
 
     /**
      * @param CISessionInterface $cISession
      *
      * @return void
      */
-    public function deleteCISession(CISessionInterface $cISession);
+    public function deleteCISession(
+        CISessionInterface $cISession
+    );
 
     /**
      * @return string

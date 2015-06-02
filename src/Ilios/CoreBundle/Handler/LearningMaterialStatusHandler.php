@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\LearningMaterialStatusType;
+use Ilios\CoreBundle\Form\Type\LearningMaterialStatusType;
 use Ilios\CoreBundle\Entity\Manager\LearningMaterialStatusManager;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
+/**
+ * Class LearningMaterialStatusHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class LearningMaterialStatusHandler extends LearningMaterialStatusManager
 {
     /**
@@ -18,11 +21,11 @@ class LearningMaterialStatusHandler extends LearningMaterialStatusManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class LearningMaterialStatusHandler extends LearningMaterialStatusManager
             'PUT'
         );
     }
+
     /**
      * @param LearningMaterialStatusInterface $learningMaterialStatus
      * @param array $parameters
@@ -91,11 +95,16 @@ class LearningMaterialStatusHandler extends LearningMaterialStatusManager
             $learningMaterialStatus,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $learningMaterialStatus = $form->getData();
-            $this->updateLearningMaterialStatus($learningMaterialStatus, true);
+            $this->updateLearningMaterialStatus(
+                $learningMaterialStatus,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $learningMaterialStatus;
         }

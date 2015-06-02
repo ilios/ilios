@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\SessionTypeType;
+use Ilios\CoreBundle\Form\Type\SessionTypeType;
 use Ilios\CoreBundle\Entity\Manager\SessionTypeManager;
 use Ilios\CoreBundle\Entity\SessionTypeInterface;
 
+/**
+ * Class SessionTypeHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class SessionTypeHandler extends SessionTypeManager
 {
     /**
@@ -18,11 +21,11 @@ class SessionTypeHandler extends SessionTypeManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class SessionTypeHandler extends SessionTypeManager
             'PUT'
         );
     }
+
     /**
      * @param SessionTypeInterface $sessionType
      * @param array $parameters
@@ -91,11 +95,16 @@ class SessionTypeHandler extends SessionTypeManager
             $sessionType,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $sessionType = $form->getData();
-            $this->updateSessionType($sessionType, true);
+            $this->updateSessionType(
+                $sessionType,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $sessionType;
         }

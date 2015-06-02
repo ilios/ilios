@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SessionInterface;
 
 /**
- * Session manager service.
  * Class SessionManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class SessionManager implements SessionManagerInterface
 {
@@ -31,12 +31,12 @@ class SessionManager implements SessionManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class SessionManager implements SessionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return SessionInterface[]|Collection
+     * @return ArrayCollection|SessionInterface[]
      */
     public function findSessionsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class SessionManager implements SessionManagerInterface
     /**
      * @param SessionInterface $session
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateSession(
         SessionInterface $session,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($session);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($session));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

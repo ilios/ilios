@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 
 /**
- * CurriculumInventoryExport manager service.
  * Class CurriculumInventoryExportManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class CurriculumInventoryExportManager implements CurriculumInventoryExportManagerInterface
 {
@@ -31,12 +31,12 @@ class CurriculumInventoryExportManager implements CurriculumInventoryExportManag
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class CurriculumInventoryExportManager implements CurriculumInventoryExportManag
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CurriculumInventoryExportInterface[]|Collection
+     * @return ArrayCollection|CurriculumInventoryExportInterface[]
      */
     public function findCurriculumInventoryExportsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class CurriculumInventoryExportManager implements CurriculumInventoryExportManag
     /**
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateCurriculumInventoryExport(
         CurriculumInventoryExportInterface $curriculumInventoryExport,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($curriculumInventoryExport);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($curriculumInventoryExport));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

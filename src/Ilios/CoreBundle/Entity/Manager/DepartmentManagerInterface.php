@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
 /**
  * Interface DepartmentManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface DepartmentManagerInterface
 {
@@ -31,7 +28,7 @@ interface DepartmentManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return DepartmentInterface[]|Collection
+     * @return ArrayCollection|DepartmentInterface[]
      */
     public function findDepartmentsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface DepartmentManagerInterface
     /**
      * @param DepartmentInterface $department
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateDepartment(
         DepartmentInterface $department,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

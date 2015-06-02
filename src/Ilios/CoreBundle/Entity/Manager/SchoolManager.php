@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
- * School manager service.
  * Class SchoolManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class SchoolManager implements SchoolManagerInterface
 {
@@ -31,12 +31,12 @@ class SchoolManager implements SchoolManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class SchoolManager implements SchoolManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return SchoolInterface[]|Collection
+     * @return ArrayCollection|SchoolInterface[]
      */
     public function findSchoolsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class SchoolManager implements SchoolManagerInterface
     /**
      * @param SchoolInterface $school
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateSchool(
         SchoolInterface $school,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($school);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($school));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

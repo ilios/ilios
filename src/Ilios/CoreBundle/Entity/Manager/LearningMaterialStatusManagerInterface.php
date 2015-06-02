@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
  * Interface LearningMaterialStatusManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface LearningMaterialStatusManagerInterface
 {
@@ -31,7 +28,7 @@ interface LearningMaterialStatusManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return LearningMaterialStatusInterface[]|Collection
+     * @return ArrayCollection|LearningMaterialStatusInterface[]
      */
     public function findLearningMaterialStatusesBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface LearningMaterialStatusManagerInterface
     /**
      * @param LearningMaterialStatusInterface $learningMaterialStatus
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateLearningMaterialStatus(
         LearningMaterialStatusInterface $learningMaterialStatus,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\SchoolType;
+use Ilios\CoreBundle\Form\Type\SchoolType;
 use Ilios\CoreBundle\Entity\Manager\SchoolManager;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
+/**
+ * Class SchoolHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class SchoolHandler extends SchoolManager
 {
     /**
@@ -18,11 +21,11 @@ class SchoolHandler extends SchoolManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class SchoolHandler extends SchoolManager
             'PUT'
         );
     }
+
     /**
      * @param SchoolInterface $school
      * @param array $parameters
@@ -91,11 +95,16 @@ class SchoolHandler extends SchoolManager
             $school,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $school = $form->getData();
-            $this->updateSchool($school, true);
+            $this->updateSchool(
+                $school,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $school;
         }

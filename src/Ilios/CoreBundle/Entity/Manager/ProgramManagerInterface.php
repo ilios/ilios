@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
  * Interface ProgramManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface ProgramManagerInterface
 {
@@ -31,7 +28,7 @@ interface ProgramManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ProgramInterface[]|Collection
+     * @return ArrayCollection|ProgramInterface[]
      */
     public function findProgramsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface ProgramManagerInterface
     /**
      * @param ProgramInterface $program
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateProgram(
         ProgramInterface $program,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

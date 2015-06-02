@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 
 /**
- * UserRole manager service.
  * Class UserRoleManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class UserRoleManager implements UserRoleManagerInterface
 {
@@ -31,12 +31,12 @@ class UserRoleManager implements UserRoleManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class UserRoleManager implements UserRoleManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return UserRoleInterface[]|Collection
+     * @return ArrayCollection|UserRoleInterface[]
      */
     public function findUserRolesBy(
         array $criteria,
@@ -74,12 +74,20 @@ class UserRoleManager implements UserRoleManagerInterface
     /**
      * @param UserRoleInterface $userRole
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateUserRole(
         UserRoleInterface $userRole,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($userRole);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($userRole));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

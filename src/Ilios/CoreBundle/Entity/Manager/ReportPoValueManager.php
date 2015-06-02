@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ReportPoValueInterface;
 
 /**
- * ReportPoValue manager service.
  * Class ReportPoValueManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class ReportPoValueManager implements ReportPoValueManagerInterface
 {
@@ -31,12 +31,12 @@ class ReportPoValueManager implements ReportPoValueManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class ReportPoValueManager implements ReportPoValueManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ReportPoValueInterface[]|Collection
+     * @return ArrayCollection|ReportPoValueInterface[]
      */
     public function findReportPoValuesBy(
         array $criteria,
@@ -74,12 +74,20 @@ class ReportPoValueManager implements ReportPoValueManagerInterface
     /**
      * @param ReportPoValueInterface $reportPoValue
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateReportPoValue(
         ReportPoValueInterface $reportPoValue,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($reportPoValue);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($reportPoValue));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

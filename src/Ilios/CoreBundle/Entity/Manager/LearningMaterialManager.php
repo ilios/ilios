@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearningMaterialInterface;
 
 /**
- * LearningMaterial manager service.
  * Class LearningMaterialManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class LearningMaterialManager implements LearningMaterialManagerInterface
 {
@@ -31,12 +31,12 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return LearningMaterialInterface[]|Collection
+     * @return ArrayCollection|LearningMaterialInterface[]
      */
     public function findLearningMaterialsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     /**
      * @param LearningMaterialInterface $learningMaterial
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateLearningMaterial(
         LearningMaterialInterface $learningMaterial,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($learningMaterial);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($learningMaterial));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

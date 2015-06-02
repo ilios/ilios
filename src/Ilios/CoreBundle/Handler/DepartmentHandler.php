@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\DepartmentType;
+use Ilios\CoreBundle\Form\Type\DepartmentType;
 use Ilios\CoreBundle\Entity\Manager\DepartmentManager;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
+/**
+ * Class DepartmentHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class DepartmentHandler extends DepartmentManager
 {
     /**
@@ -18,11 +21,11 @@ class DepartmentHandler extends DepartmentManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class DepartmentHandler extends DepartmentManager
             'PUT'
         );
     }
+
     /**
      * @param DepartmentInterface $department
      * @param array $parameters
@@ -91,11 +95,16 @@ class DepartmentHandler extends DepartmentManager
             $department,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $department = $form->getData();
-            $this->updateDepartment($department, true);
+            $this->updateDepartment(
+                $department,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $department;
         }

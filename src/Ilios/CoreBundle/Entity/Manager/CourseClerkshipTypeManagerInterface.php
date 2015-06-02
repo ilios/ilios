@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
  * Interface CourseClerkshipTypeManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface CourseClerkshipTypeManagerInterface
 {
@@ -31,7 +28,7 @@ interface CourseClerkshipTypeManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CourseClerkshipTypeInterface[]|Collection
+     * @return ArrayCollection|CourseClerkshipTypeInterface[]
      */
     public function findCourseClerkshipTypesBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface CourseClerkshipTypeManagerInterface
     /**
      * @param CourseClerkshipTypeInterface $courseClerkshipType
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateCourseClerkshipType(
         CourseClerkshipTypeInterface $courseClerkshipType,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

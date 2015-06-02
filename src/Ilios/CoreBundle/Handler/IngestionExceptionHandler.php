@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\IngestionExceptionType;
+use Ilios\CoreBundle\Form\Type\IngestionExceptionType;
 use Ilios\CoreBundle\Entity\Manager\IngestionExceptionManager;
 use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
 
+/**
+ * Class IngestionExceptionHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class IngestionExceptionHandler extends IngestionExceptionManager
 {
     /**
@@ -18,11 +21,11 @@ class IngestionExceptionHandler extends IngestionExceptionManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class IngestionExceptionHandler extends IngestionExceptionManager
             'PUT'
         );
     }
+
     /**
      * @param IngestionExceptionInterface $ingestionException
      * @param array $parameters
@@ -91,11 +95,16 @@ class IngestionExceptionHandler extends IngestionExceptionManager
             $ingestionException,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $ingestionException = $form->getData();
-            $this->updateIngestionException($ingestionException, true);
+            $this->updateIngestionException(
+                $ingestionException,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $ingestionException;
         }

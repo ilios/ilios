@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CourseClerkshipTypeType;
+use Ilios\CoreBundle\Form\Type\CourseClerkshipTypeType;
 use Ilios\CoreBundle\Entity\Manager\CourseClerkshipTypeManager;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
+/**
+ * Class CourseClerkshipTypeHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
 {
     /**
@@ -18,11 +21,11 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
             'PUT'
         );
     }
+
     /**
      * @param CourseClerkshipTypeInterface $courseClerkshipType
      * @param array $parameters
@@ -91,11 +95,16 @@ class CourseClerkshipTypeHandler extends CourseClerkshipTypeManager
             $courseClerkshipType,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $courseClerkshipType = $form->getData();
-            $this->updateCourseClerkshipType($courseClerkshipType, true);
+            $this->updateCourseClerkshipType(
+                $courseClerkshipType,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $courseClerkshipType;
         }

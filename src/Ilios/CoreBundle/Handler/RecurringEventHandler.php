@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\RecurringEventType;
+use Ilios\CoreBundle\Form\Type\RecurringEventType;
 use Ilios\CoreBundle\Entity\Manager\RecurringEventManager;
 use Ilios\CoreBundle\Entity\RecurringEventInterface;
 
+/**
+ * Class RecurringEventHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class RecurringEventHandler extends RecurringEventManager
 {
     /**
@@ -18,11 +21,11 @@ class RecurringEventHandler extends RecurringEventManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class RecurringEventHandler extends RecurringEventManager
             'PUT'
         );
     }
+
     /**
      * @param RecurringEventInterface $recurringEvent
      * @param array $parameters
@@ -91,11 +95,16 @@ class RecurringEventHandler extends RecurringEventManager
             $recurringEvent,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $recurringEvent = $form->getData();
-            $this->updateRecurringEvent($recurringEvent, true);
+            $this->updateRecurringEvent(
+                $recurringEvent,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $recurringEvent;
         }

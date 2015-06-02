@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CurriculumInventoryExportType;
+use Ilios\CoreBundle\Form\Type\CurriculumInventoryExportType;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryExportManager;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 
+/**
+ * Class CurriculumInventoryExportHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
 {
     /**
@@ -18,11 +21,11 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
             'PUT'
         );
     }
+
     /**
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      * @param array $parameters
@@ -91,11 +95,16 @@ class CurriculumInventoryExportHandler extends CurriculumInventoryExportManager
             $curriculumInventoryExport,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $curriculumInventoryExport = $form->getData();
-            $this->updateCurriculumInventoryExport($curriculumInventoryExport, true);
+            $this->updateCurriculumInventoryExport(
+                $curriculumInventoryExport,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $curriculumInventoryExport;
         }

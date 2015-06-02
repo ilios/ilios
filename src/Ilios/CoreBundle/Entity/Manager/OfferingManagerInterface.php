@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\OfferingInterface;
 
 /**
  * Interface OfferingManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface OfferingManagerInterface
 {
@@ -31,7 +28,7 @@ interface OfferingManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return OfferingInterface[]|Collection
+     * @return ArrayCollection|OfferingInterface[]
      */
     public function findOfferingsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface OfferingManagerInterface
     /**
      * @param OfferingInterface $offering
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateOffering(
         OfferingInterface $offering,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

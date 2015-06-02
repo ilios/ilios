@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\InstructorGroupInterface;
 
 /**
- * InstructorGroup manager service.
  * Class InstructorGroupManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class InstructorGroupManager implements InstructorGroupManagerInterface
 {
@@ -31,12 +31,12 @@ class InstructorGroupManager implements InstructorGroupManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class InstructorGroupManager implements InstructorGroupManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return InstructorGroupInterface[]|Collection
+     * @return ArrayCollection|InstructorGroupInterface[]
      */
     public function findInstructorGroupsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class InstructorGroupManager implements InstructorGroupManagerInterface
     /**
      * @param InstructorGroupInterface $instructorGroup
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateInstructorGroup(
         InstructorGroupInterface $instructorGroup,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($instructorGroup);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($instructorGroup));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

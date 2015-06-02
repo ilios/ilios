@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\ReportInterface;
 
 /**
  * Interface ReportManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface ReportManagerInterface
 {
@@ -31,7 +28,7 @@ interface ReportManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ReportInterface[]|Collection
+     * @return ArrayCollection|ReportInterface[]
      */
     public function findReportsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface ReportManagerInterface
     /**
      * @param ReportInterface $report
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateReport(
         ReportInterface $report,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

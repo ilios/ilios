@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\MeshSemanticTypeType;
+use Ilios\CoreBundle\Form\Type\MeshSemanticTypeType;
 use Ilios\CoreBundle\Entity\Manager\MeshSemanticTypeManager;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
+/**
+ * Class MeshSemanticTypeHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class MeshSemanticTypeHandler extends MeshSemanticTypeManager
 {
     /**
@@ -18,11 +21,11 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
             'PUT'
         );
     }
+
     /**
      * @param MeshSemanticTypeInterface $meshSemanticType
      * @param array $parameters
@@ -91,11 +95,16 @@ class MeshSemanticTypeHandler extends MeshSemanticTypeManager
             $meshSemanticType,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $meshSemanticType = $form->getData();
-            $this->updateMeshSemanticType($meshSemanticType, true);
+            $this->updateMeshSemanticType(
+                $meshSemanticType,
+                true,
+                ('PUT' === $method || 'PATCH' === $method)
+            );
 
             return $meshSemanticType;
         }

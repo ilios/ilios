@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ApiKeyInterface;
 
 /**
- * ApiKey manager service.
  * Class ApiKeyManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class ApiKeyManager implements ApiKeyManagerInterface
 {
@@ -31,12 +31,12 @@ class ApiKeyManager implements ApiKeyManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -47,8 +47,10 @@ class ApiKeyManager implements ApiKeyManagerInterface
      *
      * @return ApiKeyInterface
      */
-    public function findApiKeyBy(array $criteria, array $orderBy = null)
-    {
+    public function findApiKeyBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -58,20 +60,34 @@ class ApiKeyManager implements ApiKeyManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ApiKeyInterface[]|Collection
+     * @return ArrayCollection|ApiKeyInterface[]
      */
-    public function findApiKeysBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findApiKeysBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
      * @param ApiKeyInterface $apiKey
      * @param bool $andFlush
+     * @param bool $forceId
      */
-    public function updateApiKey(ApiKeyInterface $apiKey, $andFlush = true)
-    {
+    public function updateApiKey(
+        ApiKeyInterface $apiKey,
+        $andFlush = true,
+        $forceId = false
+    ) {
         $this->em->persist($apiKey);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($apiKey));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }
@@ -80,8 +96,9 @@ class ApiKeyManager implements ApiKeyManagerInterface
     /**
      * @param ApiKeyInterface $apiKey
      */
-    public function deleteApiKey(ApiKeyInterface $apiKey)
-    {
+    public function deleteApiKey(
+        ApiKeyInterface $apiKey
+    ) {
         $this->em->remove($apiKey);
         $this->em->flush();
     }
