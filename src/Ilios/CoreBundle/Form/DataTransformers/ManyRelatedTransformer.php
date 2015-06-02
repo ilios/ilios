@@ -89,11 +89,9 @@ class ManyRelatedTransformer implements DataTransformerInterface
             return $collection;
         }
 
+        $repository = $this->om->getRespository($this->entityName);
         return $collection->map(function ($id) {
-            $entity = $this->om
-                ->getRepository($this->entityName)
-                ->find($id)
-            ;
+            $entity = $repository->find($id);
 
             if (null === $entity) {
                 throw new TransformationFailedException(sprintf(
