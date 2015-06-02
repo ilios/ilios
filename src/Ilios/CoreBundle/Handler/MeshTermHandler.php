@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\ORM\EntityManager;
 
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\MeshTermType;
+use Ilios\CoreBundle\Form\Type\MeshTermType;
 use Ilios\CoreBundle\Entity\Manager\MeshTermManager;
 use Ilios\CoreBundle\Entity\MeshTermInterface;
 

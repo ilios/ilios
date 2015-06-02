@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\MeshPreviousIndexingType;
+use Ilios\CoreBundle\Form\Type\MeshPreviousIndexingType;
 use Ilios\CoreBundle\Entity\Manager\MeshPreviousIndexingManager;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 
+/**
+ * Class MeshPreviousIndexingHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
 {
     /**
@@ -18,11 +21,11 @@ class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
             'PUT'
         );
     }
+
     /**
      * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      * @param array $parameters
@@ -91,11 +95,12 @@ class MeshPreviousIndexingHandler extends MeshPreviousIndexingManager
             $meshPreviousIndexing,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $meshPreviousIndexing = $form->getData();
-            $this->updateMeshPreviousIndexing($meshPreviousIndexing, true);
+            $this->updateMeshPreviousIndexing($meshPreviousIndexing, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $meshPreviousIndexing;
         }

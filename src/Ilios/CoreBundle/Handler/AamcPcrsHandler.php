@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\AamcPcrsType;
+use Ilios\CoreBundle\Form\Type\AamcPcrsType;
 use Ilios\CoreBundle\Entity\Manager\AamcPcrsManager;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
+/**
+ * Class AamcPcrsHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class AamcPcrsHandler extends AamcPcrsManager
 {
     /**
@@ -18,11 +21,11 @@ class AamcPcrsHandler extends AamcPcrsManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class AamcPcrsHandler extends AamcPcrsManager
             'PUT'
         );
     }
+
     /**
      * @param AamcPcrsInterface $aamcPcrs
      * @param array $parameters
@@ -91,11 +95,12 @@ class AamcPcrsHandler extends AamcPcrsManager
             $aamcPcrs,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $aamcPcrs = $form->getData();
-            $this->updateAamcPcrs($aamcPcrs, true);
+            $this->updateAamcPcrs($aamcPcrs, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $aamcPcrs;
         }

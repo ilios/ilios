@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\SessionLearningMaterialType;
+use Ilios\CoreBundle\Form\Type\SessionLearningMaterialType;
 use Ilios\CoreBundle\Entity\Manager\SessionLearningMaterialManager;
 use Ilios\CoreBundle\Entity\SessionLearningMaterialInterface;
 
+/**
+ * Class SessionLearningMaterialHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class SessionLearningMaterialHandler extends SessionLearningMaterialManager
 {
     /**
@@ -18,11 +21,11 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
             'PUT'
         );
     }
+
     /**
      * @param SessionLearningMaterialInterface $sessionLearningMaterial
      * @param array $parameters
@@ -91,11 +95,12 @@ class SessionLearningMaterialHandler extends SessionLearningMaterialManager
             $sessionLearningMaterial,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $sessionLearningMaterial = $form->getData();
-            $this->updateSessionLearningMaterial($sessionLearningMaterial, true);
+            $this->updateSessionLearningMaterial($sessionLearningMaterial, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $sessionLearningMaterial;
         }

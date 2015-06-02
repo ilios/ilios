@@ -3,13 +3,16 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Doctrine\ORM\EntityManager;
-
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Form\CurriculumInventoryInstitutionType;
+use Ilios\CoreBundle\Form\Type\CurriculumInventoryInstitutionType;
 use Ilios\CoreBundle\Entity\Manager\CurriculumInventoryInstitutionManager;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 
+/**
+ * Class CurriculumInventoryInstitutionHandler
+ * @package Ilios\CoreBundle\Handler
+ */
 class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstitutionManager
 {
     /**
@@ -18,11 +21,11 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
     protected $formFactory;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(EntityManager $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
         parent::__construct($em, $class);
@@ -56,6 +59,7 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
             'PUT'
         );
     }
+
     /**
      * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      * @param array $parameters
@@ -91,11 +95,12 @@ class CurriculumInventoryInstitutionHandler extends CurriculumInventoryInstituti
             $curriculumInventoryInstitution,
             array('method' => $method)
         );
+
         $form->submit($parameters, 'PATCH' !== $method);
 
         if ($form->isValid()) {
             $curriculumInventoryInstitution = $form->getData();
-            $this->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true);
+            $this->updateCurriculumInventoryInstitution($curriculumInventoryInstitution, true, ('PUT' === $method || 'PATCH' === $method));
 
             return $curriculumInventoryInstitution;
         }
