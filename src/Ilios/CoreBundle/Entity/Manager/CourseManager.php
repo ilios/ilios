@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseInterface;
 
 /**
- * Course manager service.
  * Class CourseManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class CourseManager implements CourseManagerInterface
 {
@@ -31,12 +31,12 @@ class CourseManager implements CourseManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class CourseManager implements CourseManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CourseInterface[]|Collection
+     * @return ArrayCollection|CourseInterface[]
      */
     public function findCoursesBy(
         array $criteria,
@@ -74,12 +74,20 @@ class CourseManager implements CourseManagerInterface
     /**
      * @param CourseInterface $course
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateCourse(
         CourseInterface $course,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($course);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($course));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }
@@ -93,14 +101,6 @@ class CourseManager implements CourseManagerInterface
     ) {
         $this->em->remove($course);
         $this->em->flush();
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getYears()
-    {
-        return $this->repository->getYears();
     }
 
     /**

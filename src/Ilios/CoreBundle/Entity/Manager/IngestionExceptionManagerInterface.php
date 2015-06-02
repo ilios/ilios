@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\IngestionExceptionInterface;
 
 /**
  * Interface IngestionExceptionManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface IngestionExceptionManagerInterface
 {
@@ -31,7 +28,7 @@ interface IngestionExceptionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return IngestionExceptionInterface[]|Collection
+     * @return ArrayCollection|IngestionExceptionInterface[]
      */
     public function findIngestionExceptionsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface IngestionExceptionManagerInterface
     /**
      * @param IngestionExceptionInterface $ingestionException
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateIngestionException(
         IngestionExceptionInterface $ingestionException,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
- * AamcPcrs manager service.
  * Class AamcPcrsManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class AamcPcrsManager implements AamcPcrsManagerInterface
 {
@@ -31,12 +31,12 @@ class AamcPcrsManager implements AamcPcrsManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -47,8 +47,10 @@ class AamcPcrsManager implements AamcPcrsManagerInterface
      *
      * @return AamcPcrsInterface
      */
-    public function findAamcPcrsBy(array $criteria, array $orderBy = null)
-    {
+    public function findAamcPcrsBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -58,20 +60,34 @@ class AamcPcrsManager implements AamcPcrsManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return AamcPcrsInterface[]|Collection
+     * @return ArrayCollection|AamcPcrsInterface[]
      */
-    public function findAamcPcrsesBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findAamcPcrsesBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
      * @param AamcPcrsInterface $aamcPcrs
      * @param bool $andFlush
+     * @param bool $forceId
      */
-    public function updateAamcPcrs(AamcPcrsInterface $aamcPcrs, $andFlush = true)
-    {
+    public function updateAamcPcrs(
+        AamcPcrsInterface $aamcPcrs,
+        $andFlush = true,
+        $forceId = false
+    ) {
         $this->em->persist($aamcPcrs);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($aamcPcrs));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }
@@ -80,8 +96,9 @@ class AamcPcrsManager implements AamcPcrsManagerInterface
     /**
      * @param AamcPcrsInterface $aamcPcrs
      */
-    public function deleteAamcPcrs(AamcPcrsInterface $aamcPcrs)
-    {
+    public function deleteAamcPcrs(
+        AamcPcrsInterface $aamcPcrs
+    ) {
         $this->em->remove($aamcPcrs);
         $this->em->flush();
     }

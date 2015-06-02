@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshUserSelectionInterface;
 
 /**
- * MeshUserSelection manager service.
  * Class MeshUserSelectionManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
 {
@@ -31,12 +31,12 @@ class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return MeshUserSelectionInterface[]|Collection
+     * @return ArrayCollection|MeshUserSelectionInterface[]
      */
     public function findMeshUserSelectionsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class MeshUserSelectionManager implements MeshUserSelectionManagerInterface
     /**
      * @param MeshUserSelectionInterface $meshUserSelection
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateMeshUserSelection(
         MeshUserSelectionInterface $meshUserSelection,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($meshUserSelection);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($meshUserSelection));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

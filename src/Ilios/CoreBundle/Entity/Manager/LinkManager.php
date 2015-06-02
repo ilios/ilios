@@ -7,13 +7,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\LinkInterface;
 
 /**
- * Class LearningMaterialManager
- * @package Ilios\CoreBundle\Entity\Manager
+ * Class LinkManager
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-class LearningMaterialManager implements LearningMaterialManagerInterface
+class LinkManager implements LinkManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return LearningMaterialInterface
+     * @return LinkInterface
      */
-    public function findLearningMaterialBy(
+    public function findLinkBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -60,9 +60,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|LearningMaterialInterface[]
+     * @return ArrayCollection|LinkInterface[]
      */
-    public function findLearningMaterialsBy(
+    public function findLinksBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -72,19 +72,19 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * @param LinkInterface $link
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateLearningMaterial(
-        LearningMaterialInterface $learningMaterial,
+    public function updateLink(
+        LinkInterface $link,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($learningMaterial);
+        $this->em->persist($link);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($learningMaterial));
+            $metadata = $this->em->getClassMetaData(get_class($link));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -94,12 +94,12 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * @param LinkInterface $link
      */
-    public function deleteLearningMaterial(
-        LearningMaterialInterface $learningMaterial
+    public function deleteLink(
+        LinkInterface $link
     ) {
-        $this->em->remove($learningMaterial);
+        $this->em->remove($link);
         $this->em->flush();
     }
 
@@ -112,9 +112,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @return LearningMaterialInterface
+     * @return LinkInterface
      */
-    public function createLearningMaterial()
+    public function createLink()
     {
         $class = $this->getClass();
         return new $class();

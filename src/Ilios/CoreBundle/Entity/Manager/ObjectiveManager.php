@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
 /**
- * Objective manager service.
  * Class ObjectiveManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class ObjectiveManager implements ObjectiveManagerInterface
 {
@@ -31,12 +31,12 @@ class ObjectiveManager implements ObjectiveManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class ObjectiveManager implements ObjectiveManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ObjectiveInterface[]|Collection
+     * @return ArrayCollection|ObjectiveInterface[]
      */
     public function findObjectivesBy(
         array $criteria,
@@ -74,12 +74,20 @@ class ObjectiveManager implements ObjectiveManagerInterface
     /**
      * @param ObjectiveInterface $objective
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateObjective(
         ObjectiveInterface $objective,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($objective);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($objective));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

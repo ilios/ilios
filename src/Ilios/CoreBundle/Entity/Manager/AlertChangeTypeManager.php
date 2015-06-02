@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
 /**
- * AlertChangeType manager service.
  * Class AlertChangeTypeManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
 {
@@ -31,12 +31,12 @@ class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return AlertChangeTypeInterface[]|Collection
+     * @return ArrayCollection|AlertChangeTypeInterface[]
      */
     public function findAlertChangeTypesBy(
         array $criteria,
@@ -74,12 +74,20 @@ class AlertChangeTypeManager implements AlertChangeTypeManagerInterface
     /**
      * @param AlertChangeTypeInterface $alertChangeType
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateAlertChangeType(
         AlertChangeTypeInterface $alertChangeType,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($alertChangeType);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($alertChangeType));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

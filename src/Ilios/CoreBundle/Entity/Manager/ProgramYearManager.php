@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 
 /**
- * ProgramYear manager service.
  * Class ProgramYearManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class ProgramYearManager implements ProgramYearManagerInterface
 {
@@ -31,12 +31,12 @@ class ProgramYearManager implements ProgramYearManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class ProgramYearManager implements ProgramYearManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ProgramYearInterface[]|Collection
+     * @return ArrayCollection|ProgramYearInterface[]
      */
     public function findProgramYearsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class ProgramYearManager implements ProgramYearManagerInterface
     /**
      * @param ProgramYearInterface $programYear
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateProgramYear(
         ProgramYearInterface $programYear,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($programYear);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($programYear));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

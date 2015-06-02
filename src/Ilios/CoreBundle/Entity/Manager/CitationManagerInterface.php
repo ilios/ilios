@@ -3,21 +3,21 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\CitationInterface;
 
 /**
- * Interface MeshDescriptorManagerInterface
- * @package Ilios\CoreBundle\Entity\Manager
+ * Interface CitationManagerInterface
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface MeshDescriptorManagerInterface
+interface CitationManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return MeshDescriptorInterface
+     * @return CitationInterface
      */
-    public function findMeshDescriptorBy(
+    public function findCitationBy(
         array $criteria,
         array $orderBy = null
     );
@@ -28,9 +28,9 @@ interface MeshDescriptorManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|MeshDescriptorInterface[]
+     * @return ArrayCollection|CitationInterface[]
      */
-    public function findMeshDescriptorsBy(
+    public function findCitationsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -38,25 +38,25 @@ interface MeshDescriptorManagerInterface
     );
 
     /**
-     * @param MeshDescriptorInterface $meshDescriptor
+     * @param CitationInterface $citation
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
-    public function updateMeshDescriptor(
-        MeshDescriptorInterface $meshDescriptor,
+    public function updateCitation(
+        CitationInterface $citation,
         $andFlush = true,
         $forceId = false
     );
 
     /**
-     * @param MeshDescriptorInterface $meshDescriptor
+     * @param CitationInterface $citation
      *
      * @return void
      */
-    public function deleteMeshDescriptor(
-        MeshDescriptorInterface $meshDescriptor
+    public function deleteCitation(
+        CitationInterface $citation
     );
 
     /**
@@ -65,7 +65,7 @@ interface MeshDescriptorManagerInterface
     public function getClass();
 
     /**
-     * @return MeshDescriptorInterface
+     * @return CitationInterface
      */
-    public function createMeshDescriptor();
+    public function createCitation();
 }

@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\CohortInterface;
 
 /**
  * Interface CohortManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface CohortManagerInterface
 {
@@ -31,7 +28,7 @@ interface CohortManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CohortInterface[]|Collection
+     * @return ArrayCollection|CohortInterface[]
      */
     public function findCohortsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface CohortManagerInterface
     /**
      * @param CohortInterface $cohort
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateCohort(
         CohortInterface $cohort,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

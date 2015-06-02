@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
 
 /**
- * LearningMaterialUserRole manager service.
  * Class LearningMaterialUserRoleManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManagerInterface
 {
@@ -31,12 +31,12 @@ class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManager
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManager
      * @param integer $limit
      * @param integer $offset
      *
-     * @return LearningMaterialUserRoleInterface[]|Collection
+     * @return ArrayCollection|LearningMaterialUserRoleInterface[]
      */
     public function findLearningMaterialUserRolesBy(
         array $criteria,
@@ -74,12 +74,20 @@ class LearningMaterialUserRoleManager implements LearningMaterialUserRoleManager
     /**
      * @param LearningMaterialUserRoleInterface $learningMaterialUserRole
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateLearningMaterialUserRole(
         LearningMaterialUserRoleInterface $learningMaterialUserRole,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($learningMaterialUserRole);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($learningMaterialUserRole));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

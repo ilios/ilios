@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 
 /**
- * MeshPreviousIndexing manager service.
  * Class MeshPreviousIndexingManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterface
 {
@@ -31,12 +31,12 @@ class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterfac
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterfac
      * @param integer $limit
      * @param integer $offset
      *
-     * @return MeshPreviousIndexingInterface[]|Collection
+     * @return ArrayCollection|MeshPreviousIndexingInterface[]
      */
     public function findMeshPreviousIndexingsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class MeshPreviousIndexingManager implements MeshPreviousIndexingManagerInterfac
     /**
      * @param MeshPreviousIndexingInterface $meshPreviousIndexing
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateMeshPreviousIndexing(
         MeshPreviousIndexingInterface $meshPreviousIndexing,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($meshPreviousIndexing);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($meshPreviousIndexing));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

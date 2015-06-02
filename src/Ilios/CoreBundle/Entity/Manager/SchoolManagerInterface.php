@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\SchoolInterface;
 
 /**
  * Interface SchoolManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface SchoolManagerInterface
 {
@@ -31,7 +28,7 @@ interface SchoolManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return SchoolInterface[]|Collection
+     * @return ArrayCollection|SchoolInterface[]
      */
     public function findSchoolsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface SchoolManagerInterface
     /**
      * @param SchoolInterface $school
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateSchool(
         SchoolInterface $school,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

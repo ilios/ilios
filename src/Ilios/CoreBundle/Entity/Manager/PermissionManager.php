@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\PermissionInterface;
 
 /**
- * Permission manager service.
  * Class PermissionManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class PermissionManager implements PermissionManagerInterface
 {
@@ -31,12 +31,12 @@ class PermissionManager implements PermissionManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -47,8 +47,10 @@ class PermissionManager implements PermissionManagerInterface
      *
      * @return PermissionInterface
      */
-    public function findPermissionBy(array $criteria, array $orderBy = null)
-    {
+    public function findPermissionBy(
+        array $criteria,
+        array $orderBy = null
+    ) {
         return $this->repository->findOneBy($criteria, $orderBy);
     }
 
@@ -58,20 +60,34 @@ class PermissionManager implements PermissionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return PermissionInterface[]|Collection
+     * @return ArrayCollection|PermissionInterface[]
      */
-    public function findPermissionsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
+    public function findPermissionsBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
      * @param PermissionInterface $permission
      * @param bool $andFlush
+     * @param bool $forceId
      */
-    public function updatePermission(PermissionInterface $permission, $andFlush = true)
-    {
+    public function updatePermission(
+        PermissionInterface $permission,
+        $andFlush = true,
+        $forceId = false
+    ) {
         $this->em->persist($permission);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($permission));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }
@@ -80,8 +96,9 @@ class PermissionManager implements PermissionManagerInterface
     /**
      * @param PermissionInterface $permission
      */
-    public function deletePermission(PermissionInterface $permission)
-    {
+    public function deletePermission(
+        PermissionInterface $permission
+    ) {
         $this->em->remove($permission);
         $this->em->flush();
     }

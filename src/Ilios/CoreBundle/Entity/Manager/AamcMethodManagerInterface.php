@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
  * Interface AamcMethodManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface AamcMethodManagerInterface
 {
@@ -31,7 +28,7 @@ interface AamcMethodManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return AamcMethodInterface[]|Collection
+     * @return ArrayCollection|AamcMethodInterface[]
      */
     public function findAamcMethodsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface AamcMethodManagerInterface
     /**
      * @param AamcMethodInterface $aamcMethod
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateAamcMethod(
         AamcMethodInterface $aamcMethod,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

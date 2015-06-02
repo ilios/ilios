@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\ApiKeyInterface;
 
 /**
  * Interface ApiKeyManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface ApiKeyManagerInterface
 {
@@ -20,7 +17,10 @@ interface ApiKeyManagerInterface
      *
      * @return ApiKeyInterface
      */
-    public function findApiKeyBy(array $criteria, array $orderBy = null);
+    public function findApiKeyBy(
+        array $criteria,
+        array $orderBy = null
+    );
 
     /**
      * @param array $criteria
@@ -28,24 +28,36 @@ interface ApiKeyManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ApiKeyInterface[]|Collection
+     * @return ArrayCollection|ApiKeyInterface[]
      */
-    public function findApiKeysBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findApiKeysBy(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 
     /**
      * @param ApiKeyInterface $apiKey
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
-     public function updateApiKey(ApiKeyInterface $apiKey, $andFlush = true);
+    public function updateApiKey(
+        ApiKeyInterface $apiKey,
+        $andFlush = true,
+        $forceId = false
+    );
 
     /**
      * @param ApiKeyInterface $apiKey
      *
      * @return void
      */
-    public function deleteApiKey(ApiKeyInterface $apiKey);
+    public function deleteApiKey(
+        ApiKeyInterface $apiKey
+    );
 
     /**
      * @return string

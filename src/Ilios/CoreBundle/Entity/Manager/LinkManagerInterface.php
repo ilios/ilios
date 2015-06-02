@@ -3,21 +3,21 @@
 namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\LinkInterface;
 
 /**
- * Interface MeshDescriptorManagerInterface
- * @package Ilios\CoreBundle\Entity\Manager
+ * Interface LinkManagerInterface
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-interface MeshDescriptorManagerInterface
+interface LinkManagerInterface
 {
     /**
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return MeshDescriptorInterface
+     * @return LinkInterface
      */
-    public function findMeshDescriptorBy(
+    public function findLinkBy(
         array $criteria,
         array $orderBy = null
     );
@@ -28,9 +28,9 @@ interface MeshDescriptorManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|MeshDescriptorInterface[]
+     * @return ArrayCollection|LinkInterface[]
      */
-    public function findMeshDescriptorsBy(
+    public function findLinksBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -38,25 +38,25 @@ interface MeshDescriptorManagerInterface
     );
 
     /**
-     * @param MeshDescriptorInterface $meshDescriptor
+     * @param LinkInterface $link
      * @param bool $andFlush
      * @param bool $forceId
      *
      * @return void
      */
-    public function updateMeshDescriptor(
-        MeshDescriptorInterface $meshDescriptor,
+    public function updateLink(
+        LinkInterface $link,
         $andFlush = true,
         $forceId = false
     );
 
     /**
-     * @param MeshDescriptorInterface $meshDescriptor
+     * @param LinkInterface $link
      *
      * @return void
      */
-    public function deleteMeshDescriptor(
-        MeshDescriptorInterface $meshDescriptor
+    public function deleteLink(
+        LinkInterface $link
     );
 
     /**
@@ -65,7 +65,7 @@ interface MeshDescriptorManagerInterface
     public function getClass();
 
     /**
-     * @return MeshDescriptorInterface
+     * @return LinkInterface
      */
-    public function createMeshDescriptor();
+    public function createLink();
 }

@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\RecurringEventInterface;
 
 /**
  * Interface RecurringEventManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface RecurringEventManagerInterface
 {
@@ -31,7 +28,7 @@ interface RecurringEventManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return RecurringEventInterface[]|Collection
+     * @return ArrayCollection|RecurringEventInterface[]
      */
     public function findRecurringEventsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface RecurringEventManagerInterface
     /**
      * @param RecurringEventInterface $recurringEvent
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateRecurringEvent(
         RecurringEventInterface $recurringEvent,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

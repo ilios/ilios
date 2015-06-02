@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 
 /**
  * Interface SessionDescriptionManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface SessionDescriptionManagerInterface
 {
@@ -31,7 +28,7 @@ interface SessionDescriptionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return SessionDescriptionInterface[]|Collection
+     * @return ArrayCollection|SessionDescriptionInterface[]
      */
     public function findSessionDescriptionsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface SessionDescriptionManagerInterface
     /**
      * @param SessionDescriptionInterface $sessionDescription
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateSessionDescription(
         SessionDescriptionInterface $sessionDescription,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

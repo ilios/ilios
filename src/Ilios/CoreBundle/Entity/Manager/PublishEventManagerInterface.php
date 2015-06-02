@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\PublishEventInterface;
 
 /**
  * Interface PublishEventManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface PublishEventManagerInterface
 {
@@ -31,7 +28,7 @@ interface PublishEventManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return PublishEventInterface[]|Collection
+     * @return ArrayCollection|PublishEventInterface[]
      */
     public function findPublishEventsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface PublishEventManagerInterface
     /**
      * @param PublishEventInterface $publishEvent
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updatePublishEvent(
         PublishEventInterface $publishEvent,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

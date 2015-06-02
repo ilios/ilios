@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\ReportPoValueInterface;
 
 /**
  * Interface ReportPoValueManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface ReportPoValueManagerInterface
 {
@@ -31,7 +28,7 @@ interface ReportPoValueManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ReportPoValueInterface[]|Collection
+     * @return ArrayCollection|ReportPoValueInterface[]
      */
     public function findReportPoValuesBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface ReportPoValueManagerInterface
     /**
      * @param ReportPoValueInterface $reportPoValue
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateReportPoValue(
         ReportPoValueInterface $reportPoValue,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

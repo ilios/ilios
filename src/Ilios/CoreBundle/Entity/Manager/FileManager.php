@@ -7,13 +7,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\FileInterface;
 
 /**
- * Class LearningMaterialManager
- * @package Ilios\CoreBundle\Entity\Manager
+ * Class FileManager
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-class LearningMaterialManager implements LearningMaterialManagerInterface
+class FileManager implements FileManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return LearningMaterialInterface
+     * @return FileInterface
      */
-    public function findLearningMaterialBy(
+    public function findFileBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -60,9 +60,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|LearningMaterialInterface[]
+     * @return ArrayCollection|FileInterface[]
      */
-    public function findLearningMaterialsBy(
+    public function findFilesBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -72,19 +72,19 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * @param FileInterface $file
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateLearningMaterial(
-        LearningMaterialInterface $learningMaterial,
+    public function updateFile(
+        FileInterface $file,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($learningMaterial);
+        $this->em->persist($file);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($learningMaterial));
+            $metadata = $this->em->getClassMetaData(get_class($file));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -94,12 +94,12 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * @param FileInterface $file
      */
-    public function deleteLearningMaterial(
-        LearningMaterialInterface $learningMaterial
+    public function deleteFile(
+        FileInterface $file
     ) {
-        $this->em->remove($learningMaterial);
+        $this->em->remove($file);
         $this->em->flush();
     }
 
@@ -112,9 +112,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @return LearningMaterialInterface
+     * @return FileInterface
      */
-    public function createLearningMaterial()
+    public function createFile()
     {
         $class = $this->getClass();
         return new $class();

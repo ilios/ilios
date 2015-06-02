@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\AssessmentOptionInterface;
 
 /**
  * Interface AssessmentOptionManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface AssessmentOptionManagerInterface
 {
@@ -31,7 +28,7 @@ interface AssessmentOptionManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return AssessmentOptionInterface[]|Collection
+     * @return ArrayCollection|AssessmentOptionInterface[]
      */
     public function findAssessmentOptionsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface AssessmentOptionManagerInterface
     /**
      * @param AssessmentOptionInterface $assessmentOption
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateAssessmentOption(
         AssessmentOptionInterface $assessmentOption,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

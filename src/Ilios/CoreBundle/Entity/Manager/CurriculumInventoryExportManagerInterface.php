@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 
 /**
  * Interface CurriculumInventoryExportManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface CurriculumInventoryExportManagerInterface
 {
@@ -31,7 +28,7 @@ interface CurriculumInventoryExportManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CurriculumInventoryExportInterface[]|Collection
+     * @return ArrayCollection|CurriculumInventoryExportInterface[]
      */
     public function findCurriculumInventoryExportsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface CurriculumInventoryExportManagerInterface
     /**
      * @param CurriculumInventoryExportInterface $curriculumInventoryExport
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateCurriculumInventoryExport(
         CurriculumInventoryExportInterface $curriculumInventoryExport,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

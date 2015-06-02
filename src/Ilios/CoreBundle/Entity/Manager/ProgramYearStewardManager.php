@@ -2,16 +2,16 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 
 /**
- * ProgramYearSteward manager service.
  * Class ProgramYearStewardManager
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
 {
@@ -31,12 +31,12 @@ class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
     protected $class;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $em
      * @param string $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(Registry $em, $class)
     {
-        $this->em         = $em;
+        $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
     }
@@ -60,7 +60,7 @@ class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ProgramYearStewardInterface[]|Collection
+     * @return ArrayCollection|ProgramYearStewardInterface[]
      */
     public function findProgramYearStewardsBy(
         array $criteria,
@@ -74,12 +74,20 @@ class ProgramYearStewardManager implements ProgramYearStewardManagerInterface
     /**
      * @param ProgramYearStewardInterface $programYearSteward
      * @param bool $andFlush
+     * @param bool $forceId
      */
     public function updateProgramYearSteward(
         ProgramYearStewardInterface $programYearSteward,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     ) {
         $this->em->persist($programYearSteward);
+
+        if ($forceId) {
+            $metadata = $this->em->getClassMetaData(get_class($programYearSteward));
+            $metadata->setIdGenerator(new AssignedGenerator());
+        }
+
         if ($andFlush) {
             $this->em->flush();
         }

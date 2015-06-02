@@ -7,13 +7,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
-use Ilios\CoreBundle\Entity\LearningMaterialInterface;
+use Ilios\CoreBundle\Entity\LearningMaterials\CitationInterface;
 
 /**
- * Class LearningMaterialManager
- * @package Ilios\CoreBundle\Entity\Manager
+ * Class CitationManager
+ * @package Ilios\CoreBundle\Entity\Manager\LearningMaterials
  */
-class LearningMaterialManager implements LearningMaterialManagerInterface
+class CitationManager implements CitationManagerInterface
 {
     /**
      * @var EntityManager
@@ -45,9 +45,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param array $criteria
      * @param array $orderBy
      *
-     * @return LearningMaterialInterface
+     * @return CitationInterface
      */
-    public function findLearningMaterialBy(
+    public function findCitationBy(
         array $criteria,
         array $orderBy = null
     ) {
@@ -60,9 +60,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return ArrayCollection|LearningMaterialInterface[]
+     * @return ArrayCollection|CitationInterface[]
      */
-    public function findLearningMaterialsBy(
+    public function findCitationsBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
@@ -72,19 +72,19 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * @param CitationInterface $citation
      * @param bool $andFlush
      * @param bool $forceId
      */
-    public function updateLearningMaterial(
-        LearningMaterialInterface $learningMaterial,
+    public function updateCitation(
+        CitationInterface $citation,
         $andFlush = true,
         $forceId = false
     ) {
-        $this->em->persist($learningMaterial);
+        $this->em->persist($citation);
 
         if ($forceId) {
-            $metadata = $this->em->getClassMetaData(get_class($learningMaterial));
+            $metadata = $this->em->getClassMetaData(get_class($citation));
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 
@@ -94,12 +94,12 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
+     * @param CitationInterface $citation
      */
-    public function deleteLearningMaterial(
-        LearningMaterialInterface $learningMaterial
+    public function deleteCitation(
+        CitationInterface $citation
     ) {
-        $this->em->remove($learningMaterial);
+        $this->em->remove($citation);
         $this->em->flush();
     }
 
@@ -112,9 +112,9 @@ class LearningMaterialManager implements LearningMaterialManagerInterface
     }
 
     /**
-     * @return LearningMaterialInterface
+     * @return CitationInterface
      */
-    public function createLearningMaterial()
+    public function createCitation()
     {
         $class = $this->getClass();
         return new $class();

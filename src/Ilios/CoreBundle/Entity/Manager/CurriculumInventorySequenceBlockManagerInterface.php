@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 
 /**
  * Interface CurriculumInventorySequenceBlockManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface CurriculumInventorySequenceBlockManagerInterface
 {
@@ -31,7 +28,7 @@ interface CurriculumInventorySequenceBlockManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return CurriculumInventorySequenceBlockInterface[]|Collection
+     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      */
     public function findCurriculumInventorySequenceBlocksBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface CurriculumInventorySequenceBlockManagerInterface
     /**
      * @param CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateCurriculumInventorySequenceBlock(
         CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

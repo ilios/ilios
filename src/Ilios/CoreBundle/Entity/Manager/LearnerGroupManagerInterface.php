@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\LearnerGroupInterface;
 
 /**
  * Interface LearnerGroupManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface LearnerGroupManagerInterface
 {
@@ -31,7 +28,7 @@ interface LearnerGroupManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return LearnerGroupInterface[]|Collection
+     * @return ArrayCollection|LearnerGroupInterface[]
      */
     public function findLearnerGroupsBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface LearnerGroupManagerInterface
     /**
      * @param LearnerGroupInterface $learnerGroup
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateLearnerGroup(
         LearnerGroupInterface $learnerGroup,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**

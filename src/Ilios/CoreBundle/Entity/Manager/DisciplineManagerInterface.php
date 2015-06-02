@@ -2,15 +2,12 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Ilios\CoreBundle\Entity\DisciplineInterface;
 
 /**
  * Interface DisciplineManagerInterface
- * @package Ilios\CoreBundle\Manager
+ * @package Ilios\CoreBundle\Entity\Manager
  */
 interface DisciplineManagerInterface
 {
@@ -31,7 +28,7 @@ interface DisciplineManagerInterface
      * @param integer $limit
      * @param integer $offset
      *
-     * @return DisciplineInterface[]|Collection
+     * @return ArrayCollection|DisciplineInterface[]
      */
     public function findDisciplinesBy(
         array $criteria,
@@ -43,12 +40,14 @@ interface DisciplineManagerInterface
     /**
      * @param DisciplineInterface $discipline
      * @param bool $andFlush
+     * @param bool $forceId
      *
      * @return void
      */
     public function updateDiscipline(
         DisciplineInterface $discipline,
-        $andFlush = true
+        $andFlush = true,
+        $forceId = false
     );
 
     /**
