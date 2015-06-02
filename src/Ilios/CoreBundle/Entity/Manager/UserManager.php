@@ -4,9 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
+use Ilios\CoreBundle\Entity\Repository\UserRepository;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
@@ -21,7 +22,7 @@ class UserManager implements UserManagerInterface
     protected $em;
 
     /**
-     * @var EntityRepository
+     * @var UserRepository
      */
     protected $repository;
 
@@ -118,5 +119,22 @@ class UserManager implements UserManagerInterface
     {
         $class = $this->getClass();
         return new $class();
+    }
+
+    /**
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return UserInterface[]|Collection
+     */
+    public function findUsersByQ(
+        $q,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ) {
+        return $this->repository->findByQ($q, $orderBy, $limit, $offset);
     }
 }

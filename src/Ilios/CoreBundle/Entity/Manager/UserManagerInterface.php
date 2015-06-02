@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Ilios\CoreBundle\Entity\UserInterface;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Interface UserManagerInterface
@@ -68,4 +69,19 @@ interface UserManagerInterface
      * @return UserInterface
      */
     public function createUser();
+
+    /**
+     * @param string $q
+     * @param array $orderBy
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return UserInterface[]|Collection
+     */
+    public function findUsersByQ(
+        $q,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    );
 }

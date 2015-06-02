@@ -60,6 +60,11 @@ interface CourseManagerInterface
     );
 
     /**
+     * @return string[]
+     */
+    public function getYears();
+
+    /**
      * @return string
      */
     public function getClass();

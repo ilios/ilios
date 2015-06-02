@@ -4,10 +4,10 @@ namespace Ilios\CoreBundle\Entity\Manager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Ilios\CoreBundle\Entity\CourseInterface;
+use Ilios\CoreBundle\Entity\Repository\CourseRepository;
 
 /**
  * Class CourseManager
@@ -21,7 +21,7 @@ class CourseManager implements CourseManagerInterface
     protected $em;
 
     /**
-     * @var EntityRepository
+     * @var CourseRepository
      */
     protected $repository;
 
@@ -101,6 +101,14 @@ class CourseManager implements CourseManagerInterface
     ) {
         $this->em->remove($course);
         $this->em->flush();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getYears()
+    {
+        return $this->repository->getYears();
     }
 
     /**
