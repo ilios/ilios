@@ -54,6 +54,9 @@ class AssessmentOption implements AssessmentOptionInterface
     *      min = 1,
     *      max = 18
     * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $name;
 

@@ -59,6 +59,9 @@ class AamcMethod implements AamcMethodInterface
     *      min = 1,
     *      max = 65000
     * )
+    *
+    * @JMS\Expose
+    * @JMS\Type("string")
     */
     protected $description;
 
