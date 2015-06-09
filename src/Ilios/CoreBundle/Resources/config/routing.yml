@@ -388,3 +388,11 @@ api_instructionhours:
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
+
+api_bad_request:
+    pattern:     /{url}
+    defaults:
+        url: null
+        _controller: IliosCoreBundle:BadRequest:index
+    requirements:
+        url: ".+"

@@ -1,0 +1,7 @@
+ilios_web_homepage:
+    pattern:     /{url}
+    defaults:
+        url: null
+        _controller: IliosWebBundle:Index:index
+    requirements:
+        url: ".+"
