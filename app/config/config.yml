@@ -133,3 +133,7 @@ jms_di_extra:
     locations:
         all_bundles: false
         bundles: [@IliosCoreBundle]
+
+ilios_web:
+    environment: production
+    version: 5532357
