@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\UserRoleHandler;
 use Ilios\CoreBundle\Entity\UserRoleInterface;
 
 /**
- * UserRole controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("UserRole")
+ * Class UserRoleController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("UserRoles")
  */
 class UserRoleController extends FOSRestController
 {
-    
     /**
      * Get a UserRole
      *
      * @ApiDoc(
+     *   section = "UserRole",
      *   description = "Get a UserRole.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="UserRole identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class UserRoleController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['userRole'] = $this->getOr404($id);
+        $answer['userRoles'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all UserRole.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "UserRole",
      *   description = "Get all UserRole.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\UserRole",
      *   statusCodes = {
      *     200 = "List of all UserRole",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class UserRoleController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class UserRoleController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['userRoles'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class UserRoleController extends FOSRestController
      * Create a UserRole.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "UserRole",
      *   description = "Create a UserRole.",
-     *   input="Ilios\CoreBundle\Form\UserRoleType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\UserRoleType",
      *   output="Ilios\CoreBundle\Entity\UserRole",
      *   statusCodes={
      *     201 = "Created UserRole.",
@@ -149,7 +149,7 @@ class UserRoleController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class UserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserRoleHandler()->post($this->getPostData($request));
-            $answer['userRole'] = $new;
+            $userrole = $this->getUserRoleHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_userroles',
+                    ['id' => $userrole->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class UserRoleController extends FOSRestController
      * Update a UserRole.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "UserRole",
      *   description = "Update a UserRole entity.",
-     *   input="Ilios\CoreBundle\Form\UserRoleType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\UserRoleType",
      *   output="Ilios\CoreBundle\Entity\UserRole",
      *   statusCodes={
      *     200 = "Updated UserRole.",
@@ -183,10 +195,10 @@ class UserRoleController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class UserRoleController extends FOSRestController
             $userRole = $this->getUserRoleHandler()
                 ->findUserRoleBy(['id'=> $id]);
             if ($userRole) {
-                $answer['userRole'] =
-                    $this->getUserRoleHandler()->put(
-                        $userRole,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['userRole'] =
-                    $this->getUserRoleHandler()->post($this->getPostData($request));
+                $userRole = $this->getUserRoleHandler()
+                    ->createUserRole();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['userRole'] =
+                $this->getUserRoleHandler()->put(
+                    $userRole,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class UserRoleController extends FOSRestController
      * Partial Update to a UserRole.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "UserRole",
      *   description = "Partial Update to a UserRole.",
-     *   input="Ilios\CoreBundle\Form\UserRoleType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\UserRoleType",
      *   output="Ilios\CoreBundle\Entity\UserRole",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="UserRole identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class UserRoleController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class UserRoleController extends FOSRestController
      * Delete a UserRole.
      *
      * @ApiDoc(
+     *   section = "UserRole",
      *   description = "Delete a UserRole entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "UserRole identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class UserRoleController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal UserRoleInterface $userRole
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $userRole = $this->getOr404($id);
+
         try {
             $this->getUserRoleHandler()
                 ->deleteUserRole($userRole);
@@ -304,28 +318,36 @@ class UserRoleController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return UserRoleInterface $entity
+     * @return UserRoleInterface $userRole
      */
     protected function getOr404($id)
     {
-        $entity = $this->getUserRoleHandler()
+        $userRole = $this->getUserRoleHandler()
             ->findUserRoleBy(['id' => $id]);
-        if (!$entity) {
+        if (!$userRole) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $userRole;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('userRole', array());
+        $data = $request->request->get('userRole');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return UserRoleHandler
      */

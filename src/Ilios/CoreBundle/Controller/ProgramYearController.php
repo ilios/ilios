@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\ProgramYearHandler;
 use Ilios\CoreBundle\Entity\ProgramYearInterface;
 
 /**
- * ProgramYear controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("ProgramYear")
+ * Class ProgramYearController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("ProgramYears")
  */
 class ProgramYearController extends FOSRestController
 {
-    
     /**
      * Get a ProgramYear
      *
      * @ApiDoc(
+     *   section = "ProgramYear",
      *   description = "Get a ProgramYear.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="ProgramYear identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class ProgramYearController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['programYear'] = $this->getOr404($id);
+        $answer['programYears'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all ProgramYear.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYear",
      *   description = "Get all ProgramYear.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\ProgramYear",
      *   statusCodes = {
      *     200 = "List of all ProgramYear",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class ProgramYearController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class ProgramYearController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['programYears'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class ProgramYearController extends FOSRestController
      * Create a ProgramYear.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYear",
      *   description = "Create a ProgramYear.",
-     *   input="Ilios\CoreBundle\Form\ProgramYearType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramYearType",
      *   output="Ilios\CoreBundle\Entity\ProgramYear",
      *   statusCodes={
      *     201 = "Created ProgramYear.",
@@ -149,7 +149,7 @@ class ProgramYearController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class ProgramYearController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramYearHandler()->post($this->getPostData($request));
-            $answer['programYear'] = $new;
+            $programyear = $this->getProgramYearHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_programyears',
+                    ['id' => $programyear->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class ProgramYearController extends FOSRestController
      * Update a ProgramYear.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYear",
      *   description = "Update a ProgramYear entity.",
-     *   input="Ilios\CoreBundle\Form\ProgramYearType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramYearType",
      *   output="Ilios\CoreBundle\Entity\ProgramYear",
      *   statusCodes={
      *     200 = "Updated ProgramYear.",
@@ -183,10 +195,10 @@ class ProgramYearController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class ProgramYearController extends FOSRestController
             $programYear = $this->getProgramYearHandler()
                 ->findProgramYearBy(['id'=> $id]);
             if ($programYear) {
-                $answer['programYear'] =
-                    $this->getProgramYearHandler()->put(
-                        $programYear,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['programYear'] =
-                    $this->getProgramYearHandler()->post($this->getPostData($request));
+                $programYear = $this->getProgramYearHandler()
+                    ->createProgramYear();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['programYear'] =
+                $this->getProgramYearHandler()->put(
+                    $programYear,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class ProgramYearController extends FOSRestController
      * Partial Update to a ProgramYear.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYear",
      *   description = "Partial Update to a ProgramYear.",
-     *   input="Ilios\CoreBundle\Form\ProgramYearType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramYearType",
      *   output="Ilios\CoreBundle\Entity\ProgramYear",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="ProgramYear identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class ProgramYearController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class ProgramYearController extends FOSRestController
      * Delete a ProgramYear.
      *
      * @ApiDoc(
+     *   section = "ProgramYear",
      *   description = "Delete a ProgramYear entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "ProgramYear identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class ProgramYearController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal ProgramYearInterface $programYear
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $programYear = $this->getOr404($id);
+
         try {
             $this->getProgramYearHandler()
                 ->deleteProgramYear($programYear);
@@ -304,28 +318,36 @@ class ProgramYearController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return ProgramYearInterface $entity
+     * @return ProgramYearInterface $programYear
      */
     protected function getOr404($id)
     {
-        $entity = $this->getProgramYearHandler()
+        $programYear = $this->getProgramYearHandler()
             ->findProgramYearBy(['id' => $id]);
-        if (!$entity) {
+        if (!$programYear) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $programYear;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('programYear', array());
+        $data = $request->request->get('programYear');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return ProgramYearHandler
      */

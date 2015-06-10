@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\CurriculumInventoryExportHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventoryExportInterface;
 
 /**
- * CurriculumInventoryExport controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("CurriculumInventoryExport")
+ * Class CurriculumInventoryExportController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("CurriculumInventoryExports")
  */
 class CurriculumInventoryExportController extends FOSRestController
 {
-    
     /**
      * Get a CurriculumInventoryExport
      *
      * @ApiDoc(
+     *   section = "CurriculumInventoryExport",
      *   description = "Get a CurriculumInventoryExport.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class CurriculumInventoryExportController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['curriculumInventoryExport'] = $this->getOr404($id);
+        $answer['curriculumInventoryExports'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all CurriculumInventoryExport.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryExport",
      *   description = "Get all CurriculumInventoryExport.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryExport",
      *   statusCodes = {
      *     200 = "List of all CurriculumInventoryExport",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class CurriculumInventoryExportController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class CurriculumInventoryExportController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['curriculumInventoryExports'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class CurriculumInventoryExportController extends FOSRestController
      * Create a CurriculumInventoryExport.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryExport",
      *   description = "Create a CurriculumInventoryExport.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryExportType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryExportType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryExport",
      *   statusCodes={
      *     201 = "Created CurriculumInventoryExport.",
@@ -149,7 +149,7 @@ class CurriculumInventoryExportController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class CurriculumInventoryExportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryExportHandler()->post($this->getPostData($request));
-            $answer['curriculumInventoryExport'] = $new;
+            $curriculuminventoryexport = $this->getCurriculumInventoryExportHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_curriculuminventoryexports',
+                    ['report' => $curriculuminventoryexport->getReport()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class CurriculumInventoryExportController extends FOSRestController
      * Update a CurriculumInventoryExport.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryExport",
      *   description = "Update a CurriculumInventoryExport entity.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryExportType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryExportType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryExport",
      *   statusCodes={
      *     200 = "Updated CurriculumInventoryExport.",
@@ -183,10 +195,10 @@ class CurriculumInventoryExportController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class CurriculumInventoryExportController extends FOSRestController
             $curriculumInventoryExport = $this->getCurriculumInventoryExportHandler()
                 ->findCurriculumInventoryExportBy(['report'=> $id]);
             if ($curriculumInventoryExport) {
-                $answer['curriculumInventoryExport'] =
-                    $this->getCurriculumInventoryExportHandler()->put(
-                        $curriculumInventoryExport,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventoryExport'] =
-                    $this->getCurriculumInventoryExportHandler()->post($this->getPostData($request));
+                $curriculumInventoryExport = $this->getCurriculumInventoryExportHandler()
+                    ->createCurriculumInventoryExport();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['curriculumInventoryExport'] =
+                $this->getCurriculumInventoryExportHandler()->put(
+                    $curriculumInventoryExport,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class CurriculumInventoryExportController extends FOSRestController
      * Partial Update to a CurriculumInventoryExport.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryExport",
      *   description = "Partial Update to a CurriculumInventoryExport.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryExportType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryExportType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryExport",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class CurriculumInventoryExportController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class CurriculumInventoryExportController extends FOSRestController
      * Delete a CurriculumInventoryExport.
      *
      * @ApiDoc(
+     *   section = "CurriculumInventoryExport",
      *   description = "Delete a CurriculumInventoryExport entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class CurriculumInventoryExportController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal CurriculumInventoryExportInterface $curriculumInventoryExport
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $curriculumInventoryExport = $this->getOr404($id);
+
         try {
             $this->getCurriculumInventoryExportHandler()
                 ->deleteCurriculumInventoryExport($curriculumInventoryExport);
@@ -304,28 +318,36 @@ class CurriculumInventoryExportController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CurriculumInventoryExportInterface $entity
+     * @return CurriculumInventoryExportInterface $curriculumInventoryExport
      */
     protected function getOr404($id)
     {
-        $entity = $this->getCurriculumInventoryExportHandler()
+        $curriculumInventoryExport = $this->getCurriculumInventoryExportHandler()
             ->findCurriculumInventoryExportBy(['report' => $id]);
-        if (!$entity) {
+        if (!$curriculumInventoryExport) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $curriculumInventoryExport;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('curriculumInventoryExport', array());
+        $data = $request->request->get('curriculumInventoryExport');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return CurriculumInventoryExportHandler
      */

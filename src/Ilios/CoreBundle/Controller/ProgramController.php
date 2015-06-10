@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\ProgramHandler;
 use Ilios\CoreBundle\Entity\ProgramInterface;
 
 /**
- * Program controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Program")
+ * Class ProgramController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Programs")
  */
 class ProgramController extends FOSRestController
 {
-    
     /**
      * Get a Program
      *
      * @ApiDoc(
+     *   section = "Program",
      *   description = "Get a Program.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="Program identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class ProgramController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['program'] = $this->getOr404($id);
+        $answer['programs'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all Program.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Program",
      *   description = "Get all Program.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\Program",
      *   statusCodes = {
      *     200 = "List of all Program",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class ProgramController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class ProgramController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['programs'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class ProgramController extends FOSRestController
      * Create a Program.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Program",
      *   description = "Create a Program.",
-     *   input="Ilios\CoreBundle\Form\ProgramType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramType",
      *   output="Ilios\CoreBundle\Entity\Program",
      *   statusCodes={
      *     201 = "Created Program.",
@@ -149,7 +149,7 @@ class ProgramController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class ProgramController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramHandler()->post($this->getPostData($request));
-            $answer['program'] = $new;
+            $program = $this->getProgramHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_programs',
+                    ['id' => $program->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class ProgramController extends FOSRestController
      * Update a Program.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Program",
      *   description = "Update a Program entity.",
-     *   input="Ilios\CoreBundle\Form\ProgramType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramType",
      *   output="Ilios\CoreBundle\Entity\Program",
      *   statusCodes={
      *     200 = "Updated Program.",
@@ -183,10 +195,10 @@ class ProgramController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class ProgramController extends FOSRestController
             $program = $this->getProgramHandler()
                 ->findProgramBy(['id'=> $id]);
             if ($program) {
-                $answer['program'] =
-                    $this->getProgramHandler()->put(
-                        $program,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['program'] =
-                    $this->getProgramHandler()->post($this->getPostData($request));
+                $program = $this->getProgramHandler()
+                    ->createProgram();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['program'] =
+                $this->getProgramHandler()->put(
+                    $program,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class ProgramController extends FOSRestController
      * Partial Update to a Program.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Program",
      *   description = "Partial Update to a Program.",
-     *   input="Ilios\CoreBundle\Form\ProgramType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramType",
      *   output="Ilios\CoreBundle\Entity\Program",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="Program identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class ProgramController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class ProgramController extends FOSRestController
      * Delete a Program.
      *
      * @ApiDoc(
+     *   section = "Program",
      *   description = "Delete a Program entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "Program identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class ProgramController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal ProgramInterface $program
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $program = $this->getOr404($id);
+
         try {
             $this->getProgramHandler()
                 ->deleteProgram($program);
@@ -304,28 +318,36 @@ class ProgramController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return ProgramInterface $entity
+     * @return ProgramInterface $program
      */
     protected function getOr404($id)
     {
-        $entity = $this->getProgramHandler()
+        $program = $this->getProgramHandler()
             ->findProgramBy(['id' => $id]);
-        if (!$entity) {
+        if (!$program) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $program;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('program', array());
+        $data = $request->request->get('program');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return ProgramHandler
      */

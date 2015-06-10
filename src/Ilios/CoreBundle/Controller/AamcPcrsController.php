@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\AamcPcrsHandler;
 use Ilios\CoreBundle\Entity\AamcPcrsInterface;
 
 /**
- * AamcPcrs controller.
- * @package Ilios\CoreBundle\Controller\;
+ * Class AamcPcrsController
+ * @package Ilios\CoreBundle\Controller
  * @RouteResource("AamcPcrs")
  */
 class AamcPcrsController extends FOSRestController
 {
-    
     /**
      * Get a AamcPcrs
      *
      * @ApiDoc(
+     *   section = "AamcPcrs",
      *   description = "Get a AamcPcrs.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class AamcPcrsController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['aamcPcrs'] = $this->getOr404($id);
+        $answer['aamcPcrs'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all AamcPcrs.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcPcrs",
      *   description = "Get all AamcPcrs.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\AamcPcrs",
      *   statusCodes = {
      *     200 = "List of all AamcPcrs",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,28 +97,35 @@ class AamcPcrsController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
         $result = $this->getAamcPcrsHandler()
-            ->findAamcPcrsesBy(
+            ->findAamcPcrsBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['aamcPcrs'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class AamcPcrsController extends FOSRestController
      * Create a AamcPcrs.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcPcrs",
      *   description = "Create a AamcPcrs.",
-     *   input="Ilios\CoreBundle\Form\AamcPcrsType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AamcPcrsType",
      *   output="Ilios\CoreBundle\Entity\AamcPcrs",
      *   statusCodes={
      *     201 = "Created AamcPcrs.",
@@ -149,7 +149,7 @@ class AamcPcrsController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class AamcPcrsController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAamcPcrsHandler()->post($this->getPostData($request));
-            $answer['aamcPcrs'] = $new;
+            $aamcpcrs = $this->getAamcPcrsHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_aamcpcrs',
+                    ['id' => $aamcpcrs->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class AamcPcrsController extends FOSRestController
      * Update a AamcPcrs.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcPcrs",
      *   description = "Update a AamcPcrs entity.",
-     *   input="Ilios\CoreBundle\Form\AamcPcrsType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AamcPcrsType",
      *   output="Ilios\CoreBundle\Entity\AamcPcrs",
      *   statusCodes={
      *     200 = "Updated AamcPcrs.",
@@ -183,10 +195,10 @@ class AamcPcrsController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class AamcPcrsController extends FOSRestController
             $aamcPcrs = $this->getAamcPcrsHandler()
                 ->findAamcPcrsBy(['id'=> $id]);
             if ($aamcPcrs) {
-                $answer['aamcPcrs'] =
-                    $this->getAamcPcrsHandler()->put(
-                        $aamcPcrs,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['aamcPcrs'] =
-                    $this->getAamcPcrsHandler()->post($this->getPostData($request));
+                $aamcPcrs = $this->getAamcPcrsHandler()
+                    ->createAamcPcrs();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['aamcPcrs'] =
+                $this->getAamcPcrsHandler()->put(
+                    $aamcPcrs,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class AamcPcrsController extends FOSRestController
      * Partial Update to a AamcPcrs.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcPcrs",
      *   description = "Partial Update to a AamcPcrs.",
-     *   input="Ilios\CoreBundle\Form\AamcPcrsType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AamcPcrsType",
      *   output="Ilios\CoreBundle\Entity\AamcPcrs",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class AamcPcrsController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class AamcPcrsController extends FOSRestController
      * Delete a AamcPcrs.
      *
      * @ApiDoc(
+     *   section = "AamcPcrs",
      *   description = "Delete a AamcPcrs entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class AamcPcrsController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal AamcPcrsInterface $aamcPcrs
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $aamcPcrs = $this->getOr404($id);
+
         try {
             $this->getAamcPcrsHandler()
                 ->deleteAamcPcrs($aamcPcrs);
@@ -304,28 +318,36 @@ class AamcPcrsController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return AamcPcrsInterface $entity
+     * @return AamcPcrsInterface $aamcPcrs
      */
     protected function getOr404($id)
     {
-        $entity = $this->getAamcPcrsHandler()
+        $aamcPcrs = $this->getAamcPcrsHandler()
             ->findAamcPcrsBy(['id' => $id]);
-        if (!$entity) {
+        if (!$aamcPcrs) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $aamcPcrs;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('aamcPcrs', array());
+        $data = $request->request->get('aamcPcrs');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return AamcPcrsHandler
      */

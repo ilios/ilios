@@ -21,9 +21,20 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ilios_web');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->enumNode('environment')
+                  ->values(array('production', 'staging'))
+                  ->defaultValue('production')
+                ->end()
+                ->scalarNode('version')->defaultValue(false)->end()
+                ->scalarNode('production_bucket_path')
+                  ->defaultValue('https://s3-us-west-1.amazonaws.com/iliosindex/')
+                ->end()
+                ->scalarNode('staging_bucket_path')
+                  ->defaultValue('https://s3-us-west-1.amazonaws.com/dev-iliosindex/')
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

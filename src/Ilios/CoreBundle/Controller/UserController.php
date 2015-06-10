@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\UserHandler;
 use Ilios\CoreBundle\Entity\UserInterface;
 
 /**
- * User controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("User")
+ * Class UserController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Users")
  */
 class UserController extends FOSRestController
 {
-
     /**
      * Get a User
      *
      * @ApiDoc(
+     *   section = "User",
      *   description = "Get a User.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="User identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class UserController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['user'] = $this->getOr404($id);
+        $answer['users'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all User.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "User",
      *   description = "Get all User.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\User",
      *   statusCodes = {
      *     200 = "List of all User",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,24 +97,25 @@ class UserController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
-     * @QueryParam(
-     *   name="q",
-     *   nullable=true,
-     *   description="Find users who match a search term"
-     * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
         $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -142,7 +135,6 @@ class UserController extends FOSRestController
             );
         }
 
-
         //If there are no matches return an empty array
         $answer['users'] =
             $result ? $result : new ArrayCollection([]);
@@ -154,9 +146,10 @@ class UserController extends FOSRestController
      * Create a User.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "User",
      *   description = "Create a User.",
-     *   input="Ilios\CoreBundle\Form\UserType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\UserType",
      *   output="Ilios\CoreBundle\Entity\User",
      *   statusCodes={
      *     201 = "Created User.",
@@ -165,7 +158,7 @@ class UserController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -174,10 +167,21 @@ class UserController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getUserHandler()->post($this->getPostData($request));
-            $answer['user'] = $new;
+            $user = $this->getUserHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_users',
+                    ['id' => $user->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -187,9 +191,10 @@ class UserController extends FOSRestController
      * Update a User.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "User",
      *   description = "Update a User entity.",
-     *   input="Ilios\CoreBundle\Form\UserType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\UserType",
      *   output="Ilios\CoreBundle\Entity\User",
      *   statusCodes={
      *     200 = "Updated User.",
@@ -199,10 +204,10 @@ class UserController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -212,17 +217,17 @@ class UserController extends FOSRestController
             $user = $this->getUserHandler()
                 ->findUserBy(['id'=> $id]);
             if ($user) {
-                $answer['user'] =
-                    $this->getUserHandler()->put(
-                        $user,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['user'] =
-                    $this->getUserHandler()->post($this->getPostData($request));
+                $user = $this->getUserHandler()->createUser();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['user'] =
+                $this->getUserHandler()->put(
+                    $user,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -236,15 +241,16 @@ class UserController extends FOSRestController
      * Partial Update to a User.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "User",
      *   description = "Partial Update to a User.",
-     *   input="Ilios\CoreBundle\Form\UserType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\UserType",
      *   output="Ilios\CoreBundle\Entity\User",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="User identifier."
      *     }
      *   },
@@ -255,11 +261,10 @@ class UserController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -278,13 +283,14 @@ class UserController extends FOSRestController
      * Delete a User.
      *
      * @ApiDoc(
+     *   section = "User",
      *   description = "Delete a User entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "User identifier"
      *     }
      *   },
@@ -295,20 +301,19 @@ class UserController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal UserInterface $user
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $user = $this->getOr404($id);
+
         try {
-            $this->getUserHandler()
-                ->deleteUser($user);
+            $this->getUserHandler()->deleteUser($user);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -320,28 +325,36 @@ class UserController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return UserInterface $entity
+     * @return UserInterface $user
      */
     protected function getOr404($id)
     {
-        $entity = $this->getUserHandler()
+        $user = $this->getUserHandler()
             ->findUserBy(['id' => $id]);
-        if (!$entity) {
+        if (!$user) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $user;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('user', array());
+        $data = $request->request->get('user');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return UserHandler
      */

@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\MeshPreviousIndexingHandler;
 use Ilios\CoreBundle\Entity\MeshPreviousIndexingInterface;
 
 /**
- * MeshPreviousIndexing controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("MeshPreviousIndexing")
+ * Class MeshPreviousIndexingController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("MeshPreviousIndexings")
  */
 class MeshPreviousIndexingController extends FOSRestController
 {
-    
     /**
      * Get a MeshPreviousIndexing
      *
      * @ApiDoc(
+     *   section = "MeshPreviousIndexing",
      *   description = "Get a MeshPreviousIndexing.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class MeshPreviousIndexingController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['meshPreviousIndexing'] = $this->getOr404($id);
+        $answer['meshPreviousIndexings'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all MeshPreviousIndexing.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshPreviousIndexing",
      *   description = "Get all MeshPreviousIndexing.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
      *   statusCodes = {
      *     200 = "List of all MeshPreviousIndexing",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class MeshPreviousIndexingController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class MeshPreviousIndexingController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['meshPreviousIndexings'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class MeshPreviousIndexingController extends FOSRestController
      * Create a MeshPreviousIndexing.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshPreviousIndexing",
      *   description = "Create a MeshPreviousIndexing.",
-     *   input="Ilios\CoreBundle\Form\MeshPreviousIndexingType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshPreviousIndexingType",
      *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
      *   statusCodes={
      *     201 = "Created MeshPreviousIndexing.",
@@ -149,7 +149,7 @@ class MeshPreviousIndexingController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class MeshPreviousIndexingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshPreviousIndexingHandler()->post($this->getPostData($request));
-            $answer['meshPreviousIndexing'] = $new;
+            $meshpreviousindexing = $this->getMeshPreviousIndexingHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_meshpreviousindexings',
+                    ['descriptor' => $meshpreviousindexing->getDescriptor()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class MeshPreviousIndexingController extends FOSRestController
      * Update a MeshPreviousIndexing.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshPreviousIndexing",
      *   description = "Update a MeshPreviousIndexing entity.",
-     *   input="Ilios\CoreBundle\Form\MeshPreviousIndexingType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshPreviousIndexingType",
      *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
      *   statusCodes={
      *     200 = "Updated MeshPreviousIndexing.",
@@ -183,10 +195,10 @@ class MeshPreviousIndexingController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class MeshPreviousIndexingController extends FOSRestController
             $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
                 ->findMeshPreviousIndexingBy(['descriptor'=> $id]);
             if ($meshPreviousIndexing) {
-                $answer['meshPreviousIndexing'] =
-                    $this->getMeshPreviousIndexingHandler()->put(
-                        $meshPreviousIndexing,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshPreviousIndexing'] =
-                    $this->getMeshPreviousIndexingHandler()->post($this->getPostData($request));
+                $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
+                    ->createMeshPreviousIndexing();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['meshPreviousIndexing'] =
+                $this->getMeshPreviousIndexingHandler()->put(
+                    $meshPreviousIndexing,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class MeshPreviousIndexingController extends FOSRestController
      * Partial Update to a MeshPreviousIndexing.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshPreviousIndexing",
      *   description = "Partial Update to a MeshPreviousIndexing.",
-     *   input="Ilios\CoreBundle\Form\MeshPreviousIndexingType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshPreviousIndexingType",
      *   output="Ilios\CoreBundle\Entity\MeshPreviousIndexing",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class MeshPreviousIndexingController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class MeshPreviousIndexingController extends FOSRestController
      * Delete a MeshPreviousIndexing.
      *
      * @ApiDoc(
+     *   section = "MeshPreviousIndexing",
      *   description = "Delete a MeshPreviousIndexing entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class MeshPreviousIndexingController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal MeshPreviousIndexingInterface $meshPreviousIndexing
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $meshPreviousIndexing = $this->getOr404($id);
+
         try {
             $this->getMeshPreviousIndexingHandler()
                 ->deleteMeshPreviousIndexing($meshPreviousIndexing);
@@ -304,28 +318,36 @@ class MeshPreviousIndexingController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return MeshPreviousIndexingInterface $entity
+     * @return MeshPreviousIndexingInterface $meshPreviousIndexing
      */
     protected function getOr404($id)
     {
-        $entity = $this->getMeshPreviousIndexingHandler()
+        $meshPreviousIndexing = $this->getMeshPreviousIndexingHandler()
             ->findMeshPreviousIndexingBy(['descriptor' => $id]);
-        if (!$entity) {
+        if (!$meshPreviousIndexing) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $meshPreviousIndexing;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('meshPreviousIndexing', array());
+        $data = $request->request->get('meshPreviousIndexing');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return MeshPreviousIndexingHandler
      */

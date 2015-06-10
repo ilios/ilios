@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\CompetencyHandler;
 use Ilios\CoreBundle\Entity\CompetencyInterface;
 
 /**
- * Competency controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Competency")
+ * Class CompetencyController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Competencies")
  */
 class CompetencyController extends FOSRestController
 {
-
     /**
      * Get a Competency
      *
      * @ApiDoc(
+     *   section = "Competency",
      *   description = "Get a Competency.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="Competency identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class CompetencyController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['competency'] = $this->getOr404($id);
+        $answer['competencies'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all Competency.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Competency",
      *   description = "Get all Competency.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\Competency",
      *   statusCodes = {
      *     200 = "List of all Competency",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,39 +97,50 @@ class CompetencyController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
+        $criteria = array_map(function ($item) {
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
 
-        $result =
-            $this->getCompetencyHandler()->findCompetenciesBy(
+            return $item;
+        }, $criteria);
+
+        $result = $this->getCompetencyHandler()
+            ->findCompetenciesBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['competencies'] =
             $result ? $result : new ArrayCollection([]);
 
-        if ($answer['competencies']) {
-            return $answer;
-        }
-
-        return new ArrayCollection([]);
+        return $answer;
     }
 
     /**
      * Create a Competency.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Competency",
      *   description = "Create a Competency.",
-     *   input="Ilios\CoreBundle\Form\CompetencyType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CompetencyType",
      *   output="Ilios\CoreBundle\Entity\Competency",
      *   statusCodes={
      *     201 = "Created Competency.",
@@ -146,7 +149,7 @@ class CompetencyController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -155,10 +158,21 @@ class CompetencyController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCompetencyHandler()->post($this->getPostData($request));
-            $answer['competency'] = $new;
+            $competency = $this->getCompetencyHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_competencies',
+                    ['id' => $competency->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -168,9 +182,10 @@ class CompetencyController extends FOSRestController
      * Update a Competency.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Competency",
      *   description = "Update a Competency entity.",
-     *   input="Ilios\CoreBundle\Form\CompetencyType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CompetencyType",
      *   output="Ilios\CoreBundle\Entity\Competency",
      *   statusCodes={
      *     200 = "Updated Competency.",
@@ -180,10 +195,10 @@ class CompetencyController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -193,17 +208,18 @@ class CompetencyController extends FOSRestController
             $competency = $this->getCompetencyHandler()
                 ->findCompetencyBy(['id'=> $id]);
             if ($competency) {
-                $answer['competency'] =
-                    $this->getCompetencyHandler()->put(
-                        $competency,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['competency'] =
-                    $this->getCompetencyHandler()->post($this->getPostData($request));
+                $competency = $this->getCompetencyHandler()
+                    ->createCompetency();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['competency'] =
+                $this->getCompetencyHandler()->put(
+                    $competency,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -217,15 +233,16 @@ class CompetencyController extends FOSRestController
      * Partial Update to a Competency.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Competency",
      *   description = "Partial Update to a Competency.",
-     *   input="Ilios\CoreBundle\Form\CompetencyType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CompetencyType",
      *   output="Ilios\CoreBundle\Entity\Competency",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="Competency identifier."
      *     }
      *   },
@@ -236,11 +253,10 @@ class CompetencyController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -259,13 +275,14 @@ class CompetencyController extends FOSRestController
      * Delete a Competency.
      *
      * @ApiDoc(
+     *   section = "Competency",
      *   description = "Delete a Competency entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "Competency identifier"
      *     }
      *   },
@@ -276,17 +293,17 @@ class CompetencyController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal CompetencyInterface $competency
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $competency = $this->getOr404($id);
+
         try {
             $this->getCompetencyHandler()
                 ->deleteCompetency($competency);
@@ -301,28 +318,36 @@ class CompetencyController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CompetencyInterface $entity
+     * @return CompetencyInterface $competency
      */
     protected function getOr404($id)
     {
-        $entity = $this->getCompetencyHandler()
+        $competency = $this->getCompetencyHandler()
             ->findCompetencyBy(['id' => $id]);
-        if (!$entity) {
+        if (!$competency) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $competency;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('competency', array());
+        $data = $request->request->get('competency');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return CompetencyHandler
      */

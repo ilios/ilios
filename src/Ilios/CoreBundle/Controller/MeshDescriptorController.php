@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\MeshDescriptorHandler;
 use Ilios\CoreBundle\Entity\MeshDescriptorInterface;
 
 /**
- * MeshDescriptor controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("MeshDescriptor")
+ * Class MeshDescriptorController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("MeshDescriptors")
  */
 class MeshDescriptorController extends FOSRestController
 {
-    
     /**
      * Get a MeshDescriptor
      *
      * @ApiDoc(
+     *   section = "MeshDescriptor",
      *   description = "Get a MeshDescriptor.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class MeshDescriptorController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['meshDescriptor'] = $this->getOr404($id);
+        $answer['meshDescriptors'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all MeshDescriptor.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshDescriptor",
      *   description = "Get all MeshDescriptor.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
      *   statusCodes = {
      *     200 = "List of all MeshDescriptor",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class MeshDescriptorController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class MeshDescriptorController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['meshDescriptors'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class MeshDescriptorController extends FOSRestController
      * Create a MeshDescriptor.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshDescriptor",
      *   description = "Create a MeshDescriptor.",
-     *   input="Ilios\CoreBundle\Form\MeshDescriptorType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshDescriptorType",
      *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
      *   statusCodes={
      *     201 = "Created MeshDescriptor.",
@@ -149,7 +149,7 @@ class MeshDescriptorController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class MeshDescriptorController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshDescriptorHandler()->post($this->getPostData($request));
-            $answer['meshDescriptor'] = $new;
+            $meshdescriptor = $this->getMeshDescriptorHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_meshdescriptors',
+                    ['id' => $meshdescriptor->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class MeshDescriptorController extends FOSRestController
      * Update a MeshDescriptor.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshDescriptor",
      *   description = "Update a MeshDescriptor entity.",
-     *   input="Ilios\CoreBundle\Form\MeshDescriptorType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshDescriptorType",
      *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
      *   statusCodes={
      *     200 = "Updated MeshDescriptor.",
@@ -183,10 +195,10 @@ class MeshDescriptorController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class MeshDescriptorController extends FOSRestController
             $meshDescriptor = $this->getMeshDescriptorHandler()
                 ->findMeshDescriptorBy(['id'=> $id]);
             if ($meshDescriptor) {
-                $answer['meshDescriptor'] =
-                    $this->getMeshDescriptorHandler()->put(
-                        $meshDescriptor,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshDescriptor'] =
-                    $this->getMeshDescriptorHandler()->post($this->getPostData($request));
+                $meshDescriptor = $this->getMeshDescriptorHandler()
+                    ->createMeshDescriptor();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['meshDescriptor'] =
+                $this->getMeshDescriptorHandler()->put(
+                    $meshDescriptor,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class MeshDescriptorController extends FOSRestController
      * Partial Update to a MeshDescriptor.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshDescriptor",
      *   description = "Partial Update to a MeshDescriptor.",
-     *   input="Ilios\CoreBundle\Form\MeshDescriptorType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshDescriptorType",
      *   output="Ilios\CoreBundle\Entity\MeshDescriptor",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class MeshDescriptorController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class MeshDescriptorController extends FOSRestController
      * Delete a MeshDescriptor.
      *
      * @ApiDoc(
+     *   section = "MeshDescriptor",
      *   description = "Delete a MeshDescriptor entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class MeshDescriptorController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal MeshDescriptorInterface $meshDescriptor
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $meshDescriptor = $this->getOr404($id);
+
         try {
             $this->getMeshDescriptorHandler()
                 ->deleteMeshDescriptor($meshDescriptor);
@@ -304,28 +318,36 @@ class MeshDescriptorController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return MeshDescriptorInterface $entity
+     * @return MeshDescriptorInterface $meshDescriptor
      */
     protected function getOr404($id)
     {
-        $entity = $this->getMeshDescriptorHandler()
+        $meshDescriptor = $this->getMeshDescriptorHandler()
             ->findMeshDescriptorBy(['id' => $id]);
-        if (!$entity) {
+        if (!$meshDescriptor) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $meshDescriptor;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('meshDescriptor', array());
+        $data = $request->request->get('meshDescriptor');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return MeshDescriptorHandler
      */

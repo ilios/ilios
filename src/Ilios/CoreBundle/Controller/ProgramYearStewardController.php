@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\ProgramYearStewardHandler;
 use Ilios\CoreBundle\Entity\ProgramYearStewardInterface;
 
 /**
- * ProgramYearSteward controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("ProgramYearSteward")
+ * Class ProgramYearStewardController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("ProgramYearStewards")
  */
 class ProgramYearStewardController extends FOSRestController
 {
-    
     /**
      * Get a ProgramYearSteward
      *
      * @ApiDoc(
+     *   section = "ProgramYearSteward",
      *   description = "Get a ProgramYearSteward.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="ProgramYearSteward identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class ProgramYearStewardController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['programYearSteward'] = $this->getOr404($id);
+        $answer['programYearStewards'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all ProgramYearSteward.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYearSteward",
      *   description = "Get all ProgramYearSteward.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\ProgramYearSteward",
      *   statusCodes = {
      *     200 = "List of all ProgramYearSteward",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class ProgramYearStewardController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class ProgramYearStewardController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['programYearStewards'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class ProgramYearStewardController extends FOSRestController
      * Create a ProgramYearSteward.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYearSteward",
      *   description = "Create a ProgramYearSteward.",
-     *   input="Ilios\CoreBundle\Form\ProgramYearStewardType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramYearStewardType",
      *   output="Ilios\CoreBundle\Entity\ProgramYearSteward",
      *   statusCodes={
      *     201 = "Created ProgramYearSteward.",
@@ -149,7 +149,7 @@ class ProgramYearStewardController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class ProgramYearStewardController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getProgramYearStewardHandler()->post($this->getPostData($request));
-            $answer['programYearSteward'] = $new;
+            $programyearsteward = $this->getProgramYearStewardHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_programyearstewards',
+                    ['id' => $programyearsteward->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class ProgramYearStewardController extends FOSRestController
      * Update a ProgramYearSteward.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYearSteward",
      *   description = "Update a ProgramYearSteward entity.",
-     *   input="Ilios\CoreBundle\Form\ProgramYearStewardType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramYearStewardType",
      *   output="Ilios\CoreBundle\Entity\ProgramYearSteward",
      *   statusCodes={
      *     200 = "Updated ProgramYearSteward.",
@@ -183,10 +195,10 @@ class ProgramYearStewardController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class ProgramYearStewardController extends FOSRestController
             $programYearSteward = $this->getProgramYearStewardHandler()
                 ->findProgramYearStewardBy(['id'=> $id]);
             if ($programYearSteward) {
-                $answer['programYearSteward'] =
-                    $this->getProgramYearStewardHandler()->put(
-                        $programYearSteward,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['programYearSteward'] =
-                    $this->getProgramYearStewardHandler()->post($this->getPostData($request));
+                $programYearSteward = $this->getProgramYearStewardHandler()
+                    ->createProgramYearSteward();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['programYearSteward'] =
+                $this->getProgramYearStewardHandler()->put(
+                    $programYearSteward,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class ProgramYearStewardController extends FOSRestController
      * Partial Update to a ProgramYearSteward.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "ProgramYearSteward",
      *   description = "Partial Update to a ProgramYearSteward.",
-     *   input="Ilios\CoreBundle\Form\ProgramYearStewardType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ProgramYearStewardType",
      *   output="Ilios\CoreBundle\Entity\ProgramYearSteward",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="ProgramYearSteward identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class ProgramYearStewardController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class ProgramYearStewardController extends FOSRestController
      * Delete a ProgramYearSteward.
      *
      * @ApiDoc(
+     *   section = "ProgramYearSteward",
      *   description = "Delete a ProgramYearSteward entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "ProgramYearSteward identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class ProgramYearStewardController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal ProgramYearStewardInterface $programYearSteward
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $programYearSteward = $this->getOr404($id);
+
         try {
             $this->getProgramYearStewardHandler()
                 ->deleteProgramYearSteward($programYearSteward);
@@ -304,28 +318,36 @@ class ProgramYearStewardController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return ProgramYearStewardInterface $entity
+     * @return ProgramYearStewardInterface $programYearSteward
      */
     protected function getOr404($id)
     {
-        $entity = $this->getProgramYearStewardHandler()
+        $programYearSteward = $this->getProgramYearStewardHandler()
             ->findProgramYearStewardBy(['id' => $id]);
-        if (!$entity) {
+        if (!$programYearSteward) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $programYearSteward;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('programYearSteward', array());
+        $data = $request->request->get('programYearSteward');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return ProgramYearStewardHandler
      */

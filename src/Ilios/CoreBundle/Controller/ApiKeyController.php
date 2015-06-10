@@ -130,7 +130,7 @@ class ApiKeyController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Create a ApiKey.",
-     *   input="Ilios\CoreBundle\Form\ApiKeyType",
+     *   input="Ilios\CoreBundle\Form\Type\ApiKeyType",
      *   output="Ilios\CoreBundle\Entity\ApiKey",
      *   statusCodes={
      *     201 = "Created ApiKey.",
@@ -163,7 +163,7 @@ class ApiKeyController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Update a ApiKey entity.",
-     *   input="Ilios\CoreBundle\Form\ApiKeyType",
+     *   input="Ilios\CoreBundle\Form\Type\ApiKeyType",
      *   output="Ilios\CoreBundle\Entity\ApiKey",
      *   statusCodes={
      *     200 = "Updated ApiKey.",
@@ -205,7 +205,7 @@ class ApiKeyController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Partial Update to a ApiKey.",
-     *   input="Ilios\CoreBundle\Form\ApiKeyType",
+     *   input="Ilios\CoreBundle\Form\Type\ApiKeyType",
      *   output="Ilios\CoreBundle\Entity\ApiKey",
      *   requirements={
      *     {"name"="user", "dataType"="", "requirement"="", "description"="ApiKey identifier."}

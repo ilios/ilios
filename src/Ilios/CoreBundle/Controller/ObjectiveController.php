@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\ObjectiveHandler;
 use Ilios\CoreBundle\Entity\ObjectiveInterface;
 
 /**
- * Objective controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Objective")
+ * Class ObjectiveController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Objectives")
  */
 class ObjectiveController extends FOSRestController
 {
-    
     /**
      * Get a Objective
      *
      * @ApiDoc(
+     *   section = "Objective",
      *   description = "Get a Objective.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="Objective identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class ObjectiveController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['objective'] = $this->getOr404($id);
+        $answer['objectives'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all Objective.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Objective",
      *   description = "Get all Objective.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\Objective",
      *   statusCodes = {
      *     200 = "List of all Objective",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class ObjectiveController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class ObjectiveController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['objectives'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class ObjectiveController extends FOSRestController
      * Create a Objective.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Objective",
      *   description = "Create a Objective.",
-     *   input="Ilios\CoreBundle\Form\ObjectiveType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ObjectiveType",
      *   output="Ilios\CoreBundle\Entity\Objective",
      *   statusCodes={
      *     201 = "Created Objective.",
@@ -149,7 +149,7 @@ class ObjectiveController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class ObjectiveController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getObjectiveHandler()->post($this->getPostData($request));
-            $answer['objective'] = $new;
+            $objective = $this->getObjectiveHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_objectives',
+                    ['id' => $objective->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class ObjectiveController extends FOSRestController
      * Update a Objective.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Objective",
      *   description = "Update a Objective entity.",
-     *   input="Ilios\CoreBundle\Form\ObjectiveType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ObjectiveType",
      *   output="Ilios\CoreBundle\Entity\Objective",
      *   statusCodes={
      *     200 = "Updated Objective.",
@@ -183,10 +195,10 @@ class ObjectiveController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class ObjectiveController extends FOSRestController
             $objective = $this->getObjectiveHandler()
                 ->findObjectiveBy(['id'=> $id]);
             if ($objective) {
-                $answer['objective'] =
-                    $this->getObjectiveHandler()->put(
-                        $objective,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['objective'] =
-                    $this->getObjectiveHandler()->post($this->getPostData($request));
+                $objective = $this->getObjectiveHandler()
+                    ->createObjective();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['objective'] =
+                $this->getObjectiveHandler()->put(
+                    $objective,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class ObjectiveController extends FOSRestController
      * Partial Update to a Objective.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Objective",
      *   description = "Partial Update to a Objective.",
-     *   input="Ilios\CoreBundle\Form\ObjectiveType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ObjectiveType",
      *   output="Ilios\CoreBundle\Entity\Objective",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="Objective identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class ObjectiveController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class ObjectiveController extends FOSRestController
      * Delete a Objective.
      *
      * @ApiDoc(
+     *   section = "Objective",
      *   description = "Delete a Objective entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "Objective identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class ObjectiveController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal ObjectiveInterface $objective
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $objective = $this->getOr404($id);
+
         try {
             $this->getObjectiveHandler()
                 ->deleteObjective($objective);
@@ -304,28 +318,36 @@ class ObjectiveController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return ObjectiveInterface $entity
+     * @return ObjectiveInterface $objective
      */
     protected function getOr404($id)
     {
-        $entity = $this->getObjectiveHandler()
+        $objective = $this->getObjectiveHandler()
             ->findObjectiveBy(['id' => $id]);
-        if (!$entity) {
+        if (!$objective) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $objective;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('objective', array());
+        $data = $request->request->get('objective');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return ObjectiveHandler
      */

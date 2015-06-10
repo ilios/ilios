@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\CurriculumInventoryInstitutionHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventoryInstitutionInterface;
 
 /**
- * CurriculumInventoryInstitution controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("CurriculumInventoryInstitution")
+ * Class CurriculumInventoryInstitutionController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("CurriculumInventoryInstitutions")
  */
 class CurriculumInventoryInstitutionController extends FOSRestController
 {
-    
     /**
      * Get a CurriculumInventoryInstitution
      *
      * @ApiDoc(
+     *   section = "CurriculumInventoryInstitution",
      *   description = "Get a CurriculumInventoryInstitution.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['curriculumInventoryInstitution'] = $this->getOr404($id);
+        $answer['curriculumInventoryInstitutions'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all CurriculumInventoryInstitution.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryInstitution",
      *   description = "Get all CurriculumInventoryInstitution.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryInstitution",
      *   statusCodes = {
      *     200 = "List of all CurriculumInventoryInstitution",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['curriculumInventoryInstitutions'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      * Create a CurriculumInventoryInstitution.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryInstitution",
      *   description = "Create a CurriculumInventoryInstitution.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryInstitutionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryInstitutionType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryInstitution",
      *   statusCodes={
      *     201 = "Created CurriculumInventoryInstitution.",
@@ -149,7 +149,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class CurriculumInventoryInstitutionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryInstitutionHandler()->post($this->getPostData($request));
-            $answer['curriculumInventoryInstitution'] = $new;
+            $curriculuminventoryinstitution = $this->getCurriculumInventoryInstitutionHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_curriculuminventoryinstitutions',
+                    ['school' => $curriculuminventoryinstitution->getSchool()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      * Update a CurriculumInventoryInstitution.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryInstitution",
      *   description = "Update a CurriculumInventoryInstitution entity.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryInstitutionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryInstitutionType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryInstitution",
      *   statusCodes={
      *     200 = "Updated CurriculumInventoryInstitution.",
@@ -183,10 +195,10 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class CurriculumInventoryInstitutionController extends FOSRestController
             $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
                 ->findCurriculumInventoryInstitutionBy(['school'=> $id]);
             if ($curriculumInventoryInstitution) {
-                $answer['curriculumInventoryInstitution'] =
-                    $this->getCurriculumInventoryInstitutionHandler()->put(
-                        $curriculumInventoryInstitution,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventoryInstitution'] =
-                    $this->getCurriculumInventoryInstitutionHandler()->post($this->getPostData($request));
+                $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
+                    ->createCurriculumInventoryInstitution();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['curriculumInventoryInstitution'] =
+                $this->getCurriculumInventoryInstitutionHandler()->put(
+                    $curriculumInventoryInstitution,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      * Partial Update to a CurriculumInventoryInstitution.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryInstitution",
      *   description = "Partial Update to a CurriculumInventoryInstitution.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryInstitutionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryInstitutionType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryInstitution",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      * Delete a CurriculumInventoryInstitution.
      *
      * @ApiDoc(
+     *   section = "CurriculumInventoryInstitution",
      *   description = "Delete a CurriculumInventoryInstitution entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $curriculumInventoryInstitution = $this->getOr404($id);
+
         try {
             $this->getCurriculumInventoryInstitutionHandler()
                 ->deleteCurriculumInventoryInstitution($curriculumInventoryInstitution);
@@ -304,28 +318,36 @@ class CurriculumInventoryInstitutionController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CurriculumInventoryInstitutionInterface $entity
+     * @return CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
      */
     protected function getOr404($id)
     {
-        $entity = $this->getCurriculumInventoryInstitutionHandler()
+        $curriculumInventoryInstitution = $this->getCurriculumInventoryInstitutionHandler()
             ->findCurriculumInventoryInstitutionBy(['school' => $id]);
-        if (!$entity) {
+        if (!$curriculumInventoryInstitution) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $curriculumInventoryInstitution;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('curriculumInventoryInstitution', array());
+        $data = $request->request->get('curriculumInventoryInstitution');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return CurriculumInventoryInstitutionHandler
      */

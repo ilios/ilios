@@ -7,10 +7,7 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -130,7 +127,7 @@ class CISessionController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Create a CISession.",
-     *   input="Ilios\CoreBundle\Form\CISessionType",
+     *   input="Ilios\CoreBundle\Form\Type\CISessionType",
      *   output="Ilios\CoreBundle\Entity\CISession",
      *   statusCodes={
      *     201 = "Created CISession.",
@@ -163,7 +160,7 @@ class CISessionController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Update a CISession entity.",
-     *   input="Ilios\CoreBundle\Form\CISessionType",
+     *   input="Ilios\CoreBundle\Form\Type\CISessionType",
      *   output="Ilios\CoreBundle\Entity\CISession",
      *   statusCodes={
      *     200 = "Updated CISession.",
@@ -205,7 +202,7 @@ class CISessionController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Partial Update to a CISession.",
-     *   input="Ilios\CoreBundle\Form\CISessionType",
+     *   input="Ilios\CoreBundle\Form\Type\CISessionType",
      *   output="Ilios\CoreBundle\Entity\CISession",
      *   requirements={
      *     {"name"="id", "dataType"="string", "requirement"="\w+", "description"="CISession identifier."}

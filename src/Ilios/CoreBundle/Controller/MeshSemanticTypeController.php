@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\MeshSemanticTypeHandler;
 use Ilios\CoreBundle\Entity\MeshSemanticTypeInterface;
 
 /**
- * MeshSemanticType controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("MeshSemanticType")
+ * Class MeshSemanticTypeController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("MeshSemanticTypes")
  */
 class MeshSemanticTypeController extends FOSRestController
 {
-    
     /**
      * Get a MeshSemanticType
      *
      * @ApiDoc(
+     *   section = "MeshSemanticType",
      *   description = "Get a MeshSemanticType.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class MeshSemanticTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['meshSemanticType'] = $this->getOr404($id);
+        $answer['meshSemanticTypes'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all MeshSemanticType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshSemanticType",
      *   description = "Get all MeshSemanticType.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\MeshSemanticType",
      *   statusCodes = {
      *     200 = "List of all MeshSemanticType",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class MeshSemanticTypeController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class MeshSemanticTypeController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['meshSemanticTypes'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class MeshSemanticTypeController extends FOSRestController
      * Create a MeshSemanticType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshSemanticType",
      *   description = "Create a MeshSemanticType.",
-     *   input="Ilios\CoreBundle\Form\MeshSemanticTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshSemanticTypeType",
      *   output="Ilios\CoreBundle\Entity\MeshSemanticType",
      *   statusCodes={
      *     201 = "Created MeshSemanticType.",
@@ -149,7 +149,7 @@ class MeshSemanticTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class MeshSemanticTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshSemanticTypeHandler()->post($this->getPostData($request));
-            $answer['meshSemanticType'] = $new;
+            $meshsemantictype = $this->getMeshSemanticTypeHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_meshsemantictypes',
+                    ['id' => $meshsemantictype->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class MeshSemanticTypeController extends FOSRestController
      * Update a MeshSemanticType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshSemanticType",
      *   description = "Update a MeshSemanticType entity.",
-     *   input="Ilios\CoreBundle\Form\MeshSemanticTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshSemanticTypeType",
      *   output="Ilios\CoreBundle\Entity\MeshSemanticType",
      *   statusCodes={
      *     200 = "Updated MeshSemanticType.",
@@ -183,10 +195,10 @@ class MeshSemanticTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class MeshSemanticTypeController extends FOSRestController
             $meshSemanticType = $this->getMeshSemanticTypeHandler()
                 ->findMeshSemanticTypeBy(['id'=> $id]);
             if ($meshSemanticType) {
-                $answer['meshSemanticType'] =
-                    $this->getMeshSemanticTypeHandler()->put(
-                        $meshSemanticType,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshSemanticType'] =
-                    $this->getMeshSemanticTypeHandler()->post($this->getPostData($request));
+                $meshSemanticType = $this->getMeshSemanticTypeHandler()
+                    ->createMeshSemanticType();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['meshSemanticType'] =
+                $this->getMeshSemanticTypeHandler()->put(
+                    $meshSemanticType,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class MeshSemanticTypeController extends FOSRestController
      * Partial Update to a MeshSemanticType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshSemanticType",
      *   description = "Partial Update to a MeshSemanticType.",
-     *   input="Ilios\CoreBundle\Form\MeshSemanticTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshSemanticTypeType",
      *   output="Ilios\CoreBundle\Entity\MeshSemanticType",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class MeshSemanticTypeController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class MeshSemanticTypeController extends FOSRestController
      * Delete a MeshSemanticType.
      *
      * @ApiDoc(
+     *   section = "MeshSemanticType",
      *   description = "Delete a MeshSemanticType entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class MeshSemanticTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal MeshSemanticTypeInterface $meshSemanticType
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $meshSemanticType = $this->getOr404($id);
+
         try {
             $this->getMeshSemanticTypeHandler()
                 ->deleteMeshSemanticType($meshSemanticType);
@@ -304,28 +318,36 @@ class MeshSemanticTypeController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return MeshSemanticTypeInterface $entity
+     * @return MeshSemanticTypeInterface $meshSemanticType
      */
     protected function getOr404($id)
     {
-        $entity = $this->getMeshSemanticTypeHandler()
+        $meshSemanticType = $this->getMeshSemanticTypeHandler()
             ->findMeshSemanticTypeBy(['id' => $id]);
-        if (!$entity) {
+        if (!$meshSemanticType) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $meshSemanticType;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('meshSemanticType', array());
+        $data = $request->request->get('meshSemanticType');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return MeshSemanticTypeHandler
      */

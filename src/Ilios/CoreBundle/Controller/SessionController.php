@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\SessionHandler;
 use Ilios\CoreBundle\Entity\SessionInterface;
 
 /**
- * Session controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Session")
+ * Class SessionController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Sessions")
  */
 class SessionController extends FOSRestController
 {
-    
     /**
      * Get a Session
      *
      * @ApiDoc(
+     *   section = "Session",
      *   description = "Get a Session.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="Session identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class SessionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['session'] = $this->getOr404($id);
+        $answer['sessions'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all Session.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Session",
      *   description = "Get all Session.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\Session",
      *   statusCodes = {
      *     200 = "List of all Session",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class SessionController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class SessionController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['sessions'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class SessionController extends FOSRestController
      * Create a Session.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Session",
      *   description = "Create a Session.",
-     *   input="Ilios\CoreBundle\Form\SessionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\SessionType",
      *   output="Ilios\CoreBundle\Entity\Session",
      *   statusCodes={
      *     201 = "Created Session.",
@@ -149,7 +149,7 @@ class SessionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class SessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionHandler()->post($this->getPostData($request));
-            $answer['session'] = $new;
+            $session = $this->getSessionHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_sessions',
+                    ['id' => $session->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class SessionController extends FOSRestController
      * Update a Session.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Session",
      *   description = "Update a Session entity.",
-     *   input="Ilios\CoreBundle\Form\SessionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\SessionType",
      *   output="Ilios\CoreBundle\Entity\Session",
      *   statusCodes={
      *     200 = "Updated Session.",
@@ -183,10 +195,10 @@ class SessionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class SessionController extends FOSRestController
             $session = $this->getSessionHandler()
                 ->findSessionBy(['id'=> $id]);
             if ($session) {
-                $answer['session'] =
-                    $this->getSessionHandler()->put(
-                        $session,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['session'] =
-                    $this->getSessionHandler()->post($this->getPostData($request));
+                $session = $this->getSessionHandler()
+                    ->createSession();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['session'] =
+                $this->getSessionHandler()->put(
+                    $session,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class SessionController extends FOSRestController
      * Partial Update to a Session.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Session",
      *   description = "Partial Update to a Session.",
-     *   input="Ilios\CoreBundle\Form\SessionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\SessionType",
      *   output="Ilios\CoreBundle\Entity\Session",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="Session identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class SessionController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class SessionController extends FOSRestController
      * Delete a Session.
      *
      * @ApiDoc(
+     *   section = "Session",
      *   description = "Delete a Session entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "Session identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class SessionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal SessionInterface $session
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $session = $this->getOr404($id);
+
         try {
             $this->getSessionHandler()
                 ->deleteSession($session);
@@ -304,28 +318,36 @@ class SessionController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return SessionInterface $entity
+     * @return SessionInterface $session
      */
     protected function getOr404($id)
     {
-        $entity = $this->getSessionHandler()
+        $session = $this->getSessionHandler()
             ->findSessionBy(['id' => $id]);
-        if (!$entity) {
+        if (!$session) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $session;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('session', array());
+        $data = $request->request->get('session');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return SessionHandler
      */

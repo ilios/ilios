@@ -7,10 +7,7 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,12 +48,11 @@ class IlmSessionController extends FOSRestController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
         $answer['ilmSession'] = $this->getOr404($id);
 
@@ -140,7 +136,7 @@ class IlmSessionController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Create a IlmSessionFacet.",
-     *   input="Ilios\CoreBundle\Form\IlmSessionFacetType",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
      *     201 = "Created IlmSessionFacet.",
@@ -173,7 +169,7 @@ class IlmSessionController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Update a IlmSessionFacet entity.",
-     *   input="Ilios\CoreBundle\Form\IlmSessionFacetType",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
      *     200 = "Updated IlmSessionFacet.",
@@ -222,7 +218,7 @@ class IlmSessionController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Partial Update to a IlmSessionFacet.",
-     *   input="Ilios\CoreBundle\Form\IlmSessionFacetType",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   requirements={
      *     {
@@ -281,13 +277,12 @@ class IlmSessionController extends FOSRestController
      *
      * @View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal IlmSessionFacetInterface $ilmSessionFacet
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $ilmSessionFacet = $this->getOr404($id);
         try {

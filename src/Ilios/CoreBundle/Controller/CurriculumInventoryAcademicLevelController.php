@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\CurriculumInventoryAcademicLevelHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevelInterface;
 
 /**
- * CurriculumInventoryAcademicLevel controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("CurriculumInventoryAcademicLevel")
+ * Class CurriculumInventoryAcademicLevelController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("CurriculumInventoryAcademicLevels")
  */
 class CurriculumInventoryAcademicLevelController extends FOSRestController
 {
-    
     /**
      * Get a CurriculumInventoryAcademicLevel
      *
      * @ApiDoc(
+     *   section = "CurriculumInventoryAcademicLevel",
      *   description = "Get a CurriculumInventoryAcademicLevel.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="CurriculumInventoryAcademicLevel identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['curriculumInventoryAcademicLevel'] = $this->getOr404($id);
+        $answer['curriculumInventoryAcademicLevels'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all CurriculumInventoryAcademicLevel.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryAcademicLevel",
      *   description = "Get all CurriculumInventoryAcademicLevel.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel",
      *   statusCodes = {
      *     200 = "List of all CurriculumInventoryAcademicLevel",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['curriculumInventoryAcademicLevels'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      * Create a CurriculumInventoryAcademicLevel.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryAcademicLevel",
      *   description = "Create a CurriculumInventoryAcademicLevel.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryAcademicLevelType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryAcademicLevelType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel",
      *   statusCodes={
      *     201 = "Created CurriculumInventoryAcademicLevel.",
@@ -149,7 +149,7 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventoryAcademicLevelHandler()->post($this->getPostData($request));
-            $answer['curriculumInventoryAcademicLevel'] = $new;
+            $curriculuminventoryacademiclevel = $this->getCurriculumInventoryAcademicLevelHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_curriculuminventoryacademiclevels',
+                    ['id' => $curriculuminventoryacademiclevel->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      * Update a CurriculumInventoryAcademicLevel.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryAcademicLevel",
      *   description = "Update a CurriculumInventoryAcademicLevel entity.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryAcademicLevelType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryAcademicLevelType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel",
      *   statusCodes={
      *     200 = "Updated CurriculumInventoryAcademicLevel.",
@@ -183,10 +195,10 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
             $curriculumInventoryAcademicLevel = $this->getCurriculumInventoryAcademicLevelHandler()
                 ->findCurriculumInventoryAcademicLevelBy(['id'=> $id]);
             if ($curriculumInventoryAcademicLevel) {
-                $answer['curriculumInventoryAcademicLevel'] =
-                    $this->getCurriculumInventoryAcademicLevelHandler()->put(
-                        $curriculumInventoryAcademicLevel,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventoryAcademicLevel'] =
-                    $this->getCurriculumInventoryAcademicLevelHandler()->post($this->getPostData($request));
+                $curriculumInventoryAcademicLevel = $this->getCurriculumInventoryAcademicLevelHandler()
+                    ->createCurriculumInventoryAcademicLevel();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['curriculumInventoryAcademicLevel'] =
+                $this->getCurriculumInventoryAcademicLevelHandler()->put(
+                    $curriculumInventoryAcademicLevel,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      * Partial Update to a CurriculumInventoryAcademicLevel.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventoryAcademicLevel",
      *   description = "Partial Update to a CurriculumInventoryAcademicLevel.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventoryAcademicLevelType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventoryAcademicLevelType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventoryAcademicLevel",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="CurriculumInventoryAcademicLevel identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      * Delete a CurriculumInventoryAcademicLevel.
      *
      * @ApiDoc(
+     *   section = "CurriculumInventoryAcademicLevel",
      *   description = "Delete a CurriculumInventoryAcademicLevel entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "CurriculumInventoryAcademicLevel identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $curriculumInventoryAcademicLevel = $this->getOr404($id);
+
         try {
             $this->getCurriculumInventoryAcademicLevelHandler()
                 ->deleteCurriculumInventoryAcademicLevel($curriculumInventoryAcademicLevel);
@@ -304,28 +318,36 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CurriculumInventoryAcademicLevelInterface $entity
+     * @return CurriculumInventoryAcademicLevelInterface $curriculumInventoryAcademicLevel
      */
     protected function getOr404($id)
     {
-        $entity = $this->getCurriculumInventoryAcademicLevelHandler()
+        $curriculumInventoryAcademicLevel = $this->getCurriculumInventoryAcademicLevelHandler()
             ->findCurriculumInventoryAcademicLevelBy(['id' => $id]);
-        if (!$entity) {
+        if (!$curriculumInventoryAcademicLevel) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $curriculumInventoryAcademicLevel;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('curriculumInventoryAcademicLevel', array());
+        $data = $request->request->get('curriculumInventoryAcademicLevel');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return CurriculumInventoryAcademicLevelHandler
      */

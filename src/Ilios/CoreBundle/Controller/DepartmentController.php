@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\DepartmentHandler;
 use Ilios\CoreBundle\Entity\DepartmentInterface;
 
 /**
- * Department controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Department")
+ * Class DepartmentController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Departments")
  */
 class DepartmentController extends FOSRestController
 {
-    
     /**
      * Get a Department
      *
      * @ApiDoc(
+     *   section = "Department",
      *   description = "Get a Department.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="Department identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class DepartmentController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['department'] = $this->getOr404($id);
+        $answer['departments'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all Department.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Department",
      *   description = "Get all Department.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\Department",
      *   statusCodes = {
      *     200 = "List of all Department",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class DepartmentController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class DepartmentController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['departments'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class DepartmentController extends FOSRestController
      * Create a Department.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Department",
      *   description = "Create a Department.",
-     *   input="Ilios\CoreBundle\Form\DepartmentType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\DepartmentType",
      *   output="Ilios\CoreBundle\Entity\Department",
      *   statusCodes={
      *     201 = "Created Department.",
@@ -149,7 +149,7 @@ class DepartmentController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class DepartmentController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getDepartmentHandler()->post($this->getPostData($request));
-            $answer['department'] = $new;
+            $department = $this->getDepartmentHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_departments',
+                    ['id' => $department->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class DepartmentController extends FOSRestController
      * Update a Department.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Department",
      *   description = "Update a Department entity.",
-     *   input="Ilios\CoreBundle\Form\DepartmentType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\DepartmentType",
      *   output="Ilios\CoreBundle\Entity\Department",
      *   statusCodes={
      *     200 = "Updated Department.",
@@ -183,10 +195,10 @@ class DepartmentController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class DepartmentController extends FOSRestController
             $department = $this->getDepartmentHandler()
                 ->findDepartmentBy(['id'=> $id]);
             if ($department) {
-                $answer['department'] =
-                    $this->getDepartmentHandler()->put(
-                        $department,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['department'] =
-                    $this->getDepartmentHandler()->post($this->getPostData($request));
+                $department = $this->getDepartmentHandler()
+                    ->createDepartment();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['department'] =
+                $this->getDepartmentHandler()->put(
+                    $department,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class DepartmentController extends FOSRestController
      * Partial Update to a Department.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Department",
      *   description = "Partial Update to a Department.",
-     *   input="Ilios\CoreBundle\Form\DepartmentType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\DepartmentType",
      *   output="Ilios\CoreBundle\Entity\Department",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="Department identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class DepartmentController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class DepartmentController extends FOSRestController
      * Delete a Department.
      *
      * @ApiDoc(
+     *   section = "Department",
      *   description = "Delete a Department entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "Department identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class DepartmentController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal DepartmentInterface $department
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $department = $this->getOr404($id);
+
         try {
             $this->getDepartmentHandler()
                 ->deleteDepartment($department);
@@ -304,28 +318,36 @@ class DepartmentController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return DepartmentInterface $entity
+     * @return DepartmentInterface $department
      */
     protected function getOr404($id)
     {
-        $entity = $this->getDepartmentHandler()
+        $department = $this->getDepartmentHandler()
             ->findDepartmentBy(['id' => $id]);
-        if (!$entity) {
+        if (!$department) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $department;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('department', array());
+        $data = $request->request->get('department');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return DepartmentHandler
      */

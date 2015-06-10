@@ -7,10 +7,7 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -46,12 +43,11 @@ class MeshTermController extends FOSRestController
      *
      * @View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
         $answer['meshTerm'] = $this->getOr404($id);
 
@@ -130,7 +126,7 @@ class MeshTermController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Create a MeshTerm.",
-     *   input="Ilios\CoreBundle\Form\MeshTermType",
+     *   input="Ilios\CoreBundle\Form\Type\MeshTermType",
      *   output="Ilios\CoreBundle\Entity\MeshTerm",
      *   statusCodes={
      *     201 = "Created MeshTerm.",
@@ -163,7 +159,7 @@ class MeshTermController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Update a MeshTerm entity.",
-     *   input="Ilios\CoreBundle\Form\MeshTermType",
+     *   input="Ilios\CoreBundle\Form\Type\MeshTermType",
      *   output="Ilios\CoreBundle\Entity\MeshTerm",
      *   statusCodes={
      *     200 = "Updated MeshTerm.",
@@ -205,7 +201,7 @@ class MeshTermController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Partial Update to a MeshTerm.",
-     *   input="Ilios\CoreBundle\Form\MeshTermType",
+     *   input="Ilios\CoreBundle\Form\Type\MeshTermType",
      *   output="Ilios\CoreBundle\Entity\MeshTerm",
      *   requirements={
      *     {"name"="meshTermUid", "dataType"="string", "requirement"="\w+", "description"="MeshTerm identifier."}
@@ -255,13 +251,12 @@ class MeshTermController extends FOSRestController
      *
      * @View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal MeshTermInterface $meshTerm
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $meshTerm = $this->getOr404($id);
         try {
