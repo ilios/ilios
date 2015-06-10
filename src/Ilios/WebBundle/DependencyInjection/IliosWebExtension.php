@@ -22,7 +22,19 @@ class IliosWebExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        //inject configuration data into the container
+        $container->setParameter('ilios_web.environment', $config['environment']);
+        $container->setParameter('ilios_web.version', $config['version']);
+
+        if ($config['environment'] == 'production') {
+            $container->setParameter('ilios_web.bucket_url', $config['production_bucket_path']);
+        }
+        if ($config['environment'] == 'staging') {
+            $container->setParameter('ilios_web.bucket_url', $config['staging_bucket_path']);
+        }
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+
     }
 }
