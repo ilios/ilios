@@ -1,10 +1,10 @@
-IliosCoreBundle:
-    resource: "@IliosCoreBundle/Resources/config/routing.yml"
-    prefix:   /api
-
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
+
+IliosCoreBundle:
+    resource: "@IliosCoreBundle/Resources/config/routing.yml"
+    prefix:   /api
 
 ilios_web:
     resource: "@IliosWebBundle/Resources/config/routing.yml"
