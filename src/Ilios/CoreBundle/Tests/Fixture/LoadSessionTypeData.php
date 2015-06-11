@@ -10,7 +10,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class SessionTypes extends AbstractFixture implements
+class LoadSessionTypeData extends AbstractFixture implements
     FixtureInterface,
     DependentFixtureInterface,
     ContainerAwareInterface
@@ -31,8 +31,8 @@ class SessionTypes extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $sessionTypes = $this->container->get(
-            'ilioscore.dataloader.sessiontypes'
-        )->get();
+            'ilioscore.dataloader.sessiontype'
+        )->getAll();
 
         foreach ($sessionTypes as $arr) {
             $sessionType = new SessionType();
@@ -71,9 +71,9 @@ class SessionTypes extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\Schools',
-            'Ilios\CoreBundle\Tests\Fixture\AssessmentOptions',
-            'Ilios\CoreBundle\Tests\Fixture\AamcMethods'
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionsData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData'
         );
     }
 }

@@ -4,8 +4,13 @@ namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class Schools
 {
-    public function get()
+    private static $data;
+
+    protected function setup()
     {
+        if (!empty(self::$data)) {
+            return;
+        }
         $arr = array();
 
         $arr[1] = array(
@@ -1579,6 +1584,28 @@ class Schools
           ]
         );
 
-        return $arr;
+        self::$data = $arr;
+    }
+
+    public function getOne()
+    {
+        $this->setUp();
+        return array_values(self::$data)[0];
+    }
+
+    public function getAll()
+    {
+        $this->setUp();
+        return self::$data;
+    }
+
+    public function create()
+    {
+        return [];
+    }
+
+    public function createInvalid()
+    {
+        return [];
     }
 }

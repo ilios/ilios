@@ -2,76 +2,78 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class AssessmentOptions
+class AssessmentOptions implements DataLoaderInterface
 {
-    public function get()
+    private static $data;
+
+    protected function setup()
     {
+        if (!empty(self::$data)) {
+            return;
+        }
         $arr = array();
 
-        $arr[2] = array(
-          'id' => 2,
-          'sessionTypes' => [
-            '144',
-            '146',
-            '147',
-            '150',
-            '152',
-            '153',
-            '154',
-            '155',
-            '156',
-            '157',
-            '158',
-            '207',
-            '209',
-            '210',
-            '213',
-            '215',
-            '216',
-            '217',
-            '218',
-            '219',
-            '220',
-            '221',
-          ]
-        );
-
         $arr[1] = array(
-          'id' => 1,
+          'id' => "1",
+          'name' => 'summative',
           'sessionTypes' => [
-            '27',
-            '134',
-            '135',
-            '137',
-            '138',
-            '139',
-            '140',
-            '141',
-            '142',
-            '143',
-            '145',
-            '148',
-            '149',
-            '151',
-            '164',
-            '198',
-            '199',
-            '200',
-            '201',
-            '202',
-            '203',
-            '204',
-            '205',
-            '206',
-            '208',
-            '211',
-            '212',
-            '214',
-            '223',
-            '224',
+              "27",
+              "134",
+              "135",
+              "137",
+              "138",
+              "139",
+              "140",
+              "141",
+              "142",
+              "143",
+              "145",
+              "148",
+              "149",
+              "151"
           ]
         );
 
-        return $arr;
+        $arr[2] = array(
+          'id' => "2",
+          'name' => 'formative',
+          'sessionTypes' => [
+              "144",
+              "146",
+              "147",
+              "150",
+              "152",
+              "153",
+              "154",
+              "155",
+              "156",
+              "157",
+              "158"
+          ]
+        );
+
+        self::$data = $arr;
+    }
+
+    public function getOne()
+    {
+        $this->setUp();
+        return array_values(self::$data)[0];
+    }
+
+    public function getAll()
+    {
+        $this->setUp();
+        return self::$data;
+    }
+
+    public function create()
+    {
+        return [];
+    }
+
+    public function createInvalid()
+    {
+        return [];
     }
 }

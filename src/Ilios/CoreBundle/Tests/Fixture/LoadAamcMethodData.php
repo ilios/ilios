@@ -2,14 +2,14 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\School;
+use Ilios\CoreBundle\Entity\AamcMethod;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Schools extends AbstractFixture implements
+class LoadAamcMethodData extends AbstractFixture implements
     FixtureInterface,
     ContainerAwareInterface
 {
@@ -28,22 +28,19 @@ class Schools extends AbstractFixture implements
 
     public function load(ObjectManager $manager)
     {
-        $schools = $this->container->get('ilioscore.dataloader.schools')->get();
-        foreach ($schools as $arr) {
-            $school = new School();
-            $school->setId($arr['id']);
-            $school->setIliosAdministratorEmail(
-                $arr['iliosAdministratorEmail']
-            );
-            $school->setDeleted($arr['deleted']);
-            $school->setChangeAlertRecipients($arr['changeAlertRecipients']);
+        $aamcMethods = $this->container->get('ilioscore.dataloader.aamcmethod')
+            ->getAll();
+        foreach ($aamcMethods as $arr) {
+            $aamcMethod = new AamcMethod();
+            $aamcMethod->setId($arr['id']);
+            $aamcMethod->setDescription($arr['description']);
 
-            $manager->persist($school);
-            $this->addReference('school' . $arr['id'], $school);
+            $manager->persist($aamcMethod);
+            $this->addReference('aamcMethod' . $arr['id'], $aamcMethod);
         }
 
         //We have to disable auto id generation in order to save with ID
-        $metadata = $manager->getClassMetaData(get_class($school));
+        $metadata = $manager->getClassMetaData(get_class($aamcMethod));
         $metadata->setIdGeneratorType(
             \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
         );

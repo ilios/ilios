@@ -2,14 +2,14 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\AamcMethod;
+use Ilios\CoreBundle\Entity\AssessmentOption;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Users extends AbstractFixture implements
+class LoadAssessmentOptionsData extends AbstractFixture implements
     FixtureInterface,
     ContainerAwareInterface
 {
@@ -28,18 +28,21 @@ class Users extends AbstractFixture implements
 
     public function load(ObjectManager $manager)
     {
-        $aamcMethods = $this->container->get('ilioscore.dataloader.aamcmethods')
-            ->get();
-        foreach ($aamcMethods as $arr) {
-            $aamcMethod = new AamcMethod();
-            $aamcMethod->setId($arr['id']);
-
-            $manager->persist($aamcMethod);
-            $this->addReference('aamcMethod' . $arr['id'], $aamcMethod);
+        $assessmentOptions = $this->container->get(
+            'ilioscore.dataloader.assessmentoption'
+        )->getAll();
+        foreach ($assessmentOptions as $arr) {
+            $assessmentOptions = new AssessmentOption();
+            $assessmentOptions->setId($arr['id']);
+            $assessmentOptions->setName($arr['name']);
+            $manager->persist($assessmentOptions);
+            $this->addReference(
+                'assessmentOption' . $arr['id'],
+                $assessmentOptions
+            );
         }
 
-        //We have to disable auto id generation in order to save with ID
-        $metadata = $manager->getClassMetaData(get_class($aamcMethod));
+        $metadata = $manager->getClassMetaData(get_class($assessmentOptions));
         $metadata->setIdGeneratorType(
             \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
         );

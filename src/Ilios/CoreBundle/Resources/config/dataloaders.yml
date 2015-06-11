@@ -54,7 +54,6 @@ parameters:
     ilioscore.dataloader.learnergroup.class: NOT_FOUND
     ilioscore.dataloader.user.class: NOT_FOUND
     ilioscore.dataloader.sessiondescription.class: NOT_FOUND
-    ilioscore.dataloader.assessmentoption.class: NOT_FOUND
 
 services:
     ilioscore.dataloader.user:
