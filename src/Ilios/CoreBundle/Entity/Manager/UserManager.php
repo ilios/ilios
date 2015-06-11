@@ -137,4 +137,19 @@ class UserManager implements UserManagerInterface
     ) {
         return $this->repository->findByQ($q, $orderBy, $limit, $offset);
     }
+
+    /**
+     * @param integer $userId
+     * @param \DateTime $from
+     * @param \DateTime $to
+     *
+     * @return UserEvent[]|Collection
+     */
+    public function findEventsForUser(
+        $userId,
+        \DateTime $from,
+        \DateTime $to
+    ) {
+        return $this->repository->findEventsForUser($userId, $from, $to);
+    }
 }

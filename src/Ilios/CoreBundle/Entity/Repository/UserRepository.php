@@ -3,6 +3,8 @@ namespace Ilios\CoreBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Type as DoctrineType;
+use Ilios\CoreBundle\Classes\UserEvent;
 
 class UserRepository extends EntityRepository
 {
@@ -48,5 +50,61 @@ class UserRepository extends EntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param integer $userId
+     * @param \DateTime $start
+     * @param \DateTime $end
+     *
+     * @return UserEvent[]|Collection
+     */
+    public function findEventsForUser(
+        $id,
+        \DateTime $from,
+        \DateTime $to
+    ) {
+
+        $events = [];
+        $qb = $this->_em->createQueryBuilder();
+        $what = 'o.id, o.startDate, o.endDate, o.room, o.lastUpdatedOn, ' .
+          's.title, s.publishedAsTbd, st.sessionTypeCssClass, pe.id as publishEventId';
+        $qb->add('select', $what)->from('IliosCoreBundle:User', 'u');
+        $qb->leftJoin('u.learnerGroups', 'lg');
+        $qb->leftJoin('lg.offerings', 'o');
+        $qb->leftJoin('o.session', 's');
+        $qb->leftJoin('s.sessionType', 'st');
+        $qb->leftJoin('s.publishEvent', 'pe');
+
+        $qb->where($qb->expr()->andX(
+            $qb->expr()->eq('u.id', ':user_id'),
+            $qb->expr()->between('o.startDate', ':date_from', ':date_to'),
+            $qb->expr()->eq('o.deleted', 0)
+        ));
+        $qb->setParameter('user_id', $id);
+
+        $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
+        $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
+
+        $results = $qb->getQuery()->getArrayResult();
+
+        $events = array_map(function ($arr) use ($id) {
+            $event = new UserEvent;
+            $event->user = $id;
+            $event->name = $arr['title'];
+            $event->startDate = $arr['startDate'];
+            $event->endDate = $arr['endDate'];
+            $event->offering = $arr['id'];
+            $event->location = $arr['room'];
+            $event->eventClass = $arr['sessionTypeCssClass'];
+            $event->lastModified = $arr['lastUpdatedOn'];
+            $event->isPublished = !empty($arr['publishEventId']);
+            $event->isScheduled = $arr['publishedAsTbd'];
+
+            return $event;
+        }, $results);
+
+        return $events;
     }
 }
