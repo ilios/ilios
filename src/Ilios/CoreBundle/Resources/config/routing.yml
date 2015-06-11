@@ -383,8 +383,9 @@ api_userrole_v1:
     prefix:   /v1
     defaults: {_format:json}
 
-api_instructionhours:
-    resource: "@IliosCoreBundle/Controller/InstructionHoursController.php"
+
+api_userevent_v1:
+    resource: "@IliosCoreBundle/Controller/UsereventController.php"
     type:     rest
     prefix:   /v1
     defaults: {_format:json}
