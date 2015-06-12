@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\AlertChangeTypeHandler;
 use Ilios\CoreBundle\Entity\AlertChangeTypeInterface;
 
 /**
- * AlertChangeType controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("AlertChangeType")
+ * Class AlertChangeTypeController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("AlertChangeTypes")
  */
 class AlertChangeTypeController extends FOSRestController
 {
-    
     /**
      * Get a AlertChangeType
      *
      * @ApiDoc(
+     *   section = "AlertChangeType",
      *   description = "Get a AlertChangeType.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="AlertChangeType identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class AlertChangeTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['alertChangeType'] = $this->getOr404($id);
+        $answer['alertChangeTypes'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all AlertChangeType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AlertChangeType",
      *   description = "Get all AlertChangeType.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\AlertChangeType",
      *   statusCodes = {
      *     200 = "List of all AlertChangeType",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class AlertChangeTypeController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class AlertChangeTypeController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['alertChangeTypes'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class AlertChangeTypeController extends FOSRestController
      * Create a AlertChangeType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AlertChangeType",
      *   description = "Create a AlertChangeType.",
-     *   input="Ilios\CoreBundle\Form\AlertChangeTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AlertChangeTypeType",
      *   output="Ilios\CoreBundle\Entity\AlertChangeType",
      *   statusCodes={
      *     201 = "Created AlertChangeType.",
@@ -149,7 +149,7 @@ class AlertChangeTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class AlertChangeTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAlertChangeTypeHandler()->post($this->getPostData($request));
-            $answer['alertChangeType'] = $new;
+            $alertchangetype = $this->getAlertChangeTypeHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_alertchangetypes',
+                    ['id' => $alertchangetype->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class AlertChangeTypeController extends FOSRestController
      * Update a AlertChangeType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AlertChangeType",
      *   description = "Update a AlertChangeType entity.",
-     *   input="Ilios\CoreBundle\Form\AlertChangeTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AlertChangeTypeType",
      *   output="Ilios\CoreBundle\Entity\AlertChangeType",
      *   statusCodes={
      *     200 = "Updated AlertChangeType.",
@@ -183,10 +195,10 @@ class AlertChangeTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class AlertChangeTypeController extends FOSRestController
             $alertChangeType = $this->getAlertChangeTypeHandler()
                 ->findAlertChangeTypeBy(['id'=> $id]);
             if ($alertChangeType) {
-                $answer['alertChangeType'] =
-                    $this->getAlertChangeTypeHandler()->put(
-                        $alertChangeType,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['alertChangeType'] =
-                    $this->getAlertChangeTypeHandler()->post($this->getPostData($request));
+                $alertChangeType = $this->getAlertChangeTypeHandler()
+                    ->createAlertChangeType();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['alertChangeType'] =
+                $this->getAlertChangeTypeHandler()->put(
+                    $alertChangeType,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class AlertChangeTypeController extends FOSRestController
      * Partial Update to a AlertChangeType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AlertChangeType",
      *   description = "Partial Update to a AlertChangeType.",
-     *   input="Ilios\CoreBundle\Form\AlertChangeTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AlertChangeTypeType",
      *   output="Ilios\CoreBundle\Entity\AlertChangeType",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="AlertChangeType identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class AlertChangeTypeController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class AlertChangeTypeController extends FOSRestController
      * Delete a AlertChangeType.
      *
      * @ApiDoc(
+     *   section = "AlertChangeType",
      *   description = "Delete a AlertChangeType entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "AlertChangeType identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class AlertChangeTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal AlertChangeTypeInterface $alertChangeType
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $alertChangeType = $this->getOr404($id);
+
         try {
             $this->getAlertChangeTypeHandler()
                 ->deleteAlertChangeType($alertChangeType);
@@ -304,28 +318,36 @@ class AlertChangeTypeController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return AlertChangeTypeInterface $entity
+     * @return AlertChangeTypeInterface $alertChangeType
      */
     protected function getOr404($id)
     {
-        $entity = $this->getAlertChangeTypeHandler()
+        $alertChangeType = $this->getAlertChangeTypeHandler()
             ->findAlertChangeTypeBy(['id' => $id]);
-        if (!$entity) {
+        if (!$alertChangeType) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $alertChangeType;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('alertChangeType', array());
+        $data = $request->request->get('alertChangeType');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return AlertChangeTypeHandler
      */

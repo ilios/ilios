@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\SessionDescriptionHandler;
 use Ilios\CoreBundle\Entity\SessionDescriptionInterface;
 
 /**
- * SessionDescription controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("SessionDescription")
+ * Class SessionDescriptionController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("SessionDescriptions")
  */
 class SessionDescriptionController extends FOSRestController
 {
-    
     /**
      * Get a SessionDescription
      *
      * @ApiDoc(
+     *   section = "SessionDescription",
      *   description = "Get a SessionDescription.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class SessionDescriptionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['sessionDescription'] = $this->getOr404($id);
+        $answer['sessionDescriptions'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all SessionDescription.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "SessionDescription",
      *   description = "Get all SessionDescription.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\SessionDescription",
      *   statusCodes = {
      *     200 = "List of all SessionDescription",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class SessionDescriptionController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class SessionDescriptionController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['sessionDescriptions'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class SessionDescriptionController extends FOSRestController
      * Create a SessionDescription.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "SessionDescription",
      *   description = "Create a SessionDescription.",
-     *   input="Ilios\CoreBundle\Form\SessionDescriptionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\SessionDescriptionType",
      *   output="Ilios\CoreBundle\Entity\SessionDescription",
      *   statusCodes={
      *     201 = "Created SessionDescription.",
@@ -149,7 +149,7 @@ class SessionDescriptionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class SessionDescriptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSessionDescriptionHandler()->post($this->getPostData($request));
-            $answer['sessionDescription'] = $new;
+            $sessiondescription = $this->getSessionDescriptionHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_sessiondescriptions',
+                    ['session' => $sessiondescription->getSession()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class SessionDescriptionController extends FOSRestController
      * Update a SessionDescription.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "SessionDescription",
      *   description = "Update a SessionDescription entity.",
-     *   input="Ilios\CoreBundle\Form\SessionDescriptionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\SessionDescriptionType",
      *   output="Ilios\CoreBundle\Entity\SessionDescription",
      *   statusCodes={
      *     200 = "Updated SessionDescription.",
@@ -183,10 +195,10 @@ class SessionDescriptionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class SessionDescriptionController extends FOSRestController
             $sessionDescription = $this->getSessionDescriptionHandler()
                 ->findSessionDescriptionBy(['session'=> $id]);
             if ($sessionDescription) {
-                $answer['sessionDescription'] =
-                    $this->getSessionDescriptionHandler()->put(
-                        $sessionDescription,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['sessionDescription'] =
-                    $this->getSessionDescriptionHandler()->post($this->getPostData($request));
+                $sessionDescription = $this->getSessionDescriptionHandler()
+                    ->createSessionDescription();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['sessionDescription'] =
+                $this->getSessionDescriptionHandler()->put(
+                    $sessionDescription,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class SessionDescriptionController extends FOSRestController
      * Partial Update to a SessionDescription.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "SessionDescription",
      *   description = "Partial Update to a SessionDescription.",
-     *   input="Ilios\CoreBundle\Form\SessionDescriptionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\SessionDescriptionType",
      *   output="Ilios\CoreBundle\Entity\SessionDescription",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class SessionDescriptionController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class SessionDescriptionController extends FOSRestController
      * Delete a SessionDescription.
      *
      * @ApiDoc(
+     *   section = "SessionDescription",
      *   description = "Delete a SessionDescription entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class SessionDescriptionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal SessionDescriptionInterface $sessionDescription
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $sessionDescription = $this->getOr404($id);
+
         try {
             $this->getSessionDescriptionHandler()
                 ->deleteSessionDescription($sessionDescription);
@@ -304,28 +318,36 @@ class SessionDescriptionController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return SessionDescriptionInterface $entity
+     * @return SessionDescriptionInterface $sessionDescription
      */
     protected function getOr404($id)
     {
-        $entity = $this->getSessionDescriptionHandler()
+        $sessionDescription = $this->getSessionDescriptionHandler()
             ->findSessionDescriptionBy(['session' => $id]);
-        if (!$entity) {
+        if (!$sessionDescription) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $sessionDescription;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('sessionDescription', array());
+        $data = $request->request->get('sessionDescription');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return SessionDescriptionHandler
      */

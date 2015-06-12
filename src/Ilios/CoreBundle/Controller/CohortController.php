@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\CohortHandler;
 use Ilios\CoreBundle\Entity\CohortInterface;
 
 /**
- * Cohort controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Cohort")
+ * Class CohortController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Cohorts")
  */
 class CohortController extends FOSRestController
 {
-    
     /**
      * Get a Cohort
      *
      * @ApiDoc(
+     *   section = "Cohort",
      *   description = "Get a Cohort.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="Cohort identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class CohortController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['cohort'] = $this->getOr404($id);
+        $answer['cohorts'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all Cohort.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Cohort",
      *   description = "Get all Cohort.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\Cohort",
      *   statusCodes = {
      *     200 = "List of all Cohort",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class CohortController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class CohortController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['cohorts'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class CohortController extends FOSRestController
      * Create a Cohort.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Cohort",
      *   description = "Create a Cohort.",
-     *   input="Ilios\CoreBundle\Form\CohortType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CohortType",
      *   output="Ilios\CoreBundle\Entity\Cohort",
      *   statusCodes={
      *     201 = "Created Cohort.",
@@ -149,7 +149,7 @@ class CohortController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class CohortController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCohortHandler()->post($this->getPostData($request));
-            $answer['cohort'] = $new;
+            $cohort = $this->getCohortHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_cohorts',
+                    ['id' => $cohort->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class CohortController extends FOSRestController
      * Update a Cohort.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Cohort",
      *   description = "Update a Cohort entity.",
-     *   input="Ilios\CoreBundle\Form\CohortType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CohortType",
      *   output="Ilios\CoreBundle\Entity\Cohort",
      *   statusCodes={
      *     200 = "Updated Cohort.",
@@ -183,10 +195,10 @@ class CohortController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class CohortController extends FOSRestController
             $cohort = $this->getCohortHandler()
                 ->findCohortBy(['id'=> $id]);
             if ($cohort) {
-                $answer['cohort'] =
-                    $this->getCohortHandler()->put(
-                        $cohort,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['cohort'] =
-                    $this->getCohortHandler()->post($this->getPostData($request));
+                $cohort = $this->getCohortHandler()
+                    ->createCohort();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['cohort'] =
+                $this->getCohortHandler()->put(
+                    $cohort,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class CohortController extends FOSRestController
      * Partial Update to a Cohort.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Cohort",
      *   description = "Partial Update to a Cohort.",
-     *   input="Ilios\CoreBundle\Form\CohortType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CohortType",
      *   output="Ilios\CoreBundle\Entity\Cohort",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="Cohort identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class CohortController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class CohortController extends FOSRestController
      * Delete a Cohort.
      *
      * @ApiDoc(
+     *   section = "Cohort",
      *   description = "Delete a Cohort entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "Cohort identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class CohortController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal CohortInterface $cohort
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $cohort = $this->getOr404($id);
+
         try {
             $this->getCohortHandler()
                 ->deleteCohort($cohort);
@@ -304,28 +318,36 @@ class CohortController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CohortInterface $entity
+     * @return CohortInterface $cohort
      */
     protected function getOr404($id)
     {
-        $entity = $this->getCohortHandler()
+        $cohort = $this->getCohortHandler()
             ->findCohortBy(['id' => $id]);
-        if (!$entity) {
+        if (!$cohort) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $cohort;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('cohort', array());
+        $data = $request->request->get('cohort');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return CohortHandler
      */

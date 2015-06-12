@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\CourseClerkshipTypeHandler;
 use Ilios\CoreBundle\Entity\CourseClerkshipTypeInterface;
 
 /**
- * CourseClerkshipType controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("CourseClerkshipType")
+ * Class CourseClerkshipTypeController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("CourseClerkshipTypes")
  */
 class CourseClerkshipTypeController extends FOSRestController
 {
-    
     /**
      * Get a CourseClerkshipType
      *
      * @ApiDoc(
+     *   section = "CourseClerkshipType",
      *   description = "Get a CourseClerkshipType.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="CourseClerkshipType identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class CourseClerkshipTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['courseClerkshipType'] = $this->getOr404($id);
+        $answer['courseClerkshipTypes'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all CourseClerkshipType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CourseClerkshipType",
      *   description = "Get all CourseClerkshipType.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\CourseClerkshipType",
      *   statusCodes = {
      *     200 = "List of all CourseClerkshipType",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class CourseClerkshipTypeController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class CourseClerkshipTypeController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['courseClerkshipTypes'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class CourseClerkshipTypeController extends FOSRestController
      * Create a CourseClerkshipType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CourseClerkshipType",
      *   description = "Create a CourseClerkshipType.",
-     *   input="Ilios\CoreBundle\Form\CourseClerkshipTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CourseClerkshipTypeType",
      *   output="Ilios\CoreBundle\Entity\CourseClerkshipType",
      *   statusCodes={
      *     201 = "Created CourseClerkshipType.",
@@ -149,7 +149,7 @@ class CourseClerkshipTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class CourseClerkshipTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCourseClerkshipTypeHandler()->post($this->getPostData($request));
-            $answer['courseClerkshipType'] = $new;
+            $courseclerkshiptype = $this->getCourseClerkshipTypeHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_courseclerkshiptypes',
+                    ['id' => $courseclerkshiptype->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class CourseClerkshipTypeController extends FOSRestController
      * Update a CourseClerkshipType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CourseClerkshipType",
      *   description = "Update a CourseClerkshipType entity.",
-     *   input="Ilios\CoreBundle\Form\CourseClerkshipTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CourseClerkshipTypeType",
      *   output="Ilios\CoreBundle\Entity\CourseClerkshipType",
      *   statusCodes={
      *     200 = "Updated CourseClerkshipType.",
@@ -183,10 +195,10 @@ class CourseClerkshipTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class CourseClerkshipTypeController extends FOSRestController
             $courseClerkshipType = $this->getCourseClerkshipTypeHandler()
                 ->findCourseClerkshipTypeBy(['id'=> $id]);
             if ($courseClerkshipType) {
-                $answer['courseClerkshipType'] =
-                    $this->getCourseClerkshipTypeHandler()->put(
-                        $courseClerkshipType,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['courseClerkshipType'] =
-                    $this->getCourseClerkshipTypeHandler()->post($this->getPostData($request));
+                $courseClerkshipType = $this->getCourseClerkshipTypeHandler()
+                    ->createCourseClerkshipType();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['courseClerkshipType'] =
+                $this->getCourseClerkshipTypeHandler()->put(
+                    $courseClerkshipType,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class CourseClerkshipTypeController extends FOSRestController
      * Partial Update to a CourseClerkshipType.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CourseClerkshipType",
      *   description = "Partial Update to a CourseClerkshipType.",
-     *   input="Ilios\CoreBundle\Form\CourseClerkshipTypeType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CourseClerkshipTypeType",
      *   output="Ilios\CoreBundle\Entity\CourseClerkshipType",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="CourseClerkshipType identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class CourseClerkshipTypeController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class CourseClerkshipTypeController extends FOSRestController
      * Delete a CourseClerkshipType.
      *
      * @ApiDoc(
+     *   section = "CourseClerkshipType",
      *   description = "Delete a CourseClerkshipType entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "CourseClerkshipType identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class CourseClerkshipTypeController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal CourseClerkshipTypeInterface $courseClerkshipType
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $courseClerkshipType = $this->getOr404($id);
+
         try {
             $this->getCourseClerkshipTypeHandler()
                 ->deleteCourseClerkshipType($courseClerkshipType);
@@ -304,28 +318,36 @@ class CourseClerkshipTypeController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CourseClerkshipTypeInterface $entity
+     * @return CourseClerkshipTypeInterface $courseClerkshipType
      */
     protected function getOr404($id)
     {
-        $entity = $this->getCourseClerkshipTypeHandler()
+        $courseClerkshipType = $this->getCourseClerkshipTypeHandler()
             ->findCourseClerkshipTypeBy(['id' => $id]);
-        if (!$entity) {
+        if (!$courseClerkshipType) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $courseClerkshipType;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('courseClerkshipType', array());
+        $data = $request->request->get('courseClerkshipType');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return CourseClerkshipTypeHandler
      */

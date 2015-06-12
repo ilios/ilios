@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\ReportHandler;
 use Ilios\CoreBundle\Entity\ReportInterface;
 
 /**
- * Report controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("Report")
+ * Class ReportController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("Reports")
  */
 class ReportController extends FOSRestController
 {
-    
     /**
      * Get a Report
      *
      * @ApiDoc(
+     *   section = "Report",
      *   description = "Get a Report.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="Report identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class ReportController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['report'] = $this->getOr404($id);
+        $answer['reports'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all Report.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Report",
      *   description = "Get all Report.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\Report",
      *   statusCodes = {
      *     200 = "List of all Report",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class ReportController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class ReportController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['reports'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class ReportController extends FOSRestController
      * Create a Report.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Report",
      *   description = "Create a Report.",
-     *   input="Ilios\CoreBundle\Form\ReportType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ReportType",
      *   output="Ilios\CoreBundle\Entity\Report",
      *   statusCodes={
      *     201 = "Created Report.",
@@ -149,7 +149,7 @@ class ReportController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class ReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getReportHandler()->post($this->getPostData($request));
-            $answer['report'] = $new;
+            $report = $this->getReportHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_reports',
+                    ['id' => $report->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class ReportController extends FOSRestController
      * Update a Report.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Report",
      *   description = "Update a Report entity.",
-     *   input="Ilios\CoreBundle\Form\ReportType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ReportType",
      *   output="Ilios\CoreBundle\Entity\Report",
      *   statusCodes={
      *     200 = "Updated Report.",
@@ -183,10 +195,10 @@ class ReportController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class ReportController extends FOSRestController
             $report = $this->getReportHandler()
                 ->findReportBy(['id'=> $id]);
             if ($report) {
-                $answer['report'] =
-                    $this->getReportHandler()->put(
-                        $report,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['report'] =
-                    $this->getReportHandler()->post($this->getPostData($request));
+                $report = $this->getReportHandler()
+                    ->createReport();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['report'] =
+                $this->getReportHandler()->put(
+                    $report,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class ReportController extends FOSRestController
      * Partial Update to a Report.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "Report",
      *   description = "Partial Update to a Report.",
-     *   input="Ilios\CoreBundle\Form\ReportType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\ReportType",
      *   output="Ilios\CoreBundle\Entity\Report",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="Report identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class ReportController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class ReportController extends FOSRestController
      * Delete a Report.
      *
      * @ApiDoc(
+     *   section = "Report",
      *   description = "Delete a Report entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "Report identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class ReportController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal ReportInterface $report
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $report = $this->getOr404($id);
+
         try {
             $this->getReportHandler()
                 ->deleteReport($report);
@@ -304,28 +318,36 @@ class ReportController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return ReportInterface $entity
+     * @return ReportInterface $report
      */
     protected function getOr404($id)
     {
-        $entity = $this->getReportHandler()
+        $report = $this->getReportHandler()
             ->findReportBy(['id' => $id]);
-        if (!$entity) {
+        if (!$report) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $report;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('report', array());
+        $data = $request->request->get('report');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return ReportHandler
      */

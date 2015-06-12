@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\LearningMaterialStatusHandler;
 use Ilios\CoreBundle\Entity\LearningMaterialStatusInterface;
 
 /**
- * LearningMaterialStatus controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("LearningMaterialStatus")
+ * Class LearningMaterialStatusController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("LearningMaterialStatuses")
  */
 class LearningMaterialStatusController extends FOSRestController
 {
-    
     /**
      * Get a LearningMaterialStatus
      *
      * @ApiDoc(
+     *   section = "LearningMaterialStatus",
      *   description = "Get a LearningMaterialStatus.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="LearningMaterialStatus identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class LearningMaterialStatusController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['learningMaterialStatus'] = $this->getOr404($id);
+        $answer['learningMaterialStatuses'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all LearningMaterialStatus.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "LearningMaterialStatus",
      *   description = "Get all LearningMaterialStatus.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\LearningMaterialStatus",
      *   statusCodes = {
      *     200 = "List of all LearningMaterialStatus",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class LearningMaterialStatusController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class LearningMaterialStatusController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['learningMaterialStatuses'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class LearningMaterialStatusController extends FOSRestController
      * Create a LearningMaterialStatus.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "LearningMaterialStatus",
      *   description = "Create a LearningMaterialStatus.",
-     *   input="Ilios\CoreBundle\Form\LearningMaterialStatusType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialStatusType",
      *   output="Ilios\CoreBundle\Entity\LearningMaterialStatus",
      *   statusCodes={
      *     201 = "Created LearningMaterialStatus.",
@@ -149,7 +149,7 @@ class LearningMaterialStatusController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class LearningMaterialStatusController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearningMaterialStatusHandler()->post($this->getPostData($request));
-            $answer['learningMaterialStatus'] = $new;
+            $learningmaterialstatus = $this->getLearningMaterialStatusHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_learningmaterialstatuses',
+                    ['id' => $learningmaterialstatus->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class LearningMaterialStatusController extends FOSRestController
      * Update a LearningMaterialStatus.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "LearningMaterialStatus",
      *   description = "Update a LearningMaterialStatus entity.",
-     *   input="Ilios\CoreBundle\Form\LearningMaterialStatusType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialStatusType",
      *   output="Ilios\CoreBundle\Entity\LearningMaterialStatus",
      *   statusCodes={
      *     200 = "Updated LearningMaterialStatus.",
@@ -183,10 +195,10 @@ class LearningMaterialStatusController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class LearningMaterialStatusController extends FOSRestController
             $learningMaterialStatus = $this->getLearningMaterialStatusHandler()
                 ->findLearningMaterialStatusBy(['id'=> $id]);
             if ($learningMaterialStatus) {
-                $answer['learningMaterialStatus'] =
-                    $this->getLearningMaterialStatusHandler()->put(
-                        $learningMaterialStatus,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['learningMaterialStatus'] =
-                    $this->getLearningMaterialStatusHandler()->post($this->getPostData($request));
+                $learningMaterialStatus = $this->getLearningMaterialStatusHandler()
+                    ->createLearningMaterialStatus();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['learningMaterialStatus'] =
+                $this->getLearningMaterialStatusHandler()->put(
+                    $learningMaterialStatus,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class LearningMaterialStatusController extends FOSRestController
      * Partial Update to a LearningMaterialStatus.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "LearningMaterialStatus",
      *   description = "Partial Update to a LearningMaterialStatus.",
-     *   input="Ilios\CoreBundle\Form\LearningMaterialStatusType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialStatusType",
      *   output="Ilios\CoreBundle\Entity\LearningMaterialStatus",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="LearningMaterialStatus identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class LearningMaterialStatusController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class LearningMaterialStatusController extends FOSRestController
      * Delete a LearningMaterialStatus.
      *
      * @ApiDoc(
+     *   section = "LearningMaterialStatus",
      *   description = "Delete a LearningMaterialStatus entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "LearningMaterialStatus identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class LearningMaterialStatusController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal LearningMaterialStatusInterface $learningMaterialStatus
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $learningMaterialStatus = $this->getOr404($id);
+
         try {
             $this->getLearningMaterialStatusHandler()
                 ->deleteLearningMaterialStatus($learningMaterialStatus);
@@ -304,28 +318,36 @@ class LearningMaterialStatusController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return LearningMaterialStatusInterface $entity
+     * @return LearningMaterialStatusInterface $learningMaterialStatus
      */
     protected function getOr404($id)
     {
-        $entity = $this->getLearningMaterialStatusHandler()
+        $learningMaterialStatus = $this->getLearningMaterialStatusHandler()
             ->findLearningMaterialStatusBy(['id' => $id]);
-        if (!$entity) {
+        if (!$learningMaterialStatus) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $learningMaterialStatus;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('learningMaterialStatus', array());
+        $data = $request->request->get('learningMaterialStatus');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return LearningMaterialStatusHandler
      */

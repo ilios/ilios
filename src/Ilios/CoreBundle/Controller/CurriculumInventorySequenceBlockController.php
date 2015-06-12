@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\CurriculumInventorySequenceBlockHandler;
 use Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlockInterface;
 
 /**
- * CurriculumInventorySequenceBlock controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("CurriculumInventorySequenceBlock")
+ * Class CurriculumInventorySequenceBlockController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("CurriculumInventorySequenceBlocks")
  */
 class CurriculumInventorySequenceBlockController extends FOSRestController
 {
-    
     /**
      * Get a CurriculumInventorySequenceBlock
      *
      * @ApiDoc(
+     *   section = "CurriculumInventorySequenceBlock",
      *   description = "Get a CurriculumInventorySequenceBlock.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="CurriculumInventorySequenceBlock identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['curriculumInventorySequenceBlock'] = $this->getOr404($id);
+        $answer['curriculumInventorySequenceBlocks'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all CurriculumInventorySequenceBlock.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventorySequenceBlock",
      *   description = "Get all CurriculumInventorySequenceBlock.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock",
      *   statusCodes = {
      *     200 = "List of all CurriculumInventorySequenceBlock",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['curriculumInventorySequenceBlocks'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      * Create a CurriculumInventorySequenceBlock.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventorySequenceBlock",
      *   description = "Create a CurriculumInventorySequenceBlock.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventorySequenceBlockType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceBlockType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock",
      *   statusCodes={
      *     201 = "Created CurriculumInventorySequenceBlock.",
@@ -149,7 +149,7 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getCurriculumInventorySequenceBlockHandler()->post($this->getPostData($request));
-            $answer['curriculumInventorySequenceBlock'] = $new;
+            $curriculuminventorysequenceblock = $this->getCurriculumInventorySequenceBlockHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_curriculuminventorysequenceblocks',
+                    ['id' => $curriculuminventorysequenceblock->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      * Update a CurriculumInventorySequenceBlock.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventorySequenceBlock",
      *   description = "Update a CurriculumInventorySequenceBlock entity.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventorySequenceBlockType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceBlockType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock",
      *   statusCodes={
      *     200 = "Updated CurriculumInventorySequenceBlock.",
@@ -183,10 +195,10 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
             $curriculumInventorySequenceBlock = $this->getCurriculumInventorySequenceBlockHandler()
                 ->findCurriculumInventorySequenceBlockBy(['id'=> $id]);
             if ($curriculumInventorySequenceBlock) {
-                $answer['curriculumInventorySequenceBlock'] =
-                    $this->getCurriculumInventorySequenceBlockHandler()->put(
-                        $curriculumInventorySequenceBlock,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['curriculumInventorySequenceBlock'] =
-                    $this->getCurriculumInventorySequenceBlockHandler()->post($this->getPostData($request));
+                $curriculumInventorySequenceBlock = $this->getCurriculumInventorySequenceBlockHandler()
+                    ->createCurriculumInventorySequenceBlock();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['curriculumInventorySequenceBlock'] =
+                $this->getCurriculumInventorySequenceBlockHandler()->put(
+                    $curriculumInventorySequenceBlock,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      * Partial Update to a CurriculumInventorySequenceBlock.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "CurriculumInventorySequenceBlock",
      *   description = "Partial Update to a CurriculumInventorySequenceBlock.",
-     *   input="Ilios\CoreBundle\Form\CurriculumInventorySequenceBlockType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\CurriculumInventorySequenceBlockType",
      *   output="Ilios\CoreBundle\Entity\CurriculumInventorySequenceBlock",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="CurriculumInventorySequenceBlock identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      * Delete a CurriculumInventorySequenceBlock.
      *
      * @ApiDoc(
+     *   section = "CurriculumInventorySequenceBlock",
      *   description = "Delete a CurriculumInventorySequenceBlock entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "CurriculumInventorySequenceBlock identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $curriculumInventorySequenceBlock = $this->getOr404($id);
+
         try {
             $this->getCurriculumInventorySequenceBlockHandler()
                 ->deleteCurriculumInventorySequenceBlock($curriculumInventorySequenceBlock);
@@ -304,28 +318,36 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return CurriculumInventorySequenceBlockInterface $entity
+     * @return CurriculumInventorySequenceBlockInterface $curriculumInventorySequenceBlock
      */
     protected function getOr404($id)
     {
-        $entity = $this->getCurriculumInventorySequenceBlockHandler()
+        $curriculumInventorySequenceBlock = $this->getCurriculumInventorySequenceBlockHandler()
             ->findCurriculumInventorySequenceBlockBy(['id' => $id]);
-        if (!$entity) {
+        if (!$curriculumInventorySequenceBlock) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $curriculumInventorySequenceBlock;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('curriculumInventorySequenceBlock', array());
+        $data = $request->request->get('curriculumInventorySequenceBlock');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return CurriculumInventorySequenceBlockHandler
      */

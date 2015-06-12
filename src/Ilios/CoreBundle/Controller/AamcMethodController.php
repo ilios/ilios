@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,17 +18,17 @@ use Ilios\CoreBundle\Handler\AamcMethodHandler;
 use Ilios\CoreBundle\Entity\AamcMethodInterface;
 
 /**
- * AamcMethod controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("AamcMethod")
+ * Class AamcMethodController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("AamcMethods")
  */
 class AamcMethodController extends FOSRestController
 {
-    
     /**
      * Get a AamcMethod
      *
      * @ApiDoc(
+     *   section = "AamcMethod",
      *   description = "Get a AamcMethod.",
      *   resource = true,
      *   requirements={
@@ -49,37 +46,32 @@ class AamcMethodController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['aamcMethod'] = $this->getOr404($id);
+        $answer['aamcMethods'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all AamcMethod.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcMethod",
      *   description = "Get all AamcMethod.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\AamcMethod",
      *   statusCodes = {
      *     200 = "List of all AamcMethod",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class AamcMethodController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class AamcMethodController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['aamcMethods'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class AamcMethodController extends FOSRestController
      * Create a AamcMethod.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcMethod",
      *   description = "Create a AamcMethod.",
-     *   input="Ilios\CoreBundle\Form\AamcMethodType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AamcMethodType",
      *   output="Ilios\CoreBundle\Entity\AamcMethod",
      *   statusCodes={
      *     201 = "Created AamcMethod.",
@@ -149,7 +149,7 @@ class AamcMethodController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class AamcMethodController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getAamcMethodHandler()->post($this->getPostData($request));
-            $answer['aamcMethod'] = $new;
+            $aamcmethod = $this->getAamcMethodHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_aamcmethods',
+                    ['id' => $aamcmethod->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class AamcMethodController extends FOSRestController
      * Update a AamcMethod.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcMethod",
      *   description = "Update a AamcMethod entity.",
-     *   input="Ilios\CoreBundle\Form\AamcMethodType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AamcMethodType",
      *   output="Ilios\CoreBundle\Entity\AamcMethod",
      *   statusCodes={
      *     200 = "Updated AamcMethod.",
@@ -183,10 +195,10 @@ class AamcMethodController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class AamcMethodController extends FOSRestController
             $aamcMethod = $this->getAamcMethodHandler()
                 ->findAamcMethodBy(['id'=> $id]);
             if ($aamcMethod) {
-                $answer['aamcMethod'] =
-                    $this->getAamcMethodHandler()->put(
-                        $aamcMethod,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['aamcMethod'] =
-                    $this->getAamcMethodHandler()->post($this->getPostData($request));
+                $aamcMethod = $this->getAamcMethodHandler()
+                    ->createAamcMethod();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['aamcMethod'] =
+                $this->getAamcMethodHandler()->put(
+                    $aamcMethod,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,9 +233,10 @@ class AamcMethodController extends FOSRestController
      * Partial Update to a AamcMethod.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "AamcMethod",
      *   description = "Partial Update to a AamcMethod.",
-     *   input="Ilios\CoreBundle\Form\AamcMethodType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\AamcMethodType",
      *   output="Ilios\CoreBundle\Entity\AamcMethod",
      *   requirements={
      *     {
@@ -239,11 +253,10 @@ class AamcMethodController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,6 +275,7 @@ class AamcMethodController extends FOSRestController
      * Delete a AamcMethod.
      *
      * @ApiDoc(
+     *   section = "AamcMethod",
      *   description = "Delete a AamcMethod entity.",
      *   resource = true,
      *   requirements={
@@ -279,17 +293,17 @@ class AamcMethodController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal AamcMethodInterface $aamcMethod
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $aamcMethod = $this->getOr404($id);
+
         try {
             $this->getAamcMethodHandler()
                 ->deleteAamcMethod($aamcMethod);
@@ -304,28 +318,36 @@ class AamcMethodController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return AamcMethodInterface $entity
+     * @return AamcMethodInterface $aamcMethod
      */
     protected function getOr404($id)
     {
-        $entity = $this->getAamcMethodHandler()
+        $aamcMethod = $this->getAamcMethodHandler()
             ->findAamcMethodBy(['id' => $id]);
-        if (!$entity) {
+        if (!$aamcMethod) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $aamcMethod;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('aamcMethod', array());
+        $data = $request->request->get('aamcMethod');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return AamcMethodHandler
      */

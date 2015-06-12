@@ -4,13 +4,10 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\View\View as FOSView;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,24 +18,24 @@ use Ilios\CoreBundle\Handler\MeshUserSelectionHandler;
 use Ilios\CoreBundle\Entity\MeshUserSelectionInterface;
 
 /**
- * MeshUserSelection controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("MeshUserSelection")
+ * Class MeshUserSelectionController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("MeshUserSelections")
  */
 class MeshUserSelectionController extends FOSRestController
 {
-    
     /**
      * Get a MeshUserSelection
      *
      * @ApiDoc(
+     *   section = "MeshUserSelection",
      *   description = "Get a MeshUserSelection.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="MeshUserSelection identifier."
      *     }
      *   },
@@ -49,37 +46,32 @@ class MeshUserSelectionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
-     * @param Request $request
      * @param $id
      *
      * @return Response
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
-        $answer['meshUserSelection'] = $this->getOr404($id);
+        $answer['meshUserSelections'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
      * Get all MeshUserSelection.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshUserSelection",
      *   description = "Get all MeshUserSelection.",
+     *   resource = true,
      *   output="Ilios\CoreBundle\Entity\MeshUserSelection",
      *   statusCodes = {
      *     200 = "List of all MeshUserSelection",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -105,18 +97,24 @@ class MeshUserSelectionController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -127,6 +125,7 @@ class MeshUserSelectionController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['meshUserSelections'] =
             $result ? $result : new ArrayCollection([]);
@@ -138,9 +137,10 @@ class MeshUserSelectionController extends FOSRestController
      * Create a MeshUserSelection.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshUserSelection",
      *   description = "Create a MeshUserSelection.",
-     *   input="Ilios\CoreBundle\Form\MeshUserSelectionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshUserSelectionType",
      *   output="Ilios\CoreBundle\Entity\MeshUserSelection",
      *   statusCodes={
      *     201 = "Created MeshUserSelection.",
@@ -149,7 +149,7 @@ class MeshUserSelectionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -158,10 +158,21 @@ class MeshUserSelectionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getMeshUserSelectionHandler()->post($this->getPostData($request));
-            $answer['meshUserSelection'] = $new;
+            $meshuserselection = $this->getMeshUserSelectionHandler()
+                ->post($this->getPostData($request));
 
-            return $answer;
+            $response = new Response();
+            $response->setStatusCode(Codes::HTTP_CREATED);
+            $response->headers->set(
+                'Location',
+                $this->generateUrl(
+                    'get_meshuserselections',
+                    ['id' => $meshuserselection->getId()],
+                    true
+                )
+            );
+
+            return $response;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -171,9 +182,10 @@ class MeshUserSelectionController extends FOSRestController
      * Update a MeshUserSelection.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshUserSelection",
      *   description = "Update a MeshUserSelection entity.",
-     *   input="Ilios\CoreBundle\Form\MeshUserSelectionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshUserSelectionType",
      *   output="Ilios\CoreBundle\Entity\MeshUserSelection",
      *   statusCodes={
      *     200 = "Updated MeshUserSelection.",
@@ -183,10 +195,10 @@ class MeshUserSelectionController extends FOSRestController
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -196,17 +208,18 @@ class MeshUserSelectionController extends FOSRestController
             $meshUserSelection = $this->getMeshUserSelectionHandler()
                 ->findMeshUserSelectionBy(['id'=> $id]);
             if ($meshUserSelection) {
-                $answer['meshUserSelection'] =
-                    $this->getMeshUserSelectionHandler()->put(
-                        $meshUserSelection,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['meshUserSelection'] =
-                    $this->getMeshUserSelectionHandler()->post($this->getPostData($request));
+                $meshUserSelection = $this->getMeshUserSelectionHandler()
+                    ->createMeshUserSelection();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['meshUserSelection'] =
+                $this->getMeshUserSelectionHandler()->put(
+                    $meshUserSelection,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -220,15 +233,16 @@ class MeshUserSelectionController extends FOSRestController
      * Partial Update to a MeshUserSelection.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   section = "MeshUserSelection",
      *   description = "Partial Update to a MeshUserSelection.",
-     *   input="Ilios\CoreBundle\Form\MeshUserSelectionType",
+     *   resource = true,
+     *   input="Ilios\CoreBundle\Form\Type\MeshUserSelectionType",
      *   output="Ilios\CoreBundle\Entity\MeshUserSelection",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
+     *         "requirement"="\d+",
      *         "description"="MeshUserSelection identifier."
      *     }
      *   },
@@ -239,11 +253,10 @@ class MeshUserSelectionController extends FOSRestController
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -262,13 +275,14 @@ class MeshUserSelectionController extends FOSRestController
      * Delete a MeshUserSelection.
      *
      * @ApiDoc(
+     *   section = "MeshUserSelection",
      *   description = "Delete a MeshUserSelection entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
+     *         "requirement" = "\d+",
      *         "description" = "MeshUserSelection identifier"
      *     }
      *   },
@@ -279,17 +293,17 @@ class MeshUserSelectionController extends FOSRestController
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
-     * @param Request $request
      * @param $id
      * @internal MeshUserSelectionInterface $meshUserSelection
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $meshUserSelection = $this->getOr404($id);
+
         try {
             $this->getMeshUserSelectionHandler()
                 ->deleteMeshUserSelection($meshUserSelection);
@@ -304,28 +318,36 @@ class MeshUserSelectionController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return MeshUserSelectionInterface $entity
+     * @return MeshUserSelectionInterface $meshUserSelection
      */
     protected function getOr404($id)
     {
-        $entity = $this->getMeshUserSelectionHandler()
+        $meshUserSelection = $this->getMeshUserSelectionHandler()
             ->findMeshUserSelectionBy(['id' => $id]);
-        if (!$entity) {
+        if (!$meshUserSelection) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $meshUserSelection;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('meshUserSelection', array());
+        $data = $request->request->get('meshUserSelection');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return MeshUserSelectionHandler
      */
