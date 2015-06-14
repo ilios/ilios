@@ -2,15 +2,10 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class SessionTypes implements DataLoaderInterface
+class SessionTypes extends AbstractDataLoader
 {
-    private static $data;
-
-    protected function setup()
+    protected function getData()
     {
-        if (!empty(self::$data)) {
-            return;
-        }
         $arr = array();
 
         $arr[134] = array(
@@ -35,19 +30,7 @@ class SessionTypes implements DataLoaderInterface
           'sessions' => array()
         );
 
-        self::$data = $arr;
-    }
-
-    public function getOne()
-    {
-        $this->setUp();
-        return array_values(self::$data)[0];
-    }
-
-    public function getAll()
-    {
-        $this->setUp();
-        return self::$data;
+        return $arr;
     }
 
     public function create()

@@ -2,15 +2,10 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class AssessmentOptions implements DataLoaderInterface
+class AssessmentOptions extends AbstractDataLoader
 {
-    private static $data;
-
-    protected function setup()
+    protected function getData()
     {
-        if (!empty(self::$data)) {
-            return;
-        }
         $arr = array();
 
         $arr[1] = array(
@@ -52,19 +47,7 @@ class AssessmentOptions implements DataLoaderInterface
           ]
         );
 
-        self::$data = $arr;
-    }
-
-    public function getOne()
-    {
-        $this->setUp();
-        return array_values(self::$data)[0];
-    }
-
-    public function getAll()
-    {
-        $this->setUp();
-        return self::$data;
+        return $arr;
     }
 
     public function create()

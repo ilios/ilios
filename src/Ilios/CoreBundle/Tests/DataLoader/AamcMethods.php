@@ -2,15 +2,10 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class AamcMethods implements DataLoaderInterface
+class AamcMethods extends AbstractDataLoader
 {
-    private static $data;
-
-    protected function setup()
+    protected function getData()
     {
-        if (!empty(self::$data)) {
-            return;
-        }
         $arr = array();
 
         $arr[] = array(
@@ -19,19 +14,7 @@ class AamcMethods implements DataLoaderInterface
           'sessionTypes' => ['134','152']
         );
 
-        self::$data = $arr;
-    }
-
-    public function getOne()
-    {
-        $this->setUp();
-        return array_values(self::$data)[0];
-    }
-
-    public function getAll()
-    {
-        $this->setUp();
-        return self::$data;
+        return $arr;
     }
 
     public function create()

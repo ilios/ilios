@@ -2,9 +2,9 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class Users
+class Users extends AbstractDataLoader
 {
-    public function get()
+    public function getData()
     {
         $arr = array();
 

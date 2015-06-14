@@ -1,9 +1,9 @@
 <?php
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
-class UserRoles
+class UserRoles extends AbstractDataLoader
 {
-    public function get()
+    public function getData()
     {
         $arr = array();
 
