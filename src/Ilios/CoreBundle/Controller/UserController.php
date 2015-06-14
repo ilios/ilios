@@ -97,6 +97,11 @@ class UserController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     * @QueryParam(
+     *   name="q",
+     *   nullable=true,
+     *   description="string search term to compase to name and email"
+     * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
