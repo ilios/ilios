@@ -158,21 +158,11 @@ class SessionLearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $sessionlearningmaterial = $this->getSessionLearningMaterialHandler()
+            $new  =  $this->getSessionLearningMaterialHandler()
                 ->post($this->getPostData($request));
+            $answer['sessionLearningMaterials'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_sessionlearningmaterials',
-                    ['id' => $sessionlearningmaterial->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

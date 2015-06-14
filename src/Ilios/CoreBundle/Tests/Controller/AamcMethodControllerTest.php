@@ -26,7 +26,8 @@ class AamcMethodControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [];
+        return [
+        ];
     }
 
     public function testGetAamcMethod()
@@ -83,6 +84,10 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+        $this->assertEquals(
+            $data,
+            json_decode($response->getContent(), true)['aamcMethods'][0]
+        );
     }
 
     public function testPostBadAamcMethod()
@@ -99,7 +104,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals($response->getStatusCode(), Codes::HTTP_BAD_REQUEST);
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
     public function testPutAamcMethod()

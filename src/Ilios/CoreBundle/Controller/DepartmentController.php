@@ -158,21 +158,11 @@ class DepartmentController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $department = $this->getDepartmentHandler()
+            $new  =  $this->getDepartmentHandler()
                 ->post($this->getPostData($request));
+            $answer['departments'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_departments',
-                    ['id' => $department->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

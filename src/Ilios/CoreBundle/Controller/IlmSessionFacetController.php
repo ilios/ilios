@@ -14,34 +14,34 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\LearningMaterialUserRoleHandler;
-use Ilios\CoreBundle\Entity\LearningMaterialUserRoleInterface;
+use Ilios\CoreBundle\Handler\IlmSessionFacetHandler;
+use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
 
 /**
- * Class LearningMaterialUserRoleController
+ * Class IlmSessionFacetController
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("LearningMaterialUserRoles")
+ * @RouteResource("IlmSessionFacets")
  */
-class LearningMaterialUserRoleController extends FOSRestController
+class IlmSessionFacetController extends FOSRestController
 {
     /**
-     * Get a LearningMaterialUserRole
+     * Get a IlmSessionFacet
      *
      * @ApiDoc(
-     *   section = "LearningMaterialUserRole",
-     *   description = "Get a LearningMaterialUserRole.",
+     *   section = "IlmSessionFacet",
+     *   description = "Get a IlmSessionFacet.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
      *        "requirement"="\d+",
-     *        "description"="LearningMaterialUserRole identifier."
+     *        "description"="IlmSessionFacet identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     200 = "LearningMaterialUserRole.",
+     *     200 = "IlmSessionFacet.",
      *     404 = "Not Found."
      *   }
      * )
@@ -54,21 +54,21 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['learningMaterialUserRoles'][] = $this->getOr404($id);
+        $answer['ilmSessionFacets'][] = $this->getOr404($id);
 
         return $answer;
     }
 
     /**
-     * Get all LearningMaterialUserRole.
+     * Get all IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "LearningMaterialUserRole",
-     *   description = "Get all LearningMaterialUserRole.",
+     *   section = "IlmSessionFacet",
+     *   description = "Get all IlmSessionFacet.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes = {
-     *     200 = "List of all LearningMaterialUserRole",
+     *     200 = "List of all IlmSessionFacet",
      *     204 = "No content. Nothing to list."
      *   }
      * )
@@ -118,8 +118,8 @@ class LearningMaterialUserRoleController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getLearningMaterialUserRoleHandler()
-            ->findLearningMaterialUserRolesBy(
+        $result = $this->getIlmSessionFacetHandler()
+            ->findIlmSessionFacetsBy(
                 $criteria,
                 $orderBy,
                 $limit,
@@ -127,23 +127,23 @@ class LearningMaterialUserRoleController extends FOSRestController
             );
 
         //If there are no matches return an empty array
-        $answer['learningMaterialUserRoles'] =
+        $answer['ilmSessionFacets'] =
             $result ? $result : new ArrayCollection([]);
 
         return $answer;
     }
 
     /**
-     * Create a LearningMaterialUserRole.
+     * Create a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "LearningMaterialUserRole",
-     *   description = "Create a LearningMaterialUserRole.",
+     *   section = "IlmSessionFacet",
+     *   description = "Create a IlmSessionFacet.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialUserRoleType",
-     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     201 = "Created LearningMaterialUserRole.",
+     *     201 = "Created IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -158,9 +158,9 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getLearningMaterialUserRoleHandler()
+            $new  =  $this->getIlmSessionFacetHandler()
                 ->post($this->getPostData($request));
-            $answer['learningMaterialUserRoles'] = [$new];
+            $answer['ilmSessionFacets'] = [$new];
 
             return $answer;
         } catch (InvalidFormException $exception) {
@@ -169,17 +169,17 @@ class LearningMaterialUserRoleController extends FOSRestController
     }
 
     /**
-     * Update a LearningMaterialUserRole.
+     * Update a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "LearningMaterialUserRole",
-     *   description = "Update a LearningMaterialUserRole entity.",
+     *   section = "IlmSessionFacet",
+     *   description = "Update a IlmSessionFacet entity.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialUserRoleType",
-     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     200 = "Updated LearningMaterialUserRole.",
-     *     201 = "Created LearningMaterialUserRole.",
+     *     200 = "Updated IlmSessionFacet.",
+     *     201 = "Created IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -195,19 +195,19 @@ class LearningMaterialUserRoleController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()
-                ->findLearningMaterialUserRoleBy(['id'=> $id]);
-            if ($learningMaterialUserRole) {
+            $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+                ->findIlmSessionFacetBy(['id'=> $id]);
+            if ($ilmSessionFacet) {
                 $code = Codes::HTTP_OK;
             } else {
-                $learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()
-                    ->createLearningMaterialUserRole();
+                $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+                    ->createIlmSessionFacet();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['learningMaterialUserRole'] =
-                $this->getLearningMaterialUserRoleHandler()->put(
-                    $learningMaterialUserRole,
+            $answer['ilmSessionFacet'] =
+                $this->getIlmSessionFacetHandler()->put(
+                    $ilmSessionFacet,
                     $this->getPostData($request)
                 );
         } catch (InvalidFormException $exception) {
@@ -220,24 +220,24 @@ class LearningMaterialUserRoleController extends FOSRestController
     }
 
     /**
-     * Partial Update to a LearningMaterialUserRole.
+     * Partial Update to a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "LearningMaterialUserRole",
-     *   description = "Partial Update to a LearningMaterialUserRole.",
+     *   section = "IlmSessionFacet",
+     *   description = "Partial Update to a IlmSessionFacet.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\LearningMaterialUserRoleType",
-     *   output="Ilios\CoreBundle\Entity\LearningMaterialUserRole",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
      *         "requirement"="\d+",
-     *         "description"="LearningMaterialUserRole identifier."
+     *         "description"="IlmSessionFacet identifier."
      *     }
      *   },
      *   statusCodes={
-     *     200 = "Updated LearningMaterialUserRole.",
+     *     200 = "Updated IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -252,8 +252,8 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['learningMaterialUserRole'] =
-            $this->getLearningMaterialUserRoleHandler()->patch(
+        $answer['ilmSessionFacet'] =
+            $this->getIlmSessionFacetHandler()->patch(
                 $this->getOr404($id),
                 $this->getPostData($request)
             );
@@ -262,22 +262,22 @@ class LearningMaterialUserRoleController extends FOSRestController
     }
 
     /**
-     * Delete a LearningMaterialUserRole.
+     * Delete a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "LearningMaterialUserRole",
-     *   description = "Delete a LearningMaterialUserRole entity.",
+     *   section = "IlmSessionFacet",
+     *   description = "Delete a IlmSessionFacet entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "\d+",
-     *         "description" = "LearningMaterialUserRole identifier"
+     *         "description" = "IlmSessionFacet identifier"
      *     }
      *   },
      *   statusCodes={
-     *     204 = "No content. Successfully deleted LearningMaterialUserRole.",
+     *     204 = "No content. Successfully deleted IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
      *   }
@@ -286,17 +286,17 @@ class LearningMaterialUserRoleController extends FOSRestController
      * @Rest\View(statusCode=204)
      *
      * @param $id
-     * @internal LearningMaterialUserRoleInterface $learningMaterialUserRole
+     * @internal IlmSessionFacetInterface $ilmSessionFacet
      *
      * @return Response
      */
     public function deleteAction($id)
     {
-        $learningMaterialUserRole = $this->getOr404($id);
+        $ilmSessionFacet = $this->getOr404($id);
 
         try {
-            $this->getLearningMaterialUserRoleHandler()
-                ->deleteLearningMaterialUserRole($learningMaterialUserRole);
+            $this->getIlmSessionFacetHandler()
+                ->deleteIlmSessionFacet($ilmSessionFacet);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -308,17 +308,17 @@ class LearningMaterialUserRoleController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return LearningMaterialUserRoleInterface $learningMaterialUserRole
+     * @return IlmSessionFacetInterface $ilmSessionFacet
      */
     protected function getOr404($id)
     {
-        $learningMaterialUserRole = $this->getLearningMaterialUserRoleHandler()
-            ->findLearningMaterialUserRoleBy(['id' => $id]);
-        if (!$learningMaterialUserRole) {
+        $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+            ->findIlmSessionFacetBy(['id' => $id]);
+        if (!$ilmSessionFacet) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $learningMaterialUserRole;
+        return $ilmSessionFacet;
     }
 
     /**
@@ -329,7 +329,7 @@ class LearningMaterialUserRoleController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('learningMaterialUserRole');
+        $data = $request->request->get('ilmSessionFacet');
 
         if (empty($data)) {
             $data = $request->request->all();
@@ -339,10 +339,10 @@ class LearningMaterialUserRoleController extends FOSRestController
     }
 
     /**
-     * @return LearningMaterialUserRoleHandler
+     * @return IlmSessionFacetHandler
      */
-    protected function getLearningMaterialUserRoleHandler()
+    protected function getIlmSessionFacetHandler()
     {
-        return $this->container->get('ilioscore.learningmaterialuserrole.handler');
+        return $this->container->get('ilioscore.ilmsessionfacet.handler');
     }
 }

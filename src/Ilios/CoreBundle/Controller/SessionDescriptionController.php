@@ -158,21 +158,11 @@ class SessionDescriptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $sessiondescription = $this->getSessionDescriptionHandler()
+            $new  =  $this->getSessionDescriptionHandler()
                 ->post($this->getPostData($request));
+            $answer['sessionDescriptions'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_sessiondescriptions',
-                    ['session' => $sessiondescription->getSession()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

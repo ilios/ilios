@@ -158,21 +158,11 @@ class MeshConceptController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $meshconcept = $this->getMeshConceptHandler()
+            $new  =  $this->getMeshConceptHandler()
                 ->post($this->getPostData($request));
+            $answer['meshConcepts'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_meshconcepts',
-                    ['id' => $meshconcept->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

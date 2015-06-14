@@ -158,21 +158,11 @@ class SchoolController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $school = $this->getSchoolHandler()
+            $new  =  $this->getSchoolHandler()
                 ->post($this->getPostData($request));
+            $answer['schools'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_schools',
-                    ['id' => $school->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

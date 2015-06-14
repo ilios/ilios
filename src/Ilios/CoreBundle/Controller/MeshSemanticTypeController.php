@@ -158,21 +158,11 @@ class MeshSemanticTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $meshsemantictype = $this->getMeshSemanticTypeHandler()
+            $new  =  $this->getMeshSemanticTypeHandler()
                 ->post($this->getPostData($request));
+            $answer['meshSemanticTypes'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_meshsemantictypes',
-                    ['id' => $meshsemantictype->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -158,21 +158,11 @@ class InstructionHoursController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $instructionhours = $this->getInstructionHoursHandler()
+            $new  =  $this->getInstructionHoursHandler()
                 ->post($this->getPostData($request));
+            $answer['instructionHours'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_instructionhours',
-                    ['id' => $instructionhours->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -158,21 +158,11 @@ class DisciplineController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $discipline = $this->getDisciplineHandler()
+            $new  =  $this->getDisciplineHandler()
                 ->post($this->getPostData($request));
+            $answer['disciplines'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_disciplines',
-                    ['id' => $discipline->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

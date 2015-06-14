@@ -158,21 +158,11 @@ class ObjectiveController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $objective = $this->getObjectiveHandler()
+            $new  =  $this->getObjectiveHandler()
                 ->post($this->getPostData($request));
+            $answer['objectives'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_objectives',
-                    ['id' => $objective->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

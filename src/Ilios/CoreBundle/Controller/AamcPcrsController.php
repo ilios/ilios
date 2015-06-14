@@ -158,21 +158,11 @@ class AamcPcrsController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $aamcpcrs = $this->getAamcPcrsHandler()
+            $new  =  $this->getAamcPcrsHandler()
                 ->post($this->getPostData($request));
+            $answer['aamcPcrs'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_aamcpcrs',
-                    ['id' => $aamcpcrs->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -158,21 +158,11 @@ class SessionTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $sessiontype = $this->getSessionTypeHandler()
+            $new  =  $this->getSessionTypeHandler()
                 ->post($this->getPostData($request));
+            $answer['sessionTypes'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_sessiontypes',
-                    ['id' => $sessiontype->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

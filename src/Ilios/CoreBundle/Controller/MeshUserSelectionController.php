@@ -158,21 +158,11 @@ class MeshUserSelectionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $meshuserselection = $this->getMeshUserSelectionHandler()
+            $new  =  $this->getMeshUserSelectionHandler()
                 ->post($this->getPostData($request));
+            $answer['meshUserSelections'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_meshuserselections',
-                    ['id' => $meshuserselection->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

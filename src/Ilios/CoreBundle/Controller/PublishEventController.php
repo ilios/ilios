@@ -158,21 +158,11 @@ class PublishEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $publishevent = $this->getPublishEventHandler()
+            $new  =  $this->getPublishEventHandler()
                 ->post($this->getPostData($request));
+            $answer['publishEvents'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_publishevents',
-                    ['id' => $publishevent->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -158,21 +158,11 @@ class CompetencyController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $competency = $this->getCompetencyHandler()
+            $new  =  $this->getCompetencyHandler()
                 ->post($this->getPostData($request));
+            $answer['competencies'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_competencies',
-                    ['id' => $competency->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

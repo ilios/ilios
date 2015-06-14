@@ -158,21 +158,11 @@ class CurriculumInventorySequenceBlockSessionController extends FOSRestControlle
     public function postAction(Request $request)
     {
         try {
-            $curriculuminventorysequenceblocksession = $this->getCurriculumInventorySequenceBlockSessionHandler()
+            $new  =  $this->getCurriculumInventorySequenceBlockSessionHandler()
                 ->post($this->getPostData($request));
+            $answer['curriculumInventorySequenceBlockSessions'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_curriculuminventorysequenceblocksessions',
-                    ['id' => $curriculuminventorysequenceblocksession->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -158,21 +158,11 @@ class CurriculumInventoryExportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $curriculuminventoryexport = $this->getCurriculumInventoryExportHandler()
+            $new  =  $this->getCurriculumInventoryExportHandler()
                 ->post($this->getPostData($request));
+            $answer['curriculumInventoryExports'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_curriculuminventoryexports',
-                    ['report' => $curriculuminventoryexport->getReport()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

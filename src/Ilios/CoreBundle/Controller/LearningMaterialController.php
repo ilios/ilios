@@ -158,21 +158,11 @@ class LearningMaterialController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $learningmaterial = $this->getLearningMaterialHandler()
+            $new  =  $this->getLearningMaterialHandler()
                 ->post($this->getPostData($request));
+            $answer['learningMaterials'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_learningmaterials',
-                    ['id' => $learningmaterial->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

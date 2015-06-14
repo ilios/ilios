@@ -158,21 +158,11 @@ class ReportPoValueController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $reportpovalue = $this->getReportPoValueHandler()
+            $new  =  $this->getReportPoValueHandler()
                 ->post($this->getPostData($request));
+            $answer['reportPoValues'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_reportpovalues',
-                    ['report' => $reportpovalue->getReport()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

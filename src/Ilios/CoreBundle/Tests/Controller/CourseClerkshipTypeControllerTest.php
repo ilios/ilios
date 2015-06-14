@@ -84,11 +84,9 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         $headers  = [];
 
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
-        $this->assertTrue(
-            $response->headers->contains(
-                'Location'
-            ),
-            print_r($response->headers, true)
+        $this->assertEquals(
+            $data,
+            json_decode($response->getContent(), true)['courseClerkshipTypes'][0]
         );
     }
 
@@ -106,7 +104,7 @@ class CourseClerkshipTypeControllerTest extends AbstractControllerTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals($response->getStatusCode(), Codes::HTTP_BAD_REQUEST);
+        $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
     public function testPutCourseClerkshipType()

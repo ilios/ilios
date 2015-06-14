@@ -158,21 +158,11 @@ class MeshDescriptorController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $meshdescriptor = $this->getMeshDescriptorHandler()
+            $new  =  $this->getMeshDescriptorHandler()
                 ->post($this->getPostData($request));
+            $answer['meshDescriptors'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_meshdescriptors',
-                    ['id' => $meshdescriptor->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

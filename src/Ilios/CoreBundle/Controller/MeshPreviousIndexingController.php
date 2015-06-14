@@ -158,21 +158,11 @@ class MeshPreviousIndexingController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $meshpreviousindexing = $this->getMeshPreviousIndexingHandler()
+            $new  =  $this->getMeshPreviousIndexingHandler()
                 ->post($this->getPostData($request));
+            $answer['meshPreviousIndexings'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_meshpreviousindexings',
-                    ['descriptor' => $meshpreviousindexing->getDescriptor()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -158,21 +158,11 @@ class ProgramYearController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $programyear = $this->getProgramYearHandler()
+            $new  =  $this->getProgramYearHandler()
                 ->post($this->getPostData($request));
+            $answer['programYears'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_programyears',
-                    ['id' => $programyear->getId()],
-                    true
-                )
-            );
-
-            return $response;
+            return $answer;
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
