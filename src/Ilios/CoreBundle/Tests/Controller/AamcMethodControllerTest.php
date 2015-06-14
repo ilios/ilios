@@ -26,9 +26,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'description'
-        ];
+        return [];
     }
 
     public function testGetAamcMethod()
@@ -41,7 +39,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_aamcmethod',
+                'get_aamcmethods',
                 ['id' => $aamcMethod['id']]
             )
         );
@@ -51,13 +49,13 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($aamcMethod),
-            json_decode($response->getContent(), true)['aamcMethod']
+            json_decode($response->getContent(), true)['aamcMethods'][0]
         );
     }
 
     public function testGetAllAamcMethods()
     {
-        $this->createJsonRequest('GET', $this->getUrl('get_aamcmethods'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_aamcmethods'));
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
@@ -77,7 +75,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
             ->create();
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_aamcmethod'),
+            $this->getUrl('post_aamcmethods'),
             json_encode(['aamcMethod' => $data])
         );
 
@@ -96,7 +94,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_aamcmethod'),
+            $this->getUrl('post_aamcmethods'),
             json_encode(['aamcMethod' => $invalidAamcMethod])
         );
 
@@ -114,7 +112,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_aamcmethod',
+                'put_aamcmethods',
                 ['id' => $aamcMethod['id']]
             ),
             json_encode(['aamcMethod' => $aamcMethod])
@@ -138,7 +136,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $this->client->request(
             'DELETE',
             $this->getUrl(
-                'delete_aamcmethod',
+                'delete_aamcmethods',
                 ['id' => $aamcMethod['id']]
             )
         );
@@ -148,7 +146,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $this->client->request(
             'GET',
             $this->getUrl(
-                'get_aamcmethod',
+                'get_aamcmethods',
                 ['id' => $aamcMethod['id']]
             )
         );
@@ -161,7 +159,7 @@ class AamcMethodControllerTest extends AbstractControllerTest
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_aamcmethod', ['id' => '0'])
+            $this->getUrl('get_aamcmethods', ['id' => '0'])
         );
 
         $response = $this->client->getResponse();
