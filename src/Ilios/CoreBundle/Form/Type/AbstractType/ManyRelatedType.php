@@ -7,28 +7,28 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Form\DataTransformer\ManyRelatedTransformer;
 use Ilios\CoreBundle\Form\DataTransformer\ArrayToStringTransformer;
 
 class ManyRelatedType extends AbstractType
 {
     /**
-     * @var ObjectManager
+     * @var Registry
      */
-    private $om;
+    private $doctrineRegistry;
 
     /**
-     * @param ObjectManager $om
+     * @param Registry $doctrineRegistry
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(Registry $doctrineRegistry)
     {
-        $this->om = $om;
+        $this->doctrineRegistry = $doctrineRegistry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new ManyRelatedTransformer($this->om, $options['entityName']);
+        $transformer = new ManyRelatedTransformer($this->doctrineRegistry, $options['entityName']);
         $viewTransformer = new ArrayToStringTransformer();
         $builder->addModelTransformer($transformer);
         $builder->addViewTransformer($viewTransformer);

@@ -2,7 +2,9 @@
 
 namespace Ilios\Corebundle\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -17,22 +19,29 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class ManyRelatedTransformer implements DataTransformerInterface
 {
     /**
-     * @var ObjectManager
+     * @var EntityManager
      */
-    private $om;
+    protected $em;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $repository;
 
     /**
      * The name of the entity we are working with
      * @var string
      */
-    private $entityName;
+     protected $entityName;
 
     /**
-     * @param ObjectManager $om
+     * @param Registry $registry
+     * @param string $entityName
      */
-    public function __construct(ObjectManager $om, $entityName)
+    public function __construct(Registry $registry, $entityName)
     {
-        $this->om = $om;
+        $this->em         = $registry->getManagerForClass($entityName);
+        $this->repository = $registry->getRepository($entityName);
         $this->entityName = $entityName;
     }
 
@@ -89,9 +98,8 @@ class ManyRelatedTransformer implements DataTransformerInterface
             return $collection;
         }
 
-        $repository = $this->om->getRespository($this->entityName);
         return $collection->map(function ($id) {
-            $entity = $repository->find($id);
+            $entity = $this->repository->find($id);
 
             if (null === $entity) {
                 throw new TransformationFailedException(sprintf(

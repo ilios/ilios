@@ -6,16 +6,16 @@ parameters:
 services:
   tdn.type.tdn_entity:
     class: %tdn.type.tdn_entity.class%
-    arguments: ['@doctrine.orm.entity_manager']
+    arguments: ['@doctrine']
     tags:
         - { name: 'form.type', alias: 'tdn_entity' }
   tdn.type.tdn_many_reated:
     class: %tdn.type.tdn_many_reated.class%
-    arguments: ['@doctrine.orm.entity_manager']
+    arguments: ['@doctrine']
     tags:
         - { name: 'form.type', alias: 'tdn_many_related' }
   tdn.type.tdn_single_related:
     class: %tdn.type.tdn_single_related.class%
-    arguments: ['@doctrine.orm.entity_manager']
+    arguments: ['@doctrine']
     tags:
         - { name: 'form.type', alias: 'tdn_single_related' }

@@ -2,7 +2,9 @@
 
 namespace Ilios\CoreBundle\Form\DataTransformer;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -15,22 +17,29 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class SingleRelatedTransformer implements DataTransformerInterface
 {
     /**
-     * @var ObjectManager
+     * @var EntityManager
      */
-    private $om;
+    protected $em;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $repository;
 
     /**
      * The name of the entity we are working with
      * @var string
      */
-    private $entityName;
+     protected $entityName;
 
     /**
-     * @param ObjectManager $om
+     * @param Registry $registry
+     * @param string $entityName
      */
-    public function __construct(ObjectManager $om, $entityName)
+    public function __construct(Registry $registry, $entityName)
     {
-        $this->om = $om;
+        $this->em         = $registry->getManagerForClass($entityName);
+        $this->repository = $registry->getRepository($entityName);
         $this->entityName = $entityName;
     }
 
@@ -64,10 +73,7 @@ class SingleRelatedTransformer implements DataTransformerInterface
             return null;
         }
 
-        $entity = $this->om
-            ->getRepository($this->entityName)
-            ->find($id)
-        ;
+        $entity = $this->repository($this->entityName)->find($id);
 
         if (null === $entity) {
             throw new TransformationFailedException(sprintf(
