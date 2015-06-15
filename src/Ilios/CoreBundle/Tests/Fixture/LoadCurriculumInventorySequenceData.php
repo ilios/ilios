@@ -28,9 +28,12 @@ class LoadCurriculumInventorySequenceData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequence();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('curriculumInventorySequences' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

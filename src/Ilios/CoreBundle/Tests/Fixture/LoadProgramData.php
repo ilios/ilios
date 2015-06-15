@@ -28,9 +28,12 @@ class LoadProgramData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Program();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('programs' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

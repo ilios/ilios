@@ -28,9 +28,12 @@ class LoadSessionDescriptionData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new SessionDescription();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('sessionDescriptions' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

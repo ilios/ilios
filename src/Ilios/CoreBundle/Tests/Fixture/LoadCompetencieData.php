@@ -2,14 +2,14 @@
 
 namespace Ilios\CoreBundle\Tests\Fixture;
 
-use Ilios\CoreBundle\Entity\LearnerGroup;
+use Ilios\CoreBundle\Entity\Competencie;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadLearnerGroupData extends AbstractFixture implements
+class LoadCompetencieData extends AbstractFixture implements
     FixtureInterface,
     ContainerAwareInterface
 {
@@ -24,13 +24,13 @@ class LoadLearnerGroupData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.learnerGroup')
+            ->get('ilioscore.dataloader.competencie')
             ->getAll();
         foreach ($data as $arr) {
-            $entity = new LearnerGroup();
+            $entity = new Competencie();
             $entity->setId($arr['id']);
             $manager->persist($entity);
-            $this->addReference('learnerGroups' . $arr['id'], $entity);
+            $this->addReference('competencies' . $arr['id'], $entity);
         }
 
         $manager->flush();

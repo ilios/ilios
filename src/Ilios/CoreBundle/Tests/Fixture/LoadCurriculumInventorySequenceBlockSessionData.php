@@ -28,9 +28,12 @@ class LoadCurriculumInventorySequenceBlockSessionData extends AbstractFixture im
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlockSession();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('curriculumInventorySequenceBlockSessions' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

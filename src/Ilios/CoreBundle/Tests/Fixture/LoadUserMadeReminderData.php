@@ -28,9 +28,12 @@ class LoadUserMadeReminderData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new UserMadeReminder();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('userMadeReminders' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

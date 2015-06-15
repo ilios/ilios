@@ -28,9 +28,12 @@ class LoadAlertData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Alert();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('alerts' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

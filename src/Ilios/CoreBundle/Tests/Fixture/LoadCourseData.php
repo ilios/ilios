@@ -28,9 +28,12 @@ class LoadCourseData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Course();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('courses' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

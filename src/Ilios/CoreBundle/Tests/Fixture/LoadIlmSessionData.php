@@ -28,9 +28,12 @@ class LoadIlmSessionData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new IlmSession();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('ilmSessions' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

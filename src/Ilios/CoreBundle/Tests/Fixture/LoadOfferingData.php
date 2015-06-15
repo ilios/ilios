@@ -28,9 +28,12 @@ class LoadOfferingData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Offering();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('offerings' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

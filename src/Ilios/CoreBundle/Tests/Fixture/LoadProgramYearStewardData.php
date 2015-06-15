@@ -28,9 +28,12 @@ class LoadProgramYearStewardData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYearSteward();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('programYearStewards' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

@@ -28,9 +28,12 @@ class LoadReportPoValueData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ReportPoValue();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('reportPoValues' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

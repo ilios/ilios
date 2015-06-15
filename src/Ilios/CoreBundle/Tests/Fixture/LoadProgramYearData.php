@@ -28,9 +28,12 @@ class LoadProgramYearData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYear();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('programYears' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

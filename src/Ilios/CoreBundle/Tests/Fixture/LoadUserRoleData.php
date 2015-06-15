@@ -28,9 +28,12 @@ class LoadUserRoleData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new UserRole();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('userRoles' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

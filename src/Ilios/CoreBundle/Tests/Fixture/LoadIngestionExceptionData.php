@@ -28,9 +28,12 @@ class LoadIngestionExceptionData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new IngestionException();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('ingestionExceptions' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

@@ -28,9 +28,12 @@ class LoadLearningMaterialData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new LearningMaterial();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('learningMaterials' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

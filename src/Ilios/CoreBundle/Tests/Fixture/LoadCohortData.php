@@ -28,9 +28,12 @@ class LoadCohortData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Cohort();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('cohorts' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

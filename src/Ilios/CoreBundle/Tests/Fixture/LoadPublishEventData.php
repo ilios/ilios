@@ -28,9 +28,12 @@ class LoadPublishEventData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new PublishEvent();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('publishEvents' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

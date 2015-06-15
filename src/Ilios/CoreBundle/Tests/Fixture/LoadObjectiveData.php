@@ -28,9 +28,12 @@ class LoadObjectiveData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Objective();
+            $entity->setId($arr['id']);
             $manager->persist($entity);
             $this->addReference('objectives' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }
