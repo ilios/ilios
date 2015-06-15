@@ -8,17 +8,35 @@ class AlertChangeTypeData extends AbstractDataLoader
     {
         $arr = array();
 
+        $arr[] = array(
+            'id' => 1,
+            'title' => $this->faker->text(25),
+            'alerts' => ['1']
+        );
+
+        $arr[] = array(
+            'id' => 2,
+            'title' => $this->faker->text(25),
+            'alerts' => ['1', '2']
+        );
 
         return $arr;
     }
 
     public function create()
     {
-        return [];
+        return [
+            'id' => 3,
+            'title' => $this->faker->text(10),
+            'alerts' => []
+        ];
     }
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'id' => $this->faker->text,
+            'alerts' => [424524]
+        ];
     }
 }

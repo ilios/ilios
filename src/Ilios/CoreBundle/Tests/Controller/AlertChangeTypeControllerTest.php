@@ -27,7 +27,6 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     protected function getPrivateFields()
     {
         return [
-            'title'
         ];
     }
 
@@ -75,19 +74,24 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.alertchangetype')
             ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_alertchangetypes'),
-            json_encode(['alertChangeType' => $data])
+            json_encode(['alertChangeType' => $postData])
         );
 
         $response = $this->client->getResponse();
         $headers  = [];
 
-        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['alertChangeTypes'][0]
+            json_decode($response->getContent(), true)['alertChangeTypes'][0],
+            $response->getContent()
         );
     }
 
@@ -110,24 +114,27 @@ class AlertChangeTypeControllerTest extends AbstractControllerTest
 
     public function testPutAlertChangeType()
     {
-        $alertChangeType = $this->container
+        $data = $this->container
             ->get('ilioscore.dataloader.alertchangetype')
-            ->getOne()
-        ;
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 'put_alertchangetypes',
-                ['id' => $alertChangeType['id']]
+                ['id' => $data['id']]
             ),
-            json_encode(['alertChangeType' => $alertChangeType])
+            json_encode(['alertChangeType' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($alertChangeType),
+            $this->mockSerialize($data),
             json_decode($response->getContent(), true)['alertChangeType']
         );
     }

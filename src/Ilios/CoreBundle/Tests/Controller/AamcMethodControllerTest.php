@@ -74,10 +74,13 @@ class AamcMethodControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.aamcmethod')
             ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_aamcmethods'),
-            json_encode(['aamcMethod' => $data])
+            json_encode(['aamcMethod' => $postData])
         );
 
         $response = $this->client->getResponse();
@@ -110,24 +113,26 @@ class AamcMethodControllerTest extends AbstractControllerTest
 
     public function testPutAamcMethod()
     {
-        $aamcMethod = $this->container
+        $data = $this->container
             ->get('ilioscore.dataloader.aamcmethod')
-            ->getOne()
-        ;
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 'put_aamcmethods',
-                ['id' => $aamcMethod['id']]
+                ['id' => $data['id']]
             ),
-            json_encode(['aamcMethod' => $aamcMethod])
+            json_encode(['aamcMethod' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($aamcMethod),
+            $this->mockSerialize($data),
             json_decode($response->getContent(), true)['aamcMethod']
         );
     }

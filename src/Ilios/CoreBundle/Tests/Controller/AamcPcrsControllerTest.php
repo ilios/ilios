@@ -26,7 +26,8 @@ class AamcPcrsControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [];
+        return [
+        ];
     }
 
     public function testGetAamcPcrs()
@@ -73,10 +74,13 @@ class AamcPcrsControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.aamcpcrs')
             ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_aamcpcrs'),
-            json_encode(['aamcPcrses' => $data])
+            json_encode(['aamcPcrses' => $postData])
         );
 
         $response = $this->client->getResponse();
@@ -109,24 +113,26 @@ class AamcPcrsControllerTest extends AbstractControllerTest
 
     public function testPutAamcPcrs()
     {
-        $aamcPcrs = $this->container
+        $data = $this->container
             ->get('ilioscore.dataloader.aamcpcrs')
-            ->getOne()
-        ;
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 'put_aamcpcrs',
-                ['id' => $aamcPcrs['id']]
+                ['id' => $data['id']]
             ),
-            json_encode(['aamcPcrses' => $aamcPcrs])
+            json_encode(['aamcPcrses' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($aamcPcrs),
+            $this->mockSerialize($data),
             json_decode($response->getContent(), true)['aamcPcrses']
         );
     }
