@@ -28,9 +28,14 @@ class LoadAamcMethodData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AamcMethod();
+            $entity->setId($arr['id']);
+            $entity->setDescription($arr['description']);
+            
             $manager->persist($entity);
             $this->addReference('aamcMethods' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

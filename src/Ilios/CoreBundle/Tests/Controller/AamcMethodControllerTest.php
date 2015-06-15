@@ -83,10 +83,11 @@ class AamcMethodControllerTest extends AbstractControllerTest
         $response = $this->client->getResponse();
         $headers  = [];
 
-        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['aamcMethods'][0]
+            json_decode($response->getContent(), true)['aamcMethods'][0],
+            $response->getContent()
         );
     }
 
