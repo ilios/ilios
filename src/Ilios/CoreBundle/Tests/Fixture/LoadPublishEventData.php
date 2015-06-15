@@ -35,5 +35,4 @@ class LoadPublishEventData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

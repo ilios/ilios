@@ -37,5 +37,4 @@ class LoadAamcMethodData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

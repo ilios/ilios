@@ -36,5 +36,4 @@ class LoadAamcPcrsData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

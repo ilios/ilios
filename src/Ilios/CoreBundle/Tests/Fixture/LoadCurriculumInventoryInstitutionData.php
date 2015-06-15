@@ -35,5 +35,4 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

@@ -35,5 +35,4 @@ class LoadReportPoValueData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

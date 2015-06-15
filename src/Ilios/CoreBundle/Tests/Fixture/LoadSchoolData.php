@@ -37,5 +37,4 @@ class LoadSchoolData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

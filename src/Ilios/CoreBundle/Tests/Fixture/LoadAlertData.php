@@ -58,5 +58,4 @@ class LoadAlertData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
         );
     }
-
 }

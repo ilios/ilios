@@ -35,5 +35,4 @@ class LoadProgramData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

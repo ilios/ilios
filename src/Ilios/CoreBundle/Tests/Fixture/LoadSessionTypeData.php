@@ -53,5 +53,4 @@ class LoadSessionTypeData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData'
         );
     }
-
 }

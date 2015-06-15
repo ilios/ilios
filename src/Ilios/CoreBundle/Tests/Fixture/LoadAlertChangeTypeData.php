@@ -37,5 +37,4 @@ class LoadAlertChangeTypeData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

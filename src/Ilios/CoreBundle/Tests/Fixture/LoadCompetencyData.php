@@ -41,5 +41,4 @@ class LoadCompetencyData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

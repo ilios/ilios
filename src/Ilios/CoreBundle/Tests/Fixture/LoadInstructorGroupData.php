@@ -35,5 +35,4 @@ class LoadInstructorGroupData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

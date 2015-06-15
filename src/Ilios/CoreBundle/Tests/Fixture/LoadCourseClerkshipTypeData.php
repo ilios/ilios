@@ -35,5 +35,4 @@ class LoadCourseClerkshipTypeData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

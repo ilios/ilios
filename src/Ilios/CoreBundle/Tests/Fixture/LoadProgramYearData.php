@@ -35,5 +35,4 @@ class LoadProgramYearData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

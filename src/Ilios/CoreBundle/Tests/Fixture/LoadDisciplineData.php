@@ -35,5 +35,4 @@ class LoadDisciplineData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

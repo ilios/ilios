@@ -35,5 +35,4 @@ class LoadIngestionExceptionData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

@@ -32,5 +32,4 @@ class LoadLearningMaterialStatusData extends AbstractFixture implements
             $this->addReference('learningMaterialStatus' . $arr['id'], $entity);
         }
     }
-
 }

@@ -35,5 +35,4 @@ class LoadDepartmentData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

@@ -35,5 +35,4 @@ class LoadUserMadeReminderData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

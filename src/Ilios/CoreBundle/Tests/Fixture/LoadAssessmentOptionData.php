@@ -37,5 +37,4 @@ class LoadAssessmentOptionData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

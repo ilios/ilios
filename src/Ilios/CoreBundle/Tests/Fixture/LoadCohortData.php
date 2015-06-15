@@ -35,5 +35,4 @@ class LoadCohortData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

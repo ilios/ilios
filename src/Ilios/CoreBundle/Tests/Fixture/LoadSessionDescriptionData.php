@@ -35,5 +35,4 @@ class LoadSessionDescriptionData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

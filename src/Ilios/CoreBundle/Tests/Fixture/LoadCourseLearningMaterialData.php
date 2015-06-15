@@ -35,5 +35,4 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

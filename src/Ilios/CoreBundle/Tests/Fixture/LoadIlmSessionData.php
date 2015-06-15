@@ -35,5 +35,4 @@ class LoadIlmSessionData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

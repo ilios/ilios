@@ -35,5 +35,4 @@ class LoadOfferingData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

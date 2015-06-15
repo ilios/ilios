@@ -35,5 +35,4 @@ class LoadCurriculumInventorySequenceBlockSessionData extends AbstractFixture im
 
         $manager->flush();
     }
-
 }

@@ -35,5 +35,4 @@ class LoadRecurringEventData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

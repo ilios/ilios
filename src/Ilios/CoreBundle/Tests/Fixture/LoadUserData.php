@@ -39,5 +39,4 @@ class LoadUserData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

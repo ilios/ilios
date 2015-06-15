@@ -35,5 +35,4 @@ class LoadObjectiveData extends AbstractFixture implements
 
         $manager->flush();
     }
-
 }

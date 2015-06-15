@@ -158,38 +158,55 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.assessmentoption.class' => 'Ilios\CoreBundle\Tests\DataLoader\AssessmentOptionData',
             'ilioscore.dataloader.cohort.class' => 'Ilios\CoreBundle\Tests\DataLoader\CohortData',
             'ilioscore.dataloader.competency.class' => 'Ilios\CoreBundle\Tests\DataLoader\CompetencyData',
-            'ilioscore.dataloader.courselearningmaterial.class' => 'Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData',
+            'ilioscore.dataloader.courselearningmaterial.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData',
             'ilioscore.dataloader.course.class' => 'Ilios\CoreBundle\Tests\DataLoader\CourseData',
-            'ilioscore.dataloader.courseclerkshiptype.class' => 'Ilios\CoreBundle\Tests\DataLoader\CourseClerkshipTypeData',
-            'ilioscore.dataloader.curriculuminventoryacademiclevel.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryAcademicLevelData',
-            'ilioscore.dataloader.curriculuminventoryexport.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryExportData',
-            'ilioscore.dataloader.curriculuminventoryinstitution.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryInstitutionData',
-            'ilioscore.dataloader.curriculuminventoryreport.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData',
-            'ilioscore.dataloader.curriculuminventorysequenceblock.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockData',
-            'ilioscore.dataloader.curriculuminventorysequenceblocksession.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
-            'ilioscore.dataloader.curriculuminventorysequence.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData',
+            'ilioscore.dataloader.courseclerkshiptype.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CourseClerkshipTypeData',
+            'ilioscore.dataloader.curriculuminventoryacademiclevel.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryAcademicLevelData',
+            'ilioscore.dataloader.curriculuminventoryexport.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryExportData',
+            'ilioscore.dataloader.curriculuminventoryinstitution.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryInstitutionData',
+            'ilioscore.dataloader.curriculuminventoryreport.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData',
+            'ilioscore.dataloader.curriculuminventorysequenceblock.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockData',
+            'ilioscore.dataloader.curriculuminventorysequenceblocksession.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
+            'ilioscore.dataloader.curriculuminventorysequence.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData',
             'ilioscore.dataloader.department.class' => 'Ilios\CoreBundle\Tests\DataLoader\DepartmentData',
             'ilioscore.dataloader.discipline.class' => 'Ilios\CoreBundle\Tests\DataLoader\DisciplineData',
             'ilioscore.dataloader.ilmsessionfacet.class' => 'NOT_FOUND',
-            'ilioscore.dataloader.ingestionexception.class' => 'Ilios\CoreBundle\Tests\DataLoader\IngestionExceptionData',
+            'ilioscore.dataloader.ingestionexception.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\IngestionExceptionData',
             'ilioscore.dataloader.instructorgroup.class' => 'Ilios\CoreBundle\Tests\DataLoader\InstructorGroupData',
             'ilioscore.dataloader.learnergroup.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearnerGroupData',
-            'ilioscore.dataloader.learningmaterialstatus.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialStatusData',
-            'ilioscore.dataloader.learningmaterialuserrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
-            'ilioscore.dataloader.learningmaterial.class' => 'Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData',
+            'ilioscore.dataloader.learningmaterialstatus.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialStatusData',
+            'ilioscore.dataloader.learningmaterialuserrole.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
+            'ilioscore.dataloader.learningmaterial.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData',
             'ilioscore.dataloader.objective.class' => 'Ilios\CoreBundle\Tests\DataLoader\ObjectiveData',
             'ilioscore.dataloader.offering.class' => 'Ilios\CoreBundle\Tests\DataLoader\OfferingData',
             'ilioscore.dataloader.programyear.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramYearData',
-            'ilioscore.dataloader.programyearsteward.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramYearStewardData',
+            'ilioscore.dataloader.programyearsteward.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\ProgramYearStewardData',
             'ilioscore.dataloader.program.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramData',
             'ilioscore.dataloader.publishevent.class' => 'Ilios\CoreBundle\Tests\DataLoader\PublishEventData',
             'ilioscore.dataloader.recurringevent.class' => 'Ilios\CoreBundle\Tests\DataLoader\RecurringEventData',
             'ilioscore.dataloader.report.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData',
             'ilioscore.dataloader.school.class' => 'Ilios\CoreBundle\Tests\DataLoader\SchoolData',
-            'ilioscore.dataloader.sessiondescription.class' => 'Ilios\CoreBundle\Tests\DataLoader\SessionDescriptionData',
-            'ilioscore.dataloader.sessionlearningmaterial.class' => 'Ilios\CoreBundle\Tests\DataLoader\SessionLearningMaterialData',
+            'ilioscore.dataloader.sessiondescription.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\SessionDescriptionData',
+            'ilioscore.dataloader.sessionlearningmaterial.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\SessionLearningMaterialData',
             'ilioscore.dataloader.sessiontype.class' => 'Ilios\CoreBundle\Tests\DataLoader\SessionTypeData',
-            'ilioscore.dataloader.session.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
+            'ilioscore.dataloader.session.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
             'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
             'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
             'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',
