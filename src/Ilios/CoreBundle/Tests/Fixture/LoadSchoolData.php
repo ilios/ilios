@@ -29,6 +29,8 @@ class LoadSchoolData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new School();
             $entity->setId($arr['id']);
+            $entity->setTitle($arr['title']);
+            $entity->setIliosAdministratorEmail($arr['iliosAdministratorEmail']);
             $manager->persist($entity);
             $this->addReference('schools' . $arr['id'], $entity);
         }

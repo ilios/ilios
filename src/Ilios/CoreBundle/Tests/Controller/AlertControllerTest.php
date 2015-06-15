@@ -54,6 +54,7 @@ class AlertControllerTest extends AbstractControllerTest
             $this->mockSerialize($alert),
             json_decode($response->getContent(), true)['alerts'][0]
         );
+
     }
 
     public function testGetAllAlerts()
@@ -76,19 +77,24 @@ class AlertControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.alert')
             ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_alerts'),
-            json_encode(['alert' => $data])
+            json_encode(['alert' => $postData])
         );
 
         $response = $this->client->getResponse();
         $headers  = [];
 
-        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['alerts'][0]
+            json_decode($response->getContent(), true)['alerts'][0],
+            $response->getContent()
         );
     }
 
@@ -111,24 +117,27 @@ class AlertControllerTest extends AbstractControllerTest
 
     public function testPutAlert()
     {
-        $alert = $this->container
+        $data = $this->container
             ->get('ilioscore.dataloader.alert')
-            ->getOne()
-        ;
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 'put_alerts',
-                ['id' => $alert['id']]
+                ['id' => $data['id']]
             ),
-            json_encode(['alert' => $alert])
+            json_encode(['alert' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($alert),
+            $this->mockSerialize($data),
             json_decode($response->getContent(), true)['alert']
         );
     }

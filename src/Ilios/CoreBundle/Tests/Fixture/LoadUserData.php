@@ -29,6 +29,10 @@ class LoadUserData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new User();
             $entity->setId($arr['id']);
+            $entity->setFirstName($arr['firstName']);
+            $entity->setLastName($arr['lastName']);
+            $entity->setMiddleName($arr['middleName']);
+            $entity->setEmail($arr['email']);
             $manager->persist($entity);
             $this->addReference('users' . $arr['id'], $entity);
         }

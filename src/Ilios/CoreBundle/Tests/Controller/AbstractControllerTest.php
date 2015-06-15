@@ -106,7 +106,7 @@ abstract class AbstractControllerTest extends WebTestCase
      *
      * @return array
      */
-    public function mockSerialize(array &$array, $underscore = false)
+    public function mockSerialize(array $array, $underscore = false)
     {
         foreach ($array as $k => $v) {
             if (is_array($v)) {

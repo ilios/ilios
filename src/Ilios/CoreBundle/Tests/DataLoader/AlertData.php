@@ -24,8 +24,8 @@ class AlertData extends AbstractDataLoader
             'tableName' => "course",
             'dispatched' => "1",
             'changeTypes' => ['2'],
-            'instigators' => [],
-            'recipients' => []
+            'instigators' => [1],
+            'recipients' => [1]
         );
 
 
@@ -35,7 +35,7 @@ class AlertData extends AbstractDataLoader
     public function create()
     {
         return [
-            'id' => $this->faker->randomDigit,
+            'id' => 3,
             'tableRowId' => $this->faker->randomDigit,
             'tableName' => "course",
             'dispatched' => "1",
