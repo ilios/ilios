@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class ProgramYearData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[42] = array(
+        $arr[] = array(
             'id' => 42,
             'startYear' => "2013",
             'deleted' => false,
@@ -161,7 +160,7 @@ class ProgramYearData extends AbstractDataLoader
             'publishEvent' => "40125"
         );
 
-        $arr[58] = array(
+        $arr[] = array(
             'id' => 58,
             'startYear' => "2013",
             'deleted' => false,
@@ -171,7 +170,7 @@ class ProgramYearData extends AbstractDataLoader
             'program' => "7",
             'cohort' => "57",
             'directors' => [],
-            'competencies' => ['27','28','29','30','31','32'            ],
+            'competencies' => ['27','28','29','30','31','32'],
             'disciplines' => [
                 '101',
                 '102',
@@ -254,7 +253,7 @@ class ProgramYearData extends AbstractDataLoader
             'publishEvent' => "40189"
         );
 
-        $arr[67] = array(
+        $arr[] = array(
             'id' => 67,
             'startYear' => "2014",
             'deleted' => false,
@@ -406,7 +405,7 @@ class ProgramYearData extends AbstractDataLoader
             'publishEvent' => "53353"
         );
 
-        $arr[69] = array(
+        $arr[] = array(
             'id' => 69,
             'startYear' => "2014",
             'deleted' => false,
@@ -416,7 +415,7 @@ class ProgramYearData extends AbstractDataLoader
             'program' => "7",
             'cohort' => "68",
             'directors' => [],
-            'competencies' => ['27','28','29','30','31','32'            ],
+            'competencies' => ['27','28','29','30','31','32'],
             'disciplines' => [
                 '101',
                 '102',
@@ -499,6 +498,8 @@ class ProgramYearData extends AbstractDataLoader
             'publishEvent' => "54947"
         );
 
+
+        return $arr;
     }
 
     public function create()

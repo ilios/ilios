@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class SchoolData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[1] = array(
+        $arr[] = array(
             'id' => 1,
             'title' => "Medicine",
             'iliosAdministratorEmail' => "ilios_admin@example.edu",
@@ -47,8 +46,8 @@ class SchoolData extends AbstractDataLoader
                 '51',
                 '52',
             ],
-            'courses' => ['384','551','595'            ],
-            'programs' => ['1'            ],
+            'courses' => ['384','551','595'],
+            'programs' => ['1'],
             'departments' => [
                 '1',
                 '2',
@@ -290,17 +289,17 @@ class SchoolData extends AbstractDataLoader
             ]
         );
 
-        $arr[3] = array(
+        $arr[] = array(
             'id' => 3,
             'title' => "Pharmacy",
             'iliosAdministratorEmail' => "ilios_admin@example.edu",
             'deleted' => false,
             'changeAlertRecipients' => "ilios_admin@example.edu",
             'alerts' => [],
-            'competencies' => ['27','28','29','30','31','32'            ],
-            'courses' => ['543'            ],
-            'programs' => ['7'            ],
-            'departments' => ['49','50','51'            ],
+            'competencies' => ['27','28','29','30','31','32'],
+            'courses' => ['543'],
+            'programs' => ['7'],
+            'departments' => ['49','50','51'],
             'disciplines' => [
                 '101',
                 '102',
@@ -445,6 +444,8 @@ class SchoolData extends AbstractDataLoader
             ]
         );
 
+
+        return $arr;
     }
 
     public function create()

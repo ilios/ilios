@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class CourseLearningMaterialData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[1247] = array(
+        $arr[] = array(
             'id' => 1247,
             'required' => true,
             'publicNotes' => true,
@@ -18,6 +17,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
+
+        return $arr;
     }
 
     public function create()

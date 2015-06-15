@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class CohortData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[41] = array(
+        $arr[] = array(
             'id' => 41,
             'title' => "Class of 2017",
             'programYear' => "42",
@@ -18,7 +17,7 @@ class CohortData extends AbstractDataLoader
             'users' => []
         );
 
-        $arr[57] = array(
+        $arr[] = array(
             'id' => 57,
             'title' => "Class of 2017",
             'programYear' => "58",
@@ -27,11 +26,11 @@ class CohortData extends AbstractDataLoader
             'users' => []
         );
 
-        $arr[66] = array(
+        $arr[] = array(
             'id' => 66,
             'title' => "Class of 2018",
             'programYear' => "67",
-            'courses' => ['595'            ],
+            'courses' => ['595'],
             'learnerGroups' => [
                 '4715',
                 '4718',
@@ -253,7 +252,7 @@ class CohortData extends AbstractDataLoader
             ]
         );
 
-        $arr[68] = array(
+        $arr[] = array(
             'id' => 68,
             'title' => "Class of 2018",
             'programYear' => "69",
@@ -262,6 +261,8 @@ class CohortData extends AbstractDataLoader
             'users' => []
         );
 
+
+        return $arr;
     }
 
     public function create()

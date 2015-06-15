@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class UserData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[4136] = array(
+        $arr[] = array(
             'id' => 4136,
             'lastName' => "Green",
             'firstName' => "Clarence",
@@ -392,10 +391,10 @@ class UserData extends AbstractDataLoader
             ],
             'reports' => [],
             'primarySchool' => "1",
-            'directedCourses' => ['543','551','595'            ],
+            'directedCourses' => ['543','551','595'],
             'learnerGroups' => [],
             'instructorUserGroups' => [],
-            'instructorGroups' => ['19','108'            ],
+            'instructorGroups' => ['19','108'],
             'instructorIlmSessions' => [],
             'learnerIlmSessions' => [],
             'offerings' => [],
@@ -403,11 +402,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['1','3','9'            ],
+            'roles' => ['1','3','9'],
             'cohorts' => []
         );
 
-        $arr[11256] = array(
+        $arr[] = array(
             'id' => 11256,
             'lastName' => "Cruz",
             'firstName' => "Shirley",
@@ -454,11 +453,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11257] = array(
+        $arr[] = array(
             'id' => 11257,
             'lastName' => "Mcdonald",
             'firstName' => "Jimmy",
@@ -505,11 +504,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11258] = array(
+        $arr[] = array(
             'id' => 11258,
             'lastName' => "Brown",
             'firstName' => "Mark",
@@ -556,11 +555,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11259] = array(
+        $arr[] = array(
             'id' => 11259,
             'lastName' => "Woods",
             'firstName' => "Andrew",
@@ -607,11 +606,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11260] = array(
+        $arr[] = array(
             'id' => 11260,
             'lastName' => "Morgan",
             'firstName' => "Shawn",
@@ -658,11 +657,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11261] = array(
+        $arr[] = array(
             'id' => 11261,
             'lastName' => "Oliver",
             'firstName' => "Phyllis",
@@ -709,11 +708,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11262] = array(
+        $arr[] = array(
             'id' => 11262,
             'lastName' => "Stewart",
             'firstName' => "Lois",
@@ -760,11 +759,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11263] = array(
+        $arr[] = array(
             'id' => 11263,
             'lastName' => "Fox",
             'firstName' => "Brenda",
@@ -811,11 +810,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11264] = array(
+        $arr[] = array(
             'id' => 11264,
             'lastName' => "Greene",
             'firstName' => "Heather",
@@ -862,11 +861,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11265] = array(
+        $arr[] = array(
             'id' => 11265,
             'lastName' => "Hunt",
             'firstName' => "Tammy",
@@ -913,11 +912,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11266] = array(
+        $arr[] = array(
             'id' => 11266,
             'lastName' => "Bennett",
             'firstName' => "Antonio",
@@ -964,11 +963,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11267] = array(
+        $arr[] = array(
             'id' => 11267,
             'lastName' => "Taylor",
             'firstName' => "Nancy",
@@ -1015,11 +1014,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11268] = array(
+        $arr[] = array(
             'id' => 11268,
             'lastName' => "Johnston",
             'firstName' => "Margaret",
@@ -1066,11 +1065,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11269] = array(
+        $arr[] = array(
             'id' => 11269,
             'lastName' => "Allen",
             'firstName' => "Ruth",
@@ -1117,11 +1116,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11270] = array(
+        $arr[] = array(
             'id' => 11270,
             'lastName' => "Reynolds",
             'firstName' => "Tina",
@@ -1168,11 +1167,11 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
-        $arr[11272] = array(
+        $arr[] = array(
             'id' => 11272,
             'lastName' => "Fields",
             'firstName' => "Bruce",
@@ -1183,7 +1182,7 @@ class UserData extends AbstractDataLoader
             'reports' => [],
             'primarySchool' => "1",
             'directedCourses' => [],
-            'learnerGroups' => ['5253','5256','5358','5391'            ],
+            'learnerGroups' => ['5253','5256','5358','5391'],
             'instructorUserGroups' => [],
             'instructorGroups' => [],
             'instructorIlmSessions' => [],
@@ -1193,10 +1192,12 @@ class UserData extends AbstractDataLoader
             'programYears' => [],
             'instructionHours' => [],
             'alerts' => [],
-            'roles' => ['4'            ],
-            'cohorts' => ['66'            ]
+            'roles' => ['4'],
+            'cohorts' => ['66']
         );
 
+
+        return $arr;
     }
 
     public function create()

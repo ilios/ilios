@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class LearningMaterialData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[26390] = array(
+        $arr[] = array(
             'id' => 26390,
             'title' => "'Internal Organizaiton of the Cell'",
             'description' => "An advanced text that correlates cell structure with function at a<br>molecular level",
@@ -24,7 +23,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26416] = array(
+        $arr[] = array(
             'id' => 26416,
             'title' => "Basica & Clinical Pharmacology",
             'description' => "This is a good chance for you to become accustomed to using the textbook to supplement the syllabus. The textbook is especially useful for providing an overview and for more in-depth explanations.",
@@ -39,7 +38,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26424] = array(
+        $arr[] = array(
             'id' => 26424,
             'title' => "Wheater's Functional Histology",
             'description' => "Recommended Reading",
@@ -54,7 +53,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26455] = array(
+        $arr[] = array(
             'id' => 26455,
             'title' => "Molecular regulation",
             'description' => "Required reading",
@@ -69,7 +68,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26456] = array(
+        $arr[] = array(
             'id' => 26456,
             'title' => "Langman's Medical Embryology ",
             'description' => "Required reading",
@@ -84,7 +83,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26457] = array(
+        $arr[] = array(
             'id' => 26457,
             'title' => "Molecular regulation of limb development",
             'description' => "Required reading",
@@ -99,7 +98,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26458] = array(
+        $arr[] = array(
             'id' => 26458,
             'title' => "Resegmentation 'Vertebrae'",
             'description' => "Resegmentation-http://embryology.med.unsw.edu.au/Movies/mesoderm.htm (scroll down to “Vertebrae”)",
@@ -114,7 +113,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26459] = array(
+        $arr[] = array(
             'id' => 26459,
             'title' => "Simbryo",
             'description' => "Limb axes and rotation- Video on limbs in “Simbryo” on the CLE http://missinglink.ucsf.edu/restricted/simbryo/site/index.html",
@@ -129,7 +128,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26515] = array(
+        $arr[] = array(
             'id' => 26515,
             'title' => "Prologue Course Syllabus 2014",
             'description' => "Entire course syllabus in PDF",
@@ -139,7 +138,7 @@ class LearningMaterialData extends AbstractDataLoader
             'userRole' => "3",
             'status' => "2",
             'owningUser' => "4136",
-            'courseLearningMaterials' => ['1247'            ],
+            'courseLearningMaterials' => ['1247'],
             'path' => "/learning_materials/595/0/20140826-085409_319_d06bdedec25c6ab8a0328b0357203ee3",
             'copyrightPermission' => true,
             'copyrightRationale' => "",
@@ -149,7 +148,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26544] = array(
+        $arr[] = array(
             'id' => 26544,
             'title' => "The Components and Properties of Cell Membranes ILM",
             'description' => "The Components and Properties of Cell Membranes ILM on iROCKET and syllabus",
@@ -164,7 +163,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26550] = array(
+        $arr[] = array(
             'id' => 26550,
             'title' => "Medical Physiology",
             'description' => "(This section is detailed, but contains useful descriptions of nearly every type of transport protein you will encounter in other blocks.",
@@ -179,7 +178,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26551] = array(
+        $arr[] = array(
             'id' => 26551,
             'title' => "Essential Cell Biology",
             'description' => "Supplemental reading",
@@ -194,7 +193,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26557] = array(
+        $arr[] = array(
             'id' => 26557,
             'title' => "Basic & Clinical Pharmacology",
             'description' => "In Chapter 1, the sections that are most important include “The Nature of Drugs”, “Drug-Body Interactions”, “Pharmacodynamic Principles”, and “Pharmacokinetic Principles”. The topics of drug permeation and ionization of weak acids and weak bases, which are addressed in Chapter 1 of the textbook, will be covered by Dr. Fulton in lecture and you will work with this concept in your first small group. Dr. Fulton also will expand on drug reactivity and drug-receptor bonds.",
@@ -209,7 +208,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26558] = array(
+        $arr[] = array(
             'id' => 26558,
             'title' => "Basic & Clinical Pharmacology cont.",
             'description' => "Chapt 5 reading",
@@ -224,7 +223,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26559] = array(
+        $arr[] = array(
             'id' => 26559,
             'title' => "Basic & Clinical Pharmacology cont. 2",
             'description' => "Chapt 65 reading",
@@ -239,7 +238,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26560] = array(
+        $arr[] = array(
             'id' => 26560,
             'title' => "Prilosec, Nexium & Stereoisomers",
             'description' => "Recommended reading. Available on iROCKET.",
@@ -254,7 +253,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "citation"
         );
 
-        $arr[26718] = array(
+        $arr[] = array(
             'id' => 26718,
             'title' => "Cells & Tissues-Lecture Slides Ppt",
             'description' => "Lecture slides Ppt",
@@ -274,7 +273,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26719] = array(
+        $arr[] = array(
             'id' => 26719,
             'title' => "Cells & Tissues-Lecture Slides PDF",
             'description' => "Lecture slides PDF",
@@ -294,7 +293,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26722] = array(
+        $arr[] = array(
             'id' => 26722,
             'title' => "Diffusion & Transport Across Cell Membrane-Lecture Slides Pp",
             'description' => "Lecture slides Ppt",
@@ -314,7 +313,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26723] = array(
+        $arr[] = array(
             'id' => 26723,
             'title' => "Diffusion & Transport Across Cell Membrane-Lecture Slides PD",
             'description' => "Lecture slides PDF",
@@ -334,7 +333,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26730] = array(
+        $arr[] = array(
             'id' => 26730,
             'title' => "Cell Compartments-Video",
             'description' => "Video clip",
@@ -354,7 +353,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26731] = array(
+        $arr[] = array(
             'id' => 26731,
             'title' => "Chromosome Coil-Video",
             'description' => "Video clip",
@@ -374,7 +373,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26732] = array(
+        $arr[] = array(
             'id' => 26732,
             'title' => "Mitochondrion-Video",
             'description' => "Video clip",
@@ -394,7 +393,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26733] = array(
+        $arr[] = array(
             'id' => 26733,
             'title' => "Mitotic Spindles-Video",
             'description' => "Video clip",
@@ -414,7 +413,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26734] = array(
+        $arr[] = array(
             'id' => 26734,
             'title' => "Translation-Video",
             'description' => "Video clip",
@@ -434,7 +433,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26735] = array(
+        $arr[] = array(
             'id' => 26735,
             'title' => "Sickle Cell-Video",
             'description' => "Video clip",
@@ -454,7 +453,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26752] = array(
+        $arr[] = array(
             'id' => 26752,
             'title' => "Just 13, and Working Risky 12-Hour Shifts in the Tobacco Fie",
             'description' => "A September 6, 2014 New York Times article about adolescents working in tobacco fields. Note the toxicity they experience from the excess nicotine they are exposed to. Fits with what we discussed in Prologue class.",
@@ -469,7 +468,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26759] = array(
+        $arr[] = array(
             'id' => 26759,
             'title' => "Diffusion & Transport WORKSHEET (Due 9/9)",
             'description' => "<span style='font-size: medium;'>Prior to lecture, ensure you have  access to this worksheet either as a printed hard copy or the electronic  version. You will complete it during lecture.</span>",
@@ -489,7 +488,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26801] = array(
+        $arr[] = array(
             'id' => 26801,
             'title' => "Cells & Tissues-AudioCast (MP3)",
             'description' => "MP3 audio recording of today's lecture",
@@ -509,7 +508,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26802] = array(
+        $arr[] = array(
             'id' => 26802,
             'title' => "Cells & Tissues-LectureCast",
             'description' => "Recording of today's lecture (video & Ppt)",
@@ -524,7 +523,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26842] = array(
+        $arr[] = array(
             'id' => 26842,
             'title' => "Diffusion & Transport Across Cell Membranes-LectureCast",
             'description' => "Recording of today's lecture (video & Ppt)",
@@ -539,7 +538,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26843] = array(
+        $arr[] = array(
             'id' => 26843,
             'title' => "Diffusion & Transport Across Cell Membranes-LectureCast",
             'description' => "Recording of today's lecture (video & Ppt)",
@@ -554,7 +553,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26844] = array(
+        $arr[] = array(
             'id' => 26844,
             'title' => "Diffusion & Transport Across Cell Membranes-AudioCast",
             'description' => "MP3 audio recording of today's lecture",
@@ -574,7 +573,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26848] = array(
+        $arr[] = array(
             'id' => 26848,
             'title' => "Diffusion & Transport Across Cell Membranes-COMPLETE Slides ",
             'description' => "Complete lecture slides w/Q&As and annotations",
@@ -594,7 +593,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26929] = array(
+        $arr[] = array(
             'id' => 26929,
             'title' => "Micromedex database link",
             'description' => "Link to the library's Micromedex database",
@@ -609,7 +608,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26930] = array(
+        $arr[] = array(
             'id' => 26930,
             'title' => "Epocrates drug database link",
             'description' => "Epocrates drug database",
@@ -624,7 +623,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[26937] = array(
+        $arr[] = array(
             'id' => 26937,
             'title' => "Intro to Pharmacology-Lecture Slides Ppt",
             'description' => "Lecture slides Ppt",
@@ -644,7 +643,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26938] = array(
+        $arr[] = array(
             'id' => 26938,
             'title' => "Intro to Pharmacology-Lecture Slides PDF",
             'description' => "Lecture slides PDF",
@@ -664,7 +663,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26957] = array(
+        $arr[] = array(
             'id' => 26957,
             'title' => "Lecture slides ppt",
             'description' => "Lecture slides ppt",
@@ -684,7 +683,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26958] = array(
+        $arr[] = array(
             'id' => 26958,
             'title' => "Lecture slides pdf",
             'description' => "Lecture slides pdf",
@@ -704,7 +703,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26959] = array(
+        $arr[] = array(
             'id' => 26959,
             'title' => "how to study slides",
             'description' => "how to study slides",
@@ -724,7 +723,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26960] = array(
+        $arr[] = array(
             'id' => 26960,
             'title' => "how to study slides",
             'description' => "how to study slides2",
@@ -744,7 +743,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26962] = array(
+        $arr[] = array(
             'id' => 26962,
             'title' => "Intro to Pharmacology-LectureCast",
             'description' => "MP3 audio recording of this lecture",
@@ -764,7 +763,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[26963] = array(
+        $arr[] = array(
             'id' => 26963,
             'title' => "Intro to Pharmacology-AudioCast (MP3)",
             'description' => "Recording of this lecture (video & Ppt)",
@@ -779,7 +778,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[27037] = array(
+        $arr[] = array(
             'id' => 27037,
             'title' => "transcripts",
             'description' => "transcripts, zip",
@@ -799,7 +798,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[27038] = array(
+        $arr[] = array(
             'id' => 27038,
             'title' => "Online Lecture",
             'description' => "Online Lecture<span class='Apple-tab-span' style='white-space:pre'>		</span>",
@@ -814,7 +813,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[27039] = array(
+        $arr[] = array(
             'id' => 27039,
             'title' => "How to study pharmacology",
             'description' => "How to Study Pharmacology",
@@ -829,7 +828,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[27040] = array(
+        $arr[] = array(
             'id' => 27040,
             'title' => "transcript, how to study",
             'description' => "transcript, how to study",
@@ -849,7 +848,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[28030] = array(
+        $arr[] = array(
             'id' => 28030,
             'title' => "Development of Musculoskeletal and Integumentary Systems-Lec",
             'description' => "Lecture slides in Ppt",
@@ -869,7 +868,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[28031] = array(
+        $arr[] = array(
             'id' => 28031,
             'title' => "Development of Musculoskeletal and Integumentary Systems-Lec",
             'description' => "Lecture slides  PDF",
@@ -889,7 +888,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[28077] = array(
+        $arr[] = array(
             'id' => 28077,
             'title' => "Development of Musculoskeletal and Integumentary Systems-Lec",
             'description' => "Recording of this lecture (video & Ppt)",
@@ -904,7 +903,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "link"
         );
 
-        $arr[28079] = array(
+        $arr[] = array(
             'id' => 28079,
             'title' => "Development of Musculoskeletal and Integumentary Systems-Aud",
             'description' => "MP3 audio recording of this lecture",
@@ -924,7 +923,7 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
-        $arr[28414] = array(
+        $arr[] = array(
             'id' => 28414,
             'title' => "Somite Clock Video (MP4)",
             'description' => "Additional video showing the 'somite clock'",
@@ -944,6 +943,8 @@ class LearningMaterialData extends AbstractDataLoader
             'type' => "file"
         );
 
+
+        return $arr;
     }
 
     public function create()

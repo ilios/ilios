@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class CurriculumInventoryInstitutionData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[undefined] = array(
+        $arr[] = array(
             'name' => "University of California, San Francisco, School Of Medicine",
             'aamcCode' => "108",
             'addressStreet' => "513 Parnassus Ave",
@@ -20,7 +19,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'school' => "1"
         );
 
-        $arr[undefined] = array(
+        $arr[] = array(
             'name' => "Pharmacy",
             'aamcCode' => "00000",
             'addressStreet' => "",
@@ -31,6 +30,8 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'school' => "3"
         );
 
+
+        return $arr;
     }
 
     public function create()

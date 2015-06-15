@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class SessionLearningMaterialData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[47172] = array(
+        $arr[] = array(
             'id' => 47172,
             'required' => false,
             'publicNotes' => false,
@@ -18,7 +17,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47200] = array(
+        $arr[] = array(
             'id' => 47200,
             'required' => false,
             'publicNotes' => false,
@@ -27,7 +26,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47208] = array(
+        $arr[] = array(
             'id' => 47208,
             'required' => false,
             'publicNotes' => false,
@@ -36,7 +35,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47239] = array(
+        $arr[] = array(
             'id' => 47239,
             'required' => true,
             'publicNotes' => true,
@@ -45,7 +44,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47240] = array(
+        $arr[] = array(
             'id' => 47240,
             'required' => true,
             'publicNotes' => true,
@@ -54,7 +53,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47241] = array(
+        $arr[] = array(
             'id' => 47241,
             'required' => true,
             'publicNotes' => true,
@@ -63,7 +62,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47242] = array(
+        $arr[] = array(
             'id' => 47242,
             'required' => false,
             'publicNotes' => false,
@@ -72,7 +71,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47243] = array(
+        $arr[] = array(
             'id' => 47243,
             'required' => false,
             'publicNotes' => false,
@@ -81,7 +80,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47355] = array(
+        $arr[] = array(
             'id' => 47355,
             'required' => true,
             'publicNotes' => true,
@@ -90,7 +89,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47360] = array(
+        $arr[] = array(
             'id' => 47360,
             'required' => true,
             'publicNotes' => true,
@@ -99,7 +98,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47361] = array(
+        $arr[] = array(
             'id' => 47361,
             'required' => true,
             'publicNotes' => true,
@@ -108,7 +107,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47394] = array(
+        $arr[] = array(
             'id' => 47394,
             'required' => true,
             'publicNotes' => true,
@@ -117,7 +116,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47395] = array(
+        $arr[] = array(
             'id' => 47395,
             'required' => true,
             'publicNotes' => true,
@@ -126,7 +125,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47396] = array(
+        $arr[] = array(
             'id' => 47396,
             'required' => true,
             'publicNotes' => true,
@@ -135,7 +134,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[47397] = array(
+        $arr[] = array(
             'id' => 47397,
             'required' => false,
             'publicNotes' => false,
@@ -144,7 +143,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49240] = array(
+        $arr[] = array(
             'id' => 49240,
             'required' => true,
             'publicNotes' => true,
@@ -153,7 +152,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49241] = array(
+        $arr[] = array(
             'id' => 49241,
             'required' => true,
             'publicNotes' => true,
@@ -162,7 +161,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49244] = array(
+        $arr[] = array(
             'id' => 49244,
             'required' => true,
             'publicNotes' => true,
@@ -171,7 +170,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49245] = array(
+        $arr[] = array(
             'id' => 49245,
             'required' => true,
             'publicNotes' => true,
@@ -180,7 +179,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49252] = array(
+        $arr[] = array(
             'id' => 49252,
             'required' => true,
             'publicNotes' => true,
@@ -189,7 +188,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49253] = array(
+        $arr[] = array(
             'id' => 49253,
             'required' => true,
             'publicNotes' => true,
@@ -198,7 +197,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49254] = array(
+        $arr[] = array(
             'id' => 49254,
             'required' => true,
             'publicNotes' => true,
@@ -207,7 +206,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49255] = array(
+        $arr[] = array(
             'id' => 49255,
             'required' => true,
             'publicNotes' => true,
@@ -216,7 +215,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49256] = array(
+        $arr[] = array(
             'id' => 49256,
             'required' => true,
             'publicNotes' => true,
@@ -225,7 +224,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49257] = array(
+        $arr[] = array(
             'id' => 49257,
             'required' => true,
             'publicNotes' => true,
@@ -234,7 +233,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49274] = array(
+        $arr[] = array(
             'id' => 49274,
             'required' => true,
             'publicNotes' => true,
@@ -243,7 +242,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49281] = array(
+        $arr[] = array(
             'id' => 49281,
             'required' => true,
             'publicNotes' => true,
@@ -252,7 +251,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49359] = array(
+        $arr[] = array(
             'id' => 49359,
             'required' => true,
             'publicNotes' => true,
@@ -261,7 +260,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49360] = array(
+        $arr[] = array(
             'id' => 49360,
             'required' => true,
             'publicNotes' => true,
@@ -270,7 +269,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49397] = array(
+        $arr[] = array(
             'id' => 49397,
             'required' => true,
             'publicNotes' => true,
@@ -279,7 +278,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49398] = array(
+        $arr[] = array(
             'id' => 49398,
             'required' => true,
             'publicNotes' => true,
@@ -288,7 +287,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49399] = array(
+        $arr[] = array(
             'id' => 49399,
             'required' => true,
             'publicNotes' => true,
@@ -297,7 +296,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49403] = array(
+        $arr[] = array(
             'id' => 49403,
             'required' => true,
             'publicNotes' => true,
@@ -306,7 +305,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49523] = array(
+        $arr[] = array(
             'id' => 49523,
             'required' => true,
             'publicNotes' => true,
@@ -315,7 +314,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49524] = array(
+        $arr[] = array(
             'id' => 49524,
             'required' => true,
             'publicNotes' => true,
@@ -324,7 +323,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49531] = array(
+        $arr[] = array(
             'id' => 49531,
             'required' => true,
             'publicNotes' => true,
@@ -333,7 +332,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49532] = array(
+        $arr[] = array(
             'id' => 49532,
             'required' => true,
             'publicNotes' => true,
@@ -342,7 +341,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49548] = array(
+        $arr[] = array(
             'id' => 49548,
             'required' => true,
             'publicNotes' => true,
@@ -351,7 +350,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49549] = array(
+        $arr[] = array(
             'id' => 49549,
             'required' => true,
             'publicNotes' => true,
@@ -360,7 +359,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49550] = array(
+        $arr[] = array(
             'id' => 49550,
             'required' => true,
             'publicNotes' => true,
@@ -369,7 +368,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49551] = array(
+        $arr[] = array(
             'id' => 49551,
             'required' => true,
             'publicNotes' => true,
@@ -378,7 +377,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49553] = array(
+        $arr[] = array(
             'id' => 49553,
             'required' => true,
             'publicNotes' => true,
@@ -387,7 +386,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49554] = array(
+        $arr[] = array(
             'id' => 49554,
             'required' => true,
             'publicNotes' => true,
@@ -396,7 +395,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49636] = array(
+        $arr[] = array(
             'id' => 49636,
             'required' => true,
             'publicNotes' => true,
@@ -405,7 +404,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49637] = array(
+        $arr[] = array(
             'id' => 49637,
             'required' => true,
             'publicNotes' => true,
@@ -414,7 +413,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49638] = array(
+        $arr[] = array(
             'id' => 49638,
             'required' => true,
             'publicNotes' => true,
@@ -423,7 +422,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[49639] = array(
+        $arr[] = array(
             'id' => 49639,
             'required' => true,
             'publicNotes' => true,
@@ -432,7 +431,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[50711] = array(
+        $arr[] = array(
             'id' => 50711,
             'required' => true,
             'publicNotes' => true,
@@ -441,7 +440,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[50712] = array(
+        $arr[] = array(
             'id' => 50712,
             'required' => true,
             'publicNotes' => true,
@@ -450,7 +449,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[50758] = array(
+        $arr[] = array(
             'id' => 50758,
             'required' => true,
             'publicNotes' => true,
@@ -459,7 +458,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[50760] = array(
+        $arr[] = array(
             'id' => 50760,
             'required' => true,
             'publicNotes' => true,
@@ -468,7 +467,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
-        $arr[51107] = array(
+        $arr[] = array(
             'id' => 51107,
             'required' => true,
             'publicNotes' => true,
@@ -477,6 +476,8 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => []
         );
 
+
+        return $arr;
     }
 
     public function create()

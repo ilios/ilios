@@ -1,33 +1,32 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class UserRoleData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[1] = array(
+        $arr[] = array(
             'id' => 1,
             'title' => "Course Director",
-            'users' => ['4136'            ]
+            'users' => ['4136']
         );
 
-        $arr[2] = array(
+        $arr[] = array(
             'id' => 2,
             'title' => "Developer",
             'users' => []
         );
 
-        $arr[3] = array(
+        $arr[] = array(
             'id' => 3,
             'title' => "Faculty",
-            'users' => ['4136'            ]
+            'users' => ['4136']
         );
 
-        $arr[4] = array(
+        $arr[] = array(
             'id' => 4,
             'title' => "Student",
             'users' => [
@@ -50,18 +49,20 @@ class UserRoleData extends AbstractDataLoader
             ]
         );
 
-        $arr[5] = array(
+        $arr[] = array(
             'id' => 5,
             'title' => "Public",
             'users' => []
         );
 
-        $arr[9] = array(
+        $arr[] = array(
             'id' => 9,
             'title' => "Former Student",
-            'users' => ['4136'            ]
+            'users' => ['4136']
         );
 
+
+        return $arr;
     }
 
     public function create()

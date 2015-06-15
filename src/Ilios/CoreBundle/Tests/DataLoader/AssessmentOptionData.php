@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class AssessmentOptionData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[2] = array(
+        $arr[] = array(
             'id' => 2,
             'name' => "formative",
             'sessionTypes' => [
@@ -27,7 +26,7 @@ class AssessmentOptionData extends AbstractDataLoader
             ]
         );
 
-        $arr[1] = array(
+        $arr[] = array(
             'id' => 1,
             'name' => "summative",
             'sessionTypes' => [
@@ -48,6 +47,8 @@ class AssessmentOptionData extends AbstractDataLoader
             ]
         );
 
+
+        return $arr;
     }
 
     public function create()

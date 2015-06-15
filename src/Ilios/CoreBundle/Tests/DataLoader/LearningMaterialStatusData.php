@@ -1,21 +1,20 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class LearningMaterialStatusData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[1] = array(
+        $arr[] = array(
             'id' => 1,
             'title' => "Draft",
-            'learningMaterials' => ['26390','26455'            ]
+            'learningMaterials' => ['26390','26455']
         );
 
-        $arr[2] = array(
+        $arr[] = array(
             'id' => 2,
             'title' => "Final",
             'learningMaterials' => [
@@ -73,12 +72,14 @@ class LearningMaterialStatusData extends AbstractDataLoader
             ]
         );
 
-        $arr[3] = array(
+        $arr[] = array(
             'id' => 3,
             'title' => "Revised",
             'learningMaterials' => []
         );
 
+
+        return $arr;
     }
 
     public function create()

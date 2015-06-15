@@ -1,22 +1,23 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class CurriculumInventorySequenceData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[undefined] = array(
+        $arr[] = array(
             'report' => "9"
         );
 
-        $arr[undefined] = array(
+        $arr[] = array(
             'report' => "10"
         );
 
+
+        return $arr;
     }
 
     public function create()

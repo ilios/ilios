@@ -1,32 +1,33 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class CourseClerkshipTypeData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[1] = array(
+        $arr[] = array(
             'id' => 1,
             'title' => "Block",
-            'courses' => ['[object Object]'            ]
+            'courses' => ['[object Object]']
         );
 
-        $arr[2] = array(
+        $arr[] = array(
             'id' => 2,
             'title' => "Longitudinal",
             'courses' => []
         );
 
-        $arr[3] = array(
+        $arr[] = array(
             'id' => 3,
             'title' => "Integrated",
             'courses' => []
         );
 
+
+        return $arr;
     }
 
     public function create()

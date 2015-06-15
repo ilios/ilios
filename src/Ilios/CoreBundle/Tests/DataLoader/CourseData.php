@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class CourseData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[384] = array(
+        $arr[] = array(
             'id' => 384,
             'title' => "delete this course ",
             'level' => 1,
@@ -31,7 +30,7 @@ class CourseData extends AbstractDataLoader
             'sessions' => []
         );
 
-        $arr[543] = array(
+        $arr[] = array(
             'id' => 543,
             'title' => "HSPR Pathway Seminar I",
             'level' => 3,
@@ -45,16 +44,16 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'owningSchool' => "3",
             'publishEvent' => "47107",
-            'directors' => ['4136'            ],
+            'directors' => ['4136'],
             'cohorts' => [],
-            'disciplines' => ['118','132'            ],
+            'disciplines' => ['118','132'],
             'objectives' => [],
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => []
         );
 
-        $arr[551] = array(
+        $arr[] = array(
             'id' => 551,
             'title' => "Anesthesia 110 Core Clerkship (2014-15)",
             'level' => 3,
@@ -69,16 +68,16 @@ class CourseData extends AbstractDataLoader
             'clerkshipType' => "1",
             'owningSchool' => "1",
             'publishEvent' => "57352",
-            'directors' => ['4136'            ],
+            'directors' => ['4136'],
             'cohorts' => [],
-            'disciplines' => ['3'            ],
+            'disciplines' => ['3'],
             'objectives' => [],
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => []
         );
 
-        $arr[595] = array(
+        $arr[] = array(
             'id' => 595,
             'title' => "Prologue 2014-15 ",
             'level' => 1,
@@ -92,8 +91,8 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'owningSchool' => "1",
             'publishEvent' => "58390",
-            'directors' => ['4136'            ],
-            'cohorts' => ['66'            ],
+            'directors' => ['4136'],
+            'cohorts' => ['66'],
             'disciplines' => [
                 '2',
                 '5',
@@ -132,8 +131,8 @@ class CourseData extends AbstractDataLoader
                 '76371',
                 '76372',
             ],
-            'meshDescriptors' => ['D008566','D010599'            ],
-            'learningMaterials' => ['1247'            ],
+            'meshDescriptors' => ['D008566','D010599'],
+            'learningMaterials' => ['1247'],
             'sessions' => [
                 '16468',
                 '16469',
@@ -258,6 +257,8 @@ class CourseData extends AbstractDataLoader
             ]
         );
 
+
+        return $arr;
     }
 
     public function create()

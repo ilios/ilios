@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class SessionData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[16468] = array(
+        $arr[] = array(
             'id' => 16468,
             'title' => "Case 1",
             'attireRequired' => false,
@@ -20,7 +19,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "122",
             'course' => "595",
-            'disciplines' => ['16'            ],
+            'disciplines' => ['16'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58417",
@@ -29,7 +28,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16469] = array(
+        $arr[] = array(
             'id' => 16469,
             'title' => "Introduction to Prologue",
             'attireRequired' => false,
@@ -40,7 +39,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "115",
             'course' => "595",
-            'disciplines' => ['53'            ],
+            'disciplines' => ['53'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58466",
@@ -49,7 +48,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16470] = array(
+        $arr[] = array(
             'id' => 16470,
             'title' => "Introduction to Anatomy and Embryology ",
             'attireRequired' => false,
@@ -60,7 +59,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','15','163'            ],
+            'disciplines' => ['2','15','163'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58456",
@@ -69,7 +68,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16471] = array(
+        $arr[] = array(
             'id' => 16471,
             'title' => "Cells & Tissues",
             'attireRequired' => false,
@@ -80,7 +79,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['8'            ],
+            'disciplines' => ['8'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58422",
@@ -102,7 +101,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16472] = array(
+        $arr[] = array(
             'id' => 16472,
             'title' => "Introduction to MSP ",
             'attireRequired' => false,
@@ -113,7 +112,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "115",
             'course' => "595",
-            'disciplines' => ['53'            ],
+            'disciplines' => ['53'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58461",
@@ -122,7 +121,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16473] = array(
+        $arr[] = array(
             'id' => 16473,
             'title' => "Introduction to Pharmacology",
             'attireRequired' => false,
@@ -133,7 +132,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['50'            ],
+            'disciplines' => ['50'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58465",
@@ -153,7 +152,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16474] = array(
+        $arr[] = array(
             'id' => 16474,
             'title' => "Epithelia",
             'attireRequired' => false,
@@ -164,7 +163,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58430",
@@ -173,7 +172,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16475] = array(
+        $arr[] = array(
             'id' => 16475,
             'title' => "Histo Lab 1: Cell Structure",
             'attireRequired' => false,
@@ -184,7 +183,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['25'            ],
+            'disciplines' => ['25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58440",
@@ -193,7 +192,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16476] = array(
+        $arr[] = array(
             'id' => 16476,
             'title' => "Circulatory & Respiratory Systems",
             'attireRequired' => false,
@@ -204,7 +203,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58421",
@@ -213,7 +212,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16477] = array(
+        $arr[] = array(
             'id' => 16477,
             'title' => "Extracellular Matrix and Connective Tissue: Assembly of Cells into Tissues",
             'attireRequired' => false,
@@ -224,7 +223,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['25'            ],
+            'disciplines' => ['25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58435",
@@ -233,7 +232,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16478] = array(
+        $arr[] = array(
             'id' => 16478,
             'title' => "Introduction to Radiology",
             'attireRequired' => false,
@@ -244,7 +243,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['57'            ],
+            'disciplines' => ['57'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58467",
@@ -253,7 +252,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16479] = array(
+        $arr[] = array(
             'id' => 16479,
             'title' => "Histo Lab 2: Epithelia & Connective Tissue",
             'attireRequired' => false,
@@ -264,7 +263,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['25'            ],
+            'disciplines' => ['25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58441",
@@ -273,7 +272,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16480] = array(
+        $arr[] = array(
             'id' => 16480,
             'title' => "Diffusion & Transport Across Cell Membranes",
             'attireRequired' => false,
@@ -284,7 +283,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2014-10-30T14:23:16+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['5'            ],
+            'disciplines' => ['5'],
             'objectives' => [
                 '76444',
                 '76445',
@@ -334,7 +333,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16481] = array(
+        $arr[] = array(
             'id' => 16481,
             'title' => "OPTIONAL: An Introduction Emergency Medicine: Basic First Aid and CPR",
             'attireRequired' => false,
@@ -353,7 +352,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16482] = array(
+        $arr[] = array(
             'id' => 16482,
             'title' => "Pharmacology and Biochemistry Small Group Discussion 1",
             'attireRequired' => false,
@@ -364,7 +363,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['5','8','50'            ],
+            'disciplines' => ['5','8','50'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58497",
@@ -386,7 +385,7 @@ class SessionData extends AbstractDataLoader
             ]
         );
 
-        $arr[16483] = array(
+        $arr[] = array(
             'id' => 16483,
             'title' => "Nervous System 1: Histology (ONLINE LECTURE-view before Thursday)",
             'attireRequired' => false,
@@ -397,7 +396,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','166'            ],
+            'disciplines' => ['2','166'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58477",
@@ -406,7 +405,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16484] = array(
+        $arr[] = array(
             'id' => 16484,
             'title' => "Muscles",
             'attireRequired' => false,
@@ -417,7 +416,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','25'            ],
+            'disciplines' => ['2','25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58475",
@@ -426,7 +425,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16485] = array(
+        $arr[] = array(
             'id' => 16485,
             'title' => "Histo Lab 3: Nerves & Muscles",
             'attireRequired' => false,
@@ -437,7 +436,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','25'            ],
+            'disciplines' => ['2','25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58442",
@@ -446,7 +445,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16486] = array(
+        $arr[] = array(
             'id' => 16486,
             'title' => "Protein Structure & Function",
             'attireRequired' => false,
@@ -457,7 +456,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['5'            ],
+            'disciplines' => ['5'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58503",
@@ -466,7 +465,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16487] = array(
+        $arr[] = array(
             'id' => 16487,
             'title' => "Case 2: The Secondary Survey",
             'attireRequired' => false,
@@ -477,7 +476,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "122",
             'course' => "595",
-            'disciplines' => ['16'            ],
+            'disciplines' => ['16'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58418",
@@ -486,7 +485,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16488] = array(
+        $arr[] = array(
             'id' => 16488,
             'title' => "Autonomic Nervous System Physiology",
             'attireRequired' => false,
@@ -497,7 +496,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['37','51'            ],
+            'disciplines' => ['37','51'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58408",
@@ -506,7 +505,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16489] = array(
+        $arr[] = array(
             'id' => 16489,
             'title' => "Quantification of Pharmacodynamic Effects",
             'attireRequired' => false,
@@ -517,7 +516,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['50'            ],
+            'disciplines' => ['50'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58504",
@@ -526,7 +525,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16490] = array(
+        $arr[] = array(
             'id' => 16490,
             'title' => "Nervous System 2: Spinal Cord and Peripheral Nerves (ONLINE LECTURE-view before Thursday)",
             'attireRequired' => false,
@@ -537,7 +536,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','166'            ],
+            'disciplines' => ['2','166'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58478",
@@ -546,7 +545,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16491] = array(
+        $arr[] = array(
             'id' => 16491,
             'title' => "Autonomic Nervous System Physiology & Pharmacology: Cholinomimetics and Cholinergic Antagonists (ONLINE LECTURE-view before Tuesday)",
             'attireRequired' => false,
@@ -557,7 +556,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['37','50','51'            ],
+            'disciplines' => ['37','50','51'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58409",
@@ -577,7 +576,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16492] = array(
+        $arr[] = array(
             'id' => 16492,
             'title' => "Anatomy Lab 1: Introduction to the Body",
             'attireRequired' => true,
@@ -588,7 +587,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58391",
@@ -597,7 +596,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16493] = array(
+        $arr[] = array(
             'id' => 16493,
             'title' => "Pharmacology and Biochemistry Small Group Discussion 2",
             'attireRequired' => false,
@@ -608,7 +607,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['50'            ],
+            'disciplines' => ['50'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58521",
@@ -617,7 +616,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16494] = array(
+        $arr[] = array(
             'id' => 16494,
             'title' => "Biopsychosocial Model in Medicine: An Introduction to the Social and Behavioral Determinants of Health (SBS)",
             'attireRequired' => false,
@@ -628,7 +627,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['4','158'            ],
+            'disciplines' => ['4','158'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58531",
@@ -637,7 +636,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16495] = array(
+        $arr[] = array(
             'id' => 16495,
             'title' => "Genetic Variation and Human Disease",
             'attireRequired' => false,
@@ -648,7 +647,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['21'            ],
+            'disciplines' => ['21'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58526",
@@ -657,7 +656,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16496] = array(
+        $arr[] = array(
             'id' => 16496,
             'title' => "Thorax & Anterior Abdominal Walls",
             'attireRequired' => false,
@@ -668,7 +667,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58515",
@@ -677,7 +676,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16497] = array(
+        $arr[] = array(
             'id' => 16497,
             'title' => "Anatomy Lab 3: Back and Spinal Cord",
             'attireRequired' => true,
@@ -688,7 +687,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58394",
@@ -697,7 +696,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16498] = array(
+        $arr[] = array(
             'id' => 16498,
             'title' => "Mendelian Inheritance",
             'attireRequired' => false,
@@ -708,7 +707,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "115",
             'course' => "595",
-            'disciplines' => ['21'            ],
+            'disciplines' => ['21'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58528",
@@ -717,7 +716,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16499] = array(
+        $arr[] = array(
             'id' => 16499,
             'title' => "Principles of Cytogenetics",
             'attireRequired' => false,
@@ -728,7 +727,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['21'            ],
+            'disciplines' => ['21'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58530",
@@ -737,7 +736,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16500] = array(
+        $arr[] = array(
             'id' => 16500,
             'title' => "Anatomy Lab 4: Shoulder",
             'attireRequired' => true,
@@ -748,7 +747,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58522",
@@ -757,7 +756,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16501] = array(
+        $arr[] = array(
             'id' => 16501,
             'title' => "Surface Anatomy: Neck Thorax and Abdomen",
             'attireRequired' => true,
@@ -768,7 +767,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58512",
@@ -777,7 +776,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16502] = array(
+        $arr[] = array(
             'id' => 16502,
             'title' => "Blood Cells",
             'attireRequired' => false,
@@ -788,7 +787,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['25'            ],
+            'disciplines' => ['25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58523",
@@ -797,7 +796,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16503] = array(
+        $arr[] = array(
             'id' => 16503,
             'title' => "Blood Vessels (Online Lecture-due by Histo Lab 4)",
             'attireRequired' => false,
@@ -808,7 +807,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','25'            ],
+            'disciplines' => ['2','25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58524",
@@ -817,7 +816,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16504] = array(
+        $arr[] = array(
             'id' => 16504,
             'title' => "Open Lab & View Practice Practical Questions",
             'attireRequired' => false,
@@ -828,7 +827,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "26",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58490",
@@ -837,7 +836,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16505] = array(
+        $arr[] = array(
             'id' => 16505,
             'title' => "Histo Lab 4: Blood Cells and Blood Vessels",
             'attireRequired' => false,
@@ -848,7 +847,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['25'            ],
+            'disciplines' => ['25'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58525",
@@ -857,7 +856,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16506] = array(
+        $arr[] = array(
             'id' => 16506,
             'title' => "Non-Traditional Inheritance",
             'attireRequired' => false,
@@ -876,7 +875,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16507] = array(
+        $arr[] = array(
             'id' => 16507,
             'title' => "Inheritance of Genetic Disorders",
             'attireRequired' => false,
@@ -887,7 +886,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['21'            ],
+            'disciplines' => ['21'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59675",
@@ -896,7 +895,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16509] = array(
+        $arr[] = array(
             'id' => 16509,
             'title' => "Anatomy Lab 5: Anterior Forearm and Palmar Hand",
             'attireRequired' => true,
@@ -907,7 +906,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58529",
@@ -916,7 +915,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16510] = array(
+        $arr[] = array(
             'id' => 16510,
             'title' => "Reading Day ",
             'attireRequired' => false,
@@ -927,7 +926,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2014-10-30T14:23:33+00:00",
             'sessionType' => "19",
             'course' => "595",
-            'disciplines' => ['53'            ],
+            'disciplines' => ['53'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58506",
@@ -936,7 +935,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16511] = array(
+        $arr[] = array(
             'id' => 16511,
             'title' => "Written Exam I",
             'attireRequired' => false,
@@ -947,7 +946,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "137",
             'course' => "595",
-            'disciplines' => ['53'            ],
+            'disciplines' => ['53'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58517",
@@ -956,7 +955,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16512] = array(
+        $arr[] = array(
             'id' => 16512,
             'title' => "Hip, Thigh and Knee",
             'attireRequired' => false,
@@ -967,7 +966,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58439",
@@ -976,7 +975,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16513] = array(
+        $arr[] = array(
             'id' => 16513,
             'title' => "Leg & Foot",
             'attireRequired' => false,
@@ -987,7 +986,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58468",
@@ -996,7 +995,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16514] = array(
+        $arr[] = array(
             'id' => 16514,
             'title' => "Introduction to  Clinical Ethics",
             'attireRequired' => false,
@@ -1007,7 +1006,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['19','53'            ],
+            'disciplines' => ['19','53'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58455",
@@ -1016,7 +1015,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16515] = array(
+        $arr[] = array(
             'id' => 16515,
             'title' => "Pharmacokinetics I",
             'attireRequired' => false,
@@ -1027,7 +1026,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['50'            ],
+            'disciplines' => ['50'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59673",
@@ -1036,7 +1035,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16516] = array(
+        $arr[] = array(
             'id' => 16516,
             'title' => "Biases In Medicine",
             'attireRequired' => false,
@@ -1047,7 +1046,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "115",
             'course' => "595",
-            'disciplines' => ['4','13','158','159'            ],
+            'disciplines' => ['4','13','158','159'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58532",
@@ -1056,7 +1055,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16517] = array(
+        $arr[] = array(
             'id' => 16517,
             'title' => "Panel Discussion: Biases in Medicine",
             'attireRequired' => false,
@@ -1067,7 +1066,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "122",
             'course' => "595",
-            'disciplines' => ['4','13','158','159'            ],
+            'disciplines' => ['4','13','158','159'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58533",
@@ -1076,7 +1075,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16519] = array(
+        $arr[] = array(
             'id' => 16519,
             'title' => "Pharmacokinetics 2 ",
             'attireRequired' => false,
@@ -1087,7 +1086,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['50'            ],
+            'disciplines' => ['50'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59676",
@@ -1096,7 +1095,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16522] = array(
+        $arr[] = array(
             'id' => 16522,
             'title' => "Case 3: The Intensive Care Unit",
             'attireRequired' => false,
@@ -1107,7 +1106,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "122",
             'course' => "595",
-            'disciplines' => ['16'            ],
+            'disciplines' => ['16'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58535",
@@ -1116,7 +1115,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16523] = array(
+        $arr[] = array(
             'id' => 16523,
             'title' => "Biases in Medicine Small Group ",
             'attireRequired' => false,
@@ -1127,7 +1126,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['4','13','158','159'            ],
+            'disciplines' => ['4','13','158','159'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59677",
@@ -1152,7 +1151,7 @@ class SessionData extends AbstractDataLoader
             ]
         );
 
-        $arr[16524] = array(
+        $arr[] = array(
             'id' => 16524,
             'title' => "Introduction to Pathology",
             'attireRequired' => false,
@@ -1163,7 +1162,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['48'            ],
+            'disciplines' => ['48'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59680",
@@ -1172,7 +1171,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16526] = array(
+        $arr[] = array(
             'id' => 16526,
             'title' => "Introduction to Cell Injury: Cell Death and Adaptations",
             'attireRequired' => false,
@@ -1183,7 +1182,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['8','48'            ],
+            'disciplines' => ['8','48'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59682",
@@ -1192,7 +1191,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16528] = array(
+        $arr[] = array(
             'id' => 16528,
             'title' => "Anatomy Lab 2: Neck",
             'attireRequired' => true,
@@ -1203,7 +1202,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2014-10-30T14:23:09+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [
                 '76770',
                 '76771',
@@ -1222,14 +1221,14 @@ class SessionData extends AbstractDataLoader
                 '85487',
                 '85488',
             ],
-            'meshDescriptors' => ['D002339','D009333'            ],
+            'meshDescriptors' => ['D002339','D009333'],
             'publishEvent' => "58392",
             'learningMaterials' => [],
             'instructionHours' => [],
             'offerings' => []
         );
 
-        $arr[16533] = array(
+        $arr[] = array(
             'id' => 16533,
             'title' => "Anatomy Lab 6: Posterior Forearm and Dorsal Hand ",
             'attireRequired' => true,
@@ -1240,7 +1239,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58537",
@@ -1249,7 +1248,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16534] = array(
+        $arr[] = array(
             'id' => 16534,
             'title' => "Health Policy: Health Care's Backstory",
             'attireRequired' => false,
@@ -1260,7 +1259,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['4','160','162'            ],
+            'disciplines' => ['4','160','162'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58438",
@@ -1269,7 +1268,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16535] = array(
+        $arr[] = array(
             'id' => 16535,
             'title' => "Introduction to Neoplasia (ONLINE LECTURE-view before Lab Thursday)",
             'attireRequired' => false,
@@ -1280,7 +1279,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['48'            ],
+            'disciplines' => ['48'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58462",
@@ -1289,7 +1288,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16538] = array(
+        $arr[] = array(
             'id' => 16538,
             'title' => "Mr. Danovic's Outpatient Care Interview",
             'attireRequired' => false,
@@ -1300,7 +1299,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "122",
             'course' => "595",
-            'disciplines' => ['4','150','158'            ],
+            'disciplines' => ['4','150','158'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58474",
@@ -1309,7 +1308,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16540] = array(
+        $arr[] = array(
             'id' => 16540,
             'title' => "Anatomy Lab 7: Anterior and Medial Thigh, and Anterior Leg",
             'attireRequired' => true,
@@ -1320,7 +1319,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2014-10-30T14:23:11+00:00",
             'sessionType' => "23",
             'course' => "595",
-            'disciplines' => ['2','10','150'            ],
+            'disciplines' => ['2','10','150'],
             'objectives' => [
                 '76851',
                 '76852',
@@ -1337,14 +1336,14 @@ class SessionData extends AbstractDataLoader
                 '85497',
                 '85498',
             ],
-            'meshDescriptors' => ['D000715','D005269','D013848','D052097'            ],
+            'meshDescriptors' => ['D000715','D005269','D013848','D052097'],
             'publishEvent' => "58403",
             'learningMaterials' => [],
             'instructionHours' => [],
             'offerings' => []
         );
 
-        $arr[16541] = array(
+        $arr[] = array(
             'id' => 16541,
             'title' => "Team Learning and Communication Skills (TLCS)",
             'attireRequired' => false,
@@ -1355,7 +1354,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['53'            ],
+            'disciplines' => ['53'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59678",
@@ -1377,7 +1376,7 @@ class SessionData extends AbstractDataLoader
             ]
         );
 
-        $arr[16542] = array(
+        $arr[] = array(
             'id' => 16542,
             'title' => "Written Exam II",
             'attireRequired' => false,
@@ -1397,7 +1396,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16543] = array(
+        $arr[] = array(
             'id' => 16543,
             'title' => "Exam II Practical",
             'attireRequired' => false,
@@ -1417,7 +1416,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16544] = array(
+        $arr[] = array(
             'id' => 16544,
             'title' => "Signaling",
             'attireRequired' => false,
@@ -1428,7 +1427,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['5'            ],
+            'disciplines' => ['5'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58508",
@@ -1437,7 +1436,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16545] = array(
+        $arr[] = array(
             'id' => 16545,
             'title' => "Early Embryonic Development: Weeks 2 and 3 (Formation of the Basic Body Plan)",
             'attireRequired' => false,
@@ -1448,7 +1447,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','15','163'            ],
+            'disciplines' => ['2','15','163'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58427",
@@ -1457,7 +1456,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16546] = array(
+        $arr[] = array(
             'id' => 16546,
             'title' => "Introduction to Pharmacogenetics",
             'attireRequired' => false,
@@ -1468,7 +1467,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['21'            ],
+            'disciplines' => ['21'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59679",
@@ -1477,7 +1476,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16547] = array(
+        $arr[] = array(
             'id' => 16547,
             'title' => "Embryology Peer Facilitated Small Groups",
             'attireRequired' => false,
@@ -1488,7 +1487,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['2','15'            ],
+            'disciplines' => ['2','15'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59683",
@@ -1518,7 +1517,7 @@ class SessionData extends AbstractDataLoader
             ]
         );
 
-        $arr[16549] = array(
+        $arr[] = array(
             'id' => 16549,
             'title' => "Exam I Practical  ",
             'attireRequired' => false,
@@ -1538,7 +1537,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16550] = array(
+        $arr[] = array(
             'id' => 16550,
             'title' => "Midpoint Feedback (Focus Group)",
             'attireRequired' => false,
@@ -1549,7 +1548,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "30",
             'course' => "595",
-            'disciplines' => ['53'            ],
+            'disciplines' => ['53'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58473",
@@ -1558,7 +1557,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16551] = array(
+        $arr[] = array(
             'id' => 16551,
             'title' => "Mechanisms of Development (ONLINE LECTURE-view before Friday)",
             'attireRequired' => false,
@@ -1569,7 +1568,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','15','163'            ],
+            'disciplines' => ['2','15','163'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58470",
@@ -1578,7 +1577,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16552] = array(
+        $arr[] = array(
             'id' => 16552,
             'title' => "Shoulder",
             'attireRequired' => false,
@@ -1589,7 +1588,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58507",
@@ -1598,7 +1597,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16553] = array(
+        $arr[] = array(
             'id' => 16553,
             'title' => "Neck",
             'attireRequired' => false,
@@ -1609,7 +1608,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58476",
@@ -1618,7 +1617,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16554] = array(
+        $arr[] = array(
             'id' => 16554,
             'title' => "Radiology of the Shoulder",
             'attireRequired' => false,
@@ -1629,7 +1628,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['57'            ],
+            'disciplines' => ['57'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58520",
@@ -1638,7 +1637,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16555] = array(
+        $arr[] = array(
             'id' => 16555,
             'title' => "Arm, Forearm and Hand",
             'attireRequired' => false,
@@ -1649,7 +1648,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2014-10-30T14:33:33+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2'            ],
+            'disciplines' => ['2'],
             'objectives' => [
                 '76922',
                 '76923',
@@ -1667,14 +1666,14 @@ class SessionData extends AbstractDataLoader
                 '76935',
                 '76936',
             ],
-            'meshDescriptors' => ['D001132'            ],
+            'meshDescriptors' => ['D001132'],
             'publishEvent' => "58527",
             'learningMaterials' => [],
             'instructionHours' => [],
             'offerings' => []
         );
 
-        $arr[16556] = array(
+        $arr[] = array(
             'id' => 16556,
             'title' => "Development of the Musculoskeletal and Integumentary Systems",
             'attireRequired' => false,
@@ -1685,7 +1684,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "25",
             'course' => "595",
-            'disciplines' => ['2','15'            ],
+            'disciplines' => ['2','15'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "59674",
@@ -1705,7 +1704,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16559] = array(
+        $arr[] = array(
             'id' => 16559,
             'title' => "ILM - Anatomical Terminology",
             'attireRequired' => false,
@@ -1724,7 +1723,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16560] = array(
+        $arr[] = array(
             'id' => 16560,
             'title' => "ILM - Inguinal Hernias",
             'attireRequired' => false,
@@ -1743,7 +1742,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16561] = array(
+        $arr[] = array(
             'id' => 16561,
             'title' => "ILM - Diffusion and Transport Worksheet (Due by Tuesday 9/9)",
             'attireRequired' => false,
@@ -1754,7 +1753,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2014-10-30T14:23:21+00:00",
             'sessionType' => "19",
             'course' => "595",
-            'disciplines' => ['5'            ],
+            'disciplines' => ['5'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58446",
@@ -1763,7 +1762,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16562] = array(
+        $arr[] = array(
             'id' => 16562,
             'title' => "ILM - Genes and Gene Expression",
             'attireRequired' => false,
@@ -1782,7 +1781,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16563] = array(
+        $arr[] = array(
             'id' => 16563,
             'title' => "ILM - Population Genetics",
             'attireRequired' => false,
@@ -1801,7 +1800,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16564] = array(
+        $arr[] = array(
             'id' => 16564,
             'title' => "ILM - Pharmacokinetics III: Drug Metabolism",
             'attireRequired' => false,
@@ -1820,7 +1819,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16567] = array(
+        $arr[] = array(
             'id' => 16567,
             'title' => "Competencies, Milestones & Self-Directed Assessment Seeking ",
             'attireRequired' => false,
@@ -1840,7 +1839,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16569] = array(
+        $arr[] = array(
             'id' => 16569,
             'title' => "Immunology Q&A (Optional) ",
             'attireRequired' => false,
@@ -1859,7 +1858,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16571] = array(
+        $arr[] = array(
             'id' => 16571,
             'title' => "Exam I Viewing  ",
             'attireRequired' => false,
@@ -1879,7 +1878,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16572] = array(
+        $arr[] = array(
             'id' => 16572,
             'title' => "IPE Day 1 ",
             'attireRequired' => false,
@@ -1890,7 +1889,7 @@ class SessionData extends AbstractDataLoader
             'updatedAt' => "2015-06-14T11:18:11+00:00",
             'sessionType' => "28",
             'course' => "595",
-            'disciplines' => ['151'            ],
+            'disciplines' => ['151'],
             'objectives' => [],
             'meshDescriptors' => [],
             'publishEvent' => "58451",
@@ -1899,7 +1898,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16573] = array(
+        $arr[] = array(
             'id' => 16573,
             'title' => "Open Book Exam I (Due by Thursday 9/25)",
             'attireRequired' => false,
@@ -1919,7 +1918,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16574] = array(
+        $arr[] = array(
             'id' => 16574,
             'title' => "Open Book Exam 2 (Due by Thursday 10/23)",
             'attireRequired' => false,
@@ -1939,7 +1938,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16575] = array(
+        $arr[] = array(
             'id' => 16575,
             'title' => "Exam II Viewing ",
             'attireRequired' => false,
@@ -1959,7 +1958,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16576] = array(
+        $arr[] = array(
             'id' => 16576,
             'title' => "Office Hours Biochem/Pharmacology",
             'attireRequired' => false,
@@ -1979,7 +1978,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16577] = array(
+        $arr[] = array(
             'id' => 16577,
             'title' => "ILM - Ocular Effects of ANS Pharmacology  (Ophthalmology) (Due by Thursday 9/25)",
             'attireRequired' => false,
@@ -1999,7 +1998,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16578] = array(
+        $arr[] = array(
             'id' => 16578,
             'title' => "MSP (Medical Scholars Program) Tutoring Sessions",
             'attireRequired' => false,
@@ -2049,7 +2048,7 @@ class SessionData extends AbstractDataLoader
             ]
         );
 
-        $arr[16579] = array(
+        $arr[] = array(
             'id' => 16579,
             'title' => "ILM-Radiology: Ultrasound Module (Due by Lab 1[A&B students]; Lab 2 [C&D students]; Lab 3 [E&F students])",
             'attireRequired' => false,
@@ -2069,7 +2068,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16580] = array(
+        $arr[] = array(
             'id' => 16580,
             'title' => "ILM-Dermatology Module (Due by Monday 9/15)",
             'attireRequired' => false,
@@ -2089,7 +2088,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16581] = array(
+        $arr[] = array(
             'id' => 16581,
             'title' => "Anatomy Lab Closed ",
             'attireRequired' => false,
@@ -2108,7 +2107,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[16582] = array(
+        $arr[] = array(
             'id' => 16582,
             'title' => "Office Hours: Genetics-Dr. Hyland ",
             'attireRequired' => false,
@@ -2128,7 +2127,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17304] = array(
+        $arr[] = array(
             'id' => 17304,
             'title' => "Embryology Q&A-Dr. Donjacour ",
             'attireRequired' => false,
@@ -2148,7 +2147,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17386] = array(
+        $arr[] = array(
             'id' => 17386,
             'title' => "Pharmacokinetics 3: Drug Metabolism (ONLINE LECTURE-view before Wednesday)",
             'attireRequired' => false,
@@ -2168,7 +2167,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17387] = array(
+        $arr[] = array(
             'id' => 17387,
             'title' => "Neoplasia (ONLINE LECTURE)",
             'attireRequired' => false,
@@ -2187,7 +2186,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17389] = array(
+        $arr[] = array(
             'id' => 17389,
             'title' => "Primary Care Summit (OPTIONAL)",
             'attireRequired' => false,
@@ -2207,7 +2206,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17547] = array(
+        $arr[] = array(
             'id' => 17547,
             'title' => "EC & Kaiser Teaching Awards Ceremony ",
             'attireRequired' => false,
@@ -2227,7 +2226,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17548] = array(
+        $arr[] = array(
             'id' => 17548,
             'title' => "Non-Traditional Inheritance (ONLINE LECTURE-view before Friday)",
             'attireRequired' => false,
@@ -2247,7 +2246,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17549] = array(
+        $arr[] = array(
             'id' => 17549,
             'title' => "Anatomy Lab 1 VIDEO: Introduction to the Body",
             'attireRequired' => false,
@@ -2267,7 +2266,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17550] = array(
+        $arr[] = array(
             'id' => 17550,
             'title' => "Anatomy Lab 3 VIDEO : Back and Spinal Cord",
             'attireRequired' => false,
@@ -2287,7 +2286,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17551] = array(
+        $arr[] = array(
             'id' => 17551,
             'title' => "Anatomy Lab 2 VIDEO: Neck",
             'attireRequired' => false,
@@ -2307,7 +2306,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17552] = array(
+        $arr[] = array(
             'id' => 17552,
             'title' => "Anatomy Lab 4 VIDEO: Shoulder",
             'attireRequired' => false,
@@ -2327,7 +2326,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17553] = array(
+        $arr[] = array(
             'id' => 17553,
             'title' => "Anatomy Lab 5 VIDEO: Anterior Forearm and Palmar Hand",
             'attireRequired' => false,
@@ -2347,7 +2346,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17555] = array(
+        $arr[] = array(
             'id' => 17555,
             'title' => "Anatomy Lab 6 VIDEO: Posterior Forearm and Dorsal Hand ",
             'attireRequired' => false,
@@ -2367,7 +2366,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17556] = array(
+        $arr[] = array(
             'id' => 17556,
             'title' => "Anatomy Lab 7 VIDEO: Anterior and Medial Thigh, and Anterior Leg",
             'attireRequired' => false,
@@ -2387,7 +2386,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17557] = array(
+        $arr[] = array(
             'id' => 17557,
             'title' => "Anatomy Lab 8 VIDEO: Gluteal Region, Posterior Thigh, and Posterior Leg",
             'attireRequired' => false,
@@ -2407,7 +2406,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[17558] = array(
+        $arr[] = array(
             'id' => 17558,
             'title' => "Anatomy Lab 9 VIDEO: Hip, Knee, Ankle",
             'attireRequired' => false,
@@ -2427,7 +2426,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[18588] = array(
+        $arr[] = array(
             'id' => 18588,
             'title' => "Nervous System 3: Vertebral Column and Muscles of the Back (ONLINE LECTURE-view before Thursday)",
             'attireRequired' => false,
@@ -2447,7 +2446,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[18630] = array(
+        $arr[] = array(
             'id' => 18630,
             'title' => "Nervous System 4: Large Group Discussion",
             'attireRequired' => false,
@@ -2467,7 +2466,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[18631] = array(
+        $arr[] = array(
             'id' => 18631,
             'title' => "Non-Traditional Inheritance Large Group Activity",
             'attireRequired' => false,
@@ -2487,7 +2486,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[18783] = array(
+        $arr[] = array(
             'id' => 18783,
             'title' => "Office Hours: Anne Donjacour (Embryology)",
             'attireRequired' => false,
@@ -2507,7 +2506,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[19060] = array(
+        $arr[] = array(
             'id' => 19060,
             'title' => "ILM- Hernia (Due by Wednesday, 9/10)",
             'attireRequired' => false,
@@ -2527,7 +2526,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[19543] = array(
+        $arr[] = array(
             'id' => 19543,
             'title' => "Genes, Genomes, and Gene Expressions (Due by Sept 30)",
             'attireRequired' => false,
@@ -2547,7 +2546,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[19544] = array(
+        $arr[] = array(
             'id' => 19544,
             'title' => "Mendelian Inheritance (Due by Oct 1)",
             'attireRequired' => false,
@@ -2567,7 +2566,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[19569] = array(
+        $arr[] = array(
             'id' => 19569,
             'title' => "Non-Traditional Inheritance (Online Lecture-Due by Oct 3rd)",
             'attireRequired' => false,
@@ -2587,7 +2586,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[19578] = array(
+        $arr[] = array(
             'id' => 19578,
             'title' => "Office Hours: Histology Lab",
             'attireRequired' => false,
@@ -2607,7 +2606,7 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
-        $arr[19594] = array(
+        $arr[] = array(
             'id' => 19594,
             'title' => "Prologue Course Celebration (Please attend)",
             'attireRequired' => false,
@@ -2627,6 +2626,8 @@ class SessionData extends AbstractDataLoader
             'offerings' => []
         );
 
+
+        return $arr;
     }
 
     public function create()

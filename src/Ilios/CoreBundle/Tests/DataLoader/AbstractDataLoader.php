@@ -2,6 +2,8 @@
 
 namespace Ilios\CoreBundle\Tests\DataLoader;
 
+use Faker\Factory as FakerFactory;
+
 /**
  * Abstract utilities for loading data
  *
@@ -10,7 +12,16 @@ namespace Ilios\CoreBundle\Tests\DataLoader;
  */
 abstract class AbstractDataLoader implements DataLoaderInterface
 {
-    private static $data;
+    protected $data;
+
+    protected $faker;
+
+    public function __construct()
+    {
+        $this->faker = FakerFactory::create();
+        $this->faker->seed(1234);
+    }
+
 
     /**
      * Create test data
@@ -24,24 +35,24 @@ abstract class AbstractDataLoader implements DataLoaderInterface
      */
     protected function setup()
     {
-        if (!empty(self::$data)) {
+        if (!empty($this->data)) {
             return;
         }
 
-        self::$data = $this->getData();
+        $this->data = $this->getData();
     }
 
 
     public function getOne()
     {
         $this->setUp();
-        return array_values(self::$data)[0];
+        return array_values($this->data)[0];
     }
 
     public function getAll()
     {
         $this->setUp();
-        return self::$data;
+        return $this->data;
     }
 
     abstract public function create();

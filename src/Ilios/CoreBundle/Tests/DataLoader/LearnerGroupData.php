@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class LearnerGroupData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[4715] = array(
+        $arr[] = array(
             'id' => 4715,
             'title' => "Prologue Entire Class",
             'location' => "",
@@ -67,7 +66,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4718] = array(
+        $arr[] = array(
             'id' => 4718,
             'title' => "Class of 2018",
             'location' => "",
@@ -96,7 +95,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4719] = array(
+        $arr[] = array(
             'id' => 4719,
             'title' => "ECSG (Class of 2018)",
             'location' => "",
@@ -138,7 +137,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4722] = array(
+        $arr[] = array(
             'id' => 4722,
             'title' => "ECSG  1",
             'location' => "",
@@ -146,13 +145,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46117','46220','46262'            ],
+            'offerings' => ['46117','46220','46262'],
             'instructorGroups' => [],
-            'users' => ['11259','11264'            ],
+            'users' => ['11259','11264'],
             'instructorUsers' => []
         );
 
-        $arr[4723] = array(
+        $arr[] = array(
             'id' => 4723,
             'title' => "ECSG  2",
             'location' => "",
@@ -160,13 +159,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46118','46221','46263'            ],
+            'offerings' => ['46118','46221','46263'],
             'instructorGroups' => [],
-            'users' => ['11262'            ],
+            'users' => ['11262'],
             'instructorUsers' => []
         );
 
-        $arr[4724] = array(
+        $arr[] = array(
             'id' => 4724,
             'title' => "ECSG  3",
             'location' => "",
@@ -174,13 +173,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46119','46222','46264'            ],
+            'offerings' => ['46119','46222','46264'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4725] = array(
+        $arr[] = array(
             'id' => 4725,
             'title' => "ECSG  4",
             'location' => "",
@@ -188,13 +187,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46120','46223','46265'            ],
+            'offerings' => ['46120','46223','46265'],
             'instructorGroups' => [],
-            'users' => ['11266'            ],
+            'users' => ['11266'],
             'instructorUsers' => []
         );
 
-        $arr[4726] = array(
+        $arr[] = array(
             'id' => 4726,
             'title' => "ECSG  5",
             'location' => "",
@@ -202,13 +201,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46121','46224','46266'            ],
+            'offerings' => ['46121','46224','46266'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4727] = array(
+        $arr[] = array(
             'id' => 4727,
             'title' => "ECSG  6",
             'location' => "",
@@ -216,13 +215,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46122','46225','46267'            ],
+            'offerings' => ['46122','46225','46267'],
             'instructorGroups' => [],
-            'users' => ['11256','11267'            ],
+            'users' => ['11256','11267'],
             'instructorUsers' => []
         );
 
-        $arr[4728] = array(
+        $arr[] = array(
             'id' => 4728,
             'title' => "ECSG  7",
             'location' => "",
@@ -230,13 +229,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46123','46226','46268'            ],
+            'offerings' => ['46123','46226','46268'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4729] = array(
+        $arr[] = array(
             'id' => 4729,
             'title' => "ECSG  8",
             'location' => "",
@@ -244,13 +243,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46124','46227','46269'            ],
+            'offerings' => ['46124','46227','46269'],
             'instructorGroups' => [],
-            'users' => ['11261','11263'            ],
+            'users' => ['11261','11263'],
             'instructorUsers' => []
         );
 
-        $arr[4730] = array(
+        $arr[] = array(
             'id' => 4730,
             'title' => "ECSG  9",
             'location' => "",
@@ -258,13 +257,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46125','46228','46270'            ],
+            'offerings' => ['46125','46228','46270'],
             'instructorGroups' => [],
-            'users' => ['11269'            ],
+            'users' => ['11269'],
             'instructorUsers' => []
         );
 
-        $arr[4731] = array(
+        $arr[] = array(
             'id' => 4731,
             'title' => "ECSG  10",
             'location' => "",
@@ -272,13 +271,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46126','46271','53090'            ],
+            'offerings' => ['46126','46271','53090'],
             'instructorGroups' => [],
-            'users' => ['11257'            ],
+            'users' => ['11257'],
             'instructorUsers' => []
         );
 
-        $arr[4732] = array(
+        $arr[] = array(
             'id' => 4732,
             'title' => "ECSG  11",
             'location' => "",
@@ -286,13 +285,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46127','46230','46272'            ],
+            'offerings' => ['46127','46230','46272'],
             'instructorGroups' => [],
-            'users' => ['11258','11265','11268','11270'            ],
+            'users' => ['11258','11265','11268','11270'],
             'instructorUsers' => []
         );
 
-        $arr[4733] = array(
+        $arr[] = array(
             'id' => 4733,
             'title' => "ECSG  12",
             'location' => "",
@@ -300,13 +299,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4719",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46128','46231','46273'            ],
+            'offerings' => ['46128','46231','46273'],
             'instructorGroups' => [],
-            'users' => ['11260'            ],
+            'users' => ['11260'],
             'instructorUsers' => []
         );
 
-        $arr[4734] = array(
+        $arr[] = array(
             'id' => 4734,
             'title' => "FPC SG Year 1 (Class of 2018)",
             'location' => "",
@@ -356,7 +355,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4735] = array(
+        $arr[] = array(
             'id' => 4735,
             'title' => "FPC SG 1",
             'location' => "S-158",
@@ -364,13 +363,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46288'            ],
+            'offerings' => ['46288'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4736] = array(
+        $arr[] = array(
             'id' => 4736,
             'title' => "FPC SG 2",
             'location' => "S-160",
@@ -378,13 +377,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46289'            ],
+            'offerings' => ['46289'],
             'instructorGroups' => [],
-            'users' => ['11267'            ],
+            'users' => ['11267'],
             'instructorUsers' => []
         );
 
-        $arr[4737] = array(
+        $arr[] = array(
             'id' => 4737,
             'title' => "FPC SG 3",
             'location' => "S-162",
@@ -392,13 +391,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46290'            ],
+            'offerings' => ['46290'],
             'instructorGroups' => [],
-            'users' => ['11266'            ],
+            'users' => ['11266'],
             'instructorUsers' => []
         );
 
-        $arr[4738] = array(
+        $arr[] = array(
             'id' => 4738,
             'title' => "FPC SG 4",
             'location' => "S-168",
@@ -406,13 +405,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46291'            ],
+            'offerings' => ['46291'],
             'instructorGroups' => [],
-            'users' => ['11262'            ],
+            'users' => ['11262'],
             'instructorUsers' => []
         );
 
-        $arr[4739] = array(
+        $arr[] = array(
             'id' => 4739,
             'title' => "FPC SG 5",
             'location' => "S-170",
@@ -420,13 +419,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46292'            ],
+            'offerings' => ['46292'],
             'instructorGroups' => [],
-            'users' => ['11261'            ],
+            'users' => ['11261'],
             'instructorUsers' => []
         );
 
-        $arr[4740] = array(
+        $arr[] = array(
             'id' => 4740,
             'title' => "FPC SG 6",
             'location' => "S-172",
@@ -434,13 +433,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46293'            ],
+            'offerings' => ['46293'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4741] = array(
+        $arr[] = array(
             'id' => 4741,
             'title' => "FPC SG 7",
             'location' => "S-173",
@@ -448,13 +447,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49803'            ],
+            'offerings' => ['49803'],
             'instructorGroups' => [],
-            'users' => ['11260'            ],
+            'users' => ['11260'],
             'instructorUsers' => []
         );
 
-        $arr[4742] = array(
+        $arr[] = array(
             'id' => 4742,
             'title' => "FPC SG 8",
             'location' => "S-175",
@@ -462,13 +461,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49804'            ],
+            'offerings' => ['49804'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4743] = array(
+        $arr[] = array(
             'id' => 4743,
             'title' => "FPC SG 9",
             'location' => "S-176",
@@ -476,13 +475,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49805'            ],
+            'offerings' => ['49805'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4744] = array(
+        $arr[] = array(
             'id' => 4744,
             'title' => "FPC SG 10",
             'location' => "S-178",
@@ -490,13 +489,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49806'            ],
+            'offerings' => ['49806'],
             'instructorGroups' => [],
-            'users' => ['11258'            ],
+            'users' => ['11258'],
             'instructorUsers' => []
         );
 
-        $arr[4745] = array(
+        $arr[] = array(
             'id' => 4745,
             'title' => "FPC SG 11",
             'location' => "S-162",
@@ -504,13 +503,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46282'            ],
+            'offerings' => ['46282'],
             'instructorGroups' => [],
-            'users' => ['11257'            ],
+            'users' => ['11257'],
             'instructorUsers' => []
         );
 
-        $arr[4746] = array(
+        $arr[] = array(
             'id' => 4746,
             'title' => "FPC SG 12",
             'location' => "S-168",
@@ -518,13 +517,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46283'            ],
+            'offerings' => ['46283'],
             'instructorGroups' => [],
-            'users' => ['11264'            ],
+            'users' => ['11264'],
             'instructorUsers' => []
         );
 
-        $arr[4747] = array(
+        $arr[] = array(
             'id' => 4747,
             'title' => "FPC SG 13",
             'location' => "S-170",
@@ -532,13 +531,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46284'            ],
+            'offerings' => ['46284'],
             'instructorGroups' => [],
-            'users' => ['11270'            ],
+            'users' => ['11270'],
             'instructorUsers' => []
         );
 
-        $arr[4748] = array(
+        $arr[] = array(
             'id' => 4748,
             'title' => "FPC SG 14",
             'location' => "S-171",
@@ -546,13 +545,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46285'            ],
+            'offerings' => ['46285'],
             'instructorGroups' => [],
-            'users' => ['11265'            ],
+            'users' => ['11265'],
             'instructorUsers' => []
         );
 
-        $arr[4749] = array(
+        $arr[] = array(
             'id' => 4749,
             'title' => "FPC SG 15",
             'location' => "S-172",
@@ -560,13 +559,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46286'            ],
+            'offerings' => ['46286'],
             'instructorGroups' => [],
-            'users' => ['11268','11269'            ],
+            'users' => ['11268','11269'],
             'instructorUsers' => []
         );
 
-        $arr[4750] = array(
+        $arr[] = array(
             'id' => 4750,
             'title' => "FPC SG 16",
             'location' => "S-173",
@@ -574,13 +573,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['46287'            ],
+            'offerings' => ['46287'],
             'instructorGroups' => [],
-            'users' => ['11256'            ],
+            'users' => ['11256'],
             'instructorUsers' => []
         );
 
-        $arr[4751] = array(
+        $arr[] = array(
             'id' => 4751,
             'title' => "FPC SG 17",
             'location' => "S-174",
@@ -588,13 +587,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49807'            ],
+            'offerings' => ['49807'],
             'instructorGroups' => [],
-            'users' => ['11263'            ],
+            'users' => ['11263'],
             'instructorUsers' => []
         );
 
-        $arr[4752] = array(
+        $arr[] = array(
             'id' => 4752,
             'title' => "FPC SG 18",
             'location' => "S-175",
@@ -602,13 +601,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49808'            ],
+            'offerings' => ['49808'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4753] = array(
+        $arr[] = array(
             'id' => 4753,
             'title' => "FPC SG 19",
             'location' => "S-176",
@@ -616,13 +615,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49809'            ],
+            'offerings' => ['49809'],
             'instructorGroups' => [],
             'users' => [],
             'instructorUsers' => []
         );
 
-        $arr[4754] = array(
+        $arr[] = array(
             'id' => 4754,
             'title' => "FPC SG 20",
             'location' => "S-178",
@@ -630,13 +629,13 @@ class LearnerGroupData extends AbstractDataLoader
             'parent' => "4734",
             'children' => [],
             'ilmSessions' => [],
-            'offerings' => ['49810'            ],
+            'offerings' => ['49810'],
             'instructorGroups' => [],
-            'users' => ['11259'            ],
+            'users' => ['11259'],
             'instructorUsers' => []
         );
 
-        $arr[4759] = array(
+        $arr[] = array(
             'id' => 4759,
             'title' => "Organs Entire Class",
             'location' => "",
@@ -665,7 +664,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4760] = array(
+        $arr[] = array(
             'id' => 4760,
             'title' => "M&N Entire Class",
             'location' => "",
@@ -694,7 +693,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4761] = array(
+        $arr[] = array(
             'id' => 4761,
             'title' => "BMB Entire Class",
             'location' => "",
@@ -723,7 +722,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4762] = array(
+        $arr[] = array(
             'id' => 4762,
             'title' => "I3 Entire Class",
             'location' => "",
@@ -736,7 +735,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4763] = array(
+        $arr[] = array(
             'id' => 4763,
             'title' => "M3 Entire Class",
             'location' => "",
@@ -749,7 +748,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4764] = array(
+        $arr[] = array(
             'id' => 4764,
             'title' => "LC/Prepilogue Entire Class",
             'location' => "",
@@ -762,7 +761,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4766] = array(
+        $arr[] = array(
             'id' => 4766,
             'title' => "Anatomy Lab",
             'location' => "",
@@ -818,7 +817,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4785] = array(
+        $arr[] = array(
             'id' => 4785,
             'title' => "Anatomy Lab 1",
             'location' => "",
@@ -828,11 +827,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11266'            ],
+            'users' => ['11266'],
             'instructorUsers' => []
         );
 
-        $arr[4786] = array(
+        $arr[] = array(
             'id' => 4786,
             'title' => "Anatomy Lab 2",
             'location' => "",
@@ -846,7 +845,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4787] = array(
+        $arr[] = array(
             'id' => 4787,
             'title' => "Anatomy Lab 3",
             'location' => "",
@@ -860,7 +859,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4788] = array(
+        $arr[] = array(
             'id' => 4788,
             'title' => "Anatomy Lab 4",
             'location' => "",
@@ -870,11 +869,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11262','11267'            ],
+            'users' => ['11262','11267'],
             'instructorUsers' => []
         );
 
-        $arr[4789] = array(
+        $arr[] = array(
             'id' => 4789,
             'title' => "Anatomy Lab 5",
             'location' => "",
@@ -888,7 +887,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4790] = array(
+        $arr[] = array(
             'id' => 4790,
             'title' => "Anatomy Lab 6",
             'location' => "",
@@ -902,7 +901,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4791] = array(
+        $arr[] = array(
             'id' => 4791,
             'title' => "Anatomy Lab 7",
             'location' => "",
@@ -916,7 +915,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4792] = array(
+        $arr[] = array(
             'id' => 4792,
             'title' => "Anatomy Lab 8",
             'location' => "",
@@ -926,11 +925,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11260','11261'            ],
+            'users' => ['11260','11261'],
             'instructorUsers' => []
         );
 
-        $arr[4793] = array(
+        $arr[] = array(
             'id' => 4793,
             'title' => "Anatomy Lab 9",
             'location' => "",
@@ -944,7 +943,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4794] = array(
+        $arr[] = array(
             'id' => 4794,
             'title' => "Anatomy Lab 10",
             'location' => "",
@@ -958,7 +957,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4795] = array(
+        $arr[] = array(
             'id' => 4795,
             'title' => "Anatomy Lab 11",
             'location' => "",
@@ -972,7 +971,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4796] = array(
+        $arr[] = array(
             'id' => 4796,
             'title' => "Anatomy Lab 12",
             'location' => "",
@@ -986,7 +985,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4797] = array(
+        $arr[] = array(
             'id' => 4797,
             'title' => "Anatomy Lab 13",
             'location' => "",
@@ -996,11 +995,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11258'            ],
+            'users' => ['11258'],
             'instructorUsers' => []
         );
 
-        $arr[4798] = array(
+        $arr[] = array(
             'id' => 4798,
             'title' => "Anatomy Lab 14",
             'location' => "",
@@ -1010,11 +1009,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11263'            ],
+            'users' => ['11263'],
             'instructorUsers' => []
         );
 
-        $arr[4799] = array(
+        $arr[] = array(
             'id' => 4799,
             'title' => "Anatomy Lab 15",
             'location' => "",
@@ -1024,11 +1023,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11257','11264'            ],
+            'users' => ['11257','11264'],
             'instructorUsers' => []
         );
 
-        $arr[4800] = array(
+        $arr[] = array(
             'id' => 4800,
             'title' => "Anatomy Lab 16",
             'location' => "",
@@ -1042,7 +1041,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4801] = array(
+        $arr[] = array(
             'id' => 4801,
             'title' => "Anatomy Lab 17",
             'location' => "",
@@ -1052,11 +1051,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11265'            ],
+            'users' => ['11265'],
             'instructorUsers' => []
         );
 
-        $arr[4802] = array(
+        $arr[] = array(
             'id' => 4802,
             'title' => "Anatomy Lab 18",
             'location' => "",
@@ -1070,7 +1069,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4803] = array(
+        $arr[] = array(
             'id' => 4803,
             'title' => "Anatomy Lab 19",
             'location' => "",
@@ -1084,7 +1083,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4804] = array(
+        $arr[] = array(
             'id' => 4804,
             'title' => "Anatomy Lab 20",
             'location' => "",
@@ -1094,11 +1093,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11269'            ],
+            'users' => ['11269'],
             'instructorUsers' => []
         );
 
-        $arr[4805] = array(
+        $arr[] = array(
             'id' => 4805,
             'title' => "Anatomy Lab 21",
             'location' => "",
@@ -1112,7 +1111,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4806] = array(
+        $arr[] = array(
             'id' => 4806,
             'title' => "Anatomy Lab 22",
             'location' => "",
@@ -1122,11 +1121,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11270'            ],
+            'users' => ['11270'],
             'instructorUsers' => []
         );
 
-        $arr[4807] = array(
+        $arr[] = array(
             'id' => 4807,
             'title' => "Anatomy Lab 23",
             'location' => "",
@@ -1136,11 +1135,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11259','11268'            ],
+            'users' => ['11259','11268'],
             'instructorUsers' => []
         );
 
-        $arr[4808] = array(
+        $arr[] = array(
             'id' => 4808,
             'title' => "Anatomy Lab 24",
             'location' => "",
@@ -1150,11 +1149,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11256'            ],
+            'users' => ['11256'],
             'instructorUsers' => []
         );
 
-        $arr[4809] = array(
+        $arr[] = array(
             'id' => 4809,
             'title' => "Anatomy Lab 25",
             'location' => "",
@@ -1168,7 +1167,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4810] = array(
+        $arr[] = array(
             'id' => 4810,
             'title' => "Anatomy Lab 26",
             'location' => "",
@@ -1182,12 +1181,12 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4811] = array(
+        $arr[] = array(
             'id' => 4811,
             'title' => "East/West",
             'location' => "",
             'cohort' => "66",
-            'children' => ['4812','4813'            ],
+            'children' => ['4812','4813'],
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
@@ -1211,7 +1210,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4812] = array(
+        $arr[] = array(
             'id' => 4812,
             'title' => "East",
             'location' => "",
@@ -1221,11 +1220,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11258','11260','11261','11262','11266','11267'            ],
+            'users' => ['11258','11260','11261','11262','11266','11267'],
             'instructorUsers' => []
         );
 
-        $arr[4813] = array(
+        $arr[] = array(
             'id' => 4813,
             'title' => "West",
             'location' => "",
@@ -1235,16 +1234,16 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11256','11257','11259','11263','11264','11265','11268','11269','11270'            ],
+            'users' => ['11256','11257','11259','11263','11264','11265','11268','11269','11270'],
             'instructorUsers' => []
         );
 
-        $arr[4814] = array(
+        $arr[] = array(
             'id' => 4814,
             'title' => "HP Rad Lab",
             'location' => "",
             'cohort' => "66",
-            'children' => ['4815','4816','4817','4818'            ],
+            'children' => ['4815','4816','4817','4818'],
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
@@ -1268,7 +1267,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4815] = array(
+        $arr[] = array(
             'id' => 4815,
             'title' => "HP Rad Lab 1",
             'location' => "",
@@ -1278,11 +1277,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11260','11261','11262','11266','11267'            ],
+            'users' => ['11260','11261','11262','11266','11267'],
             'instructorUsers' => []
         );
 
-        $arr[4816] = array(
+        $arr[] = array(
             'id' => 4816,
             'title' => "HP Rad Lab 2",
             'location' => "",
@@ -1292,11 +1291,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11258'            ],
+            'users' => ['11258'],
             'instructorUsers' => []
         );
 
-        $arr[4817] = array(
+        $arr[] = array(
             'id' => 4817,
             'title' => "HP Rad Lab 3",
             'location' => "",
@@ -1306,11 +1305,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11257','11263','11264','11265','11269','11270'            ],
+            'users' => ['11257','11263','11264','11265','11269','11270'],
             'instructorUsers' => []
         );
 
-        $arr[4818] = array(
+        $arr[] = array(
             'id' => 4818,
             'title' => "HP Rad Lab  4",
             'location' => "",
@@ -1320,11 +1319,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11256','11259','11268'            ],
+            'users' => ['11256','11259','11268'],
             'instructorUsers' => []
         );
 
-        $arr[4821] = array(
+        $arr[] = array(
             'id' => 4821,
             'title' => "PE Skills",
             'location' => "",
@@ -1374,7 +1373,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4822] = array(
+        $arr[] = array(
             'id' => 4822,
             'title' => "PE Skills 1",
             'location' => "",
@@ -1388,7 +1387,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4823] = array(
+        $arr[] = array(
             'id' => 4823,
             'title' => "PE Skills 2",
             'location' => "",
@@ -1402,7 +1401,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4824] = array(
+        $arr[] = array(
             'id' => 4824,
             'title' => "PE Skills 3",
             'location' => "S-159",
@@ -1412,11 +1411,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11266'            ],
+            'users' => ['11266'],
             'instructorUsers' => []
         );
 
-        $arr[4825] = array(
+        $arr[] = array(
             'id' => 4825,
             'title' => "PE Skills 4",
             'location' => "S-163",
@@ -1430,7 +1429,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4826] = array(
+        $arr[] = array(
             'id' => 4826,
             'title' => "PE Skills 5",
             'location' => "S-170",
@@ -1444,7 +1443,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4827] = array(
+        $arr[] = array(
             'id' => 4827,
             'title' => "PE Skills 6",
             'location' => "S-172",
@@ -1454,11 +1453,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11261'            ],
+            'users' => ['11261'],
             'instructorUsers' => []
         );
 
-        $arr[4828] = array(
+        $arr[] = array(
             'id' => 4828,
             'title' => "PE Skills 7",
             'location' => "S-174",
@@ -1468,11 +1467,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11262'            ],
+            'users' => ['11262'],
             'instructorUsers' => []
         );
 
-        $arr[4829] = array(
+        $arr[] = array(
             'id' => 4829,
             'title' => "PE Skills 8",
             'location' => "S-176",
@@ -1482,11 +1481,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11260'            ],
+            'users' => ['11260'],
             'instructorUsers' => []
         );
 
-        $arr[4830] = array(
+        $arr[] = array(
             'id' => 4830,
             'title' => "PE Skills 9",
             'location' => "S-178",
@@ -1496,11 +1495,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11258','11267'            ],
+            'users' => ['11258','11267'],
             'instructorUsers' => []
         );
 
-        $arr[4831] = array(
+        $arr[] = array(
             'id' => 4831,
             'title' => "PE Skills 10",
             'location' => "S-180",
@@ -1514,7 +1513,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4832] = array(
+        $arr[] = array(
             'id' => 4832,
             'title' => "PE Skills 11",
             'location' => "N-417",
@@ -1524,11 +1523,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11270'            ],
+            'users' => ['11270'],
             'instructorUsers' => []
         );
 
-        $arr[4833] = array(
+        $arr[] = array(
             'id' => 4833,
             'title' => "PE Skills 12",
             'location' => "S-159",
@@ -1538,11 +1537,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11259','11269'            ],
+            'users' => ['11259','11269'],
             'instructorUsers' => []
         );
 
-        $arr[4834] = array(
+        $arr[] = array(
             'id' => 4834,
             'title' => "PE Skills 13",
             'location' => "S-163",
@@ -1552,11 +1551,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11265'            ],
+            'users' => ['11265'],
             'instructorUsers' => []
         );
 
-        $arr[4835] = array(
+        $arr[] = array(
             'id' => 4835,
             'title' => "PE Skills 14",
             'location' => "N-423",
@@ -1570,7 +1569,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4836] = array(
+        $arr[] = array(
             'id' => 4836,
             'title' => "PE Skills 15",
             'location' => "S-170",
@@ -1580,11 +1579,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11264'            ],
+            'users' => ['11264'],
             'instructorUsers' => []
         );
 
-        $arr[4837] = array(
+        $arr[] = array(
             'id' => 4837,
             'title' => "PE Skills 16",
             'location' => "S-172",
@@ -1598,7 +1597,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4838] = array(
+        $arr[] = array(
             'id' => 4838,
             'title' => "PE Skills 17",
             'location' => "S-174",
@@ -1608,11 +1607,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11263','11268'            ],
+            'users' => ['11263','11268'],
             'instructorUsers' => []
         );
 
-        $arr[4839] = array(
+        $arr[] = array(
             'id' => 4839,
             'title' => "PE Skills 18",
             'location' => "S-176",
@@ -1626,7 +1625,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4840] = array(
+        $arr[] = array(
             'id' => 4840,
             'title' => "PE Skills 19",
             'location' => "S-178",
@@ -1636,11 +1635,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11256','11257'            ],
+            'users' => ['11256','11257'],
             'instructorUsers' => []
         );
 
-        $arr[4841] = array(
+        $arr[] = array(
             'id' => 4841,
             'title' => "PE Skills 20",
             'location' => "S-180",
@@ -1654,7 +1653,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4842] = array(
+        $arr[] = array(
             'id' => 4842,
             'title' => "Prologue Midpoint Feedback",
             'location' => "",
@@ -1667,12 +1666,12 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4843] = array(
+        $arr[] = array(
             'id' => 4843,
             'title' => "ACM",
             'location' => "",
             'cohort' => "66",
-            'children' => ['4844','4845','4846','5006'            ],
+            'children' => ['4844','4845','4846','5006'],
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
@@ -1696,7 +1695,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4844] = array(
+        $arr[] = array(
             'id' => 4844,
             'title' => "Loman",
             'location' => "",
@@ -1706,11 +1705,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11258','11260','11262','11266','11267'            ],
+            'users' => ['11258','11260','11262','11266','11267'],
             'instructorUsers' => []
         );
 
-        $arr[4845] = array(
+        $arr[] = array(
             'id' => 4845,
             'title' => "Harper",
             'location' => "",
@@ -1720,11 +1719,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11257','11264','11265','11268','11269','11270'            ],
+            'users' => ['11257','11264','11265','11268','11269','11270'],
             'instructorUsers' => []
         );
 
-        $arr[4846] = array(
+        $arr[] = array(
             'id' => 4846,
             'title' => "Jain",
             'location' => "",
@@ -1734,11 +1733,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11256','11259','11263'            ],
+            'users' => ['11256','11259','11263'],
             'instructorUsers' => []
         );
 
-        $arr[4847] = array(
+        $arr[] = array(
             'id' => 4847,
             'title' => "BMB Neuro Apprenticeship Group",
             'location' => "",
@@ -1785,7 +1784,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4848] = array(
+        $arr[] = array(
             'id' => 4848,
             'title' => "BMB Neuro Apprenticeship Group 1",
             'location' => "",
@@ -1799,7 +1798,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4849] = array(
+        $arr[] = array(
             'id' => 4849,
             'title' => "BMB Neuro Apprenticeship Group 2",
             'location' => "",
@@ -1813,7 +1812,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4850] = array(
+        $arr[] = array(
             'id' => 4850,
             'title' => "BMB Neuro Apprenticeship Group 3",
             'location' => "",
@@ -1827,7 +1826,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4851] = array(
+        $arr[] = array(
             'id' => 4851,
             'title' => "BMB Neuro Apprenticeship Group 4",
             'location' => "",
@@ -1841,7 +1840,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4852] = array(
+        $arr[] = array(
             'id' => 4852,
             'title' => "BMB Neuro Apprenticeship Group 5",
             'location' => "",
@@ -1855,7 +1854,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4853] = array(
+        $arr[] = array(
             'id' => 4853,
             'title' => "BMB Neuro Apprenticeship Group 6",
             'location' => "",
@@ -1869,7 +1868,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4854] = array(
+        $arr[] = array(
             'id' => 4854,
             'title' => "BMB Neuro Apprenticeship Group 7",
             'location' => "",
@@ -1883,7 +1882,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4855] = array(
+        $arr[] = array(
             'id' => 4855,
             'title' => "BMB Neuro Apprenticeship Group 8",
             'location' => "",
@@ -1897,7 +1896,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4856] = array(
+        $arr[] = array(
             'id' => 4856,
             'title' => "BMB Neuro Apprenticeship Group 9",
             'location' => "",
@@ -1911,7 +1910,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4857] = array(
+        $arr[] = array(
             'id' => 4857,
             'title' => "BMB Neuro Apprenticeship Group 10",
             'location' => "",
@@ -1925,7 +1924,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4858] = array(
+        $arr[] = array(
             'id' => 4858,
             'title' => "BMB Neuro Apprenticeship Group 11",
             'location' => "",
@@ -1939,7 +1938,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4859] = array(
+        $arr[] = array(
             'id' => 4859,
             'title' => "BMB Neuro Apprenticeship Group 12",
             'location' => "",
@@ -1953,7 +1952,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4860] = array(
+        $arr[] = array(
             'id' => 4860,
             'title' => "BMB Neuro Apprenticeship Group 13",
             'location' => "",
@@ -1967,7 +1966,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4861] = array(
+        $arr[] = array(
             'id' => 4861,
             'title' => "BMB Neuro Apprenticeship Group 14",
             'location' => "",
@@ -1981,7 +1980,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4862] = array(
+        $arr[] = array(
             'id' => 4862,
             'title' => "BMB Neuro Apprenticeship Group 15",
             'location' => "",
@@ -1995,7 +1994,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4863] = array(
+        $arr[] = array(
             'id' => 4863,
             'title' => "BMB Neuro Apprenticeship Group 16",
             'location' => "",
@@ -2009,7 +2008,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4864] = array(
+        $arr[] = array(
             'id' => 4864,
             'title' => "BMB Neuro Apprenticeship Group 17",
             'location' => "",
@@ -2023,7 +2022,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4865] = array(
+        $arr[] = array(
             'id' => 4865,
             'title' => "BMB Neuro Apprenticeship Group 18",
             'location' => "",
@@ -2037,7 +2036,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4866] = array(
+        $arr[] = array(
             'id' => 4866,
             'title' => "BMB Neuro Apprenticeship Group 19",
             'location' => "",
@@ -2051,7 +2050,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4867] = array(
+        $arr[] = array(
             'id' => 4867,
             'title' => "BMB Neuro Apprenticeship Group 20",
             'location' => "",
@@ -2065,7 +2064,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4868] = array(
+        $arr[] = array(
             'id' => 4868,
             'title' => "BMB Neuro Apprenticeship Group 21",
             'location' => "",
@@ -2079,7 +2078,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4869] = array(
+        $arr[] = array(
             'id' => 4869,
             'title' => "BMB Neuro Apprenticeship Group 22",
             'location' => "",
@@ -2093,7 +2092,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4870] = array(
+        $arr[] = array(
             'id' => 4870,
             'title' => "BMB Neuro Apprenticeship Group 23",
             'location' => "",
@@ -2107,7 +2106,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4871] = array(
+        $arr[] = array(
             'id' => 4871,
             'title' => "BMB Neuro Apprenticeship Group 24",
             'location' => "",
@@ -2121,7 +2120,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4872] = array(
+        $arr[] = array(
             'id' => 4872,
             'title' => "BMB Neuro Apprenticeship Group 25",
             'location' => "",
@@ -2135,7 +2134,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4873] = array(
+        $arr[] = array(
             'id' => 4873,
             'title' => "BMB Neuro Apprenticeship Group 26",
             'location' => "",
@@ -2149,7 +2148,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4874] = array(
+        $arr[] = array(
             'id' => 4874,
             'title' => "BMB Neuro Apprenticeship Group 27",
             'location' => "",
@@ -2163,7 +2162,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4875] = array(
+        $arr[] = array(
             'id' => 4875,
             'title' => "BMB Neuro Apprenticeship Group 28",
             'location' => "",
@@ -2177,7 +2176,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4876] = array(
+        $arr[] = array(
             'id' => 4876,
             'title' => "BMB Neuro Apprenticeship Group 29",
             'location' => "",
@@ -2191,7 +2190,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4877] = array(
+        $arr[] = array(
             'id' => 4877,
             'title' => "BMB Neuro Apprenticeship Group 30",
             'location' => "",
@@ -2205,7 +2204,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4878] = array(
+        $arr[] = array(
             'id' => 4878,
             'title' => "BMB Neuro Apprenticeship Group 31",
             'location' => "",
@@ -2219,7 +2218,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4879] = array(
+        $arr[] = array(
             'id' => 4879,
             'title' => "BMB Neuro Apprenticeship Group 32",
             'location' => "",
@@ -2233,7 +2232,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4880] = array(
+        $arr[] = array(
             'id' => 4880,
             'title' => "BMB Neuro Apprenticeship Group 33",
             'location' => "",
@@ -2247,7 +2246,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4881] = array(
+        $arr[] = array(
             'id' => 4881,
             'title' => "BMB Psych Apprenticeship Group",
             'location' => "",
@@ -2288,7 +2287,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4882] = array(
+        $arr[] = array(
             'id' => 4882,
             'title' => "BMB Psych Apprenticeship Group 1",
             'location' => "",
@@ -2302,7 +2301,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4883] = array(
+        $arr[] = array(
             'id' => 4883,
             'title' => "BMB Psych Apprenticeship Group 2",
             'location' => "",
@@ -2316,7 +2315,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4884] = array(
+        $arr[] = array(
             'id' => 4884,
             'title' => "BMB Psych Apprenticeship Group 3",
             'location' => "",
@@ -2330,7 +2329,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4885] = array(
+        $arr[] = array(
             'id' => 4885,
             'title' => "BMB Psych Apprenticeship Group 4",
             'location' => "",
@@ -2344,7 +2343,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4886] = array(
+        $arr[] = array(
             'id' => 4886,
             'title' => "BMB Psych Apprenticeship Group 5",
             'location' => "",
@@ -2358,7 +2357,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4887] = array(
+        $arr[] = array(
             'id' => 4887,
             'title' => "BMB Psych Apprenticeship Group 6",
             'location' => "",
@@ -2372,7 +2371,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4888] = array(
+        $arr[] = array(
             'id' => 4888,
             'title' => "BMB Psych Apprenticeship Group 7",
             'location' => "",
@@ -2386,7 +2385,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4889] = array(
+        $arr[] = array(
             'id' => 4889,
             'title' => "BMB Psych Apprenticeship Group 8",
             'location' => "",
@@ -2400,7 +2399,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4890] = array(
+        $arr[] = array(
             'id' => 4890,
             'title' => "BMB Psych Apprenticeship Group 9",
             'location' => "",
@@ -2414,7 +2413,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4891] = array(
+        $arr[] = array(
             'id' => 4891,
             'title' => "BMB Psych Apprenticeship Group 10",
             'location' => "",
@@ -2428,7 +2427,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4892] = array(
+        $arr[] = array(
             'id' => 4892,
             'title' => "BMB Psych Apprenticeship Group 11",
             'location' => "",
@@ -2442,7 +2441,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4893] = array(
+        $arr[] = array(
             'id' => 4893,
             'title' => "BMB Psych Apprenticeship Group 12",
             'location' => "",
@@ -2456,7 +2455,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4894] = array(
+        $arr[] = array(
             'id' => 4894,
             'title' => "BMB Psych Apprenticeship Group 13",
             'location' => "",
@@ -2470,7 +2469,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4895] = array(
+        $arr[] = array(
             'id' => 4895,
             'title' => "BMB Psych Apprenticeship Group 14",
             'location' => "",
@@ -2484,7 +2483,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4896] = array(
+        $arr[] = array(
             'id' => 4896,
             'title' => "BMB Psych Apprenticeship Group 15",
             'location' => "",
@@ -2498,7 +2497,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4897] = array(
+        $arr[] = array(
             'id' => 4897,
             'title' => "BMB Psych Apprenticeship Group 16",
             'location' => "",
@@ -2512,7 +2511,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4898] = array(
+        $arr[] = array(
             'id' => 4898,
             'title' => "BMB Psych Apprenticeship Group 17",
             'location' => "",
@@ -2526,7 +2525,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4899] = array(
+        $arr[] = array(
             'id' => 4899,
             'title' => "BMB Psych Apprenticeship Group 18",
             'location' => "",
@@ -2540,7 +2539,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4900] = array(
+        $arr[] = array(
             'id' => 4900,
             'title' => "BMB Psych Apprenticeship Group 19",
             'location' => "",
@@ -2554,7 +2553,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4901] = array(
+        $arr[] = array(
             'id' => 4901,
             'title' => "BMB Psych Apprenticeship Group 20",
             'location' => "",
@@ -2568,7 +2567,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4902] = array(
+        $arr[] = array(
             'id' => 4902,
             'title' => "BMB Psych Apprenticeship Group 21",
             'location' => "",
@@ -2582,7 +2581,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4903] = array(
+        $arr[] = array(
             'id' => 4903,
             'title' => "BMB Psych Apprenticeship Group 22",
             'location' => "",
@@ -2596,7 +2595,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4904] = array(
+        $arr[] = array(
             'id' => 4904,
             'title' => "BMB Psych Apprenticeship Group 23",
             'location' => "",
@@ -2610,7 +2609,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4905] = array(
+        $arr[] = array(
             'id' => 4905,
             'title' => "BMB Psych Apprenticeship Group 24",
             'location' => "",
@@ -2624,7 +2623,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4906] = array(
+        $arr[] = array(
             'id' => 4906,
             'title' => "BMB Psych Apprenticeship Group 25",
             'location' => "",
@@ -2638,7 +2637,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4907] = array(
+        $arr[] = array(
             'id' => 4907,
             'title' => "BMB Psych Apprenticeship Group 26",
             'location' => "",
@@ -2652,7 +2651,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4908] = array(
+        $arr[] = array(
             'id' => 4908,
             'title' => "BMB Psych Apprenticeship Group 27",
             'location' => "",
@@ -2666,7 +2665,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4909] = array(
+        $arr[] = array(
             'id' => 4909,
             'title' => "IPHE",
             'location' => "",
@@ -2700,7 +2699,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4915] = array(
+        $arr[] = array(
             'id' => 4915,
             'title' => "IPHE 1",
             'location' => "",
@@ -2714,7 +2713,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4916] = array(
+        $arr[] = array(
             'id' => 4916,
             'title' => "IPHE 2",
             'location' => "",
@@ -2728,7 +2727,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4917] = array(
+        $arr[] = array(
             'id' => 4917,
             'title' => "IPHE 3",
             'location' => "",
@@ -2742,7 +2741,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4918] = array(
+        $arr[] = array(
             'id' => 4918,
             'title' => "IPHE 4",
             'location' => "",
@@ -2756,7 +2755,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4919] = array(
+        $arr[] = array(
             'id' => 4919,
             'title' => "IPHE 5",
             'location' => "",
@@ -2770,7 +2769,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4920] = array(
+        $arr[] = array(
             'id' => 4920,
             'title' => "IPHE 6",
             'location' => "",
@@ -2784,7 +2783,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4921] = array(
+        $arr[] = array(
             'id' => 4921,
             'title' => "IPHE 7",
             'location' => "",
@@ -2798,7 +2797,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4922] = array(
+        $arr[] = array(
             'id' => 4922,
             'title' => "IPHE 8",
             'location' => "",
@@ -2812,7 +2811,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4923] = array(
+        $arr[] = array(
             'id' => 4923,
             'title' => "IPHE 9",
             'location' => "",
@@ -2826,7 +2825,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4924] = array(
+        $arr[] = array(
             'id' => 4924,
             'title' => "IPHE 10",
             'location' => "",
@@ -2840,7 +2839,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4925] = array(
+        $arr[] = array(
             'id' => 4925,
             'title' => "IPHE 11",
             'location' => "",
@@ -2854,7 +2853,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4926] = array(
+        $arr[] = array(
             'id' => 4926,
             'title' => "IPHE 12",
             'location' => "",
@@ -2868,7 +2867,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4927] = array(
+        $arr[] = array(
             'id' => 4927,
             'title' => "IPHE 13",
             'location' => "",
@@ -2882,7 +2881,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4928] = array(
+        $arr[] = array(
             'id' => 4928,
             'title' => "IPHE 14",
             'location' => "",
@@ -2896,7 +2895,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4929] = array(
+        $arr[] = array(
             'id' => 4929,
             'title' => "IPHE 15",
             'location' => "",
@@ -2910,7 +2909,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4930] = array(
+        $arr[] = array(
             'id' => 4930,
             'title' => "IPHE 16",
             'location' => "",
@@ -2924,7 +2923,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4931] = array(
+        $arr[] = array(
             'id' => 4931,
             'title' => "IPHE 17",
             'location' => "",
@@ -2938,7 +2937,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4932] = array(
+        $arr[] = array(
             'id' => 4932,
             'title' => "IPHE 18",
             'location' => "",
@@ -2952,7 +2951,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4933] = array(
+        $arr[] = array(
             'id' => 4933,
             'title' => "IPHE 19",
             'location' => "",
@@ -2966,7 +2965,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4934] = array(
+        $arr[] = array(
             'id' => 4934,
             'title' => "IPHE 20",
             'location' => "",
@@ -2980,7 +2979,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[4973] = array(
+        $arr[] = array(
             'id' => 4973,
             'title' => "Curriculum Ambassadors (2015)",
             'location' => "",
@@ -2993,7 +2992,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[5006] = array(
+        $arr[] = array(
             'id' => 5006,
             'title' => "Miller",
             'location' => "",
@@ -3003,11 +3002,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11261'            ],
+            'users' => ['11261'],
             'instructorUsers' => []
         );
 
-        $arr[5022] = array(
+        $arr[] = array(
             'id' => 5022,
             'title' => "PRIME class of 2018",
             'location' => "",
@@ -3020,12 +3019,12 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[5225] = array(
+        $arr[] = array(
             'id' => 5225,
             'title' => "Organs Path Lab",
             'location' => "",
             'cohort' => "66",
-            'children' => ['5226','5227','5228'            ],
+            'children' => ['5226','5227','5228'],
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
@@ -3049,7 +3048,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[5226] = array(
+        $arr[] = array(
             'id' => 5226,
             'title' => "Organs Path Lab 1",
             'location' => "",
@@ -3059,11 +3058,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11257','11259','11260','11261','11263','11264','11265','11269'            ],
+            'users' => ['11257','11259','11260','11261','11263','11264','11265','11269'],
             'instructorUsers' => []
         );
 
-        $arr[5227] = array(
+        $arr[] = array(
             'id' => 5227,
             'title' => "Organs Path Lab 2",
             'location' => "",
@@ -3073,11 +3072,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11256','11258','11267','11268','11270'            ],
+            'users' => ['11256','11258','11267','11268','11270'],
             'instructorUsers' => []
         );
 
-        $arr[5228] = array(
+        $arr[] = array(
             'id' => 5228,
             'title' => "Organs Path Lab 3",
             'location' => "",
@@ -3087,16 +3086,16 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11262','11266'            ],
+            'users' => ['11262','11266'],
             'instructorUsers' => []
         );
 
-        $arr[5253] = array(
+        $arr[] = array(
             'id' => 5253,
             'title' => "Patient Simulator Groups",
             'location' => "",
             'cohort' => "66",
-            'children' => ['5254','5255','5256'            ],
+            'children' => ['5254','5255','5256'],
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
@@ -3121,7 +3120,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[5254] = array(
+        $arr[] = array(
             'id' => 5254,
             'title' => "Patient Simulator Group 1",
             'location' => "",
@@ -3131,11 +3130,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11258','11259','11260','11263','11268','11269','11270'            ],
+            'users' => ['11258','11259','11260','11263','11268','11269','11270'],
             'instructorUsers' => []
         );
 
-        $arr[5255] = array(
+        $arr[] = array(
             'id' => 5255,
             'title' => "Patient Simulator Group 2",
             'location' => "",
@@ -3145,11 +3144,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11261','11262','11265','11266'            ],
+            'users' => ['11261','11262','11265','11266'],
             'instructorUsers' => []
         );
 
-        $arr[5256] = array(
+        $arr[] = array(
             'id' => 5256,
             'title' => "Patient Simulator Group 3",
             'location' => "",
@@ -3159,11 +3158,11 @@ class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => [],
             'instructorGroups' => [],
-            'users' => ['11256','11257','11264','11267','11272'            ],
+            'users' => ['11256','11257','11264','11267','11272'],
             'instructorUsers' => []
         );
 
-        $arr[5358] = array(
+        $arr[] = array(
             'id' => 5358,
             'title' => "Class of 2018 for UME",
             'location' => "",
@@ -3193,7 +3192,7 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
-        $arr[5391] = array(
+        $arr[] = array(
             'id' => 5391,
             'title' => "UME Entire Class ",
             'location' => "",
@@ -3223,6 +3222,8 @@ class LearnerGroupData extends AbstractDataLoader
             'instructorUsers' => []
         );
 
+
+        return $arr;
     }
 
     public function create()

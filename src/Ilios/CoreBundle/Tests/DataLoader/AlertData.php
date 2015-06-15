@@ -1,15 +1,14 @@
 <?php
 
-namespace IliosCoreBundleTestsDataLoader;
+namespace Ilios\CoreBundle\Tests\DataLoader;
 
 class AlertData extends AbstractDataLoader
 {
     protected function getData()
     {
-
         $arr = array();
 
-        $arr[1] = array(
+        $arr[] = array(
             'id' => 1,
             'tableRowId' => 9,
             'tableName' => "course",
@@ -19,7 +18,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[2] = array(
+        $arr[] = array(
             'id' => 2,
             'tableRowId' => 8,
             'tableName' => "course",
@@ -29,7 +28,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[3] = array(
+        $arr[] = array(
             'id' => 3,
             'tableRowId' => 2315,
             'tableName' => "offering",
@@ -39,7 +38,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[4] = array(
+        $arr[] = array(
             'id' => 4,
             'tableRowId' => 2353,
             'tableName' => "offering",
@@ -49,7 +48,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[5] = array(
+        $arr[] = array(
             'id' => 5,
             'tableRowId' => 6,
             'tableName' => "course",
@@ -59,7 +58,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[6] = array(
+        $arr[] = array(
             'id' => 6,
             'tableRowId' => 6,
             'tableName' => "course",
@@ -69,7 +68,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[7] = array(
+        $arr[] = array(
             'id' => 7,
             'tableRowId' => 2881,
             'tableName' => "offering",
@@ -79,7 +78,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[8] = array(
+        $arr[] = array(
             'id' => 8,
             'tableRowId' => 2882,
             'tableName' => "offering",
@@ -89,7 +88,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[9] = array(
+        $arr[] = array(
             'id' => 9,
             'tableRowId' => 1,
             'tableName' => "course",
@@ -99,7 +98,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[10] = array(
+        $arr[] = array(
             'id' => 10,
             'tableRowId' => 1,
             'tableName' => "course",
@@ -109,7 +108,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[11] = array(
+        $arr[] = array(
             'id' => 11,
             'tableRowId' => 48,
             'tableName' => "session",
@@ -119,7 +118,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[12] = array(
+        $arr[] = array(
             'id' => 12,
             'tableRowId' => 82,
             'tableName' => "offering",
@@ -129,7 +128,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[13] = array(
+        $arr[] = array(
             'id' => 13,
             'tableRowId' => 600,
             'tableName' => "session",
@@ -139,7 +138,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[14] = array(
+        $arr[] = array(
             'id' => 14,
             'tableRowId' => 2524,
             'tableName' => "offering",
@@ -149,7 +148,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[15] = array(
+        $arr[] = array(
             'id' => 15,
             'tableRowId' => 2405,
             'tableName' => "offering",
@@ -159,7 +158,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[16] = array(
+        $arr[] = array(
             'id' => 16,
             'tableRowId' => 2499,
             'tableName' => "offering",
@@ -169,7 +168,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[17] = array(
+        $arr[] = array(
             'id' => 17,
             'tableRowId' => 2503,
             'tableName' => "offering",
@@ -179,7 +178,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[18] = array(
+        $arr[] = array(
             'id' => 18,
             'tableRowId' => 2504,
             'tableName' => "offering",
@@ -189,7 +188,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[19] = array(
+        $arr[] = array(
             'id' => 19,
             'tableRowId' => 2505,
             'tableName' => "offering",
@@ -199,7 +198,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[20] = array(
+        $arr[] = array(
             'id' => 20,
             'tableRowId' => 2506,
             'tableName' => "offering",
@@ -209,7 +208,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[21] = array(
+        $arr[] = array(
             'id' => 21,
             'tableRowId' => 2507,
             'tableName' => "offering",
@@ -219,7 +218,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[22] = array(
+        $arr[] = array(
             'id' => 22,
             'tableRowId' => 2508,
             'tableName' => "offering",
@@ -229,7 +228,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[23] = array(
+        $arr[] = array(
             'id' => 23,
             'tableRowId' => 2509,
             'tableName' => "offering",
@@ -239,7 +238,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[24] = array(
+        $arr[] = array(
             'id' => 24,
             'tableRowId' => 2510,
             'tableName' => "offering",
@@ -249,7 +248,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[25] = array(
+        $arr[] = array(
             'id' => 25,
             'tableRowId' => 2511,
             'tableName' => "offering",
@@ -259,7 +258,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[26] = array(
+        $arr[] = array(
             'id' => 26,
             'tableRowId' => 2512,
             'tableName' => "offering",
@@ -269,7 +268,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[27] = array(
+        $arr[] = array(
             'id' => 27,
             'tableRowId' => 2513,
             'tableName' => "offering",
@@ -279,7 +278,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[28] = array(
+        $arr[] = array(
             'id' => 28,
             'tableRowId' => 2514,
             'tableName' => "offering",
@@ -289,7 +288,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[29] = array(
+        $arr[] = array(
             'id' => 29,
             'tableRowId' => 2516,
             'tableName' => "offering",
@@ -299,7 +298,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[30] = array(
+        $arr[] = array(
             'id' => 30,
             'tableRowId' => 2517,
             'tableName' => "offering",
@@ -309,7 +308,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[31] = array(
+        $arr[] = array(
             'id' => 31,
             'tableRowId' => 2518,
             'tableName' => "offering",
@@ -319,7 +318,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[32] = array(
+        $arr[] = array(
             'id' => 32,
             'tableRowId' => 2519,
             'tableName' => "offering",
@@ -329,7 +328,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[33] = array(
+        $arr[] = array(
             'id' => 33,
             'tableRowId' => 3704,
             'tableName' => "offering",
@@ -339,7 +338,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[34] = array(
+        $arr[] = array(
             'id' => 34,
             'tableRowId' => 3705,
             'tableName' => "offering",
@@ -349,7 +348,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[35] = array(
+        $arr[] = array(
             'id' => 35,
             'tableRowId' => 3706,
             'tableName' => "offering",
@@ -359,7 +358,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[36] = array(
+        $arr[] = array(
             'id' => 36,
             'tableRowId' => 3707,
             'tableName' => "offering",
@@ -369,7 +368,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[37] = array(
+        $arr[] = array(
             'id' => 37,
             'tableRowId' => 3708,
             'tableName' => "offering",
@@ -379,7 +378,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[38] = array(
+        $arr[] = array(
             'id' => 38,
             'tableRowId' => 3709,
             'tableName' => "offering",
@@ -389,7 +388,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[39] = array(
+        $arr[] = array(
             'id' => 39,
             'tableRowId' => 3710,
             'tableName' => "offering",
@@ -399,7 +398,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[40] = array(
+        $arr[] = array(
             'id' => 40,
             'tableRowId' => 3711,
             'tableName' => "offering",
@@ -409,7 +408,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[41] = array(
+        $arr[] = array(
             'id' => 41,
             'tableRowId' => 3712,
             'tableName' => "offering",
@@ -419,7 +418,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[42] = array(
+        $arr[] = array(
             'id' => 42,
             'tableRowId' => 3713,
             'tableName' => "offering",
@@ -429,7 +428,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[43] = array(
+        $arr[] = array(
             'id' => 43,
             'tableRowId' => 3714,
             'tableName' => "offering",
@@ -439,7 +438,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[44] = array(
+        $arr[] = array(
             'id' => 44,
             'tableRowId' => 3715,
             'tableName' => "offering",
@@ -449,7 +448,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[45] = array(
+        $arr[] = array(
             'id' => 45,
             'tableRowId' => 3716,
             'tableName' => "offering",
@@ -459,7 +458,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[46] = array(
+        $arr[] = array(
             'id' => 46,
             'tableRowId' => 3717,
             'tableName' => "offering",
@@ -469,7 +468,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[47] = array(
+        $arr[] = array(
             'id' => 47,
             'tableRowId' => 3718,
             'tableName' => "offering",
@@ -479,7 +478,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[48] = array(
+        $arr[] = array(
             'id' => 48,
             'tableRowId' => 3719,
             'tableName' => "offering",
@@ -489,7 +488,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[49] = array(
+        $arr[] = array(
             'id' => 49,
             'tableRowId' => 3720,
             'tableName' => "offering",
@@ -499,7 +498,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[50] = array(
+        $arr[] = array(
             'id' => 50,
             'tableRowId' => 3721,
             'tableName' => "offering",
@@ -509,7 +508,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[51] = array(
+        $arr[] = array(
             'id' => 51,
             'tableRowId' => 3722,
             'tableName' => "offering",
@@ -519,7 +518,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[52] = array(
+        $arr[] = array(
             'id' => 52,
             'tableRowId' => 3723,
             'tableName' => "offering",
@@ -529,7 +528,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[53] = array(
+        $arr[] = array(
             'id' => 53,
             'tableRowId' => 3724,
             'tableName' => "offering",
@@ -539,7 +538,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[54] = array(
+        $arr[] = array(
             'id' => 54,
             'tableRowId' => 3725,
             'tableName' => "offering",
@@ -549,7 +548,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[55] = array(
+        $arr[] = array(
             'id' => 55,
             'tableRowId' => 3726,
             'tableName' => "offering",
@@ -559,7 +558,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[56] = array(
+        $arr[] = array(
             'id' => 56,
             'tableRowId' => 3727,
             'tableName' => "offering",
@@ -569,7 +568,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[57] = array(
+        $arr[] = array(
             'id' => 57,
             'tableRowId' => 3728,
             'tableName' => "offering",
@@ -579,7 +578,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[58] = array(
+        $arr[] = array(
             'id' => 58,
             'tableRowId' => 2523,
             'tableName' => "offering",
@@ -589,7 +588,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[59] = array(
+        $arr[] = array(
             'id' => 59,
             'tableRowId' => 3729,
             'tableName' => "offering",
@@ -599,7 +598,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[60] = array(
+        $arr[] = array(
             'id' => 60,
             'tableRowId' => 3730,
             'tableName' => "offering",
@@ -609,7 +608,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[61] = array(
+        $arr[] = array(
             'id' => 61,
             'tableRowId' => 3731,
             'tableName' => "offering",
@@ -619,7 +618,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[62] = array(
+        $arr[] = array(
             'id' => 62,
             'tableRowId' => 3732,
             'tableName' => "offering",
@@ -629,7 +628,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[63] = array(
+        $arr[] = array(
             'id' => 63,
             'tableRowId' => 3733,
             'tableName' => "offering",
@@ -639,7 +638,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[64] = array(
+        $arr[] = array(
             'id' => 64,
             'tableRowId' => 3734,
             'tableName' => "offering",
@@ -649,7 +648,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[65] = array(
+        $arr[] = array(
             'id' => 65,
             'tableRowId' => 3735,
             'tableName' => "offering",
@@ -659,7 +658,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[66] = array(
+        $arr[] = array(
             'id' => 66,
             'tableRowId' => 3736,
             'tableName' => "offering",
@@ -669,7 +668,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[67] = array(
+        $arr[] = array(
             'id' => 67,
             'tableRowId' => 3737,
             'tableName' => "offering",
@@ -679,7 +678,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[68] = array(
+        $arr[] = array(
             'id' => 68,
             'tableRowId' => 3738,
             'tableName' => "offering",
@@ -689,7 +688,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[69] = array(
+        $arr[] = array(
             'id' => 69,
             'tableRowId' => 3739,
             'tableName' => "offering",
@@ -699,7 +698,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[70] = array(
+        $arr[] = array(
             'id' => 70,
             'tableRowId' => 3740,
             'tableName' => "offering",
@@ -709,7 +708,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[71] = array(
+        $arr[] = array(
             'id' => 71,
             'tableRowId' => 3741,
             'tableName' => "offering",
@@ -719,7 +718,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[72] = array(
+        $arr[] = array(
             'id' => 72,
             'tableRowId' => 3742,
             'tableName' => "offering",
@@ -729,7 +728,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[73] = array(
+        $arr[] = array(
             'id' => 73,
             'tableRowId' => 3743,
             'tableName' => "offering",
@@ -739,7 +738,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[74] = array(
+        $arr[] = array(
             'id' => 74,
             'tableRowId' => 3744,
             'tableName' => "offering",
@@ -749,7 +748,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[75] = array(
+        $arr[] = array(
             'id' => 75,
             'tableRowId' => 3745,
             'tableName' => "offering",
@@ -759,7 +758,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[76] = array(
+        $arr[] = array(
             'id' => 76,
             'tableRowId' => 3746,
             'tableName' => "offering",
@@ -769,7 +768,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[77] = array(
+        $arr[] = array(
             'id' => 77,
             'tableRowId' => 3747,
             'tableName' => "offering",
@@ -779,7 +778,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[78] = array(
+        $arr[] = array(
             'id' => 78,
             'tableRowId' => 3748,
             'tableName' => "offering",
@@ -789,7 +788,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[79] = array(
+        $arr[] = array(
             'id' => 79,
             'tableRowId' => 3749,
             'tableName' => "offering",
@@ -799,7 +798,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[80] = array(
+        $arr[] = array(
             'id' => 80,
             'tableRowId' => 3750,
             'tableName' => "offering",
@@ -809,7 +808,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[81] = array(
+        $arr[] = array(
             'id' => 81,
             'tableRowId' => 3751,
             'tableName' => "offering",
@@ -819,7 +818,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[82] = array(
+        $arr[] = array(
             'id' => 82,
             'tableRowId' => 3752,
             'tableName' => "offering",
@@ -829,7 +828,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[83] = array(
+        $arr[] = array(
             'id' => 83,
             'tableRowId' => 3753,
             'tableName' => "offering",
@@ -839,7 +838,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[84] = array(
+        $arr[] = array(
             'id' => 84,
             'tableRowId' => 3754,
             'tableName' => "offering",
@@ -849,7 +848,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[85] = array(
+        $arr[] = array(
             'id' => 85,
             'tableRowId' => 3755,
             'tableName' => "offering",
@@ -859,7 +858,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[86] = array(
+        $arr[] = array(
             'id' => 86,
             'tableRowId' => 3756,
             'tableName' => "offering",
@@ -869,7 +868,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[87] = array(
+        $arr[] = array(
             'id' => 87,
             'tableRowId' => 3757,
             'tableName' => "offering",
@@ -879,7 +878,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[88] = array(
+        $arr[] = array(
             'id' => 88,
             'tableRowId' => 3758,
             'tableName' => "offering",
@@ -889,7 +888,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[89] = array(
+        $arr[] = array(
             'id' => 89,
             'tableRowId' => 3759,
             'tableName' => "offering",
@@ -899,7 +898,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[90] = array(
+        $arr[] = array(
             'id' => 90,
             'tableRowId' => 3760,
             'tableName' => "offering",
@@ -909,7 +908,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[91] = array(
+        $arr[] = array(
             'id' => 91,
             'tableRowId' => 3761,
             'tableName' => "offering",
@@ -919,7 +918,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[92] = array(
+        $arr[] = array(
             'id' => 92,
             'tableRowId' => 3762,
             'tableName' => "offering",
@@ -929,7 +928,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[93] = array(
+        $arr[] = array(
             'id' => 93,
             'tableRowId' => 3763,
             'tableName' => "offering",
@@ -939,7 +938,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[94] = array(
+        $arr[] = array(
             'id' => 94,
             'tableRowId' => 3764,
             'tableName' => "offering",
@@ -949,7 +948,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[95] = array(
+        $arr[] = array(
             'id' => 95,
             'tableRowId' => 3765,
             'tableName' => "offering",
@@ -959,7 +958,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[96] = array(
+        $arr[] = array(
             'id' => 96,
             'tableRowId' => 3766,
             'tableName' => "offering",
@@ -969,7 +968,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[97] = array(
+        $arr[] = array(
             'id' => 97,
             'tableRowId' => 3767,
             'tableName' => "offering",
@@ -979,7 +978,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[98] = array(
+        $arr[] = array(
             'id' => 98,
             'tableRowId' => 3768,
             'tableName' => "offering",
@@ -989,7 +988,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[99] = array(
+        $arr[] = array(
             'id' => 99,
             'tableRowId' => 3769,
             'tableName' => "offering",
@@ -999,7 +998,7 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
-        $arr[100] = array(
+        $arr[] = array(
             'id' => 100,
             'tableRowId' => 2645,
             'tableName' => "offering",
@@ -1009,6 +1008,8 @@ class AlertData extends AbstractDataLoader
             'recipients' => []
         );
 
+
+        return $arr;
     }
 
     public function create()
