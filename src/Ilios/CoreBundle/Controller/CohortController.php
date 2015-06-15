@@ -162,7 +162,9 @@ class CohortController extends FOSRestController
                 ->post($this->getPostData($request));
             $answer['cohorts'] = [$new];
 
-            return $answer;
+            $view = $this->view($answer, Codes::HTTP_CREATED);
+
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -14,34 +14,34 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ilios\CoreBundle\Exception\InvalidFormException;
-use Ilios\CoreBundle\Handler\SchoolHandler;
-use Ilios\CoreBundle\Entity\SchoolInterface;
+use Ilios\CoreBundle\Handler\IlmSessionFacetHandler;
+use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
 
 /**
- * Class SchoolController
+ * Class IlmSessionFacetController
  * @package Ilios\CoreBundle\Controller
- * @RouteResource("Schools")
+ * @RouteResource("IlmSessionFacets")
  */
-class SchoolController extends FOSRestController
+class IlmSessionFacetController extends FOSRestController
 {
     /**
-     * Get a School
+     * Get a IlmSessionFacet
      *
      * @ApiDoc(
-     *   section = "School",
-     *   description = "Get a School.",
+     *   section = "IlmSessionFacet",
+     *   description = "Get a IlmSessionFacet.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
      *        "requirement"="\d+",
-     *        "description"="School identifier."
+     *        "description"="IlmSessionFacet identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\School",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     200 = "School.",
+     *     200 = "IlmSessionFacet.",
      *     404 = "Not Found."
      *   }
      * )
@@ -54,21 +54,21 @@ class SchoolController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['schools'][] = $this->getOr404($id);
+        $answer['ilmSessionFacets'][] = $this->getOr404($id);
 
         return $answer;
     }
 
     /**
-     * Get all School.
+     * Get all IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "School",
-     *   description = "Get all School.",
+     *   section = "IlmSessionFacet",
+     *   description = "Get all IlmSessionFacet.",
      *   resource = true,
-     *   output="Ilios\CoreBundle\Entity\School",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes = {
-     *     200 = "List of all School",
+     *     200 = "List of all IlmSessionFacet",
      *     204 = "No content. Nothing to list."
      *   }
      * )
@@ -118,8 +118,8 @@ class SchoolController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getSchoolHandler()
-            ->findSchoolsBy(
+        $result = $this->getIlmSessionFacetHandler()
+            ->findIlmSessionFacetsBy(
                 $criteria,
                 $orderBy,
                 $limit,
@@ -127,23 +127,23 @@ class SchoolController extends FOSRestController
             );
 
         //If there are no matches return an empty array
-        $answer['schools'] =
+        $answer['ilmSessionFacets'] =
             $result ? $result : new ArrayCollection([]);
 
         return $answer;
     }
 
     /**
-     * Create a School.
+     * Create a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "School",
-     *   description = "Create a School.",
+     *   section = "IlmSessionFacet",
+     *   description = "Create a IlmSessionFacet.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\SchoolType",
-     *   output="Ilios\CoreBundle\Entity\School",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     201 = "Created School.",
+     *     201 = "Created IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -158,9 +158,9 @@ class SchoolController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getSchoolHandler()
+            $new  =  $this->getIlmSessionFacetHandler()
                 ->post($this->getPostData($request));
-            $answer['schools'] = [$new];
+            $answer['ilmSessionFacets'] = [$new];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);
 
@@ -171,17 +171,17 @@ class SchoolController extends FOSRestController
     }
 
     /**
-     * Update a School.
+     * Update a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "School",
-     *   description = "Update a School entity.",
+     *   section = "IlmSessionFacet",
+     *   description = "Update a IlmSessionFacet entity.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\SchoolType",
-     *   output="Ilios\CoreBundle\Entity\School",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     200 = "Updated School.",
-     *     201 = "Created School.",
+     *     200 = "Updated IlmSessionFacet.",
+     *     201 = "Created IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -197,19 +197,19 @@ class SchoolController extends FOSRestController
     public function putAction(Request $request, $id)
     {
         try {
-            $school = $this->getSchoolHandler()
-                ->findSchoolBy(['id'=> $id]);
-            if ($school) {
+            $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+                ->findIlmSessionFacetBy(['id'=> $id]);
+            if ($ilmSessionFacet) {
                 $code = Codes::HTTP_OK;
             } else {
-                $school = $this->getSchoolHandler()
-                    ->createSchool();
+                $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+                    ->createIlmSessionFacet();
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['school'] =
-                $this->getSchoolHandler()->put(
-                    $school,
+            $answer['ilmSessionFacet'] =
+                $this->getIlmSessionFacetHandler()->put(
+                    $ilmSessionFacet,
                     $this->getPostData($request)
                 );
         } catch (InvalidFormException $exception) {
@@ -222,24 +222,24 @@ class SchoolController extends FOSRestController
     }
 
     /**
-     * Partial Update to a School.
+     * Partial Update to a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "School",
-     *   description = "Partial Update to a School.",
+     *   section = "IlmSessionFacet",
+     *   description = "Partial Update to a IlmSessionFacet.",
      *   resource = true,
-     *   input="Ilios\CoreBundle\Form\Type\SchoolType",
-     *   output="Ilios\CoreBundle\Entity\School",
+     *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
      *         "requirement"="\d+",
-     *         "description"="School identifier."
+     *         "description"="IlmSessionFacet identifier."
      *     }
      *   },
      *   statusCodes={
-     *     200 = "Updated School.",
+     *     200 = "Updated IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
@@ -254,8 +254,8 @@ class SchoolController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['school'] =
-            $this->getSchoolHandler()->patch(
+        $answer['ilmSessionFacet'] =
+            $this->getIlmSessionFacetHandler()->patch(
                 $this->getOr404($id),
                 $this->getPostData($request)
             );
@@ -264,22 +264,22 @@ class SchoolController extends FOSRestController
     }
 
     /**
-     * Delete a School.
+     * Delete a IlmSessionFacet.
      *
      * @ApiDoc(
-     *   section = "School",
-     *   description = "Delete a School entity.",
+     *   section = "IlmSessionFacet",
+     *   description = "Delete a IlmSessionFacet entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
      *         "requirement" = "\d+",
-     *         "description" = "School identifier"
+     *         "description" = "IlmSessionFacet identifier"
      *     }
      *   },
      *   statusCodes={
-     *     204 = "No content. Successfully deleted School.",
+     *     204 = "No content. Successfully deleted IlmSessionFacet.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
      *   }
@@ -288,17 +288,17 @@ class SchoolController extends FOSRestController
      * @Rest\View(statusCode=204)
      *
      * @param $id
-     * @internal SchoolInterface $school
+     * @internal IlmSessionFacetInterface $ilmSessionFacet
      *
      * @return Response
      */
     public function deleteAction($id)
     {
-        $school = $this->getOr404($id);
+        $ilmSessionFacet = $this->getOr404($id);
 
         try {
-            $this->getSchoolHandler()
-                ->deleteSchool($school);
+            $this->getIlmSessionFacetHandler()
+                ->deleteIlmSessionFacet($ilmSessionFacet);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
@@ -310,17 +310,17 @@ class SchoolController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return SchoolInterface $school
+     * @return IlmSessionFacetInterface $ilmSessionFacet
      */
     protected function getOr404($id)
     {
-        $school = $this->getSchoolHandler()
-            ->findSchoolBy(['id' => $id]);
-        if (!$school) {
+        $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+            ->findIlmSessionFacetBy(['id' => $id]);
+        if (!$ilmSessionFacet) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $school;
+        return $ilmSessionFacet;
     }
 
     /**
@@ -331,7 +331,7 @@ class SchoolController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('school');
+        $data = $request->request->get('ilmSessionFacet');
 
         if (empty($data)) {
             $data = $request->request->all();
@@ -341,10 +341,10 @@ class SchoolController extends FOSRestController
     }
 
     /**
-     * @return SchoolHandler
+     * @return IlmSessionFacetHandler
      */
-    protected function getSchoolHandler()
+    protected function getIlmSessionFacetHandler()
     {
-        return $this->container->get('ilioscore.school.handler');
+        return $this->container->get('ilioscore.ilmsessionfacet.handler');
     }
 }

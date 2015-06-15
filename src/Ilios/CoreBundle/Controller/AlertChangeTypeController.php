@@ -162,7 +162,9 @@ class AlertChangeTypeController extends FOSRestController
                 ->post($this->getPostData($request));
             $answer['alertChangeTypes'] = [$new];
 
-            return $answer;
+            $view = $this->view($answer, Codes::HTTP_CREATED);
+
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
