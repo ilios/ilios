@@ -4,7 +4,7 @@ namespace Ilios\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
-use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Util\Codes;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,35 +18,35 @@ use Ilios\CoreBundle\Handler\IlmSessionFacetHandler;
 use Ilios\CoreBundle\Entity\IlmSessionFacetInterface;
 
 /**
- * IlmSessionFacet controller.
- * @package Ilios\CoreBundle\Controller\;
- * @RouteResource("IlmSession")
+ * Class IlmSessionController
+ * @package Ilios\CoreBundle\Controller
+ * @RouteResource("IlmSessions")
  */
 class IlmSessionController extends FOSRestController
 {
-
     /**
-     * Get a IlmSessionFacet
+     * Get a IlmSession
      *
      * @ApiDoc(
+     *   section = "IlmSession",
      *   description = "Get a IlmSession.",
      *   resource = true,
      *   requirements={
      *     {
      *        "name"="id",
      *        "dataType"="integer",
-     *        "requirement"="",
+     *        "requirement"="\d+",
      *        "description"="IlmSession identifier."
      *     }
      *   },
-     *   output="Ilios\CoreBundle\Entity\IlmSession",
+     *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
      *     200 = "IlmSession.",
      *     404 = "Not Found."
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param $id
      *
@@ -54,28 +54,24 @@ class IlmSessionController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['ilmSession'] = $this->getOr404($id);
+        $answer['ilmSessions'][] = $this->getOr404($id);
 
         return $answer;
     }
+
     /**
-     * Get all IlmSessionFacet.
+     * Get all IlmSession.
      *
      * @ApiDoc(
+     *   section = "IlmSession",
+     *   description = "Get all IlmSession.",
      *   resource = true,
-     *   description = "Get all IlmSessionFacet.",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes = {
-     *     200 = "List of all IlmSessionFacet",
+     *     200 = "List of all IlmSessions",
      *     204 = "No content. Nothing to list."
      *   }
      * )
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
-     *
-     * @param ParamFetcherInterface $paramFetcher
-     *
-     * @return Response
      *
      * @QueryParam(
      *   name="offset",
@@ -101,18 +97,24 @@ class IlmSessionController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     *
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return Response
      */
     public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : array();
-
+        $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
-            $item = $item == 'null'?null:$item;
-            $item = $item == 'false'?false:$item;
-            $item = $item == 'true'?true:$item;
+            $item = $item == 'null' ? null : $item;
+            $item = $item == 'false' ? false : $item;
+            $item = $item == 'true' ? true : $item;
+
             return $item;
         }, $criteria);
 
@@ -123,6 +125,7 @@ class IlmSessionController extends FOSRestController
                 $limit,
                 $offset
             );
+
         //If there are no matches return an empty array
         $answer['ilmSessions'] =
             $result ? $result : new ArrayCollection([]);
@@ -131,21 +134,22 @@ class IlmSessionController extends FOSRestController
     }
 
     /**
-     * Create a IlmSessionFacet.
+     * Create a IlmSession.
      *
      * @ApiDoc(
+     *   section = "IlmSession",
+     *   description = "Create a IlmSession.",
      *   resource = true,
-     *   description = "Create a IlmSessionFacet.",
      *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     201 = "Created IlmSessionFacet.",
+     *     201 = "Created IlmSession.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
      * )
      *
-     * @View(statusCode=201, serializerEnableMaxDepthChecks=true)
+     * @Rest\View(statusCode=201, serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
      *
@@ -154,8 +158,9 @@ class IlmSessionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $new  =  $this->getIlmSessionFacetHandler()->post($this->getPostData($request));
-            $answer['ilmSession'] = $new;
+            $new  =  $this->getIlmSessionFacetHandler()
+                ->post($this->getPostData($request));
+            $answer['ilmSessions'] = [$new];
 
             return $answer;
         } catch (InvalidFormException $exception) {
@@ -164,25 +169,26 @@ class IlmSessionController extends FOSRestController
     }
 
     /**
-     * Update a IlmSessionFacet.
+     * Update a IlmSession.
      *
      * @ApiDoc(
+     *   section = "IlmSession",
+     *   description = "Update a IlmSession entity.",
      *   resource = true,
-     *   description = "Update a IlmSessionFacet entity.",
      *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   statusCodes={
-     *     200 = "Updated IlmSessionFacet.",
-     *     201 = "Created IlmSessionFacet.",
+     *     200 = "Updated IlmSession.",
+     *     201 = "Created IlmSession.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
      * )
      *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
@@ -192,17 +198,18 @@ class IlmSessionController extends FOSRestController
             $ilmSessionFacet = $this->getIlmSessionFacetHandler()
                 ->findIlmSessionFacetBy(['id'=> $id]);
             if ($ilmSessionFacet) {
-                $answer['ilmSession'] =
-                    $this->getIlmSessionFacetHandler()->put(
-                        $ilmSessionFacet,
-                        $this->getPostData($request)
-                    );
                 $code = Codes::HTTP_OK;
             } else {
-                $answer['ilmSession'] =
-                    $this->getIlmSessionFacetHandler()->post($this->getPostData($request));
+                $ilmSessionFacet = $this->getIlmSessionFacetHandler()
+                    ->createIlmSessionFacet();
                 $code = Codes::HTTP_CREATED;
             }
+
+            $answer['ilmSessions'] =
+                $this->getIlmSessionFacetHandler()->put(
+                    $ilmSessionFacet,
+                    $this->getPostData($request)
+                );
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -213,39 +220,39 @@ class IlmSessionController extends FOSRestController
     }
 
     /**
-     * Partial Update to a IlmSessionFacet.
+     * Partial Update to a IlmSession.
      *
      * @ApiDoc(
+     *   section = "IlmSession",
+     *   description = "Partial Update to a IlmSession.",
      *   resource = true,
-     *   description = "Partial Update to a IlmSessionFacet.",
      *   input="Ilios\CoreBundle\Form\Type\IlmSessionFacetType",
      *   output="Ilios\CoreBundle\Entity\IlmSessionFacet",
      *   requirements={
      *     {
      *         "name"="id",
      *         "dataType"="integer",
-     *         "requirement"="",
-     *         "description"="IlmSessionFacet identifier."
+     *         "requirement"="\d+",
+     *         "description"="IlmSession identifier."
      *     }
      *   },
      *   statusCodes={
-     *     200 = "Updated IlmSessionFacet.",
+     *     200 = "Updated IlmSession.",
      *     400 = "Bad Request.",
      *     404 = "Not Found."
      *   }
      * )
      *
-     *
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
      * @param Request $request
-     * @param $entity
+     * @param $id
      *
      * @return Response
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['ilmSession'] =
+        $answer['ilmSessions'] =
             $this->getIlmSessionFacetHandler()->patch(
                 $this->getOr404($id),
                 $this->getPostData($request)
@@ -255,27 +262,28 @@ class IlmSessionController extends FOSRestController
     }
 
     /**
-     * Delete a IlmSessionFacet.
+     * Delete a IlmSession.
      *
      * @ApiDoc(
-     *   description = "Delete a IlmSessionFacet entity.",
+     *   section = "IlmSession",
+     *   description = "Delete a IlmSession entity.",
      *   resource = true,
      *   requirements={
      *     {
      *         "name" = "id",
      *         "dataType" = "integer",
-     *         "requirement" = "",
-     *         "description" = "IlmSessionFacet identifier"
+     *         "requirement" = "\d+",
+     *         "description" = "IlmSession identifier"
      *     }
      *   },
      *   statusCodes={
-     *     204 = "No content. Successfully deleted IlmSessionFacet.",
+     *     204 = "No content. Successfully deleted IlmSession.",
      *     400 = "Bad Request.",
      *     404 = "Not found."
      *   }
      * )
      *
-     * @View(statusCode=204)
+     * @Rest\View(statusCode=204)
      *
      * @param $id
      * @internal IlmSessionFacetInterface $ilmSessionFacet
@@ -285,6 +293,7 @@ class IlmSessionController extends FOSRestController
     public function deleteAction($id)
     {
         $ilmSessionFacet = $this->getOr404($id);
+
         try {
             $this->getIlmSessionFacetHandler()
                 ->deleteIlmSessionFacet($ilmSessionFacet);
@@ -299,28 +308,36 @@ class IlmSessionController extends FOSRestController
      * Get a entity or throw a exception
      *
      * @param $id
-     * @return IlmSessionFacetInterface $entity
+     * @return IlmSessionFacetInterface $ilmSessionFacet
      */
     protected function getOr404($id)
     {
-        $entity = $this->getIlmSessionFacetHandler()
+        $ilmSessionFacet = $this->getIlmSessionFacetHandler()
             ->findIlmSessionFacetBy(['id' => $id]);
-        if (!$entity) {
+        if (!$ilmSessionFacet) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        return $entity;
+        return $ilmSessionFacet;
     }
-   /**
-    * Parse the request for the form data
-    *
-    * @param Request $request
-    * @return array
+
+    /**
+     * Parse the request for the form data
+     *
+     * @param Request $request
+     * @return array
      */
     protected function getPostData(Request $request)
     {
-        return $request->request->get('ilmSession', array());
+        $data = $request->request->get('ilmSessionFacet');
+
+        if (empty($data)) {
+            $data = $request->request->all();
+        }
+
+        return $data;
     }
+
     /**
      * @return IlmSessionFacetHandler
      */

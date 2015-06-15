@@ -1,6 +1,6 @@
 <?php
 
-namespace Ilios\Corebundle\Form\DataTransformer;
+namespace Ilios\CoreBundle\Form\DataTransformer;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
