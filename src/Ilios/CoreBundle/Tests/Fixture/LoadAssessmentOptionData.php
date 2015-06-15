@@ -29,6 +29,8 @@ class LoadAssessmentOptionData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new AssessmentOption();
             $entity->setId($arr['id']);
+            $entity->setName($arr['name']);
+
             $manager->persist($entity);
             $this->addReference('assessmentOptions' . $arr['id'], $entity);
         }

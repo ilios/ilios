@@ -32,6 +32,9 @@ class LoadSessionTypeData extends AbstractFixture implements
             $entity = new SessionType();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
+            $entity->setAssessmentOption(
+                $this->getReference('assessmentOptions' . $arr['assessmentOption'])
+            );
 
             foreach ($arr['aamcMethods'] as $id) {
                 $entity->addAamcMethod($this->getReference('aamcMethods' . $id));
@@ -46,7 +49,8 @@ class LoadSessionTypeData extends AbstractFixture implements
     public function getDependencies()
     {
         return array(
-            'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadAamcMethodData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadAssessmentOptionData'
         );
     }
 

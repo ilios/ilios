@@ -9,55 +9,34 @@ class AssessmentOptionData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'id' => 2,
-            'name' => "formative",
-            'sessionTypes' => [
-                '144',
-                '146',
-                '147',
-                '150',
-                '152',
-                '153',
-                '154',
-                '155',
-                '156',
-                '157',
-                '158',
-            ]
+            'id' => 1,
+            'name' => $this->faker->word,
+            'sessionTypes' => [1]
         );
 
         $arr[] = array(
-            'id' => 1,
-            'name' => "summative",
-            'sessionTypes' => [
-                '27',
-                '134',
-                '135',
-                '137',
-                '138',
-                '139',
-                '140',
-                '141',
-                '142',
-                '143',
-                '145',
-                '148',
-                '149',
-                '151',
-            ]
+            'id' => 2,
+            'name' => $this->faker->word,
+            'sessionTypes' => [2]
         );
-
-
         return $arr;
     }
 
     public function create()
     {
-        return [];
+        return [
+            'id' => 3,
+            'name' => $this->faker->text(10),
+            'sessionTypes' => [2]
+        ];
     }
 
     public function createInvalid()
     {
-        return [];
+        return [
+            'id' => 'something',
+            'name' => $this->faker->text,
+            'sessionTypes' => [10000]
+        ];
     }
 }

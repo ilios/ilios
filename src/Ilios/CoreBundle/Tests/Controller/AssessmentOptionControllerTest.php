@@ -74,19 +74,24 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
     {
         $data = $this->container->get('ilioscore.dataloader.assessmentoption')
             ->create();
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
+
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_assessmentoptions'),
-            json_encode(['assessmentOption' => $data])
+            json_encode(['assessmentOption' => $postData])
         );
 
         $response = $this->client->getResponse();
         $headers  = [];
 
-        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['assessmentOptions'][0]
+            json_decode($response->getContent(), true)['assessmentOptions'][0],
+            $response->getContent()
         );
     }
 
@@ -109,24 +114,27 @@ class AssessmentOptionControllerTest extends AbstractControllerTest
 
     public function testPutAssessmentOption()
     {
-        $assessmentOption = $this->container
+        $data = $this->container
             ->get('ilioscore.dataloader.assessmentoption')
-            ->getOne()
-        ;
+            ->getOne();
+
+        $postData = $data;
+        //unset any parameters which should not be POSTed
+        unset($postData['id']);
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
                 'put_assessmentoptions',
-                ['id' => $assessmentOption['id']]
+                ['id' => $data['id']]
             ),
-            json_encode(['assessmentOption' => $assessmentOption])
+            json_encode(['assessmentOption' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($assessmentOption),
+            $this->mockSerialize($data),
             json_decode($response->getContent(), true)['assessmentOption']
         );
     }
