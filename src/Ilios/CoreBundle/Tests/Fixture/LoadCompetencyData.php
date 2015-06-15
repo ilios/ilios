@@ -28,9 +28,18 @@ class LoadCompetencyData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new Competency();
+            $entity->setId($arr['id']);
+            $entity->setTitle($arr['title']);
+
+            foreach ($arr['aamcPcrses'] as $id) {
+                $entity->addAamcPcrs($this->getReference('aamcPcrs' . $id));
+            }
+
             $manager->persist($entity);
             $this->addReference('competencies' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

@@ -28,9 +28,13 @@ class LoadAamcPcrsData extends AbstractFixture implements
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AamcPcrs();
+            $entity->setId($arr['id']);
+            $entity->setDescription($arr['description']);
             $manager->persist($entity);
             $this->addReference('aamcPcrs' . $arr['id'], $entity);
         }
+
+        $manager->flush();
     }
 
 }

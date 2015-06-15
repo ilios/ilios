@@ -26,9 +26,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
      */
     protected function getPrivateFields()
     {
-        return [
-            'description'
-        ];
+        return [];
     }
 
     public function testGetAamcPcrs()
@@ -51,7 +49,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($aamcPcrs),
-            json_decode($response->getContent(), true)['aamcPcrs'][0]
+            json_decode($response->getContent(), true)['aamcPcrses'][0]
         );
     }
 
@@ -67,7 +65,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
                     ->get('ilioscore.dataloader.aamcpcrs')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['aamcPcrs']
+            json_decode($response->getContent(), true)['aamcPcrses']
         );
     }
 
@@ -78,16 +76,17 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_aamcpcrs'),
-            json_encode(['aamcPcrs' => $data])
+            json_encode(['aamcPcrses' => $data])
         );
 
         $response = $this->client->getResponse();
         $headers  = [];
 
-        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode());
+        $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['aamcPcrs'][0]
+            json_decode($response->getContent(), true)['aamcPcrses'][0],
+            $response->getContent()
         );
     }
 
@@ -101,7 +100,7 @@ class AamcPcrsControllerTest extends AbstractControllerTest
         $this->createJsonRequest(
             'POST',
             $this->getUrl('post_aamcpcrs'),
-            json_encode(['aamcPcrs' => $invalidAamcPcrs])
+            json_encode(['aamcPcrses' => $invalidAamcPcrs])
         );
 
         $response = $this->client->getResponse();
@@ -121,14 +120,14 @@ class AamcPcrsControllerTest extends AbstractControllerTest
                 'put_aamcpcrs',
                 ['id' => $aamcPcrs['id']]
             ),
-            json_encode(['aamcPcrs' => $aamcPcrs])
+            json_encode(['aamcPcrses' => $aamcPcrs])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($aamcPcrs),
-            json_decode($response->getContent(), true)['aamcPcrs']
+            json_decode($response->getContent(), true)['aamcPcrses']
         );
     }
 
