@@ -158,21 +158,13 @@ class IngestionExceptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $ingestionexception = $this->getIngestionExceptionHandler()
+            $new  =  $this->getIngestionExceptionHandler()
                 ->post($this->getPostData($request));
+            $answer['ingestionExceptions'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_ingestionexceptions',
-                    ['user' => $ingestionexception->getUser()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

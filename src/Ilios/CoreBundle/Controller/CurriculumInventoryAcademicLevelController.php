@@ -158,21 +158,13 @@ class CurriculumInventoryAcademicLevelController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $curriculuminventoryacademiclevel = $this->getCurriculumInventoryAcademicLevelHandler()
+            $new  =  $this->getCurriculumInventoryAcademicLevelHandler()
                 ->post($this->getPostData($request));
+            $answer['curriculumInventoryAcademicLevels'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_curriculuminventoryacademiclevels',
-                    ['id' => $curriculuminventoryacademiclevel->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

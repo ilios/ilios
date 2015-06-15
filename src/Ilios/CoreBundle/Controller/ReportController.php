@@ -158,21 +158,13 @@ class ReportController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $report = $this->getReportHandler()
+            $new  =  $this->getReportHandler()
                 ->post($this->getPostData($request));
+            $answer['reports'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_reports',
-                    ['id' => $report->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

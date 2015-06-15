@@ -158,21 +158,13 @@ class AssessmentOptionController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $assessmentoption = $this->getAssessmentOptionHandler()
+            $new  =  $this->getAssessmentOptionHandler()
                 ->post($this->getPostData($request));
+            $answer['assessmentOptions'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_assessmentoptions',
-                    ['id' => $assessmentoption->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

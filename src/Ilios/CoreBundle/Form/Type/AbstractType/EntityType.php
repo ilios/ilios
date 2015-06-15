@@ -2,7 +2,7 @@
 
 namespace Ilios\CoreBundle\Form\Type\AbstractType;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType as BaseEntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -12,22 +12,22 @@ class EntityType extends BaseEntityType
 {
 
     /**
-     * @var EntityManager
+     * @var Registry
      */
-    private $em;
+    private $doctrineRegistry;
 
     /**
-     * @param EntityManager $em
+     * @param Registry $doctrineRegistry
      */
 
-    public function __construct(EntityManager $em)
+    public function __construct(Registry $doctrineRegistry)
     {
-        $this->em = $em;
+        $this->doctrineRegistry = $doctrineRegistry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $view_transformer = new ArrayToIdTransformer($this->em, null);
+        $view_transformer = new ArrayToIdTransformer($this->doctrineRegistry, null);
         $builder->addViewTransformer($view_transformer);
     }
 

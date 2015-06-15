@@ -151,7 +151,66 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.userrole.handler.class' => 'Ilios\CoreBundle\Handler\UserRoleHandler',
             'ilioscore.userrole.manager.class' => 'Ilios\CoreBundle\Entity\Manager\UserRoleManager',
             'ilioscore.aamcmethod.handler.class' => 'Ilios\CoreBundle\Handler\AamcMethodHandler',
-            'ilioscore.dataloader.users.class' => 'Ilios\CoreBundle\Tests\DataLoader\Users',
+            'ilioscore.dataloader.aamcmethod.class' => 'Ilios\CoreBundle\Tests\DataLoader\AamcMethodData',
+            'ilioscore.dataloader.aamcpcrs.class' => 'Ilios\CoreBundle\Tests\DataLoader\AamcPcrsData',
+            'ilioscore.dataloader.alertchangetype.class' => 'Ilios\CoreBundle\Tests\DataLoader\AlertChangeTypeData',
+            'ilioscore.dataloader.alert.class' => 'Ilios\CoreBundle\Tests\DataLoader\AlertData',
+            'ilioscore.dataloader.assessmentoption.class' => 'Ilios\CoreBundle\Tests\DataLoader\AssessmentOptionData',
+            'ilioscore.dataloader.cohort.class' => 'Ilios\CoreBundle\Tests\DataLoader\CohortData',
+            'ilioscore.dataloader.competency.class' => 'Ilios\CoreBundle\Tests\DataLoader\CompetencyData',
+            'ilioscore.dataloader.courselearningmaterial.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData',
+            'ilioscore.dataloader.course.class' => 'Ilios\CoreBundle\Tests\DataLoader\CourseData',
+            'ilioscore.dataloader.courseclerkshiptype.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CourseClerkshipTypeData',
+            'ilioscore.dataloader.curriculuminventoryacademiclevel.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryAcademicLevelData',
+            'ilioscore.dataloader.curriculuminventoryexport.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryExportData',
+            'ilioscore.dataloader.curriculuminventoryinstitution.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryInstitutionData',
+            'ilioscore.dataloader.curriculuminventoryreport.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData',
+            'ilioscore.dataloader.curriculuminventorysequenceblock.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockData',
+            'ilioscore.dataloader.curriculuminventorysequenceblocksession.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
+            'ilioscore.dataloader.curriculuminventorysequence.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData',
+            'ilioscore.dataloader.department.class' => 'Ilios\CoreBundle\Tests\DataLoader\DepartmentData',
+            'ilioscore.dataloader.discipline.class' => 'Ilios\CoreBundle\Tests\DataLoader\DisciplineData',
+            'ilioscore.dataloader.ilmsessionfacet.class' => 'NOT_FOUND',
+            'ilioscore.dataloader.ingestionexception.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\IngestionExceptionData',
+            'ilioscore.dataloader.instructorgroup.class' => 'Ilios\CoreBundle\Tests\DataLoader\InstructorGroupData',
+            'ilioscore.dataloader.learnergroup.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearnerGroupData',
+            'ilioscore.dataloader.learningmaterialstatus.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialStatusData',
+            'ilioscore.dataloader.learningmaterialuserrole.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
+            'ilioscore.dataloader.learningmaterial.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData',
+            'ilioscore.dataloader.objective.class' => 'Ilios\CoreBundle\Tests\DataLoader\ObjectiveData',
+            'ilioscore.dataloader.offering.class' => 'Ilios\CoreBundle\Tests\DataLoader\OfferingData',
+            'ilioscore.dataloader.programyear.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramYearData',
+            'ilioscore.dataloader.programyearsteward.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\ProgramYearStewardData',
+            'ilioscore.dataloader.program.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramData',
+            'ilioscore.dataloader.publishevent.class' => 'Ilios\CoreBundle\Tests\DataLoader\PublishEventData',
+            'ilioscore.dataloader.recurringevent.class' => 'Ilios\CoreBundle\Tests\DataLoader\RecurringEventData',
+            'ilioscore.dataloader.report.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData',
+            'ilioscore.dataloader.school.class' => 'Ilios\CoreBundle\Tests\DataLoader\SchoolData',
+            'ilioscore.dataloader.sessiondescription.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\SessionDescriptionData',
+            'ilioscore.dataloader.sessionlearningmaterial.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\SessionLearningMaterialData',
+            'ilioscore.dataloader.sessiontype.class' => 'Ilios\CoreBundle\Tests\DataLoader\SessionTypeData',
+            'ilioscore.dataloader.session.class' =>
+                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
+            'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
+            'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
+            'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',
+            'ilioscore.dataloader.reportpovalue.class' => 'Ilios\CoreBundle\Tests\DataLoader\ReportPoValueData',
         );
         foreach ($parameters as $name => $value) {
             $this->assertContainerBuilderHasParameter($name, $value);
@@ -264,7 +323,49 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.userrole.handler',
             'ilioscore.userrole.manager',
             'ilioscore.aamcmethod.manager',
-            'ilioscore.dataloader.users',
+            'ilioscore.dataloader.aamcmethod',
+            'ilioscore.dataloader.aamcpcrs',
+            'ilioscore.dataloader.alertchangetype',
+            'ilioscore.dataloader.alert',
+            'ilioscore.dataloader.assessmentoption',
+            'ilioscore.dataloader.cohort',
+            'ilioscore.dataloader.competency',
+            'ilioscore.dataloader.courselearningmaterial',
+            'ilioscore.dataloader.course',
+            'ilioscore.dataloader.courseclerkshiptype',
+            'ilioscore.dataloader.curriculuminventoryacademiclevel',
+            'ilioscore.dataloader.curriculuminventoryexport',
+            'ilioscore.dataloader.curriculuminventoryinstitution',
+            'ilioscore.dataloader.curriculuminventoryreport',
+            'ilioscore.dataloader.curriculuminventorysequenceblock',
+            'ilioscore.dataloader.curriculuminventorysequenceblocksession',
+            'ilioscore.dataloader.curriculuminventorysequence',
+            'ilioscore.dataloader.department',
+            'ilioscore.dataloader.discipline',
+            'ilioscore.dataloader.ilmsessionfacet',
+            'ilioscore.dataloader.ingestionexception',
+            'ilioscore.dataloader.instructorgroup',
+            'ilioscore.dataloader.learnergroup',
+            'ilioscore.dataloader.learningmaterialstatus',
+            'ilioscore.dataloader.learningmaterialuserrole',
+            'ilioscore.dataloader.learningmaterial',
+            'ilioscore.dataloader.objective',
+            'ilioscore.dataloader.offering',
+            'ilioscore.dataloader.programyear',
+            'ilioscore.dataloader.programyearsteward',
+            'ilioscore.dataloader.program',
+            'ilioscore.dataloader.publishevent',
+            'ilioscore.dataloader.recurringevent',
+            'ilioscore.dataloader.report',
+            'ilioscore.dataloader.school',
+            'ilioscore.dataloader.sessiondescription',
+            'ilioscore.dataloader.sessionlearningmaterial',
+            'ilioscore.dataloader.sessiontype',
+            'ilioscore.dataloader.session',
+            'ilioscore.dataloader.usermadereminder',
+            'ilioscore.dataloader.userrole',
+            'ilioscore.dataloader.user',
+            'ilioscore.dataloader.reportpovalue',
         );
         foreach ($services as $service) {
             $this->assertContainerBuilderHasService($service);

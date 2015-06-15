@@ -158,21 +158,13 @@ class CurriculumInventorySequenceController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $curriculuminventorysequence = $this->getCurriculumInventorySequenceHandler()
+            $new  =  $this->getCurriculumInventorySequenceHandler()
                 ->post($this->getPostData($request));
+            $answer['curriculumInventorySequences'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_curriculuminventorysequences',
-                    ['report' => $curriculuminventorysequence->getReport()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

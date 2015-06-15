@@ -158,21 +158,13 @@ class AamcMethodController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $aamcmethod = $this->getAamcMethodHandler()
+            $new  =  $this->getAamcMethodHandler()
                 ->post($this->getPostData($request));
+            $answer['aamcMethods'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_aamcmethods',
-                    ['id' => $aamcmethod->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

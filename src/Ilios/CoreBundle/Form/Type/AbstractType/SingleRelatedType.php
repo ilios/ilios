@@ -6,28 +6,28 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 use Ilios\CoreBundle\Form\DataTransformer\SingleRelatedTransformer;
 
 class SingleRelatedType extends AbstractType
 {
     /**
-     * @var ObjectManager
+     * @var Registry
      */
-    private $om;
+    private $doctrineRegistry;
 
     /**
-     * @param ObjectManager $om
+     * @param Registry $doctrineRegistry
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(Registry $doctrineRegistry)
     {
-        $this->om = $om;
+        $this->doctrineRegistry = $doctrineRegistry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new SingleRelatedTransformer($this->om, $options['entityName']);
+        $transformer = new SingleRelatedTransformer($this->doctrineRegistry, $options['entityName']);
         $builder->addModelTransformer($transformer);
     }
 

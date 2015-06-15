@@ -158,21 +158,13 @@ class UserRoleController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $userrole = $this->getUserRoleHandler()
+            $new  =  $this->getUserRoleHandler()
                 ->post($this->getPostData($request));
+            $answer['userRoles'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_userroles',
-                    ['id' => $userrole->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

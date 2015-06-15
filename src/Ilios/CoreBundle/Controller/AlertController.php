@@ -158,21 +158,13 @@ class AlertController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $alert = $this->getAlertHandler()
+            $new  =  $this->getAlertHandler()
                 ->post($this->getPostData($request));
+            $answer['alerts'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_alerts',
-                    ['id' => $alert->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

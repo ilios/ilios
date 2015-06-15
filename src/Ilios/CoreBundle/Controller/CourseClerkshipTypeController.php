@@ -158,21 +158,13 @@ class CourseClerkshipTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $courseclerkshiptype = $this->getCourseClerkshipTypeHandler()
+            $new  =  $this->getCourseClerkshipTypeHandler()
                 ->post($this->getPostData($request));
+            $answer['courseClerkshipTypes'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_courseclerkshiptypes',
-                    ['id' => $courseclerkshiptype->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

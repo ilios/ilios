@@ -158,21 +158,13 @@ class RecurringEventController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $recurringevent = $this->getRecurringEventHandler()
+            $new  =  $this->getRecurringEventHandler()
                 ->post($this->getPostData($request));
+            $answer['recurringEvents'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_recurringevents',
-                    ['id' => $recurringevent->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

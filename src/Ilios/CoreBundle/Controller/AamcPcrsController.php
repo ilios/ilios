@@ -54,7 +54,7 @@ class AamcPcrsController extends FOSRestController
      */
     public function getAction($id)
     {
-        $answer['aamcPcrs'][] = $this->getOr404($id);
+        $answer['aamcPcrses'][] = $this->getOr404($id);
 
         return $answer;
     }
@@ -119,7 +119,7 @@ class AamcPcrsController extends FOSRestController
         }, $criteria);
 
         $result = $this->getAamcPcrsHandler()
-            ->findAamcPcrsBy(
+            ->findAamcPcrsesBy(
                 $criteria,
                 $orderBy,
                 $limit,
@@ -127,7 +127,7 @@ class AamcPcrsController extends FOSRestController
             );
 
         //If there are no matches return an empty array
-        $answer['aamcPcrs'] =
+        $answer['aamcPcrses'] =
             $result ? $result : new ArrayCollection([]);
 
         return $answer;
@@ -158,21 +158,13 @@ class AamcPcrsController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $aamcpcrs = $this->getAamcPcrsHandler()
+            $new  =  $this->getAamcPcrsHandler()
                 ->post($this->getPostData($request));
+            $answer['aamcPcrses'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_aamcpcrs',
-                    ['id' => $aamcpcrs->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -215,7 +207,7 @@ class AamcPcrsController extends FOSRestController
                 $code = Codes::HTTP_CREATED;
             }
 
-            $answer['aamcPcrs'] =
+            $answer['aamcPcrses'] =
                 $this->getAamcPcrsHandler()->put(
                     $aamcPcrs,
                     $this->getPostData($request)
@@ -262,7 +254,7 @@ class AamcPcrsController extends FOSRestController
      */
     public function patchAction(Request $request, $id)
     {
-        $answer['aamcPcrs'] =
+        $answer['aamcPcrses'] =
             $this->getAamcPcrsHandler()->patch(
                 $this->getOr404($id),
                 $this->getPostData($request)
@@ -339,7 +331,7 @@ class AamcPcrsController extends FOSRestController
      */
     protected function getPostData(Request $request)
     {
-        $data = $request->request->get('aamcPcrs');
+        $data = $request->request->get('aamcPcrses');
 
         if (empty($data)) {
             $data = $request->request->all();

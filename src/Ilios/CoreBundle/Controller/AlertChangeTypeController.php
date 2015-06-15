@@ -158,21 +158,13 @@ class AlertChangeTypeController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $alertchangetype = $this->getAlertChangeTypeHandler()
+            $new  =  $this->getAlertChangeTypeHandler()
                 ->post($this->getPostData($request));
+            $answer['alertChangeTypes'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_alertchangetypes',
-                    ['id' => $alertchangetype->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

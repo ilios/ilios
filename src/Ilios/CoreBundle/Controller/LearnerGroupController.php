@@ -158,21 +158,13 @@ class LearnerGroupController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $learnergroup = $this->getLearnerGroupHandler()
+            $new  =  $this->getLearnerGroupHandler()
                 ->post($this->getPostData($request));
+            $answer['learnerGroups'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_learnergroups',
-                    ['id' => $learnergroup->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

@@ -109,7 +109,6 @@ class UserController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
-        $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -119,21 +118,13 @@ class UserController extends FOSRestController
             return $item;
         }, $criteria);
 
-        if ($q) {
-            $result = $this->getUserHandler()->findUsersByQ(
-                $q,
-                $orderBy,
-                $limit,
-                $offset
-            );
-        } else {
-            $result = $this->getUserHandler()->findUsersBy(
+        $result = $this->getUserHandler()
+            ->findUsersBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
-        }
 
         //If there are no matches return an empty array
         $answer['users'] =
@@ -167,21 +158,13 @@ class UserController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $user = $this->getUserHandler()
+            $new  =  $this->getUserHandler()
                 ->post($this->getPostData($request));
+            $answer['users'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_users',
-                    ['id' => $user->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -219,7 +202,8 @@ class UserController extends FOSRestController
             if ($user) {
                 $code = Codes::HTTP_OK;
             } else {
-                $user = $this->getUserHandler()->createUser();
+                $user = $this->getUserHandler()
+                    ->createUser();
                 $code = Codes::HTTP_CREATED;
             }
 
@@ -313,7 +297,8 @@ class UserController extends FOSRestController
         $user = $this->getOr404($id);
 
         try {
-            $this->getUserHandler()->deleteUser($user);
+            $this->getUserHandler()
+                ->deleteUser($user);
 
             return new Response('', Codes::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {

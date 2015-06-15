@@ -24,7 +24,7 @@ use Ilios\CoreBundle\Traits\StringableIdEntity;
  */
 class AssessmentOption implements AssessmentOptionInterface
 {
-//    use IdentifiableEntity; //Implement in 3.1
+    use IdentifiableEntity;
     use NameableEntity;
     use StringableIdEntity;
 
@@ -70,23 +70,6 @@ class AssessmentOption implements AssessmentOptionInterface
      * @JMS\SerializedName("sessionTypes")
      */
     protected $sessionTypes;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->assessmentOptionId = $id;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return ($this->id === null) ? $this->assessmentOptionId : $this->id;
-    }
 
     /**
      * @param Collection $sessionTypes

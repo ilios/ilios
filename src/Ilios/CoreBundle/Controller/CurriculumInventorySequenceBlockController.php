@@ -158,21 +158,13 @@ class CurriculumInventorySequenceBlockController extends FOSRestController
     public function postAction(Request $request)
     {
         try {
-            $curriculuminventorysequenceblock = $this->getCurriculumInventorySequenceBlockHandler()
+            $new  =  $this->getCurriculumInventorySequenceBlockHandler()
                 ->post($this->getPostData($request));
+            $answer['curriculumInventorySequenceBlocks'] = [$new];
 
-            $response = new Response();
-            $response->setStatusCode(Codes::HTTP_CREATED);
-            $response->headers->set(
-                'Location',
-                $this->generateUrl(
-                    'get_curriculuminventorysequenceblocks',
-                    ['id' => $curriculuminventorysequenceblock->getId()],
-                    true
-                )
-            );
+            $view = $this->view($answer, Codes::HTTP_CREATED);
 
-            return $response;
+            return $this->handleView($view);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }

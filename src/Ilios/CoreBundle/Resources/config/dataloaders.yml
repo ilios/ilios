@@ -1,21 +1,132 @@
 parameters:
-    ilioscore.dataloader.users.class: Ilios\CoreBundle\Tests\DataLoader\Users
-    ilioscore.dataloader.userroles.class: Ilios\CoreBundle\Tests\DataLoader\UserRoles
-    ilioscore.dataloader.sessiontypes.class: Ilios\CoreBundle\Tests\DataLoader\SessionTypes
-    ilioscore.dataloader.schools.class: Ilios\CoreBundle\Tests\DataLoader\Schools
-    ilioscore.dataloader.aamcmethods.class: Ilios\CoreBundle\Tests\DataLoader\AamcMethods
-    ilioscore.dataloader.assessmentoptions.class: Ilios\CoreBundle\Tests\DataLoader\AssessmentOptions
+    ilioscore.dataloader.aamcmethod.class: Ilios\CoreBundle\Tests\DataLoader\AamcMethodData
+    ilioscore.dataloader.aamcpcrs.class: Ilios\CoreBundle\Tests\DataLoader\AamcPcrsData
+    ilioscore.dataloader.alertchangetype.class: Ilios\CoreBundle\Tests\DataLoader\AlertChangeTypeData
+    ilioscore.dataloader.alert.class: Ilios\CoreBundle\Tests\DataLoader\AlertData
+    ilioscore.dataloader.assessmentoption.class: Ilios\CoreBundle\Tests\DataLoader\AssessmentOptionData
+    ilioscore.dataloader.cohort.class: Ilios\CoreBundle\Tests\DataLoader\CohortData
+    ilioscore.dataloader.competency.class: Ilios\CoreBundle\Tests\DataLoader\CompetencyData
+    ilioscore.dataloader.courselearningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData
+    ilioscore.dataloader.course.class: Ilios\CoreBundle\Tests\DataLoader\CourseData
+    ilioscore.dataloader.courseclerkshiptype.class: Ilios\CoreBundle\Tests\DataLoader\CourseClerkshipTypeData
+    ilioscore.dataloader.curriculuminventoryacademiclevel.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryAcademicLevelData
+    ilioscore.dataloader.curriculuminventoryexport.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryExportData
+    ilioscore.dataloader.curriculuminventoryinstitution.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryInstitutionData
+    ilioscore.dataloader.curriculuminventoryreport.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData
+    ilioscore.dataloader.curriculuminventorysequenceblock.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockData
+    ilioscore.dataloader.curriculuminventorysequenceblocksession.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData
+    ilioscore.dataloader.curriculuminventorysequence.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceData
+    ilioscore.dataloader.department.class: Ilios\CoreBundle\Tests\DataLoader\DepartmentData
+    ilioscore.dataloader.discipline.class: Ilios\CoreBundle\Tests\DataLoader\DisciplineData
+    ilioscore.dataloader.ilmsessionfacet.class: NOT_FOUND
+    ilioscore.dataloader.ingestionexception.class: Ilios\CoreBundle\Tests\DataLoader\IngestionExceptionData
+    ilioscore.dataloader.instructorgroup.class: Ilios\CoreBundle\Tests\DataLoader\InstructorGroupData
+    ilioscore.dataloader.learnergroup.class: Ilios\CoreBundle\Tests\DataLoader\LearnerGroupData
+    ilioscore.dataloader.learningmaterialstatus.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialStatusData
+    ilioscore.dataloader.learningmaterialuserrole.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData
+    ilioscore.dataloader.learningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData
+    ilioscore.dataloader.objective.class: Ilios\CoreBundle\Tests\DataLoader\ObjectiveData
+    ilioscore.dataloader.offering.class: Ilios\CoreBundle\Tests\DataLoader\OfferingData
+    ilioscore.dataloader.programyear.class: Ilios\CoreBundle\Tests\DataLoader\ProgramYearData
+    ilioscore.dataloader.programyearsteward.class: Ilios\CoreBundle\Tests\DataLoader\ProgramYearStewardData
+    ilioscore.dataloader.program.class: Ilios\CoreBundle\Tests\DataLoader\ProgramData
+    ilioscore.dataloader.publishevent.class: Ilios\CoreBundle\Tests\DataLoader\PublishEventData
+    ilioscore.dataloader.recurringevent.class: Ilios\CoreBundle\Tests\DataLoader\RecurringEventData
+    ilioscore.dataloader.report.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData
+    ilioscore.dataloader.school.class: Ilios\CoreBundle\Tests\DataLoader\SchoolData
+    ilioscore.dataloader.sessiondescription.class: Ilios\CoreBundle\Tests\DataLoader\SessionDescriptionData
+    ilioscore.dataloader.sessionlearningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\SessionLearningMaterialData
+    ilioscore.dataloader.sessiontype.class: Ilios\CoreBundle\Tests\DataLoader\SessionTypeData
+    ilioscore.dataloader.session.class: Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData
+    ilioscore.dataloader.usermadereminder.class: Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData
+    ilioscore.dataloader.userrole.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData
+    ilioscore.dataloader.user.class: Ilios\CoreBundle\Tests\DataLoader\UserData
+    ilioscore.dataloader.reportpovalue.class: Ilios\CoreBundle\Tests\DataLoader\ReportPoValueData
 
 services:
-    ilioscore.dataloader.users:
-        class: %ilioscore.dataloader.users.class%
-    ilioscore.dataloader.userroles:
-        class: %ilioscore.dataloader.userroles.class%
-    ilioscore.dataloader.sessiontypes:
-        class: %ilioscore.dataloader.sessiontypes.class%
-    ilioscore.dataloader.schools:
-        class: %ilioscore.dataloader.schools.class%
-    ilioscore.dataloader.aamcmethods:
-        class: %ilioscore.dataloader.aamcmethods.class%
-    ilioscore.dataloader.assessmentoptions:
-        class: %ilioscore.dataloader.assessmentoptions.class%
+    ilioscore.dataloader.aamcmethod:
+        class: %ilioscore.dataloader.aamcmethod.class%
+    ilioscore.dataloader.aamcpcrs:
+        class: %ilioscore.dataloader.aamcpcrs.class%
+    ilioscore.dataloader.alertchangetype:
+        class: %ilioscore.dataloader.alertchangetype.class%
+    ilioscore.dataloader.alert:
+        class: %ilioscore.dataloader.alert.class%
+    ilioscore.dataloader.assessmentoption:
+        class: %ilioscore.dataloader.assessmentoption.class%
+    ilioscore.dataloader.cohort:
+        class: %ilioscore.dataloader.cohort.class%
+    ilioscore.dataloader.competency:
+        class: %ilioscore.dataloader.competency.class%
+    ilioscore.dataloader.courselearningmaterial:
+        class: %ilioscore.dataloader.courselearningmaterial.class%
+    ilioscore.dataloader.course:
+        class: %ilioscore.dataloader.course.class%
+    ilioscore.dataloader.courseclerkshiptype:
+        class: %ilioscore.dataloader.courseclerkshiptype.class%
+    ilioscore.dataloader.curriculuminventoryacademiclevel:
+        class: %ilioscore.dataloader.curriculuminventoryacademiclevel.class%
+    ilioscore.dataloader.curriculuminventoryexport:
+        class: %ilioscore.dataloader.curriculuminventoryexport.class%
+    ilioscore.dataloader.curriculuminventoryinstitution:
+        class: %ilioscore.dataloader.curriculuminventoryinstitution.class%
+    ilioscore.dataloader.curriculuminventoryreport:
+        class: %ilioscore.dataloader.curriculuminventoryreport.class%
+    ilioscore.dataloader.curriculuminventorysequenceblock:
+        class: %ilioscore.dataloader.curriculuminventorysequenceblock.class%
+    ilioscore.dataloader.curriculuminventorysequenceblocksession:
+        class: %ilioscore.dataloader.curriculuminventorysequenceblocksession.class%
+    ilioscore.dataloader.curriculuminventorysequence:
+        class: %ilioscore.dataloader.curriculuminventorysequence.class%
+    ilioscore.dataloader.department:
+        class: %ilioscore.dataloader.department.class%
+    ilioscore.dataloader.discipline:
+        class: %ilioscore.dataloader.discipline.class%
+    ilioscore.dataloader.ilmsessionfacet:
+        class: %ilioscore.dataloader.ilmsessionfacet.class%
+    ilioscore.dataloader.ingestionexception:
+        class: %ilioscore.dataloader.ingestionexception.class%
+    ilioscore.dataloader.instructorgroup:
+        class: %ilioscore.dataloader.instructorgroup.class%
+    ilioscore.dataloader.learnergroup:
+        class: %ilioscore.dataloader.learnergroup.class%
+    ilioscore.dataloader.learningmaterialstatus:
+        class: %ilioscore.dataloader.learningmaterialstatus.class%
+    ilioscore.dataloader.learningmaterialuserrole:
+        class: %ilioscore.dataloader.learningmaterialuserrole.class%
+    ilioscore.dataloader.learningmaterial:
+        class: %ilioscore.dataloader.learningmaterial.class%
+    ilioscore.dataloader.objective:
+        class: %ilioscore.dataloader.objective.class%
+    ilioscore.dataloader.offering:
+        class: %ilioscore.dataloader.offering.class%
+    ilioscore.dataloader.programyear:
+        class: %ilioscore.dataloader.programyear.class%
+    ilioscore.dataloader.programyearsteward:
+        class: %ilioscore.dataloader.programyearsteward.class%
+    ilioscore.dataloader.program:
+        class: %ilioscore.dataloader.program.class%
+    ilioscore.dataloader.publishevent:
+        class: %ilioscore.dataloader.publishevent.class%
+    ilioscore.dataloader.recurringevent:
+        class: %ilioscore.dataloader.recurringevent.class%
+    ilioscore.dataloader.report:
+        class: %ilioscore.dataloader.report.class%
+    ilioscore.dataloader.school:
+        class: %ilioscore.dataloader.school.class%
+    ilioscore.dataloader.sessiondescription:
+        class: %ilioscore.dataloader.sessiondescription.class%
+    ilioscore.dataloader.sessionlearningmaterial:
+        class: %ilioscore.dataloader.sessionlearningmaterial.class%
+    ilioscore.dataloader.sessiontype:
+        class: %ilioscore.dataloader.sessiontype.class%
+    ilioscore.dataloader.session:
+        class: %ilioscore.dataloader.session.class%
+    ilioscore.dataloader.usermadereminder:
+        class: %ilioscore.dataloader.usermadereminder.class%
+    ilioscore.dataloader.userrole:
+        class: %ilioscore.dataloader.userrole.class%
+    ilioscore.dataloader.user:
+        class: %ilioscore.dataloader.user.class%
+    ilioscore.dataloader.reportpovalue:
+        class: %ilioscore.dataloader.reportpovalue.class%
