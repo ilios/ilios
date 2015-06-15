@@ -13,14 +13,9 @@ class LoadAamcMethodData extends AbstractFixture implements
     FixtureInterface,
     ContainerAwareInterface
 {
-    /**
-     * @var ContainerInterface
-     */
+
     private $container;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
@@ -28,23 +23,14 @@ class LoadAamcMethodData extends AbstractFixture implements
 
     public function load(ObjectManager $manager)
     {
-        $aamcMethods = $this->container->get('ilioscore.dataloader.aamcmethod')
+        $data = $this->container
+            ->get('ilioscore.dataloader.aamcMethod')
             ->getAll();
-        foreach ($aamcMethods as $arr) {
-            $aamcMethod = new AamcMethod();
-            $aamcMethod->setId($arr['id']);
-            $aamcMethod->setDescription($arr['description']);
-
-            $manager->persist($aamcMethod);
-            $this->addReference('aamcMethod' . $arr['id'], $aamcMethod);
+        foreach ($data as $arr) {
+            $entity = new AamcMethod();
+            $manager->persist($entity);
+            $this->addReference('aamcMethods' . $arr['id'], $entity);
         }
-
-        //We have to disable auto id generation in order to save with ID
-        $metadata = $manager->getClassMetaData(get_class($aamcMethod));
-        $metadata->setIdGeneratorType(
-            \Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE
-        );
-        $manager->flush();
-
     }
+
 }

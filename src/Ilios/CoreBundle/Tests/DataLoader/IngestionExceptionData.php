@@ -2,7 +2,7 @@
 
 namespace IliosCoreBundleTestsDataLoader;
 
-class AamcPcrs extends AbstractDataLoader
+class IngestionExceptionData extends AbstractDataLoader
 {
     protected function getData()
     {
@@ -21,4 +21,3 @@ class AamcPcrs extends AbstractDataLoader
         return [];
     }
 }
-
