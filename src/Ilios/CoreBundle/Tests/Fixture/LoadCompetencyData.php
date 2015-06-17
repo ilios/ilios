@@ -36,6 +36,11 @@ class LoadCompetencyData extends AbstractFixture implements
             foreach ($arr['aamcPcrses'] as $id) {
                 $entity->addAamcPcrs($this->getReference('aamcPcrs' . $id));
             }
+            if (isset($arr['parent'])) {
+                $entity->setParent($this->getReference('competencies' . $arr['parent']));
+            }
+            $entity->setSchool($this->getReference('schools' . $arr['school']));
+
 
             $manager->persist($entity);
             $this->addReference('competencies' . $arr['id'], $entity);
@@ -48,6 +53,7 @@ class LoadCompetencyData extends AbstractFixture implements
     {
         return array(
             'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
         );
     }
 }
