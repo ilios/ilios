@@ -54,6 +54,7 @@ class UserTest extends EntityBase
         $this->assertEmpty($this->object->getRoles());
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getLearningMaterials());
+        $this->assertEmpty($this->object->getCohorts());
     }
 
     /**
@@ -391,5 +392,21 @@ class UserTest extends EntityBase
             'getInstructionHours',
             'setInstructionHours'
         );
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::addCohort
+     */
+    public function testAddCohort()
+    {
+        $this->entityCollectionAddTest('cohort', 'Cohort');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::getCohorts
+     */
+    public function testSetCohorts()
+    {
+        $this->entityCollectionSetTest('cohort', 'Cohort');
     }
 }

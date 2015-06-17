@@ -10,27 +10,14 @@ class ProgramData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => "Doctor of Medicine",
-            'shortTitle' => "MD",
+            'title' => $this->faker->title(15),
+            'shortTitle' => $this->faker->title(5),
             'duration' => 4,
             'deleted' => false,
             'publishedAsTbd' => false,
-            'publishEvent' => "15302",
+            'publishEvent' => "",
             'owningSchool' => "1",
-            'programYears' => ['42','67'],
-            'curriculumInventoryReports' => ['9','10']
-        );
-
-        $arr[] = array(
-            'id' => 7,
-            'title' => "Doctor of Pharmacy",
-            'shortTitle' => "PharmD",
-            'duration' => 4,
-            'deleted' => false,
-            'publishedAsTbd' => false,
-            'publishEvent' => "13",
-            'owningSchool' => "3",
-            'programYears' => ['58','69'],
+            'programYears' => ["1", "2"],
             'curriculumInventoryReports' => []
         );
 

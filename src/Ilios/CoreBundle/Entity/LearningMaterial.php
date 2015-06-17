@@ -180,17 +180,6 @@ abstract class LearningMaterial implements LearningMaterialInterface
     protected $owningUser;
 
     /**
-     * @var UserInterface
-     */
-    protected $createdBy;
-
-    /**
-     * @todo: Not yet implemented
-     * @var UserInterface
-     */
-    protected $updatedBy;
-
-    /**
      * @var ArrayCollection|SessioinLearningMaterialInterface[]
      *
      * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
@@ -230,22 +219,6 @@ abstract class LearningMaterial implements LearningMaterialInterface
             self::TYPE_FILE,
             self::TYPE_LINK
         ];
-    }
-
-    /**
-     *
-     */
-    public function stampUpdate()
-    {
-        throw new \BadFunctionCallException('Not yet implamented');
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        throw new \BadFunctionCallException('Not yet implamented');
     }
 
     /**
@@ -297,39 +270,19 @@ abstract class LearningMaterial implements LearningMaterialInterface
     }
 
     /**
-     * @param UserInterface $createdBy
+     * @param UserInterface $user
      */
-    public function setCreatedBy(UserInterface $createdBy)
+    public function setOwningUser(UserInterface $user)
     {
-        $this->owningUser = $createdBy;
-        $this->createdBy = $createdBy;
+        $this->owningUser = $user;
     }
 
     /**
      * @return UserInterface
      */
-    public function getCreatedBy()
+    public function getOwningUser()
     {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param UserInterface $updatedBy
-     */
-    public function setUpdatedBy(UserInterface $updatedBy)
-    {
-        throw new \BadFunctionCallException('Method not yet implemented.');
-        $this->updatedBy = $updatedBy;
-    }
-
-    /**
-     * @return UserInterface
-     */
-    public function getUpdatedBy()
-    {
-        throw new \BadFunctionCallException('Method not yet implemented.');
-
-        return $this->updatedBy;
+        return $this->owningUser;
     }
 
     /**

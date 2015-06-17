@@ -189,7 +189,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.learningmaterialuserrole.class' =>
                 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
             'ilioscore.dataloader.learningmaterial.class' =>
-                'Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData',
+                'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialData',
             'ilioscore.dataloader.objective.class' => 'Ilios\CoreBundle\Tests\DataLoader\ObjectiveData',
             'ilioscore.dataloader.offering.class' => 'Ilios\CoreBundle\Tests\DataLoader\OfferingData',
             'ilioscore.dataloader.programyear.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramYearData',

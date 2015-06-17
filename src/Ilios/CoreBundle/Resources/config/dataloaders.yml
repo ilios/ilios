@@ -24,7 +24,7 @@ parameters:
     ilioscore.dataloader.learnergroup.class: Ilios\CoreBundle\Tests\DataLoader\LearnerGroupData
     ilioscore.dataloader.learningmaterialstatus.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialStatusData
     ilioscore.dataloader.learningmaterialuserrole.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData
-    ilioscore.dataloader.learningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\CourseLearningMaterialData
+    ilioscore.dataloader.learningmaterial.class: Ilios\CoreBundle\Tests\DataLoader\LearningMaterialData
     ilioscore.dataloader.objective.class: Ilios\CoreBundle\Tests\DataLoader\ObjectiveData
     ilioscore.dataloader.offering.class: Ilios\CoreBundle\Tests\DataLoader\OfferingData
     ilioscore.dataloader.programyear.class: Ilios\CoreBundle\Tests\DataLoader\ProgramYearData

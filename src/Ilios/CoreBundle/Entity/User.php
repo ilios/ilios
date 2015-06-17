@@ -430,6 +430,7 @@ class User implements UserInterface
         $this->publishEvents        = new ArrayCollection();
         $this->reports              = new ArrayCollection();
         $this->instructionHours     = new ArrayCollection();
+        $this->cohorts              = new ArrayCollection();
         $this->addedViaIlios = false;
         $this->enabled = true;
         $this->examined = false;
@@ -1064,6 +1065,34 @@ class User implements UserInterface
     public function getInstructionHours()
     {
         return $this->instructionHours;
+    }
+
+    /**
+    * @param Collection $cohorts
+    */
+    public function setCohorts(Collection $cohorts)
+    {
+        $this->cohorts = new ArrayCollection();
+
+        foreach ($cohorts as $cohort) {
+            $this->addCohort($cohort);
+        }
+    }
+
+    /**
+    * @param CohortInterface $report
+    */
+    public function addCohort(CohortInterface $cohort)
+    {
+        $this->cohorts->add($cohort);
+    }
+
+    /**
+    * @return CohortInterface[]|ArrayCollection
+    */
+    public function getCohorts()
+    {
+        return $this->cohorts;
     }
 
     /**

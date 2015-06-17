@@ -69,7 +69,7 @@ class Competency implements CompetencyInterface
      *
      * @JMS\Expose
      * @JMS\Type("string")
-     * @JMS\SerializedName("owningSchool")
+     * @JMS\SerializedName("school")
      */
     protected $school;
 
@@ -268,6 +268,37 @@ class Competency implements CompetencyInterface
     public function getProgramYears()
     {
         return $this->programYears;
+    }
+
+    /**
+     * @param Collection|ObjectiveInterface[] $objectives
+     */
+    public function setObjectives(Collection $objectives = null)
+    {
+        $this->objectives = new ArrayCollection();
+        if (is_null($objectives)) {
+            return;
+        }
+
+        foreach ($objectives as $objective) {
+            $this->addObjective($objective);
+        }
+    }
+
+    /**
+     * @param ObjectiveInterface $objective
+     */
+    public function addObjective(ObjectiveInterface $objective)
+    {
+        $this->objectives->add($objective);
+    }
+
+    /**
+     * @return ArrayCollection|ObjectiveInterface[]
+     */
+    public function getObjectives()
+    {
+        return $this->objectives;
     }
 
     /**

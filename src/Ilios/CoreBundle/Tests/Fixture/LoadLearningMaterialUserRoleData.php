@@ -29,6 +29,7 @@ class LoadLearningMaterialUserRoleData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new LearningMaterialUserRole();
             $entity->setId($arr['id']);
+            $entity->setTitle($arr['title']);
             $manager->persist($entity);
             $this->addReference('learningMaterialUserRoles' . $arr['id'], $entity);
         }

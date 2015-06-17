@@ -28,10 +28,6 @@ class CompetencyType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Competency"
             ])
-            ->add('children', 'tdn_many_related', [
-                'required' => false,
-                'entityName' => "IliosCoreBundle:Competency"
-            ])
             ->add('aamcPcrses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:AamcPcrs"

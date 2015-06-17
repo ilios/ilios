@@ -11,9 +11,9 @@ class CompetencyData extends AbstractDataLoader
         $arr[] = array(
             'id' => 1,
             'title' => $this->faker->text,
-            'owningSchool' => "1",
-            'objectives' => [],
-            'children' => [],
+            'school' => "1",
+            'objectives' => ["1", "2"],
+            'children' => [3],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101'],
             'programYears' => []
         );
@@ -21,7 +21,7 @@ class CompetencyData extends AbstractDataLoader
         $arr[] = array(
             'id' => 2,
             'title' => $this->faker->text,
-            'owningSchool' => "1",
+            'school' => "1",
             'objectives' => [],
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102'],
@@ -31,8 +31,9 @@ class CompetencyData extends AbstractDataLoader
         $arr[] = array(
             'id' => 3,
             'title' => $this->faker->text,
-            'owningSchool' => "1",
+            'school' => "1",
             'objectives' => [],
+            'parent' => "1",
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0102'],
             'programYears' => []
@@ -45,7 +46,16 @@ class CompetencyData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return [
+            'id' => 4,
+            'title' => $this->faker->text,
+            'school' => "1",
+            'objectives' => [],
+            'parent' => "1",
+            'children' => [],
+            'aamcPcrses' => ['aamc-pcrs-comp-c0102'],
+            'programYears' => []
+        ];
     }
 
     public function createInvalid()
