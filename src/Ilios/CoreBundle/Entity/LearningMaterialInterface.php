@@ -80,22 +80,12 @@ interface LearningMaterialInterface extends
     public function getUserRole();
 
     /**
-     * @param UserInterface $createdBy
+     * @param UserInterface $user
      */
-    public function setCreatedBy(UserInterface $createdBy);
+    public function setOwningUser(UserInterface $user);
 
     /**
      * @return UserInterface
      */
-    public function getCreatedBy();
-
-    /**
-     * @param UserInterface $updatedBy
-     */
-    public function setUpdatedBy(UserInterface $updatedBy);
-
-    /**
-     * @return UserInterface
-     */
-    public function getUpdatedBy();
+    public function getOwningUser();
 }

@@ -83,6 +83,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 
     /**
      * @var CourseInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="courseLearningMaterials")
      * @ORM\JoinColumns({
@@ -96,6 +97,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 
     /**
      * @var LearningMaterialInterface
+     * @Assert\NotNull()
      *
      * @ORM\ManyToOne(targetEntity="LearningMaterial", inversedBy="courseLearningMaterials")
      * @ORM\JoinColumns({
