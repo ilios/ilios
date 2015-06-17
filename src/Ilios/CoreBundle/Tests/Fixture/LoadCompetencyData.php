@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\Competency;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCompetencyData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
@@ -40,5 +42,12 @@ class LoadCompetencyData extends AbstractFixture implements
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadAamcPcrsData',
+        );
     }
 }

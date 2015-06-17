@@ -30,7 +30,7 @@ class UserData extends AbstractDataLoader
             'instructionHours' => [],
             'alerts' => [1],
             'roles' => [],
-            'cohorts' => []
+            'cohorts' => [1]
         );
 
 

@@ -4,6 +4,7 @@ namespace Ilios\CoreBundle\Tests\Fixture;
 
 use Ilios\CoreBundle\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadUserData extends AbstractFixture implements
     FixtureInterface,
+    DependentFixtureInterface,
     ContainerAwareInterface
 {
 
@@ -33,10 +35,21 @@ class LoadUserData extends AbstractFixture implements
             $entity->setLastName($arr['lastName']);
             $entity->setMiddleName($arr['middleName']);
             $entity->setEmail($arr['email']);
+            foreach ($arr['cohorts'] as $id) {
+                $entity->addCohort($this->getReference('cohorts' . $id));
+            }
             $manager->persist($entity);
             $this->addReference('users' . $arr['id'], $entity);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
+        );
     }
 }

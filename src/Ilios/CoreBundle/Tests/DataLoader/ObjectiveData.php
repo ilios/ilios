@@ -9,13 +9,25 @@ class ObjectiveData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'id' => 47719,
+            'id' => 1,
             'title' => $this->faker->text,
-            'competency' => "7",
+            'competency' => "1",
             'courses' => [],
-            'programYears' => ['42'],
+            'programYears' => [],
             'sessions' => [],
             'parents' => [],
+            'children' => [2],
+            'meshDescriptors' => []
+        );
+
+        $arr[] = array(
+            'id' => 2,
+            'title' => $this->faker->text,
+            'competency' => "1",
+            'courses' => [1],
+            'programYears' => [],
+            'sessions' => [],
+            'parents' => [1],
             'children' => [],
             'meshDescriptors' => []
         );

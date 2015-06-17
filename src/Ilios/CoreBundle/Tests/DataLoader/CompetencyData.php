@@ -12,7 +12,7 @@ class CompetencyData extends AbstractDataLoader
             'id' => 1,
             'title' => $this->faker->text,
             'owningSchool' => "1",
-            'objectives' => [],
+            'objectives' => [1],
             'children' => [],
             'aamcPcrses' => ['aamc-pcrs-comp-c0101'],
             'programYears' => []

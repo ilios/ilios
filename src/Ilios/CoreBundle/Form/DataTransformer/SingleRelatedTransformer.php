@@ -73,7 +73,7 @@ class SingleRelatedTransformer implements DataTransformerInterface
             return null;
         }
 
-        $entity = $this->repository($this->entityName)->find($id);
+        $entity = $this->repository->find($id);
 
         if (null === $entity) {
             throw new TransformationFailedException(sprintf(
