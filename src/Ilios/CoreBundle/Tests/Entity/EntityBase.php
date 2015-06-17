@@ -61,6 +61,20 @@ class EntityBase extends TestCase
         }
     }
 
+    protected function validateNotNulls(array $fields)
+    {
+
+        $errors = $this->validate(count($fields));
+
+        foreach ($fields as $key) {
+            $this->assertTrue(
+                array_key_exists($key, $errors),
+                "{$key} key not found in errors: " . var_export(array_keys($errors), true)
+            );
+            $this->assertSame('NotNull', $errors[$key]);
+        }
+    }
+
     /**
      * A generic test for entity setters
      *

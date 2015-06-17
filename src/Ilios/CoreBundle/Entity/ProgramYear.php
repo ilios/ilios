@@ -58,7 +58,7 @@ class ProgramYear implements ProgramYearInterface
      * @JMS\Expose
      * @JMS\Type("boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @ORM\Column(name="deleted", type="boolean")
@@ -71,7 +71,7 @@ class ProgramYear implements ProgramYearInterface
      * @JMS\Expose
      * @JMS\Type("boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @ORM\Column(name="locked", type="boolean")
@@ -84,7 +84,7 @@ class ProgramYear implements ProgramYearInterface
      * @JMS\Expose
      * @JMS\Type("boolean")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @ORM\Column(name="archived", type="boolean")
@@ -98,7 +98,7 @@ class ProgramYear implements ProgramYearInterface
      * @JMS\Type("boolean")
      * @JMS\SerializedName("publishedAsTbd")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="bool")
      *
      * @ORM\Column(name="published_as_tbd", type="boolean")
@@ -218,6 +218,10 @@ class ProgramYear implements ProgramYearInterface
      */
     public function __construct()
     {
+        $this->deleted = false;
+        $this->archived = false;
+        $this->locked = false;
+        $this->publishedAsTbd = false;
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();
         $this->disciplines = new ArrayCollection();
@@ -462,6 +466,22 @@ class ProgramYear implements ProgramYearInterface
     public function getPublishEvent()
     {
         return $this->publishEvent;
+    }
+
+    /**
+     * @param CohortInterface
+     */
+    public function setCohort(CohortInterface $cohort)
+    {
+        $this->cohort = $cohort;
+    }
+
+    /**
+     * @return CohortInterface
+     */
+    public function getCohort()
+    {
+        return $this->cohort;
     }
 
     /**
