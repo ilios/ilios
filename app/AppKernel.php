@@ -5,6 +5,15 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+    /**
+     * Force a UTC timezone on everyone
+     */
+    public function init()
+    {
+        date_default_timezone_set('UTC');
+        parent::init();
+    }
+
     public function registerBundles()
     {
         $bundles = array(
