@@ -61,7 +61,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      * @ORM\OneToMany(targetEntity="Course", mappedBy="clerkshipType")
      *
      * @JMS\Expose
-     * @JMS\Type("array")
+     * @JMS\Type("array<string>")
      */
     protected $courses;
 

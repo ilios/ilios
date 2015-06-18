@@ -41,6 +41,7 @@ class LoadCourseData extends AbstractFixture implements
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);
             $entity->setOwningSchool($this->getReference('schools' . $arr['owningSchool']));
+            $entity->setClerkshipType($this->getReference('courseClerkshipTypes' . $arr['clerkshipType']));
 
             $manager->persist($entity);
 
@@ -70,6 +71,7 @@ class LoadCourseData extends AbstractFixture implements
             'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
             'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
             'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
         );
     }
 }
