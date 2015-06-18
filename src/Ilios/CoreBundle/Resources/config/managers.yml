@@ -180,7 +180,8 @@ services:
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\ProgramYearSteward]
     ilioscore.publishevent.manager:
         class: %ilioscore.publishevent.manager.class%
-        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PublishEvent]
+        arguments: ['@doctrine', Ilios\CoreBundle\Entity\PublishEvent, '@request']
+        scope: request
     ilioscore.recurringevent.manager:
         class: %ilioscore.recurringevent.manager.class%
         arguments: ['@doctrine', Ilios\CoreBundle\Entity\RecurringEvent]

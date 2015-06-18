@@ -455,8 +455,12 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(PublishEventInterface $publishEvent)
+    public function setPublishEvent(PublishEventInterface $publishEvent = null)
     {
+        if ($publishEvent) {
+            $publishEvent->setTableName('program_year');
+            $publishEvent->setTableRowId($this->getId());
+        }
         $this->publishEvent = $publishEvent;
     }
 

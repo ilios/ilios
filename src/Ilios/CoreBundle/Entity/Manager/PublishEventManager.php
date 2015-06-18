@@ -2,6 +2,7 @@
 
 namespace Ilios\CoreBundle\Entity\Manager;
 
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -31,14 +32,20 @@ class PublishEventManager implements PublishEventManagerInterface
     protected $class;
 
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * @param Registry $em
      * @param string $class
      */
-    public function __construct(Registry $em, $class)
+    public function __construct(Registry $em, $class, Request $request)
     {
         $this->em         = $em->getManagerForClass($class);
         $this->class      = $class;
         $this->repository = $em->getRepository($class);
+        $this->request    = $request;
     }
 
     /**
@@ -117,6 +124,8 @@ class PublishEventManager implements PublishEventManagerInterface
     public function createPublishEvent()
     {
         $class = $this->getClass();
-        return new $class();
+        $obj = new $class();
+        $obj->setMachineIp($this->request->getClientIp());
+        return $obj;
     }
 }

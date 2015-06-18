@@ -3,6 +3,7 @@
 namespace Ilios\CoreBundle\Handler;
 
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Ilios\CoreBundle\Exception\InvalidFormException;
 use Ilios\CoreBundle\Form\Type\PublishEventType;
@@ -25,10 +26,10 @@ class PublishEventHandler extends PublishEventManager
      * @param string $class
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory)
+    public function __construct(Registry $em, $class, FormFactoryInterface $formFactory, Request $request)
     {
         $this->formFactory = $formFactory;
-        parent::__construct($em, $class);
+        parent::__construct($em, $class, $request);
     }
 
     /**

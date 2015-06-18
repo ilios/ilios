@@ -15,10 +15,6 @@ class PublishEventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('machineIp')
-            ->add('timeStamp')
-            ->add('tableName')
-            ->add('tableRowId')
             ->add('administrator', 'tdn_single_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:User"
@@ -30,6 +26,14 @@ class PublishEventType extends AbstractType
             ->add('courses', 'tdn_many_related', [
                 'required' => false,
                 'entityName' => "IliosCoreBundle:Course"
+            ])
+            ->add('programs', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Program"
+            ])
+            ->add('programYears', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:ProgramYear"
             ])
         ;
     }

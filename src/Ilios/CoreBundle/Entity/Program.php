@@ -120,7 +120,7 @@ class Program implements ProgramInterface
     /**
      * @var PublishEventInterface
      *
-     * @ORM\ManyToOne(targetEntity="PublishEvent")
+     * @ORM\ManyToOne(targetEntity="PublishEvent", inversedBy="programs")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="publish_event_id", referencedColumnName="publish_event_id")
      * })
@@ -259,8 +259,12 @@ class Program implements ProgramInterface
     /**
      * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(PublishEventInterface $publishEvent)
+    public function setPublishEvent(PublishEventInterface $publishEvent = null)
     {
+        if ($publishEvent) {
+            $publishEvent->setTableName('program');
+            $publishEvent->setTableRowId($this->getId());
+        }
         $this->publishEvent = $publishEvent;
     }
 
