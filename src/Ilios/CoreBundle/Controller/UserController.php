@@ -97,6 +97,11 @@ class UserController extends FOSRestController
      *   array=true,
      *   description="Filter by fields. Must be an array ie. &filters[id]=3"
      * )
+     * @QueryParam(
+     *   name="q",
+     *   nullable=true,
+     *   description="string search term to compase to name and email"
+     * )
      *
      * @Rest\View(serializerEnableMaxDepthChecks=true)
      *
@@ -109,6 +114,7 @@ class UserController extends FOSRestController
         $offset = $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         $orderBy = $paramFetcher->get('order_by');
+        $q = !is_null($paramFetcher->get('q')) ? $paramFetcher->get('q') : false;
         $criteria = !is_null($paramFetcher->get('filters')) ? $paramFetcher->get('filters') : [];
         $criteria = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -118,13 +124,21 @@ class UserController extends FOSRestController
             return $item;
         }, $criteria);
 
-        $result = $this->getUserHandler()
-            ->findUsersBy(
+        if ($q) {
+            $result = $this->getUserHandler()->findUsersByQ(
+                $q,
+                $orderBy,
+                $limit,
+                $offset
+            );
+        } else {
+            $result = $this->getUserHandler()->findUsersBy(
                 $criteria,
                 $orderBy,
                 $limit,
                 $offset
             );
+        }
 
         //If there are no matches return an empty array
         $answer['users'] =
@@ -160,6 +174,7 @@ class UserController extends FOSRestController
         try {
             $new  =  $this->getUserHandler()
                 ->post($this->getPostData($request));
+
             $answer['users'] = [$new];
 
             $view = $this->view($answer, Codes::HTTP_CREATED);

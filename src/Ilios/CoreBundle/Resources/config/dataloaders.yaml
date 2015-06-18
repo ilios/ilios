@@ -1,9 +1,0 @@
-parameters:
-    ilioscore.dataloader.courseclerkshiptype.class: Ilios\CoreBundle\Tests\DataLoader\CourseClerkshipTypeData
-    ilioscore.dataloader.course.class: Ilios\CoreBundle\Tests\DataLoader\CourseData
-
-services:
-    ilioscore.dataloader.courseclerkshiptype:
-        class: %ilioscore.dataloader.courseclerkshiptype.class%
-    ilioscore.dataloader.course:
-        class: %ilioscore.dataloader.course.class%
