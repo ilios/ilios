@@ -38,6 +38,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => "3",
             'courses' => [],
             'learnerGroups' => [],
+            'users' => []
         ];
     }
 

@@ -188,4 +188,35 @@ class Cohort implements CohortInterface
     {
         $this->learnerGroups->add($learnerGroup);
     }
+
+    /**
+     * @param Collection $users
+     */
+    public function setUsers(Collection $users = null)
+    {
+        $this->users = new ArrayCollection();
+        if (is_null($users)) {
+            return;
+        }
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    public function addUser(UserInterface $user)
+    {
+        $this->users->add($user);
+    }
+
+    /**
+     * @return ArrayCollection|UserInterface[]
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
 }

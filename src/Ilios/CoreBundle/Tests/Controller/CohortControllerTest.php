@@ -139,7 +139,6 @@ class CohortControllerTest extends AbstractControllerTest
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
-        unset($postData['users']);
 
         $this->createJsonRequest(
             'PUT',
