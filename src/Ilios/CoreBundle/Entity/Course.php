@@ -698,10 +698,6 @@ class Course implements CourseInterface
      */
     public function setPublishEvent(PublishEventInterface $publishEvent = null)
     {
-        if ($publishEvent) {
-            $publishEvent->setTableName('course');
-            $publishEvent->setTableRowId($this->getId());
-        }
         $this->publishEvent = $publishEvent;
     }
 

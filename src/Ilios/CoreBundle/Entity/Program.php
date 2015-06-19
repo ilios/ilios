@@ -261,10 +261,6 @@ class Program implements ProgramInterface
      */
     public function setPublishEvent(PublishEventInterface $publishEvent = null)
     {
-        if ($publishEvent) {
-            $publishEvent->setTableName('program');
-            $publishEvent->setTableRowId($this->getId());
-        }
         $this->publishEvent = $publishEvent;
     }
 

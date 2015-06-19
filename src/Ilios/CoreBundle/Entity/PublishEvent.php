@@ -63,10 +63,9 @@ class PublishEvent implements PublishEventInterface
 
     /**
      * @var string
+     * @deprecated
+     * @ORM\Column(name="table_name", type="string", length=30, nullable=true)
      *
-     * @ORM\Column(name="table_name", type="string", length=30)
-     *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -77,10 +76,10 @@ class PublishEvent implements PublishEventInterface
 
     /**
      * @var int
+     * @deprecated
      *
-     * @ORM\Column(name="table_row_id", type="integer")
+     * @ORM\Column(name="table_row_id", type="integer", nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      */
     protected $tableRowId;

@@ -540,10 +540,6 @@ class Session implements SessionInterface
      */
     public function setPublishEvent(PublishEventInterface $publishEvent = null)
     {
-        if ($publishEvent) {
-            $publishEvent->setTableName('session');
-            $publishEvent->setTableRowId($this->getId());
-        }
         $this->publishEvent = $publishEvent;
     }
 
