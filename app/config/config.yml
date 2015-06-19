@@ -135,5 +135,5 @@ jms_di_extra:
         bundles: [@IliosCoreBundle]
 
 ilios_web:
-    environment: production
-    version: 5532357
+    environment: staging
+    version: e448d43
