@@ -5,10 +5,10 @@ namespace Ilios\CoreBundle\Tests\Controller;
 use FOS\RestBundle\Util\Codes;
 
 /**
- * Cohort controller Test.
+ * Course controller Test.
  * @package Ilios\CoreBundle\Test\Controller;
  */
-class CohortControllerTest extends AbstractControllerTest
+class CourseControllerTest extends AbstractControllerTest
 {
     /**
      * @return array|string
@@ -16,11 +16,16 @@ class CohortControllerTest extends AbstractControllerTest
     protected function getFixtures()
     {
         return [
-            'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadProgramYearData',
             'Ilios\CoreBundle\Tests\Fixture\LoadCourseData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadLearnerGroupData',
-            'Ilios\CoreBundle\Tests\Fixture\LoadUserData'
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseClerkshipTypeData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSchoolData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadPublishEventData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadUserData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCohortData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadDisciplineData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadObjectiveData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadCourseLearningMaterialData',
+            'Ilios\CoreBundle\Tests\Fixture\LoadSessionData'
         ];
     }
 
@@ -33,18 +38,18 @@ class CohortControllerTest extends AbstractControllerTest
         ];
     }
 
-    public function testGetCohort()
+    public function testGetCourse()
     {
-        $cohort = $this->container
-            ->get('ilioscore.dataloader.cohort')
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
             ->getOne()
         ;
 
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
-                'get_cohorts',
-                ['id' => $cohort['id']]
+                'get_courses',
+                ['id' => $course['id']]
             )
         );
 
@@ -52,55 +57,41 @@ class CohortControllerTest extends AbstractControllerTest
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
-            $this->mockSerialize($cohort),
-            json_decode($response->getContent(), true)['cohorts'][0]
+            $this->mockSerialize($course),
+            json_decode($response->getContent(), true)['courses'][0]
         );
     }
 
-    public function testGetAllCohorts()
+    public function testGetAllCourses()
     {
-        $this->createJsonRequest('GET', $this->getUrl('cget_cohorts'));
+        $this->createJsonRequest('GET', $this->getUrl('cget_courses'));
         $response = $this->client->getResponse();
 
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize(
                 $this->container
-                    ->get('ilioscore.dataloader.cohort')
+                    ->get('ilioscore.dataloader.course')
                     ->getAll()
             ),
-            json_decode($response->getContent(), true)['cohorts']
+            json_decode($response->getContent(), true)['courses']
         );
     }
 
-    public function testPostCohort()
+    public function testPostCourse()
     {
-        //create a program year we can attach this cohort to
-        $data = $this->container->get('ilioscore.dataloader.programYear')->create();
-        $postData = $data;
-        //unset any parameters which should not be POSTed
-        unset($postData['id']);
-
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl('post_programyears'),
-            json_encode(['programYear' => $postData])
-        );
-
-        $response = $this->client->getResponse();
-        $newProgramYearId = json_decode($response->getContent(), true)['programYears'][0]['id'];
-
-        $data = $this->container->get('ilioscore.dataloader.cohort')
+        $data = $this->container->get('ilioscore.dataloader.course')
             ->create();
-        $data['programYear'] = $newProgramYearId;
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['learningMaterials']);
+        unset($postData['sessions']);
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_cohorts'),
-            json_encode(['cohort' => $postData])
+            $this->getUrl('post_courses'),
+            json_encode(['course' => $postData])
         );
 
         $response = $this->client->getResponse();
@@ -109,66 +100,69 @@ class CohortControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_CREATED, $response->getStatusCode(), $response->getContent());
         $this->assertEquals(
             $data,
-            json_decode($response->getContent(), true)['cohorts'][0],
+            json_decode($response->getContent(), true)['courses'][0],
             $response->getContent()
         );
     }
 
-    public function testPostBadCohort()
+    public function testPostBadCourse()
     {
-        $invalidCohort = $this->container
-            ->get('ilioscore.dataloader.cohort')
+        $invalidCourse = $this->container
+            ->get('ilioscore.dataloader.course')
             ->createInvalid()
         ;
 
         $this->createJsonRequest(
             'POST',
-            $this->getUrl('post_cohorts'),
-            json_encode(['cohort' => $invalidCohort])
+            $this->getUrl('post_courses'),
+            json_encode(['course' => $invalidCourse])
         );
 
         $response = $this->client->getResponse();
         $this->assertEquals(Codes::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testPutCohort()
+    public function testPutCourse()
     {
         $data = $this->container
-            ->get('ilioscore.dataloader.cohort')
+            ->get('ilioscore.dataloader.course')
             ->getOne();
+
         $postData = $data;
         //unset any parameters which should not be POSTed
         unset($postData['id']);
+        unset($postData['learningMaterials']);
+        unset($postData['sessions']);
 
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
-                'put_cohorts',
+                'put_courses',
                 ['id' => $data['id']]
             ),
-            json_encode(['cohort' => $postData])
+            json_encode(['course' => $postData])
         );
 
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, Codes::HTTP_OK);
         $this->assertEquals(
             $this->mockSerialize($data),
-            json_decode($response->getContent(), true)['cohort']
+            json_decode($response->getContent(), true)['course']
         );
     }
 
-    public function testDeleteCohort()
+    public function testDeleteCourse()
     {
-        $cohort = $this->container
-            ->get('ilioscore.dataloader.cohort')
+        $course = $this->container
+            ->get('ilioscore.dataloader.course')
             ->getOne()
         ;
 
         $this->client->request(
             'DELETE',
             $this->getUrl(
-                'delete_cohorts',
-                ['id' => $cohort['id']]
+                'delete_courses',
+                ['id' => $course['id']]
             )
         );
 
@@ -177,8 +171,8 @@ class CohortControllerTest extends AbstractControllerTest
         $this->client->request(
             'GET',
             $this->getUrl(
-                'get_cohorts',
-                ['id' => $cohort['id']]
+                'get_courses',
+                ['id' => $course['id']]
             )
         );
 
@@ -186,11 +180,11 @@ class CohortControllerTest extends AbstractControllerTest
         $this->assertEquals(Codes::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
-    public function testCohortNotFound()
+    public function testCourseNotFound()
     {
         $this->createJsonRequest(
             'GET',
-            $this->getUrl('get_cohorts', ['id' => '0'])
+            $this->getUrl('get_courses', ['id' => '0'])
         );
 
         $response = $this->client->getResponse();

@@ -22,7 +22,6 @@ class CohortTest extends EntityBase
         $this->object = new Cohort;
     }
 
-
     public function testNotBlankValidation()
     {
         $notBlank = array(

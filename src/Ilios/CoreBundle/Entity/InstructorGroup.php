@@ -28,7 +28,6 @@ class InstructorGroup implements InstructorGroupInterface
     use StringableIdEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
      *
      * @ORM\Column(name="instructor_group_id", type="integer")
@@ -44,7 +43,6 @@ class InstructorGroup implements InstructorGroupInterface
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @Assert\NotBlank()
@@ -53,6 +51,9 @@ class InstructorGroup implements InstructorGroupInterface
      *      min = 1,
      *      max = 60
      * )
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
     */
     protected $title;
 

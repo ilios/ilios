@@ -10,19 +10,13 @@ class CourseClerkshipTypeData extends AbstractDataLoader
 
         $arr[] = array(
             'id' => 1,
-            'title' => "Block",
-            'courses' => ['[object Object]']
+            'title' => $this->faker->text(10),
+            'courses' => ['1', '2']
         );
 
         $arr[] = array(
             'id' => 2,
-            'title' => "Longitudinal",
-            'courses' => []
-        );
-
-        $arr[] = array(
-            'id' => 3,
-            'title' => "Integrated",
+            'title' => $this->faker->text(10),
             'courses' => []
         );
 
@@ -32,7 +26,11 @@ class CourseClerkshipTypeData extends AbstractDataLoader
 
     public function create()
     {
-        return [];
+        return [
+            'id' => 3,
+            'title' => $this->faker->text(10),
+            'courses' => []
+        ];
     }
 
     public function createInvalid()

@@ -198,7 +198,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
             'ilioscore.dataloader.program.class' => 'Ilios\CoreBundle\Tests\DataLoader\ProgramData',
             'ilioscore.dataloader.publishevent.class' => 'Ilios\CoreBundle\Tests\DataLoader\PublishEventData',
             'ilioscore.dataloader.recurringevent.class' => 'Ilios\CoreBundle\Tests\DataLoader\RecurringEventData',
-            'ilioscore.dataloader.report.class' => 'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventoryReportData',
+            'ilioscore.dataloader.report.class' => 'Ilios\CoreBundle\Tests\DataLoader\ReportData',
             'ilioscore.dataloader.school.class' => 'Ilios\CoreBundle\Tests\DataLoader\SchoolData',
             'ilioscore.dataloader.sessiondescription.class' =>
                 'Ilios\CoreBundle\Tests\DataLoader\SessionDescriptionData',
@@ -206,7 +206,7 @@ class IliosCoreExtensionTest extends AbstractExtensionTestCase
                 'Ilios\CoreBundle\Tests\DataLoader\SessionLearningMaterialData',
             'ilioscore.dataloader.sessiontype.class' => 'Ilios\CoreBundle\Tests\DataLoader\SessionTypeData',
             'ilioscore.dataloader.session.class' =>
-                'Ilios\CoreBundle\Tests\DataLoader\CurriculumInventorySequenceBlockSessionData',
+                'Ilios\CoreBundle\Tests\DataLoader\SessionData',
             'ilioscore.dataloader.usermadereminder.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserMadeReminderData',
             'ilioscore.dataloader.userrole.class' => 'Ilios\CoreBundle\Tests\DataLoader\LearningMaterialUserRoleData',
             'ilioscore.dataloader.user.class' => 'Ilios\CoreBundle\Tests\DataLoader\UserData',

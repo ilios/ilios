@@ -22,7 +22,6 @@ class Report implements ReportInterface
     use TitledEntity;
 
     /**
-     * @deprecated To be replaced by Identifiable Trait in 3.x
      * @var int
      *
      * @ORM\Column(name="report_id", type="integer")
@@ -38,7 +37,6 @@ class Report implements ReportInterface
 
     /**
      * @ORM\Column(type="string", length=240, nullable=true)
-     * @todo should be on the TitledEntity Trait
      * @var string
      *
      * @Assert\Type(type="string")
@@ -119,11 +117,19 @@ class Report implements ReportInterface
     protected $poValue;
 
     /**
+     * Default createdAt to now
+     */
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->deleted = false;
+    }
+
+    /**
      * @param int $id
      */
     public function setId($id)
     {
-        $this->reportId = $id;
         $this->id = $id;
     }
 
@@ -132,7 +138,7 @@ class Report implements ReportInterface
      */
     public function getId()
     {
-        return ($this->id === null) ? $this->reportId : $this->id;
+        return $this->id;
     }
 
     /**

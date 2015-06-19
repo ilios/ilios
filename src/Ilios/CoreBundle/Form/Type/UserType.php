@@ -94,6 +94,10 @@ class UserType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:UserRole"
             ])
+            ->add('primaryCohort', 'tdn_single_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:Cohort"
+            ])
         ;
     }
 

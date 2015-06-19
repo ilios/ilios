@@ -63,10 +63,9 @@ class PublishEvent implements PublishEventInterface
 
     /**
      * @var string
+     * @deprecated
+     * @ORM\Column(name="table_name", type="string", length=30, nullable=true)
      *
-     * @ORM\Column(name="table_name", type="string", length=30)
-     *
-     * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
@@ -77,10 +76,10 @@ class PublishEvent implements PublishEventInterface
 
     /**
      * @var int
+     * @deprecated
      *
-     * @ORM\Column(name="table_row_id", type="integer")
+     * @ORM\Column(name="table_row_id", type="integer", nullable=true)
      *
-     * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      */
     protected $tableRowId;
@@ -109,15 +108,50 @@ class PublishEvent implements PublishEventInterface
     protected $sessions;
 
     /**
-     * @todo: Implement as one to one later on.
+     * @var ArrayCollection|CourseInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="Program", mappedBy="publishEvent")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     */
+    protected $programs;
+
+    /**
      * @var ArrayCollection|CourseInterface[]
      *
      * @ORM\OneToMany(targetEntity="Course", mappedBy="publishEvent")
      *
      * @JMS\Expose
+     * @JMS\SerializedName("startDate")
      * @JMS\Type("array<string>")
      */
     protected $courses;
+
+    /**
+     * @var ArrayCollection|ProgramYearInterface[]
+     *
+     * @ORM\OneToMany(targetEntity="ProgramYear", mappedBy="publishEvent")
+     *
+     * @JMS\Expose
+     * @JMS\Type("array<string>")
+     * @JMS\SerializedName("programYears")
+     */
+    protected $programYears;
+
+    /**
+     * Set the audit details for a publish event
+     */
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
+        $this->programs = new ArrayCollection();
+        $this->programYears = new ArrayCollection();
+        $this->setTimeStamp(new \DateTime());
+        $this->setTableName('new');
+        $this->setTableRowId(0);
+    }
 
     /**
      * @param string $machineIp
@@ -156,7 +190,9 @@ class PublishEvent implements PublishEventInterface
      */
     public function setTableName($tableName)
     {
-        $this->tableName = $tableName;
+        if (!$this->tableName || $this->tableName === 'new') {
+            $this->tableName = $tableName;
+        }
     }
 
     /**
@@ -172,7 +208,9 @@ class PublishEvent implements PublishEventInterface
      */
     public function setTableRowId($tableRowId)
     {
-        $this->tableRowId = $tableRowId;
+        if (!$this->tableRowId) {
+            $this->tableRowId = $tableRowId;
+        }
     }
 
     /**
@@ -253,5 +291,61 @@ class PublishEvent implements PublishEventInterface
     public function getSessions()
     {
         return $this->sessions;
+    }
+
+    /**
+     * @param Collection $programs
+     */
+    public function setPrograms(Collection $programs)
+    {
+        $this->programs = new ArrayCollection();
+
+        foreach ($programs as $program) {
+            $this->addProgram($program);
+        }
+    }
+
+    /**
+     * @param ProgramInterface $program
+     */
+    public function addProgram(ProgramInterface $program)
+    {
+        $this->programs->add($program);
+    }
+
+    /**
+     * @return ArrayCollection|ProgramInterface[]
+     */
+    public function getPrograms()
+    {
+        return $this->programs;
+    }
+
+    /**
+     * @param Collection $programYears
+     */
+    public function setProgramYears(Collection $programYears)
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    /**
+     * @param ProgramYearInterface $programYear
+     */
+    public function addProgramYear(ProgramYearInterface $programYear)
+    {
+        $this->programYears->add($programYear);
+    }
+
+    /**
+     * @return ArrayCollection|ProgramYearInterface[]
+     */
+    public function getProgramYears()
+    {
+        return $this->programYears;
     }
 }

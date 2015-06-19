@@ -28,6 +28,10 @@ class CohortType extends AbstractType
                 'required' => false,
                 'entityName' => "IliosCoreBundle:LearnerGroup"
             ])
+            ->add('users', 'tdn_many_related', [
+                'required' => false,
+                'entityName' => "IliosCoreBundle:User"
+            ])
         ;
     }
 

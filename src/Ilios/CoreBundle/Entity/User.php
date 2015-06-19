@@ -69,9 +69,6 @@ class User implements UserInterface
      *      max = 20
      * )
      *
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     *
      * @JMS\Expose
      * @JMS\Type("string")
      * @JMS\SerializedName("firstName")
@@ -108,14 +105,12 @@ class User implements UserInterface
      */
     protected $phone;
 
-    // I ended up deleting the CheckMX = False and the test passed so let's discuss it
-
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=100)
      *
-     * @Assert\Email(checkMX = False)
+     * @Assert\Email(checkMX = false)
      *
      * @Assert\NotBlank()
      *
@@ -400,10 +395,10 @@ class User implements UserInterface
     * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="users")
     * @ORM\JoinTable(name="user_x_cohort",
     *   joinColumns={
-    *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+    *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
     *   },
     *   inverseJoinColumns={
-    *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
+    *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id")
     *   }
     * )
     *
@@ -411,6 +406,20 @@ class User implements UserInterface
     * @JMS\Type("array<string>")
     */
     protected $cohorts;
+
+    /**
+     * @var CohortInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Cohort")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="primary_cohort_id", referencedColumnName="cohort_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("primaryCohort")
+     */
+    protected $primaryCohort;
 
     /**
      * Constructor
@@ -423,6 +432,7 @@ class User implements UserInterface
         $this->instructorUserGroups = new ArrayCollection();
         $this->instructorGroups     = new ArrayCollection();
         $this->offerings            = new ArrayCollection();
+        $this->instructedOfferings  = new ArrayCollection();
         $this->programYears         = new ArrayCollection();
         $this->alerts               = new ArrayCollection();
         $this->roles                = new ArrayCollection();
@@ -1077,6 +1087,10 @@ class User implements UserInterface
         foreach ($cohorts as $cohort) {
             $this->addCohort($cohort);
         }
+
+        if (!$cohorts->contains($this->getPrimaryCohort())) {
+            $this->setPrimaryCohort(null);
+        }
     }
 
     /**
@@ -1093,6 +1107,53 @@ class User implements UserInterface
     public function getCohorts()
     {
         return $this->cohorts;
+    }
+
+    /**
+     * @param CohortInterface $primaryCohort
+     */
+    public function setPrimaryCohort(CohortInterface $primaryCohort = null)
+    {
+        if ($primaryCohort && !$this->getCohorts()->contains($primaryCohort)) {
+            $this->addCohort($primaryCohort);
+        }
+        $this->primaryCohort = $primaryCohort;
+    }
+
+    /**
+     * @return CohortInterface
+     */
+    public function getPrimaryCohort()
+    {
+        return $this->primaryCohort;
+    }
+
+    /**
+     * @param Collection $instructedOffering
+     */
+    public function setInstructedOfferings(Collection $instructedOfferings)
+    {
+        $this->instructedOffering = new ArrayCollection();
+
+        foreach ($instructedOfferings as $instructedOffering) {
+            $this->addInstructedOffering($instructedOffering);
+        }
+    }
+
+    /**
+     * @param Offering $report
+     */
+    public function addInstructedOffering(Offering $instructedOffering)
+    {
+        $this->instructedOfferings->add($instructedOffering);
+    }
+
+    /**
+     * @return ArrayCollection|Offering[]
+     */
+    public function getInstructedOfferings()
+    {
+        return $this->instructedOfferings;
     }
 
     /**

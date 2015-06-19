@@ -9,14 +9,14 @@ class SessionData extends AbstractDataLoader
         $arr = array();
 
         $arr[] = array(
-            'id' => 16468,
-            'title' => "Case 1",
+            'id' => 1,
+            'title' => $this->faker->text(10),
             'attireRequired' => false,
             'equipmentRequired' => false,
             'supplemental' => false,
             'deleted' => false,
             'publishedAsTbd' => false,
-            'updatedAt' => "2015-06-14T11:18:11+00:00",
+            'updatedAt' => $this->faker->iso8601,
             'sessionType' => "122",
             'course' => "595",
             'disciplines' => ['16'],

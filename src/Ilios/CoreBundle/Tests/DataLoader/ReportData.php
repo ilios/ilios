@@ -8,6 +8,11 @@ class ReportData extends AbstractDataLoader
     {
         $arr = array();
 
+        $arr[] = array(
+            'id' => 1,
+            'title' => $this->faker->title(25),
+            'subject' => $this->faker->title(25),
+        );
 
         return $arr;
     }

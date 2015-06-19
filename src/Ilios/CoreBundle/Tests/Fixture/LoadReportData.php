@@ -29,6 +29,8 @@ class LoadReportData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new Report();
             $entity->setId($arr['id']);
+            $entity->setTitle($arr['title']);
+            $entity->setSubject($arr['subject']);
             $manager->persist($entity);
             $this->addReference('reports' . $arr['id'], $entity);
         }

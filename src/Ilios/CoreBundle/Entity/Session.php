@@ -538,7 +538,7 @@ class Session implements SessionInterface
     /**
      * @param PublishEventInterface $publishEvent
      */
-    public function setPublishEvent(PublishEventInterface $publishEvent)
+    public function setPublishEvent(PublishEventInterface $publishEvent = null)
     {
         $this->publishEvent = $publishEvent;
     }

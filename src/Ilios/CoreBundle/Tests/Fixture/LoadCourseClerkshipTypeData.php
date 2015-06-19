@@ -29,6 +29,7 @@ class LoadCourseClerkshipTypeData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new CourseClerkshipType();
             $entity->setId($arr['id']);
+            $entity->setTitle($arr['title']);
             $manager->persist($entity);
             $this->addReference('courseClerkshipTypes' . $arr['id'], $entity);
         }

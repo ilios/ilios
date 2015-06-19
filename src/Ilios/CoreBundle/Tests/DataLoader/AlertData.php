@@ -14,7 +14,7 @@ class AlertData extends AbstractDataLoader
             'tableName' => "course",
             'dispatched' => "1",
             'changeTypes' => ['1', '2'],
-            'instigators' => [],
+            'instigators' => ["1"],
             'recipients' => []
         );
 
@@ -24,7 +24,7 @@ class AlertData extends AbstractDataLoader
             'tableName' => "course",
             'dispatched' => "1",
             'changeTypes' => ['2'],
-            'instigators' => [1],
+            'instigators' => ["1"],
             'recipients' => [1]
         );
 
