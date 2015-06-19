@@ -395,10 +395,10 @@ class User implements UserInterface
     * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="users")
     * @ORM\JoinTable(name="user_x_cohort",
     *   joinColumns={
-    *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
+    *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
     *   },
     *   inverseJoinColumns={
-    *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE")
+    *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id")
     *   }
     * )
     *
