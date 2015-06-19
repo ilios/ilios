@@ -3,6 +3,8 @@
 namespace Ilios\CoreBundle\Tests\Entity;
 
 use Ilios\CoreBundle\Entity\User;
+use Mockery as m;
+use Doctrine\Common\Collections\ArrayCollection as Collection;
 
 /**
  * Tests for Entity Objective
@@ -405,7 +407,15 @@ class UserTest extends EntityBase
      */
     public function testSetCohorts()
     {
-        $this->entityCollectionSetTest('cohort', 'Cohort');
+        $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
+        $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
+
+        $obj = m::mock('Ilios\CoreBundle\Entity\Cohort');
+        $this->object->addCohort($obj);
+        $this->object->setPrimaryCohort($obj);
+        $obj2 = m::mock('Ilios\CoreBundle\Entity\Cohort');
+        $this->object->setCohorts(new Collection([$obj2]));
+        $this->assertNull($this->object->getPrimaryCohort());
     }
 
     /**
@@ -422,5 +432,22 @@ class UserTest extends EntityBase
     public function testSetInstructedOffering()
     {
         $this->entityCollectionSetTest('instructedOffering', 'Offering');
+    }
+
+    /**
+     * @covers Ilios\CoreBundle\Entity\User::setPrimaryCohort
+     * @covers Ilios\CoreBundle\Entity\User::getPrimaryCohort
+     */
+    public function testSetPrimaryCohort()
+    {
+        $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
+        $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
+
+        $obj = m::mock('Ilios\CoreBundle\Entity\Cohort');
+        $this->object->addCohort($obj);
+        $this->object->setPrimaryCohort($obj);
+        $this->assertSame($obj, $this->object->getPrimaryCohort());
+        $this->assertTrue($this->object->getCohorts()->contains($obj));
+
     }
 }

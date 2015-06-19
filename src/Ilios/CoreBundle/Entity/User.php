@@ -408,6 +408,20 @@ class User implements UserInterface
     protected $cohorts;
 
     /**
+     * @var CohortInterface
+     *
+     * @ORM\ManyToOne(targetEntity="Cohort")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="primary_cohort_id", referencedColumnName="cohort_id")
+     * })
+     *
+     * @JMS\Expose
+     * @JMS\Type("string")
+     * @JMS\SerializedName("primaryCohort")
+     */
+    protected $primaryCohort;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -1073,6 +1087,10 @@ class User implements UserInterface
         foreach ($cohorts as $cohort) {
             $this->addCohort($cohort);
         }
+
+        if (!$cohorts->contains($this->getPrimaryCohort())) {
+            $this->setPrimaryCohort(null);
+        }
     }
 
     /**
@@ -1089,6 +1107,25 @@ class User implements UserInterface
     public function getCohorts()
     {
         return $this->cohorts;
+    }
+
+    /**
+     * @param CohortInterface $primaryCohort
+     */
+    public function setPrimaryCohort(CohortInterface $primaryCohort = null)
+    {
+        if ($primaryCohort && !$this->getCohorts()->contains($primaryCohort)) {
+            $this->addCohort($primaryCohort);
+        }
+        $this->primaryCohort = $primaryCohort;
+    }
+
+    /**
+     * @return CohortInterface
+     */
+    public function getPrimaryCohort()
+    {
+        return $this->primaryCohort;
     }
 
     /**
